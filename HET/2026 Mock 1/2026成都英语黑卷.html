@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026年成都市中考英语（黑卷）</title>
+<style>
+/* ===== 屏幕：在线答题 ===== */
+:root {
+  --ink:#1a1a1a; --muted:#5c5c5c; --line:#e5e7eb; --line-dark:#9ca3af;
+  --accent:#1d4ed8; --accent-soft:#eff6ff;
+  --paper:#fff; --bg:#eef2f7; --shadow:0 4px 24px rgba(0,0,0,.08);
+}
+* { box-sizing:border-box; }
+body {
+  margin:0; font-family:"Segoe UI","Microsoft YaHei","PingFang SC",sans-serif;
+  color:var(--ink); background:var(--bg); line-height:1.65; font-size:15px;
+}
+.toolbar {
+  position:sticky; top:0; z-index:100; background:linear-gradient(90deg,#1e3a5f,#2563eb);
+  color:#fff; padding:.6rem 1.25rem; display:flex; flex-wrap:wrap; gap:.5rem; align-items:center;
+  box-shadow:0 2px 8px rgba(0,0,0,.15);
+}
+.toolbar h1 { font-size:.95rem; margin:0 1rem 0 0; flex:1; font-weight:600; }
+.toolbar button {
+  border:0; border-radius:6px; padding:.45rem .9rem; cursor:pointer;
+  font-size:.85rem; background:rgba(255,255,255,.18); color:#fff;
+}
+.toolbar button:hover { background:rgba(255,255,255,.3); }
+.toolbar .primary { background:#fff; color:#1e3a5f; font-weight:600; }
+.wrap { max-width:820px; margin:0 auto; padding:16px; }
+.sheet {
+  background:var(--paper); padding:28px 36px 40px; border-radius:8px;
+  box-shadow:var(--shadow); border:1px solid var(--line);
+}
+.print-only { display:none; }
+.bracket { display:none !important; }
+
+/* 卷首与分卷 */
+.exam-masthead { text-align:center; border:2px solid var(--ink); padding:20px 16px 16px; margin-bottom:20px; border-radius:4px; }
+.exam-masthead .line1 { font-size:15px; font-weight:600; letter-spacing:.08em; line-height:1.5; }
+.exam-masthead .line2 { font-size:28px; font-weight:700; letter-spacing:.3em; margin:12px 0 8px; }
+.exam-masthead .line3 { font-size:14px; color:var(--muted); }
+.student-bar { display:flex; justify-content:space-between; margin-top:16px; padding-top:12px; border-top:1px solid var(--ink); font-size:14px; }
+.student-bar .uline { display:inline-block; min-width:120px; border-bottom:1px solid var(--ink); margin-left:6px; }
+.student-bar .uline.wide { min-width:180px; }
+.score-bar { display:flex; justify-content:center; gap:24px; margin-top:10px; font-size:13px; color:var(--muted); }
+.notice-exam { background:#f9fafb; border-left:4px solid var(--accent); padding:12px 16px; margin-bottom:20px; font-size:13px; border-radius:0 6px 6px 0; }
+.notice-exam ol { margin:6px 0 0; padding-left:1.4em; }
+.vol-title { text-align:center; font-size:16px; font-weight:700; margin:24px 0 16px; letter-spacing:.15em; }
+.part > h3 {
+  font-size:15px; font-weight:700; text-align:center; margin:20px 0 12px;
+  padding:8px 0; border-top:2px solid var(--ink); border-bottom:1px solid var(--ink);
+}
+.sec > h4 { font-size:14px; font-weight:600; margin:16px 0 10px; line-height:1.5; color:#111; }
+/* 各大题（一、二、三…）之间空一行区隔 */
+.part > .sec + .sec {
+  margin-top:1.5em; padding-top:0.35em;
+}
+.sec-reading .read-block + .read-block {
+  margin-top:1.5em; padding-top:0.35em;
+}
+.sec .sub-sec-title { margin-top:1.5em; }
+.sec .sub-sec-title:first-of-type { margin-top:0.5em; }
+.hint { font-size:13px; font-weight:600; color:var(--muted); margin:10px 0 6px; }
+
+/* 题目 */
+.q-item { margin:0; padding:14px 0; border-bottom:1px solid var(--line); }
+.q-item:last-child { border-bottom:none; }
+.q-stem { margin:0 0 10px; font-size:15px; line-height:1.6; color:var(--ink); }
+.q-num { font-weight:700; margin-right:2px; }
+.q-opts { margin-left:1.5em; }
+.q-opts .opt {
+  display:flex; align-items:flex-start; gap:6px;
+  padding:6px 8px; margin:2px 0; border-radius:6px; cursor:pointer;
+}
+.q-opts .opt:hover { background:var(--accent-soft); }
+.q-opts .opt:has(input:checked) { background:var(--accent-soft); font-weight:600; }
+.opt input[type="radio"] { position:absolute; opacity:0; width:0; height:0; }
+.opt-key { font-weight:600; flex-shrink:0; min-width:1.6em; }
+.opt-body { flex:1; line-height:1.5; }
+.q-compact { display:flex; gap:10px; align-items:flex-start; padding:10px 0; border-bottom:1px solid var(--line); }
+.q-compact .q-opts { margin-left:0; flex:1; }
+/* 选择题 A/B/C 横向三列、上下对齐（听力1–5、完形36–45 等） */
+.q-abc-grid {
+  display:grid;
+  grid-template-columns:2.5em minmax(7.5em,1fr) minmax(9em,1fr) minmax(8.5em,1fr);
+  column-gap:20px; row-gap:0; align-items:center; margin-top:8px;
+}
+.q-abc-grid.listen-abc-grid {
+  grid-template-columns:2.5em minmax(9.5em,1fr) minmax(11em,1fr) minmax(13em,1fr);
+}
+.q-row-opts-grid { display:contents; }
+.q-abc-grid > .q-num,
+.q-abc-grid > .opt-cell {
+  padding:10px 4px; border-bottom:1px solid var(--line);
+  min-height:2.6em; display:flex; align-items:center;
+}
+.q-abc-grid > .q-num {
+  font-weight:700; font-size:15px; justify-content:flex-end; padding-right:8px;
+}
+.q-abc-grid > .opt-cell {
+  gap:4px; cursor:pointer; margin:0; white-space:nowrap;
+}
+.q-abc-grid > .opt-cell:hover { background:var(--accent-soft); }
+.q-abc-grid > .opt-cell:has(input:checked) {
+  background:var(--accent-soft); font-weight:600;
+}
+.q-abc-grid .opt-key { font-weight:600; flex-shrink:0; min-width:1.5em; }
+.q-abc-grid .opt-body { flex:1; }
+.q-group { margin-top:8px; }
+
+.tag-new {
+  display:inline-block; font-size:12px; color:#b45309; background:#fffbeb;
+  border:1px solid #fcd34d; padding:1px 6px; border-radius:4px; margin-right:4px; vertical-align:middle;
+}
+.tag-type { font-weight:700; margin-right:4px; }
+
+/* 阅读 */
+.read-block { margin-bottom:24px; }
+.read-label {
+  display:inline-block; font-size:18px; font-weight:700; width:32px; height:32px;
+  line-height:32px; text-align:center; background:var(--ink); color:#fff; border-radius:50%; margin-bottom:8px;
+}
+.reading, .read-passage-a, .read-passage-b, .read-passage-c {
+  border:1px solid var(--line); border-radius:8px; padding:16px 18px;
+  background:#fafbfc; margin-bottom:12px; font-size:14px; line-height:1.65;
+}
+.read-passage-a .read-columns { display:flex; gap:14px; }
+.read-passage-a .read-col { flex:1; }
+.read-box { border:1px dashed var(--line-dark); border-radius:6px; padding:10px 12px; margin-bottom:10px; background:#fff; }
+.read-box .box-title { margin:0 0 6px; font-weight:600; }
+.read-passage-b .read-para { position:relative; padding-left:1.8em; margin:.5em 0; text-indent:0; }
+.read-passage-b .para-mark { position:absolute; left:0; font-weight:700; }
+.read-passage-c p { text-indent:2em; margin:.4em 0; }
+.read-passage-c em { font-style:italic; }
+.passage-title { text-align:center; font-size:17px; font-weight:700; margin:0 0 10px; }
+.passage-lead { text-indent:2em; margin:0 0 12px; }
+.read-a-questions { margin:14px 0 8px; }
+.read-a-questions .q-item, .read-a-questions .q-unit {
+  margin:0 0 18px; padding:0 0 14px;
+  border-bottom:1px dashed var(--line);
+}
+.read-a-questions .q-item:last-child, .read-a-questions .q-unit:last-child {
+  border-bottom:none;
+}
+.read-a-questions .q-stem {
+  margin:0 0 10px; line-height:1.65; font-size:15px;
+}
+.read-a-questions .q-opts {
+  margin-left:1.5em;
+}
+.read-a-questions .q-opts .opt {
+  display:block; margin:6px 0; padding:4px 8px; border-radius:6px; cursor:pointer;
+}
+.read-a-questions .q-opts .opt:hover { background:var(--accent-soft); }
+.read-a-questions .q-opts .opt:has(input:checked) {
+  background:var(--accent-soft); font-weight:600;
+}
+
+
+.read-passage-diary .diary-entry { margin: 12px 0; padding: 10px 12px; border-left: 3px solid var(--accent); background: #fff; border-radius: 0 6px 6px 0; }
+.read-passage-diary .diary-date { margin: 0 0 6px; color: var(--ink); }
+.read-bed-chart .chart-list { margin: 4px 0 8px 1.2em; }
+
+/* 第46题图片选项 */
+.q-opts-fig {
+  display:flex; flex-wrap:nowrap; justify-content:space-between; gap:16px;
+  margin:8px 0 0; width:100%;
+}
+.opt-card {
+  flex:1; min-width:0; max-width:32%;
+  display:flex; flex-direction:column; align-items:center; text-align:center;
+  border:1px solid var(--line); border-radius:8px; padding:12px 10px 14px;
+  cursor:pointer; background:#fff; transition:border-color .15s, box-shadow .15s;
+}
+.opt-card:hover { border-color:var(--accent); box-shadow:0 2px 8px rgba(37,99,235,.12); }
+.opt-card:has(input:checked) { border-color:var(--accent); background:var(--accent-soft); }
+.card-letter { font-weight:700; align-self:flex-start; margin-bottom:6px; width:100%; text-align:left; }
+.opt-card figure { margin:0 0 8px; width:100%; display:flex; justify-content:center; }
+.opt-card .fig-person {
+  width:100%; max-width:130px; height:auto; max-height:150px;
+  object-fit:contain; border-radius:6px; background:#f5f5f5;
+}
+.card-info { font-size:13px; line-height:1.5; color:var(--muted); width:100%; }
+
+.match-ref { margin:0 0 12px 1.5em; padding:10px 14px; background:#fff; border:1px solid var(--line); border-radius:6px; font-size:13px; }
+.match-subs, .match-paras { list-style:none; margin:4px 0 8px; padding:0; }
+.match-ref-title { font-weight:600; margin:8px 0 4px; }
+
+.listen-panel { background:var(--accent-soft); border:1px solid #bfdbfe; border-radius:8px; padding:12px 14px; margin-bottom:14px; }
+.listen-btns button { font-size:12px; padding:4px 10px; margin:3px; cursor:pointer; border:1px solid var(--accent); background:#fff; color:var(--accent); border-radius:4px; }
+.listen-btns button:hover { background:var(--accent); color:#fff; }
+/* 听力选图：上图库 + 下答题（避免解析与错图对齐） */
+.pic-match-sheet { margin:12px 0 20px; }
+.pic-match-tip {
+  font-size:13px; color:var(--muted); margin:0 0 10px; line-height:1.5;
+}
+.pic-gallery {
+  display:flex; justify-content:space-between; gap:10px; margin-bottom:16px;
+  padding:10px; border:1px solid var(--line-dark); border-radius:8px; background:#fafbfc;
+}
+.pic-gallery .pic-fig {
+  flex:1; min-width:0; margin:0; padding:8px 6px; text-align:center;
+  border:1px solid var(--line); border-radius:6px; background:#fff;
+}
+.pic-gallery .pic-fig img {
+  display:block; width:100%; max-width:100%; max-height:88px; margin:0 auto; object-fit:contain;
+}
+.pic-gallery .pic-fig figcaption { font-weight:700; font-size:14px; margin-top:6px; }
+.pic-answer-list { margin-top:4px; }
+.pic-ans-row {
+  margin:0 0 12px; padding:8px 0; border-bottom:1px dashed var(--line);
+}
+.pic-ans-row .inline-blank { display:inline-flex; align-items:center; gap:6px; }
+.chart,.data { width:100%; border-collapse:collapse; font-size:14px; }
+.chart td,.chart th,.data td,.data th { border:1px solid #000; padding:4px 6px; }
+.inline { border:none; border-bottom:1px solid #000; min-width:4.5em; font:inherit; }
+.blank-wrap { display:inline; white-space:nowrap; }
+.blank-num { font-weight:700; font-size:.95em; margin-right:1px; }
+.chart-blank { min-width:5em; }
+.chart-blank.wide { min-width:8em; }
+.b-blank-wrap .chart-blank {
+  border:none; border-bottom:1.5px solid var(--ink);
+  min-width:8.5em; padding:0 2px; background:transparent;
+}
+/* 选词填空（方框选词/字母）：横线较短 */
+.fill-word-pick .b-blank-wrap .chart-blank {
+  min-width:5.5em;
+}
+.passage-select .inline-blank .blank-line-input,
+.dialogue-box .inline-blank .blank-line-input {
+  width:1.5em; min-width:1.5em; max-width:1.6em;
+}
+/* 非选词填空：加长横线 */
+.blank-wrap:not(.b-blank-wrap) input.chart-blank,
+.blank-wrap:not(.b-blank-wrap) .chart-blank {
+  min-width:8.5em;
+}
+.read-bed-chart .b-blank-wrap .chart-blank {
+  min-width:9em;
+}
+.chart-blank-line {
+  display:none; border-bottom:1.5px solid #000;
+  min-width:5.5em; height:1em; vertical-align:baseline;
+}
+.cloze-blank {
+  display:inline-block; vertical-align:baseline; text-align:center;
+  min-width:3.2em; margin:0 .15em;
+}
+.cloze-blank .blank-num {
+  display:block; font-weight:700; font-size:.8em; line-height:1.1;
+  margin-bottom:1px;
+}
+.blank-line-input {
+  border:none; border-bottom:1.5px solid var(--ink);
+  width:2em; max-width:2.2em; padding:0; margin:0;
+  font:inherit; font-size:inherit; text-align:center;
+  background:transparent; vertical-align:baseline; line-height:inherit;
+}
+.blank-line-input:focus {
+  outline:none; border-bottom-color:var(--accent);
+  background:var(--accent-soft);
+}
+.cloze-line {
+  display:none; border-bottom:1.5px solid #000;
+  min-width:2em; height:1em; margin:0; vertical-align:baseline;
+}
+/* 文中横线空：题号与横线紧贴、嵌入句子 */
+.inline-blank {
+  display:inline; white-space:nowrap; vertical-align:baseline;
+  margin:0; padding:0; letter-spacing:normal;
+}
+.inline-blank .blank-num {
+  display:inline; font-weight:700; font-size:.95em;
+  color:var(--accent); margin:0; padding:0; min-width:0;
+}
+.passage-select p {
+  text-align:left; text-align:start;
+}
+.passage-select .inline-blank .blank-line-input {
+  width:1.5em; min-width:1.5em; max-width:1.6em;
+}
+.dialogue-box .inline-blank .blank-line-input {
+  width:1.5em; min-width:1.5em; max-width:1.6em;
+}
+.pic-col .inline-blank .blank-line-input {
+  width:1.75em; min-width:1.75em;
+}
+.passage-cloze p { text-indent:2em; text-align:justify; }
+.passage-cloze.passage-select p { text-align:left; text-align:start; }
+.passage-cloze-mc p { text-indent:2em; text-align:justify; margin:.4em 0; }
+.passage-blank-wrap {
+  display:inline; white-space:nowrap; margin:0 1px;
+}
+.passage-cloze-mc .blank-num {
+  font-weight:700; color:var(--accent); font-size:.95em; margin-right:1px;
+}
+.passage-blank-line {
+  display:inline-block; min-width:4.5em; text-align:center;
+  letter-spacing:.08em; text-decoration:underline;
+  text-underline-offset:3px; padding:0 2px;
+}
+.word-bank-abcd { margin-bottom:.6rem; }
+.passage { text-align:justify; text-indent:2em; }
+.passage p { margin:.35em 0; }
+.word-bank { list-style:none; padding:6px 10px; border:1px solid #000; margin:.5rem 0; font-size:.88rem; display:flex; flex-wrap:wrap; gap:.3rem 1rem; }
+.word-bank.wide { display:grid; grid-template-columns:repeat(4,1fr); }
+.reading { border:1px solid #ccc; padding:8px; margin:.5rem 0; font-size:.9rem; }
+.read-passage-a { border:2px solid #333; padding:10px; margin:.6rem 0; }
+.passage-title { text-align:center; font-size:1.15rem; margin:0 0 .5rem; }
+.passage-lead { text-indent:2em; margin:0 0 .6rem; }
+.read-columns { display:flex; gap:10px; align-items:flex-start; }
+.read-col { flex:1; min-width:0; }
+.read-box {
+  border:1px dashed #666; padding:8px 10px; margin-bottom:8px;
+  font-size:.88rem; line-height:1.55;
+}
+.read-box .box-title { margin:0 0 .35rem; }
+.read-box .formula { font-weight:600; text-align:center; margin:.4rem 0; }
+.bmi-table { width:100%; font-size:.85rem; margin:.4rem 0; }
+.read-q { margin-top:.5rem; }
+.passage-blank, .blank-tri {
+  letter-spacing:.05em; font-weight:normal;
+}
+.tri-mark {
+  display:inline-block; font-size:.75em; line-height:1;
+  vertical-align:middle; margin:0 1px;
+}
+.opts-fig {
+  display:flex; flex-wrap:wrap; gap:12px; margin:.5rem 0 .5rem 1.8rem;
+}
+.opt-card {
+  display:flex; flex-direction:column; align-items:center;
+  border:1px solid #ccc; padding:8px 12px; min-width:110px;
+  border-radius:6px; cursor:pointer; position:relative;
+}
+.opt-card:has(input:checked) { border-color:#2563eb; background:#f5f9ff; }
+.opt-card .opt-letter { align-self:flex-start; font-weight:700; margin-bottom:4px; }
+.opt-figure { margin:0; width:52px; height:60px; }
+.fig-svg { width:48px; height:56px; }
+.opt-info { font-size:.85rem; text-align:center; line-height:1.45; }
+
+textarea,.writing-area { width:100%; border:1px solid #999; font:inherit; padding:6px; }
+.writing-fig img { max-width:85%; max-height:260px; }
+.note { font-size:.85rem; }
+.b-page { margin-top:1.5rem; padding-top:.5rem; border-top:2px solid #000; }
+
+/* ===== 打印 / PDF：标准试卷版式 ===== */
+@page {
+  size:A4 portrait;
+  margin:22mm 20mm 24mm 20mm;
+}
+@page :left { margin-left:22mm; margin-right:20mm; }
+@page :right { margin-left:20mm; margin-right:22mm; }
+
+@media print {
+  html, body {
+    width:210mm; margin:0; padding:0;
+    font-family:SimSun,"宋体","Songti SC",serif;
+    font-size:10.5pt; line-height:1.55; color:#000;
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+  .no-print, .toolbar, .listen-panel, .screen-only, .notice-screen { display:none !important; }
+  .print-only { display:inline !important; }
+  .wrap { max-width:none; padding:0; margin:0; }
+  .sheet { box-shadow:none; padding:0; }
+
+  /* 卷首（压缩高度，避免挤掉首页 A 卷与听力一大题） */
+  .exam-masthead {
+    text-align:center; border:2pt solid #000; padding:4mm 6mm 3mm;
+    margin-bottom:2mm; page-break-after:auto;
+  }
+  .exam-masthead .line1 {
+    font-size:12pt; font-weight:bold; letter-spacing:.08em; line-height:1.35;
+  }
+  .exam-masthead .line2 {
+    font-size:17pt; font-weight:bold; letter-spacing:.22em; margin:2mm 0 2mm;
+    font-family:SimHei,"黑体",sans-serif;
+  }
+  .exam-masthead .line3 {
+    font-size:10pt; letter-spacing:.08em;
+  }
+  .student-bar {
+    display:flex; justify-content:space-between; align-items:flex-end;
+    margin-top:2.5mm; padding-top:2mm; border-top:1pt solid #000;
+    font-size:10pt;
+  }
+  .student-bar .field {
+    display:inline-flex; align-items:flex-end; gap:2mm;
+  }
+  .student-bar .uline {
+    display:inline-block; min-width:28mm; border-bottom:1pt solid #000;
+    height:1.2em; vertical-align:bottom;
+  }
+  .student-bar .uline.wide { min-width:45mm; }
+  .score-bar {
+    display:flex; justify-content:center; gap:10mm; margin-top:2mm;
+    font-size:9.5pt;
+  }
+  .score-bar span { border:1pt solid #000; padding:0.5mm 3mm; }
+
+  /* 注意事项 */
+  .notice-exam {
+    font-size:9pt; margin-bottom:2mm; padding:1.5mm 2.5mm;
+    page-break-after:auto; line-height:1.42;
+  }
+  .notice-exam .title { font-weight:bold; font-size:9.5pt; }
+  .notice-exam ol {
+    margin:.2em 0 0; padding-left:1.6em;
+  }
+  .notice-exam li { margin:.1em 0; text-align:justify; }
+
+  /* 分卷标题 */
+  .vol-title {
+    text-align:center; font-size:11pt; font-weight:bold;
+    margin:2mm 0 2mm; letter-spacing:.12em;
+    page-break-after:avoid; page-break-before:auto;
+  }
+  .part > h3 {
+    font-size:10.5pt; font-weight:bold; text-align:center;
+    margin:2mm 0 1.5mm; padding:0.5mm 0;
+    border-top:1pt solid #000; border-bottom:1pt solid #000;
+    page-break-after:avoid;
+  }
+  #part-listen > h3 { margin-top:1.5mm; }
+  .sec > h4 {
+    font-size:10pt; font-weight:bold; margin:2mm 0 1mm;
+    text-indent:0; page-break-after:avoid;
+  }
+  /* 听力一大题（1–5）标题略压缩 */
+  #part-listen > .sec:first-of-type > h4 {
+    margin:1.5mm 0 0.8mm; font-size:9.5pt;
+  }
+  .hint {
+    font-size:10pt; font-weight:bold; margin:2mm 0 1.5mm;
+    text-indent:2em;
+  }
+
+  /* 选择题：单题不跨页（放不下则整题移至下一页） */
+  .print-q-page,
+  .q-item {
+    break-inside:avoid; page-break-inside:avoid;
+    margin:2.5mm 0; border-bottom:none; padding:0;
+  }
+  .q-stem {
+    font-size:10.5pt; margin:0 0 1.5mm; line-height:1.5;
+    break-after:avoid; page-break-after:avoid;
+  }
+  .q-opts {
+    margin-left:6mm;
+    break-inside:avoid; page-break-inside:avoid;
+  }
+  .q-num { font-weight:bold; }
+  .q-opts .opt {
+    display:block; margin:0 0 1mm;
+    padding:0; border-radius:0; background:transparent !important;
+  }
+  /* 横向选项题（1–5、36–45）：打印改为逐行 flex，便于分页控制 */
+  .q-abc-grid { display:block; }
+  .q-abc-grid .q-row-opts-grid {
+    display:flex; flex-direction:row; align-items:center; flex-wrap:nowrap;
+    gap:0 4mm; padding:1.5mm 0; margin:0;
+    border-bottom:1pt solid #000;
+    break-inside:avoid; page-break-inside:avoid;
+  }
+  /* 听力 1–5：不强制整行避分页，避免与卷首挤占后整段跳到第 2 页 */
+  .q-abc-grid.listen-abc-grid .q-row-opts-grid {
+    padding:0.6mm 0;
+    break-inside:auto; page-break-inside:auto;
+  }
+  .q-abc-grid.listen-abc-grid .q-row-opts-grid.print-q-page {
+    break-inside:auto; page-break-inside:auto;
+    margin:0;
+  }
+  .q-abc-grid .q-row-opts-grid .q-num {
+    flex:0 0 6mm; font-weight:bold; padding:0; border:none; min-height:auto;
+  }
+  .q-abc-grid .q-row-opts-grid .opt-cell {
+    flex:1 1 0; display:block; padding:0; border:none; min-height:auto; min-width:0;
+  }
+  .q-abc-grid .opt-key { font-weight:bold; }
+  .q-compact { display:block; }
+  .q-compact .q-num { font-weight:bold; margin-right:2mm; }
+  .opt input { display:none !important; }
+  .opt-key { display:inline; font-weight:bold; margin-right:1mm; }
+  .opt-body { display:inline; }
+  .tag-new {
+    font-size:9pt; border:1pt solid #000; background:transparent;
+    padding:0 1.5mm; margin-right:2mm;
+  }
+  .tag-type { font-weight:bold; }
+  .read-block { margin-bottom:4mm; page-break-inside:auto; }
+  .read-label {
+    display:inline-block; width:6mm; height:6mm; line-height:6mm;
+    text-align:center; font-weight:bold; border:1pt solid #000;
+    border-radius:50%; background:#fff; color:#000; font-size:10pt;
+    margin-bottom:2mm;
+  }
+  .read-passage-b .read-para { padding-left:5mm; text-indent:0; }
+  .read-passage-b .para-mark { font-weight:bold; }
+  .match-ref { margin-left:6mm; font-size:10pt; border:1pt solid #000; padding:2mm; background:#fff !important; }
+  .match-subs, .match-paras { list-style:none; padding:0; margin:0 0 1.5mm; }
+  .q-opts-fig {
+    display:flex; justify-content:space-between; gap:3mm;
+    margin-left:0; page-break-inside:avoid;
+  }
+  .opt-card {
+    flex:1; max-width:32%; border:1pt solid #000; padding:2mm;
+    border-radius:0; background:#fff !important;
+  }
+  .opt-card .fig-person { max-width:100%; max-height:32mm; object-fit:contain; }
+  .card-info { font-size:9.5pt; }
+
+  /* 听力选图 */
+  .pic-match-sheet { page-break-inside:avoid; margin:3mm 0 4mm; }
+  .pic-match-tip { font-size:9.5pt; margin-bottom:2mm; }
+  .pic-gallery {
+    display:flex; gap:2mm; margin-bottom:3mm; padding:2mm;
+    border:1pt solid #000; page-break-inside:avoid;
+  }
+  .pic-gallery .pic-fig {
+    flex:1; border:1pt solid #000; padding:1.5mm; text-align:center; background:#fff !important;
+  }
+  .pic-gallery .pic-fig img { max-height:22mm; max-width:100%; }
+  .pic-gallery .pic-fig figcaption { font-size:10pt; font-weight:bold; }
+  .pic-ans-row {
+    margin:0 0 2.5mm; padding:1.5mm 0; border-bottom:1pt dotted #999;
+    page-break-inside:avoid;
+  }
+  .blank-line-input { display:none !important; }
+  .ans-box { font-size:10.5pt; letter-spacing:.15em; }
+  .teacher-inline-ans { display:inline !important; }
+
+  /* 填空 */
+  .inline, input.inline, input.chart-blank {
+    border:none !important; border-bottom:1pt solid #000 !important;
+    min-width:12mm; height:1.1em; padding:0 1mm;
+    font-family:inherit; font-size:10.5pt; background:transparent !important;
+  }
+  /* B卷图表填空：只保留一条横线，避免横线后叠出“破折号”感 */
+  .b-blank-wrap input.chart-blank { display:none !important; }
+  .b-blank-wrap .chart-blank-line {
+    display:inline-block !important; min-width:22mm;
+    border-bottom:1pt solid #000; height:4mm; vertical-align:baseline;
+    margin-right:1.5mm;
+  }
+  .fill-word-pick .b-blank-wrap .chart-blank-line {
+    min-width:14mm !important;
+  }
+  .read-bed-chart .b-blank-wrap .chart-blank-line {
+    min-width:26mm !important;
+  }
+  .blank-wrap:not(.b-blank-wrap) input.chart-blank {
+    min-width:24mm !important;
+  }
+  .bookmark-chart .chart-list li { line-height:1.55; }
+  .blank-wrap:not(.b-blank-wrap) .chart-blank-line { display:none !important; }
+  input.chart-blank { display:inline-block !important; }
+  .blank-num { font-weight:bold; font-size:10.5pt; }
+  .blank-wrap { white-space:nowrap; }
+  .cloze-blank { min-width:10mm; text-align:center; vertical-align:baseline; }
+  .cloze-blank .blank-num {
+    display:block; font-size:9pt; line-height:1; margin-bottom:.5mm;
+  }
+  .cloze-line {
+    display:inline-block !important; min-width:12mm;
+    border-bottom:1pt solid #000; height:4mm;
+  }
+  .passage-cloze p { text-indent:2em; }
+  .passage-select p, .passage-cloze.passage-select p { text-align:left; }
+  .passage-cloze-mc p { text-indent:2em; }
+  .passage-blank-wrap { white-space:nowrap; }
+  .passage-cloze-mc .blank-num { font-weight:bold; }
+  .passage-blank-line { text-decoration:underline; letter-spacing:.1em; }
+  .blank-line-input { display:none !important; }
+  .cloze-line {
+    display:inline-block !important; min-width:10mm;
+    border-bottom:1pt solid #000; height:4mm;
+  }
+  .passage-select .cloze-line,
+  .dialogue-box .cloze-line {
+    min-width:8mm !important;
+  }
+  .passage-blank-line {
+    min-width:18mm; letter-spacing:.12em;
+  }
+  .short-ans .line-block .line {
+    height:9mm; margin-bottom:2.5mm;
+  }
+
+  /* 词库 */
+  .word-bank {
+    border:1pt solid #000; background:#fff !important;
+    border-radius:0; padding:2mm 4mm; margin:2mm 0 3mm;
+    font-size:10pt; page-break-inside:avoid;
+  }
+  .word-bank.wide { grid-template-columns:repeat(3,1fr); }
+
+  /* 阅读文 */
+  .reading {
+    border:none; padding:0; margin:2mm 0 3mm;
+    font-size:10.5pt; text-align:justify;
+  }
+  .read-passage-a {
+    border:1pt solid #000; padding:3mm; margin:2mm 0 3mm;
+    page-break-inside:auto;
+  }
+  .passage-title { text-align:center; font-size:12pt; font-weight:bold; margin:0 0 2mm; }
+  .passage-lead { text-indent:2em; margin:0 0 2mm; }
+  .read-columns { display:flex; gap:3mm; }
+  .read-col { flex:1; }
+  .read-box {
+    border:1pt dashed #000; padding:2mm 2.5mm; margin-bottom:2mm;
+    font-size:10pt; line-height:1.5;
+  }
+  .read-box .box-title { font-weight:bold; margin:0 0 1mm; }
+  .read-box .formula { font-weight:bold; text-align:center; }
+  .bmi-table { width:100%; font-size:9.5pt; }
+  .reading h4 { font-weight:bold; margin:0 0 2mm; text-indent:0; }
+  .reading p { text-indent:2em; margin:.2em 0; }
+  .read-box p { text-indent:0; }
+  .passage-blank { font-weight:normal; }
+  .tri-mark { font-size:8pt; }
+  .data { margin:2mm 0; font-size:10pt; }
+  .fig-svg { width:12mm; height:14mm; }
+
+  /* 图表 */
+  table.chart, .bookmark-chart {
+    break-inside:avoid; page-break-inside:avoid;
+  }
+  .chart { border-collapse:collapse; margin:3mm 0; }
+  .chart caption { font-weight:bold; caption-side:top; text-align:center; margin-bottom:2mm; }
+  .chart td, .chart th { border:1pt solid #000; padding:2mm 3mm; }
+
+  /* 对话框 */
+  .dialogue-box {
+    border:none; padding:0; margin:2mm 0;
+    font-size:10.5pt;
+  }
+  .dialogue-box p { margin:.35em 0; text-indent:0; line-height:1.6; }
+  .inline-blank { display:inline; white-space:nowrap; margin:0; }
+  .inline-blank .blank-num { font-weight:bold; margin:0; padding:0; }
+  .inline-blank .ans-box { display:inline !important; font-size:10.5pt; }
+  .inline-blank .cloze-line {
+    display:inline-block !important; min-width:8mm;
+    border-bottom:1pt solid #000; height:3.5mm; margin:0;
+  }
+
+  /* 简答：横线答题区 */
+  .short-ans p {
+    margin:3mm 0; font-size:10.5pt; page-break-inside:avoid;
+  }
+  .short-ans textarea {
+    display:none !important;
+  }
+  .short-ans .line-block {
+    display:block !important;
+    margin-top:2mm; margin-left:2em;
+  }
+  .short-ans .line-block .line {
+    display:block; border-bottom:1pt solid #000;
+    height:8mm; margin-bottom:2mm;
+  }
+  .short-ans .line-block.lines-4 .line:nth-child(n+5) { display:none; }
+  .short-ans .line-block.lines-6 .line:nth-child(n+7) { display:none; }
+
+  /* 作文 */
+  .writing-prompt { page-break-inside:avoid; }
+  .writing-prompt .note { font-size:10pt; }
+  .writing-fig img { max-height:45mm; border:1pt solid #000; }
+  .section-caption { font-size:10pt; margin-bottom:2mm; }
+  .sub-sec-title { font-size:10.5pt; margin:3mm 0 2mm; }
+  .bookmark-chart caption { font-weight:bold; }
+  .chart-list { margin-left:4mm; }
+  .writing-area { display:none !important; }
+  .writing-lines {
+    display:block !important;
+    border:1pt solid #000; min-height:75mm; margin-top:3mm;
+    padding:2mm 0 0;
+    background:repeating-linear-gradient(
+      transparent 0, transparent 7.8mm,
+      #000 7.8mm, #000 7.9mm
+    );
+  }
+
+  .part-page,
+  .b-page {
+    page-break-before:always;
+    border-top:none; margin-top:0; padding-top:0;
+  }
+  .sec { page-break-inside:auto; }
+  .part > .sec + .sec {
+    margin-top:5mm; padding-top:1.5mm;
+  }
+  .sec-reading .read-block + .read-block {
+    margin-top:5mm; padding-top:1.5mm;
+  }
+  .sec .sub-sec-title { margin-top:5mm; }
+  .sec .sub-sec-title:first-of-type { margin-top:2mm; }
+  .passage { page-break-inside:auto; }
+  .q-group .print-q-page,
+  .q-group .q-item {
+    break-inside:avoid; page-break-inside:avoid;
+  }
+  .hint {
+    break-after:avoid; page-break-after:avoid;
+  }
+  .sub-sec-title {
+    break-after:avoid; page-break-after:avoid;
+  }
+
+}
+</style>
+</head>
+<body>
+<div class="toolbar no-print">
+  <h1>2026成都中考英语（黑卷）·在线答题</h1>
+  <button type="button" class="primary" id="btnSave">保存答案</button>
+  <button type="button" id="btnLoad">恢复答案</button>
+  <button type="button" id="btnClear">清空答案</button>
+  <button type="button" class="primary" id="btnPdf">导出 PDF</button>
+</div>
+<div class="wrap">
+<form id="exam" class="sheet" autocomplete="off">
+
+  <header class="exam-masthead">
+    <div class="line1">2026年成都市高中阶段教育学校统一招生暨初中学业水平考试</div>
+    <div class="line2">英&nbsp;&nbsp;语</div>
+    <div class="student-bar">
+      <span class="field">姓名<span class="uline wide"></span></span>
+      <span class="field">准考证号<span class="uline wide"></span></span>
+    </div>
+    <div class="score-bar">
+      <span>全卷满分150分</span><span>考试时间120分钟</span>
+    </div>
+  </header>
+  <section class="notice-exam">
+    <div class="title">注意事项：</div>
+    <ol>
+      <li>全卷分A卷和B卷，A卷满分100分，B卷满分50分；全卷共150分；考试时间120分钟。</li>
+      <li>在作答前，考生务必将自己的姓名、准考证号涂写在试卷和答题卡规定的地方。考试结束，监考人员将试卷和答题卡一并收回。</li>
+      <li>选择题部分必须使用2B铅笔填涂；非选择题部分必须使用0.5毫米黑色签字笔书写，字体工整，笔迹清楚。</li>
+      <li>请按照题号在答题卡上各题目对应的答题区域内作答，超出答题区域书写的答案无效；在草稿纸、试卷上答题均无效。</li>
+      <li>保持答题卡清洁，不得折叠、污染、破损等。</li>
+    </ol>
+  </section>
+  <section class="notice-screen no-print">
+    <strong>在线作答提示：</strong>选择题点选；填空与作文可输入文字。听力请点击下方播放按钮。
+  </section>
+
+
+  <p class="vol-title">A卷（共100分）</p>
+  <section class="part" id="part-listen">
+    <h3>第一部分  听力（共25小题；计30分）</h3>
+    <div class="listen-panel no-print">
+      <p><strong>听力音频</strong>（每小题念两遍，第四大题念三遍）</p>
+      <audio id="audio" controls preload="metadata" src="listening.mp3"></audio>
+      <div class="listen-btns" id="secBtns"></div>
+    </div>
+    <div class="sec"><h4>一、听句子，根据所听到的内容选择正确答语。（共5小题；每小题1分，计5分）</h4><div class="q-abc-grid listen-abc-grid"><div class="q-row-opts-grid print-q-page" id="q1"><span class="q-num">1.</span><label class="opt opt-cell" for="q1_A"><input type="radio" name="q1" id="q1_A" value="A"><span class="opt-key">A.</span><span class="opt-body">That's too bad.</span></label><label class="opt opt-cell" for="q1_B"><input type="radio" name="q1" id="q1_B" value="B"><span class="opt-key">B.</span><span class="opt-body">Sure, I'd love to.</span></label><label class="opt opt-cell" for="q1_C"><input type="radio" name="q1" id="q1_C" value="C"><span class="opt-key">C.</span><span class="opt-body">It doesn't matter.</span></label></div><div class="q-row-opts-grid print-q-page" id="q2"><span class="q-num">2.</span><label class="opt opt-cell" for="q2_A"><input type="radio" name="q2" id="q2_A" value="A"><span class="opt-key">A.</span><span class="opt-body">No, I can't.</span></label><label class="opt opt-cell" for="q2_B"><input type="radio" name="q2" id="q2_B" value="B"><span class="opt-key">B.</span><span class="opt-body">Never mind.</span></label><label class="opt opt-cell" for="q2_C"><input type="radio" name="q2" id="q2_C" value="C"><span class="opt-key">C.</span><span class="opt-body">With pleasure.</span></label></div><div class="q-row-opts-grid print-q-page" id="q3"><span class="q-num">3.</span><label class="opt opt-cell" for="q3_A"><input type="radio" name="q3" id="q3_A" value="A"><span class="opt-key">A.</span><span class="opt-body">With my parents.</span></label><label class="opt opt-cell" for="q3_B"><input type="radio" name="q3" id="q3_B" value="B"><span class="opt-key">B.</span><span class="opt-body">It's interesting.</span></label><label class="opt opt-cell" for="q3_C"><input type="radio" name="q3" id="q3_C" value="C"><span class="opt-key">C.</span><span class="opt-body">By plane.</span></label></div><div class="q-row-opts-grid print-q-page" id="q4"><span class="q-num">4.</span><label class="opt opt-cell" for="q4_A"><input type="radio" name="q4" id="q4_A" value="A"><span class="opt-key">A.</span><span class="opt-body">Good luck to you.</span></label><label class="opt opt-cell" for="q4_B"><input type="radio" name="q4" id="q4_B" value="B"><span class="opt-key">B.</span><span class="opt-body">Thank you.</span></label><label class="opt opt-cell" for="q4_C"><input type="radio" name="q4" id="q4_C" value="C"><span class="opt-key">C.</span><span class="opt-body">I think so.</span></label></div><div class="q-row-opts-grid print-q-page" id="q5"><span class="q-num">5.</span><label class="opt opt-cell" for="q5_A"><input type="radio" name="q5" id="q5_A" value="A"><span class="opt-key">A.</span><span class="opt-body">That sounds amazing!</span></label><label class="opt opt-cell" for="q5_B"><input type="radio" name="q5" id="q5_B" value="B"><span class="opt-key">B.</span><span class="opt-body">You're welcome.</span></label><label class="opt opt-cell" for="q5_C"><input type="radio" name="q5" id="q5_C" value="C"><span class="opt-key">C.</span><span class="opt-body">Never give up.</span></label></div></div></div>
+    <div class="sec"><h4>二、听句子，选择与所听句子内容相符的图片。（共5小题；每小题1分，计5分）</h4><div class="pic-match-sheet"><p class="pic-match-tip">听录音，在第 6–10 题括号内填写与所听句子相符的<strong>图片字母（A–E）</strong>（题号与图片位置无对应关系）。</p><div class="pic-gallery"><figure class="pic-fig"><img src="A.png" alt="图片A"><figcaption><strong>A</strong></figcaption></figure><figure class="pic-fig"><img src="B.png" alt="图片B"><figcaption><strong>B</strong></figcaption></figure><figure class="pic-fig"><img src="C.png" alt="图片C"><figcaption><strong>C</strong></figcaption></figure><figure class="pic-fig"><img src="D.png" alt="图片D"><figcaption><strong>D</strong></figcaption></figure><figure class="pic-fig"><img src="E.png" alt="图片E"><figcaption><strong>E</strong></figcaption></figure></div><div class="pic-answer-list"><div class="pic-ans-row print-q-page" id="q6"><span class="inline-blank" id="blank-q6"><span class="blank-num">6.</span><input type="text" name="q6" class="blank-line-input screen-only" maxlength="1" autocomplete="off" aria-label="填空q6"><span class="cloze-line print-only"></span><span class="ans-box print-only">（&nbsp;&nbsp;&nbsp;&nbsp;）</span></span></div><div class="pic-ans-row print-q-page" id="q7"><span class="inline-blank" id="blank-q7"><span class="blank-num">7.</span><input type="text" name="q7" class="blank-line-input screen-only" maxlength="1" autocomplete="off" aria-label="填空q7"><span class="cloze-line print-only"></span><span class="ans-box print-only">（&nbsp;&nbsp;&nbsp;&nbsp;）</span></span></div><div class="pic-ans-row print-q-page" id="q8"><span class="inline-blank" id="blank-q8"><span class="blank-num">8.</span><input type="text" name="q8" class="blank-line-input screen-only" maxlength="1" autocomplete="off" aria-label="填空q8"><span class="cloze-line print-only"></span><span class="ans-box print-only">（&nbsp;&nbsp;&nbsp;&nbsp;）</span></span></div><div class="pic-ans-row print-q-page" id="q9"><span class="inline-blank" id="blank-q9"><span class="blank-num">9.</span><input type="text" name="q9" class="blank-line-input screen-only" maxlength="1" autocomplete="off" aria-label="填空q9"><span class="cloze-line print-only"></span><span class="ans-box print-only">（&nbsp;&nbsp;&nbsp;&nbsp;）</span></span></div><div class="pic-ans-row print-q-page" id="q10"><span class="inline-blank" id="blank-q10"><span class="blank-num">10.</span><input type="text" name="q10" class="blank-line-input screen-only" maxlength="1" autocomplete="off" aria-label="填空q10"><span class="cloze-line print-only"></span><span class="ans-box print-only">（&nbsp;&nbsp;&nbsp;&nbsp;）</span></span></div></div></div></div>
+    <div class="sec"><h4>三、听对话，根据对话内容及问题选择正确答案。（共10小题；每小题1.5分，计15分）</h4><p class="hint">听第1段对话，回答第11、12小题。</p><div class="q-group q-listen"><div class="q-item print-q-page" id="q11"><p class="q-stem"><span class="q-num">11.</span> What will the girl do in Chengdu this Saturday?</p><div class="q-opts"><label class="opt" for="q11_A"><input type="radio" name="q11" id="q11_A" value="A"><span class="opt-key">A.</span> <span class="opt-body">Drink Gaiwan tea with her grandma.</span></label><label class="opt" for="q11_B"><input type="radio" name="q11" id="q11_B" value="B"><span class="opt-key">B.</span> <span class="opt-body">Buy a special Gaiwan tea set for her grandma.</span></label><label class="opt" for="q11_C"><input type="radio" name="q11" id="q11_C" value="C"><span class="opt-key">C.</span> <span class="opt-body">Learn to make Gaiwan tea with her grandma.</span></label></div></div><div class="q-item print-q-page" id="q12"><p class="q-stem"><span class="q-num">12.</span> When will the girl have the Gaiwan tea experience class?</p><div class="q-opts"><label class="opt" for="q12_A"><input type="radio" name="q12" id="q12_A" value="A"><span class="opt-key">A.</span> <span class="opt-body">At 3 p.m.</span></label><label class="opt" for="q12_B"><input type="radio" name="q12" id="q12_B" value="B"><span class="opt-key">B.</span> <span class="opt-body">At 5 p.m.</span></label><label class="opt" for="q12_C"><input type="radio" name="q12" id="q12_C" value="C"><span class="opt-key">C.</span> <span class="opt-body">At 7 p.m.</span></label></div></div></div><p class="hint">听第2段对话，回答第13、14小题。</p><div class="q-group q-listen"><div class="q-item print-q-page" id="q13"><p class="q-stem"><span class="q-num">13.</span> What's Jack's favorite TV program?</p><div class="q-opts"><label class="opt" for="q13_A"><input type="radio" name="q13" id="q13_A" value="A"><span class="opt-key">A.</span> <span class="opt-body">The Reader.</span></label><label class="opt" for="q13_B"><input type="radio" name="q13" id="q13_B" value="B"><span class="opt-key">B.</span> <span class="opt-body">Planet Earth.</span></label><label class="opt" for="q13_C"><input type="radio" name="q13" id="q13_C" value="C"><span class="opt-key">C.</span> <span class="opt-body">The Animal World.</span></label></div></div><div class="q-item print-q-page" id="q14"><p class="q-stem"><span class="q-num">14.</span> What kind of TV programs does Kate like watching in her free time?</p><div class="q-opts"><label class="opt" for="q14_A"><input type="radio" name="q14" id="q14_A" value="A"><span class="opt-key">A.</span> <span class="opt-body">Funny cartoons.</span></label><label class="opt" for="q14_B"><input type="radio" name="q14" id="q14_B" value="B"><span class="opt-key">B.</span> <span class="opt-body">Talk shows.</span></label><label class="opt" for="q14_C"><input type="radio" name="q14" id="q14_C" value="C"><span class="opt-key">C.</span> <span class="opt-body">Educational programs.</span></label></div></div></div><p class="hint">听第3段对话，回答第15至17小题。</p><div class="q-group q-listen"><div class="q-item print-q-page" id="q15"><p class="q-stem"><span class="q-num">15.</span> Where does the conversation probably take place?</p><div class="q-opts"><label class="opt" for="q15_A"><input type="radio" name="q15" id="q15_A" value="A"><span class="opt-key">A.</span> <span class="opt-body">In a hotel.</span></label><label class="opt" for="q15_B"><input type="radio" name="q15" id="q15_B" value="B"><span class="opt-key">B.</span> <span class="opt-body">In a gift shop.</span></label><label class="opt" for="q15_C"><input type="radio" name="q15" id="q15_C" value="C"><span class="opt-key">C.</span> <span class="opt-body">At a bus station.</span></label></div></div><div class="q-item print-q-page" id="q16"><p class="q-stem"><span class="q-num">16.</span> What does the man finally decide to buy?</p><div class="q-opts"><label class="opt" for="q16_A"><input type="radio" name="q16" id="q16_A" value="A"><span class="opt-key">A.</span> <span class="opt-body">Dried beef.</span></label><label class="opt" for="q16_B"><input type="radio" name="q16" id="q16_B" value="B"><span class="opt-key">B.</span> <span class="opt-body">Handmade cakes.</span></label><label class="opt" for="q16_C"><input type="radio" name="q16" id="q16_C" value="C"><span class="opt-key">C.</span> <span class="opt-body">Spicy rabbit heads.</span></label></div></div><div class="q-item print-q-page" id="q17"><p class="q-stem"><span class="q-num">17.</span> How much should the man pay?</p><div class="q-opts"><label class="opt" for="q17_A"><input type="radio" name="q17" id="q17_A" value="A"><span class="opt-key">A.</span> <span class="opt-body">36 yuan.</span></label><label class="opt" for="q17_B"><input type="radio" name="q17" id="q17_B" value="B"><span class="opt-key">B.</span> <span class="opt-body">66 yuan.</span></label><label class="opt" for="q17_C"><input type="radio" name="q17" id="q17_C" value="C"><span class="opt-key">C.</span> <span class="opt-body">132 yuan.</span></label></div></div></div><p class="hint">听第4段对话，回答第18至20小题。</p><div class="q-group q-listen"><div class="q-item print-q-page" id="q18"><p class="q-stem"><span class="q-num">18.</span> What did China build for the kids in Laos?</p><div class="q-opts"><label class="opt" for="q18_A"><input type="radio" name="q18" id="q18_A" value="A"><span class="opt-key">A.</span> <span class="opt-body">Small reading rooms.</span></label><label class="opt" for="q18_B"><input type="radio" name="q18" id="q18_B" value="B"><span class="opt-key">B.</span> <span class="opt-body">New classrooms.</span></label><label class="opt" for="q18_C"><input type="radio" name="q18" id="q18_C" value="C"><span class="opt-key">C.</span> <span class="opt-body">Big libraries.</span></label></div></div><div class="q-item print-q-page" id="q19"><p class="q-stem"><span class="q-num">19.</span> What was the main purpose of providing the reading machines?</p><div class="q-opts"><label class="opt" for="q19_A"><input type="radio" name="q19" id="q19_A" value="A"><span class="opt-key">A.</span> <span class="opt-body">To teach children how to use new technology.</span></label><label class="opt" for="q19_B"><input type="radio" name="q19" id="q19_B" value="B"><span class="opt-key">B.</span> <span class="opt-body">To make the reading rooms look more modern.</span></label><label class="opt" for="q19_C"><input type="radio" name="q19" id="q19_C" value="C"><span class="opt-key">C.</span> <span class="opt-body">To help the children read with less difficulty and more fun.</span></label></div></div><div class="q-item print-q-page" id="q20"><p class="q-stem"><span class="q-num">20.</span> What does Leo believe this project shows?</p><div class="q-opts"><label class="opt" for="q20_A"><input type="radio" name="q20" id="q20_A" value="A"><span class="opt-key">A.</span> <span class="opt-body">It is a useful way to share resources.</span></label><label class="opt" for="q20_B"><input type="radio" name="q20" id="q20_B" value="B"><span class="opt-key">B.</span> <span class="opt-body">It successfully gives children more books to read.</span></label><label class="opt" for="q20_C"><input type="radio" name="q20" id="q20_C" value="C"><span class="opt-key">C.</span> <span class="opt-body">It is an example of the good relationship between the two countries.</span></label></div></div></div></div>
+    <div class="sec"><h4>四、听短文，根据短文内容完成图表中所缺信息。短文念三遍（一空一词）。（共5小题；每小题1分，计5分）</h4>
+    <table class="chart">
+      <caption>How to Act after Winning a Competition</caption>
+      <tr><th colspan="2">Winning matters to our growth</th></tr>
+      <tr><td colspan="2">What we do after winning is of great <span class="blank-wrap"><span class="blank-num">21.</span><input type="text" name="q21" class="inline chart-blank" autocomplete="off"></span>, as it shows our attitude toward success and growth.</td></tr>
+      <tr><th colspan="2">Stay calm and not be too proud</th></tr>
+      <tr><td colspan="2">* We should be <span class="blank-wrap"><span class="blank-num">22.</span><input type="text" name="q22" class="inline chart-blank" autocomplete="off"></span> to our coaches and teammates, because winning is never achieved by one person.<br>* Take the win as a push to work harder and get ready for the <span class="blank-wrap"><span class="blank-num">23.</span><input type="text" name="q23" class="inline chart-blank" autocomplete="off"></span> that follow.</td></tr>
+      <tr><th colspan="2">Celebrate openly</th></tr>
+      <tr><td colspan="2">* Celebrating can help us enjoy the moment and recognize our value.<br>* Sharing our joy can also <span class="blank-wrap"><span class="blank-num">24.</span><input type="text" name="q24" class="inline chart-blank" autocomplete="off"></span> others to make efforts to achieve their goals.</td></tr>
+      <tr><th colspan="2">Value both ways of acting</th></tr>
+      <tr><td colspan="2">We should enjoy success, yet we must never <span class="blank-wrap"><span class="blank-num">25.</span><input type="text" name="q25" class="inline chart-blank" autocomplete="off"></span> those who helped us and stay positive about our future.</td></tr>
+    </table>
+    </div>
+  </section>
+
+  <section class="part part-page" id="part-basic">
+    <h3>第二部分  基础知识运用（共20小题；计40分）</h3>
+    <div class="sec"><h4>五、阅读下面短文，从方框内的选项中选出可以填入空白处的最佳选项。（共5小题；每小题2分，计10分）</h4>
+    <div class="passage passage-select">
+    <p>Luna had a lovely hand-painted notebook filled with ideas and drawings for her art homework due in three days.</p>
+    <p>One afternoon, when she returned from the restroom, she saw her notebook <span class="inline-blank" id="blank-q26"><span class="blank-num">26.</span><input type="text" name="q26" class="blank-line-input screen-only" maxlength="1" autocomplete="off" aria-label="填空q26"><span class="cloze-line print-only"></span></span> watercolor stains. Her deskmate Leo looked worried and wanted to apologize, but Luna was heartbroken. Believing Leo had done it carelessly, she refused to <span class="inline-blank" id="blank-q27"><span class="blank-num">27.</span><input type="text" name="q27" class="blank-line-input screen-only" maxlength="1" autocomplete="off" aria-label="填空q27"><span class="cloze-line print-only"></span></span> him. She walked away, leaving Leo standing there feeling regretful.</p>
+    <p>After school, Leo borrowed Luna's stained notebook. He bought a similar new notebook, and carefully copied all her work until midnight.</p>
+    <p>The next morning, Leo handed Luna the new notebook gently and <span class="inline-blank" id="blank-q28"><span class="blank-num">28.</span><input type="text" name="q28" class="blank-line-input screen-only" maxlength="1" autocomplete="off" aria-label="填空q28"><span class="cloze-line print-only"></span></span> her softly. Luna opened it and saw her ideas fully reproduced. She forgave him and thanked him. She decided to keep both notebooks, saying they were a reminder of not being impulsive, and <span class="inline-blank" id="blank-q29"><span class="blank-num">29.</span><input type="text" name="q29" class="blank-line-input screen-only" maxlength="1" autocomplete="off" aria-label="填空q29"><span class="cloze-line print-only"></span></span> their friendship.</p>
+    <p>Seeing this, Leo realized, "When mistakes happen, finding a way to <span class="inline-blank" id="blank-q30"><span class="blank-num">30.</span><input type="text" name="q30" class="blank-line-input screen-only" maxlength="1" autocomplete="off" aria-label="填空q30"><span class="cloze-line print-only"></span></span> them is more powerful than any apology. That's how we can keep relationships warm."</p>
+    </div>
+    <ul class="word-bank"><li>A. a symbol of</li><li>B. make up for</li><li>C. was covered with</li><li>D. listen to</li><li>E. said sorry to</li></ul>
+    </div>
+    <div class="sec"><h4>六、补全对话 根据对话内容，从方框中选出最佳选项补全对话。（共5小题；每小题2分，计10分）</h4>
+    <div class="dialogue-box">
+    <p><strong>Tom:</strong> Hi, Lucy. You seem a bit upset. What's wrong?</p>
+    <p><strong>Lucy:</strong> Well, our school will hold an English speech contest next month. <span class="inline-blank" id="blank-q31"><span class="blank-num">31.</span><input type="text" name="q31" class="blank-line-input screen-only" maxlength="1" autocomplete="off" aria-label="填空q31"><span class="cloze-line print-only"></span></span></p>
+    <p><strong>Tom:</strong> That sounds great! You should go for it.</p>
+    <p><strong>Lucy:</strong> But I'm not sure. <span class="inline-blank" id="blank-q32"><span class="blank-num">32.</span><input type="text" name="q32" class="blank-line-input screen-only" maxlength="1" autocomplete="off" aria-label="填空q32"><span class="cloze-line print-only"></span></span></p>
+    <p><strong>Tom:</strong> Don't worry. Everyone gets nervous. <span class="inline-blank" id="blank-q33"><span class="blank-num">33.</span><input type="text" name="q33" class="blank-line-input screen-only" maxlength="1" autocomplete="off" aria-label="填空q33"><span class="cloze-line print-only"></span></span></p>
+    <p><strong>Lucy:</strong> Like what?</p>
+    <p><strong>Tom:</strong> First, choose a topic you really care about. Next, write your speech carefully.</p>
+    <p><strong>Lucy:</strong> OK.</p>
+    <p><strong>Tom:</strong> <span class="inline-blank" id="blank-q34"><span class="blank-num">34.</span><input type="text" name="q34" class="blank-line-input screen-only" maxlength="1" autocomplete="off" aria-label="填空q34"><span class="cloze-line print-only"></span></span> Practice makes perfect.</p>
+    <p><strong>Lucy:</strong> That's a good idea. Maybe I can practice in front of my family or friends first.</p>
+    <p><strong>Tom:</strong> Exactly! And remember, I'll be there cheering you on. <span class="inline-blank" id="blank-q35"><span class="blank-num">35.</span><input type="text" name="q35" class="blank-line-input screen-only" maxlength="1" autocomplete="off" aria-label="填空q35"><span class="cloze-line print-only"></span></span></p>
+    </div>
+    <ul class="word-bank"><li>A. You've got this!</li><li>B. You just need to prepare yourself.</li><li>C. My teacher wants me to enter the competition.</li><li>D. After that, practice it out loud until you know it by heart.</li><li>E. I'm afraid I might forget the words on stage.</li></ul>
+    </div>
+    <div class="sec"><h4>七、完形填空 阅读下面短文，根据短文内容，从A、B、C三个选项中选出可以填入空白处的最佳选项。（共10小题；每小题2分，计20分）</h4><div class="passage passage-cloze-mc"><p>Our art teacher, Ms. Green, has her own teaching methods. In an art class, she asked her students a question: What makes a(n) <span class="passage-blank-wrap"><span class="blank-num">36.</span><span class="passage-blank-line" aria-hidden="true">______</span></span> perfect? One student said all lines and colors should be beautiful. Another said there should be no mistakes at all. The classroom was full of similar <span class="passage-blank-wrap"><span class="blank-num">37.</span><span class="passage-blank-line" aria-hidden="true">______</span></span> about perfect skills and details.</p>
+    <p>Then Ms. Green smiled and said, "Those are good answers, but I'd like to tell you something <span class="passage-blank-wrap"><span class="blank-num">38.</span><span class="passage-blank-line" aria-hidden="true">______</span></span>." Ms. Green shared her story. "When I was young, I once <span class="passage-blank-wrap"><span class="blank-num">39.</span><span class="passage-blank-line" aria-hidden="true">______</span></span> everywhere for a perfect tree to draw. One day, I found a tall tree in the forest, but it had a big crack in its trunk. Feeling <span class="passage-blank-wrap"><span class="blank-num">40.</span><span class="passage-blank-line" aria-hidden="true">______</span></span>, I thought it was ruined and I would never find a perfect tree. Just then, my grandfather came and <span class="passage-blank-wrap"><span class="blank-num">41.</span><span class="passage-blank-line" aria-hidden="true">______</span></span> my sadness. He asked why and said the crack let sunlight reach the grass below. Small birds slept in it. <span class="passage-blank-wrap"><span class="blank-num">42.</span><span class="passage-blank-line" aria-hidden="true">______</span></span> the tree wasn't perfect, it was alive and useful. I listened <span class="passage-blank-wrap"><span class="blank-num">43.</span><span class="passage-blank-line" aria-hidden="true">______</span></span> and then sat down to draw the tree. It turned out to be one of my best drawings ever."</p>
+    <p>Ms. Green looked around and said, "You see, just like that cracked tree, sometimes, we don't need to make our drawings perfect."</p>
+    <p>We asked if we shouldn't try to correct our mistakes. She told us that we should <span class="passage-blank-wrap"><span class="blank-num">44.</span><span class="passage-blank-line" aria-hidden="true">______</span></span> them. Small mistakes can even make our works more special. <span class="passage-blank-wrap"><span class="blank-num">45.</span><span class="passage-blank-line" aria-hidden="true">______</span></span>, we should also realize that some imperfections may add depth and interest to our works. Just like the cracked tree—it lets the light in.</p></div><div class="q-abc-grid cloze-abc-grid"><div class="q-row-opts-grid print-q-page" id="q36"><span class="q-num">36.</span><label class="opt opt-cell" for="q36_A"><input type="radio" name="q36" id="q36_A" value="A"><span class="opt-key">A.</span><span class="opt-body">report</span></label><label class="opt opt-cell" for="q36_B"><input type="radio" name="q36" id="q36_B" value="B"><span class="opt-key">B.</span><span class="opt-body">picture</span></label><label class="opt opt-cell" for="q36_C"><input type="radio" name="q36" id="q36_C" value="C"><span class="opt-key">C.</span><span class="opt-body">article</span></label></div><div class="q-row-opts-grid print-q-page" id="q37"><span class="q-num">37.</span><label class="opt opt-cell" for="q37_A"><input type="radio" name="q37" id="q37_A" value="A"><span class="opt-key">A.</span><span class="opt-body">examples</span></label><label class="opt opt-cell" for="q37_B"><input type="radio" name="q37" id="q37_B" value="B"><span class="opt-key">B.</span><span class="opt-body">problems</span></label><label class="opt opt-cell" for="q37_C"><input type="radio" name="q37" id="q37_C" value="C"><span class="opt-key">C.</span><span class="opt-body">answers</span></label></div><div class="q-row-opts-grid print-q-page" id="q38"><span class="q-num">38.</span><label class="opt opt-cell" for="q38_A"><input type="radio" name="q38" id="q38_A" value="A"><span class="opt-key">A.</span><span class="opt-body">strange</span></label><label class="opt opt-cell" for="q38_B"><input type="radio" name="q38" id="q38_B" value="B"><span class="opt-key">B.</span><span class="opt-body">different</span></label><label class="opt opt-cell" for="q38_C"><input type="radio" name="q38" id="q38_C" value="C"><span class="opt-key">C.</span><span class="opt-body">dangerous</span></label></div><div class="q-row-opts-grid print-q-page" id="q39"><span class="q-num">39.</span><label class="opt opt-cell" for="q39_A"><input type="radio" name="q39" id="q39_A" value="A"><span class="opt-key">A.</span><span class="opt-body">guessed</span></label><label class="opt opt-cell" for="q39_B"><input type="radio" name="q39" id="q39_B" value="B"><span class="opt-key">B.</span><span class="opt-body">followed</span></label><label class="opt opt-cell" for="q39_C"><input type="radio" name="q39" id="q39_C" value="C"><span class="opt-key">C.</span><span class="opt-body">searched</span></label></div><div class="q-row-opts-grid print-q-page" id="q40"><span class="q-num">40.</span><label class="opt opt-cell" for="q40_A"><input type="radio" name="q40" id="q40_A" value="A"><span class="opt-key">A.</span><span class="opt-body">disappointed</span></label><label class="opt opt-cell" for="q40_B"><input type="radio" name="q40" id="q40_B" value="B"><span class="opt-key">B.</span><span class="opt-body">shocked</span></label><label class="opt opt-cell" for="q40_C"><input type="radio" name="q40" id="q40_C" value="C"><span class="opt-key">C.</span><span class="opt-body">excited</span></label></div><div class="q-row-opts-grid print-q-page" id="q41"><span class="q-num">41.</span><label class="opt opt-cell" for="q41_A"><input type="radio" name="q41" id="q41_A" value="A"><span class="opt-key">A.</span><span class="opt-body">understood</span></label><label class="opt opt-cell" for="q41_B"><input type="radio" name="q41" id="q41_B" value="B"><span class="opt-key">B.</span><span class="opt-body">noticed</span></label><label class="opt opt-cell" for="q41_C"><input type="radio" name="q41" id="q41_C" value="C"><span class="opt-key">C.</span><span class="opt-body">covered</span></label></div><div class="q-row-opts-grid print-q-page" id="q42"><span class="q-num">42.</span><label class="opt opt-cell" for="q42_A"><input type="radio" name="q42" id="q42_A" value="A"><span class="opt-key">A.</span><span class="opt-body">Unless</span></label><label class="opt opt-cell" for="q42_B"><input type="radio" name="q42" id="q42_B" value="B"><span class="opt-key">B.</span><span class="opt-body">Since</span></label><label class="opt opt-cell" for="q42_C"><input type="radio" name="q42" id="q42_C" value="C"><span class="opt-key">C.</span><span class="opt-body">Although</span></label></div><div class="q-row-opts-grid print-q-page" id="q43"><span class="q-num">43.</span><label class="opt opt-cell" for="q43_A"><input type="radio" name="q43" id="q43_A" value="A"><span class="opt-key">A.</span><span class="opt-body">carefully</span></label><label class="opt opt-cell" for="q43_B"><input type="radio" name="q43" id="q43_B" value="B"><span class="opt-key">B.</span><span class="opt-body">clearly</span></label><label class="opt opt-cell" for="q43_C"><input type="radio" name="q43" id="q43_C" value="C"><span class="opt-key">C.</span><span class="opt-body">confidently</span></label></div><div class="q-row-opts-grid print-q-page" id="q44"><span class="q-num">44.</span><label class="opt opt-cell" for="q44_A"><input type="radio" name="q44" id="q44_A" value="A"><span class="opt-key">A.</span><span class="opt-body">believe in</span></label><label class="opt opt-cell" for="q44_B"><input type="radio" name="q44" id="q44_B" value="B"><span class="opt-key">B.</span><span class="opt-body">wait for</span></label><label class="opt opt-cell" for="q44_C"><input type="radio" name="q44" id="q44_C" value="C"><span class="opt-key">C.</span><span class="opt-body">learn from</span></label></div><div class="q-row-opts-grid print-q-page" id="q45"><span class="q-num">45.</span><label class="opt opt-cell" for="q45_A"><input type="radio" name="q45" id="q45_A" value="A"><span class="opt-key">A.</span><span class="opt-body">However</span></label><label class="opt opt-cell" for="q45_B"><input type="radio" name="q45" id="q45_B" value="B"><span class="opt-key">B.</span><span class="opt-body">Instead</span></label><label class="opt opt-cell" for="q45_C"><input type="radio" name="q45" id="q45_C" value="C"><span class="opt-key">C.</span><span class="opt-body">Besides</span></label></div></div></div>
+  </section>
+
+  <section class="part part-page" id="part-reading">
+    <h3>第三部分  阅读理解（共15小题；计30分）</h3>
+    <div class="sec sec-reading"><h4>八、阅读下列短文，根据短文内容选择最佳选项。（共15小题；每小题2分，计30分）</h4>
+      <div class="read-block"><p class="read-label">A</p>
+    <article class="reading read-passage-diary">
+      <p class="section-caption"><span class="tag-new">💡新考法</span> <span class="caption-title">新语篇类型·日记</span></p>
+      <p>Karen moved to Chengdu with her parents this year. Many interesting things happened to her and she recorded all of them. Let's read some of them.</p>
+      <div class="diary-entry">
+        <p class="diary-date"><strong>Wednesday, January 21st, 2026 | Clear</strong></p>
+        <p>I'm so excited that I can't fall asleep tonight. Tomorrow, I'm going to Chengdu with my parents! I have always wanted to be like my friend Jessica because her parents once went to Chengdu and told her stories about the spicy hot pot and cute pandas. I never thought I would have the chance to go there too—we're moving there because my parents will work in Chengdu, and it's so great! I can't wait to see this wonderful city.</p>
+      </div>
+      <div class="diary-entry">
+        <p class="diary-date"><strong>Friday, January 23rd, 2026 | Cloudy</strong></p>
+        <p>I'm now in Chengdu, a famous city in Sichuan Province. Today was a great day! I went to the Chengdu Research Base of Giant Panda Breeding. I saw many pandas rolling on the green grass and quietly eating bamboo. They were even cuter in reality than in photos! At lunch, I tried the famous spicy hot pot. My mouth was burning a bit after eating, but it tasted really delicious. I think I have already fallen in love with this amazing city.</p>
+      </div>
+      <div class="diary-entry">
+        <p class="diary-date"><strong>Tuesday, February 17th, 2026 | Cloudy</strong></p>
+        <p>Today is Chinese New Year, also called the Spring Festival. Last night, my parents' friend Li Mei invited us to her house for a big Sichuan-style reunion dinner. We ate Mapo tofu and Gongbao chicken—all the dishes were spicy and yummy! After dinner, we watched the Spring Festival Gala on TV with her family. It was so magical and surprising. I learned a lot about the Chinese Spring Festival today.</p>
+      </div>
+      <div class="diary-entry">
+        <p class="diary-date"><strong>Friday, March 13th, 2026 | Sunny</strong></p>
+        <p>I started school on March 4th. It's my first week of school in Chengdu. I don't speak much Chinese, so I study at an international school here. Luckily, my teachers and classmates are all very friendly. They often teach me some local words, like "ni hao" which means hello and "hao chi" which means delicious. We also have interesting after-school activities. This weekend, I will go to a local teahouse to see a Sichuan Opera performance. I have been looking forward to seeing the face-changing performance up close. I'm sure it will be wonderful!</p>
+      </div>
+    </article>
+    <div class="read-a-questions"><div class="q-item print-q-page" id="q46"><p class="q-stem"><span class="q-num">46.</span> Why did Karen feel excited on January 21st?</p><div class="q-opts"><label class="opt" for="q46_A"><input type="radio" name="q46" id="q46_A" value="A"><span class="opt-key">A.</span> <span class="opt-body">Because she would visit her friend Jessica.</span></label><label class="opt" for="q46_B"><input type="radio" name="q46" id="q46_B" value="B"><span class="opt-key">B.</span> <span class="opt-body">Because she was going to move to Chengdu.</span></label><label class="opt" for="q46_C"><input type="radio" name="q46" id="q46_C" value="C"><span class="opt-key">C.</span> <span class="opt-body">Because she would eat the spicy hot pot.</span></label></div></div><div class="q-item print-q-page" id="q47"><p class="q-stem"><span class="q-num">47.</span> What did Karen think of the pandas at the research base?</p><div class="q-opts"><label class="opt" for="q47_A"><input type="radio" name="q47" id="q47_A" value="A"><span class="opt-key">A.</span> <span class="opt-body">They were less cute than she expected.</span></label><label class="opt" for="q47_B"><input type="radio" name="q47" id="q47_B" value="B"><span class="opt-key">B.</span> <span class="opt-body">They looked exactly like the photos.</span></label><label class="opt" for="q47_C"><input type="radio" name="q47" id="q47_C" value="C"><span class="opt-key">C.</span> <span class="opt-body">They were very lovely in real life.</span></label></div></div><div class="q-item print-q-page" id="q48"><p class="q-stem"><span class="q-num">48.</span> Where did Karen celebrate the Spring Festival?</p><div class="q-opts"><label class="opt" for="q48_A"><input type="radio" name="q48" id="q48_A" value="A"><span class="opt-key">A.</span> <span class="opt-body">At her own new home.</span></label><label class="opt" for="q48_B"><input type="radio" name="q48" id="q48_B" value="B"><span class="opt-key">B.</span> <span class="opt-body">At her parents' friend's house.</span></label><label class="opt" for="q48_C"><input type="radio" name="q48" id="q48_C" value="C"><span class="opt-key">C.</span> <span class="opt-body">At a famous Sichuan-style restaurant.</span></label></div></div><div class="q-item print-q-page" id="q49"><p class="q-stem"><span class="q-num">49.</span> What can we learn about Karen's new school?</p><div class="q-opts"><label class="opt" for="q49_A"><input type="radio" name="q49" id="q49_A" value="A"><span class="opt-key">A.</span> <span class="opt-body">She studies Chinese in a local public school.</span></label><label class="opt" for="q49_B"><input type="radio" name="q49" id="q49_B" value="B"><span class="opt-key">B.</span> <span class="opt-body">She finds it hard to get along with her classmates.</span></label><label class="opt" for="q49_C"><input type="radio" name="q49" id="q49_C" value="C"><span class="opt-key">C.</span> <span class="opt-body">She is going to watch a Sichuan Opera this weekend.</span></label></div></div><div class="q-item print-q-page" id="q50"><p class="q-stem"><span class="q-num">50.</span> Which word best describes Karen's feeling about life in Chengdu?</p><div class="q-opts"><label class="opt" for="q50_A"><input type="radio" name="q50" id="q50_A" value="A"><span class="opt-key">A.</span> <span class="opt-body">Worried.</span></label><label class="opt" for="q50_B"><input type="radio" name="q50" id="q50_B" value="B"><span class="opt-key">B.</span> <span class="opt-body">Enjoyable.</span></label><label class="opt" for="q50_C"><input type="radio" name="q50" id="q50_C" value="C"><span class="opt-key">C.</span> <span class="opt-body">Surprised.</span></label></div></div></div></div>
+      <div class="read-block"><p class="read-label">B</p>
+    <article class="reading read-passage-b">
+      <p class="read-para"><span class="para-mark">①</span>Traditional Chinese Medicine (TCM) has a long history. In the past, many foreigners found it mysterious and difficult to understand. However, foreigners' ideas about TCM are changing greatly now. This is not simply because many countries teach TCM, but mainly because more people experience its real benefits in their daily lives.</p>
+      <p class="read-para"><span class="para-mark">②</span>For example, an American internet star recently shared his experience. He visited a TCM store that was very popular in Chengdu because he was suffering from a terrible headache. A doctor there treated him with acupuncture. What made him feel surprised was that his headache disappeared quickly after acupuncture. He recorded this amazing experience and posted the video online, which was watched by lots of people.</p>
+      <p class="read-para"><span class="para-mark">③</span>There is not just one story. In a city in Northeast China, a moxibustion clinic receives thousands of Russian visitors every year. They travel a long way to get help for health problems like neck and shoulder pain. Almost all of them leave the clinic feeling much better. Similarly, a doctor in Guangzhou recently treated a German patient with a serious cold using herbal medicine, and the patient's fever went down the next day. Such good results are letting more and more people around the world recognize the value of TCM.</p>
+      <p class="read-para"><span class="para-mark">④</span>With the help of modern technology and creative ways of sharing culture, like including TCM in popular movies and online short videos, this ancient wisdom is reaching new people. The world is starting to see TCM not as something old and mysterious, but as a practical and useful form of healthcare for modern life.</p>
+      
+    </article>
+    <div class="read-a-questions"><div class="q-item print-q-page" id="q51"><p class="q-stem"><span class="q-num">51.</span> Why are foreigners' ideas about TCM changing greatly now?</p><div class="q-opts"><label class="opt" for="q51_A"><input type="radio" name="q51" id="q51_A" value="A"><span class="opt-key">A.</span> <span class="opt-body">Because TCM has a long history.</span></label><label class="opt" for="q51_B"><input type="radio" name="q51" id="q51_B" value="B"><span class="opt-key">B.</span> <span class="opt-body">Because many countries teach TCM.</span></label><label class="opt" for="q51_C"><input type="radio" name="q51" id="q51_C" value="C"><span class="opt-key">C.</span> <span class="opt-body">Because more people experience its real benefits.</span></label></div></div><div class="q-item print-q-page" id="q52"><p class="q-stem"><span class="q-num">52.</span> What made the American internet star feel surprised?</p><div class="q-opts"><label class="opt" for="q52_A"><input type="radio" name="q52" id="q52_A" value="A"><span class="opt-key">A.</span> <span class="opt-body">Lots of people watched his video online.</span></label><label class="opt" for="q52_B"><input type="radio" name="q52" id="q52_B" value="B"><span class="opt-key">B.</span> <span class="opt-body">The TCM store was very popular in Chengdu.</span></label><label class="opt" for="q52_C"><input type="radio" name="q52" id="q52_C" value="C"><span class="opt-key">C.</span> <span class="opt-body">His headache disappeared quickly after acupuncture.</span></label></div></div><div class="q-item print-q-page" id="q53"><p class="q-stem"><span class="q-num">53.</span> What do Russian visitors travel a long way to do at the moxibustion clinic in Northeast China?</p><div class="q-opts"><label class="opt" for="q53_A"><input type="radio" name="q53" id="q53_A" value="A"><span class="opt-key">A.</span> <span class="opt-body">To experience the local culture.</span></label><label class="opt" for="q53_B"><input type="radio" name="q53" id="q53_B" value="B"><span class="opt-key">B.</span> <span class="opt-body">To get help for health problems.</span></label><label class="opt" for="q53_C"><input type="radio" name="q53" id="q53_C" value="C"><span class="opt-key">C.</span> <span class="opt-body">To learn about TCM skills.</span></label></div></div><div class="q-item print-q-page" id="q54"><p class="q-stem"><span class="q-num">54.</span> <span class="tag-new">💡新考法</span> <span class="tag-type">文章结构</span> Which of the following is the structure of the passage? (① = Paragraph 1, ② = Paragraph 2, …)</p><div class="q-opts"><label class="opt" for="q54_A"><input type="radio" name="q54" id="q54_A" value="A"><span class="opt-key">A.</span> <span class="opt-body">①/②③/④</span></label><label class="opt" for="q54_B"><input type="radio" name="q54" id="q54_B" value="B"><span class="opt-key">B.</span> <span class="opt-body">①/②③④</span></label><label class="opt" for="q54_C"><input type="radio" name="q54" id="q54_C" value="C"><span class="opt-key">C.</span> <span class="opt-body">①②/③④</span></label></div></div><div class="q-item print-q-page" id="q55"><p class="q-stem"><span class="q-num">55.</span> What is the main idea of the passage?</p><div class="q-opts"><label class="opt" for="q55_A"><input type="radio" name="q55" id="q55_A" value="A"><span class="opt-key">A.</span> <span class="opt-body">TCM is an ancient and mysterious cultural tradition.</span></label><label class="opt" for="q55_B"><input type="radio" name="q55" id="q55_B" value="B"><span class="opt-key">B.</span> <span class="opt-body">Modern technology is the main reason for TCM's popularity.</span></label><label class="opt" for="q55_C"><input type="radio" name="q55" id="q55_C" value="C"><span class="opt-key">C.</span> <span class="opt-body">TCM is becoming widely known for its practical value in healthcare.</span></label></div></div></div></div>
+      <div class="read-block"><p class="read-label">C</p>
+    <article class="reading read-passage-c">
+      <p>Lots of dogs understand simple words said directly to them, such as "walk" or "treat". However, a new study shows that some "gifted" dogs can learn other words simply by <u>eavesdropping</u> on humans.</p>
+      <p>The study was conducted by researchers who wanted to know if dogs could learn new words just by overhearing their owners' conversations.</p>
+      <p>For the study, the researchers gave each dog two new toys. The dogs were allowed to play with them at home. Next, the researchers gave each dog's owner a task: They were asked to speak with another household member and name the two new toys while the dog was nearby (for example, they said, "This is Hobo."). After their conversations, the dog owners placed the new toys in a room with other toys. Then, they asked their dogs to get one of the new toys (for example, "Go get Hobo!"). The dogs were able to pick out the correct new toy after overhearing the names. According to the study, these dogs have language-learning skills similar to those of an 18-month-old human child.</p>
+      <p>"With some of the dogs, it's like they had no doubt about what they were supposed to be doing," a coauthor of the study said. "They would just go into the room, straight to the correct toy—the new one they had just heard named—and then bring it immediately."</p>
+      <p>It's important to note that this finding does not apply to all dogs. Only certain dogs, called "gifted word learners", can learn new words this way. Scientists are still not sure why some dogs have this ability.</p>
+    </article>
+    <div class="read-a-questions"><div class="q-item print-q-page" id="q56"><p class="q-stem"><span class="q-num">56.</span> Which of the blanks can be filled with the underlined word &quot;eavesdropping&quot; in the passage?</p><div class="q-opts"><label class="opt" for="q56_A"><input type="radio" name="q56" id="q56_A" value="A"><span class="opt-key">A.</span> <span class="opt-body">The teacher asked us to start ______ carefully when she read the story.</span></label><label class="opt" for="q56_B"><input type="radio" name="q56" id="q56_B" value="B"><span class="opt-key">B.</span> <span class="opt-body">We decided to search for more information about pandas after ______ the plan in groups.</span></label><label class="opt" for="q56_C"><input type="radio" name="q56" id="q56_C" value="C"><span class="opt-key">C.</span> <span class="opt-body">She stood behind the door, ______ on her parents' conversation about her birthday party.</span></label></div></div><div class="q-item print-q-page" id="q57"><p class="q-stem"><span class="q-num">57.</span> What is the main purpose of the task given to the dog owners in the study?</p><div class="q-opts"><label class="opt" for="q57_A"><input type="radio" name="q57" id="q57_A" value="A"><span class="opt-key">A.</span> <span class="opt-body">To test if dogs can play with two new toys at the same time.</span></label><label class="opt" for="q57_B"><input type="radio" name="q57" id="q57_B" value="B"><span class="opt-key">B.</span> <span class="opt-body">To see if dogs can remember the names of toys in human conversation.</span></label><label class="opt" for="q57_C"><input type="radio" name="q57" id="q57_C" value="C"><span class="opt-key">C.</span> <span class="opt-body">To check if dogs can understand orders better at home.</span></label></div></div><div class="q-item print-q-page" id="q58"><p class="q-stem"><span class="q-num">58.</span> What did the dog owners do right after their conversations about the new toys?</p><div class="q-opts"><label class="opt" for="q58_A"><input type="radio" name="q58" id="q58_A" value="A"><span class="opt-key">A.</span> <span class="opt-body">They gave the dogs a treat.</span></label><label class="opt" for="q58_B"><input type="radio" name="q58" id="q58_B" value="B"><span class="opt-key">B.</span> <span class="opt-body">They asked the dogs to get a toy.</span></label><label class="opt" for="q58_C"><input type="radio" name="q58" id="q58_C" value="C"><span class="opt-key">C.</span> <span class="opt-body">They put the new toys in a room with other toys.</span></label></div></div><div class="q-item print-q-page" id="q59"><p class="q-stem"><span class="q-num">59.</span> If a dog were NOT a &quot;gifted word learner&quot;, what would most likely happen in this study?</p><div class="q-opts"><label class="opt" for="q59_A"><input type="radio" name="q59" id="q59_A" value="A"><span class="opt-key">A.</span> <span class="opt-body">It would fail to pick up the correct toy.</span></label><label class="opt" for="q59_B"><input type="radio" name="q59" id="q59_B" value="B"><span class="opt-key">B.</span> <span class="opt-body">It would not listen to the owners' conversation.</span></label><label class="opt" for="q59_C"><input type="radio" name="q59" id="q59_C" value="C"><span class="opt-key">C.</span> <span class="opt-body">It would be afraid to go into the room alone.</span></label></div></div><div class="q-item print-q-page" id="q60"><p class="q-stem"><span class="q-num">60.</span> Where would you most likely find this passage?</p><div class="q-opts"><label class="opt" for="q60_A"><input type="radio" name="q60" id="q60_A" value="A"><span class="opt-key">A.</span> <span class="opt-body">In a storybook about a boy and his smart dog.</span></label><label class="opt" for="q60_B"><input type="radio" name="q60" id="q60_B" value="B"><span class="opt-key">B.</span> <span class="opt-body">In a science magazine reporting on new research.</span></label><label class="opt" for="q60_C"><input type="radio" name="q60" id="q60_C" value="C"><span class="opt-key">C.</span> <span class="opt-body">In an advertisement for dog toys and training guides.</span></label></div></div></div></div>
+    </div>
+  </section>
+
+  <section class="part b-page">
+    <p class="vol-title">B卷（共50分）</p>
+    <div class="sec"><h4>一、短文填空 从下面方框中选出10个单词，将其正确形式填入短文，使短文意思正确通顺（每词限用一次）。（共10小题；每小题1分，计10分）</h4><ul class="word-bank wide"><li>full</li><li>from</li><li>mark</li><li>visit</li><li>build</li><li>offer</li><li>street</li><li>hang</li><li>lie</li><li>ticket</li><li>famous</li><li>custom</li></ul>
+    <div class="passage fill-word-pick"><p>Jinli Ancient Street is a famous traditional street in Chengdu. It <span class="blank-wrap b-blank-wrap"><span class="blank-num">1.</span><input type="text" name="b1" class="inline chart-blank" autocomplete="off"><span class="chart-blank-line print-only" aria-hidden="true"></span></span> near Wuhou Temple, a well-known place of interest. The street was <span class="blank-wrap b-blank-wrap"><span class="blank-num">2.</span><input type="text" name="b2" class="inline chart-blank" autocomplete="off"><span class="chart-blank-line print-only" aria-hidden="true"></span></span> to keep the old architectural style of ancient Shu. It also shows the traditional culture and folk <span class="blank-wrap b-blank-wrap"><span class="blank-num">3.</span><input type="text" name="b3" class="inline chart-blank" autocomplete="off"><span class="chart-blank-line print-only" aria-hidden="true"></span></span> of Chengdu, and this helps to raise the city's popularity and influence. The <span class="blank-wrap b-blank-wrap"><span class="blank-num">4.</span><input type="text" name="b4" class="inline chart-blank" autocomplete="off"><span class="chart-blank-line print-only" aria-hidden="true"></span></span> covers an area of about 7.4 acres, and it runs 550 meters from north to south.</p>
+    <p>Jinli Ancient Street has old wooden buildings, stone roads, small bridges over rivers and red lanterns <span class="blank-wrap b-blank-wrap"><span class="blank-num">5.</span><input type="text" name="b5" class="inline chart-blank" autocomplete="off"><span class="chart-blank-line print-only" aria-hidden="true"></span></span> everywhere. Its design mixes traditional Sichuan courtyard houses with old street styles, creating a lively old-town feeling. It shows the streets and daily life of ancient Chengdu very well, and <span class="blank-wrap b-blank-wrap"><span class="blank-num">6.</span><input type="text" name="b6" class="inline chart-blank" autocomplete="off"><span class="chart-blank-line print-only" aria-hidden="true"></span></span> presents traditional folk living places.</p>
+    <p>Jinli Ancient Street has over sixty shops <span class="blank-wrap b-blank-wrap"><span class="blank-num">7.</span><input type="text" name="b7" class="inline chart-blank" autocomplete="off"><span class="chart-blank-line print-only" aria-hidden="true"></span></span> different parts of Sichuan. These shops <span class="blank-wrap b-blank-wrap"><span class="blank-num">8.</span><input type="text" name="b8" class="inline chart-blank" autocomplete="off"><span class="chart-blank-line print-only" aria-hidden="true"></span></span> many kinds of special local foods, including Sichuan snacks and traditional dishes. What's more, <span class="blank-wrap b-blank-wrap"><span class="blank-num">9.</span><input type="text" name="b9" class="inline chart-blank" autocomplete="off"><span class="chart-blank-line print-only" aria-hidden="true"></span></span> can enjoy folk performances like Sichuan opera and shadow puppet shows, and try making traditional handicrafts.</p>
+    <p>At Jinli, tourists can enjoy the traditional beauty of the ancient Shu-style street. They can also taste <span class="blank-wrap b-blank-wrap"><span class="blank-num">10.</span><input type="text" name="b10" class="inline chart-blank" autocomplete="off"><span class="chart-blank-line print-only" aria-hidden="true"></span></span> Sichuan folk snacks and buy locally-produced special products, handicrafts, and souvenirs that are made using traditional skills.</p></div>
+    </div>
+    <div class="sec"><h4>二、补全短文 根据短文内容，从短文后的A~F选项中，选出5个适当的选项补全短文。（共5小题；每小题1分，计5分）</h4><ul class="word-bank word-bank-abcd"><li>A. It can change how we see the world.</li><li>B. But we need to avoid rushing from one place to another.</li><li>C. Some families can't afford plane tickets or hotels for a long trip.</li><li>D. Even small moments can teach us to be confident and improve our problem-solving skills.</li><li>E. Remember, the real meaning of travel is not about how far we go.</li><li>F. Therefore, planning every minute in detail is the key to a perfect trip.</li></ul>
+    <div class="passage passage-cloze passage-select">
+    <p>Travel is not always enjoyable. Many of us have felt tired from long car rides or waiting in busy places. Even so, travel is still valuable. <span class="inline-blank" id="blank-b11"><span class="blank-num">1.</span><input type="text" name="b11" class="blank-line-input screen-only" maxlength="1" autocomplete="off" aria-label="填空b11"><span class="cloze-line print-only"></span></span> It also helps us learn about other people's daily lives.</p>
+    <p>For teenagers, this kind of experience is very helpful. Travel makes us understand others better. It also teaches us to be patient with and curious about new things. We may start asking questions: Why do people line up differently here? How has their history shaped their lifestyle? <span class="inline-blank" id="blank-b12"><span class="blank-num">2.</span><input type="text" name="b12" class="blank-line-input screen-only" maxlength="1" autocomplete="off" aria-label="填空b12"><span class="cloze-line print-only"></span></span> For example, we may succeed in reading a subway map. Or we can order food from a menu that's difficult to read. These little successes can bring a strong sense of achievement.</p>
+    <p>There's so much to learn from travel. <span class="inline-blank" id="blank-b13"><span class="blank-num">3.</span><input type="text" name="b13" class="blank-line-input screen-only" maxlength="1" autocomplete="off" aria-label="填空b13"><span class="cloze-line print-only"></span></span> We should focus on one thing during our trip—history, nature, sport, or family time. Plan simple stops, like a cafe or a garden, and leave room for surprises. That's because the best experiences often happen unexpectedly.</p>
+    <p>However, travel isn't always easy—or even possible. <span class="inline-blank" id="blank-b14"><span class="blank-num">4.</span><input type="text" name="b14" class="blank-line-input screen-only" maxlength="1" autocomplete="off" aria-label="填空b14"><span class="cloze-line print-only"></span></span> But that's not a problem at all, because "travel" doesn't always require a plane ticket. We can get just as much from day trips, cultural festivals, or exploring a different part of our city.</p>
+    <p><span class="inline-blank" id="blank-b15"><span class="blank-num">5.</span><input type="text" name="b15" class="blank-line-input screen-only" maxlength="1" autocomplete="off" aria-label="填空b15"><span class="cloze-line print-only"></span></span> It's about stepping out of our daily comfort zone and gaining new experiences. Whether we travel far or stay nearby, these experiences can help us grow and become better people.</p>
+    </div>
+    </div>
+    <div class="sec"><h4>三、阅读表达（共10小题；计20分）</h4>
+      <p class="sub-sec-title"><strong>A. 完成图表</strong> 根据短文内容，完成表格中所缺信息（每空不超过三个词）。（共5小题；每小题2分，计10分）</p>
+      
+    <article class="reading"><p>Reading is a wonderful thing. It not only helps us gain knowledge but also helps us relax. For some readers, reading can be a great way to start their day. Others pick up a book after finishing their homework or right after dinner. But many people like to read at bedtime, when the world gets quiet and nothing comes between them and their book. They say there's nothing better than falling asleep with a fun story and interesting characters in their mind. So, what do you think? Is it good to read before bed?</p>
+    <p>Some people think it is very relaxing. Reading at night is better than watching TV or looking at your phone. The light from screens can disrupt your body's natural sleep clock. Reading, on the other hand, can help you sleep better by making your heartbeat slower and your muscles relaxed. It feels good to fall asleep with a book after a long day of school and activities. Reading before bed is also good for your mind because it calms your mind and stops you from worrying. This is especially helpful for people who have trouble sleeping.</p>
+    <p>However, others think it can keep you awake. Not every book is good for night reading. A scary or very exciting story could be too interesting to make you fall asleep early. Then you won't get enough sleep. But if you want to read in the morning, it gives you a reason to sleep well at night, so that you can read when your mind is clear. You can also read during the day, like between classes or after school. Reading when you are awake means you will understand and remember more from the book. If you read when you are tired, you might miss important parts or even forget them after you fall asleep, and then you have to read those pages again the next day.</p>
+    <p>There is no doubt that we should make reading a habit. And it's fine to read at any time, as long as it doesn't change your daily schedule or affect your health.</p></article>
+    
+    <p class="chart-task-hint">根据短文内容，完成下面的表格（一空一词）。</p>
+    <table class="chart bookmark-chart read-bed-chart">
+      <tr><th colspan="2"><strong>YES</strong></th></tr>
+      <tr><td colspan="2">
+        <ul class="chart-list">
+          <li>Books are better than <span class="blank-wrap b-blank-wrap"><span class="blank-num">1.</span><input type="text" name="b16" class="inline chart-blank" autocomplete="off"><span class="chart-blank-line print-only" aria-hidden="true"></span></span>, the light from which can disrupt our body's natural sleep clock.</li>
+          <li>Reading a book at night can help your body <span class="blank-wrap b-blank-wrap"><span class="blank-num">2.</span><input type="text" name="b17" class="inline chart-blank" autocomplete="off"><span class="chart-blank-line print-only" aria-hidden="true"></span></span> and settle down for sleep.</li>
+          <li>Nighttime reading is great for mental health and helps people who have trouble falling asleep.</li>
+        </ul>
+      </td></tr>
+      <tr><th colspan="2"><strong>NO</strong></th></tr>
+      <tr><td colspan="2">
+        <ul class="chart-list">
+          <li>It <span class="blank-wrap b-blank-wrap"><span class="blank-num">3.</span><input type="text" name="b18" class="inline chart-blank" autocomplete="off"><span class="chart-blank-line print-only" aria-hidden="true"></span></span> what we're reading. If it's too interesting, we might be solving the mysteries in our head instead of sleeping.</li>
+          <li>There are many <span class="blank-wrap b-blank-wrap"><span class="blank-num">4.</span><input type="text" name="b19" class="inline chart-blank" autocomplete="off"><span class="chart-blank-line print-only" aria-hidden="true"></span></span> for reading during the day, whether it's in the morning, between classes, or after school.</li>
+          <li>When you're tired, it's hard to <span class="blank-wrap b-blank-wrap"><span class="blank-num">5.</span><input type="text" name="b20" class="inline chart-blank" autocomplete="off"><span class="chart-blank-line print-only" aria-hidden="true"></span></span> what you read.</li>
+        </ul>
+      </td></tr>
+    </table>
+    
+      <p class="sub-sec-title"><strong>B. 任务型阅读</strong> 根据短文内容，按要求回答问题。（共5小题；每小题2分，计10分）</p>
+      <p class="section-caption"><span class="tag-new">💡新素材</span> <span class="caption-title">中华优秀传统文化·世界首个国际太极拳日诞生</span></p>
+    <article class="reading"><p>On November 5, 2025, UNESCO set March 21 as International Taijiquan Day. March 21 is around the time of the spring equinox. On this day, the daytime is as long as the night. This fits the ideas of yin-yang balance and harmonious coexistence in Taijiquan. This is the first time an international day has been named after a martial art within the UN system. This shows the global acceptance of the important value of Taijiquan.</p>
+    <p>Taijiquan is a traditional Chinese sport and an important part of Chinese martial arts. In 2020, UNESCO placed Taijiquan on the List of Intangible Cultural Heritage of Humanity. Taijiquan is deeply influenced by traditional Chinese ideas and health rules, such as the balance between yin and yang, and harmony between people and nature. Everything keeps changing. Yin and yang depend on each other and affect each other. That's why humans can live in harmony with nature and people can use softness to beat hardness.</p>
+    <p>In China, Taijiquan has been practiced for about 600 years. If you walk through a park, you might see people performing slow and beautiful movements. They are doing Taijiquan. Practicing Taijiquan is good for health and helps people relieve pressure.</p>
+    <p>Taijiquan is getting more and more popular in the world. Over time, it has developed into several styles, such as Chen, Yang, Wu, and Sun styles. Nowadays, there are hundreds of millions of people practicing Taijiquan around the world, covering more than 180 countries and regions.</p></article>
+    <div class="short-ans"><p>6. When is International Taijiquan Day?<br><textarea class="screen-only" name="b21" rows="2"></textarea><span class="line-block print-only"><span class="line"></span><span class="line"></span><span class="line"></span></span></p><p>7. What does it show that Taijiquan has its own international day?<br><textarea class="screen-only" name="b22" rows="2"></textarea><span class="line-block print-only"><span class="line"></span><span class="line"></span><span class="line"></span></span></p><p>8. What is the main idea of Paragraph 2?<br><textarea class="screen-only" name="b23" rows="2"></textarea><span class="line-block print-only"><span class="line"></span><span class="line"></span><span class="line"></span></span></p><p>9. What are the styles Taijiquan has developed into according to the passage?<br><textarea class="screen-only" name="b24" rows="2"></textarea><span class="line-block print-only"><span class="line"></span><span class="line"></span><span class="line"></span></span></p><p>10. How do you like Taijiquan? Please give two reasons at least.<br><textarea class="screen-only" name="b25" rows="4"></textarea><span class="line-block print-only"><span class="line"></span><span class="line"></span><span class="line"></span><span class="line"></span><span class="line"></span><span class="line"></span></span></p></div>
+    </div>
+    <div class="sec"><h4>四、书面表达（计15分）</h4>
+    <div class="writing-prompt">
+    <p>你校英语俱乐部正在以“天府文化小使者”为主题开展演讲活动，以下图表为学生会对本校九年级同学想参加活动的调查结果。请根据以下图表信息写一篇英文演讲稿，内容包括：</p>
+    <p>1. 描述调查结果并简要评析；<br>2. 你参加的活动及原因。</p>
+    <p class="note">注意：1. 文中不能出现真实姓名及学校名称；2. 词数80左右，开头已给出，不计入总词数。</p>
+    <p class="note">参考词汇：杜甫草堂 Du Fu Thatched Cottage；武侯祠 Wuhou Shrine；刺绣 embroidery；非遗 intangible cultural heritage；宽窄巷子 Kuanzhai Alley</p>
+    <figure class="writing-fig"><img src="writing.png" alt="写作图示"></figure>
+    <p><strong>Hello, everyone. Recently, our student union did a survey on Grade 9 students' preferences for "Tianfu Culture Ambassador" activities. Here are the results.</strong></p>
+    <textarea name="writing" class="writing-area screen-only" rows="12" placeholder="请在此作答…"></textarea>
+    <div class="writing-lines print-only" aria-hidden="true"></div>
+    </div>
+    </div>
+  </section>
+
+</form>
+</div>
+<script>
+const SEGMENTS = {"audio_file": "listening.mp3", "total_duration_sec": 1212.813063, "transcript_phrase_count": 0, "sections": [{"id": "I", "title": "一、听句子选答语", "questions": [1, 2, 3, 4, 5]}, {"id": "II", "title": "二、听句子选图片", "questions": [6, 7, 8, 9, 10]}, {"id": "III", "title": "三、听对话", "questions": [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]}, {"id": "IV", "title": "四、听短文", "questions": [21, 22, 23, 24, 25]}], "section_ranges": {"I": {"title": "一、听句子选答语", "start_sec": 47.21, "end_sec": 190.19}, "II": {"title": "二、听句子选图片", "start_sec": 190.19, "end_sec": 330.04}, "III": {"title": "三、听对话", "start_sec": 356.2, "end_sec": 852.44}, "IV": {"title": "四、听短文", "start_sec": 923.7, "end_sec": 1212.81}}, "segments": [{"question": 1, "start_sec": 47.21, "end_sec": 72.08, "label": "第1题", "section": "I"}, {"question": 2, "start_sec": 72.08, "end_sec": 98.88, "label": "第2题", "section": "I"}, {"question": 3, "start_sec": 98.88, "end_sec": 123.67, "label": "第3题", "section": "I"}, {"question": 4, "start_sec": 123.67, "end_sec": 149.23, "label": "第4题", "section": "I"}, {"question": 5, "start_sec": 149.23, "end_sec": 190.19, "label": "第5题", "section": "I"}, {"question": 6, "start_sec": 190.19, "end_sec": 218.74, "label": "第6题", "section": "II"}, {"question": 7, "start_sec": 218.74, "end_sec": 247.77, "label": "第7题", "section": "II"}, {"question": 8, "start_sec": 247.77, "end_sec": 274.11, "label": "第8题", "section": "II"}, {"question": 9, "start_sec": 274.11, "end_sec": 304.0, "label": "第9题", "section": "II"}, {"question": 10, "start_sec": 304.0, "end_sec": 330.04, "label": "第10题", "section": "II"}, {"question": 11, "start_sec": 356.2, "end_sec": 431.73, "label": "第11题", "section": "III"}, {"question": 12, "start_sec": 356.2, "end_sec": 431.73, "label": "第12题", "section": "III"}, {"question": 13, "start_sec": 445.6, "end_sec": 537.76, "label": "第13题", "section": "III"}, {"question": 14, "start_sec": 445.6, "end_sec": 537.76, "label": "第14题", "section": "III"}, {"question": 15, "start_sec": 552.0, "end_sec": 658.33, "label": "第15题", "section": "III"}, {"question": 16, "start_sec": 552.0, "end_sec": 658.33, "label": "第16题", "section": "III"}, {"question": 17, "start_sec": 552.0, "end_sec": 658.33, "label": "第17题", "section": "III"}, {"question": 18, "start_sec": 671.56, "end_sec": 852.44, "label": "第18题", "section": "III"}, {"question": 19, "start_sec": 671.56, "end_sec": 852.44, "label": "第19题", "section": "III"}, {"question": 20, "start_sec": 671.56, "end_sec": 852.44, "label": "第20题", "section": "III"}, {"question": 21, "start_sec": 923.7, "end_sec": 1212.81, "label": "第21题", "section": "IV"}, {"question": 22, "start_sec": 923.7, "end_sec": 1212.81, "label": "第22题", "section": "IV"}, {"question": 23, "start_sec": 923.7, "end_sec": 1212.81, "label": "第23题", "section": "IV"}, {"question": 24, "start_sec": 923.7, "end_sec": 1212.81, "label": "第24题", "section": "IV"}, {"question": 25, "start_sec": 923.7, "end_sec": 1212.81, "label": "第25题", "section": "IV"}]};
+const audio = document.getElementById('audio');
+let stopTimer = null;
+
+function playRange(start, end, btn) {
+  if (!audio) return;
+  document.querySelectorAll('.listen-btns button.active').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  clearInterval(stopTimer);
+  audio.currentTime = Math.max(0, start);
+  audio.play();
+  stopTimer = setInterval(() => {
+    if (audio.currentTime >= end - 0.05) {
+      audio.pause();
+      clearInterval(stopTimer);
+      document.querySelectorAll('.listen-btns button.active').forEach(b => b.classList.remove('active'));
+    }
+  }, 80);
+}
+
+function buildListenUI() {
+  const sec = document.getElementById('secBtns');
+  if (!sec || !SEGMENTS.section_ranges) return;
+  Object.entries(SEGMENTS.section_ranges).forEach(([id, info]) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = '▶ ' + info.title;
+    b.onclick = () => playRange(info.start_sec, info.end_sec, b);
+    sec.appendChild(b);
+  });
+}
+
+
+const STORAGE_KEY = 'chengdu2026_heijuan_answers';
+function saveAnswers() {{
+  const fd = new FormData(document.getElementById('exam'));
+  const o = {{}};
+  for (const [k,v] of fd.entries()) o[k]=v;
+  document.querySelectorAll('input[type=radio]').forEach(el => {{
+    if (el.checked) o[el.name]=el.value;
+  }});
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(o));
+  alert('答案已保存到浏览器本地');
+}}
+function loadAnswers() {{
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) {{ alert('暂无保存记录'); return; }}
+  const o = JSON.parse(raw);
+  const form = document.getElementById('exam');
+  Object.entries(o).forEach(([k,v]) => {{
+    const els = form.elements[k];
+    if (!els) return;
+    if (els.length && els[0].type === 'radio') {{
+      const r = form.querySelector(`input[name="${{k}}"][value="${{v}}"]`);
+      if (r) r.checked = true;
+    }} else if (els.length) els[0].value = v;
+    else els.value = v;
+  }});
+  alert('已恢复答案');
+}}
+function clearAnswers() {{
+  if (confirm('确定清空全部作答？')) {{
+    localStorage.removeItem(STORAGE_KEY);
+    document.getElementById('exam').reset();
+  }}
+}}
+function bindStudentToolbar() {{
+  const save = document.getElementById('btnSave');
+  const load = document.getElementById('btnLoad');
+  const clear = document.getElementById('btnClear');
+  const pdf = document.getElementById('btnPdf');
+  if (save) save.onclick = saveAnswers;
+  if (load) load.onclick = loadAnswers;
+  if (clear) clear.onclick = clearAnswers;
+  if (pdf) pdf.onclick = exportPdf;
+}}
+function exportPdf() {
+  try {
+    const tip = '即将打开打印对话框。\n\n请选择「另存为 PDF」或「Microsoft Print to PDF」；\n纸张 A4；边距建议「默认」；\n在「更多设置」中关闭页眉页脚。\n\n若未弹出窗口，请直接按 Ctrl+P。';
+    if (!sessionStorage.getItem('pdf_tip_heijuan')) {
+      alert(tip);
+      try { sessionStorage.setItem('pdf_tip_heijuan', '1'); } catch (e) {}
+    }
+    document.body.classList.add('print-exam');
+    setTimeout(() => {
+      window.print();
+    }, 200);
+  } catch (err) {
+    alert('无法自动打印，请按 Ctrl+P，目标打印机选「另存为 PDF」。');
+  }
+}
+window.addEventListener('afterprint', () => document.body.classList.remove('print-exam'));
+function initExamPage() {
+  bindStudentToolbar();
+  buildListenUI();
+  
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initExamPage);
+} else {
+  initExamPage();
+}
+</script>
+</body>
+</html>
