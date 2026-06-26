@@ -402,6 +402,9 @@
           return NodeFilter.FILTER_REJECT;
         }
         if (p.classList?.contains("w")) return NodeFilter.FILTER_REJECT;
+        if (p.closest(".inline-blank, .blank-wrap, .b-blank-wrap, .passage-blank-wrap, .exam-inline-ans, .teacher-fill")) {
+          return NodeFilter.FILTER_REJECT;
+        }
         return NodeFilter.FILTER_ACCEPT;
       },
     });
@@ -482,9 +485,14 @@
   window.initExamLookup = initExamLookup;
   window.refreshExamLookup = refreshExamLookup;
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () => initExamLookup());
-  } else {
+  function bootExamLookup() {
+    if (document.body.classList.contains("teacher-edition")) return;
     initExamLookup();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bootExamLookup);
+  } else {
+    bootExamLookup();
   }
 })();

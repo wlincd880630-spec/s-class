@@ -31,6 +31,25 @@
     return text;
   }
 
+  function isInlinePassageNode(node) {
+    if (!node) return false;
+    if (node.nodeType === Node.TEXT_NODE) return true;
+    if (node.nodeType !== Node.ELEMENT_NODE) return false;
+    return (
+      node.matches(".inline-blank, .blank-wrap, .b-blank-wrap, .passage-blank-wrap") ||
+      (node.tagName === "SPAN" && node.classList.contains("w"))
+    );
+  }
+
+  function needsSpaceBetween(a, b) {
+    if (!a || !b) return false;
+    if (a.nodeType === Node.TEXT_NODE && /\s$/.test(a.nodeValue)) return false;
+    if (b.nodeType === Node.TEXT_NODE && /^\s/.test(b.nodeValue)) return false;
+    if (a.nodeType === Node.TEXT_NODE && !a.textContent.trim()) return false;
+    if (b.nodeType === Node.TEXT_NODE && !b.textContent.trim()) return false;
+    return true;
+  }
+
   function repairPassageParagraphs(block) {
     if (!block) return;
 
@@ -45,19 +64,27 @@
       }
     });
 
+    let lastP = null;
     [...block.childNodes].forEach((node) => {
-      if (node.nodeType !== Node.TEXT_NODE) return;
-      if (!node.textContent.replace(/\s+/g, " ").trim()) {
-        node.remove();
+      if (node.nodeType === Node.ELEMENT_NODE && node.tagName === "P") {
+        lastP = node;
         return;
       }
-      let prev = node.previousSibling;
-      while (prev && prev.nodeType === Node.TEXT_NODE && !prev.textContent.trim()) {
-        prev = prev.previousSibling;
+      if (node.nodeType === Node.ELEMENT_NODE && node.matches(".exam-parse-group-wrap, .word-bank, ul.word-bank")) {
+        lastP = null;
+        return;
       }
-      if (prev && prev.nodeType === Node.ELEMENT_NODE && prev.tagName === "P") {
-        prev.appendChild(node);
+      if (!lastP || !isInlinePassageNode(node)) return;
+
+      if (node.nodeType === Node.TEXT_NODE && !node.textContent.trim()) {
+        lastP.appendChild(node);
+        return;
       }
+
+      if (needsSpaceBetween(lastP.lastChild, node)) {
+        lastP.appendChild(document.createTextNode(" "));
+      }
+      lastP.appendChild(node);
     });
   }
 
@@ -411,7 +438,7 @@
 
     document.querySelectorAll(".read-a-questions .q-unit, .read-block .q-unit").forEach(setupSingleQuestion);
 
-    if (window.refreshExamLookup) window.refreshExamLookup();
+    if (window.initExamLookup) window.initExamLookup();
   }
 
   window.initExamTeacherUi = initExamTeacherUi;
