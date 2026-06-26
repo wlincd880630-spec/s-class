@@ -32,43 +32,16 @@
 body { margin:0; font-family:"Segoe UI","Microsoft YaHei","PingFang SC",sans-serif;
   color:var(--ink); background:var(--bg); line-height:1.65; font-size:15px; }
 .toolbar { position:sticky; top:0; z-index:100; background:linear-gradient(90deg,#1e3a5f,#2563eb);
-  color:#fff; padding:.55rem 1.25rem; display:flex; justify-content:flex-end; align-items:center;
+  color:#fff; padding:.55rem 1.25rem; display:flex; flex-wrap:wrap; gap:.5rem; align-items:center;
   box-shadow:0 2px 8px rgba(0,0,0,.15); }
-.toolbar button { border:0; border-radius:6px; padding:.5rem 1.1rem; cursor:pointer;
-  font-size:.88rem; background:rgba(255,255,255,.18); color:#fff; }
-.toolbar button:hover { background:rgba(255,255,255,.3); }
-.toolbar .primary { background:#fff; color:#1e3a5f; font-weight:600; }
-.share-toast {
-  position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(12px);
-  padding:10px 18px; border-radius:999px; background:rgba(15,23,42,.88); color:#fff;
-  font-size:.86rem; opacity:0; pointer-events:none; transition:opacity .25s, transform .25s; z-index:200;
+.toolbar h1 { font-size:.95rem; margin:0 1rem 0 0; flex:1; font-weight:600; }
+.toolbar a.toolbar-link {
+  display:inline-block; text-decoration:none; border-radius:6px;
+  padding:.5rem 1.1rem; font-size:.88rem;
+  background:rgba(255,255,255,.18); color:#fff;
 }
-.share-toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
-.share-sheet {
-  position:fixed; inset:0; z-index:300; display:flex; align-items:flex-end; justify-content:center;
-  padding:0 16px 24px; background:rgba(15,23,42,.45);
-}
-.share-sheet[hidden] { display:none !important; }
-.share-sheet-panel {
-  width:min(420px,100%); background:#fff; border-radius:16px 16px 12px 12px;
-  padding:20px 20px 16px; box-shadow:0 20px 50px rgba(0,0,0,.22);
-}
-.share-sheet-panel h3 { margin:0 0 14px; font-size:1rem; font-weight:700; color:#1e3a5f; text-align:center; }
-.share-sheet-preview {
-  margin:0 0 12px; padding:14px 16px; border-radius:10px;
-  background:linear-gradient(135deg,#ecfdf5,#f8fafc); border:1px solid #a7f3d0;
-  font-family:inherit; font-size:.92rem; line-height:1.75; color:#1e3348; white-space:pre-wrap;
-}
-.share-sheet-steps {
-  margin:0 0 14px; padding:0 0 0 1.1em; font-size:.82rem; color:#64748b; line-height:1.6;
-}
-.share-sheet-actions { display:flex; gap:10px; }
-.share-sheet-actions button {
-  flex:1; border:0; border-radius:8px; padding:12px; font-size:.9rem; font-weight:600; cursor:pointer;
-}
-#btnCopyMoments { background:linear-gradient(90deg,#0f766e,#14b8a6); color:#fff; }
-#btnCloseShare { background:#f1f5f9; color:#475569; }
-.share-sheet-actions button:active { opacity:.88; }
+.toolbar a.toolbar-link:hover { background:rgba(255,255,255,.3); }
+.toolbar a.toolbar-link.primary { background:#fff; color:#1e3a5f; font-weight:600; }
 .wrap { max-width:1000px; margin:0 auto; padding:16px; }
 .sheet { background:var(--paper); padding:28px 36px 40px; border-radius:8px;
   box-shadow:var(--shadow); border:1px solid var(--line); }
@@ -166,23 +139,8 @@ input.chart-blank.wide { min-width:8em; }
 </head>
 <body>
 <div class="toolbar no-print">
-  <button type="button" class="primary" id="btnShare">分享到朋友圈</button>
-</div>
-<div id="shareToast" class="share-toast" role="status" aria-live="polite"></div>
-<div id="shareSheet" class="share-sheet no-print" hidden>
-  <div class="share-sheet-panel" role="dialog" aria-labelledby="shareSheetTitle">
-    <h3 id="shareSheetTitle">分享到朋友圈</h3>
-    <pre class="share-sheet-preview" id="sharePreview"></pre>
-    <ol class="share-sheet-steps">
-      <li>点击下方按钮复制文案与链接</li>
-      <li>打开微信 → 发现 → 朋友圈</li>
-      <li>长按输入框粘贴，发表即可</li>
-    </ol>
-    <div class="share-sheet-actions">
-      <button type="button" id="btnCopyMoments">复制文案</button>
-      <button type="button" id="btnCloseShare">关闭</button>
-    </div>
-  </div>
+  <h1>2026 成都中考英语真题</h1>
+  <a class="toolbar-link primary" href="2026成都中考英语真题-答案与解析.html">答案与解析</a>
 </div>
 <div class="wrap">
 <form id="exam" class="sheet" autocomplete="off">
@@ -346,66 +304,5 @@ input.chart-blank.wide { min-width:8em; }
   </section>
 </form>
 </div>
-<script>
-const SHARE_URL = 'https://www.s-class.top/2026EXAM/HET/2026%E6%88%90%E9%83%BD%E4%B8%AD%E8%80%83%E8%8B%B1%E8%AF%AD%E7%9C%9F%E9%A2%98.html';
-const MOMENTS_COPY = `2026 中考英语真题
-成都中考真题
-进入 2026 成都中考英语
-2026
-成都中考 · English`;
-
-function buildMomentsText() {
-  return MOMENTS_COPY + '\n\n' + SHARE_URL;
-}
-
-function showShareToast(msg) {
-  const el = document.getElementById('shareToast');
-  el.textContent = msg;
-  el.classList.add('show');
-  clearTimeout(showShareToast._t);
-  showShareToast._t = setTimeout(() => el.classList.remove('show'), 2800);
-}
-
-function openShareSheet() {
-  document.getElementById('sharePreview').textContent = buildMomentsText();
-  document.getElementById('shareSheet').hidden = false;
-}
-
-function closeShareSheet() {
-  document.getElementById('shareSheet').hidden = true;
-}
-
-async function copyMomentsText() {
-  const text = buildMomentsText();
-  try {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      await navigator.clipboard.writeText(text);
-      showShareToast('已复制，去微信朋友圈粘贴发表');
-      closeShareSheet();
-      return;
-    }
-  } catch (_) {}
-  const ta = document.createElement('textarea');
-  ta.value = text;
-  ta.style.cssText = 'position:fixed;left:-9999px';
-  document.body.appendChild(ta);
-  ta.select();
-  try {
-    document.execCommand('copy');
-    showShareToast('已复制，去微信朋友圈粘贴发表');
-    closeShareSheet();
-  } catch (_) {
-    window.prompt('请长按全选并复制：', text);
-  }
-  document.body.removeChild(ta);
-}
-
-document.getElementById('btnShare').onclick = openShareSheet;
-document.getElementById('btnCopyMoments').onclick = copyMomentsText;
-document.getElementById('btnCloseShare').onclick = closeShareSheet;
-document.getElementById('shareSheet').addEventListener('click', (e) => {
-  if (e.target === e.currentTarget) closeShareSheet();
-});
-</script>
 </body>
 </html>

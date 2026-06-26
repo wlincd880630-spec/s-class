@@ -1,0 +1,110 @@
+/* HET 试卷 · DeepSeek 查词（双击单词 / 划选查词翻译） */
+.lookup-backdrop {
+  position: fixed; inset: 0; background: rgba(15, 23, 42, 0.45);
+  opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 200;
+}
+.lookup-backdrop.show { opacity: 1; pointer-events: auto; }
+
+.lookup-panel {
+  position: fixed; right: 0; top: 0; bottom: 0; width: min(420px, 96vw);
+  background: #fff; border-left: 1px solid #e5e7eb;
+  transform: translateX(100%); transition: transform 0.25s ease; z-index: 210;
+  display: flex; flex-direction: column;
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.12);
+}
+.lookup-panel.open { transform: translateX(0); }
+.lookup-panel header {
+  display: flex; justify-content: space-between; align-items: center;
+  flex-shrink: 0; padding: 12px 16px; border-bottom: 1px solid #e5e7eb;
+  background: linear-gradient(90deg, #1e3a5f, #2563eb); color: #fff;
+}
+.lookup-panel header h2 { margin: 0; font-size: 1rem; font-weight: 600; }
+.lookup-close {
+  border: 1px solid rgba(255, 255, 255, 0.35); background: transparent;
+  color: #fff; padding: 6px 12px; border-radius: 6px; cursor: pointer; font: inherit; font-size: 0.85rem;
+}
+.lookup-body {
+  flex: 1; min-height: 0; overflow-y: auto; padding: 16px 18px;
+  font-size: 14px; line-height: 1.65; color: #1a1a1a;
+}
+.lookup-head { margin: 0 0 10px; font-size: 1.25rem; color: #1e3a5f; }
+.lookup-section-title { margin: 12px 0 6px; color: #2563eb; font-size: 0.9rem; font-weight: 600; }
+.lookup-usage-list { margin: 0; padding-left: 1.2em; }
+.lookup-usage-item { margin-bottom: 10px; }
+.lookup-ex-en {
+  margin: 4px 0 2px; padding: 6px 8px; background: #eff6ff;
+  border-radius: 4px; font-style: italic; color: #1e40af; font-size: 0.92rem;
+}
+.lookup-ex-zh { margin: 0; color: #5c5c5c; font-size: 0.88rem; }
+.lookup-muted { color: #9ca3af; }
+.lookup-bad { color: #dc2626; }
+.lookup-raw { white-space: pre-wrap; font-size: 0.9rem; }
+
+.lookup-float-btn {
+  position: fixed; z-index: 190;
+  padding: 8px 14px; border: 0; border-radius: 999px;
+  background: #2563eb; color: #fff; font-size: 0.85rem; font-weight: 600;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.45); cursor: pointer;
+  display: none;
+}
+.lookup-float-btn.show { display: block; }
+
+.exam-sheet .w {
+  cursor: pointer; border-radius: 2px;
+}
+.exam-sheet .w:hover { background: rgba(37, 99, 235, 0.1); }
+
+.exam-api-dialog {
+  position: fixed; inset: 0; z-index: 300; display: none;
+  align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.4);
+}
+.exam-api-dialog.show { display: flex; }
+.exam-api-dialog-panel {
+  background: #fff; border-radius: 10px; padding: 20px 24px; width: min(400px, 92vw);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+.exam-api-dialog-panel h3 { margin: 0 0 12px; font-size: 1rem; }
+.exam-api-dialog-panel label { display: block; margin: 10px 0 4px; font-size: 0.85rem; color: #5c5c5c; }
+.exam-api-dialog-panel input {
+  width: 100%; padding: 8px 10px; border: 1px solid #d1d5db; border-radius: 6px; font: inherit;
+}
+.exam-api-dialog-actions { margin-top: 16px; display: flex; gap: 8px; justify-content: flex-end; }
+.exam-api-dialog-actions button {
+  padding: 8px 16px; border-radius: 6px; border: 0; cursor: pointer; font: inherit; font-size: 0.88rem;
+}
+.exam-api-dialog-actions .primary { background: #2563eb; color: #fff; font-weight: 600; }
+.exam-api-dialog-actions .secondary { background: #f3f4f6; color: #374151; }
+
+.exam-toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  padding: 10px 18px; border-radius: 999px; background: rgba(15, 23, 42, 0.88);
+  color: #fff; font-size: 0.86rem; opacity: 0; pointer-events: none;
+  transition: opacity 0.25s; z-index: 220;
+}
+.exam-toast.show { opacity: 1; }
+
+/* 教师版：题前红色答案 */
+body.teacher-edition .exam-ans-pre {
+  display: inline-block; margin-right: 6px; padding: 1px 8px;
+  background: #fef2f2; color: #dc2626; font-weight: 700; font-size: 0.95em;
+  border: 1px solid #fecaca; border-radius: 4px; vertical-align: baseline;
+}
+body.teacher-edition .teacher-fill,
+body.teacher-edition .ans-letter-inline {
+  color: #dc2626 !important; font-weight: 700;
+  background: #fef2f2; padding: 0 4px; border-radius: 3px;
+}
+body.teacher-edition .opt-correct .opt-key,
+body.teacher-edition .opt-correct .opt-body {
+  color: #dc2626; font-weight: 700;
+}
+body.teacher-edition input.chart-blank,
+body.teacher-edition .blank-line-input { display: none !important; }
+
+.toolbar a.toolbar-link {
+  display: inline-block; text-decoration: none; border-radius: 6px;
+  padding: 0.45rem 0.9rem; font-size: 0.85rem;
+  background: rgba(255, 255, 255, 0.18); color: #fff;
+}
+.toolbar a.toolbar-link:hover { background: rgba(255, 255, 255, 0.3); }
+.toolbar a.toolbar-link.primary { background: #fff; color: #1e3a5f; font-weight: 600; }
