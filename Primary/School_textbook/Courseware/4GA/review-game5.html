@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>游戏五：句子听音排序 · 四年级上册</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/common.css">
+</head>
+<body>
+  <div class="container">
+    <div class="top-bar">
+      <a class="course-logo" href="index.html" title="Steven's Class English Studio">
+        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/logo.png" alt="Steven's Class English Studio">
+      </a>
+      <a class="back-link" href="index.html"><i class="fa-solid fa-house"></i> 返回</a>
+      <h1 class="page-title"><i class="fa-solid fa-headphones"></i> 句子听音排序</h1>
+    </div>
+
+    <div class="card" id="setupPanel">
+      <div class="control-row"><label>单元：</label><select id="unitSelect"></select></div>
+      <p style="color:#636e72;font-size:0.9rem;">每组 4 句，全部完成后显示统计</p>
+      <button class="btn btn-primary btn-lg" id="btnStart"><i class="fa-solid fa-play"></i> 开始游戏</button>
+    </div>
+
+    <div class="card game-area hidden" id="gamePanel">
+      <div class="timer-bar">
+        <span><i class="fa-solid fa-layer-group"></i> 第 <strong id="groupNum">1</strong> / <strong id="groupTotal">1</strong> 组</span>
+        <span>第 <strong id="qNum">1</strong> / <strong id="groupSize">4</strong> 句</span>
+        <span><i class="fa-solid fa-stopwatch"></i> <strong id="gameTime">0:00</strong></span>
+      </div>
+      <div style="text-align:center;">
+        <img id="sceneImg" class="word-image" style="height:200px;" src="" alt="">
+        <div class="action-row">
+          <button class="btn btn-primary" id="btnPlay"><i class="fa-solid fa-volume-high"></i> 播放句子</button>
+        </div>
+        <div class="chinese-hidden" id="chineseHint">点击显示中文翻译</div>
+      </div>
+      <div class="target-slots" id="targetSlots"></div>
+      <div class="word-pool" id="wordPool"></div>
+      <div id="feedback" class="feedback hidden"></div>
+    </div>
+
+    <div class="card hidden" id="donePanel"></div>
+  </div>
+
+  <script src="assets/data/data.js"></script>
+  <script src="assets/js/utils.js"></script>
+  <script>
+    let groups = [], groupIdx = 0, qIdx = 0;
+    let current = null, built = [], targetWords = [];
+    let gameTimer = null;
+    let statCorrect = 0, statWrong = 0, totalSentences = 0;
+
+    buildUnitSelector(document.getElementById('unitSelect'));
+    document.getElementById('btnStart').addEventListener('click', startGame);
+    document.getElementById('btnPlay').addEventListener('click', () => { if (current) speakText(current.en); });
+    document.getElementById('chineseHint').addEventListener('click', function () {
+      if (current) { this.textContent = current.zh; this.classList.add('revealed'); }
+    });
+
+    function startGame() {
+      const all = getAllWords(document.getElementById('unitSelect').value);
+      const pool = shuffle(all.map(w => ({ ...w.sentences[0], word: w })));
+      groups = chunkGroups(pool);
+      groupIdx = 0;
+      qIdx = 0;
+      statCorrect = 0;
+      statWrong = 0;
+      totalSentences = pool.length;
+      document.getElementById('setupPanel').classList.add('hidden');
+      document.getElementById('donePanel').classList.add('hidden');
+      document.getElementById('gamePanel').classList.remove('hidden');
+      gameTimer = new GameTimer(document.getElementById('gameTime'));
+      gameTimer.start();
+      loadSentence();
+    }
+
+    function loadSentence() {
+      if (groupIdx >= groups.length) { finishGame(); return; }
+      const group = groups[groupIdx];
+      if (qIdx >= group.length) {
+        if (groupIdx < groups.length - 1) {
+          showFeedback(document.getElementById('feedback'), `第 ${groupIdx + 1} 组完成！下一组… 🎉`, true);
+          groupIdx++;
+          qIdx = 0;
+          setTimeout(loadSentence, 1500);
+        } else {
+          finishGame();
+        }
+        return;
+      }
+      updateGroupProgress(groupIdx, groups.length, { num: 'groupNum', total: 'groupTotal' });
+      document.getElementById('qNum').textContent = qIdx + 1;
+      document.getElementById('groupSize').textContent = group.length;
+
+      current = group[qIdx];
+      built = [];
+      targetWords = current.en.replace(/[.!?]/g, '').split(/\s+/);
+      document.getElementById('sceneImg').src = current.image || current.word.image;
+      document.getElementById('chineseHint').textContent = '点击显示中文翻译';
+      document.getElementById('chineseHint').classList.remove('revealed');
+      document.getElementById('feedback').classList.add('hidden');
+      renderSlots();
+      createWordPool(shuffle([...targetWords]), document.getElementById('wordPool'), onWordClick);
+      setTimeout(() => speakText(current.en), 500);
+    }
+
+    function renderSlots() {
+      const el = document.getElementById('targetSlots');
+      el.innerHTML = '';
+      for (let i = 0; i < targetWords.length; i++) {
+        const s = document.createElement('div');
+        s.className = 'slot' + (built[i] ? ' filled' : '');
+        s.textContent = built[i] || '';
+        s.style.width = 'auto';
+        s.style.minWidth = '48px';
+        s.style.padding = '0 8px';
+        el.appendChild(s);
+      }
+    }
+
+    function onWordClick(w, el) {
+      const expect = targetWords[built.length];
+      if (w !== expect) {
+        statWrong++;
+        el.classList.add('wrong');
+        setTimeout(() => el.classList.remove('wrong'), 400);
+        showFeedback(document.getElementById('feedback'), '语序不对哦！', false);
+        return;
+      }
+      el.classList.add('used');
+      built.push(w);
+      renderSlots();
+      if (built.length === targetWords.length) {
+        statCorrect++;
+        showFeedback(document.getElementById('feedback'), '句子拼对了！🎉', true);
+        setTimeout(() => { qIdx++; loadSentence(); }, 1500);
+      }
+    }
+
+    function finishGame() {
+      const timeSec = gameTimer.stop();
+      document.getElementById('gamePanel').classList.add('hidden');
+      const donePanel = document.getElementById('donePanel');
+      donePanel.classList.remove('hidden');
+      showFinalGameStats(donePanel, {
+        title: '全部句子完成！',
+        groups: groups.length,
+        totalItems: totalSentences,
+        itemLabel: '个句子',
+        correct: statCorrect,
+        wrong: statWrong,
+        timeSec,
+        onRetry: () => { donePanel.classList.add('hidden'); document.getElementById('setupPanel').classList.remove('hidden'); }
+      });
+    }
+  </script>
+</body>
+</html>

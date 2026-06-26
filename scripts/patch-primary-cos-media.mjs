@@ -51,6 +51,39 @@ const BOOKS = {
   },
 };
 
+function detectSchoolTextbookGrade(rel) {
+  const m = rel.match(/^School_textbook\/Courseware\/(\d[A-Z]{2})\//);
+  return m ? m[1] : null;
+}
+
+function schoolTextbookGradeBase(grade) {
+  return cosUrl(`Primary/School_textbook/Courseware/${grade}/`);
+}
+
+/** 将 School_textbook 内 assets/images 相对路径转为完整 COS URL（分段编码） */
+function schoolTextbookImageCos(grade, imageRel) {
+  const rel = imageRel.replace(/^assets\/images\//, "");
+  return cosUrl(`Primary/School_textbook/Courseware/${grade}/assets/images/${rel}`);
+}
+
+/** 规范化已写入的 COS 图片 URL（修复中文文件名未编码） */
+function normalizeSchoolTextbookCosImages(s) {
+  return s.replace(
+    /https:\/\/s-class-1403296481\.cos\.ap-chengdu\.myqcloud\.com\/s-class\/(Primary\/School_textbook\/Courseware\/\d[A-Z]{2}\/assets\/images\/[^"')\s]+)/g,
+    (match, relPath) => {
+      try {
+        const decoded = relPath
+          .split("/")
+          .map((seg) => decodeURIComponent(seg))
+          .join("/");
+        return cosUrl(decoded);
+      } catch {
+        return match;
+      }
+    }
+  );
+}
+
 function detectBook(filePath) {
   const rel = path.relative(PRIMARY, filePath).replace(/\\/g, "/");
   if (rel.startsWith("Helpers in your neighborhood/")) return "Helpers in your neighborhood";
@@ -66,6 +99,9 @@ function walk(dir, out = []) {
     const p = path.join(dir, e.name);
     if (e.isDirectory()) walk(p, out);
     else if (/\.(html|js)$/i.test(e.name)) out.push(p);
+    else if (/\.css$/i.test(e.name) && p.includes(`${path.sep}School_textbook${path.sep}`)) {
+      out.push(p);
+    }
   }
   return out;
 }
@@ -206,9 +242,31 @@ function patchContent(filePath, content) {
     }
   }
 
-  // Primary/index 与子目录 index 的 assets（相对路径残留）
-  s = s.replace(/src="assets\//g, `src="${cosUrl("Primary/assets/")}`);
-  s = s.replace(/src="\.\.\/assets\//g, `src="${cosUrl("Primary/assets/")}`);
+  const stbGrade = detectSchoolTextbookGrade(rel);
+  if (stbGrade) {
+    s = s.replace(/src="assets\/images\/([^"]+)"/g, (_, tail) => {
+      return `src="${schoolTextbookImageCos(stbGrade, `assets/images/${tail}`)}"`;
+    });
+    s = s.replace(/"image": "assets\/images\/([^"]+)"/g, (_, tail) => {
+      return `"image": "${schoolTextbookImageCos(stbGrade, `assets/images/${tail}`)}"`;
+    });
+    s = s.replace(/url\(['"]\.\.\/images\/([^'"]+)['"]\)/g, (_, tail) => {
+      return `url('${schoolTextbookImageCos(stbGrade, `assets/images/${tail}`)}')`;
+    });
+    s = normalizeSchoolTextbookCosImages(s);
+  }
+
+  if (rel === "School_textbook/Courseware/index.html") {
+    const hubLogo = cosUrl("Primary/School_textbook/Courseware/logo.png");
+    s = s.replace(/src="logo\.png"/g, `src="${hubLogo}"`);
+    s = normalizeSchoolTextbookCosImages(s);
+  }
+
+  // Primary/index 与子目录 index 的 assets（相对路径残留；不含 School_textbook）
+  if (!rel.startsWith("School_textbook/")) {
+    s = s.replace(/src="assets\//g, `src="${cosUrl("Primary/assets/")}`);
+    s = s.replace(/src="\.\.\/assets\//g, `src="${cosUrl("Primary/assets/")}`);
+  }
 
   // 涂色页 images/*.png
   if (rel.includes("-coloring/index.html") && book) {

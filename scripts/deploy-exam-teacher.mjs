@@ -60,7 +60,7 @@ function patchTeacherHtml(html, cfg) {
 
   const injectHead =
     `<link rel="stylesheet" href="${relLookup}/exam-lookup.css?v=7">\n` +
-    `<link rel="stylesheet" href="${relLookup}/exam-teacher-ui.css?v=9">\n`;
+    `<link rel="stylesheet" href="${relLookup}/exam-teacher-ui.css?v=10">\n`;
   const injectFoot =
     `<script src="${relLookup}/exam-lookup.js?v=7"></script>\n` +
     `<script src="${relLookup}/parse-data/${cfg.parseData || "mock2"}.js?v=1"></script>\n` +

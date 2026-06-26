@@ -1,0 +1,355 @@
+/* Courseware 总导航 — 外研新版教材风格 */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  color: var(--text);
+  line-height: 1.55;
+  min-height: 100vh;
+  position: relative;
+  background-color: var(--fltrp-cream);
+}
+
+/* 教材风格 AI 背景：50% 透明 + 高斯模糊 */
+.hub-bg {
+  position: fixed;
+  inset: -32px;
+  z-index: -2;
+  background: url('../images/hub-bg.png') center / cover no-repeat;
+  opacity: 0.5;
+  filter: blur(10px);
+  transform: translateZ(0);
+  pointer-events: none;
+}
+
+.fltrp-dots {
+  background-color: transparent;
+  background-image: none;
+}
+
+.page-enter { animation: popIn 0.6s var(--ease) both; }
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.97) translateY(12px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-8px) rotate(2deg); }
+}
+
+/* 封面式双栏布局 */
+.fltrp-shell {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  min-height: 100vh;
+}
+
+.fltrp-sidebar {
+  padding: 28px 20px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.course-logo--sidebar {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 12px;
+  text-decoration: none;
+  line-height: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.course-logo--sidebar img {
+  height: 34px;
+  width: auto;
+  max-width: 150px;
+  object-fit: contain;
+  display: block;
+}
+
+.fltrp-sidebar .brand-en {
+  font-size: 2.6rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin-top: 12px;
+}
+
+.fltrp-sidebar .brand-sub {
+  font-family: var(--font-cn);
+  font-size: 0.82rem;
+  opacity: 0.92;
+  font-weight: 500;
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+.fltrp-sidebar .year-badge {
+  align-self: flex-start;
+  margin-top: auto;
+  padding: 6px 12px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.18);
+  font-size: 0.75rem;
+  font-weight: 600;
+  backdrop-filter: blur(4px);
+}
+
+.fltrp-main {
+  padding: 28px 32px 48px;
+  max-width: 920px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero {
+  margin-bottom: 28px;
+}
+
+.hero h1 {
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  margin-bottom: 6px;
+}
+
+.hero .mascot {
+  display: none;
+}
+
+.grade-section {
+  margin-bottom: 28px;
+  animation: popIn 0.55s var(--ease) both;
+}
+
+.grade-section:nth-child(2) { animation-delay: 0.06s; }
+.grade-section:nth-child(3) { animation-delay: 0.12s; }
+.grade-section:nth-child(4) { animation-delay: 0.18s; }
+.grade-section:nth-child(5) { animation-delay: 0.24s; }
+
+.grade-block {
+  padding: 22px 24px 20px;
+}
+
+.grade-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.grade-badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.12);
+}
+
+.grade-header h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--accent, var(--fltrp-green-dark));
+}
+
+.grade-header span {
+  display: block;
+  font-family: var(--font-cn);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+.book-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.book-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  color: inherit;
+  padding: 14px 16px 14px 20px;
+  border-radius: 16px;
+  background: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 0 rgba(0,0,0,0.04);
+  transition: transform 0.25s var(--ease), box-shadow 0.25s, border-color 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+
+.book-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  background: var(--accent, var(--fltrp-green));
+}
+
+.book-card:nth-child(odd)::before { filter: hue-rotate(-8deg) saturate(1.1); }
+.book-card:nth-child(even)::before { filter: hue-rotate(18deg) saturate(1.05); }
+
+.book-card:hover {
+  transform: translateX(6px);
+  background: #fff;
+  border-color: var(--accent, var(--fltrp-green));
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+}
+
+.book-card .semester {
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 10px;
+  background: var(--accent, var(--fltrp-green));
+  color: #fff;
+  white-space: nowrap;
+}
+
+.book-card h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--accent, var(--fltrp-green-dark));
+}
+
+.book-card .meta {
+  font-family: var(--font-cn);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.book-card .features { display: none; }
+
+.book-card .arrow {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--accent-soft, var(--primary-soft));
+  color: var(--accent, var(--fltrp-green-dark));
+  font-size: 0.9rem;
+  transition: transform 0.25s var(--ease);
+}
+
+.book-card:hover .arrow {
+  transform: scale(1.1);
+  background: var(--accent, var(--fltrp-green));
+  color: #fff;
+}
+
+/* 年级主题色（对应目录页单元色） */
+.grade-3 { --accent: var(--unit-1); --accent-soft: #e0f7fa; }
+.grade-4 { --accent: var(--unit-4); --accent-soft: #fff3e0; }
+.grade-5 { --accent: var(--unit-5); --accent-soft: #e8f5e9; }
+.grade-6 { --accent: var(--unit-3); --accent-soft: #e8eaf6; }
+
+.grade-3 .grade-badge { background: var(--unit-1); }
+.grade-4 .grade-badge { background: var(--unit-4); }
+.grade-5 .grade-badge { background: var(--unit-5); }
+.grade-6 .grade-badge { background: var(--unit-3); }
+
+/* 装饰云朵 */
+.cloud-deco {
+  position: fixed;
+  pointer-events: none;
+  opacity: 0.45;
+  z-index: 0;
+}
+
+.cloud-deco.c1 { top: 12%; right: 8%; font-size: 3rem; animation: float 5s ease-in-out infinite; }
+.cloud-deco.c2 { bottom: 18%; right: 15%; font-size: 2rem; animation: float 6s ease-in-out infinite 1s; }
+
+@media (max-width: 768px) {
+  .fltrp-shell { grid-template-columns: 1fr; }
+  .fltrp-sidebar {
+    height: auto;
+    position: relative;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 20px;
+    min-height: auto;
+  }
+  .course-logo--sidebar {
+    order: -1;
+    margin-right: auto;
+  }
+  .course-logo--sidebar img {
+    height: 28px;
+    max-width: 130px;
+  }
+  .fltrp-sidebar .brand-en { font-size: 2rem; margin-top: 0; }
+  .fltrp-sidebar .year-badge { margin-top: 0; margin-left: auto; }
+  .fltrp-main {
+    padding: 20px max(16px, env(safe-area-inset-right, 16px)) 40px max(16px, env(safe-area-inset-left, 16px));
+    max-width: 100%;
+  }
+  .grade-block { padding: 18px 16px; }
+  .book-card {
+    grid-template-columns: auto 1fr;
+    padding: 12px 14px 12px 18px;
+  }
+  .book-card .arrow { width: 32px; height: 32px; }
+  .cloud-deco { opacity: 0.25; font-size: 2rem; }
+}
+
+@media (max-width: 600px) {
+  .hero h1 { font-size: clamp(1.5rem, 7vw, 1.85rem); }
+  .book-card {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .book-card .semester { justify-self: start; width: fit-content; }
+  .book-card .arrow { display: none; }
+  .book-card:hover { transform: translateY(-2px); }
+  .grade-header h2 { font-size: 1.05rem; }
+  .grade-badge { width: 42px; height: 42px; font-size: 1.15rem; }
+  .cloud-deco { display: none; }
+  .hub-bg { filter: blur(4px); }
+}
+
+@media (max-width: 400px) {
+  .fltrp-sidebar { padding: 16px; }
+  .fltrp-sidebar .brand-en { font-size: 1.65rem; }
+  .fltrp-sidebar .brand-sub { font-size: 0.75rem; }
+  .book-card h3 { font-size: 0.95rem; }
+  .book-card .meta { font-size: 0.75rem; }
+}
+
+@media (min-width: 1280px) {
+  .fltrp-shell {
+    grid-template-columns: 220px 1fr;
+    max-width: 1100px;
+    margin: 0 auto;
+    box-shadow: 0 0 60px rgba(31, 41, 55, 0.06);
+  }
+  .fltrp-main { max-width: 880px; }
+}

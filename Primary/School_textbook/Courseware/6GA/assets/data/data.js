@@ -1,0 +1,3820 @@
+/**
+ * 外研版小学英语六年级上册单词数据
+ * 自动生成，请勿手动编辑
+ */
+const TEXTBOOK_DATA = {
+  "book": {
+    "id": "fltrp-g6s",
+    "name": "外研版六年级上册",
+    "grade": 6,
+    "semester": "上"
+  },
+  "units": [
+    {
+      "id": "module1",
+      "name": "Module 1 · Numbers & Maps",
+      "title": "数字与地图",
+      "words": [
+        {
+          "id": "w1",
+          "word": "more than",
+          "chinese": "超过",
+          "phonemes": [
+            {
+              "symbol": "/m/",
+              "letter": "m"
+            },
+            {
+              "symbol": "/ɔː/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/r/",
+              "letter": "r"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "e"
+            },
+            {
+              "symbol": "",
+              "letter": " "
+            },
+            {
+              "symbol": "/ð/",
+              "letter": "th"
+            },
+            {
+              "symbol": "/æ/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit1/more_than/more_than_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "It's more than twenty thousand kilometres long.",
+              "zh": "它有两万多公里长。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/more_than-textbook/500/300"
+            },
+            {
+              "en": "My grandma is more than sixty years old now.",
+              "zh": "我奶奶现在超过六十岁了。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/more_than-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w2",
+          "word": "thousand",
+          "chinese": "一千",
+          "phonemes": [
+            {
+              "symbol": "/θ/",
+              "letter": "th"
+            },
+            {
+              "symbol": "/aʊ/",
+              "letter": "ou"
+            },
+            {
+              "symbol": "/z/",
+              "letter": "s"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/d/",
+              "letter": "d"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit1/thousand/thousand_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "It's more than twenty thousand kilometres long.",
+              "zh": "它有两万多公里长。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/thousand-textbook/500/300"
+            },
+            {
+              "en": "There are one thousand meters in a kilometre.",
+              "zh": "一公里有一千米。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/thousand-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w3",
+          "word": "kilometre",
+          "chinese": "千米，公里",
+          "phonemes": [
+            {
+              "symbol": "/k/",
+              "letter": "k"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "l"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/m/",
+              "letter": "m"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            },
+            {
+              "symbol": "/r/",
+              "letter": "r"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "e"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit1/kilometre/kilometre_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "It's more than twenty thousand kilometres long.",
+              "zh": "它有两万多公里长。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/kilometre-textbook/500/300"
+            },
+            {
+              "en": "The park is about two kilometres from my home.",
+              "zh": "公园离我家大约两公里远。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/kilometre-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w4",
+          "word": "something",
+          "chinese": "某事物，某种东西",
+          "phonemes": [
+            {
+              "symbol": "/s/",
+              "letter": "s"
+            },
+            {
+              "symbol": "/ʌ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/m/",
+              "letter": "m"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/θ/",
+              "letter": "th"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/ŋ/",
+              "letter": "g"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit1/something/something_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Daming:\t Can you tell me something about New York?",
+              "zh": "你能告诉我一些关于纽约的事情吗？",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/something-textbook/500/300"
+            },
+            {
+              "en": "Can you show me something interesting in your bag?",
+              "zh": "你能给我看你包里有趣的东西吗？",
+              "source": "context",
+              "image": "https://picsum.photos/seed/something-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w5",
+          "word": "million",
+          "chinese": "百万",
+          "phonemes": [
+            {
+              "symbol": "/m/",
+              "letter": "m"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "ll"
+            },
+            {
+              "symbol": "/j/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit1/million/million_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "It has got more than eight million people.",
+              "zh": "它有超过八百万人。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/million-textbook/500/300"
+            },
+            {
+              "en": "Our city has more than one million people living here.",
+              "zh": "我们的城市有超过一百万人住在这里。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/million-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w6",
+          "word": "map",
+          "chinese": "地图",
+          "phonemes": [
+            {
+              "symbol": "/m/",
+              "letter": "m"
+            },
+            {
+              "symbol": "/æ/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/p/",
+              "letter": "p"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit1/map/map_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Look at the map.",
+              "zh": "看这张地图。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/map-textbook/500/300"
+            },
+            {
+              "en": "I use a map to find the way to school.",
+              "zh": "我用地图找到上学的路。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/map-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w7",
+          "word": "right",
+          "chinese": "正确的",
+          "phonemes": [
+            {
+              "symbol": "/r/",
+              "letter": "r"
+            },
+            {
+              "symbol": "/aɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "",
+              "letter": "gh"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit1/right/right_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "The school is on your right.",
+              "zh": "学校在你的右边。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/right-textbook/500/300"
+            },
+            {
+              "en": "Your answer to the maths question is right.",
+              "zh": "你对这道数学题的答案是正确的。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/right-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w8",
+          "word": "country",
+          "chinese": "国家",
+          "phonemes": [
+            {
+              "symbol": "/k/",
+              "letter": "c"
+            },
+            {
+              "symbol": "/ʌ/",
+              "letter": "ou"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            },
+            {
+              "symbol": "/r/",
+              "letter": "r"
+            },
+            {
+              "symbol": "/i/",
+              "letter": "y"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit1/country/country_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "China is a big country.",
+              "zh": "中国是一个大国。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/country-textbook/500/300"
+            },
+            {
+              "en": "China is a big and beautiful country in Asia.",
+              "zh": "中国是亚洲一个又大又美丽的国家。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/country-context/500/300"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "module2",
+      "name": "Module 2 · Chinatown Trip",
+      "title": "唐人街游记",
+      "words": [
+        {
+          "id": "w9",
+          "word": "dancing",
+          "chinese": "跳舞，舞蹈",
+          "phonemes": [
+            {
+              "symbol": "/d/",
+              "letter": "d"
+            },
+            {
+              "symbol": "/ɑː/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/s/",
+              "letter": "c"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/ŋ/",
+              "letter": "g"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit1/dancing/dancing_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "A: There's Chinese dancing.",
+              "zh": "那里有中国舞蹈。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/dancing-textbook/500/300"
+            },
+            {
+              "en": "My sister loves dancing to pop music after school.",
+              "zh": "我妹妹放学后喜欢跟着流行音乐跳舞。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/dancing-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w10",
+          "word": "Chinatown",
+          "chinese": "唐人街，中国城",
+          "phonemes": [
+            {
+              "symbol": "/tʃ/",
+              "letter": "Ch"
+            },
+            {
+              "symbol": "/aɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            },
+            {
+              "symbol": "/aʊ/",
+              "letter": "ow"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit1/Chinatown/Chinatown_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "There's a Chinatown in every big city.",
+              "zh": "每个大城市都有唐人街。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/chinatown-textbook/500/300"
+            },
+            {
+              "en": "We eat delicious dumplings in Chinatown every weekend.",
+              "zh": "我们每个周末在唐人街吃美味的饺子。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/chinatown-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w11",
+          "word": "sometimes",
+          "chinese": "有时",
+          "phonemes": [
+            {
+              "symbol": "/s/",
+              "letter": "s"
+            },
+            {
+              "symbol": "/ʌ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/m/",
+              "letter": "me"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            },
+            {
+              "symbol": "/aɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/mz/",
+              "letter": "mes"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit1/sometimes/sometimes_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "C:  I sometimes read English books.",
+              "zh": "我有时候读英语书。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/sometimes-textbook/500/300"
+            },
+            {
+              "en": "I sometimes walk my dog in the park after dinner.",
+              "zh": "我有时晚饭后去公园遛狗。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/sometimes-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w12",
+          "word": "shop",
+          "chinese": "商店",
+          "phonemes": [
+            {
+              "symbol": "/ʃ/",
+              "letter": "sh"
+            },
+            {
+              "symbol": "/ɒ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/p/",
+              "letter": "p"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit1/shop/shop_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "There are lots of Chinese shops and restaurants there.",
+              "zh": "那里有很多中国商店和餐馆。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/shop-textbook/500/300"
+            },
+            {
+              "en": "There is a small shop near our school selling snacks.",
+              "zh": "我们学校附近有一家卖零食的小商店。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/shop-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w13",
+          "word": "then",
+          "chinese": "既然是这样，那么",
+          "phonemes": [
+            {
+              "symbol": "/ð/",
+              "letter": "th"
+            },
+            {
+              "symbol": "/e/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit1/then/then_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Then ask and answer.",
+              "zh": "然后问一问，答一答。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/then-textbook/500/300"
+            },
+            {
+              "en": "If you finish your homework, then you can watch TV.",
+              "zh": "如果你完成作业，那么你就可以看电视。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/then-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w14",
+          "word": "ah",
+          "chinese": "啊",
+          "phonemes": [
+            {
+              "symbol": "/ɑː/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/h/",
+              "letter": "h"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit1/ah/ah_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Ah, I see the moon!",
+              "zh": "啊，我看到月亮了！",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/ah-textbook/500/300"
+            },
+            {
+              "en": "Ah, I see the beautiful rainbow in the sky!",
+              "zh": "啊，我看到天空中美丽的彩虹了！",
+              "source": "context",
+              "image": "https://picsum.photos/seed/ah-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w15",
+          "word": "strong",
+          "chinese": "坚固的",
+          "phonemes": [
+            {
+              "symbol": "/s/",
+              "letter": "s"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            },
+            {
+              "symbol": "/r/",
+              "letter": "r"
+            },
+            {
+              "symbol": "/ɒ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/ŋ/",
+              "letter": "ng"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit1/strong/strong_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "The Great Wall is strong.",
+              "zh": "长城很坚固。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/strong-textbook/500/300"
+            },
+            {
+              "en": "My dad is very strong and can lift heavy boxes.",
+              "zh": "我爸爸很强壮，能举起重箱子。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/strong-context/500/300"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "module3",
+      "name": "Module 3 · Stamp Hobby",
+      "title": "集邮爱好",
+      "words": [
+        {
+          "id": "w16",
+          "word": "collect",
+          "chinese": "收集",
+          "phonemes": [
+            {
+              "symbol": "/k/",
+              "letter": "c"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "ll"
+            },
+            {
+              "symbol": "/e/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/kt/",
+              "letter": "ct"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit1/collect/collect_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Daming:\t \u0007Do you collect stamps, Simon?",
+              "zh": "西蒙，你收集邮票吗？",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/collect-textbook/500/300"
+            },
+            {
+              "en": "I like to collect seashells on the beach every summer.",
+              "zh": "我喜欢每年夏天在海滩上收集贝壳。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/collect-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w17",
+          "word": "stamp",
+          "chinese": "邮票",
+          "phonemes": [
+            {
+              "symbol": "/s/",
+              "letter": "s"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            },
+            {
+              "symbol": "/æ/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/m/",
+              "letter": "m"
+            },
+            {
+              "symbol": "/p/",
+              "letter": "p"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit1/stamp/stamp_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Daming:\t \u0007Have you got any stamps from China?",
+              "zh": "你有来自中国的邮票吗？",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/stamp-textbook/500/300"
+            },
+            {
+              "en": "This stamp from Japan has a picture of a cherry blossom.",
+              "zh": "这张来自日本的邮票上有樱花的图案。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/stamp-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w18",
+          "word": "hobby",
+          "chinese": "业余爱好",
+          "phonemes": [
+            {
+              "symbol": "/h/",
+              "letter": "h"
+            },
+            {
+              "symbol": "/ɒ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/b/",
+              "letter": "bb"
+            },
+            {
+              "symbol": "/i/",
+              "letter": "y"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit1/hobby/hobby_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Sam:\t Collecting stamps is my hobby.",
+              "zh": "收集邮票是我的爱好。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/hobby-textbook/500/300"
+            },
+            {
+              "en": "Reading books is a wonderful hobby for rainy days.",
+              "zh": "读书是下雨天的一种极好爱好。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/hobby-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w19",
+          "word": "doll",
+          "chinese": "玩具娃娃",
+          "phonemes": [
+            {
+              "symbol": "/d/",
+              "letter": "d"
+            },
+            {
+              "symbol": "/ɒ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "ll"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit1/doll/doll_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Project Unit 1 Do you often play with dolls?",
+              "zh": "项目单元1 你经常玩娃娃吗？",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/doll-textbook/500/300"
+            },
+            {
+              "en": "My little sister sleeps with her favorite doll every night.",
+              "zh": "我妹妹每晚都抱着她最喜欢的玩具娃娃睡觉。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/doll-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w20",
+          "word": "bicycle",
+          "chinese": "自行车",
+          "phonemes": [
+            {
+              "symbol": "/b/",
+              "letter": "b"
+            },
+            {
+              "symbol": "/aɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/s/",
+              "letter": "c"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "y"
+            },
+            {
+              "symbol": "/kl/",
+              "letter": "cl"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "e"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit1/bicycle/bicycle_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "These are some photos of my new bicycle.",
+              "zh": "这些是我新自行车的照片。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/bicycle-textbook/500/300"
+            },
+            {
+              "en": "I ride my bicycle to school every morning with my friend.",
+              "zh": "我每天早上和朋友一起骑自行车上学。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/bicycle-context/500/300"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "module4",
+      "name": "Module 4 · Festivals",
+      "title": "节日文化",
+      "words": [
+        {
+          "id": "w21",
+          "word": "Thanksgiving (Thanksgiving Day)",
+          "chinese": "感恩节 flag    旗；国旗 Flag Day    （美国）国旗制定纪念日 ﬂy    （使）（旗帜）飘扬 special    特殊的，特别的 meal    餐 sound    听起来 football    （美式）橄榄球 moon cake    月饼 the Mid-Autumn Festival    中秋节 the Dragon Boat Festival    端午节 race    比赛，竞赛 *lantern    灯笼 the Lantern Festival    元宵节 hang    悬挂，吊 Module 5 pen friend    笔友 Pleased to meet you!    很高兴见到你！ address    地址 French    法语 age    年龄 story    故事 candy    糖果 Words and Expressions in Each Module66",
+          "phonemes": [
+            {
+              "symbol": "/θ/",
+              "letter": "Th"
+            },
+            {
+              "symbol": "/æ/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/k/",
+              "letter": "k"
+            },
+            {
+              "symbol": "/s/",
+              "letter": "s"
+            },
+            {
+              "symbol": "/ɡ/",
+              "letter": "g"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/v/",
+              "letter": "v"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/ŋ/",
+              "letter": "ng"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit1/Thanksgiving_(Thanksgiving_Day)/Thanksgiving_风格A.png",
+          "sentences": [
+            {
+              "en": "Thanksgiving is my favourite festival.",
+              "zh": "感恩节是我最喜欢的节日。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/thanksgiving_thanksgiving_day-textbook/500/300"
+            },
+            {
+              "en": "We use the word \"Thanksgiving (Thanksgiving Day)\" in our English class.",
+              "zh": "我们在英语课上学习「Thanksgiving (Thanksgiving Day)」（感恩节是我最喜欢的节日。）。",
+              "source": "fallback",
+              "image": "https://picsum.photos/seed/thanksgiving_thanksgiving_day-fallback/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w22",
+          "word": "flag",
+          "chinese": "旗；国旗",
+          "phonemes": [
+            {
+              "symbol": "/fl/",
+              "letter": "fl"
+            },
+            {
+              "symbol": "/æ/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/ɡ/",
+              "letter": "g"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/flag/flag_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Simon:\t \u0007There are flags from all around the world.",
+              "zh": "那里有来自世界各地的旗帜。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/flag-textbook/500/300"
+            },
+            {
+              "en": "The red flag waves in the wind on top of the building.",
+              "zh": "红旗在大楼顶上的风中飘扬。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/flag-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w23",
+          "word": "Flag Day",
+          "chinese": "（美国）国旗制定纪念日",
+          "phonemes": [
+            {
+              "symbol": "/fl/",
+              "letter": "Fl"
+            },
+            {
+              "symbol": "/æ/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/ɡ/",
+              "letter": "g"
+            },
+            {
+              "symbol": "/ /",
+              "letter": " "
+            },
+            {
+              "symbol": "/d/",
+              "letter": "D"
+            },
+            {
+              "symbol": "/eɪ/",
+              "letter": "ay"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/Flag_Day/Flag_Day_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "On Flag Day we fly the flag.",
+              "zh": "国旗制定纪念日那天我们升旗。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/flag_day-textbook/500/300"
+            },
+            {
+              "en": "On Flag Day, we proudly display our national flag at home.",
+              "zh": "在国旗制定纪念日，我们自豪地在家里展示国旗。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/flag_day-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w24",
+          "word": "ﬂy",
+          "chinese": "（使）（旗帜）飘扬",
+          "phonemes": [
+            {
+              "symbol": "/fl/",
+              "letter": "fl"
+            },
+            {
+              "symbol": "/aɪ/",
+              "letter": "y"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/%EF%AC%82y/%EF%AC%82y_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "We fly the flag on Flag Day.",
+              "zh": "国旗制定纪念日那天我们升旗。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/fly-textbook/500/300"
+            },
+            {
+              "en": "Children love to fly colorful kites in the park on windy days.",
+              "zh": "孩子们喜欢在有风的日子里在公园放彩色风筝。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/fly-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w25",
+          "word": "special",
+          "chinese": "特殊的，特别的",
+          "phonemes": [
+            {
+              "symbol": "/sp/",
+              "letter": "sp"
+            },
+            {
+              "symbol": "/e/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/ʃ/",
+              "letter": "c"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "l"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit4/special/special_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "B:\tWe always have a special meal.",
+              "zh": "我们总是吃一顿特别的饭。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/special-textbook/500/300"
+            },
+            {
+              "en": "My grandma made a special cake for my birthday.",
+              "zh": "我奶奶为我的生日做了一个特别的蛋糕。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/special-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w26",
+          "word": "meal",
+          "chinese": "餐",
+          "phonemes": [
+            {
+              "symbol": "/m/",
+              "letter": "m"
+            },
+            {
+              "symbol": "/iː/",
+              "letter": "ea"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "l"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/meal/meal_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "B:\tWe always have a special meal.",
+              "zh": "我们总是吃一顿特别的饭。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/meal-textbook/500/300"
+            },
+            {
+              "en": "We usually have a big meal on New Year's Eve.",
+              "zh": "我们通常在除夕吃一顿大餐。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/meal-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w27",
+          "word": "sound",
+          "chinese": "听起来",
+          "phonemes": [
+            {
+              "symbol": "/s/",
+              "letter": "s"
+            },
+            {
+              "symbol": "/aʊ/",
+              "letter": "ou"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/d/",
+              "letter": "d"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit4/sound/sound_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Daming:\t \u0007That sounds nice.",
+              "zh": "那听起来不错。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/sound-textbook/500/300"
+            },
+            {
+              "en": "The idea of going to the park sounds great.",
+              "zh": "去公园的主意听起来很棒。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/sound-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w28",
+          "word": "football",
+          "chinese": "（美式）橄榄球",
+          "phonemes": [
+            {
+              "symbol": "/f/",
+              "letter": "f"
+            },
+            {
+              "symbol": "/ʊ/",
+              "letter": "oo"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            },
+            {
+              "symbol": "/b/",
+              "letter": "b"
+            },
+            {
+              "symbol": "/ɔː/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "ll"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/football/football_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "He plays football every Saturday.",
+              "zh": "他每个星期六打美式橄榄球。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/football-textbook/500/300"
+            },
+            {
+              "en": "My brother loves to play football with his friends.",
+              "zh": "我哥哥喜欢和他的朋友们玩橄榄球。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/football-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w29",
+          "word": "moon cake",
+          "chinese": "月饼",
+          "phonemes": [
+            {
+              "symbol": "/m/",
+              "letter": "m"
+            },
+            {
+              "symbol": "/uː/",
+              "letter": "oo"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/ /",
+              "letter": " "
+            },
+            {
+              "symbol": "/k/",
+              "letter": "c"
+            },
+            {
+              "symbol": "/eɪ/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/k/",
+              "letter": "k"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "e"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/moon_cake/moon_cake_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "I eat a moon cake with my family.",
+              "zh": "我和家人一起吃月饼。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/moon_cake-textbook/500/300"
+            },
+            {
+              "en": "I like eating moon cakes during the Mid-Autumn Festival.",
+              "zh": "我喜欢在中秋节吃月饼。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/moon_cake-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w30",
+          "word": "the Mid-Autumn Festival",
+          "chinese": "中秋节",
+          "phonemes": [
+            {
+              "symbol": "/ð/",
+              "letter": "th"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/ /",
+              "letter": " "
+            },
+            {
+              "symbol": "/m/",
+              "letter": "M"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/d/",
+              "letter": "d"
+            },
+            {
+              "symbol": "/-/",
+              "letter": "-"
+            },
+            {
+              "symbol": "/ɔː/",
+              "letter": "A"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "u"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "t"
+            },
+            {
+              "symbol": "/m/",
+              "letter": "u"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "m"
+            },
+            {
+              "symbol": "/ /",
+              "letter": "n"
+            },
+            {
+              "symbol": "/f/",
+              "letter": " "
+            },
+            {
+              "symbol": "/e/",
+              "letter": "F"
+            },
+            {
+              "symbol": "/s/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "s"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "t"
+            },
+            {
+              "symbol": "/v/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "v"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "l"
+            }
+          ],
+          "image": "https://picsum.photos/seed/the_mid_autumn_festival/400/300",
+          "sentences": [
+            {
+              "en": "The Mid-Autumn Festival is in autumn.",
+              "zh": "中秋节在秋天。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/the_mid_autumn_festival-textbook/500/300"
+            },
+            {
+              "en": "The Mid-Autumn Festival is a time for family reunion.",
+              "zh": "中秋节是家人团聚的时刻。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/the_mid_autumn_festival-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w31",
+          "word": "the Dragon Boat Festival",
+          "chinese": "端午节",
+          "phonemes": [
+            {
+              "symbol": "/ðə/",
+              "letter": "th"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/ /",
+              "letter": " "
+            },
+            {
+              "symbol": "/d/",
+              "letter": "D"
+            },
+            {
+              "symbol": "/r/",
+              "letter": "r"
+            },
+            {
+              "symbol": "/æ/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/ɡ/",
+              "letter": "g"
+            },
+            {
+              "symbol": "/ɒ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/ /",
+              "letter": " "
+            },
+            {
+              "symbol": "/b/",
+              "letter": "B"
+            },
+            {
+              "symbol": "/əʊ/",
+              "letter": "oa"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            },
+            {
+              "symbol": "/ /",
+              "letter": " "
+            },
+            {
+              "symbol": "/f/",
+              "letter": "F"
+            },
+            {
+              "symbol": "/e/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/s/",
+              "letter": "s"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/v/",
+              "letter": "v"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "l"
+            }
+          ],
+          "image": "https://picsum.photos/seed/the_dragon_boat_festival/400/300",
+          "sentences": [
+            {
+              "en": "We have dragon boat races at the Dragon Boat Festival.",
+              "zh": "端午节我们有赛龙舟。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/the_dragon_boat_festival-textbook/500/300"
+            },
+            {
+              "en": "We eat zongzi at the Dragon Boat Festival every year.",
+              "zh": "我们每年端午节都吃粽子。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/the_dragon_boat_festival-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w32",
+          "word": "race",
+          "chinese": "比赛，竞赛",
+          "phonemes": [
+            {
+              "symbol": "/r/",
+              "letter": "r"
+            },
+            {
+              "symbol": "/eɪ/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/s/",
+              "letter": "ce"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit4/race/race_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "We won the boat race.",
+              "zh": "我们赢得了龙舟比赛。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/race-textbook/500/300"
+            },
+            {
+              "en": "There is a boat race on the river today.",
+              "zh": "今天河上有一场划船比赛。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/race-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w33",
+          "word": "lantern",
+          "chinese": "灯笼",
+          "phonemes": [
+            {
+              "symbol": "/l/",
+              "letter": "l"
+            },
+            {
+              "symbol": "/æ/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "er"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/lantern/lantern_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "My favourite festival is the Lantern Festival.",
+              "zh": "我最喜欢的节日是元宵节。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/lantern-textbook/500/300"
+            },
+            {
+              "en": "She made a red lantern for the Lantern Festival.",
+              "zh": "她为元宵节做了一个红灯笼。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/lantern-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w34",
+          "word": "the Lantern Festival",
+          "chinese": "元宵节",
+          "phonemes": [
+            {
+              "symbol": "/ðə/",
+              "letter": "th"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/ /",
+              "letter": " "
+            },
+            {
+              "symbol": "/l/",
+              "letter": "L"
+            },
+            {
+              "symbol": "/æ/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "er"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/ /",
+              "letter": " "
+            },
+            {
+              "symbol": "/f/",
+              "letter": "F"
+            },
+            {
+              "symbol": "/e/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/s/",
+              "letter": "s"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/v/",
+              "letter": "v"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "l"
+            }
+          ],
+          "image": "https://picsum.photos/seed/the_lantern_festival/400/300",
+          "sentences": [
+            {
+              "en": "We hang lanterns at the Lantern Festival.",
+              "zh": "元宵节我们挂灯笼。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/the_lantern_festival-textbook/500/300"
+            },
+            {
+              "en": "The Lantern Festival marks the end of the Spring Festival.",
+              "zh": "元宵节标志着春节的结束。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/the_lantern_festival-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w35",
+          "word": "hang",
+          "chinese": "悬挂，吊",
+          "phonemes": [
+            {
+              "symbol": "/h/",
+              "letter": "h"
+            },
+            {
+              "symbol": "/æ/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/ŋ/",
+              "letter": "ng"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/hang/hang_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Please hang the lantern here.",
+              "zh": "请把灯笼挂在这里。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/hang-textbook/500/300"
+            },
+            {
+              "en": "We hang colorful lights on the tree at Christmas.",
+              "zh": "圣诞节我们在树上挂彩灯。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/hang-context/500/300"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "module5",
+      "name": "Module 5 · Pen Friends",
+      "title": "笔友交流",
+      "words": [
+        {
+          "id": "w36",
+          "word": "pen friend",
+          "chinese": "笔友",
+          "phonemes": [
+            {
+              "symbol": "/p/",
+              "letter": "p"
+            },
+            {
+              "symbol": "/e/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/ /",
+              "letter": " "
+            },
+            {
+              "symbol": "/fr/",
+              "letter": "fr"
+            },
+            {
+              "symbol": "/e/",
+              "letter": "ie"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/d/",
+              "letter": "d"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit4/pen_friend/pen_friend_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "I've got a Chinese pen friend.",
+              "zh": "我有一位中国笔友。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/pen_friend-textbook/500/300"
+            },
+            {
+              "en": "I write to my pen friend in Australia every month.",
+              "zh": "我每个月给在澳大利亚的笔友写信。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/pen_friend-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w37",
+          "word": "Pleased to meet you!",
+          "chinese": "很高兴见到你！",
+          "phonemes": [
+            {
+              "symbol": "/pl/",
+              "letter": "Pl"
+            },
+            {
+              "symbol": "/iː/",
+              "letter": "ea"
+            },
+            {
+              "symbol": "/z/",
+              "letter": "s"
+            },
+            {
+              "symbol": "/d/",
+              "letter": "ed"
+            },
+            {
+              "symbol": "/ /",
+              "letter": " "
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/ /",
+              "letter": " "
+            },
+            {
+              "symbol": "/m/",
+              "letter": "m"
+            },
+            {
+              "symbol": "/iː/",
+              "letter": "ee"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            },
+            {
+              "symbol": "/ /",
+              "letter": " "
+            },
+            {
+              "symbol": "/j/",
+              "letter": "y"
+            },
+            {
+              "symbol": "/uː/",
+              "letter": "ou"
+            },
+            {
+              "symbol": "",
+              "letter": "!"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit4/Pleased_to_meet_you!/Pleased_to_meet_you!_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Pleased to meet you!",
+              "zh": "很高兴见到你！",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/pleased_to_meet_you-textbook/500/300"
+            },
+            {
+              "en": "I am pleased to meet you at the school party.",
+              "zh": "我很高兴在学校聚会上见到你。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/pleased_to_meet_you-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w38",
+          "word": "address",
+          "chinese": "地址",
+          "phonemes": [
+            {
+              "symbol": "/ə/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/d/",
+              "letter": "dd"
+            },
+            {
+              "symbol": "/r/",
+              "letter": "r"
+            },
+            {
+              "symbol": "/e/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/s/",
+              "letter": "ss"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/address/address_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "This is my address in China.",
+              "zh": "这是我在中国的地址。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/address-textbook/500/300"
+            },
+            {
+              "en": "Please write your address on this paper.",
+              "zh": "请在这张纸上写下你的地址。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/address-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w39",
+          "word": "French",
+          "chinese": "法语",
+          "phonemes": [
+            {
+              "symbol": "/fr/",
+              "letter": "Fr"
+            },
+            {
+              "symbol": "/en/",
+              "letter": "en"
+            },
+            {
+              "symbol": "/tʃ/",
+              "letter": "ch"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/French/French_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "She's got an email in French,                      she can't read it.",
+              "zh": "她收到一封法语的电子邮件，她看不懂。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/french-textbook/500/300"
+            },
+            {
+              "en": "My friend can speak French very well.",
+              "zh": "我的朋友法语说得很好。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/french-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w40",
+          "word": "age",
+          "chinese": "年龄",
+          "phonemes": [
+            {
+              "symbol": "/eɪ/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/dʒ/",
+              "letter": "ge"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/age/age_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "What is your age?",
+              "zh": "你多大了？",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/age-textbook/500/300"
+            },
+            {
+              "en": "What is the age of your little brother?",
+              "zh": "你弟弟多大了？",
+              "source": "context",
+              "image": "https://picsum.photos/seed/age-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w41",
+          "word": "story",
+          "chinese": "故事",
+          "phonemes": [
+            {
+              "symbol": "/st/",
+              "letter": "st"
+            },
+            {
+              "symbol": "/ɔː/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/r/",
+              "letter": "r"
+            },
+            {
+              "symbol": "/i/",
+              "letter": "y"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit4/story/story_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "This is a funny story.",
+              "zh": "这是一个有趣的故事。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/story-textbook/500/300"
+            },
+            {
+              "en": "My grandma told me a funny story last night.",
+              "zh": "昨晚奶奶给我讲了一个有趣的故事。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/story-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w42",
+          "word": "candy",
+          "chinese": "糖果",
+          "phonemes": [
+            {
+              "symbol": "/k/",
+              "letter": "c"
+            },
+            {
+              "symbol": "/æ/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/d/",
+              "letter": "d"
+            },
+            {
+              "symbol": "/i/",
+              "letter": "y"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/candy/candy_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "I love candy too!",
+              "zh": "我也喜欢糖果！",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/candy-textbook/500/300"
+            },
+            {
+              "en": "I bought some candy for my sister today.",
+              "zh": "今天我给我妹妹买了一些糖果。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/candy-context/500/300"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "module6",
+      "name": "Module 6 · World Food",
+      "title": "世界饮食",
+      "words": [
+        {
+          "id": "w43",
+          "word": "world",
+          "chinese": "世界",
+          "phonemes": [
+            {
+              "symbol": "/w/",
+              "letter": "w"
+            },
+            {
+              "symbol": "/ɜː/",
+              "letter": "or"
+            },
+            {
+              "symbol": "/ld/",
+              "letter": "ld"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit1/world/world_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Simon:\t \u0007There are flags from all around the world.",
+              "zh": "那里有来自世界各地的旗帜。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/world-textbook/500/300"
+            },
+            {
+              "en": "I want to travel around the world one day.",
+              "zh": "我希望有一天能环游世界。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/world-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w44",
+          "word": "often",
+          "chinese": "经常",
+          "phonemes": [
+            {
+              "symbol": "/ɒ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/ft/",
+              "letter": "ft"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit1/often/often_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Sam has got a dog                      he often plays with it.",
+              "zh": "萨姆有一只狗，他经常和它玩。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/often-textbook/500/300"
+            },
+            {
+              "en": "I often read books before I go to bed.",
+              "zh": "我经常在睡觉前看书。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/often-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w45",
+          "word": "difﬁcult",
+          "chinese": "困难的",
+          "phonemes": [
+            {
+              "symbol": "/d/",
+              "letter": "d"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/f/",
+              "letter": "ff"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/k/",
+              "letter": "c"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "u"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "l"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit1/dif%EF%AC%81cult/dif%EF%AC%81cult_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Daming:\t \u0007I think that's difficult.",
+              "zh": "我觉得那很难。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/difficult-textbook/500/300"
+            },
+            {
+              "en": "This math problem is very difficult for me.",
+              "zh": "这道数学题对我来说很难。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/difficult-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w46",
+          "word": "knife",
+          "chinese": "餐刀；刀子",
+          "phonemes": [
+            {
+              "symbol": "/n/",
+              "letter": "kn"
+            },
+            {
+              "symbol": "/aɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/f/",
+              "letter": "f"
+            },
+            {
+              "symbol": "",
+              "letter": "e"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit1/knife/knife_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Pass me the knife, please.",
+              "zh": "请把餐刀递给我。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/knife-textbook/500/300"
+            },
+            {
+              "en": "Please use a knife to cut the bread.",
+              "zh": "请用刀子切面包。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/knife-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w47",
+          "word": "fork",
+          "chinese": "餐叉；叉",
+          "phonemes": [
+            {
+              "symbol": "/f/",
+              "letter": "f"
+            },
+            {
+              "symbol": "/ɔː/",
+              "letter": "or"
+            },
+            {
+              "symbol": "/k/",
+              "letter": "k"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit2/fork/fork_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Please pass me the fork.",
+              "zh": "请把餐叉递给我。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/fork-textbook/500/300"
+            },
+            {
+              "en": "He eats noodles with a fork and spoon.",
+              "zh": "他用叉子和勺子吃面条。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/fork-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w48",
+          "word": "chopsticks",
+          "chinese": "（常复）筷子",
+          "phonemes": [
+            {
+              "symbol": "/tʃ/",
+              "letter": "ch"
+            },
+            {
+              "symbol": "/ɒ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/p/",
+              "letter": "p"
+            },
+            {
+              "symbol": "/st/",
+              "letter": "st"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/k/",
+              "letter": "ck"
+            },
+            {
+              "symbol": "/s/",
+              "letter": "s"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit2/chopsticks/chopsticks_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "We use chopsticks to eat noodles.",
+              "zh": "我们用筷子吃面条。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/chopsticks-textbook/500/300"
+            },
+            {
+              "en": "It is hard to use chopsticks at first.",
+              "zh": "一开始用筷子很难。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/chopsticks-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w49",
+          "word": "Japanese",
+          "chinese": "日本的",
+          "phonemes": [
+            {
+              "symbol": "/dʒ/",
+              "letter": "J"
+            },
+            {
+              "symbol": "/æ/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/p/",
+              "letter": "p"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/iː/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/z/",
+              "letter": "s"
+            },
+            {
+              "symbol": "",
+              "letter": "e"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit2/Japanese/Japanese_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "I like Japanese food very much.",
+              "zh": "我非常喜欢日本料理。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/japanese-textbook/500/300"
+            },
+            {
+              "en": "My aunt bought a beautiful Japanese fan in Tokyo.",
+              "zh": "我阿姨在东京买了一把漂亮的日本扇子。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/japanese-context/500/300"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "module7",
+      "name": "Module 7 · Pandas & Snakes",
+      "title": "熊猫与蛇",
+      "words": [
+        {
+          "id": "w50",
+          "word": "believe",
+          "chinese": "相信",
+          "phonemes": [
+            {
+              "symbol": "/b/",
+              "letter": "b"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/liː/",
+              "letter": "lie"
+            },
+            {
+              "symbol": "/v/",
+              "letter": "ve"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit2/believe/believe_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "I don't believe it!",
+              "zh": "我不相信！",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/believe-textbook/500/300"
+            },
+            {
+              "en": "I believe you can finish the homework on time.",
+              "zh": "我相信你能按时完成作业。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/believe-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w51",
+          "word": "snake",
+          "chinese": "蛇",
+          "phonemes": [
+            {
+              "symbol": "/s/",
+              "letter": "s"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/eɪ/",
+              "letter": "a_e"
+            },
+            {
+              "symbol": "/k/",
+              "letter": "k"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit2/snake/snake_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Why does the snake come out of the box?",
+              "zh": "为什么蛇从盒子里出来？",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/snake-textbook/500/300"
+            },
+            {
+              "en": "The snake is sleeping under the big rock.",
+              "zh": "那条蛇正在大石头下面睡觉。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/snake-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w52",
+          "word": "DVD",
+          "chinese": "数字化视频光盘，DVD光盘",
+          "phonemes": [
+            {
+              "symbol": "/diː/",
+              "letter": "D"
+            },
+            {
+              "symbol": "/viː/",
+              "letter": "V"
+            },
+            {
+              "symbol": "/diː/",
+              "letter": "D"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit2/DVD/DVD_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "It is a DVD.",
+              "zh": "这是一张DVD。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/dvd-textbook/500/300"
+            },
+            {
+              "en": "We watched a funny movie on the DVD last night.",
+              "zh": "昨晚我们用DVD看了一部有趣的电影。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/dvd-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w53",
+          "word": "together",
+          "chinese": "一起，共同",
+          "phonemes": [
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/ɡ/",
+              "letter": "g"
+            },
+            {
+              "symbol": "/e/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/ð/",
+              "letter": "th"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "er"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit2/together/together_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "They are watching it together.",
+              "zh": "他们正在一起看。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/together-textbook/500/300"
+            },
+            {
+              "en": "Let's sing the birthday song together for Mom.",
+              "zh": "让我们一起为妈妈唱生日歌。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/together-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w54",
+          "word": "lucky",
+          "chinese": "幸运的",
+          "phonemes": [
+            {
+              "symbol": "/l/",
+              "letter": "l"
+            },
+            {
+              "symbol": "/ʌ/",
+              "letter": "u"
+            },
+            {
+              "symbol": "/k/",
+              "letter": "ck"
+            },
+            {
+              "symbol": "/i/",
+              "letter": "y"
+            }
+          ],
+          "image": "https://picsum.photos/seed/lucky/400/300",
+          "sentences": [
+            {
+              "en": "You are so lucky to find the key.",
+              "zh": "你找到钥匙真是太幸运了。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/lucky-textbook/500/300"
+            },
+            {
+              "en": "I felt lucky to find my lost wallet on the bus.",
+              "zh": "我觉得很幸运，在公交车上找到了丢失的钱包。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/lucky-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w55",
+          "word": "bamboo",
+          "chinese": "竹子",
+          "phonemes": [
+            {
+              "symbol": "/b/",
+              "letter": "b"
+            },
+            {
+              "symbol": "/æ/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/m/",
+              "letter": "m"
+            },
+            {
+              "symbol": "/b/",
+              "letter": "b"
+            },
+            {
+              "symbol": "/uː/",
+              "letter": "oo"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit2/bamboo/bamboo_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Pandas like to eat bamboo leaves.",
+              "zh": "熊猫喜欢吃竹叶。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/bamboo-textbook/500/300"
+            },
+            {
+              "en": "Pandas need fresh bamboo to eat every day.",
+              "zh": "熊猫每天都需要吃新鲜的竹子。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/bamboo-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w56",
+          "word": "its",
+          "chinese": "它的",
+          "phonemes": [
+            {
+              "symbol": "/ɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            },
+            {
+              "symbol": "/s/",
+              "letter": "s"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit2/its/its_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Its flag has got fifty stars.",
+              "zh": "它的国旗上有五十颗星星。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/its-textbook/500/300"
+            },
+            {
+              "en": "The cat is cleaning its paws with its tongue.",
+              "zh": "猫在用舌头清理它的爪子。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/its-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w57",
+          "word": "body",
+          "chinese": "身体",
+          "phonemes": [
+            {
+              "symbol": "/b/",
+              "letter": "b"
+            },
+            {
+              "symbol": "/ɒ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/d/",
+              "letter": "d"
+            },
+            {
+              "symbol": "/i/",
+              "letter": "y"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit2/body/body_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Exercise keeps your body healthy.",
+              "zh": "锻炼能让你的身体保持健康。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/body-textbook/500/300"
+            },
+            {
+              "en": "Regular exercise helps keep your body healthy.",
+              "zh": "定期锻炼有助于保持身体健康。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/body-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w58",
+          "word": "come out of",
+          "chinese": "从……中出来",
+          "phonemes": [
+            {
+              "symbol": "/k/",
+              "letter": "c"
+            },
+            {
+              "symbol": "/ʌ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/m/",
+              "letter": "m"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/aʊ/",
+              "letter": "ou"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/v/",
+              "letter": "f"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit2/come_out_of/come_out_of_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "The snake can come out of the box.",
+              "zh": "蛇能从盒子里出来。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/come_out_of-textbook/500/300"
+            },
+            {
+              "en": "The little rabbit will come out of the hole soon.",
+              "zh": "小兔子很快就会从洞里出来。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/come_out_of-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w59",
+          "word": "flute",
+          "chinese": "笛子",
+          "phonemes": [
+            {
+              "symbol": "/fl/",
+              "letter": "fl"
+            },
+            {
+              "symbol": "/uː/",
+              "letter": "u_e"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit2/flute/flute_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "She can play the flute very well.",
+              "zh": "她笛子吹得很好。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/flute-textbook/500/300"
+            },
+            {
+              "en": "My brother is learning to play the bamboo flute.",
+              "zh": "我哥哥正在学习吹竹笛。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/flute-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w60",
+          "word": "get",
+          "chinese": "变得，变成",
+          "phonemes": [
+            {
+              "symbol": "/ɡ/",
+              "letter": "g"
+            },
+            {
+              "symbol": "/e/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit2/get/get_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "It gets cold in winter here.",
+              "zh": "这里的冬天变得很冷。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/get-textbook/500/300"
+            },
+            {
+              "en": "It will get very cold when the sun goes down.",
+              "zh": "太阳下山时天气会变得很冷。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/get-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w61",
+          "word": "frightened",
+          "chinese": "恐惧的，害怕的",
+          "phonemes": [
+            {
+              "symbol": "/fr/",
+              "letter": "fr"
+            },
+            {
+              "symbol": "/aɪ/",
+              "letter": "igh"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            },
+            {
+              "symbol": "/ən/",
+              "letter": "en"
+            },
+            {
+              "symbol": "/d/",
+              "letter": "ed"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit2/frightened/frightened_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "The little girl felt frightened in the dark.",
+              "zh": "小女孩在黑暗中感到害怕。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/frightened-textbook/500/300"
+            },
+            {
+              "en": "The little girl was frightened by the loud thunder last night.",
+              "zh": "昨晚那个小女孩被响雷吓坏了。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/frightened-context/500/300"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "module8",
+      "name": "Module 8 · Famous Places",
+      "title": "名胜古迹",
+      "words": [
+        {
+          "id": "w62",
+          "word": "long ago",
+          "chinese": "很久以前",
+          "phonemes": [
+            {
+              "symbol": "/l/",
+              "letter": "l"
+            },
+            {
+              "symbol": "/ɒ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/ŋ/",
+              "letter": "ng"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/ɡ/",
+              "letter": "g"
+            },
+            {
+              "symbol": "/əʊ/",
+              "letter": "o"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit2/long_ago/long_ago_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Long ago there was a king.",
+              "zh": "很久以前有一位国王。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/long_ago-textbook/500/300"
+            },
+            {
+              "en": "Long ago, people used candles to light their homes.",
+              "zh": "很久以前，人们用蜡烛照亮他们的家。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/long_ago-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w63",
+          "word": "I’d love to",
+          "chinese": "我很乐意",
+          "phonemes": [
+            {
+              "symbol": "/aɪ/",
+              "letter": "I"
+            },
+            {
+              "symbol": "/d/",
+              "letter": "'d"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "l"
+            },
+            {
+              "symbol": "/ʌ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/v/",
+              "letter": "v"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "o"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit2/I%E2%80%99d_love_to/I%E2%80%99d_love_to_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "I’d love to go to the park with you.",
+              "zh": "我很乐意和你一起去公园。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/i_d_love_to-textbook/500/300"
+            },
+            {
+              "en": "I’d love to go to the park with you this weekend.",
+              "zh": "我很乐意这个周末和你一起去公园。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/i_d_love_to-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w64",
+          "word": "not really",
+          "chinese": "不全是，事实上没有",
+          "phonemes": [
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/ɒ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            },
+            {
+              "symbol": "/r/",
+              "letter": "r"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "ll"
+            },
+            {
+              "symbol": "/i/",
+              "letter": "y"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit2/not_really/not_really_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Do you like snakes? Not really.",
+              "zh": "你喜欢蛇吗？不全是。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/not_really-textbook/500/300"
+            },
+            {
+              "en": "Do you like eating spicy food? Not really, it’s too hot.",
+              "zh": "你喜欢吃辣的食物吗？不全是，太辣了。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/not_really-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w65",
+          "word": "stop",
+          "chinese": "（使）停止",
+          "phonemes": [
+            {
+              "symbol": "/st/",
+              "letter": "st"
+            },
+            {
+              "symbol": "/ɒ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/p/",
+              "letter": "p"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit2/stop/stop_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Please stop running in the hallway.",
+              "zh": "请不要在走廊里跑。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/stop-textbook/500/300"
+            },
+            {
+              "en": "Please stop running in the hallway, it’s dangerous.",
+              "zh": "请停止在走廊里跑，这很危险。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/stop-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w66",
+          "word": "clean",
+          "chinese": "打扫；（使）清洁",
+          "phonemes": [
+            {
+              "symbol": "/kl/",
+              "letter": "cl"
+            },
+            {
+              "symbol": "/iː/",
+              "letter": "ea"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit2/clean/clean_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "A: Do you often clean your room?",
+              "zh": "你经常打扫你的房间吗？",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/clean-textbook/500/300"
+            },
+            {
+              "en": "I help my mom clean the kitchen after dinner every day.",
+              "zh": "每天晚饭后我都帮妈妈打扫厨房。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/clean-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w67",
+          "word": "camera",
+          "chinese": "照相机",
+          "phonemes": [
+            {
+              "symbol": "/k/",
+              "letter": "c"
+            },
+            {
+              "symbol": "/æ/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/m/",
+              "letter": "m"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/r/",
+              "letter": "r"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "a"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit2/camera/camera_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "I took a picture with my new camera.",
+              "zh": "我用新照相机拍了一张照片。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/camera-textbook/500/300"
+            },
+            {
+              "en": "My dad bought a new camera to take photos on our trip.",
+              "zh": "我爸爸买了一个新相机用来在旅行中拍照。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/camera-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w68",
+          "word": "show",
+          "chinese": "把……给（某人）看",
+          "phonemes": [
+            {
+              "symbol": "/ʃ/",
+              "letter": "sh"
+            },
+            {
+              "symbol": "/əʊ/",
+              "letter": "ow"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit2/show/show_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Can you show me your homework?",
+              "zh": "你能把你的作业给我看看吗？",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/show-textbook/500/300"
+            },
+            {
+              "en": "Can you show me your new toy car after class?",
+              "zh": "下课后你能给我看看你的新玩具车吗？",
+              "source": "context",
+              "image": "https://picsum.photos/seed/show-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w69",
+          "word": "never",
+          "chinese": "从不",
+          "phonemes": [
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/e/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/v/",
+              "letter": "v"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "er"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit2/never/never_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "I never read English books.",
+              "zh": "我从不读英语书。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/never-textbook/500/300"
+            },
+            {
+              "en": "I never forget to brush my teeth before going to bed.",
+              "zh": "我从不忘记睡前刷牙。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/never-context/500/300"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "module9",
+      "name": "Module 9 · Visit the UN",
+      "title": "联合国参观",
+      "words": [
+        {
+          "id": "w70",
+          "word": "around",
+          "chinese": "在四周，到处",
+          "phonemes": [
+            {
+              "symbol": "/ə/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/r/",
+              "letter": "r"
+            },
+            {
+              "symbol": "/aʊ/",
+              "letter": "ou"
+            },
+            {
+              "symbol": "/nd/",
+              "letter": "nd"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit2/around/around_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Simon:\t \u0007There are flags from all around the world.",
+              "zh": "这里有来自世界各地的旗帜。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/around-textbook/500/300"
+            },
+            {
+              "en": "There are many beautiful flowers around our school garden.",
+              "zh": "我们学校花园四周有很多美丽的花。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/around-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w71",
+          "word": "all around",
+          "chinese": "到处，遍及",
+          "phonemes": [
+            {
+              "symbol": "/ɔː/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "ll"
+            },
+            {
+              "symbol": "",
+              "letter": " "
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/r/",
+              "letter": "r"
+            },
+            {
+              "symbol": "/aʊ/",
+              "letter": "ou"
+            },
+            {
+              "symbol": "/nd/",
+              "letter": "nd"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit2/all_around/all_around_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "There are flags all around the building.",
+              "zh": "大楼四周都是旗帜。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/all_around-textbook/500/300"
+            },
+            {
+              "en": "We saw colorful balloons all around the festival square.",
+              "zh": "我们在节日广场到处都看到彩色气球。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/all_around-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w72",
+          "word": "member state",
+          "chinese": "成员国",
+          "phonemes": [
+            {
+              "symbol": "/m/",
+              "letter": "m"
+            },
+            {
+              "symbol": "/e/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/m/",
+              "letter": "mb"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "er"
+            },
+            {
+              "symbol": "",
+              "letter": " "
+            },
+            {
+              "symbol": "/st/",
+              "letter": "st"
+            },
+            {
+              "symbol": "/eɪ/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "e"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/member_state/member_state_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "China is a member state of the UN.",
+              "zh": "中国是联合国成员国。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/member_state-textbook/500/300"
+            },
+            {
+              "en": "Japan is a member state of the United Nations.",
+              "zh": "日本是联合国的一个成员国。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/member_state-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w73",
+          "word": "inside",
+          "chinese": "向室内，向里面",
+          "phonemes": [
+            {
+              "symbol": "/ɪn/",
+              "letter": "in"
+            },
+            {
+              "symbol": "/s/",
+              "letter": "s"
+            },
+            {
+              "symbol": "/aɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/d/",
+              "letter": "de"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/inside/inside_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Simon's dad:\t\u0007Do you want to go inside?",
+              "zh": "你想进去吗？",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/inside-textbook/500/300"
+            },
+            {
+              "en": "Please come inside the house, it is raining outside.",
+              "zh": "请到房子里来，外面在下雨。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/inside-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w74",
+          "word": "should",
+          "chinese": "应该",
+          "phonemes": [
+            {
+              "symbol": "/ʃ/",
+              "letter": "sh"
+            },
+            {
+              "symbol": "/ʊ/",
+              "letter": "ou"
+            },
+            {
+              "symbol": "/ld/",
+              "letter": "ld"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/should/should_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "I think we should",
+              "zh": "我觉得我们应该",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/should-textbook/500/300"
+            },
+            {
+              "en": "You should brush your teeth every morning.",
+              "zh": "你应该每天早上刷牙。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/should-context/500/300"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "module10",
+      "name": "Module 10 · Library Rules",
+      "title": "图书馆规则",
+      "words": [
+        {
+          "id": "w75",
+          "word": "line",
+          "chinese": "（等候的）长队，队列",
+          "phonemes": [
+            {
+              "symbol": "/l/",
+              "letter": "l"
+            },
+            {
+              "symbol": "/aɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "ne"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/line/line_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Please come here and    stand  in      line.",
+              "zh": "请过来排队。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/line-textbook/500/300"
+            },
+            {
+              "en": "There is a long line at the supermarket.",
+              "zh": "超市里排着一条长队。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/line-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w76",
+          "word": "stand in line",
+          "chinese": "排队",
+          "phonemes": [
+            {
+              "symbol": "/st/",
+              "letter": "st"
+            },
+            {
+              "symbol": "/æ/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/nd/",
+              "letter": "nd"
+            },
+            {
+              "symbol": "",
+              "letter": " "
+            },
+            {
+              "symbol": "/ɪn/",
+              "letter": "in"
+            },
+            {
+              "symbol": "",
+              "letter": " "
+            },
+            {
+              "symbol": "/l/",
+              "letter": "l"
+            },
+            {
+              "symbol": "/aɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "ne"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/stand_in_line/stand_in_line_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Please stand in line.",
+              "zh": "请排队。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/stand_in_line-textbook/500/300"
+            },
+            {
+              "en": "We must stand in line to buy tickets.",
+              "zh": "我们必须排队买票。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/stand_in_line-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w77",
+          "word": "close",
+          "chinese": "关门，关闭",
+          "phonemes": [
+            {
+              "symbol": "/kl/",
+              "letter": "cl"
+            },
+            {
+              "symbol": "/əʊ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/z/",
+              "letter": "se"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/close/close_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "The library closes at five.",
+              "zh": "图书馆五点关门。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/close-textbook/500/300"
+            },
+            {
+              "en": "Please close the door when you leave.",
+              "zh": "你离开时请关上门。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/close-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w78",
+          "word": "librarian",
+          "chinese": "图书馆管理员",
+          "phonemes": [
+            {
+              "symbol": "/l/",
+              "letter": "l"
+            },
+            {
+              "symbol": "/aɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/br/",
+              "letter": "br"
+            },
+            {
+              "symbol": "/eə/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/r/",
+              "letter": "r"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/ən/",
+              "letter": "an"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/librarian/librarian_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "The librarian helped me find a book.",
+              "zh": "图书馆管理员帮我找到了一本书。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/librarian-textbook/500/300"
+            },
+            {
+              "en": "The librarian helped me find a book.",
+              "zh": "图书馆管理员帮我找到了一本书。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/librarian-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w79",
+          "word": "rule",
+          "chinese": "规定，规章",
+          "phonemes": [
+            {
+              "symbol": "/r/",
+              "letter": "r"
+            },
+            {
+              "symbol": "/uː/",
+              "letter": "u"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "le"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/rule/rule_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Old Librarian:\t \u0007Look at the library rules.",
+              "zh": "看看图书馆的规则。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/rule-textbook/500/300"
+            },
+            {
+              "en": "One rule is to keep the library clean.",
+              "zh": "一条规定是保持图书馆干净。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/rule-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w80",
+          "word": "quiet",
+          "chinese": "安静的",
+          "phonemes": [
+            {
+              "symbol": "/kw/",
+              "letter": "qu"
+            },
+            {
+              "symbol": "/aɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/quiet/quiet_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Old Librarian:\t Please be quiet.",
+              "zh": "请安静。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/quiet-textbook/500/300"
+            },
+            {
+              "en": "Please be quiet in the library.",
+              "zh": "在图书馆里请保持安静。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/quiet-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w81",
+          "word": "problem",
+          "chinese": "麻烦，困难，问题",
+          "phonemes": [
+            {
+              "symbol": "/p/",
+              "letter": "p"
+            },
+            {
+              "symbol": "/r/",
+              "letter": "r"
+            },
+            {
+              "symbol": "/ɒ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/b/",
+              "letter": "b"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "l"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/m/",
+              "letter": "m"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/problem/problem_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "I have a problem with my math test.",
+              "zh": "我的数学考试遇到了一个困难。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/problem-textbook/500/300"
+            },
+            {
+              "en": "I have a problem with my homework.",
+              "zh": "我的家庭作业遇到了问题。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/problem-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w82",
+          "word": "No problem.",
+          "chinese": "没问题。",
+          "phonemes": [
+            {
+              "symbol": "/n/",
+              "letter": "N"
+            },
+            {
+              "symbol": "/əʊ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/ /",
+              "letter": " "
+            },
+            {
+              "symbol": "/p/",
+              "letter": "p"
+            },
+            {
+              "symbol": "/r/",
+              "letter": "r"
+            },
+            {
+              "symbol": "/ɒ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/b/",
+              "letter": "b"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "l"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/m/",
+              "letter": "m"
+            },
+            {
+              "symbol": "/./",
+              "letter": "."
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/No_problem/No_problem_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Can you help me? No problem.",
+              "zh": "你能帮我吗？没问题。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/no_problem-textbook/500/300"
+            },
+            {
+              "en": "Can you help me? No problem.",
+              "zh": "你能帮我吗？没问题。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/no_problem-context/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w83",
+          "word": "cross",
+          "chinese": "穿过（马路等）；渡过（河）",
+          "phonemes": [
+            {
+              "symbol": "/k/",
+              "letter": "c"
+            },
+            {
+              "symbol": "/r/",
+              "letter": "r"
+            },
+            {
+              "symbol": "/ɒ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/s/",
+              "letter": "ss"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/cross/cross_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Please don't cross.",
+              "zh": "请不要横穿马路。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/cross-textbook/500/300"
+            },
+            {
+              "en": "Look both ways before you cross the street.",
+              "zh": "过马路前要左右看看。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/cross-context/500/300"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+};
+
+if (typeof module !== 'undefined') module.exports = TEXTBOOK_DATA;
