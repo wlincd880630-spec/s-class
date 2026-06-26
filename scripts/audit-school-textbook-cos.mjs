@@ -4,25 +4,35 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
-const CW = path.join(ROOT, "Primary/School_textbook/Courseware");
+const STB = path.join(ROOT, "Primary/School_textbook");
+const CW = path.join(STB, "Courseware");
 const COS = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/";
 const AUDIO_COS = `${COS}Primary/School_textbook/Courseware/audio/`;
 
-function walk(dir, acc = []) {
+function walkHtml(dir, acc = []) {
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
     const p = path.join(dir, e.name);
-    if (e.isDirectory()) walk(p, acc);
-    else if (/\.(html|js)$/i.test(e.name)) acc.push(p);
+    if (e.isDirectory()) walkHtml(p, acc);
+    else if (/\.html$/i.test(e.name)) acc.push(p);
   }
   return acc;
 }
 
+const htmlFiles = walkHtml(STB);
+
 const issues = [];
-const htmlFiles = walk(CW).filter((f) => f.endsWith(".html"));
-const dataFiles = walk(CW).filter((f) => f.endsWith("data.js"));
+const dataFiles = [];
+function walkData(dir) {
+  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    const p = path.join(dir, e.name);
+    if (e.isDirectory()) walkData(p);
+    else if (e.name === "data.js") dataFiles.push(p);
+  }
+}
+walkData(CW);
 
 for (const fp of htmlFiles) {
-  const rel = path.relative(CW, fp).replace(/\\/g, "/");
+  const rel = path.relative(STB, fp).replace(/\\/g, "/");
   const s = fs.readFileSync(fp, "utf8");
   const needsAudio = s.includes('src="assets/js/utils.js"') || s.includes("speakText");
 
@@ -45,7 +55,7 @@ for (const fp of htmlFiles) {
   }
   const imgs = [...s.matchAll(/<img[^>]+src="([^"]+)"/g)].map((m) => m[1]);
   for (const src of imgs) {
-    if (src && !src.startsWith("http") && !src.startsWith("data:") && src !== "") {
+    if (src && !src.startsWith("http") && !src.startsWith("data:") && !src.includes("${") && src !== "") {
       issues.push({ file: rel, type: "html-img-non-cos", sample: src });
     }
   }

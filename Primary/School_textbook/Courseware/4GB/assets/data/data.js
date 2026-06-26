@@ -219,68 +219,6 @@ const TEXTBOOK_DATA = {
         },
         {
           "id": "w6",
-          "word": "police officer",
-          "chinese": "警察，警官",
-          "phonemes": [
-            {
-              "symbol": "/p/",
-              "letter": "p"
-            },
-            {
-              "symbol": "/ə/",
-              "letter": "o"
-            },
-            {
-              "symbol": "/l/",
-              "letter": "l"
-            },
-            {
-              "symbol": "/iː/",
-              "letter": "i"
-            },
-            {
-              "symbol": "/s/",
-              "letter": "ce"
-            },
-            {
-              "symbol": "/ɒ/",
-              "letter": "o"
-            },
-            {
-              "symbol": "/f/",
-              "letter": "ff"
-            },
-            {
-              "symbol": "/ɪ/",
-              "letter": "i"
-            },
-            {
-              "symbol": "/s/",
-              "letter": "c"
-            },
-            {
-              "symbol": "/ə/",
-              "letter": "er"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/police_officer/police_officer_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "A police officer helps keep the city safe.",
-              "zh": "警察帮助维护城市安全。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/police_officer/textbook.png"
-            },
-            {
-              "en": "A police officer stopped the car to check the driver's license.",
-              "zh": "一位警察拦下汽车检查司机的驾照。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/police_officer/context.png"
-            }
-          ]
-        },
-        {
-          "id": "w7",
           "word": "station",
           "chinese": "车站",
           "phonemes": [
@@ -314,519 +252,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w8",
-          "word": "police station",
-          "chinese": "警察（分）局，派出所",
-          "phonemes": [
-            {
-              "symbol": "/p/",
-              "letter": "p"
-            },
-            {
-              "symbol": "/ə/",
-              "letter": "o"
-            },
-            {
-              "symbol": "/l/",
-              "letter": "l"
-            },
-            {
-              "symbol": "/iː/",
-              "letter": "i"
-            },
-            {
-              "symbol": "/s/",
-              "letter": "ce"
-            },
-            {
-              "symbol": "/st/",
-              "letter": "st"
-            },
-            {
-              "symbol": "/eɪ/",
-              "letter": "a"
-            },
-            {
-              "symbol": "/ʃən/",
-              "letter": "tion"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/police_station/police_station_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "I want to work at a police station.",
-              "zh": "我想在警察局工作。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/police_station/textbook.png"
-            },
-            {
-              "en": "The man went to the police station to report his lost wallet.",
-              "zh": "那名男子去警察局报告他丢失的钱包。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/police_station/context.png"
-            }
-          ]
-        },
-        {
-          "id": "w9",
-          "word": "worker",
-          "chinese": "工人",
-          "phonemes": [
-            {
-              "symbol": "/w/",
-              "letter": "w"
-            },
-            {
-              "symbol": "/ɜː/",
-              "letter": "or"
-            },
-            {
-              "symbol": "/k/",
-              "letter": "k"
-            },
-            {
-              "symbol": "/ə/",
-              "letter": "er"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/worker/worker_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "What does he do? He's a worker.",
-              "zh": "他是做什么的？他是一名工人。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/worker/textbook.png"
-            },
-            {
-              "en": "My uncle is a worker who builds houses in the city.",
-              "zh": "我的叔叔是一名工人在城里建造房屋。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/worker/context.png"
-            }
-          ]
-        },
-        {
-          "id": "w10",
-          "word": "aunt",
-          "chinese": "姑母；姨母",
-          "phonemes": [
-            {
-              "symbol": "/ɑː/",
-              "letter": "au"
-            },
-            {
-              "symbol": "/n/",
-              "letter": "n"
-            },
-            {
-              "symbol": "/t/",
-              "letter": "t"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/aunt/aunt_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "What does your aunt do?",
-              "zh": "你姑姑/阿姨是做什么工作的？",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/aunt/textbook.png"
-            },
-            {
-              "en": "My aunt bakes delicious cookies every Sunday afternoon.",
-              "zh": "我的姑母每个周日下午都会烤美味的饼干。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/aunt/context.png"
-            }
-          ]
-        },
-        {
-          "id": "w11",
-          "word": "night",
-          "chinese": "夜晚，夜间",
-          "phonemes": [
-            {
-              "symbol": "/n/",
-              "letter": "n"
-            },
-            {
-              "symbol": "/aɪ/",
-              "letter": "igh"
-            },
-            {
-              "symbol": "/t/",
-              "letter": "t"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/night/night_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Yes, I come out at night.",
-              "zh": "是的，我在夜间出来。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/night/textbook.png"
-            },
-            {
-              "en": "We saw many bright stars in the sky last night.",
-              "zh": "昨晚我们看到了天空中许多明亮的星星。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/night/context.png"
-            }
-          ]
-        },
-        {
-          "id": "w12",
-          "word": "owl",
-          "chinese": "猫头鹰",
-          "phonemes": [
-            {
-              "symbol": "/aʊ/",
-              "letter": "ow"
-            },
-            {
-              "symbol": "/l/",
-              "letter": "l"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/owl/owl_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Oh, a night owl!",
-              "zh": "哦，一只夜猫子！",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/owl/textbook.png"
-            },
-            {
-              "en": "The owl hunts for mice and insects in the dark night.",
-              "zh": "猫头鹰在黑暗的夜晚捕食老鼠和昆虫。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/owl/context.png"
-            }
-          ]
-        },
-        {
-          "id": "w13",
-          "word": "night owl",
-          "chinese": "夜猫子，喜欢熬夜的人",
-          "phonemes": [
-            {
-              "symbol": "/n/",
-              "letter": "n"
-            },
-            {
-              "symbol": "/aɪ/",
-              "letter": "igh"
-            },
-            {
-              "symbol": "/t/",
-              "letter": "t"
-            },
-            {
-              "symbol": "/aʊ/",
-              "letter": "ow"
-            },
-            {
-              "symbol": "/l/",
-              "letter": "l"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/night_owl/night_owl_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "My dad is a night owl and reads late.",
-              "zh": "我爸爸是个夜猫子，读书到很晚。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/night_owl/textbook.png"
-            },
-            {
-              "en": "My sister is a night owl and stays up late reading books.",
-              "zh": "我姐姐是个夜猫子，总是熬夜看书。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/night_owl/context.png"
-            }
-          ]
-        },
-        {
-          "id": "w14",
-          "word": "driver",
-          "chinese": "司机，驾驶员",
-          "phonemes": [
-            {
-              "symbol": "/dr/",
-              "letter": "dr"
-            },
-            {
-              "symbol": "/aɪ/",
-              "letter": "i"
-            },
-            {
-              "symbol": "/v/",
-              "letter": "v"
-            },
-            {
-              "symbol": "/ə/",
-              "letter": "er"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/driver/driver_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Bus drivers and taxi drivers work at night.",
-              "zh": "公交车司机和出租车司机在夜间工作。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/driver/textbook.png"
-            },
-            {
-              "en": "The bus driver stops at every station to let people get on.",
-              "zh": "公交车司机在每个站停下来让乘客上车。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/driver/context.png"
-            }
-          ]
-        },
-        {
-          "id": "w15",
-          "word": "taxi",
-          "chinese": "出租车，计程车",
-          "phonemes": [
-            {
-              "symbol": "/t/",
-              "letter": "t"
-            },
-            {
-              "symbol": "/æ/",
-              "letter": "a"
-            },
-            {
-              "symbol": "/ks/",
-              "letter": "x"
-            },
-            {
-              "symbol": "/i/",
-              "letter": "i"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/taxi/taxi_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Bus drivers and taxi drivers work at night.",
-              "zh": "公交车司机和出租车司机在夜间工作。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/taxi/textbook.png"
-            },
-            {
-              "en": "We took a yellow taxi to the airport this morning.",
-              "zh": "今天早上我们乘了一辆黄色出租车去机场。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/taxi/context.png"
-            }
-          ]
-        },
-        {
-          "id": "w16",
-          "word": "safe",
-          "chinese": "安全的，没有危险的",
-          "phonemes": [
-            {
-              "symbol": "/s/",
-              "letter": "s"
-            },
-            {
-              "symbol": "/eɪ/",
-              "letter": "a"
-            },
-            {
-              "symbol": "/f/",
-              "letter": "fe"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/safe/safe_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "They keep the city safe.",
-              "zh": "他们守护城市的安全。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/safe/textbook.png"
-            },
-            {
-              "en": "Always wear a helmet when riding a bike to stay safe.",
-              "zh": "骑自行车时总是戴头盔以保持安全。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/safe/context.png"
-            }
-          ]
-        },
-        {
-          "id": "w17",
-          "word": "nurse",
-          "chinese": "护士",
-          "phonemes": [
-            {
-              "symbol": "/n/",
-              "letter": "n"
-            },
-            {
-              "symbol": "/ɜː/",
-              "letter": "ur"
-            },
-            {
-              "symbol": "/s/",
-              "letter": "se"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/nurse/nurse_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Doctors and nurses are busy at night.",
-              "zh": "医生和护士夜间很忙。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/nurse/textbook.png"
-            },
-            {
-              "en": "The nurse gave me a bandage after I fell down.",
-              "zh": "我摔倒后，护士给了我一个创可贴。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/nurse/context.png"
-            }
-          ]
-        },
-        {
-          "id": "w18",
-          "word": "light",
-          "chinese": "灯；光线",
-          "phonemes": [
-            {
-              "symbol": "/l/",
-              "letter": "l"
-            },
-            {
-              "symbol": "/aɪ/",
-              "letter": "igh"
-            },
-            {
-              "symbol": "/t/",
-              "letter": "t"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/light/light_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "They light up the night for others.",
-              "zh": "他们为其他人照亮夜晚。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/light/textbook.png"
-            },
-            {
-              "en": "Turn on the light so you can see your homework clearly.",
-              "zh": "打开灯，这样你就能看清楚你的作业了。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/light/context.png"
-            }
-          ]
-        },
-        {
-          "id": "w19",
-          "word": "uncle",
-          "chinese": "伯父；叔父；舅父；姑父；姨父",
-          "phonemes": [
-            {
-              "symbol": "/ʌ/",
-              "letter": "u"
-            },
-            {
-              "symbol": "/n/",
-              "letter": "n"
-            },
-            {
-              "symbol": "/k/",
-              "letter": "c"
-            },
-            {
-              "symbol": "/l/",
-              "letter": "le"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/uncle/uncle_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Uncle Jake likes to bake.",
-              "zh": "杰克叔叔喜欢烘焙。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/uncle/textbook.png"
-            },
-            {
-              "en": "My uncle lives in a small town and visits us every summer.",
-              "zh": "我叔叔住在一个小镇上，每年夏天来看我们。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/uncle/context.png"
-            }
-          ]
-        },
-        {
-          "id": "w20",
-          "word": "bake",
-          "chinese": "烘，烤，焙",
-          "phonemes": [
-            {
-              "symbol": "/b/",
-              "letter": "b"
-            },
-            {
-              "symbol": "/eɪ/",
-              "letter": "a"
-            },
-            {
-              "symbol": "/k/",
-              "letter": "ke"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/bake/bake_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Uncle Jake likes to bake.",
-              "zh": "杰克叔叔喜欢烘焙。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/bake/textbook.png"
-            },
-            {
-              "en": "My mom and I bake cookies together every Sunday afternoon.",
-              "zh": "我和妈妈每个周日下午一起烤饼干。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/bake/context.png"
-            }
-          ]
-        },
-        {
-          "id": "w21",
-          "word": "bee",
-          "chinese": "蜜蜂",
-          "phonemes": [
-            {
-              "symbol": "/b/",
-              "letter": "b"
-            },
-            {
-              "symbol": "/iː/",
-              "letter": "ee"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/bee/bee_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "He is like a bee, very busy.",
-              "zh": "他像一只蜜蜂，非常忙碌。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/bee/textbook.png"
-            },
-            {
-              "en": "A bee landed on the flower and collected some nectar.",
-              "zh": "一只蜜蜂落在花上，采了一些花蜜。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/bee/context.png"
-            }
-          ]
-        },
-        {
-          "id": "w22",
+          "id": "w7",
           "word": "often",
           "chinese": "经常，时常，多次",
           "phonemes": [
@@ -868,7 +294,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w23",
+          "id": "w8",
           "word": "field",
           "chinese": "田地，田野",
           "phonemes": [
@@ -906,7 +332,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w24",
+          "id": "w9",
           "word": "painter",
           "chinese": "画家",
           "phonemes": [
@@ -948,7 +374,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w25",
+          "id": "w10",
           "word": "use",
           "chinese": "用，使用",
           "phonemes": [
@@ -978,7 +404,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w26",
+          "id": "w11",
           "word": "brush",
           "chinese": "刷子；毛刷",
           "phonemes": [
@@ -1012,7 +438,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w27",
+          "id": "w12",
           "word": "scientist",
           "chinese": "科学家",
           "phonemes": [
@@ -1062,7 +488,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w28",
+          "id": "w13",
           "word": "writer",
           "chinese": "作家；作者",
           "phonemes": [
@@ -1100,7 +526,465 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w29",
+          "id": "w14",
+          "word": "worker",
+          "chinese": "工人",
+          "phonemes": [
+            {
+              "symbol": "/w/",
+              "letter": "w"
+            },
+            {
+              "symbol": "/ɜː/",
+              "letter": "or"
+            },
+            {
+              "symbol": "/k/",
+              "letter": "k"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "er"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/worker/worker_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "What does he do? He's a worker.",
+              "zh": "他是做什么的？他是一名工人。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/worker/textbook.png"
+            },
+            {
+              "en": "My uncle is a worker who builds houses in the city.",
+              "zh": "我的叔叔是一名工人在城里建造房屋。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/worker/context.png"
+            }
+          ]
+        },
+        {
+          "id": "w15",
+          "word": "aunt",
+          "chinese": "姑母；姨母",
+          "phonemes": [
+            {
+              "symbol": "/ɑː/",
+              "letter": "au"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/aunt/aunt_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "What does your aunt do?",
+              "zh": "你姑姑/阿姨是做什么工作的？",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/aunt/textbook.png"
+            },
+            {
+              "en": "My aunt bakes delicious cookies every Sunday afternoon.",
+              "zh": "我的姑母每个周日下午都会烤美味的饼干。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/aunt/context.png"
+            }
+          ]
+        },
+        {
+          "id": "w16",
+          "word": "night",
+          "chinese": "夜晚，夜间",
+          "phonemes": [
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/aɪ/",
+              "letter": "igh"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/night/night_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Yes, I come out at night.",
+              "zh": "是的，我在夜间出来。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/night/textbook.png"
+            },
+            {
+              "en": "We saw many bright stars in the sky last night.",
+              "zh": "昨晚我们看到了天空中许多明亮的星星。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/night/context.png"
+            }
+          ]
+        },
+        {
+          "id": "w17",
+          "word": "owl",
+          "chinese": "猫头鹰",
+          "phonemes": [
+            {
+              "symbol": "/aʊ/",
+              "letter": "ow"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "l"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/owl/owl_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Oh, a night owl!",
+              "zh": "哦，一只夜猫子！",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/owl/textbook.png"
+            },
+            {
+              "en": "The owl hunts for mice and insects in the dark night.",
+              "zh": "猫头鹰在黑暗的夜晚捕食老鼠和昆虫。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/owl/context.png"
+            }
+          ]
+        },
+        {
+          "id": "w18",
+          "word": "night owl",
+          "chinese": "夜猫子，喜欢熬夜的人",
+          "phonemes": [
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/aɪ/",
+              "letter": "igh"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            },
+            {
+              "symbol": "/aʊ/",
+              "letter": "ow"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "l"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/night_owl/night_owl_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "My dad is a night owl and reads late.",
+              "zh": "我爸爸是个夜猫子，读书到很晚。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/night_owl/textbook.png"
+            },
+            {
+              "en": "My sister is a night owl and stays up late reading books.",
+              "zh": "我姐姐是个夜猫子，总是熬夜看书。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/night_owl/context.png"
+            }
+          ]
+        },
+        {
+          "id": "w19",
+          "word": "driver",
+          "chinese": "司机，驾驶员",
+          "phonemes": [
+            {
+              "symbol": "/dr/",
+              "letter": "dr"
+            },
+            {
+              "symbol": "/aɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/v/",
+              "letter": "v"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "er"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/driver/driver_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Bus drivers and taxi drivers work at night.",
+              "zh": "公交车司机和出租车司机在夜间工作。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/driver/textbook.png"
+            },
+            {
+              "en": "The bus driver stops at every station to let people get on.",
+              "zh": "公交车司机在每个站停下来让乘客上车。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/driver/context.png"
+            }
+          ]
+        },
+        {
+          "id": "w20",
+          "word": "taxi",
+          "chinese": "出租车，计程车",
+          "phonemes": [
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            },
+            {
+              "symbol": "/æ/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/ks/",
+              "letter": "x"
+            },
+            {
+              "symbol": "/i/",
+              "letter": "i"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/taxi/taxi_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Bus drivers and taxi drivers work at night.",
+              "zh": "公交车司机和出租车司机在夜间工作。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/taxi/textbook.png"
+            },
+            {
+              "en": "We took a yellow taxi to the airport this morning.",
+              "zh": "今天早上我们乘了一辆黄色出租车去机场。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/taxi/context.png"
+            }
+          ]
+        },
+        {
+          "id": "w21",
+          "word": "safe",
+          "chinese": "安全的，没有危险的",
+          "phonemes": [
+            {
+              "symbol": "/s/",
+              "letter": "s"
+            },
+            {
+              "symbol": "/eɪ/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/f/",
+              "letter": "fe"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/safe/safe_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "They keep the city safe.",
+              "zh": "他们守护城市的安全。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/safe/textbook.png"
+            },
+            {
+              "en": "Always wear a helmet when riding a bike to stay safe.",
+              "zh": "骑自行车时总是戴头盔以保持安全。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/safe/context.png"
+            }
+          ]
+        },
+        {
+          "id": "w22",
+          "word": "nurse",
+          "chinese": "护士",
+          "phonemes": [
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/ɜː/",
+              "letter": "ur"
+            },
+            {
+              "symbol": "/s/",
+              "letter": "se"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/nurse/nurse_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Doctors and nurses are busy at night.",
+              "zh": "医生和护士夜间很忙。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/nurse/textbook.png"
+            },
+            {
+              "en": "The nurse gave me a bandage after I fell down.",
+              "zh": "我摔倒后，护士给了我一个创可贴。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/nurse/context.png"
+            }
+          ]
+        },
+        {
+          "id": "w23",
+          "word": "light",
+          "chinese": "灯；光线",
+          "phonemes": [
+            {
+              "symbol": "/l/",
+              "letter": "l"
+            },
+            {
+              "symbol": "/aɪ/",
+              "letter": "igh"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/light/light_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "They light up the night for others.",
+              "zh": "他们为其他人照亮夜晚。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/light/textbook.png"
+            },
+            {
+              "en": "Turn on the light so you can see your homework clearly.",
+              "zh": "打开灯，这样你就能看清楚你的作业了。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/light/context.png"
+            }
+          ]
+        },
+        {
+          "id": "w24",
+          "word": "uncle",
+          "chinese": "伯父；叔父；舅父；姑父；姨父",
+          "phonemes": [
+            {
+              "symbol": "/ʌ/",
+              "letter": "u"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/k/",
+              "letter": "c"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "le"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/uncle/uncle_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Uncle Jake likes to bake.",
+              "zh": "杰克叔叔喜欢烘焙。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/uncle/textbook.png"
+            },
+            {
+              "en": "My uncle lives in a small town and visits us every summer.",
+              "zh": "我叔叔住在一个小镇上，每年夏天来看我们。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/uncle/context.png"
+            }
+          ]
+        },
+        {
+          "id": "w25",
+          "word": "bake",
+          "chinese": "烘，烤，焙",
+          "phonemes": [
+            {
+              "symbol": "/b/",
+              "letter": "b"
+            },
+            {
+              "symbol": "/eɪ/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/k/",
+              "letter": "ke"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/bake/bake_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Uncle Jake likes to bake.",
+              "zh": "杰克叔叔喜欢烘焙。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/bake/textbook.png"
+            },
+            {
+              "en": "My mom and I bake cookies together every Sunday afternoon.",
+              "zh": "我和妈妈每个周日下午一起烤饼干。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/bake/context.png"
+            }
+          ]
+        },
+        {
+          "id": "w26",
+          "word": "bee",
+          "chinese": "蜜蜂",
+          "phonemes": [
+            {
+              "symbol": "/b/",
+              "letter": "b"
+            },
+            {
+              "symbol": "/iː/",
+              "letter": "ee"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/bee/bee_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "He is like a bee, very busy.",
+              "zh": "他像一只蜜蜂，非常忙碌。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/bee/textbook.png"
+            },
+            {
+              "en": "A bee landed on the flower and collected some nectar.",
+              "zh": "一只蜜蜂落在花上，采了一些花蜜。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/bee/context.png"
+            }
+          ]
+        },
+        {
+          "id": "w27",
           "word": "same",
           "chinese": "相同的，完全相同的，一模一样的",
           "phonemes": [
@@ -1134,7 +1018,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w30",
+          "id": "w28",
           "word": "sound",
           "chinese": "声，声音",
           "phonemes": [
@@ -1170,16 +1054,9 @@ const TEXTBOOK_DATA = {
               "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit1/sound/context.png"
             }
           ]
-        }
-      ]
-    },
-    {
-      "id": "unit2",
-      "name": "Unit 2 · Feelings & Life",
-      "title": "情感与生活",
-      "words": [
+        },
         {
-          "id": "w31",
+          "id": "w29",
           "word": "postman",
           "chinese": "邮递员",
           "phonemes": [
@@ -1208,24 +1085,24 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit2/postman/postman_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/postman/postman_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The postman brings letters every morning.",
               "zh": "邮递员每天早上送信。",
               "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit2/postman/textbook.png"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/postman-textbook.jpg"
             },
             {
               "en": "The postman rides a bike to deliver letters every day.",
               "zh": "邮递员每天骑自行车送信。",
               "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit2/postman/context.png"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/postman-context.jpg"
             }
           ]
         },
         {
-          "id": "w32",
+          "id": "w30",
           "word": "life",
           "chinese": "生活",
           "phonemes": [
@@ -1242,24 +1119,24 @@ const TEXTBOOK_DATA = {
               "letter": "fe"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit2/life/life_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/life/life_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Life is full of fun and surprises.",
               "zh": "生活充满了乐趣和惊喜。",
               "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit2/life/textbook.png"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/life-textbook.jpg"
             },
             {
               "en": "My dog has a happy life with lots of walks and treats.",
               "zh": "我的狗生活很幸福，有很多散步和零食。",
               "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit2/life/context.png"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/life-context.jpg"
             }
           ]
         },
         {
-          "id": "w33",
+          "id": "w31",
           "word": "mountain",
           "chinese": "高山",
           "phonemes": [
@@ -1288,24 +1165,31 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit2/mountain/mountain_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/mountain/mountain_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Ge Jun brings food to people on the mountains.",
               "zh": "葛军把食物送到山上的人们那里。",
               "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit2/mountain/textbook.png"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/mountain-textbook.jpg"
             },
             {
               "en": "We climb the mountain to see the beautiful sunrise.",
               "zh": "我们爬上山去看美丽的日出。",
               "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit2/mountain/context.png"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/mountain-context.jpg"
             }
           ]
-        },
+        }
+      ]
+    },
+    {
+      "id": "unit2",
+      "name": "Unit 2 · Feelings & Life",
+      "title": "情感与生活",
+      "words": [
         {
-          "id": "w34",
+          "id": "w32",
           "word": "laugh",
           "chinese": "发出笑声，（大）笑",
           "phonemes": [
@@ -1339,7 +1223,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w35",
+          "id": "w33",
           "word": "sad",
           "chinese": "不愉快的，伤心的，难过的",
           "phonemes": [
@@ -1373,7 +1257,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w36",
+          "id": "w34",
           "word": "scared",
           "chinese": "害怕的，恐惧的；紧张的",
           "phonemes": [
@@ -1411,7 +1295,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w37",
+          "id": "w35",
           "word": "angry",
           "chinese": "发怒的，生气的，气愤的",
           "phonemes": [
@@ -1449,7 +1333,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w38",
+          "id": "w36",
           "word": "excited",
           "chinese": "兴奋的，激动的",
           "phonemes": [
@@ -1499,7 +1383,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w39",
+          "id": "w37",
           "word": "opera",
           "chinese": "歌剧",
           "phonemes": [
@@ -1537,7 +1421,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w40",
+          "id": "w38",
           "word": "next",
           "chinese": "（时间）紧接着的；下次的",
           "phonemes": [
@@ -1575,7 +1459,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w41",
+          "id": "w39",
           "word": "cough",
           "chinese": "咳嗽，咳",
           "phonemes": [
@@ -1609,7 +1493,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w42",
+          "id": "w40",
           "word": "better",
           "chinese": "（健康状况）好转的；（疼痛、伤势等）减轻的",
           "phonemes": [
@@ -1647,7 +1531,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w43",
+          "id": "w41",
           "word": "gift",
           "chinese": "礼物",
           "phonemes": [
@@ -1685,7 +1569,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w44",
+          "id": "w42",
           "word": "model",
           "chinese": "（尤指可拼装的）模型",
           "phonemes": [
@@ -1727,7 +1611,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w45",
+          "id": "w43",
           "word": "shout",
           "chinese": "大声说，喊叫，呼喊",
           "phonemes": [
@@ -1761,7 +1645,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w46",
+          "id": "w44",
           "word": "should",
           "chinese": "应当，应该",
           "phonemes": [
@@ -1795,7 +1679,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w47",
+          "id": "w45",
           "word": "feeling",
           "chinese": "感觉，感触",
           "phonemes": [
@@ -1837,7 +1721,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w48",
+          "id": "w46",
           "word": "huge",
           "chinese": "巨大的",
           "phonemes": [
@@ -1871,7 +1755,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w49",
+          "id": "w47",
           "word": "worried",
           "chinese": "担心的，焦虑的",
           "phonemes": [
@@ -1917,7 +1801,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w50",
+          "id": "w48",
           "word": "street",
           "chinese": "大街，街道",
           "phonemes": [
@@ -1951,7 +1835,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w51",
+          "id": "w49",
           "word": "hit",
           "chinese": "撞击，碰撞",
           "phonemes": [
@@ -1992,7 +1876,7 @@ const TEXTBOOK_DATA = {
       "title": "才能与表演",
       "words": [
         {
-          "id": "w52",
+          "id": "w50",
           "word": "talent",
           "chinese": "天资，天赋，才能",
           "phonemes": [
@@ -2017,7 +1901,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit2/talent/talent_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/talent/talent_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Everyone's got talent!",
@@ -2034,7 +1918,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w53",
+          "id": "w51",
           "word": "act",
           "chinese": "演出；扮演",
           "phonemes": [
@@ -2051,7 +1935,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit2/act/act_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/act/act_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "You can play the piano. I can act.",
@@ -2068,7 +1952,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w54",
+          "id": "w52",
           "word": "magic",
           "chinese": "魔术，戏法",
           "phonemes": [
@@ -2093,7 +1977,7 @@ const TEXTBOOK_DATA = {
               "letter": "c"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit2/magic/magic_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/magic/magic_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "He can do magic with a hat.",
@@ -2110,7 +1994,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w55",
+          "id": "w53",
           "word": "shine",
           "chinese": "表现突出，出众",
           "phonemes": [
@@ -2127,7 +2011,7 @@ const TEXTBOOK_DATA = {
               "letter": "ne"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit2/shine/shine_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/shine/shine_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Talents make us shine!",
@@ -2144,7 +2028,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w56",
+          "id": "w54",
           "word": "puzzle",
           "chinese": "拼图游戏",
           "phonemes": [
@@ -2169,7 +2053,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit2/puzzle/puzzle_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/puzzle/puzzle_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "She can do puzzles with one look.",
@@ -2186,7 +2070,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w57",
+          "id": "w55",
           "word": "dancer",
           "chinese": "舞蹈演员",
           "phonemes": [
@@ -2211,7 +2095,7 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit2/dancer/dancer_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/dancer/dancer_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The best dancer is... Lingling!",
@@ -2228,7 +2112,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w58",
+          "id": "w56",
           "word": "win",
           "chinese": "获胜，赢",
           "phonemes": [
@@ -2245,7 +2129,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit2/win/win_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/win/win_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "But I can't win.",
@@ -2262,7 +2146,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w59",
+          "id": "w57",
           "word": "just",
           "chinese": "就，只是",
           "phonemes": [
@@ -2279,7 +2163,7 @@ const TEXTBOOK_DATA = {
               "letter": "st"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit2/just/just_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/just/just_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Just go and dance.",
@@ -2296,7 +2180,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w60",
+          "id": "w58",
           "word": "boy",
           "chinese": "男孩；儿子",
           "phonemes": [
@@ -2309,7 +2193,7 @@ const TEXTBOOK_DATA = {
               "letter": "oy"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit2/boy/boy_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/boy/boy_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Why are you crying, my boy?",
@@ -2326,7 +2210,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w61",
+          "id": "w59",
           "word": "slowly",
           "chinese": "缓慢地，慢慢地",
           "phonemes": [
@@ -2347,7 +2231,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit2/slowly/slowly_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/slowly/slowly_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The water slowly gets black.",
@@ -2371,7 +2255,7 @@ const TEXTBOOK_DATA = {
       "title": "植物生长",
       "words": [
         {
-          "id": "w62",
+          "id": "w60",
           "word": "seed",
           "chinese": "种子，籽",
           "phonemes": [
@@ -2388,7 +2272,7 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/seed/seed_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit4/seed/seed_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I'm a little seed, small and cute.",
@@ -2405,7 +2289,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w63",
+          "id": "w61",
           "word": "earth",
           "chinese": "泥土，土壤",
           "phonemes": [
@@ -2418,7 +2302,7 @@ const TEXTBOOK_DATA = {
               "letter": "th"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/earth/earth_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit4/earth/earth_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Put me in the earth, and watch me grow.",
@@ -2435,7 +2319,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w64",
+          "id": "w62",
           "word": "root",
           "chinese": "根",
           "phonemes": [
@@ -2452,7 +2336,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/root/root_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit4/root/root_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Look at my roots.",
@@ -2469,7 +2353,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w65",
+          "id": "w63",
           "word": "stem",
           "chinese": "（植物的）茎，柄",
           "phonemes": [
@@ -2486,7 +2370,7 @@ const TEXTBOOK_DATA = {
               "letter": "m"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/stem/stem_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit4/stem/stem_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "My stem is thin.",
@@ -2503,7 +2387,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w66",
+          "id": "w64",
           "word": "thin",
           "chinese": "细的",
           "phonemes": [
@@ -2520,7 +2404,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/thin/thin_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit4/thin/thin_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "My stem is thin.",
@@ -2537,7 +2421,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w67",
+          "id": "w65",
           "word": "leaf",
           "chinese": "叶，叶子",
           "phonemes": [
@@ -2554,7 +2438,7 @@ const TEXTBOOK_DATA = {
               "letter": "f"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/leaf/leaf_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit4/leaf/leaf_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "A green leaf fell from the tree.",
@@ -2571,7 +2455,27 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w68",
+          "id": "w66",
+          "word": "dig",
+          "chinese": "dig",
+          "phonemes": [
+            {
+              "symbol": "/?/",
+              "letter": "dig"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/dig.jpg",
+          "sentences": [
+            {
+              "en": "We use the word \"dig\" in our English class.",
+              "zh": "我们在英语课上学习「dig」（dig）。",
+              "source": "fallback",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/dig-fallback.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w67",
           "word": "sunflower",
           "chinese": "向日葵",
           "phonemes": [
@@ -2600,7 +2504,7 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/sunflower/sunflower_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit4/sunflower/sunflower_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I've got sunflower seeds.",
@@ -2617,7 +2521,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w69",
+          "id": "w68",
           "word": "plant",
           "chinese": "种植，栽种；播（种）",
           "phonemes": [
@@ -2638,7 +2542,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/plant/plant_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit4/plant/plant_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Let me plant a new one.",
@@ -2655,7 +2559,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w70",
+          "id": "w69",
           "word": "dream",
           "chinese": "梦想，愿望，理想",
           "phonemes": [
@@ -2672,7 +2576,7 @@ const TEXTBOOK_DATA = {
               "letter": "m"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/dream/dream_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit4/dream/dream_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I think his dreams will come true!",
@@ -2689,7 +2593,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w71",
+          "id": "w70",
           "word": "sleep",
           "chinese": "睡，睡觉",
           "phonemes": [
@@ -2706,7 +2610,7 @@ const TEXTBOOK_DATA = {
               "letter": "p"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/sleep/sleep_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit4/sleep/sleep_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The man is sleeping.",
@@ -2723,7 +2627,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w72",
+          "id": "w71",
           "word": "will",
           "chinese": "将，会，要",
           "phonemes": [
@@ -2740,7 +2644,7 @@ const TEXTBOOK_DATA = {
               "letter": "ll"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/will/will_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit4/will/will_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I think his dreams will come true!",
@@ -2757,7 +2661,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w73",
+          "id": "w72",
           "word": "true",
           "chinese": "真的，真实的",
           "phonemes": [
@@ -2770,7 +2674,7 @@ const TEXTBOOK_DATA = {
               "letter": "ue"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/true/true_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit4/true/true_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I think his dreams will come true!",
@@ -2787,7 +2691,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w74",
+          "id": "w73",
           "word": "come true",
           "chinese": "实现",
           "phonemes": [
@@ -2812,7 +2716,7 @@ const TEXTBOOK_DATA = {
               "letter": "ue"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/come_true/come_true_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit4/come_true/come_true_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I think his dreams will come true!",
@@ -2829,7 +2733,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w75",
+          "id": "w74",
           "word": "paper",
           "chinese": "纸",
           "phonemes": [
@@ -2850,7 +2754,7 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/paper/paper_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit4/paper/paper_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "We use plants to make paper.",
@@ -2874,7 +2778,7 @@ const TEXTBOOK_DATA = {
       "title": "文化博览与家乡",
       "words": [
         {
-          "id": "w76",
+          "id": "w75",
           "word": "drama",
           "chinese": "戏剧",
           "phonemes": [
@@ -2895,7 +2799,7 @@ const TEXTBOOK_DATA = {
               "letter": "a"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit4/drama/drama_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/drama/drama_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Drama Night and Picnic Day.",
@@ -2912,7 +2816,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w77",
+          "id": "w76",
           "word": "trip",
           "chinese": "旅游，旅行，出行",
           "phonemes": [
@@ -2929,7 +2833,7 @@ const TEXTBOOK_DATA = {
               "letter": "p"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit4/trip/trip_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/trip/trip_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I love the field trip.",
@@ -2946,7 +2850,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w78",
+          "id": "w77",
           "word": "fair",
           "chinese": "集市；义卖会；户外游艺会",
           "phonemes": [
@@ -2959,7 +2863,7 @@ const TEXTBOOK_DATA = {
               "letter": "air"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/fair/fair_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/fair/fair_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Go to the culture fair.",
@@ -2976,7 +2880,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w79",
+          "id": "w78",
           "word": "festival",
           "chinese": "节，节庆，汇演",
           "phonemes": [
@@ -3009,7 +2913,7 @@ const TEXTBOOK_DATA = {
               "letter": "l"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/festival/festival_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/festival/festival_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I love the Art Festival!",
@@ -3026,7 +2930,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w80",
+          "id": "w79",
           "word": "horn",
           "chinese": "角",
           "phonemes": [
@@ -3043,7 +2947,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/horn/horn_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/horn/horn_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "There are horns.",
@@ -3060,7 +2964,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w81",
+          "id": "w80",
           "word": "dot",
           "chinese": "点，小圆点",
           "phonemes": [
@@ -3094,7 +2998,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w82",
+          "id": "w81",
           "word": "raindrop",
           "chinese": "雨点，雨滴",
           "phonemes": [
@@ -3123,7 +3027,7 @@ const TEXTBOOK_DATA = {
               "letter": "p"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/raindrop/raindrop_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/raindrop/raindrop_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "They look like raindrops.",
@@ -3140,7 +3044,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w83",
+          "id": "w82",
           "word": "more",
           "chinese": "更多的",
           "phonemes": [
@@ -3153,7 +3057,7 @@ const TEXTBOOK_DATA = {
               "letter": "ore"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/more/more_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/more/more_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Are there more?",
@@ -3170,7 +3074,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w84",
+          "id": "w83",
           "word": "special",
           "chinese": "特殊的，特别的",
           "phonemes": [
@@ -3195,7 +3099,7 @@ const TEXTBOOK_DATA = {
               "letter": "l"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/special/special_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/special/special_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "This is a very special field trip for us!",
@@ -3212,7 +3116,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w85",
+          "id": "w84",
           "word": "keeper",
           "chinese": "看守人，保管人",
           "phonemes": [
@@ -3233,7 +3137,7 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/keeper/keeper_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/keeper/keeper_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Let's call the forest keeper!",
@@ -3250,7 +3154,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w86",
+          "id": "w85",
           "word": "hey",
           "chinese": "嘿，喂",
           "phonemes": [
@@ -3263,7 +3167,7 @@ const TEXTBOOK_DATA = {
               "letter": "ey"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/hey/hey_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/hey/hey_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Hey, look at that big bird!",
@@ -3280,7 +3184,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w87",
+          "id": "w86",
           "word": "lovely",
           "chinese": "美好的；令人愉快的；可爱的",
           "phonemes": [
@@ -3309,7 +3213,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/lovely/lovely_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/lovely/lovely_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "What a lovely sunny day it is!",
@@ -3326,7 +3230,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w88",
+          "id": "w87",
           "word": "student",
           "chinese": "学生",
           "phonemes": [
@@ -3351,7 +3255,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/student/student_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/student/student_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I want to teach students Chinese.",
@@ -3368,7 +3272,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w89",
+          "id": "w88",
           "word": "culture",
           "chinese": "文化",
           "phonemes": [
@@ -3393,7 +3297,7 @@ const TEXTBOOK_DATA = {
               "letter": "ure"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/culture/culture_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/culture/culture_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "We learn a lot about the Zhuang culture from these activities.",
@@ -3410,7 +3314,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w90",
+          "id": "w89",
           "word": "hour",
           "chinese": "小时",
           "phonemes": [
@@ -3423,7 +3327,7 @@ const TEXTBOOK_DATA = {
               "letter": "our"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/hour/hour_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/hour/hour_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "In only two hours?",
@@ -3440,7 +3344,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w91",
+          "id": "w90",
           "word": "note",
           "chinese": "笔记，记录",
           "phonemes": [
@@ -3457,7 +3361,7 @@ const TEXTBOOK_DATA = {
               "letter": "te"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/note/note_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/note/note_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Take lots of notes.",
@@ -3474,7 +3378,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w92",
+          "id": "w91",
           "word": "vote",
           "chinese": "选票",
           "phonemes": [
@@ -3491,7 +3395,7 @@ const TEXTBOOK_DATA = {
               "letter": "te"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/vote/vote_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/vote/vote_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "And give your vote.",
@@ -3508,7 +3412,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w93",
+          "id": "w92",
           "word": "design",
           "chinese": "设计",
           "phonemes": [
@@ -3533,7 +3437,7 @@ const TEXTBOOK_DATA = {
               "letter": "gn"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/design/design_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/design/design_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Design a stand for your hometown.",
@@ -3550,7 +3454,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w94",
+          "id": "w93",
           "word": "hometown",
           "chinese": "家乡，故乡",
           "phonemes": [
@@ -3579,7 +3483,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/hometown/hometown_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/hometown/hometown_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Design a stand for your hometown.",
@@ -3603,7 +3507,7 @@ const TEXTBOOK_DATA = {
       "title": "服装打扮",
       "words": [
         {
-          "id": "w95",
+          "id": "w94",
           "word": "T-shirt",
           "chinese": "T恤（衫）",
           "phonemes": [
@@ -3628,7 +3532,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/T-shirt/T-shirt_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit6/T-shirt/T-shirt_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "He's wearing a T-shirt and shorts.",
@@ -3645,7 +3549,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w96",
+          "id": "w95",
           "word": "skirt",
           "chinese": "半身裙，裙子",
           "phonemes": [
@@ -3662,7 +3566,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/skirt/skirt_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit6/skirt/skirt_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "T-shirt, skirt or shorts.",
@@ -3679,7 +3583,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w97",
+          "id": "w96",
           "word": "shorts",
           "chinese": "短裤",
           "phonemes": [
@@ -3700,7 +3604,7 @@ const TEXTBOOK_DATA = {
               "letter": "s"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/shorts/shorts_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit6/shorts/shorts_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "He's wearing a T-shirt and shorts.",
@@ -3717,41 +3621,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w98",
-          "word": "shirt",
-          "chinese": "衬衫",
-          "phonemes": [
-            {
-              "symbol": "/ʃ/",
-              "letter": "sh"
-            },
-            {
-              "symbol": "/ɜː/",
-              "letter": "ir"
-            },
-            {
-              "symbol": "/t/",
-              "letter": "t"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/shirt/shirt_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Hat, shirt and trousers.",
-              "zh": "帽子、衬衫和裤子。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit6/shirt/textbook.png"
-            },
-            {
-              "en": "My dad wears a blue shirt to work every day.",
-              "zh": "我爸爸每天都穿蓝衬衫去上班。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit6/shirt/context.png"
-            }
-          ]
-        },
-        {
-          "id": "w99",
+          "id": "w97",
           "word": "trousers",
           "chinese": "裤子",
           "phonemes": [
@@ -3776,7 +3646,7 @@ const TEXTBOOK_DATA = {
               "letter": "s"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/trousers/trousers_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit6/trousers/trousers_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Hat, shirt and trousers.",
@@ -3793,7 +3663,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w100",
+          "id": "w98",
           "word": "scarf",
           "chinese": "围巾",
           "phonemes": [
@@ -3810,7 +3680,7 @@ const TEXTBOOK_DATA = {
               "letter": "f"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/scarf/scarf_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit6/scarf/scarf_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Scarf, sweater and coat.",
@@ -3827,7 +3697,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w101",
+          "id": "w99",
           "word": "sweater",
           "chinese": "毛线衣，羊毛衫，针织衫",
           "phonemes": [
@@ -3848,7 +3718,7 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/sweater/sweater_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit6/sweater/sweater_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Scarf, sweater and coat.",
@@ -3865,7 +3735,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w102",
+          "id": "w100",
           "word": "dress",
           "chinese": "连衣裙",
           "phonemes": [
@@ -3882,7 +3752,7 @@ const TEXTBOOK_DATA = {
               "letter": "ss"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/dress/dress_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit6/dress/dress_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I'm looking for my blue dress.",
@@ -3899,7 +3769,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w103",
+          "id": "w101",
           "word": "party",
           "chinese": "聚会，派对",
           "phonemes": [
@@ -3920,7 +3790,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/party/party_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit6/party/party_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "What do you want to wear to the party?",
@@ -3937,7 +3807,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w104",
+          "id": "w102",
           "word": "dressmaker",
           "chinese": "裁缝",
           "phonemes": [
@@ -3970,7 +3840,7 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/dressmaker/dressmaker_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit6/dressmaker/dressmaker_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Find the best dressmaker for me.",
@@ -3987,7 +3857,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w105",
+          "id": "w103",
           "word": "wrong",
           "chinese": "不正确的，错误的",
           "phonemes": [
@@ -4004,7 +3874,7 @@ const TEXTBOOK_DATA = {
               "letter": "ng"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/wrong/wrong_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit6/wrong/wrong_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Dad gets our names wrong.",
@@ -4021,7 +3891,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w106",
+          "id": "w104",
           "word": "clever",
           "chinese": "聪明的",
           "phonemes": [
@@ -4042,7 +3912,7 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/clever/clever_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit6/clever/clever_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The clever boy can solve the puzzle.",
@@ -4059,7 +3929,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w107",
+          "id": "w105",
           "word": "whale",
           "chinese": "鲸",
           "phonemes": [
@@ -4076,7 +3946,7 @@ const TEXTBOOK_DATA = {
               "letter": "le"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/whale/whale_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit6/whale/whale_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "A birthday gift for Ms Whale?",
@@ -4093,7 +3963,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w108",
+          "id": "w106",
           "word": "uniform",
           "chinese": "制服",
           "phonemes": [
@@ -4122,7 +3992,7 @@ const TEXTBOOK_DATA = {
               "letter": "m"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/uniform/uniform_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit6/uniform/uniform_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "We wear uniforms for school.",
@@ -4139,7 +4009,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w109",
+          "id": "w107",
           "word": "robe",
           "chinese": "长袍",
           "phonemes": [
@@ -4156,7 +4026,7 @@ const TEXTBOOK_DATA = {
               "letter": "be"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/robe/robe_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit6/robe/robe_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "A white robe, for nurses and doctors.",
