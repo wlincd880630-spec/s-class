@@ -29,7 +29,7 @@ const TEXTBOOK_DATA = {
               "letter": "i"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit1/hi/hi_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/hi/hi_风格A.png",
           "sentences": [
             {
               "en": "Hi, how are you?",
@@ -55,7 +55,7 @@ const TEXTBOOK_DATA = {
               "letter": "I"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit1/I/I_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/I/I_风格A.png",
           "sentences": [
             {
               "en": "I am a student.",
@@ -119,7 +119,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit1/what/what_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/what/what_风格A.png",
           "sentences": [
             {
               "en": "What colour is Bobo’s first balloon?",
@@ -153,7 +153,7 @@ const TEXTBOOK_DATA = {
               "letter": "r"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit1/your/your_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/your/your_风格A.png",
           "sentences": [
             {
               "en": "Tell the class about your school thing.",
@@ -187,7 +187,7 @@ const TEXTBOOK_DATA = {
               "letter": "m"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit1/name/name_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/name/name_风格A.png",
           "sentences": [
             {
               "en": "My name is Amy!",
@@ -225,7 +225,7 @@ const TEXTBOOK_DATA = {
               "letter": "o"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit1/hello/hello_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/hello/hello_风格A.png",
           "sentences": [
             {
               "en": "Hello, nice to meet you.",
@@ -255,7 +255,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit1/my/my_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/my/my_风格A.png",
           "sentences": [
             {
               "en": "Pack my bag for school.",
@@ -301,7 +301,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit1/goodbye/goodbye_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/goodbye/goodbye_风格A.png",
           "sentences": [
             {
               "en": "Goodbye, see you later.",
@@ -339,7 +339,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit1/have/have_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/have/have_风格A.png",
           "sentences": [
             {
               "en": "Do they have a good day?",
@@ -403,7 +403,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit1/nice/nice_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/nice/nice_风格A.png",
           "sentences": [
             {
               "en": "Have a nice day!",
@@ -433,7 +433,7 @@ const TEXTBOOK_DATA = {
               "letter": "ay"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit1/day/day_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/day/day_风格A.png",
           "sentences": [
             {
               "en": "Do they have a good day?",
@@ -467,7 +467,7 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit1/good/good_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/good/good_风格A.png",
           "sentences": [
             {
               "en": "Do they have a good day?",
@@ -509,7 +509,7 @@ const TEXTBOOK_DATA = {
               "letter": "ng"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit1/morning/morning_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/morning/morning_风格A.png",
           "sentences": [
             {
               "en": "Good morning, Ms Smart!",
@@ -581,7 +581,7 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit1/stand/stand_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/stand/stand_风格A.png",
           "sentences": [
             {
               "en": "Please stand here.",
@@ -635,7 +635,7 @@ const TEXTBOOK_DATA = {
               "letter": "p"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit1/stand_up/stand_up_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/stand_up/stand_up_风格A.png",
           "sentences": [
             {
               "en": "Stand up, please.",
@@ -669,7 +669,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit1/sit/sit_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/sit/sit_风格A.png",
           "sentences": [
             {
               "en": "Sit on the chair.",
@@ -719,7 +719,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit1/sit_down/sit_down_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/sit_down/sit_down_风格A.png",
           "sentences": [
             {
               "en": "Sit down and listen.",
@@ -757,7 +757,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit1/open/open_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/open/open_风格A.png",
           "sentences": [
             {
               "en": "Let me open the doors and find you all!",
@@ -791,7 +791,7 @@ const TEXTBOOK_DATA = {
               "letter": "k"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit1/book/book_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/book/book_风格A.png",
           "sentences": [
             {
               "en": "Is it a book?",
@@ -833,7 +833,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit1/close/close_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/close/close_风格A.png",
           "sentences": [
             {
               "en": "Close the book, please.",
@@ -871,7 +871,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit1/point/point_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/point/point_风格A.png",
           "sentences": [
             {
               "en": "Listen, point and say.",
@@ -901,7 +901,7 @@ const TEXTBOOK_DATA = {
               "letter": "ay"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit1/say/say_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/say/say_风格A.png",
           "sentences": [
             {
               "en": "Listen, point and say.",
@@ -935,7 +935,7 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit2/read/read_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/read/read_风格A.png",
           "sentences": [
             {
               "en": "Read again and match.",
@@ -981,7 +981,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit2/listen/listen_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/listen/listen_风格A.png",
           "sentences": [
             {
               "en": "Listen, point and say.",
@@ -1023,7 +1023,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit2/write/write_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/write/write_风格A.png",
           "sentences": [
             {
               "en": "Draw and write about your friend.",
@@ -1068,7 +1068,7 @@ const TEXTBOOK_DATA = {
               "letter": "’s"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit2/let%E2%80%99s_%3D_let_us/let%E2%80%99s_%3D_let_us_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/let’s_=_let_us/let’s_=_let_us_风格A.png",
           "sentences": [
             {
               "en": "Let's be friends!",
@@ -1110,7 +1110,7 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit2/friend/friend_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/friend/friend_风格A.png",
           "sentences": [
             {
               "en": "Are Ben, David and Mia friends?",
@@ -1140,7 +1140,7 @@ const TEXTBOOK_DATA = {
               "letter": "o"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit2/to/to_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/to/to_风格A.png",
           "sentences": [
             {
               "en": "I like to read books.",
@@ -1174,7 +1174,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit2/meet/meet_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/meet/meet_风格A.png",
           "sentences": [
             {
               "en": "Meet your new friends.",
@@ -1204,7 +1204,7 @@ const TEXTBOOK_DATA = {
               "letter": "ou"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit2/you/you_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/you/you_风格A.png",
           "sentences": [
             {
               "en": "You are my friend.",
@@ -1238,7 +1238,7 @@ const TEXTBOOK_DATA = {
               "letter": "ay"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit2/play/play_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/play/play_风格A.png",
           "sentences": [
             {
               "en": "Let’s play a game!",
@@ -1276,7 +1276,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit2/happy/happy_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/happy/happy_风格A.png",
           "sentences": [
             {
               "en": "Let’s have a happy day!",
@@ -1306,7 +1306,7 @@ const TEXTBOOK_DATA = {
               "letter": "ew"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit2/new/new_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/new/new_风格A.png",
           "sentences": [
             {
               "en": "Where is their new home?",
@@ -1336,7 +1336,7 @@ const TEXTBOOK_DATA = {
               "letter": "o"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit2/do/do_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/do/do_风格A.png",
           "sentences": [
             {
               "en": "Do you like apples?",
@@ -1366,7 +1366,7 @@ const TEXTBOOK_DATA = {
               "letter": "ey"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit2/they/they_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/they/they_风格A.png",
           "sentences": [
             {
               "en": "Do they have a good day?",
@@ -1416,7 +1416,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit2/welcome/welcome_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/welcome/welcome_风格A.png",
           "sentences": [
             {
               "en": "Welcome to our school!",
@@ -1466,7 +1466,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit2/everyone/everyone_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/everyone/everyone_风格A.png",
           "sentences": [
             {
               "en": "Everyone, let’s come and paint!",
@@ -1504,7 +1504,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit2/nine/nine_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/nine/nine_风格A.png",
           "sentences": [
             {
               "en": "Seven, eight, nine, ten, eleven, twelve!",
@@ -1534,7 +1534,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit2/she/she_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/she/she_风格A.png",
           "sentences": [
             {
               "en": "She’s in the living room / bedroom.",
@@ -1564,7 +1564,7 @@ const TEXTBOOK_DATA = {
               "letter": "oo"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit2/too/too_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/too/too_风格A.png",
           "sentences": [
             {
               "en": "Is it a pen, too?",
@@ -1594,7 +1594,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit2/we/we_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/we/we_风格A.png",
           "sentences": [
             {
               "en": "We play together every day.",
@@ -1632,7 +1632,7 @@ const TEXTBOOK_DATA = {
               "letter": "m"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit2/from/from_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/from/from_风格A.png",
           "sentences": [
             {
               "en": "Count from 1 to 12.",
@@ -1700,7 +1700,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit2/twin/twin_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/twin/twin_风格A.png",
           "sentences": [
             {
               "en": "She is my twin sister.",
@@ -1730,7 +1730,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit2/he/he_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/he/he_风格A.png",
           "sentences": [
             {
               "en": "He has a red ball.",
@@ -1768,7 +1768,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit2/come/come_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/come/come_风格A.png",
           "sentences": [
             {
               "en": "Grandma, Grandpa, Dad, Mum, come on!",
@@ -1802,7 +1802,7 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit2/and/and_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/and/and_风格A.png",
           "sentences": [
             {
               "en": "Let me open the doors and find you all!",
@@ -1828,7 +1828,7 @@ const TEXTBOOK_DATA = {
               "letter": "oh"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit3/oh/oh_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/oh/oh_风格A.png",
           "sentences": [
             {
               "en": "Oh, this is my grandma.",
@@ -1858,7 +1858,7 @@ const TEXTBOOK_DATA = {
               "letter": "o"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit3/no/no_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/no/no_风格A.png",
           "sentences": [
             {
               "en": "No, I don’t want milk.",
@@ -1896,7 +1896,7 @@ const TEXTBOOK_DATA = {
               "letter": "p"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit3/help/help_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/help/help_风格A.png",
           "sentences": [
             {
               "en": "Help the dog find its way home.",
@@ -1926,7 +1926,7 @@ const TEXTBOOK_DATA = {
               "letter": "ere"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit3/here/here_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/here/here_风格A.png",
           "sentences": [
             {
               "en": "Come here, dear little dog.",
@@ -1976,7 +1976,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit3/here_you_are/here_you_are_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/here_you_are/here_you_are_风格A.png",
           "sentences": [
             {
               "en": "Here you are.",
@@ -2010,7 +2010,7 @@ const TEXTBOOK_DATA = {
               "letter": "nk"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit3/thank/thank_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/thank/thank_风格A.png",
           "sentences": [
             {
               "en": "Thank you for the gift.",
@@ -2056,7 +2056,7 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit3/together/together_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/together/together_风格A.png",
           "sentences": [
             {
               "en": "Dear friends, let’s sing together!",
@@ -2086,7 +2086,7 @@ const TEXTBOOK_DATA = {
               "letter": "K"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit3/OK/OK_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/OK/OK_风格A.png",
           "sentences": [
             {
               "en": "OK, let’s start now.",
@@ -2120,7 +2120,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit3/great/great_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/great/great_风格A.png",
           "sentences": [
             {
               "en": "This is a great day!",
@@ -2154,7 +2154,7 @@ const TEXTBOOK_DATA = {
               "letter": "ng"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit3/song/song_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/song/song_风格A.png",
           "sentences": [
             {
               "en": "I like this song.",
@@ -2184,7 +2184,7 @@ const TEXTBOOK_DATA = {
               "letter": "ear"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit3/dear/dear_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/dear/dear_风格A.png",
           "sentences": [
             {
               "en": "Dear friends, let’s sing together!",
@@ -2218,7 +2218,7 @@ const TEXTBOOK_DATA = {
               "letter": "ng"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit3/sing/sing_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/sing/sing_风格A.png",
           "sentences": [
             {
               "en": "Dear friends, let’s sing together!",
@@ -2248,7 +2248,7 @@ const TEXTBOOK_DATA = {
               "letter": "ow"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit3/now/now_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/now/now_风格A.png",
           "sentences": [
             {
               "en": "Now we know our ABC!",
@@ -2278,7 +2278,7 @@ const TEXTBOOK_DATA = {
               "letter": "ow"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit3/know/know_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/know/know_风格A.png",
           "sentences": [
             {
               "en": "Now we know our ABC!",
@@ -2304,7 +2304,7 @@ const TEXTBOOK_DATA = {
               "letter": "our"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit3/our/our_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/our/our_风格A.png",
           "sentences": [
             {
               "en": "This is our classroom.",
@@ -2358,7 +2358,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit3/everybody/everybody_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/everybody/everybody_风格A.png",
           "sentences": [
             {
               "en": "Everybody, sing with me!",
@@ -2392,7 +2392,7 @@ const TEXTBOOK_DATA = {
               "letter": "th"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit3/with/with_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/with/with_风格A.png",
           "sentences": [
             {
               "en": "Think of more animals or plants with numbers.",
@@ -2422,7 +2422,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit3/me/me_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/me/me_风格A.png",
           "sentences": [
             {
               "en": "Please help me.",
@@ -2467,7 +2467,7 @@ const TEXTBOOK_DATA = {
               "letter": "l"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit3/school/school_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/school/school_风格A.png",
           "sentences": [
             {
               "en": "Tell the class about your school thing.",
@@ -2501,7 +2501,7 @@ const TEXTBOOK_DATA = {
               "letter": "ng"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit3/thing/thing_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/thing/thing_风格A.png",
           "sentences": [
             {
               "en": "Tell the class about your school thing.",
@@ -2535,7 +2535,7 @@ const TEXTBOOK_DATA = {
               "letter": "ck"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit3/pack/pack_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/pack/pack_风格A.png",
           "sentences": [
             {
               "en": "Pack my bag for school.",
@@ -2569,7 +2569,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit3/pen/pen_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/pen/pen_风格A.png",
           "sentences": [
             {
               "en": "My pen is blue.",
@@ -2615,7 +2615,7 @@ const TEXTBOOK_DATA = {
               "letter": "l"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit3/pencil/pencil_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/pencil/pencil_风格A.png",
           "sentences": [
             {
               "en": "Pack my pencil case.",
@@ -2677,7 +2677,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit3/pencil_case/pencil_case_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/pencil_case/pencil_case_风格A.png",
           "sentences": [
             {
               "en": "Pack my pencil case.",
@@ -2711,7 +2711,7 @@ const TEXTBOOK_DATA = {
               "letter": "g"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit3/bag/bag_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/bag/bag_风格A.png",
           "sentences": [
             {
               "en": "Pack my bag for school.",
@@ -2741,7 +2741,7 @@ const TEXTBOOK_DATA = {
               "letter": "or"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit4/for/for_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/for/for_风格A.png",
           "sentences": [
             {
               "en": "Pack my bag for school.",
@@ -2779,7 +2779,7 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit4/ruler/ruler_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/ruler/ruler_风格A.png",
           "sentences": [
             {
               "en": "Lingling Is it a ruler?",
@@ -2821,7 +2821,7 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit4/eraser/eraser_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/eraser/eraser_风格A.png",
           "sentences": [
             {
               "en": "Is it an eraser?",
@@ -2885,7 +2885,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit4/in/in_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/in/in_风格A.png",
           "sentences": [
             {
               "en": "How many ropes are in the Chinese knot?",
@@ -2931,7 +2931,7 @@ const TEXTBOOK_DATA = {
               "letter": "g"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit4/schoolbag/schoolbag_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/schoolbag/schoolbag_风格A.png",
           "sentences": [
             {
               "en": "What’s in Amy’s schoolbag?",
@@ -2961,7 +2961,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit4/it/it_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/it/it_风格A.png",
           "sentences": [
             {
               "en": "It is a cat.",
@@ -2995,7 +2995,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit4/not/not_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/not/not_风格A.png",
           "sentences": [
             {
               "en": "This is not my book.",
@@ -3063,7 +3063,7 @@ const TEXTBOOK_DATA = {
               "letter": "s"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit4/yes/yes_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/yes/yes_风格A.png",
           "sentences": [
             {
               "en": "Yes, it is.",
@@ -3097,7 +3097,7 @@ const TEXTBOOK_DATA = {
               "letter": "ss"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit4/guess/guess_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/guess/guess_风格A.png",
           "sentences": [
             {
               "en": "Draw and guess.",
@@ -3131,7 +3131,7 @@ const TEXTBOOK_DATA = {
               "letter": "nd"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit4/find/find_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/find/find_风格A.png",
           "sentences": [
             {
               "en": "Let me open the doors and find you all!",
@@ -3193,7 +3193,7 @@ const TEXTBOOK_DATA = {
               "letter": "nd"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit4/lost_and_found/lost_and_found_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/lost_and_found/lost_and_found_风格A.png",
           "sentences": [
             {
               "en": "Is this your bag? Go to lost and found.",
@@ -3223,7 +3223,7 @@ const TEXTBOOK_DATA = {
               "letter": "ye"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit4/bye/bye_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/bye/bye_风格A.png",
           "sentences": [
             {
               "en": "Bye, Ms Olivia.",
@@ -3257,7 +3257,7 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit4/kid/kid_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/kid/kid_风格A.png",
           "sentences": [
             {
               "en": "The kid is happy.",
@@ -3363,7 +3363,7 @@ const TEXTBOOK_DATA = {
               "letter": "h"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit4/take_care_of_sb__sth/take_care_of_sb_sth_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/take_care_of_sb__sth/take_care_of_sb_sth_风格A.png",
           "sentences": [
             {
               "en": "I take care of my little sister.",
@@ -3401,7 +3401,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit4/there/there_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/there/there_风格A.png",
           "sentences": [
             {
               "en": "Numbers here and there.",
@@ -3443,7 +3443,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit4/please/please_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/please/please_风格A.png",
           "sentences": [
             {
               "en": "Sam, please come back!",
@@ -3477,7 +3477,7 @@ const TEXTBOOK_DATA = {
               "letter": "ck"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit4/back/back_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/back/back_风格A.png",
           "sentences": [
             {
               "en": "Sam, please come back!",
@@ -3531,7 +3531,7 @@ const TEXTBOOK_DATA = {
               "letter": "ck"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit4/come_back/come_back_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/come_back/come_back_风格A.png",
           "sentences": [
             {
               "en": "Sam, please come back!",
@@ -3565,7 +3565,7 @@ const TEXTBOOK_DATA = {
               "letter": "k"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit4/look/look_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/look/look_风格A.png",
           "sentences": [
             {
               "en": "Look at the letters in red.",
@@ -3647,7 +3647,7 @@ const TEXTBOOK_DATA = {
               "letter": "h"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit4/look_at_sb__sth/look_at_sb_sth_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/look_at_sb__sth/look_at_sb_sth_风格A.png",
           "sentences": [
             {
               "en": "Look at the rainbow!",
@@ -3708,7 +3708,7 @@ const TEXTBOOK_DATA = {
               "letter": "l"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit4/colourful/colourful_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/colourful/colourful_风格A.png",
           "sentences": [
             {
               "en": "It’s a colourful world!",
@@ -3746,7 +3746,7 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit4/world/world_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/world/world_风格A.png",
           "sentences": [
             {
               "en": "It’s a colourful world!",
@@ -3788,7 +3788,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit4/hooray/hooray_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/hooray/hooray_风格A.png",
           "sentences": [
             {
               "en": "Hooray! We won the game.",
@@ -3834,7 +3834,7 @@ const TEXTBOOK_DATA = {
               "letter": "a"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/umbrella/umbrella_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/umbrella/umbrella_风格A.png",
           "sentences": [
             {
               "en": "Please take your umbrella.",
@@ -3872,7 +3872,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/clothes/clothes_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/clothes/clothes_风格A.png",
           "sentences": [
             {
               "en": "Look at our clothes.",
@@ -3906,7 +3906,7 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/red/red_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/red/red_风格A.png",
           "sentences": [
             {
               "en": "Look at the letters in red.",
@@ -3940,7 +3940,7 @@ const TEXTBOOK_DATA = {
               "letter": "nk"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/pink/pink_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/pink/pink_风格A.png",
           "sentences": [
             {
               "en": "Look at the letters in pink.",
@@ -3974,7 +3974,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/green/green_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/green/green_风格A.png",
           "sentences": [
             {
               "en": "Look at the letters in green.",
@@ -4012,7 +4012,7 @@ const TEXTBOOK_DATA = {
               "letter": "ow"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/yellow/yellow_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/yellow/yellow_风格A.png",
           "sentences": [
             {
               "en": "Yellow, red and green.",
@@ -4054,7 +4054,7 @@ const TEXTBOOK_DATA = {
               "letter": "ge"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/orange/orange_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/orange/orange_风格A.png",
           "sentences": [
             {
               "en": "It’s in the orange box!",
@@ -4084,7 +4084,7 @@ const TEXTBOOK_DATA = {
               "letter": "ue"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/blue/blue_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/blue/blue_风格A.png",
           "sentences": [
             {
               "en": "Look at the letters in blue.",
@@ -4122,7 +4122,7 @@ const TEXTBOOK_DATA = {
               "letter": "le"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/purple/purple_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/purple/purple_风格A.png",
           "sentences": [
             {
               "en": "Orange, blue and purple!",
@@ -4164,7 +4164,7 @@ const TEXTBOOK_DATA = {
               "letter": "ow"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/rainbow/rainbow_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/rainbow/rainbow_风格A.png",
           "sentences": [
             {
               "en": "And a rainbow here!",
@@ -4202,7 +4202,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/want/want_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/want/want_风格A.png",
           "sentences": [
             {
               "en": "I want a balloon, too.",
@@ -4244,7 +4244,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/balloon/balloon_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/balloon/balloon_风格A.png",
           "sentences": [
             {
               "en": "What colour is Bobo’s first balloon?",
@@ -4286,7 +4286,7 @@ const TEXTBOOK_DATA = {
               "letter": "r"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/colour/colour_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/colour/colour_风格A.png",
           "sentences": [
             {
               "en": "What colour is Bobo’s first balloon?",
@@ -4320,7 +4320,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/can/can_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/can/can_风格A.png",
           "sentences": [
             {
               "en": "Can you think of more animal families?",
@@ -4350,7 +4350,7 @@ const TEXTBOOK_DATA = {
               "letter": "ee"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/see/see_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/see/see_风格A.png",
           "sentences": [
             {
               "en": "How many birds can you see?",
@@ -4384,7 +4384,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/right/right_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/right/right_风格A.png",
           "sentences": [
             {
               "en": "You are right!",
@@ -4422,7 +4422,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/first/first_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/first/first_风格A.png",
           "sentences": [
             {
               "en": "What colour is Bobo’s first balloon?",
@@ -4472,7 +4472,7 @@ const TEXTBOOK_DATA = {
               "letter": "l"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/magical/magical_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/magical/magical_风格A.png",
           "sentences": [
             {
               "en": "The colourful world is magical!",
@@ -4506,7 +4506,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/fun/fun_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/fun/fun_风格A.png",
           "sentences": [
             {
               "en": "This is fun!",
@@ -4544,7 +4544,7 @@ const TEXTBOOK_DATA = {
               "letter": "ck"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/black/black_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/black/black_风格A.png",
           "sentences": [
             {
               "en": "My cat is black.",
@@ -4574,7 +4574,7 @@ const TEXTBOOK_DATA = {
               "letter": "o"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/so/so_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/so/so_风格A.png",
           "sentences": [
             {
               "en": "The flower is so pretty.",
@@ -4612,7 +4612,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/many/many_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/many/many_风格A.png",
           "sentences": [
             {
               "en": "How many ropes are in the Chinese knot?",
@@ -4654,7 +4654,7 @@ const TEXTBOOK_DATA = {
               "letter": "ure"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/picture/picture_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/picture/picture_风格A.png",
           "sentences": [
             {
               "en": "How many birds are in the picture?",
@@ -4696,7 +4696,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/today/today_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/today/today_风格A.png",
           "sentences": [
             {
               "en": "Today is National Day.",
@@ -4734,7 +4734,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/paint/paint_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/paint/paint_风格A.png",
           "sentences": [
             {
               "en": "Everyone, let’s come and paint!",
@@ -4783,7 +4783,7 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/number/number_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/number/number_风格A.png",
           "sentences": [
             {
               "en": "Think of more animals or plants with numbers.",
@@ -4821,7 +4821,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/count/count_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/count/count_风格A.png",
           "sentences": [
             {
               "en": "Count, count, count with me!",
@@ -4851,7 +4851,7 @@ const TEXTBOOK_DATA = {
               "letter": "ow"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/how/how_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/how/how_风格A.png",
           "sentences": [
             {
               "en": "How many ropes are in the Chinese knot?",
@@ -4885,7 +4885,7 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/bird/bird_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/bird/bird_风格A.png",
           "sentences": [
             {
               "en": "How many birds are in the picture?",
@@ -4919,7 +4919,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/one/one_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/one/one_风格A.png",
           "sentences": [
             {
               "en": "One, two, three, four, five, six!",
@@ -4949,7 +4949,7 @@ const TEXTBOOK_DATA = {
               "letter": "o"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/two/two_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/two/two_风格A.png",
           "sentences": [
             {
               "en": "One, two, three, four, five, six!",
@@ -4983,7 +4983,7 @@ const TEXTBOOK_DATA = {
               "letter": "ee"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/three/three_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/three/three_风格A.png",
           "sentences": [
             {
               "en": "One, two, three, four, five, six!",
@@ -5013,7 +5013,7 @@ const TEXTBOOK_DATA = {
               "letter": "our"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/four/four_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/four/four_风格A.png",
           "sentences": [
             {
               "en": "One, two, three, four, five, six!",
@@ -5051,7 +5051,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/five/five_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/five/five_风格A.png",
           "sentences": [
             {
               "en": "One, two, three, four, five, six!",
@@ -5085,7 +5085,7 @@ const TEXTBOOK_DATA = {
               "letter": "x"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/six/six_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/six/six_风格A.png",
           "sentences": [
             {
               "en": "One, two, three, four, five, six!",
@@ -5127,7 +5127,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/seven/seven_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/seven/seven_风格A.png",
           "sentences": [
             {
               "en": "Seven, eight, nine, ten, eleven, twelve!",
@@ -5157,7 +5157,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/eight/eight_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/eight/eight_风格A.png",
           "sentences": [
             {
               "en": "Seven, eight, nine, ten, eleven, twelve!",
@@ -5191,7 +5191,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/ten/ten_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/ten/ten_风格A.png",
           "sentences": [
             {
               "en": "Seven, eight, nine, ten, eleven, twelve!",
@@ -5237,7 +5237,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/eleven/eleven_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/eleven/eleven_风格A.png",
           "sentences": [
             {
               "en": "Seven, eight, nine, ten, eleven, twelve!",
@@ -5279,7 +5279,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/twelve/twelve_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/twelve/twelve_风格A.png",
           "sentences": [
             {
               "en": "Seven, eight, nine, ten, eleven, twelve!",
@@ -5313,7 +5313,7 @@ const TEXTBOOK_DATA = {
               "letter": "p"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/rope/rope_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/rope/rope_风格A.png",
           "sentences": [
             {
               "en": "How many ropes are in the Chinese knot?",
@@ -5343,7 +5343,7 @@ const TEXTBOOK_DATA = {
               "letter": "o"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/who/who_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/who/who_风格A.png",
           "sentences": [
             {
               "en": "Who can make a Chinese knot?",
@@ -5377,7 +5377,7 @@ const TEXTBOOK_DATA = {
               "letter": "k"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/make/make_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/make/make_风格A.png",
           "sentences": [
             {
               "en": "Who can make a Chinese knot?",
@@ -5439,7 +5439,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/Chinese_knot/Chinese_knot_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/Chinese_knot/Chinese_knot_风格A.png",
           "sentences": [
             {
               "en": "How many ropes are in the Chinese knot?",
@@ -5489,7 +5489,7 @@ const TEXTBOOK_DATA = {
               "letter": "l"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/beautiful/beautiful_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/beautiful/beautiful_风格A.png",
           "sentences": [
             {
               "en": "Look at the beautiful rainbow.",
@@ -5527,7 +5527,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/only/only_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/only/only_风格A.png",
           "sentences": [
             {
               "en": "Only one rope!",
@@ -5573,7 +5573,7 @@ const TEXTBOOK_DATA = {
               "letter": "ng"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/amazing/amazing_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/amazing/amazing_风格A.png",
           "sentences": [
             {
               "en": "The magic show is amazing.",
@@ -5603,7 +5603,7 @@ const TEXTBOOK_DATA = {
               "letter": "ow"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/show/show_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/show/show_风格A.png",
           "sentences": [
             {
               "en": "Let me show you.",
@@ -5641,7 +5641,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/baby/baby_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/baby/baby_风格A.png",
           "sentences": [
             {
               "en": "The baby bird is cute.",
@@ -5675,7 +5675,7 @@ const TEXTBOOK_DATA = {
               "letter": "p"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/cheep/cheep_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/cheep/cheep_风格A.png",
           "sentences": [
             {
               "en": "The chicks cheep loudly.",
@@ -5705,7 +5705,7 @@ const TEXTBOOK_DATA = {
               "letter": "gg"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/egg/egg_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/egg/egg_风格A.png",
           "sentences": [
             {
               "en": "My twelve eggs!",
@@ -5747,7 +5747,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/hungry/hungry_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/hungry/hungry_风格A.png",
           "sentences": [
             {
               "en": "Er, I’m hungry.",
@@ -5785,7 +5785,7 @@ const TEXTBOOK_DATA = {
               "letter": "nd"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/around/around_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/around/around_风格A.png",
           "sentences": [
             {
               "en": "Think about numbers of things around you.",
@@ -5838,7 +5838,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/family/family_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/family/family_风格A.png",
           "sentences": [
             {
               "en": "Draw a picture of a family member.",
@@ -5872,7 +5872,7 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/dad_(father)/dad_风格A.png",
+          "image": "assets/images/words/Unit6/dad_(father)/dad_风格A.png",
           "sentences": [
             {
               "en": "This is my dad.",
@@ -5906,7 +5906,7 @@ const TEXTBOOK_DATA = {
               "letter": "m"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/mum_(mother)/mum_风格A.png",
+          "image": "assets/images/words/Unit6/mum_(mother)/mum_风格A.png",
           "sentences": [
             {
               "en": "I love my mum.",
@@ -5944,7 +5944,7 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/brother/brother_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/brother/brother_风格A.png",
           "sentences": [
             {
               "en": "Brother’s in the bedroom.",
@@ -5982,7 +5982,7 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/sister/sister_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/sister/sister_风格A.png",
           "sentences": [
             {
               "en": "This is my sister.",
@@ -6016,7 +6016,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/but/but_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/but/but_风格A.png",
           "sentences": [
             {
               "en": "But who is that?",
@@ -6058,7 +6058,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/people/people_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/people/people_风格A.png",
           "sentences": [
             {
               "en": "How many people are in the story?",
@@ -6092,7 +6092,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/story/story_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/story/story_风格A.png",
           "sentences": [
             {
               "en": "How many people are in the story?",
@@ -6126,7 +6126,7 @@ const TEXTBOOK_DATA = {
               "letter": "p"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/cap/cap_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/cap/cap_风格A.png",
           "sentences": [
             {
               "en": "Look at the cap.",
@@ -6160,7 +6160,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/worry/worry_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/worry/worry_风格A.png",
           "sentences": [
             {
               "en": "Don't worry, I can help you.",
@@ -6190,7 +6190,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/on/on_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/on/on_风格A.png",
           "sentences": [
             {
               "en": "The book is on the desk.",
@@ -6240,7 +6240,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/come_on/come_on_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/come_on/come_on_风格A.png",
           "sentences": [
             {
               "en": "Grandma, Grandpa, Dad, Mum, come on!",
@@ -6278,7 +6278,7 @@ const TEXTBOOK_DATA = {
               "letter": "o"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/photo/photo_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/photo/photo_风格A.png",
           "sentences": [
             {
               "en": "This is my family photo.",
@@ -6316,7 +6316,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/love/love_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/love/love_风格A.png",
           "sentences": [
             {
               "en": "I love my family.",
@@ -6354,7 +6354,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/daddy/daddy_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/daddy/daddy_风格A.png",
           "sentences": [
             {
               "en": "Come on, Daddy!",
@@ -6392,7 +6392,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/mummy/mummy_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/mummy/mummy_风格A.png",
           "sentences": [
             {
               "en": "Come on, Mummy!",
@@ -6422,7 +6422,7 @@ const TEXTBOOK_DATA = {
               "letter": "ere"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/where/where_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/where/where_风格A.png",
           "sentences": [
             {
               "en": "Where is their new home?",
@@ -6456,7 +6456,7 @@ const TEXTBOOK_DATA = {
               "letter": "g"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/dog/dog_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/dog/dog_风格A.png",
           "sentences": [
             {
               "en": "Help the dog find its way home.",
@@ -6490,7 +6490,7 @@ const TEXTBOOK_DATA = {
               "letter": "x"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/box/box_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/box/box_风格A.png",
           "sentences": [
             {
               "en": "It’s in the orange box!",
@@ -6540,7 +6540,7 @@ const TEXTBOOK_DATA = {
               "letter": "a"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/grandma_(grandmother)/grandma_风格A.png",
+          "image": "assets/images/words/Unit6/grandma_(grandmother)/grandma_风格A.png",
           "sentences": [
             {
               "en": "My grandma tells me stories.",
@@ -6590,7 +6590,7 @@ const TEXTBOOK_DATA = {
               "letter": "a"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/grandpa_(grandfather)/grandpa_风格A.png",
+          "image": "assets/images/words/Unit6/grandpa_(grandfather)/grandpa_风格A.png",
           "sentences": [
             {
               "en": "Grandpa is kind.",
@@ -6635,7 +6635,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/sweet/sweet_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/sweet/sweet_风格A.png",
           "sentences": [
             {
               "en": "This is our sweet home!",
@@ -6673,7 +6673,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/home/home_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/home/home_风格A.png",
           "sentences": [
             {
               "en": "Help the dog find its way home.",
@@ -6711,7 +6711,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/game/game_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/game/game_风格A.png",
           "sentences": [
             {
               "en": "Let’s play a game!",
@@ -6745,7 +6745,7 @@ const TEXTBOOK_DATA = {
               "letter": "m"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/room/room_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/room/room_风格A.png",
           "sentences": [
             {
               "en": "He’s in the living room / kitchen.",
@@ -6803,7 +6803,7 @@ const TEXTBOOK_DATA = {
               "letter": "m"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/living_room/living_room_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/living_room/living_room_风格A.png",
           "sentences": [
             {
               "en": "He’s in the living room / kitchen.",
@@ -6849,7 +6849,7 @@ const TEXTBOOK_DATA = {
               "letter": "m"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/bedroom/bedroom_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/bedroom/bedroom_风格A.png",
           "sentences": [
             {
               "en": "She’s in the living room / bedroom.",
@@ -6895,7 +6895,7 @@ const TEXTBOOK_DATA = {
               "letter": "m"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/bathroom/bathroom_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/bathroom/bathroom_风格A.png",
           "sentences": [
             {
               "en": "Who is in the bathroom?",
@@ -6937,7 +6937,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/kitchen/kitchen_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/kitchen/kitchen_风格A.png",
           "sentences": [
             {
               "en": "He’s in the living room / kitchen.",
@@ -6991,7 +6991,7 @@ const TEXTBOOK_DATA = {
               "letter": "m"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/dining_room/dining_room_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/dining_room/dining_room_风格A.png",
           "sentences": [
             {
               "en": "Who is in the dining room?",
@@ -7021,7 +7021,7 @@ const TEXTBOOK_DATA = {
               "letter": "oor"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/door/door_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/door/door_风格A.png",
           "sentences": [
             {
               "en": "Let me open the doors and find you all!",
@@ -7051,7 +7051,7 @@ const TEXTBOOK_DATA = {
               "letter": "air"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/chair/chair_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/chair/chair_风格A.png",
           "sentences": [
             {
               "en": "On the chair, I think.",
@@ -7089,7 +7089,7 @@ const TEXTBOOK_DATA = {
               "letter": "k"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/think/think_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/think/think_风格A.png",
           "sentences": [
             {
               "en": "Think of more animals or plants with numbers.",
@@ -7127,7 +7127,7 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/under/under_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/under/under_风格A.png",
           "sentences": [
             {
               "en": "It’s under the table / bed.",
@@ -7161,7 +7161,7 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/bed/bed_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/bed/bed_风格A.png",
           "sentences": [
             {
               "en": "The cat is on the bed.",
@@ -7191,7 +7191,7 @@ const TEXTBOOK_DATA = {
               "letter": "oy"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/toy/toy_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/toy/toy_风格A.png",
           "sentences": [
             {
               "en": "Susu’s toy is here.",
@@ -7229,7 +7229,7 @@ const TEXTBOOK_DATA = {
               "letter": "w"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/miaow/miaow_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/miaow/miaow_风格A.png",
           "sentences": [
             {
               "en": "Miaow! The cat is under the table.",
@@ -7267,7 +7267,7 @@ const TEXTBOOK_DATA = {
               "letter": "le"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/table/table_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/table/table_风格A.png",
           "sentences": [
             {
               "en": "It’s under the table / bed.",
@@ -7301,7 +7301,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/cat/cat_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/cat/cat_风格A.png",
           "sentences": [
             {
               "en": "Where are the cats?",
@@ -7335,7 +7335,7 @@ const TEXTBOOK_DATA = {
               "letter": "ll"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/ball/ball_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/ball/ball_风格A.png",
           "sentences": [
             {
               "en": "I have a red ball.",
@@ -7365,7 +7365,7 @@ const TEXTBOOK_DATA = {
               "letter": "eir"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/their/their_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/their/their_风格A.png",
           "sentences": [
             {
               "en": "Where is their new home?",
@@ -7399,7 +7399,7 @@ const TEXTBOOK_DATA = {
               "letter": "le"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/apple/apple_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/apple/apple_风格A.png",
           "sentences": [
             {
               "en": "Look at the apple!",
@@ -7429,7 +7429,7 @@ const TEXTBOOK_DATA = {
               "letter": "are"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/share/share_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/share/share_风格A.png",
           "sentences": [
             {
               "en": "Draw and share.",
@@ -7463,7 +7463,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/put/put_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/put/put_风格A.png",
           "sentences": [
             {
               "en": "Please put your book in the bag.",
@@ -7505,7 +7505,7 @@ const TEXTBOOK_DATA = {
               "letter": "ng"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/cooking/cooking_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/cooking/cooking_风格A.png",
           "sentences": [
             {
               "en": "Cooking is fun.",
@@ -7539,7 +7539,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/sun/sun_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/sun/sun_风格A.png",
           "sentences": [
             {
               "en": "She loves the sun.",
@@ -7577,7 +7577,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/like/like_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/like/like_风格A.png",
           "sentences": [
             {
               "en": "He likes to run.",
@@ -7611,7 +7611,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/run/run_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/run/run_风格A.png",
           "sentences": [
             {
               "en": "He likes to run.",
@@ -7679,7 +7679,7 @@ const TEXTBOOK_DATA = {
               "letter": "ll"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/all/all_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/all/all_风格A.png",
           "sentences": [
             {
               "en": "Let me open the doors and find you all!",
@@ -7733,7 +7733,7 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/all_around/all_around_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/all_around/all_around_风格A.png",
           "sentences": [
             {
               "en": "Numbers are all around.",
@@ -7767,7 +7767,7 @@ const TEXTBOOK_DATA = {
               "letter": "g"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/big/big_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/big/big_风格A.png",
           "sentences": [
             {
               "en": "Big numbers, little numbers.",
@@ -7805,7 +7805,7 @@ const TEXTBOOK_DATA = {
               "letter": "le"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/little/little_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/little/little_风格A.png",
           "sentences": [
             {
               "en": "Come here, dear little dog.",
@@ -7859,7 +7859,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/everywhere/everywhere_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/everywhere/everywhere_风格A.png",
           "sentences": [
             {
               "en": "I see numbers everywhere!",

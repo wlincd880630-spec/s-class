@@ -33,7 +33,7 @@ const TEXTBOOK_DATA = {
               "letter": "ll"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/still/still_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/still/still_风格A.png",
           "sentences": [
             {
               "en": "Lingling is still in the UK with Sam and Amy.",
@@ -79,7 +79,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/programme/programme_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/programme/programme_风格A.png",
           "sentences": [
             {
               "en": "I watched a television programme about China last night.",
@@ -117,7 +117,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/lady/lady_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/lady/lady_风格A.png",
           "sentences": [
             {
               "en": "The old lady talked about her life many years ago.",
@@ -155,7 +155,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/life/life_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/life/life_风格A.png",
           "sentences": [
             {
               "en": "The old lady talked about her life many years ago.",
@@ -205,7 +205,7 @@ const TEXTBOOK_DATA = {
               "letter": "nt"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/different/different_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/different/different_风格A.png",
           "sentences": [
             {
               "en": "There are lots of different ways to find information on this topic.",
@@ -239,7 +239,7 @@ const TEXTBOOK_DATA = {
               "letter": "o"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/ago/ago_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/ago/ago_风格A.png",
           "sentences": [
             {
               "en": "The old lady talked about her life many years ago.",
@@ -289,7 +289,7 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/interviewer/interviewer_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/interviewer/interviewer_风格A.png",
           "sentences": [
             {
               "en": "The interviewer asked me a question.",
@@ -327,7 +327,7 @@ const TEXTBOOK_DATA = {
               "letter": "gh"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/enough/enough_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/enough/enough_风格A.png",
           "sentences": [
             {
               "en": "We didn't have enough food.",
@@ -385,7 +385,7 @@ const TEXTBOOK_DATA = {
               "letter": "on"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/television/television_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/television/television_风格A.png",
           "sentences": [
             {
               "en": "I watched a television programme about China last night.",
@@ -443,7 +443,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/grandchildren/grandchildren_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/grandchildren/grandchildren_风格A.png",
           "sentences": [
             {
               "en": "My grandparents love their grandchildren.",
@@ -477,7 +477,7 @@ const TEXTBOOK_DATA = {
               "letter": "nge"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/change/change_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/change/change_风格A.png",
           "sentences": [
             {
               "en": "But some changes I really like.",
@@ -511,7 +511,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/night/night_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/night/night_风格A.png",
           "sentences": [
             {
               "en": "We go to bed at night.",
@@ -545,7 +545,7 @@ const TEXTBOOK_DATA = {
               "letter": "k"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/work/work_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/work/work_风格A.png",
           "sentences": [
             {
               "en": "Mum goes to work at half past six.",
@@ -579,7 +579,7 @@ const TEXTBOOK_DATA = {
               "letter": "ld"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/field/field_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/field/field_风格A.png",
           "sentences": [
             {
               "en": "She worked in the fields.",
@@ -609,7 +609,7 @@ const TEXTBOOK_DATA = {
               "letter": "ire"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/fire/fire_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/fire/fire_风格A.png",
           "sentences": [
             {
               "en": "She cooked on a fire.",
@@ -635,7 +635,7 @@ const TEXTBOOK_DATA = {
               "letter": "or"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/or/or_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/or/or_风格A.png",
           "sentences": [
             {
               "en": "I don't like apples or oranges.",
@@ -677,7 +677,7 @@ const TEXTBOOK_DATA = {
               "letter": "o"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/radio/radio_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/radio/radio_风格A.png",
           "sentences": [
             {
               "en": "She didn't have a television or a radio.",
@@ -727,7 +727,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/telephone/telephone_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/telephone/telephone_风格A.png",
           "sentences": [
             {
               "en": "She is talking on the telephone.",
@@ -765,7 +765,7 @@ const TEXTBOOK_DATA = {
               "letter": "n't"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/couldn't_=_could_not/couldnt_=_could_not_风格A.png",
+          "image": "assets/images/words/Unit1/couldn't_=_could_not/couldnt_=_could_not_风格A.png",
           "sentences": [
             {
               "en": "She couldn't write many years ago.",
@@ -803,7 +803,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/write/write_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/write/write_风格A.png",
           "sentences": [
             {
               "en": "Then write and tell the class about it.",
@@ -841,7 +841,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/hope/hope_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/hope/hope_风格A.png",
           "sentences": [
             {
               "en": "I hope you are well.",
@@ -882,7 +882,7 @@ const TEXTBOOK_DATA = {
               "letter": "nt"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/learnt/learnt_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/learnt/learnt_风格A.png",
           "sentences": [
             {
               "en": "Lingling:\t Yes, she learnt English.",
@@ -916,7 +916,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/taught/taught_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/taught/taught_风格A.png",
           "sentences": [
             {
               "en": "She taught languages",
@@ -962,7 +962,7 @@ const TEXTBOOK_DATA = {
               "letter": "ge"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/language/language_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/language/language_风格A.png",
           "sentences": [
             {
               "en": "English is a useful language.",
@@ -1000,7 +1000,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/wrote/wrote_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit1/wrote/wrote_风格A.png",
           "sentences": [
             {
               "en": "She wrote a letter to her friend.",
@@ -1042,7 +1042,7 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/dancer/dancer_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/dancer/dancer_风格A.png",
           "sentences": [
             {
               "en": "She was a dancer.",
@@ -1084,7 +1084,7 @@ const TEXTBOOK_DATA = {
               "letter": "ign"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/foreign/foreign_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/foreign/foreign_风格A.png",
           "sentences": [
             {
               "en": "He likes to learn foreign languages.",
@@ -1126,7 +1126,7 @@ const TEXTBOOK_DATA = {
               "letter": "ed"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/studied/studied_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/studied/studied_风格A.png",
           "sentences": [
             {
               "en": "He studied very hard.",
@@ -1160,7 +1160,7 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/hard/hard_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/hard/hard_风格A.png",
           "sentences": [
             {
               "en": "It's hard to fly a kite.",
@@ -1217,7 +1217,7 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/hamburger/hamburger_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/hamburger/hamburger_风格A.png",
           "sentences": [
             {
               "en": "Lingling had a sandwich because she doesn't like hamburgers.",
@@ -1259,7 +1259,7 @@ const TEXTBOOK_DATA = {
               "letter": "sh"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/English/English_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/English/English_风格A.png",
           "sentences": [
             {
               "en": "Fanfan:\t \u0007Does Lingling like English food?",
@@ -1313,7 +1313,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/breakfast/breakfast_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/breakfast/breakfast_风格A.png",
           "sentences": [
             {
               "en": "I will have breakfast.",
@@ -1351,7 +1351,7 @@ const TEXTBOOK_DATA = {
               "letter": "ch"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/lunch/lunch_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/lunch/lunch_风格A.png",
           "sentences": [
             {
               "en": "And what did she have for lunch?",
@@ -1401,7 +1401,7 @@ const TEXTBOOK_DATA = {
               "letter": "ch"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/sandwich/sandwich_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/sandwich/sandwich_风格A.png",
           "sentences": [
             {
               "en": "Lingling had a sandwich because she doesn't like hamburgers.",
@@ -1471,7 +1471,7 @@ const TEXTBOOK_DATA = {
               "letter": "s"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/fish_and_chips/fish_and_chips_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/fish_and_chips/fish_and_chips_风格A.png",
           "sentences": [
             {
               "en": "We had fish and chips for lunch.",
@@ -1537,7 +1537,7 @@ const TEXTBOOK_DATA = {
               "letter": "l"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/traditional/traditional_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/traditional/traditional_风格A.png",
           "sentences": [
             {
               "en": "It's a traditional English",
@@ -1571,7 +1571,7 @@ const TEXTBOOK_DATA = {
               "letter": "sh"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/dish/dish_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/dish/dish_风格A.png",
           "sentences": [
             {
               "en": "It's a traditional English dish.",
@@ -1625,7 +1625,7 @@ const TEXTBOOK_DATA = {
               "letter": "ch"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/very_much/very_much_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/very_much/very_much_风格A.png",
           "sentences": [
             {
               "en": "Thank you very much!",
@@ -1663,7 +1663,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/gave/gave_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/gave/gave_风格A.png",
           "sentences": [
             {
               "en": "I gave one apple",
@@ -1709,7 +1709,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/tonight/tonight_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/tonight/tonight_风格A.png",
           "sentences": [
             {
               "en": "Tonight Mum is going to cook Chinese food for us.",
@@ -1766,7 +1766,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/library/library_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/library/library_风格A.png",
           "sentences": [
             {
               "en": "We can find books about animals in our school library...",
@@ -1808,7 +1808,7 @@ const TEXTBOOK_DATA = {
               "letter": "nt"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/student/student_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/student/student_风格A.png",
           "sentences": [
             {
               "en": "We've got books for students.",
@@ -1842,7 +1842,7 @@ const TEXTBOOK_DATA = {
               "letter": "nt"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/sent/sent_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/sent/sent_风格A.png",
           "sentences": [
             {
               "en": "I sent a postcard to my cousin.",
@@ -1872,7 +1872,7 @@ const TEXTBOOK_DATA = {
               "letter": "D"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/CD/CD_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/CD/CD_风格A.png",
           "sentences": [
             {
               "en": "I sent a CD to my friend.",
@@ -1906,7 +1906,7 @@ const TEXTBOOK_DATA = {
               "letter": "ea"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/idea/idea_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/idea/idea_风格A.png",
           "sentences": [
             {
               "en": "Lingling:\t That's a good idea.",
@@ -1940,7 +1940,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/put/put_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/put/put_风格A.png",
           "sentences": [
             {
               "en": "Please put your book on the desk.",
@@ -1974,7 +1974,7 @@ const TEXTBOOK_DATA = {
               "letter": "lf"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/shelf/shelf_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/shelf/shelf_风格A.png",
           "sentences": [
             {
               "en": "Lingling:\t Let's put them on this shelf.",
@@ -2012,7 +2012,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/heavy/heavy_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/heavy/heavy_风格A.png",
           "sentences": [
             {
               "en": "It's not too heavy, not at all.",
@@ -2070,7 +2070,7 @@ const TEXTBOOK_DATA = {
               "letter": "ry"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/dictionary/dictionary_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/dictionary/dictionary_风格A.png",
           "sentences": [
             {
               "en": "I looked up the word in my dictionary.",
@@ -2104,7 +2104,7 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/card/card_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit2/card/card_风格A.png",
           "sentences": [
             {
               "en": "Pick a card and tell a story.",
@@ -2162,7 +2162,7 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/library_card/library_card_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/library_card/library_card_风格A.png",
           "sentences": [
             {
               "en": "Here is my library card.",
@@ -2196,7 +2196,7 @@ const TEXTBOOK_DATA = {
               "letter": "k"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/ask/ask_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/ask/ask_风格A.png",
           "sentences": [
             {
               "en": "Do, ask and answer.",
@@ -2234,7 +2234,7 @@ const TEXTBOOK_DATA = {
               "letter": "ng"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/wrong/wrong_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/wrong/wrong_风格A.png",
           "sentences": [
             {
               "en": "Oh, they're in the wrong",
@@ -2264,7 +2264,7 @@ const TEXTBOOK_DATA = {
               "letter": "ear"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/dear/dear_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/dear/dear_风格A.png",
           "sentences": [
             {
               "en": "Dear, I forgot my keys again!",
@@ -2310,7 +2310,7 @@ const TEXTBOOK_DATA = {
               "letter": "tion"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/information/information_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/information/information_风格A.png",
           "sentences": [
             {
               "en": "We can find information from films and e-books as well.",
@@ -2352,7 +2352,7 @@ const TEXTBOOK_DATA = {
               "letter": "k"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/e-book/e-book_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/e-book/e-book_风格A.png",
           "sentences": [
             {
               "en": "I read an e-book on the computer.",
@@ -2398,7 +2398,7 @@ const TEXTBOOK_DATA = {
               "letter": "ct"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/project/project_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/project/project_风格A.png",
           "sentences": [
             {
               "en": "We are going to do a science project about animals.",
@@ -2436,7 +2436,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/guide/guide_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/guide/guide_风格A.png",
           "sentences": [
             {
               "en": "This is a guide for",
@@ -2474,7 +2474,7 @@ const TEXTBOOK_DATA = {
               "letter": "m"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/%EF%AC%81lm/%EF%AC%81lm_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/ﬁlm/ﬁlm_风格A.png",
           "sentences": [
             {
               "en": "We watched a film at school.",
@@ -2520,7 +2520,7 @@ const TEXTBOOK_DATA = {
               "letter": "ll"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/as_well/as_well_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/as_well/as_well_风格A.png",
           "sentences": [
             {
               "en": "I like apples as well.",
@@ -2550,7 +2550,7 @@ const TEXTBOOK_DATA = {
               "letter": "ay"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/way/way_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/way/way_风格A.png",
           "sentences": [
             {
               "en": "There are lots of different ways to find information on this topic.",
@@ -2580,7 +2580,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/on/on_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/on/on_风格A.png",
           "sentences": [
             {
               "en": "This is a book on animals.",
@@ -2622,7 +2622,7 @@ const TEXTBOOK_DATA = {
               "letter": "c"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/topic/topic_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/topic/topic_风格A.png",
           "sentences": [
             {
               "en": "There are lots of different ways to find information on this topic.",
@@ -2663,7 +2663,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/light/light_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/light/light_风格A.png",
           "sentences": [
             {
               "en": "It's light and it's right.",
@@ -2709,7 +2709,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/broken/broken_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/broken/broken_风格A.png",
           "sentences": [
             {
               "en": "The yellow pencils are broken.",
@@ -2795,7 +2795,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/department_store/department_store_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/department_store/department_store_风格A.png",
           "sentences": [
             {
               "en": "We went to a big department store.",
@@ -2837,7 +2837,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/pocket/pocket_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/pocket/pocket_风格A.png",
           "sentences": [
             {
               "en": "My coat has two pockets.",
@@ -2887,7 +2887,7 @@ const TEXTBOOK_DATA = {
               "letter": "a"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/umbrella/umbrella_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/umbrella/umbrella_风格A.png",
           "sentences": [
             {
               "en": "Take your umbrella, it is raining.",
@@ -2965,7 +2965,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/sales_assistant/sales_assistant_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/sales_assistant/sales_assistant_风格A.png",
           "sentences": [
             {
               "en": "The sales assistant is very kind.",
@@ -2999,7 +2999,7 @@ const TEXTBOOK_DATA = {
               "letter": "l"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/wheel/wheel_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/wheel/wheel_风格A.png",
           "sentences": [
             {
               "en": "Sales assistant:\t And it's got four wheels.",
@@ -3033,7 +3033,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/easy/easy_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/easy/easy_风格A.png",
           "sentences": [
             {
               "en": "It'll be easy for you to carry.",
@@ -3067,7 +3067,7 @@ const TEXTBOOK_DATA = {
               "letter": "k"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/take/take_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/take/take_风格A.png",
           "sentences": [
             {
               "en": "Grandma:\t What are you going to take?",
@@ -3097,7 +3097,7 @@ const TEXTBOOK_DATA = {
               "letter": "oo"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/too/too_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/too/too_风格A.png",
           "sentences": [
             {
               "en": "It's not too big and it's not too small.",
@@ -3127,7 +3127,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/try/try_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/try/try_风格A.png",
           "sentences": [
             {
               "en": "Sales assistant:\tTry this white one.",
@@ -3173,7 +3173,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/lovely/lovely_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit3/lovely/lovely_风格A.png",
           "sentences": [
             {
               "en": "She had a lovely time there.",
@@ -3214,7 +3214,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/moon/moon_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/moon/moon_风格A.png",
           "sentences": [
             {
               "en": "I went to the moon.",
@@ -3248,7 +3248,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/get/get_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/get/get_风格A.png",
           "sentences": [
             {
               "en": "We get to school at eight o'clock.",
@@ -3286,7 +3286,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/west/west_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/west/west_风格A.png",
           "sentences": [
             {
               "en": "Xinjiang is in the west of China.",
@@ -3332,7 +3332,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/parent/parent_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/parent/parent_风格A.png",
           "sentences": [
             {
               "en": "Last July Lingling went to Xinjiang with her parents.",
@@ -3362,7 +3362,7 @@ const TEXTBOOK_DATA = {
               "letter": "ay"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/stay/stay_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/stay/stay_风格A.png",
           "sentences": [
             {
               "en": "We stayed with",
@@ -3400,7 +3400,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/July/July_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/July/July_风格A.png",
           "sentences": [
             {
               "en": "Last July Lingling went to Xinjiang with her parents.",
@@ -3434,7 +3434,7 @@ const TEXTBOOK_DATA = {
               "letter": "th"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/south/south_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/south/south_风格A.png",
           "sentences": [
             {
               "en": "It's in the south of China.",
@@ -3488,7 +3488,7 @@ const TEXTBOOK_DATA = {
               "letter": "r"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/remember/remember_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/remember/remember_风格A.png",
           "sentences": [
             {
               "en": "Ms Smart:\t Oh yes, I remember!",
@@ -3526,7 +3526,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/June/June_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/June/June_风格A.png",
           "sentences": [
             {
               "en": "I met them in June!",
@@ -3560,7 +3560,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/east/east_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/east/east_风格A.png",
           "sentences": [
             {
               "en": "The sun rises in the east.",
@@ -3594,7 +3594,7 @@ const TEXTBOOK_DATA = {
               "letter": "st"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/best/best_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/best/best_风格A.png",
           "sentences": [
             {
               "en": "She is my best friend.",
@@ -3628,7 +3628,7 @@ const TEXTBOOK_DATA = {
               "letter": "th"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/north/north_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/north/north_风格A.png",
           "sentences": [
             {
               "en": "I      travelled        north.",
@@ -3666,7 +3666,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/rest/rest_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/rest/rest_风格A.png",
           "sentences": [
             {
               "en": "Let's rest for ten minutes.",
@@ -3732,7 +3732,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/have_a_rest/have_a_rest_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/have_a_rest/have_a_rest_风格A.png",
           "sentences": [
             {
               "en": "Let's have a rest under the tree.",
@@ -3770,7 +3770,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/rode/rode_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/rode/rode_风格A.png",
           "sentences": [
             {
               "en": "She rode a horse.",
@@ -3827,7 +3827,7 @@ const TEXTBOOK_DATA = {
               "letter": "g"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/evening/evening_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/evening/evening_风格A.png",
           "sentences": [
             {
               "en": "I do my homework in the evening.",
@@ -3861,7 +3861,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/late/late_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/late/late_风格A.png",
           "sentences": [
             {
               "en": "Fangfang:\t That's very, very late.",
@@ -3903,7 +3903,7 @@ const TEXTBOOK_DATA = {
               "letter": "r"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/worker/worker_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/worker/worker_风格A.png",
           "sentences": [
             {
               "en": "Fangfang:\t He's a worker in a factory.",
@@ -3949,7 +3949,7 @@ const TEXTBOOK_DATA = {
               "letter": "ry"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/factory/factory_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/factory/factory_风格A.png",
           "sentences": [
             {
               "en": "Fangfang:\t He's a worker in a factory.",
@@ -3979,7 +3979,7 @@ const TEXTBOOK_DATA = {
               "letter": "ly"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/early/early_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/early/early_风格A.png",
           "sentences": [
             {
               "en": "Daming:\t That's very early.",
@@ -4017,7 +4017,7 @@ const TEXTBOOK_DATA = {
               "letter": "i"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/taxi/taxi_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/taxi/taxi_风格A.png",
           "sentences": [
             {
               "en": "We took a yellow taxi to their home.",
@@ -4055,7 +4055,7 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/quarter/quarter_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/quarter/quarter_风格A.png",
           "sentences": [
             {
               "en": "Ms Smart:\t It's a quarter to seven.",
@@ -4085,7 +4085,7 @@ const TEXTBOOK_DATA = {
               "letter": "o"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/to/to_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/to/to_风格A.png",
           "sentences": [
             {
               "en": "It's a quarter to eight.",
@@ -4123,7 +4123,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/worry/worry_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/worry/worry_风格A.png",
           "sentences": [
             {
               "en": "Don't worry, I can help you.",
@@ -4168,7 +4168,7 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/paper/paper_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit4/paper/paper_风格A.png",
           "sentences": [
             {
               "en": "Draw a dragon on a piece of paper.",
@@ -4210,7 +4210,7 @@ const TEXTBOOK_DATA = {
               "letter": "s"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/Chinese/Chinese_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/Chinese/Chinese_风格A.png",
           "sentences": [
             {
               "en": "Tonight Mum is going to cook Chinese food for us.",
@@ -4240,7 +4240,7 @@ const TEXTBOOK_DATA = {
               "letter": "o"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/so/so_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/so/so_风格A.png",
           "sentences": [
             {
               "en": "So we can drive or ride wherever we like.",
@@ -4274,7 +4274,7 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/word/word_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/word/word_风格A.png",
           "sentences": [
             {
               "en": "Can you spell this word?",
@@ -4304,7 +4304,7 @@ const TEXTBOOK_DATA = {
               "letter": "ew"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/drew/drew_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/drew/drew_风格A.png",
           "sentences": [
             {
               "en": "I drew a dragon.",
@@ -4338,7 +4338,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/cut/cut_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/cut/cut_风格A.png",
           "sentences": [
             {
               "en": "I cut the paper.",
@@ -4372,7 +4372,7 @@ const TEXTBOOK_DATA = {
               "letter": "ce"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/piece/piece_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/piece/piece_风格A.png",
           "sentences": [
             {
               "en": "Draw a dragon on a piece of paper.",
@@ -4410,7 +4410,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/paint/paint_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/paint/paint_风格A.png",
           "sentences": [
             {
               "en": "I painted it.",
@@ -4444,7 +4444,7 @@ const TEXTBOOK_DATA = {
               "letter": "ck"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/stick/stick_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/stick/stick_风格A.png",
           "sentences": [
             {
               "en": "I put sticks on it.",
@@ -4478,7 +4478,7 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/tied/tied_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/tied/tied_风格A.png",
           "sentences": [
             {
               "en": "I tied strings to it.",
@@ -4512,7 +4512,7 @@ const TEXTBOOK_DATA = {
               "letter": "ng"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/string/string_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/string/string_风格A.png",
           "sentences": [
             {
               "en": "I tied strings to it.",
@@ -4553,7 +4553,7 @@ const TEXTBOOK_DATA = {
               "letter": "gh"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/laugh/laugh_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/laugh/laugh_风格A.png",
           "sentences": [
             {
               "en": "We laughed a lot.",
@@ -4583,7 +4583,7 @@ const TEXTBOOK_DATA = {
               "letter": "ore"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/wore/wore_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/wore/wore_风格A.png",
           "sentences": [
             {
               "en": "The women wore men's clothes.",
@@ -4621,7 +4621,7 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/letter/letter_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/letter/letter_风格A.png",
           "sentences": [
             {
               "en": "A:\t I've got a letter from a friend.",
@@ -4659,7 +4659,7 @@ const TEXTBOOK_DATA = {
               "letter": "re"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/theatre/theatre_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/theatre/theatre_风格A.png",
           "sentences": [
             {
               "en": "Last week we went to a children's theatre.",
@@ -4701,7 +4701,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/women/women_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/women/women_风格A.png",
           "sentences": [
             {
               "en": "The women wore men's clothes.",
@@ -4739,7 +4739,7 @@ const TEXTBOOK_DATA = {
               "letter": "or"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/actor/actor_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/actor/actor_风格A.png",
           "sentences": [
             {
               "en": "The actor is very famous.",
@@ -4769,7 +4769,7 @@ const TEXTBOOK_DATA = {
               "letter": "old"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/told/told_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/told/told_风格A.png",
           "sentences": [
             {
               "en": "The actors told lots of jokes.",
@@ -4807,7 +4807,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/joke/joke_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/joke/joke_风格A.png",
           "sentences": [
             {
               "en": "The actors told lots of jokes.",
@@ -4845,7 +4845,7 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/after/after_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/after/after_风格A.png",
           "sentences": [
             {
               "en": "After the show we went to a restaurant.",
@@ -4875,7 +4875,7 @@ const TEXTBOOK_DATA = {
               "letter": "ow"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/show/show_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/show/show_风格A.png",
           "sentences": [
             {
               "en": "After the show we went to a restaurant.",
@@ -4933,7 +4933,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/restaurant/restaurant_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/restaurant/restaurant_风格A.png",
           "sentences": [
             {
               "en": "After the show we went to a restaurant.",
@@ -4971,7 +4971,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/ready/ready_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/ready/ready_风格A.png",
           "sentences": [
             {
               "en": "Are you ready for your trip to the US?",
@@ -5009,7 +5009,7 @@ const TEXTBOOK_DATA = {
               "letter": "ow"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/borrow/borrow_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/borrow/borrow_风格A.png",
           "sentences": [
             {
               "en": "And we borrowed a bike for you.",
@@ -5043,7 +5043,7 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/read/read_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/read/read_风格A.png",
           "sentences": [
             {
               "en": "She read a story yesterday.",
@@ -5081,7 +5081,7 @@ const TEXTBOOK_DATA = {
               "letter": "ll"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/at_all/at_all_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit5/at_all/at_all_风格A.png",
           "sentences": [
             {
               "en": "I don't like it at all.",
@@ -5111,7 +5111,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/in/in_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/in/in_风格A.png",
           "sentences": [
             {
               "en": "Lingling is still in the UK with Sam and Amy.",
@@ -5157,7 +5157,7 @@ const TEXTBOOK_DATA = {
               "letter": "r"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/another/another_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/another/another_风格A.png",
           "sentences": [
             {
               "en": "I want another apple, please.",
@@ -5207,7 +5207,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/history/history_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/history/history_风格A.png",
           "sentences": [
             {
               "en": "Dad read a book about Chinese history.",
@@ -5257,7 +5257,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/question/question_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/question/question_风格A.png",
           "sentences": [
             {
               "en": "Now answer the questions.",
@@ -5303,7 +5303,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/forget/forget_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/forget/forget_风格A.png",
           "sentences": [
             {
               "en": "Don't forget to bring some CDs of Chinese",
@@ -5341,7 +5341,7 @@ const TEXTBOOK_DATA = {
               "letter": "ng"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/bring/bring_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/bring/bring_风格A.png",
           "sentences": [
             {
               "en": "Don't forget to bring some CDs of Chinese",
@@ -5375,7 +5375,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/soon/soon_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/soon/soon_风格A.png",
           "sentences": [
             {
               "en": "I will write again soon.",
@@ -5416,7 +5416,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/when/when_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/when/when_风格A.png",
           "sentences": [
             {
               "en": "A: When are you going to the airport?",
@@ -5450,7 +5450,7 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/end/end_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/end/end_风格A.png",
           "sentences": [
             {
               "en": "The movie will end at eight.",
@@ -5492,7 +5492,7 @@ const TEXTBOOK_DATA = {
               "letter": "s"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/nervous/nervous_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/nervous/nervous_风格A.png",
           "sentences": [
             {
               "en": "But I feel nervous.",
@@ -5538,7 +5538,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/all_right/all_right_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/all_right/all_right_风格A.png",
           "sentences": [
             {
               "en": "Are you all right?",
@@ -5576,7 +5576,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/airport/airport_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/airport/airport_风格A.png",
           "sentences": [
             {
               "en": "A: When are you going to the airport?",
@@ -5618,7 +5618,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/ticket/ticket_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/ticket/ticket_风格A.png",
           "sentences": [
             {
               "en": "I have a ticket for the show.",
@@ -5664,7 +5664,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/passport/passport_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/passport/passport_风格A.png",
           "sentences": [
             {
               "en": "Don't forget your passport!",
@@ -5698,7 +5698,7 @@ const TEXTBOOK_DATA = {
               "letter": "f"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/safe/safe_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/safe/safe_风格A.png",
           "sentences": [
             {
               "en": "Safe trip, Daming!",
@@ -5732,7 +5732,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/pet/pet_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/pet/pet_风格A.png",
           "sentences": [
             {
               "en": "This is my new pet.",
@@ -5770,7 +5770,7 @@ const TEXTBOOK_DATA = {
               "letter": "k"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/speak/speak_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/speak/speak_风格A.png",
           "sentences": [
             {
               "en": "It speaks English.",
@@ -5816,7 +5816,7 @@ const TEXTBOOK_DATA = {
               "letter": "ng"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/building/building_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/building/building_风格A.png",
           "sentences": [
             {
               "en": "That building is very tall.",
@@ -5870,7 +5870,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/American/American_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/American/American_风格A.png",
           "sentences": [
             {
               "en": "She is an American girl.",
@@ -5920,7 +5920,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/find_out/find_out_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/find_out/find_out_风格A.png",
           "sentences": [
             {
               "en": "Let's find out more about New York.",
@@ -5954,7 +5954,7 @@ const TEXTBOOK_DATA = {
               "letter": "r"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/more/more_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "assets/images/words/Unit6/more/more_风格A.png",
           "sentences": [
             {
               "en": "I want to find out more about",
