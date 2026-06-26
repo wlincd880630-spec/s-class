@@ -33,19 +33,19 @@ const TEXTBOOK_DATA = {
               "letter": "ll"
             }
           ],
-          "image": "assets/images/words/Unit1/still/still_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/still/still_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Lingling is still in the UK with Sam and Amy.",
               "zh": "玲玲还在英国，和萨姆、艾米在一起。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/still-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/still-textbook.jpg"
             },
             {
               "en": "I still have my old teddy bear from when I was a baby.",
               "zh": "我仍然保留着我小时候的旧泰迪熊。",
               "source": "context",
-              "image": "https://picsum.photos/seed/still-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/still-context.jpg"
             }
           ]
         },
@@ -79,19 +79,19 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "assets/images/words/Unit1/programme/programme_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/programme/programme_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I watched a television programme about China last night.",
               "zh": "昨晚我看了一个关于中国的电视节目。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/programme-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/programme-textbook.jpg"
             },
             {
               "en": "My favourite TV programme is about animals in the jungle.",
               "zh": "我最喜欢的电视节目是关于丛林动物的。",
               "source": "context",
-              "image": "https://picsum.photos/seed/programme-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/programme-context.jpg"
             }
           ]
         },
@@ -117,19 +117,19 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "assets/images/words/Unit1/lady/lady_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/lady/lady_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The old lady talked about her life many years ago.",
               "zh": "那位老奶奶讲了她很多年前的生活。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/lady-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/lady-textbook.jpg"
             },
             {
               "en": "The kind lady helped me find my lost pencil case.",
               "zh": "那位好心的女士帮我找到了丢失的铅笔盒。",
               "source": "context",
-              "image": "https://picsum.photos/seed/lady-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/lady-context.jpg"
             }
           ]
         },
@@ -155,19 +155,19 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "assets/images/words/Unit1/life/life_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/life/life_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The old lady talked about her life many years ago.",
               "zh": "那位老奶奶讲了她很多年前的生活。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/life-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/life-textbook.jpg"
             },
             {
               "en": "My grandpa often tells me stories about his life at school.",
               "zh": "我爷爷经常给我讲他上学时的生活故事。",
               "source": "context",
-              "image": "https://picsum.photos/seed/life-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/life-context.jpg"
             }
           ]
         },
@@ -205,19 +205,19 @@ const TEXTBOOK_DATA = {
               "letter": "nt"
             }
           ],
-          "image": "assets/images/words/Unit1/different/different_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/different/different_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "There are lots of different ways to find information on this topic.",
               "zh": "关于这个话题，有很多不同的方法可以找到信息。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/different-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/different-textbook.jpg"
             },
             {
               "en": "My brother and I have different favourite colours for our bags.",
               "zh": "我哥哥和我对我们书包的喜欢颜色不同。",
               "source": "context",
-              "image": "https://picsum.photos/seed/different-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/different-context.jpg"
             }
           ]
         },
@@ -239,19 +239,19 @@ const TEXTBOOK_DATA = {
               "letter": "o"
             }
           ],
-          "image": "assets/images/words/Unit1/ago/ago_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/ago/ago_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The old lady talked about her life many years ago.",
               "zh": "那位老奶奶讲了她很多年前的生活。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/ago-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/ago-textbook.jpg"
             },
             {
               "en": "We moved to this city two years ago with our parents.",
               "zh": "我们两年前和父母搬到了这个城市。",
               "source": "context",
-              "image": "https://picsum.photos/seed/ago-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/ago-context.jpg"
             }
           ]
         },
@@ -289,19 +289,19 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "assets/images/words/Unit1/interviewer/interviewer_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/interviewer/interviewer_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The interviewer asked me a question.",
               "zh": "采访者问了我一个问题。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/interviewer-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/interviewer-textbook.jpg"
             },
             {
               "en": "The interviewer asked the children about their favourite hobbies.",
               "zh": "采访者问孩子们他们最喜欢的爱好是什么。",
               "source": "context",
-              "image": "https://picsum.photos/seed/interviewer-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/interviewer-context.jpg"
             }
           ]
         },
@@ -327,19 +327,19 @@ const TEXTBOOK_DATA = {
               "letter": "gh"
             }
           ],
-          "image": "assets/images/words/Unit1/enough/enough_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/enough/enough_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "We didn't have enough food.",
               "zh": "我们没有足够的食物。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/enough-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/enough-textbook.jpg"
             },
             {
               "en": "I have enough money to buy a new comic book today.",
               "zh": "我今天有足够的钱买一本新漫画书。",
               "source": "context",
-              "image": "https://picsum.photos/seed/enough-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/enough-context.jpg"
             }
           ]
         },
@@ -385,19 +385,19 @@ const TEXTBOOK_DATA = {
               "letter": "on"
             }
           ],
-          "image": "assets/images/words/Unit1/television/television_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/television/television_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I watched a television programme about China last night.",
               "zh": "昨晚我看了一个关于中国的电视节目。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/television-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/television-textbook.jpg"
             },
             {
               "en": "We watch cartoons on the television every Saturday morning.",
               "zh": "我们每周六早上在电视机上看卡通片。",
               "source": "context",
-              "image": "https://picsum.photos/seed/television-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/television-context.jpg"
             }
           ]
         },
@@ -443,19 +443,19 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "assets/images/words/Unit1/grandchildren/grandchildren_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/grandchildren/grandchildren_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "My grandparents love their grandchildren.",
               "zh": "我的祖父母爱他们的孙子孙女。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/grandchildren-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/grandchildren-textbook.jpg"
             },
             {
               "en": "My grandmother loves to bake cookies for her grandchildren.",
               "zh": "我的奶奶喜欢为她的孙子孙女们烤饼干。",
               "source": "context",
-              "image": "https://picsum.photos/seed/grandchildren-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/grandchildren-context.jpg"
             }
           ]
         },
@@ -477,19 +477,19 @@ const TEXTBOOK_DATA = {
               "letter": "nge"
             }
           ],
-          "image": "assets/images/words/Unit1/change/change_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/change/change_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "But some changes I really like.",
               "zh": "但有些变化我真的很喜欢。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/change-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/change-textbook.jpg"
             },
             {
               "en": "The weather can change quickly in spring, so take an umbrella.",
               "zh": "春天天气变化很快，所以带把伞。",
               "source": "context",
-              "image": "https://picsum.photos/seed/change-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/change-context.jpg"
             }
           ]
         },
@@ -511,19 +511,19 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "assets/images/words/Unit1/night/night_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/night/night_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "We go to bed at night.",
               "zh": "我们晚上上床睡觉。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/night-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/night-textbook.jpg"
             },
             {
               "en": "Last night I read a funny story before going to bed.",
               "zh": "昨晚我在睡觉前读了一个有趣的故事。",
               "source": "context",
-              "image": "https://picsum.photos/seed/night-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/night-context.jpg"
             }
           ]
         },
@@ -545,19 +545,19 @@ const TEXTBOOK_DATA = {
               "letter": "k"
             }
           ],
-          "image": "assets/images/words/Unit1/work/work_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/work/work_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Mum goes to work at half past six.",
               "zh": "妈妈六点半去上班。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/work-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/work-textbook.jpg"
             },
             {
               "en": "My dad goes to work by bus every morning.",
               "zh": "我爸爸每天早上乘公交车去上班。",
               "source": "context",
-              "image": "https://picsum.photos/seed/work-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/work-context.jpg"
             }
           ]
         },
@@ -579,19 +579,19 @@ const TEXTBOOK_DATA = {
               "letter": "ld"
             }
           ],
-          "image": "assets/images/words/Unit1/field/field_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/field/field_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "She worked in the fields.",
               "zh": "她在地里干活。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/field-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/field-textbook.jpg"
             },
             {
               "en": "The farmer works in the field under the sun.",
               "zh": "农民在太阳下的田地里干活。",
               "source": "context",
-              "image": "https://picsum.photos/seed/field-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/field-context.jpg"
             }
           ]
         },
@@ -609,19 +609,19 @@ const TEXTBOOK_DATA = {
               "letter": "ire"
             }
           ],
-          "image": "assets/images/words/Unit1/fire/fire_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/fire/fire_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "She cooked on a fire.",
               "zh": "她在火上做饭。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/fire-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/fire-textbook.jpg"
             },
             {
               "en": "We made a fire to cook hot dogs at the camp.",
               "zh": "我们在营地生火做热狗。",
               "source": "context",
-              "image": "https://picsum.photos/seed/fire-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/fire-context.jpg"
             }
           ]
         },
@@ -635,19 +635,19 @@ const TEXTBOOK_DATA = {
               "letter": "or"
             }
           ],
-          "image": "assets/images/words/Unit1/or/or_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/or/or_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I don't like apples or oranges.",
               "zh": "我不喜欢苹果也不喜欢橙子。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/or-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/or-textbook.jpg"
             },
             {
               "en": "I don't like apples or oranges for breakfast.",
               "zh": "我不喜欢早餐吃苹果或橙子。",
               "source": "context",
-              "image": "https://picsum.photos/seed/or-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/or-context.jpg"
             }
           ]
         },
@@ -677,19 +677,19 @@ const TEXTBOOK_DATA = {
               "letter": "o"
             }
           ],
-          "image": "assets/images/words/Unit1/radio/radio_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/radio/radio_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "She didn't have a television or a radio.",
               "zh": "她没有电视机，也没有收音机。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/radio-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/radio-textbook.jpg"
             },
             {
               "en": "Grandpa listens to the radio every afternoon.",
               "zh": "爷爷每天下午听收音机。",
               "source": "context",
-              "image": "https://picsum.photos/seed/radio-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/radio-context.jpg"
             }
           ]
         },
@@ -727,19 +727,19 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "assets/images/words/Unit1/telephone/telephone_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/telephone/telephone_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "She is talking on the telephone.",
               "zh": "她正在打电话。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/telephone-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/telephone-textbook.jpg"
             },
             {
               "en": "My mother talks on the telephone with her friend.",
               "zh": "我妈妈和她的朋友通电话。",
               "source": "context",
-              "image": "https://picsum.photos/seed/telephone-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/telephone-context.jpg"
             }
           ]
         },
@@ -765,19 +765,19 @@ const TEXTBOOK_DATA = {
               "letter": "n't"
             }
           ],
-          "image": "assets/images/words/Unit1/couldnt_=_could_not/couldnt_=_could_not_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/couldnt_%3D_could_not/couldnt_%3D_could_not_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "She couldn't write many years ago.",
               "zh": "许多年前她不会写字。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/couldn_t_could_not-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/couldn_t_could_not-textbook.jpg"
             },
             {
               "en": "I couldn't ride a bike when I was five.",
               "zh": "我五岁时不会骑自行车。",
               "source": "context",
-              "image": "https://picsum.photos/seed/couldn_t_could_not-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/couldn_t_could_not-context.jpg"
             }
           ]
         },
@@ -803,19 +803,19 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "assets/images/words/Unit1/write/write_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/write/write_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Then write and tell the class about it.",
               "zh": "然后写下来，告诉全班同学。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/write-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/write-textbook.jpg"
             },
             {
               "en": "Please write your name on the paper clearly.",
               "zh": "请把你的名字清楚地写在纸上。",
               "source": "context",
-              "image": "https://picsum.photos/seed/write-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/write-context.jpg"
             }
           ]
         },
@@ -841,19 +841,19 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "assets/images/words/Unit1/hope/hope_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/hope/hope_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I hope you are well.",
               "zh": "我希望你一切都好。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/hope-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/hope-textbook.jpg"
             },
             {
               "en": "I hope you can come to my birthday party.",
               "zh": "我希望你能来我的生日派对。",
               "source": "context",
-              "image": "https://picsum.photos/seed/hope-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/hope-context.jpg"
             }
           ]
         }
@@ -882,19 +882,19 @@ const TEXTBOOK_DATA = {
               "letter": "nt"
             }
           ],
-          "image": "assets/images/words/Unit2/learnt/learnt_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/learnt/learnt_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Lingling:\t Yes, she learnt English.",
               "zh": "是的，她学了英语。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/learnt-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/learnt-textbook.jpg"
             },
             {
               "en": "She learnt to swim in the pool last summer.",
               "zh": "她去年夏天在游泳池学会了游泳。",
               "source": "context",
-              "image": "https://picsum.photos/seed/learnt-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/learnt-context.jpg"
             }
           ]
         },
@@ -916,19 +916,19 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "assets/images/words/Unit2/taught/taught_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/taught/taught_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "She taught languages",
               "zh": "她教语言。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/taught-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/taught-textbook.jpg"
             },
             {
               "en": "My teacher taught us a new song in class.",
               "zh": "我的老师在课堂上教了我们一首新歌。",
               "source": "context",
-              "image": "https://picsum.photos/seed/taught-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/taught-context.jpg"
             }
           ]
         },
@@ -962,19 +962,19 @@ const TEXTBOOK_DATA = {
               "letter": "ge"
             }
           ],
-          "image": "assets/images/words/Unit2/language/language_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/language/language_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "English is a useful language.",
               "zh": "英语是一种有用的语言。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/language-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/language-textbook.jpg"
             },
             {
               "en": "English is a useful language to learn at school.",
               "zh": "英语是在学校学习的有用语言。",
               "source": "context",
-              "image": "https://picsum.photos/seed/language-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/language-context.jpg"
             }
           ]
         },
@@ -1000,19 +1000,19 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "assets/images/words/Unit2/wrote/wrote_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/wrote/wrote_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "She wrote a letter to her friend.",
               "zh": "她给朋友写了一封信。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/wrote-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/wrote-textbook.jpg"
             },
             {
               "en": "I wrote a letter to my grandma last night.",
               "zh": "我昨晚给奶奶写了一封信。",
               "source": "context",
-              "image": "https://picsum.photos/seed/wrote-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/wrote-context.jpg"
             }
           ]
         },
@@ -1042,19 +1042,19 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "assets/images/words/Unit2/dancer/dancer_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/dancer/dancer_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "She was a dancer.",
               "zh": "她是一名舞者。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/dancer-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/dancer-textbook.jpg"
             },
             {
               "en": "My sister wants to be a famous dancer.",
               "zh": "我姐姐想成为一名著名的舞蹈演员。",
               "source": "context",
-              "image": "https://picsum.photos/seed/dancer-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/dancer-context.jpg"
             }
           ]
         },
@@ -1084,19 +1084,19 @@ const TEXTBOOK_DATA = {
               "letter": "ign"
             }
           ],
-          "image": "assets/images/words/Unit2/foreign/foreign_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/foreign/foreign_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "He likes to learn foreign languages.",
               "zh": "他喜欢学习外语。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/foreign-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/foreign-textbook.jpg"
             },
             {
               "en": "My uncle can speak two foreign languages.",
               "zh": "我叔叔会说两门外语。",
               "source": "context",
-              "image": "https://picsum.photos/seed/foreign-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/foreign-context.jpg"
             }
           ]
         },
@@ -1126,19 +1126,19 @@ const TEXTBOOK_DATA = {
               "letter": "ed"
             }
           ],
-          "image": "assets/images/words/Unit2/studied/studied_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/studied/studied_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "He studied very hard.",
               "zh": "他学习非常努力。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/studied-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/studied-textbook.jpg"
             },
             {
               "en": "Tom studied English for two hours yesterday.",
               "zh": "汤姆昨天学了两个小时英语。",
               "source": "context",
-              "image": "https://picsum.photos/seed/studied-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/studied-context.jpg"
             }
           ]
         },
@@ -1160,19 +1160,19 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "assets/images/words/Unit2/hard/hard_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/hard/hard_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "It's hard to fly a kite.",
               "zh": "放风筝很难。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/hard-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/hard-textbook.jpg"
             },
             {
               "en": "She worked hard to finish her homework.",
               "zh": "她努力完成了作业。",
               "source": "context",
-              "image": "https://picsum.photos/seed/hard-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/hard-context.jpg"
             }
           ]
         }
@@ -1217,19 +1217,19 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "assets/images/words/Unit3/hamburger/hamburger_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/hamburger/hamburger_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Lingling had a sandwich because she doesn't like hamburgers.",
               "zh": "玲玲吃了一个三明治，因为她不喜欢汉堡包。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/hamburger-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/hamburger-textbook.jpg"
             },
             {
               "en": "I ate a hamburger for lunch at school.",
               "zh": "我在学校午餐吃了一个汉堡包。",
               "source": "context",
-              "image": "https://picsum.photos/seed/hamburger-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/hamburger-context.jpg"
             }
           ]
         },
@@ -1259,19 +1259,19 @@ const TEXTBOOK_DATA = {
               "letter": "sh"
             }
           ],
-          "image": "assets/images/words/Unit3/English/English_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/English/English_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Fanfan:\t \u0007Does Lingling like English food?",
               "zh": "玲玲喜欢英国食物吗？",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/english-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/english-textbook.jpg"
             },
             {
               "en": "We had English breakfast at the hotel.",
               "zh": "我们在酒店吃了英式早餐。",
               "source": "context",
-              "image": "https://picsum.photos/seed/english-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/english-context.jpg"
             }
           ]
         },
@@ -1313,19 +1313,19 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "assets/images/words/Unit3/breakfast/breakfast_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/breakfast/breakfast_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I will have breakfast.",
               "zh": "我要吃早餐。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/breakfast-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/breakfast-textbook.jpg"
             },
             {
               "en": "I usually have milk and bread for breakfast.",
               "zh": "我早餐通常喝牛奶吃面包。",
               "source": "context",
-              "image": "https://picsum.photos/seed/breakfast-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/breakfast-context.jpg"
             }
           ]
         },
@@ -1351,19 +1351,19 @@ const TEXTBOOK_DATA = {
               "letter": "ch"
             }
           ],
-          "image": "assets/images/words/Unit3/lunch/lunch_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/lunch/lunch_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "And what did she have for lunch?",
               "zh": "她午餐吃了什么？",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/lunch-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/lunch-textbook.jpg"
             },
             {
               "en": "We had rice and chicken for lunch today.",
               "zh": "我们今天午餐吃了米饭和鸡肉。",
               "source": "context",
-              "image": "https://picsum.photos/seed/lunch-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/lunch-context.jpg"
             }
           ]
         },
@@ -1401,19 +1401,19 @@ const TEXTBOOK_DATA = {
               "letter": "ch"
             }
           ],
-          "image": "assets/images/words/Unit3/sandwich/sandwich_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/sandwich/sandwich_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Lingling had a sandwich because she doesn't like hamburgers.",
               "zh": "玲玲吃了一个三明治，因为她不喜欢汉堡包。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/sandwich-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/sandwich-textbook.jpg"
             },
             {
               "en": "My mom made a sandwich for my picnic.",
               "zh": "我妈妈为我的野餐做了一个三明治。",
               "source": "context",
-              "image": "https://picsum.photos/seed/sandwich-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/sandwich-context.jpg"
             }
           ]
         },
@@ -1471,19 +1471,19 @@ const TEXTBOOK_DATA = {
               "letter": "s"
             }
           ],
-          "image": "assets/images/words/Unit3/fish_and_chips/fish_and_chips_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/fish_and_chips/fish_and_chips_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "We had fish and chips for lunch.",
               "zh": "我们午餐吃了炸鱼加炸薯条。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/fish_and_chips-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/fish_and_chips-textbook.jpg"
             },
             {
               "en": "Dad cooked fish and chips for dinner.",
               "zh": "爸爸晚餐做了炸鱼加炸薯条。",
               "source": "context",
-              "image": "https://picsum.photos/seed/fish_and_chips-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/fish_and_chips-context.jpg"
             }
           ]
         },
@@ -1537,19 +1537,19 @@ const TEXTBOOK_DATA = {
               "letter": "l"
             }
           ],
-          "image": "assets/images/words/Unit3/traditional/traditional_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/traditional/traditional_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "It's a traditional English",
               "zh": "这是一种传统的英国……",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/traditional-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/traditional-textbook.jpg"
             },
             {
               "en": "Dumplings are a traditional Chinese food.",
               "zh": "饺子是传统的中国食物。",
               "source": "context",
-              "image": "https://picsum.photos/seed/traditional-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/traditional-context.jpg"
             }
           ]
         },
@@ -1571,19 +1571,19 @@ const TEXTBOOK_DATA = {
               "letter": "sh"
             }
           ],
-          "image": "assets/images/words/Unit3/dish/dish_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/dish/dish_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "It's a traditional English dish.",
               "zh": "这是英国的传统菜肴。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/dish-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/dish-textbook.jpg"
             },
             {
               "en": "My mom cooked a delicious dish for dinner last night.",
               "zh": "我妈妈昨晚做了一道美味的菜肴当晚餐。",
               "source": "context",
-              "image": "https://picsum.photos/seed/dish-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/dish-context.jpg"
             }
           ]
         },
@@ -1625,19 +1625,19 @@ const TEXTBOOK_DATA = {
               "letter": "ch"
             }
           ],
-          "image": "assets/images/words/Unit3/very_much/very_much_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/very_much/very_much_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Thank you very much!",
               "zh": "非常感谢！",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/very_much-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/very_much-textbook.jpg"
             },
             {
               "en": "I like playing football with my friends very much.",
               "zh": "我非常喜欢和朋友们一起踢足球。",
               "source": "context",
-              "image": "https://picsum.photos/seed/very_much-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/very_much-context.jpg"
             }
           ]
         },
@@ -1663,19 +1663,19 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "assets/images/words/Unit3/gave/gave_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/gave/gave_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I gave one apple",
               "zh": "我给了（某人）一个苹果。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/gave-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/gave-textbook.jpg"
             },
             {
               "en": "My dad gave me a new pencil case yesterday.",
               "zh": "我爸爸昨天给了我一个新铅笔盒。",
               "source": "context",
-              "image": "https://picsum.photos/seed/gave-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/gave-context.jpg"
             }
           ]
         },
@@ -1709,19 +1709,19 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "assets/images/words/Unit3/tonight/tonight_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/tonight/tonight_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Tonight Mum is going to cook Chinese food for us.",
               "zh": "今晚妈妈要给我们做中国菜。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/tonight-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/tonight-textbook.jpg"
             },
             {
               "en": "We are going to watch a movie tonight at home.",
               "zh": "我们今晚要在家里看一部电影。",
               "source": "context",
-              "image": "https://picsum.photos/seed/tonight-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/tonight-context.jpg"
             }
           ]
         }
@@ -1766,19 +1766,19 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "assets/images/words/Unit4/library/library_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/library/library_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "We can find books about animals in our school library...",
               "zh": "我们可以在学校图书馆找到关于动物的书……",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/library-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/library-textbook.jpg"
             },
             {
               "en": "There are many storybooks in our school library.",
               "zh": "我们学校图书馆里有很多故事书。",
               "source": "context",
-              "image": "https://picsum.photos/seed/library-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/library-context.jpg"
             }
           ]
         },
@@ -1808,19 +1808,19 @@ const TEXTBOOK_DATA = {
               "letter": "nt"
             }
           ],
-          "image": "assets/images/words/Unit4/student/student_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/student/student_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "We've got books for students.",
               "zh": "我们有给学生的书。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/student-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/student-textbook.jpg"
             },
             {
               "en": "Every student must finish the homework on time.",
               "zh": "每个学生都必须按时完成作业。",
               "source": "context",
-              "image": "https://picsum.photos/seed/student-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/student-context.jpg"
             }
           ]
         },
@@ -1842,19 +1842,19 @@ const TEXTBOOK_DATA = {
               "letter": "nt"
             }
           ],
-          "image": "assets/images/words/Unit4/sent/sent_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/sent/sent_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I sent a postcard to my cousin.",
               "zh": "我给表弟寄了一张明信片。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/sent-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/sent-textbook.jpg"
             },
             {
               "en": "My grandma sent me a birthday card last week.",
               "zh": "我奶奶上周给我寄了一张生日卡片。",
               "source": "context",
-              "image": "https://picsum.photos/seed/sent-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/sent-context.jpg"
             }
           ]
         },
@@ -1872,19 +1872,19 @@ const TEXTBOOK_DATA = {
               "letter": "D"
             }
           ],
-          "image": "assets/images/words/Unit4/CD/CD_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/CD/CD_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I sent a CD to my friend.",
               "zh": "我给朋友寄了一张光盘。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/cd-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/cd-textbook.jpg"
             },
             {
               "en": "I bought a new CD of my favorite singer yesterday.",
               "zh": "我昨天买了一张我最喜欢的歌手的新光盘。",
               "source": "context",
-              "image": "https://picsum.photos/seed/cd-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/cd-context.jpg"
             }
           ]
         },
@@ -1906,19 +1906,19 @@ const TEXTBOOK_DATA = {
               "letter": "ea"
             }
           ],
-          "image": "assets/images/words/Unit4/idea/idea_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/idea/idea_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Lingling:\t That's a good idea.",
               "zh": "那是个好主意。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/idea-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/idea-textbook.jpg"
             },
             {
               "en": "It is a good idea to plant trees on the farm.",
               "zh": "在农场种树是个好主意。",
               "source": "context",
-              "image": "https://picsum.photos/seed/idea-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/idea-context.jpg"
             }
           ]
         },
@@ -1940,19 +1940,19 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "assets/images/words/Unit4/put/put_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/put/put_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Please put your book on the desk.",
               "zh": "请把你的书放在桌子上。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/put-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/put-textbook.jpg"
             },
             {
               "en": "Please put your toys back in the box after playing.",
               "zh": "玩完后请把你的玩具放回箱子里。",
               "source": "context",
-              "image": "https://picsum.photos/seed/put-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/put-context.jpg"
             }
           ]
         },
@@ -1974,19 +1974,19 @@ const TEXTBOOK_DATA = {
               "letter": "lf"
             }
           ],
-          "image": "assets/images/words/Unit4/shelf/shelf_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/shelf/shelf_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Lingling:\t Let's put them on this shelf.",
               "zh": "我们把这些放在这个架子上吧。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/shelf-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/shelf-textbook.jpg"
             },
             {
               "en": "The books are neatly arranged on the shelf in my room.",
               "zh": "书整齐地摆放在我房间的架子上。",
               "source": "context",
-              "image": "https://picsum.photos/seed/shelf-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/shelf-context.jpg"
             }
           ]
         },
@@ -2012,19 +2012,19 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "assets/images/words/Unit4/heavy/heavy_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/heavy/heavy_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "It's not too heavy, not at all.",
               "zh": "它不太重，一点也不重。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/heavy-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/heavy-textbook.jpg"
             },
             {
               "en": "This box is too heavy for me to carry alone.",
               "zh": "这个箱子太重了，我一个人搬不动。",
               "source": "context",
-              "image": "https://picsum.photos/seed/heavy-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/heavy-context.jpg"
             }
           ]
         },
@@ -2070,19 +2070,19 @@ const TEXTBOOK_DATA = {
               "letter": "ry"
             }
           ],
-          "image": "assets/images/words/Unit4/dictionary/dictionary_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/dictionary/dictionary_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I looked up the word in my dictionary.",
               "zh": "我在词典里查了这个单词。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/dictionary-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/dictionary-textbook.jpg"
             },
             {
               "en": "I use a dictionary to find new words.",
               "zh": "我用词典查找新单词。",
               "source": "context",
-              "image": "https://picsum.photos/seed/dictionary-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/dictionary-context.jpg"
             }
           ]
         },
@@ -2104,19 +2104,19 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "assets/images/words/Unit4/card/card_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/card/card_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Pick a card and tell a story.",
               "zh": "抽一张卡片，然后讲一个故事。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/card-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/card-textbook.jpg"
             },
             {
               "en": "I wrote a birthday card for my mom.",
               "zh": "我给妈妈写了一张生日卡片。",
               "source": "context",
-              "image": "https://picsum.photos/seed/card-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/card-context.jpg"
             }
           ]
         },
@@ -2162,19 +2162,19 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "assets/images/words/Unit4/library_card/library_card_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/library_card/library_card_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Here is my library card.",
               "zh": "这是我的借书证。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/library_card-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/library_card-textbook.jpg"
             },
             {
               "en": "I need my library card to borrow books.",
               "zh": "我需要借书证来借书。",
               "source": "context",
-              "image": "https://picsum.photos/seed/library_card-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/library_card-context.jpg"
             }
           ]
         },
@@ -2196,19 +2196,19 @@ const TEXTBOOK_DATA = {
               "letter": "k"
             }
           ],
-          "image": "assets/images/words/Unit4/ask/ask_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/ask/ask_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Do, ask and answer.",
               "zh": "做一做，问一问，答一答。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/ask-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/ask-textbook.jpg"
             },
             {
               "en": "Can I ask you to play with me?",
               "zh": "我能邀请你和我一起玩吗？",
               "source": "context",
-              "image": "https://picsum.photos/seed/ask-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/ask-context.jpg"
             }
           ]
         },
@@ -2234,19 +2234,19 @@ const TEXTBOOK_DATA = {
               "letter": "ng"
             }
           ],
-          "image": "assets/images/words/Unit4/wrong/wrong_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/wrong/wrong_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Oh, they're in the wrong",
               "zh": "哦，它们放错地方了。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/wrong-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/wrong-textbook.jpg"
             },
             {
               "en": "My answer is wrong, so I try again.",
               "zh": "我的答案是错误的，所以我再试一次。",
               "source": "context",
-              "image": "https://picsum.photos/seed/wrong-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/wrong-context.jpg"
             }
           ]
         },
@@ -2264,19 +2264,19 @@ const TEXTBOOK_DATA = {
               "letter": "ear"
             }
           ],
-          "image": "assets/images/words/Unit4/dear/dear_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/dear/dear_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Dear, I forgot my keys again!",
               "zh": "哎呀，我又忘了钥匙！",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/dear-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/dear-textbook.jpg"
             },
             {
               "en": "Oh dear! I forgot my homework at home.",
               "zh": "哎呀！我把作业忘在家里了。",
               "source": "context",
-              "image": "https://picsum.photos/seed/dear-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/dear-context.jpg"
             }
           ]
         },
@@ -2310,19 +2310,19 @@ const TEXTBOOK_DATA = {
               "letter": "tion"
             }
           ],
-          "image": "assets/images/words/Unit4/information/information_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/information/information_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "We can find information from films and e-books as well.",
               "zh": "我们也可以从电影和电子书中找到信息。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/information-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/information-textbook.jpg"
             },
             {
               "en": "We get information from books and the internet.",
               "zh": "我们从书和互联网获取信息。",
               "source": "context",
-              "image": "https://picsum.photos/seed/information-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/information-context.jpg"
             }
           ]
         },
@@ -2352,19 +2352,19 @@ const TEXTBOOK_DATA = {
               "letter": "k"
             }
           ],
-          "image": "assets/images/words/Unit4/e-book/e-book_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/e-book/e-book_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I read an e-book on the computer.",
               "zh": "我在电脑上读电子书。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/e_book-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/e_book-textbook.jpg"
             },
             {
               "en": "I read an e-book on my tablet before bed.",
               "zh": "我睡前在平板上读电子书。",
               "source": "context",
-              "image": "https://picsum.photos/seed/e_book-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/e_book-context.jpg"
             }
           ]
         },
@@ -2398,19 +2398,19 @@ const TEXTBOOK_DATA = {
               "letter": "ct"
             }
           ],
-          "image": "assets/images/words/Unit4/project/project_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/project/project_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "We are going to do a science project about animals.",
               "zh": "我们要做一个关于动物的科学项目。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/project-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/project-textbook.jpg"
             },
             {
               "en": "Our project is about how plants grow.",
               "zh": "我们的项目是关于植物如何生长。",
               "source": "context",
-              "image": "https://picsum.photos/seed/project-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/project-context.jpg"
             }
           ]
         },
@@ -2436,19 +2436,19 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "assets/images/words/Unit4/guide/guide_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/guide/guide_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "This is a guide for",
               "zh": "这是一本指南，用于……",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/guide-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/guide-textbook.jpg"
             },
             {
               "en": "This guide helps us visit the museum.",
               "zh": "这本指南帮助我们参观博物馆。",
               "source": "context",
-              "image": "https://picsum.photos/seed/guide-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/guide-context.jpg"
             }
           ]
         },
@@ -2474,19 +2474,19 @@ const TEXTBOOK_DATA = {
               "letter": "m"
             }
           ],
-          "image": "assets/images/words/Unit4/ﬁlm/ﬁlm_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/%EF%AC%81lm/%EF%AC%81lm_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "We watched a film at school.",
               "zh": "我们在学校看了一部电影。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/lm-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/lm-textbook.jpg"
             },
             {
               "en": "We watched a funny film after school.",
               "zh": "我们放学后看了一部有趣的电影。",
               "source": "context",
-              "image": "https://picsum.photos/seed/lm-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/lm-context.jpg"
             }
           ]
         },
@@ -2520,19 +2520,19 @@ const TEXTBOOK_DATA = {
               "letter": "ll"
             }
           ],
-          "image": "assets/images/words/Unit4/as_well/as_well_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/as_well/as_well_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I like apples as well.",
               "zh": "我也喜欢苹果。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/as_well-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/as_well-textbook.jpg"
             },
             {
               "en": "I like playing soccer as well as reading.",
               "zh": "我喜欢踢足球，也喜欢阅读。",
               "source": "context",
-              "image": "https://picsum.photos/seed/as_well-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/as_well-context.jpg"
             }
           ]
         },
@@ -2550,19 +2550,19 @@ const TEXTBOOK_DATA = {
               "letter": "ay"
             }
           ],
-          "image": "assets/images/words/Unit4/way/way_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/way/way_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "There are lots of different ways to find information on this topic.",
               "zh": "关于这个话题，有很多不同的方法可以找到信息。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/way-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/way-textbook.jpg"
             },
             {
               "en": "Can you show me a different way to solve this math problem?",
               "zh": "你能告诉我解决这道数学题的另一种方法吗？",
               "source": "context",
-              "image": "https://picsum.photos/seed/way-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/way-context.jpg"
             }
           ]
         },
@@ -2580,19 +2580,19 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "assets/images/words/Unit4/on/on_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/on/on_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "This is a book on animals.",
               "zh": "这是一本关于动物的书。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/on-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/on-textbook.jpg"
             },
             {
               "en": "I have a book on animals, and it is very interesting.",
               "zh": "我有一本关于动物的书，它非常有趣。",
               "source": "context",
-              "image": "https://picsum.photos/seed/on-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/on-context.jpg"
             }
           ]
         },
@@ -2622,19 +2622,19 @@ const TEXTBOOK_DATA = {
               "letter": "c"
             }
           ],
-          "image": "assets/images/words/Unit4/topic/topic_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/topic/topic_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "There are lots of different ways to find information on this topic.",
               "zh": "关于这个话题，有很多不同的方法可以找到信息。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/topic-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/topic-textbook.jpg"
             },
             {
               "en": "Our teacher asked us to talk about our favorite topic in class.",
               "zh": "老师让我们在课堂上谈论我们最喜欢的话题。",
               "source": "context",
-              "image": "https://picsum.photos/seed/topic-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/topic-context.jpg"
             }
           ]
         }
@@ -2663,19 +2663,19 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "assets/images/words/Unit5/light/light_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/light/light_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "It's light and it's right.",
               "zh": "它很轻，而且很合适。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/light-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/light-textbook.jpg"
             },
             {
               "en": "This new backpack is light, so I can carry it easily.",
               "zh": "这个新背包很轻，所以我可以轻松地背着它。",
               "source": "context",
-              "image": "https://picsum.photos/seed/light-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/light-context.jpg"
             }
           ]
         },
@@ -2709,19 +2709,19 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "assets/images/words/Unit5/broken/broken_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/broken/broken_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The yellow pencils are broken.",
               "zh": "那些黄色的铅笔断了。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/broken-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/broken-textbook.jpg"
             },
             {
               "en": "My brother's toy car is broken, and he feels sad.",
               "zh": "我弟弟的玩具车坏了，他很难过。",
               "source": "context",
-              "image": "https://picsum.photos/seed/broken-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/broken-context.jpg"
             }
           ]
         },
@@ -2795,19 +2795,19 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "assets/images/words/Unit5/department_store/department_store_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/department_store/department_store_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "We went to a big department store.",
               "zh": "我们去了一家大百货商店。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/department_store-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/department_store-textbook.jpg"
             },
             {
               "en": "We went to the department store to buy new clothes for school.",
               "zh": "我们去百货商店买上学穿的新衣服。",
               "source": "context",
-              "image": "https://picsum.photos/seed/department_store-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/department_store-context.jpg"
             }
           ]
         },
@@ -2837,19 +2837,19 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "assets/images/words/Unit5/pocket/pocket_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/pocket/pocket_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "My coat has two pockets.",
               "zh": "我的外套有两个口袋。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/pocket-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/pocket-textbook.jpg"
             },
             {
               "en": "I put my keys in my jacket pocket before leaving home.",
               "zh": "出门前我把钥匙放在夹克口袋里。",
               "source": "context",
-              "image": "https://picsum.photos/seed/pocket-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/pocket-context.jpg"
             }
           ]
         },
@@ -2887,19 +2887,19 @@ const TEXTBOOK_DATA = {
               "letter": "a"
             }
           ],
-          "image": "assets/images/words/Unit5/umbrella/umbrella_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/umbrella/umbrella_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Take your umbrella, it is raining.",
               "zh": "带上你的雨伞，正在下雨。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/umbrella-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/umbrella-textbook.jpg"
             },
             {
               "en": "Don't forget your umbrella; it might rain this afternoon.",
               "zh": "别忘了你的雨伞，今天下午可能会下雨。",
               "source": "context",
-              "image": "https://picsum.photos/seed/umbrella-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/umbrella-context.jpg"
             }
           ]
         },
@@ -2965,19 +2965,19 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "assets/images/words/Unit5/sales_assistant/sales_assistant_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/sales_assistant/sales_assistant_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The sales assistant is very kind.",
               "zh": "售货员很和蔼。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/sales_assistant-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/sales_assistant-textbook.jpg"
             },
             {
               "en": "The sales assistant helped me find the right size shoes.",
               "zh": "售货员帮我找到了合适的鞋码。",
               "source": "context",
-              "image": "https://picsum.photos/seed/sales_assistant-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/sales_assistant-context.jpg"
             }
           ]
         },
@@ -2999,19 +2999,19 @@ const TEXTBOOK_DATA = {
               "letter": "l"
             }
           ],
-          "image": "assets/images/words/Unit5/wheel/wheel_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/wheel/wheel_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Sales assistant:\t And it's got four wheels.",
               "zh": "它有四个轮子。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/wheel-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/wheel-textbook.jpg"
             },
             {
               "en": "The bicycle has one broken wheel, so we need to fix it.",
               "zh": "这辆自行车有一个轮子坏了，所以我们需要修理它。",
               "source": "context",
-              "image": "https://picsum.photos/seed/wheel-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/wheel-context.jpg"
             }
           ]
         },
@@ -3033,19 +3033,19 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "assets/images/words/Unit5/easy/easy_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/easy/easy_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "It'll be easy for you to carry.",
               "zh": "你拿起来会很轻松。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/easy-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/easy-textbook.jpg"
             },
             {
               "en": "This puzzle is easy, and I finished it in five minutes.",
               "zh": "这个拼图很容易，我五分钟就完成了。",
               "source": "context",
-              "image": "https://picsum.photos/seed/easy-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/easy-context.jpg"
             }
           ]
         },
@@ -3067,19 +3067,19 @@ const TEXTBOOK_DATA = {
               "letter": "k"
             }
           ],
-          "image": "assets/images/words/Unit5/take/take_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/take/take_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Grandma:\t What are you going to take?",
               "zh": "你打算带什么？",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/take-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/take-textbook.jpg"
             },
             {
               "en": "I will take the red hat because it matches my coat.",
               "zh": "我会选择这顶红帽子，因为它和我的外套很配。",
               "source": "context",
-              "image": "https://picsum.photos/seed/take-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/take-context.jpg"
             }
           ]
         },
@@ -3097,19 +3097,19 @@ const TEXTBOOK_DATA = {
               "letter": "oo"
             }
           ],
-          "image": "assets/images/words/Unit5/too/too_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/too/too_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "It's not too big and it's not too small.",
               "zh": "它不太大，也不太小。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/too-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/too-textbook.jpg"
             },
             {
               "en": "The soup is too hot, so I cannot eat it now.",
               "zh": "汤太烫了，所以我现在不能喝。",
               "source": "context",
-              "image": "https://picsum.photos/seed/too-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/too-context.jpg"
             }
           ]
         },
@@ -3127,19 +3127,19 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "assets/images/words/Unit5/try/try_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/try/try_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Sales assistant:\tTry this white one.",
               "zh": "试试这件白色的。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/try-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/try-textbook.jpg"
             },
             {
               "en": "You should try this new game; it is fun.",
               "zh": "你应该试试这个新游戏，它很好玩。",
               "source": "context",
-              "image": "https://picsum.photos/seed/try-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/try-context.jpg"
             }
           ]
         },
@@ -3173,19 +3173,19 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "assets/images/words/Unit5/lovely/lovely_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/lovely/lovely_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "She had a lovely time there.",
               "zh": "她在那里度过了一段愉快的时光。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/lovely-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/lovely-textbook.jpg"
             },
             {
               "en": "My little sister has a lovely smile every morning.",
               "zh": "我的小妹妹每天早上都有可爱的笑容。",
               "source": "context",
-              "image": "https://picsum.photos/seed/lovely-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/lovely-context.jpg"
             }
           ]
         }
@@ -3214,19 +3214,19 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "assets/images/words/Unit6/moon/moon_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/moon/moon_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I went to the moon.",
               "zh": "我去了月球。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/moon-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/moon-textbook.jpg"
             },
             {
               "en": "We can see the bright moon in the sky tonight.",
               "zh": "今晚我们能看到天空中明亮的月亮。",
               "source": "context",
-              "image": "https://picsum.photos/seed/moon-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/moon-context.jpg"
             }
           ]
         },
@@ -3248,19 +3248,19 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "assets/images/words/Unit6/get/get_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/get/get_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "We get to school at eight o'clock.",
               "zh": "我们八点钟到达学校。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/get-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/get-textbook.jpg"
             },
             {
               "en": "Please get some apples from the supermarket for me.",
               "zh": "请帮我去超市拿一些苹果。",
               "source": "context",
-              "image": "https://picsum.photos/seed/get-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/get-context.jpg"
             }
           ]
         },
@@ -3286,19 +3286,19 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "assets/images/words/Unit6/west/west_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/west/west_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Xinjiang is in the west of China.",
               "zh": "新疆在中国的西部。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/west-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/west-textbook.jpg"
             },
             {
               "en": "The sun sets in the west every evening.",
               "zh": "太阳每天傍晚在西方落下。",
               "source": "context",
-              "image": "https://picsum.photos/seed/west-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/west-context.jpg"
             }
           ]
         },
@@ -3332,19 +3332,19 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "assets/images/words/Unit6/parent/parent_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/parent/parent_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Last July Lingling went to Xinjiang with her parents.",
               "zh": "去年七月，玲玲和她的父母去了新疆。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/parent-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/parent-textbook.jpg"
             },
             {
               "en": "My parent will pick me up after school today.",
               "zh": "今天放学后我的家长会来接我。",
               "source": "context",
-              "image": "https://picsum.photos/seed/parent-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/parent-context.jpg"
             }
           ]
         },
@@ -3362,19 +3362,19 @@ const TEXTBOOK_DATA = {
               "letter": "ay"
             }
           ],
-          "image": "assets/images/words/Unit6/stay/stay_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/stay/stay_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "We stayed with",
               "zh": "我们和……住在一起。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/stay-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/stay-textbook.jpg"
             },
             {
               "en": "We will stay at home and watch a movie tonight.",
               "zh": "今晚我们将待在家里看一部电影。",
               "source": "context",
-              "image": "https://picsum.photos/seed/stay-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/stay-context.jpg"
             }
           ]
         },
@@ -3400,19 +3400,19 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "assets/images/words/Unit6/July/July_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/July/July_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Last July Lingling went to Xinjiang with her parents.",
               "zh": "去年七月，玲玲和她的父母去了新疆。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/july-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/july-textbook.jpg"
             },
             {
               "en": "My birthday is in July, and I love summer then.",
               "zh": "我的生日在七月，那时我喜欢夏天。",
               "source": "context",
-              "image": "https://picsum.photos/seed/july-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/july-context.jpg"
             }
           ]
         },
@@ -3434,19 +3434,19 @@ const TEXTBOOK_DATA = {
               "letter": "th"
             }
           ],
-          "image": "assets/images/words/Unit6/south/south_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/south/south_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "It's in the south of China.",
               "zh": "它在中国的南部。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/south-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/south-textbook.jpg"
             },
             {
               "en": "Birds fly to the south when winter comes.",
               "zh": "冬天来临时鸟儿飞向南方。",
               "source": "context",
-              "image": "https://picsum.photos/seed/south-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/south-context.jpg"
             }
           ]
         },
@@ -3488,19 +3488,19 @@ const TEXTBOOK_DATA = {
               "letter": "r"
             }
           ],
-          "image": "assets/images/words/Unit6/remember/remember_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/remember/remember_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Ms Smart:\t Oh yes, I remember!",
               "zh": "哦，是的，我记得！",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/remember-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/remember-textbook.jpg"
             },
             {
               "en": "I always remember to bring my lunch to school.",
               "zh": "我总记得带午餐去学校。",
               "source": "context",
-              "image": "https://picsum.photos/seed/remember-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/remember-context.jpg"
             }
           ]
         },
@@ -3526,19 +3526,19 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "assets/images/words/Unit6/June/June_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/June/June_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I met them in June!",
               "zh": "我在六月遇见了他们！",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/june-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/june-textbook.jpg"
             },
             {
               "en": "School ends in June, and we have a long holiday.",
               "zh": "学校在六月结束，我们有一个长假。",
               "source": "context",
-              "image": "https://picsum.photos/seed/june-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/june-context.jpg"
             }
           ]
         },
@@ -3560,19 +3560,19 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "assets/images/words/Unit6/east/east_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/east/east_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The sun rises in the east.",
               "zh": "太阳从东方升起。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/east-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/east-textbook.jpg"
             },
             {
               "en": "The sun rises in the east every morning.",
               "zh": "太阳每天早上从东方升起。",
               "source": "context",
-              "image": "https://picsum.photos/seed/east-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/east-context.jpg"
             }
           ]
         },
@@ -3594,19 +3594,19 @@ const TEXTBOOK_DATA = {
               "letter": "st"
             }
           ],
-          "image": "assets/images/words/Unit6/best/best_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/best/best_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "She is my best friend.",
               "zh": "她是我最好的朋友。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/best-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/best-textbook.jpg"
             },
             {
               "en": "My best friend lives next door to me.",
               "zh": "我最好的朋友住在我隔壁。",
               "source": "context",
-              "image": "https://picsum.photos/seed/best-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/best-context.jpg"
             }
           ]
         },
@@ -3628,19 +3628,19 @@ const TEXTBOOK_DATA = {
               "letter": "th"
             }
           ],
-          "image": "assets/images/words/Unit6/north/north_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/north/north_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I      travelled        north.",
               "zh": "我向北旅行了。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/north-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/north-textbook.jpg"
             },
             {
               "en": "We drove north to visit my grandparents.",
               "zh": "我们开车向北去看望我的祖父母。",
               "source": "context",
-              "image": "https://picsum.photos/seed/north-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/north-context.jpg"
             }
           ]
         },
@@ -3666,19 +3666,19 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "assets/images/words/Unit6/rest/rest_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/rest/rest_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Let's rest for ten minutes.",
               "zh": "我们休息十分钟吧。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/rest-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/rest-textbook.jpg"
             },
             {
               "en": "After playing for two hours, I need a rest.",
               "zh": "玩了两个小时后，我需要休息。",
               "source": "context",
-              "image": "https://picsum.photos/seed/rest-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/rest-context.jpg"
             }
           ]
         },
@@ -3732,19 +3732,19 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "assets/images/words/Unit6/have_a_rest/have_a_rest_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/have_a_rest/have_a_rest_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Let's have a rest under the tree.",
               "zh": "我们在树下休息一下吧。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/have_a_rest-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/have_a_rest-textbook.jpg"
             },
             {
               "en": "Let's have a rest after we finish our homework.",
               "zh": "我们做完作业后休息一下吧。",
               "source": "context",
-              "image": "https://picsum.photos/seed/have_a_rest-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/have_a_rest-context.jpg"
             }
           ]
         },
@@ -3770,19 +3770,19 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "assets/images/words/Unit6/rode/rode_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit6/rode/rode_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "She rode a horse.",
               "zh": "她骑了一匹马。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/rode-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/rode-textbook.jpg"
             },
             {
               "en": "My dad rode his bike to work yesterday.",
               "zh": "我爸爸昨天骑自行车去上班。",
               "source": "context",
-              "image": "https://picsum.photos/seed/rode-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/rode-context.jpg"
             }
           ]
         }
@@ -3827,19 +3827,19 @@ const TEXTBOOK_DATA = {
               "letter": "g"
             }
           ],
-          "image": "assets/images/words/Unit7/evening/evening_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit7/evening/evening_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I do my homework in the evening.",
               "zh": "我晚上做作业。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/evening-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/evening-textbook.jpg"
             },
             {
               "en": "We usually have dinner at seven in the evening.",
               "zh": "我们通常在晚上七点吃晚饭。",
               "source": "context",
-              "image": "https://picsum.photos/seed/evening-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/evening-context.jpg"
             }
           ]
         },
@@ -3861,19 +3861,19 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "assets/images/words/Unit7/late/late_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit7/late/late_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Fangfang:\t That's very, very late.",
               "zh": "那非常非常晚。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/late-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/late-textbook.jpg"
             },
             {
               "en": "It's getting late, so we must go home now.",
               "zh": "天色晚了，所以我们得现在回家。",
               "source": "context",
-              "image": "https://picsum.photos/seed/late-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/late-context.jpg"
             }
           ]
         },
@@ -3903,19 +3903,19 @@ const TEXTBOOK_DATA = {
               "letter": "r"
             }
           ],
-          "image": "assets/images/words/Unit7/worker/worker_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit7/worker/worker_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Fangfang:\t He's a worker in a factory.",
               "zh": "他是一名工厂工人。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/worker-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/worker-textbook.jpg"
             },
             {
               "en": "My uncle is a worker in a big factory.",
               "zh": "我叔叔是一家大工厂的工人。",
               "source": "context",
-              "image": "https://picsum.photos/seed/worker-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/worker-context.jpg"
             }
           ]
         },
@@ -3949,19 +3949,19 @@ const TEXTBOOK_DATA = {
               "letter": "ry"
             }
           ],
-          "image": "assets/images/words/Unit7/factory/factory_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit7/factory/factory_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Fangfang:\t He's a worker in a factory.",
               "zh": "他是一名工厂工人。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/factory-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/factory-textbook.jpg"
             },
             {
               "en": "The toy factory makes many colorful toys.",
               "zh": "这家玩具工厂生产许多彩色玩具。",
               "source": "context",
-              "image": "https://picsum.photos/seed/factory-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/factory-context.jpg"
             }
           ]
         },
@@ -3979,19 +3979,19 @@ const TEXTBOOK_DATA = {
               "letter": "ly"
             }
           ],
-          "image": "assets/images/words/Unit7/early/early_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit7/early/early_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Daming:\t That's very early.",
               "zh": "那非常早。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/early-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/early-textbook.jpg"
             },
             {
               "en": "I wake up early to catch the school bus.",
               "zh": "我早起去赶校车。",
               "source": "context",
-              "image": "https://picsum.photos/seed/early-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/early-context.jpg"
             }
           ]
         },
@@ -4017,19 +4017,19 @@ const TEXTBOOK_DATA = {
               "letter": "i"
             }
           ],
-          "image": "assets/images/words/Unit7/taxi/taxi_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit7/taxi/taxi_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "We took a yellow taxi to their home.",
               "zh": "我们坐了一辆黄色的出租车去他们家。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/taxi-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/taxi-textbook.jpg"
             },
             {
               "en": "We took a taxi to the train station yesterday.",
               "zh": "我们昨天坐出租车去火车站。",
               "source": "context",
-              "image": "https://picsum.photos/seed/taxi-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/taxi-context.jpg"
             }
           ]
         },
@@ -4055,19 +4055,19 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "assets/images/words/Unit7/quarter/quarter_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit7/quarter/quarter_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Ms Smart:\t It's a quarter to seven.",
               "zh": "现在差一刻到七点。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/quarter-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/quarter-textbook.jpg"
             },
             {
               "en": "I will meet you in a quarter of an hour.",
               "zh": "我会在一刻钟后和你见面。",
               "source": "context",
-              "image": "https://picsum.photos/seed/quarter-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/quarter-context.jpg"
             }
           ]
         },
@@ -4085,19 +4085,19 @@ const TEXTBOOK_DATA = {
               "letter": "o"
             }
           ],
-          "image": "assets/images/words/Unit7/to/to_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit7/to/to_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "It's a quarter to eight.",
               "zh": "现在差一刻八点。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/to-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/to-textbook.jpg"
             },
             {
               "en": "It is ten to twelve, so lunch is almost ready.",
               "zh": "现在是十一点五十分，所以午餐快准备好了。",
               "source": "context",
-              "image": "https://picsum.photos/seed/to-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/to-context.jpg"
             }
           ]
         },
@@ -4123,19 +4123,19 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "assets/images/words/Unit7/worry/worry_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit7/worry/worry_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Don't worry, I can help you.",
               "zh": "别担心，我能帮你。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/worry-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/worry-textbook.jpg"
             },
             {
               "en": "Don't worry about the test; you studied hard.",
               "zh": "别担心考试，你学习很努力。",
               "source": "context",
-              "image": "https://picsum.photos/seed/worry-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/worry-context.jpg"
             }
           ]
         }
@@ -4168,19 +4168,19 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "assets/images/words/Unit8/paper/paper_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit8/paper/paper_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Draw a dragon on a piece of paper.",
               "zh": "在一张纸上画一条龙。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/paper-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/paper-textbook.jpg"
             },
             {
               "en": "Please write your name on the paper before you start.",
               "zh": "请在开始前在纸上写下你的名字。",
               "source": "context",
-              "image": "https://picsum.photos/seed/paper-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/paper-context.jpg"
             }
           ]
         },
@@ -4210,19 +4210,19 @@ const TEXTBOOK_DATA = {
               "letter": "s"
             }
           ],
-          "image": "assets/images/words/Unit8/Chinese/Chinese_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit8/Chinese/Chinese_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Tonight Mum is going to cook Chinese food for us.",
               "zh": "今晚妈妈要给我们做中国菜。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/chinese-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/chinese-textbook.jpg"
             },
             {
               "en": "My Chinese friend taught me how to make dumplings.",
               "zh": "我的中国朋友教我怎么包饺子。",
               "source": "context",
-              "image": "https://picsum.photos/seed/chinese-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/chinese-context.jpg"
             }
           ]
         },
@@ -4240,19 +4240,19 @@ const TEXTBOOK_DATA = {
               "letter": "o"
             }
           ],
-          "image": "assets/images/words/Unit8/so/so_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit8/so/so_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "So we can drive or ride wherever we like.",
               "zh": "所以我们可以开车或骑车去任何想去的地方。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/so-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/so-textbook.jpg"
             },
             {
               "en": "The cake was so delicious that I ate two pieces.",
               "zh": "蛋糕太好吃了，我吃了两块。",
               "source": "context",
-              "image": "https://picsum.photos/seed/so-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/so-context.jpg"
             }
           ]
         },
@@ -4274,19 +4274,19 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "assets/images/words/Unit8/word/word_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit8/word/word_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Can you spell this word?",
               "zh": "你能拼写这个词吗？",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/word-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/word-textbook.jpg"
             },
             {
               "en": "Can you spell the word 'elephant' for me?",
               "zh": "你能帮我拼写“大象”这个词吗？",
               "source": "context",
-              "image": "https://picsum.photos/seed/word-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/word-context.jpg"
             }
           ]
         },
@@ -4304,19 +4304,19 @@ const TEXTBOOK_DATA = {
               "letter": "ew"
             }
           ],
-          "image": "assets/images/words/Unit8/drew/drew_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit8/drew/drew_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I drew a dragon.",
               "zh": "我画了一条龙。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/drew-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/drew-textbook.jpg"
             },
             {
               "en": "Yesterday I drew a big sun and a happy dog.",
               "zh": "昨天我画了一个大太阳和一只快乐的狗。",
               "source": "context",
-              "image": "https://picsum.photos/seed/drew-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/drew-context.jpg"
             }
           ]
         },
@@ -4338,19 +4338,19 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "assets/images/words/Unit8/cut/cut_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit8/cut/cut_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I cut the paper.",
               "zh": "我剪了纸。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/cut-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/cut-textbook.jpg"
             },
             {
               "en": "Mom cut the apple into small pieces for me.",
               "zh": "妈妈把苹果切成小块给我。",
               "source": "context",
-              "image": "https://picsum.photos/seed/cut-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/cut-context.jpg"
             }
           ]
         },
@@ -4372,19 +4372,19 @@ const TEXTBOOK_DATA = {
               "letter": "ce"
             }
           ],
-          "image": "assets/images/words/Unit8/piece/piece_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit8/piece/piece_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Draw a dragon on a piece of paper.",
               "zh": "在一张纸上画一条龙。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/piece-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/piece-textbook.jpg"
             },
             {
               "en": "I found a piece of chocolate in my lunchbox.",
               "zh": "我在午餐盒里找到了一块巧克力。",
               "source": "context",
-              "image": "https://picsum.photos/seed/piece-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/piece-context.jpg"
             }
           ]
         },
@@ -4410,19 +4410,19 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "assets/images/words/Unit8/paint/paint_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit8/paint/paint_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I painted it.",
               "zh": "我给它涂上了颜色。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/paint-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/paint-textbook.jpg"
             },
             {
               "en": "We will paint the fence green this afternoon.",
               "zh": "今天下午我们要把篱笆涂成绿色。",
               "source": "context",
-              "image": "https://picsum.photos/seed/paint-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/paint-context.jpg"
             }
           ]
         },
@@ -4444,19 +4444,19 @@ const TEXTBOOK_DATA = {
               "letter": "ck"
             }
           ],
-          "image": "assets/images/words/Unit8/stick/stick_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit8/stick/stick_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I put sticks on it.",
               "zh": "我把棍子粘在上面。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/stick-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/stick-textbook.jpg"
             },
             {
               "en": "He picked up a stick and drew a circle in the sand.",
               "zh": "他捡起一根小木棍，在沙子上画了一个圆圈。",
               "source": "context",
-              "image": "https://picsum.photos/seed/stick-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/stick-context.jpg"
             }
           ]
         },
@@ -4478,19 +4478,19 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "assets/images/words/Unit8/tied/tied_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit8/tied/tied_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I tied strings to it.",
               "zh": "我把绳子系在上面。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/tied-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/tied-textbook.jpg"
             },
             {
               "en": "I tied my shoelaces before going to school.",
               "zh": "我在上学前系好了鞋带。",
               "source": "context",
-              "image": "https://picsum.photos/seed/tied-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/tied-context.jpg"
             }
           ]
         },
@@ -4512,19 +4512,19 @@ const TEXTBOOK_DATA = {
               "letter": "ng"
             }
           ],
-          "image": "assets/images/words/Unit8/string/string_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit8/string/string_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I tied strings to it.",
               "zh": "我把绳子系在上面。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/string-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/string-textbook.jpg"
             },
             {
               "en": "She used a long string to fly the kite.",
               "zh": "她用一根长绳子放风筝。",
               "source": "context",
-              "image": "https://picsum.photos/seed/string-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/string-context.jpg"
             }
           ]
         }
@@ -4553,19 +4553,19 @@ const TEXTBOOK_DATA = {
               "letter": "gh"
             }
           ],
-          "image": "assets/images/words/Unit9/laugh/laugh_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit9/laugh/laugh_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "We laughed a lot.",
               "zh": "我们笑得很开心。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/laugh-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/laugh-textbook.jpg"
             },
             {
               "en": "We laugh when we see funny cartoons.",
               "zh": "我们看到有趣的卡通片时会笑。",
               "source": "context",
-              "image": "https://picsum.photos/seed/laugh-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/laugh-context.jpg"
             }
           ]
         },
@@ -4583,19 +4583,19 @@ const TEXTBOOK_DATA = {
               "letter": "ore"
             }
           ],
-          "image": "assets/images/words/Unit9/wore/wore_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit9/wore/wore_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The women wore men's clothes.",
               "zh": "那些女人穿着男人的衣服。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/wore-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/wore-textbook.jpg"
             },
             {
               "en": "He wore a red hat to the party yesterday.",
               "zh": "他昨天戴了一顶红帽子去聚会。",
               "source": "context",
-              "image": "https://picsum.photos/seed/wore-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/wore-context.jpg"
             }
           ]
         },
@@ -4621,19 +4621,19 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "assets/images/words/Unit9/letter/letter_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit9/letter/letter_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "A:\t I've got a letter from a friend.",
               "zh": "我收到了一封来自朋友的信。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/letter-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/letter-textbook.jpg"
             },
             {
               "en": "I wrote a letter to my grandma last week.",
               "zh": "我上周给奶奶写了一封信。",
               "source": "context",
-              "image": "https://picsum.photos/seed/letter-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/letter-context.jpg"
             }
           ]
         },
@@ -4659,19 +4659,19 @@ const TEXTBOOK_DATA = {
               "letter": "re"
             }
           ],
-          "image": "assets/images/words/Unit9/theatre/theatre_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit9/theatre/theatre_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Last week we went to a children's theatre.",
               "zh": "上周我们去了一个儿童剧院。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/theatre-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/theatre-textbook.jpg"
             },
             {
               "en": "We watched a play at the theatre on Sunday.",
               "zh": "我们星期天在剧院看了一场戏。",
               "source": "context",
-              "image": "https://picsum.photos/seed/theatre-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/theatre-context.jpg"
             }
           ]
         },
@@ -4701,19 +4701,19 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "assets/images/words/Unit9/women/women_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit9/women/women_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The women wore men's clothes.",
               "zh": "女人们穿着男装。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/women-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/women-textbook.jpg"
             },
             {
               "en": "The women in the park are dancing happily.",
               "zh": "公园里的女士们正在快乐地跳舞。",
               "source": "context",
-              "image": "https://picsum.photos/seed/women-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/women-context.jpg"
             }
           ]
         },
@@ -4739,19 +4739,19 @@ const TEXTBOOK_DATA = {
               "letter": "or"
             }
           ],
-          "image": "assets/images/words/Unit9/actor/actor_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit9/actor/actor_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The actor is very famous.",
               "zh": "这位演员非常有名。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/actor-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/actor-textbook.jpg"
             },
             {
               "en": "The actor told a funny story on the stage.",
               "zh": "那位演员在舞台上讲了一个有趣的故事。",
               "source": "context",
-              "image": "https://picsum.photos/seed/actor-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/actor-context.jpg"
             }
           ]
         },
@@ -4769,19 +4769,19 @@ const TEXTBOOK_DATA = {
               "letter": "old"
             }
           ],
-          "image": "assets/images/words/Unit9/told/told_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit9/told/told_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The actors told lots of jokes.",
               "zh": "演员们讲了很多笑话。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/told-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/told-textbook.jpg"
             },
             {
               "en": "My dad told me a bedtime story last night.",
               "zh": "我爸爸昨晚给我讲了一个睡前故事。",
               "source": "context",
-              "image": "https://picsum.photos/seed/told-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/told-context.jpg"
             }
           ]
         },
@@ -4807,19 +4807,19 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "assets/images/words/Unit9/joke/joke_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit9/joke/joke_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The actors told lots of jokes.",
               "zh": "演员们讲了很多笑话。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/joke-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/joke-textbook.jpg"
             },
             {
               "en": "My friend told a joke and everyone laughed.",
               "zh": "我的朋友讲了个笑话，大家都笑了。",
               "source": "context",
-              "image": "https://picsum.photos/seed/joke-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/joke-context.jpg"
             }
           ]
         },
@@ -4845,19 +4845,19 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "assets/images/words/Unit9/after/after_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit9/after/after_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "After the show we went to a restaurant.",
               "zh": "演出结束后，我们去了一家餐馆。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/after-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/after-textbook.jpg"
             },
             {
               "en": "After school, I play football with my friends.",
               "zh": "放学后，我和朋友们踢足球。",
               "source": "context",
-              "image": "https://picsum.photos/seed/after-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/after-context.jpg"
             }
           ]
         },
@@ -4875,19 +4875,19 @@ const TEXTBOOK_DATA = {
               "letter": "ow"
             }
           ],
-          "image": "assets/images/words/Unit9/show/show_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit9/show/show_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "After the show we went to a restaurant.",
               "zh": "演出结束后，我们去了一家餐馆。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/show-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/show-textbook.jpg"
             },
             {
               "en": "The magic show was amazing and we clapped.",
               "zh": "魔术表演很精彩，我们鼓掌了。",
               "source": "context",
-              "image": "https://picsum.photos/seed/show-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/show-context.jpg"
             }
           ]
         },
@@ -4933,19 +4933,19 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "assets/images/words/Unit9/restaurant/restaurant_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit9/restaurant/restaurant_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "After the show we went to a restaurant.",
               "zh": "演出结束后，我们去了一家餐馆。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/restaurant-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/restaurant-textbook.jpg"
             },
             {
               "en": "We had dinner at a new restaurant near our school.",
               "zh": "我们在学校附近的一家新饭店吃了晚餐。",
               "source": "context",
-              "image": "https://picsum.photos/seed/restaurant-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/restaurant-context.jpg"
             }
           ]
         },
@@ -4971,19 +4971,19 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "assets/images/words/Unit9/ready/ready_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit9/ready/ready_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Are you ready for your trip to the US?",
               "zh": "你准备好去美国旅行了吗？",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/ready-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/ready-textbook.jpg"
             },
             {
               "en": "Are you ready to play basketball with us?",
               "zh": "你准备好和我们一起打篮球了吗？",
               "source": "context",
-              "image": "https://picsum.photos/seed/ready-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/ready-context.jpg"
             }
           ]
         },
@@ -5009,19 +5009,19 @@ const TEXTBOOK_DATA = {
               "letter": "ow"
             }
           ],
-          "image": "assets/images/words/Unit9/borrow/borrow_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit9/borrow/borrow_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "And we borrowed a bike for you.",
               "zh": "我们还为你借了一辆自行车。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/borrow-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/borrow-textbook.jpg"
             },
             {
               "en": "I want to borrow a storybook from the library.",
               "zh": "我想从图书馆借一本故事书。",
               "source": "context",
-              "image": "https://picsum.photos/seed/borrow-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/borrow-context.jpg"
             }
           ]
         },
@@ -5043,19 +5043,19 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "assets/images/words/Unit9/read/read_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit9/read/read_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "She read a story yesterday.",
               "zh": "她昨天读了一个故事。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/read-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/read-textbook.jpg"
             },
             {
               "en": "She read a funny story to her little brother.",
               "zh": "她给弟弟读了一个有趣的故事。",
               "source": "context",
-              "image": "https://picsum.photos/seed/read-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/read-context.jpg"
             }
           ]
         },
@@ -5081,19 +5081,19 @@ const TEXTBOOK_DATA = {
               "letter": "ll"
             }
           ],
-          "image": "assets/images/words/Unit9/at_all/at_all_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit9/at_all/at_all_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I don't like it at all.",
               "zh": "我一点也不喜欢它。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/at_all-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/at_all-textbook.jpg"
             },
             {
               "en": "I don't like eating vegetables at all.",
               "zh": "我一点也不喜欢吃蔬菜。",
               "source": "context",
-              "image": "https://picsum.photos/seed/at_all-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/at_all-context.jpg"
             }
           ]
         },
@@ -5111,19 +5111,19 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "assets/images/words/Unit9/in/in_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit9/in/in_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Lingling is still in the UK with Sam and Amy.",
               "zh": "玲玲还在英国，和萨姆、艾米在一起。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/in-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/in-textbook.jpg"
             },
             {
               "en": "We will go to the park in two hours.",
               "zh": "我们两小时后去公园。",
               "source": "context",
-              "image": "https://picsum.photos/seed/in-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/in-context.jpg"
             }
           ]
         },
@@ -5157,19 +5157,19 @@ const TEXTBOOK_DATA = {
               "letter": "r"
             }
           ],
-          "image": "assets/images/words/Unit9/another/another_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit9/another/another_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I want another apple, please.",
               "zh": "请再给我一个苹果。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/another-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/another-textbook.jpg"
             },
             {
               "en": "Can I have another piece of cake, please?",
               "zh": "请问我能再要一块蛋糕吗？",
               "source": "context",
-              "image": "https://picsum.photos/seed/another-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/another-context.jpg"
             }
           ]
         },
@@ -5207,19 +5207,19 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "assets/images/words/Unit9/history/history_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit9/history/history_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Dad read a book about Chinese history.",
               "zh": "爸爸读了一本关于中国历史的书。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/history-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/history-textbook.jpg"
             },
             {
               "en": "Our teacher told us about Chinese history today.",
               "zh": "我们老师今天讲了关于中国历史的事情。",
               "source": "context",
-              "image": "https://picsum.photos/seed/history-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/history-context.jpg"
             }
           ]
         },
@@ -5257,19 +5257,19 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "assets/images/words/Unit9/question/question_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit9/question/question_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Now answer the questions.",
               "zh": "现在回答问题。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/question-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/question-textbook.jpg"
             },
             {
               "en": "Please raise your hand if you have a question.",
               "zh": "如果你有问题，请举手。",
               "source": "context",
-              "image": "https://picsum.photos/seed/question-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/question-context.jpg"
             }
           ]
         },
@@ -5303,19 +5303,19 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "assets/images/words/Unit9/forget/forget_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit9/forget/forget_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Don't forget to bring some CDs of Chinese",
               "zh": "别忘了带一些中国CD。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/forget-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/forget-textbook.jpg"
             },
             {
               "en": "Don't forget to bring your homework tomorrow.",
               "zh": "别忘了明天带你的作业来。",
               "source": "context",
-              "image": "https://picsum.photos/seed/forget-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/forget-context.jpg"
             }
           ]
         },
@@ -5341,19 +5341,19 @@ const TEXTBOOK_DATA = {
               "letter": "ng"
             }
           ],
-          "image": "assets/images/words/Unit9/bring/bring_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit9/bring/bring_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Don't forget to bring some CDs of Chinese",
               "zh": "别忘了带一些中国CD。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/bring-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/bring-textbook.jpg"
             },
             {
               "en": "Please bring your pencil case to class every day.",
               "zh": "请每天带你的铅笔盒来上课。",
               "source": "context",
-              "image": "https://picsum.photos/seed/bring-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/bring-context.jpg"
             }
           ]
         },
@@ -5375,19 +5375,19 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "assets/images/words/Unit9/soon/soon_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit9/soon/soon_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I will write again soon.",
               "zh": "我很快就会再写信。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/soon-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/soon-textbook.jpg"
             },
             {
               "en": "The summer holiday will start soon.",
               "zh": "暑假很快就要开始了。",
               "source": "context",
-              "image": "https://picsum.photos/seed/soon-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/soon-context.jpg"
             }
           ]
         }
@@ -5416,19 +5416,19 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "assets/images/words/Unit10/when/when_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit10/when/when_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "A: When are you going to the airport?",
               "zh": "你什么时候去机场？",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/when-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/when-textbook.jpg"
             },
             {
               "en": "When will you finish your homework?",
               "zh": "你什么时候完成作业？",
               "source": "context",
-              "image": "https://picsum.photos/seed/when-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/when-context.jpg"
             }
           ]
         },
@@ -5450,19 +5450,19 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "assets/images/words/Unit10/end/end_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit10/end/end_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The movie will end at eight.",
               "zh": "电影将在八点结束。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/end-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/end-textbook.jpg"
             },
             {
               "en": "The movie will end at eight o'clock.",
               "zh": "电影将在八点钟结束。",
               "source": "context",
-              "image": "https://picsum.photos/seed/end-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/end-context.jpg"
             }
           ]
         },
@@ -5492,19 +5492,19 @@ const TEXTBOOK_DATA = {
               "letter": "s"
             }
           ],
-          "image": "assets/images/words/Unit10/nervous/nervous_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit10/nervous/nervous_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "But I feel nervous.",
               "zh": "但是我感到紧张。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/nervous-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/nervous-textbook.jpg"
             },
             {
               "en": "I feel nervous before the math test.",
               "zh": "数学考试前我感到紧张。",
               "source": "context",
-              "image": "https://picsum.photos/seed/nervous-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/nervous-context.jpg"
             }
           ]
         },
@@ -5538,19 +5538,19 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "assets/images/words/Unit10/all_right/all_right_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit10/all_right/all_right_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Are you all right?",
               "zh": "你没事吧？",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/all_right-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/all_right-textbook.jpg"
             },
             {
               "en": "Don't worry, everything will be all right.",
               "zh": "别担心，一切都会没事的。",
               "source": "context",
-              "image": "https://picsum.photos/seed/all_right-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/all_right-context.jpg"
             }
           ]
         },
@@ -5576,19 +5576,19 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "assets/images/words/Unit10/airport/airport_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit10/airport/airport_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "A: When are you going to the airport?",
               "zh": "你什么时候去机场？",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/airport-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/airport-textbook.jpg"
             },
             {
               "en": "We will meet you at the airport tomorrow.",
               "zh": "我们明天会在机场接你。",
               "source": "context",
-              "image": "https://picsum.photos/seed/airport-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/airport-context.jpg"
             }
           ]
         },
@@ -5618,19 +5618,19 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "assets/images/words/Unit10/ticket/ticket_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit10/ticket/ticket_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I have a ticket for the show.",
               "zh": "我有一张演出的票。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/ticket-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/ticket-textbook.jpg"
             },
             {
               "en": "I lost my train ticket this morning.",
               "zh": "我今天早上丢了火车票。",
               "source": "context",
-              "image": "https://picsum.photos/seed/ticket-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/ticket-context.jpg"
             }
           ]
         },
@@ -5664,19 +5664,19 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "assets/images/words/Unit10/passport/passport_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit10/passport/passport_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Don't forget your passport!",
               "zh": "别忘了你的护照！",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/passport-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/passport-textbook.jpg"
             },
             {
               "en": "Please show your passport at the gate.",
               "zh": "请在门口出示你的护照。",
               "source": "context",
-              "image": "https://picsum.photos/seed/passport-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/passport-context.jpg"
             }
           ]
         },
@@ -5698,19 +5698,19 @@ const TEXTBOOK_DATA = {
               "letter": "f"
             }
           ],
-          "image": "assets/images/words/Unit10/safe/safe_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit10/safe/safe_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Safe trip, Daming!",
               "zh": "一路平安，大明！",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/safe-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/safe-textbook.jpg"
             },
             {
               "en": "The children are safe at school now.",
               "zh": "孩子们现在在学校很安全。",
               "source": "context",
-              "image": "https://picsum.photos/seed/safe-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/safe-context.jpg"
             }
           ]
         },
@@ -5732,19 +5732,19 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "assets/images/words/Unit10/pet/pet_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit10/pet/pet_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "This is my new pet.",
               "zh": "这是我的新宠物。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/pet-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/pet-textbook.jpg"
             },
             {
               "en": "My pet cat likes to sleep on the sofa.",
               "zh": "我的宠物猫喜欢睡在沙发上。",
               "source": "context",
-              "image": "https://picsum.photos/seed/pet-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/pet-context.jpg"
             }
           ]
         },
@@ -5770,19 +5770,19 @@ const TEXTBOOK_DATA = {
               "letter": "k"
             }
           ],
-          "image": "assets/images/words/Unit10/speak/speak_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit10/speak/speak_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "It speaks English.",
               "zh": "它会说英语。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/speak-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/speak-textbook.jpg"
             },
             {
               "en": "Can you speak Chinese with your friend?",
               "zh": "你能和你的朋友说中文吗？",
               "source": "context",
-              "image": "https://picsum.photos/seed/speak-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/speak-context.jpg"
             }
           ]
         },
@@ -5816,19 +5816,19 @@ const TEXTBOOK_DATA = {
               "letter": "ng"
             }
           ],
-          "image": "assets/images/words/Unit10/building/building_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit10/building/building_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "That building is very tall.",
               "zh": "那栋建筑物非常高。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/building-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/building-textbook.jpg"
             },
             {
               "en": "The tall building is our new library.",
               "zh": "那栋高楼是我们的新图书馆。",
               "source": "context",
-              "image": "https://picsum.photos/seed/building-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/building-context.jpg"
             }
           ]
         },
@@ -5870,19 +5870,19 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "assets/images/words/Unit10/American/American_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit10/American/American_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "She is an American girl.",
               "zh": "她是一个美国女孩。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/american-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/american-textbook.jpg"
             },
             {
               "en": "My uncle is an American teacher in Beijing.",
               "zh": "我的叔叔是北京的一位美国老师。",
               "source": "context",
-              "image": "https://picsum.photos/seed/american-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/american-context.jpg"
             }
           ]
         },
@@ -5920,19 +5920,19 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "assets/images/words/Unit10/find_out/find_out_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit10/find_out/find_out_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Let's find out more about New York.",
               "zh": "我们来多了解一下纽约吧。",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/find_out-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/find_out-textbook.jpg"
             },
             {
               "en": "I want to find out the truth about the missing cat.",
               "zh": "我想弄清那只失踪的猫的真相。",
               "source": "context",
-              "image": "https://picsum.photos/seed/find_out-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/find_out-context.jpg"
             }
           ]
         },
@@ -5954,19 +5954,19 @@ const TEXTBOOK_DATA = {
               "letter": "r"
             }
           ],
-          "image": "assets/images/words/Unit10/more/more_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit10/more/more_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I want to find out more about",
               "zh": "我想了解更多关于",
               "source": "textbook",
-              "image": "https://picsum.photos/seed/more-textbook/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/more-textbook.jpg"
             },
             {
               "en": "Can you tell me more about your school trip?",
               "zh": "你能告诉我更多关于你学校旅行的事吗？",
               "source": "context",
-              "image": "https://picsum.photos/seed/more-context/500/300"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/more-context.jpg"
             }
           ]
         }

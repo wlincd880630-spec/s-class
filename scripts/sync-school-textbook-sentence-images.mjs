@@ -6,6 +6,7 @@
  *   node scripts/sync-school-textbook-sentence-images.mjs
  *   node scripts/sync-school-textbook-sentence-images.mjs --dry-run
  *   node scripts/sync-school-textbook-sentence-images.mjs --skip-download
+ *   node scripts/sync-school-textbook-sentence-images.mjs --patch-only
  */
 import fs from "fs";
 import path from "path";
@@ -19,6 +20,7 @@ const COS_HOST = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class
 
 const dryRun = process.argv.includes("--dry-run");
 const skipDownload = process.argv.includes("--skip-download");
+const patchOnly = process.argv.includes("--patch-only");
 
 const PICSUM_RE = /https:\/\/picsum\.photos\/seed\/([^/]+)\/(\d+)\/(\d+)/g;
 
@@ -136,41 +138,7 @@ async function uploadToCos() {
   console.log(`COS sentences: ${ok} ok, ${fail} fail`);
 }
 
-async function main() {
-  const { bySeed, fileHits } = collectPicsumRefs();
-  console.log(`picsum refs in data.js: ${fileHits.length}`);
-  console.log(`unique seeds: ${bySeed.size}`);
-
-  if (dryRun) {
-    console.log("dry-run sample seeds:", [...bySeed.keys()].slice(0, 8).join(", "));
-    return;
-  }
-
-  let downloaded = 0;
-  let skipped = 0;
-  let failed = 0;
-  const seeds = [...bySeed.values()];
-  for (let i = 0; i < seeds.length; i++) {
-    const { seed, w, h } = seeds[i];
-    try {
-      const r = await downloadOne(seed, w, h);
-      if (r.skipped) skipped++;
-      else downloaded++;
-      if ((i + 1) % 50 === 0) console.log(`  download ${i + 1}/${seeds.length}`);
-      await new Promise((r) => setTimeout(r, 80));
-    } catch (e) {
-      failed++;
-      console.error("  download fail:", seed, e.message);
-    }
-  }
-  console.log(`download: ${downloaded} new, ${skipped} skipped, ${failed} failed`);
-
-  const patch = patchDataFiles();
-  console.log(`patched ${patch.files} data.js (${patch.replacements} replacements)`);
-
-  await uploadToCos();
-
-  // 同步 8 册 data.js 到 COS
+async function uploadDataJs() {
   const config = JSON.parse(fs.readFileSync(path.join(ROOT, ".cos-config.json"), "utf8"));
   const cos = new COS({ SecretId: config.SecretId, SecretKey: config.SecretKey });
   const prefix = (config.CosPrefix || "s-class/").replace(/\/+$/, "") + "/";
@@ -193,6 +161,49 @@ async function main() {
     });
     console.log("  uploaded data.js", g);
   }
+}
+
+async function main() {
+  const { bySeed, fileHits } = collectPicsumRefs();
+  console.log(`picsum refs in data.js: ${fileHits.length}`);
+  console.log(`unique seeds: ${bySeed.size}`);
+
+  if (dryRun) {
+    console.log("dry-run sample seeds:", [...bySeed.keys()].slice(0, 8).join(", "));
+    return;
+  }
+
+  if (!patchOnly) {
+    let downloaded = 0;
+    let skipped = 0;
+    let failed = 0;
+    const seeds = [...bySeed.values()];
+    for (let i = 0; i < seeds.length; i++) {
+      const { seed, w, h } = seeds[i];
+      try {
+        const r = await downloadOne(seed, w, h);
+        if (r.skipped) skipped++;
+        else downloaded++;
+        if ((i + 1) % 50 === 0) console.log(`  download ${i + 1}/${seeds.length}`);
+        if (!skipDownload) await new Promise((r) => setTimeout(r, 80));
+      } catch (e) {
+        failed++;
+        console.error("  download fail:", seed, e.message);
+      }
+    }
+    console.log(`download: ${downloaded} new, ${skipped} skipped, ${failed} failed`);
+    await uploadToCos();
+  }
+
+  const patch = patchDataFiles();
+  console.log(`patched ${patch.files} data.js (${patch.replacements} replacements)`);
+
+  if (patchOnly) {
+    await uploadDataJs();
+    return;
+  }
+
+  await uploadDataJs();
 }
 
 main().catch((e) => {
