@@ -34,7 +34,7 @@ const PRESETS = {
 };
 
 function patchTeacherHtml(html, cfg) {
-  const relLookup = cfg.depth === 2 ? "../../exam-shared" : "../exam-shared";
+  const relLookup = cfg.depth >= 3 ? "../../HET/exam-shared" : "../exam-shared";
   html = html.replace(/<title>[^<]*<\/title>/, `<title>${cfg.title}</title>`);
 
   // 相对图片 → COS
@@ -58,22 +58,22 @@ function patchTeacherHtml(html, cfg) {
 
   const injectHead =
     `<link rel="stylesheet" href="${relLookup}/exam-lookup.css?v=3">\n` +
-    `<link rel="stylesheet" href="${relLookup}/exam-teacher-ui.css?v=1">\n`;
+    `<link rel="stylesheet" href="${relLookup}/exam-teacher-ui.css?v=4">\n`;
   const injectFoot =
     `<script src="${relLookup}/exam-lookup.js?v=3"></script>\n` +
-    `<script src="${relLookup}/exam-teacher-ui.js?v=1"></script>\n`;
+    `<script src="${relLookup}/exam-teacher-ui.js?v=4"></script>\n`;
 
   if (!html.includes("exam-lookup.css")) {
     html = html.replace("</head>", injectHead + "</head>");
   } else if (!html.includes("exam-teacher-ui.css")) {
     html = html.replace(/exam-lookup\.css[^"]*"/, `exam-lookup.css?v=3"`);
-    html = html.replace("</head>", `<link rel="stylesheet" href="${relLookup}/exam-teacher-ui.css?v=1">\n</head>`);
+    html = html.replace("</head>", `<link rel="stylesheet" href="${relLookup}/exam-teacher-ui.css?v=4">\n</head>`);
   }
   if (!html.includes("exam-lookup.js")) {
     html = html.replace("</body>", injectFoot + "</body>");
   } else if (!html.includes("exam-teacher-ui.js")) {
     html = html.replace(/exam-lookup\.js[^"]*"/, `exam-lookup.js?v=3"`);
-    html = html.replace("</body>", `<script src="${relLookup}/exam-teacher-ui.js?v=1"></script>\n</body>`);
+    html = html.replace("</body>", `<script src="${relLookup}/exam-teacher-ui.js?v=4"></script>\n</body>`);
   }
 
   return html;

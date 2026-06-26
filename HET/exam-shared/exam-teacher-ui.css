@@ -1,10 +1,54 @@
-/* 教师版 · 答案展示与解析折叠 */
-body.teacher-edition .exam-inline-ans {
-  color: #dc2626;
+/* 教师版 · 答案展示（折叠解析 + 原文/表格内联答案） */
+
+body.teacher-edition #part-listen .listen-no-answer-note {
+  margin: 12px 0 20px;
+  padding: 12px 16px;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 8px;
+  color: #0369a1;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* 听力：不展示任何书面答案 */
+body.teacher-edition #part-listen .teacher-key,
+body.teacher-edition #part-listen .teacher-after-q,
+body.teacher-edition #part-listen .teacher-fill,
+body.teacher-edition #part-listen .teacher-inline-ans,
+body.teacher-edition #part-listen .ans-letter-inline,
+body.teacher-edition #part-listen .chart-teacher-row,
+body.teacher-edition #part-listen .exam-parse-btn,
+body.teacher-edition #part-listen .exam-parse-single,
+body.teacher-edition #part-listen .exam-parse-group-btn,
+body.teacher-edition #part-listen .exam-parse-panel {
+  display: none !important;
+}
+body.teacher-edition #part-listen .opt-correct {
+  background: transparent !important;
+  border: none !important;
+  font-weight: inherit !important;
+  color: inherit !important;
+}
+body.teacher-edition #part-listen .opt-correct .opt-key,
+body.teacher-edition #part-listen .opt-correct .opt-body {
+  color: inherit !important;
+  font-weight: inherit !important;
+}
+body.teacher-edition #part-listen input[type="radio"]:checked + .opt-key,
+body.teacher-edition #part-listen input[type="radio"]:checked ~ .opt-body {
+  font-weight: inherit;
+}
+
+/* 内联答案（语篇/表格） */
+body.teacher-edition .exam-inline-ans,
+body.teacher-edition .teacher-fill.screen-only {
+  color: #dc2626 !important;
   font-weight: 700;
   text-decoration: underline;
   text-decoration-color: #fecaca;
   text-underline-offset: 2px;
+  display: inline !important;
 }
 body.teacher-edition .inline-blank .blank-line-input,
 body.teacher-edition .inline-blank .cloze-line,
@@ -25,15 +69,28 @@ body.teacher-edition .teacher-after-q {
 body.teacher-edition .exam-ans-pre {
   display: none !important;
 }
+body.teacher-edition .inline-blank .blank-num,
+body.teacher-edition .blank-wrap .blank-num {
+  color: #9ca3af;
+  font-size: 0.85em;
+  margin-right: 2px;
+}
+
+/* 选择题：原块解析默认隐藏，由折叠区展示 */
+body.teacher-edition .q-unit > .teacher-key,
+body.teacher-edition .q-item > .teacher-key {
+  display: none;
+}
 
 body.teacher-edition .exam-parse-btn {
-  margin: 10px 0 0;
-  padding: 6px 14px;
+  display: inline-block;
+  margin: 8px 0 0;
+  padding: 5px 12px;
   border: 1px solid #93c5fd;
   border-radius: 6px;
   background: #eff6ff;
   color: #1d4ed8;
-  font-size: 0.85rem;
+  font-size: 0.84rem;
   font-weight: 600;
   cursor: pointer;
 }
@@ -45,14 +102,16 @@ body.teacher-edition .exam-parse-btn.is-open {
   color: #fff;
   border-color: #1d4ed8;
 }
+
 body.teacher-edition .exam-parse-group-btn {
-  margin: 16px 0 8px;
-  padding: 8px 18px;
+  display: inline-block;
+  margin: 14px 0 6px;
+  padding: 7px 16px;
   border: 1px solid #fca5a5;
   border-radius: 8px;
   background: #fef2f2;
   color: #dc2626;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
 }
@@ -65,57 +124,109 @@ body.teacher-edition .exam-parse-group-btn.is-open {
   border-color: #dc2626;
 }
 
-body.teacher-edition .exam-parse-panel {
+body.teacher-edition .exam-parse-panel,
+body.teacher-edition .exam-parse-single {
   display: none;
-  margin: 12px 0 20px;
+  clear: both;
+  width: 100%;
+  margin: 10px 0 16px;
   padding: 14px 16px;
   background: #f8fafc;
   border: 1px solid #e2e8f0;
   border-left: 4px solid #2563eb;
   border-radius: 0 8px 8px 0;
+  box-sizing: border-box;
 }
-body.teacher-edition .exam-parse-panel.is-open {
+body.teacher-edition .exam-parse-panel.is-open,
+body.teacher-edition .exam-parse-single.is-open {
   display: block;
 }
-body.teacher-edition .exam-parse-panel .teacher-key {
-  margin: 0 0 16px;
-  padding: 0 0 14px;
+body.teacher-edition .exam-parse-panel .teacher-key,
+body.teacher-edition .exam-parse-single .teacher-key {
+  display: block;
+  margin: 0 0 14px;
+  padding: 0 0 12px;
   border-bottom: 1px dashed #e2e8f0;
   background: transparent;
   border-left: none;
 }
-body.teacher-edition .exam-parse-panel .teacher-key:last-child {
+body.teacher-edition .exam-parse-panel .teacher-key:last-child,
+body.teacher-edition .exam-parse-single .teacher-key:last-child {
   margin-bottom: 0;
   padding-bottom: 0;
   border-bottom: none;
 }
 
-body.teacher-edition .q-unit > .teacher-key,
-body.teacher-edition .q-unit-row > .teacher-key {
-  display: none;
+/* 听力选项表：恢复与学生版一致的 grid 子项结构 */
+body.teacher-edition #part-listen .listen-abc-grid {
+  display: grid !important;
+  grid-template-columns: 2.5em minmax(9.5em, 1fr) minmax(11em, 1fr) minmax(13em, 1fr);
+  column-gap: 20px;
+  align-items: center;
 }
-body.teacher-edition .q-unit .exam-parse-single,
-body.teacher-edition .q-unit-row .exam-parse-single {
-  display: none;
-  margin-top: 8px;
+body.teacher-edition #part-listen .listen-abc-grid .q-row-opts-grid {
+  display: contents !important;
 }
-body.teacher-edition .q-unit .exam-parse-single.is-open,
-body.teacher-edition .q-unit-row .exam-parse-single.is-open {
-  display: block;
+body.teacher-edition #part-listen .listen-abc-grid > .q-num,
+body.teacher-edition #part-listen .listen-abc-grid > .opt-cell {
+  padding: 10px 4px;
+  border-bottom: 1px solid var(--line, #e5e7eb);
+  min-height: 2.6em;
+  display: flex;
+  align-items: center;
 }
-body.teacher-edition .q-unit .exam-parse-single .teacher-key,
-body.teacher-edition .q-unit-row .exam-parse-single .teacher-key {
-  display: block;
-  margin: 0;
+body.teacher-edition #part-listen .listen-abc-grid > .q-num {
+  font-weight: 700;
+  justify-content: flex-end;
+  padding-right: 8px;
+}
+body.teacher-edition #part-listen .listen-abc-grid > .opt-cell {
+  gap: 4px;
+  white-space: nowrap;
 }
 
-body.teacher-edition .passage-cloze-mc .passage-blank-wrap .exam-inline-ans {
+/* 完形选项表：每题独立一行，避免 q-unit 破坏外层 grid */
+body.teacher-edition .q-abc-grid.cloze-abc-grid {
+  display: block !important;
+  margin-top: 12px;
+}
+body.teacher-edition .cloze-abc-grid .q-unit-row {
+  display: block;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--line, #e5e7eb);
+  padding-bottom: 6px;
+}
+body.teacher-edition .cloze-abc-grid .q-unit-row .q-row-opts-grid {
+  display: grid !important;
+  grid-template-columns: 2.5em 1fr 1fr 1fr;
+  gap: 8px;
+  align-items: center;
+}
+body.teacher-edition .cloze-abc-grid .q-unit-row .q-num {
+  font-weight: 700;
+  justify-content: flex-end;
+  padding-right: 8px;
+}
+body.teacher-edition .cloze-abc-grid .q-unit-row .opt-cell {
+  gap: 4px;
+  padding: 8px 4px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+body.teacher-edition .cloze-abc-grid .exam-parse-group-wrap {
+  clear: both;
+  margin-top: 12px;
+}
+
+body.teacher-edition .passage-cloze-mc .passage-blank-wrap {
+  white-space: normal;
+}
+body.teacher-edition .passage-cloze-mc .passage-blank-wrap .passage-blank-line {
+  display: none !important;
+}
+body.teacher-edition .passage-cloze-mc .passage-blank-wrap .exam-inline-ans,
+body.teacher-edition .passage-cloze-mc .passage-blank-wrap .teacher-fill {
   display: inline;
-  min-width: 4em;
-}
-
-body.teacher-edition .fill-word-pick .teacher-fill,
-body.teacher-edition .chart .teacher-fill,
-body.teacher-edition table.chart .teacher-fill {
-  display: inline !important;
+  margin: 0 0.15em;
 }
