@@ -1,20 +1,19 @@
 /**
- * HET 试卷 DeepSeek 查词：双击单词查词；划选后点浮动按钮查词/翻译
- * API Key 存 localStorage：sclass_deepseek_key
+ * HET 试卷 · DeepSeek 查词 + Azure 朗读（内部站点，密钥内置）
  */
 (function () {
   "use strict";
 
+  const DEEPSEEK_API_KEY = "sk-daa16008e81843deba6fefe9dce51465";
   const DEEPSEEK_ENDPOINT = "https://api.deepseek.com/v1/chat/completions";
-  const LS_KEY = "sclass_deepseek_key";
+  const AZURE_SPEECH_KEY =
+    "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+  const AZURE_SPEECH_REGION = "southeastasia";
+  const AZURE_TTS_VOICE = "en-US-JennyNeural";
+  const AZURE_TTS_PROSODY_RATE = "-12%";
 
-  function getKey() {
-    return (localStorage.getItem(LS_KEY) || "").trim();
-  }
-
-  function setKey(v) {
-    localStorage.setItem(LS_KEY, String(v || "").trim());
-  }
+  const audioCache = new Map();
+  let currentAudio = null;
 
   function esc(s) {
     return String(s)
@@ -22,6 +21,10 @@
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;");
+  }
+
+  function escapeSsmlText(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
   }
 
   function showToast(msg, ms) {
@@ -40,6 +43,7 @@
 
   function ensureUi() {
     if (document.getElementById("lookupPanel")) return;
+
     const backdrop = document.createElement("div");
     backdrop.id = "lookupBackdrop";
     backdrop.className = "lookup-backdrop";
@@ -59,36 +63,11 @@
     floatBtn.className = "lookup-float-btn";
     floatBtn.textContent = "查词翻译";
 
-    const apiDlg = document.createElement("div");
-    apiDlg.id = "examApiDialog";
-    apiDlg.className = "exam-api-dialog";
-    apiDlg.innerHTML =
-      '<div class="exam-api-dialog-panel" role="dialog">' +
-      "<h3>DeepSeek API 设置</h3>" +
-      '<p class="lookup-muted" style="margin:0 0 8px;font-size:0.85rem">密钥仅保存在本机浏览器，不会上传至 s-class 服务器。</p>' +
-      '<label for="examApiKeyInput">DeepSeek API Key</label>' +
-      '<input type="password" id="examApiKeyInput" autocomplete="off" placeholder="sk-...">' +
-      '<div class="exam-api-dialog-actions">' +
-      '<button type="button" class="secondary" id="examApiCancel">取消</button>' +
-      '<button type="button" class="primary" id="examApiSave">保存</button>' +
-      "</div></div>";
-
     document.body.appendChild(backdrop);
     document.body.appendChild(panel);
     document.body.appendChild(floatBtn);
-    document.body.appendChild(apiDlg);
 
     document.getElementById("lookupClose").addEventListener("click", closeLookupPanel);
-    document.getElementById("examApiCancel").addEventListener("click", () => apiDlg.classList.remove("show"));
-    document.getElementById("examApiSave").addEventListener("click", () => {
-      setKey(document.getElementById("examApiKeyInput").value);
-      apiDlg.classList.remove("show");
-      showToast("API Key 已保存");
-    });
-    apiDlg.addEventListener("click", (e) => {
-      if (e.target === apiDlg) apiDlg.classList.remove("show");
-    });
-
     floatBtn.addEventListener("click", () => {
       const sel = getSelectionText();
       if (sel) lookupSelection(sel);
@@ -110,13 +89,6 @@
     });
   }
 
-  function openApiSettings() {
-    ensureUi();
-    const dlg = document.getElementById("examApiDialog");
-    document.getElementById("examApiKeyInput").value = getKey();
-    dlg.classList.add("show");
-  }
-
   function openLookupPanel(title) {
     ensureUi();
     document.getElementById("lookupPanel").classList.add("open");
@@ -125,10 +97,8 @@
   }
 
   function closeLookupPanel() {
-    const p = document.getElementById("lookupPanel");
-    const b = document.getElementById("lookupBackdrop");
-    if (p) p.classList.remove("open");
-    if (b) b.classList.remove("show");
+    document.getElementById("lookupPanel")?.classList.remove("open");
+    document.getElementById("lookupBackdrop")?.classList.remove("show");
   }
 
   function getSelectionText() {
@@ -150,17 +120,50 @@
     } catch (e) {}
   }
 
-  async function deepseekChat(system, user, temperature) {
-    const key = getKey();
-    if (!key) {
-      openApiSettings();
-      throw new Error("请先配置 DeepSeek API Key");
+  function playUrl(url) {
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio = null;
     }
+    const a = new Audio(url);
+    currentAudio = a;
+    return a.play();
+  }
+
+  async function playAzureTTS(text) {
+    const endpoint = `https://${AZURE_SPEECH_REGION}.tts.speech.microsoft.com/cognitiveservices/v1`;
+    const cacheKey = `${AZURE_TTS_VOICE}|${text}|${AZURE_TTS_PROSODY_RATE}`;
+    if (audioCache.has(cacheKey)) return playUrl(audioCache.get(cacheKey));
+
+    const ssml = `<?xml version="1.0" encoding="utf-8"?>
+<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US">
+  <voice name="${AZURE_TTS_VOICE}">
+    <prosody rate="${AZURE_TTS_PROSODY_RATE}">${escapeSsmlText(text)}</prosody>
+  </voice>
+</speak>`;
+
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
+        "Content-Type": "application/ssml+xml",
+        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+      },
+      body: ssml,
+    });
+    if (!res.ok) throw new Error("Azure TTS " + res.status);
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    audioCache.set(cacheKey, url);
+    return playUrl(url);
+  }
+
+  async function deepseekChat(system, user, temperature) {
     const res = await fetch(DEEPSEEK_ENDPOINT, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + key,
+        Authorization: "Bearer " + DEEPSEEK_API_KEY,
       },
       body: JSON.stringify({
         model: "deepseek-chat",
@@ -173,7 +176,7 @@
     });
     if (!res.ok) throw new Error("DeepSeek " + res.status);
     const data = await res.json();
-    return (data && data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || "";
+    return (data?.choices?.[0]?.message?.content || "").trim();
   }
 
   function tryParseJson(raw) {
@@ -203,16 +206,23 @@
     return "<p class='lookup-section-title'>" + esc(title) + "</p><ul class='lookup-usage-list'>" + items + "</ul>";
   }
 
-  function renderLookupResult(data) {
+  function renderLookupResult(data, speakText) {
     const body = document.getElementById("lookupBody");
     if (!body) return;
     if (!data) {
       body.innerHTML = "<p class='lookup-muted'>无结果</p>";
       return;
     }
+    const word = data.word_or_phrase || data.translation || speakText || "";
     const row = (k, v) => (v ? "<p><strong>" + k + "</strong> " + esc(v) + "</p>" : "");
+  const ttsBtn = word
+      ? `<button type="button" class="lookup-tts-btn" id="lookupTtsBtn" title="Azure 朗读">🔊 朗读</button>`
+      : "";
     body.innerHTML =
-      "<h3 class='lookup-head'>" + esc(data.word_or_phrase || data.translation || "") + "</h3>" +
+      "<h3 class='lookup-head'>" +
+      esc(word) +
+      ttsBtn +
+      "</h3>" +
       row("音标", data.phonetic) +
       row("词性", data.part_of_speech) +
       row("释义", data.meaning_zh) +
@@ -220,9 +230,21 @@
       renderUsageList("搭配", data.collocations, "phrase") +
       renderUsageList("近义", data.synonyms, "word") +
       row("小结", data.summary);
+
+    const btn = document.getElementById("lookupTtsBtn");
+    if (btn && word) {
+      btn.addEventListener("click", () => {
+        btn.disabled = true;
+        playAzureTTS(word.replace(/[^A-Za-z\s'-].*$/, "").trim() || word)
+          .catch((e) => showToast(e.message || String(e)))
+          .finally(() => {
+            btn.disabled = false;
+          });
+      });
+    }
   }
 
-  function getContextAround(node) {
+  function getContextAround() {
     const sheet = document.querySelector(".sheet, #exam, .exam-sheet");
     return sheet ? sheet.innerText.slice(0, 2000) : "";
   }
@@ -231,14 +253,13 @@
     openLookupPanel("查词 · " + selection.slice(0, 40));
     const body = document.getElementById("lookupBody");
     body.innerHTML = "<p class='lookup-muted'>DeepSeek 查询中…</p>";
-    document.getElementById("lookupFloatBtn").classList.remove("show");
+    document.getElementById("lookupFloatBtn")?.classList.remove("show");
 
     const cacheKey = selection.slice(0, 120);
     const cached = cacheGet(cacheKey);
     if (cached) {
-      const isWord = /^[A-Za-z][A-Za-z''-]*$/.test(selection);
       const data = tryParseJson(cached);
-      if (data) renderLookupResult(data);
+      if (data) renderLookupResult(data, selection);
       else body.innerHTML = "<div class='lookup-raw'>" + esc(cached) + "</div>";
       return;
     }
@@ -267,8 +288,10 @@
       const raw = await deepseekChat(system, user, isSingleWord ? 0.25 : 0.35);
       cacheSet(cacheKey, raw);
       const data = tryParseJson(raw);
-      if (data) renderLookupResult(data);
-      else body.innerHTML = "<div class='lookup-raw'>" + esc(raw) + "</div>";
+      if (data) {
+        renderLookupResult(data, selection);
+        if (isSingleWord) playAzureTTS(selection).catch(() => {});
+      } else body.innerHTML = "<div class='lookup-raw'>" + esc(raw) + "</div>";
     } catch (e) {
       body.innerHTML = "<p class='lookup-bad'>" + esc(e.message) + "</p>";
     }
@@ -283,7 +306,7 @@
         if (!p || skip.has(p.tagName) || p.closest(".teacher-key, .lookup-panel, .toolbar")) {
           return NodeFilter.FILTER_REJECT;
         }
-        if (p.classList && p.classList.contains("w")) return NodeFilter.FILTER_REJECT;
+        if (p.classList?.contains("w")) return NodeFilter.FILTER_REJECT;
         return NodeFilter.FILTER_ACCEPT;
       },
     });
@@ -312,31 +335,8 @@
     });
   }
 
-  /** 教师版：在题号前插入红色答案徽章 */
   function enhanceTeacherAnswers() {
-    if (!document.body.classList.contains("teacher-edition")) return;
-    document.querySelectorAll(".q-unit, .q-item").forEach((unit) => {
-      const key = unit.querySelector(".teacher-key .tk-ans");
-      if (!key || unit.querySelector(".exam-ans-pre")) return;
-      const ans = key.textContent.trim();
-      if (!ans) return;
-      const num = unit.querySelector(".q-num");
-      const stem = unit.querySelector(".q-stem");
-      const badge = document.createElement("span");
-      badge.className = "exam-ans-pre";
-      badge.textContent = ans.length <= 3 ? ans : ans.slice(0, 24);
-      badge.title = "参考答案：" + ans;
-      if (num) num.parentNode.insertBefore(badge, num);
-      else if (stem) stem.insertBefore(badge, stem.firstChild);
-    });
-    document.querySelectorAll(".pic-q-line .ans-letter-inline").forEach((el) => {
-      const line = el.closest(".pic-q-line");
-      if (!line || line.querySelector(".exam-ans-pre")) return;
-      const badge = document.createElement("span");
-      badge.className = "exam-ans-pre";
-      badge.textContent = el.textContent.trim();
-      line.insertBefore(badge, line.firstChild);
-    });
+    /* 由 exam-teacher-ui.js 接管 */
   }
 
   function initExamLookup(opts) {
@@ -347,18 +347,14 @@
       root.classList.add("exam-sheet");
       wrapWordsIn(root);
     }
-    enhanceTeacherAnswers();
     const apiBtn = document.getElementById("btnApiSettings");
-    if (apiBtn) apiBtn.addEventListener("click", openApiSettings);
-    if (!getKey() && opts.promptApi !== false) {
-      setTimeout(() => {
-        if (!getKey()) openApiSettings();
-      }, 600);
+      apiBtn.textContent = "DeepSeek · Azure";
+      apiBtn.title = "查词与朗读已内置密钥";
+      apiBtn.addEventListener("click", () => showToast("DeepSeek 查词 · Azure 朗读已就绪"));
     }
   }
 
   window.initExamLookup = initExamLookup;
-  window.openExamApiSettings = openApiSettings;
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", () => initExamLookup());

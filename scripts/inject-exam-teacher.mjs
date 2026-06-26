@@ -122,10 +122,10 @@ function injectShell(html, cfg) {
 
   const rel = cfg.lookupRel || "../../exam-shared";
   if (!html.includes("exam-lookup.css")) {
-    html = html.replace("</head>", `<link rel="stylesheet" href="${rel}/exam-lookup.css?v=1">\n</head>`);
+    html = html.replace("</head>", `<link rel="stylesheet" href="${rel}/exam-lookup.css?v=3">\n<link rel="stylesheet" href="${rel}/exam-teacher-ui.css?v=1">\n</head>`);
   }
   if (!html.includes("exam-lookup.js")) {
-    html = html.replace("</body>", `<script src="${rel}/exam-lookup.js?v=1"></script>\n</body>`);
+    html = html.replace("</body>", `<script src="${rel}/exam-lookup.js?v=3"></script>\n<script src="${rel}/exam-teacher-ui.js?v=1"></script>\n</body>`);
   }
 
   if (cfg.cosBase) {

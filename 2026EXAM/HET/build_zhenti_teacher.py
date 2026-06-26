@@ -338,7 +338,8 @@ def build_head(styles: str) -> str:
 <style>
 {styles}
 </style>
-<link rel="stylesheet" href="{SHARED}exam-lookup.css?v=1">
+<link rel="stylesheet" href="{SHARED}exam-lookup.css?v=3">
+<link rel="stylesheet" href="{SHARED}exam-teacher-ui.css?v=1">
 </head>
 """
 
@@ -395,7 +396,8 @@ function exportPdf() {{
 }}
 window.addEventListener('afterprint', () => document.body.classList.remove('print-exam'));
 </script>
-<script src="{SHARED}exam-lookup.js?v=1"></script>
+<script src="{SHARED}exam-lookup.js?v=3"></script>
+<script src="{SHARED}exam-teacher-ui.js?v=1"></script>
 </body>
 </html>
 """
