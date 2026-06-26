@@ -392,6 +392,18 @@ let currentSynthesizer = null;
 
 async function speakText(text, onEnd) {
   if (!text) return;
+  // 优先播放预生成 MP3（COS / 本地）
+  if (window.LocalAudio && window.__LOCAL_AUDIO_MANIFEST) {
+    try {
+      const ok = await window.LocalAudio.speak(text, { rate: AZURE_CONFIG.speechRate });
+      if (ok) {
+        if (onEnd) onEnd();
+        return;
+      }
+    } catch (e) {
+      console.warn('LocalAudio 播放失败，回退 Azure', e);
+    }
+  }
   try {
     await loadSpeechSDK();
     if (currentSynthesizer) {
