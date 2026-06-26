@@ -22,6 +22,7 @@ const PRESETS = {
     title: "2026成都中考英语（黑卷）·答案与解析",
     cosBase: `${COS}/HET/2026 Mock 1`,
     depth: 2,
+    parseData: "mock1",
   },
   mock2: {
     src: "D:/英语2026中考/英语/白卷/2026成都英语白卷-教师版.html",
@@ -30,6 +31,7 @@ const PRESETS = {
     title: "2026成都中考英语（白卷）·答案与解析",
     cosBase: `${COS}/HET/2026 Mock 2`,
     depth: 2,
+    parseData: "mock2",
   },
 };
 
@@ -61,7 +63,8 @@ function patchTeacherHtml(html, cfg) {
     `<link rel="stylesheet" href="${relLookup}/exam-teacher-ui.css?v=7">\n`;
   const injectFoot =
     `<script src="${relLookup}/exam-lookup.js?v=7"></script>\n` +
-    `<script src="${relLookup}/exam-parse-ai.js?v=1"></script>\n` +
+    `<script src="${relLookup}/parse-data/${cfg.parseData || "mock2"}.js?v=1"></script>\n` +
+    `<script src="${relLookup}/exam-parse-ai.js?v=2"></script>\n` +
     `<script src="${relLookup}/exam-teacher-ui.js?v=7"></script>\n`;
 
   if (!html.includes("exam-lookup.css")) {
