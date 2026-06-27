@@ -1894,7 +1894,11 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/ə/",
-              "letter": "en"
+              "letter": "e"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
             },
             {
               "symbol": "/t/",
