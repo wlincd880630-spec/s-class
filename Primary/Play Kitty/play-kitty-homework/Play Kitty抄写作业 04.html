@@ -260,11 +260,7 @@ body {
   align-self: center;
 }
 
-/* longLine 栏：范字 ×0.85；四线格竖向区域 ×0.85（线间距缩小 15%），居中 */
-.sentence-block--longline .grid-bg {
-  top: 28.75%;
-  height: 42.5%;
-}
+/* longLine 栏：范字较默认缩小；四线格与默认书写行一致 */
 .sentence-block--longline .cell-full {
   font-size: var(--sentence-font-long);
   letter-spacing: -0.01em;
@@ -383,7 +379,7 @@ const LESSON = {
   items: [
     { word: 'swing', sentence: 'Swing!' },
     { word: 'climb', sentence: 'Climb.' },
-    { word: 'see', sentence: 'What do you see, kitty?', longLine: true },
+    { word: 'see', sentence: 'What do you see, kitty?' },
     { word: 'swat', sentence: 'Swat a bug.' },
     { word: 'eat', sentence: "It's time to eat." },
     { word: 'sleep', sentence: "It's time to sleep." }
@@ -440,7 +436,8 @@ function getSentenceLines(item) {
 function isMultilineItem(item) {
   if (item.multiline === false) return false;
   const lines = getSentenceLines(item);
-  return lines.length > 1 || !!item.longLine || String(item.sentence).length > LINE_MAX_CHARS;
+  /* longLine 仅缩小范字，不切换 multiline 布局（避免 13.5mm 行高导致四线格过密） */
+  return lines.length > 1 || String(item.sentence).length > LINE_MAX_CHARS;
 }
 
 function estimateBlockHeightMm(item) {
@@ -505,7 +502,9 @@ function buildSentenceBlock(item, accentColor) {
   const lines = getSentenceLines(item);
   const multiline = isMultilineItem(item);
   const block = document.createElement('div');
-  block.className = 'sentence-block' + (multiline ? ' sentence-block--multiline' : '');
+  block.className = 'sentence-block'
+    + (multiline ? ' sentence-block--multiline' : '')
+    + (item.longLine ? ' sentence-block--longline' : '');
   if (item.fontScale != null) {
     block.style.setProperty('--item-font-scale', String(item.fontScale));
   }
