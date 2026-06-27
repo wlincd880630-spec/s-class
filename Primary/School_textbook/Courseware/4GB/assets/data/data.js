@@ -2050,11 +2050,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/l/",
-              "letter": "l"
-            },
-            {
-              "symbol": "/ə/",
-              "letter": "e"
+              "letter": "le"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/puzzle/puzzle_%E9%A3%8E%E6%A0%BCA.png",
