@@ -787,29 +787,41 @@ select:focus, input[type="text"]:focus {
   .dictation-answer {
     display: none !important;
   }
+  html,
+  body.dictation-print-body,
+  body.copy-print-body {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
   body.dictation-print-body,
   body.copy-print-body {
     background: #fff;
   }
+  body.copy-print-body {
+    page: copy-homework;
+  }
   body.dictation-print-body .container,
   body.copy-print-body .container {
     max-width: none;
-    padding: 0;
-    margin: 0;
+    padding: 0 !important;
+    margin: 0 !important;
   }
   body.dictation-print-body .card,
-  body.copy-print-body .card {
-    box-shadow: none;
-    border: none;
-    background: transparent;
-    padding: 0;
-    margin: 0;
+  body.copy-print-body .card,
+  body.copy-print-body .card.copy-card {
+    box-shadow: none !important;
+    border: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    break-inside: auto !important;
+    page-break-inside: auto !important;
   }
-  .copy-workbook {
-    width: 210mm;
-    max-width: 210mm;
-    margin: 0 auto;
-    padding: 1.2cm 15mm 15mm !important;
+  body.copy-print-body .copy-workbook {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
     box-sizing: border-box;
   }
   .copy-unit-header {
@@ -877,6 +889,12 @@ select:focus, input[type="text"]:focus {
 @page {
   size: A4;
   margin: 0;
+}
+
+/* 单词抄写作业：@page 页边距（每页均生效，比 padding 更可靠） */
+@page copy-homework {
+  size: A4;
+  margin: 1.2cm 15mm 15mm 15mm;
 }
 
 .dictation-card {
