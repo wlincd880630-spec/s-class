@@ -7,6 +7,136 @@
 
   var DEEPSEEK_API_KEY = "sk-daa16008e81843deba6fefe9dce51465";
   var DEEPSEEK_ENDPOINT = "https://api.deepseek.com/v1/chat/completions";
+  var AZURE_VOICE = "en-GB-RyanNeural";
+  var AZURE_RATE = "-10%";
+  var audioCache = new Map();
+  var currentAudio = null;
+  var ttsBusy = false;
+
+  function azureConfig() {
+    return {
+      key: String(
+        (typeof window !== "undefined" && window.__AZURE_SPEECH_KEY__) ||
+          (typeof window !== "undefined" && window.__AZURE_TTS_KEY__) ||
+          ""
+      ).trim(),
+      region: String(
+        (typeof window !== "undefined" && window.__AZURE_SPEECH_REGION__) ||
+          (typeof window !== "undefined" && window.__AZURE_TTS_REGION__) ||
+          "southeastasia"
+      ).trim(),
+    };
+  }
+
+  function escapeSsml(s) {
+    return String(s || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&apos;");
+  }
+
+  function playBlobUrl(url) {
+    if (currentAudio) {
+      try {
+        currentAudio.pause();
+      } catch (e) {}
+      currentAudio = null;
+    }
+    var a = new Audio(url);
+    currentAudio = a;
+    return a.play();
+  }
+
+  function playAzureTTS(text) {
+    var raw = String(text || "").replace(/\s+/g, " ").trim();
+    if (!raw) return Promise.reject(new Error("无朗读文本"));
+    var cfg = azureConfig();
+    if (!cfg.key) return Promise.reject(new Error("未配置 Azure 语音密钥"));
+
+    var cacheKey = AZURE_VOICE + "|" + AZURE_RATE + "|" + raw;
+    if (audioCache.has(cacheKey)) return playBlobUrl(audioCache.get(cacheKey));
+
+    var ssml =
+      "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
+      '<speak version="1.0" xml:lang="en-GB">' +
+      '<voice name="' +
+      AZURE_VOICE +
+      '"><prosody rate="' +
+      AZURE_RATE +
+      '">' +
+      escapeSsml(raw) +
+      "</prosody></voice></speak>";
+
+    var endpoint = "https://" + cfg.region + ".tts.speech.microsoft.com/cognitiveservices/v1";
+    return fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Ocp-Apim-Subscription-Key": cfg.key,
+        "Content-Type": "application/ssml+xml",
+        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+      },
+      body: ssml,
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error("Azure 朗读失败（" + res.status + "）");
+        return res.blob();
+      })
+      .then(function (blob) {
+        var url = URL.createObjectURL(blob);
+        audioCache.set(cacheKey, url);
+        return playBlobUrl(url);
+      });
+  }
+
+  function ttsBtnHtml(text, label, variant) {
+    var raw = String(text || "").replace(/\s+/g, " ").trim();
+    if (!raw) return "";
+    var enc = encodeURIComponent(raw);
+    var cls = "lookup-tts-btn";
+    if (variant === "word") cls += " lookup-tts-btn--word";
+    else cls += " lookup-tts-btn--inline";
+    return (
+      '<button type="button" class="' +
+      cls +
+      '" data-gh-tts="' +
+      esc(enc) +
+      '" title="' +
+      esc(label || "Azure 朗读") +
+      '" aria-label="朗读">🔊</button>'
+    );
+  }
+
+  function bindLookupTts(root) {
+    if (!root || root.dataset.ghTtsBound === "1") return;
+    root.dataset.ghTtsBound = "1";
+    root.addEventListener("click", function (e) {
+      var btn = e.target.closest("[data-gh-tts]");
+      if (!btn || ttsBusy) return;
+      e.preventDefault();
+      e.stopPropagation();
+      var enc = btn.getAttribute("data-gh-tts") || "";
+      var text = "";
+      try {
+        text = decodeURIComponent(enc);
+      } catch (err) {
+        text = enc;
+      }
+      ttsBusy = true;
+      btn.disabled = true;
+      btn.classList.add("is-playing");
+      playAzureTTS(text)
+        .catch(function (err) {
+          showToast(err && err.message ? err.message : "朗读失败");
+        })
+        .then(function () {
+          ttsBusy = false;
+          btn.disabled = false;
+          btn.classList.remove("is-playing");
+        });
+    });
+  }
 
   function esc(s) {
     return String(s)
@@ -51,6 +181,7 @@
     document.body.appendChild(backdrop);
     document.body.appendChild(panel);
     document.getElementById("ghLookupClose").addEventListener("click", closePanel);
+    bindLookupTts(document.getElementById("ghLookupBody"));
   }
 
   function openPanel(title) {
@@ -124,7 +255,14 @@
         var en = item.example_en || item.example || "";
         var zh = item.example_zh || "";
         var html = "<li class='lookup-usage-item'><strong>" + esc(head) + "</strong>";
-        if (en) html += "<p class='lookup-ex-en'>" + esc(en) + "</p>";
+        if (en) {
+          html +=
+            "<p class='lookup-ex-en'><span class='lookup-ex-en-text'>" +
+            esc(en) +
+            "</span> " +
+            ttsBtnHtml(en, "朗读例句") +
+            "</p>";
+        }
         if (zh) html += "<p class='lookup-ex-zh'>" + esc(zh) + "</p>";
         return html + "</li>";
       })
@@ -140,14 +278,24 @@
       return;
     }
     var word = data.word_or_phrase || speakText || "";
+    var wordSpeak = word.replace(/[^A-Za-z\s'-].*$/, "").trim() || word;
     var html =
       "<h3 class='lookup-head'>" +
       esc(word) +
-      (data.phonetic ? " <span style='font-weight:400;color:#64748b'>" + esc(data.phonetic) + "</span>" : "") +
+      (data.phonetic ? " <span class='lookup-phonetic'>" + esc(data.phonetic) + "</span>" : "") +
+      (wordSpeak ? ttsBtnHtml(wordSpeak, "朗读单词", "word") : "") +
       "</h3>";
     if (data.part_of_speech) html += "<p><strong>词性</strong> " + esc(data.part_of_speech) + "</p>";
     if (data.meaning_zh) html += "<p><strong>释义</strong> " + esc(data.meaning_zh) + "</p>";
-    if (data.in_sentence) html += "<p class='lookup-ex-en'>" + esc(data.in_sentence) + "</p>";
+    if (data.in_sentence) {
+      html +=
+        "<p class='lookup-ex-en lookup-ex-en--context'><span class='lookup-ex-en-label'>句中</span> " +
+        "<span class='lookup-ex-en-text'>" +
+        esc(data.in_sentence) +
+        "</span> " +
+        ttsBtnHtml(data.in_sentence, "朗读句中例句") +
+        "</p>";
+    }
     html += renderUsageList("常见搭配", data.collocations, "phrase");
     html += renderUsageList("近义词", data.synonyms, "word");
     if (data.summary) html += "<p class='lookup-section-title'>记忆要点</p><p>" + esc(data.summary) + "</p>";
@@ -267,7 +415,7 @@
     if (!host) return;
     var p = document.createElement("p");
     p.className = "handout-lookup-hint no-print";
-    p.textContent = "提示：点击例句中的英文单词可查词释义；点 🔊 朗读整句。";
+    p.textContent = "提示：点击例句中的英文单词可查词释义；查词面板内 🔊 为 Azure 在线朗读；讲义例句 🔊 为离线 MP3。";
     host.insertBefore(p, host.firstChild);
   }
 
