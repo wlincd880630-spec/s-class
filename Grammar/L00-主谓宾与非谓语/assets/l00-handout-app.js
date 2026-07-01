@@ -174,8 +174,11 @@
     }
 
     renderVocab(cfg);
+    if (typeof window.refreshHandoutLookup === "function") {
+      var mount = document.getElementById("handoutVocabMount");
+      window.refreshHandoutLookup(mount || document);
+    }
   }
-
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
   } else {

@@ -36,6 +36,7 @@ const HANDOUT_SOURCES = [
   "L12/lesson12-page07-handout.html",
   "L13/lesson13-page08-handout.html",
   "L13-定语从句/rel-clause-handout.html",
+  "L14/lesson14-page11-handout.html",
 ];
 
 function norm(s) {
@@ -310,6 +311,7 @@ const builds = [
   "build-l12-classroom-handout.mjs",
   "build-l13-classroom-handout.mjs",
   "build-l13rc-classroom-handout.mjs",
+  "build-l14-classroom-handout.mjs",
 ];
 console.log("\n重建课堂同步讲义…");
 for (const b of builds) {

@@ -15,11 +15,6 @@
    */
   var AZURE_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
 
-  if (!global.__AZURE_SPEECH_REGION__) {
-    global.__AZURE_SPEECH_REGION__ = String(AZURE_REGION || "eastus2").trim() || "eastus2";
-  }
-  var kt = String(AZURE_KEY || "").trim();
-  if (kt) {
-    global.__AZURE_SPEECH_KEY__ = kt;
-  }
+  global.__AZURE_SPEECH_REGION__ = String(AZURE_REGION || "southeastasia").trim() || "southeastasia";
+  global.__AZURE_SPEECH_KEY__ = String(AZURE_KEY || "").trim();
 })(typeof window !== "undefined" ? window : null);

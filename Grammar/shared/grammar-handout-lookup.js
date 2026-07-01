@@ -7,6 +7,8 @@
 
   var DEEPSEEK_API_KEY = "sk-daa16008e81843deba6fefe9dce51465";
   var DEEPSEEK_ENDPOINT = "https://api.deepseek.com/v1/chat/completions";
+  var AZURE_SPEECH_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+  var AZURE_SPEECH_REGION = "southeastasia";
   var AZURE_VOICE = "en-GB-RyanNeural";
   var AZURE_RATE = "-10%";
   var audioCache = new Map();
@@ -18,12 +20,12 @@
       key: String(
         (typeof window !== "undefined" && window.__AZURE_SPEECH_KEY__) ||
           (typeof window !== "undefined" && window.__AZURE_TTS_KEY__) ||
-          ""
+          AZURE_SPEECH_KEY
       ).trim(),
       region: String(
         (typeof window !== "undefined" && window.__AZURE_SPEECH_REGION__) ||
           (typeof window !== "undefined" && window.__AZURE_TTS_REGION__) ||
-          "southeastasia"
+          AZURE_SPEECH_REGION
       ).trim(),
     };
   }
@@ -351,64 +353,92 @@
       });
   }
 
-  function wrapEnLines(root) {
+  function isLookupLine(el) {
+    if (!el || el.dataset.ghWordsWrapped === "1") return false;
+    if (el.closest && el.closest(".handout-cover, .tts-chip, button, .handout-chant-box")) return false;
+    if (el.classList && el.classList.contains("handout-cover__en")) return false;
+    var t = (el.textContent || "").replace(/\s+/g, " ").trim();
+    if (t.length < 4 || !/[A-Za-z]{3,}/.test(t)) return false;
+    return true;
+  }
+
+  function lookupLineSelector() {
+    return [
+      ".en-line",
+      ".ex-en",
+      "span.en",
+      "span.en-xl[lang='en']",
+      "td.en[lang='en']",
+      "li[lang='en']",
+      "ul.compact.example li[lang='en']",
+      "ul.compact li[lang='en']",
+    ].join(",");
+  }
+
+  function wrapOneEnLine(enLine) {
+    if (!isLookupLine(enLine)) return;
+    enLine.dataset.ghWordsWrapped = "1";
+
     var skip = new Set(["SCRIPT", "STYLE", "BUTTON", "INPUT", "TEXTAREA", "SELECT", "OPTION"]);
-    root.querySelectorAll(".en-line").forEach(function (enLine) {
-      if (enLine.dataset.ghWordsWrapped === "1") return;
-      enLine.dataset.ghWordsWrapped = "1";
-
-      var walker = document.createTreeWalker(enLine, NodeFilter.SHOW_TEXT, {
-        acceptNode: function (node) {
-          if (!node.nodeValue || !/[A-Za-z]/.test(node.nodeValue)) return NodeFilter.FILTER_REJECT;
-          var p = node.parentElement;
-          if (!p) return NodeFilter.FILTER_REJECT;
-          if (p.classList && (p.classList.contains("gh-word") || p.classList.contains("ipa"))) {
-            return NodeFilter.FILTER_REJECT;
-          }
-          if (p.closest && p.closest(".tts-chip, button")) return NodeFilter.FILTER_REJECT;
-          if (skip.has(p.tagName)) return NodeFilter.FILTER_REJECT;
-          return NodeFilter.FILTER_ACCEPT;
-        },
-      });
-
-      var nodes = [];
-      while (walker.nextNode()) nodes.push(walker.currentNode);
-
-      nodes.forEach(function (textNode) {
-        var parts = textNode.nodeValue.split(/(\s+)/);
-        if (!parts.some(function (p) {
-          return /^[A-Za-z][A-Za-z''-]*$/.test(p);
-        })) return;
-
-        var frag = document.createDocumentFragment();
-        parts.forEach(function (tok) {
-          if (/^[A-Za-z][A-Za-z''-]*$/.test(tok)) {
-            var sp = document.createElement("span");
-            sp.className = "gh-word";
-            sp.setAttribute("data-w", tok);
-            sp.setAttribute("title", "点击查词");
-            sp.textContent = tok;
-            sp.addEventListener("click", function (e) {
-              e.preventDefault();
-              e.stopPropagation();
-              document.querySelectorAll(".gh-word.active").forEach(function (el) {
-                el.classList.remove("active");
-              });
-              lookupWord(tok, enLine, sp);
-            });
-            frag.appendChild(sp);
-          } else if (tok) {
-            frag.appendChild(document.createTextNode(tok));
-          }
-        });
-        textNode.parentNode.replaceChild(frag, textNode);
-      });
+    var walker = document.createTreeWalker(enLine, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (node) {
+        if (!node.nodeValue || !/[A-Za-z]/.test(node.nodeValue)) return NodeFilter.FILTER_REJECT;
+        var p = node.parentElement;
+        if (!p) return NodeFilter.FILTER_REJECT;
+        if (p.classList && (p.classList.contains("gh-word") || p.classList.contains("ipa"))) {
+          return NodeFilter.FILTER_REJECT;
+        }
+        if (p.closest && p.closest(".tts-chip, button")) return NodeFilter.FILTER_REJECT;
+        if (skip.has(p.tagName)) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      },
     });
+
+    var nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+
+    nodes.forEach(function (textNode) {
+      var parts = textNode.nodeValue.split(/(\s+)/);
+      if (
+        !parts.some(function (p) {
+          return /^[A-Za-z][A-Za-z''-]*$/.test(p);
+        })
+      )
+        return;
+
+      var frag = document.createDocumentFragment();
+      parts.forEach(function (tok) {
+        if (/^[A-Za-z][A-Za-z''-]*$/.test(tok)) {
+          var sp = document.createElement("span");
+          sp.className = "gh-word";
+          sp.setAttribute("data-w", tok);
+          sp.setAttribute("title", "点击查词");
+          sp.textContent = tok;
+          sp.addEventListener("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            document.querySelectorAll(".gh-word.active").forEach(function (el) {
+              el.classList.remove("active");
+            });
+            lookupWord(tok, enLine, sp);
+          });
+          frag.appendChild(sp);
+        } else if (tok) {
+          frag.appendChild(document.createTextNode(tok));
+        }
+      });
+      textNode.parentNode.replaceChild(frag, textNode);
+    });
+  }
+
+  function wrapEnLines(root) {
+    root.querySelectorAll(lookupLineSelector()).forEach(wrapOneEnLine);
   }
 
   function addHintOnce() {
     if (document.querySelector(".handout-lookup-hint")) return;
     var host =
+      document.querySelector("section.intro") ||
       document.querySelector(".handout-section .intro") ||
       document.querySelector("main.sheet .handout-section") ||
       document.querySelector("main.sheet");

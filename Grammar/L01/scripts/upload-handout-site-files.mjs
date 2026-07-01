@@ -15,6 +15,7 @@ const files = [
   ["Grammar/L01/assets/l01-handout-tts.js", "application/javascript; charset=utf-8"],
   ["Grammar/shared/grammar-handout-lookup.js", "application/javascript; charset=utf-8"],
   ["Grammar/shared/grammar-handout-lookup.css", "text/css; charset=utf-8"],
+  ["Grammar/shared/lesson-tts-azure-config.js", "application/javascript; charset=utf-8"],
 ];
 
 async function put(rel, ctype) {
