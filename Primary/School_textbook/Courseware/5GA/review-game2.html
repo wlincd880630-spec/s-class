@@ -165,7 +165,33 @@
         const item = document.createElement('div');
         item.className = 'target-word-item' + (found.has(w.id) ? ' done' : '');
         if (!found.has(w.id) && w.id === hintWordId) item.classList.add('hint-target');
-        item.innerHTML = `<img src="${w.image}" alt=""><div class="word-label">${found.has(w.id) ? w.word : '???'}</div>`;
+
+        const img = document.createElement('img');
+        img.src = w.image;
+        img.alt = w.word;
+
+        const chinese = document.createElement('div');
+        chinese.className = 'target-word-chinese';
+        chinese.textContent = w.chinese || '';
+
+        const speakBtn = document.createElement('button');
+        speakBtn.type = 'button';
+        speakBtn.className = 'btn btn-sm btn-outline target-word-speak';
+        speakBtn.title = '发音';
+        speakBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+        speakBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          speakText(w.word);
+        });
+
+        const label = document.createElement('div');
+        label.className = 'word-label';
+        label.textContent = found.has(w.id) ? w.word : '???';
+
+        item.appendChild(img);
+        item.appendChild(chinese);
+        item.appendChild(speakBtn);
+        item.appendChild(label);
         el.appendChild(item);
       });
     }
