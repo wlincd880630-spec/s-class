@@ -21,7 +21,7 @@
     var s = String(src || "").trim().replace(/\\/g, "/");
     if (!s) return false;
     if (/^https?:\/\//i.test(s)) return true;
-    return /^assets\/tts-mp3\//i.test(s);
+    return /^assets\/(?:tts-mp3|audio)\//i.test(s);
   }
 
   /** 按句子在 manifest 查相对路径 */
@@ -29,7 +29,13 @@
     var t = normText(text);
     if (!t) return "";
     var m = global.__LESSON_TTS_MANIFEST || {};
-    return m[t] || m[text] || "";
+    if (m[t] || m[text]) return m[t] || m[text];
+    var l03 =
+      global.L03AudioManifest && global.L03AudioManifest.entries
+        ? global.L03AudioManifest.entries
+        : null;
+    if (l03 && (l03[t] || l03[text])) return l03[t] || l03[text];
+    return "";
   }
 
   function dispatch(name) {
@@ -155,6 +161,12 @@
           e.stopPropagation();
           e.stopImmediatePropagation();
           global.LessonTTSBootstrap.playLocalIfAvailable(ttsText).then(function (ok) {
+            if (!ok && typeof global.playLessonAzureTtsPlain === "function") {
+              global.playLessonAzureTtsPlain(ttsText).then(function (azureOk) {
+                if (!azureOk) warnMissing(btn, ttsText);
+              });
+              return;
+            }
             if (!ok) warnMissing(btn, ttsText);
           });
           return;
@@ -188,6 +200,23 @@
       }
 
       playMp3Rel(mp3).then(function (ok) {
+        if (!ok && typeof global.playLessonAzureTtsPlain === "function") {
+          var fallbackText =
+            btn.getAttribute("data-tts") ||
+            (function () {
+              try {
+                return decodeURIComponent(btn.getAttribute("data-tts-read") || "");
+              } catch (e) {
+                return "";
+              }
+            })();
+          if (fallbackText) {
+            global.playLessonAzureTtsPlain(fallbackText).then(function (azureOk) {
+              if (!azureOk) warnMissing(btn, mp3);
+            });
+            return;
+          }
+        }
         if (!ok) warnMissing(btn, mp3);
       });
     },

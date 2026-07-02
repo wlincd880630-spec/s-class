@@ -1,6 +1,6 @@
 /**
  * 本地 MP3 优先。file:// 下仅用相对路径 new Audio(rel)，禁止绝对 file:// / XHR。
- * 整段未命中 manifest 时，按句末标点拆分为多句顺序播放。
+ * 整段未命中 manifest 时，按句末标点拆分为多句顺序播放；http(s) 下可回退 Azure。
  */
 (function () {
   "use strict";
@@ -18,20 +18,40 @@
       : {};
   }
 
+  function l03Entries() {
+    return typeof window !== "undefined" &&
+      window.L03AudioManifest &&
+      window.L03AudioManifest.entries
+      ? window.L03AudioManifest.entries
+      : null;
+  }
+
   function lookupUrl(text) {
     var k = norm(text);
     if (!k) return "";
     var m = map();
-    return m[k] || m[text] || m[String(text || "").trim()] || "";
+    if (m[k]) return m[k];
+    if (m[text]) return m[text];
+    if (m[String(text || "").trim()]) return m[String(text || "").trim()];
+    var l03 = l03Entries();
+    if (l03) {
+      if (l03[k]) return l03[k];
+      if (l03[text]) return l03[text];
+      if (l03[String(text || "").trim()]) return l03[String(text || "").trim()];
+    }
+    return "";
   }
 
   function splitForPlayback(text) {
     var k = norm(text);
     if (!k) return [];
     if (lookupUrl(k)) return [k];
-    var parts = k.split(/(?<=[.?!])\s+/).map(function (p) {
-      return p.trim();
-    }).filter(Boolean);
+    var parts = k
+      .split(/(?<=[.?!])\s+/)
+      .map(function (p) {
+        return p.trim();
+      })
+      .filter(Boolean);
     if (parts.length <= 1) return [k];
     return parts;
   }
@@ -142,7 +162,13 @@
       });
     }
 
-    return next();
+    return next().then(function (localOk) {
+      if (localOk) return true;
+      if (typeof window.playLessonAzureTtsPlain === "function") {
+        return window.playLessonAzureTtsPlain(norm(text));
+      }
+      return false;
+    });
   }
 
   window.LessonTTSBootstrap = {

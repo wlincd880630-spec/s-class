@@ -1553,6 +1553,10 @@ window.L03AudioManifest = {
           state.missing[line] = true;
           console.warn("[L03 Audio Missing]", line);
         }
+        if (typeof window.playLessonAzureTtsPlain === "function") {
+          window.playLessonAzureTtsPlain(line).then(function () { resolve(); });
+          return;
+        }
         resolve();
         return;
       }

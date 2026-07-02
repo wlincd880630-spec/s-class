@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
+    <script src="../shared/play-local-mp3.js"></script>
+  <script src="../shared/lesson-tts-azure-config.js"></script>
+  <script src="../shared/lesson-tts-azure-play.js"></script>
+  <script src="../shared/lesson-tts-bootstrap.js"></script>
+  <script src="assets/handout-tts-manifest.js"></script>
+<meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>被动语态 —— 工坊发现 · 启发与多模式测验</title>
   <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
@@ -425,30 +430,26 @@
   async function playAudio(text) {
     if (!text) return;
     lockUI();
-    const body = "<speak version='1.0' xml:lang='en-US'><voice name='" + VOICE_EN + "'>" +
-      escHtml(text) + "</voice></speak>";
-    const url = "https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1";
     try {
-      const res = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Ocp-Apim-Subscription-Key": AZURE_KEY,
-          "Content-Type": "application/ssml+xml",
-          "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3"
-        },
-        body: body
-      });
-      if (!res.ok) throw new Error();
-      const blob = await res.blob();
-      const u = URL.createObjectURL(blob);
-      const a = new Audio(u);
-      await new Promise(function (ok, err) {
-        a.onended = function () { URL.revokeObjectURL(u); ok(); };
-        a.onerror = err;
-        a.play().catch(err);
-      });
-    } catch (e) {
-      speechSynthesis.speak(new SpeechSynthesisUtterance(text));
+      var line = String(text || "").trim();
+      if (!line) return;
+      if (window.LessonTTSBootstrap && typeof window.LessonTTSBootstrap.playLocalIfAvailable === "function") {
+        var localOk = await window.LessonTTSBootstrap.playLocalIfAvailable(line);
+        if (localOk) return;
+      }
+      if (typeof window.playLessonAzureTtsPlain === "function") {
+        var azureOk = await window.playLessonAzureTtsPlain(line);
+        if (azureOk) return;
+      }
+      if (window.speechSynthesis) {
+        await new Promise(function (resolve) {
+          var u = new SpeechSynthesisUtterance(line);
+          u.lang = "en-US";
+          u.onend = u.onerror = function () { resolve(); };
+          var speak = window.speechSynthesis.__lessonOrigSpeak || window.speechSynthesis.speak.bind(window.speechSynthesis);
+          speak(u);
+        });
+      }
     } finally {
       unlockUI();
     }
