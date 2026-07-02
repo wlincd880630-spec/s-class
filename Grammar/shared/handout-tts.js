@@ -68,7 +68,18 @@
     }
   }
 
+  /** lesson-local-audio.js 已在 capture 阶段统一处理 .tts-chip，避免双重播放 */
+  if (window.LessonLocalAudio) {
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", wireChips);
+    } else {
+      wireChips();
+    }
+    return;
+  }
+
   document.addEventListener("click", function (e) {
+    if (e.defaultPrevented) return;
     var chip = e.target.closest(".tts-chip[data-tts]");
     if (!chip) return;
     e.preventDefault();

@@ -505,12 +505,24 @@
       function $(id) { return document.getElementById(id); }
 
       function playExamVoice(text, voiceType) {
-        if (!window.SpeechSDK) return Promise.resolve(false);
+        function fallbackPlain() {
+          if (typeof window.playLessonAzureTtsPlain === "function") {
+            return window.playLessonAzureTtsPlain(text);
+          }
+          if (window.LessonTTSBootstrap && typeof window.LessonTTSBootstrap.playLocalIfAvailable === "function") {
+            return window.LessonTTSBootstrap.playLocalIfAvailable(text);
+          }
+          return Promise.resolve(false);
+        }
+        if (!window.SpeechSDK) return fallbackPlain();
         return new Promise(function (resolve) {
           var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
           cfg.speechSynthesisVoiceName = voiceType === "exam" ? "en-US-ChristopherNeural" : "en-US-AriaNeural";
           var synth = new SpeechSDK.SpeechSynthesizer(cfg);
-          synth.speakTextAsync(text, function () { synth.close(); resolve(true); }, function () { synth.close(); resolve(false); });
+          synth.speakTextAsync(text, function () { synth.close(); resolve(true); }, function () {
+            synth.close();
+            fallbackPlain().then(resolve);
+          });
         });
       }
 

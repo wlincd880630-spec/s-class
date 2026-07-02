@@ -85,10 +85,12 @@ var ttsLock = false;
   }
 
   document.body.addEventListener("click", function (e) {
+    if (e.defaultPrevented) return;
     var chip = e.target.closest(".tts-chip");
     if (!chip) return;
     var txt = chip.getAttribute("data-tts");
     if (txt) {
+      if (window.LessonLocalAudio) return;
       speak(txt);
       return;
     }

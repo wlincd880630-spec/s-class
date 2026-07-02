@@ -137,7 +137,7 @@
     "click",
     function (e) {
       var btn = e.target.closest(
-        "[data-mp3], [data-tts-id], .tts-read-btn, .tts-chip, .tts-mini, .tts-huge, button[data-tts-read], [data-tts-read]"
+        "[data-mp3], [data-tts-id], .tts-read-btn, .tts-chip[data-tts], .tts-chip[data-mp3], .tts-chip[data-tts-read], .tts-mini, .tts-huge, button[data-tts-read], [data-tts-read]"
       );
       if (!btn) return;
 
@@ -173,7 +173,8 @@
         }
         if (
           btn.hasAttribute("data-mp3") ||
-          btn.classList.contains("tts-chip") ||
+          btn.hasAttribute("data-tts") ||
+          btn.hasAttribute("data-tts-read") ||
           btn.classList.contains("tts-read-btn") ||
           btn.classList.contains("tts-mini")
         ) {

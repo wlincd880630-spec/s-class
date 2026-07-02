@@ -1,8 +1,11 @@
 /**
- * 本地 MP3：file:// 仅用相对路径 assets/tts-mp3/…；http 可用绝对 URL。
+ * 本地 MP3：file:// 仅用相对路径 assets/…；http(s) 先试页面相对路径，失败则回退 COS。
  */
 (function () {
   "use strict";
+
+  var DEFAULT_COS_BASE =
+    "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class";
 
   if (typeof window !== "undefined") {
     window.__LESSON_RUNTIME_LOCAL_FILE__ =
@@ -17,6 +20,34 @@
     return String(src || "")
       .trim()
       .replace(/\\/g, "/");
+  }
+
+  function cosBase() {
+    return String(
+      (typeof window !== "undefined" && window.__LESSON_COS_BASE__) || DEFAULT_COS_BASE
+    ).replace(/\/$/, "");
+  }
+
+  /** 将 assets/tts-mp3/… 解析为 COS 绝对地址（按当前页所在 Grammar/Lxx/ 目录） */
+  function cosUrlForLessonAsset(rel) {
+    var r = normRel(rel);
+    if (!/^assets\//i.test(r)) return "";
+    try {
+      var path = String(location.pathname || "").replace(/\\/g, "/");
+      var m = path.match(/\/Grammar\/([^/]+)\//);
+      if (!m) return "";
+      return cosBase() + "/Grammar/" + decodeURIComponent(m[1]) + "/" + r;
+    } catch (e) {
+      return "";
+    }
+  }
+
+  function preferCosFirst() {
+    try {
+      return /(?:^|\.)s-class\.top$/i.test(location.hostname || "");
+    } catch (e) {
+      return false;
+    }
   }
 
   function inlineDataUri(rel) {
@@ -91,6 +122,18 @@
     });
   }
 
+  function playUrlChain(urls, rate) {
+    var list = (urls || []).filter(Boolean);
+    var i = 0;
+    function next() {
+      if (i >= list.length) return Promise.resolve(false);
+      return playRelative(list[i++], rate).then(function (ok) {
+        return ok ? true : next();
+      });
+    }
+    return next();
+  }
+
   function playLocalMp3Url(src, opts) {
     opts = opts || {};
     var raw = normRel(src);
@@ -109,15 +152,29 @@
       return playRelative(raw, rate);
     }
 
-    var abs = raw;
+    if (/^https?:\/\//i.test(raw)) {
+      return playRelative(raw, rate);
+    }
+
+    var candidates = [];
+    var pageAbs = raw;
     try {
-      if (!/^https?:\/\//i.test(raw)) {
-        abs = new URL(raw, window.location.href).href;
-      }
+      pageAbs = new URL(raw, window.location.href).href;
     } catch (e) {}
-    return playRelative(abs, rate);
+
+    var cos = cosUrlForLessonAsset(raw);
+    if (preferCosFirst() && cos) {
+      candidates.push(cos);
+      if (pageAbs && candidates.indexOf(pageAbs) === -1) candidates.push(pageAbs);
+    } else {
+      if (pageAbs) candidates.push(pageAbs);
+      if (cos && candidates.indexOf(cos) === -1) candidates.push(cos);
+    }
+
+    return playUrlChain(candidates, rate);
   }
 
   window.playLocalMp3Url = playLocalMp3Url;
   window.playLocalMp3Rel = playLocalMp3Url;
+  window.lessonCosUrlForAsset = cosUrlForLessonAsset;
 })();

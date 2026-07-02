@@ -245,8 +245,10 @@
     });
 
     document.addEventListener("click", function (e) {
+      if (e.defaultPrevented) return;
       var chip = e.target.closest(".tts-chip[data-tts]");
       if (!chip) return;
+      if (window.LessonLocalAudio) return;
       e.preventDefault();
       if (ttsLock) return;
       var txt = chip.getAttribute("data-tts") || "";

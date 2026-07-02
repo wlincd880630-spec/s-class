@@ -1563,66 +1563,28 @@ window.L03AudioManifest = {
 
       stop();
       var id = state.requestId;
-      if (typeof window.playLocalMp3Url === "function") {
+      var playbackRate = mapRateToPlayback(opts.rate, opts.slow);
 
-        return window.playLocalMp3Url(src, { playbackRate: mapRateToPlayback(opts.rate, opts.slow) }).then(function (ok) {
-
-          if (!ok) console.warn("[LessonAudio] 本地 MP3 播放失败:", src);
-
-          resolve();
-
-        });
-
-      }
-
-      if (typeof window.playLocalMp3Url === "function") {
-
-
-        return window.playLocalMp3Url(src).then(function (ok) {
-
-
-          if (!ok) console.warn("[LessonAudio] 本地 MP3 播放失败:", src);
-
-
-          resolve();
-
-
+      function finishAzure() {
+        if (typeof window.playLessonAzureTtsPlain === "function") {
+          window.playLessonAzureTtsPlain(line).then(function () {
+            resolve();
+          });
           return;
-
-
-        });
-
-
+        }
+        resolve();
       }
-
 
       if (typeof window.playLocalMp3Url === "function") {
-
-
-
-        return window.playLocalMp3Url(src).then(function (ok) {
-
-
-
-          if (!ok) console.warn("[LessonAudio] 本地 MP3 播放失败:", src);
-
-
-
-          resolve();
-
-
-
-          return;
-
-
-
+        return window.playLocalMp3Url(src, { playbackRate: playbackRate }).then(function (ok) {
+          if (ok) {
+            resolve();
+            return;
+          }
+          console.warn("[LessonAudio] 本地 MP3 播放失败:", src);
+          finishAzure();
         });
-
-
-
       }
-
-
 
       var a = new Audio(src);
       a.playbackRate = mapRateToPlayback(opts.rate, opts.slow);
@@ -1844,13 +1806,23 @@ window.L03AudioManifest = {
       });
     }
 
-    /** 优先本地 MP3（Azure 预生成），失败则 Azure TTS 接口 */
+    /** 优先本地 MP3（含 COS 回退），失败则 Azure TTS */
     function playCorpusLine(item) {
       return new Promise(function (resolve) {
         stopCorpusAudio();
         var url = item && item.audio;
         if (!url) {
           speakAzureTts(item.text).then(resolve);
+          return;
+        }
+        function azureFallback() {
+          speakAzureTts(item.text).then(resolve);
+        }
+        if (typeof window.playLocalMp3Url === "function") {
+          window.playLocalMp3Url(url).then(function (ok) {
+            if (ok) resolve();
+            else azureFallback();
+          });
           return;
         }
         var a = new Audio(url);
@@ -1867,14 +1839,14 @@ window.L03AudioManifest = {
           "error",
           function () {
             corpusAudioEl = null;
-            speakAzureTts(item.text).then(fin);
+            azureFallback();
           },
           { once: true }
         );
         var p = a.play();
         if (p && typeof p.catch === "function") {
           p.catch(function () {
-            speakAzureTts(item.text).then(fin);
+            azureFallback();
           });
         }
       });

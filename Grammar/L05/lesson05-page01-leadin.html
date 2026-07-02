@@ -1634,6 +1634,18 @@ window.__LESSON_TTS_MANIFEST = {
         status(statusEl, "本地 MP3");
         return true;
       }
+      if (typeof window.playLessonAzureTtsPlain === "function") {
+        status(statusEl, "正在在线朗读…");
+        return window.playLessonAzureTtsPlain(plain).then(function (azureOk) {
+          if (azureOk) {
+            status(statusEl, "在线朗读");
+            return true;
+          }
+          status(statusEl, "朗读失败，请检查网络");
+          console.warn("[L05Speak] manifest 未命中:", plain.slice(0, 160));
+          return false;
+        });
+      }
       status(statusEl, "暂无离线语音（请运行 inventory + download-azure-tts）");
       console.warn("[L05Speak] manifest 未命中:", plain.slice(0, 160));
       return false;
@@ -1658,6 +1670,18 @@ window.__LESSON_TTS_MANIFEST = {
       if (ok) {
         status(statusEl, "本地 MP3");
         return true;
+      }
+      if (typeof window.playLessonAzureTtsPlain === "function") {
+        status(statusEl, "正在在线朗读…");
+        return window.playLessonAzureTtsPlain(t).then(function (azureOk) {
+          if (azureOk) {
+            status(statusEl, "在线朗读");
+            return true;
+          }
+          status(statusEl, "朗读失败，请检查网络");
+          console.warn("[L05Speak] manifest 未命中:", t.slice(0, 160));
+          return false;
+        });
       }
       status(statusEl, "暂无离线语音（请运行 inventory + download-azure-tts）");
       console.warn("[L05Speak] manifest 未命中:", t.slice(0, 160));
