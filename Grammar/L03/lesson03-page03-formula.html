@@ -9,8 +9,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>第03讲 · 第03页 · 一般过去时 be 动词</title>
-  <script src="assets/lesson-tts-azure-config.js"></script>
-  <script src="assets/lesson-tts-azure-play.js"></script>
+  <script src="../shared/lesson-tts-azure-config.js"></script>
+  <script src="../shared/lesson-tts-azure-play.js"></script>
 <script>
 /* inlined: https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js */
 /*
@@ -1430,66 +1430,28 @@ window.L03AudioManifest = {
 
       stop();
       var id = state.requestId;
-      if (typeof window.playLocalMp3Url === "function") {
+      var playbackRate = mapRateToPlayback(opts.rate, opts.slow);
 
-        return window.playLocalMp3Url(src, { playbackRate: mapRateToPlayback(opts.rate, opts.slow) }).then(function (ok) {
-
-          if (!ok) console.warn("[LessonAudio] 本地 MP3 播放失败:", src);
-
-          resolve();
-
-        });
-
-      }
-
-      if (typeof window.playLocalMp3Url === "function") {
-
-
-        return window.playLocalMp3Url(src).then(function (ok) {
-
-
-          if (!ok) console.warn("[LessonAudio] 本地 MP3 播放失败:", src);
-
-
-          resolve();
-
-
+      function finishAzure() {
+        if (typeof window.playLessonAzureTtsPlain === "function") {
+          window.playLessonAzureTtsPlain(line).then(function () {
+            resolve();
+          });
           return;
-
-
-        });
-
-
+        }
+        resolve();
       }
-
 
       if (typeof window.playLocalMp3Url === "function") {
-
-
-
-        return window.playLocalMp3Url(src).then(function (ok) {
-
-
-
-          if (!ok) console.warn("[LessonAudio] 本地 MP3 播放失败:", src);
-
-
-
-          resolve();
-
-
-
-          return;
-
-
-
+        return window.playLocalMp3Url(src, { playbackRate: playbackRate }).then(function (ok) {
+          if (ok) {
+            resolve();
+            return;
+          }
+          console.warn("[LessonAudio] 本地 MP3 播放失败:", src);
+          finishAzure();
         });
-
-
-
       }
-
-
 
       var a = new Audio(src);
       a.playbackRate = mapRateToPlayback(opts.rate, opts.slow);

@@ -33,6 +33,19 @@
     return Promise.resolve(false);
   }
 
+  function playAzureFallback(t) {
+    if (typeof window.playLessonAzureTtsPlain === "function") {
+      return window.playLessonAzureTtsPlain(t).then(function (ok) {
+        if (!ok) {
+          throw new Error("朗读失败，请检查网络连接后重试。");
+        }
+      });
+    }
+    return Promise.reject(
+      new Error("未找到该句语音文件。\n请强制刷新页面（Ctrl+F5）后重试。")
+    );
+  }
+
   function speakPreferred(text) {
     if (ttsLock) {
       return Promise.reject(new Error("朗读进行中，请稍候"));
@@ -41,19 +54,29 @@
     if (!t) return Promise.resolve();
 
     var url = mp3For(t);
+    ttsLock = true;
+
     if (!url) {
-      return Promise.reject(
-        new Error("未找到该句语音文件。\n请强制刷新页面（Ctrl+F5）后重试。")
+      return playAzureFallback(t).then(
+        function () {
+          ttsLock = false;
+        },
+        function (err) {
+          ttsLock = false;
+          throw err;
+        }
       );
     }
 
-    ttsLock = true;
     return playMp3(url).then(
       function (ok) {
-        ttsLock = false;
-        if (!ok) {
-          throw new Error("播放失败，请检查网络连接后重试。\n\n" + url.slice(0, 120));
+        if (ok) {
+          ttsLock = false;
+          return;
         }
+        return playAzureFallback(t).then(function () {
+          ttsLock = false;
+        });
       },
       function (err) {
         ttsLock = false;

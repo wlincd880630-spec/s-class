@@ -42,6 +42,19 @@
     }
   }
 
+  /** 从 s-class.top 页面绝对 URL 反推 COS 地址 */
+  function cosUrlFromPageAbs(abs) {
+    try {
+      var u = new URL(abs);
+      if (!/(?:^|\.)s-class\.top$/i.test(u.hostname || "")) return "";
+      var m = String(u.pathname || "").match(/\/Grammar\/([^/]+)\/(assets\/.+)$/i);
+      if (!m) return "";
+      return cosBase() + "/Grammar/" + decodeURIComponent(m[1]) + "/" + m[2];
+    } catch (e) {
+      return "";
+    }
+  }
+
   function preferCosFirst() {
     try {
       return /(?:^|\.)s-class\.top$/i.test(location.hostname || "");
@@ -153,6 +166,13 @@
     }
 
     if (/^https?:\/\//i.test(raw)) {
+      var cosFromAbs = cosUrlFromPageAbs(raw);
+      if (cosFromAbs) {
+        if (preferCosFirst()) {
+          return playUrlChain([cosFromAbs, raw], rate);
+        }
+        return playUrlChain([raw, cosFromAbs], rate);
+      }
       return playRelative(raw, rate);
     }
 
@@ -177,4 +197,5 @@
   window.playLocalMp3Url = playLocalMp3Url;
   window.playLocalMp3Rel = playLocalMp3Url;
   window.lessonCosUrlForAsset = cosUrlForLessonAsset;
+  window.lessonCosUrlFromPageAbs = cosUrlFromPageAbs;
 })();

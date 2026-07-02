@@ -101,7 +101,16 @@
         if (phrase) {
           var rel = lookupUrl(phrase);
           if (rel) {
-            return origFetch(rel, { method: "GET", credentials: "omit", cache: "force-cache" })
+            var abs = rel.replace(/\\/g, "/");
+            if (typeof window.lessonCosUrlForAsset === "function") {
+              var cos = window.lessonCosUrlForAsset(abs);
+              if (cos) abs = cos;
+            } else {
+              try {
+                abs = new URL(abs, window.location.href).href;
+              } catch (e) {}
+            }
+            return origFetch(abs, { method: "GET", credentials: "omit", cache: "force-cache" })
               .then(function (res) {
                 if (!res || !res.ok) return origFetch(input, init);
                 return res;
