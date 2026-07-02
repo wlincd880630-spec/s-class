@@ -7,6 +7,8 @@
 
   var DEEPSEEK_API_KEY = "sk-daa16008e81843deba6fefe9dce51465";
   var DEEPSEEK_ENDPOINT = "https://api.deepseek.com/v1/chat/completions";
+  var DICT_API_BASE = "https://api.dictionaryapi.dev/api/v2/entries/en/";
+  var TRANSLATE_API = "https://api.mymemory.translated.net/get";
   var AZURE_SPEECH_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
   var AZURE_SPEECH_REGION = "southeastasia";
   var AZURE_VOICE = "en-GB-RyanNeural";
@@ -225,30 +227,209 @@
     }
   }
 
-  function deepseekChat(system, user, temperature) {
-    return fetch(DEEPSEEK_ENDPOINT, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + DEEPSEEK_API_KEY,
-      },
-      body: JSON.stringify({
-        model: "deepseek-chat",
-        messages: [
-          { role: "system", content: system },
-          { role: "user", content: user },
-        ],
-        temperature: temperature == null ? 0.3 : temperature,
-      }),
-    }).then(function (res) {
-      if (!res.ok) throw new Error("查词服务暂时不可用（" + res.status + "）");
-      return res.json();
-    }).then(function (data) {
-      return (data && data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content || "").trim();
+  function deepseekConfig() {
+    return {
+      key: String(
+        (typeof window !== "undefined" && window.__DEEPSEEK_API_KEY__) ||
+          (typeof window !== "undefined" && window.__DEEPSEEK_API_KEY) ||
+          DEEPSEEK_API_KEY
+      ).trim(),
+      endpoint: String(
+        (typeof window !== "undefined" && window.__DEEPSEEK_LOOKUP_ENDPOINT__) ||
+          (typeof window !== "undefined" && window.__DEEPSEEK_ENDPOINT__) ||
+          DEEPSEEK_ENDPOINT
+      ).trim(),
+    };
+  }
+
+  function fetchWithTimeout(url, options, ms) {
+    ms = ms || 22000;
+    return new Promise(function (resolve, reject) {
+      var timer = setTimeout(function () {
+        reject(new Error("查词请求超时，请稍后重试"));
+      }, ms);
+      fetch(url, options)
+        .then(function (res) {
+          clearTimeout(timer);
+          resolve(res);
+        })
+        .catch(function (err) {
+          clearTimeout(timer);
+          reject(err);
+        });
     });
   }
 
-  function renderUsageList(title, arr, labelKey) {
+  function deepseekChat(system, user, temperature) {
+    var cfg = deepseekConfig();
+    if (!cfg.key) return Promise.reject(new Error("未配置 DeepSeek API Key"));
+
+    function once() {
+      return fetchWithTimeout(
+        cfg.endpoint,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + cfg.key,
+          },
+          body: JSON.stringify({
+            model: "deepseek-chat",
+            messages: [
+              { role: "system", content: system },
+              { role: "user", content: user },
+            ],
+            temperature: temperature == null ? 0.3 : temperature,
+          }),
+        },
+        22000
+      ).then(function (res) {
+        if (!res.ok) {
+          return res.text().then(function (txt) {
+            throw new Error("查词服务暂时不可用（" + res.status + "）");
+          });
+        }
+        return res.json();
+      }).then(function (data) {
+        return (data && data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content || "").trim();
+      });
+    }
+
+    return once().catch(function (err) {
+      var msg = err && err.message ? err.message : "";
+      if (!/（50[234]）/.test(msg)) throw err;
+      return new Promise(function (resolve) {
+        setTimeout(resolve, 800);
+      }).then(once);
+    });
+  }
+
+  function normalizeLookupWord(word) {
+    return String(word || "")
+      .replace(/[’‘]/g, "'")
+      .replace(/[^A-Za-z'-]/g, "")
+      .trim()
+      .toLowerCase();
+  }
+
+  function fetchDictionaryEntries(word) {
+    var w = normalizeLookupWord(word);
+    if (!w || w.length < 2) return Promise.reject(new Error("无效单词"));
+    var base =
+      (typeof window !== "undefined" && window.__GRAMMAR_LOOKUP_DICT_URL__) ||
+      DICT_API_BASE;
+    return fetchWithTimeout(base + encodeURIComponent(w), { method: "GET", credentials: "omit" }, 12000).then(
+      function (res) {
+        if (res.status === 404) throw new Error("词典中未找到该词");
+        if (!res.ok) throw new Error("词典服务不可用（" + res.status + "）");
+        return res.json();
+      }
+    );
+  }
+
+  function translateEnToZh(text) {
+    var raw = String(text || "").trim();
+    if (!raw) return Promise.resolve("");
+    var url =
+      TRANSLATE_API +
+      "?q=" +
+      encodeURIComponent(raw.slice(0, 280)) +
+      "&langpair=en|zh-CN";
+    return fetchWithTimeout(url, { method: "GET", credentials: "omit" }, 10000)
+      .then(function (res) {
+        if (!res.ok) return "";
+        return res.json();
+      })
+      .then(function (data) {
+        return (
+          (data &&
+            data.responseData &&
+            data.responseData.translatedText &&
+            String(data.responseData.translatedText).trim()) ||
+          ""
+        );
+      })
+      .catch(function () {
+        return "";
+      });
+  }
+
+  function buildDictFallback(word, sentence, entries) {
+    var entry = Array.isArray(entries) ? entries[0] : null;
+    if (!entry) return Promise.reject(new Error("词典无结果"));
+    var phonetic = entry.phonetic || "";
+    if (!phonetic && Array.isArray(entry.phonetics)) {
+      entry.phonetics.some(function (p) {
+        if (p && p.text) {
+          phonetic = p.text;
+          return true;
+        }
+        return false;
+      });
+    }
+    var meanings = Array.isArray(entry.meanings) ? entry.meanings : [];
+    var m0 = meanings[0] || {};
+    var d0 = (m0.definitions && m0.definitions[0]) || {};
+    var defEn = String(d0.definition || "").trim();
+    var exampleEn = String(d0.example || "").trim();
+    var syns = [];
+    meanings.forEach(function (m) {
+      (m.definitions || []).forEach(function (d) {
+        (d.synonyms || []).forEach(function (s) {
+          if (syns.indexOf(s) === -1 && syns.length < 4) syns.push(s);
+        });
+      });
+    });
+
+    return translateEnToZh(defEn).then(function (meaningZh) {
+      return translateEnToZh(exampleEn || defEn).then(function (exZh) {
+        return {
+          word_or_phrase: word,
+          phonetic: phonetic,
+          part_of_speech: m0.partOfSpeech || "",
+          meaning_zh: meaningZh || defEn,
+          in_sentence: sentence,
+          collocations: exampleEn
+            ? [{ phrase: "", example_en: exampleEn, example_zh: exZh || "" }]
+            : [],
+          synonyms: syns.slice(0, 2).map(function (s) {
+            return { word: s, example_en: "", example_zh: "" };
+          }),
+          summary: meaningZh
+            ? "简明词典释义（DeepSeek 暂不可用时自动回退）"
+            : defEn,
+          _fallback: true,
+        };
+      });
+    });
+  }
+
+  function resolveLookup(word, sentence) {
+    var system =
+      "你是中国初中英语教师。只输出一个 JSON 对象，不要 markdown。搭配与近义各 2 项，每项含英文例句与中文译文。";
+    var user =
+      '查词：「' +
+      word +
+      "」\n所在句：" +
+      sentence +
+      '\n\n输出 JSON：{"word_or_phrase":"","phonetic":"","part_of_speech":"","meaning_zh":"","in_sentence":"","collocations":[{"phrase":"","example_en":"","example_zh":""}],"synonyms":[{"word":"","example_en":"","example_zh":""}],"summary":""}';
+
+    return deepseekChat(system, user, 0.25)
+      .then(function (raw) {
+        var parsed = tryParseJson(raw);
+        if (parsed) return { raw: raw, data: parsed };
+        return Promise.reject(new Error("AI 返回格式异常"));
+      })
+      .catch(function () {
+        return fetchDictionaryEntries(word).then(function (entries) {
+          return buildDictFallback(word, sentence, entries).then(function (data) {
+            return { raw: JSON.stringify(data), data: data };
+          });
+        });
+      });
+  }
+
+  function azureConfig() {
     if (!Array.isArray(arr) || !arr.length) return "";
     var items = arr
       .map(function (item) {
