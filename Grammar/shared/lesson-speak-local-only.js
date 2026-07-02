@@ -18,8 +18,8 @@
   function playLocalText(text) {
     var t = norm(text);
     if (!t) return Promise.resolve(false);
-    if (global.LessonTTSBootstrap && typeof global.LessonTTSBootstrap.playLocalIfAvailable === "function") {
-      return global.LessonTTSBootstrap.playLocalIfAvailable(t);
+    if (global.LessonTTSBootstrap && typeof global.LessonTTSBootstrap.playLocalOnly === "function") {
+      return global.LessonTTSBootstrap.playLocalOnly(t);
     }
     if (typeof global.playLessonL07LocalTts === "function") {
       return global.playLessonL07LocalTts(t);

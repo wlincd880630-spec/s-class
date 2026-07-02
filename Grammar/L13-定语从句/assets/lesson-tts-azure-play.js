@@ -45,8 +45,8 @@
       raw = global.extractEnglishForTts(raw) || raw;
     }
     if (!raw) return Promise.resolve(false);
-    if (global.LessonTTSBootstrap && typeof global.LessonTTSBootstrap.playLocalIfAvailable === "function") {
-      return global.LessonTTSBootstrap.playLocalIfAvailable(raw);
+    if (global.LessonTTSBootstrap && typeof global.LessonTTSBootstrap.playLocalOnly === "function") {
+      return global.LessonTTSBootstrap.playLocalOnly(raw);
     }
     if (typeof global.playLocalMp3Url === "function" && global.__LESSON_TTS_MANIFEST) {
       var m = global.__LESSON_TTS_MANIFEST;

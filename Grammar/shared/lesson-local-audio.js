@@ -134,11 +134,8 @@
   }
 
   function warnMissing(btn, hint) {
-    var msg = "未找到本地 MP3：" + (hint || "").slice(0, 100);
+    var msg = "未找到语音：" + (hint || "").slice(0, 100);
     if (typeof console !== "undefined" && console.warn) console.warn("[LessonAudio]", msg);
-    try {
-      if (typeof global.alert === "function") global.alert(msg + "\n\n请确认 manifest 与 assets/tts-mp3 文件齐全。");
-    } catch (e) {}
   }
 
   global.document.addEventListener(
@@ -169,13 +166,12 @@
           e.preventDefault();
           e.stopPropagation();
           e.stopImmediatePropagation();
+          if (btn.disabled || btn.classList.contains("is-tts-busy")) return;
+          btn.disabled = true;
+          btn.classList.add("is-tts-busy");
           global.LessonTTSBootstrap.playLocalIfAvailable(ttsText).then(function (ok) {
-            if (!ok && typeof global.playLessonAzureTtsPlain === "function") {
-              global.playLessonAzureTtsPlain(ttsText).then(function (azureOk) {
-                if (!azureOk) warnMissing(btn, ttsText);
-              });
-              return;
-            }
+            btn.disabled = false;
+            btn.classList.remove("is-tts-busy");
             if (!ok) warnMissing(btn, ttsText);
           });
           return;
@@ -210,7 +206,8 @@
       }
 
       playMp3Rel(mp3).then(function (ok) {
-        if (!ok && typeof global.playLessonAzureTtsPlain === "function") {
+        if (ok) return;
+        if (typeof global.playLessonAzureTtsPlain === "function") {
           var fallbackText = englishTtsText(
             btn.getAttribute("data-tts") ||
               (function () {
@@ -228,7 +225,7 @@
             return;
           }
         }
-        if (!ok) warnMissing(btn, mp3);
+        warnMissing(btn, mp3);
       });
     },
     true

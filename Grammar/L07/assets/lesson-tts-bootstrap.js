@@ -163,7 +163,7 @@
     });
   }
 
-  function playLocalIfAvailable(text) {
+  function playLocalOnly(text) {
     var parts = splitForPlayback(text);
     if (!parts.length) return Promise.resolve(false);
 
@@ -177,7 +177,11 @@
       });
     }
 
-    return next().then(function (localOk) {
+    return next();
+  }
+
+  function playLocalIfAvailable(text) {
+    return playLocalOnly(text).then(function (localOk) {
       if (localOk) return true;
       if (typeof window.playLessonAzureTtsPlain === "function") {
         return window.playLessonAzureTtsPlain(norm(text));
@@ -190,6 +194,7 @@
     norm: norm,
     lookupUrl: lookupUrl,
     splitForPlayback: splitForPlayback,
+    playLocalOnly: playLocalOnly,
     playLocalIfAvailable: playLocalIfAvailable,
     extractSsmlVoicePlain: extractSsmlVoicePlain,
   };
