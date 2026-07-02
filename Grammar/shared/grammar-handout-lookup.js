@@ -353,6 +353,30 @@
       });
   }
 
+  function parseWordToken(tok) {
+    if (!tok) return null;
+    var m = String(tok).match(/^([A-Za-z]+(?:'[A-Za-z]+)?)(.*)$/);
+    if (!m || !m[1]) return null;
+    return { word: m[1], suffix: m[2] || "" };
+  }
+
+  function wrapWordSpan(word, enLine) {
+    var sp = document.createElement("span");
+    sp.className = "gh-word";
+    sp.setAttribute("data-w", word);
+    sp.setAttribute("title", "点击查词");
+    sp.textContent = word;
+    sp.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      document.querySelectorAll(".gh-word.active").forEach(function (el) {
+        el.classList.remove("active");
+      });
+      lookupWord(word, enLine, sp);
+    });
+    return sp;
+  }
+
   function isLookupLine(el) {
     if (!el || el.dataset.ghWordsWrapped === "1") return false;
     if (el.closest && el.closest(".handout-cover, .tts-chip, button, .handout-chant-box")) return false;
@@ -401,28 +425,17 @@
       var parts = textNode.nodeValue.split(/(\s+)/);
       if (
         !parts.some(function (p) {
-          return /^[A-Za-z][A-Za-z''-]*$/.test(p);
+          return !!parseWordToken(p);
         })
       )
         return;
 
       var frag = document.createDocumentFragment();
       parts.forEach(function (tok) {
-        if (/^[A-Za-z][A-Za-z''-]*$/.test(tok)) {
-          var sp = document.createElement("span");
-          sp.className = "gh-word";
-          sp.setAttribute("data-w", tok);
-          sp.setAttribute("title", "点击查词");
-          sp.textContent = tok;
-          sp.addEventListener("click", function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            document.querySelectorAll(".gh-word.active").forEach(function (el) {
-              el.classList.remove("active");
-            });
-            lookupWord(tok, enLine, sp);
-          });
-          frag.appendChild(sp);
+        var parsed = parseWordToken(tok);
+        if (parsed) {
+          frag.appendChild(wrapWordSpan(parsed.word, enLine));
+          if (parsed.suffix) frag.appendChild(document.createTextNode(parsed.suffix));
         } else if (tok) {
           frag.appendChild(document.createTextNode(tok));
         }
@@ -445,7 +458,7 @@
     if (!host) return;
     var p = document.createElement("p");
     p.className = "handout-lookup-hint no-print";
-    p.textContent = "提示：点击例句中的英文单词可查词释义；查词面板内 🔊 为 Azure 在线朗读；讲义例句 🔊 为离线 MP3。";
+    p.textContent = "提示：点击例句中的英文单词可查词释义；🔊 朗读按钮只读英文句子（英音 Azure 保底）。";
     host.insertBefore(p, host.firstChild);
   }
 

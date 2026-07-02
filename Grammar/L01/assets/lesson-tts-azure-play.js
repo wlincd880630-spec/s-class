@@ -41,6 +41,10 @@
   function playLocalManifestOnly(text) {
     var raw = String(text || "").trim();
     if (!raw) return Promise.resolve(false);
+    if (typeof global.extractEnglishForTts === "function") {
+      raw = global.extractEnglishForTts(raw) || raw;
+    }
+    if (!raw) return Promise.resolve(false);
     if (global.LessonTTSBootstrap && typeof global.LessonTTSBootstrap.playLocalIfAvailable === "function") {
       return global.LessonTTSBootstrap.playLocalIfAvailable(raw);
     }
@@ -68,8 +72,8 @@
     stopCurrent();
     var safe = xmlEscapeForSsml(raw);
     var ssml =
-      '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US">' +
-      '<voice name="en-US-AvaNeural">' +
+      '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-GB">' +
+      '<voice name="en-GB-RyanNeural">' +
       safe +
       "</voice></speak>";
 
@@ -132,6 +136,10 @@
 
   function playLessonAzureTtsPlain(text) {
     var raw = String(text || "").trim();
+    if (!raw) return Promise.resolve(false);
+    if (typeof global.extractEnglishForTts === "function") {
+      raw = global.extractEnglishForTts(raw);
+    }
     if (!raw) return Promise.resolve(false);
 
     return playLocalManifestOnly(raw).then(function (ok) {

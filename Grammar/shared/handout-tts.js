@@ -13,8 +13,15 @@
       .trim();
   }
 
+  function englishOnly(text) {
+    if (typeof window.extractEnglishForTts === "function") {
+      return window.extractEnglishForTts(text);
+    }
+    return norm(text);
+  }
+
   function mp3For(text) {
-    var t = norm(text);
+    var t = englishOnly(text);
     if (!t) return "";
     if (window.LessonLocalAudio && window.LessonLocalAudio.mp3RelForText) {
       return window.LessonLocalAudio.mp3RelForText(t) || "";
@@ -50,7 +57,7 @@
     if (ttsLock) {
       return Promise.reject(new Error("朗读进行中，请稍候"));
     }
-    var t = norm(text);
+    var t = englishOnly(text);
     if (!t) return Promise.resolve();
 
     var url = mp3For(t);

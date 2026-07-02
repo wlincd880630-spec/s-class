@@ -17,6 +17,13 @@
       .trim();
   }
 
+  function englishTtsText(s) {
+    if (typeof global.extractEnglishForTts === "function") {
+      return global.extractEnglishForTts(s);
+    }
+    return normText(s);
+  }
+
   function isPlayableMp3(src) {
     var s = String(src || "").trim().replace(/\\/g, "/");
     if (!s) return false;
@@ -27,9 +34,10 @@
   /** 按句子在 manifest 查相对路径 */
   function mp3RelForText(text) {
     var t = normText(text);
-    if (!t) return "";
+    var eng = englishTtsText(text) || t;
+    if (!eng && !t) return "";
     var m = global.__LESSON_TTS_MANIFEST || {};
-    if (m[t] || m[text]) return m[t] || m[text];
+    if (m[eng] || m[t] || m[text]) return m[eng] || m[t] || m[text];
     var l03 =
       global.L03AudioManifest && global.L03AudioManifest.entries
         ? global.L03AudioManifest.entries
@@ -143,15 +151,16 @@
 
       var mp3 = resolveMp3FromButton(btn);
       if (!mp3) {
-        var ttsText =
+        var ttsText = englishTtsText(
           btn.getAttribute("data-tts") ||
-          (function () {
-            try {
-              return decodeURIComponent(btn.getAttribute("data-tts-read") || "");
-            } catch (e) {
-              return "";
-            }
-          })();
+            (function () {
+              try {
+                return decodeURIComponent(btn.getAttribute("data-tts-read") || "");
+              } catch (e) {
+                return "";
+              }
+            })()
+        );
         if (
           ttsText &&
           global.LessonTTSBootstrap &&
@@ -202,15 +211,16 @@
 
       playMp3Rel(mp3).then(function (ok) {
         if (!ok && typeof global.playLessonAzureTtsPlain === "function") {
-          var fallbackText =
+          var fallbackText = englishTtsText(
             btn.getAttribute("data-tts") ||
-            (function () {
-              try {
-                return decodeURIComponent(btn.getAttribute("data-tts-read") || "");
-              } catch (e) {
-                return "";
-              }
-            })();
+              (function () {
+                try {
+                  return decodeURIComponent(btn.getAttribute("data-tts-read") || "");
+                } catch (e) {
+                  return "";
+                }
+              })()
+          );
           if (fallbackText) {
             global.playLessonAzureTtsPlain(fallbackText).then(function (azureOk) {
               if (!azureOk) warnMissing(btn, mp3);

@@ -33,6 +33,12 @@
     if (m[k]) return m[k];
     if (m[text]) return m[text];
     if (m[String(text || "").trim()]) return m[String(text || "").trim()];
+    if (typeof window !== "undefined" && typeof window.extractEnglishForTts === "function") {
+      var eng = norm(window.extractEnglishForTts(text));
+      if (eng) {
+        if (m[eng]) return m[eng];
+      }
+    }
     var l03 = l03Entries();
     if (l03) {
       if (l03[k]) return l03[k];
