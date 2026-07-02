@@ -282,7 +282,7 @@
             temperature: temperature == null ? 0.3 : temperature,
           }),
         },
-        22000
+        12000
       ).then(function (res) {
         if (!res.ok) {
           return res.text().then(function (txt) {
@@ -295,13 +295,7 @@
       });
     }
 
-    return once().catch(function (err) {
-      var msg = err && err.message ? err.message : "";
-      if (!/（50[234]）/.test(msg)) throw err;
-      return new Promise(function (resolve) {
-        setTimeout(resolve, 800);
-      }).then(once);
-    });
+    return once();
   }
 
   function normalizeLookupWord(word) {
@@ -429,7 +423,7 @@
       });
   }
 
-  function azureConfig() {
+  function renderUsageList(title, arr, labelKey) {
     if (!Array.isArray(arr) || !arr.length) return "";
     var items = arr
       .map(function (item) {
@@ -470,6 +464,9 @@
       "</h3>";
     if (data.part_of_speech) html += "<p><strong>词性</strong> " + esc(data.part_of_speech) + "</p>";
     if (data.meaning_zh) html += "<p><strong>释义</strong> " + esc(data.meaning_zh) + "</p>";
+    if (data._fallback) {
+      html += "<p class='lookup-muted'>DeepSeek 暂不可用，已自动切换简明词典释义。</p>";
+    }
     if (data.in_sentence) {
       html +=
         "<p class='lookup-ex-en lookup-ex-en--context'><span class='lookup-ex-en-label'>句中</span> " +
@@ -483,6 +480,7 @@
     html += renderUsageList("近义词", data.synonyms, "word");
     if (data.summary) html += "<p class='lookup-section-title'>记忆要点</p><p>" + esc(data.summary) + "</p>";
     body.innerHTML = html;
+    bindLookupTts(body);
   }
 
   function sentenceFromEnLine(enLine, word) {
@@ -513,21 +511,11 @@
       }
     }
 
-    var system =
-      "你是中国初中英语教师。只输出一个 JSON 对象，不要 markdown。搭配与近义各 2 项，每项含英文例句与中文译文。";
-    var user =
-      '查词：「' +
-      word +
-      "」\n所在句：" +
-      sentence +
-      '\n\n输出 JSON：{"word_or_phrase":"","phonetic":"","part_of_speech":"","meaning_zh":"","in_sentence":"","collocations":[{"phrase":"","example_en":"","example_zh":""}],"synonyms":[{"word":"","example_en":"","example_zh":""}],"summary":""}';
-
-    deepseekChat(system, user, 0.25)
-      .then(function (raw) {
-        cacheSet(cacheKey, raw);
-        var parsed = tryParseJson(raw);
-        if (parsed) renderLookupResult(parsed, word);
-        else body.innerHTML = "<div class='lookup-raw'>" + esc(raw) + "</div>";
+    resolveLookup(word, sentence)
+      .then(function (result) {
+        cacheSet(cacheKey, result.raw);
+        renderLookupResult(result.data, word);
+        bindLookupTts(document.getElementById("ghLookupBody"));
       })
       .catch(function (err) {
         body.innerHTML = "<p class='lookup-bad'>" + esc(err.message || "查词失败") + "</p>";
@@ -639,7 +627,7 @@
     if (!host) return;
     var p = document.createElement("p");
     p.className = "handout-lookup-hint no-print";
-    p.textContent = "提示：点击例句中的英文单词可查词释义；🔊 朗读按钮只读英文句子（英音 Azure 保底）。";
+    p.textContent = "提示：点击例句中的英文单词可查词释义；优先 DeepSeek 详解，不可用时自动回退词典 + 中文翻译。";
     host.insertBefore(p, host.firstChild);
   }
 
