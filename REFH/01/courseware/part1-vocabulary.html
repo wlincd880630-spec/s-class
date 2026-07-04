@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Part 1 · 词汇学习 | Fruit Varieties</title>
+  <link rel="stylesheet" href="assets/css/shared.css">
+  <style>
+    .page { max-width: 1100px; margin: 0 auto; padding: 24px 20px 80px; }
+    .page-header { margin-bottom: 28px; }
+    .page-header h1 { font-family: var(--font-display); color: var(--primary); font-size: 1.8rem; }
+    .page-header p { color: var(--muted); margin-top: 6px; }
+    .tabs { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+    .tab {
+      border: 2px solid var(--border); background: var(--surface);
+      padding: 8px 18px; border-radius: 999px; cursor: pointer;
+      font-weight: 600; font-size: 0.88rem; color: var(--muted); transition: 0.2s;
+    }
+    .tab.active { border-color: var(--primary); background: var(--primary-light); color: var(--primary); }
+    .card-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px;
+    }
+    .flip-card {
+      aspect-ratio: 1; perspective: 800px; cursor: pointer;
+    }
+    .flip-inner {
+      width: 100%; height: 100%; position: relative;
+      transition: transform 0.5s; transform-style: preserve-3d;
+    }
+    .flip-card:hover .flip-inner { transform: rotateY(8deg) scale(1.02); }
+    .flip-front, .flip-back {
+      position: absolute; inset: 0; backface-visibility: hidden;
+      border-radius: var(--radius); display: flex; flex-direction: column;
+      align-items: center; justify-content: center; padding: 16px; text-align: center;
+      border: 1px solid var(--border); box-shadow: var(--shadow);
+    }
+    .flip-front {
+      background: linear-gradient(145deg, #fff, var(--primary-light));
+    }
+    .flip-front .card-word {
+      font-family: var(--font-display); font-size: 1.15rem; font-weight: 700;
+      color: var(--primary); word-break: break-word;
+    }
+    .flip-front .card-type { font-size: 0.72rem; color: var(--muted); margin-top: 8px; }
+    .flip-front .tap-hint { font-size: 0.7rem; color: var(--accent); margin-top: 12px; }
+    .stats-bar {
+      display: flex; gap: 16px; margin-bottom: 20px; flex-wrap: wrap;
+    }
+    .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 20px; }
+    .stat b { font-size: 1.4rem; color: var(--primary); display: block; }
+    .stat span { font-size: 0.8rem; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div id="nav"></div>
+  <div class="page">
+    <div class="page-header">
+      <h1>📚 词汇 & 词组学习</h1>
+      <p>点击卡片打开详细学习页 · 含 Azure 发音 · 中英文释义 · 背诵例句</p>
+    </div>
+    <div class="stats-bar">
+      <div class="stat"><b>20</b><span>核心词汇 A1+</span></div>
+      <div class="stat"><b>15</b><span>动词/名词/形容词词组</span></div>
+      <div class="stat"><b>5</b><span>固定句型</span></div>
+    </div>
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-filter="all">全部 (40)</button>
+      <button class="tab" data-filter="word">单词 (20)</button>
+      <button class="tab" data-filter="phrase">词组 (15)</button>
+      <button class="tab" data-filter="pattern">句型 (5)</button>
+    </div>
+    <div class="card-grid" id="card-grid"></div>
+  </div>
+
+  <div class="modal-overlay" id="vocab-modal">
+    <div class="modal" id="modal-content"></div>
+  </div>
+
+  <script src="assets/js/course-data.js"></script>
+  <script src="assets/js/shared.js"></script>
+  <script>
+    document.getElementById('nav').innerHTML = Courseware.renderNav('part1-vocabulary.html');
+    Courseware.injectConfigPanel();
+
+    let allItems = [];
+    let filter = 'all';
+
+    const typeBadge = item => {
+      if (item.type === 'word') return `<span class="badge badge-word">${item.pos || 'word'}</span>`;
+      if (item.type === 'phrase') return `<span class="badge badge-${item.phrase_type?.includes('verb') ? 'verb' : item.phrase_type?.includes('adj') ? 'adj' : 'noun'}">${item.phrase_type || 'phrase'}</span>`;
+      return `<span class="badge badge-pattern">句型</span>`;
+    };
+
+    function renderCards() {
+      const items = filter === 'all' ? allItems : allItems.filter(i => i.type === filter);
+      document.getElementById('card-grid').innerHTML = items.map((item, idx) =>
+        `<div class="flip-card" onclick="openVocab(${allItems.indexOf(item)})">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <div class="card-word">${Courseware.escapeHtml(item.word)}</div>
+              ${typeBadge(item)}
+              <div class="tap-hint">点击学习 →</div>
+            </div>
+          </div>
+        </div>`
+      ).join('');
+    }
+
+    function openVocab(idx) {
+      const item = allItems[idx];
+      const modal = document.getElementById('vocab-modal');
+      const content = document.getElementById('modal-content');
+      const ex = item.article_example;
+      const zk = item.examples?.zhongkao;
+      const g10 = item.examples?.grade10;
+
+      content.innerHTML = `
+        <div class="modal-header">
+          <div>
+            <span class="vocab-word">${Courseware.escapeHtml(item.word)}</span>
+            ${item.pos ? `<span class="vocab-pos">${item.pos}</span>` : ''}
+            ${typeBadge(item)}
+            <button class="btn-icon" style="margin-left:8px" onclick="Courseware.speakText('${item.word.replace(/'/g, "\\'")}')">🔊</button>
+          </div>
+          <button class="modal-close" onclick="closeModal()">×</button>
+        </div>
+        <div class="modal-body">
+          <div class="section-label">English Definition</div>
+          <p>${Courseware.escapeHtml(item.definition_en)}</p>
+          <button class="cn-reveal" onclick="this.nextElementSibling.classList.toggle('show');this.textContent=this.nextElementSibling.classList.contains('show')?'隐藏中文':'显示中文'">显示中文</button>
+          <p class="ex-trans">${Courseware.escapeHtml(item.definition_cn)}</p>
+
+          ${ex ? `
+          <div class="section-label">📄 文章例句</div>
+          <div class="ex-box article">
+            <div class="ex-sent">${Courseware.escapeHtml(ex.sentence)}
+              <button class="btn-icon sm" onclick="Courseware.speakText('${ex.sentence.replace(/'/g, "\\'")}')">🔊</button>
+            </div>
+            <button class="cn-reveal" onclick="this.nextElementSibling.classList.toggle('show')">显示翻译</button>
+            <div class="ex-trans">${Courseware.escapeHtml(ex.translation)}</div>
+          </div>` : ''}
+
+          ${zk ? `
+          <div class="section-label">🎯 中考背诵例句</div>
+          <div class="ex-box zk">
+            <div class="ex-sent">${Courseware.escapeHtml(zk.sentence)}
+              <button class="btn-icon sm" onclick="Courseware.speakText('${zk.sentence.replace(/'/g, "\\'")}')">🔊</button>
+            </div>
+            <button class="cn-reveal" onclick="this.nextElementSibling.classList.toggle('show')">显示翻译</button>
+            <div class="ex-trans">${Courseware.escapeHtml(zk.translation)}</div>
+          </div>` : ''}
+
+          ${g10 ? `
+          <div class="section-label">📘 高一背诵例句</div>
+          <div class="ex-box g10">
+            <div class="ex-sent">${Courseware.escapeHtml(g10.sentence)}
+              <button class="btn-icon sm" onclick="Courseware.speakText('${g10.sentence.replace(/'/g, "\\'")}')">🔊</button>
+            </div>
+            <button class="cn-reveal" onclick="this.nextElementSibling.classList.toggle('show')">显示翻译</button>
+            <div class="ex-trans">${Courseware.escapeHtml(g10.translation)}</div>
+          </div>` : ''}
+
+          ${item.synonyms?.length ? `
+          <div class="section-label">同义词</div>
+          <div class="tag-list">${item.synonyms.map(s => `<span class="tag">${Courseware.escapeHtml(s)}</span>`).join('')}</div>` : ''}
+
+          ${item.word_forms?.length ? `
+          <div class="section-label">词性变化</div>
+          <div class="tag-list">${item.word_forms.map(s => `<span class="tag">${Courseware.escapeHtml(s)}</span>`).join('')}</div>` : ''}
+
+          ${item.other_usage ? `
+          <div class="section-label">其他用法</div>
+          <p style="font-size:0.9rem;color:var(--muted)">${Courseware.escapeHtml(item.other_usage)}</p>` : ''}
+        </div>`;
+      modal.classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('vocab-modal').classList.remove('open');
+    }
+
+    document.getElementById('vocab-modal').addEventListener('click', e => {
+      if (e.target.id === 'vocab-modal') closeModal();
+    });
+
+    document.getElementById('tabs').addEventListener('click', e => {
+      if (!e.target.classList.contains('tab')) return;
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      e.target.classList.add('active');
+      filter = e.target.dataset.filter;
+      renderCards();
+    });
+
+    Courseware.loadCourseData().then(data => {
+      allItems = data.all_vocab_items;
+      renderCards();
+    });
+  </script>
+</body>
+</html>

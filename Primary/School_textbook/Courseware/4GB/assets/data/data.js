@@ -2995,7 +2995,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/dot.jpg",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/dot/dot_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Put a dot at the end of the sentence.",

@@ -155,7 +155,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/those.jpg",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/those/those_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Lingling:\t Amy, look at those ice creams!",
