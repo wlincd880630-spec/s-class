@@ -259,7 +259,7 @@
 
         @page {
             size: A4 portrait;
-            margin: 10mm;
+            margin: 0;
         }
 
         @media screen and (max-width: 720px) {
@@ -284,6 +284,7 @@
             .btn-print { transition: none !important; }
         }
 
+        /* 打印 / 另存为 PDF：与屏幕 A4 预览一致（同 CVC、Play Kitty 抄写作业） */
         @media print {
             body {
                 background: #fff;
@@ -302,34 +303,19 @@
                 transform: none !important;
             }
             .page-container {
-                width: 100% !important;
-                max-width: 100% !important;
-                height: auto !important;
-                min-height: 0 !important;
-                margin: 0 !important;
-                padding: 6mm 0 4mm !important;
+                width: 210mm;
+                height: 297mm;
+                margin: 0;
+                padding: 14mm 14mm 10mm;
                 box-shadow: none;
                 border: none;
                 page-break-after: always;
                 page-break-inside: avoid;
-                overflow: visible !important;
+                overflow: hidden;
             }
-            .header {
-                font-size: 11pt !important;
-                margin-bottom: 2mm !important;
-                padding-bottom: 2mm !important;
-            }
-            .header-range { font-size: 12pt !important; }
             .handwriting-row {
-                flex: 0 0 var(--row-h) !important;
-                height: var(--row-h) !important;
                 page-break-inside: avoid;
             }
-            .cell {
-                font-size: 48pt !important;
-                transform: translateY(-1.2mm) !important;
-            }
-            .footer-info { font-size: 9pt !important; }
             * {
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
@@ -419,38 +405,6 @@
                 container.appendChild(row);
             });
         }
-
-        /** 打印前写入 pt 字号，避免「另存为 PDF」时 rem 异常缩小 */
-        const PRINT_PT = { cell: 48, header: 11, range: 12, footer: 9 };
-
-        function applyPrintFonts() {
-            document.querySelectorAll('.cell').forEach((el) => {
-                el.dataset.printFont = '1';
-                el.style.fontSize = PRINT_PT.cell + 'pt';
-            });
-            document.querySelectorAll('.header').forEach((el) => {
-                el.dataset.printFont = '1';
-                el.style.fontSize = PRINT_PT.header + 'pt';
-            });
-            document.querySelectorAll('.header-range').forEach((el) => {
-                el.dataset.printFont = '1';
-                el.style.fontSize = PRINT_PT.range + 'pt';
-            });
-            document.querySelectorAll('.footer-info').forEach((el) => {
-                el.dataset.printFont = '1';
-                el.style.fontSize = PRINT_PT.footer + 'pt';
-            });
-        }
-
-        function clearPrintFonts() {
-            document.querySelectorAll('[data-print-font]').forEach((el) => {
-                el.style.removeProperty('font-size');
-                el.removeAttribute('data-print-font');
-            });
-        }
-
-        window.addEventListener('beforeprint', applyPrintFonts);
-        window.addEventListener('afterprint', clearPrintFonts);
 
         function fitPageViewports() {
             if (window.matchMedia('print').matches) return;

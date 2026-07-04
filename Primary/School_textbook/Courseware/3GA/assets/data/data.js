@@ -135,7 +135,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/be_am_is_are.jpg",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Welcome/be_am_is_are/be_am_is_are_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I am Sam. She is Amy.",
@@ -415,7 +415,7 @@ const TEXTBOOK_DATA = {
               "letter": "a"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/a_an.jpg",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Welcome/a_an/a_an_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I have a book.",
@@ -589,7 +589,7 @@ const TEXTBOOK_DATA = {
               "letter": "s"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/ms.jpg",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Welcome/ms/ms_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "What does Ms Olivia find?",
@@ -2905,7 +2905,7 @@ const TEXTBOOK_DATA = {
               "letter": "s"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/this.jpg",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit2/this/this_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "This is a Chinese knot.",
@@ -3413,7 +3413,7 @@ const TEXTBOOK_DATA = {
               "letter": "h"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/take_care_of_sb_sth.jpg",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit2/take_care_of_sb_sth/take_care_of_sb_sth_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I take care of my little sister.",
@@ -3697,7 +3697,7 @@ const TEXTBOOK_DATA = {
               "letter": "h"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/look_at_sb_sth.jpg",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit2/look_at_sb_sth/look_at_sb_sth_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Look at the rainbow!",
