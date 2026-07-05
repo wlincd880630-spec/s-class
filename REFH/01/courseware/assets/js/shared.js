@@ -518,47 +518,52 @@ ${azureLine}
     });
   }
 
-  let _html2pdfPromise = null;
-  function loadHtml2Pdf() {
-    if (global.html2pdf) return Promise.resolve();
-    if (_html2pdfPromise) return _html2pdfPromise;
-    _html2pdfPromise = new Promise((resolve, reject) => {
+  let _pdfLibsPromise = null;
+  function loadPdfLibs() {
+    if (global.html2canvas && global.jspdf?.jsPDF) return Promise.resolve();
+    if (_pdfLibsPromise) return _pdfLibsPromise;
+    _pdfLibsPromise = new Promise((resolve, reject) => {
       const s = document.createElement('script');
       s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
-      s.onload = () => resolve();
-      s.onerror = () => reject(new Error('html2pdf 加载失败'));
+      s.onload = () => {
+        if (global.html2canvas && global.jspdf?.jsPDF) resolve();
+        else reject(new Error('PDF 库加载不完整'));
+      };
+      s.onerror = () => reject(new Error('PDF 库加载失败'));
       document.head.appendChild(s);
     });
-    return _html2pdfPromise;
+    return _pdfLibsPromise;
   }
 
   function getVocabPdfCss(accent) {
     const c = accent || '#1a6b4a';
     return `
       html,body{margin:0;padding:0;background:#fff;color:#1c2b24;
-        font-family:'Noto Sans SC','Microsoft YaHei','Segoe UI',sans-serif;}
-      .pdf-doc{box-sizing:border-box;width:700px;max-width:700px;margin:0 auto;padding:20px 24px 28px;}
-      .pdf-header{text-align:center;margin-bottom:20px;padding-bottom:14px;border-bottom:3px solid ${c};}
-      .pdf-header h1{font-size:20px;color:${c};margin:0 0 6px;font-weight:700;line-height:1.35;}
-      .pdf-header p{font-size:11px;color:#5c7268;margin:0 0 4px;line-height:1.5;}
+        font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC','Segoe UI',sans-serif;
+        -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+      .pdf-doc{box-sizing:border-box;width:680px;max-width:680px;margin:0;padding:16px 18px 20px;overflow:visible;}
+      .pdf-header{text-align:center;margin-bottom:16px;padding-bottom:12px;border-bottom:2.5px solid ${c};}
+      .pdf-header h1{font-size:18px;color:${c};margin:0 0 5px;font-weight:700;line-height:1.35;}
+      .pdf-header p{font-size:10.5px;color:#5c7268;margin:0 0 3px;line-height:1.45;}
       .pdf-word-card{
-        page-break-inside:avoid;break-inside:avoid;
-        margin-bottom:14px;padding:12px 14px;
-        border:1px solid #dce8e2;border-radius:8px;border-left:4px solid ${c};background:#fafcfb;
+        margin-bottom:10px;padding:10px 12px;
+        border:1px solid #dce8e2;border-radius:6px;border-left:3px solid ${c};background:#fafcfb;
+        overflow:visible;
       }
-      .pdf-word-title{font-size:15px;font-weight:700;color:${c};margin-bottom:6px;line-height:1.4;}
-      .pdf-word-title span{font-size:11px;color:#5c7268;font-weight:500;margin-left:6px;}
-      .pdf-row{font-size:11px;line-height:1.65;margin-bottom:4px;word-break:break-word;overflow-wrap:anywhere;}
-      .pdf-label{font-weight:600;color:${c};display:inline-block;min-width:68px;vertical-align:top;}
+      .pdf-word-title{font-size:14px;font-weight:700;color:${c};margin-bottom:5px;line-height:1.35;}
+      .pdf-word-title span{font-size:10px;color:#5c7268;font-weight:500;margin-left:5px;}
+      .pdf-row{display:flex;gap:6px;align-items:flex-start;margin-bottom:3px;font-size:10.5px;line-height:1.55;}
+      .pdf-label{flex:0 0 56px;font-weight:600;color:${c};}
+      .pdf-val{flex:1;min-width:0;word-break:break-word;overflow-wrap:break-word;}
       .pdf-en{color:#333;}.pdf-cn{color:${c};}
-      .pdf-section{margin-top:6px;padding-top:6px;border-top:1px dashed #dce8e2;}
-      .pdf-badge{display:inline-block;font-size:9px;font-weight:600;padding:1px 6px;border-radius:4px;color:#fff;margin-right:6px;}
+      .pdf-section{margin-top:5px;padding-top:5px;border-top:1px dashed #dce8e2;}
+      .pdf-badge{display:inline-block;font-size:8.5px;font-weight:600;padding:1px 5px;border-radius:3px;color:#fff;margin:0 5px 3px 0;vertical-align:middle;}
       .pdf-badge.zk{background:#27ae60;}.pdf-badge.g10{background:#e67e22;}.pdf-badge.art{background:#3498db;}
-      .pdf-tags{font-size:10px;color:#5c7268;margin-top:5px;line-height:1.55;word-break:break-word;}
+      .pdf-tags{font-size:9.5px;color:#5c7268;margin-top:4px;line-height:1.5;word-break:break-word;}
       @media print{
-        @page{size:A4;margin:12mm;}
+        @page{size:A4 portrait;margin:12mm;}
+        body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
         .pdf-doc{width:auto;max-width:none;padding:0;}
-        .pdf-word-card{page-break-inside:avoid;break-inside:avoid;}
       }`;
   }
 
@@ -569,18 +574,18 @@ ${azureLine}
     let exBlocks = '';
     if (ae?.sentence) {
       exBlocks += `<div class="pdf-section"><span class="pdf-badge art">文章</span>
-        <div class="pdf-row pdf-en">${escapeHtml(ae.sentence)}</div>
-        <div class="pdf-row pdf-cn">${escapeHtml(ae.translation || '')}</div></div>`;
+        <div class="pdf-row"><div class="pdf-val pdf-en">${escapeHtml(ae.sentence)}</div></div>
+        <div class="pdf-row"><div class="pdf-val pdf-cn">${escapeHtml(ae.translation || '')}</div></div></div>`;
     }
     if (zk?.sentence) {
       exBlocks += `<div class="pdf-section"><span class="pdf-badge zk">中考</span>
-        <div class="pdf-row pdf-en">${escapeHtml(zk.sentence)}</div>
-        <div class="pdf-row pdf-cn">${escapeHtml(zk.translation || '')}</div></div>`;
+        <div class="pdf-row"><div class="pdf-val pdf-en">${escapeHtml(zk.sentence)}</div></div>
+        <div class="pdf-row"><div class="pdf-val pdf-cn">${escapeHtml(zk.translation || '')}</div></div></div>`;
     }
     if (g10?.sentence) {
       exBlocks += `<div class="pdf-section"><span class="pdf-badge g10">高一</span>
-        <div class="pdf-row pdf-en">${escapeHtml(g10.sentence)}</div>
-        <div class="pdf-row pdf-cn">${escapeHtml(g10.translation || '')}</div></div>`;
+        <div class="pdf-row"><div class="pdf-val pdf-en">${escapeHtml(g10.sentence)}</div></div>
+        <div class="pdf-row"><div class="pdf-val pdf-cn">${escapeHtml(g10.translation || '')}</div></div></div>`;
     }
     const syn = (v.synonyms || []).length
       ? `<div class="pdf-tags"><b>同义词：</b>${v.synonyms.map(escapeHtml).join(' · ')}</div>` : '';
@@ -593,8 +598,8 @@ ${azureLine}
       : (v.phrase_type ? `<span>${escapeHtml(v.phrase_type)}</span>` : '');
     return `<div class="pdf-word-card">
       <div class="pdf-word-title">${i + 1}. ${escapeHtml(v.word)} ${pos}</div>
-      <div class="pdf-row"><span class="pdf-label">英文释义</span><span class="pdf-en">${escapeHtml(v.definition_en || '')}</span></div>
-      <div class="pdf-row"><span class="pdf-label">中文释义</span><span class="pdf-cn">${escapeHtml(v.definition_cn || '')}</span></div>
+      <div class="pdf-row"><div class="pdf-label">英文释义</div><div class="pdf-val pdf-en">${escapeHtml(v.definition_en || '')}</div></div>
+      <div class="pdf-row"><div class="pdf-label">中文释义</div><div class="pdf-val pdf-cn">${escapeHtml(v.definition_cn || '')}</div></div>
       ${exBlocks}${syn}${forms}${usage}
     </div>`;
   }
@@ -620,8 +625,97 @@ ${azureLine}
     const body = buildVocabPdfHtml(words, meta);
     const css = getVocabPdfCss(accent);
     return `<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
-      <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600;700&display=swap" rel="stylesheet">
       <style>${css}</style></head><body>${body}</body></html>`;
+  }
+
+  function waitPdfIframe(iframe) {
+    return new Promise((resolve, reject) => {
+      let settled = false;
+      const done = () => {
+        if (settled) return;
+        const idoc = iframe.contentDocument;
+        if (!idoc?.body) {
+          settled = true;
+          reject(new Error('PDF 文档未就绪'));
+          return;
+        }
+        const fonts = idoc.fonts?.ready || Promise.resolve();
+        fonts.then(() => {
+          requestAnimationFrame(() => {
+            setTimeout(() => {
+              if (!settled) {
+                settled = true;
+                resolve();
+              }
+            }, 280);
+          });
+        });
+      };
+      iframe.onload = done;
+      iframe.onerror = () => {
+        if (!settled) {
+          settled = true;
+          reject(new Error('PDF 预览加载失败'));
+        }
+      };
+      setTimeout(done, 5000);
+    });
+  }
+
+  function capturePdfBlock(el) {
+    const rect = el.getBoundingClientRect();
+    const w = Math.ceil(rect.width || el.scrollWidth || el.offsetWidth || 680);
+    const h = Math.ceil(el.scrollHeight || el.offsetHeight || 40);
+    const doc = el.ownerDocument;
+    const win = doc.defaultView || global;
+    return global.html2canvas(el, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: '#ffffff',
+      logging: false,
+      scrollX: 0,
+      scrollY: 0,
+      width: w,
+      height: h,
+      windowWidth: win.innerWidth || w,
+      windowHeight: Math.max(win.innerHeight || 0, h)
+    });
+  }
+
+  function appendCanvasToPdf(pdf, canvas, st) {
+    const maxW = st.contentW;
+    const gap = st.gap;
+    let srcY = 0;
+    while (srcY < canvas.height) {
+      let avail = st.pageH - st.margin - st.y;
+      if (avail < 6) {
+        pdf.addPage();
+        st.y = st.margin;
+        avail = st.pageH - 2 * st.margin;
+      }
+      const slicePx = Math.min(
+        canvas.height - srcY,
+        Math.max(1, Math.floor((avail / maxW) * canvas.width))
+      );
+      const sliceHmm = (slicePx * maxW) / canvas.width;
+      const slice = document.createElement('canvas');
+      slice.width = canvas.width;
+      slice.height = slicePx;
+      const ctx = slice.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, slice.width, slice.height);
+      ctx.drawImage(canvas, 0, srcY, canvas.width, slicePx, 0, 0, canvas.width, slicePx);
+      pdf.addImage(slice.toDataURL('image/jpeg', 0.95), 'JPEG', st.margin, st.y, maxW, sliceHmm);
+      srcY += slicePx;
+      st.y += sliceHmm;
+      if (srcY < canvas.height) {
+        pdf.addPage();
+        st.y = st.margin;
+      } else {
+        st.y += gap;
+      }
+    }
   }
 
   async function exportVocabPdf(options) {
@@ -633,8 +727,7 @@ ${azureLine}
       accent: options.accent || '#1a6b4a'
     };
     const filename = options.filename || 'Vocabulary.pdf';
-    await loadHtml2Pdf();
-    if (document.fonts?.ready) await document.fonts.ready;
+    await loadPdfLibs();
 
     const mask = document.createElement('div');
     mask.setAttribute('aria-busy', 'true');
@@ -646,60 +739,44 @@ ${azureLine}
     const iframe = document.createElement('iframe');
     iframe.setAttribute('title', 'pdf-export');
     iframe.style.cssText =
-      'position:fixed;left:0;top:0;width:700px;border:0;z-index:2147482000;background:#fff;opacity:0.01;pointer-events:none;';
+      'position:fixed;left:0;top:0;width:680px;border:0;z-index:2147482000;background:#fff;';
     iframe.srcdoc = buildVocabPdfDocument(words, meta);
     document.body.appendChild(iframe);
 
-    function cleanup() {
+    try {
+      await waitPdfIframe(iframe);
+      const idoc = iframe.contentDocument;
+      const root = idoc.querySelector('.pdf-doc');
+      if (!root) throw new Error('PDF 内容未找到');
+
+      const h = Math.max(idoc.body.scrollHeight, root.scrollHeight, 400);
+      iframe.style.height = h + 40 + 'px';
+
+      const JsPDF = global.jspdf.jsPDF;
+      const pdf = new JsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait', compress: true });
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
+      const margin = 12;
+      const st = {
+        margin,
+        pageW,
+        pageH,
+        contentW: pageW - margin * 2,
+        y: margin,
+        gap: 2.5
+      };
+
+      const blocks = [root.querySelector('.pdf-header'), ...root.querySelectorAll('.pdf-word-card')];
+      for (const block of blocks) {
+        if (!block) continue;
+        const canvas = await capturePdfBlock(block);
+        appendCanvasToPdf(pdf, canvas, st);
+      }
+
+      pdf.save(filename);
+    } finally {
       mask.remove();
       iframe.remove();
-    }
-
-    try {
-      await new Promise((resolve, reject) => {
-        iframe.onload = resolve;
-        iframe.onerror = () => reject(new Error('PDF 预览加载失败'));
-        setTimeout(resolve, 4000);
-      });
-      const idoc = iframe.contentDocument;
-      if (!idoc?.body) throw new Error('PDF 文档未就绪');
-      if (idoc.fonts?.ready) await idoc.fonts.ready;
-      await new Promise(r => setTimeout(r, 350));
-
-      const root = idoc.querySelector('.pdf-doc') || idoc.body;
-      const h = Math.max(idoc.body.scrollHeight, root.scrollHeight, 400);
-      iframe.style.height = h + 48 + 'px';
-
-      const opt = {
-        margin: [10, 10, 12, 10],
-        filename,
-        image: { type: 'jpeg', quality: 0.96 },
-        html2canvas: {
-          scale: 2,
-          useCORS: true,
-          allowTaint: true,
-          backgroundColor: '#ffffff',
-          logging: false,
-          scrollX: 0,
-          scrollY: 0,
-          width: 700,
-          windowWidth: 700
-        },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true },
-        pagebreak: { mode: ['css', 'legacy'], avoid: ['.pdf-word-card'] }
-      };
-
-      const runPdf = (fob) => {
-        opt.html2canvas.foreignObjectRendering = fob;
-        return global.html2pdf().set(opt).from(root).save();
-      };
-      try {
-        await runPdf(false);
-      } catch (e) {
-        await runPdf(true);
-      }
-    } finally {
-      cleanup();
     }
   }
 
@@ -716,7 +793,11 @@ ${azureLine}
     w.document.open();
     w.document.write(buildVocabPdfDocument(words, meta || {}));
     w.document.close();
-    w.onload = () => setTimeout(() => w.print(), 600);
+    w.focus();
+    w.onload = () => setTimeout(() => {
+      w.print();
+      showToast('请选择「另存为 PDF」或打印机保存');
+    }, 700);
   }
 
   initConfig();
