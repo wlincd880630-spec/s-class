@@ -53,7 +53,7 @@
     .speed-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
     .nav-row { display: flex; gap: 12px; justify-content: center; margin-top: 24px; flex-wrap: wrap; }
     .result-area { width: 100%; max-width: 680px; margin-top: 20px; display: none; }
-    .result-area.show { display: block; }
+    .result-area.show { display: block !important; }
     .score-badge {
       display: inline-block; font-size: 2rem; font-weight: 700;
       color: var(--primary); font-family: var(--font-display);
@@ -95,6 +95,19 @@
       font-size: 0.75rem; color: var(--muted); margin-top: 6px;
     }
     #btn-eval:disabled { opacity: 0.6; cursor: wait; }
+    .eval-meta { font-size: 0.88rem; color: var(--muted); margin-bottom: 10px; word-break: break-word; }
+    .score-grid {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;
+      margin: 12px 0;
+    }
+    .score-item {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 10px; padding: 10px 6px; text-align: center;
+    }
+    .score-item.highlight { background: var(--primary-light); border-color: var(--primary); }
+    .score-num { display: block; font-size: 1.25rem; font-weight: 700; color: var(--primary); }
+    .score-lbl { display: block; font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
+    @media (max-width: 600px) { .score-grid { grid-template-columns: repeat(3, 1fr); } }
   </style>
 </head>
 <body>
@@ -125,7 +138,7 @@
       <div class="recording-indicator" id="rec-ind">● 录音中… 再次点击结束</div>
       <div class="nav-row">
         <button class="btn btn-outline" type="button" onclick="prev()" id="btn-prev">← 上一句</button>
-        <button class="btn btn-primary" type="button" onclick="evaluate()" id="btn-eval">AI 评价</button>
+        <button class="btn btn-primary" type="button" id="btn-eval">AI 评价</button>
         <button class="btn btn-outline" type="button" onclick="next()" id="btn-next">下一句 →</button>
       </div>
     </div>
@@ -154,7 +167,7 @@
   </div>
 
   <script src="assets/js/course-data.js"></script>
-  <script src="assets/js/shared.js"></script>
+  <script src="assets/js/shared.js?v=20260706"></script>
   <script>
     document.getElementById('nav').innerHTML = Courseware.renderNav('part3-speaking.html');
     Courseware.injectConfigPanel();
@@ -164,6 +177,30 @@
     let speed = 'normal';
     let readTranscript = '';
     let transTranscript = '';
+    let lastPronunciation = null;
+
+    function applyStoppedRecording(stopped) {
+      if (!stopped || !stopped.text) return;
+      if (stopped.mode === 'read') {
+        readTranscript = stopped.text;
+        setLiveText(document.getElementById('read-live'), readTranscript, false);
+        document.getElementById('read-edit').value = readTranscript;
+        if (stopped.pronunciation) lastPronunciation = stopped.pronunciation;
+      } else if (stopped.mode === 'trans') {
+        transTranscript = stopped.text;
+        setLiveText(document.getElementById('trans-live'), transTranscript, false);
+        document.getElementById('trans-edit').value = transTranscript;
+      }
+    }
+
+    async function stopAnyRecording() {
+      if (!Courseware.isSpeakingRecording()) return;
+      const stopped = await Courseware.stopSpeakingRecordSafe(3500);
+      document.getElementById('btn-read').classList.remove('active');
+      document.getElementById('btn-trans').classList.remove('active');
+      document.getElementById('rec-ind').classList.remove('show');
+      applyStoppedRecording(stopped);
+    }
 
     function setSpeed(rate, btn) {
       speed = rate === 'slow' ? 'slow' : 'normal';
@@ -191,24 +228,6 @@
       document.getElementById('trans-edit').value = '';
     }
 
-    async function stopAnyRecording() {
-      if (!Courseware.isSpeakingRecording()) return;
-      const mode = Courseware.getSpeakingRecordingMode();
-      const text = await Courseware.stopSpeakingRecord();
-      document.getElementById('btn-read').classList.remove('active');
-      document.getElementById('btn-trans').classList.remove('active');
-      document.getElementById('rec-ind').classList.remove('show');
-      if (mode === 'read') {
-        readTranscript = text || readTranscript;
-        setLiveText(document.getElementById('read-live'), readTranscript, false);
-        document.getElementById('read-edit').value = readTranscript;
-      } else if (mode === 'trans') {
-        transTranscript = text || transTranscript;
-        setLiveText(document.getElementById('trans-live'), transTranscript, false);
-        document.getElementById('trans-edit').value = transTranscript;
-      }
-    }
-
     async function render() {
       const s = sentences[idx];
       document.getElementById('sentence-en').textContent = s.text;
@@ -217,6 +236,7 @@
       document.getElementById('btn-prev').disabled = idx === 0;
       document.getElementById('btn-next').disabled = idx === sentences.length - 1;
       document.getElementById('result-area').classList.remove('show');
+      lastPronunciation = null;
       await stopAnyRecording();
       resetTranscriptUI();
     }
@@ -231,12 +251,10 @@
       const live = document.getElementById('read-live');
 
       if (Courseware.getSpeakingRecordingMode() === 'read') {
-        const text = await Courseware.stopSpeakingRecord();
-        readTranscript = text || readTranscript;
+        const stopped = await Courseware.stopSpeakingRecordSafe(3500);
+        applyStoppedRecording(stopped);
         btn.classList.remove('active');
         ind.classList.remove('show');
-        setLiveText(live, readTranscript, false);
-        document.getElementById('read-edit').value = readTranscript;
         return;
       }
 
@@ -246,7 +264,7 @@
         await Courseware.startSpeakingRecord('read', (text) => {
           readTranscript = text;
           setLiveText(live, text, true);
-        });
+        }, { referenceText: sentences[idx].text });
         btn.classList.add('active');
         document.getElementById('btn-trans').classList.remove('active');
         ind.classList.add('show');
@@ -263,12 +281,10 @@
       const live = document.getElementById('trans-live');
 
       if (Courseware.getSpeakingRecordingMode() === 'trans') {
-        const text = await Courseware.stopSpeakingRecord();
-        transTranscript = text || transTranscript;
+        const stopped = await Courseware.stopSpeakingRecordSafe(3500);
+        applyStoppedRecording(stopped);
         btn.classList.remove('active');
         ind.classList.remove('show');
-        setLiveText(live, transTranscript, false);
-        document.getElementById('trans-edit').value = transTranscript;
         return;
       }
 
@@ -298,66 +314,79 @@
     }
 
     async function evaluate() {
-      if (!sentences.length) {
-        Courseware.showToast('课程数据尚未加载完成');
-        return;
-      }
-
-      await stopAnyRecording();
-
       const btn = document.getElementById('btn-eval');
       const area = document.getElementById('result-area');
       const readEl = document.getElementById('read-result');
       const transEl = document.getElementById('trans-result');
-      const original = sentences[idx].text;
-      const readText = getReadText();
-      const transText = getTransText();
 
       area.classList.add('show');
-      area.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      btn.disabled = true;
-      readEl.innerHTML = '<div class="ai-result loading">🤖 朗读评价生成中…</div>';
+      area.style.display = 'block';
+      readEl.innerHTML = '<div class="ai-result loading">🤖 Azure + DeepSeek 分析中…</div>';
       transEl.innerHTML = '<div class="ai-result loading">🤖 翻译评分中…</div>';
+      btn.disabled = true;
+      Courseware.showToast('AI 评价进行中…');
 
-      if (!readText) {
-        readEl.innerHTML = '<p style="color:var(--accent2)">请先完成朗读录音，或手动输入识别文字</p>';
-      } else {
-        try {
-          const readEval = await Courseware.evaluateReading(original, readText);
-          readEl.innerHTML = `<h4 style="margin-bottom:8px">🎤 朗读评价</h4>
-            <p style="font-size:0.88rem;color:var(--muted);margin-bottom:8px">识别文本：${Courseware.escapeHtml(readText)}</p>
-            <div class="ai-result">${Courseware.escapeHtml(readEval).replace(/\n/g, '<br>')}</div>`;
-        } catch (e) {
-          readEl.innerHTML = `<p style="color:var(--accent2)">朗读评价失败：${Courseware.escapeHtml(e.message || '请检查 DeepSeek API 配置')}</p>`;
+      try {
+        if (!sentences.length) throw new Error('课程数据尚未加载完成');
+
+        const stopped = await Courseware.stopSpeakingRecordSafe(3500);
+        applyStoppedRecording(stopped);
+
+        const original = sentences[idx].text;
+        const readText = getReadText();
+        const transText = getTransText();
+        const pronunciation = lastPronunciation || Courseware.getLastPronunciation();
+
+        let readingData = null;
+        let translationData = null;
+
+        if (readText) {
+          try {
+            const result = await Courseware.runSpeakingEvaluation({
+              original, readText, transText: '', pronunciation
+            });
+            readingData = result.reading;
+          } catch (e) {
+            readEl.innerHTML = `<p style="color:var(--accent2)">朗读评价失败：${Courseware.escapeHtml(e.message || '请检查 Azure / DeepSeek 配置')}</p>`;
+          }
         }
-      }
-
-      if (!transText) {
-        transEl.innerHTML = '<p style="color:var(--accent2)">请先完成翻译录音，或手动输入中文翻译</p>';
-      } else {
-        try {
-          const transEval = await Courseware.evaluateTranslation(original, transText);
-          transEl.innerHTML = `
-            <h4 style="margin-bottom:8px">🌐 翻译评分</h4>
-            <p style="font-size:0.88rem;color:var(--muted);margin-bottom:8px">识别文本：${Courseware.escapeHtml(transText)}</p>
-            <div class="score-badge">${transEval.score ?? '--'} 分</div>
-            <div class="ai-result" style="margin-top:12px">
-              <b>问题：</b>${Courseware.escapeHtml(transEval.issues || '')}<br><br>
-              <b>标准翻译：</b>${Courseware.escapeHtml(transEval.standard || '')}
-            </div>`;
-        } catch (e) {
-          transEl.innerHTML = `<p style="color:var(--accent2)">翻译评分失败：${Courseware.escapeHtml(e.message || '请检查 DeepSeek API 配置')}</p>`;
+        if (readingData) {
+          readEl.innerHTML = Courseware.renderReadingEvalHtml(readingData, readText);
+        } else if (!readText) {
+          readEl.innerHTML = Courseware.renderReadingEvalHtml(null, '');
         }
-      }
 
-      btn.disabled = false;
+        if (transText) {
+          try {
+            const result = await Courseware.runSpeakingEvaluation({
+              original, readText: '', transText, pronunciation: null
+            });
+            translationData = result.translation;
+            transEl.innerHTML = Courseware.renderTranslationEvalHtml(translationData, transText);
+          } catch (e) {
+            transEl.innerHTML = `<p style="color:var(--accent2)">翻译评分失败：${Courseware.escapeHtml(e.message || '请检查 DeepSeek 配置')}</p>`;
+          }
+        } else {
+          transEl.innerHTML = Courseware.renderTranslationEvalHtml(null, '');
+        }
+
+        area.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } catch (e) {
+        readEl.innerHTML = `<p style="color:var(--accent2)">评价出错：${Courseware.escapeHtml(e.message || '未知错误')}</p>`;
+        Courseware.showToast('评价失败：' + (e.message || '未知错误'));
+      } finally {
+        btn.disabled = false;
+      }
     }
+
+    window.evaluate = evaluate;
 
     async function prev() { if (idx > 0) { idx--; await render(); } }
     async function next() { if (idx < sentences.length - 1) { idx++; await render(); } }
 
     document.getElementById('read-edit').addEventListener('input', e => { readTranscript = e.target.value; });
     document.getElementById('trans-edit').addEventListener('input', e => { transTranscript = e.target.value; });
+    document.getElementById('btn-eval').addEventListener('click', evaluate);
 
     Courseware.loadCourseData().then(data => {
       sentences = data.all_sentences || [];

@@ -20,10 +20,36 @@
     .article-byline { font-size: 0.82rem; opacity: 0.75; }
     .toolbar {
       position: sticky; top: 56px; z-index: 50;
-      background: rgba(247,250,248,0.95); backdrop-filter: blur(8px);
-      padding: 12px 0; margin-bottom: 16px;
+      background: rgba(247,250,248,0.97); backdrop-filter: blur(10px);
+      padding: 12px 14px; margin-bottom: 16px;
+      border: 1px solid var(--border); border-radius: 14px;
+      box-shadow: 0 4px 20px rgba(26,107,74,0.06);
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .toolbar-row {
       display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
     }
+    .toolbar-row.main-actions { justify-content: space-between; }
+    .sel-preview {
+      flex: 1; min-width: 160px; font-size: 0.85rem; color: var(--muted);
+      background: var(--bg); border: 1px dashed var(--border);
+      border-radius: 10px; padding: 8px 12px; line-height: 1.45;
+      word-break: break-word;
+    }
+    .sel-preview.has-text {
+      color: var(--text); border-style: solid; border-color: var(--primary-light);
+      background: var(--primary-light);
+    }
+    .read-action-btn {
+      border: none; cursor: pointer; font-family: var(--font);
+      padding: 9px 16px; border-radius: 999px; font-weight: 600;
+      font-size: 0.88rem; white-space: nowrap; transition: 0.2s;
+    }
+    .read-action-btn.phrase { background: var(--primary); color: #fff; }
+    .read-action-btn.phrase:hover { filter: brightness(1.08); }
+    .read-action-btn.translate { background: var(--accent); color: #fff; }
+    .read-action-btn.translate:hover { filter: brightness(1.05); }
+    .read-action-btn:disabled { opacity: 0.45; cursor: not-allowed; }
     .section-heading {
       font-family: var(--font-display); font-size: 1.35rem; color: var(--primary);
       margin: 8px 0 0; padding: 20px 24px 0; border-top: 3px solid var(--primary-light);
@@ -85,42 +111,31 @@
     .quiz-opt.wrong { background: #fff5f5; border-color: #e74c3c; }
     .quiz-analysis { display: none; margin-top: 10px; font-size: 0.88rem; color: var(--muted); }
     .quiz-analysis.show { display: block; }
-    .selection-bar {
-      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-      background: var(--text); color: #fff; padding: 10px 20px;
-      border-radius: 999px; display: none; gap: 8px; z-index: 100;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.2); align-items: center;
-    }
-    .selection-bar.show { display: flex; }
-    .selection-bar button {
-      background: var(--accent); border: none; color: #fff;
-      padding: 6px 14px; border-radius: 999px; cursor: pointer; font-size: 0.82rem;
-    }
   </style>
 </head>
 <body>
   <div id="nav"></div>
   <div class="page">
     <div id="masthead"></div>
-    <div class="toolbar">
-      <button class="btn btn-outline" onclick="Courseware.speakText(document.getElementById('lead-text')?.textContent)">🔊 朗读导语</button>
-      <button class="btn btn-ghost" onclick="Courseware.openConfig()">⚙️ 设置</button>
+    <div class="toolbar" id="read-toolbar">
+      <div class="toolbar-row main-actions">
+        <button class="btn btn-outline" type="button" onclick="Courseware.speakText(document.getElementById('lead-text')?.textContent)">🔊 朗读导语</button>
+        <button class="btn btn-ghost" type="button" onclick="Courseware.openConfig()">⚙️ 设置</button>
+      </div>
+      <div class="toolbar-row">
+        <div class="sel-preview" id="sel-preview">👆 在文中拖选词组或句子，然后点击右侧按钮</div>
+        <button class="read-action-btn phrase" type="button" id="btn-phrase" onclick="analyzeSel('phrase')">📖 查词组</button>
+        <button class="read-action-btn translate" type="button" id="btn-translate" onclick="translateSel()">🌐 翻译句子</button>
+      </div>
     </div>
     <div id="article"></div>
     <div class="quiz-section" id="quiz-section"></div>
   </div>
 
   <div class="lookup-popup" id="lookup-popup"></div>
-  <div class="selection-bar" id="selection-bar">
-    <span id="sel-text"></span>
-    <button onclick="analyzeSel('phrase')">词组</button>
-    <button onclick="analyzeSel('chunk')">义群</button>
-    <button onclick="analyzeSel('sentence')">句子</button>
-    <button onclick="hideSelectionBar()" style="background:transparent;color:#ccc">✕</button>
-  </div>
 
   <script src="assets/js/course-data.js"></script>
-  <script src="assets/js/shared.js"></script>
+  <script src="assets/js/shared.js?v=20260706b"></script>
   <script>
     document.getElementById('nav').innerHTML = Courseware.renderNav('part2-reading.html');
     Courseware.injectConfigPanel();
@@ -128,30 +143,71 @@
     let selectedText = '';
     let shownHeadings = new Set();
 
+    function getSelectedText() {
+      const live = window.getSelection()?.toString().trim();
+      if (live) selectedText = live;
+      return selectedText.trim();
+    }
+
+    function updateSelectionPreview() {
+      const el = document.getElementById('sel-preview');
+      const text = getSelectedText();
+      if (text) {
+        el.textContent = '已选：' + (text.length > 80 ? text.slice(0, 80) + '…' : text);
+        el.classList.add('has-text');
+      } else {
+        el.textContent = '👆 在文中拖选词组或句子，然后点击右侧按钮';
+        el.classList.remove('has-text');
+      }
+    }
+
     document.addEventListener('mouseup', () => {
       const sel = window.getSelection()?.toString().trim();
-      if (sel && sel.length > 1) {
+      if (sel) {
         selectedText = sel;
-        document.getElementById('sel-text').textContent = sel.slice(0, 40) + (sel.length > 40 ? '…' : '');
-        document.getElementById('selection-bar').classList.add('show');
+        updateSelectionPreview();
       }
     });
 
-    function hideSelectionBar() { document.getElementById('selection-bar').classList.remove('show'); }
+    function showLookupPopup(title, bodyHtml) {
+      const popup = document.getElementById('lookup-popup');
+      popup.style.cssText = 'left:50%;top:18%;transform:translate(-50%,0);max-width:min(520px,92vw)';
+      popup.classList.add('open');
+      popup.innerHTML = bodyHtml;
+    }
 
     async function analyzeSel(type) {
-      hideSelectionBar();
-      const popup = document.getElementById('lookup-popup');
-      popup.style.cssText = 'left:50%;top:30%;transform:translate(-50%,0)';
-      popup.classList.add('open');
-      popup.innerHTML = '<div class="lookup-loading">🤖 DeepSeek 分析中…</div>';
+      const text = getSelectedText();
+      if (!text) {
+        Courseware.showToast('请先在文中选中词组或句子');
+        return;
+      }
+      showLookupPopup('词组分析', `<div style="display:flex;justify-content:space-between;margin-bottom:8px"><b style="color:var(--primary)">📖 词组分析</b><button onclick="closeLookup()" style="border:none;background:none;cursor:pointer">✕</button></div><p style="font-size:0.85rem;color:var(--muted);margin-bottom:8px">"${Courseware.escapeHtml(text)}"</p><div class="ai-result loading">🤖 DeepSeek 分析中…</div>`);
       try {
-        const result = await Courseware.analyzeSelection(selectedText, type);
-        popup.innerHTML = `<div style="display:flex;justify-content:space-between;margin-bottom:8px"><b style="color:var(--primary)">${type==='phrase'?'词组':type==='chunk'?'义群':'句子'}分析</b><button onclick="closeLookup()" style="border:none;background:none;cursor:pointer">✕</button></div><p style="font-size:0.85rem;color:var(--muted);margin-bottom:8px">"${Courseware.escapeHtml(selectedText)}"</p><div class="ai-result">${Courseware.escapeHtml(result)}</div><button class="btn btn-outline" style="margin-top:10px;width:100%" onclick="Courseware.speakText('${selectedText.replace(/'/g,"\\'")}')">🔊 朗读</button>`;
+        const result = await Courseware.analyzeSelection(text, type);
+        showLookupPopup('词组分析', `<div style="display:flex;justify-content:space-between;margin-bottom:8px"><b style="color:var(--primary)">📖 词组分析</b><button onclick="closeLookup()" style="border:none;background:none;cursor:pointer">✕</button></div><p style="font-size:0.85rem;color:var(--muted);margin-bottom:8px">"${Courseware.escapeHtml(text)}"</p><div class="ai-result">${Courseware.escapeHtml(result)}</div><button class="btn btn-outline" style="margin-top:10px;width:100%" onclick="Courseware.speakText('${text.replace(/'/g,"\\'")}')">🔊 朗读</button>`);
       } catch (e) {
-        popup.innerHTML = '<p style="color:var(--accent2)">分析失败</p><button onclick="closeLookup()">关闭</button>';
+        showLookupPopup('词组分析', `<p style="color:var(--accent2)">分析失败，请检查 DeepSeek 配置</p><button onclick="closeLookup()">关闭</button>`);
       }
     }
+
+    async function translateSel() {
+      const text = getSelectedText();
+      if (!text) {
+        Courseware.showToast('请先在文中选中要翻译的句子');
+        return;
+      }
+      showLookupPopup('翻译', `<div style="display:flex;justify-content:space-between;margin-bottom:8px"><b style="color:var(--primary)">🌐 翻译</b><button onclick="closeLookup()" style="border:none;background:none;cursor:pointer">✕</button></div><p style="font-size:0.85rem;color:var(--muted);margin-bottom:8px">"${Courseware.escapeHtml(text)}"</p><div class="ai-result loading">🤖 翻译中…</div>`);
+      try {
+        const result = await Courseware.translateSelection(text);
+        showLookupPopup('翻译', `<div style="display:flex;justify-content:space-between;margin-bottom:8px"><b style="color:var(--primary)">🌐 翻译</b><button onclick="closeLookup()" style="border:none;background:none;cursor:pointer">✕</button></div><p style="font-size:0.85rem;color:var(--muted);margin-bottom:8px">"${Courseware.escapeHtml(text)}"</p><div class="ai-result" style="font-size:1.05rem">${Courseware.escapeHtml(result)}</div><button class="btn btn-outline" style="margin-top:10px;width:100%" onclick="Courseware.speakText('${text.replace(/'/g,"\\'")}')">🔊 朗读原文</button>`);
+      } catch (e) {
+        showLookupPopup('翻译', `<p style="color:var(--accent2)">翻译失败，请检查 DeepSeek 配置</p><button onclick="closeLookup()">关闭</button>`);
+      }
+    }
+
+    window.analyzeSel = analyzeSel;
+    window.translateSel = translateSel;
 
     async function onWordDblClick(e) {
       const token = e.target.closest('.word-token');

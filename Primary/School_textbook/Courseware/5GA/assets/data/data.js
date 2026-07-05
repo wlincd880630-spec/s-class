@@ -2110,7 +2110,7 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/what_s_the_matter.jpg",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit4/what_s_the_matter/what_s_the_matter_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "What’s the matter? You look sad.",

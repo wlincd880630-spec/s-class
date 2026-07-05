@@ -157,12 +157,123 @@ Keep definitions concise. Example sentences at 中考/高一 level.`;
     return callDeepSeek([{ role: 'user', content: prompt }]);
   }
 
-  async function evaluateReading(original, audioTranscript) {
-    const prompt = `你是英语口语教师。学生朗读以下句子：
+  async function translateSelection(text) {
+    const prompt = `你是英语翻译老师。将以下英文翻译成自然、准确的中文（适合中国初高中学生阅读）。
+若是词组/短语，按词组翻译；若是句子，按整句翻译。
+只返回中文译文，不要附加解释。
+英文: "${text}"`;
+    return callDeepSeek([{ role: 'user', content: prompt }]);
+  }
+
+  async function evaluateReading(original, audioTranscript, pronunciation) {
+    return evaluateReadingCombined(original, audioTranscript, pronunciation);
+  }
+
+  function buildAzureSummary(pronunciation) {
+    if (!pronunciation || !pronunciation.result) return null;
+    const r = pronunciation.result;
+    const accuracy = Math.round(r.accuracyScore || 0);
+    const fluency = Math.round(r.fluencyScore || 0);
+    const completeness = Math.round(r.completenessScore || 0);
+    const prosody = Math.round(r.prosodyScore || 0);
+    const overall = Math.round(accuracy * 0.4 + fluency * 0.2 + completeness * 0.2 + prosody * 0.2);
+    const words = [];
+    try {
+      const json = pronunciation.json;
+      const list = json?.NBest?.[0]?.Words || [];
+      list.forEach(w => {
+        if (w.PronunciationAssessment?.ErrorType && w.PronunciationAssessment.ErrorType !== 'None') {
+          words.push({ word: w.Word, error: w.PronunciationAssessment.ErrorType });
+        }
+      });
+    } catch (e) {}
+    return { accuracy, fluency, completeness, prosody, overall, words };
+  }
+
+  async function evaluateReadingCombined(original, audioTranscript, pronunciation) {
+    const azure = buildAzureSummary(pronunciation);
+    const azureLine = azure
+      ? `Azure发音评测：准确度${azure.accuracy}，流利度${azure.fluency}，完整度${azure.completeness}，韵律${azure.prosody}，综合${azure.overall}。问题词：${azure.words.map(w => w.word + '(' + w.error + ')').join('、') || '无'}`
+      : '（未获取 Azure 发音分数，仅根据识别文本分析）';
+    const prompt = `你是英语口语教师。请结合 Azure 发音评测与识别文本，评价学生朗读。
 原文: "${original}"
 学生朗读识别文本: "${audioTranscript || '(未识别到内容)'}"
-请评价：1) 发音问题 2) 流利度 3) 改进建议。用中文，简洁分点。`;
-    return callDeepSeek([{ role: 'user', content: prompt }]);
+${azureLine}
+请只返回 JSON：
+{"score":0-100,"strengths":"优点(中文)","issues":"问题：发音/流利度/漏读(中文)","tips":"改进建议(中文)","mispronounced_words":["词1"]}`;
+    const text = await callDeepSeek([
+      { role: 'system', content: 'Return valid JSON only, no markdown.' },
+      { role: 'user', content: prompt }
+    ]);
+    let ai = { score: 0, strengths: '', issues: text, tips: '', mispronounced_words: [] };
+    try {
+      const m = text.match(/\{[\s\S]*\}/);
+      if (m) ai = { ...ai, ...JSON.parse(m[0]) };
+    } catch (e) {}
+    if (azure && !ai.score) ai.score = azure.overall;
+    return { azure, ai, transcript: audioTranscript || '' };
+  }
+
+  function renderReadingEvalHtml(data, readText) {
+    if (!readText) {
+      return '<p style="color:var(--accent2)">请先完成朗读录音，或手动输入识别文字</p>';
+    }
+    if (!data) {
+      return '<p style="color:var(--accent2)">朗读评价失败，请检查 API 配置</p>';
+    }
+    const azure = data.azure;
+    const ai = data.ai || {};
+    let azureHtml = '';
+    if (azure) {
+      azureHtml = `
+        <div class="score-grid">
+          <div class="score-item"><span class="score-num">${azure.accuracy}</span><span class="score-lbl">准确度</span></div>
+          <div class="score-item"><span class="score-num">${azure.fluency}</span><span class="score-lbl">流利度</span></div>
+          <div class="score-item"><span class="score-num">${azure.completeness}</span><span class="score-lbl">完整度</span></div>
+          <div class="score-item"><span class="score-num">${azure.prosody}</span><span class="score-lbl">韵律</span></div>
+          <div class="score-item highlight"><span class="score-num">${azure.overall}</span><span class="score-lbl">Azure综合</span></div>
+        </div>
+        ${azure.words.length ? `<p class="eval-meta">⚠️ 发音问题词：${azure.words.map(w => escapeHtml(w.word) + ' (' + escapeHtml(w.error) + ')').join('、 ')}</p>` : ''}`;
+    } else {
+      azureHtml = '<p class="eval-meta">未获取 Azure 发音分数（请用朗读录音按钮录音）</p>';
+    }
+    return `
+      <h4 style="margin-bottom:8px">🎤 朗读评价 <span class="score-badge" style="font-size:1.2rem">${ai.score ?? '--'} 分</span></h4>
+      <p class="eval-meta">识别文本：${escapeHtml(readText)}</p>
+      ${azureHtml}
+      <div class="ai-result">
+        ${ai.strengths ? `<p><b>✅ 优点：</b>${escapeHtml(ai.strengths)}</p>` : ''}
+        <p><b>❗ 问题：</b>${escapeHtml(ai.issues || '暂无')}</p>
+        <p><b>💡 建议：</b>${escapeHtml(ai.tips || '暂无')}</p>
+      </div>`;
+  }
+
+  function renderTranslationEvalHtml(data, transText) {
+    if (!transText) {
+      return '<p style="color:var(--accent2)">请先完成翻译录音，或手动输入中文翻译</p>';
+    }
+    if (!data) {
+      return '<p style="color:var(--accent2)">翻译评分失败，请检查 API 配置</p>';
+    }
+    return `
+      <h4 style="margin-bottom:8px">🌐 翻译评分</h4>
+      <p class="eval-meta">识别文本：${escapeHtml(transText)}</p>
+      <div class="score-badge">${data.score ?? '--'} 分</div>
+      <div class="ai-result" style="margin-top:12px">
+        <p><b>❗ 问题：</b>${escapeHtml(data.issues || '暂无')}</p>
+        <p><b>✅ 标准翻译：</b>${escapeHtml(data.standard || '暂无')}</p>
+      </div>`;
+  }
+
+  async function runSpeakingEvaluation({ original, readText, transText, pronunciation }) {
+    const out = { reading: null, translation: null };
+    if (readText) {
+      out.reading = await evaluateReadingCombined(original, readText, pronunciation);
+    }
+    if (transText) {
+      out.translation = await evaluateTranslation(original, transText);
+    }
+    return out;
   }
 
   async function evaluateTranslation(original, studentTranslation) {
@@ -287,6 +398,18 @@ Keep definitions concise. Example sentences at 中考/高一 level.`;
   const SPEECH_SDK_URL = 'https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js';
   let _speechSdkPromise = null;
   let _speakRec = null;
+  let _lastPronunciation = null;
+
+  function getLastPronunciation() {
+    return _lastPronunciation;
+  }
+
+  function stopSpeakingRecordSafe(timeoutMs) {
+    return Promise.race([
+      stopSpeakingRecord(),
+      new Promise(resolve => setTimeout(() => resolve({ text: '', pronunciation: null, mode: null }), timeoutMs || 4000))
+    ]);
+  }
 
   function ensureSpeechSdk() {
     if (global.SpeechSDK) return Promise.resolve();
@@ -309,7 +432,8 @@ Keep definitions concise. Example sentences at 中考/高一 level.`;
     return _speakRec ? _speakRec.mode : null;
   }
 
-  async function startSpeakingRecord(mode, onText) {
+  async function startSpeakingRecord(mode, onText, options) {
+    options = options || {};
     await ensureSpeechSdk();
     await stopSpeakingRecord();
     const cfg = getConfig();
@@ -324,15 +448,36 @@ Keep definitions concise. Example sentences at 中考/高一 level.`;
     );
 
     let finalBuf = '';
+    let lastPa = null;
+    if (mode === 'read' && options.referenceText) {
+      const paConfig = new global.SpeechSDK.PronunciationAssessmentConfig(
+        options.referenceText,
+        global.SpeechSDK.PronunciationAssessmentGradingSystem.HundredMark,
+        global.SpeechSDK.PronunciationAssessmentGranularity.Phoneme,
+        true
+      );
+      paConfig.enableProsodyAssessment = true;
+      paConfig.applyTo(recognizer);
+    }
+
     recognizer.recognizing = (_, e) => {
       const interim = e.result.text || '';
       const display = (finalBuf + (finalBuf && interim ? ' ' : '') + interim).trim();
       onText(display, false);
     };
     recognizer.recognized = (_, e) => {
-      if (e.result.reason === global.SpeechSDK.ResultReason.RecognizedSpeech && e.result.text) {
-        finalBuf += (finalBuf ? ' ' : '') + e.result.text;
-        onText(finalBuf.trim(), true);
+      if (e.result.reason === global.SpeechSDK.ResultReason.RecognizedSpeech) {
+        if (e.result.text) {
+          finalBuf += (finalBuf ? ' ' : '') + e.result.text;
+          onText(finalBuf.trim(), true);
+        }
+        if (mode === 'read' && options.referenceText) {
+          try {
+            const paResult = global.SpeechSDK.PronunciationAssessmentResult.fromResult(e.result);
+            const jsonStr = e.result.properties.getProperty(global.SpeechSDK.PropertyId.SpeechServiceResponse_JsonResult);
+            lastPa = { result: paResult, json: jsonStr ? JSON.parse(jsonStr) : null };
+          } catch (err) {}
+        }
       }
     };
     recognizer.canceled = (_, e) => {
@@ -341,7 +486,11 @@ Keep definitions concise. Example sentences at 中考/高一 level.`;
       stopSpeakingRecord();
     };
 
-    _speakRec = { recognizer, mode, getText: () => finalBuf.trim() };
+    _speakRec = {
+      recognizer, mode,
+      getText: () => finalBuf.trim(),
+      getPronunciation: () => lastPa
+    };
     return new Promise((resolve, reject) => {
       recognizer.startContinuousRecognitionAsync(
         () => resolve(),
@@ -356,15 +505,218 @@ Keep definitions concise. Example sentences at 中考/高一 level.`;
 
   function stopSpeakingRecord() {
     return new Promise(resolve => {
-      if (!_speakRec) { resolve(''); return; }
-      const { recognizer, getText } = _speakRec;
+      if (!_speakRec) { resolve({ text: '', pronunciation: null, mode: null }); return; }
+      const { recognizer, getText, getPronunciation, mode } = _speakRec;
       const text = getText();
+      const pronunciation = mode === 'read' && getPronunciation ? getPronunciation() : null;
       _speakRec = null;
+      if (pronunciation) _lastPronunciation = pronunciation;
       recognizer.stopContinuousRecognitionAsync(
-        () => { recognizer.close(); resolve(text); },
-        () => { try { recognizer.close(); } catch (e) {} resolve(text); }
+        () => { recognizer.close(); resolve({ text, pronunciation, mode }); },
+        () => { try { recognizer.close(); } catch (e) {} resolve({ text, pronunciation, mode }); }
       );
     });
+  }
+
+  let _html2pdfPromise = null;
+  function loadHtml2Pdf() {
+    if (global.html2pdf) return Promise.resolve();
+    if (_html2pdfPromise) return _html2pdfPromise;
+    _html2pdfPromise = new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+      s.onload = () => resolve();
+      s.onerror = () => reject(new Error('html2pdf 加载失败'));
+      document.head.appendChild(s);
+    });
+    return _html2pdfPromise;
+  }
+
+  function getVocabPdfCss(accent) {
+    const c = accent || '#1a6b4a';
+    return `
+      html,body{margin:0;padding:0;background:#fff;color:#1c2b24;
+        font-family:'Noto Sans SC','Microsoft YaHei','Segoe UI',sans-serif;}
+      .pdf-doc{box-sizing:border-box;width:700px;max-width:700px;margin:0 auto;padding:20px 24px 28px;}
+      .pdf-header{text-align:center;margin-bottom:20px;padding-bottom:14px;border-bottom:3px solid ${c};}
+      .pdf-header h1{font-size:20px;color:${c};margin:0 0 6px;font-weight:700;line-height:1.35;}
+      .pdf-header p{font-size:11px;color:#5c7268;margin:0 0 4px;line-height:1.5;}
+      .pdf-word-card{
+        page-break-inside:avoid;break-inside:avoid;
+        margin-bottom:14px;padding:12px 14px;
+        border:1px solid #dce8e2;border-radius:8px;border-left:4px solid ${c};background:#fafcfb;
+      }
+      .pdf-word-title{font-size:15px;font-weight:700;color:${c};margin-bottom:6px;line-height:1.4;}
+      .pdf-word-title span{font-size:11px;color:#5c7268;font-weight:500;margin-left:6px;}
+      .pdf-row{font-size:11px;line-height:1.65;margin-bottom:4px;word-break:break-word;overflow-wrap:anywhere;}
+      .pdf-label{font-weight:600;color:${c};display:inline-block;min-width:68px;vertical-align:top;}
+      .pdf-en{color:#333;}.pdf-cn{color:${c};}
+      .pdf-section{margin-top:6px;padding-top:6px;border-top:1px dashed #dce8e2;}
+      .pdf-badge{display:inline-block;font-size:9px;font-weight:600;padding:1px 6px;border-radius:4px;color:#fff;margin-right:6px;}
+      .pdf-badge.zk{background:#27ae60;}.pdf-badge.g10{background:#e67e22;}.pdf-badge.art{background:#3498db;}
+      .pdf-tags{font-size:10px;color:#5c7268;margin-top:5px;line-height:1.55;word-break:break-word;}
+      @media print{
+        @page{size:A4;margin:12mm;}
+        .pdf-doc{width:auto;max-width:none;padding:0;}
+        .pdf-word-card{page-break-inside:avoid;break-inside:avoid;}
+      }`;
+  }
+
+  function buildVocabPdfWordCard(v, i) {
+    const ae = v.article_example;
+    const zk = v.examples?.zhongkao;
+    const g10 = v.examples?.grade10;
+    let exBlocks = '';
+    if (ae?.sentence) {
+      exBlocks += `<div class="pdf-section"><span class="pdf-badge art">文章</span>
+        <div class="pdf-row pdf-en">${escapeHtml(ae.sentence)}</div>
+        <div class="pdf-row pdf-cn">${escapeHtml(ae.translation || '')}</div></div>`;
+    }
+    if (zk?.sentence) {
+      exBlocks += `<div class="pdf-section"><span class="pdf-badge zk">中考</span>
+        <div class="pdf-row pdf-en">${escapeHtml(zk.sentence)}</div>
+        <div class="pdf-row pdf-cn">${escapeHtml(zk.translation || '')}</div></div>`;
+    }
+    if (g10?.sentence) {
+      exBlocks += `<div class="pdf-section"><span class="pdf-badge g10">高一</span>
+        <div class="pdf-row pdf-en">${escapeHtml(g10.sentence)}</div>
+        <div class="pdf-row pdf-cn">${escapeHtml(g10.translation || '')}</div></div>`;
+    }
+    const syn = (v.synonyms || []).length
+      ? `<div class="pdf-tags"><b>同义词：</b>${v.synonyms.map(escapeHtml).join(' · ')}</div>` : '';
+    const forms = (v.word_forms || []).length
+      ? `<div class="pdf-tags"><b>词性变化：</b>${v.word_forms.map(escapeHtml).join(' · ')}</div>` : '';
+    const usage = v.other_usage
+      ? `<div class="pdf-tags"><b>常见用法：</b>${escapeHtml(v.other_usage)}</div>` : '';
+    const pos = v.pos
+      ? `<span>${escapeHtml(v.pos)}</span>`
+      : (v.phrase_type ? `<span>${escapeHtml(v.phrase_type)}</span>` : '');
+    return `<div class="pdf-word-card">
+      <div class="pdf-word-title">${i + 1}. ${escapeHtml(v.word)} ${pos}</div>
+      <div class="pdf-row"><span class="pdf-label">英文释义</span><span class="pdf-en">${escapeHtml(v.definition_en || '')}</span></div>
+      <div class="pdf-row"><span class="pdf-label">中文释义</span><span class="pdf-cn">${escapeHtml(v.definition_cn || '')}</span></div>
+      ${exBlocks}${syn}${forms}${usage}
+    </div>`;
+  }
+
+  function buildVocabPdfHtml(words, meta) {
+    meta = meta || {};
+    const date = new Date().toLocaleDateString('zh-CN');
+    const title = meta.title || '词汇表';
+    const level = meta.level || '';
+    return `<div class="pdf-doc">
+      <div class="pdf-header">
+        <h1>${escapeHtml(title)}</h1>
+        <p>词汇表 Vocabulary List · 共 ${words.length} 项 · ${date}</p>
+        ${level ? `<p>${escapeHtml(level)}</p>` : ''}
+      </div>
+      ${words.map((v, i) => buildVocabPdfWordCard(v, i)).join('')}
+    </div>`;
+  }
+
+  function buildVocabPdfDocument(words, meta) {
+    meta = meta || {};
+    const accent = meta.accent || '#1a6b4a';
+    const body = buildVocabPdfHtml(words, meta);
+    const css = getVocabPdfCss(accent);
+    return `<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+      <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600;700&display=swap" rel="stylesheet">
+      <style>${css}</style></head><body>${body}</body></html>`;
+  }
+
+  async function exportVocabPdf(options) {
+    const words = options?.words;
+    if (!words?.length) throw new Error('无词汇可导出');
+    const meta = {
+      title: options.title,
+      level: options.level,
+      accent: options.accent || '#1a6b4a'
+    };
+    const filename = options.filename || 'Vocabulary.pdf';
+    await loadHtml2Pdf();
+    if (document.fonts?.ready) await document.fonts.ready;
+
+    const mask = document.createElement('div');
+    mask.setAttribute('aria-busy', 'true');
+    mask.style.cssText =
+      'position:fixed;inset:0;background:rgba(15,23,42,0.45);z-index:2147483000;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-family:system-ui,sans-serif;';
+    mask.textContent = '正在生成 PDF…';
+    document.body.appendChild(mask);
+
+    const iframe = document.createElement('iframe');
+    iframe.setAttribute('title', 'pdf-export');
+    iframe.style.cssText =
+      'position:fixed;left:0;top:0;width:700px;border:0;z-index:2147482000;background:#fff;opacity:0.01;pointer-events:none;';
+    iframe.srcdoc = buildVocabPdfDocument(words, meta);
+    document.body.appendChild(iframe);
+
+    function cleanup() {
+      mask.remove();
+      iframe.remove();
+    }
+
+    try {
+      await new Promise((resolve, reject) => {
+        iframe.onload = resolve;
+        iframe.onerror = () => reject(new Error('PDF 预览加载失败'));
+        setTimeout(resolve, 4000);
+      });
+      const idoc = iframe.contentDocument;
+      if (!idoc?.body) throw new Error('PDF 文档未就绪');
+      if (idoc.fonts?.ready) await idoc.fonts.ready;
+      await new Promise(r => setTimeout(r, 350));
+
+      const root = idoc.querySelector('.pdf-doc') || idoc.body;
+      const h = Math.max(idoc.body.scrollHeight, root.scrollHeight, 400);
+      iframe.style.height = h + 48 + 'px';
+
+      const opt = {
+        margin: [10, 10, 12, 10],
+        filename,
+        image: { type: 'jpeg', quality: 0.96 },
+        html2canvas: {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#ffffff',
+          logging: false,
+          scrollX: 0,
+          scrollY: 0,
+          width: 700,
+          windowWidth: 700
+        },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true },
+        pagebreak: { mode: ['css', 'legacy'], avoid: ['.pdf-word-card'] }
+      };
+
+      const runPdf = (fob) => {
+        opt.html2canvas.foreignObjectRendering = fob;
+        return global.html2pdf().set(opt).from(root).save();
+      };
+      try {
+        await runPdf(false);
+      } catch (e) {
+        await runPdf(true);
+      }
+    } finally {
+      cleanup();
+    }
+  }
+
+  function openVocabPrintWindow(words, meta) {
+    if (!words?.length) {
+      showToast('没有可导出的词汇');
+      return;
+    }
+    const w = window.open('', '_blank');
+    if (!w) {
+      showToast('请允许弹出窗口以打印 PDF');
+      return;
+    }
+    w.document.open();
+    w.document.write(buildVocabPdfDocument(words, meta || {}));
+    w.document.close();
+    w.onload = () => setTimeout(() => w.print(), 600);
   }
 
   initConfig();
@@ -372,12 +724,15 @@ Keep definitions concise. Example sentences at 中考/高一 level.`;
   global.Courseware = {
     getConfig, saveConfig, initConfig,
     speakText, stopAudio,
-    callDeepSeek, lookupWord, analyzeSelection,
-    evaluateReading, evaluateTranslation,
+    callDeepSeek, lookupWord, analyzeSelection, translateSelection,
+    evaluateReading, evaluateTranslation, evaluateReadingCombined,
+    runSpeakingEvaluation, renderReadingEvalHtml, renderTranslationEvalHtml,
+    buildAzureSummary, getLastPronunciation, stopSpeakingRecordSafe,
     showToast, escapeHtml, imageUrl, renderNav,
     injectConfigPanel, toggleConfig, openConfig, saveConfigFromUI,
     loadCourseData, wrapWordsForLookup, splitWords,
     ensureSpeechSdk, startSpeakingRecord, stopSpeakingRecord,
-    isSpeakingRecording, getSpeakingRecordingMode
+    isSpeakingRecording, getSpeakingRecordingMode,
+    buildVocabPdfHtml, exportVocabPdf, openVocabPrintWindow
   };
 })(window);
