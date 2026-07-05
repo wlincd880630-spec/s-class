@@ -549,6 +549,7 @@ ${azureLine}
         margin-bottom:10px;padding:10px 12px;
         border:1px solid #dce8e2;border-radius:6px;border-left:3px solid ${c};background:#fafcfb;
         overflow:visible;
+        page-break-inside:avoid;break-inside:avoid;-webkit-column-break-inside:avoid;
       }
       .pdf-word-title{font-size:14px;font-weight:700;color:${c};margin-bottom:5px;line-height:1.35;}
       .pdf-word-title span{font-size:10px;color:#5c7268;font-weight:500;margin-left:5px;}
@@ -683,39 +684,33 @@ ${azureLine}
     });
   }
 
-  function appendCanvasToPdf(pdf, canvas, st) {
-    const maxW = st.contentW;
+  function appendCanvasAsWholeBlock(pdf, canvas, st, options) {
     const gap = st.gap;
-    let srcY = 0;
-    while (srcY < canvas.height) {
-      let avail = st.pageH - st.margin - st.y;
-      if (avail < 6) {
-        pdf.addPage();
-        st.y = st.margin;
-        avail = st.pageH - 2 * st.margin;
-      }
-      const slicePx = Math.min(
-        canvas.height - srcY,
-        Math.max(1, Math.floor((avail / maxW) * canvas.width))
-      );
-      const sliceHmm = (slicePx * maxW) / canvas.width;
-      const slice = document.createElement('canvas');
-      slice.width = canvas.width;
-      slice.height = slicePx;
-      const ctx = slice.getContext('2d');
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 0, slice.width, slice.height);
-      ctx.drawImage(canvas, 0, srcY, canvas.width, slicePx, 0, 0, canvas.width, slicePx);
-      pdf.addImage(slice.toDataURL('image/jpeg', 0.95), 'JPEG', st.margin, st.y, maxW, sliceHmm);
-      srcY += slicePx;
-      st.y += sliceHmm;
-      if (srcY < canvas.height) {
-        pdf.addPage();
-        st.y = st.margin;
-      } else {
-        st.y += gap;
-      }
+    const pageContentH = st.pageH - 2 * st.margin;
+    let drawW = st.contentW;
+    let drawH = (canvas.height * drawW) / canvas.width;
+
+    if (options?.fitOnePage && drawH > pageContentH) {
+      const scale = pageContentH / drawH;
+      drawH = pageContentH;
+      drawW = drawW * scale;
     }
+
+    const avail = st.pageH - st.margin - st.y;
+    if (drawH > avail) {
+      pdf.addPage();
+      st.y = st.margin;
+    }
+
+    pdf.addImage(
+      canvas.toDataURL('image/jpeg', 0.95),
+      'JPEG',
+      st.margin,
+      st.y,
+      drawW,
+      drawH
+    );
+    st.y += drawH + gap;
   }
 
   async function exportVocabPdf(options) {
@@ -766,11 +761,14 @@ ${azureLine}
         gap: 2.5
       };
 
-      const blocks = [root.querySelector('.pdf-header'), ...root.querySelectorAll('.pdf-word-card')];
-      for (const block of blocks) {
-        if (!block) continue;
+      const header = root.querySelector('.pdf-header');
+      if (header) {
+        const canvas = await capturePdfBlock(header);
+        appendCanvasAsWholeBlock(pdf, canvas, st);
+      }
+      for (const block of root.querySelectorAll('.pdf-word-card')) {
         const canvas = await capturePdfBlock(block);
-        appendCanvasToPdf(pdf, canvas, st);
+        appendCanvasAsWholeBlock(pdf, canvas, st, { fitOnePage: true });
       }
 
       pdf.save(filename);
