@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Part 4 · 词汇测验 | Mid-Autumn Festival</title>
+  <link rel="stylesheet" href="assets/css/shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    :root { --p: #c0392b; --a: #3498db; --g: #27ae60; --r: #e74c3c; }
+    body { height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+    .quiz-nav {
+      padding: 12px 20px; background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .quiz-nav b { color: var(--primary); }
+    .nav-btn {
+      background: var(--primary); color: #fff; border: none;
+      padding: 6px 16px; border-radius: 999px; cursor: pointer; font-size: 0.85rem;
+    }
+    .nav-btn:disabled { background: #ccc; }
+    .quiz-page { display: none; flex: 1; flex-direction: column; overflow: hidden; }
+    .quiz-page.active { display: flex; }
+    .page-title {
+      padding: 14px 20px; font-weight: 700; font-size: 1.05rem;
+      background: var(--bg); color: var(--primary);
+    }
+    .scroll-area { flex: 1; overflow-y: auto; padding: 16px 20px 100px; -webkit-overflow-scrolling: touch; }
+    .vocab-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 18px; margin-bottom: 16px; box-shadow: var(--shadow);
+    }
+    .v-top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+    .v-word { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+    .v-def-en { font-size: 0.88rem; color: var(--muted); flex: 1; min-width: 200px; }
+    .v-cn-hidden {
+      display: none; background: var(--primary-light); color: var(--primary);
+      padding: 8px 14px; border-radius: 8px; font-size: 0.9rem; margin: 8px 0;
+    }
+    .v-cn-hidden.show { display: block; }
+    .ex-fold { margin-top: 10px; }
+    .ex-fold summary {
+      cursor: pointer; font-size: 0.85rem; font-weight: 600;
+      color: var(--primary); padding: 8px 0;
+    }
+    .v-ex-box {
+      background: var(--bg); padding: 10px; border-radius: 8px;
+      margin-top: 8px; border-left: 4px solid var(--a);
+    }
+    .v-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; color: #fff; font-size: 0.72rem; margin-bottom: 4px; }
+    .v-badge.zk { background: var(--g); }
+    .v-badge.g10 { background: #e67e22; }
+    .v-trans { font-size: 0.85rem; color: var(--muted); display: none; margin-top: 4px; }
+    .v-trans.show { display: block; }
+    .pdf-bar {
+      position: sticky; top: 0; z-index: 10;
+      background: var(--bg); padding: 10px 0; margin-bottom: 12px;
+      display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+    }
+    .q-card {
+      background: var(--surface); padding: 16px; border-radius: 10px;
+      margin-bottom: 14px; border: 1px solid var(--border);
+    }
+    .q-card.correct { border-left: 4px solid var(--g); background: #f0fdf4; }
+    .q-card.wrong { border-left: 4px solid var(--r); background: #fff5f5; }
+    .inline-inp {
+      border: none; border-bottom: 2px solid var(--a); background: transparent;
+      width: 100px; text-align: center; font-weight: 600; color: var(--a); outline: none;
+    }
+    .inline-inp.short { width: 90px; min-width: 70px; }
+    .first-letter-hint { font-weight: 700; color: var(--a); font-size: 1.05rem; }
+    .block-inp {
+      width: 100%; padding: 10px; border: 1px solid var(--border);
+      border-radius: 8px; margin-top: 8px; font-size: 0.95rem;
+    }
+    .opt-grp { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+    .opt-btn {
+      padding: 10px; border: 1px solid var(--border); border-radius: 8px;
+      cursor: pointer; background: #fff; text-align: left; transition: 0.15s;
+    }
+    .opt-btn:hover { background: var(--primary-light); }
+    .opt-btn.selected { background: var(--primary); color: #fff; }
+    .bank-wrap { position: sticky; top: 0; z-index: 5; background: var(--bg); padding-bottom: 10px; }
+    .bank {
+      background: #fff; padding: 10px; border-radius: 8px; border: 1px solid var(--border);
+      display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+    }
+    .bank span { background: var(--primary-light); padding: 4px 12px; border-radius: 999px; font-weight: 600; color: var(--primary); font-size: 0.85rem; }
+    .scram { font-size: 1.15rem; letter-spacing: 3px; font-weight: 700; color: #e67e22; }
+    .submit-bar {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: rgba(255,255,255,0.95); padding: 14px; text-align: center;
+      border-top: 1px solid var(--border); backdrop-filter: blur(8px);
+    }
+    .submit-btn {
+      background: var(--primary); color: #fff; border: none;
+      padding: 10px 36px; border-radius: 999px; font-size: 1rem; cursor: pointer;
+    }
+    .analysis-box { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border); font-size: 0.88rem; color: var(--muted); }
+    .analysis-box.show { display: block; }
+    .ans-val { color: var(--g); font-weight: 700; }
+    .cloze-wrap { display: flex; gap: 16px; flex: 1; overflow: hidden; padding: 0 20px; }
+    .c-left { flex: 1.2; overflow-y: auto; background: #fff; padding: 16px; border-radius: 10px; line-height: 1.8; }
+    .c-right { flex: 0.8; overflow-y: auto; }
+    .cloze-slot { border-bottom: 2px solid #ccc; color: var(--a); font-weight: 700; padding: 0 4px; }
+    .cloze-slot.filled { border-color: var(--a); background: #eaf2f8; }
+    .quiz-wrap { flex: 1; position: relative; overflow: hidden; display: flex; flex-direction: column; }
+    .result-header {
+      text-align: center; padding: 30px 20px;
+      background: linear-gradient(135deg, #c0392b, #922b21);
+      color: #fff; border-radius: 0 0 20px 20px; margin-bottom: 20px;
+    }
+    .score-circle {
+      width: 110px; height: 110px; border-radius: 50%;
+      background: rgba(255,255,255,0.2); margin: 0 auto 12px;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      border: 3px solid #fff;
+    }
+    .score-val { font-size: 2.2rem; font-weight: 700; }
+    .check-vocab { accent-color: var(--primary); width: 18px; height: 18px; }
+    @media (max-width: 768px) {
+      .cloze-wrap { flex-direction: column; }
+    }
+    /* PDF export container (off-screen) */
+    #pdf-export-root {
+      position: fixed; left: -9999px; top: 0;
+      width: 794px; background: #fff;
+      font-family: 'Noto Sans SC', 'DM Sans', 'Microsoft YaHei', sans-serif;
+    }
+    .pdf-doc { padding: 28px 32px; color: #1c2b24; }
+    .pdf-header {
+      text-align: center; margin-bottom: 24px; padding-bottom: 16px;
+      border-bottom: 3px solid #c0392b;
+    }
+    .pdf-header h1 { font-size: 22px; color: #c0392b; margin: 0 0 6px; font-weight: 700; }
+    .pdf-header p { font-size: 11px; color: #5c7268; margin: 0; }
+    .pdf-word-card {
+      page-break-inside: avoid; margin-bottom: 18px; padding: 14px 16px;
+      border: 1px solid #dce8e2; border-radius: 10px;
+      border-left: 4px solid #c0392b; background: #fafcfb;
+    }
+    .pdf-word-title { font-size: 16px; font-weight: 700; color: #c0392b; margin-bottom: 8px; }
+    .pdf-word-title span { font-size: 12px; color: #5c7268; font-weight: 500; margin-left: 8px; }
+    .pdf-row { font-size: 11px; line-height: 1.65; margin-bottom: 5px; }
+    .pdf-label { font-weight: 600; color: #c0392b; display: inline-block; min-width: 72px; }
+    .pdf-en { color: #333; }
+    .pdf-cn { color: #c0392b; }
+    .pdf-section { margin-top: 8px; padding-top: 8px; border-top: 1px dashed #dce8e2; }
+    .pdf-badge {
+      display: inline-block; font-size: 9px; font-weight: 600;
+      padding: 1px 6px; border-radius: 4px; color: #fff; margin-right: 6px;
+    }
+    .pdf-badge.zk { background: #27ae60; }
+    .pdf-badge.g10 { background: #e67e22; }
+    .pdf-badge.art { background: #3498db; }
+    .pdf-tags { font-size: 10px; color: #5c7268; margin-top: 6px; }
+  </style>
+</head>
+<body>
+  <div class="quiz-nav">
+    <b>📝 词汇总结 & 测验</b>
+    <div>
+      <span id="ind" style="margin-right:10px;font-size:0.85rem;color:var(--muted)"></span>
+      <button class="nav-btn" id="pb" onclick="nav(-1)">← Prev</button>
+      <button class="nav-btn" id="nb" onclick="nav(1)" style="margin-left:6px">Next →</button>
+    </div>
+  </div>
+
+  <div class="quiz-wrap">
+    <!-- Page 1: Vocab Summary -->
+    <div class="quiz-page active" id="page-1">
+      <div class="page-title">Page 1: 词汇总结（自测模式）</div>
+      <div class="scroll-area">
+        <div class="pdf-bar">
+          <label><input type="checkbox" id="select-all" onchange="toggleSelectAll(this)"> 全选</label>
+          <button class="btn btn-primary" onclick="exportPDF()">📄 导出 PDF 词汇表</button>
+          <button class="btn btn-outline" onclick="exportPDFPrint(getSelectedWords())">🖨️ 打印/PDF</button>
+          <span style="font-size:0.82rem;color:var(--muted)">含释义·文章例句·中考/高一例句·同义词 · 未勾选则导出全部</span>
+        </div>
+        <div id="vocab-list"></div>
+      </div>
+      <div class="submit-bar" style="color:var(--muted);font-size:0.85rem">Study Mode — 无需提交</div>
+    </div>
+
+    <!-- Page 2: Spelling -->
+    <div class="quiz-page" id="page-2">
+      <div class="page-title">Part 1: Spelling Bee</div>
+      <div class="scroll-area">
+        <div style="padding:10px;background:#e8f4fd;color:#2980b9;border-radius:8px;margin-bottom:14px;font-size:0.88rem">
+          🎯 听定义或点击 🔊，拼写单词
+        </div>
+        <div id="spelling-list"></div>
+      </div>
+      <div class="submit-bar"><button class="submit-btn" onclick="submitPage('page-2')">Check Answers</button></div>
+    </div>
+
+    <!-- Page 3: Word Selection -->
+    <div class="quiz-page" id="page-3">
+      <div class="page-title">Part 2: Word Selection</div>
+      <div class="bank-wrap" style="padding:0 20px"><div class="bank" id="word-bank"></div></div>
+      <div class="scroll-area" id="selection-list"></div>
+      <div class="submit-bar"><button class="submit-btn" onclick="submitPage('page-3')">Check Answers</button></div>
+    </div>
+
+    <!-- Page 4: Unscramble -->
+    <div class="quiz-page" id="page-4">
+      <div class="page-title">Part 3: Unscramble</div>
+      <div class="scroll-area" id="unscramble-list"></div>
+      <div class="submit-bar"><button class="submit-btn" onclick="submitPage('page-4')">Check Answers</button></div>
+    </div>
+
+    <!-- Page 5: First Letter -->
+    <div class="quiz-page" id="page-5">
+      <div class="page-title">Part 4: First Letter</div>
+      <div class="scroll-area" id="first-letter-list"></div>
+      <div class="submit-bar"><button class="submit-btn" onclick="submitPage('page-5')">Check Answers</button></div>
+    </div>
+
+    <!-- Page 6: Reading Cloze -->
+    <div class="quiz-page" id="page-6">
+      <div class="page-title">Part 5: Reading</div>
+      <div class="cloze-wrap">
+        <div class="c-left" id="cloze-passage"></div>
+        <div class="c-right" id="cloze-questions"></div>
+      </div>
+      <div class="submit-bar">
+        <button class="submit-btn" onclick="submitPage('page-6')">Check Answers</button>
+        <button class="submit-btn" style="margin-left:10px;background:#0d4a32" onclick="finishQuiz()">📊 查看结果</button>
+      </div>
+    </div>
+
+    <!-- Page 7: Results -->
+    <div class="quiz-page" id="page-7">
+      <div class="page-title">Final Results</div>
+      <div class="scroll-area">
+        <div class="result-header">
+          <div class="score-circle"><span class="score-val" id="res-score">0%</span><span style="font-size:0.8rem">Accuracy</span></div>
+          <div style="display:flex;justify-content:space-around;margin-top:12px">
+            <div><b id="res-correct">0</b>/<span id="res-total">0</span> Correct</div>
+          </div>
+        </div>
+        <div id="wrong-container"></div>
+      </div>
+      <div class="submit-bar"><button class="submit-btn" style="background:var(--g)" onclick="location.reload()">🔄 Restart</button></div>
+    </div>
+  </div>
+
+  <div id="pdf-export-root"></div>
+
+  <script src="assets/js/course-data.js"></script>
+  <script src="assets/js/shared.js"></script>
+  <script>
+    let cp = 1, tp = 7, courseData = null, vocabWords = [];
+
+    function show(p) {
+      document.querySelectorAll('.quiz-page').forEach(e => e.classList.remove('active'));
+      document.getElementById('page-' + p)?.classList.add('active');
+      document.getElementById('ind').textContent = p === 7 ? 'Results' : `Page ${p}/${tp}`;
+      cp = p;
+      document.getElementById('pb').disabled = p === 1;
+      document.getElementById('nb').disabled = p === tp;
+    }
+    function nav(d) { if (cp + d >= 1 && cp + d <= tp) show(cp + d); }
+
+    function renderVocabList() {
+      vocabWords = courseData.vocabulary;
+      document.getElementById('vocab-list').innerHTML = vocabWords.map((v, i) => {
+        const zk = v.examples?.zhongkao;
+        const g10 = v.examples?.grade10;
+        return `<div class="vocab-card" data-word="${Courseware.escapeHtml(v.word)}">
+          <div class="v-top">
+            <input type="checkbox" class="check-vocab" data-idx="${i}">
+            <span class="v-word">${Courseware.escapeHtml(v.word)}</span>
+            <button class="btn-icon sm" onclick="Courseware.speakText('${v.word.replace(/'/g,"\\'")}')">🔊</button>
+            <div class="v-def-en">🇺🇸 ${Courseware.escapeHtml(v.definition_en)}</div>
+          </div>
+          <button class="cn-reveal" onclick="this.nextElementSibling.classList.toggle('show');this.textContent=this.nextElementSibling.classList.contains('show')?'隐藏中文':'🇨🇳 显示中文'">🇨🇳 显示中文</button>
+          <div class="v-cn-hidden">${Courseware.escapeHtml(v.definition_cn)}</div>
+          <details class="ex-fold">
+            <summary>📖 展开例句 (${zk ? '中考' : ''}${g10 ? ' + 高一' : ''})</summary>
+            ${zk ? `<div class="v-ex-box"><span class="v-badge zk">中考</span>
+              <div>${Courseware.escapeHtml(zk.sentence)} <button class="btn-icon xs" onclick="Courseware.speakText('${zk.sentence.replace(/'/g,"\\'")}')">🔊</button></div>
+              <button class="cn-reveal" style="margin-top:6px" onclick="this.nextElementSibling.classList.toggle('show')">显示翻译</button>
+              <div class="v-trans">${Courseware.escapeHtml(zk.translation)}</div></div>` : ''}
+            ${g10 ? `<div class="v-ex-box"><span class="v-badge g10">高一</span>
+              <div>${Courseware.escapeHtml(g10.sentence)} <button class="btn-icon xs" onclick="Courseware.speakText('${g10.sentence.replace(/'/g,"\\'")}')">🔊</button></div>
+              <button class="cn-reveal" style="margin-top:6px" onclick="this.nextElementSibling.classList.toggle('show')">显示翻译</button>
+              <div class="v-trans">${Courseware.escapeHtml(g10.translation)}</div></div>` : ''}
+          </details>
+        </div>`;
+      }).join('');
+    }
+
+    function toggleSelectAll(el) {
+      document.querySelectorAll('.check-vocab').forEach(c => c.checked = el.checked);
+    }
+
+    function getSelectedWords() {
+      const checked = [...document.querySelectorAll('.check-vocab:checked')];
+      return checked.length ? checked.map(c => vocabWords[c.dataset.idx]) : vocabWords;
+    }
+
+    function buildPdfWordCard(v, i) {
+      const esc = Courseware.escapeHtml;
+      const ae = v.article_example;
+      const zk = v.examples?.zhongkao;
+      const g10 = v.examples?.grade10;
+      let exBlocks = '';
+      if (ae?.sentence) {
+        exBlocks += `<div class="pdf-section"><span class="pdf-badge art">文章</span>
+          <div class="pdf-row pdf-en">${esc(ae.sentence)}</div>
+          <div class="pdf-row pdf-cn">${esc(ae.translation || '')}</div></div>`;
+      }
+      if (zk?.sentence) {
+        exBlocks += `<div class="pdf-section"><span class="pdf-badge zk">中考</span>
+          <div class="pdf-row pdf-en">${esc(zk.sentence)}</div>
+          <div class="pdf-row pdf-cn">${esc(zk.translation || '')}</div></div>`;
+      }
+      if (g10?.sentence) {
+        exBlocks += `<div class="pdf-section"><span class="pdf-badge g10">高一</span>
+          <div class="pdf-row pdf-en">${esc(g10.sentence)}</div>
+          <div class="pdf-row pdf-cn">${esc(g10.translation || '')}</div></div>`;
+      }
+      const syn = (v.synonyms || []).length ? `<div class="pdf-tags"><b>同义词：</b>${v.synonyms.map(esc).join(' · ')}</div>` : '';
+      const forms = (v.word_forms || []).length ? `<div class="pdf-tags"><b>词性变化：</b>${v.word_forms.map(esc).join(' · ')}</div>` : '';
+      const usage = v.other_usage ? `<div class="pdf-tags"><b>常见用法：</b>${esc(v.other_usage)}</div>` : '';
+      const pos = v.pos ? `<span>${esc(v.pos)}</span>` : (v.phrase_type ? `<span>${esc(v.phrase_type)}</span>` : '');
+      return `<div class="pdf-word-card">
+        <div class="pdf-word-title">${i + 1}. ${esc(v.word)} ${pos}</div>
+        <div class="pdf-row"><span class="pdf-label">英文释义</span><span class="pdf-en">${esc(v.definition_en || '')}</span></div>
+        <div class="pdf-row"><span class="pdf-label">中文释义</span><span class="pdf-cn">${esc(v.definition_cn || '')}</span></div>
+        ${exBlocks}${syn}${forms}${usage}
+      </div>`;
+    }
+
+    function buildPdfHtml(words) {
+      const esc = Courseware.escapeHtml;
+      const date = new Date().toLocaleDateString('zh-CN');
+      return `<div class="pdf-doc">
+        <div class="pdf-header">
+          <h1>Celebrating the Mid-Autumn Festival</h1>
+          <p>词汇表 Vocabulary List · 共 ${words.length} 项 · ${date}</p>
+          <p>Level 860L · 中秋节阅读拓展课件</p>
+        </div>
+        ${words.map((v, i) => buildPdfWordCard(v, i)).join('')}
+      </div>`;
+    }
+
+    async function exportPDF() {
+      const words = getSelectedWords();
+      if (!words.length) {
+        Courseware.showToast('请先勾选要导出的词汇');
+        return;
+      }
+      Courseware.showToast('正在生成 PDF，请稍候…');
+      const root = document.getElementById('pdf-export-root');
+      root.innerHTML = buildPdfHtml(words);
+      root.style.left = '0';
+      root.style.opacity = '0.01';
+      root.style.zIndex = '99999';
+      try {
+        if (document.fonts && document.fonts.ready) await document.fonts.ready;
+        await new Promise(r => setTimeout(r, 600));
+        await html2pdf().set({
+          margin: [12, 14, 12, 14],
+          filename: 'Mid_Autumn_Vocabulary.pdf',
+          image: { type: 'jpeg', quality: 0.95 },
+          html2canvas: { scale: 2, useCORS: true, letterRendering: true, scrollY: 0, windowWidth: 794 },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+          pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+        }).from(root.querySelector('.pdf-doc')).save();
+        Courseware.showToast('PDF 已导出');
+      } catch (e) {
+        Courseware.showToast('PDF 生成失败，已打开打印窗口…');
+        exportPDFPrint(words);
+      } finally {
+        root.innerHTML = '';
+        root.style.left = '-9999px';
+        root.style.opacity = '0';
+        root.style.zIndex = '';
+      }
+    }
+
+    function exportPDFPrint(words) {
+      const html = `<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600;700&display=swap" rel="stylesheet">
+        <style>
+          body{font-family:'Noto Sans SC','Microsoft YaHei',sans-serif;padding:24px;color:#1c2b24}
+          .pdf-header{text-align:center;margin-bottom:24px;padding-bottom:16px;border-bottom:3px solid #c0392b}
+          .pdf-header h1{font-size:22px;color:#c0392b;margin:0 0 6px}
+          .pdf-word-card{page-break-inside:avoid;margin-bottom:18px;padding:14px 16px;border:1px solid #dce8e2;border-left:4px solid #c0392b;border-radius:10px}
+          .pdf-word-title{font-size:16px;font-weight:700;color:#c0392b;margin-bottom:8px}
+          .pdf-row{font-size:12px;line-height:1.65;margin-bottom:5px}
+          .pdf-label{font-weight:600;color:#c0392b;display:inline-block;min-width:72px}
+          .pdf-cn{color:#c0392b}.pdf-section{margin-top:8px;padding-top:8px;border-top:1px dashed #dce8e2}
+          .pdf-badge{font-size:9px;padding:1px 6px;border-radius:4px;color:#fff;margin-right:6px}
+          .pdf-badge.zk{background:#27ae60}.pdf-badge.g10{background:#e67e22}.pdf-badge.art{background:#3498db}
+          .pdf-tags{font-size:10px;color:#5c7268;margin-top:6px}
+          @media print{body{padding:0}}
+        </style></head><body>${buildPdfHtml(words)}</body></html>`;
+      const w = window.open('', '_blank');
+      if (!w) { Courseware.showToast('请允许弹出窗口以打印 PDF'); return; }
+      w.document.write(html);
+      w.document.close();
+      w.onload = () => setTimeout(() => w.print(), 500);
+    }
+
+    function renderQuiz() {
+      const q = courseData.quiz;
+      document.getElementById('spelling-list').innerHTML = q.spelling.map(s =>
+        `<div class="q-card" data-ans="${s.answer}">
+          <div class="v-top">
+            <button class="btn-icon sm" onclick="Courseware.speakText('${s.answer}')">🔊</button>
+            <span style="color:var(--muted)">${Courseware.escapeHtml(s.hint_cn)}</span>
+          </div>
+          <p style="font-size:0.85rem;color:#888;margin:6px 0">${Courseware.escapeHtml(s.hint_en)}</p>
+          <input type="text" class="block-inp" placeholder="Type the word...">
+          <div class="analysis-box"><span class="ans-val">Answer: ${s.answer}</span> — ${s.hint_cn}</div>
+        </div>`).join('');
+
+      document.getElementById('word-bank').innerHTML = q.word_selection.bank.map(w =>
+        `<span>${w}</span>`).join(' ');
+      document.getElementById('selection-list').innerHTML = q.word_selection.items.map(it =>
+        `<div class="q-card" data-ans="${it.answer}">
+          <div>${it.sentence.replace('___', '<input type="text" class="inline-inp">')}</div>
+          <div class="analysis-box"><span class="ans-val">Answer: ${it.answer}</span><br>${Courseware.escapeHtml(it.analysis)}</div>
+        </div>`).join('');
+
+      document.getElementById('unscramble-list').innerHTML = q.unscramble.map(u =>
+        `<div class="q-card" data-ans="${u.answer}">
+          <div class="scram">${u.letters}</div>
+          <p style="font-size:0.82rem;color:var(--muted)">${u.hint}</p>
+          <input type="text" class="block-inp" placeholder="Type answer...">
+          <div class="analysis-box"><span class="ans-val">${u.answer}</span>: ${u.hint}</div>
+        </div>`).join('');
+
+      document.getElementById('first-letter-list').innerHTML = q.first_letter.map(f => {
+        const fill = f.answer.slice(1).toLowerCase();
+        const w = Math.max(70, fill.length * 11);
+        return `<div class="q-card" data-ans="${fill}" data-full="${f.answer.toLowerCase()}">
+          <div class="line-txt" style="line-height:2.2;font-size:1.05rem">
+            ${Courseware.escapeHtml(f.before)}<span class="first-letter-hint">${Courseware.escapeHtml(f.letter)}</span><input type="text" class="inline-inp short" style="width:${w}px" placeholder="…">${Courseware.escapeHtml(f.after)}
+          </div>
+          <div class="analysis-box"><span class="ans-val">${Courseware.escapeHtml(f.answer)}</span><br>${Courseware.escapeHtml(f.analysis)}</div>
+        </div>`;
+      }).join('');
+
+      const cloze = q.reading_cloze;
+      let passage = cloze.passage;
+      cloze.questions.forEach(cq => {
+        passage = passage.replace(`[${cq.num}]`, `<span id="slot-${cq.num}" class="cloze-slot">[${cq.num}]</span>`);
+      });
+      document.getElementById('cloze-passage').innerHTML = passage;
+      document.getElementById('cloze-questions').innerHTML = cloze.questions.map(cq =>
+        `<div class="q-card" data-ans="${cq.answer}">
+          <b>${cq.num}</b>
+          <div class="opt-grp">${cq.options.map(o =>
+            `<div class="opt-btn" onclick="clozeSel(this,'${cq.num}','${o}')">${o}</div>`).join('')}</div>
+          <div class="analysis-box"><span class="ans-val">${cq.answer}</span><br>${Courseware.escapeHtml(cq.analysis)}</div>
+        </div>`).join('');
+    }
+
+    function clozeSel(el, n, w) {
+      el.parentElement.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+      el.classList.add('selected');
+      const slot = document.getElementById('slot-' + n);
+      if (slot) { slot.textContent = w; slot.classList.add('filled'); }
+    }
+
+    function submitPage(pid) {
+      document.getElementById(pid).querySelectorAll('.q-card').forEach(c => {
+        let ans = String(c.dataset.ans).trim().toLowerCase(), corr = false;
+        const inp = c.querySelector('input');
+        if (inp) {
+          const v = inp.value.trim().toLowerCase().replace(/[.,]/g, '');
+          const full = c.dataset.full;
+          if (v && (v === ans || ans.includes(v))) corr = true;
+          if (full && v && (full === (c.querySelector('.first-letter-hint')?.textContent || '') + v).toLowerCase()) corr = true;
+        }
+        const sel = c.querySelector('.opt-btn.selected');
+        if (sel && sel.textContent.trim().toLowerCase().startsWith(ans.charAt(0)) && sel.textContent.trim().toLowerCase().includes(ans)) corr = true;
+        if (sel) {
+          const txt = sel.textContent.trim().toLowerCase();
+          if (txt.includes(ans) || txt.endsWith(ans)) corr = true;
+        }
+        c.classList.add(corr ? 'correct' : 'wrong');
+        c.querySelector('.analysis-box')?.classList.add('show');
+      });
+    }
+
+    function finishQuiz() {
+      for (let i = 2; i <= 6; i++) submitPage('page-' + i);
+      let total = 0, correct = 0;
+      const wrongC = document.getElementById('wrong-container');
+      wrongC.innerHTML = '<h3 style="margin-bottom:12px;color:var(--r)">Review Mistakes</h3>';
+      let hasWrong = false;
+      document.querySelectorAll('.q-card').forEach(c => {
+        if (c.closest('#page-1')) return;
+        total++;
+        if (c.classList.contains('correct')) correct++;
+        else {
+          hasWrong = true;
+          wrongC.appendChild(c.cloneNode(true));
+        }
+      });
+      document.getElementById('res-score').textContent = (total ? Math.round(correct / total * 100) : 0) + '%';
+      document.getElementById('res-correct').textContent = correct;
+      document.getElementById('res-total').textContent = total;
+      if (!hasWrong) wrongC.innerHTML = '<p style="text-align:center;color:var(--g);padding:40px">🎉 全部正确！</p>';
+      show(7);
+    }
+
+    Courseware.loadCourseData().then(data => {
+      courseData = data;
+      renderVocabList();
+      renderQuiz();
+      show(1);
+    });
+  </script>
+</body>
+</html>

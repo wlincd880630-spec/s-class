@@ -2,8 +2,8 @@
 (function (global) {
   'use strict';
 
-  const CONFIG_KEY = 'fruit_courseware_config';
-  const IMAGE_BASE = 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/REFH/01/courseware/assets/images/';
+  const CONFIG_KEY = 'midautumn_courseware_config';
+  const IMAGE_BASE = 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/REFH/03/courseware/assets/images/';
 
   const DEFAULT_CONFIG = {
     azureKey: 'C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu',
@@ -214,7 +214,7 @@ Keep definitions concise. Example sentences at 中考/高一 level.`;
       { href: 'part4-quiz.html', label: '测验' }
     ];
     return `<nav class="top-nav">
-      <a class="brand" href="index.html">🍇 Fruit Varieties</a>
+      <a class="brand" href="index.html">🌕 Mid-Autumn Festival</a>
       <div class="links">${pages.map(p =>
         `<a href="${p.href}" class="${p.href === active ? 'active' : ''}">${p.label}</a>`
       ).join('')}</div>

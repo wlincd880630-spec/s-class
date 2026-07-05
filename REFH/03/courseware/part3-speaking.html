@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Part 3 · 朗读翻译 | Mid-Autumn Festival</title>
+  <link rel="stylesheet" href="assets/css/shared.css">
+  <style>
+    .page {
+      min-height: calc(100vh - 60px);
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; padding: 24px 20px 60px;
+    }
+    .progress { width: 100%; max-width: 600px; margin-bottom: 20px; }
+    .progress-bar {
+      height: 6px; background: var(--border); border-radius: 999px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; background: var(--primary); border-radius: 999px; transition: 0.3s;
+    }
+    .progress-text { font-size: 0.85rem; color: var(--muted); margin-top: 6px; text-align: center; }
+    .sentence-card {
+      width: 100%; max-width: 680px;
+      background: var(--surface); border-radius: 24px;
+      border: 1px solid var(--border); box-shadow: var(--shadow);
+      padding: 40px 32px; text-align: center;
+    }
+    .sentence-en {
+      font-family: var(--font-display); font-size: clamp(1.2rem, 3vw, 1.6rem);
+      line-height: 1.6; color: var(--text); margin-bottom: 32px;
+    }
+    .controls {
+      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .ctrl-btn {
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      border: 2px solid var(--border); background: var(--surface);
+      border-radius: 16px; padding: 16px 20px; cursor: pointer;
+      min-width: 100px; transition: 0.2s;
+    }
+    .ctrl-btn:hover { border-color: var(--primary); background: var(--primary-light); }
+    .ctrl-btn.active { border-color: var(--accent2); background: #fff5f5; }
+    .ctrl-btn .icon { font-size: 1.5rem; }
+    .ctrl-btn .label { font-size: 0.78rem; font-weight: 600; color: var(--muted); }
+    .speed-toggle {
+      display: flex; gap: 6px; justify-content: center; margin-bottom: 20px;
+    }
+    .speed-btn {
+      border: 1px solid var(--border); background: var(--bg);
+      padding: 5px 14px; border-radius: 999px; cursor: pointer; font-size: 0.82rem;
+    }
+    .speed-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .nav-row { display: flex; gap: 12px; justify-content: center; margin-top: 24px; }
+    .result-area { width: 100%; max-width: 680px; margin-top: 20px; display: none; }
+    .result-area.show { display: block; }
+    .score-badge {
+      display: inline-block; font-size: 2rem; font-weight: 700;
+      color: var(--primary); font-family: var(--font-display);
+    }
+    .recording-indicator {
+      display: none; color: var(--accent2); font-size: 0.85rem;
+      animation: pulse 1s infinite;
+    }
+    .recording-indicator.show { display: block; }
+    @keyframes pulse { 50% { opacity: 0.5; } }
+  </style>
+</head>
+<body>
+  <div id="nav"></div>
+  <div class="page">
+    <div class="progress">
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
+      <div class="progress-text" id="prog-text">1 / 48</div>
+    </div>
+
+    <div class="sentence-card">
+      <div class="sentence-en" id="sentence-en"></div>
+      <div class="speed-toggle">
+        <button class="speed-btn" data-rate="slow" onclick="setSpeed('slow',this)">🐢 慢速</button>
+        <button class="speed-btn active" data-rate="normal" onclick="setSpeed('normal',this)">▶️ 正常</button>
+      </div>
+      <div class="controls">
+        <button class="ctrl-btn" onclick="playSentence()">
+          <span class="icon">🔊</span><span class="label">TTS 朗读</span>
+        </button>
+        <button class="ctrl-btn" id="btn-read" onclick="toggleReadRecord()">
+          <span class="icon">🎤</span><span class="label">朗读录音</span>
+        </button>
+        <button class="ctrl-btn" id="btn-trans" onclick="toggleTransRecord()">
+          <span class="icon">🌐</span><span class="label">翻译录音</span>
+        </button>
+      </div>
+      <div class="recording-indicator" id="rec-ind">● 录音中… 再次点击结束</div>
+      <div class="nav-row">
+        <button class="btn btn-outline" onclick="prev()" id="btn-prev">← 上一句</button>
+        <button class="btn btn-primary" onclick="evaluate()" id="btn-eval">AI 评价</button>
+        <button class="btn btn-outline" onclick="next()" id="btn-next">下一句 →</button>
+      </div>
+    </div>
+
+    <div class="result-area card" id="result-area">
+      <h3 style="color:var(--primary);margin-bottom:12px">📊 AI 评价结果</h3>
+      <div id="read-result"></div>
+      <hr style="margin:16px 0;border:none;border-top:1px solid var(--border)">
+      <div id="trans-result"></div>
+    </div>
+  </div>
+
+  <script src="assets/js/course-data.js"></script>
+  <script src="assets/js/shared.js"></script>
+  <script>
+    document.getElementById('nav').innerHTML = Courseware.renderNav('part3-speaking.html');
+    Courseware.injectConfigPanel();
+
+    let sentences = [];
+    let idx = 0;
+    let speed = 'normal';
+    let readRecorder = null;
+    let transRecorder = null;
+    let readChunks = [];
+    let transChunks = [];
+    let readTranscript = '';
+    let transTranscript = '';
+    let recognition = null;
+
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SR();
+      recognition.lang = 'en-US';
+      recognition.continuous = true;
+      recognition.interimResults = true;
+    }
+
+    function setSpeed(rate, btn) {
+      speed = rate === 'slow' ? 'slow' : 'normal';
+      document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function render() {
+      const s = sentences[idx];
+      document.getElementById('sentence-en').textContent = s.text;
+      document.getElementById('prog-fill').style.width = ((idx + 1) / sentences.length * 100) + '%';
+      document.getElementById('prog-text').textContent = `${idx + 1} / ${sentences.length} · ${s.paragraph_title}`;
+      document.getElementById('btn-prev').disabled = idx === 0;
+      document.getElementById('btn-next').disabled = idx === sentences.length - 1;
+      document.getElementById('result-area').classList.remove('show');
+      readTranscript = '';
+      transTranscript = '';
+    }
+
+    function playSentence() {
+      Courseware.speakText(sentences[idx].text, speed);
+    }
+
+    async function toggleReadRecord() {
+      const btn = document.getElementById('btn-read');
+      const ind = document.getElementById('rec-ind');
+      if (readRecorder && readRecorder.state === 'recording') {
+        readRecorder.stop();
+        btn.classList.remove('active');
+        ind.classList.remove('show');
+        return;
+      }
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        readChunks = [];
+        readRecorder = new MediaRecorder(stream);
+        readRecorder.ondataavailable = e => readChunks.push(e.data);
+        readRecorder.onstop = () => { stream.getTracks().forEach(t => t.stop()); startReadRecognition(); };
+        readRecorder.start();
+        btn.classList.add('active');
+        ind.classList.add('show');
+        ind.textContent = '● 朗读录音中… 再次点击结束';
+      } catch (e) {
+        Courseware.showToast('无法访问麦克风');
+      }
+    }
+
+    function startReadRecognition() {
+      if (!recognition) { readTranscript = '(浏览器不支持语音识别，请手动输入)'; return; }
+      recognition.lang = 'en-US';
+      recognition.onresult = e => {
+        readTranscript = Array.from(e.results).map(r => r[0].transcript).join('');
+      };
+      recognition.start();
+      setTimeout(() => { try { recognition.stop(); } catch(e){} }, 8000);
+    }
+
+    async function toggleTransRecord() {
+      const btn = document.getElementById('btn-trans');
+      const ind = document.getElementById('rec-ind');
+      if (transRecorder && transRecorder.state === 'recording') {
+        transRecorder.stop();
+        btn.classList.remove('active');
+        ind.classList.remove('show');
+        return;
+      }
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        transChunks = [];
+        transRecorder = new MediaRecorder(stream);
+        transRecorder.ondataavailable = e => transChunks.push(e.data);
+        transRecorder.onstop = () => { stream.getTracks().forEach(t => t.stop()); startTransRecognition(); };
+        transRecorder.start();
+        btn.classList.add('active');
+        ind.classList.add('show');
+        ind.textContent = '● 翻译录音中（中文）… 再次点击结束';
+      } catch (e) {
+        Courseware.showToast('无法访问麦克风');
+      }
+    }
+
+    function startTransRecognition() {
+      if (!recognition) { transTranscript = '(浏览器不支持语音识别)'; return; }
+      recognition.lang = 'zh-CN';
+      recognition.onresult = e => {
+        transTranscript = Array.from(e.results).map(r => r[0].transcript).join('');
+      };
+      recognition.start();
+      setTimeout(() => { try { recognition.stop(); } catch(e){} }, 10000);
+    }
+
+    async function evaluate() {
+      const area = document.getElementById('result-area');
+      const readEl = document.getElementById('read-result');
+      const transEl = document.getElementById('trans-result');
+      area.classList.add('show');
+      readEl.innerHTML = '<div class="ai-result loading">🤖 朗读评价生成中…</div>';
+      transEl.innerHTML = '<div class="ai-result loading">🤖 翻译评分中…</div>';
+
+      const original = sentences[idx].text;
+      try {
+        const readEval = await Courseware.evaluateReading(original, readTranscript);
+        readEl.innerHTML = `<h4 style="margin-bottom:8px">🎤 朗读评价</h4><div class="ai-result">${Courseware.escapeHtml(readEval)}</div>`;
+      } catch (e) {
+        readEl.innerHTML = '<p style="color:var(--accent2)">朗读评价失败，请检查 API</p>';
+      }
+      try {
+        const transEval = await Courseware.evaluateTranslation(original, transTranscript);
+        transEl.innerHTML = `
+          <h4 style="margin-bottom:8px">🌐 翻译评分</h4>
+          <div class="score-badge">${transEval.score ?? '--'} 分</div>
+          <div class="ai-result" style="margin-top:12px">
+            <b>问题：</b>${Courseware.escapeHtml(transEval.issues || '')}<br><br>
+            <b>标准翻译：</b>${Courseware.escapeHtml(transEval.standard || '')}
+          </div>`;
+      } catch (e) {
+        transEl.innerHTML = '<p style="color:var(--accent2)">翻译评分失败</p>';
+      }
+    }
+
+    function prev() { if (idx > 0) { idx--; render(); } }
+    function next() { if (idx < sentences.length - 1) { idx++; render(); } }
+
+    Courseware.loadCourseData().then(data => {
+      sentences = data.all_sentences;
+      render();
+    });
+  </script>
+</body>
+</html>
