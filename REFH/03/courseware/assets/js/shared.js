@@ -97,7 +97,7 @@
       temperature: 0.7,
       stream: !!streamCallback
     };
-    const res = await fetch('https://api.deepseek.com/chat/completions', {
+    const res = await fetch('https://api.deepseek.com/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -105,7 +105,10 @@
       },
       body: JSON.stringify(body)
     });
-    if (!res.ok) throw new Error('DeepSeek API error');
+    if (!res.ok) {
+      const errBody = await res.text().catch(() => '');
+      throw new Error('DeepSeek API error' + (res.status ? ' (' + res.status + ')' : '') + (errBody ? ': ' + errBody.slice(0, 120) : ''));
+    }
 
     if (streamCallback) {
       const reader = res.body.getReader();
@@ -281,6 +284,89 @@ Keep definitions concise. Example sentences at 中考/高一 level.`;
     }).join('');
   }
 
+  const SPEECH_SDK_URL = 'https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js';
+  let _speechSdkPromise = null;
+  let _speakRec = null;
+
+  function ensureSpeechSdk() {
+    if (global.SpeechSDK) return Promise.resolve();
+    if (_speechSdkPromise) return _speechSdkPromise;
+    _speechSdkPromise = new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = SPEECH_SDK_URL;
+      script.onload = () => resolve();
+      script.onerror = () => reject(new Error('Azure Speech SDK 加载失败'));
+      document.head.appendChild(script);
+    });
+    return _speechSdkPromise;
+  }
+
+  function isSpeakingRecording() {
+    return !!_speakRec;
+  }
+
+  function getSpeakingRecordingMode() {
+    return _speakRec ? _speakRec.mode : null;
+  }
+
+  async function startSpeakingRecord(mode, onText) {
+    await ensureSpeechSdk();
+    await stopSpeakingRecord();
+    const cfg = getConfig();
+    if (!cfg.azureKey) throw new Error('请先在设置中配置 Azure Speech Key');
+
+    const lang = mode === 'trans' ? 'zh-CN' : 'en-US';
+    const speechConfig = global.SpeechSDK.SpeechConfig.fromSubscription(cfg.azureKey, cfg.azureRegion);
+    speechConfig.speechRecognitionLanguage = lang;
+    const recognizer = new global.SpeechSDK.SpeechRecognizer(
+      speechConfig,
+      global.SpeechSDK.AudioConfig.fromDefaultMicrophoneInput()
+    );
+
+    let finalBuf = '';
+    recognizer.recognizing = (_, e) => {
+      const interim = e.result.text || '';
+      const display = (finalBuf + (finalBuf && interim ? ' ' : '') + interim).trim();
+      onText(display, false);
+    };
+    recognizer.recognized = (_, e) => {
+      if (e.result.reason === global.SpeechSDK.ResultReason.RecognizedSpeech && e.result.text) {
+        finalBuf += (finalBuf ? ' ' : '') + e.result.text;
+        onText(finalBuf.trim(), true);
+      }
+    };
+    recognizer.canceled = (_, e) => {
+      const msg = e.errorDetails || String(e.reason || '识别已取消');
+      showToast('语音识别失败：' + msg);
+      stopSpeakingRecord();
+    };
+
+    _speakRec = { recognizer, mode, getText: () => finalBuf.trim() };
+    return new Promise((resolve, reject) => {
+      recognizer.startContinuousRecognitionAsync(
+        () => resolve(),
+        err => {
+          _speakRec = null;
+          try { recognizer.close(); } catch (e) {}
+          reject(new Error(err || '无法启动麦克风'));
+        }
+      );
+    });
+  }
+
+  function stopSpeakingRecord() {
+    return new Promise(resolve => {
+      if (!_speakRec) { resolve(''); return; }
+      const { recognizer, getText } = _speakRec;
+      const text = getText();
+      _speakRec = null;
+      recognizer.stopContinuousRecognitionAsync(
+        () => { recognizer.close(); resolve(text); },
+        () => { try { recognizer.close(); } catch (e) {} resolve(text); }
+      );
+    });
+  }
+
   initConfig();
 
   global.Courseware = {
@@ -290,6 +376,8 @@ Keep definitions concise. Example sentences at 中考/高一 level.`;
     evaluateReading, evaluateTranslation,
     showToast, escapeHtml, imageUrl, renderNav,
     injectConfigPanel, toggleConfig, openConfig, saveConfigFromUI,
-    loadCourseData, wrapWordsForLookup, splitWords
+    loadCourseData, wrapWordsForLookup, splitWords,
+    ensureSpeechSdk, startSpeakingRecord, stopSpeakingRecord,
+    isSpeakingRecording, getSpeakingRecordingMode
   };
 })(window);

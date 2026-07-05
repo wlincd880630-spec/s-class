@@ -11,7 +11,7 @@
       display: flex; flex-direction: column; align-items: center;
       justify-content: center; padding: 24px 20px 60px;
     }
-    .progress { width: 100%; max-width: 600px; margin-bottom: 20px; }
+    .progress { width: 100%; max-width: 680px; margin-bottom: 20px; }
     .progress-bar {
       height: 6px; background: var(--border); border-radius: 999px; overflow: hidden;
     }
@@ -31,7 +31,7 @@
     }
     .controls {
       display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
     .ctrl-btn {
       display: flex; flex-direction: column; align-items: center; gap: 6px;
@@ -51,7 +51,7 @@
       padding: 5px 14px; border-radius: 999px; cursor: pointer; font-size: 0.82rem;
     }
     .speed-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
-    .nav-row { display: flex; gap: 12px; justify-content: center; margin-top: 24px; }
+    .nav-row { display: flex; gap: 12px; justify-content: center; margin-top: 24px; flex-wrap: wrap; }
     .result-area { width: 100%; max-width: 680px; margin-top: 20px; display: none; }
     .result-area.show { display: block; }
     .score-badge {
@@ -60,10 +60,41 @@
     }
     .recording-indicator {
       display: none; color: var(--accent2); font-size: 0.85rem;
-      animation: pulse 1s infinite;
+      animation: pulse 1s infinite; margin-bottom: 16px;
     }
     .recording-indicator.show { display: block; }
     @keyframes pulse { 50% { opacity: 0.5; } }
+    .transcript-panel {
+      width: 100%; max-width: 680px; margin-top: 16px;
+      display: grid; gap: 12px; text-align: left;
+    }
+    .transcript-box {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 14px 16px;
+    }
+    .transcript-box label {
+      display: block; font-size: 0.82rem; font-weight: 700;
+      color: var(--primary); margin-bottom: 8px;
+    }
+    .transcript-live {
+      min-height: 2.4em; padding: 10px 12px; border-radius: 10px;
+      background: var(--bg); border: 1px dashed var(--border);
+      font-size: 0.95rem; line-height: 1.55; color: var(--text);
+      word-break: break-word;
+    }
+    .transcript-live.empty { color: var(--muted); font-style: italic; }
+    .transcript-live.listening {
+      border-color: var(--accent2); background: #fff8f6;
+    }
+    .transcript-edit {
+      width: 100%; margin-top: 8px; padding: 8px 10px;
+      border: 1px solid var(--border); border-radius: 8px;
+      font-family: var(--font); font-size: 0.88rem; resize: vertical;
+    }
+    .transcript-hint {
+      font-size: 0.75rem; color: var(--muted); margin-top: 6px;
+    }
+    #btn-eval:disabled { opacity: 0.6; cursor: wait; }
   </style>
 </head>
 <body>
@@ -71,7 +102,7 @@
   <div class="page">
     <div class="progress">
       <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
-      <div class="progress-text" id="prog-text">1 / 48</div>
+      <div class="progress-text" id="prog-text">加载中…</div>
     </div>
 
     <div class="sentence-card">
@@ -81,21 +112,36 @@
         <button class="speed-btn active" data-rate="normal" onclick="setSpeed('normal',this)">▶️ 正常</button>
       </div>
       <div class="controls">
-        <button class="ctrl-btn" onclick="playSentence()">
+        <button class="ctrl-btn" type="button" onclick="playSentence()">
           <span class="icon">🔊</span><span class="label">TTS 朗读</span>
         </button>
-        <button class="ctrl-btn" id="btn-read" onclick="toggleReadRecord()">
+        <button class="ctrl-btn" type="button" id="btn-read" onclick="toggleReadRecord()">
           <span class="icon">🎤</span><span class="label">朗读录音</span>
         </button>
-        <button class="ctrl-btn" id="btn-trans" onclick="toggleTransRecord()">
+        <button class="ctrl-btn" type="button" id="btn-trans" onclick="toggleTransRecord()">
           <span class="icon">🌐</span><span class="label">翻译录音</span>
         </button>
       </div>
       <div class="recording-indicator" id="rec-ind">● 录音中… 再次点击结束</div>
       <div class="nav-row">
-        <button class="btn btn-outline" onclick="prev()" id="btn-prev">← 上一句</button>
-        <button class="btn btn-primary" onclick="evaluate()" id="btn-eval">AI 评价</button>
-        <button class="btn btn-outline" onclick="next()" id="btn-next">下一句 →</button>
+        <button class="btn btn-outline" type="button" onclick="prev()" id="btn-prev">← 上一句</button>
+        <button class="btn btn-primary" type="button" onclick="evaluate()" id="btn-eval">AI 评价</button>
+        <button class="btn btn-outline" type="button" onclick="next()" id="btn-next">下一句 →</button>
+      </div>
+    </div>
+
+    <div class="transcript-panel">
+      <div class="transcript-box">
+        <label>🎤 朗读语音识别（英文）</label>
+        <div class="transcript-live empty" id="read-live">点击「朗读录音」开始，识别文字将实时显示</div>
+        <textarea class="transcript-edit" id="read-edit" rows="2" placeholder="可手动修改朗读识别结果…"></textarea>
+        <div class="transcript-hint">录音时实时识别；结束后可在此修改再提交 AI 评价</div>
+      </div>
+      <div class="transcript-box">
+        <label>🌐 翻译语音识别（中文）</label>
+        <div class="transcript-live empty" id="trans-live">点击「翻译录音」说中文，识别文字将实时显示</div>
+        <textarea class="transcript-edit" id="trans-edit" rows="2" placeholder="可手动修改中文翻译…"></textarea>
+        <div class="transcript-hint">请用中文说出本句翻译；识别结果可手动修改</div>
       </div>
     </div>
 
@@ -116,21 +162,8 @@
     let sentences = [];
     let idx = 0;
     let speed = 'normal';
-    let readRecorder = null;
-    let transRecorder = null;
-    let readChunks = [];
-    let transChunks = [];
     let readTranscript = '';
     let transTranscript = '';
-    let recognition = null;
-
-    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-      recognition = new SR();
-      recognition.lang = 'en-US';
-      recognition.continuous = true;
-      recognition.interimResults = true;
-    }
 
     function setSpeed(rate, btn) {
       speed = rate === 'slow' ? 'slow' : 'normal';
@@ -138,7 +171,45 @@
       btn.classList.add('active');
     }
 
-    function render() {
+    function setLiveText(el, text, listening) {
+      const value = (text || '').trim();
+      el.textContent = value || el.dataset.placeholder;
+      el.classList.toggle('empty', !value);
+      el.classList.toggle('listening', !!listening);
+    }
+
+    function resetTranscriptUI() {
+      readTranscript = '';
+      transTranscript = '';
+      const readLive = document.getElementById('read-live');
+      const transLive = document.getElementById('trans-live');
+      readLive.dataset.placeholder = '点击「朗读录音」开始，识别文字将实时显示';
+      transLive.dataset.placeholder = '点击「翻译录音」说中文，识别文字将实时显示';
+      setLiveText(readLive, '', false);
+      setLiveText(transLive, '', false);
+      document.getElementById('read-edit').value = '';
+      document.getElementById('trans-edit').value = '';
+    }
+
+    async function stopAnyRecording() {
+      if (!Courseware.isSpeakingRecording()) return;
+      const mode = Courseware.getSpeakingRecordingMode();
+      const text = await Courseware.stopSpeakingRecord();
+      document.getElementById('btn-read').classList.remove('active');
+      document.getElementById('btn-trans').classList.remove('active');
+      document.getElementById('rec-ind').classList.remove('show');
+      if (mode === 'read') {
+        readTranscript = text || readTranscript;
+        setLiveText(document.getElementById('read-live'), readTranscript, false);
+        document.getElementById('read-edit').value = readTranscript;
+      } else if (mode === 'trans') {
+        transTranscript = text || transTranscript;
+        setLiveText(document.getElementById('trans-live'), transTranscript, false);
+        document.getElementById('trans-edit').value = transTranscript;
+      }
+    }
+
+    async function render() {
       const s = sentences[idx];
       document.getElementById('sentence-en').textContent = s.text;
       document.getElementById('prog-fill').style.width = ((idx + 1) / sentences.length * 100) + '%';
@@ -146,8 +217,8 @@
       document.getElementById('btn-prev').disabled = idx === 0;
       document.getElementById('btn-next').disabled = idx === sentences.length - 1;
       document.getElementById('result-area').classList.remove('show');
-      readTranscript = '';
-      transTranscript = '';
+      await stopAnyRecording();
+      resetTranscriptUI();
     }
 
     function playSentence() {
@@ -157,106 +228,147 @@
     async function toggleReadRecord() {
       const btn = document.getElementById('btn-read');
       const ind = document.getElementById('rec-ind');
-      if (readRecorder && readRecorder.state === 'recording') {
-        readRecorder.stop();
+      const live = document.getElementById('read-live');
+
+      if (Courseware.getSpeakingRecordingMode() === 'read') {
+        const text = await Courseware.stopSpeakingRecord();
+        readTranscript = text || readTranscript;
         btn.classList.remove('active');
         ind.classList.remove('show');
+        setLiveText(live, readTranscript, false);
+        document.getElementById('read-edit').value = readTranscript;
         return;
       }
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        readChunks = [];
-        readRecorder = new MediaRecorder(stream);
-        readRecorder.ondataavailable = e => readChunks.push(e.data);
-        readRecorder.onstop = () => { stream.getTracks().forEach(t => t.stop()); startReadRecognition(); };
-        readRecorder.start();
-        btn.classList.add('active');
-        ind.classList.add('show');
-        ind.textContent = '● 朗读录音中… 再次点击结束';
-      } catch (e) {
-        Courseware.showToast('无法访问麦克风');
-      }
-    }
 
-    function startReadRecognition() {
-      if (!recognition) { readTranscript = '(浏览器不支持语音识别，请手动输入)'; return; }
-      recognition.lang = 'en-US';
-      recognition.onresult = e => {
-        readTranscript = Array.from(e.results).map(r => r[0].transcript).join('');
-      };
-      recognition.start();
-      setTimeout(() => { try { recognition.stop(); } catch(e){} }, 8000);
+      if (Courseware.isSpeakingRecording()) await stopAnyRecording();
+
+      try {
+        await Courseware.startSpeakingRecord('read', (text) => {
+          readTranscript = text;
+          setLiveText(live, text, true);
+        });
+        btn.classList.add('active');
+        document.getElementById('btn-trans').classList.remove('active');
+        ind.classList.add('show');
+        ind.textContent = '● 朗读录音中 · 英文实时识别，再次点击结束';
+        setLiveText(live, '', true);
+      } catch (e) {
+        Courseware.showToast(e.message || '无法访问麦克风');
+      }
     }
 
     async function toggleTransRecord() {
       const btn = document.getElementById('btn-trans');
       const ind = document.getElementById('rec-ind');
-      if (transRecorder && transRecorder.state === 'recording') {
-        transRecorder.stop();
+      const live = document.getElementById('trans-live');
+
+      if (Courseware.getSpeakingRecordingMode() === 'trans') {
+        const text = await Courseware.stopSpeakingRecord();
+        transTranscript = text || transTranscript;
         btn.classList.remove('active');
         ind.classList.remove('show');
+        setLiveText(live, transTranscript, false);
+        document.getElementById('trans-edit').value = transTranscript;
         return;
       }
+
+      if (Courseware.isSpeakingRecording()) await stopAnyRecording();
+
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        transChunks = [];
-        transRecorder = new MediaRecorder(stream);
-        transRecorder.ondataavailable = e => transChunks.push(e.data);
-        transRecorder.onstop = () => { stream.getTracks().forEach(t => t.stop()); startTransRecognition(); };
-        transRecorder.start();
+        await Courseware.startSpeakingRecord('trans', (text) => {
+          transTranscript = text;
+          setLiveText(live, text, true);
+        });
         btn.classList.add('active');
+        document.getElementById('btn-read').classList.remove('active');
         ind.classList.add('show');
-        ind.textContent = '● 翻译录音中（中文）… 再次点击结束';
+        ind.textContent = '● 翻译录音中 · 中文实时识别，再次点击结束';
+        setLiveText(live, '', true);
       } catch (e) {
-        Courseware.showToast('无法访问麦克风');
+        Courseware.showToast(e.message || '无法访问麦克风');
       }
     }
 
-    function startTransRecognition() {
-      if (!recognition) { transTranscript = '(浏览器不支持语音识别)'; return; }
-      recognition.lang = 'zh-CN';
-      recognition.onresult = e => {
-        transTranscript = Array.from(e.results).map(r => r[0].transcript).join('');
-      };
-      recognition.start();
-      setTimeout(() => { try { recognition.stop(); } catch(e){} }, 10000);
+    function getReadText() {
+      return document.getElementById('read-edit').value.trim() || readTranscript.trim();
+    }
+
+    function getTransText() {
+      return document.getElementById('trans-edit').value.trim() || transTranscript.trim();
     }
 
     async function evaluate() {
+      if (!sentences.length) {
+        Courseware.showToast('课程数据尚未加载完成');
+        return;
+      }
+
+      await stopAnyRecording();
+
+      const btn = document.getElementById('btn-eval');
       const area = document.getElementById('result-area');
       const readEl = document.getElementById('read-result');
       const transEl = document.getElementById('trans-result');
+      const original = sentences[idx].text;
+      const readText = getReadText();
+      const transText = getTransText();
+
       area.classList.add('show');
+      area.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      btn.disabled = true;
       readEl.innerHTML = '<div class="ai-result loading">🤖 朗读评价生成中…</div>';
       transEl.innerHTML = '<div class="ai-result loading">🤖 翻译评分中…</div>';
 
-      const original = sentences[idx].text;
-      try {
-        const readEval = await Courseware.evaluateReading(original, readTranscript);
-        readEl.innerHTML = `<h4 style="margin-bottom:8px">🎤 朗读评价</h4><div class="ai-result">${Courseware.escapeHtml(readEval)}</div>`;
-      } catch (e) {
-        readEl.innerHTML = '<p style="color:var(--accent2)">朗读评价失败，请检查 API</p>';
+      if (!readText) {
+        readEl.innerHTML = '<p style="color:var(--accent2)">请先完成朗读录音，或手动输入识别文字</p>';
+      } else {
+        try {
+          const readEval = await Courseware.evaluateReading(original, readText);
+          readEl.innerHTML = `<h4 style="margin-bottom:8px">🎤 朗读评价</h4>
+            <p style="font-size:0.88rem;color:var(--muted);margin-bottom:8px">识别文本：${Courseware.escapeHtml(readText)}</p>
+            <div class="ai-result">${Courseware.escapeHtml(readEval).replace(/\n/g, '<br>')}</div>`;
+        } catch (e) {
+          readEl.innerHTML = `<p style="color:var(--accent2)">朗读评价失败：${Courseware.escapeHtml(e.message || '请检查 DeepSeek API 配置')}</p>`;
+        }
       }
-      try {
-        const transEval = await Courseware.evaluateTranslation(original, transTranscript);
-        transEl.innerHTML = `
-          <h4 style="margin-bottom:8px">🌐 翻译评分</h4>
-          <div class="score-badge">${transEval.score ?? '--'} 分</div>
-          <div class="ai-result" style="margin-top:12px">
-            <b>问题：</b>${Courseware.escapeHtml(transEval.issues || '')}<br><br>
-            <b>标准翻译：</b>${Courseware.escapeHtml(transEval.standard || '')}
-          </div>`;
-      } catch (e) {
-        transEl.innerHTML = '<p style="color:var(--accent2)">翻译评分失败</p>';
+
+      if (!transText) {
+        transEl.innerHTML = '<p style="color:var(--accent2)">请先完成翻译录音，或手动输入中文翻译</p>';
+      } else {
+        try {
+          const transEval = await Courseware.evaluateTranslation(original, transText);
+          transEl.innerHTML = `
+            <h4 style="margin-bottom:8px">🌐 翻译评分</h4>
+            <p style="font-size:0.88rem;color:var(--muted);margin-bottom:8px">识别文本：${Courseware.escapeHtml(transText)}</p>
+            <div class="score-badge">${transEval.score ?? '--'} 分</div>
+            <div class="ai-result" style="margin-top:12px">
+              <b>问题：</b>${Courseware.escapeHtml(transEval.issues || '')}<br><br>
+              <b>标准翻译：</b>${Courseware.escapeHtml(transEval.standard || '')}
+            </div>`;
+        } catch (e) {
+          transEl.innerHTML = `<p style="color:var(--accent2)">翻译评分失败：${Courseware.escapeHtml(e.message || '请检查 DeepSeek API 配置')}</p>`;
+        }
       }
+
+      btn.disabled = false;
     }
 
-    function prev() { if (idx > 0) { idx--; render(); } }
-    function next() { if (idx < sentences.length - 1) { idx++; render(); } }
+    async function prev() { if (idx > 0) { idx--; await render(); } }
+    async function next() { if (idx < sentences.length - 1) { idx++; await render(); } }
+
+    document.getElementById('read-edit').addEventListener('input', e => { readTranscript = e.target.value; });
+    document.getElementById('trans-edit').addEventListener('input', e => { transTranscript = e.target.value; });
 
     Courseware.loadCourseData().then(data => {
-      sentences = data.all_sentences;
+      sentences = data.all_sentences || [];
+      if (!sentences.length) {
+        document.getElementById('prog-text').textContent = '未找到句子数据';
+        Courseware.showToast('all_sentences 数据缺失');
+        return;
+      }
       render();
+    }).catch(() => {
+      Courseware.showToast('课程数据加载失败');
     });
   </script>
 </body>
