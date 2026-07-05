@@ -1,0 +1,819 @@
+/* Shared utilities: Azure TTS, DeepSeek API, config */
+(function (global) {
+  'use strict';
+
+  const CONFIG_KEY = 'ancient_china_courseware_config';
+  const IMAGE_BASE = 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/REFH/04/courseware/assets/images/';
+
+  const DEFAULT_CONFIG = {
+    azureKey: 'C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu',
+    azureRegion: 'southeastasia',
+    deepseekKey: 'sk-daa16008e81843deba6fefe9dce51465'
+  };
+
+  let _audio = null;
+  let _blobUrl = null;
+
+  function getConfig() {
+    let stored = {};
+    try {
+      stored = JSON.parse(localStorage.getItem(CONFIG_KEY) || '{}');
+    } catch (e) {}
+    return {
+      azureKey: stored.azureKey || DEFAULT_CONFIG.azureKey,
+      azureRegion: stored.azureRegion || DEFAULT_CONFIG.azureRegion,
+      deepseekKey: stored.deepseekKey || DEFAULT_CONFIG.deepseekKey
+    };
+  }
+
+  function saveConfig(cfg) {
+    const merged = {
+      azureKey: cfg.azureKey || DEFAULT_CONFIG.azureKey,
+      azureRegion: cfg.azureRegion || DEFAULT_CONFIG.azureRegion,
+      deepseekKey: cfg.deepseekKey || DEFAULT_CONFIG.deepseekKey
+    };
+    localStorage.setItem(CONFIG_KEY, JSON.stringify(merged));
+    global.__AZURE_SPEECH_KEY__ = merged.azureKey;
+    global.__AZURE_SPEECH_REGION__ = merged.azureRegion;
+    global.__DEEPSEEK_KEY__ = merged.deepseekKey;
+  }
+
+  function initConfig() {
+    const cfg = getConfig();
+    global.__AZURE_SPEECH_KEY__ = cfg.azureKey;
+    global.__AZURE_SPEECH_REGION__ = cfg.azureRegion;
+    global.__DEEPSEEK_KEY__ = cfg.deepseekKey;
+  }
+
+  function stopAudio() {
+    try {
+      if (_audio) { _audio.pause(); _audio = null; }
+      if (_blobUrl) { URL.revokeObjectURL(_blobUrl); _blobUrl = null; }
+    } catch (e) {}
+  }
+
+  function xmlEscape(t) {
+    return String(t || '')
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  async function speakText(text, rate) {
+    const raw = String(text || '').trim();
+    if (!raw) return false;
+    const cfg = getConfig();
+    const key = cfg.azureKey;
+    const region = cfg.azureRegion;
+    stopAudio();
+    const speed = rate === 'slow' ? '-20%' : rate === 'fast' ? '+15%' : '+0%';
+    const ssml = `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US"><voice name="en-US-JennyNeural"><prosody rate="${speed}">${xmlEscape(raw)}</prosody></voice></speak>`;
+    try {
+      const res = await fetch(`https://${region}.tts.speech.microsoft.com/cognitiveservices/v1`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/ssml+xml; charset=utf-8',
+          'X-Microsoft-OutputFormat': 'audio-16khz-128kbitrate-mono-mp3',
+          'Ocp-Apim-Subscription-Key': key
+        },
+        body: ssml
+      });
+      if (!res.ok) throw new Error('TTS failed');
+      const blob = await res.blob();
+      _blobUrl = URL.createObjectURL(blob);
+      _audio = new Audio(_blobUrl);
+      await _audio.play();
+      return true;
+    } catch (e) {
+      showToast('语音播放失败，请检查 Azure 配置');
+      return false;
+    }
+  }
+
+  async function callDeepSeek(messages, streamCallback) {
+    const key = getConfig().deepseekKey;
+    const body = {
+      model: 'deepseek-chat',
+      messages,
+      temperature: 0.7,
+      stream: !!streamCallback
+    };
+    const res = await fetch('https://api.deepseek.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${key}`
+      },
+      body: JSON.stringify(body)
+    });
+    if (!res.ok) {
+      const errBody = await res.text().catch(() => '');
+      throw new Error('DeepSeek API error' + (res.status ? ' (' + res.status + ')' : '') + (errBody ? ': ' + errBody.slice(0, 120) : ''));
+    }
+
+    if (streamCallback) {
+      const reader = res.body.getReader();
+      const dec = new TextDecoder();
+      let full = '';
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const chunk = dec.decode(value);
+        for (const line of chunk.split('\n')) {
+          if (!line.startsWith('data: ') || line.includes('[DONE]')) continue;
+          try {
+            const j = JSON.parse(line.slice(6));
+            const delta = j.choices?.[0]?.delta?.content || '';
+            if (delta) { full += delta; streamCallback(full); }
+          } catch (e) {}
+        }
+      }
+      return full;
+    }
+    const j = await res.json();
+    return j.choices?.[0]?.message?.content || '';
+  }
+
+  async function lookupWord(word, context) {
+    const prompt = `You are an English teacher for Chinese middle/high school students. Explain the word "${word}" in context: "${context || ''}".
+Return JSON only with keys: word, phonetic, pos, definition_en, definition_cn, example_en, example_cn, synonyms (array), word_forms (array).
+Keep definitions concise. Example sentences at 中考/高一 level.`;
+    const text = await callDeepSeek([
+      { role: 'system', content: 'Return valid JSON only, no markdown.' },
+      { role: 'user', content: prompt }
+    ]);
+    try {
+      const m = text.match(/\{[\s\S]*\}/);
+      return m ? JSON.parse(m[0]) : { word, definition_en: text, definition_cn: '' };
+    } catch (e) {
+      return { word, definition_en: text, definition_cn: '' };
+    }
+  }
+
+  async function analyzeSelection(text, type) {
+    const typeLabel = type === 'phrase' ? '词组/短语' : type === 'chunk' ? '义群/语块' : '句子';
+    const prompt = `分析以下英文${typeLabel}，面向中国初高中学生：
+"${text}"
+请给出：1) 中文含义 2) 语法/结构说明 3) 类似表达或考点提示。用简洁中文回答，分点列出。`;
+    return callDeepSeek([{ role: 'user', content: prompt }]);
+  }
+
+  async function translateSelection(text) {
+    const prompt = `你是英语翻译老师。将以下英文翻译成自然、准确的中文（适合中国初高中学生阅读）。
+若是词组/短语，按词组翻译；若是句子，按整句翻译。
+只返回中文译文，不要附加解释。
+英文: "${text}"`;
+    return callDeepSeek([{ role: 'user', content: prompt }]);
+  }
+
+  async function evaluateReading(original, audioTranscript, pronunciation) {
+    return evaluateReadingCombined(original, audioTranscript, pronunciation);
+  }
+
+  function buildAzureSummary(pronunciation) {
+    if (!pronunciation || !pronunciation.result) return null;
+    const r = pronunciation.result;
+    const accuracy = Math.round(r.accuracyScore || 0);
+    const fluency = Math.round(r.fluencyScore || 0);
+    const completeness = Math.round(r.completenessScore || 0);
+    const prosody = Math.round(r.prosodyScore || 0);
+    const overall = Math.round(accuracy * 0.4 + fluency * 0.2 + completeness * 0.2 + prosody * 0.2);
+    const words = [];
+    try {
+      const json = pronunciation.json;
+      const list = json?.NBest?.[0]?.Words || [];
+      list.forEach(w => {
+        if (w.PronunciationAssessment?.ErrorType && w.PronunciationAssessment.ErrorType !== 'None') {
+          words.push({ word: w.Word, error: w.PronunciationAssessment.ErrorType });
+        }
+      });
+    } catch (e) {}
+    return { accuracy, fluency, completeness, prosody, overall, words };
+  }
+
+  async function evaluateReadingCombined(original, audioTranscript, pronunciation) {
+    const azure = buildAzureSummary(pronunciation);
+    const azureLine = azure
+      ? `Azure发音评测：准确度${azure.accuracy}，流利度${azure.fluency}，完整度${azure.completeness}，韵律${azure.prosody}，综合${azure.overall}。问题词：${azure.words.map(w => w.word + '(' + w.error + ')').join('、') || '无'}`
+      : '（未获取 Azure 发音分数，仅根据识别文本分析）';
+    const prompt = `你是英语口语教师。请结合 Azure 发音评测与识别文本，评价学生朗读。
+原文: "${original}"
+学生朗读识别文本: "${audioTranscript || '(未识别到内容)'}"
+${azureLine}
+请只返回 JSON：
+{"score":0-100,"strengths":"优点(中文)","issues":"问题：发音/流利度/漏读(中文)","tips":"改进建议(中文)","mispronounced_words":["词1"]}`;
+    const text = await callDeepSeek([
+      { role: 'system', content: 'Return valid JSON only, no markdown.' },
+      { role: 'user', content: prompt }
+    ]);
+    let ai = { score: 0, strengths: '', issues: text, tips: '', mispronounced_words: [] };
+    try {
+      const m = text.match(/\{[\s\S]*\}/);
+      if (m) ai = { ...ai, ...JSON.parse(m[0]) };
+    } catch (e) {}
+    if (azure && !ai.score) ai.score = azure.overall;
+    return { azure, ai, transcript: audioTranscript || '' };
+  }
+
+  function renderReadingEvalHtml(data, readText) {
+    if (!readText) {
+      return '<p style="color:var(--accent2)">请先完成朗读录音，或手动输入识别文字</p>';
+    }
+    if (!data) {
+      return '<p style="color:var(--accent2)">朗读评价失败，请检查 API 配置</p>';
+    }
+    const azure = data.azure;
+    const ai = data.ai || {};
+    let azureHtml = '';
+    if (azure) {
+      azureHtml = `
+        <div class="score-grid">
+          <div class="score-item"><span class="score-num">${azure.accuracy}</span><span class="score-lbl">准确度</span></div>
+          <div class="score-item"><span class="score-num">${azure.fluency}</span><span class="score-lbl">流利度</span></div>
+          <div class="score-item"><span class="score-num">${azure.completeness}</span><span class="score-lbl">完整度</span></div>
+          <div class="score-item"><span class="score-num">${azure.prosody}</span><span class="score-lbl">韵律</span></div>
+          <div class="score-item highlight"><span class="score-num">${azure.overall}</span><span class="score-lbl">Azure综合</span></div>
+        </div>
+        ${azure.words.length ? `<p class="eval-meta">⚠️ 发音问题词：${azure.words.map(w => escapeHtml(w.word) + ' (' + escapeHtml(w.error) + ')').join('、 ')}</p>` : ''}`;
+    } else {
+      azureHtml = '<p class="eval-meta">未获取 Azure 发音分数（请用朗读录音按钮录音）</p>';
+    }
+    return `
+      <h4 style="margin-bottom:8px">🎤 朗读评价 <span class="score-badge" style="font-size:1.2rem">${ai.score ?? '--'} 分</span></h4>
+      <p class="eval-meta">识别文本：${escapeHtml(readText)}</p>
+      ${azureHtml}
+      <div class="ai-result">
+        ${ai.strengths ? `<p><b>✅ 优点：</b>${escapeHtml(ai.strengths)}</p>` : ''}
+        <p><b>❗ 问题：</b>${escapeHtml(ai.issues || '暂无')}</p>
+        <p><b>💡 建议：</b>${escapeHtml(ai.tips || '暂无')}</p>
+      </div>`;
+  }
+
+  function renderTranslationEvalHtml(data, transText) {
+    if (!transText) {
+      return '<p style="color:var(--accent2)">请先完成翻译录音，或手动输入中文翻译</p>';
+    }
+    if (!data) {
+      return '<p style="color:var(--accent2)">翻译评分失败，请检查 API 配置</p>';
+    }
+    return `
+      <h4 style="margin-bottom:8px">🌐 翻译评分</h4>
+      <p class="eval-meta">识别文本：${escapeHtml(transText)}</p>
+      <div class="score-badge">${data.score ?? '--'} 分</div>
+      <div class="ai-result" style="margin-top:12px">
+        <p><b>❗ 问题：</b>${escapeHtml(data.issues || '暂无')}</p>
+        <p><b>✅ 标准翻译：</b>${escapeHtml(data.standard || '暂无')}</p>
+      </div>`;
+  }
+
+  async function runSpeakingEvaluation({ original, readText, transText, pronunciation }) {
+    const out = { reading: null, translation: null };
+    if (readText) {
+      out.reading = await evaluateReadingCombined(original, readText, pronunciation);
+    }
+    if (transText) {
+      out.translation = await evaluateTranslation(original, transText);
+    }
+    return out;
+  }
+
+  async function evaluateTranslation(original, studentTranslation) {
+    const prompt = `你是英语翻译评分老师。
+原句: "${original}"
+学生翻译: "${studentTranslation || '(未提供)'}"
+请返回JSON: {"score":0-100,"issues":"问题指出(中文)","standard":"标准翻译(中文)"}`;
+    const text = await callDeepSeek([
+      { role: 'system', content: 'Return valid JSON only.' },
+      { role: 'user', content: prompt }
+    ]);
+    try {
+      const m = text.match(/\{[\s\S]*\}/);
+      return m ? JSON.parse(m[0]) : { score: 0, issues: text, standard: '' };
+    } catch (e) {
+      return { score: 0, issues: text, standard: '' };
+    }
+  }
+
+  function showToast(msg) {
+    let t = document.getElementById('global-toast');
+    if (!t) {
+      t = document.createElement('div');
+      t.id = 'global-toast';
+      t.className = 'toast';
+      document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  function escapeHtml(s) {
+    const d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
+  }
+
+  function imageUrl(filename) {
+    const name = String(filename || '').trim();
+    if (!name) return '';
+    if (/^https?:\/\//i.test(name)) return name;
+    return IMAGE_BASE + name.replace(/^\/+/, '');
+  }
+
+  function renderNav(active) {
+    const pages = [
+      { href: 'index.html', label: '首页' },
+      { href: 'part1-vocabulary.html', label: '词汇' },
+      { href: 'part2-reading.html', label: '阅读' },
+      { href: 'part3-speaking.html', label: '朗读' },
+      { href: 'part4-quiz.html', label: '测验' }
+    ];
+    return `<nav class="top-nav">
+      <a class="brand" href="index.html">🏯 Ancient China · Geo & Ag</a>
+      <div class="links">${pages.map(p =>
+        `<a href="${p.href}" class="${p.href === active ? 'active' : ''}">${p.label}</a>`
+      ).join('')}</div>
+      <div class="nav-actions">
+        <a href="../../../index.html" class="site-home">站点首页</a>
+        <button class="btn-icon" onclick="Courseware.openConfig()" title="API设置">⚙️</button>
+      </div>
+    </nav>`;
+  }
+
+  function injectConfigPanel() {
+    if (document.getElementById('config-panel')) return;
+    const cfg = getConfig();
+    const html = `<div class="config-panel" id="config-panel">
+      <div class="config-drawer" id="config-drawer">
+        <h4 style="margin-bottom:8px;color:var(--primary)">API 配置</h4>
+        <label>Azure Speech Key</label>
+        <input type="password" id="cfg-azure-key" value="${escapeHtml(cfg.azureKey || '')}" placeholder="Azure 密钥">
+        <label>Azure Region</label>
+        <input type="text" id="cfg-azure-region" value="${escapeHtml(cfg.azureRegion || DEFAULT_CONFIG.azureRegion)}">
+        <label>DeepSeek API Key</label>
+        <input type="password" id="cfg-deepseek-key" value="${escapeHtml(cfg.deepseekKey || '')}" placeholder="DeepSeek 密钥">
+        <button class="btn btn-primary" style="width:100%;margin-top:12px" onclick="Courseware.saveConfigFromUI()">保存配置</button>
+      </div>
+      <button class="config-toggle" onclick="Courseware.toggleConfig()">⚙️</button>
+    </div>`;
+    document.body.insertAdjacentHTML('beforeend', html);
+  }
+
+  function toggleConfig() {
+    document.getElementById('config-drawer')?.classList.toggle('open');
+  }
+
+  function openConfig() {
+    document.getElementById('config-drawer')?.classList.add('open');
+  }
+
+  function saveConfigFromUI() {
+    saveConfig({
+      azureKey: document.getElementById('cfg-azure-key')?.value.trim() || DEFAULT_CONFIG.azureKey,
+      azureRegion: document.getElementById('cfg-azure-region')?.value.trim() || DEFAULT_CONFIG.azureRegion,
+      deepseekKey: document.getElementById('cfg-deepseek-key')?.value.trim() || DEFAULT_CONFIG.deepseekKey
+    });
+    showToast('配置已保存');
+    toggleConfig();
+  }
+
+  function loadCourseData() {
+    if (global.COURSE_DATA) return Promise.resolve(global.COURSE_DATA);
+    return fetch('assets/data/course-data.json')
+      .then(res => { if (!res.ok) throw new Error('fetch failed'); return res.json(); });
+  }
+
+  function splitWords(text) {
+    return text.split(/(\s+|[.,!?;:'"()\[\]—–-]+)/).filter(Boolean);
+  }
+
+  function wrapWordsForLookup(text) {
+    return splitWords(text).map(part => {
+      if (/^[A-Za-z'-]+$/.test(part)) {
+        return `<span class="word-token" data-word="${escapeHtml(part.toLowerCase())}">${escapeHtml(part)}</span>`;
+      }
+      return escapeHtml(part);
+    }).join('');
+  }
+
+  const SPEECH_SDK_URL = 'https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js';
+  let _speechSdkPromise = null;
+  let _speakRec = null;
+  let _lastPronunciation = null;
+
+  function getLastPronunciation() {
+    return _lastPronunciation;
+  }
+
+  function stopSpeakingRecordSafe(timeoutMs) {
+    return Promise.race([
+      stopSpeakingRecord(),
+      new Promise(resolve => setTimeout(() => resolve({ text: '', pronunciation: null, mode: null }), timeoutMs || 4000))
+    ]);
+  }
+
+  function ensureSpeechSdk() {
+    if (global.SpeechSDK) return Promise.resolve();
+    if (_speechSdkPromise) return _speechSdkPromise;
+    _speechSdkPromise = new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = SPEECH_SDK_URL;
+      script.onload = () => resolve();
+      script.onerror = () => reject(new Error('Azure Speech SDK 加载失败'));
+      document.head.appendChild(script);
+    });
+    return _speechSdkPromise;
+  }
+
+  function isSpeakingRecording() {
+    return !!_speakRec;
+  }
+
+  function getSpeakingRecordingMode() {
+    return _speakRec ? _speakRec.mode : null;
+  }
+
+  async function startSpeakingRecord(mode, onText, options) {
+    options = options || {};
+    await ensureSpeechSdk();
+    await stopSpeakingRecord();
+    const cfg = getConfig();
+    if (!cfg.azureKey) throw new Error('请先在设置中配置 Azure Speech Key');
+
+    const lang = mode === 'trans' ? 'zh-CN' : 'en-US';
+    const speechConfig = global.SpeechSDK.SpeechConfig.fromSubscription(cfg.azureKey, cfg.azureRegion);
+    speechConfig.speechRecognitionLanguage = lang;
+    const recognizer = new global.SpeechSDK.SpeechRecognizer(
+      speechConfig,
+      global.SpeechSDK.AudioConfig.fromDefaultMicrophoneInput()
+    );
+
+    let finalBuf = '';
+    let lastPa = null;
+    if (mode === 'read' && options.referenceText) {
+      const paConfig = new global.SpeechSDK.PronunciationAssessmentConfig(
+        options.referenceText,
+        global.SpeechSDK.PronunciationAssessmentGradingSystem.HundredMark,
+        global.SpeechSDK.PronunciationAssessmentGranularity.Phoneme,
+        true
+      );
+      paConfig.enableProsodyAssessment = true;
+      paConfig.applyTo(recognizer);
+    }
+
+    recognizer.recognizing = (_, e) => {
+      const interim = e.result.text || '';
+      const display = (finalBuf + (finalBuf && interim ? ' ' : '') + interim).trim();
+      onText(display, false);
+    };
+    recognizer.recognized = (_, e) => {
+      if (e.result.reason === global.SpeechSDK.ResultReason.RecognizedSpeech) {
+        if (e.result.text) {
+          finalBuf += (finalBuf ? ' ' : '') + e.result.text;
+          onText(finalBuf.trim(), true);
+        }
+        if (mode === 'read' && options.referenceText) {
+          try {
+            const paResult = global.SpeechSDK.PronunciationAssessmentResult.fromResult(e.result);
+            const jsonStr = e.result.properties.getProperty(global.SpeechSDK.PropertyId.SpeechServiceResponse_JsonResult);
+            lastPa = { result: paResult, json: jsonStr ? JSON.parse(jsonStr) : null };
+          } catch (err) {}
+        }
+      }
+    };
+    recognizer.canceled = (_, e) => {
+      const msg = e.errorDetails || String(e.reason || '识别已取消');
+      showToast('语音识别失败：' + msg);
+      stopSpeakingRecord();
+    };
+
+    _speakRec = {
+      recognizer, mode,
+      getText: () => finalBuf.trim(),
+      getPronunciation: () => lastPa
+    };
+    return new Promise((resolve, reject) => {
+      recognizer.startContinuousRecognitionAsync(
+        () => resolve(),
+        err => {
+          _speakRec = null;
+          try { recognizer.close(); } catch (e) {}
+          reject(new Error(err || '无法启动麦克风'));
+        }
+      );
+    });
+  }
+
+  function stopSpeakingRecord() {
+    return new Promise(resolve => {
+      if (!_speakRec) { resolve({ text: '', pronunciation: null, mode: null }); return; }
+      const { recognizer, getText, getPronunciation, mode } = _speakRec;
+      const text = getText();
+      const pronunciation = mode === 'read' && getPronunciation ? getPronunciation() : null;
+      _speakRec = null;
+      if (pronunciation) _lastPronunciation = pronunciation;
+      recognizer.stopContinuousRecognitionAsync(
+        () => { recognizer.close(); resolve({ text, pronunciation, mode }); },
+        () => { try { recognizer.close(); } catch (e) {} resolve({ text, pronunciation, mode }); }
+      );
+    });
+  }
+
+  let _pdfLibsPromise = null;
+  function loadPdfLibs() {
+    if (global.html2canvas && global.jspdf?.jsPDF) return Promise.resolve();
+    if (_pdfLibsPromise) return _pdfLibsPromise;
+    _pdfLibsPromise = new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+      s.onload = () => {
+        if (global.html2canvas && global.jspdf?.jsPDF) resolve();
+        else reject(new Error('PDF 库加载不完整'));
+      };
+      s.onerror = () => reject(new Error('PDF 库加载失败'));
+      document.head.appendChild(s);
+    });
+    return _pdfLibsPromise;
+  }
+
+  function getVocabPdfCss(accent) {
+    const c = accent || '#1a6b4a';
+    return `
+      html,body{margin:0;padding:0;background:#fff;color:#1c2b24;
+        font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC','Segoe UI',sans-serif;
+        -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+      .pdf-doc{box-sizing:border-box;width:680px;max-width:680px;margin:0;padding:16px 18px 20px;overflow:visible;}
+      .pdf-header{text-align:center;margin-bottom:16px;padding-bottom:12px;border-bottom:2.5px solid ${c};}
+      .pdf-header h1{font-size:18px;color:${c};margin:0 0 5px;font-weight:700;line-height:1.35;}
+      .pdf-header p{font-size:10.5px;color:#5c7268;margin:0 0 3px;line-height:1.45;}
+      .pdf-word-card{
+        margin-bottom:10px;padding:10px 12px;
+        border:1px solid #dce8e2;border-radius:6px;border-left:3px solid ${c};background:#fafcfb;
+        overflow:visible;
+      }
+      .pdf-word-title{font-size:14px;font-weight:700;color:${c};margin-bottom:5px;line-height:1.35;}
+      .pdf-word-title span{font-size:10px;color:#5c7268;font-weight:500;margin-left:5px;}
+      .pdf-row{display:flex;gap:6px;align-items:flex-start;margin-bottom:3px;font-size:10.5px;line-height:1.55;}
+      .pdf-label{flex:0 0 56px;font-weight:600;color:${c};}
+      .pdf-val{flex:1;min-width:0;word-break:break-word;overflow-wrap:break-word;}
+      .pdf-en{color:#333;}.pdf-cn{color:${c};}
+      .pdf-section{margin-top:5px;padding-top:5px;border-top:1px dashed #dce8e2;}
+      .pdf-badge{display:inline-block;font-size:8.5px;font-weight:600;padding:1px 5px;border-radius:3px;color:#fff;margin:0 5px 3px 0;vertical-align:middle;}
+      .pdf-badge.zk{background:#27ae60;}.pdf-badge.g10{background:#e67e22;}.pdf-badge.art{background:#3498db;}
+      .pdf-tags{font-size:9.5px;color:#5c7268;margin-top:4px;line-height:1.5;word-break:break-word;}
+      @media print{
+        @page{size:A4 portrait;margin:12mm;}
+        body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+        .pdf-doc{width:auto;max-width:none;padding:0;}
+      }`;
+  }
+
+  function buildVocabPdfWordCard(v, i) {
+    const ae = v.article_example;
+    const zk = v.examples?.zhongkao;
+    const g10 = v.examples?.grade10;
+    let exBlocks = '';
+    if (ae?.sentence) {
+      exBlocks += `<div class="pdf-section"><span class="pdf-badge art">文章</span>
+        <div class="pdf-row"><div class="pdf-val pdf-en">${escapeHtml(ae.sentence)}</div></div>
+        <div class="pdf-row"><div class="pdf-val pdf-cn">${escapeHtml(ae.translation || '')}</div></div></div>`;
+    }
+    if (zk?.sentence) {
+      exBlocks += `<div class="pdf-section"><span class="pdf-badge zk">中考</span>
+        <div class="pdf-row"><div class="pdf-val pdf-en">${escapeHtml(zk.sentence)}</div></div>
+        <div class="pdf-row"><div class="pdf-val pdf-cn">${escapeHtml(zk.translation || '')}</div></div></div>`;
+    }
+    if (g10?.sentence) {
+      exBlocks += `<div class="pdf-section"><span class="pdf-badge g10">高一</span>
+        <div class="pdf-row"><div class="pdf-val pdf-en">${escapeHtml(g10.sentence)}</div></div>
+        <div class="pdf-row"><div class="pdf-val pdf-cn">${escapeHtml(g10.translation || '')}</div></div></div>`;
+    }
+    const syn = (v.synonyms || []).length
+      ? `<div class="pdf-tags"><b>同义词：</b>${v.synonyms.map(escapeHtml).join(' · ')}</div>` : '';
+    const forms = (v.word_forms || []).length
+      ? `<div class="pdf-tags"><b>词性变化：</b>${v.word_forms.map(escapeHtml).join(' · ')}</div>` : '';
+    const usage = v.other_usage
+      ? `<div class="pdf-tags"><b>常见用法：</b>${escapeHtml(v.other_usage)}</div>` : '';
+    const pos = v.pos
+      ? `<span>${escapeHtml(v.pos)}</span>`
+      : (v.phrase_type ? `<span>${escapeHtml(v.phrase_type)}</span>` : '');
+    return `<div class="pdf-word-card">
+      <div class="pdf-word-title">${i + 1}. ${escapeHtml(v.word)} ${pos}</div>
+      <div class="pdf-row"><div class="pdf-label">英文释义</div><div class="pdf-val pdf-en">${escapeHtml(v.definition_en || '')}</div></div>
+      <div class="pdf-row"><div class="pdf-label">中文释义</div><div class="pdf-val pdf-cn">${escapeHtml(v.definition_cn || '')}</div></div>
+      ${exBlocks}${syn}${forms}${usage}
+    </div>`;
+  }
+
+  function buildVocabPdfHtml(words, meta) {
+    meta = meta || {};
+    const date = new Date().toLocaleDateString('zh-CN');
+    const title = meta.title || '词汇表';
+    const level = meta.level || '';
+    return `<div class="pdf-doc">
+      <div class="pdf-header">
+        <h1>${escapeHtml(title)}</h1>
+        <p>词汇表 Vocabulary List · 共 ${words.length} 项 · ${date}</p>
+        ${level ? `<p>${escapeHtml(level)}</p>` : ''}
+      </div>
+      ${words.map((v, i) => buildVocabPdfWordCard(v, i)).join('')}
+    </div>`;
+  }
+
+  function buildVocabPdfDocument(words, meta) {
+    meta = meta || {};
+    const accent = meta.accent || '#1a6b4a';
+    const body = buildVocabPdfHtml(words, meta);
+    const css = getVocabPdfCss(accent);
+    return `<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+      <style>${css}</style></head><body>${body}</body></html>`;
+  }
+
+  function waitPdfIframe(iframe) {
+    return new Promise((resolve, reject) => {
+      let settled = false;
+      const done = () => {
+        if (settled) return;
+        const idoc = iframe.contentDocument;
+        if (!idoc?.body) {
+          settled = true;
+          reject(new Error('PDF 文档未就绪'));
+          return;
+        }
+        const fonts = idoc.fonts?.ready || Promise.resolve();
+        fonts.then(() => {
+          requestAnimationFrame(() => {
+            setTimeout(() => {
+              if (!settled) {
+                settled = true;
+                resolve();
+              }
+            }, 280);
+          });
+        });
+      };
+      iframe.onload = done;
+      iframe.onerror = () => {
+        if (!settled) {
+          settled = true;
+          reject(new Error('PDF 预览加载失败'));
+        }
+      };
+      setTimeout(done, 5000);
+    });
+  }
+
+  function capturePdfBlock(el) {
+    const rect = el.getBoundingClientRect();
+    const w = Math.ceil(rect.width || el.scrollWidth || el.offsetWidth || 680);
+    const h = Math.ceil(el.scrollHeight || el.offsetHeight || 40);
+    const doc = el.ownerDocument;
+    const win = doc.defaultView || global;
+    return global.html2canvas(el, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: '#ffffff',
+      logging: false,
+      scrollX: 0,
+      scrollY: 0,
+      width: w,
+      height: h,
+      windowWidth: win.innerWidth || w,
+      windowHeight: Math.max(win.innerHeight || 0, h)
+    });
+  }
+
+  function appendCanvasToPdf(pdf, canvas, st) {
+    const maxW = st.contentW;
+    const gap = st.gap;
+    let srcY = 0;
+    while (srcY < canvas.height) {
+      let avail = st.pageH - st.margin - st.y;
+      if (avail < 6) {
+        pdf.addPage();
+        st.y = st.margin;
+        avail = st.pageH - 2 * st.margin;
+      }
+      const slicePx = Math.min(
+        canvas.height - srcY,
+        Math.max(1, Math.floor((avail / maxW) * canvas.width))
+      );
+      const sliceHmm = (slicePx * maxW) / canvas.width;
+      const slice = document.createElement('canvas');
+      slice.width = canvas.width;
+      slice.height = slicePx;
+      const ctx = slice.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, slice.width, slice.height);
+      ctx.drawImage(canvas, 0, srcY, canvas.width, slicePx, 0, 0, canvas.width, slicePx);
+      pdf.addImage(slice.toDataURL('image/jpeg', 0.95), 'JPEG', st.margin, st.y, maxW, sliceHmm);
+      srcY += slicePx;
+      st.y += sliceHmm;
+      if (srcY < canvas.height) {
+        pdf.addPage();
+        st.y = st.margin;
+      } else {
+        st.y += gap;
+      }
+    }
+  }
+
+  async function exportVocabPdf(options) {
+    const words = options?.words;
+    if (!words?.length) throw new Error('无词汇可导出');
+    const meta = {
+      title: options.title,
+      level: options.level,
+      accent: options.accent || '#1a6b4a'
+    };
+    const filename = options.filename || 'Vocabulary.pdf';
+    await loadPdfLibs();
+
+    const mask = document.createElement('div');
+    mask.setAttribute('aria-busy', 'true');
+    mask.style.cssText =
+      'position:fixed;inset:0;background:rgba(15,23,42,0.45);z-index:2147483000;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-family:system-ui,sans-serif;';
+    mask.textContent = '正在生成 PDF…';
+    document.body.appendChild(mask);
+
+    const iframe = document.createElement('iframe');
+    iframe.setAttribute('title', 'pdf-export');
+    iframe.style.cssText =
+      'position:fixed;left:0;top:0;width:680px;border:0;z-index:2147482000;background:#fff;';
+    iframe.srcdoc = buildVocabPdfDocument(words, meta);
+    document.body.appendChild(iframe);
+
+    try {
+      await waitPdfIframe(iframe);
+      const idoc = iframe.contentDocument;
+      const root = idoc.querySelector('.pdf-doc');
+      if (!root) throw new Error('PDF 内容未找到');
+
+      const h = Math.max(idoc.body.scrollHeight, root.scrollHeight, 400);
+      iframe.style.height = h + 40 + 'px';
+
+      const JsPDF = global.jspdf.jsPDF;
+      const pdf = new JsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait', compress: true });
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
+      const margin = 12;
+      const st = {
+        margin,
+        pageW,
+        pageH,
+        contentW: pageW - margin * 2,
+        y: margin,
+        gap: 2.5
+      };
+
+      const blocks = [root.querySelector('.pdf-header'), ...root.querySelectorAll('.pdf-word-card')];
+      for (const block of blocks) {
+        if (!block) continue;
+        const canvas = await capturePdfBlock(block);
+        appendCanvasToPdf(pdf, canvas, st);
+      }
+
+      pdf.save(filename);
+    } finally {
+      mask.remove();
+      iframe.remove();
+    }
+  }
+
+  function openVocabPrintWindow(words, meta) {
+    if (!words?.length) {
+      showToast('没有可导出的词汇');
+      return;
+    }
+    const w = window.open('', '_blank');
+    if (!w) {
+      showToast('请允许弹出窗口以打印 PDF');
+      return;
+    }
+    w.document.open();
+    w.document.write(buildVocabPdfDocument(words, meta || {}));
+    w.document.close();
+    w.focus();
+    w.onload = () => setTimeout(() => {
+      w.print();
+      showToast('请选择「另存为 PDF」或打印机保存');
+    }, 700);
+  }
+
+  initConfig();
+
+  global.Courseware = {
+    getConfig, saveConfig, initConfig,
+    speakText, stopAudio,
+    callDeepSeek, lookupWord, analyzeSelection, translateSelection,
+    evaluateReading, evaluateTranslation, evaluateReadingCombined,
+    runSpeakingEvaluation, renderReadingEvalHtml, renderTranslationEvalHtml,
+    buildAzureSummary, getLastPronunciation, stopSpeakingRecordSafe,
+    showToast, escapeHtml, imageUrl, renderNav,
+    injectConfigPanel, toggleConfig, openConfig, saveConfigFromUI,
+    loadCourseData, wrapWordsForLookup, splitWords,
+    ensureSpeechSdk, startSpeakingRecord, stopSpeakingRecord,
+    isSpeakingRecording, getSpeakingRecordingMode,
+    buildVocabPdfHtml, exportVocabPdf, openVocabPrintWindow
+  };
+})(window);
