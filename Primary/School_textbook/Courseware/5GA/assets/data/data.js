@@ -2186,7 +2186,7 @@ const TEXTBOOK_DATA = {
               "letter": "K"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/that_s_ok.jpg",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit4/that_s_ok/that_s_ok_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "That’s OK. I can help you.",
