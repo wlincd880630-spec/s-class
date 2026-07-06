@@ -58,16 +58,16 @@
       <h1>📚 词汇 & 词组学习</h1>
       <p>点击卡片打开详细学习页 · 含 Azure 发音 · 中英文释义 · 背诵例句</p>
     </div>
-    <div class="stats-bar">
-      <div class="stat"><b>20</b><span>核心词汇 A1+</span></div>
-      <div class="stat"><b>15</b><span>动词/名词/形容词词组</span></div>
-      <div class="stat"><b>5</b><span>固定句型</span></div>
+    <div class="stats-bar" id="stats-bar">
+      <div class="stat"><b id="stat-words">—</b><span>核心词汇 A1+</span></div>
+      <div class="stat"><b id="stat-phrases">—</b><span>动词/名词/形容词词组</span></div>
+      <div class="stat"><b id="stat-patterns">—</b><span>固定句型</span></div>
     </div>
     <div class="tabs" id="tabs">
-      <button class="tab active" data-filter="all">全部 (40)</button>
-      <button class="tab" data-filter="word">单词 (20)</button>
-      <button class="tab" data-filter="phrase">词组 (15)</button>
-      <button class="tab" data-filter="pattern">句型 (5)</button>
+      <button class="tab active" data-filter="all">全部</button>
+      <button class="tab" data-filter="word">单词</button>
+      <button class="tab" data-filter="phrase">词组</button>
+      <button class="tab" data-filter="pattern">句型</button>
     </div>
     <div class="card-grid" id="card-grid"></div>
   </div>
@@ -193,6 +193,17 @@
 
     Courseware.loadCourseData().then(data => {
       allItems = data.all_vocab_items;
+      const wc = allItems.filter(i => i.type === 'word').length;
+      const pc = allItems.filter(i => i.type === 'phrase').length;
+      const sc = allItems.filter(i => i.type === 'pattern').length;
+      document.getElementById('stat-words').textContent = wc;
+      document.getElementById('stat-phrases').textContent = pc;
+      document.getElementById('stat-patterns').textContent = sc;
+      const tabs = document.querySelectorAll('#tabs .tab');
+      tabs[0].textContent = `全部 (${allItems.length})`;
+      tabs[1].textContent = `单词 (${wc})`;
+      tabs[2].textContent = `词组 (${pc})`;
+      tabs[3].textContent = `句型 (${sc})`;
       renderCards();
     });
   </script>
