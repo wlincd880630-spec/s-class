@@ -1,0 +1,497 @@
+# -*- coding: utf-8 -*-
+import json, os
+
+base = os.path.dirname(os.path.abspath(__file__))
+
+def word(w, pos, level, en, cn, article_sent, article_trans, zk, zk_t, g10, g10_t, syn, forms, usage):
+    return {
+        "word": w, "type": "word", "pos": pos, "level": level,
+        "definition_en": en, "definition_cn": cn,
+        "article_example": {"sentence": article_sent, "translation": article_trans},
+        "examples": {"zhongkao": {"sentence": zk, "translation": zk_t}, "grade10": {"sentence": g10, "translation": g10_t}},
+        "synonyms": syn, "word_forms": forms, "other_usage": usage
+    }
+
+def phrase(w, ptype, en, cn, article_sent, article_trans, zk, zk_t, g10, g10_t, syn, usage):
+    return {
+        "word": w, "type": "phrase", "phrase_type": ptype,
+        "definition_en": en, "definition_cn": cn,
+        "article_example": {"sentence": article_sent, "translation": article_trans},
+        "examples": {"zhongkao": {"sentence": zk, "translation": zk_t}, "grade10": {"sentence": g10, "translation": g10_t}},
+        "synonyms": syn, "word_forms": [], "other_usage": usage
+    }
+
+def pattern(w, en, cn, article_sent, article_trans, zk, zk_t, g10, g10_t, usage):
+    return {
+        "word": w, "type": "pattern",
+        "definition_en": en, "definition_cn": cn,
+        "article_example": {"sentence": article_sent, "translation": article_trans},
+        "examples": {"zhongkao": {"sentence": zk, "translation": zk_t}, "grade10": {"sentence": g10, "translation": g10_t}},
+        "synonyms": [], "word_forms": [], "other_usage": usage
+    }
+
+vocabulary = [
+word("solar","adj.","A2","Related to the sun; using energy from the sun.","太阳能的；与太阳有关的",
+ "Solar panels convert energy from the sun into electricity.",
+ "太阳能电池板将太阳能转化为电能。",
+ "Solar power is becoming cheaper every year.","太阳能发电每年都在变得更便宜。",
+ "Many homes now use solar energy to reduce electricity bills.","许多家庭现在用太阳能来降低电费。",
+ ["sun-powered"], ["solar energy","solar panel"], "solar panel 太阳能电池板"),
+word("electricity","n.","A2","A form of energy used to power lights, machines, and devices.","电；电能",
+ "Solar panels convert energy from the sun into electricity.",
+ "太阳能电池板将太阳能转化为电能。",
+ "We use electricity to light our classrooms.","我们用电力来照亮教室。",
+ "Renewable sources can generate electricity without burning coal.","可再生能源可以不烧煤就发电。",
+ ["power"], ["electric (adj.)","electrical (adj.)"], "generate electricity 发电"),
+word("convert","v.","B1","To change something into a different form.","转化；转换",
+ "Solar panels convert energy from the sun into electricity.",
+ "太阳能电池板将太阳能转化为电能。",
+ "The machine converts waste into useful material.","这台机器把废物转化成有用材料。",
+ "Wind turbines convert wind energy into electricity.","风力涡轮机将风能转化为电能。",
+ ["change","transform"], ["conversion (n.)"], "convert A into B"),
+word("renewable","adj.","B1","Able to be replaced naturally and not used up forever.","可再生的",
+ "Renewable energy is also known as green energy.",
+ "可再生能源也被称为绿色能源。",
+ "Wind and solar are renewable energy sources.","风能和太阳能是可再生能源。",
+ "Countries invest more in renewable power each year.","各国每年对可再生能源的投资都在增加。",
+ ["sustainable","green"], ["renew (v.)"], "renewable energy 可再生能源"),
+word("infrastructure","n.","B2","The basic systems and structures a society needs, such as roads, buildings, and power.","基础设施",
+ "Infrastructure is everything that makes modern life possible, from roads and bridges to buildings and heating systems.",
+ "基础设施是一切使现代生活成为可能的东西，从道路、桥梁到建筑和供暖系统。",
+ "Good infrastructure helps cities run smoothly.","良好的基础设施帮助城市顺利运转。",
+ "Schools need safe infrastructure for students to learn.","学校需要安全的基础设施供学生学习。",
+ ["facilities","systems"], ["infrastructural (adj.)"], "green infrastructure 绿色基础设施"),
+word("sustainable","adj.","B1","Able to continue without harming the environment or using up resources.","可持续的",
+ "Sustainable development is development that avoids harm to the environment.",
+ "可持续发展是不损害环境的开发方式。",
+ "We should choose sustainable ways to produce energy.","我们应选择可持续的能源生产方式。",
+ "Sustainable farming protects soil for future generations.","可持续农业为子孙后代保护土壤。",
+ ["eco-friendly","lasting"], ["sustain (v.)","sustainability (n.)"], "sustainable development 可持续发展"),
+word("environmental","adj.","B1","Related to the natural world and how humans affect it.","环境的",
+ "He has long pushed for sustainable school infrastructure development.",
+ "他长期以来一直推动可持续的学校基础设施建设。",
+ "Environmental problems affect air and water quality.","环境问题影响空气和水质。",
+ "Students joined an environmental club to protect local parks.","学生加入环保俱乐部保护当地公园。",
+ ["ecological"], ["environment (n.)","environmentally (adv.)"], "environmental science 环境科学"),
+word("pollution","n.","A2","Harmful substances in air, water, or land.","污染",
+ "Nearby factories have been criticized for adding pollution to the area.",
+ "附近的工厂因给该地区带来污染而受到批评。",
+ "Air pollution can make people sick.","空气污染会使人患病。",
+ "Solar energy helps cut down on pollution from coal plants.","太阳能有助于减少燃煤电厂的污染。",
+ ["contamination"], ["pollute (v.)","polluted (adj.)"], "cut down on pollution 减少污染"),
+word("installation","n.","B1","The process of putting equipment in place so it can be used.","安装",
+ "They can actually go and get a career in solar panel installation after they leave school.",
+ "他们毕业后实际上可以从事太阳能电池板安装工作。",
+ "The installation of new computers took two days.","新电脑的安装花了两天。",
+ "Solar panel installation creates jobs for trained workers.","太阳能电池板安装为受过培训的工人创造就业机会。",
+ ["setup","fitting"], ["install (v.)"], "solar panel installation 太阳能电池板安装"),
+word("demonstration","n.","B1","An act of showing how something works.","演示；示范",
+ "The two teens were watching his demonstration.",
+ "两名青少年正在观看他的演示。",
+ "The teacher gave a demonstration of the science experiment.","老师演示了科学实验。",
+ "A live demonstration helps students understand solar power.","现场演示帮助学生理解太阳能。",
+ ["demo","showing"], ["demonstrate (v.)"], "watch a demonstration 观看演示"),
+word("opportunity","n.","A2","A good chance to do something useful or successful.","机会",
+ "It's a great opportunity. Great experience.",
+ "这是一个很好的机会，也是很棒的经历。",
+ "This job is a wonderful opportunity for young people.","这份工作对年轻人来说是一个很好的机会。",
+ "Education opens up opportunities for a better future.","教育为更美好的未来打开机会之门。",
+ ["chance","opening"], ["opportunities (pl.)"], "a great opportunity 很好的机会"),
+word("generate","v.","B1","To produce or create something, especially energy.","产生；发电",
+ "We can use it to generate electricity.",
+ "我们可以用它来发电。",
+ "Wind farms generate clean power for thousands of homes.","风力发电场为数千户家庭提供清洁电力。",
+ "The new system generates less waste than the old one.","新系统产生的废物比旧系统少。",
+ ["produce","create"], ["generation (n.)","generator (n.)"], "generate electricity 发电"),
+word("minimize","v.","B2","To reduce something to the smallest possible amount.","使减到最少；最小化",
+ "Green infrastructure is infrastructure that is designed to minimize environmental damage.",
+ "绿色基础设施旨在最大限度地减少环境破坏。",
+ "We should minimize waste in our daily lives.","我们应在日常生活中尽量减少浪费。",
+ "Good design can minimize energy use in buildings.","良好的设计可以减少建筑能耗。",
+ ["reduce","limit"], ["minimum (n./adj.)"], "minimize damage 减少破坏"),
+word("activist","n.","B2","A person who works to bring about political or social change.","活动家；积极分子",
+ "It is building on the history of Black-led environmental justice organizing in this part of Chicago.",
+ "它建立在芝加哥这一地区由黑人领导的环保正义组织活动的历史之上。",
+ "The young activist spoke at the city council meeting.","这位年轻活动家在市议会上发言。",
+ "Environmental activists pushed for cleaner air in their neighborhood.","环保活动家推动社区空气更清洁。",
+ ["campaigner","advocate"], ["activism (n.)","active (adj.)"], "environmental activist 环保活动家"),
+word("justice","n.","B2","Fair treatment and protection of rights for all people.","正义；公正",
+ "He is a member of the Chicago Teachers Union Climate Justice Committee.",
+ "他是芝加哥教师工会气候正义委员会的成员。",
+ "Students learned about social justice in history class.","学生在历史课上学习了社会正义。",
+ "Environmental justice means clean air and water for every community.","环境正义意味着每个社区都有清洁的空气和水。",
+ ["fairness","equity"], ["just (adj.)"], "climate justice 气候正义"),
+word("graduate","v.","A2","To complete a school or university program.","毕业",
+ "Sebastian hopes to pursue trade school after graduation.",
+ "塞巴斯蒂安希望毕业后进入职业学校。",
+ "She will graduate from high school next year.","她将于明年高中毕业。",
+ "Many graduates find jobs in green energy fields.","许多毕业生在绿色能源领域找到工作。",
+ ["finish school"], ["graduation (n.)","graduate (n.)"], "after graduation 毕业后"),
+word("industrial","adj.","B1","Related to factories and large-scale production.","工业的",
+ "Carver opened in 1947, near a heavily industrial zone.",
+ "卡弗中学1947年开办，位于重工业区附近。",
+ "Industrial areas often have more air pollution.","工业区通常空气污染更严重。",
+ "The city moved some industrial plants away from schools.","该市将一些工厂迁离学校。",
+ ["manufacturing"], ["industry (n.)","industrialize (v.)"], "industrial zone 工业区"),
+word("resources","n.","A2","Useful materials or supplies that people need.","资源",
+ "It brings attention, resources and new ideas to our school.",
+ "它为我们的学校带来了关注、资源和新想法。",
+ "We must protect natural resources like clean water.","我们必须保护清洁水等自然资源。",
+ "The program brings new resources to students in South Side Chicago.","该项目为芝加哥南区的学生带来了新资源。",
+ ["supplies","assets"], ["resourceful (adj.)"], "natural resources 自然资源"),
+word("activism","n.","B2","The practice of taking action to achieve social or political change.","行动主义；社会活动",
+ "She sees the solar panel installation project as a continuation of Altgeld Gardens' early environmental activism.",
+ "她认为太阳能电池板安装项目是奥尔特盖德花园早期环保行动的延续。",
+ "Youth activism can change local communities.","青年行动主义可以改变当地社区。",
+ "Environmental activism helped improve water quality in the area.","环保行动帮助改善了该地区的水质。",
+ ["advocacy","campaigning"], ["activist (n.)"], "environmental activism 环保行动"),
+word("generation","n.","B1","All people born around the same time; also the production of energy.","一代人；产生",
+ "Its goal is to preserve resources for future generations.",
+ "其目标是为子孙后代保护资源。",
+ "Young people are the next generation of leaders.","年轻人是下一代领导者。",
+ "Using solar energy now helps make the world safer and healthier for the next generation.","现在使用太阳能有助于为下一代创造更安全、更健康的世界。",
+ ["age group"], ["generational (adj.)","generate (v.)"], "future generations 子孙后代"),
+]
+
+phrases = [
+phrase("solar panel","noun phrase","A device that converts sunlight into electricity.","太阳能电池板",
+ "Solar panels convert energy from the sun into electricity.",
+ "太阳能电池板将太阳能转化为电能。",
+ "Schools are installing solar panels on rooftops.","学校正在屋顶安装太阳能电池板。",
+ "A small solar panel can power a fan in a science demo.","一块小太阳能电池板可以在科学演示中为风扇供电。",
+ ["solar cell panel"], "full-size solar panels 全尺寸太阳能电池板"),
+phrase("green energy","noun phrase","Energy from sources that do not run out, such as sun and wind.","绿色能源",
+ "Renewable energy is also known as green energy.",
+ "可再生能源也被称为绿色能源。",
+ "Green energy helps reduce dependence on coal and oil.","绿色能源有助于减少对煤炭和石油的依赖。",
+ "Cities invest in green energy to fight climate change.","城市投资绿色能源以应对气候变化。",
+ ["renewable energy","clean energy"], "also known as green energy"),
+phrase("green jobs program","noun phrase","A training or work program focused on environmentally friendly careers.","绿色就业项目",
+ "It's a dream come true, Sokoya said of Carver's new green jobs program.",
+ "索科亚说，卡弗中学新的绿色就业项目「梦想成真」。",
+ "The green jobs program pays students to learn installation skills.","绿色就业项目付薪让学生学习安装技能。",
+ "Green jobs programs connect schools with clean-energy careers.","绿色就业项目将学校与清洁能源职业联系起来。",
+ ["green careers program"], "Carver's green jobs program"),
+phrase("green infrastructure","noun phrase","Buildings and systems designed to reduce harm to the environment.","绿色基础设施",
+ "Green infrastructure is infrastructure that is designed to minimize environmental damage.",
+ "绿色基础设施旨在最大限度地减少环境破坏。",
+ "Parks and green roofs are forms of green infrastructure.","公园和绿色屋顶是绿色基础设施的形式。",
+ "Schools benefit when green infrastructure lowers energy costs.","当绿色基础设施降低能源成本时，学校受益匪浅。",
+ ["eco-infrastructure"], "sustainable school infrastructure"),
+phrase("sustainable development","noun phrase","Growth that meets present needs without harming the environment for the future.","可持续发展",
+ "Sustainable development is development that avoids harm to the environment.",
+ "可持续发展是不损害环境的开发方式。",
+ "Sustainable development balances jobs and environmental protection.","可持续发展在就业与环保之间取得平衡。",
+ "Leaders discussed sustainable development at the climate summit.","领导人在气候峰会上讨论了可持续发展。",
+ ["eco-friendly growth"], "school infrastructure development"),
+phrase("environmental justice","noun phrase","Fair treatment of all people regarding environmental laws and protection.","环境正义",
+ "It is building on the history of Black-led environmental justice organizing in this part of Chicago.",
+ "它建立在芝加哥这一地区由黑人领导的环保正义组织活动的历史之上。",
+ "Environmental justice means no community should face more pollution.","环境正义意味着任何社区都不应承受更多污染。",
+ "Activists fight for environmental justice in poor neighborhoods.","活动家在贫困社区为环境正义而斗争。",
+ ["climate justice"], "environmental rights movement"),
+phrase("a dream come true","idiom","Something you have wanted very much that finally happens.","梦想成真",
+ "It's a dream come true, Sokoya said of Carver's new green jobs program.",
+ "索科亚说，卡弗中学新的绿色就业项目「梦想成真」。",
+ "Getting into her favorite college was a dream come true.","进入她最喜欢的大学是梦想成真。",
+ "For the teacher, full-scale solar at school was a dream come true.","对这位老师来说，学校全规模太阳能项目是梦想成真。",
+ ["wish fulfilled"], "It's a dream come true"),
+phrase("hands-on work","noun phrase","Practical work done directly with tools or materials.","动手实践的工作",
+ "He enjoys hands-on work and hopes to pursue trade school after graduation.",
+ "他喜欢动手实践的工作，希望毕业后进入职业学校。",
+ "Science class offers hands-on work with solar models.","科学课提供太阳能模型的动手实践。",
+ "Trade school prepares students for hands-on work in skilled jobs.","职业学校为学生从事技术岗位的动手工作做准备。",
+ ["practical work"], "enjoys hands-on work"),
+phrase("trade school","noun phrase","A school that teaches practical job skills for specific careers.","职业学校；技工学校",
+ "Sebastian hopes to pursue trade school after graduation.",
+ "塞巴斯蒂安希望毕业后进入职业学校。",
+ "After trade school, he wants to work in construction.","从职业学校毕业后，他想从事建筑工作。",
+ "Trade school can lead to careers in HVAC and solar installation.","职业学校可通向暖通空调和太阳能安装等职业。",
+ ["vocational school"], "pursue trade school"),
+phrase("convert energy from the sun into electricity","verb phrase","To change sunlight into usable electric power.","将太阳能转化为电能",
+ "Solar panels convert energy from the sun into electricity.",
+ "太阳能电池板将太阳能转化为电能。",
+ "New technology helps convert energy from the sun into electricity more efficiently.","新技术帮助更高效地将太阳能转化为电能。",
+ "Students learned how panels convert energy from the sun into electricity.","学生们学习了电池板如何将太阳能转化为电能。",
+ ["turn sunlight into power"], "solar panels convert..."),
+phrase("minimize environmental damage","verb phrase","To reduce harm to nature as much as possible.","最大限度地减少环境破坏",
+ "Green infrastructure is infrastructure that is designed to minimize environmental damage.",
+ "绿色基础设施旨在最大限度地减少环境破坏。",
+ "Recycling helps minimize environmental damage from waste.","回收有助于减少废物对环境的破坏。",
+ "Clean energy projects aim to minimize environmental damage.","清洁能源项目旨在最大限度地减少环境破坏。",
+ ["reduce harm to nature"], "designed to minimize damage"),
+phrase("in harmony with natural systems","prep phrase","Working in a way that fits well with nature rather than fighting against it.","与自然系统和谐共处",
+ "It works in harmony with natural systems.",
+ "它与自然系统和谐运作。",
+ "Green buildings are designed in harmony with natural systems.","绿色建筑的设计与自然系统和谐一致。",
+ "Solar power works in harmony with natural systems like sunlight and wind.","太阳能与阳光和风等自然系统和谐运作。",
+ ["aligned with nature"], "works in harmony with"),
+phrase("environmental rights movement","noun phrase","A social movement fighting for fair access to a clean environment.","环境权利运动",
+ "It is often called the birthplace of Chicago's environmental rights movement.",
+ "它常被称为芝加哥环境权利运动的发源地。",
+ "The environmental rights movement grew from local housing struggles.","环境权利运动从当地住房斗争中成长起来。",
+ "Hazel Johnson helped start the environmental rights movement in Chicago.","黑兹尔·约翰逊帮助发起了芝加哥的环境权利运动。",
+ ["environmental justice movement"], "birthplace of the movement"),
+phrase("safer and healthier world","noun phrase","A future with less danger and better health for people.","更安全、更健康的世界",
+ "Using solar energy now helps make the world safer and healthier for the next generation.",
+ "现在使用太阳能有助于为下一代创造更安全、更健康的世界。",
+ "Clean air leads to a safer and healthier world for children.","清洁空气为孩子们带来更安全、更健康的世界。",
+ "Students hope their solar project builds a safer and healthier world.","学生们希望他们的太阳能项目能建设更安全、更健康的世界。",
+ ["better future"], "make the world safer and healthier"),
+phrase("run out","phrasal verb","To be completely used up so that none is left.","用完；耗尽",
+ "It is energy that does not run out when used, the way coal, oil and natural gas do.",
+ "这种能源在使用时不会耗尽，不像煤炭、石油和天然气那样。",
+ "If we keep wasting water, it could run out in dry seasons.","如果我们继续浪费水，旱季可能会用完。",
+ "Solar energy does not run out the way fossil fuels do.","太阳能不会像化石燃料那样耗尽。",
+ ["be used up","be exhausted"], "does not run out"),
+]
+
+patterns = [
+pattern("... convert ... into ...","Shows changing one form of energy or material into another.","……将……转化为……",
+ "Solar panels convert energy from the sun into electricity.",
+ "太阳能电池板将太阳能转化为电能。",
+ "Plants convert sunlight into food through photosynthesis.","植物通过光合作用将阳光转化为食物。",
+ "The device converts heat into useful energy.","该装置将热量转化为可用能源。",
+ "convert A into B"),
+pattern("It's a dream come true","Expresses that something long hoped for has finally happened.","……是梦想成真",
+ "It's a dream come true, Sokoya said of Carver's new green jobs program.",
+ "索科亚说，卡弗中学新的绿色就业项目「梦想成真」。",
+ "Winning the science fair was a dream come true for her.","赢得科学竞赛对她来说是梦想成真。",
+ "Seeing solar panels on campus was a dream come true for the teacher.","看到校园里的太阳能电池板是这位老师梦想成真。",
+ "It's a dream come true for..."),
+pattern("... is also known as ...","Introduces another name for the same thing.","……也被称为……",
+ "Renewable energy is also known as green energy.",
+ "可再生能源也被称为绿色能源。",
+ "HVAC is also known as heating, ventilation and air conditioning.","HVAC也被称为暖通空调。",
+ "Solar power is also known as a form of clean energy.","太阳能也被称为一种清洁能源。",
+ "A is also known as B"),
+pattern("... is designed to ...","Explains the purpose something was created for.","……旨在……；……被设计用来……",
+ "Green infrastructure is infrastructure that is designed to minimize environmental damage.",
+ "绿色基础设施旨在最大限度地减少环境破坏。",
+ "The program is designed to help students gain job skills.","该项目旨在帮助学生获得工作技能。",
+ "Solar models are designed to teach how electricity is generated.","太阳能模型旨在教授如何发电。",
+ "be designed to do sth."),
+pattern("... helps make the world ...","Shows how an action improves conditions for people or the planet.","……有助于使世界……",
+ "Using solar energy now helps make the world safer and healthier for the next generation.",
+ "现在使用太阳能有助于为下一代创造更安全、更健康的世界。",
+ "Planting trees helps make the world greener and cooler.","植树有助于使世界更绿、更凉爽。",
+ "Clean energy helps make the world less dependent on fossil fuels.","清洁能源有助于使世界减少对化石燃料的依赖。",
+ "helps make the world + adj."),
+]
+
+paragraphs = [
+{"id":1,"title":"Opening","section_heading":"","image":"section1-intro.png","sentences":[
+"Two teens huddled around Jamiu Sokoya, their science teacher.",
+"Sokoya held a tiny solar panel beneath a lamp.",
+"Solar panels convert energy from the sun into electricity.",
+"As light glinted off of Sokoya's panel, a miniature fan began whirring.",
+"This mimics the heat of the sun, and we can use it to generate electricity, Sokoya said.",
+"Sokoya teaches physics and environmental science at Carver Military Academy in Chicago, Illinois.",
+"Juniors LaShawn Jones and Sebastian Rojas were the two students watching his demonstration.",
+"LaShawn is 16, and Sebastian is 17.",
+"The two teens have been selected for Carver's first green jobs pathway program."],
+"socratic":[
+{"q":"What did Sokoya use to demonstrate how solar panels work?","a":"He held a tiny solar panel beneath a lamp to mimic the sun; the light made a miniature fan start whirring."},
+{"q":"Who were the two students selected for the green jobs program?","a":"Juniors LaShawn Jones (16) and Sebastian Rojas (17)."},
+{"q":"What subject does Sokoya teach?","a":"Physics and environmental science at Carver Military Academy in Chicago."}]},
+{"id":2,"title":"Green Jobs on Campus","section_heading":"Green Jobs on Campus","image":"section2-solar-jobs.png","sentences":[
+"They will spend the summer installing regular, full-size solar panels at their high school.",
+"They will be paid $20 an hour for their work.",
+"Alongside four other students, LaShawn and Sebastian will help design and build renewable energy systems on campus.",
+"Renewable energy is also known as green energy.",
+"It is energy that does not run out when used, the way coal, oil and natural gas do.",
+"Sunlight is a major source of renewable energy.",
+"So are wind and water.",
+"It's a great opportunity. Great experience, LaShawn said of his summer job.",
+"I feel like not a lot of opportunities come up like this, around this area. It's a blessing."],
+"socratic":[
+{"q":"What will students do during the summer and how much will they be paid?","a":"They will install full-size solar panels at their high school and be paid $20 an hour."},
+{"q":"What is renewable (green) energy according to the article?","a":"Energy that does not run out when used, unlike coal, oil, and natural gas; major sources include sunlight, wind, and water."},
+{"q":"How does LaShawn feel about the opportunity?","a":"He calls it a great opportunity and a blessing because such chances are rare in his area."}]},
+{"id":3,"title":"Green-Energy Investment","section_heading":"Green-Energy Investment","image":"section3-infrastructure.png","sentences":[
+"Carver serves about 400 students.",
+"It is located in the Riverdale neighborhood on Chicago's Far South Side.",
+"Sokoya has been having students build solar models as a class exercise for years.",
+"But he never expected full-scale green infrastructure to arrive at Carver.",
+"Infrastructure is everything that makes modern life possible, from roads and bridges to buildings and heating systems.",
+"Green infrastructure is infrastructure that is designed to minimize environmental damage.",
+"It works in harmony with natural systems.",
+"Sokoya is a member of the Chicago Teachers Union Climate Justice Committee.",
+"He has long pushed for sustainable school infrastructure development.",
+"Sustainable development is development that avoids harm to the environment.",
+"Its goal is to preserve resources for future generations.",
+"It's a dream come true, Sokoya said of Carver's new green jobs program.",
+"Our students at Carver, they're going to be benefitting.",
+"They can actually go and get a career in solar panel installation after they leave school.",
+"That's the exciting part for me.",
+"LaShawn and Sebastian were both eager to apply for the solar panel jobs.",
+"LaShawn hopes to become an HVAC technician.",
+"Sebastian has long been drawn to construction.",
+"He enjoys hands-on work and hopes to pursue trade school after graduation.",
+"It's a big opportunity, he said.",
+"It brings attention, resources and new ideas to our school."],
+"socratic":[
+{"q":"What is green infrastructure and how does it differ from regular infrastructure?","a":"Infrastructure supports modern life (roads, buildings, heating, etc.); green infrastructure is designed to minimize environmental damage and work in harmony with natural systems."},
+{"q":"Why is the program a 'dream come true' for Sokoya?","a":"He long pushed for sustainable school infrastructure; now students will benefit and may pursue careers in solar panel installation."},
+{"q":"What career goals do LaShawn and Sebastian have?","a":"LaShawn hopes to become an HVAC technician; Sebastian enjoys hands-on construction work and wants to attend trade school after graduation."}]},
+{"id":4,"title":"Long Fight For Environmental Rights","section_heading":"Long Fight For Environmental Rights","image":"section4-justice.png","sentences":[
+"Carver opened in 1947, near a heavily industrial zone.",
+"Nearby factories have been criticized for adding pollution to the area.",
+"Altgeld Gardens Homes sits just a half mile away.",
+"It is a large public housing complex and is often called the birthplace of Chicago's environmental rights movement.",
+"One of its residents, Hazel M. Johnson, challenged the city's housing authority to address poor water and air quality.",
+"Lauren Bianchi is a green schools organizer.",
+"She sees the solar panel installation project as a continuation of Altgeld Gardens' early environmental activism.",
+"It is building on the history of Black-led environmental justice organizing in this part of Chicago, she said."],
+"socratic":[
+{"q":"Why has the Carver area faced environmental challenges?","a":"Carver is near a heavily industrial zone; nearby factories have been criticized for adding pollution."},
+{"q":"Who was Hazel M. Johnson and what did she do?","a":"A resident of Altgeld Gardens who challenged the housing authority to address poor water and air quality; the area is called the birthplace of Chicago's environmental rights movement."},
+{"q":"How does Lauren Bianchi connect the solar project to local history?","a":"She sees it as a continuation of Altgeld Gardens' environmental activism and Black-led environmental justice organizing in South Side Chicago."}]},
+{"id":5,"title":"Making a Safer, Healthier World","section_heading":"Making a Safer, Healthier World","image":"section5-future.png","sentences":[
+"LaShawn and Sebastian are eager to apply their math and science skills through the summer.",
+"Solar power is good for our future because it's clean, it doesn't run out and it helps cut down on pollution, Sebastian said.",
+"It can lower energy costs and create new jobs.",
+"Using solar energy now helps make the world safer and healthier for the next generation."],
+"socratic":[
+{"q":"What skills will the students apply during the summer project?","a":"Math and science skills."},
+{"q":"According to Sebastian, why is solar power good for the future?","a":"It's clean, doesn't run out, cuts down on pollution, can lower energy costs, create jobs, and help make the world safer and healthier for the next generation."},
+{"q":"What is the main message of the article's ending?","a":"Student-led solar energy work connects education, jobs, and environmental justice to build a cleaner, healthier future."}]},
+]
+
+all_sentences = []
+for p in paragraphs:
+    for s in p["sentences"]:
+        all_sentences.append({"text": s, "paragraph_id": p["id"], "paragraph_title": p.get("section_heading") or p["title"]})
+
+article_full = "\n\n".join(
+    (p.get("section_heading") or p["title"]) + "\n" + " ".join(p["sentences"])
+    for p in paragraphs
+)
+
+article_lead = (
+    "At Carver Military Academy in Chicago, science teacher Jamiu Sokoya shows students how solar panels "
+    "convert sunlight into electricity—and LaShawn Jones and Sebastian Rojas are among the first teens "
+    "selected to install full-size solar panels on campus through a new green jobs program."
+)
+
+quiz = {
+  "spelling": [
+    {"hint_cn": "太阳能的", "hint_en": "Related to the sun; using sunlight.", "answer": "solar"},
+    {"hint_cn": "电", "hint_en": "Energy that powers lights and machines.", "answer": "electricity"},
+    {"hint_cn": "可再生的", "hint_en": "Not used up forever when used.", "answer": "renewable"},
+    {"hint_cn": "基础设施", "hint_en": "Roads, buildings, and systems society needs.", "answer": "infrastructure"},
+    {"hint_cn": "污染", "hint_en": "Harmful substances in air, water, or land.", "answer": "pollution"},
+    {"hint_cn": "机会", "hint_en": "A good chance to do something useful.", "answer": "opportunity"},
+    {"hint_cn": "可持续的", "hint_en": "Able to continue without harming the environment.", "answer": "sustainable"},
+    {"hint_cn": "一代人", "hint_en": "People born around the same time.", "answer": "generation"},
+  ],
+  "word_selection": {
+    "bank": ["solar","renewable","infrastructure","pollution","generate","sustainable","convert","installation"],
+    "items": [
+      {"sentence": "___ panels turn sunlight into electricity.", "answer": "Solar", "analysis": "Solar panels 太阳能电池板。"},
+      {"sentence": "Green energy is also called ___ energy.", "answer": "renewable", "analysis": "renewable energy 可再生能源。"},
+      {"sentence": "Roads and school buildings are part of ___.", "answer": "infrastructure", "analysis": "infrastructure 基础设施。"},
+      {"sentence": "Factories near Carver added ___ to the area.", "answer": "pollution", "analysis": "pollution 污染。"},
+      {"sentence": "The lamp demo helped ___ electricity.", "answer": "generate", "analysis": "generate electricity 发电。"},
+      {"sentence": "The program supports ___ school development.", "answer": "sustainable", "analysis": "sustainable development 可持续发展。"},
+      {"sentence": "Panels ___ sunlight into useful power.", "answer": "convert", "analysis": "convert ... into ... 将……转化为……"},
+      {"sentence": "Students will learn solar panel ___.", "answer": "installation", "analysis": "panel installation 电池板安装。"}
+    ]
+  },
+  "unscramble": [
+    {"letters": "s o l a r", "answer": "solar", "hint": "太阳能的"},
+    {"letters": "e n e r g y", "answer": "energy", "hint": "能源"},
+    {"letters": "j u s t i c e", "answer": "justice", "hint": "正义"},
+    {"letters": "p o l l u t e", "answer": "pollute", "hint": "污染（动词）"},
+    {"letters": "g r a d u a t e", "answer": "graduate", "hint": "毕业"},
+    {"letters": "a c t i v i s t", "answer": "activist", "hint": "活动家"},
+  ],
+  "first_letter": [
+    {"before": "___ energy does not run out like coal or oil.", "letter": "R", "after": "", "answer": "Renewable", "analysis": "Renewable 可再生的。"},
+    {"before": "Sokoya gave a ___ of how solar panels work.", "letter": "d", "after": "", "answer": "demonstration", "analysis": "Demonstration 演示。"},
+    {"before": "LaShawn called the summer job a great ___.", "letter": "o", "after": "", "answer": "opportunity", "analysis": "Opportunity 机会。"},
+    {"before": "Green infrastructure helps ___ environmental damage.", "letter": "m", "after": "", "answer": "minimize", "analysis": "Minimize 使减到最少。"},
+    {"before": "Sebastian wants to attend ___ school after graduation.", "letter": "t", "after": "", "answer": "trade", "analysis": "Trade school 职业学校。"},
+    {"before": "Hazel Johnson was an environmental ___.", "letter": "a", "after": "", "answer": "activist", "analysis": "Activist 活动家。"},
+  ],
+  "reading_cloze": {
+    "passage": "At Carver Military Academy, students learn how ___ [1] panels convert sunlight into electricity. LaShawn and Sebastian were chosen for a ___ [2] jobs program. They will install full-size panels and earn $20 an hour. The project builds ___ [3] infrastructure designed to reduce environmental harm. It continues a history of ___ [4] justice organizing near Altgeld Gardens. Using clean energy now helps create a safer world for the next ___ [5].",
+    "questions": [
+      {"num": 1, "options": ["solar","lunar","metal"], "answer": "solar", "analysis": "solar panels 太阳能电池板。"},
+      {"num": 2, "options": ["green","gray","blue"], "answer": "green", "analysis": "green jobs program 绿色就业项目。"},
+      {"num": 3, "options": ["green","broken","empty"], "answer": "green", "analysis": "green infrastructure 绿色基础设施。"},
+      {"num": 4, "options": ["environmental","musical","medical"], "answer": "environmental", "analysis": "environmental justice 环境正义。"},
+      {"num": 5, "options": ["generation","vacation","station"], "answer": "generation", "analysis": "next generation 下一代。"}
+    ]
+  },
+  "comprehension": [
+    {"q": "Which statement summarizes the paragraph about Altgeld Gardens and Hazel M. Johnson?", "options": [
+      "Chicago's environmental rights movement failed to address poor water and air quality at Altgeld Gardens.",
+      "Hazel M. Johnson was originally recruited to join Chicago's environmental rights movement when she lived at Altgeld Gardens.",
+      "The Altgeld Gardens Homes sits a half-mile away from Carver and was the birthplace of environmental activist Hazel M. Johnson.",
+      "Chicago's environmental rights movement began when Hazel M. Johnson, an Altgeld Gardens resident, demanded the city address the area's poor water and air quality."
+    ], "answer": 3, "analysis": "D正确：芝加哥环境权利运动始于黑兹尔·约翰逊要求政府解决奥尔特盖德花园的水质和空气质量问题。"},
+    {"q": "Which sentence supports the conclusion that solar power is good for the economy?", "options": [
+      "LaShawn and Sebastian are eager to apply their math and science skills through the summer.",
+      "Solar power is good for our future because it's clean, it doesn't run out and it helps cut down on pollution.",
+      "It can lower energy costs and create new jobs.",
+      "Using solar energy now helps make the world safer and healthier for the next generation."
+    ], "answer": 2, "analysis": "C正确：降低能源成本并创造新就业，直接支持对经济有利的结论。"},
+    {"q": "Which sentence shows how green infrastructure minimizes environmental damage?", "options": [
+      "Sokoya has been having students build solar models as a class exercise for years.",
+      "It works in harmony with natural systems.",
+      "He has long pushed for sustainable school infrastructure development.",
+      "It brings attention, resources and new ideas to our school."
+    ], "answer": 1, "analysis": "B正确：与自然系统和谐运作，体现减少环境破坏的设计理念。"},
+    {"q": "Which sentence supports the main idea that Carver students are excited by the new green jobs program?", "options": [
+      "Sokoya teaches physics and environmental science at Carver Military Academy in Chicago, Illinois.",
+      "I feel like not a lot of opportunities come up like this, around this area.",
+      "It's a dream come true, Sokoya said of Carver's new green jobs program.",
+      "She sees the solar panel installation project as a continuation of Altgeld Gardens' early environmental activism."
+    ], "answer": 1, "analysis": "B是拉肖恩的原话，直接表达学生对这一难得机会的兴奋与感激。"}
+  ]
+}
+
+graphic_organizer = {
+  "title": "Solar Energy & Green Jobs at Carver — Text Structure",
+  "sections": [
+    {"heading": "Main Idea", "content": "Carver Military Academy students will install solar panels on campus through a paid green jobs program, connecting science learning, careers, and environmental justice."},
+    {"heading": "Section 1: Opening", "content": "Teacher Sokoya demos a solar panel; students LaShawn Jones and Sebastian Rojas are selected for the green jobs pathway."},
+    {"heading": "Section 2: Green Jobs on Campus", "content": "Six students will install full-size panels for $20/hour; renewable (green) energy comes from sun, wind, and water."},
+    {"heading": "Section 3: Green-Energy Investment", "content": "Carver in Riverdale gets green infrastructure; Sokoya's dream of sustainable schools; students plan HVAC, construction, and trade careers."},
+    {"heading": "Section 4: Environmental Rights", "content": "Industrial pollution near Carver; Altgeld Gardens and Hazel Johnson's activism; project continues Black-led environmental justice."},
+    {"heading": "Section 5: A Safer Future", "content": "Students apply math/science; solar is clean, creates jobs, cuts pollution, and helps the next generation."}
+  ]
+}
+
+data = {
+  "title": "Solar Energy at Carver Military Academy",
+  "title_full": "At this Chicago school, students will help bring solar energy to campus",
+  "subtitle": "Green Jobs, Renewable Energy & Environmental Justice — Reading Courseware",
+  "level": "860L",
+  "word_count": 646,
+  "source": "By Chicago Tribune, adapted by Newsela staff on 06.01.26",
+  "article_lead": article_lead,
+  "article_full": article_full,
+  "vocabulary": vocabulary,
+  "phrases": phrases,
+  "patterns": patterns,
+  "all_vocab_items": vocabulary + phrases + patterns,
+  "paragraphs": paragraphs,
+  "all_sentences": all_sentences,
+  "quiz": quiz,
+  "graphic_organizer": graphic_organizer,
+  "comprehension_questions": quiz["comprehension"]
+}
+
+path = os.path.join(base, "course-data.json")
+with open(path, "w", encoding="utf-8") as f:
+    json.dump(data, f, ensure_ascii=False, indent=2)
+
+js_path = os.path.join(base, "..", "js", "course-data.js")
+with open(js_path, "w", encoding="utf-8") as f:
+    f.write("window.COURSE_DATA = ")
+    json.dump(data, f, ensure_ascii=False)
+    f.write(";\n")
+
+print("OK json", os.path.getsize(path), "js", os.path.getsize(js_path))
