@@ -36,7 +36,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://picsum.photos/seed/plate/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/plate/plate_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I put the apple on the plate.",
@@ -70,7 +70,7 @@ const TEXTBOOK_DATA = {
               "letter": "p"
             }
           ],
-          "image": "https://picsum.photos/seed/group/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/group/group_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Our group painted a big picture together.",
@@ -120,7 +120,7 @@ const TEXTBOOK_DATA = {
               "letter": "p"
             }
           ],
-          "image": "https://picsum.photos/seed/food_group/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/food_group/food_group_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Milk belongs to the dairy food group.",
@@ -154,7 +154,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://picsum.photos/seed/fruit/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/fruit/fruit_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I like to eat fresh fruit for breakfast.",
@@ -196,7 +196,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://picsum.photos/seed/candy/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/candy/candy_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Mom said I can have one candy after lunch.",
@@ -250,7 +250,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://picsum.photos/seed/chocolate/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/chocolate/chocolate_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I love chocolate ice cream in summer.",
@@ -288,7 +288,7 @@ const TEXTBOOK_DATA = {
               "letter": "a"
             }
           ],
-          "image": "https://picsum.photos/seed/cola/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/cola/cola_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "He drank a can of cold cola after the game.",
@@ -326,7 +326,7 @@ const TEXTBOOK_DATA = {
               "letter": "s"
             }
           ],
-          "image": "https://picsum.photos/seed/chips/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/chips/chips_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "We bought a bag of chips for the picnic.",
@@ -360,7 +360,7 @@ const TEXTBOOK_DATA = {
               "letter": "p"
             }
           ],
-          "image": "https://picsum.photos/seed/soup/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/soup/soup_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Mom makes chicken soup for me when I am sick.",
@@ -406,7 +406,7 @@ const TEXTBOOK_DATA = {
               "letter": "o"
             }
           ],
-          "image": "https://picsum.photos/seed/potato/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/potato/potato_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I like to eat a baked potato with butter for dinner.",
@@ -440,7 +440,7 @@ const TEXTBOOK_DATA = {
               "letter": "s"
             }
           ],
-          "image": "https://picsum.photos/seed/choose/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/choose/choose_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Please choose one book from the shelf to read.",
@@ -474,7 +474,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://picsum.photos/seed/meat/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/meat/meat_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The dog loves to eat meat from its bowl.",
@@ -512,7 +512,7 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "https://picsum.photos/seed/letter/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/letter/letter_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I wrote a letter to my grandma in another city.",
@@ -558,7 +558,7 @@ const TEXTBOOK_DATA = {
               "letter": "ch"
             }
           ],
-          "image": "https://picsum.photos/seed/stomach/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/stomach/stomach_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "My stomach growls loudly when I am hungry.",
@@ -596,7 +596,7 @@ const TEXTBOOK_DATA = {
               "letter": "gh"
             }
           ],
-          "image": "https://picsum.photos/seed/enough/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/enough/enough_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "We have enough chairs for everyone in the class.",
@@ -650,7 +650,7 @@ const TEXTBOOK_DATA = {
               "letter": "gh"
             }
           ],
-          "image": "https://picsum.photos/seed/that_s_enough/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/thats_enough/thats_enough_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "That's enough TV for today; go play outside.",
@@ -684,7 +684,7 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "https://picsum.photos/seed/bad/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/bad/bad_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The milk smells bad, so do not drink it.",
@@ -722,7 +722,7 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "https://picsum.photos/seed/bread/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/bread/bread_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Mom bakes fresh bread every Sunday morning.",
@@ -756,7 +756,7 @@ const TEXTBOOK_DATA = {
               "letter": "ew"
             }
           ],
-          "image": "https://picsum.photos/seed/a_few/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/a_few/a_few_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I have a few apples left in my bag.",
@@ -802,7 +802,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://picsum.photos/seed/biscuit/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/biscuit/biscuit_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "My dog loves to eat a crunchy biscuit.",
@@ -840,7 +840,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://picsum.photos/seed/heavy/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/heavy/heavy_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "This box is too heavy for me to lift.",
@@ -878,7 +878,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://picsum.photos/seed/sleepy/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/sleepy/sleepy_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "After lunch, I always feel very sleepy.",
@@ -916,7 +916,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "assets/images/words/Unit1/always/always_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/always/always_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "My grandma always tells funny stories.",
@@ -954,7 +954,7 @@ const TEXTBOOK_DATA = {
               "letter": "ge"
             }
           ],
-          "image": "https://picsum.photos/seed/change/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/change/change_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The weather can change very quickly in spring.",
@@ -996,7 +996,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "assets/images/words/Unit1/healthy/healthy_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/healthy/healthy_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Eating fruits and vegetables keeps you healthy.",
@@ -1038,7 +1038,7 @@ const TEXTBOOK_DATA = {
               "letter": "m"
             }
           ],
-          "image": "https://picsum.photos/seed/problem/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/problem/problem_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I have a problem with my bike tire.",
@@ -1068,7 +1068,7 @@ const TEXTBOOK_DATA = {
               "letter": "ow"
             }
           ],
-          "image": "assets/images/words/Unit1/slow/slow_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/slow/slow_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The turtle is very slow on the road.",
@@ -1098,7 +1098,7 @@ const TEXTBOOK_DATA = {
               "letter": "oa"
             }
           ],
-          "image": "https://picsum.photos/seed/whoa/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/whoa/whoa_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Whoa! That roller coaster is so fast!",
@@ -1132,7 +1132,7 @@ const TEXTBOOK_DATA = {
               "letter": "s"
             }
           ],
-          "image": "https://picsum.photos/seed/oats/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/oats/oats_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I eat oatmeal made from oats every morning.",
@@ -1166,7 +1166,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://picsum.photos/seed/nut/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/nut/nut_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "She put a walnut nut in her salad.",
@@ -1196,7 +1196,7 @@ const TEXTBOOK_DATA = {
               "letter": "ar"
             }
           ],
-          "image": "https://picsum.photos/seed/bar/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/bar/bar_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I bought a chocolate bar at the store.",
@@ -1242,7 +1242,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://picsum.photos/seed/teaspoon/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/teaspoon/teaspoon_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Add one teaspoon of sugar to your tea.",
@@ -1280,7 +1280,7 @@ const TEXTBOOK_DATA = {
               "letter": "ar"
             }
           ],
-          "image": "https://picsum.photos/seed/sugar/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/sugar/sugar_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Mom adds a spoon of sugar to my tea.",
@@ -1318,7 +1318,7 @@ const TEXTBOOK_DATA = {
               "letter": "le"
             }
           ],
-          "image": "assets/images/words/Unit1/bottle/bottle_风格A.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/bottle/bottle_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I drink a whole bottle of water after running.",
@@ -1348,7 +1348,7 @@ const TEXTBOOK_DATA = {
               "letter": "l"
             }
           ],
-          "image": "https://picsum.photos/seed/oil/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/oil/oil_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Dad pours some oil into the pan to cook eggs.",
@@ -1382,7 +1382,7 @@ const TEXTBOOK_DATA = {
               "letter": "ck"
             }
           ],
-          "image": "https://picsum.photos/seed/snack/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/snack/snack_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I eat a healthy snack like an apple after school.",
