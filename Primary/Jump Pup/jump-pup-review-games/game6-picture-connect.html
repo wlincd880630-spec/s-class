@@ -7,12 +7,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+SC:wght@500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../../assets/ng-review-shared.css?v=1" />
+  <link rel="stylesheet" href="../../assets/ng-review-shared.css?v=2" />
+  <script>window.NG_REVIEW={wordsApi:"JumpPupWords",ttsApi:"JumpPupTTS",title:"Jump, Pup!",accent:"#2e7d32",gamesUrl:"index.html"};</script>
   <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Jump%20Pup/jump-pup-review-games/audio/audio-manifest.js"></script>
   <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Jump%20Pup/jump-pup-review-games/audio/local-audio.js"></script>
   <script src="azure-tts.js"></script>
   <script src="words-data.js"></script>
-  <script src="../../assets/ng-review-shared.js?v=1"></script>
+  <script src="../../assets/ng-review-shared.js?v=2"></script>
   <style>:root { --ng-accent: #2e7d32; }</style>
 </head>
 <body class="ng-game">
@@ -21,8 +22,9 @@
     <div class="btns"><a class="ng-btn" href="index.html">← 游戏列表</a><button type="button" class="ng-btn primary" id="btnStart">开始</button></div>
   </div>
   <div class="ng-stage" id="stage">
-    <div class="ng-badge" id="groupBadge">准备开始</div>
-    <div class="ng-hint">左侧图片 ↔ 右侧单词连线（不显示中文）。先点一项，再点对应项完成配对。</div>
+    <div class="ng-hint" id="wordPreview">加载词表…</div>
+    <div class="ng-badge" id="groupBadge">点击「开始」</div>
+    <div class="ng-hint">左侧图片 ↔ 右侧单词配对（不显示中文）</div>
     <div class="ng-timer-bar"><span>⏱ <strong id="timerEl">0:00</strong></span><span>已完成 <strong id="doneEl">0</strong>/3</span></div>
     <div class="ng-connect-wrap" id="connectWrap">
       <svg class="ng-connect-svg" id="linesSvg"></svg>
@@ -32,19 +34,18 @@
     <div class="ng-feedback hidden" id="feedback"></div>
   </div>
   <script>
-  window.NG_REVIEW = { wordsApi: "JumpPupWords", ttsApi: "JumpPupTTS", gamesUrl: "index.html" };
-  (function () {
-    var NR = NgReview, pool = NR.getSelected();
+  NgReview.boot(function (NR) {
+    var pool = NR.getSelected(); NR.renderWordPreview(pool);
     if (pool.length < 3) { document.getElementById("stage").innerHTML = '<p class="ng-hint">请至少选择 3 个单词。<a href="settings.html">去设置</a></p>'; document.getElementById("btnStart").style.display = "none"; return; }
-    var groups = NR.chunkGroups(NR.shuffle(pool), 3), gi = 0, correct = 0, wrong = 0, total = pool.length, timer;
-    var pageWords = [], matched = {}, selSide = null, selWord = null, lines = [];
+    var groups = NR.chunkGroups(NR.shuffle(pool), 3), gi = 0, correct = 0, wrong = 0, total = pool.length, timer = null;
+    var pageWords = [], matched = {}, selSide = null, selWord = null;
     document.getElementById("btnStart").onclick = function () {
       gi = 0; correct = 0; wrong = 0; timer = new NR.GameTimer(document.getElementById("timerEl")); timer.start();
       document.getElementById("btnStart").classList.add("ng-hidden"); loadGroup();
     };
     function loadGroup() {
       if (gi >= groups.length) { finish(); return; }
-      pageWords = groups[gi]; matched = {}; selSide = null; selWord = null; lines = [];
+      pageWords = groups[gi]; matched = {}; selSide = null; selWord = null;
       document.getElementById("groupBadge").textContent = "第 " + (gi + 1) + " / " + groups.length + " 页";
       document.getElementById("doneEl").textContent = "0";
       NR.hideFeedback(document.getElementById("feedback"));
@@ -52,15 +53,15 @@
       var left = document.getElementById("leftCol"), right = document.getElementById("rightCol");
       left.innerHTML = ""; right.innerHTML = "";
       pageWords.forEach(function (w) {
-        var li = document.createElement("div"); li.className = "ng-connect-item"; li.dataset.word = w.word; li.dataset.side = "img";
+        var li = document.createElement("div"); li.className = "ng-connect-item"; li.dataset.word = w.word;
         var img = document.createElement("img"); img.src = NR.wordImg(w); img.alt = w.word; li.appendChild(img);
-        li.onclick = function () { onPick("img", w.word, li); }; left.appendChild(li);
+        li.onclick = function (ev) { if (ev.target.closest(".ng-btn")) return; onPick("img", w.word, li); }; left.appendChild(li);
       });
       NR.shuffle(pageWords).forEach(function (w) {
-        var ri = document.createElement("div"); ri.className = "ng-connect-item"; ri.dataset.word = w.word; ri.dataset.side = "word";
+        var ri = document.createElement("div"); ri.className = "ng-connect-item"; ri.dataset.word = w.word;
         var lbl = document.createElement("div"); lbl.className = "en-label"; lbl.textContent = w.word; ri.appendChild(lbl);
-        ri.appendChild(NR.speakBtn(w.word));
-        ri.onclick = function () { onPick("word", w.word, ri); }; right.appendChild(ri);
+        var sp = NR.speakBtn(w.word); ri.appendChild(sp);
+        ri.onclick = function (ev) { if (ev.target.closest(".ng-btn")) return; onPick("word", w.word, ri); }; right.appendChild(ri);
       });
     }
     function onPick(side, word, el) {
@@ -77,21 +78,16 @@
         drawLine(word); NR.speak(word); NR.showFeedback(fb, "配对成功！🎉", true);
         document.getElementById("doneEl").textContent = String(Object.keys(matched).length);
         if (Object.keys(matched).length === pageWords.length) { gi++; setTimeout(loadGroup, 1200); }
-      } else {
-        wrong++; NR.showFeedback(fb, "不对哦，再试试！", false);
-        document.querySelectorAll(".ng-connect-item.selected").forEach(function (e) { e.classList.remove("selected"); });
-      }
+      } else { wrong++; NR.showFeedback(fb, "不对哦，再试试！", false); document.querySelectorAll(".ng-connect-item.selected").forEach(function (e) { e.classList.remove("selected"); }); }
       selSide = null; selWord = null;
     }
     function drawLine(word) {
-      var items = document.querySelectorAll('.ng-connect-item[data-word="' + word + '"]');
-      if (items.length < 2) return;
+      var items = document.querySelectorAll('.ng-connect-item[data-word="' + word + '"]'); if (items.length < 2) return;
       var wrap = document.getElementById("connectWrap").getBoundingClientRect();
       var a = items[0].getBoundingClientRect(), b = items[1].getBoundingClientRect();
-      var x1 = a.right - wrap.left, y1 = a.top + a.height / 2 - wrap.top;
-      var x2 = b.left - wrap.left, y2 = b.top + b.height / 2 - wrap.top;
       var line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-      line.setAttribute("x1", x1); line.setAttribute("y1", y1); line.setAttribute("x2", x2); line.setAttribute("y2", y2);
+      line.setAttribute("x1", a.right - wrap.left); line.setAttribute("y1", a.top + a.height / 2 - wrap.top);
+      line.setAttribute("x2", b.left - wrap.left); line.setAttribute("y2", b.top + b.height / 2 - wrap.top);
       line.setAttribute("stroke", "#2e7d32"); line.setAttribute("stroke-width", "3"); line.setAttribute("stroke-linecap", "round");
       document.getElementById("linesSvg").appendChild(line);
     }
@@ -100,11 +96,8 @@
       NR.showDonePanel(document.getElementById("stage"), { title: "连线完成！", correct: correct, wrong: wrong, total: total, timeSec: t, onRetry: function () { location.reload(); } });
       document.querySelector(".ng-toolbar .btns").innerHTML = '<a class="ng-btn" href="index.html">← 游戏列表</a>';
     }
-    window.addEventListener("resize", function () {
-      var svg = document.getElementById("linesSvg"); svg.innerHTML = "";
-      Object.keys(matched).forEach(drawLine);
-    });
-  })();
+    window.addEventListener("resize", function () { var svg = document.getElementById("linesSvg"); if (!svg) return; var m = Object.assign({}, matched); svg.innerHTML = ""; Object.keys(m).forEach(drawLine); });
+  });
   </script>
   <script src="../../assets/primary-responsive.js?v=2" defer></script>
 </body>

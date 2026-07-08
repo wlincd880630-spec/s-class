@@ -7,12 +7,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+SC:wght@500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../../assets/ng-review-shared.css?v=1" />
+  <link rel="stylesheet" href="../../assets/ng-review-shared.css?v=2" />
+  <script>window.NG_REVIEW={wordsApi:"HelpersNeighborhoodWords",ttsApi:"HelpersNeighborhoodTTS",title:"Helpers in Your Neighborhood",accent:"#6a1b9a",gamesUrl:"index.html"};</script>
   <script src="../audio/audio-manifest.js"></script>
   <script src="../audio/local-audio.js"></script>
   <script src="azure-tts.js"></script>
   <script src="words-data.js"></script>
-  <script src="../../assets/ng-review-shared.js?v=1"></script>
+  <script src="../../assets/ng-review-shared.js?v=2"></script>
   <style>:root { --ng-accent: #6a1b9a; }</style>
 </head>
 <body class="ng-game">
@@ -21,7 +22,8 @@
     <div class="btns"><a class="ng-btn" href="index.html">← 游戏列表</a><button type="button" class="ng-btn primary" id="btnStart">开始</button></div>
   </div>
   <div class="ng-stage" id="stage">
-    <div class="ng-badge" id="groupBadge">准备开始</div>
+    <div class="ng-hint" id="wordPreview">加载词表…</div>
+    <div class="ng-badge" id="groupBadge">点击「开始」生成迷宫</div>
     <div class="ng-hint">点击字母连成单词（横/竖直线），点「提交」确认。点击图片下方灰条显示中文。</div>
     <div class="ng-timer-bar"><span>⏱ <strong id="timerEl">0:00</strong></span><span>已找到 <strong id="foundEl">0</strong>/4</span></div>
     <div class="ng-maze-targets" id="targets"></div>
@@ -35,15 +37,15 @@
     <div class="ng-feedback hidden" id="feedback"></div>
   </div>
   <script>
-  window.NG_REVIEW = { wordsApi: "HelpersNeighborhoodWords", ttsApi: "HelpersNeighborhoodTTS", title: "Helpers in Your Neighborhood", accent: "#6a1b9a", gamesUrl: "index.html" };
-  (function () {
-    var NR = NgReview, words = NR.getSelected().filter(NR.isMazeEligible);
+  NgReview.boot(function (NR) {
+    var words = NR.getSelected().filter(NR.isMazeEligible);
+    NR.renderWordPreview(words);
     if (words.length < 4) {
-      document.getElementById("stage").innerHTML = '<p class="ng-hint">请至少选择 4 个无空格单词。<a href="settings.html">去选词设置</a></p>';
+      document.getElementById("stage").innerHTML = '<p class="ng-hint">迷宫需要至少 4 个<strong>无空格</strong>单词，当前仅 ' + words.length + ' 个。<a href="settings.html">去选词设置</a></p>';
       document.getElementById("btnStart").style.display = "none"; return;
     }
-    var groups = NR.chunkGroups(NR.shuffle(words), 4), gi = 0, mazeData, selected = [], pathDir = null;
-    var found = {}, foundPaths = {}, hintCells = {}, hintIdx = 0, correct = 0, wrong = 0, total = words.length, timer, pageWords = [];
+    var groups = NR.chunkGroups(NR.shuffle(words), 4), gi = 0, mazeData = null, selected = [], pathDir = null;
+    var found = {}, foundPaths = {}, hintCells = {}, hintIdx = 0, correct = 0, wrong = 0, total = words.length, timer = null, pageWords = [];
     document.getElementById("metaBar").textContent = "共 " + words.length + " 词 · 每组 4 词";
     document.getElementById("btnStart").onclick = start;
     document.getElementById("btnHint").onclick = showHint;
@@ -55,9 +57,14 @@
     function loadGroup() {
       if (gi >= groups.length) { finish(); return; }
       pageWords = NR.shuffle(groups[gi].slice(0, 4)); found = {}; foundPaths = {}; hintCells = {}; hintIdx = 0; selected = []; pathDir = null;
-      document.getElementById("groupBadge").textContent = "第 " + (gi + 1) + " / " + groups.length + " 组 · 7×7";
-      for (var i = 0; i < 80; i++) { mazeData = NR.generateMazeGrid7(pageWords); if (mazeData.placements.length === 4) break; }
-      renderTargets(); renderGrid(); NR.hideFeedback(document.getElementById("feedback"));
+      document.getElementById("groupBadge").textContent = "第 " + (gi + 1) + " / " + groups.length + " 组";
+      mazeData = NR.generateMazeGrid7(pageWords);
+      if (!mazeData.placements || mazeData.placements.length < pageWords.length) {
+        NR.showFeedback(document.getElementById("feedback"), "迷宫生成中…", true);
+        mazeData = NR.generateMazeGrid7(NR.shuffle(pageWords));
+      }
+      renderTargets(); renderGrid();
+      NR.hideFeedback(document.getElementById("feedback"));
       document.getElementById("foundEl").textContent = "0"; document.getElementById("pathPreview").textContent = "";
     }
     function renderTargets() {
@@ -65,27 +72,29 @@
       pageWords.forEach(function (w) {
         var item = document.createElement("div"); item.className = "ng-maze-target" + (found[w.word] ? " done" : "");
         var img = document.createElement("img"); img.src = NR.wordImg(w); img.alt = w.word;
-        var zh = document.createElement("div"); zh.className = "zh-area hidden-zh"; zh.textContent = w.zh; zh.title = "点击显示中文";
+        var zh = document.createElement("div"); zh.className = "zh-area hidden-zh"; zh.textContent = w.zh;
         zh.onclick = function () { zh.classList.remove("hidden-zh"); };
         var actions = document.createElement("div"); actions.className = "target-actions"; actions.appendChild(NR.speakBtn(w.word));
         var lbl = document.createElement("div"); lbl.className = "word-label"; lbl.textContent = found[w.word] ? w.word : "???";
-        item.append(img, zh, actions, lbl); el.appendChild(item);
+        item.appendChild(img); item.appendChild(zh); item.appendChild(actions); item.appendChild(lbl); el.appendChild(item);
       });
     }
     function renderGrid() {
-      var g = document.getElementById("mazeGrid"), sz = mazeData.size;
+      var g = document.getElementById("mazeGrid");
+      if (!mazeData || !mazeData.grid || !mazeData.grid.length) { g.innerHTML = '<p class="ng-hint">迷宫加载失败，请点「开始」重试</p>'; return; }
+      var sz = mazeData.size || mazeData.grid.length;
       g.style.gridTemplateColumns = "repeat(" + sz + ", 1fr)"; g.innerHTML = "";
       mazeData.grid.forEach(function (row, r) { row.forEach(function (ch, c) {
         var key = cellKey(r, c), cell = document.createElement("div"), cls = "ng-maze-cell";
         if (selected.some(function (s) { return s.key === key; })) cls += " selected";
         if (hintCells[key]) cls += " hint";
-        if (Object.keys(foundPaths).some(function (w) { return foundPaths[w][key]; })) cls += " found";
-        cell.className = cls; cell.dataset.r = r; cell.dataset.c = c; cell.textContent = ch.toUpperCase(); g.appendChild(cell);
+        Object.keys(foundPaths).forEach(function (w) { if (foundPaths[w][key]) cls += " found"; });
+        cell.className = cls; cell.dataset.r = r; cell.dataset.c = c; cell.textContent = (ch || "?").toUpperCase(); g.appendChild(cell);
       }); });
     }
     function getDir(a, b) { var dr = b.r - a.r, dc = b.c - a.c; if (dr && dc) return null; if (!dr && !dc) return null; return { dr: dr ? dr / Math.abs(dr) : 0, dc: dc ? dc / Math.abs(dc) : 0 }; }
     function onCell(e) {
-      var cell = e.target.closest(".ng-maze-cell"); if (!cell) return;
+      var cell = e.target.closest(".ng-maze-cell"); if (!cell || !mazeData) return;
       var r = +cell.dataset.r, c = +cell.dataset.c, key = cellKey(r, c), ch = mazeData.grid[r][c];
       var idx = selected.findIndex(function (s) { return s.key === key; });
       if (idx >= 0) { selected = selected.slice(0, idx + 1); pathDir = selected.length >= 2 ? getDir(selected[0], selected[1]) : null; }
@@ -93,7 +102,7 @@
         var pt = { r: r, c: c, ch: ch, key: key };
         if (!selected.length) selected = [pt];
         else if (selected.length === 1) { var last = selected[0]; if (Math.abs(last.r - r) + Math.abs(last.c - c) === 1) { selected.push(pt); pathDir = getDir(selected[0], selected[1]); } else { selected = [pt]; pathDir = null; } }
-        else { var L = selected[selected.length - 1]; if (L.r + pathDir.dr === r && L.c + pathDir.dc === c) selected.push(pt); else { selected = [pt]; pathDir = null; } }
+        else { var L = selected[selected.length - 1]; if (pathDir && L.r + pathDir.dr === r && L.c + pathDir.dc === c) selected.push(pt); else { selected = [pt]; pathDir = null; } }
       }
       document.getElementById("pathPreview").textContent = selected.length ? "当前：" + selected.map(function (s) { return s.ch.toUpperCase(); }).join(" ") : "";
       renderGrid();
@@ -102,9 +111,9 @@
     function showHint() {
       var unfound = pageWords.filter(function (w) { return !found[w.word]; }); if (!unfound.length) return;
       var target = unfound[hintIdx++ % unfound.length];
-      var placement = mazeData.placements.find(function (p) { return p.word.word === target.word; }); if (!placement) return;
+      var placement = (mazeData.placements || []).find(function (p) { return p.word.word === target.word; }); if (!placement || !placement.cells.length) return;
       hintCells = {}; var first = placement.cells[0]; hintCells[cellKey(first.r, first.c)] = true; renderGrid();
-      NR.showFeedback(document.getElementById("feedback"), "提示：" + target.word + " 的首字母已高亮！", true);
+      NR.showFeedback(document.getElementById("feedback"), "提示：" + target.word + " 的首字母已高亮", true);
     }
     function submit() {
       if (!selected.length) { NR.showFeedback(document.getElementById("feedback"), "请先点击字母连成单词！", false); return; }
@@ -115,7 +124,7 @@
         correct++; found[match.word] = true; var pmap = {}; selected.forEach(function (s) { pmap[s.key] = true; }); foundPaths[match.word] = pmap;
         NR.speak(match.word); NR.showFeedback(fb, "找到了 " + match.word + "！🎉", true); selected = []; pathDir = null;
         renderTargets(); renderGrid(); document.getElementById("foundEl").textContent = String(Object.keys(found).length);
-        if (Object.keys(found).length === 4) { gi++; setTimeout(loadGroup, 1400); }
+        if (Object.keys(found).length === pageWords.length) { gi++; setTimeout(loadGroup, 1400); }
       } else { wrong++; NR.showFeedback(fb, "不对哦，请沿直线重新选择！", false); clearSel(); }
     }
     function finish() {
@@ -123,7 +132,7 @@
       NR.showDonePanel(document.getElementById("stage"), { title: "迷宫通关！", correct: correct, wrong: wrong, total: total, timeSec: t, onRetry: function () { location.reload(); } });
       document.querySelector(".ng-toolbar .btns").innerHTML = '<a class="ng-btn" href="index.html">← 游戏列表</a>';
     }
-  })();
+  });
   </script>
   <script src="../../assets/primary-responsive.js?v=2" defer></script>
 </body>

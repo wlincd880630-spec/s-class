@@ -467,12 +467,15 @@
     var list = words.slice(0, 4);
     if (list.length < 4) return { grid: [[]], placements: [], size: MAZE_SIZE };
 
-    var retry;
-    for (retry = 0; retry < 200; retry++) {
-      var result = tryLayout(shuffle(list.slice()), MAZE_SIZE);
-      if (result) return result;
+    var sizes = [MAZE_SIZE, 8];
+    var si, retry;
+    for (si = 0; si < sizes.length; si++) {
+      for (retry = 0; retry < 200; retry++) {
+        var result = tryLayout(shuffle(list.slice()), sizes[si]);
+        if (result) return result;
+      }
     }
-    return tryLayout(list, MAZE_SIZE) || { grid: [[]], placements: [], size: MAZE_SIZE };
+    return tryLayout(list, 8) || { grid: [[]], placements: [], size: 8 };
   }
 
   global.NgReview = {
@@ -494,5 +497,53 @@
     speakBtn: speakBtn,
     generateMazeGrid7: generateMazeGrid7,
     formatTime: formatTime,
+    boot: function (run) {
+      function start() {
+        if (typeof global.NgReview === "undefined") {
+          showBootError("游戏脚本未加载，请检查网络后刷新。");
+          return;
+        }
+        var api = wordsApi();
+        if (!api || !api.getSelected) {
+          showBootError("词表未加载，请返回游戏列表重试。");
+          return;
+        }
+        try {
+          run(global.NgReview);
+        } catch (err) {
+          console.error(err);
+          showBootError("游戏初始化失败：" + (err && err.message ? err.message : String(err)));
+        }
+      }
+      function showBootError(msg) {
+        var stage = global.document && global.document.getElementById("stage");
+        if (stage) {
+          stage.innerHTML =
+            '<p class="ng-hint">' +
+            msg +
+            '<br><a href="index.html">返回游戏列表</a> · <a href="settings.html">选词设置</a></p>';
+        }
+        var btn = global.document && global.document.getElementById("btnStart");
+        if (btn) btn.style.display = "none";
+      }
+      if (global.document.readyState === "loading") {
+        global.document.addEventListener("DOMContentLoaded", start);
+      } else {
+        start();
+      }
+    },
+    renderWordPreview: function (pool) {
+      var el = global.document && global.document.getElementById("wordPreview");
+      if (!el || !pool || !pool.length) return;
+      el.textContent =
+        "本次已选 " +
+        pool.length +
+        " 个单词：" +
+        pool
+          .map(function (w) {
+            return w.word + "（" + w.zh + "）";
+          })
+          .join(" · ");
+    },
   };
 })(typeof window !== "undefined" ? window : this);

@@ -7,12 +7,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+SC:wght@500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../../assets/ng-review-shared.css?v=1" />
+  <link rel="stylesheet" href="../../assets/ng-review-shared.css?v=2" />
+  <script>window.NG_REVIEW={wordsApi:"HelpersNeighborhoodWords",ttsApi:"HelpersNeighborhoodTTS",title:"Helpers in Your Neighborhood",accent:"#6a1b9a",gamesUrl:"index.html"};</script>
   <script src="../audio/audio-manifest.js"></script>
   <script src="../audio/local-audio.js"></script>
   <script src="azure-tts.js"></script>
   <script src="words-data.js"></script>
-  <script src="../../assets/ng-review-shared.js?v=1"></script>
+  <script src="../../assets/ng-review-shared.js?v=2"></script>
   <style>:root { --ng-accent: #6a1b9a; }</style>
 </head>
 <body class="ng-game">
@@ -21,22 +22,22 @@
     <div class="btns"><a class="ng-btn" href="index.html">← 游戏列表</a><button type="button" class="ng-btn primary" id="btnStart">开始</button></div>
   </div>
   <div class="ng-stage" id="stage">
-    <div class="ng-badge" id="progressBadge">准备开始</div>
+    <div class="ng-hint" id="wordPreview">加载词表…</div>
+    <div class="ng-badge" id="progressBadge">点击「开始」出题</div>
     <div class="ng-timer-bar"><span>⏱ <strong id="timerEl">0:00</strong></span></div>
     <div class="ng-quiz-prompt">
       <img id="qImg" src="" alt="" />
       <p class="en-big" id="qEn">—</p>
-      <div style="margin-top:0.5rem;"><button type="button" class="ng-btn sm" id="btnSpeak">🔊 朗读单词</button></div>
+      <div style="margin-top:0.5rem;text-align:center;"><button type="button" class="ng-btn sm" id="btnSpeak">🔊 朗读单词</button></div>
     </div>
     <div class="ng-quiz-options" id="options"></div>
     <div class="ng-feedback hidden" id="feedback"></div>
   </div>
   <script>
-  window.NG_REVIEW = { wordsApi: "HelpersNeighborhoodWords", ttsApi: "HelpersNeighborhoodTTS", gamesUrl: "index.html" };
-  (function () {
-    var NR = NgReview, pool = NR.getSelected();
+  NgReview.boot(function (NR) {
+    var pool = NR.getSelected(); NR.renderWordPreview(pool);
     if (pool.length < 3) { document.getElementById("stage").innerHTML = '<p class="ng-hint">请至少选择 3 个单词。<a href="settings.html">去设置</a></p>'; document.getElementById("btnStart").style.display = "none"; return; }
-    var queue = NR.shuffle(pool.slice()), qi = 0, correct = 0, wrong = 0, timer, answered = false, cur = null;
+    var queue = NR.shuffle(pool.slice()), qi = 0, correct = 0, wrong = 0, timer = null, answered = false, cur = null;
     document.getElementById("metaBar").textContent = "共 " + pool.length + " 题 · 三选一";
     document.getElementById("btnStart").onclick = function () {
       qi = 0; correct = 0; wrong = 0; timer = new NR.GameTimer(document.getElementById("timerEl")); timer.start();
@@ -48,9 +49,8 @@
       answered = false; cur = queue[qi];
       document.getElementById("progressBadge").textContent = "第 " + (qi + 1) + " / " + queue.length + " 题";
       document.getElementById("qEn").textContent = cur.word;
-      document.getElementById("qImg").src = NR.wordImg(cur);
-      NR.speak(cur.word);
-      NR.hideFeedback(document.getElementById("feedback"));
+      document.getElementById("qImg").src = NR.wordImg(cur); document.getElementById("qImg").alt = cur.word;
+      NR.speak(cur.word); NR.hideFeedback(document.getElementById("feedback"));
       var zhPool = pool.map(function (w) { return w.zh; });
       var opts = NR.shuffle([cur.zh].concat(NR.shuffle(zhPool.filter(function (z) { return z !== cur.zh; })).slice(0, 2)));
       var el = document.getElementById("options"); el.innerHTML = "";
@@ -64,7 +64,7 @@
       var ok = choice === answer.zh, fb = document.getElementById("feedback");
       if (ok) { correct++; btn.classList.add("correct"); NR.showFeedback(fb, "正确！" + answer.zh + " 🎉", true); }
       else { wrong++; btn.classList.add("wrong"); NR.showFeedback(fb, "正确答案是：" + answer.zh, false); }
-      Array.from(document.getElementById("options").children).forEach(function (b) { b.disabled = true; });
+      Array.prototype.forEach.call(document.getElementById("options").children, function (b) { b.disabled = true; });
       qi++; setTimeout(showQ, ok ? 900 : 1400);
     }
     function finish() {
@@ -72,7 +72,7 @@
       NR.showDonePanel(document.getElementById("stage"), { title: "挑战完成！", correct: correct, wrong: wrong, total: queue.length, timeSec: t, onRetry: function () { location.reload(); } });
       document.querySelector(".ng-toolbar .btns").innerHTML = '<a class="ng-btn" href="index.html">← 游戏列表</a>';
     }
-  })();
+  });
   </script>
   <script src="../../assets/primary-responsive.js?v=2" defer></script>
 </body>

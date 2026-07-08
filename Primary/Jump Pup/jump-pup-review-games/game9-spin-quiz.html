@@ -7,26 +7,24 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+SC:wght@500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../../assets/ng-review-shared.css?v=1" />
+  <link rel="stylesheet" href="../../assets/ng-review-shared.css?v=2" />
+  <script>window.NG_REVIEW={wordsApi:"JumpPupWords",ttsApi:"JumpPupTTS",title:"Jump, Pup!",accent:"#2e7d32",gamesUrl:"index.html"};</script>
   <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Jump%20Pup/jump-pup-review-games/audio/audio-manifest.js"></script>
   <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Jump%20Pup/jump-pup-review-games/audio/local-audio.js"></script>
   <script src="azure-tts.js"></script>
   <script src="words-data.js"></script>
-  <script src="../../assets/ng-review-shared.js?v=1"></script>
-  <style>
-    :root { --ng-accent: #2e7d32; }
-    .ng-wheel { background: conic-gradient(from 0deg, #f5c400 0deg 45deg, #66bb6a 45deg 90deg, #42a5f5 90deg 135deg, #ab47bc 135deg 180deg, #ef5350 180deg 225deg, #ffa726 225deg 270deg, #26c6da 270deg 315deg, #8d6e63 315deg 360deg); }
-    .ng-wheel-label { position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:"Fredoka",sans-serif;font-weight:700;font-size:0.7rem;color:#1a1a1a;text-shadow:0 1px 0 rgba(255,255,255,0.6);pointer-events:none; }
-  </style>
+  <script src="../../assets/ng-review-shared.js?v=2"></script>
+  <style>:root { --ng-accent: #2e7d32; }</style>
 </head>
 <body class="ng-game">
   <div class="ng-toolbar">
-    <div><h1>🎡 转盘寻宝</h1><div class="meta">转动转盘 · 听音选图</div></div>
+    <div><h1>🐶 转盘寻宝</h1><div class="meta">转动转盘 · 听音选图</div></div>
     <div class="btns"><a class="ng-btn" href="index.html">← 游戏列表</a><button type="button" class="ng-btn primary" id="btnStart">开始</button></div>
   </div>
   <div class="ng-stage" id="stage">
-    <img class="ng-banner" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Jump Pup/jump-pup-review-games/../../assets/ng-review-images/ng-spin-wheel-banner.png" alt="" />
-    <div class="ng-badge" id="progressBadge">准备开始</div>
+    <img class="ng-banner" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Jump Pup/jump-pup-review-games/../../assets/ng-review-images/ng-spin-wheel-banner.png" alt="" onerror="this.style.display='none'" />
+    <div class="ng-hint" id="wordPreview">加载词表…</div>
+    <div class="ng-badge" id="progressBadge">点击「开始」</div>
     <div class="ng-timer-bar"><span>⏱ <strong id="timerEl">0:00</strong></span><span>得分 <strong id="scoreEl">0</strong></span></div>
     <div class="ng-spin-wrap">
       <div class="ng-wheel-container">
@@ -44,97 +42,60 @@
     <div class="ng-feedback hidden" id="feedback"></div>
   </div>
   <script>
-  window.NG_REVIEW = { wordsApi: "JumpPupWords", ttsApi: "JumpPupTTS", gamesUrl: "index.html" };
-  (function () {
-    var NR = NgReview, pool = NR.getSelected();
+  NgReview.boot(function (NR) {
+    var pool = NR.getSelected(); NR.renderWordPreview(pool);
     if (pool.length < 4) { document.getElementById("stage").innerHTML = '<p class="ng-hint">请至少选择 4 个单词。<a href="settings.html">去设置</a></p>'; document.getElementById("btnStart").style.display = "none"; return; }
     var segments = NR.shuffle(pool.slice()).slice(0, Math.min(8, pool.length));
-    var qi = 0, correct = 0, wrong = 0, score = 0, timer, spinning = false, cur = null, rot = 0;
+    var qi = 0, correct = 0, wrong = 0, score = 0, timer = null, spinning = false, cur = null, rot = 0;
     var segAngle = 360 / segments.length;
+    var colors = ["#f5c400","#66bb6a","#42a5f5","#ab47bc","#ef5350","#ffa726","#26c6da","#8d6e63"];
     document.getElementById("btnStart").onclick = function () {
-      qi = 0; correct = 0; wrong = 0; score = 0;
-      timer = new NR.GameTimer(document.getElementById("timerEl")); timer.start();
-      document.getElementById("btnStart").classList.add("ng-hidden");
-      document.getElementById("btnSpin").disabled = false;
-      buildWheel();
-      document.getElementById("progressBadge").textContent = "共 " + segments.length + " 轮";
+      qi = 0; correct = 0; wrong = 0; score = 0; timer = new NR.GameTimer(document.getElementById("timerEl")); timer.start();
+      document.getElementById("btnStart").classList.add("ng-hidden"); document.getElementById("btnSpin").disabled = false;
+      buildWheel(); document.getElementById("progressBadge").textContent = "共 " + segments.length + " 轮";
     };
     function buildWheel() {
       var w = document.getElementById("wheel");
-      var colors = ["#f5c400","#66bb6a","#42a5f5","#ab47bc","#ef5350","#ffa726","#26c6da","#8d6e63"];
-      var grad = segments.map(function (s, i) {
-        return colors[i % colors.length] + " " + (i * segAngle) + "deg " + ((i + 1) * segAngle) + "deg";
-      }).join(", ");
-      w.style.background = "conic-gradient(from 0deg, " + grad + ")";
-      w.innerHTML = "";
-      segments.forEach(function (s, i) {
-        var lbl = document.createElement("div"); lbl.className = "ng-wheel-label";
-        lbl.textContent = s.word;
-        lbl.style.transform = "rotate(" + (i * segAngle + segAngle / 2) + "deg) translateY(-90px)";
-        w.appendChild(lbl);
+      w.style.background = "conic-gradient(from 0deg, " + segments.map(function (s, i) { return colors[i % colors.length] + " " + (i * segAngle) + "deg " + ((i + 1) * segAngle) + "deg"; }).join(", ") + ")";
+      w.innerHTML = ""; segments.forEach(function (s, i) {
+        var lbl = document.createElement("div"); lbl.className = "ng-wheel-label"; lbl.textContent = s.word;
+        lbl.style.transform = "rotate(" + (i * segAngle + segAngle / 2) + "deg) translateY(-90px)"; w.appendChild(lbl);
       });
     }
     document.getElementById("btnSpin").onclick = function () {
       if (spinning || qi >= segments.length) return;
-      spinning = true; document.getElementById("btnSpin").disabled = true;
-      document.getElementById("challenge").classList.add("ng-hidden");
-      var extra = 1440 + Math.random() * 720;
-      var land = qi % segments.length;
-      rot += extra + (segments.length - land) * segAngle;
-      var wheel = document.getElementById("wheel");
-      wheel.style.transform = "rotate(" + rot + "deg)";
-      setTimeout(function () {
-        spinning = false; cur = segments[qi];
-        showChallenge(cur);
-        document.getElementById("btnSpin").disabled = false;
-      }, 3200);
+      spinning = true; document.getElementById("btnSpin").disabled = true; document.getElementById("challenge").classList.add("ng-hidden");
+      rot += 1440 + Math.random() * 720 + (segments.length - (qi % segments.length)) * segAngle;
+      document.getElementById("wheel").style.transform = "rotate(" + rot + "deg)";
+      setTimeout(function () { spinning = false; cur = segments[qi]; showChallenge(cur); document.getElementById("btnSpin").disabled = false; }, 3000);
     };
     function showChallenge(w) {
       document.getElementById("challenge").classList.remove("ng-hidden");
       document.getElementById("targetWord").textContent = w.word;
       document.getElementById("progressBadge").textContent = "第 " + (qi + 1) + " / " + segments.length + " 轮";
       NR.speak(w.word);
-      var opts = NR.buildMcOptions(w, pool, 4);
-      var el = document.getElementById("imgOpts"); el.innerHTML = "";
+      var opts = NR.buildMcOptions(w, pool, 4), el = document.getElementById("imgOpts"); el.innerHTML = "";
       opts.forEach(function (o) {
         var btn = document.createElement("button"); btn.type = "button"; btn.className = "ng-spin-img-opt";
-        var img = document.createElement("img"); img.src = NR.wordImg(o); img.alt = o.word;
-        btn.appendChild(img);
-        btn.onclick = function () { pickImg(o, w, btn); };
-        el.appendChild(btn);
+        var img = document.createElement("img"); img.src = NR.wordImg(o); img.alt = o.word; btn.appendChild(img);
+        btn.onclick = function () { pickImg(o, w, btn); }; el.appendChild(btn);
       });
     }
     document.getElementById("btnReplay").onclick = function () { if (cur) NR.speak(cur.word); };
     function pickImg(choice, answer, btn) {
       var ok = choice.word === answer.word, fb = document.getElementById("feedback");
-      Array.from(document.getElementById("imgOpts").children).forEach(function (b) { b.disabled = true; });
-      if (ok) {
-        correct++; score += 15; btn.classList.add("correct");
-        NR.showFeedback(fb, "寻宝成功！+15 分 🎉", true);
-      } else {
-        wrong++; btn.classList.add("wrong");
-        NR.showFeedback(fb, "答案是 " + answer.word, false);
-      }
-      document.getElementById("scoreEl").textContent = String(score);
-      qi++;
-      setTimeout(function () {
-        document.getElementById("challenge").classList.add("ng-hidden");
-        NR.hideFeedback(fb);
-        if (qi >= segments.length) finish();
-        else document.getElementById("btnSpin").disabled = false;
-      }, ok ? 1000 : 1500);
+      Array.prototype.forEach.call(document.getElementById("imgOpts").children, function (b) { b.disabled = true; });
+      if (ok) { correct++; score += 15; btn.classList.add("correct"); NR.showFeedback(fb, "寻宝成功！+15 分 🎉", true); }
+      else { wrong++; btn.classList.add("wrong"); NR.showFeedback(fb, "答案是 " + answer.word, false); }
+      document.getElementById("scoreEl").textContent = String(score); qi++;
+      setTimeout(function () { document.getElementById("challenge").classList.add("ng-hidden"); NR.hideFeedback(fb); if (qi >= segments.length) finish(); }, ok ? 1000 : 1500);
     }
     function finish() {
-      var t = timer.stop();
-      document.getElementById("btnSpin").disabled = true;
-      NR.showDonePanel(document.getElementById("stage"), {
-        title: "转盘寻宝完成！得分 " + score,
-        correct: correct, wrong: wrong, total: segments.length, timeSec: t,
-        onRetry: function () { location.reload(); }
-      });
+      var t = timer.stop(); document.getElementById("btnSpin").disabled = true;
+      NR.showDonePanel(document.getElementById("stage"), { title: "转盘寻宝完成！得分 " + score, correct: correct, wrong: wrong, total: segments.length, timeSec: t, onRetry: function () { location.reload(); } });
       document.querySelector(".ng-toolbar .btns").innerHTML = '<a class="ng-btn" href="index.html">← 游戏列表</a>';
     }
-  })();
+  });
   </script>
   <script src="../../assets/primary-responsive.js?v=2" defer></script>
 </body>
