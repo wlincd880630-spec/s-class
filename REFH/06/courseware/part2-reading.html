@@ -137,6 +137,7 @@
       <div class="toolbar-row main-actions">
         <button class="btn btn-primary read-full-btn" type="button" id="btn-read-full" onclick="toggleFullRead()">🔊 慢速全文朗读</button>
         <button class="btn btn-outline" type="button" onclick="Courseware.speakText(document.getElementById('lead-text')?.textContent, 'slow')">🔊 朗读导语</button>
+        <button class="btn btn-outline" type="button" id="btn-export-pdf" onclick="exportArticlePdfClick()">📄 导出文章 PDF</button>
         <button class="btn btn-ghost" type="button" onclick="Courseware.openConfig()">⚙️ 设置</button>
       </div>
       <div class="toolbar-row">
@@ -164,7 +165,7 @@
   <div class="lookup-popup" id="lookup-popup"></div>
 
   <script src="assets/js/course-data.js"></script>
-  <script src="assets/js/shared.js?v=20260709c"></script>
+  <script src="assets/js/shared.js?v=20260709d"></script>
   <script>
     document.getElementById('nav').innerHTML = Courseware.renderNav('part2-reading.html');
     Courseware.injectConfigPanel();
@@ -226,6 +227,29 @@
       }
     }
     window.toggleFullRead = toggleFullRead;
+
+    async function exportArticlePdfClick() {
+      if (!courseData) {
+        Courseware.showToast('文章尚未加载');
+        return;
+      }
+      const accent = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#1a6b4a';
+      const btn = document.getElementById('btn-export-pdf');
+      if (btn) { btn.disabled = true; btn.textContent = '⏳ 生成 PDF…'; }
+      try {
+        await Courseware.exportArticlePdf({
+          data: courseData,
+          accent,
+          filename: (courseData.title || 'article').replace(/[^\w\u4e00-\u9fa5-]+/g, '_') + '_Reading.pdf'
+        });
+        Courseware.showToast('文章 PDF 已下载');
+      } catch (e) {
+        Courseware.showToast('PDF 导出失败：' + (e.message || '请重试'));
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = '📄 导出文章 PDF'; }
+      }
+    }
+    window.exportArticlePdfClick = exportArticlePdfClick;
 
     function getSelectedText() {
       const live = window.getSelection()?.toString().trim();

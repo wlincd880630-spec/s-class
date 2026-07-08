@@ -863,6 +863,227 @@ ${azureLine}
       <style>${css}</style></head><body>${body}</body></html>`;
   }
 
+  function escapeRegExp(s) {
+    return String(s || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  function getArticleVocabTerms(data) {
+    const items = (data?.vocabulary || []).concat(data?.phrases || []);
+    return [...new Set(items.map(i => String(i.word || '').trim()).filter(t => t.length >= 2))]
+      .sort((a, b) => b.length - a.length);
+  }
+
+  function highlightVocabInText(text, terms) {
+    if (!text) return '';
+    const sorted = [...terms].sort((a, b) => b.length - a.length);
+    const markers = [];
+    let work = String(text);
+    for (const term of sorted) {
+      const re = new RegExp(escapeRegExp(term), 'gi');
+      work = work.replace(re, (m) => {
+        const id = markers.length;
+        markers.push(m);
+        return `\uE000V${id}\uE001`;
+      });
+    }
+    let html = escapeHtml(work);
+    markers.forEach((m, i) => {
+      const token = escapeHtml(`\uE000V${i}\uE001`);
+      html = html.split(token).join(`<b class="pdf-vocab">${escapeHtml(m)}</b>`);
+    });
+    return html;
+  }
+
+  function getArticlePdfCss(accent) {
+    const c = accent || '#1a6b4a';
+    return `
+      html,body{margin:0;padding:0;background:#fff;color:#1c2b24;
+        font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC',Georgia,serif;
+        -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+      .pdf-doc{box-sizing:border-box;width:680px;max-width:680px;margin:0;padding:16px 18px 24px;overflow:visible;}
+      .pdf-export-block{overflow:visible;page-break-inside:avoid;break-inside:avoid;}
+      .pdf-header{text-align:center;margin-bottom:14px;padding-bottom:12px;border-bottom:2.5px solid ${c};}
+      .pdf-header h1{font-size:19px;color:${c};margin:0 0 6px;font-weight:700;line-height:1.35;}
+      .pdf-header p{font-size:10.5px;color:#5c7268;margin:0 0 3px;line-height:1.45;}
+      .pdf-lead{
+        margin-bottom:14px;padding:12px 14px;border-radius:8px;
+        background:linear-gradient(135deg,${c}12,${c}06);border-left:4px solid ${c};
+        font-size:11.5px;line-height:1.65;color:#2a3d34;
+      }
+      .pdf-lead b.pdf-vocab{color:${c};font-weight:700;}
+      .pdf-section-title{
+        font-size:14px;font-weight:700;color:${c};margin:0 0 8px;
+        padding-bottom:6px;border-bottom:1px solid ${c}33;
+      }
+      .pdf-questions{
+        margin-bottom:10px;padding:10px 12px;border-radius:8px;
+        background:linear-gradient(135deg,#fff7ed,#fef9c3);border:1px solid #fde68a;
+      }
+      .pdf-questions h3{font-size:11px;color:#b45309;margin:0 0 8px;font-weight:700;}
+      .pdf-q-item{margin-bottom:7px;font-size:10.5px;line-height:1.55;color:#78350f;}
+      .pdf-q-item:last-child{margin-bottom:0;}
+      .pdf-q-item b{color:#92400e;}
+      .pdf-section-img{
+        width:100%;max-height:220px;object-fit:cover;border-radius:10px;
+        margin-bottom:10px;border:1px solid #dce8e2;display:block;
+      }
+      .pdf-para-text{margin-bottom:12px;}
+      .pdf-para-text p{font-size:11px;line-height:1.72;margin:0 0 8px;text-align:justify;}
+      .pdf-para-text p:last-child{margin-bottom:0;}
+      .pdf-vocab{color:${c};font-weight:700;}
+      .pdf-quiz-block{
+        margin-top:6px;padding:10px 12px;border-radius:8px;
+        border:1px solid #dce8e2;background:#fafcfb;
+      }
+      .pdf-quiz-block h3{font-size:12px;color:${c};margin:0 0 8px;}
+      .pdf-quiz-item{margin-bottom:8px;font-size:10px;line-height:1.55;}
+      .pdf-quiz-item b{color:${c};}
+      @media print{
+        @page{size:A4 portrait;margin:12mm;}
+        body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+        .pdf-doc{width:auto;max-width:none;padding:0;}
+      }`;
+  }
+
+  function buildArticlePdfHtml(data, meta) {
+    meta = meta || {};
+    const terms = getArticleVocabTerms(data);
+    const date = new Date().toLocaleDateString('zh-CN');
+    const title = data.title_full || data.title || meta.title || 'Reading Article';
+    const level = data.level ? `Level ${data.level}` : '';
+    const wordCount = data.word_count ? `${data.word_count} words` : '';
+    const source = data.source || '';
+
+    const leadHtml = data.article_lead
+      ? `<div class="pdf-export-block pdf-lead">${highlightVocabInText(data.article_lead, terms)}</div>`
+      : '';
+
+    const shownHeadings = new Set();
+    const sectionsHtml = (data.paragraphs || []).map((p, pi) => {
+      const heading = p.section_heading || p.title || `Section ${pi + 1}`;
+      let headingHtml = '';
+      if (heading && !shownHeadings.has(heading)) {
+        shownHeadings.add(heading);
+        headingHtml = `<div class="pdf-section-title">${escapeHtml(heading)}</div>`;
+      }
+      const questions = (p.socratic || []).map((q, qi) =>
+        `<div class="pdf-q-item"><b>Q${qi + 1}.</b> ${escapeHtml(q.q)}</div>`
+      ).join('');
+      const questionsBlock = questions
+        ? `<div class="pdf-export-block pdf-questions"><h3>📖 阅读理解 Reading Questions</h3>${questions}</div>`
+        : '';
+      const imgUrl = imageUrl(p.image);
+      const imgBlock = imgUrl
+        ? `<div class="pdf-export-block pdf-img-wrap"><img class="pdf-section-img" src="${escapeHtml(imgUrl)}" alt="${escapeHtml(p.title || heading)}" crossorigin="anonymous"></div>`
+        : '';
+      const sentencesHtml = (p.sentences || []).map(s =>
+        `<p>${highlightVocabInText(s, terms)}</p>`
+      ).join('');
+      const textBlock = `<div class="pdf-export-block pdf-para-text">${sentencesHtml}</div>`;
+      return `<div class="pdf-para-section">${headingHtml}${questionsBlock}${imgBlock}${textBlock}</div>`;
+    }).join('');
+
+    const quizHtml = (data.comprehension_questions || []).length
+      ? `<div class="pdf-export-block pdf-quiz-block"><h3>📝 阅读理解测验 Comprehension Quiz</h3>${
+          data.comprehension_questions.map((q, qi) =>
+            `<div class="pdf-quiz-item"><b>${qi + 1}.</b> ${escapeHtml(q.q)}<br>${
+              (q.options || []).map((o, oi) => `${String.fromCharCode(65 + oi)}. ${escapeHtml(o)}`).join('<br>')
+            }</div>`
+          ).join('')
+        }</div>`
+      : '';
+
+    return `<div class="pdf-doc">
+      <div class="pdf-export-block pdf-header">
+        <h1>${escapeHtml(title)}</h1>
+        <p>${escapeHtml([level, wordCount, date].filter(Boolean).join(' · '))}</p>
+        ${source ? `<p>${escapeHtml(source)}</p>` : ''}
+        <p>词汇表中单词/词组以<b class="pdf-vocab">粗体</b>标注 · 段前含阅读理解问题</p>
+      </div>
+      ${leadHtml}
+      ${sectionsHtml}
+      ${quizHtml}
+    </div>`;
+  }
+
+  function buildArticlePdfDocument(data, meta) {
+    meta = meta || {};
+    const accent = meta.accent || '#1a6b4a';
+    const body = buildArticlePdfHtml(data, meta);
+    const css = getArticlePdfCss(accent);
+    return `<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+      <style>${css}</style></head><body>${body}</body></html>`;
+  }
+
+  async function waitPdfImages(idoc) {
+    const imgs = [...(idoc?.querySelectorAll('img') || [])];
+    await Promise.all(imgs.map(img => {
+      if (img.complete && img.naturalWidth) return Promise.resolve();
+      return new Promise(resolve => {
+        img.onload = () => resolve();
+        img.onerror = () => resolve();
+        setTimeout(resolve, 8000);
+      });
+    }));
+  }
+
+  async function exportArticlePdf(options) {
+    const data = options?.data;
+    if (!data?.paragraphs?.length) throw new Error('无文章内容可导出');
+    const meta = {
+      title: options.title || data.title,
+      accent: options.accent || '#1a6b4a'
+    };
+    const filename = options.filename || 'Article_Reading.pdf';
+    await loadPdfLibs();
+
+    const mask = document.createElement('div');
+    mask.setAttribute('aria-busy', 'true');
+    mask.style.cssText =
+      'position:fixed;inset:0;background:rgba(15,23,42,0.45);z-index:2147483000;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-family:system-ui,sans-serif;';
+    mask.textContent = '正在生成文章 PDF（含配图）…';
+    document.body.appendChild(mask);
+
+    const iframe = document.createElement('iframe');
+    iframe.setAttribute('title', 'article-pdf-export');
+    iframe.style.cssText =
+      'position:fixed;left:0;top:0;width:680px;border:0;z-index:2147482000;background:#fff;';
+    iframe.srcdoc = buildArticlePdfDocument(data, meta);
+    document.body.appendChild(iframe);
+
+    try {
+      await waitPdfIframe(iframe);
+      const idoc = iframe.contentDocument;
+      await waitPdfImages(idoc);
+      const root = idoc.querySelector('.pdf-doc');
+      if (!root) throw new Error('PDF 内容未找到');
+
+      const h = Math.max(idoc.body.scrollHeight, root.scrollHeight, 400);
+      iframe.style.height = h + 40 + 'px';
+
+      const JsPDF = global.jspdf.jsPDF;
+      const pdf = new JsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait', compress: true });
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
+      const margin = 12;
+      const st = { margin, pageW, pageH, contentW: pageW - margin * 2, y: margin, gap: 2.5 };
+
+      for (const block of root.querySelectorAll('.pdf-export-block')) {
+        const canvas = await capturePdfBlock(block);
+        const isImg = block.querySelector('.pdf-section-img');
+        appendCanvasAsWholeBlock(pdf, canvas, st, {
+          fitOnePage: block.classList.contains('pdf-img-wrap') && canvas.height / canvas.width > 1.2
+        });
+        if (isImg) await new Promise(r => setTimeout(r, 80));
+      }
+
+      pdf.save(filename);
+    } finally {
+      mask.remove();
+      iframe.remove();
+    }
+  }
+
   function waitPdfIframe(iframe) {
     return new Promise((resolve, reject) => {
       let settled = false;
@@ -1048,6 +1269,7 @@ ${azureLine}
     loadCourseData, wrapWordsForLookup, splitWords,
     ensureSpeechSdk, startSpeakingRecord, stopSpeakingRecord,
     isSpeakingRecording, getSpeakingRecordingMode,
-    buildVocabPdfHtml, exportVocabPdf, openVocabPrintWindow
+    buildVocabPdfHtml, exportVocabPdf, openVocabPrintWindow,
+    buildArticlePdfHtml, exportArticlePdf
   };
 })(window);
