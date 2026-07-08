@@ -4,6 +4,8 @@
 
   const CONFIG_KEY = 'shang_dynasty_courseware_config';
   const IMAGE_BASE = 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/REFH/02/courseware/assets/images/';
+  const COURSEWARE_WEB_BASE = 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/REFH/02/courseware/';
+  const ARTICLE_PAGE_URL = COURSEWARE_WEB_BASE + 'part2-reading.html';
 
   const DEFAULT_CONFIG = {
     azureKey: 'C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu',
@@ -322,7 +324,6 @@
       return false;
     }
   }
-
 
   async function callDeepSeek(messages, streamCallback) {
     const key = getConfig().deepseekKey;
@@ -770,6 +771,46 @@ ${azureLine}
     return _pdfLibsPromise;
   }
 
+  let _qrLibPromise = null;
+  function loadQrLib() {
+    if (global.QRCode?.toDataURL) return Promise.resolve();
+    if (_qrLibPromise) return _qrLibPromise;
+    _qrLibPromise = new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js';
+      s.onload = () => {
+        if (global.QRCode?.toDataURL) resolve();
+        else reject(new Error('QR 库加载不完整'));
+      };
+      s.onerror = () => reject(new Error('QR 库加载失败'));
+      document.head.appendChild(s);
+    });
+    return _qrLibPromise;
+  }
+
+  function resolveArticlePageUrl(options) {
+    const explicit = options?.pageUrl && String(options.pageUrl).trim();
+    if (explicit) return explicit;
+    try {
+      const href = global.location?.href || '';
+      if (/^https?:\/\//i.test(href)) {
+        return href.split('#')[0].split('?')[0];
+      }
+    } catch (e) {}
+    return ARTICLE_PAGE_URL || '';
+  }
+
+  async function buildArticleQrDataUrl(url, accent) {
+    if (!url) return '';
+    await loadQrLib();
+    return global.QRCode.toDataURL(url, {
+      width: 132,
+      margin: 1,
+      color: { dark: accent || '#1c2b24', light: '#ffffff' },
+      errorCorrectionLevel: 'M'
+    });
+  }
+
   function getVocabPdfCss(accent) {
     const c = accent || '#1a6b4a';
     return `
@@ -903,9 +944,27 @@ ${azureLine}
         -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
       .pdf-doc{box-sizing:border-box;width:680px;max-width:680px;margin:0;padding:16px 18px 24px;overflow:visible;}
       .pdf-export-block{overflow:visible;page-break-inside:avoid;break-inside:avoid;}
-      .pdf-header{text-align:center;margin-bottom:14px;padding-bottom:12px;border-bottom:2.5px solid ${c};}
+      .pdf-header-wrap{
+        display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+        margin-bottom:14px;padding-bottom:12px;border-bottom:2.5px solid ${c};
+      }
+      .pdf-header{flex:1;min-width:0;text-align:center;}
       .pdf-header h1{font-size:19px;color:${c};margin:0 0 6px;font-weight:700;line-height:1.35;}
       .pdf-header p{font-size:10.5px;color:#5c7268;margin:0 0 3px;line-height:1.45;}
+      .pdf-qr-block{
+        flex:0 0 auto;width:118px;text-align:center;padding:6px 8px;border-radius:8px;
+        border:1px solid #dce8e2;background:linear-gradient(180deg,#fafcfb,#f3f8f5);
+      }
+      .pdf-qr-img{width:96px;height:96px;display:block;margin:0 auto 4px;border-radius:4px;}
+      .pdf-qr-label{font-size:8.5px;font-weight:700;color:${c};line-height:1.3;margin:0;}
+      .pdf-qr-hint{font-size:7.5px;color:#5c7268;line-height:1.35;margin:2px 0 0;word-break:break-all;}
+      .pdf-qr-footer{
+        margin-top:10px;padding:10px 12px;border-radius:8px;border:1px dashed #dce8e2;
+        background:#fafcfb;display:flex;align-items:center;gap:12px;
+      }
+      .pdf-qr-footer img{width:72px;height:72px;flex:0 0 auto;border-radius:4px;}
+      .pdf-qr-footer-text{flex:1;min-width:0;font-size:9.5px;line-height:1.5;color:#5c7268;}
+      .pdf-qr-footer-text b{display:block;font-size:10.5px;color:${c};margin-bottom:3px;}
       .pdf-lead{
         margin-bottom:14px;padding:12px 14px;border-radius:8px;
         background:linear-gradient(135deg,${c}12,${c}06);border-left:4px solid ${c};
@@ -994,16 +1053,40 @@ ${azureLine}
         }</div>`
       : '';
 
+    const pageUrl = meta.pageUrl || '';
+    const qrDataUrl = meta.qrDataUrl || '';
+    const qrBlock = qrDataUrl
+      ? `<div class="pdf-qr-block">
+          <img class="pdf-qr-img" src="${qrDataUrl}" alt="扫码学习">
+          <p class="pdf-qr-label">📱 扫码同步学习</p>
+          <p class="pdf-qr-hint">手机打开精读课件</p>
+        </div>`
+      : '';
+    const qrFooter = qrDataUrl
+      ? `<div class="pdf-export-block pdf-qr-footer">
+          <img src="${qrDataUrl}" alt="扫码学习">
+          <div class="pdf-qr-footer-text">
+            <b>📱 电子化同步学习</b>
+            扫描二维码，在手机上打开本篇精读阅读页面，可进行朗读、查词、AI 分析与测验，与纸质 PDF 同步学习。
+            ${pageUrl ? `<br><span style="font-size:8.5px;word-break:break-all;">${escapeHtml(pageUrl)}</span>` : ''}
+          </div>
+        </div>`
+      : '';
+
     return `<div class="pdf-doc">
-      <div class="pdf-export-block pdf-header">
-        <h1>${escapeHtml(title)}</h1>
-        <p>${escapeHtml([level, wordCount, date].filter(Boolean).join(' · '))}</p>
-        ${source ? `<p>${escapeHtml(source)}</p>` : ''}
-        <p>词汇表中单词/词组以<b class="pdf-vocab">粗体</b>标注 · 段前含阅读理解问题</p>
+      <div class="pdf-export-block pdf-header-wrap">
+        <div class="pdf-header">
+          <h1>${escapeHtml(title)}</h1>
+          <p>${escapeHtml([level, wordCount, date].filter(Boolean).join(' · '))}</p>
+          ${source ? `<p>${escapeHtml(source)}</p>` : ''}
+          <p>词汇表中单词/词组以<b class="pdf-vocab">粗体</b>标注 · 段前含阅读理解问题</p>
+        </div>
+        ${qrBlock}
       </div>
       ${leadHtml}
       ${sectionsHtml}
       ${quizHtml}
+      ${qrFooter}
     </div>`;
   }
 
@@ -1031,18 +1114,27 @@ ${azureLine}
   async function exportArticlePdf(options) {
     const data = options?.data;
     if (!data?.paragraphs?.length) throw new Error('无文章内容可导出');
+    const pageUrl = resolveArticlePageUrl(options || {});
     const meta = {
       title: options.title || data.title,
-      accent: options.accent || '#1a6b4a'
+      accent: options.accent || '#1a6b4a',
+      pageUrl
     };
     const filename = options.filename || 'Article_Reading.pdf';
     await loadPdfLibs();
+    if (pageUrl) {
+      try {
+        meta.qrDataUrl = await buildArticleQrDataUrl(pageUrl, meta.accent);
+      } catch (e) {
+        console.warn('QR code generation failed', e);
+      }
+    }
 
     const mask = document.createElement('div');
     mask.setAttribute('aria-busy', 'true');
     mask.style.cssText =
       'position:fixed;inset:0;background:rgba(15,23,42,0.45);z-index:2147483000;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-family:system-ui,sans-serif;';
-    mask.textContent = '正在生成文章 PDF（含配图）…';
+    mask.textContent = '正在生成文章 PDF（含配图与二维码）…';
     document.body.appendChild(mask);
 
     const iframe = document.createElement('iframe');
