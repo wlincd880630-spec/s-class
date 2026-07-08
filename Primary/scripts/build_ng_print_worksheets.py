@@ -318,9 +318,43 @@ def generate(b):
         '<div class="name-line">姓名：<span></span> &nbsp; 日期：<span></span></div>';
     }}
 
-    function renderMazeSheet(group, idx, total, showAns) {{
-      var words = shuffle(group.slice(0, 4));
-      var maze = NgReview.generateMazeGrid7(words);
+    function padGroupToFour(group, sourcePool) {{
+      var words = group.slice();
+      if (words.length >= 4) return shuffle(words.slice(0, 4));
+      var src = shuffle(sourcePool.slice());
+      while (words.length < 4) {{
+        var candidates = src.filter(function(w) {{
+          return !words.some(function(x) {{ return x.word === w.word; }});
+        }});
+        if (!candidates.length) candidates = src;
+        words.push(candidates[Math.floor(Math.random() * candidates.length)]);
+      }}
+      return shuffle(words);
+    }}
+
+    function buildMazeGroups(sourcePool) {{
+      if (!sourcePool.length) return [];
+      var shuffled = shuffle(sourcePool.slice());
+      var groups = [];
+      for (var i = 0; i < shuffled.length; i += 4) {{
+        groups.push(padGroupToFour(shuffled.slice(i, i + 4), sourcePool));
+      }}
+      return groups;
+    }}
+
+    function prepareMazeSheet(group, sourcePool) {{
+      var words, maze, tries = 0;
+      do {{
+        words = padGroupToFour(group, sourcePool);
+        maze = NgReview.generateMazeGrid7(words);
+        tries++;
+      }} while (tries < 12 && (!maze || !maze.grid || !maze.grid[0] || !maze.grid[0].length));
+      return {{ words: words, maze: maze }};
+    }}
+
+    function renderMazeSheet(prepared, idx, total, showAns) {{
+      var words = prepared.words;
+      var maze = prepared.maze;
       var html = '<div class="sheet' + (showAns ? ' answer-key' : '') + '">';
       html += sheetHeader("{t} · 单词迷宫", "第 " + idx + " / " + total + " 组 · 7×7");
       html += '<div class="maze-targets">';
@@ -332,7 +366,7 @@ def generate(b):
         html += '</div>';
       }});
       html += '</div>';
-      if (maze && maze.grid && maze.grid.length) {{
+      if (maze && maze.grid && maze.grid.length && maze.grid[0] && maze.grid[0].length) {{
         var sz = maze.size || maze.grid.length;
         html += '<div class="maze-grid" style="grid-template-columns:repeat(' + sz + ',1fr)">';
         maze.grid.forEach(function(row) {{
@@ -341,6 +375,8 @@ def generate(b):
           }});
         }});
         html += '</div>';
+      }} else {{
+        html += '<p class="maze-hint" style="color:#c62828">宫格生成失败，请点击「生成练习纸」重试</p>';
       }}
       html += '<p class="maze-hint">' + (showAns ? '答案页' : '在宫格中找出 4 个单词（横/竖直线）') + '</p>';
       html += '</div>';
@@ -429,16 +465,17 @@ def generate(b):
       var mazeWords = pool.filter(function(w) {{ return w.word.indexOf(" ") < 0; }});
 
       if (optMaze) {{
-        if (mazeWords.length < 4) {{
-          html += '<div class="sheet"><p class="maze-hint">迷宫需要至少 4 个无空格单词（当前 ' + mazeWords.length + ' 个）</p></div>';
+        if (!mazeWords.length) {{
+          html += '<div class="sheet"><p class="maze-hint">迷宫需要至少 1 个无空格单词（含空格的词不参与迷宫，可用字母排序练习）</p></div>';
         }} else {{
-          var mazeGroups = shuffle(NgReview.chunkGroups(shuffle(mazeWords), 4));
-          mazeGroups.forEach(function(g, i) {{
-            html += renderMazeSheet(g, i + 1, mazeGroups.length, false);
+          var mazeGroups = buildMazeGroups(mazeWords);
+          var mazePrepared = mazeGroups.map(function(g) {{ return prepareMazeSheet(g, mazeWords); }});
+          mazePrepared.forEach(function(p, i) {{
+            html += renderMazeSheet(p, i + 1, mazePrepared.length, false);
           }});
           if (optAnswers) {{
-            mazeGroups.forEach(function(g, i) {{
-              html += renderMazeSheet(g, i + 1, mazeGroups.length, true);
+            mazePrepared.forEach(function(p, i) {{
+              html += renderMazeSheet(p, i + 1, mazePrepared.length, true);
             }});
           }}
         }}
