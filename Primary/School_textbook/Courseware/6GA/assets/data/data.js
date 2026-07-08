@@ -30,6 +30,10 @@ const TEXTBOOK_DATA = {
             {
               "symbol": "/v/",
               "letter": "v"
+            },
+            {
+              "symbol": "/—/",
+              "letter": "e"
             }
           ],
           "image": "https://picsum.photos/seed/save/400/300",
@@ -352,6 +356,10 @@ const TEXTBOOK_DATA = {
             {
               "symbol": "/l/",
               "letter": "l"
+            },
+            {
+              "symbol": "/—/",
+              "letter": "e"
             }
           ],
           "image": "https://picsum.photos/seed/smile/400/300",
@@ -510,7 +518,7 @@ const TEXTBOOK_DATA = {
               "letter": "k"
             },
             {
-              "symbol": "/ə/",
+              "symbol": "/—/",
               "letter": "e"
             }
           ],
@@ -608,8 +616,16 @@ const TEXTBOOK_DATA = {
           "chinese": "缺乏，没有",
           "phonemes": [
             {
-              "symbol": "/wɪð/",
-              "letter": "with"
+              "symbol": "/w/",
+              "letter": "w"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/ð/",
+              "letter": "th"
             },
             {
               "symbol": "/aʊt/",
@@ -680,7 +696,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             },
             {
-              "symbol": "/ə/",
+              "symbol": "/—/",
               "letter": "e"
             }
           ],
@@ -706,8 +722,12 @@ const TEXTBOOK_DATA = {
           "chinese": "在某个时候",
           "phonemes": [
             {
-              "symbol": "/sʌ/",
-              "letter": "so"
+              "symbol": "/s/",
+              "letter": "s"
+            },
+            {
+              "symbol": "/ʌ/",
+              "letter": "o"
             },
             {
               "symbol": "/m/",
@@ -740,8 +760,12 @@ const TEXTBOOK_DATA = {
           "chinese": "探讨，探究",
           "phonemes": [
             {
-              "symbol": "/ɪks/",
-              "letter": "ex"
+              "symbol": "/ɪ/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/ks/",
+              "letter": "x"
             },
             {
               "symbol": "/pl/",
@@ -1157,7 +1181,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/r/",
-              "letter": "w"
+              "letter": "wr"
             },
             {
               "symbol": "/aɪ/",
@@ -1168,7 +1192,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             },
             {
-              "symbol": "/ə/",
+              "symbol": "/—/",
               "letter": "e"
             }
           ],
@@ -1435,7 +1459,7 @@ const TEXTBOOK_DATA = {
               "letter": "k"
             },
             {
-              "symbol": "/eɪ/",
+              "symbol": "/—/",
               "letter": "e"
             }
           ],
@@ -1565,7 +1589,7 @@ const TEXTBOOK_DATA = {
               "letter": "r"
             },
             {
-              "symbol": "/eə/",
+              "symbol": "/—/",
               "letter": "e"
             },
             {
@@ -1721,6 +1745,10 @@ const TEXTBOOK_DATA = {
             {
               "symbol": "/d/",
               "letter": "d"
+            },
+            {
+              "symbol": "/—/",
+              "letter": "e"
             }
           ],
           "image": "https://picsum.photos/seed/wide/400/300",
@@ -1869,6 +1897,10 @@ const TEXTBOOK_DATA = {
             {
               "symbol": "/n/",
               "letter": "n"
+            },
+            {
+              "symbol": "/—/",
+              "letter": "e"
             }
           ],
           "image": "https://picsum.photos/seed/scene/400/300",
@@ -1979,6 +2011,10 @@ const TEXTBOOK_DATA = {
             {
               "symbol": "/n/",
               "letter": "n"
+            },
+            {
+              "symbol": "/—/",
+              "letter": "e"
             }
           ],
           "image": "https://picsum.photos/seed/phone/400/300",
@@ -2143,14 +2179,18 @@ const TEXTBOOK_DATA = {
           "id": "w52",
           "word": "exhibition",
           "chinese": "展览(会)",
-          "phonemes": [
+                    "phonemes": [
             {
               "symbol": "/ɛ/",
               "letter": "e"
             },
             {
-              "symbol": "/ks/",
+              "symbol": "/k/",
               "letter": "x"
+            },
+            {
+              "symbol": "—",
+              "letter": "h"
             },
             {
               "symbol": "/ɪ/",
@@ -2165,8 +2205,20 @@ const TEXTBOOK_DATA = {
               "letter": "i"
             },
             {
-              "symbol": "/ʃən/",
-              "letter": "tion"
+              "symbol": "/ʃ/",
+              "letter": "t"
+            },
+            {
+              "symbol": "—",
+              "letter": "i"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
             }
           ],
           "image": "https://picsum.photos/seed/exhibition/400/300",
@@ -2375,7 +2427,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             },
             {
-              "symbol": "/eɪ/",
+              "symbol": "/—/",
               "letter": "e"
             }
           ],
@@ -2455,7 +2507,7 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             },
             {
-              "symbol": "/eɪ/",
+              "symbol": "/—/",
               "letter": "e"
             }
           ],
@@ -3944,7 +3996,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             },
             {
-              "symbol": "/k/",
+              "symbol": "/ks/",
               "letter": "x"
             },
             {
@@ -4082,7 +4134,7 @@ const TEXTBOOK_DATA = {
               "letter": "s"
             },
             {
-              "symbol": "/ə/",
+              "symbol": "/—/",
               "letter": "e"
             }
           ],
@@ -4128,7 +4180,7 @@ const TEXTBOOK_DATA = {
               "letter": "c"
             },
             {
-              "symbol": "/ə/",
+              "symbol": "/—/",
               "letter": "e"
             }
           ],
@@ -4311,7 +4363,7 @@ const TEXTBOOK_DATA = {
               "letter": "c"
             },
             {
-              "symbol": "/ə/",
+              "symbol": "/—/",
               "letter": "e"
             }
           ],

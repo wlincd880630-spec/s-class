@@ -230,11 +230,15 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/eɪ/",
-              "letter": "a_e"
+              "letter": "a"
             },
             {
               "symbol": "/m/",
               "letter": "m"
+            },
+            {
+              "symbol": "/—/",
+              "letter": "e"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Welcome/name/name_%E9%A3%8E%E6%A0%BCA.png",
@@ -449,7 +453,7 @@ const TEXTBOOK_DATA = {
               "letter": "c"
             },
             {
-              "symbol": "/ə/",
+              "symbol": "/—/",
               "letter": "e"
             }
           ],
@@ -611,12 +615,8 @@ const TEXTBOOK_DATA = {
           "chinese": "站立",
           "phonemes": [
             {
-              "symbol": "/s/",
-              "letter": "s"
-            },
-            {
-              "symbol": "/t/",
-              "letter": "t"
+              "symbol": "/st/",
+              "letter": "st"
             },
             {
               "symbol": "/æ/",
@@ -653,12 +653,8 @@ const TEXTBOOK_DATA = {
           "chinese": "站起来",
           "phonemes": [
             {
-              "symbol": "/s/",
-              "letter": "s"
-            },
-            {
-              "symbol": "/t/",
-              "letter": "t"
+              "symbol": "/st/",
+              "letter": "st"
             },
             {
               "symbol": "/æ/",
@@ -671,10 +667,6 @@ const TEXTBOOK_DATA = {
             {
               "symbol": "/d/",
               "letter": "d"
-            },
-            {
-              "symbol": " ",
-              "letter": " "
             },
             {
               "symbol": "/ʌ/",
@@ -863,12 +855,8 @@ const TEXTBOOK_DATA = {
           "chinese": "合上",
           "phonemes": [
             {
-              "symbol": "/k/",
-              "letter": "c"
-            },
-            {
-              "symbol": "/l/",
-              "letter": "l"
+              "symbol": "/kl/",
+              "letter": "cl"
             },
             {
               "symbol": "/əʊ/",
@@ -879,7 +867,7 @@ const TEXTBOOK_DATA = {
               "letter": "s"
             },
             {
-              "symbol": "/s/",
+              "symbol": "/—/",
               "letter": "e"
             }
           ],
@@ -1054,22 +1042,18 @@ const TEXTBOOK_DATA = {
           "phonemes": [
             {
               "symbol": "/r/",
-              "letter": "w"
+              "letter": "wr"
             },
             {
               "symbol": "/aɪ/",
-              "letter": "r"
-            },
-            {
-              "symbol": "/t/",
               "letter": "i"
             },
             {
-              "symbol": "/e/",
+              "symbol": "/t/",
               "letter": "t"
             },
             {
-              "symbol": "/t/",
+              "symbol": "/—/",
               "letter": "e"
             }
           ],
@@ -1776,7 +1760,7 @@ const TEXTBOOK_DATA = {
               "letter": "r"
             },
             {
-              "symbol": "/ə/",
+              "symbol": "/—/",
               "letter": "e"
             }
           ],
@@ -2246,22 +2230,22 @@ const TEXTBOOK_DATA = {
           "id": "w63",
           "word": "let’s = let us",
           "chinese": "让我们",
-          "phonemes": [
+                              "phonemes": [
             {
               "symbol": "/l/",
-              "letter": "l"
+              "letter": "let"
             },
             {
-              "symbol": "/e/",
-              "letter": "e"
+              "symbol": "/—/",
+              "letter": " "
             },
             {
-              "symbol": "/t/",
-              "letter": "t"
+              "symbol": "/ʌ/",
+              "letter": "u"
             },
             {
               "symbol": "/s/",
-              "letter": "’s"
+              "letter": "s"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit1/lets_%3D_let_us/let%E2%80%99s_%3D_let_us_%E9%A3%8E%E6%A0%BCA.png",
@@ -2422,12 +2406,8 @@ const TEXTBOOK_DATA = {
           "chinese": "玩，玩耍",
           "phonemes": [
             {
-              "symbol": "/p/",
-              "letter": "p"
-            },
-            {
-              "symbol": "/l/",
-              "letter": "l"
+              "symbol": "/pl/",
+              "letter": "pl"
             },
             {
               "symbol": "/eɪ/",
@@ -2723,7 +2703,7 @@ const TEXTBOOK_DATA = {
               "letter": "s"
             },
             {
-              "symbol": "/∅/",
+              "symbol": "/—/",
               "letter": "e"
             }
           ],
@@ -3136,11 +3116,11 @@ const TEXTBOOK_DATA = {
           "phonemes": [
             {
               "symbol": "/ɡ/",
-              "letter": "g"
+              "letter": "gu"
             },
             {
               "symbol": "/e/",
-              "letter": "u"
+              "letter": "e"
             },
             {
               "symbol": "/s/",
@@ -3447,7 +3427,7 @@ const TEXTBOOK_DATA = {
               "letter": "r"
             },
             {
-              "symbol": "/∅/",
+              "symbol": "/—/",
               "letter": "e"
             }
           ],
@@ -3489,7 +3469,7 @@ const TEXTBOOK_DATA = {
               "letter": "s"
             },
             {
-              "symbol": "/∅/",
+              "symbol": "/—/",
               "letter": "e"
             }
           ],
@@ -4321,11 +4301,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/eɪ/",
-              "letter": "a"
-            },
-            {
-              "symbol": "/∅/",
-              "letter": "y"
+              "letter": "ay"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit3/hooray/hooray_%E9%A3%8E%E6%A0%BCA.png",
@@ -4408,8 +4384,12 @@ const TEXTBOOK_DATA = {
               "letter": "th"
             },
             {
-              "symbol": "/z/",
+              "symbol": "/—/",
               "letter": "e"
+            },
+            {
+              "symbol": "/z/",
+              "letter": "s"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit3/clothes/clothes_%E9%A3%8E%E6%A0%BCA.png",
@@ -5356,11 +5336,11 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/əʊ/",
-              "letter": "o_e"
+              "letter": "o"
             },
             {
               "symbol": "/p/",
-              "letter": "p"
+              "letter": "pe"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit4/rope/rope_%E9%A3%8E%E6%A0%BCA.png",
@@ -5420,11 +5400,11 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/eɪ/",
-              "letter": "a_e"
+              "letter": "a"
             },
             {
               "symbol": "/k/",
-              "letter": "k"
+              "letter": "ke"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit4/make/make_%E9%A3%8E%E6%A0%BCA.png",
@@ -5895,7 +5875,7 @@ const TEXTBOOK_DATA = {
               "letter": "ll"
             },
             {
-              "symbol": " ",
+              "symbol": "/ /",
               "letter": " "
             },
             {
@@ -7241,12 +7221,8 @@ const TEXTBOOK_DATA = {
               "letter": "i"
             },
             {
-              "symbol": "/ŋ/",
-              "letter": "ng"
-            },
-            {
-              "symbol": "/k/",
-              "letter": "k"
+              "symbol": "/ŋk/",
+              "letter": "nk"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/think/think_%E9%A3%8E%E6%A0%BCA.png",
@@ -7377,16 +7353,12 @@ const TEXTBOOK_DATA = {
               "letter": "m"
             },
             {
-              "symbol": "/iː/",
+              "symbol": "/aɪ/",
               "letter": "i"
             },
             {
               "symbol": "/aʊ/",
-              "letter": "a"
-            },
-            {
-              "symbol": "/w/",
-              "letter": "w"
+              "letter": "aow"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit6/miaow/miaow_%E9%A3%8E%E6%A0%BCA.png",

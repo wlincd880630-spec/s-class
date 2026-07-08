@@ -213,7 +213,7 @@ const TEXTBOOK_DATA = {
               "letter": "ff"
             },
             {
-              "symbol": "/ə/",
+              "symbol": "/—/",
               "letter": "e"
             }
           ],
@@ -315,12 +315,8 @@ const TEXTBOOK_DATA = {
           "chinese": "画，绘画",
           "phonemes": [
             {
-              "symbol": "/d/",
-              "letter": "d"
-            },
-            {
-              "symbol": "/r/",
-              "letter": "r"
+              "symbol": "/dr/",
+              "letter": "dr"
             },
             {
               "symbol": "/ɔː/",
@@ -362,11 +358,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/ə/",
-              "letter": "e"
-            },
-            {
-              "symbol": "/r/",
-              "letter": "r"
+              "letter": "er"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit1/tiger/tiger_%E9%A3%8E%E6%A0%BCA.png",
@@ -391,16 +383,8 @@ const TEXTBOOK_DATA = {
           "chinese": "强壮的，力气大的",
           "phonemes": [
             {
-              "symbol": "/s/",
-              "letter": "s"
-            },
-            {
-              "symbol": "/t/",
-              "letter": "t"
-            },
-            {
-              "symbol": "/r/",
-              "letter": "r"
+              "symbol": "/str/",
+              "letter": "str"
             },
             {
               "symbol": "/ɒ/",
@@ -505,12 +489,8 @@ const TEXTBOOK_DATA = {
           "chinese": "棕色的；褐色的",
           "phonemes": [
             {
-              "symbol": "/b/",
-              "letter": "b"
-            },
-            {
-              "symbol": "/r/",
-              "letter": "r"
+              "symbol": "/br/",
+              "letter": "br"
             },
             {
               "symbol": "/aʊ/",
@@ -1083,7 +1063,7 @@ const TEXTBOOK_DATA = {
               "letter": "c"
             },
             {
-              "symbol": "/∅/",
+              "symbol": "/—/",
               "letter": "e"
             }
           ],
@@ -2535,7 +2515,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/eɪ/",
-              "letter": "a_e"
+              "letter": "a"
             },
             {
               "symbol": "/s/",
@@ -2679,8 +2659,12 @@ const TEXTBOOK_DATA = {
               "letter": "l"
             },
             {
-              "symbol": "/z/",
+              "symbol": "/—/",
               "letter": "e"
+            },
+            {
+              "symbol": "/z/",
+              "letter": "s"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit3/noodles/noodles_%E9%A3%8E%E6%A0%BCA.png",
@@ -2828,7 +2812,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/aɪ/",
-              "letter": "i_e"
+              "letter": "i"
             },
             {
               "symbol": "/s/",
@@ -3286,11 +3270,11 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/eɪ/",
-              "letter": "a_e"
+              "letter": "a"
             },
             {
               "symbol": "/p/",
-              "letter": "p"
+              "letter": "pe"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit3/grape/grape_%E9%A3%8E%E6%A0%BCA.png",
@@ -3460,11 +3444,11 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/aɪ/",
-              "letter": "i_e"
+              "letter": "i"
             },
             {
               "symbol": "/m/",
-              "letter": "m"
+              "letter": "me"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit3/time/time_%E9%A3%8E%E6%A0%BCA.png",
@@ -4939,11 +4923,11 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/aɪ/",
-              "letter": "i_e"
+              "letter": "i"
             },
             {
               "symbol": "/t/",
-              "letter": "t"
+              "letter": "te"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/kite/kite_%E9%A3%8E%E6%A0%BCA.png",
@@ -4973,11 +4957,11 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/eɪ/",
-              "letter": "a_e"
+              "letter": "a"
             },
             {
               "symbol": "/t/",
-              "letter": "t"
+              "letter": "te"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/skate/skate_%E9%A3%8E%E6%A0%BCA.png",
@@ -5003,11 +4987,11 @@ const TEXTBOOK_DATA = {
           "phonemes": [
             {
               "symbol": "/aɪ/",
-              "letter": "i_e"
+              "letter": "i"
             },
             {
               "symbol": "/s/",
-              "letter": "c"
+              "letter": "ce"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/ice/ice_%E9%A3%8E%E6%A0%BCA.png",
@@ -5329,7 +5313,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/z/",
-              "letter": "s"
+              "letter": "se"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/these.jpg",
@@ -5927,7 +5911,7 @@ const TEXTBOOK_DATA = {
           "id": "w157",
           "word": "half past one / two...",
           "chinese": "1点半 / 2点半等",
-          "phonemes": [
+                    "phonemes": [
             {
               "symbol": "/h/",
               "letter": "h"
@@ -5945,7 +5929,7 @@ const TEXTBOOK_DATA = {
               "letter": "f"
             },
             {
-              "symbol": "/ /",
+              "symbol": "—",
               "letter": " "
             },
             {
@@ -5965,20 +5949,56 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             },
             {
-              "symbol": "/ /",
+              "symbol": "—",
               "letter": " "
             },
             {
-              "symbol": "/w/",
+              "symbol": "/əʊ/",
               "letter": "o"
             },
             {
-              "symbol": "/ʌ/",
+              "symbol": "/n/",
               "letter": "n"
             },
             {
-              "symbol": "/n/",
+              "symbol": "—",
               "letter": "e"
+            },
+            {
+              "symbol": "—",
+              "letter": " "
+            },
+            {
+              "symbol": "—",
+              "letter": "/"
+            },
+            {
+              "symbol": "—",
+              "letter": " "
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            },
+            {
+              "symbol": "/w/",
+              "letter": "w"
+            },
+            {
+              "symbol": "/ʌ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "—",
+              "letter": "."
+            },
+            {
+              "symbol": "—",
+              "letter": "."
+            },
+            {
+              "symbol": "—",
+              "letter": "."
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/half_past_one_two.jpg",
@@ -6045,20 +6065,16 @@ const TEXTBOOK_DATA = {
               "letter": "m"
             },
             {
-              "symbol": "/w/",
+              "symbol": "/—/",
               "letter": "e"
             },
             {
-              "symbol": "/ɜː/",
+              "symbol": "/w/",
               "letter": "w"
             },
             {
-              "symbol": "/k/",
-              "letter": "o"
-            },
-            {
-              "symbol": "/r/",
-              "letter": "r"
+              "symbol": "/ɜː/",
+              "letter": "or"
             },
             {
               "symbol": "/k/",
@@ -6870,12 +6886,8 @@ const TEXTBOOK_DATA = {
           "chinese": "木棍，拐杖",
           "phonemes": [
             {
-              "symbol": "/s/",
-              "letter": "s"
-            },
-            {
-              "symbol": "/t/",
-              "letter": "t"
+              "symbol": "/st/",
+              "letter": "st"
             },
             {
               "symbol": "/ɪ/",
@@ -7026,12 +7038,8 @@ const TEXTBOOK_DATA = {
           "chinese": "俱乐部",
           "phonemes": [
             {
-              "symbol": "/k/",
-              "letter": "c"
-            },
-            {
-              "symbol": "/l/",
-              "letter": "l"
+              "symbol": "/kl/",
+              "letter": "cl"
             },
             {
               "symbol": "/ʌ/",

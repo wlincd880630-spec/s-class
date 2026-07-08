@@ -937,7 +937,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             },
             {
-              "symbol": "",
+              "symbol": "/ /",
               "letter": " "
             },
             {
@@ -949,7 +949,7 @@ const TEXTBOOK_DATA = {
               "letter": "f"
             },
             {
-              "symbol": "",
+              "symbol": "/ /",
               "letter": " "
             },
             {
@@ -961,15 +961,15 @@ const TEXTBOOK_DATA = {
               "letter": "b"
             },
             {
-              "symbol": "",
+              "symbol": "/ /",
               "letter": " "
             },
             {
-              "symbol": "",
+              "symbol": "/ /",
               "letter": "/"
             },
             {
-              "symbol": "",
+              "symbol": "/ /",
               "letter": " "
             },
             {
@@ -1840,7 +1840,7 @@ const TEXTBOOK_DATA = {
               "letter": "o"
             },
             {
-              "symbol": "",
+              "symbol": "/—/",
               "letter": "-"
             },
             {
@@ -1852,7 +1852,7 @@ const TEXTBOOK_DATA = {
               "letter": "o"
             },
             {
-              "symbol": "",
+              "symbol": "/ /",
               "letter": " "
             },
             {
@@ -1942,6 +1942,10 @@ const TEXTBOOK_DATA = {
             {
               "symbol": "/d/",
               "letter": "d"
+            },
+            {
+              "symbol": "/—/",
+              "letter": "e"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit2/outside/outside_%E9%A3%8E%E6%A0%BCA.png",
@@ -2424,7 +2428,7 @@ const TEXTBOOK_DATA = {
           "id": "w62",
           "word": "sometimes",
           "chinese": "有时",
-          "phonemes": [
+                              "phonemes": [
             {
               "symbol": "/s/",
               "letter": "s"
@@ -2435,11 +2439,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/m/",
-              "letter": "m"
-            },
-            {
-              "symbol": "/ə/",
-              "letter": "e"
+              "letter": "me"
             },
             {
               "symbol": "/t/",
@@ -2455,7 +2455,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/z/",
-              "letter": "e"
+              "letter": "es"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit2/sometimes/sometimes_%E9%A3%8E%E6%A0%BCA.png",
@@ -3245,15 +3245,11 @@ const TEXTBOOK_DATA = {
               "letter": "a"
             },
             {
-              "symbol": "/s/",
-              "letter": "s"
+              "symbol": "/st/",
+              "letter": "st"
             },
             {
-              "symbol": "/t/",
-              "letter": "t"
-            },
-            {
-              "symbol": "/ə/",
+              "symbol": "/—/",
               "letter": "e"
             }
           ],
@@ -3287,7 +3283,7 @@ const TEXTBOOK_DATA = {
               "letter": "c"
             },
             {
-              "symbol": "/ə/",
+              "symbol": "/—/",
               "letter": "e"
             },
             {
@@ -4313,12 +4309,8 @@ const TEXTBOOK_DATA = {
           "chinese": "火车，列车",
           "phonemes": [
             {
-              "symbol": "/t/",
-              "letter": "t"
-            },
-            {
-              "symbol": "/r/",
-              "letter": "r"
+              "symbol": "/tr/",
+              "letter": "tr"
             },
             {
               "symbol": "/eɪ/",
@@ -4534,11 +4526,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/s/",
-              "letter": "c"
-            },
-            {
-              "symbol": "/eɪ/",
-              "letter": "e"
+              "letter": "ce"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit5/place/place_%E9%A3%8E%E6%A0%BCA.png",
@@ -4663,7 +4651,7 @@ const TEXTBOOK_DATA = {
           "id": "w121",
           "word": "picnic",
           "chinese": "野餐",
-          "phonemes": [
+                    "phonemes": [
             {
               "symbol": "/p/",
               "letter": "p"
@@ -4674,7 +4662,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/k/",
-              "letter": "ck"
+              "letter": "c"
             },
             {
               "symbol": "/n/",
@@ -4797,6 +4785,10 @@ const TEXTBOOK_DATA = {
             {
               "symbol": "/v/",
               "letter": "v"
+            },
+            {
+              "symbol": "/—/",
+              "letter": "e"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit5/live/live_%E9%A3%8E%E6%A0%BCA.png",
@@ -4855,12 +4847,8 @@ const TEXTBOOK_DATA = {
           "chinese": "货车，卡车",
           "phonemes": [
             {
-              "symbol": "/t/",
-              "letter": "t"
-            },
-            {
-              "symbol": "/r/",
-              "letter": "r"
+              "symbol": "/tr/",
+              "letter": "tr"
             },
             {
               "symbol": "/ʌ/",
@@ -4945,6 +4933,10 @@ const TEXTBOOK_DATA = {
             {
               "symbol": "/k/",
               "letter": "k"
+            },
+            {
+              "symbol": "/—/",
+              "letter": "e"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit5/bike/bike_%E9%A3%8E%E6%A0%BCA.png",

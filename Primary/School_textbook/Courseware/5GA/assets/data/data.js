@@ -29,11 +29,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/t/",
-              "letter": "t"
-            },
-            {
-              "symbol": "/ə/",
-              "letter": "e"
+              "letter": "te"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/plate/plate_%E9%A3%8E%E6%A0%BCA.png",
@@ -426,7 +422,7 @@ const TEXTBOOK_DATA = {
           "id": "w11",
           "word": "choose",
           "chinese": "挑选，选择",
-          "phonemes": [
+                    "phonemes": [
             {
               "symbol": "/tʃ/",
               "letter": "ch"
@@ -438,6 +434,10 @@ const TEXTBOOK_DATA = {
             {
               "symbol": "/z/",
               "letter": "s"
+            },
+            {
+              "symbol": "—",
+              "letter": "e"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/choose/choose_%E9%A3%8E%E6%A0%BCA.png",
@@ -798,6 +798,10 @@ const TEXTBOOK_DATA = {
               "letter": "u"
             },
             {
+              "symbol": "/—/",
+              "letter": "i"
+            },
+            {
               "symbol": "/t/",
               "letter": "t"
             }
@@ -898,9 +902,9 @@ const TEXTBOOK_DATA = {
           "id": "w23",
           "word": "always",
           "chinese": "总是，一直",
-          "phonemes": [
+                              "phonemes": [
             {
-              "symbol": "/ɔːl/",
+              "symbol": "/ɔː/",
               "letter": "al"
             },
             {
@@ -909,11 +913,11 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/eɪ/",
-              "letter": "a"
+              "letter": "ay"
             },
             {
               "symbol": "/z/",
-              "letter": "y"
+              "letter": "s"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/always/always_%E9%A3%8E%E6%A0%BCA.png",
@@ -1419,15 +1423,11 @@ const TEXTBOOK_DATA = {
               "letter": "a"
             },
             {
-              "symbol": "/s/",
-              "letter": "s"
+              "symbol": "/st/",
+              "letter": "st"
             },
             {
-              "symbol": "/t/",
-              "letter": "t"
-            },
-            {
-              "symbol": "/ə/",
+              "symbol": "/—/",
               "letter": "e"
             }
           ],
@@ -2013,7 +2013,7 @@ const TEXTBOOK_DATA = {
               "letter": "k"
             },
             {
-              "symbol": "/ə/",
+              "symbol": "/—/",
               "letter": "e"
             },
             {
@@ -2398,7 +2398,7 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             },
             {
-              "symbol": "/ɛ/",
+              "symbol": "/—/",
               "letter": "e"
             },
             {
@@ -2813,7 +2813,11 @@ const TEXTBOOK_DATA = {
           "id": "w72",
           "word": "healthily",
           "chinese": "健康地",
-          "phonemes": [
+                    "phonemes": [
+            {
+              "symbol": "/h/",
+              "letter": "h"
+            },
             {
               "symbol": "/e/",
               "letter": "ea"
@@ -3268,11 +3272,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/t/",
-              "letter": "t"
-            },
-            {
-              "symbol": "/ə/",
-              "letter": "e"
+              "letter": "te"
             }
           ],
           "image": "assets/images/words/Unit4/late/late_风格A.png",
@@ -3305,7 +3305,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             },
             {
-              "symbol": " ",
+              "symbol": "/ /",
               "letter": " "
             },
             {
@@ -3318,14 +3318,10 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/t/",
-              "letter": "t"
+              "letter": "te"
             },
             {
-              "symbol": "/ə/",
-              "letter": "e"
-            },
-            {
-              "symbol": " ",
+              "symbol": "/ /",
               "letter": " "
             },
             {
@@ -3337,7 +3333,7 @@ const TEXTBOOK_DATA = {
               "letter": "or"
             },
             {
-              "symbol": " ",
+              "symbol": "/ /",
               "letter": " "
             },
             {
@@ -4177,7 +4173,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/p/",
-              "letter": "p"
+              "letter": "pe"
             }
           ],
           "image": "https://picsum.photos/seed/shape/400/300",
@@ -4264,7 +4260,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/k/",
-              "letter": "k"
+              "letter": "ke"
             }
           ],
           "image": "https://picsum.photos/seed/mooncake/400/300",
@@ -4414,7 +4410,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/l/",
-              "letter": "l"
+              "letter": "le"
             }
           ],
           "image": "https://picsum.photos/seed/candle/400/300",
