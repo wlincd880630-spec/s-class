@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Part 2 · 分段阅读 | Shang Dynasty</title>
+  <link rel="stylesheet" href="assets/css/shared.css">
+  <style>
+    .page { max-width: 900px; margin: 0 auto; padding: 24px 20px 100px; }
+    .article-masthead {
+      background: linear-gradient(135deg, #1a5f7a 0%, #0d3d52 100%);
+      color: #fff; border-radius: 20px; padding: 32px 28px; margin-bottom: 28px;
+      box-shadow: var(--shadow);
+    }
+    .article-masthead h1 {
+      font-family: var(--font-display); font-size: clamp(1.5rem, 4vw, 2.2rem);
+      line-height: 1.25; margin-bottom: 16px;
+    }
+    .article-lead { font-size: 1.08rem; line-height: 1.75; opacity: 0.95; margin-bottom: 16px; }
+    .article-byline { font-size: 0.82rem; opacity: 0.75; }
+    .toolbar {
+      position: sticky; top: 56px; z-index: 50;
+      background: rgba(247,250,248,0.97); backdrop-filter: blur(10px);
+      padding: 12px 14px; margin-bottom: 16px;
+      border: 1px solid var(--border); border-radius: 14px;
+      box-shadow: 0 4px 20px rgba(26,107,74,0.06);
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .toolbar-row {
+      display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+    }
+    .toolbar-row.main-actions { justify-content: space-between; }
+    .sel-preview {
+      flex: 1; min-width: 160px; font-size: 0.85rem; color: var(--muted);
+      background: var(--bg); border: 1px dashed var(--border);
+      border-radius: 10px; padding: 8px 12px; line-height: 1.45;
+      word-break: break-word;
+    }
+    .sel-preview.has-text {
+      color: var(--text); border-style: solid; border-color: var(--primary-light);
+      background: var(--primary-light);
+    }
+    .read-action-btn {
+      border: none; cursor: pointer; font-family: var(--font);
+      padding: 9px 16px; border-radius: 999px; font-weight: 600;
+      font-size: 0.88rem; white-space: nowrap; transition: 0.2s;
+    }
+    .read-action-btn.phrase { background: var(--primary); color: #fff; }
+    .read-action-btn.phrase:hover { filter: brightness(1.08); }
+    .read-action-btn.translate { background: var(--accent); color: #fff; }
+    .read-action-btn.translate:hover { filter: brightness(1.05); }
+    .read-action-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .section-heading {
+      font-family: var(--font-display); font-size: 1.35rem; color: var(--primary);
+      margin: 8px 0 0; padding: 20px 24px 0; border-top: 3px solid var(--primary-light);
+    }
+    .section-heading:first-child { border-top: none; }
+    .para-block {
+      background: var(--surface); border-radius: var(--radius);
+      border: 1px solid var(--border); margin-bottom: 32px;
+      overflow: hidden; box-shadow: var(--shadow);
+    }
+    .para-img { width: 100%; max-height: 280px; object-fit: cover; }
+    .para-body { padding: 8px 24px 24px; }
+    .sentence-row {
+      display: flex; align-items: flex-start; gap: 8px;
+      padding: 10px 0; border-bottom: 1px solid var(--border);
+      line-height: 1.75; font-size: 1.05rem;
+    }
+    .sentence-row:last-child { border-bottom: none; }
+    .sentence-text { flex: 1; }
+    .word-token {
+      cursor: pointer; border-bottom: 1px dotted transparent; transition: 0.15s;
+    }
+    .word-token:hover { background: var(--primary-light); border-bottom-color: var(--primary); }
+    .socratic-box {
+      background: linear-gradient(135deg, #fff7ed, #fef3c7);
+      border-top: 1px solid #fde68a; padding: 20px 24px;
+    }
+    .socratic-box h4 { color: #b45309; margin-bottom: 12px; font-size: 0.95rem; }
+    .soc-q {
+      background: #fff; border-radius: 10px; padding: 12px 16px;
+      margin-bottom: 10px; border: 1px solid #fde68a;
+    }
+    .soc-q .q-text { font-size: 0.92rem; margin-bottom: 8px; }
+    .soc-q .btn-show-ans {
+      background: #f59e0b; color: #fff; border: none;
+      padding: 5px 14px; border-radius: 999px; cursor: pointer; font-size: 0.8rem;
+    }
+    .soc-q .answer {
+      display: none; margin-top: 10px; padding-top: 10px;
+      border-top: 1px dashed #fde68a; font-size: 0.88rem; color: #78350f;
+    }
+    .soc-q .answer.show { display: block; }
+    .quiz-section {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px; margin-top: 32px; box-shadow: var(--shadow);
+    }
+    .quiz-section h2 { font-family: var(--font-display); color: var(--primary); margin-bottom: 16px; }
+    .quiz-item { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+    .quiz-item:last-child { border-bottom: none; }
+    .quiz-item .q-title { font-weight: 600; margin-bottom: 10px; line-height: 1.6; }
+    .quiz-opt {
+      display: block; width: 100%; text-align: left; padding: 10px 14px;
+      margin: 6px 0; border: 1px solid var(--border); border-radius: 8px;
+      background: #fff; cursor: pointer; font-size: 0.92rem; transition: 0.15s;
+    }
+    .quiz-opt:hover { background: var(--primary-light); }
+    .quiz-opt.selected { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .quiz-opt.correct { background: #f0fdf4; border-color: #27ae60; }
+    .quiz-opt.wrong { background: #fff5f5; border-color: #e74c3c; }
+    .quiz-analysis { display: none; margin-top: 10px; font-size: 0.88rem; color: var(--muted); }
+    .quiz-analysis.show { display: block; }
+  </style>
+</head>
+<body>
+  <div id="nav"></div>
+  <div class="page">
+    <div id="masthead"></div>
+    <div class="toolbar" id="read-toolbar">
+      <div class="toolbar-row main-actions">
+        <button class="btn btn-outline" type="button" onclick="Courseware.speakText(document.getElementById('lead-text')?.textContent)">🔊 朗读导语</button>
+        <button class="btn btn-ghost" type="button" onclick="Courseware.openConfig()">⚙️ 设置</button>
+      </div>
+      <div class="toolbar-row">
+        <div class="sel-preview" id="sel-preview">👆 在文中拖选词组或句子，然后点击右侧按钮</div>
+        <button class="read-action-btn phrase" type="button" id="btn-phrase" onclick="analyzeSel('phrase')">📖 查词组</button>
+        <button class="read-action-btn translate" type="button" id="btn-translate" onclick="translateSel()">🌐 翻译句子</button>
+      </div>
+    </div>
+    <div id="article"></div>
+    <div class="quiz-section" id="quiz-section"></div>
+  </div>
+
+  <div class="lookup-popup" id="lookup-popup"></div>
+
+  <script src="assets/js/course-data.js"></script>
+  <script src="assets/js/shared.js?v=20260709a"></script>
+  <script>
+    document.getElementById('nav').innerHTML = Courseware.renderNav('part2-reading.html');
+    Courseware.injectConfigPanel();
+
+    let selectedText = '';
+    let shownHeadings = new Set();
+
+    function getSelectedText() {
+      const live = window.getSelection()?.toString().trim();
+      if (live) selectedText = live;
+      return selectedText.trim();
+    }
+
+    function updateSelectionPreview() {
+      const el = document.getElementById('sel-preview');
+      const text = getSelectedText();
+      if (text) {
+        el.textContent = '已选：' + (text.length > 80 ? text.slice(0, 80) + '…' : text);
+        el.classList.add('has-text');
+      } else {
+        el.textContent = '👆 在文中拖选词组或句子，然后点击右侧按钮';
+        el.classList.remove('has-text');
+      }
+    }
+
+    document.addEventListener('mouseup', () => {
+      const sel = window.getSelection()?.toString().trim();
+      if (sel) {
+        selectedText = sel;
+        updateSelectionPreview();
+      }
+    });
+
+    function showLookupPopup(title, bodyHtml) {
+      const popup = document.getElementById('lookup-popup');
+      popup.style.cssText = 'left:50%;top:18%;transform:translate(-50%,0);max-width:min(520px,92vw)';
+      popup.classList.add('open');
+      popup.innerHTML = bodyHtml;
+    }
+
+    async function analyzeSel(type) {
+      const text = getSelectedText();
+      if (!text) {
+        Courseware.showToast('请先在文中选中词组或句子');
+        return;
+      }
+      showLookupPopup('词组分析', `<div style="display:flex;justify-content:space-between;margin-bottom:8px"><b style="color:var(--primary)">📖 词组分析</b><button onclick="closeLookup()" style="border:none;background:none;cursor:pointer">✕</button></div><p style="font-size:0.85rem;color:var(--muted);margin-bottom:8px">"${Courseware.escapeHtml(text)}"</p><div class="ai-result loading">🤖 DeepSeek 分析中…</div>`);
+      try {
+        const result = await Courseware.analyzeSelection(text, type);
+        showLookupPopup('词组分析', `<div style="display:flex;justify-content:space-between;margin-bottom:8px"><b style="color:var(--primary)">📖 词组分析</b><button onclick="closeLookup()" style="border:none;background:none;cursor:pointer">✕</button></div><p style="font-size:0.85rem;color:var(--muted);margin-bottom:8px">"${Courseware.escapeHtml(text)}"</p><div class="ai-result">${Courseware.escapeHtml(result)}</div><button class="btn btn-outline" style="margin-top:10px;width:100%" onclick="Courseware.speakText('${text.replace(/'/g,"\\'")}')">🔊 朗读</button>`);
+      } catch (e) {
+        showLookupPopup('词组分析', `<p style="color:var(--accent2)">分析失败，请检查 DeepSeek 配置</p><button onclick="closeLookup()">关闭</button>`);
+      }
+    }
+
+    async function translateSel() {
+      const text = getSelectedText();
+      if (!text) {
+        Courseware.showToast('请先在文中选中要翻译的句子');
+        return;
+      }
+      showLookupPopup('翻译', `<div style="display:flex;justify-content:space-between;margin-bottom:8px"><b style="color:var(--primary)">🌐 翻译</b><button onclick="closeLookup()" style="border:none;background:none;cursor:pointer">✕</button></div><p style="font-size:0.85rem;color:var(--muted);margin-bottom:8px">"${Courseware.escapeHtml(text)}"</p><div class="ai-result loading">🤖 翻译中…</div>`);
+      try {
+        const result = await Courseware.translateSelection(text);
+        showLookupPopup('翻译', `<div style="display:flex;justify-content:space-between;margin-bottom:8px"><b style="color:var(--primary)">🌐 翻译</b><button onclick="closeLookup()" style="border:none;background:none;cursor:pointer">✕</button></div><p style="font-size:0.85rem;color:var(--muted);margin-bottom:8px">"${Courseware.escapeHtml(text)}"</p><div class="ai-result" style="font-size:1.05rem">${Courseware.escapeHtml(result)}</div><button class="btn btn-outline" style="margin-top:10px;width:100%" onclick="Courseware.speakText('${text.replace(/'/g,"\\'")}')">🔊 朗读原文</button>`);
+      } catch (e) {
+        showLookupPopup('翻译', `<p style="color:var(--accent2)">翻译失败，请检查 DeepSeek 配置</p><button onclick="closeLookup()">关闭</button>`);
+      }
+    }
+
+    window.analyzeSel = analyzeSel;
+    window.translateSel = translateSel;
+
+    async function onWordDblClick(e) {
+      const token = e.target.closest('.word-token');
+      if (!token) return;
+      e.preventDefault();
+      const word = token.dataset.word;
+      const popup = document.getElementById('lookup-popup');
+      const rect = token.getBoundingClientRect();
+      popup.style.cssText = `left:${Math.min(rect.left, window.innerWidth-380)}px;top:${rect.bottom+8}px;transform:none`;
+      popup.classList.add('open');
+      popup.innerHTML = `<div class="lookup-loading">🔍 查询 "${word}" …</div>`;
+      Courseware.speakText(word);
+      try {
+        const ctx = token.closest('.sentence-row')?.querySelector('.sentence-text')?.textContent || '';
+        const data = await Courseware.lookupWord(word, ctx);
+        popup.innerHTML = `<div style="display:flex;justify-content:space-between"><b style="font-size:1.2rem;color:var(--primary)">${Courseware.escapeHtml(data.word||word)}</b><button onclick="closeLookup()" style="border:none;background:none;cursor:pointer">✕</button></div>${data.phonetic?`<p style="color:var(--muted);font-size:0.85rem">${data.phonetic} ${data.pos||''}</p>`:''}<button class="btn-icon sm" onclick="Courseware.speakText('${word}')">🔊</button><p style="margin:8px 0;font-size:0.9rem">${Courseware.escapeHtml(data.definition_en||'')}</p><button class="cn-reveal" onclick="this.nextElementSibling.classList.toggle('show')">显示中文</button><p class="ex-trans">${Courseware.escapeHtml(data.definition_cn||'')}</p>${data.example_en?`<div class="ex-box" style="margin-top:10px"><div class="ex-sent">${Courseware.escapeHtml(data.example_en)} <button class="btn-icon xs" onclick="Courseware.speakText('${(data.example_en||'').replace(/'/g,"\\'")}')">🔊</button></div><div class="ex-trans show">${Courseware.escapeHtml(data.example_cn||'')}</div></div>`:''}`;
+      } catch (e) {
+        popup.innerHTML = '<p>查询失败</p><button onclick="closeLookup()">关闭</button>';
+      }
+    }
+
+    function closeLookup() { document.getElementById('lookup-popup').classList.remove('open'); }
+    document.addEventListener('click', e => { if (!e.target.closest('#lookup-popup') && !e.target.closest('.word-token')) closeLookup(); });
+    function toggleAnswer(btn) { btn.nextElementSibling.classList.toggle('show'); btn.textContent = btn.nextElementSibling.classList.contains('show') ? '隐藏答案' : '显示答案'; }
+
+    function renderArticle(data) {
+      document.getElementById('masthead').innerHTML = `
+        <header class="article-masthead">
+          <h1>${Courseware.escapeHtml(data.title_full)}</h1>
+          <p class="article-lead" id="lead-text">${Courseware.escapeHtml(data.article_lead)}</p>
+          <p class="article-byline">${Courseware.escapeHtml(data.source)} · Level ${data.level} · ${data.word_count} words</p>
+        </header>`;
+
+      shownHeadings = new Set();
+      document.getElementById('article').innerHTML = data.paragraphs.map(p => {
+        let headingHtml = '';
+        if (p.section_heading && !shownHeadings.has(p.section_heading)) {
+          shownHeadings.add(p.section_heading);
+          headingHtml = `<h2 class="section-heading">${Courseware.escapeHtml(p.section_heading)}</h2>`;
+        }
+        return `${headingHtml}
+        <article class="para-block">
+          <img class="para-img" src="${Courseware.imageUrl(p.image)}" alt="${Courseware.escapeHtml(p.title)}">
+          <div class="para-body">
+            ${p.sentences.map(s => `
+              <div class="sentence-row">
+                <div class="sentence-text" ondblclick="onWordDblClick(event)">${Courseware.wrapWordsForLookup(s)}</div>
+                <button class="btn-icon xs" title="朗读" onclick="Courseware.speakText('${s.replace(/'/g,"\\'")}')">🔊</button>
+              </div>`).join('')}
+          </div>
+          <div class="socratic-box">
+            <h4>🤔 苏格拉底式阅读理解</h4>
+            ${p.socratic.map((q,i) => `
+              <div class="soc-q">
+                <div class="q-text"><b>Q${i+1}.</b> ${Courseware.escapeHtml(q.q)}</div>
+                <button class="btn-show-ans" onclick="toggleAnswer(this)">显示答案</button>
+                <div class="answer">${Courseware.escapeHtml(q.a)}</div>
+              </div>`).join('')}
+          </div>
+        </article>`;
+      }).join('');
+
+      document.getElementById('quiz-section').innerHTML = `
+        <h2>📝 阅读理解 Quiz（PDF 原题）</h2>
+        ${data.comprehension_questions.map((q, qi) => `
+          <div class="quiz-item" data-answer="${q.answer}">
+            <div class="q-title"><b>${qi+1}.</b> ${Courseware.escapeHtml(q.q)}</div>
+            ${q.options.map((opt, oi) => `
+              <button class="quiz-opt" onclick="pickQuiz(this, ${qi}, ${oi}, ${q.answer})">${String.fromCharCode(65+oi)}. ${Courseware.escapeHtml(opt)}</button>
+            `).join('')}
+            <div class="quiz-analysis" id="qa-${qi}"><b>解析：</b>${Courseware.escapeHtml(q.analysis)}</div>
+          </div>`).join('')}
+        <button class="btn btn-primary" onclick="checkAllQuiz()">核对全部答案</button>`;
+    }
+
+    function pickQuiz(btn, qi, oi, correct) {
+      const item = btn.closest('.quiz-item');
+      item.querySelectorAll('.quiz-opt').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      btn.dataset.pick = oi;
+    }
+
+    function checkAllQuiz() {
+      document.querySelectorAll('.quiz-item').forEach((item, qi) => {
+        const correct = parseInt(item.dataset.answer, 10);
+        const opts = item.querySelectorAll('.quiz-opt');
+        opts.forEach((b, oi) => {
+          b.classList.remove('correct', 'wrong');
+          if (b.classList.contains('selected')) {
+            b.classList.add(oi === correct ? 'correct' : 'wrong');
+          }
+          if (oi === correct) b.classList.add('correct');
+        });
+        document.getElementById('qa-' + qi)?.classList.add('show');
+      });
+    }
+
+    Courseware.loadCourseData().then(renderArticle);
+  </script>
+</body>
+</html>

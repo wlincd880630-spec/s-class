@@ -28,7 +28,7 @@ const TEXTBOOK_DATA = {
               "letter": "D"
             }
           ],
-          "image": "https://picsum.photos/seed/id/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/ID/ID_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Show your ID to enter the library.",
@@ -58,7 +58,7 @@ const TEXTBOOK_DATA = {
               "letter": "ay"
             }
           ],
-          "image": "https://picsum.photos/seed/pay/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/pay/pay_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I need to pay for the book at the counter.",
@@ -92,7 +92,7 @@ const TEXTBOOK_DATA = {
               "letter": "de"
             }
           ],
-          "image": "https://picsum.photos/seed/ride/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/ride/ride_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "We ride our bikes to school every morning.",
@@ -130,7 +130,7 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "https://picsum.photos/seed/could/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/could/could_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I could swim when I was six years old.",
@@ -176,7 +176,7 @@ const TEXTBOOK_DATA = {
               "letter": "ay"
             }
           ],
-          "image": "https://picsum.photos/seed/holiday/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/holiday/holiday_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "We go to the beach during the summer holiday.",
@@ -214,7 +214,7 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "https://picsum.photos/seed/skier/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/skier/skier_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The skier moves fast down the snowy hill.",
@@ -252,7 +252,7 @@ const TEXTBOOK_DATA = {
               "letter": "p"
             }
           ],
-          "image": "https://picsum.photos/seed/camp/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/camp/camp_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "We sleep in a tent at the camp.",
@@ -314,7 +314,7 @@ const TEXTBOOK_DATA = {
               "letter": "p"
             }
           ],
-          "image": "https://picsum.photos/seed/summer_camp/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/summer_camp/summer_camp_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I make new friends at summer camp every year.",
@@ -356,7 +356,7 @@ const TEXTBOOK_DATA = {
               "letter": "ng"
             }
           ],
-          "image": "https://picsum.photos/seed/training/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/training/training_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "My dog goes to training every Saturday morning.",
@@ -390,7 +390,7 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "https://picsum.photos/seed/third/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/third/third_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I finished third in the running race yesterday.",
@@ -424,7 +424,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             }
           ],
-          "image": "https://picsum.photos/seed/mean/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/mean/mean_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "What does the word 'happy' mean?",
@@ -462,7 +462,7 @@ const TEXTBOOK_DATA = {
               "letter": "m"
             }
           ],
-          "image": "https://picsum.photos/seed/film/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/film/film_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "We watched a funny film about a talking dog.",
@@ -496,7 +496,7 @@ const TEXTBOOK_DATA = {
               "letter": "ll"
             }
           ],
-          "image": "https://picsum.photos/seed/kill/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/kill/kill_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The cat tried to kill the mouse in the garden.",
@@ -530,7 +530,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://picsum.photos/seed/beat/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/beat/beat_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Our team beat the other team by five points.",
@@ -588,7 +588,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://picsum.photos/seed/difficulty/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/difficulty/difficulty_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I had difficulty finding my way home in the dark.",
