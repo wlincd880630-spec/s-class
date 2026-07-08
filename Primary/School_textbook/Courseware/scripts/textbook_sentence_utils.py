@@ -17,7 +17,6 @@ sys.path.insert(0, PROJECT)
 
 from word_units_config import (
     UNITS_3SHANG, UNITS_3XIA, UNITS_4SHANG, UNITS_4XIA,
-    UNITS_5SHANG, UNITS_5XIA, UNITS_6SHANG, UNITS_6XIA,
 )
 
 BOOKS = [
@@ -25,10 +24,6 @@ BOOKS = [
     {"folder": "3GB", "grade": "3下", "units": UNITS_3XIA, "level": 3},
     {"folder": "4GA", "grade": "4上", "units": UNITS_4SHANG, "level": 4},
     {"folder": "4GB", "grade": "4下", "units": UNITS_4XIA, "level": 4},
-    {"folder": "5GA", "grade": "5上", "units": UNITS_5SHANG, "level": 5},
-    {"folder": "5GB", "grade": "5下", "units": UNITS_5XIA, "level": 5},
-    {"folder": "6GA", "grade": "6上", "units": UNITS_6SHANG, "level": 6},
-    {"folder": "6GB", "grade": "6下", "units": UNITS_6XIA, "level": 6},
 ]
 
 BAD_ZH = re.compile(r"^(教材原句：|教材中的句子)")

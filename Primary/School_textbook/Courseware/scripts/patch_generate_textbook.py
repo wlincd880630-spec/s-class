@@ -22,7 +22,7 @@ MAKE_ZH_OLD = '''def make_zh(meaning: str, en: str) -> str:
 MAKE_ZH_NEW = '''def make_zh(meaning: str, en: str) -> str:
     return ""  # 中文由 fix_textbook_sentences.py 统一生成'''
 
-for folder in ["3GA", "3GB", "4GA", "4GB", "5GA", "5GB", "6GA", "6GB"]:
+for folder in ["3GA", "3GB", "4GA", "4GB"]:
     path = os.path.join(CW, folder, "scripts", "generate_textbook_sentences.py")
     if not os.path.isfile(path):
         continue
@@ -30,8 +30,6 @@ for folder in ["3GA", "3GB", "4GA", "4GB", "5GA", "5GB", "6GA", "6GB"]:
     units_var = {
         "3GA": "UNITS_3SHANG", "3GB": "UNITS_3XIA",
         "4GA": "UNITS_4SHANG", "4GB": "UNITS_4XIA",
-        "5GA": "UNITS_5SHANG", "5GB": "UNITS_5XIA",
-        "6GA": "UNITS_6SHANG", "6GB": "UNITS_6XIA",
     }[folder]
     if MAKE_ZH_OLD in text:
         text = text.replace(MAKE_ZH_OLD, MAKE_ZH_NEW)

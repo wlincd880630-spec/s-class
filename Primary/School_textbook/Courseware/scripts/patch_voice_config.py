@@ -3,7 +3,7 @@
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-GRADES = ['3GA', '3GB', '4GA', '4GB', '5GA', '5GB', '6GA', '6GB']
+GRADES = ['3GA', '3GB', '4GA', '4GB']
 
 OLD_AZURE = """const AZURE_CONFIG = {
   subscriptionKey: 'C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu',

@@ -113,7 +113,7 @@ def main():
     import argparse
     p = argparse.ArgumentParser()
     p.add_argument("--audit", action="store_true")
-    p.add_argument("--book", help="only one folder e.g. 6GB")
+    p.add_argument("--book", help="only one folder e.g. 4GB")
     p.add_argument("--no-data", action="store_true")
     args = p.parse_args()
 

@@ -3,7 +3,7 @@
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-GRADES = ['3GA', '3GB', '4GA', '4GB', '5GA', '5GB', '6GA', '6GB']
+GRADES = ['3GA', '3GB', '4GA', '4GB']
 
 OLD = """    <div class="top-bar" style="margin-bottom:0;">
       <a class="back-link" href="../index.html"><i class="fa-solid fa-table-cells"></i> 全部教材</a>
