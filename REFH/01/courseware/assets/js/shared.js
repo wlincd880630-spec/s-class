@@ -755,18 +755,37 @@ ${azureLine}
   }
 
   let _pdfLibsPromise = null;
+  function loadExternalScript(src) {
+    return new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = src;
+      s.async = true;
+      s.onload = () => resolve();
+      s.onerror = () => reject(new Error('PDF 库加载失败'));
+      document.head.appendChild(s);
+    });
+  }
+
   function loadPdfLibs() {
     if (global.html2canvas && global.jspdf?.jsPDF) return Promise.resolve();
     if (_pdfLibsPromise) return _pdfLibsPromise;
-    _pdfLibsPromise = new Promise((resolve, reject) => {
-      const s = document.createElement('script');
-      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
-      s.onload = () => {
-        if (global.html2canvas && global.jspdf?.jsPDF) resolve();
-        else reject(new Error('PDF 库加载不完整'));
-      };
-      s.onerror = () => reject(new Error('PDF 库加载失败'));
-      document.head.appendChild(s);
+    _pdfLibsPromise = (async () => {
+      if (!global.html2canvas) {
+        await loadExternalScript(
+          'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'
+        );
+      }
+      if (!global.jspdf?.jsPDF) {
+        await loadExternalScript(
+          'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'
+        );
+      }
+      if (!global.html2canvas || !global.jspdf?.jsPDF) {
+        throw new Error('PDF 库加载不完整');
+      }
+    })().catch((err) => {
+      _pdfLibsPromise = null;
+      throw err;
     });
     return _pdfLibsPromise;
   }
