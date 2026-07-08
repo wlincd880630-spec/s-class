@@ -93,16 +93,16 @@
       border-radius: 8px;
       padding: 4px;
     }
-    .maze-target img { width: 100%; max-height: 52px; object-fit: contain; }
-    .maze-target .zh { font-size: 0.72rem; color: #546e7a; margin-top: 2px; }
-    .maze-target .num { font-family: "Fredoka", sans-serif; font-size: 0.75rem; color: var(--accent); }
+    .maze-target img { width: 100%; max-height: 80px; object-fit: contain; }
+    .maze-target .zh { font-size: 0.8rem; color: #546e7a; margin-top: 3px; }
+    .maze-target .num { font-family: "Fredoka", sans-serif; font-size: 0.85rem; color: var(--accent); }
     .maze-grid {
       display: grid;
-      gap: 2px;
-      max-width: 220px;
+      gap: 3px;
+      max-width: 360px;
       margin: 0 auto;
       border: 2px solid #37474f;
-      padding: 3px;
+      padding: 4px;
       background: #37474f;
     }
     .maze-cell {
@@ -113,7 +113,7 @@
       justify-content: center;
       font-family: "Fredoka", sans-serif;
       font-weight: 700;
-      font-size: 0.95rem;
+      font-size: 1.3rem;
       text-transform: uppercase;
     }
     .maze-hint { text-align: center; font-size: 0.75rem; color: #78909c; margin-top: 6px; }
@@ -865,8 +865,27 @@
       return html;
     }
 
+    function padGroupToThree(group, sourcePool) {
+      var words = group.slice();
+      if (words.length >= 3) return shuffle(words.slice(0, 3));
+      var src = shuffle(sourcePool.slice());
+      while (words.length < 3) {
+        words.push(src[Math.floor(Math.random() * src.length)]);
+      }
+      return shuffle(words);
+    }
+
+    function buildConnectGroups(sourcePool) {
+      var shuffled = shuffle(sourcePool.slice());
+      var groups = [];
+      for (var i = 0; i < shuffled.length; i += 3) {
+        groups.push(padGroupToThree(shuffled.slice(i, i + 3), sourcePool));
+      }
+      return groups;
+    }
+
     function renderConnectSheet(group, idx, total, showAns) {
-      var words = shuffle(group.slice(0, 3));
+      var words = shuffle(group.slice());
       var shuffled = shuffle(words.slice());
       var html = '<div class="sheet' + (showAns ? ' answer-key' : '') + '">';
       html += sheetHeader("Peek, Otter! · 图片单词连线", "第 " + idx + " / " + total + " 页");
@@ -934,7 +953,7 @@
       }
 
       if (optConnect) {
-        var connGroups = shuffle(NgReview.chunkGroups(shuffle(pool), 3));
+        var connGroups = buildConnectGroups(pool);
         connGroups.forEach(function(g, i) {
           html += renderConnectSheet(g, i + 1, connGroups.length, false);
         });
