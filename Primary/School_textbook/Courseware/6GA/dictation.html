@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>单词听写 · 6年级上册</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/common.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <div class="top-bar no-print">
+      <a class="course-logo" href="index.html" title="Steven's Class English Studio">
+        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/logo.png" alt="Steven's Class English Studio">
+      </a>
+      <a class="back-link" href="index.html"><i class="fa-solid fa-house"></i> 返回主页</a>
+      <h1 class="page-title"><i class="fa-solid fa-headphones"></i> 单词听写</h1>
+    </div>
+
+    <div class="card no-print">
+      <div class="control-row">
+        <label for="unitSelect"><i class="fa-solid fa-book"></i> 选择单元：</label>
+        <select id="unitSelect"></select>
+      </div>
+      <p class="trace-hint" style="margin-top:10px;">
+        屏幕可点图片角 🔊 播放；打印 PDF 仅保留图片与四线格（尺寸与预览一致）。
+        导出 PDF 时请将缩放设为 <strong>100%</strong>，勿选「适应页面」。
+      </p>
+      <div class="dictation-toolbar">
+        <button type="button" class="btn btn-primary btn-sm" id="btnPlayAll">
+          <i class="fa-solid fa-play"></i> 顺序播放本单元
+        </button>
+        <button type="button" class="btn btn-outline btn-sm" id="btnPrint">
+          <i class="fa-solid fa-print"></i> 打印 / 导出 PDF
+        </button>
+        <button type="button" class="btn btn-secondary btn-sm" id="btnToggleAnswers">
+          <i class="fa-solid fa-eye"></i> 显示答案
+        </button>
+      </div>
+    </div>
+
+    <div class="card dictation-card" id="dictationMount">
+      <div class="dictation-wrap" id="dictationWrap"></div>
+    </div>
+  </div>
+
+  <script src="assets/data/data.js"></script>
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/audio/audio-manifest.js?v=1"></script>
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/audio/local-audio.js?v=1"></script>
+<script src="assets/js/utils.js"></script>
+  <script>
+    let currentUnit = null;
+    let playAllToken = 0;
+    let answersVisible = false;
+
+    const unitSelect = document.getElementById('unitSelect');
+    const dictationWrap = document.getElementById('dictationWrap');
+    const btnToggleAnswers = document.getElementById('btnToggleAnswers');
+
+    function buildFourLines(word) {
+      const lines = document.createElement('div');
+      lines.className = 'dictation-lines';
+      lines.setAttribute('aria-hidden', 'true');
+
+      const answer = document.createElement('span');
+      answer.className = 'dictation-answer no-print';
+      answer.textContent = word.word;
+      lines.appendChild(answer);
+
+      ['dl-top', 'dl-mid', 'dl-grass', 'dl-base'].forEach(cls => {
+        const line = document.createElement('i');
+        line.className = 'dl-line ' + cls;
+        lines.appendChild(line);
+      });
+      return lines;
+    }
+
+    function buildItem(word) {
+      const item = document.createElement('div');
+      item.className = 'dictation-item';
+      item.dataset.word = word.word;
+
+      const body = document.createElement('div');
+      body.className = 'dictation-item-body';
+
+      const play = document.createElement('button');
+      play.type = 'button';
+      play.className = 'dictation-play no-print';
+      play.title = '播放：' + word.word;
+      play.setAttribute('aria-label', '播放 ' + word.word);
+      play.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+      play.addEventListener('click', () => speakText(word.word));
+
+      const img = document.createElement('img');
+      img.className = 'dictation-img';
+      img.src = word.image;
+      img.alt = '听写图片';
+      img.loading = 'lazy';
+
+      body.append(play, img, buildFourLines(word));
+      item.appendChild(body);
+      return item;
+    }
+
+    function setAnswersVisible(show) {
+      answersVisible = show;
+      document.body.classList.toggle('show-dictation-answers', show);
+      btnToggleAnswers.innerHTML = show
+        ? '<i class="fa-solid fa-eye-slash"></i> 隐藏答案'
+        : '<i class="fa-solid fa-eye"></i> 显示答案';
+    }
+
+    function chunkPages(words, perPage) {
+      const pages = [];
+      for (let i = 0; i < words.length; i += perPage) {
+        pages.push(words.slice(i, i + perPage));
+      }
+      return pages.length ? pages : [[]];
+    }
+
+    function buildColumn(words) {
+      const col = document.createElement('div');
+      col.className = 'dictation-col';
+      words.forEach(w => col.appendChild(buildItem(w)));
+      return col;
+    }
+
+    function renderUnit(unit) {
+      currentUnit = unit;
+      dictationWrap.innerHTML = '';
+      if (!unit || !unit.words.length) return;
+
+      const pages = chunkPages(unit.words, DICTATION_WORDS_PER_PAGE);
+      pages.forEach((pageWords, pi) => {
+        const page = document.createElement('section');
+        page.className = 'dictation-page';
+
+        const hd = document.createElement('h2');
+        hd.className = 'dictation-page-hd';
+        const pageLabel = pages.length > 1 ? ` · 第 ${pi + 1}/${pages.length} 页` : '';
+        hd.textContent = `${unit.name} · ${unit.title} · 听写${pageLabel}`;
+        page.appendChild(hd);
+
+        const cols = document.createElement('div');
+        cols.className = 'dictation-cols';
+        const mid = Math.ceil(pageWords.length / 2);
+        cols.append(buildColumn(pageWords.slice(0, mid)), buildColumn(pageWords.slice(mid)));
+        page.appendChild(cols);
+        dictationWrap.appendChild(page);
+      });
+      setAnswersVisible(answersVisible);
+    }
+
+    async function playAllInUnit() {
+      if (!currentUnit) return;
+      const token = ++playAllToken;
+      for (const w of currentUnit.words) {
+        if (token !== playAllToken) break;
+        await new Promise(resolve => {
+          speakText(w.word, resolve);
+        });
+        if (token !== playAllToken) break;
+        await new Promise(r => setTimeout(r, 600));
+      }
+    }
+
+    TEXTBOOK_DATA.units.forEach(u => {
+      const opt = document.createElement('option');
+      opt.value = u.id;
+      opt.textContent = u.title;
+      unitSelect.appendChild(opt);
+    });
+
+    unitSelect.addEventListener('change', () => {
+      playAllToken++;
+      renderUnit(getUnitById(unitSelect.value));
+    });
+
+    document.getElementById('btnPlayAll').addEventListener('click', () => {
+      playAllToken++;
+      playAllInUnit();
+    });
+
+    document.getElementById('btnPrint').addEventListener('click', () => {
+      document.body.classList.add('dictation-print-body');
+      window.print();
+      setTimeout(() => document.body.classList.remove('dictation-print-body'), 500);
+    });
+
+    btnToggleAnswers.addEventListener('click', () => {
+      setAnswersVisible(!answersVisible);
+    });
+
+    window.addEventListener('beforeprint', () => {
+      document.body.classList.add('dictation-print-body');
+    });
+    window.addEventListener('afterprint', () => {
+      document.body.classList.remove('dictation-print-body');
+    });
+
+    renderUnit(TEXTBOOK_DATA.units[0]);
+  </script>
+</body>
+</html>
