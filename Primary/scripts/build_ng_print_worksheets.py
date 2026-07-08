@@ -220,17 +220,35 @@ def generate(b):
     .connect-row {{
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin: 8px 0;
+      gap: 16px;
+      margin: 12px 0;
     }}
     .connect-item {{
       border: 1px solid #cfd8dc;
-      border-radius: 8px;
-      padding: 6px;
+      border-radius: 10px;
+      padding: 10px 12px;
       text-align: center;
-      min-height: 72px;
+      min-height: 130px;
     }}
-    .connect-item img {{ max-height: 48px; max-width: 100%; object-fit: contain; }}
+    .connect-item--img {{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }}
+    .connect-item--img img {{
+      height: 108px;
+      width: auto;
+      max-width: 100%;
+      object-fit: contain;
+    }}
+    .connect-item--word {{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Fredoka", sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+    }}
     .connect-blank {{
       font-family: "Fredoka", sans-serif;
       font-size: 1rem;
@@ -241,9 +259,14 @@ def generate(b):
     .answer-key .ans {{ font-family: "Fredoka", sans-serif; color: var(--accent); font-weight: 700; }}
     .empty-msg {{ text-align: center; padding: 2rem; color: #78909c; }}
 
-    @media print {{
+      @media print {{
       body {{ background: #fff; padding: 0; }}
       .no-print {{ display: none !important; }}
+      .connect-item--img img {{
+        height: 108px;
+        max-width: 100%;
+      }}
+      .connect-item {{ min-height: 130px; }}
       .sheet {{
         box-shadow: none;
         border-radius: 0;
@@ -432,10 +455,8 @@ def generate(b):
       html += '<div class="connect-row"><div><strong>图片</strong></div><div><strong>单词（已打乱）</strong></div></div>';
       for (var i = 0; i < words.length; i++) {{
         html += '<div class="connect-row">';
-        html += '<div class="connect-item"><img src="' + esc(wordImg(words[i])) + '" alt="" /></div>';
-        html += '<div class="connect-item" style="display:flex;align-items:center;justify-content:center">';
-        html += '<span style="font-family:Fredoka,sans-serif;font-size:1.1rem;font-weight:700">' + esc(shuffled[i].word) + '</span>';
-        html += '</div></div>';
+        html += '<div class="connect-item connect-item--img"><img src="' + esc(wordImg(words[i])) + '" alt="" /></div>';
+        html += '<div class="connect-item connect-item--word">' + esc(shuffled[i].word) + '</div></div>';
       }}
       if (showAns) {{
         html += '<p class="maze-hint">答案：';
