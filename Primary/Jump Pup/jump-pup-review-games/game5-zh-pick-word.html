@@ -448,17 +448,28 @@ body.ng-game {
   box-shadow: inset -4px -4px 12px rgba(255,255,255,0.5), 0 4px 12px rgba(0,0,0,0.15);
   animation: ng-float-up linear forwards;
   user-select: none;
+  transform: translateX(-50%);
+  z-index: 1;
+  padding: 0 4px;
+  text-align: center;
+  line-height: 1.1;
+}
+
+.ng-bubble:hover,
+.ng-bubble:active {
+  z-index: 20;
+  box-shadow: inset -4px -4px 12px rgba(255,255,255,0.6), 0 6px 16px rgba(0,0,0,0.22);
 }
 
 .ng-bubble.pop { animation: ng-pop 0.35s ease forwards !important; }
 
 @keyframes ng-float-up {
-  from { transform: translateY(0); }
-  to { transform: translateY(-110%); }
+  from { transform: translateX(-50%) translateY(0); }
+  to { transform: translateX(-50%) translateY(-115%); }
 }
 
 @keyframes ng-pop {
-  to { transform: scale(1.4); opacity: 0; }
+  to { transform: translateX(-50%) scale(1.4); opacity: 0; }
 }
 
 /* ── 转盘 ── */
@@ -481,8 +492,10 @@ body.ng-game {
   border-radius: 50%;
   border: 6px solid var(--ng-gold);
   box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-  transition: transform 3s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+  transition: transform 3.2s cubic-bezier(0.17, 0.67, 0.12, 0.99);
   overflow: hidden;
+  transform-origin: center center;
+  position: relative;
 }
 
 .ng-wheel-pointer {
@@ -1121,14 +1134,14 @@ body.ng-game {
 </script>
   <script>
   (function(){"use strict";var W=window.JumpPupWords;function wordImg(w){return W.IMG_BASE+w.word+'.png';}function speakWord(text){if(window.JumpPupTTS)JumpPupTTS.speak(text,{slow:false,azureOnly:true});};if(!W)return;
-    var pool=W.getSelected();document.getElementById("wordCount").textContent=String(pool.length);
+    var pool=NgReview.shuffle(W.getSelected().slice());document.getElementById("wordCount").textContent=String(pool.length);
     var host=document.getElementById("wordChips");pool.forEach(function(w){var s=document.createElement("span");s.className="chip";s.textContent=w.word+" "+w.zh;host.appendChild(s);});
     if(pool.length<3){document.getElementById("setupPanel").innerHTML='<p class="ng-hint">至少 3 个单词。<a href="settings.html">去选词</a></p>';return;}
-    var queue=NgReview.shuffle(pool.slice()),qi=0,correct=0,wrong=0,timer=null,answered=false;
-    document.getElementById("metaBar").textContent="共 "+pool.length+" 题";
+    var queue=[],qi=0,correct=0,wrong=0,timer=null,answered=false;
+    document.getElementById("metaBar").textContent="共 "+pool.length+" 题 · 每次随机顺序";
     document.getElementById("btnStart").onclick=function(){
       document.getElementById("setupPanel").classList.add("hidden");document.getElementById("playPanel").classList.add("on");
-      qi=0;correct=0;wrong=0;timer=new NgReview.GameTimer(document.getElementById("timerEl"));timer.start();showQ();
+      queue=NgReview.shuffle(pool.slice());qi=0;correct=0;wrong=0;timer=new NgReview.GameTimer(document.getElementById("timerEl"));timer.start();showQ();
     };
     function showQ(){
       if(qi>=queue.length){finish();return;}answered=false;var w=queue[qi];
@@ -1136,7 +1149,7 @@ body.ng-game {
       document.getElementById("qZh").textContent=w.zh;
       var img=document.getElementById("qImg");img.src=wordImg(w);img.alt=w.word;
       NgReview.hideFeedback(document.getElementById("feedback"));
-      var opts=NgReview.buildMcOptions(w,pool,3),el=document.getElementById("options");el.innerHTML="";
+      var opts=NgReview.shuffle(NgReview.buildMcOptions(w,pool,3)),el=document.getElementById("options");el.innerHTML="";
       opts.forEach(function(o){
         var btn=document.createElement("button");btn.type="button";btn.className="ng-quiz-opt";
         var span=document.createElement("span");span.textContent=o.word;btn.appendChild(span);

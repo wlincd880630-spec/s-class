@@ -448,17 +448,28 @@ body.ng-game {
   box-shadow: inset -4px -4px 12px rgba(255,255,255,0.5), 0 4px 12px rgba(0,0,0,0.15);
   animation: ng-float-up linear forwards;
   user-select: none;
+  transform: translateX(-50%);
+  z-index: 1;
+  padding: 0 4px;
+  text-align: center;
+  line-height: 1.1;
+}
+
+.ng-bubble:hover,
+.ng-bubble:active {
+  z-index: 20;
+  box-shadow: inset -4px -4px 12px rgba(255,255,255,0.6), 0 6px 16px rgba(0,0,0,0.22);
 }
 
 .ng-bubble.pop { animation: ng-pop 0.35s ease forwards !important; }
 
 @keyframes ng-float-up {
-  from { transform: translateY(0); }
-  to { transform: translateY(-110%); }
+  from { transform: translateX(-50%) translateY(0); }
+  to { transform: translateX(-50%) translateY(-115%); }
 }
 
 @keyframes ng-pop {
-  to { transform: scale(1.4); opacity: 0; }
+  to { transform: translateX(-50%) scale(1.4); opacity: 0; }
 }
 
 /* ── 转盘 ── */
@@ -481,8 +492,10 @@ body.ng-game {
   border-radius: 50%;
   border: 6px solid var(--ng-gold);
   box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-  transition: transform 3s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+  transition: transform 3.2s cubic-bezier(0.17, 0.67, 0.12, 0.99);
   overflow: hidden;
+  transform-origin: center center;
+  position: relative;
 }
 
 .ng-wheel-pointer {
@@ -1134,18 +1147,19 @@ body.ng-game {
     function wordImg(w){return W.IMG_BASE+w.word+'.png';}
     function speakWord(text){if(window.PeekOtterTTS)PeekOtterTTS.speak(text,{slow:false,azureOnly:true});}
     if (!W) return;
-    var pool = W.getSelected().filter(function(w) { return w.word.indexOf(" ") < 0; });
+    var pool = NgReview.shuffle(W.getSelected().filter(function(w) { return w.word.indexOf(" ") < 0; }).slice());
     renderChips(pool);
     if (pool.length < 4) {
       document.getElementById("setupPanel").innerHTML = '<p class="ng-hint">迷宫至少需要 4 个无空格单词。<a href="settings.html">去选词</a></p>';
       return;
     }
     document.getElementById("wordCount").textContent = String(pool.length);
-    var groups = NgReview.chunkGroups(NgReview.shuffle(pool), 4), gi = 0, mazeData, selected = [], pathDir = null;
+    var groups = [], gi = 0, mazeData, selected = [], pathDir = null;
     var found = {}, foundPaths = {}, hintCells = {}, hintIdx = 0, correct = 0, wrong = 0, timer, pageWords = [];
     document.getElementById("btnStart").onclick = function() {
       document.getElementById("setupPanel").classList.add("hidden");
       document.getElementById("playPanel").classList.add("on");
+      groups = NgReview.shuffle(NgReview.chunkGroups(NgReview.shuffle(pool.slice()), 4));
       gi = 0; correct = 0; wrong = 0; timer = new NgReview.GameTimer(document.getElementById("timerEl")); timer.start();
       loadGroup();
     };

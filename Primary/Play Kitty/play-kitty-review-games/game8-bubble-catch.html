@@ -448,17 +448,28 @@ body.ng-game {
   box-shadow: inset -4px -4px 12px rgba(255,255,255,0.5), 0 4px 12px rgba(0,0,0,0.15);
   animation: ng-float-up linear forwards;
   user-select: none;
+  transform: translateX(-50%);
+  z-index: 1;
+  padding: 0 4px;
+  text-align: center;
+  line-height: 1.1;
+}
+
+.ng-bubble:hover,
+.ng-bubble:active {
+  z-index: 20;
+  box-shadow: inset -4px -4px 12px rgba(255,255,255,0.6), 0 6px 16px rgba(0,0,0,0.22);
 }
 
 .ng-bubble.pop { animation: ng-pop 0.35s ease forwards !important; }
 
 @keyframes ng-float-up {
-  from { transform: translateY(0); }
-  to { transform: translateY(-110%); }
+  from { transform: translateX(-50%) translateY(0); }
+  to { transform: translateX(-50%) translateY(-115%); }
 }
 
 @keyframes ng-pop {
-  to { transform: scale(1.4); opacity: 0; }
+  to { transform: translateX(-50%) scale(1.4); opacity: 0; }
 }
 
 /* ── 转盘 ── */
@@ -481,8 +492,10 @@ body.ng-game {
   border-radius: 50%;
   border: 6px solid var(--ng-gold);
   box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-  transition: transform 3s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+  transition: transform 3.2s cubic-bezier(0.17, 0.67, 0.12, 0.99);
   overflow: hidden;
+  transform-origin: center center;
+  position: relative;
 }
 
 .ng-wheel-pointer {
@@ -1122,28 +1135,31 @@ body.ng-game {
 </script>
   <script>
   (function(){"use strict";var W=window.PlayKittyWords;function speakWord(text){if(window.PlayKittyTTS)PlayKittyTTS.speak(text,{slow:false,azureOnly:true});};if(!W)return;
-    var pool=W.getSelected();document.getElementById("wordCount").textContent=String(pool.length);
+    var pool=NgReview.shuffle(W.getSelected().slice());document.getElementById("wordCount").textContent=String(pool.length);
     pool.forEach(function(w){var s=document.createElement("span");s.className="chip";s.textContent=w.word+" "+w.zh;document.getElementById("wordChips").appendChild(s);});
     if(pool.length<4){document.getElementById("setupPanel").innerHTML='<p class="ng-hint">至少 4 个单词。<a href="settings.html">去选词</a></p>';return;}
-    var queue=NgReview.shuffle(pool.slice()),qi=0,correct=0,wrong=0,score=0,timer=null,active=false;
+    var queue=[],qi=0,correct=0,wrong=0,score=0,timer=null,active=false;
     var colors=["#e1f5fe","#b3e5fc","#81d4fa","#4fc3f7"];
+    var BUBBLE_SIZE=76;
     document.getElementById("btnStart").onclick=function(){
       document.getElementById("setupPanel").classList.add("hidden");document.getElementById("playPanel").classList.add("on");
-      qi=0;correct=0;wrong=0;score=0;active=true;timer=new NgReview.GameTimer(document.getElementById("timerEl"));timer.start();nextRound();
+      queue=NgReview.shuffle(pool.slice());qi=0;correct=0;wrong=0;score=0;active=true;timer=new NgReview.GameTimer(document.getElementById("timerEl"));timer.start();nextRound();
     };
     function nextRound(){
       if(qi>=queue.length){finish();return;}
       var answer=queue[qi];document.getElementById("progressBadge").textContent="第 "+(qi+1)+" / "+queue.length+" 题";
       document.getElementById("promptZh").textContent=answer.zh;document.getElementById("scoreEl").textContent=String(score);
-      clearBubbles();var opts=NgReview.buildMcOptions(answer,pool,4),delay=0;
-      opts.forEach(function(w){setTimeout(function(){spawnBubble(w,w.word===answer.word);},delay);delay+=500;});
+      clearBubbles();
+      var opts=NgReview.shuffle(NgReview.buildMcOptions(answer,pool,4));
+      var lanes=NgReview.shuffle([14,36,58,80]);
+      opts.forEach(function(w,i){setTimeout(function(){spawnBubble(w,w.word===answer.word,lanes[i],i);},i*320);});
     }
     function clearBubbles(){document.getElementById("bubbleStage").querySelectorAll(".ng-bubble").forEach(function(b){b.remove();});}
-    function spawnBubble(w,isAnswer){
+    function spawnBubble(w,isAnswer,lanePct,stagger){
       if(!active)return;var stage=document.getElementById("bubbleStage"),b=document.createElement("div");
-      b.className="ng-bubble";var size=70+Math.random()*20;b.style.width=size+"px";b.style.height=size+"px";
-      b.style.left=(10+Math.random()*70)+"%";b.style.bottom="10%";b.style.background=colors[Math.floor(Math.random()*colors.length)];
-      b.textContent=w.word;b.style.animationDuration=(7+Math.random()*2)+"s";
+      b.className="ng-bubble";b.style.width=BUBBLE_SIZE+"px";b.style.height=BUBBLE_SIZE+"px";
+      b.style.left=lanePct+"%";b.style.bottom=(6+stagger*5)+"%";b.style.background=colors[stagger%colors.length];
+      b.textContent=w.word;b.style.animationDuration=(7+stagger*0.6)+"s";
       b.onclick=function(){
         if(!active||b.classList.contains("pop"))return;
         if(isAnswer){b.classList.add("pop");correct++;score+=15;active=false;speakWord(w.word);

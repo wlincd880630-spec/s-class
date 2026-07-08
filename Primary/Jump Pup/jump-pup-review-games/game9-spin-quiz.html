@@ -12,7 +12,7 @@
   <script src="azure-tts.js"></script>
   <script src="words-data.js"></script>
   <style>
-.ng-wheel-label{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:Fredoka,sans-serif;font-weight:700;font-size:0.7rem;pointer-events:none;}
+.ng-wheel-label{position:absolute;left:50%;top:50%;width:0;height:0;display:flex;align-items:center;justify-content:center;font-family:Fredoka,sans-serif;font-weight:700;font-size:0.68rem;pointer-events:none;white-space:nowrap;transform-origin:center center;}
 
 /* 国家地理分级阅读 · 复习游戏共享样式 */
 :root {
@@ -450,17 +450,28 @@ body.ng-game {
   box-shadow: inset -4px -4px 12px rgba(255,255,255,0.5), 0 4px 12px rgba(0,0,0,0.15);
   animation: ng-float-up linear forwards;
   user-select: none;
+  transform: translateX(-50%);
+  z-index: 1;
+  padding: 0 4px;
+  text-align: center;
+  line-height: 1.1;
+}
+
+.ng-bubble:hover,
+.ng-bubble:active {
+  z-index: 20;
+  box-shadow: inset -4px -4px 12px rgba(255,255,255,0.6), 0 6px 16px rgba(0,0,0,0.22);
 }
 
 .ng-bubble.pop { animation: ng-pop 0.35s ease forwards !important; }
 
 @keyframes ng-float-up {
-  from { transform: translateY(0); }
-  to { transform: translateY(-110%); }
+  from { transform: translateX(-50%) translateY(0); }
+  to { transform: translateX(-50%) translateY(-115%); }
 }
 
 @keyframes ng-pop {
-  to { transform: scale(1.4); opacity: 0; }
+  to { transform: translateX(-50%) scale(1.4); opacity: 0; }
 }
 
 /* ── 转盘 ── */
@@ -483,8 +494,10 @@ body.ng-game {
   border-radius: 50%;
   border: 6px solid var(--ng-gold);
   box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-  transition: transform 3s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+  transition: transform 3.2s cubic-bezier(0.17, 0.67, 0.12, 0.99);
   overflow: hidden;
+  transform-origin: center center;
+  position: relative;
 }
 
 .ng-wheel-pointer {
@@ -1131,33 +1144,46 @@ body.ng-game {
 </script>
   <script>
   (function(){"use strict";var W=window.JumpPupWords;function wordImg(w){return W.IMG_BASE+w.word+'.png';}function speakWord(text){if(window.JumpPupTTS)JumpPupTTS.speak(text,{slow:false,azureOnly:true});};if(!W)return;
-    var pool=W.getSelected();document.getElementById("wordCount").textContent=String(pool.length);
+    var pool=NgReview.shuffle(W.getSelected().slice());document.getElementById("wordCount").textContent=String(pool.length);
     pool.forEach(function(w){var s=document.createElement("span");s.className="chip";s.textContent=w.word;document.getElementById("wordChips").appendChild(s);});
     if(pool.length<4){document.getElementById("setupPanel").innerHTML='<p class="ng-hint">至少 4 个单词。<a href="settings.html">去选词</a></p>';return;}
-    var segments=NgReview.shuffle(pool.slice()).slice(0,Math.min(8,pool.length)),qi=0,correct=0,wrong=0,score=0,timer=null,spinning=false,cur=null,rot=0;
-    var segAngle=360/segments.length,colors=["#f5c400","#66bb6a","#42a5f5","#ab47bc","#ef5350","#ffa726","#26c6da","#8d6e63"];
+    var segments=[],qi=0,correct=0,wrong=0,score=0,timer=null,spinning=false,cur=null,rot=0,segAngle=45;
+    var colors=["#f5c400","#66bb6a","#42a5f5","#ab47bc","#ef5350","#ffa726","#26c6da","#8d6e63"];
     document.getElementById("btnStart").onclick=function(){
       document.getElementById("setupPanel").classList.add("hidden");document.getElementById("playPanel").classList.add("on");
-      qi=0;score=0;timer=new NgReview.GameTimer(document.getElementById("timerEl"));timer.start();
+      segments=NgReview.shuffle(pool.slice()).slice(0,Math.min(8,pool.length));
+      segAngle=360/segments.length;qi=0;score=0;timer=new NgReview.GameTimer(document.getElementById("timerEl"));timer.start();
       document.getElementById("btnSpin").disabled=false;buildWheel();
-      document.getElementById("progressBadge").textContent="共 "+segments.length+" 轮";
+      document.getElementById("progressBadge").textContent="共 "+segments.length+" 轮 · 随机顺序";
     };
     function buildWheel(){
       var w=document.getElementById("wheel");
       w.style.background="conic-gradient(from 0deg, "+segments.map(function(s,i){return colors[i%colors.length]+" "+(i*segAngle)+"deg "+((i+1)*segAngle)+"deg";}).join(", ")+")";
       w.innerHTML="";segments.forEach(function(s,i){var lbl=document.createElement("div");lbl.className="ng-wheel-label";lbl.textContent=s.word;
-        lbl.style.transform="rotate("+(i*segAngle+segAngle/2)+"deg) translateY(-90px)";w.appendChild(lbl);});
+        lbl.style.transform="rotate("+(i*segAngle+segAngle/2)+"deg) translateY(-95px)";w.appendChild(lbl);});
     }
     document.getElementById("btnSpin").onclick=function(){
-      if(spinning||qi>=segments.length)return;spinning=true;document.getElementById("btnSpin").disabled=true;
+      if(spinning||qi>=segments.length)return;
+      spinning=true;document.getElementById("btnSpin").disabled=true;
       document.getElementById("challenge").classList.add("ng-hidden");
-      rot+=1800+Math.random()*360;document.getElementById("wheel").style.transform="rotate("+rot+"deg)";
-      setTimeout(function(){spinning=false;cur=segments[qi];showChallenge(cur);document.getElementById("btnSpin").disabled=false;},2800);
+      cur=segments[qi];
+      var center=qi*segAngle+segAngle/2;
+      var targetMod=(360-center)%360;
+      var prevMod=((rot%360)+360)%360;
+      var delta=(targetMod-prevMod+360)%360;
+      if(delta<120) delta+=360;
+      rot+=360*(4+Math.floor(Math.random()*2))+delta;
+      document.getElementById("wheel").style.transform="rotate("+rot+"deg)";
+      setTimeout(function(){
+        spinning=false;
+        showChallenge(cur);
+        document.getElementById("btnSpin").disabled=false;
+      },3200);
     };
     function showChallenge(w){
       document.getElementById("challenge").classList.remove("ng-hidden");
       document.getElementById("targetWord").textContent=w.word;document.getElementById("progressBadge").textContent="第 "+(qi+1)+" / "+segments.length+" 轮";
-      speakWord(w.word);var opts=NgReview.buildMcOptions(w,pool,4),el=document.getElementById("imgOpts");el.innerHTML="";
+      speakWord(w.word);var opts=NgReview.shuffle(NgReview.buildMcOptions(w,pool,4)),el=document.getElementById("imgOpts");el.innerHTML="";
       opts.forEach(function(o){var btn=document.createElement("button");btn.type="button";btn.className="ng-spin-img-opt";
         var img=document.createElement("img");img.src=wordImg(o);img.alt=o.word;btn.appendChild(img);
         btn.onclick=function(){pickImg(o,w,btn);};el.appendChild(btn);});
