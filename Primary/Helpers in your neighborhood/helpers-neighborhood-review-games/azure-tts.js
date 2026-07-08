@@ -83,12 +83,4 @@
   }
 
   global.HelpersNeighborhoodTTS = api;
-
-  var ENHANCE = "../../assets/ng-azure-tts-enhance.js?v=2";
-  var s = document.createElement("script");
-  s.src = ENHANCE;
-  s.onload = function () {
-    if (global.NgAzureTTS) global.NgAzureTTS.enhance("HelpersNeighborhoodTTS");
-  };
-  document.head.appendChild(s);
 })(typeof window !== "undefined" ? window : this);
