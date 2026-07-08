@@ -50,6 +50,22 @@
     .read-action-btn.translate { background: var(--accent); color: #fff; }
     .read-action-btn.translate:hover { filter: brightness(1.05); }
     .read-action-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .read-full-btn.speaking { background: var(--accent2); border-color: var(--accent2); }
+    .full-audio-player {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+    }
+    .full-audio-status { font-size: 0.85rem; color: var(--muted); margin-bottom: 10px; }
+    .full-audio-controls {
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+    }
+    .full-audio-seek { flex: 1; min-width: 140px; accent-color: var(--primary); cursor: pointer; }
+    .full-audio-time { font-size: 0.82rem; color: var(--muted); min-width: 96px; white-space: nowrap; }
+
     .section-heading {
       font-family: var(--font-display); font-size: 1.35rem; color: var(--primary);
       margin: 8px 0 0; padding: 20px 24px 0; border-top: 3px solid var(--primary-light);
@@ -119,13 +135,26 @@
     <div id="masthead"></div>
     <div class="toolbar" id="read-toolbar">
       <div class="toolbar-row main-actions">
-        <button class="btn btn-outline" type="button" onclick="Courseware.speakText(document.getElementById('lead-text')?.textContent)">🔊 朗读导语</button>
+        <button class="btn btn-primary read-full-btn" type="button" id="btn-read-full" onclick="toggleFullRead()">🔊 慢速全文朗读</button>
+        <button class="btn btn-outline" type="button" onclick="Courseware.speakText(document.getElementById('lead-text')?.textContent, 'slow')">🔊 朗读导语</button>
         <button class="btn btn-ghost" type="button" onclick="Courseware.openConfig()">⚙️ 设置</button>
       </div>
       <div class="toolbar-row">
         <div class="sel-preview" id="sel-preview">👆 在文中拖选词组或句子，然后点击右侧按钮</div>
         <button class="read-action-btn phrase" type="button" id="btn-phrase" onclick="analyzeSel('phrase')">📖 查词组</button>
         <button class="read-action-btn translate" type="button" id="btn-translate" onclick="translateSel()">🌐 翻译句子</button>
+      </div>
+    </div>
+    <div class="full-audio-player" id="full-audio-player" hidden>
+      <div class="full-audio-status" data-action="status">全文 MP3 播放器</div>
+      <div class="full-audio-controls">
+        <button type="button" class="btn btn-outline sm" data-action="back">⏪ 10秒</button>
+        <button type="button" class="btn btn-primary sm" data-action="play">▶️ 播放</button>
+        <button type="button" class="btn btn-outline sm" data-action="forward">10秒 ⏩</button>
+        <input type="range" class="full-audio-seek" data-action="seek" min="0" max="1000" value="0" step="1" aria-label="播放进度">
+        <span class="full-audio-time" data-action="time">0:00 / 0:00</span>
+        <a class="btn btn-outline sm" data-action="download" href="#" download="article-full-read.mp3">⬇️ 下载 MP3</a>
+        <button type="button" class="btn btn-ghost sm" data-action="close">关闭</button>
       </div>
     </div>
     <div id="article"></div>
@@ -135,13 +164,68 @@
   <div class="lookup-popup" id="lookup-popup"></div>
 
   <script src="assets/js/course-data.js"></script>
-  <script src="assets/js/shared.js?v=20260706b"></script>
+  <script src="assets/js/shared.js?v=20260709c"></script>
   <script>
     document.getElementById('nav').innerHTML = Courseware.renderNav('part2-reading.html');
     Courseware.injectConfigPanel();
 
     let selectedText = '';
     let shownHeadings = new Set();
+    let courseData = null;
+
+    function getFullArticleText() {
+      if (!courseData) return '';
+      const parts = [courseData.article_lead || ''];
+      (courseData.paragraphs || []).forEach(p => parts.push(...(p.sentences || [])));
+      return parts.filter(Boolean).join(' ');
+    }
+
+    function resetFullReadBtn() {
+      const btn = document.getElementById('btn-read-full');
+      if (!btn) return;
+      btn.textContent = '🔊 慢速全文朗读';
+      btn.classList.remove('speaking');
+      btn.disabled = false;
+    }
+
+    async function toggleFullRead() {
+      const player = document.getElementById('full-audio-player');
+      if (Courseware.isFullSpeakReady()) {
+        await Courseware.toggleFullSpeakPlay();
+        Courseware.bindFullSpeakPlayer(player, { onClose: resetFullReadBtn });
+        return;
+      }
+      const text = getFullArticleText();
+      if (!text) {
+        Courseware.showToast('暂无文章内容');
+        return;
+      }
+      const btn = document.getElementById('btn-read-full');
+      const statusEl = player.querySelector('[data-action="status"]');
+      btn.disabled = true;
+      btn.textContent = '⏳ 合成 MP3…';
+      btn.classList.add('speaking');
+      player.hidden = false;
+      if (statusEl) statusEl.textContent = '正在通过 Azure 合成全文 MP3…';
+      try {
+        await Courseware.prepareFullSpeakAudio(text, 'slow', (cur, total) => {
+          if (statusEl) statusEl.textContent = 'Azure 合成中… 第 ' + cur + '/' + total + ' 段';
+        });
+        if (statusEl) statusEl.textContent = '全文 MP3 已就绪 · 可暂停、拖动进度条或下载';
+        btn.textContent = '🔊 全文播放器';
+        btn.disabled = false;
+        Courseware.bindFullSpeakPlayer(player, {
+          filename: (courseData?.title || 'article').replace(/[^a-zA-Z0-9_-]+/g, '_') + '_full-read.mp3',
+          onClose: resetFullReadBtn
+        });
+        await Courseware.playFullSpeak();
+      } catch (e) {
+        if (e.message !== 'cancelled') Courseware.showToast('合成失败，请检查 Azure 配置');
+        player.hidden = true;
+        resetFullReadBtn();
+      }
+    }
+    window.toggleFullRead = toggleFullRead;
 
     function getSelectedText() {
       const live = window.getSelection()?.toString().trim();
@@ -234,6 +318,7 @@
     function toggleAnswer(btn) { btn.nextElementSibling.classList.toggle('show'); btn.textContent = btn.nextElementSibling.classList.contains('show') ? '隐藏答案' : '显示答案'; }
 
     function renderArticle(data) {
+      courseData = data;
       document.getElementById('masthead').innerHTML = `
         <header class="article-masthead">
           <h1>${Courseware.escapeHtml(data.title_full)}</h1>

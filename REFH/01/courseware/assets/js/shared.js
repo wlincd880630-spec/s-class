@@ -45,46 +45,280 @@
     global.__DEEPSEEK_KEY__ = cfg.deepseekKey;
   }
 
-  function stopAudio() {
-    try {
-      if (_audio) { _audio.pause(); _audio = null; }
-      if (_blobUrl) { URL.revokeObjectURL(_blobUrl); _blobUrl = null; }
-    } catch (e) {}
-  }
-
   function xmlEscape(t) {
     return String(t || '')
       .replace(/&/g, '&amp;').replace(/</g, '&lt;')
       .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
-  async function speakText(text, rate) {
-    const raw = String(text || '').trim();
-    if (!raw) return false;
-    const cfg = getConfig();
-    const key = cfg.azureKey;
-    const region = cfg.azureRegion;
-    stopAudio();
-    const speed = rate === 'slow' ? '-20%' : rate === 'fast' ? '+15%' : '+0%';
-    const ssml = `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US"><voice name="en-US-JennyNeural"><prosody rate="${speed}">${xmlEscape(raw)}</prosody></voice></speak>`;
+  function stopAudio() {
     try {
-      const res = await fetch(`https://${region}.tts.speech.microsoft.com/cognitiveservices/v1`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/ssml+xml; charset=utf-8',
-          'X-Microsoft-OutputFormat': 'audio-16khz-128kbitrate-mono-mp3',
-          'Ocp-Apim-Subscription-Key': key
-        },
-        body: ssml
+      if (_audio) { _audio.pause(); _audio = null; }
+      if (_blobUrl && (!_fullPlayer || _blobUrl !== _fullPlayer.url)) {
+        URL.revokeObjectURL(_blobUrl);
+      }
+      if (!_fullPlayer) _blobUrl = null;
+    } catch (e) {}
+  }
+
+  let _fullSpeakCancel = null;
+  let _fullPlayer = null;
+
+  function formatAudioTime(sec) {
+    if (!isFinite(sec) || sec < 0) return '0:00';
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60);
+    return m + ':' + String(s).padStart(2, '0');
+  }
+
+  function destroyFullPlayer() {
+    if (_fullSpeakCancel) _fullSpeakCancel.active = false;
+    if (_fullPlayer) {
+      try {
+        if (_fullPlayer.audio) {
+          _fullPlayer.audio.pause();
+          _fullPlayer.audio.onended = null;
+          _fullPlayer.audio.ontimeupdate = null;
+          _fullPlayer.audio.src = '';
+        }
+        if (_fullPlayer.url) URL.revokeObjectURL(_fullPlayer.url);
+      } catch (e) {}
+      _fullPlayer = null;
+    }
+    _fullSpeakCancel = null;
+    _audio = null;
+    _blobUrl = null;
+  }
+
+  function stopFullSpeak() {
+    destroyFullPlayer();
+  }
+
+  function isFullSpeakReady() {
+    return !!(_fullPlayer && _fullPlayer.blob);
+  }
+
+  function isFullSpeaking() {
+    const a = _fullPlayer?.audio;
+    return !!(a && !a.paused && !a.ended);
+  }
+
+  async function mergeMp3Blobs(blobs) {
+    const bufs = await Promise.all(blobs.map(b => b.arrayBuffer()));
+    const len = bufs.reduce((n, b) => n + b.byteLength, 0);
+    const out = new Uint8Array(len);
+    let off = 0;
+    for (const b of bufs) {
+      out.set(new Uint8Array(b), off);
+      off += b.byteLength;
+    }
+    return new Blob([out], { type: 'audio/mpeg' });
+  }
+
+  async function prepareFullSpeakAudio(text, rate, onProgress) {
+    destroyFullPlayer();
+    const chunks = splitForTts(text);
+    if (!chunks.length) throw new Error('empty');
+    const cancel = { active: true };
+    _fullSpeakCancel = cancel;
+    const speed = rate || 'slow';
+    const blobs = [];
+    for (let i = 0; i < chunks.length; i++) {
+      if (!cancel.active) throw new Error('cancelled');
+      if (onProgress) onProgress(i + 1, chunks.length);
+      blobs.push(await fetchTtsBlob(chunks[i], speed));
+    }
+    if (!cancel.active) throw new Error('cancelled');
+    const merged = await mergeMp3Blobs(blobs);
+    const url = URL.createObjectURL(merged);
+    const audio = new Audio(url);
+    audio.preload = 'auto';
+    _fullPlayer = { audio, url, blob: merged };
+    _audio = audio;
+    _blobUrl = url;
+    _fullSpeakCancel = null;
+    return _fullPlayer;
+  }
+
+  function playFullSpeak() {
+    if (!_fullPlayer?.audio) return Promise.resolve(false);
+    return _fullPlayer.audio.play().then(() => true).catch(() => false);
+  }
+
+  function pauseFullSpeak() {
+    _fullPlayer?.audio?.pause();
+  }
+
+  function toggleFullSpeakPlay() {
+    if (!_fullPlayer?.audio) return Promise.resolve(false);
+    if (_fullPlayer.audio.paused) return playFullSpeak();
+    pauseFullSpeak();
+    return Promise.resolve(false);
+  }
+
+  function skipFullSpeak(delta) {
+    const a = _fullPlayer?.audio;
+    if (!a || !isFinite(a.duration)) return;
+    a.currentTime = Math.max(0, Math.min(a.duration, a.currentTime + delta));
+  }
+
+  function seekFullSpeak(ratio) {
+    const a = _fullPlayer?.audio;
+    if (!a || !isFinite(a.duration)) return;
+    a.currentTime = Math.max(0, Math.min(a.duration, ratio * a.duration));
+  }
+
+  function getFullSpeakState() {
+    const a = _fullPlayer?.audio;
+    if (!a) return { ready: false, playing: false, current: 0, duration: 0, progress: 0 };
+    const duration = a.duration || 0;
+    const current = a.currentTime || 0;
+    return {
+      ready: true,
+      playing: !a.paused && !a.ended,
+      current,
+      duration,
+      progress: duration ? current / duration : 0
+    };
+  }
+
+  function downloadFullSpeakMp3(filename) {
+    if (!_fullPlayer?.blob) return false;
+    const a = document.createElement('a');
+    a.href = _fullPlayer.url;
+    a.download = filename || 'article-full-read.mp3';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    return true;
+  }
+
+  function bindFullSpeakPlayer(root, opts) {
+    if (!root || !_fullPlayer?.audio) return;
+    const audio = _fullPlayer.audio;
+    const playBtn = root.querySelector('[data-action="play"]');
+    const backBtn = root.querySelector('[data-action="back"]');
+    const fwdBtn = root.querySelector('[data-action="forward"]');
+    const seek = root.querySelector('[data-action="seek"]');
+    const timeEl = root.querySelector('[data-action="time"]');
+    const dl = root.querySelector('[data-action="download"]');
+    const closeBtn = root.querySelector('[data-action="close"]');
+    const statusEl = root.querySelector('[data-action="status"]');
+    let seeking = false;
+
+    function refresh() {
+      const st = getFullSpeakState();
+      if (playBtn) playBtn.textContent = st.playing ? '⏸ 暂停' : '▶️ 播放';
+      if (timeEl) timeEl.textContent = formatAudioTime(st.current) + ' / ' + formatAudioTime(st.duration);
+      if (seek && !seeking && st.duration) seek.value = String(Math.round(st.progress * 1000));
+      if (dl && _fullPlayer.blob) {
+        dl.href = _fullPlayer.url;
+        dl.download = (opts && opts.filename) || 'article-full-read.mp3';
+      }
+    }
+
+    if (root.dataset.fullSpeakBound !== '1') {
+      root.dataset.fullSpeakBound = '1';
+      playBtn?.addEventListener('click', () => {
+        toggleFullSpeakPlay().then(refresh);
       });
-      if (!res.ok) throw new Error('TTS failed');
-      const blob = await res.blob();
+      backBtn?.addEventListener('click', () => { skipFullSpeak(-10); refresh(); });
+      fwdBtn?.addEventListener('click', () => { skipFullSpeak(10); refresh(); });
+      seek?.addEventListener('input', () => {
+        seeking = true;
+        seekFullSpeak(parseInt(seek.value, 10) / 1000);
+        refresh();
+      });
+      seek?.addEventListener('change', () => { seeking = false; });
+      closeBtn?.addEventListener('click', () => {
+        stopFullSpeak();
+        root.hidden = true;
+        if (opts && opts.onClose) opts.onClose();
+      });
+      audio.addEventListener('timeupdate', refresh);
+      audio.addEventListener('loadedmetadata', refresh);
+      audio.addEventListener('play', refresh);
+      audio.addEventListener('pause', refresh);
+      audio.addEventListener('ended', () => {
+        refresh();
+        if (statusEl) statusEl.textContent = '朗读完成 · 可拖动进度条回放';
+        showToast('全文朗读完成');
+      });
+    }
+    refresh();
+  }
+
+  function splitForTts(text, maxLen) {
+    const limit = maxLen || 2800;
+    const raw = String(text || '').trim();
+    if (!raw) return [];
+    const sentences = raw.match(/[^.!?]+[.!?]+|[^.!?]+$/g)?.map(s => s.trim()).filter(Boolean) || [raw];
+    const chunks = [];
+    let buf = '';
+    for (const s of sentences) {
+      const next = buf ? buf + ' ' + s : s;
+      if (next.length > limit && buf) {
+        chunks.push(buf.trim());
+        buf = s;
+      } else {
+        buf = next;
+      }
+    }
+    if (buf.trim()) chunks.push(buf.trim());
+    return chunks;
+  }
+
+  async function fetchTtsBlob(text, rate) {
+    const raw = String(text || '').trim();
+    if (!raw) return null;
+    const cfg = getConfig();
+    const speed = rate === 'slow' ? '-25%' : rate === 'fast' ? '+15%' : '+0%';
+    const ssml = `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US"><voice name="en-US-JennyNeural"><prosody rate="${speed}">${xmlEscape(raw)}</prosody></voice></speak>`;
+    const res = await fetch(`https://${cfg.azureRegion}.tts.speech.microsoft.com/cognitiveservices/v1`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/ssml+xml; charset=utf-8',
+        'X-Microsoft-OutputFormat': 'audio-16khz-128kbitrate-mono-mp3',
+        'Ocp-Apim-Subscription-Key': cfg.azureKey
+      },
+      body: ssml
+    });
+    if (!res.ok) throw new Error('TTS failed');
+    return res.blob();
+  }
+
+  function playAudioBlob(blob) {
+    return new Promise((resolve, reject) => {
+      stopAudio();
       _blobUrl = URL.createObjectURL(blob);
       _audio = new Audio(_blobUrl);
-      await _audio.play();
+      _audio.onended = () => resolve(true);
+      _audio.onerror = () => reject(new Error('play failed'));
+      _audio.play().catch(reject);
+    });
+  }
+
+  async function speakText(text, rate) {
+    stopFullSpeak();
+    try {
+      const blob = await fetchTtsBlob(text, rate);
+      if (!blob) return false;
+      await playAudioBlob(blob);
       return true;
     } catch (e) {
       showToast('语音播放失败，请检查 Azure 配置');
+      return false;
+    }
+  }
+
+  async function speakFullText(text, rate) {
+    try {
+      await prepareFullSpeakAudio(text, rate);
+      return playFullSpeak();
+    } catch (e) {
+      if (e.message !== 'cancelled' && e.message !== 'empty') {
+        showToast('全文朗读失败，请检查 Azure 配置');
+      }
       return false;
     }
   }
@@ -802,7 +1036,9 @@ ${azureLine}
 
   global.Courseware = {
     getConfig, saveConfig, initConfig,
-    speakText, stopAudio,
+    speakText, stopAudio, speakFullText, stopFullSpeak, isFullSpeaking, isFullSpeakReady,
+    prepareFullSpeakAudio, playFullSpeak, pauseFullSpeak, toggleFullSpeakPlay,
+    skipFullSpeak, seekFullSpeak, getFullSpeakState, downloadFullSpeakMp3, bindFullSpeakPlayer,
     callDeepSeek, lookupWord, analyzeSelection, translateSelection,
     evaluateReading, evaluateTranslation, evaluateReadingCombined,
     runSpeakingEvaluation, renderReadingEvalHtml, renderTranslationEvalHtml,
