@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>看中文选单词 · Play, Kitty!</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+SC:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/ng-review-shared.css?v=1" />
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Play%20Kitty/play-kitty-review-games/audio/audio-manifest.js"></script>
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Play%20Kitty/play-kitty-review-games/audio/local-audio.js"></script>
+  <script src="azure-tts.js"></script>
+  <script src="words-data.js"></script>
+  <script src="../../assets/ng-review-shared.js?v=1"></script>
+  <style>:root { --ng-accent: #c62828; }</style>
+</head>
+<body class="ng-game">
+  <div class="ng-toolbar">
+    <div><h1>🐱 看中文选单词</h1><div class="meta" id="metaBar"></div></div>
+    <div class="btns"><a class="ng-btn" href="index.html">← 游戏列表</a><button type="button" class="ng-btn primary" id="btnStart">开始</button></div>
+  </div>
+  <div class="ng-stage" id="stage">
+    <div class="ng-badge" id="progressBadge">准备开始</div>
+    <div class="ng-timer-bar"><span>⏱ <strong id="timerEl">0:00</strong></span></div>
+    <div class="ng-quiz-prompt">
+      <img id="qImg" src="" alt="" class="ng-hidden" />
+      <p class="zh-big" id="qZh">—</p>
+    </div>
+    <div class="ng-quiz-options" id="options"></div>
+    <div class="ng-feedback hidden" id="feedback"></div>
+  </div>
+  <script>
+  window.NG_REVIEW = { wordsApi: "PlayKittyWords", ttsApi: "PlayKittyTTS", title: "Play, Kitty!", gamesUrl: "index.html" };
+  (function () {
+    var NR = NgReview, pool = NR.getSelected();
+    if (pool.length < 3) { document.getElementById("stage").innerHTML = '<p class="ng-hint">请至少选择 3 个单词。<a href="settings.html">去设置</a></p>'; document.getElementById("btnStart").style.display = "none"; return; }
+    var queue = NR.shuffle(pool.slice()), qi = 0, correct = 0, wrong = 0, timer, answered = false;
+    document.getElementById("metaBar").textContent = "共 " + pool.length + " 题 · 三选一";
+    document.getElementById("btnStart").onclick = function () {
+      qi = 0; correct = 0; wrong = 0; timer = new NR.GameTimer(document.getElementById("timerEl")); timer.start();
+      document.getElementById("btnStart").classList.add("ng-hidden"); showQ();
+    };
+    function showQ() {
+      if (qi >= queue.length) { finish(); return; }
+      answered = false;
+      var w = queue[qi];
+      document.getElementById("progressBadge").textContent = "第 " + (qi + 1) + " / " + queue.length + " 题";
+      document.getElementById("qZh").textContent = w.zh;
+      var img = document.getElementById("qImg"); img.src = NR.wordImg(w); img.classList.remove("ng-hidden");
+      NR.hideFeedback(document.getElementById("feedback"));
+      var opts = NR.buildMcOptions(w, pool, 3), el = document.getElementById("options"); el.innerHTML = "";
+      opts.forEach(function (o) {
+        var btn = document.createElement("button"); btn.type = "button"; btn.className = "ng-quiz-opt";
+        btn.innerHTML = '<span>' + o.word + '</span>';
+        var sp = NR.speakBtn(o.word); sp.style.marginLeft = "auto"; btn.appendChild(sp);
+        btn.onclick = function () { pick(o, w, btn); };
+        el.appendChild(btn);
+      });
+    }
+    function pick(choice, answer, btn) {
+      if (answered) return; answered = true;
+      var ok = choice.word === answer.word, fb = document.getElementById("feedback");
+      if (ok) { correct++; btn.classList.add("correct"); NR.speak(answer.word); NR.showFeedback(fb, "正确！🎉", true); }
+      else { wrong++; btn.classList.add("wrong"); NR.showFeedback(fb, "正确答案是 " + answer.word, false); }
+      Array.from(document.getElementById("options").children).forEach(function (b) { b.disabled = true; });
+      qi++; setTimeout(showQ, ok ? 900 : 1400);
+    }
+    function finish() {
+      var t = timer.stop();
+      NR.showDonePanel(document.getElementById("stage"), { title: "挑战完成！", correct: correct, wrong: wrong, total: queue.length, timeSec: t, onRetry: function () { location.reload(); } });
+      document.querySelector(".ng-toolbar .btns").innerHTML = '<a class="ng-btn" href="index.html">← 游戏列表</a>';
+    }
+  })();
+  </script>
+  <script src="../../assets/primary-responsive.js?v=2" defer></script>
+</body>
+</html>

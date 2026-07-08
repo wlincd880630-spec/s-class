@@ -154,5 +154,11 @@
     MIN_WORDS_GAME1: 2,
     MIN_WORDS_GAME2: 2,
     MIN_WORDS_GAME3: 1,
+    MIN_WORDS_GAME4: 4,
+    MIN_WORDS_GAME5: 3,
+    MIN_WORDS_GAME6: 3,
+    MIN_WORDS_GAME7: 3,
+    MIN_WORDS_GAME8: 4,
+    MIN_WORDS_GAME9: 4,
   };
 })(typeof window !== "undefined" ? window : this);

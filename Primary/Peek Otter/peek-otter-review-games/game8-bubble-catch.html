@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>泡泡捞词 · Peek, Otter!</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+SC:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/ng-review-shared.css?v=1" />
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Peek%20Otter/peek-otter-review-games/audio/audio-manifest.js"></script>
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Peek%20Otter/peek-otter-review-games/audio/local-audio.js"></script>
+  <script src="azure-tts.js"></script>
+  <script src="words-data.js"></script>
+  <script src="../../assets/ng-review-shared.js?v=1"></script>
+  <style>:root { --ng-accent: #0277bd; }</style>
+</head>
+<body class="ng-game">
+  <div class="ng-toolbar">
+    <div><h1>🫧 泡泡捞词</h1><div class="meta">看中文 · 点击正确英文泡泡</div></div>
+    <div class="btns"><a class="ng-btn" href="index.html">← 游戏列表</a><button type="button" class="ng-btn primary" id="btnStart">开始</button></div>
+  </div>
+  <div class="ng-stage" id="stage">
+    <img class="ng-banner" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Peek Otter/peek-otter-review-games/../../assets/ng-review-images/ng-bubble-game-banner.png" alt="" />
+    <div class="ng-badge" id="progressBadge">准备开始</div>
+    <div class="ng-timer-bar"><span>⏱ <strong id="timerEl">0:00</strong></span><span>连击 <strong id="comboEl">0</strong></span><span>得分 <strong id="scoreEl">0</strong></span></div>
+    <div class="ng-bubble-stage" id="bubbleStage">
+      <div class="ng-bubble-prompt">
+        <div class="zh" id="promptZh">—</div>
+        <div class="combo" id="promptHint">泡泡上升中，快捞！</div>
+      </div>
+    </div>
+    <div class="ng-feedback hidden" id="feedback"></div>
+  </div>
+  <script>
+  window.NG_REVIEW = { wordsApi: "PeekOtterWords", ttsApi: "PeekOtterTTS", gamesUrl: "index.html" };
+  (function () {
+    var NR = NgReview, pool = NR.getSelected();
+    if (pool.length < 4) { document.getElementById("stage").innerHTML = '<p class="ng-hint">请至少选择 4 个单词。<a href="settings.html">去设置</a></p>'; document.getElementById("btnStart").style.display = "none"; return; }
+    var queue = NR.shuffle(pool.slice()), qi = 0, correct = 0, wrong = 0, combo = 0, score = 0, timer, active = false, spawnId = null;
+    var colors = ["#e1f5fe", "#b3e5fc", "#81d4fa", "#4fc3f7", "#29b6f6"];
+    document.getElementById("btnStart").onclick = function () {
+      qi = 0; correct = 0; wrong = 0; combo = 0; score = 0; active = true;
+      timer = new NR.GameTimer(document.getElementById("timerEl")); timer.start();
+      document.getElementById("btnStart").classList.add("ng-hidden"); nextRound();
+    };
+    function nextRound() {
+      if (qi >= queue.length) { finish(); return; }
+      var answer = queue[qi];
+      document.getElementById("progressBadge").textContent = "第 " + (qi + 1) + " / " + queue.length + " 题";
+      document.getElementById("promptZh").textContent = answer.zh;
+      document.getElementById("scoreEl").textContent = String(score);
+      document.getElementById("comboEl").textContent = String(combo);
+      NR.hideFeedback(document.getElementById("feedback"));
+      clearBubbles();
+      var opts = NR.buildMcOptions(answer, pool, 4);
+      var delay = 0;
+      opts.forEach(function (w, i) {
+        setTimeout(function () { spawnBubble(w, w.word === answer.word); }, delay);
+        delay += 350 + Math.random() * 400;
+      });
+    }
+    function clearBubbles() {
+      var stage = document.getElementById("bubbleStage");
+      stage.querySelectorAll(".ng-bubble").forEach(function (b) { b.remove(); });
+      if (spawnId) { clearTimeout(spawnId); spawnId = null; }
+    }
+    function spawnBubble(w, isAnswer) {
+      if (!active) return;
+      var stage = document.getElementById("bubbleStage");
+      var b = document.createElement("div"); b.className = "ng-bubble";
+      var size = 64 + Math.random() * 28;
+      b.style.width = size + "px"; b.style.height = size + "px";
+      b.style.left = (8 + Math.random() * 72) + "%";
+      b.style.bottom = "-10%";
+      b.style.background = colors[Math.floor(Math.random() * colors.length)];
+      b.textContent = w.word;
+      b.dataset.answer = isAnswer ? "1" : "0";
+      b.dataset.word = w.word;
+      var duration = 5 + Math.random() * 3;
+      b.style.animationDuration = duration + "s";
+      b.onclick = function () {
+        if (!active || b.classList.contains("pop")) return;
+        if (isAnswer) {
+          b.classList.add("pop"); correct++; combo++; score += 10 + combo * 2;
+          NR.speak(w.word); NR.showFeedback(document.getElementById("feedback"), "捞到了！+" + (10 + combo * 2) + " 分 🎉", true);
+          qi++; setTimeout(nextRound, 800);
+        } else {
+          b.classList.add("pop"); wrong++; combo = 0;
+          NR.showFeedback(document.getElementById("feedback"), "泡泡破了！再试一次", false);
+        }
+        document.getElementById("comboEl").textContent = String(combo);
+        document.getElementById("scoreEl").textContent = String(score);
+      };
+      b.onanimationend = function () {
+        if (!b.classList.contains("pop") && isAnswer && active && qi < queue.length && queue[qi].word === w.word) {
+          wrong++; combo = 0; NR.showFeedback(document.getElementById("feedback"), "泡泡飞走了！答案是 " + w.word, false);
+          document.getElementById("comboEl").textContent = "0";
+          qi++; setTimeout(nextRound, 1200);
+        }
+        b.remove();
+      };
+      stage.appendChild(b);
+    }
+    function finish() {
+      active = false; clearBubbles();
+      var t = timer.stop();
+      NR.showDonePanel(document.getElementById("stage"), {
+        title: "泡泡捞词完成！得分 " + score,
+        correct: correct, wrong: wrong, total: queue.length, timeSec: t,
+        onRetry: function () { location.reload(); }
+      });
+      document.querySelector(".ng-toolbar .btns").innerHTML = '<a class="ng-btn" href="index.html">← 游戏列表</a>';
+    }
+  })();
+  </script>
+  <script src="../../assets/primary-responsive.js?v=2" defer></script>
+</body>
+</html>

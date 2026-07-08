@@ -1,5 +1,5 @@
 /**
- * Peek, Otter! 复习游戏 · 本地 MP3
+ * Peek, Otter! 复习游戏 · 本地 MP3 + Azure TTS 回退
  */
 (function (global) {
   "use strict";
@@ -8,4 +8,10 @@
     return;
   }
   global.LocalAudio.createApi("PeekOtterTTS");
+  var s = document.createElement("script");
+  s.src = "../../assets/ng-azure-tts-enhance.js";
+  s.onload = function () {
+    if (global.NgAzureTTS) global.NgAzureTTS.enhance("PeekOtterTTS");
+  };
+  document.head.appendChild(s);
 })(typeof window !== "undefined" ? window : this);
