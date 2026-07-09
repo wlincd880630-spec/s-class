@@ -58,12 +58,7 @@
       font-size: 0.72rem; color: var(--muted); line-height: 1.4;
       margin-top: 8px; max-height: 28%; overflow-y: auto;
     }
-    .card-detail-btn {
-      margin-top: auto; padding: 5px 12px; border: 1px solid var(--primary);
-      background: #fff; color: var(--primary); border-radius: 999px;
-      font-size: 0.72rem; font-weight: 600; cursor: pointer;
-    }
-    .card-detail-btn:hover { background: var(--primary-light); }
+    .flip-back .tap-hint { font-size: 0.7rem; color: var(--accent); margin-top: auto; }
     .stats-bar {
       display: flex; gap: 16px; margin-bottom: 20px; flex-wrap: wrap;
     }
@@ -77,7 +72,7 @@
   <div class="page">
     <div class="page-header">
       <h1>📚 词汇 & 词组学习</h1>
-      <p>点击卡片翻转查看释义 · 背面可打开详细学习页</p>
+      <p>点击卡片翻转并打开详细学习页 · 含 Azure 发音 · 中英文释义 · 背诵例句</p>
     </div>
     <div class="stats-bar" id="stats-bar">
       <div class="stat"><b id="stat-words">—</b><span>核心词汇 A1+</span></div>
@@ -126,28 +121,28 @@
             <div class="flip-front">
               <div class="card-word">${Courseware.escapeHtml(item.word)}</div>
               ${typeBadge(item)}
-              <div class="tap-hint">点击翻转 ↻</div>
+              <div class="tap-hint">点击学习 →</div>
             </div>
             <div class="flip-back">
               <div class="card-def-cn">${Courseware.escapeHtml(item.definition_cn || '')}</div>
               <div class="card-def-en">${Courseware.escapeHtml(shortEn(item.definition_en, 90))}</div>
-              <button type="button" class="card-detail-btn" data-action="detail">📖 详细学习</button>
+              <div class="tap-hint">打开详细学习…</div>
             </div>
           </div>
         </div>`;
       }).join('');
     }
 
+    function handleCardClick(card) {
+      const idx = Number(card.dataset.idx);
+      if (Number.isNaN(idx)) return;
+      card.classList.add('flipped');
+      setTimeout(() => openVocab(idx), 380);
+    }
+
     document.getElementById('card-grid').addEventListener('click', e => {
-      const detailBtn = e.target.closest('[data-action="detail"]');
-      if (detailBtn) {
-        e.stopPropagation();
-        const card = detailBtn.closest('.flip-card');
-        if (card) openVocab(Number(card.dataset.idx));
-        return;
-      }
       const card = e.target.closest('.flip-card');
-      if (card) card.classList.toggle('flipped');
+      if (card) handleCardClick(card);
     });
 
     function openVocab(idx) {
@@ -221,6 +216,7 @@
 
     function closeModal() {
       document.getElementById('vocab-modal').classList.remove('open');
+      document.querySelectorAll('.flip-card.flipped').forEach(c => c.classList.remove('flipped'));
     }
 
     document.getElementById('vocab-modal').addEventListener('click', e => {
