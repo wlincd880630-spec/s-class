@@ -135,23 +135,23 @@
     <div id="masthead"></div>
     <div class="toolbar" id="read-toolbar">
       <div class="toolbar-row main-actions">
-        <button class="btn btn-primary read-full-btn" type="button" id="btn-read-full" onclick="toggleFullRead()">🔊 慢速全文朗�?/button>
+        <button class="btn btn-primary read-full-btn" type="button" id="btn-read-full" onclick="toggleFullRead()">🔊 慢速全文朗读</button>
         <button class="btn btn-outline" type="button" onclick="Courseware.speakText(document.getElementById('lead-text')?.textContent, 'slow')">🔊 朗读导语</button>
         <button class="btn btn-outline" type="button" id="btn-export-pdf" onclick="exportArticlePdfClick()">📄 导出文章 PDF</button>
         <button class="btn btn-ghost" type="button" onclick="Courseware.openConfig()">⚙️ 设置</button>
       </div>
       <div class="toolbar-row">
-        <div class="sel-preview" id="sel-preview">👆 在文中拖选词组或句子，然后点击右侧按�?/div>
-        <button class="read-action-btn phrase" type="button" id="btn-phrase" onclick="analyzeSel('phrase')">📖 查词�?/button>
+        <div class="sel-preview" id="sel-preview">👆 在文中拖选词组或句子，然后点击右侧按钮</div>
+        <button class="read-action-btn phrase" type="button" id="btn-phrase" onclick="analyzeSel('phrase')">📖 查词组</button>
         <button class="read-action-btn translate" type="button" id="btn-translate" onclick="translateSel()">🌐 翻译句子</button>
       </div>
     </div>
     <div class="full-audio-player" id="full-audio-player" hidden>
-      <div class="full-audio-status" data-action="status">全文 MP3 播放�?/div>
+      <div class="full-audio-status" data-action="status">全文 MP3 播放器</div>
       <div class="full-audio-controls">
-        <button type="button" class="btn btn-outline sm" data-action="back">�?10�?/button>
+        <button type="button" class="btn btn-outline sm" data-action="back">⏪ 10秒</button>
         <button type="button" class="btn btn-primary sm" data-action="play">▶️ 播放</button>
-        <button type="button" class="btn btn-outline sm" data-action="forward">10�?�?/button>
+        <button type="button" class="btn btn-outline sm" data-action="forward">10秒 ⏩</button>
         <input type="range" class="full-audio-seek" data-action="seek" min="0" max="1000" value="0" step="1" aria-label="播放进度">
         <span class="full-audio-time" data-action="time">0:00 / 0:00</span>
         <a class="btn btn-outline sm" data-action="download" href="#" download="article-full-read.mp3">⬇️ 下载 MP3</a>
@@ -186,7 +186,7 @@
     function resetFullReadBtn() {
       const btn = document.getElementById('btn-read-full');
       if (!btn) return;
-      btn.textContent = '🔊 慢速全文朗�?;
+      btn.textContent = '🔊 慢速全文朗读';
       btn.classList.remove('speaking');
       btn.disabled = false;
     }
@@ -206,16 +206,16 @@
       const btn = document.getElementById('btn-read-full');
       const statusEl = player.querySelector('[data-action="status"]');
       btn.disabled = true;
-      btn.textContent = '�?合成 MP3�?;
+      btn.textContent = '⏳ 合成 MP3…';
       btn.classList.add('speaking');
       player.hidden = false;
-      if (statusEl) statusEl.textContent = '正在通过 Azure 合成全文 MP3�?;
+      if (statusEl) statusEl.textContent = '正在通过 Azure 合成全文 MP3…';
       try {
         await Courseware.prepareFullSpeakAudio(text, 'slow', (cur, total) => {
-          if (statusEl) statusEl.textContent = 'Azure 合成中�?�?' + cur + '/' + total + ' �?;
+          if (statusEl) statusEl.textContent = 'Azure 合成中… 第 ' + cur + '/' + total + ' 段';
         });
-        if (statusEl) statusEl.textContent = '全文 MP3 已就�?· 可暂停、拖动进度条或下�?;
-        btn.textContent = '🔊 全文播放�?;
+        if (statusEl) statusEl.textContent = '全文 MP3 已就绪 · 可暂停、拖动进度条或下载';
+        btn.textContent = '🔊 全文播放器';
         btn.disabled = false;
         Courseware.bindFullSpeakPlayer(player, {
           filename: (courseData?.title || 'article').replace(/[^a-zA-Z0-9_-]+/g, '_') + '_full-read.mp3',
@@ -223,7 +223,7 @@
         });
         await Courseware.playFullSpeak();
       } catch (e) {
-        if (e.message !== 'cancelled') Courseware.showToast('合成失败，请检�?Azure 配置');
+        if (e.message !== 'cancelled') Courseware.showToast('合成失败，请检查 Azure 配置');
         player.hidden = true;
         resetFullReadBtn();
       }
@@ -237,7 +237,7 @@
       }
       const accent = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#1a6b4a';
       const btn = document.getElementById('btn-export-pdf');
-      if (btn) { btn.disabled = true; btn.textContent = '�?生成 PDF�?; }
+      if (btn) { btn.disabled = true; btn.textContent = '⏳ 生成 PDF…'; }
       try {
         await Courseware.exportArticlePdf({
           data: courseData,
@@ -245,9 +245,9 @@
           pageUrl: location.href.split('#')[0].split('?')[0],
           filename: (courseData.title || 'article').replace(/[^\w\u4e00-\u9fa5-]+/g, '_') + '_Reading.pdf'
         });
-        Courseware.showToast('文章 PDF 已下�?);
+        Courseware.showToast('文章 PDF 已下载');
       } catch (e) {
-        Courseware.showToast('PDF 导出失败�? + (e.message || '请重�?));
+        Courseware.showToast('PDF 导出失败：' + (e.message || '请重试'));
       } finally {
         if (btn) { btn.disabled = false; btn.textContent = '📄 导出文章 PDF'; }
       }
@@ -264,10 +264,10 @@
       const el = document.getElementById('sel-preview');
       const text = getSelectedText();
       if (text) {
-        el.textContent = '已选：' + (text.length > 80 ? text.slice(0, 80) + '�? : text);
+        el.textContent = '已选：' + (text.length > 80 ? text.slice(0, 80) + '…' : text);
         el.classList.add('has-text');
       } else {
-        el.textContent = '👆 在文中拖选词组或句子，然后点击右侧按�?;
+        el.textContent = '👆 在文中拖选词组或句子，然后点击右侧按钮';
         el.classList.remove('has-text');
       }
     }
@@ -290,15 +290,15 @@
     async function analyzeSel(type) {
       const text = getSelectedText();
       if (!text) {
-        Courseware.showToast('请先在文中选中词组或句�?);
+        Courseware.showToast('请先在文中选中词组或句子');
         return;
       }
-      showLookupPopup('词组分析', `<div style="display:flex;justify-content:space-between;margin-bottom:8px"><b style="color:var(--primary)">📖 词组分析</b><button onclick="closeLookup()" style="border:none;background:none;cursor:pointer">�?/button></div><p style="font-size:0.85rem;color:var(--muted);margin-bottom:8px">"${Courseware.escapeHtml(text)}"</p><div class="ai-result loading">🤖 DeepSeek 分析中�?/div>`);
+      showLookupPopup('词组分析', `<div style="display:flex;justify-content:space-between;margin-bottom:8px"><b style="color:var(--primary)">📖 词组分析</b><button onclick="closeLookup()" style="border:none;background:none;cursor:pointer">✕</button></div><p style="font-size:0.85rem;color:var(--muted);margin-bottom:8px">"${Courseware.escapeHtml(text)}"</p><div class="ai-result loading">🤖 DeepSeek 分析中…</div>`);
       try {
         const result = await Courseware.analyzeSelection(text, type);
-        showLookupPopup('词组分析', `<div style="display:flex;justify-content:space-between;margin-bottom:8px"><b style="color:var(--primary)">📖 词组分析</b><button onclick="closeLookup()" style="border:none;background:none;cursor:pointer">�?/button></div><p style="font-size:0.85rem;color:var(--muted);margin-bottom:8px">"${Courseware.escapeHtml(text)}"</p><div class="ai-result">${Courseware.escapeHtml(result)}</div><button class="btn btn-outline" style="margin-top:10px;width:100%" onclick="Courseware.speakText('${text.replace(/'/g,"\\'")}')">🔊 朗读</button>`);
+        showLookupPopup('词组分析', `<div style="display:flex;justify-content:space-between;margin-bottom:8px"><b style="color:var(--primary)">📖 词组分析</b><button onclick="closeLookup()" style="border:none;background:none;cursor:pointer">✕</button></div><p style="font-size:0.85rem;color:var(--muted);margin-bottom:8px">"${Courseware.escapeHtml(text)}"</p><div class="ai-result">${Courseware.escapeHtml(result)}</div><button class="btn btn-outline" style="margin-top:10px;width:100%" onclick="Courseware.speakText('${text.replace(/'/g,"\\'")}')">🔊 朗读</button>`);
       } catch (e) {
-        showLookupPopup('词组分析', `<p style="color:var(--accent2)">分析失败，请检�?DeepSeek 配置</p><button onclick="closeLookup()">关闭</button>`);
+        showLookupPopup('词组分析', `<p style="color:var(--accent2)">分析失败，请检查 DeepSeek 配置</p><button onclick="closeLookup()">关闭</button>`);
       }
     }
 
@@ -308,12 +308,12 @@
         Courseware.showToast('请先在文中选中要翻译的句子');
         return;
       }
-      showLookupPopup('翻译', `<div style="display:flex;justify-content:space-between;margin-bottom:8px"><b style="color:var(--primary)">🌐 翻译</b><button onclick="closeLookup()" style="border:none;background:none;cursor:pointer">�?/button></div><p style="font-size:0.85rem;color:var(--muted);margin-bottom:8px">"${Courseware.escapeHtml(text)}"</p><div class="ai-result loading">🤖 翻译中�?/div>`);
+      showLookupPopup('翻译', `<div style="display:flex;justify-content:space-between;margin-bottom:8px"><b style="color:var(--primary)">🌐 翻译</b><button onclick="closeLookup()" style="border:none;background:none;cursor:pointer">✕</button></div><p style="font-size:0.85rem;color:var(--muted);margin-bottom:8px">"${Courseware.escapeHtml(text)}"</p><div class="ai-result loading">🤖 翻译中…</div>`);
       try {
         const result = await Courseware.translateSelection(text);
-        showLookupPopup('翻译', `<div style="display:flex;justify-content:space-between;margin-bottom:8px"><b style="color:var(--primary)">🌐 翻译</b><button onclick="closeLookup()" style="border:none;background:none;cursor:pointer">�?/button></div><p style="font-size:0.85rem;color:var(--muted);margin-bottom:8px">"${Courseware.escapeHtml(text)}"</p><div class="ai-result" style="font-size:1.05rem">${Courseware.escapeHtml(result)}</div><button class="btn btn-outline" style="margin-top:10px;width:100%" onclick="Courseware.speakText('${text.replace(/'/g,"\\'")}')">🔊 朗读原文</button>`);
+        showLookupPopup('翻译', `<div style="display:flex;justify-content:space-between;margin-bottom:8px"><b style="color:var(--primary)">🌐 翻译</b><button onclick="closeLookup()" style="border:none;background:none;cursor:pointer">✕</button></div><p style="font-size:0.85rem;color:var(--muted);margin-bottom:8px">"${Courseware.escapeHtml(text)}"</p><div class="ai-result" style="font-size:1.05rem">${Courseware.escapeHtml(result)}</div><button class="btn btn-outline" style="margin-top:10px;width:100%" onclick="Courseware.speakText('${text.replace(/'/g,"\\'")}')">🔊 朗读原文</button>`);
       } catch (e) {
-        showLookupPopup('翻译', `<p style="color:var(--accent2)">翻译失败，请检�?DeepSeek 配置</p><button onclick="closeLookup()">关闭</button>`);
+        showLookupPopup('翻译', `<p style="color:var(--accent2)">翻译失败，请检查 DeepSeek 配置</p><button onclick="closeLookup()">关闭</button>`);
       }
     }
 
@@ -329,12 +329,12 @@
       const rect = token.getBoundingClientRect();
       popup.style.cssText = `left:${Math.min(rect.left, window.innerWidth-380)}px;top:${rect.bottom+8}px;transform:none`;
       popup.classList.add('open');
-      popup.innerHTML = `<div class="lookup-loading">🔍 查询 "${word}" �?/div>`;
+      popup.innerHTML = `<div class="lookup-loading">🔍 查询 "${word}" …</div>`;
       Courseware.speakText(word);
       try {
         const ctx = token.closest('.sentence-row')?.querySelector('.sentence-text')?.textContent || '';
         const data = await Courseware.lookupWord(word, ctx);
-        popup.innerHTML = `<div style="display:flex;justify-content:space-between"><b style="font-size:1.2rem;color:var(--primary)">${Courseware.escapeHtml(data.word||word)}</b><button onclick="closeLookup()" style="border:none;background:none;cursor:pointer">�?/button></div>${data.phonetic?`<p style="color:var(--muted);font-size:0.85rem">${data.phonetic} ${data.pos||''}</p>`:''}<button class="btn-icon sm" onclick="Courseware.speakText('${word}')">🔊</button><p style="margin:8px 0;font-size:0.9rem">${Courseware.escapeHtml(data.definition_en||'')}</p><button class="cn-reveal" onclick="this.nextElementSibling.classList.toggle('show')">显示中文</button><p class="ex-trans">${Courseware.escapeHtml(data.definition_cn||'')}</p>${data.example_en?`<div class="ex-box" style="margin-top:10px"><div class="ex-sent">${Courseware.escapeHtml(data.example_en)} <button class="btn-icon xs" onclick="Courseware.speakText('${(data.example_en||'').replace(/'/g,"\\'")}')">🔊</button></div><div class="ex-trans show">${Courseware.escapeHtml(data.example_cn||'')}</div></div>`:''}`;
+        popup.innerHTML = `<div style="display:flex;justify-content:space-between"><b style="font-size:1.2rem;color:var(--primary)">${Courseware.escapeHtml(data.word||word)}</b><button onclick="closeLookup()" style="border:none;background:none;cursor:pointer">✕</button></div>${data.phonetic?`<p style="color:var(--muted);font-size:0.85rem">${data.phonetic} ${data.pos||''}</p>`:''}<button class="btn-icon sm" onclick="Courseware.speakText('${word}')">🔊</button><p style="margin:8px 0;font-size:0.9rem">${Courseware.escapeHtml(data.definition_en||'')}</p><button class="cn-reveal" onclick="this.nextElementSibling.classList.toggle('show')">显示中文</button><p class="ex-trans">${Courseware.escapeHtml(data.definition_cn||'')}</p>${data.example_en?`<div class="ex-box" style="margin-top:10px"><div class="ex-sent">${Courseware.escapeHtml(data.example_en)} <button class="btn-icon xs" onclick="Courseware.speakText('${(data.example_en||'').replace(/'/g,"\\'")}')">🔊</button></div><div class="ex-trans show">${Courseware.escapeHtml(data.example_cn||'')}</div></div>`:''}`;
       } catch (e) {
         popup.innerHTML = '<p>查询失败</p><button onclick="closeLookup()">关闭</button>';
       }
@@ -371,7 +371,7 @@
               </div>`).join('')}
           </div>
           <div class="socratic-box">
-            <h4>🤔 苏格拉底式阅读理�?/h4>
+            <h4>🤔 苏格拉底式阅读理解</h4>
             ${p.socratic.map((q,i) => `
               <div class="soc-q">
                 <div class="q-text"><b>Q${i+1}.</b> ${Courseware.escapeHtml(q.q)}</div>
@@ -383,14 +383,14 @@
       }).join('');
 
       document.getElementById('quiz-section').innerHTML = `
-        <h2>📝 阅读理解 Quiz（PDF 原题�?/h2>
+        <h2>📝 阅读理解 Quiz（PDF 原题）</h2>
         ${data.comprehension_questions.map((q, qi) => `
           <div class="quiz-item" data-answer="${q.answer}">
             <div class="q-title"><b>${qi+1}.</b> ${Courseware.escapeHtml(q.q)}</div>
             ${q.options.map((opt, oi) => `
               <button class="quiz-opt" onclick="pickQuiz(this, ${qi}, ${oi}, ${q.answer})">${String.fromCharCode(65+oi)}. ${Courseware.escapeHtml(opt)}</button>
             `).join('')}
-            <div class="quiz-analysis" id="qa-${qi}"><b>解析�?/b>${Courseware.escapeHtml(q.analysis)}</div>
+            <div class="quiz-analysis" id="qa-${qi}"><b>解析：</b>${Courseware.escapeHtml(q.analysis)}</div>
           </div>`).join('')}
         <button class="btn btn-primary" onclick="checkAllQuiz()">核对全部答案</button>`;
     }
