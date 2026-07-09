@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>游戏八：图片单词连线 · 五年级下册</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/common.css">
+</head>
+<body>
+  <div class="container">
+    <div class="top-bar">
+      <a class="course-logo" href="index.html" title="Steven's Class English Studio">
+        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/logo.png" alt="Steven's Class English Studio">
+      </a>
+      <a class="back-link" href="index.html"><i class="fa-solid fa-house"></i> 返回</a>
+      <h1 class="page-title"><i class="fa-solid fa-link"></i> 图片单词连线</h1>
+    </div>
+    <div class="card" id="setupPanel">
+      <div class="control-row"><label>单元：</label><select id="unitSelect"></select></div>
+      <p style="color:#636e72;font-size:0.9rem;">每页 3 组：左侧图片与右侧单词配对连线（不显示中文）</p>
+      <button class="btn btn-primary btn-lg" id="btnStart"><i class="fa-solid fa-play"></i> 开始游戏</button>
+    </div>
+
+    <div class="card game-area hidden" id="gamePanel">
+      <div class="timer-bar">
+        <span><i class="fa-solid fa-file"></i> 第 <strong id="pageNum">1</strong> / <strong id="pageTotal">1</strong> 页</span>
+        <span>已完成 <strong id="doneCount">0</strong> / <strong id="pageSize">3</strong></span>
+        <span><i class="fa-solid fa-stopwatch"></i> <strong id="gameTime">0:00</strong></span>
+      </div>
+      <div class="connect-wrap" id="connectWrap">
+        <svg class="connect-svg" id="linesSvg"></svg>
+        <div class="connect-col" id="leftCol"></div>
+        <div class="connect-col" id="rightCol"></div>
+      </div>
+      <div id="feedback" class="feedback hidden"></div>
+    </div>
+
+    <div class="card hidden" id="donePanel"></div>
+  </div>
+  <script src="assets/data/data.js"></script>
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/audio/audio-manifest.js?v=1"></script>
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/audio/local-audio.js?v=1"></script>
+  <script src="assets/js/utils.js"></script>
+  <script>
+    const CONNECT_SIZE = 3;
+    let groups = [], groupIdx = 0, pageWords = [];
+    let matched = {}, selSide = null, selWord = null;
+    let statCorrect = 0, statWrong = 0, totalWords = 0;
+    let gameTimer = null, unitId = '';
+
+    buildUnitSelector(document.getElementById('unitSelect'));
+    document.getElementById('btnStart').addEventListener('click', startGame);
+
+    function startGame() {
+      unitId = document.getElementById('unitSelect').value;
+      const all = shuffle(getAllWords(unitId));
+      if (all.length < 3) return alert('该单元至少需要 3 个单词！');
+      groups = [];
+      for (let i = 0; i < all.length; i += CONNECT_SIZE) {
+        groups.push(all.slice(i, i + CONNECT_SIZE));
+      }
+      groupIdx = 0; statCorrect = 0; statWrong = 0; totalWords = all.length;
+      document.getElementById('setupPanel').classList.add('hidden');
+      document.getElementById('donePanel').classList.add('hidden');
+      document.getElementById('gamePanel').classList.remove('hidden');
+      gameTimer = new GameTimer(document.getElementById('gameTime'));
+      gameTimer.start();
+      loadPage();
+    }
+
+    function loadPage() {
+      if (groupIdx >= groups.length) { finishGame(); return; }
+      pageWords = shuffle(groups[groupIdx].slice());
+      matched = {}; selSide = null; selWord = null;
+      document.getElementById('pageNum').textContent = groupIdx + 1;
+      document.getElementById('pageTotal').textContent = groups.length;
+      document.getElementById('pageSize').textContent = pageWords.length;
+      document.getElementById('doneCount').textContent = '0';
+      document.getElementById('linesSvg').innerHTML = '';
+      document.getElementById('feedback').classList.add('hidden');
+      const left = document.getElementById('leftCol');
+      const right = document.getElementById('rightCol');
+      left.innerHTML = ''; right.innerHTML = '';
+      pageWords.forEach(w => {
+        const li = document.createElement('div');
+        li.className = 'connect-item';
+        li.dataset.word = w.word;
+        const img = document.createElement('img');
+        img.src = w.image; img.alt = w.word;
+        li.appendChild(img);
+        li.addEventListener('click', () => onPick('img', w.word, li));
+        left.appendChild(li);
+      });
+      shuffle(pageWords).forEach(w => {
+        const ri = document.createElement('div');
+        ri.className = 'connect-item';
+        ri.dataset.word = w.word;
+        const lbl = document.createElement('div');
+        lbl.className = 'en-label';
+        lbl.textContent = w.word;
+        ri.appendChild(lbl);
+        ri.addEventListener('click', () => onPick('word', w.word, ri));
+        right.appendChild(ri);
+      });
+    }
+
+    function onPick(side, word, el) {
+      if (matched[word]) return;
+      const fb = document.getElementById('feedback');
+      if (!selSide) { selSide = side; selWord = word; el.classList.add('selected'); return; }
+      if (selSide === side) {
+        document.querySelectorAll('.connect-item.selected').forEach(e => e.classList.remove('selected'));
+        selSide = side; selWord = word; el.classList.add('selected'); return;
+      }
+      if (selWord === word) {
+        statCorrect++; matched[word] = true;
+        document.querySelectorAll(`.connect-item[data-word="${word}"]`).forEach(e => {
+          e.classList.remove('selected'); e.classList.add('matched');
+        });
+        drawLine(word);
+        speakText(word);
+        showFeedback(fb, '配对成功！🎉', true);
+        document.getElementById('doneCount').textContent = String(Object.keys(matched).length);
+        if (Object.keys(matched).length === pageWords.length) {
+          groupIdx++;
+          setTimeout(loadPage, 1000);
+        }
+      } else {
+        statWrong++;
+        showFeedback(fb, '不对，再试试！', false);
+        document.querySelectorAll('.connect-item.selected').forEach(e => e.classList.remove('selected'));
+      }
+      selSide = null; selWord = null;
+    }
+
+    function drawLine(word) {
+      const items = document.querySelectorAll(`.connect-item[data-word="${word}"]`);
+      if (items.length < 2) return;
+      const wrap = document.getElementById('connectWrap').getBoundingClientRect();
+      const a = items[0].getBoundingClientRect();
+      const b = items[1].getBoundingClientRect();
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', a.right - wrap.left);
+      line.setAttribute('y1', a.top + a.height / 2 - wrap.top);
+      line.setAttribute('x2', b.left - wrap.left);
+      line.setAttribute('y2', b.top + b.height / 2 - wrap.top);
+      line.setAttribute('stroke', '#0984e3');
+      line.setAttribute('stroke-width', '3');
+      document.getElementById('linesSvg').appendChild(line);
+    }
+
+    function finishGame() {
+      const timeSec = gameTimer.stop();
+      document.getElementById('gamePanel').classList.add('hidden');
+      const donePanel = document.getElementById('donePanel');
+      donePanel.classList.remove('hidden');
+      showFinalGameStats(donePanel, {
+        title: '连线完成！', groups: groups.length, totalItems: totalWords,
+        itemLabel: '个配对', correct: statCorrect, wrong: statWrong, timeSec,
+        onRetry: () => { donePanel.classList.add('hidden'); document.getElementById('setupPanel').classList.remove('hidden'); }
+      });
+    }
+  </script>
+</body>
+</html>

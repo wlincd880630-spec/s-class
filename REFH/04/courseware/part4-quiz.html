@@ -129,8 +129,8 @@
     <b>📝 词汇总结 & 测验</b>
     <div>
       <span id="ind" style="margin-right:10px;font-size:0.85rem;color:var(--muted)"></span>
-      <button class="nav-btn" id="pb" onclick="nav(-1)">← Prev</button>
-      <button class="nav-btn" id="nb" onclick="nav(1)" style="margin-left:6px">Next →</button>
+      <button class="nav-btn" id="pb" onclick="nav(-1)">�?Prev</button>
+      <button class="nav-btn" id="nb" onclick="nav(1)" style="margin-left:6px">Next �?/button>
     </div>
   </div>
 
@@ -140,14 +140,14 @@
       <div class="page-title">Page 1: 词汇总结（自测模式）</div>
       <div class="scroll-area">
         <div class="pdf-bar">
-          <label><input type="checkbox" id="select-all" onchange="toggleSelectAll(this)"> 全选</label>
-          <button class="btn btn-primary" onclick="exportPDF()">📄 导出 PDF 词汇表</button>
-          <button class="btn btn-outline" onclick="exportPDFPrint(getSelectedWords())">🖨️ 打印/PDF</button>
-          <span style="font-size:0.82rem;color:var(--muted)">勾选要导出的词；未勾选任何项则导出全部</span>
+          <label><input type="checkbox" id="select-all" onchange="toggleSelectAll(this)"> 全�?/label>
+          <button class="btn btn-primary" onclick="exportPDF()">📄 导出 PDF 词汇�?/button>
+          <button class="btn btn-outline" onclick="exportPDFPrint(getSelectedWords())">🖨�?打印/PDF</button>
+          <span style="font-size:0.82rem;color:var(--muted)">勾选要导出的词；未勾选任何项则导出全�?/span>
         </div>
         <div id="vocab-list"></div>
       </div>
-      <div class="submit-bar" style="color:var(--muted);font-size:0.85rem">Study Mode — 无需提交</div>
+      <div class="submit-bar" style="color:var(--muted);font-size:0.85rem">Study Mode �?无需提交</div>
     </div>
 
     <!-- Page 2: Spelling -->
@@ -155,7 +155,7 @@
       <div class="page-title">Part 1: Spelling Bee</div>
       <div class="scroll-area">
         <div style="padding:10px;background:#e8f4fd;color:#2980b9;border-radius:8px;margin-bottom:14px;font-size:0.88rem">
-          🎯 听定义或点击 🔊，拼写单词
+          🎯 听定义或点击 🔊，拼写单�?
         </div>
         <div id="spelling-list"></div>
       </div>
@@ -216,13 +216,13 @@
   <script src="assets/js/course-data.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="assets/js/shared.js?v=20260710"></script>
+  <script src="assets/js/shared.js?v=20260711"></script>
   <script>
     let cp = 1, tp = 7, courseData = null, vocabWords = [];
     const PDF_META = {
       title: 'Geography and Agriculture in Ancient China',
       filename: 'Ancient_China_Geography_Vocabulary.pdf',
-      level: 'Level MAX · 古代中国地理与农业阅读课件',
+      level: 'Level MAX · 古代中国地理与农业阅读课�?,
       accent: '#1a5f7a'
     };
 
@@ -251,8 +251,8 @@
           <button class="cn-reveal" onclick="this.nextElementSibling.classList.toggle('show');this.textContent=this.nextElementSibling.classList.contains('show')?'隐藏中文':'🇨🇳 显示中文'">🇨🇳 显示中文</button>
           <div class="v-cn-hidden">${Courseware.escapeHtml(v.definition_cn)}</div>
           <details class="ex-fold">
-            <summary>📖 展开例句 (${zk ? '中考' : ''}${g10 ? ' + 高一' : ''})</summary>
-            ${zk ? `<div class="v-ex-box"><span class="v-badge zk">中考</span>
+            <summary>📖 展开例句 (${zk ? '中�? : ''}${g10 ? ' + 高一' : ''})</summary>
+            ${zk ? `<div class="v-ex-box"><span class="v-badge zk">中�?/span>
               <div>${Courseware.escapeHtml(zk.sentence)} <button class="btn-icon xs" onclick="Courseware.speakText('${zk.sentence.replace(/'/g,"\\'")}')">🔊</button></div>
               <button class="cn-reveal" style="margin-top:6px" onclick="this.nextElementSibling.classList.toggle('show')">显示翻译</button>
               <div class="v-trans">${Courseware.escapeHtml(zk.translation)}</div></div>` : ''}
@@ -277,16 +277,16 @@
     async function exportPDF() {
       const words = getSelectedWords();
       if (!words.length) {
-        Courseware.showToast('请先勾选要导出的词汇');
+        Courseware.showToast('请先勾选要导出的词�?);
         return;
       }
-      Courseware.showToast('正在生成 PDF，请稍候…');
+      Courseware.showToast('正在生成 PDF，请稍候�?);
       try {
         await Courseware.exportVocabPdf({ words, ...PDF_META });
-        Courseware.showToast('PDF 已导出');
+        Courseware.showToast('PDF 已导�?);
       } catch (e) {
         console.error(e);
-        Courseware.showToast('PDF 生成失败，已打开打印窗口…');
+        Courseware.showToast('PDF 生成失败，已打开打印窗口�?);
         await Courseware.openVocabPrintWindow(words, PDF_META);
       }
     }
@@ -310,7 +310,7 @@
           </div>
           <p style="font-size:0.85rem;color:#888;margin:6px 0">${Courseware.escapeHtml(s.hint_en)}</p>
           <input type="text" class="block-inp" placeholder="Type the word...">
-          <div class="analysis-box"><span class="ans-val">Answer: ${s.answer}</span> — ${s.hint_cn}</div>
+          <div class="analysis-box"><span class="ans-val">Answer: ${s.answer}</span> �?${s.hint_cn}</div>
         </div>`).join('');
 
       document.getElementById('word-bank').innerHTML = q.word_selection.bank.map(w =>
@@ -334,7 +334,7 @@
         const w = Math.max(70, fill.length * 11);
         return `<div class="q-card" data-ans="${fill}" data-full="${f.answer.toLowerCase()}">
           <div class="line-txt" style="line-height:2.2;font-size:1.05rem">
-            ${Courseware.escapeHtml(f.before)}<span class="first-letter-hint">${Courseware.escapeHtml(f.letter)}</span><input type="text" class="inline-inp short" style="width:${w}px" placeholder="…">${Courseware.escapeHtml(f.after)}
+            ${Courseware.escapeHtml(f.before)}<span class="first-letter-hint">${Courseware.escapeHtml(f.letter)}</span><input type="text" class="inline-inp short" style="width:${w}px" placeholder="�?>${Courseware.escapeHtml(f.after)}
           </div>
           <div class="analysis-box"><span class="ans-val">${Courseware.escapeHtml(f.answer)}</span><br>${Courseware.escapeHtml(f.analysis)}</div>
         </div>`;
@@ -401,7 +401,7 @@
       document.getElementById('res-score').textContent = (total ? Math.round(correct / total * 100) : 0) + '%';
       document.getElementById('res-correct').textContent = correct;
       document.getElementById('res-total').textContent = total;
-      if (!hasWrong) wrongC.innerHTML = '<p style="text-align:center;color:var(--g);padding:40px">🎉 全部正确！</p>';
+      if (!hasWrong) wrongC.innerHTML = '<p style="text-align:center;color:var(--g);padding:40px">🎉 全部正确�?/p>';
       show(7);
     }
 

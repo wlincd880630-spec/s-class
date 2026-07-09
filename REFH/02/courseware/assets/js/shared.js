@@ -771,32 +771,59 @@ ${azureLine}
     return _pdfLibsPromise;
   }
 
+  function loadScriptTag(src) {
+    return new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = src;
+      s.onload = () => resolve();
+      s.onerror = () => reject(new Error('script load failed: ' + src));
+      document.head.appendChild(s);
+    });
+  }
+
   let _qrLibPromise = null;
   function loadQrLib() {
     if (global.QRCode?.toDataURL) return Promise.resolve();
     if (_qrLibPromise) return _qrLibPromise;
-    _qrLibPromise = new Promise((resolve, reject) => {
-      const s = document.createElement('script');
-      s.src = 'https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js';
-      s.onload = () => {
-        if (global.QRCode?.toDataURL) resolve();
-        else reject(new Error('QR 库加载不完整'));
-      };
-      s.onerror = () => reject(new Error('QR 库加载失败'));
-      document.head.appendChild(s);
-    });
+    const sources = [
+      'assets/js/vendor/qrcode.min.js',
+      'https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js',
+      'https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js'
+    ];
+    _qrLibPromise = (async () => {
+      let lastErr = null;
+      for (const src of sources) {
+        try {
+          if (global.QRCode?.toDataURL) return;
+          await loadScriptTag(src);
+          if (global.QRCode?.toDataURL) return;
+        } catch (e) {
+          lastErr = e;
+        }
+      }
+      _qrLibPromise = null;
+      throw lastErr || new Error('QR 库加载不完整');
+    })();
     return _qrLibPromise;
+  }
+
+  function resolveCoursewareBaseUrl() {
+    try {
+      const loc = global.location;
+      if (loc && /^https?:\/\//i.test(loc.href || '')) {
+        const m = String(loc.pathname || '').match(/^(\/REFH\/\d+\/courseware\/)/i);
+        if (m) return `${loc.origin}${m[1]}`;
+      }
+    } catch (e) {}
+    return COURSEWARE_WEB_BASE;
   }
 
   function resolveArticlePageUrl(options) {
     const explicit = options?.pageUrl && String(options.pageUrl).trim();
     if (explicit) return explicit;
-    try {
-      const href = global.location?.href || '';
-      if (/^https?:\/\//i.test(href)) {
-        return href.split('#')[0].split('?')[0];
-      }
-    } catch (e) {}
+    const target = options?.pageTarget || 'part2-reading.html';
+    const base = resolveCoursewareBaseUrl();
+    if (base) return base + target;
     return ARTICLE_PAGE_URL || '';
   }
 
@@ -1340,6 +1367,7 @@ ${azureLine}
     try {
       await waitPdfIframe(iframe);
       const idoc = iframe.contentDocument;
+      await waitPdfImages(idoc);
       const root = idoc.querySelector('.pdf-doc');
       if (!root) throw new Error('PDF 内容未找到');
 

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>游戏九：转盘寻宝 · 五年级上册</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/common.css">
+</head>
+<body>
+  <div class="container">
+    <div class="top-bar">
+      <a class="course-logo" href="index.html" title="Steven's Class English Studio">
+        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/logo.png" alt="Steven's Class English Studio">
+      </a>
+      <a class="back-link" href="index.html"><i class="fa-solid fa-house"></i> 返回</a>
+      <h1 class="page-title"><i class="fa-solid fa-dharmachakra"></i> 转盘寻宝</h1>
+    </div>
+    <div class="card" id="setupPanel">
+      <div class="control-row"><label>单元：</label><select id="unitSelect"></select></div>
+      <p style="color:#636e72;font-size:0.9rem;">转动幸运转盘，听音选图——高互动趣味挑战！至少 4 个单词。</p>
+      <button class="btn btn-primary btn-lg" id="btnStart"><i class="fa-solid fa-play"></i> 开始游戏</button>
+    </div>
+
+    <div class="card game-area hidden" id="gamePanel">
+      <div class="timer-bar">
+        <span id="progressBadge">准备转盘</span>
+        <span>得分 <strong id="scoreEl">0</strong></span>
+        <span><i class="fa-solid fa-stopwatch"></i> <strong id="gameTime">0:00</strong></span>
+      </div>
+      <div class="spin-wrap">
+        <div class="wheel-container">
+          <div class="wheel-pointer"></div>
+          <div class="wheel" id="wheel"></div>
+        </div>
+        <button type="button" class="btn btn-primary btn-lg" id="btnSpin" disabled>🎡 转动转盘</button>
+        <div class="spin-challenge hidden" id="challenge">
+          <p style="color:#636e72;margin:8px 0;">听发音，选出对应图片！</p>
+          <p id="targetWord" style="font-size:1.4rem;font-weight:bold;text-align:center;"></p>
+          <button type="button" class="btn btn-sm" id="btnReplay" style="margin:8px auto;display:block;">
+            <i class="fa-solid fa-volume-high"></i> 再听
+          </button>
+          <div class="spin-images" id="imgOpts"></div>
+        </div>
+      </div>
+      <div id="feedback" class="feedback hidden"></div>
+    </div>
+
+    <div class="card hidden" id="donePanel"></div>
+  </div>
+  <script src="assets/data/data.js"></script>
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/audio/audio-manifest.js?v=1"></script>
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/audio/local-audio.js?v=1"></script>
+  <script src="assets/js/utils.js"></script>
+  <script>
+    const WHEEL_COLORS = ['#f5c400','#66bb6a','#42a5f5','#ab47bc','#ef5350','#ffa726','#26c6da','#8d6e63'];
+    let segments = [], qi = 0, score = 0, statCorrect = 0, statWrong = 0;
+    let gameTimer = null, spinning = false, cur = null, rot = 0, segAngle = 45;
+    let unitId = '', pool = [];
+
+    buildUnitSelector(document.getElementById('unitSelect'));
+    document.getElementById('btnStart').addEventListener('click', startGame);
+    document.getElementById('btnSpin').addEventListener('click', spinWheel);
+    document.getElementById('btnReplay').addEventListener('click', () => { if (cur) speakText(cur.word); });
+
+    function startGame() {
+      unitId = document.getElementById('unitSelect').value;
+      pool = shuffle(getAllWords(unitId));
+      if (pool.length < 4) return alert('该单元至少需要 4 个单词！');
+      segments = shuffle(pool.slice()).slice(0, Math.min(8, pool.length));
+      segAngle = 360 / segments.length;
+      qi = 0; score = 0; statCorrect = 0; statWrong = 0; rot = 0;
+      document.getElementById('setupPanel').classList.add('hidden');
+      document.getElementById('donePanel').classList.add('hidden');
+      document.getElementById('gamePanel').classList.remove('hidden');
+      document.getElementById('challenge').classList.add('hidden');
+      gameTimer = new GameTimer(document.getElementById('gameTime'));
+      gameTimer.start();
+      document.getElementById('btnSpin').disabled = false;
+      document.getElementById('scoreEl').textContent = '0';
+      document.getElementById('progressBadge').textContent = `共 ${segments.length} 轮 · 随机顺序`;
+      buildWheel();
+    }
+
+    function buildWheel() {
+      const w = document.getElementById('wheel');
+      w.style.background = 'conic-gradient(from 0deg, ' + segments.map((s, i) =>
+        `${WHEEL_COLORS[i % WHEEL_COLORS.length]} ${i * segAngle}deg ${(i + 1) * segAngle}deg`
+      ).join(', ') + ')';
+      w.innerHTML = '';
+      segments.forEach((s, i) => {
+        const lbl = document.createElement('div');
+        lbl.className = 'wheel-label';
+        lbl.textContent = s.word;
+        lbl.style.transform = `rotate(${i * segAngle + segAngle / 2}deg) translateY(-95px)`;
+        w.appendChild(lbl);
+      });
+    }
+
+    function spinWheel() {
+      if (spinning || qi >= segments.length) return;
+      spinning = true;
+      document.getElementById('btnSpin').disabled = true;
+      document.getElementById('challenge').classList.add('hidden');
+      cur = segments[qi];
+      const center = qi * segAngle + segAngle / 2;
+      const targetMod = (360 - center) % 360;
+      const prevMod = ((rot % 360) + 360) % 360;
+      let delta = (targetMod - prevMod + 360) % 360;
+      if (delta < 120) delta += 360;
+      rot += 360 * (4 + Math.floor(Math.random() * 2)) + delta;
+      document.getElementById('wheel').style.transform = `rotate(${rot}deg)`;
+      setTimeout(() => {
+        spinning = false;
+        showChallenge(cur);
+        document.getElementById('btnSpin').disabled = qi >= segments.length;
+      }, 3200);
+    }
+
+    function showChallenge(w) {
+      document.getElementById('challenge').classList.remove('hidden');
+      document.getElementById('targetWord').textContent = w.word;
+      document.getElementById('progressBadge').textContent = `第 ${qi + 1} / ${segments.length} 轮`;
+      speakText(w.word);
+      const all = getAllWords(unitId);
+      const opts = pickQuizOptions(w, all, 4, item => item.word).map(o => o.word);
+      const el = document.getElementById('imgOpts');
+      el.innerHTML = '';
+      opts.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'spin-img-opt';
+        const img = document.createElement('img');
+        img.src = opt.image;
+        img.alt = opt.word;
+        btn.appendChild(img);
+        btn.addEventListener('click', () => pickImg(opt, w, btn));
+        el.appendChild(btn);
+      });
+    }
+
+    function pickImg(choice, answer, btn) {
+      const ok = choice.id === answer.id;
+      const fb = document.getElementById('feedback');
+      document.querySelectorAll('#imgOpts .spin-img-opt').forEach(b => b.disabled = true);
+      if (ok) {
+        statCorrect++; score += 15;
+        btn.classList.add('correct');
+        showFeedback(fb, '正确！+15 🎉', true);
+      } else {
+        statWrong++;
+        btn.classList.add('wrong');
+        showFeedback(fb, `答案是 ${answer.word}`, false);
+      }
+      document.getElementById('scoreEl').textContent = String(score);
+      qi++;
+      setTimeout(() => {
+        document.getElementById('challenge').classList.add('hidden');
+        if (qi >= segments.length) finishGame();
+      }, ok ? 900 : 1400);
+    }
+
+    function finishGame() {
+      const timeSec = gameTimer.stop();
+      document.getElementById('gamePanel').classList.add('hidden');
+      const donePanel = document.getElementById('donePanel');
+      donePanel.classList.remove('hidden');
+      showFinalGameStats(donePanel, {
+        title: '转盘挑战完成！',
+        groups: 1,
+        totalItems: segments.length,
+        itemLabel: '轮',
+        correct: statCorrect,
+        wrong: statWrong,
+        timeSec,
+        extraRows: [{ label: '🏆 得分', value: String(score) }],
+        onRetry: () => { donePanel.classList.add('hidden'); document.getElementById('setupPanel').classList.remove('hidden'); }
+      });
+    }
+  </script>
+</body>
+</html>
