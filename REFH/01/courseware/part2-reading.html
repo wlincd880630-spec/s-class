@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Part 2 · 分段阅读 | Fruit Varieties</title>
-  <link rel="stylesheet" href="assets/css/shared.css">
+  <link rel="stylesheet" href="assets/css/shared.css?v=20260713">
   <style>
     .page { max-width: 900px; margin: 0 auto; padding: 24px 20px 100px; }
     .article-masthead {
@@ -341,10 +341,14 @@
       popup.innerHTML = bodyHtml;
     }
 
+    let lookupGuardUntil = 0;
+
     async function onWordDblClick(e) {
       const token = e.target.closest('.word-token');
       if (!token) return;
       e.preventDefault();
+      e.stopPropagation();
+      lookupGuardUntil = Date.now() + 400;
       const word = token.dataset.word;
       const popup = document.getElementById('lookup-popup');
       const rect = token.getBoundingClientRect();
@@ -362,7 +366,10 @@
     }
 
     function closeLookup() { document.getElementById('lookup-popup').classList.remove('open'); }
-    document.addEventListener('click', e => { if (!e.target.closest('#lookup-popup') && !e.target.closest('.word-token')) closeLookup(); });
+    document.addEventListener('click', e => {
+      if (Date.now() < lookupGuardUntil) return;
+      if (!e.target.closest('#lookup-popup') && !e.target.closest('.word-token')) closeLookup();
+    });
     function toggleAnswer(btn) { btn.nextElementSibling.classList.toggle('show'); btn.textContent = btn.nextElementSibling.classList.contains('show') ? '隐藏答案' : '显示答案'; }
 
     function renderArticle(data) {
