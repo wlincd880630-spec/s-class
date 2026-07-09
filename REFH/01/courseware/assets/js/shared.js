@@ -393,6 +393,64 @@ Keep definitions concise. Example sentences at 中考/高一 level.`;
     return callDeepSeek([{ role: 'user', content: prompt }]);
   }
 
+  async function analyzeSentence(sentence, context) {
+    const prompt = `你是面向中国初高中学生的英语阅读老师。请深入分析以下英文句子：
+"${sentence}"
+${context ? `\n所在段落上下文：${context}` : ''}
+
+请用中文回答，使用如下 Markdown 小节标题（保持标题格式）：
+
+## 翻译
+给出准确、自然的中文译文。
+
+## 句子结构
+分析句子整体结构（主谓宾、从句、修饰成分、句型类型等）。
+
+## 词组与表达
+列出句中重要词组、固定搭配或短语（如有），逐一解释含义与用法；若无突出词组可写「本句无明显固定词组」。
+
+## 语法与考点
+说明值得注意的语法现象、时态语态、连接手段等考试相关要点。
+
+## 学习提示
+给出 1–2 条帮助记忆或理解的语言学习建议。
+
+语言简洁清晰，适合课堂分段阅读讲解。`;
+    return callDeepSeek([{ role: 'user', content: prompt }]);
+  }
+
+  function formatAiMarkdown(text) {
+    if (!text) return '';
+    const lines = String(text).split('\n');
+    let html = '';
+    let inPara = false;
+    const closePara = () => { if (inPara) { html += '</p>'; inPara = false; } };
+    for (const raw of lines) {
+      const line = raw.trimEnd();
+      if (!line.trim()) { closePara(); continue; }
+      if (line.startsWith('## ')) {
+        closePara();
+        html += `<h4 class="ai-section-title">${escapeHtml(line.slice(3).trim())}</h4>`;
+      } else if (line.startsWith('### ')) {
+        closePara();
+        html += `<h5 class="ai-subtitle">${escapeHtml(line.slice(4).trim())}</h5>`;
+      } else if (/^[-*•]\s/.test(line)) {
+        if (!inPara) { html += '<p>'; inPara = true; }
+        else html += '<br>';
+        html += escapeHtml(line.replace(/^[-*•]\s+/, '• '));
+      } else if (/^\d+[.)]\s/.test(line)) {
+        closePara();
+        html += `<p class="ai-list-item">${escapeHtml(line)}</p>`;
+      } else {
+        if (!inPara) { html += '<p>'; inPara = true; }
+        else html += '<br>';
+        html += escapeHtml(line);
+      }
+    }
+    closePara();
+    return html || escapeHtml(text);
+  }
+
   async function translateSelection(text) {
     const prompt = `你是英语翻译老师。将以下英文翻译成自然、准确的中文（适合中国初高中学生阅读）。
 若是词组/短语，按词组翻译；若是句子，按整句翻译。
@@ -1466,7 +1524,7 @@ ${azureLine}
     speakText, stopAudio, speakFullText, stopFullSpeak, isFullSpeaking, isFullSpeakReady,
     prepareFullSpeakAudio, playFullSpeak, pauseFullSpeak, toggleFullSpeakPlay,
     skipFullSpeak, seekFullSpeak, getFullSpeakState, downloadFullSpeakMp3, bindFullSpeakPlayer,
-    callDeepSeek, lookupWord, analyzeSelection, translateSelection,
+    callDeepSeek, lookupWord, analyzeSelection, translateSelection, analyzeSentence, formatAiMarkdown,
     evaluateReading, evaluateTranslation, evaluateReadingCombined,
     runSpeakingEvaluation, renderReadingEvalHtml, renderTranslationEvalHtml,
     buildAzureSummary, getLastPronunciation, stopSpeakingRecordSafe,

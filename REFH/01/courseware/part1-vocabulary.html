@@ -27,21 +27,13 @@
       width: 100%; height: 100%; position: relative;
       transition: transform 0.5s; transform-style: preserve-3d;
     }
-    .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
-    .flip-card:not(.flipped):hover .flip-inner { transform: rotateY(8deg) scale(1.02); }
-    .flip-front, .flip-back {
-      position: absolute; inset: 0; backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
+    .flip-card:hover .flip-inner { transform: rotateY(8deg) scale(1.02); }
+    .flip-front {
+      position: absolute; inset: 0;
       border-radius: var(--radius); display: flex; flex-direction: column;
       align-items: center; justify-content: center; padding: 16px; text-align: center;
       border: 1px solid var(--border); box-shadow: var(--shadow);
-    }
-    .flip-front {
       background: linear-gradient(145deg, #fff, var(--primary-light));
-    }
-    .flip-back {
-      background: linear-gradient(145deg, var(--primary-light), #fff);
-      transform: rotateY(180deg);
     }
     .flip-front .card-word {
       font-family: var(--font-display); font-size: 1.15rem; font-weight: 700;
@@ -49,16 +41,6 @@
     }
     .flip-front .card-type { font-size: 0.72rem; color: var(--muted); margin-top: 8px; }
     .flip-front .tap-hint { font-size: 0.7rem; color: var(--accent); margin-top: 12px; }
-    .flip-back .card-def-cn {
-      font-size: 0.95rem; font-weight: 700; color: var(--primary);
-      line-height: 1.45; word-break: break-word;
-      max-height: 52%; overflow-y: auto;
-    }
-    .flip-back .card-def-en {
-      font-size: 0.72rem; color: var(--muted); line-height: 1.4;
-      margin-top: 8px; max-height: 28%; overflow-y: auto;
-    }
-    .flip-back .tap-hint { font-size: 0.7rem; color: var(--accent); margin-top: auto; }
     .stats-bar {
       display: flex; gap: 16px; margin-bottom: 20px; flex-wrap: wrap;
     }
@@ -72,7 +54,7 @@
   <div class="page">
     <div class="page-header">
       <h1>📚 词汇 & 词组学习</h1>
-      <p>点击卡片翻转并打开详细学习页 · 含 Azure 发音 · 中英文释义 · 背诵例句</p>
+      <p>点击卡片打开详细学习页 · 含 Azure 发音 · 中英文释义 · 背诵例句</p>
     </div>
     <div class="stats-bar">
       <div class="stat"><b>20</b><span>核心词汇 A1+</span></div>
@@ -107,43 +89,20 @@
       return `<span class="badge badge-pattern">句型</span>`;
     };
 
-    function shortEn(text, max) {
-      const s = String(text || '');
-      return s.length > max ? s.slice(0, max - 1) + '…' : s;
-    }
-
     function renderCards() {
       const items = filter === 'all' ? allItems : allItems.filter(i => i.type === filter);
-      document.getElementById('card-grid').innerHTML = items.map((item) => {
-        const idx = allItems.indexOf(item);
-        return `<div class="flip-card" data-idx="${idx}">
+      document.getElementById('card-grid').innerHTML = items.map((item) =>
+        `<div class="flip-card" onclick="openVocab(${allItems.indexOf(item)})">
           <div class="flip-inner">
             <div class="flip-front">
               <div class="card-word">${Courseware.escapeHtml(item.word)}</div>
               ${typeBadge(item)}
               <div class="tap-hint">点击学习 →</div>
             </div>
-            <div class="flip-back">
-              <div class="card-def-cn">${Courseware.escapeHtml(item.definition_cn || '')}</div>
-              <div class="card-def-en">${Courseware.escapeHtml(shortEn(item.definition_en, 90))}</div>
-              <div class="tap-hint">打开详细学习…</div>
-            </div>
           </div>
-        </div>`;
-      }).join('');
+        </div>`
+      ).join('');
     }
-
-    function handleCardClick(card) {
-      const idx = Number(card.dataset.idx);
-      if (Number.isNaN(idx)) return;
-      card.classList.add('flipped');
-      setTimeout(() => openVocab(idx), 380);
-    }
-
-    document.getElementById('card-grid').addEventListener('click', e => {
-      const card = e.target.closest('.flip-card');
-      if (card) handleCardClick(card);
-    });
 
     function openVocab(idx) {
       const item = allItems[idx];
@@ -216,7 +175,6 @@
 
     function closeModal() {
       document.getElementById('vocab-modal').classList.remove('open');
-      document.querySelectorAll('.flip-card.flipped').forEach(c => c.classList.remove('flipped'));
     }
 
     document.getElementById('vocab-modal').addEventListener('click', e => {
