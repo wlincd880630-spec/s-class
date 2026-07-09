@@ -216,7 +216,7 @@
   <script src="assets/js/course-data.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="assets/js/shared.js?v=20260709f"></script>
+  <script src="assets/js/shared.js?v=20260710"></script>
   <script>
     let cp = 1, tp = 7, courseData = null, vocabWords = [];
     const PDF_META = {
@@ -287,17 +287,17 @@
       } catch (e) {
         console.error(e);
         Courseware.showToast('PDF 生成失败，已打开打印窗口…');
-        Courseware.openVocabPrintWindow(words, PDF_META);
+        await Courseware.openVocabPrintWindow(words, PDF_META);
       }
     }
 
-    function exportPDFPrint(words) {
+    async function exportPDFPrint(words) {
       const list = words || getSelectedWords();
       if (!list.length) {
         Courseware.showToast('没有可导出的词汇');
         return;
       }
-      Courseware.openVocabPrintWindow(list, PDF_META);
+      await Courseware.openVocabPrintWindow(list, PDF_META);
     }
 
     function renderQuiz() {

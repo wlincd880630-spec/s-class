@@ -837,9 +837,28 @@ ${azureLine}
         font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC','Segoe UI',sans-serif;
         -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
       .pdf-doc{box-sizing:border-box;width:680px;max-width:680px;margin:0;padding:16px 18px 20px;overflow:visible;}
-      .pdf-header{text-align:center;margin-bottom:16px;padding-bottom:12px;border-bottom:2.5px solid ${c};}
+      .pdf-export-block{overflow:visible;page-break-inside:avoid;break-inside:avoid;}
+      .pdf-header-wrap{
+        display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+        margin-bottom:16px;padding-bottom:12px;border-bottom:2.5px solid ${c};
+      }
+      .pdf-header{flex:1;min-width:0;text-align:center;margin-bottom:0;padding-bottom:0;border-bottom:none;}
       .pdf-header h1{font-size:18px;color:${c};margin:0 0 5px;font-weight:700;line-height:1.35;}
       .pdf-header p{font-size:10.5px;color:#5c7268;margin:0 0 3px;line-height:1.45;}
+      .pdf-qr-block{
+        flex:0 0 auto;width:118px;text-align:center;padding:6px 8px;border-radius:8px;
+        border:1px solid #dce8e2;background:linear-gradient(180deg,#fafcfb,#f3f8f5);
+      }
+      .pdf-qr-img{width:96px;height:96px;display:block;margin:0 auto 4px;border-radius:4px;}
+      .pdf-qr-label{font-size:8.5px;font-weight:700;color:${c};line-height:1.3;margin:0;}
+      .pdf-qr-hint{font-size:7.5px;color:#5c7268;line-height:1.35;margin:2px 0 0;}
+      .pdf-qr-footer{
+        margin-top:10px;padding:10px 12px;border-radius:8px;border:1px dashed #dce8e2;
+        background:#fafcfb;display:flex;align-items:center;gap:12px;
+      }
+      .pdf-qr-footer img{width:72px;height:72px;flex:0 0 auto;border-radius:4px;}
+      .pdf-qr-footer-text{flex:1;min-width:0;font-size:9.5px;line-height:1.5;color:#5c7268;}
+      .pdf-qr-footer-text b{display:block;font-size:10.5px;color:${c};margin-bottom:3px;}
       .pdf-word-card{
         margin-bottom:10px;padding:10px 12px;
         border:1px solid #dce8e2;border-radius:6px;border-left:3px solid ${c};background:#fafcfb;
@@ -905,13 +924,36 @@ ${azureLine}
     const date = new Date().toLocaleDateString('zh-CN');
     const title = meta.title || '词汇表';
     const level = meta.level || '';
+    const pageUrl = meta.pageUrl || '';
+    const qrDataUrl = meta.qrDataUrl || '';
+    const qrBlock = qrDataUrl
+      ? `<div class="pdf-qr-block">
+          <img class="pdf-qr-img" src="${qrDataUrl}" alt="扫码学习">
+          <p class="pdf-qr-label">📱 扫码同步学习</p>
+          <p class="pdf-qr-hint">手机打开精读课件</p>
+        </div>`
+      : '';
+    const qrFooter = qrDataUrl
+      ? `<div class="pdf-export-block pdf-qr-footer">
+          <img src="${qrDataUrl}" alt="扫码学习">
+          <div class="pdf-qr-footer-text">
+            <b>📱 电子化同步学习</b>
+            扫描二维码，在手机上打开本篇精读阅读页面，可进行朗读、查词、AI 分析与测验，与纸质 PDF 同步学习。
+            ${pageUrl ? `<br><span style="font-size:8.5px;word-break:break-all;">${escapeHtml(pageUrl)}</span>` : ''}
+          </div>
+        </div>`
+      : '';
     return `<div class="pdf-doc">
-      <div class="pdf-header">
-        <h1>${escapeHtml(title)}</h1>
-        <p>词汇表 Vocabulary List · 共 ${words.length} 项 · ${date}</p>
-        ${level ? `<p>${escapeHtml(level)}</p>` : ''}
+      <div class="pdf-export-block pdf-header-wrap">
+        <div class="pdf-header">
+          <h1>${escapeHtml(title)}</h1>
+          <p>词汇表 Vocabulary List · 共 ${words.length} 项 · ${date}</p>
+          ${level ? `<p>${escapeHtml(level)}</p>` : ''}
+        </div>
+        ${qrBlock}
       </div>
       ${words.map((v, i) => buildVocabPdfWordCard(v, i)).join('')}
+      ${qrFooter}
     </div>`;
   }
 
@@ -1283,19 +1325,28 @@ ${azureLine}
   async function exportVocabPdf(options) {
     const words = options?.words;
     if (!words?.length) throw new Error('无词汇可导出');
+    const pageUrl = resolveArticlePageUrl(options || {});
     const meta = {
       title: options.title,
       level: options.level,
-      accent: options.accent || '#1a6b4a'
+      accent: options.accent || '#1a6b4a',
+      pageUrl
     };
     const filename = options.filename || 'Vocabulary.pdf';
     await loadPdfLibs();
+    if (pageUrl) {
+      try {
+        meta.qrDataUrl = await buildArticleQrDataUrl(pageUrl, meta.accent);
+      } catch (e) {
+        console.warn('QR code generation failed', e);
+      }
+    }
 
     const mask = document.createElement('div');
     mask.setAttribute('aria-busy', 'true');
     mask.style.cssText =
       'position:fixed;inset:0;background:rgba(15,23,42,0.45);z-index:2147483000;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-family:system-ui,sans-serif;';
-    mask.textContent = '正在生成 PDF…';
+    mask.textContent = '正在生成 PDF（含二维码）…';
     document.body.appendChild(mask);
 
     const iframe = document.createElement('iframe');
@@ -1328,7 +1379,7 @@ ${azureLine}
         gap: 2.5
       };
 
-      const header = root.querySelector('.pdf-header');
+      const header = root.querySelector('.pdf-header-wrap');
       if (header) {
         const canvas = await capturePdfBlock(header);
         appendCanvasAsWholeBlock(pdf, canvas, st);
@@ -1336,6 +1387,11 @@ ${azureLine}
       for (const block of root.querySelectorAll('.pdf-word-card')) {
         const canvas = await capturePdfBlock(block);
         appendCanvasAsWholeBlock(pdf, canvas, st, { fitOnePage: true });
+      }
+      const qrFooter = root.querySelector('.pdf-qr-footer');
+      if (qrFooter) {
+        const canvas = await capturePdfBlock(qrFooter);
+        appendCanvasAsWholeBlock(pdf, canvas, st);
       }
 
       pdf.save(filename);
@@ -1345,10 +1401,20 @@ ${azureLine}
     }
   }
 
-  function openVocabPrintWindow(words, meta) {
+  async function openVocabPrintWindow(words, meta) {
     if (!words?.length) {
       showToast('没有可导出的词汇');
       return;
+    }
+    meta = { ...(meta || {}) };
+    const pageUrl = resolveArticlePageUrl(meta);
+    meta.pageUrl = pageUrl;
+    if (pageUrl) {
+      try {
+        meta.qrDataUrl = await buildArticleQrDataUrl(pageUrl, meta.accent);
+      } catch (e) {
+        console.warn('QR code generation failed', e);
+      }
     }
     const w = window.open('', '_blank');
     if (!w) {
@@ -1356,7 +1422,7 @@ ${azureLine}
       return;
     }
     w.document.open();
-    w.document.write(buildVocabPdfDocument(words, meta || {}));
+    w.document.write(buildVocabPdfDocument(words, meta));
     w.document.close();
     w.focus();
     w.onload = () => setTimeout(() => {
