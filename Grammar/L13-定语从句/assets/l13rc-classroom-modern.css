@@ -1,0 +1,643 @@
+/**
+ * L13 定语从句 · 现代课堂显示系统
+ * 统一目录、课件、练习、拓展与讲义在桌面/投影屏上的比例、层级和交互反馈。
+ */
+
+:root {
+  --l13-modern-navy: #0f172a;
+  --l13-modern-ink: #172033;
+  --l13-modern-muted: #64748b;
+  --l13-modern-blue: #2563eb;
+  --l13-modern-cyan: #0891b2;
+  --l13-modern-teal: #0f766e;
+  --l13-modern-violet: #7c3aed;
+  --l13-modern-surface: rgba(255, 255, 255, 0.96);
+  --l13-modern-line: rgba(148, 163, 184, 0.26);
+  --l13-modern-shadow: 0 24px 70px rgba(15, 23, 42, 0.16);
+  --l13-modern-shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.09);
+  --l13-modern-radius: 24px;
+  --grammar-pager-accent: var(--l13-modern-teal);
+  --grammar-pager-accent-ink: #115e59;
+}
+
+html {
+  color-scheme: light;
+}
+
+body.l13rc-no-scroll {
+  color: var(--l13-modern-ink);
+  background:
+    radial-gradient(circle at 8% 0%, rgba(56, 189, 248, 0.2), transparent 32%),
+    radial-gradient(circle at 92% 8%, rgba(139, 92, 246, 0.14), transparent 30%),
+    linear-gradient(145deg, #eaf7ff 0%, #f5f3ff 48%, #ecfdf5 100%) !important;
+}
+
+body.l13rc-no-scroll :is(a, button, input, select, textarea):focus-visible {
+  outline: 3px solid #38bdf8 !important;
+  outline-offset: 3px;
+}
+
+body.l13rc-no-scroll :is(button, a, .image-card, .choice-btn) {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 目录：取消旧版 161% 整页缩放，改为真正的响应式网格。 */
+html.l13rc-no-scroll-root.g-index-scaled,
+html.g-index-scaled:has(body.l13rc-no-scroll) {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  zoom: 1 !important;
+  overflow-x: hidden;
+}
+
+body.g-index-scaled.l13rc-no-scroll {
+  min-height: 100dvh;
+  padding: clamp(18px, 2.4vw, 42px) !important;
+  overflow-y: auto;
+}
+
+body.g-index-scaled.l13rc-no-scroll .g-index {
+  width: min(1440px, 100%) !important;
+  max-width: 1440px !important;
+  max-height: none;
+  margin: 0 auto;
+  padding: clamp(24px, 2.7vw, 44px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.93);
+  box-shadow: 0 32px 90px rgba(2, 8, 23, 0.3);
+  backdrop-filter: blur(22px);
+  overflow: visible !important;
+}
+
+body.g-index-scaled.l13rc-no-scroll .g-index::before {
+  height: 6px;
+  margin: calc(clamp(24px, 2.7vw, 44px) * -1)
+    calc(clamp(24px, 2.7vw, 44px) * -1) clamp(18px, 2vw, 28px);
+  background: linear-gradient(90deg, #0ea5e9, #6366f1 52%, #10b981);
+}
+
+body.g-index-scaled.l13rc-no-scroll .g-index-logo {
+  width: clamp(184px, 16vw, 250px);
+  height: auto;
+}
+
+body.g-index-scaled.l13rc-no-scroll .g-index h1 {
+  margin: 0.35rem 0 0.5rem;
+  color: var(--l13-modern-navy);
+  font-size: clamp(2rem, 2.5vw, 3rem);
+  letter-spacing: -0.04em;
+}
+
+body.g-index-scaled.l13rc-no-scroll .g-index > .hint {
+  margin: 0.8rem 0 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(14, 165, 233, 0.24);
+  border-radius: 14px;
+  background: linear-gradient(90deg, rgba(224, 242, 254, 0.88), rgba(238, 242, 255, 0.82));
+  color: #475569;
+  font-size: clamp(0.9rem, 0.75vw, 1.05rem);
+}
+
+body.g-index-scaled.l13rc-no-scroll .g-index ol {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(10px, 1vw, 16px);
+}
+
+body.g-index-scaled.l13rc-no-scroll .g-index li {
+  margin: 0;
+}
+
+body.g-index-scaled.l13rc-no-scroll .g-index li a {
+  min-height: 84px;
+  height: 100%;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--l13-modern-line);
+  border-radius: 17px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.045);
+}
+
+body.g-index-scaled.l13rc-no-scroll .g-index li a:hover {
+  border-color: rgba(37, 99, 235, 0.38);
+  background: linear-gradient(135deg, #fff, #eff6ff);
+  box-shadow: 0 14px 28px rgba(37, 99, 235, 0.12);
+  transform: translateY(-3px);
+}
+
+body.g-index-scaled.l13rc-no-scroll .g-index .num {
+  min-width: 2.8rem;
+  height: 2.8rem;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #dbeafe, #ede9fe);
+  color: #3730a3;
+  font-size: 0.92rem;
+}
+
+body.g-index-scaled.l13rc-no-scroll .g-index .label {
+  color: var(--l13-modern-navy);
+  font-size: clamp(1rem, 0.85vw, 1.18rem);
+}
+
+body.g-index-scaled.l13rc-no-scroll .g-index .desc {
+  color: var(--l13-modern-muted);
+  font-size: clamp(0.82rem, 0.68vw, 0.96rem);
+}
+
+body.g-index-scaled.l13rc-no-scroll .g-index .back {
+  margin-top: 1rem;
+  padding-top: 0.9rem;
+}
+
+/* 课件与练习的主舞台。 */
+body.l13rc-demo-screen.has-lesson-pager > :is(.app-container, #app-frame) {
+  border: 1px solid rgba(255, 255, 255, 0.78) !important;
+  border-radius: var(--l13-modern-radius) !important;
+  background: var(--l13-modern-surface) !important;
+  box-shadow: var(--l13-modern-shadow) !important;
+}
+
+body.l13rc-demo-screen .app-container > .page {
+  width: min(1640px, 100%);
+  margin-inline: auto;
+  padding: clamp(16px, 1.6vw, 30px) clamp(18px, 2.2vw, 40px) !important;
+}
+
+body.l13rc-demo-screen .app-container > .page > h1 {
+  color: var(--l13-modern-navy);
+  font-size: clamp(1.8rem, 2.25vw, 3rem) !important;
+  letter-spacing: -0.035em;
+}
+
+body.l13rc-demo-screen .app-container .lead {
+  color: var(--l13-modern-muted);
+  font-size: clamp(1rem, 0.95vw, 1.3rem) !important;
+}
+
+body.l13rc-demo-screen .app-container :is(.sentence-block, .step-item) {
+  border: 1px solid var(--l13-modern-line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: var(--l13-modern-shadow-soft);
+}
+
+body.l13rc-demo-screen .app-container .sentence-block {
+  font-size: clamp(1.08rem, 1.12vw, 1.55rem) !important;
+  line-height: 1.62;
+}
+
+body.l13rc-demo-screen .app-container .question-box {
+  border: 1px solid rgba(99, 102, 241, 0.22);
+  border-radius: 18px;
+  background: linear-gradient(135deg, #312e81 0%, #4f46e5 58%, #2563eb 100%);
+  box-shadow: 0 16px 34px rgba(49, 46, 129, 0.2);
+  font-size: clamp(1rem, 0.9vw, 1.25rem) !important;
+}
+
+body.l13rc-demo-screen .app-container :is(.reveal-btn, .welcome-btn, .guide-launch, .tts-btn) {
+  min-height: 48px;
+  padding: 0.72rem 1.35rem;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #0ea5e9, #2563eb);
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.22);
+  font-size: clamp(0.92rem, 0.72vw, 1.06rem);
+  font-weight: 800;
+}
+
+body.l13rc-demo-screen .app-container :is(.reveal-btn, .welcome-btn, .guide-launch, .tts-btn):hover {
+  filter: brightness(1.06);
+  transform: translateY(-2px);
+}
+
+body.l13rc-demo-screen .app-container .page-actions {
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+body.l13rc-demo-screen .app-container .page-actions::before {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #cbd5e1);
+}
+
+body.l13rc-demo-screen .app-container .image-card {
+  border: 1px solid var(--l13-modern-line);
+  border-radius: 20px;
+  box-shadow: var(--l13-modern-shadow-soft);
+}
+
+body.l13rc-demo-screen .app-container .image-card:hover {
+  border-color: rgba(14, 165, 233, 0.48);
+  box-shadow: 0 18px 38px rgba(14, 165, 233, 0.16);
+}
+
+body.l13rc-demo-screen .app-container .picture-pick-split {
+  grid-template-columns: minmax(540px, 58%) minmax(360px, 42%);
+  gap: clamp(24px, 2.4vw, 46px);
+}
+
+body.l13rc-demo-screen .app-container .picture-pick-text {
+  padding: clamp(18px, 2vw, 34px);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(56, 189, 248, 0.12), transparent 38%),
+    linear-gradient(145deg, rgba(248, 250, 252, 0.98), rgba(239, 246, 255, 0.9));
+}
+
+body.l13rc-demo-screen .app-container .picture-pick-images {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  grid-template-rows: 1fr !important;
+  min-height: min(58vh, 610px);
+}
+
+/* 欢迎屏：减少空洞感并强化课程信息。 */
+body.l13rc-demo-screen .page-welcome .welcome-wrapper,
+body.l13rc-demo-screen #welcome-view {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(56, 189, 248, 0.22), transparent 30%),
+    radial-gradient(circle at 82% 16%, rgba(139, 92, 246, 0.18), transparent 28%),
+    linear-gradient(145deg, #eff6ff, #f5f3ff 52%, #ecfdf5) !important;
+}
+
+body.l13rc-demo-screen .page-welcome .welcome-wrapper::before,
+body.l13rc-demo-screen #welcome-view .welcome-card::before {
+  content: "RC";
+  display: grid;
+  place-items: center;
+  width: clamp(76px, 8vw, 116px);
+  aspect-ratio: 1;
+  margin: 0 auto clamp(14px, 2vh, 24px);
+  border-radius: 30%;
+  color: #fff;
+  background: linear-gradient(145deg, #2563eb, #7c3aed);
+  box-shadow: 0 16px 34px rgba(79, 70, 229, 0.28);
+  font: 900 clamp(1.5rem, 2.8vw, 2.5rem) / 1 system-ui, sans-serif;
+  letter-spacing: -0.06em;
+}
+
+body.l13rc-demo-screen #welcome-view .welcome-card {
+  width: min(680px, 92vw);
+  max-width: 680px;
+  padding: clamp(28px, 4vw, 56px);
+  border: 1px solid rgba(255, 255, 255, 0.82);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: var(--l13-modern-shadow);
+  backdrop-filter: blur(20px);
+}
+
+body.l13rc-demo-screen #welcome-view .welcome-card > div:first-child {
+  display: none;
+}
+
+body.l13rc-demo-screen #welcome-view .welcome-card h1 {
+  margin: 0 0 0.65rem;
+  color: var(--l13-modern-navy);
+  font-size: clamp(2rem, 3.2vw, 3.2rem);
+  letter-spacing: -0.04em;
+}
+
+/* 一题一屏练习：让题目成为视觉中心，而不是漂浮在大片空白里。 */
+body.l13rc-practice-one #app-frame.practice-book {
+  justify-content: flex-start;
+  padding: clamp(18px, 2.2vw, 38px) clamp(24px, 4vw, 72px) !important;
+}
+
+body.l13rc-practice-one .practice-page {
+  width: min(1420px, 100%);
+  max-width: 1420px;
+  justify-content: flex-start;
+}
+
+body.l13rc-practice-one .practice-head {
+  padding: 0 0 clamp(12px, 1.4vh, 20px);
+}
+
+body.l13rc-practice-one .practice-part-title {
+  color: #0369a1;
+  font-size: clamp(1.65rem, 2vw, 2.45rem);
+}
+
+body.l13rc-practice-one .practice-body {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: min(42vh, 420px);
+  margin-top: clamp(12px, 1.5vh, 22px);
+  padding: clamp(24px, 3vw, 52px) clamp(28px, 4.5vw, 80px);
+  border: 1px solid var(--l13-modern-line);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(14, 165, 233, 0.08), transparent 34%),
+    rgba(255, 255, 255, 0.94);
+  box-shadow: var(--l13-modern-shadow-soft);
+}
+
+body.l13rc-practice-one .practice-body .sentence-box {
+  font-size: clamp(1.35rem, 1.55vw, 2rem) !important;
+  line-height: 1.62;
+}
+
+body.l13rc-practice-one .practice-answer-toggle {
+  min-height: 48px;
+  border-radius: 14px;
+}
+
+/* 拓展练习/综合测验。 */
+body.has-lesson-pager > #app {
+  padding: clamp(10px, 1vw, 18px) clamp(12px, 1.3vw, 24px) !important;
+}
+
+#l13rc-book.book {
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: var(--l13-modern-shadow);
+}
+
+#l13rc-book.book::before {
+  display: none;
+}
+
+#l13rc-book .top-bar {
+  margin: 12px 14px 0;
+  padding: 12px 18px;
+  border: 1px solid rgba(124, 58, 237, 0.25);
+  border-radius: 16px;
+  background: linear-gradient(90deg, #f5f3ff, #eff6ff);
+}
+
+#l13rc-book .top-bar strong {
+  font-size: clamp(1.15rem, 1.2vw, 1.55rem);
+}
+
+#l13rc-book .top-bar .l13rc-index-link {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 1rem;
+  border: 1px solid rgba(124, 58, 237, 0.35);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.88);
+}
+
+#l13rc-book .l13rc-scroll {
+  padding: clamp(12px, 1.2vw, 20px) clamp(16px, 1.8vw, 30px) clamp(16px, 1.5vw, 24px);
+}
+
+#l13rc-book .page-head {
+  padding: 0.2rem 0 0.7rem;
+}
+
+#l13rc-book .page-kicker {
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: #ede9fe;
+  color: #5b21b6;
+  font-size: clamp(0.82rem, 0.62vw, 0.98rem);
+}
+
+#l13rc-book .page-title {
+  font-size: clamp(1.45rem, 1.7vw, 2.15rem);
+  letter-spacing: -0.025em;
+}
+
+#l13rc-book .panel {
+  border: 1px solid var(--l13-modern-line);
+  border-radius: 20px;
+  padding: clamp(18px, 2vw, 34px);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: var(--l13-modern-shadow-soft);
+}
+
+#l13rc-book .quiz-slot .quiz-item {
+  max-width: min(1100px, 100%);
+  padding: clamp(18px, 2vw, 32px);
+  border: 1px solid rgba(13, 148, 136, 0.26);
+  border-radius: 18px;
+}
+
+#l13rc-book :is(.quiz-slot .quiz-head, .quiz-stem, .en-line) {
+  font-size: clamp(1.22rem, 1.35vw, 1.75rem) !important;
+}
+
+#l13rc-book .opt-row button {
+  min-height: 52px;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--l13-modern-line);
+  border-radius: 13px;
+  font-size: clamp(1rem, 0.9vw, 1.22rem);
+}
+
+#l13rc-book .btn {
+  min-height: 48px;
+  border-width: 1px;
+  border-radius: 13px;
+  font-size: clamp(0.94rem, 0.72vw, 1.08rem);
+}
+
+/* 讲义：屏幕阅读使用宽版电子讲义，打印仍保持原 A4 规则。 */
+@media screen {
+  body.grammar-handout-page.l13rc-handout {
+    --gh-sheet-max: min(1380px, calc(100vw - clamp(32px, 6vw, 112px)));
+    font-size: clamp(16px, 0.42vw + 13px, 20px);
+    padding-inline: clamp(16px, 3vw, 48px);
+  }
+
+  body.grammar-handout-page :is(
+    .grammar-handout-top,
+    .l13-handout-top,
+    .grammar-handout-print-hint,
+    .no-print-hint,
+    .grammar-handout-pdf-bar,
+    .handout-pdf-bar,
+    .grammar-handout-section-nav,
+    .handout-section-nav,
+    main.sheet
+  ) {
+    width: var(--gh-sheet-max) !important;
+    max-width: var(--gh-sheet-max) !important;
+  }
+
+  body.grammar-handout-page :is(.grammar-handout-top, .l13-handout-top) {
+    margin-top: 1rem;
+    padding: 12px 18px;
+    border: 1px solid rgba(15, 118, 110, 0.34);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.09);
+    backdrop-filter: blur(16px);
+  }
+
+  body.grammar-handout-page .handout-section-nav {
+    gap: 0.45rem;
+    padding: 0.2rem 0;
+  }
+
+  body.grammar-handout-page .handout-section-nav a {
+    min-height: 38px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.45rem 0.75rem;
+    border-width: 1px;
+    font-size: clamp(0.76rem, 0.55vw, 0.9rem);
+  }
+
+  body.grammar-handout-page main.sheet.l13rc-handout {
+    padding: clamp(28px, 3vw, 52px) clamp(28px, 4vw, 64px) clamp(48px, 5vw, 80px);
+    border: 1px solid rgba(14, 165, 233, 0.34);
+    border-radius: 26px;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: var(--l13-modern-shadow);
+  }
+
+  body.grammar-handout-page main.sheet::before {
+    display: none;
+  }
+
+  body.grammar-handout-page.l13rc-handout .handout-cover {
+    margin: 0 0 clamp(24px, 3vw, 42px);
+    padding: clamp(42px, 5vw, 76px) clamp(24px, 4vw, 60px);
+    border-radius: 22px;
+  }
+
+  body.grammar-handout-page.l13rc-handout .handout-cover__inner {
+    max-width: 48rem;
+  }
+
+  body.grammar-handout-page.l13rc-handout .handout-cover__title {
+    font-size: clamp(2.4rem, 4vw, 4.2rem);
+  }
+
+  body.grammar-handout-page.l13rc-handout h2.section-title {
+    margin-top: 1.8rem;
+    font-size: clamp(1.3rem, 1.35vw, 1.75rem);
+  }
+
+  body.grammar-handout-page.l13rc-handout :is(.example, .cloze-item, .lesson-flow ol, .hw-list) {
+    font-size: clamp(0.98rem, 0.62vw, 1.12rem);
+  }
+
+  body.grammar-handout-page.l13rc-handout table.data {
+    font-size: clamp(0.92rem, 0.58vw, 1.06rem);
+  }
+
+  body.grammar-handout-page.l13rc-handout .card {
+    padding: 1rem 1.15rem;
+    border: 1px solid var(--l13-modern-line);
+    border-radius: 16px;
+    box-shadow: 0 7px 18px rgba(15, 23, 42, 0.055);
+  }
+}
+
+/* 底部导航：投影环境下保持可辨识、可点击。 */
+@media screen and (min-width: 900px) {
+  :root {
+    --grammar-pager-gap: 4rem;
+    --grammar-pager-logo-slot: clamp(7rem, 12vw, 10rem);
+    --l13rc-file-pager-h: 4rem;
+    --practice-stepper-h: 4rem;
+  }
+
+  body.has-lesson-pager nav.lesson-pager,
+  body.has-lesson-pager nav.lesson-footer-nav,
+  body.has-lesson-pager #app nav.lesson-pager {
+    min-height: 58px;
+    padding: 0.45rem clamp(0.75rem, 2vw, 2rem);
+    gap: 0.75rem;
+    border-top: 1px solid rgba(15, 118, 110, 0.24);
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 -12px 32px rgba(15, 23, 42, 0.1);
+    backdrop-filter: blur(18px);
+  }
+
+  body.has-lesson-pager nav.lesson-pager > :is(.pager-prev, .pager-next, .pager-muted),
+  body.has-lesson-pager nav.lesson-pager .pager-zone > :is(.pager-prev, .pager-next, .pager-mid) {
+    min-height: 44px;
+    max-height: none;
+    padding: 0.55rem 1rem;
+    border-width: 1px;
+    border-radius: 12px;
+    font-size: clamp(0.85rem, 0.65vw, 1rem);
+  }
+
+  body.has-lesson-pager nav.lesson-pager .pager-logo img {
+    width: clamp(112px, 9vw, 150px);
+    max-height: 44px;
+    object-fit: contain;
+  }
+
+  body.l13rc-practice-one .practice-pager {
+    min-height: 58px;
+    padding: 0.45rem clamp(0.75rem, 2vw, 2rem);
+    border-top: 1px solid rgba(14, 165, 233, 0.22);
+    background: rgba(248, 250, 252, 0.94);
+    box-shadow: 0 -10px 24px rgba(14, 165, 233, 0.08);
+    backdrop-filter: blur(16px);
+  }
+}
+
+@media screen and (min-width: 1600px) and (min-height: 850px) {
+  :root {
+    --lesson-fs-html: clamp(19px, 0.38vw + 14px, 22px);
+  }
+
+  body.l13rc-demo-screen .app-container {
+    --font-size-lead: clamp(1.18rem, 0.8vw, 1.45rem);
+    --font-size-h1: clamp(2rem, 2.25vw, 3.15rem);
+    --font-size-h2: clamp(1.35rem, 1.35vw, 1.85rem);
+  }
+}
+
+@media screen and (max-width: 899px) {
+  body.g-index-scaled.l13rc-no-scroll {
+    padding: 12px !important;
+  }
+
+  body.g-index-scaled.l13rc-no-scroll .g-index {
+    padding: 20px 16px 24px !important;
+    border-radius: 22px;
+  }
+
+  body.g-index-scaled.l13rc-no-scroll .g-index::before {
+    margin: -20px -16px 18px;
+  }
+
+  body.g-index-scaled.l13rc-no-scroll .g-index ol {
+    grid-template-columns: 1fr;
+  }
+
+  body.g-index-scaled.l13rc-no-scroll .g-index li a {
+    min-height: 70px;
+  }
+
+  body.l13rc-demo-screen .app-container .picture-pick-split {
+    grid-template-columns: 1fr;
+  }
+
+  body.l13rc-demo-screen .app-container .picture-pick-images {
+    min-height: clamp(220px, 34vh, 360px);
+  }
+
+  body.l13rc-practice-one .practice-body {
+    min-height: 0;
+    padding: 20px 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.l13rc-no-scroll *,
+  body.l13rc-no-scroll *::before,
+  body.l13rc-no-scroll *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
