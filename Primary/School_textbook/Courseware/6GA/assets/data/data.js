@@ -2894,7 +2894,7 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "https://picsum.photos/seed/fold/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/fold/fold_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Fold the shirt neatly before putting it away.",
@@ -2928,7 +2928,7 @@ const TEXTBOOK_DATA = {
               "letter": "sh"
             }
           ],
-          "image": "https://picsum.photos/seed/trash/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/trash/trash_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Please throw the empty bottle into the trash.",
@@ -2966,7 +2966,7 @@ const TEXTBOOK_DATA = {
               "letter": "ure"
             }
           ],
-          "image": "https://picsum.photos/seed/pleasure/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/pleasure/pleasure_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "It is a pleasure to read books in the sun.",
@@ -2996,7 +2996,7 @@ const TEXTBOOK_DATA = {
               "letter": "ow"
             }
           ],
-          "image": "https://picsum.photos/seed/flow/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/flow/flow_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Her ideas flow easily when she writes stories.",
@@ -3034,7 +3034,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://picsum.photos/seed/freely/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/freely/freely_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Birds fly freely in the blue sky.",
@@ -3076,7 +3076,7 @@ const TEXTBOOK_DATA = {
               "letter": "ent"
             }
           ],
-          "image": "https://picsum.photos/seed/instrument/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/instrument/instrument_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "My sister plays a musical instrument every evening.",
@@ -3114,7 +3114,7 @@ const TEXTBOOK_DATA = {
               "letter": "are"
             }
           ],
-          "image": "https://picsum.photos/seed/prepare/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/prepare/prepare_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Mom helps me prepare my schoolbag before bed.",
@@ -3156,7 +3156,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://picsum.photos/seed/concert/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/concert/concert_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "We went to a pop concert last Saturday night.",
@@ -3194,7 +3194,7 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "https://picsum.photos/seed/matter/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/matter/matter_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "What is the matter with your bicycle?",
@@ -3232,7 +3232,7 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             }
           ],
-          "image": "https://picsum.photos/seed/fever/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/fever/fever_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Tom has a high fever and stays in bed today.",
@@ -3262,7 +3262,7 @@ const TEXTBOOK_DATA = {
               "letter": "ore"
             }
           ],
-          "image": "https://picsum.photos/seed/sore/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/sore/sore_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "My legs feel sore after running for an hour.",
@@ -3296,7 +3296,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://picsum.photos/seed/throat/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/throat/throat_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I have a sore throat and cannot speak loudly.",
@@ -3342,7 +3342,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://picsum.photos/seed/headache/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/headache/headache_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I have a headache and need some rest.",
@@ -3388,7 +3388,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://picsum.photos/seed/toothache/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/toothache/toothache_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "My toothache kept me awake all night.",
@@ -3418,7 +3418,7 @@ const TEXTBOOK_DATA = {
               "letter": "u"
             }
           ],
-          "image": "https://picsum.photos/seed/flu/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/flu/flu_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Many students stayed home because of the flu.",
@@ -3464,7 +3464,7 @@ const TEXTBOOK_DATA = {
               "letter": "rd"
             }
           ],
-          "image": "https://picsum.photos/seed/blackboard/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/blackboard/blackboard_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The teacher wrote math problems on the blackboard.",
@@ -3498,7 +3498,7 @@ const TEXTBOOK_DATA = {
               "letter": "k"
             }
           ],
-          "image": "https://picsum.photos/seed/dark/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/dark/dark_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The room was too dark to read without a lamp.",
@@ -3532,7 +3532,7 @@ const TEXTBOOK_DATA = {
               "letter": "ck"
             }
           ],
-          "image": "https://picsum.photos/seed/quick/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/quick/quick_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "We need a quick snack before the movie starts.",
@@ -3574,7 +3574,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://picsum.photos/seed/gladly/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/gladly/gladly_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I will gladly help you carry those heavy bags.",
@@ -3616,7 +3616,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://picsum.photos/seed/forget/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/forget/forget_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Don't forget to bring your umbrella tomorrow.",
@@ -3650,7 +3650,7 @@ const TEXTBOOK_DATA = {
               "letter": "th"
             }
           ],
-          "image": "https://picsum.photos/seed/bath/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/bath/bath_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I take a bath every evening before bed.",
@@ -3700,7 +3700,7 @@ const TEXTBOOK_DATA = {
               "letter": "ss"
             }
           ],
-          "image": "https://picsum.photos/seed/happiness/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/happiness/happiness_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Her smile is full of happiness.",
@@ -3734,7 +3734,7 @@ const TEXTBOOK_DATA = {
               "letter": "w"
             }
           ],
-          "image": "https://picsum.photos/seed/view/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/view/view_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The view from the hill is beautiful.",
@@ -3768,7 +3768,7 @@ const TEXTBOOK_DATA = {
               "letter": "ck"
             }
           ],
-          "image": "https://picsum.photos/seed/neck/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/neck/neck_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I wear a scarf around my neck in winter.",
@@ -3802,7 +3802,7 @@ const TEXTBOOK_DATA = {
               "letter": "ck"
             }
           ],
-          "image": "https://picsum.photos/seed/luck/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/luck/luck_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Good luck on your test tomorrow!",
@@ -3844,7 +3844,7 @@ const TEXTBOOK_DATA = {
               "letter": "nd"
             }
           ],
-          "image": "https://picsum.photos/seed/understand/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/understand/understand_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I understand the math problem now.",
@@ -3886,7 +3886,7 @@ const TEXTBOOK_DATA = {
               "letter": "sh"
             }
           ],
-          "image": "https://picsum.photos/seed/splash/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/splash/splash_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The kids splash water in the pool.",
@@ -3920,7 +3920,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://picsum.photos/seed/wet/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/wet/wet_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "My shoes are wet from the rain.",
@@ -3970,7 +3970,7 @@ const TEXTBOOK_DATA = {
               "letter": "ew"
             }
           ],
-          "image": "https://picsum.photos/seed/brand_new/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/brand-new/brand-new_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "My dad bought a brand-new car last week.",
@@ -4024,7 +4024,7 @@ const TEXTBOOK_DATA = {
               "letter": "ce"
             }
           ],
-          "image": "https://picsum.photos/seed/experience/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/experience/experience_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Visiting the farm was a fun experience for us.",
@@ -4066,7 +4066,7 @@ const TEXTBOOK_DATA = {
               "letter": "l"
             }
           ],
-          "image": "https://picsum.photos/seed/local/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/local/local_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "We bought fresh fruit from the local market.",
@@ -4100,7 +4100,7 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "https://picsum.photos/seed/loud/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/loud/loud_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The music at the concert was too loud for me.",
@@ -4138,7 +4138,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://picsum.photos/seed/noise/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/noise/noise_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The noise from the street kept me awake last night.",
@@ -4184,7 +4184,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://picsum.photos/seed/advice/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/advice/advice_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "My teacher gave me good advice on how to study.",
@@ -4234,7 +4234,7 @@ const TEXTBOOK_DATA = {
               "letter": "th"
             }
           ],
-          "image": "https://picsum.photos/seed/deal_with/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/deal_with/deal_with_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I need to deal with my messy room this weekend.",
@@ -4284,7 +4284,7 @@ const TEXTBOOK_DATA = {
               "letter": "l"
             }
           ],
-          "image": "https://picsum.photos/seed/cultural/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit3/cultural/cultural_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "We learned about different cultural festivals in class.",
@@ -4329,7 +4329,7 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             }
           ],
-          "image": "https://picsum.photos/seed/build/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit4/build/build_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The workers build a new school near my home.",
@@ -4367,7 +4367,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             }
           ],
-          "image": "https://picsum.photos/seed/choice/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit4/choice/choice_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "It was my choice to join the art club.",
@@ -4412,7 +4412,7 @@ const TEXTBOOK_DATA = {
               "letter": "th"
             }
           ],
-          "image": "https://picsum.photos/seed/health/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit5/health/health_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "Eating fruits and vegetables is good for your health.",
@@ -4446,7 +4446,7 @@ const TEXTBOOK_DATA = {
               "letter": "f"
             }
           ],
-          "image": "https://picsum.photos/seed/roof/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit5/roof/roof_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "The cat is sitting on the roof of the house.",
@@ -4484,7 +4484,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             }
           ],
-          "image": "https://picsum.photos/seed/runny/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit5/runny/runny_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "I have a runny nose because of the cold weather.",
