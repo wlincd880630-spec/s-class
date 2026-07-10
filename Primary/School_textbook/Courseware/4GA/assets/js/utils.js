@@ -237,6 +237,10 @@ function renderPhonemeBoxes(container, w) {
     let partLen = 0;
     const partPhonemes = [];
     while (partLen < part.replace(/-/g, '').length && consumed < w.phonemes.length) {
+      if (w.phonemes[consumed].letter === ' ') {
+        consumed += 1;
+        continue;
+      }
       partPhonemes.push(w.phonemes[consumed]);
       partLen += w.phonemes[consumed].letter.replace(/-/g, '').length;
       consumed += 1;
