@@ -381,7 +381,7 @@
       const cloze = q.reading_cloze;
       let passage = cloze.passage;
       cloze.questions.forEach(cq => {
-        passage = passage.replace(`[${cq.num}]`, `<span id="slot-${cq.num}" class="cloze-slot">[${cq.num}]</span>`);
+        passage = passage.replace(new RegExp(`___\\s*\\[${cq.num}\\]`), `<span id="slot-${cq.num}" class="cloze-slot">[${cq.num}]</span>`);
       });
       document.getElementById('cloze-passage').innerHTML = passage;
       document.getElementById('cloze-questions').innerHTML = cloze.questions.map(cq => {
