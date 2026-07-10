@@ -239,11 +239,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/t/",
-              "letter": "t"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "te"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/chocolate/chocolate_%E9%A3%8E%E6%A0%BCA.png",
@@ -433,11 +429,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/z/",
-              "letter": "s"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "se"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/choose/choose_%E9%A3%8E%E6%A0%BCA.png",
@@ -1428,11 +1420,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/st/",
-              "letter": "st"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "ste"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit2/waste/waste_%E9%A3%8E%E6%A0%BCA.png",
@@ -1546,11 +1534,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/s/",
-              "letter": "s"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "se"
             },
             {
               "symbol": "/f/",
@@ -2014,11 +1998,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/k/",
-              "letter": "k"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "ke"
             },
             {
               "symbol": "—",
@@ -3494,11 +3474,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/n/",
-              "letter": "n"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "ne"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit4/medicine/medicine_%E9%A3%8E%E6%A0%BCA.png",

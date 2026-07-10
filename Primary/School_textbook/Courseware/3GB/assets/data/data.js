@@ -210,11 +210,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/f/",
-              "letter": "ff"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "ffe"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit1/giraffe/giraffe_%E9%A3%8E%E6%A0%BCA.png",
@@ -460,11 +456,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/t/",
-              "letter": "t"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "te"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit1/white/white_%E9%A3%8E%E6%A0%BCA.png",
@@ -814,11 +806,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/t/",
-              "letter": "t"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "te"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit1/cute/cute_%E9%A3%8E%E6%A0%BCA.png",
@@ -984,11 +972,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/v/",
-              "letter": "v"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "ve"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit1/move/move_%E9%A3%8E%E6%A0%BCA.png",
@@ -1060,11 +1044,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/s/",
-              "letter": "c"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "ce"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit1/dance/dance_%E9%A3%8E%E6%A0%BCA.png",
@@ -1170,11 +1150,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/n/",
-              "letter": "n"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "ne"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit1/stone/stone_%E9%A3%8E%E6%A0%BCA.png",
@@ -1437,11 +1413,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/z/",
-              "letter": "s"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "se"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit2/nose/nose_%E9%A3%8E%E6%A0%BCA.png",
@@ -2656,11 +2628,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/l/",
-              "letter": "l"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "le"
             },
             {
               "symbol": "/z/",
@@ -4122,11 +4090,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/k/",
-              "letter": "k"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "ke"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit3/cupcake/cupcake_%E9%A3%8E%E6%A0%BCA.png",
@@ -4416,11 +4380,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/k/",
-              "letter": "k"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "ke"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit3/cake/cake_%E9%A3%8E%E6%A0%BCA.png",
@@ -5798,11 +5758,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/v/",
-              "letter": "v"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "ve"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit5/forty-five/forty-five_%E9%A3%8E%E6%A0%BCA.png",
@@ -5986,11 +5942,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/n/",
-              "letter": "n"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "ne"
             },
             {
               "symbol": "—",
@@ -6090,11 +6042,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/m/",
-              "letter": "m"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "me"
             },
             {
               "symbol": "/w/",
@@ -6539,11 +6487,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/m/",
-              "letter": "m"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "me"
             },
             {
               "symbol": "/θ/",
@@ -6839,11 +6783,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/m/",
-              "letter": "m"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "me"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit6/some/some_%E9%A3%8E%E6%A0%BCA.png",

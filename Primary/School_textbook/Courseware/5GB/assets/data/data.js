@@ -89,11 +89,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/d/",
-              "letter": "d"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "de"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit1/ride/ride_%E9%A3%8E%E6%A0%BCA.png",
@@ -702,11 +698,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/n/",
-              "letter": "n"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "ne"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/June/June_%E9%A3%8E%E6%A0%BCA.png",
@@ -856,11 +848,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/m/",
-              "letter": "m"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "me"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/care_home/care_home_%E9%A3%8E%E6%A0%BCA.png",
@@ -962,11 +950,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/d/",
-              "letter": "d"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "de"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/side/side_%E9%A3%8E%E6%A0%BCA.png",
@@ -1142,11 +1126,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/m/",
-              "letter": "m"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "me"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/lunchtime/lunchtime_%E9%A3%8E%E6%A0%BCA.png",
@@ -1218,11 +1198,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/m/",
-              "letter": "m"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "me"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/become/become_%E9%A3%8E%E6%A0%BCA.png",
@@ -1616,11 +1592,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/s/",
-              "letter": "c"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "ce"
             },
             {
               "symbol": "—",
@@ -1892,11 +1864,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/s/",
-              "letter": "s"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "se"
             },
             {
               "symbol": "/b/",
@@ -1942,11 +1910,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/s/",
-              "letter": "s"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "se"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/horse/horse_%E9%A3%8E%E6%A0%BCA.png",
@@ -2549,11 +2513,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/s/",
-              "letter": "c"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "ce"
             },
             {
               "symbol": "/b/",
@@ -2829,11 +2789,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/v/",
-              "letter": "v"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "ve"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/expensive/expensive_%E9%A3%8E%E6%A0%BCA.png",
@@ -3015,11 +2971,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/z/",
-              "letter": "s"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "se"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/cheese/cheese_%E9%A3%8E%E6%A0%BCA.png",
@@ -3095,11 +3047,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/s/",
-              "letter": "c"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "ce"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/choice/choice_%E9%A3%8E%E6%A0%BCA.png",
@@ -3133,11 +3081,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/v/",
-              "letter": "v"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "ve"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/save/save_%E9%A3%8E%E6%A0%BCA.png",
@@ -3217,11 +3161,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/s/",
-              "letter": "c"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "ce"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/voice/voice_%E9%A3%8E%E6%A0%BCA.png",
@@ -3297,11 +3237,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/v/",
-              "letter": "v"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "ve"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/cave/cave_%E9%A3%8E%E6%A0%BCA.png",
@@ -3339,11 +3275,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/v/",
-              "letter": "v"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "ve"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/solve/solve_%E9%A3%8E%E6%A0%BCA.png",
@@ -3415,11 +3347,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/dʒ/",
-              "letter": "g"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "ge"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/strange/strange_%E9%A3%8E%E6%A0%BCA.png",
@@ -3519,11 +3447,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/v/",
-              "letter": "v"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "ve"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/detective/detective_%E9%A3%8E%E6%A0%BCA.png",
@@ -3751,11 +3675,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/dʒ/",
-              "letter": "g"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "ge"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit3/message/message_%E9%A3%8E%E6%A0%BCA.png",
@@ -3938,11 +3858,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/z/",
-              "letter": "s"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "se"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/surprise/surprise_%E9%A3%8E%E6%A0%BCA.png",
@@ -4064,11 +3980,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/s/",
-              "letter": "s"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "se"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/teahouse/teahouse_%E9%A3%8E%E6%A0%BCA.png",
@@ -4337,11 +4249,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/l/",
-              "letter": "l"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "le"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/hole/hole_%E9%A3%8E%E6%A0%BCA.png",
@@ -4522,11 +4430,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/t/",
-              "letter": "t"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "te"
             },
             {
               "symbol": "—",
