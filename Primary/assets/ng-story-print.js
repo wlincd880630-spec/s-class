@@ -244,7 +244,7 @@
                 windowWidth: A4_WIDTH_CSS_PX,
               },
               jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-              pagebreak: { mode: ["css", "legacy"], after: ".story-print-sheet" },
+              pagebreak: { mode: ["css", "legacy"] },
             };
             return global.html2pdf().set(opt).from(area).save();
           })
