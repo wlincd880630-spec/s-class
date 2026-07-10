@@ -370,9 +370,14 @@
       document.getElementById('first-letter-list').innerHTML = q.first_letter.map(f => {
         const fill = f.answer.slice(1).toLowerCase();
         const w = Math.max(70, fill.length * 11);
+        const markerIndex = f.before.indexOf('___');
+        const before = markerIndex >= 0 ? f.before.slice(0, markerIndex) : f.before;
+        const after = markerIndex >= 0
+          ? f.before.slice(markerIndex + 3) + f.after
+          : f.after;
         return `<div class="q-card" data-ans="${fill}" data-full="${f.answer.toLowerCase()}">
           <div class="line-txt" style="line-height:2.2;font-size:1.05rem">
-            ${Courseware.escapeHtml(f.before)}<span class="first-letter-hint">${Courseware.escapeHtml(f.letter)}</span><input type="text" class="inline-inp short" style="width:${w}px" placeholder="…">${Courseware.escapeHtml(f.after)}
+            ${Courseware.escapeHtml(before)}<span class="first-letter-hint">${Courseware.escapeHtml(f.letter)}</span><input type="text" class="inline-inp short" style="width:${w}px" placeholder="…">${Courseware.escapeHtml(after)}
           </div>
           <div class="analysis-box"><span class="ans-val">${Courseware.escapeHtml(f.answer)}</span><br>${Courseware.escapeHtml(f.analysis)}</div>
         </div>`;
@@ -381,7 +386,7 @@
       const cloze = q.reading_cloze;
       let passage = cloze.passage;
       cloze.questions.forEach(cq => {
-        passage = passage.replace(new RegExp(`___\s*\[${cq.num}\]`), `<span id="slot-${cq.num}" class="cloze-slot">[${cq.num}]</span>`);
+        passage = passage.replace(new RegExp(`___\\s*\\[${cq.num}\\]`), `<span id="slot-${cq.num}" class="cloze-slot">[${cq.num}]</span>`);
       });
       document.getElementById('cloze-passage').innerHTML = passage;
       document.getElementById('cloze-questions').innerHTML = cloze.questions.map(cq => {
