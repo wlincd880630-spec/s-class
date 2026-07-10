@@ -221,6 +221,7 @@
         btnPdf.textContent = "生成中…";
         render();
         document.body.classList.add("is-exporting");
+        area.classList.add("is-exporting");
         loadPdfLibs()
           .then(function () { return preloadImages(area); })
           .then(function () {
@@ -253,6 +254,7 @@
           })
           .finally(function () {
             document.body.classList.remove("is-exporting");
+            area.classList.remove("is-exporting");
             btnPdf.disabled = false;
             btnPdf.textContent = old;
           });
