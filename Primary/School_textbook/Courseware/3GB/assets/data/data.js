@@ -213,7 +213,7 @@ const TEXTBOOK_DATA = {
               "letter": "ff"
             },
             {
-              "symbol": "/—/",
+              "symbol": "—",
               "letter": "e"
             }
           ],
@@ -463,7 +463,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             },
             {
-              "symbol": "/ə/",
+              "symbol": "—",
               "letter": "e"
             }
           ],
@@ -817,7 +817,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             },
             {
-              "symbol": "/∅/",
+              "symbol": "—",
               "letter": "e"
             }
           ],
@@ -987,7 +987,7 @@ const TEXTBOOK_DATA = {
               "letter": "v"
             },
             {
-              "symbol": "/∅/",
+              "symbol": "—",
               "letter": "e"
             }
           ],
@@ -1063,7 +1063,7 @@ const TEXTBOOK_DATA = {
               "letter": "c"
             },
             {
-              "symbol": "/—/",
+              "symbol": "—",
               "letter": "e"
             }
           ],
@@ -1173,7 +1173,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             },
             {
-              "symbol": "/-/",
+              "symbol": "—",
               "letter": "e"
             }
           ],
@@ -1440,7 +1440,7 @@ const TEXTBOOK_DATA = {
               "letter": "s"
             },
             {
-              "symbol": "/-/",
+              "symbol": "—",
               "letter": "e"
             }
           ],
@@ -2659,7 +2659,7 @@ const TEXTBOOK_DATA = {
               "letter": "l"
             },
             {
-              "symbol": "/—/",
+              "symbol": "—",
               "letter": "e"
             },
             {
@@ -2925,7 +2925,7 @@ const TEXTBOOK_DATA = {
               "letter": "g"
             },
             {
-              "symbol": "/ə/",
+              "symbol": "—",
               "letter": "e"
             },
             {
@@ -3223,7 +3223,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             },
             {
-              "symbol": "",
+              "symbol": "—",
               "letter": " "
             },
             {
@@ -3241,6 +3241,18 @@ const TEXTBOOK_DATA = {
             {
               "symbol": "/t/",
               "letter": "t"
+            },
+            {
+              "symbol": "—",
+              "letter": "."
+            },
+            {
+              "symbol": "—",
+              "letter": "."
+            },
+            {
+              "symbol": "—",
+              "letter": "."
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit3/what_about/what_about_%E9%A3%8E%E6%A0%BCA.png",
@@ -3762,14 +3774,18 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/e/",
-              "letter": "er"
+              "letter": "e"
+            },
+            {
+              "symbol": "/r/",
+              "letter": "r"
             },
             {
               "symbol": "/i/",
               "letter": "y"
             },
             {
-              "symbol": "",
+              "symbol": "—",
               "letter": " "
             },
             {
@@ -3915,7 +3931,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             },
             {
-              "symbol": "",
+              "symbol": "—",
               "letter": " "
             },
             {
@@ -4109,7 +4125,7 @@ const TEXTBOOK_DATA = {
               "letter": "k"
             },
             {
-              "symbol": "/ə/",
+              "symbol": "—",
               "letter": "e"
             }
           ],
@@ -4315,7 +4331,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             },
             {
-              "symbol": "/ /",
+              "symbol": "—",
               "letter": " "
             },
             {
@@ -4403,7 +4419,7 @@ const TEXTBOOK_DATA = {
               "letter": "k"
             },
             {
-              "symbol": "/ə/",
+              "symbol": "—",
               "letter": "e"
             }
           ],
@@ -4802,6 +4818,10 @@ const TEXTBOOK_DATA = {
             {
               "symbol": "/əʊ/",
               "letter": "ow"
+            },
+            {
+              "symbol": "—",
+              "letter": " "
             },
             {
               "symbol": "/ʌ/",
@@ -5270,6 +5290,10 @@ const TEXTBOOK_DATA = {
               "letter": "a"
             },
             {
+              "symbol": "—",
+              "letter": " "
+            },
+            {
               "symbol": "/l/",
               "letter": "l"
             },
@@ -5344,6 +5368,10 @@ const TEXTBOOK_DATA = {
             {
               "symbol": "/aɪ/",
               "letter": "ai"
+            },
+            {
+              "symbol": "—",
+              "letter": " "
             },
             {
               "symbol": "/tʃ/",
@@ -5509,7 +5537,7 @@ const TEXTBOOK_DATA = {
               "letter": "ck"
             },
             {
-              "symbol": "",
+              "symbol": "—",
               "letter": "-"
             },
             {
@@ -5619,7 +5647,7 @@ const TEXTBOOK_DATA = {
               "letter": "o"
             },
             {
-              "symbol": "",
+              "symbol": "—",
               "letter": "’"
             },
             {
@@ -5757,7 +5785,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             },
             {
-              "symbol": "",
+              "symbol": "—",
               "letter": "-"
             },
             {
@@ -5773,7 +5801,7 @@ const TEXTBOOK_DATA = {
               "letter": "v"
             },
             {
-              "symbol": "",
+              "symbol": "—",
               "letter": "e"
             }
           ],
@@ -6065,7 +6093,7 @@ const TEXTBOOK_DATA = {
               "letter": "m"
             },
             {
-              "symbol": "/—/",
+              "symbol": "—",
               "letter": "e"
             },
             {
@@ -6263,7 +6291,7 @@ const TEXTBOOK_DATA = {
               "letter": "v"
             },
             {
-              "symbol": "/ə/",
+              "symbol": "—",
               "letter": "e"
             },
             {
@@ -6514,7 +6542,7 @@ const TEXTBOOK_DATA = {
               "letter": "m"
             },
             {
-              "symbol": "/ə/",
+              "symbol": "—",
               "letter": "e"
             },
             {
@@ -6814,7 +6842,7 @@ const TEXTBOOK_DATA = {
               "letter": "m"
             },
             {
-              "symbol": "/ə/",
+              "symbol": "—",
               "letter": "e"
             }
           ],

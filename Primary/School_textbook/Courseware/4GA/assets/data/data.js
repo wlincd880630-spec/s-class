@@ -177,7 +177,7 @@ const TEXTBOOK_DATA = {
               "letter": "v"
             },
             {
-              "symbol": "/e/",
+              "symbol": "—",
               "letter": "e"
             }
           ],
@@ -215,11 +215,11 @@ const TEXTBOOK_DATA = {
               "letter": "v"
             },
             {
-              "symbol": "/e/",
+              "symbol": "—",
               "letter": "e"
             },
             {
-              "symbol": "/ /",
+              "symbol": "—",
               "letter": " "
             },
             {
@@ -337,7 +337,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             },
             {
-              "symbol": "/ /",
+              "symbol": "—",
               "letter": " "
             },
             {
@@ -353,7 +353,7 @@ const TEXTBOOK_DATA = {
               "letter": "r"
             },
             {
-              "symbol": "/ /",
+              "symbol": "—",
               "letter": " "
             },
             {
@@ -665,7 +665,7 @@ const TEXTBOOK_DATA = {
               "letter": "ng"
             },
             {
-              "symbol": "",
+              "symbol": "—",
               "letter": "-"
             },
             {
@@ -715,7 +715,7 @@ const TEXTBOOK_DATA = {
               "letter": "ll"
             },
             {
-              "symbol": "/eɪ/",
+              "symbol": "/i/",
               "letter": "ey"
             },
             {
@@ -758,7 +758,11 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/k/",
-              "letter": "cr"
+              "letter": "c"
+            },
+            {
+              "symbol": "/r/",
+              "letter": "r"
             },
             {
               "symbol": "/ɒ/",
@@ -803,7 +807,7 @@ const TEXTBOOK_DATA = {
               "letter": "p"
             },
             {
-              "symbol": "/eɪ/",
+              "symbol": "—",
               "letter": "e"
             }
           ],
@@ -841,7 +845,7 @@ const TEXTBOOK_DATA = {
               "letter": "s"
             },
             {
-              "symbol": "/iː/",
+              "symbol": "—",
               "letter": "e"
             }
           ],
@@ -879,7 +883,7 @@ const TEXTBOOK_DATA = {
               "letter": "c"
             },
             {
-              "symbol": "/ɔː/",
+              "symbol": "/ɒ/",
               "letter": "au"
             },
             {
@@ -937,7 +941,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             },
             {
-              "symbol": "/ /",
+              "symbol": "—",
               "letter": " "
             },
             {
@@ -949,7 +953,7 @@ const TEXTBOOK_DATA = {
               "letter": "f"
             },
             {
-              "symbol": "/ /",
+              "symbol": "—",
               "letter": " "
             },
             {
@@ -961,15 +965,15 @@ const TEXTBOOK_DATA = {
               "letter": "b"
             },
             {
-              "symbol": "/ /",
+              "symbol": "—",
               "letter": " "
             },
             {
-              "symbol": "/ /",
+              "symbol": "—",
               "letter": "/"
             },
             {
-              "symbol": "/ /",
+              "symbol": "—",
               "letter": " "
             },
             {
@@ -1488,7 +1492,7 @@ const TEXTBOOK_DATA = {
               "letter": "m"
             },
             {
-              "symbol": "/ /",
+              "symbol": "—",
               "letter": " "
             },
             {
@@ -1840,7 +1844,7 @@ const TEXTBOOK_DATA = {
               "letter": "o"
             },
             {
-              "symbol": "/—/",
+              "symbol": "—",
               "letter": "-"
             },
             {
@@ -1852,7 +1856,7 @@ const TEXTBOOK_DATA = {
               "letter": "o"
             },
             {
-              "symbol": "/ /",
+              "symbol": "—",
               "letter": " "
             },
             {
@@ -1944,7 +1948,7 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             },
             {
-              "symbol": "/—/",
+              "symbol": "—",
               "letter": "e"
             }
           ],
@@ -2156,7 +2160,7 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             },
             {
-              "symbol": "/ /",
+              "symbol": "—",
               "letter": " "
             },
             {
@@ -2172,7 +2176,7 @@ const TEXTBOOK_DATA = {
               "letter": "b"
             },
             {
-              "symbol": "/!/",
+              "symbol": "—",
               "letter": "!"
             }
           ],
@@ -2404,7 +2408,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             },
             {
-              "symbol": "/ə/",
+              "symbol": "—",
               "letter": "e"
             }
           ],
@@ -2439,7 +2443,11 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/m/",
-              "letter": "me"
+              "letter": "m"
+            },
+            {
+              "symbol": "—",
+              "letter": "e"
             },
             {
               "symbol": "/t/",
@@ -3249,7 +3257,7 @@ const TEXTBOOK_DATA = {
               "letter": "st"
             },
             {
-              "symbol": "/—/",
+              "symbol": "—",
               "letter": "e"
             }
           ],
@@ -3283,11 +3291,11 @@ const TEXTBOOK_DATA = {
               "letter": "c"
             },
             {
-              "symbol": "/—/",
+              "symbol": "—",
               "letter": "e"
             },
             {
-              "symbol": "/",
+              "symbol": "—",
               "letter": " "
             },
             {
@@ -3481,7 +3489,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             },
             {
-              "symbol": "/",
+              "symbol": "—",
               "letter": " "
             },
             {
@@ -3515,11 +3523,11 @@ const TEXTBOOK_DATA = {
           "chinese": "电视",
           "phonemes": [
             {
-              "symbol": "/t/",
+              "symbol": "/tiː/",
               "letter": "T"
             },
             {
-              "symbol": "/v/",
+              "symbol": "/viː/",
               "letter": "V"
             }
           ],
@@ -3818,7 +3826,7 @@ const TEXTBOOK_DATA = {
               "letter": "ll"
             },
             {
-              "symbol": " ",
+              "symbol": "—",
               "letter": " "
             },
             {
@@ -3834,7 +3842,7 @@ const TEXTBOOK_DATA = {
               "letter": "r"
             },
             {
-              "symbol": " ",
+              "symbol": "—",
               "letter": " "
             },
             {
@@ -3888,7 +3896,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             },
             {
-              "symbol": "/e/",
+              "symbol": "—",
               "letter": "e"
             }
           ],
@@ -4079,7 +4087,11 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/m/",
-              "letter": "mn"
+              "letter": "m"
+            },
+            {
+              "symbol": "—",
+              "letter": "n"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit4/autumn/autumn_%E9%A3%8E%E6%A0%BCA.png",
@@ -4170,7 +4182,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             },
             {
-              "symbol": "/ə/",
+              "symbol": "—",
               "letter": "e"
             }
           ],
@@ -4461,7 +4473,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             },
             {
-              "symbol": "/eɪ/",
+              "symbol": "—",
               "letter": "e"
             }
           ],
@@ -4526,7 +4538,11 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/s/",
-              "letter": "ce"
+              "letter": "c"
+            },
+            {
+              "symbol": "—",
+              "letter": "e"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit5/place/place_%E9%A3%8E%E6%A0%BCA.png",
@@ -4719,7 +4735,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             },
             {
-              "symbol": "/t/",
+              "symbol": "—",
               "letter": "e"
             }
           ],
@@ -4787,7 +4803,7 @@ const TEXTBOOK_DATA = {
               "letter": "v"
             },
             {
-              "symbol": "/—/",
+              "symbol": "—",
               "letter": "e"
             }
           ],
@@ -4935,7 +4951,7 @@ const TEXTBOOK_DATA = {
               "letter": "k"
             },
             {
-              "symbol": "/—/",
+              "symbol": "—",
               "letter": "e"
             }
           ],
@@ -5256,7 +5272,7 @@ const TEXTBOOK_DATA = {
               "letter": "l"
             },
             {
-              "symbol": "/ɪ/",
+              "symbol": "/aɪ/",
               "letter": "i"
             },
             {
@@ -5264,8 +5280,12 @@ const TEXTBOOK_DATA = {
               "letter": "br"
             },
             {
-              "symbol": "/ɑː/",
-              "letter": "ar"
+              "symbol": "/ə/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/r/",
+              "letter": "r"
             },
             {
               "symbol": "/i/",
@@ -5298,12 +5318,20 @@ const TEXTBOOK_DATA = {
               "letter": "c"
             },
             {
-              "symbol": "/en/",
-              "letter": "en"
+              "symbol": "/e/",
+              "letter": "e"
             },
             {
-              "symbol": "/tr/",
-              "letter": "tr"
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            },
+            {
+              "symbol": "—",
+              "letter": "r"
             },
             {
               "symbol": "/ə/",
@@ -5540,8 +5568,12 @@ const TEXTBOOK_DATA = {
               "letter": "m"
             },
             {
-              "symbol": "/ɒr/",
-              "letter": "orr"
+              "symbol": "/ɒ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/r/",
+              "letter": "rr"
             },
             {
               "symbol": "/əʊ/",
@@ -5718,6 +5750,10 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             },
             {
+              "symbol": "—",
+              "letter": " "
+            },
+            {
               "symbol": "/ʌ/",
               "letter": "o"
             },
@@ -5726,16 +5762,20 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             },
             {
-              "symbol": "/e/",
+              "symbol": "—",
               "letter": "e"
             },
             {
-              "symbol": "/z/",
+              "symbol": "—",
               "letter": "’"
             },
             {
               "symbol": "/z/",
               "letter": "s"
+            },
+            {
+              "symbol": "—",
+              "letter": " "
             },
             {
               "symbol": "/əʊ/",
@@ -5850,6 +5890,10 @@ const TEXTBOOK_DATA = {
             {
               "symbol": "/iː/",
               "letter": "e"
+            },
+            {
+              "symbol": "—",
+              "letter": " "
             },
             {
               "symbol": "/k/",

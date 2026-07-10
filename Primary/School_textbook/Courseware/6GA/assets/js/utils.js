@@ -202,7 +202,7 @@ function renderPhonemeBoxes(container, w) {
   const parts = w.word.includes(' ') ? w.word.split(' ') : [w.word];
 
   function appendBox(ph) {
-    const isSilent = ph.symbol === '—';
+    const isSilent = ph.symbol === '—' || ph.symbol === '/—/';
     const box = document.createElement('div');
     box.className = 'phoneme-box' + (ph.letter.length > 2 ? ' wide' : '') + (isSilent ? ' silent' : '');
     box.textContent = isSilent ? '—' : ph.symbol;
@@ -237,6 +237,10 @@ function renderPhonemeBoxes(container, w) {
     let partLen = 0;
     const partPhonemes = [];
     while (partLen < part.replace(/-/g, '').length && consumed < w.phonemes.length) {
+      if (w.phonemes[consumed].letter === ' ') {
+        consumed += 1;
+        continue;
+      }
       partPhonemes.push(w.phonemes[consumed]);
       partLen += w.phonemes[consumed].letter.replace(/-/g, '').length;
       consumed += 1;

@@ -100,7 +100,7 @@ const TEXTBOOK_DATA = {
               "letter": "d"
             },
             {
-              "symbol": "/ /",
+              "symbol": "—",
               "letter": " "
             },
             {
@@ -242,7 +242,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             },
             {
-              "symbol": "/ɪ/",
+              "symbol": "—",
               "letter": "e"
             }
           ],
@@ -634,6 +634,10 @@ const TEXTBOOK_DATA = {
               "letter": "’s"
             },
             {
+              "symbol": "—",
+              "letter": " "
+            },
+            {
               "symbol": "/ɪ/",
               "letter": "e"
             },
@@ -748,6 +752,10 @@ const TEXTBOOK_DATA = {
               "letter": "a"
             },
             {
+              "symbol": "—",
+              "letter": " "
+            },
+            {
               "symbol": "/f/",
               "letter": "f"
             },
@@ -795,11 +803,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/ɪ/",
-              "letter": "u"
-            },
-            {
-              "symbol": "/—/",
-              "letter": "i"
+              "letter": "ui"
             },
             {
               "symbol": "/t/",
@@ -1427,7 +1431,7 @@ const TEXTBOOK_DATA = {
               "letter": "st"
             },
             {
-              "symbol": "/—/",
+              "symbol": "—",
               "letter": "e"
             }
           ],
@@ -1545,7 +1549,7 @@ const TEXTBOOK_DATA = {
               "letter": "s"
             },
             {
-              "symbol": "/ə/",
+              "symbol": "—",
               "letter": "e"
             },
             {
@@ -1553,7 +1557,7 @@ const TEXTBOOK_DATA = {
               "letter": "f"
             },
             {
-              "symbol": "/ʊ/",
+              "symbol": "/ə/",
               "letter": "u"
             },
             {
@@ -1795,7 +1799,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             },
             {
-              "symbol": "/ /",
+              "symbol": "—",
               "letter": " "
             },
             {
@@ -2013,11 +2017,11 @@ const TEXTBOOK_DATA = {
               "letter": "k"
             },
             {
-              "symbol": "/—/",
+              "symbol": "—",
               "letter": "e"
             },
             {
-              "symbol": "/ /",
+              "symbol": "—",
               "letter": " "
             },
             {
@@ -2398,7 +2402,7 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             },
             {
-              "symbol": "/—/",
+              "symbol": "—",
               "letter": "e"
             },
             {
@@ -2534,7 +2538,7 @@ const TEXTBOOK_DATA = {
               "letter": "p"
             },
             {
-              "symbol": "/ɛ/",
+              "symbol": "/eə/",
               "letter": "a"
             },
             {
@@ -3026,7 +3030,7 @@ const TEXTBOOK_DATA = {
           "phonemes": [
             {
               "symbol": "/ɒ/",
-              "letter": "o"
+              "letter": "O"
             },
             {
               "symbol": "/k/",
@@ -3096,11 +3100,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/t/",
-              "letter": "t"
-            },
-            {
-              "symbol": "/ə/",
-              "letter": "e"
+              "letter": "te"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit4/complete/complete_%E9%A3%8E%E6%A0%BCA.png",
@@ -3150,11 +3150,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/s/",
-              "letter": "c"
-            },
-            {
-              "symbol": "/ə/",
-              "letter": "e"
+              "letter": "ce"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit4/sentence/sentence_%E9%A3%8E%E6%A0%BCA.png",
@@ -3180,7 +3176,7 @@ const TEXTBOOK_DATA = {
           "phonemes": [
             {
               "symbol": "/n/",
-              "letter": "n"
+              "letter": "N"
             },
             {
               "symbol": "/ə/",
@@ -3305,7 +3301,7 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             },
             {
-              "symbol": "/ /",
+              "symbol": "—",
               "letter": " "
             },
             {
@@ -3321,7 +3317,7 @@ const TEXTBOOK_DATA = {
               "letter": "te"
             },
             {
-              "symbol": "/ /",
+              "symbol": "—",
               "letter": " "
             },
             {
@@ -3333,7 +3329,7 @@ const TEXTBOOK_DATA = {
               "letter": "or"
             },
             {
-              "symbol": "/ /",
+              "symbol": "—",
               "letter": " "
             },
             {
@@ -3384,15 +3380,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/ɔː/",
-              "letter": "o"
-            },
-            {
-              "symbol": "/r/",
-              "letter": "r"
-            },
-            {
-              "symbol": "/ə/",
-              "letter": "e"
+              "letter": "ore"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit4/before/before_%E9%A3%8E%E6%A0%BCA.png",
@@ -3509,7 +3497,7 @@ const TEXTBOOK_DATA = {
               "letter": "n"
             },
             {
-              "symbol": "/ə/",
+              "symbol": "—",
               "letter": "e"
             }
           ],
@@ -3691,7 +3679,7 @@ const TEXTBOOK_DATA = {
           "chinese": "（尤指体育运动的）纪录",
           "phonemes": [
             {
-              "symbol": "/rɪ/",
+              "symbol": "/re/",
               "letter": "re"
             },
             {
@@ -3898,8 +3886,12 @@ const TEXTBOOK_DATA = {
               "letter": "a"
             },
             {
-              "symbol": "/ŋ/",
-              "letter": "ng"
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/dʒ/",
+              "letter": "g"
             },
             {
               "symbol": "/ə/",
@@ -3971,7 +3963,11 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/l/",
-              "letter": "le"
+              "letter": "l"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "e"
             },
             {
               "symbol": "/br/",
@@ -4314,11 +4310,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/ə/",
-              "letter": "e"
-            },
-            {
-              "symbol": "/r/",
-              "letter": "r"
+              "letter": "er"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit6/September/September_%E9%A3%8E%E6%A0%BCA.png",
@@ -4364,11 +4356,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/ə/",
-              "letter": "e"
-            },
-            {
-              "symbol": "/r/",
-              "letter": "r"
+              "letter": "er"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit6/zookeeper/zookeeper_%E9%A3%8E%E6%A0%BCA.png",
@@ -4489,7 +4477,7 @@ const TEXTBOOK_DATA = {
               "letter": "y"
             },
             {
-              "symbol": "/ /",
+              "symbol": "—",
               "letter": " "
             },
             {
@@ -4525,7 +4513,7 @@ const TEXTBOOK_DATA = {
               "letter": "s"
             },
             {
-              "symbol": "/!/",
+              "symbol": "—",
               "letter": "!"
             }
           ],
@@ -4563,7 +4551,7 @@ const TEXTBOOK_DATA = {
               "letter": "l"
             },
             {
-              "symbol": "/ə/",
+              "symbol": "/ɪ/",
               "letter": "e"
             },
             {
