@@ -2691,7 +2691,7 @@ const TEXTBOOK_DATA = {
               "letter": "k"
             }
           ],
-          "image": "https://picsum.photos/seed/silk/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/silk/silk_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": []
         },
         {
@@ -3503,7 +3503,7 @@ const TEXTBOOK_DATA = {
               "letter": "s"
             }
           ],
-          "image": "https://picsum.photos/seed/its/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/its/its_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": []
         },
         {
