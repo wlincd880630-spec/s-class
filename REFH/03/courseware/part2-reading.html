@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Part 2 ? ???? | Mid-Autumn Festival</title>
+  <title>Part 2 · 分段阅读 | Mid-Autumn Festival</title>
   <link rel="stylesheet" href="assets/css/shared.css?v=20260713">
   <style>
     .page { max-width: 900px; margin: 0 auto; padding: 24px 20px 100px; }
@@ -162,22 +162,22 @@
     <div id="masthead"></div>
     <div class="toolbar" id="read-toolbar">
       <div class="toolbar-row main-actions">
-        <button class="btn btn-primary read-full-btn" type="button" id="btn-read-full" onclick="toggleFullRead()">?? ??????</button>
-        <button class="btn btn-outline" type="button" onclick="Courseware.speakText(document.getElementById('lead-text')?.textContent, 'slow')">?? ????</button>
-        <button class="btn btn-outline" type="button" id="btn-export-pdf" onclick="exportArticlePdfClick()">?? ???? PDF</button>
-        <button class="btn btn-ghost" type="button" onclick="Courseware.openConfig()">?? ??</button>
+        <button class="btn btn-primary read-full-btn" type="button" id="btn-read-full" onclick="toggleFullRead()">🔊 慢速全文朗读</button>
+        <button class="btn btn-outline" type="button" onclick="Courseware.speakText(document.getElementById('lead-text')?.textContent, 'slow')">🔊 朗读导语</button>
+        <button class="btn btn-outline" type="button" id="btn-export-pdf" onclick="exportArticlePdfClick()">📄 导出文章 PDF</button>
+        <button class="btn btn-ghost" type="button" onclick="Courseware.openConfig()">⚙️ 设置</button>
       </div>
     </div>
     <div class="full-audio-player" id="full-audio-player" hidden>
-      <div class="full-audio-status" data-action="status">?? MP3 ???</div>
+      <div class="full-audio-status" data-action="status">全文 MP3 播放器</div>
       <div class="full-audio-controls">
-        <button type="button" class="btn btn-outline sm" data-action="back">? 10?</button>
-        <button type="button" class="btn btn-primary sm" data-action="play">?? ??</button>
-        <button type="button" class="btn btn-outline sm" data-action="forward">10? ?</button>
-        <input type="range" class="full-audio-seek" data-action="seek" min="0" max="1000" value="0" step="1" aria-label="????">
+        <button type="button" class="btn btn-outline sm" data-action="back">⏪ 10秒</button>
+        <button type="button" class="btn btn-primary sm" data-action="play">▶️ 播放</button>
+        <button type="button" class="btn btn-outline sm" data-action="forward">10秒 ⏩</button>
+        <input type="range" class="full-audio-seek" data-action="seek" min="0" max="1000" value="0" step="1" aria-label="播放进度">
         <span class="full-audio-time" data-action="time">0:00 / 0:00</span>
-        <a class="btn btn-outline sm" data-action="download" href="#" download="article-full-read.mp3">?? ?? MP3</a>
-        <button type="button" class="btn btn-ghost sm" data-action="close">??</button>
+        <a class="btn btn-outline sm" data-action="download" href="#" download="article-full-read.mp3">⬇️ 下载 MP3</a>
+        <button type="button" class="btn btn-ghost sm" data-action="close">关闭</button>
       </div>
     </div>
     <div id="article"></div>
@@ -207,7 +207,7 @@
     function resetFullReadBtn() {
       const btn = document.getElementById('btn-read-full');
       if (!btn) return;
-      btn.textContent = '?? ??????';
+      btn.textContent = '🔊 慢速全文朗读';
       btn.classList.remove('speaking');
       btn.disabled = false;
     }
@@ -221,22 +221,22 @@
       }
       const text = getFullArticleText();
       if (!text) {
-        Courseware.showToast('??????');
+        Courseware.showToast('暂无文章内容');
         return;
       }
       const btn = document.getElementById('btn-read-full');
       const statusEl = player.querySelector('[data-action="status"]');
       btn.disabled = true;
-      btn.textContent = '? ?? MP3?';
+      btn.textContent = '⏳ 合成 MP3…';
       btn.classList.add('speaking');
       player.hidden = false;
-      if (statusEl) statusEl.textContent = '???? Azure ???? MP3?';
+      if (statusEl) statusEl.textContent = '正在通过 Azure 合成全文 MP3…';
       try {
         await Courseware.prepareFullSpeakAudio(text, 'slow', (cur, total) => {
-          if (statusEl) statusEl.textContent = 'Azure ???? ? ' + cur + '/' + total + ' ?';
+          if (statusEl) statusEl.textContent = 'Azure 合成中… 第 ' + cur + '/' + total + ' 段';
         });
-        if (statusEl) statusEl.textContent = '?? MP3 ??? ? ????????????';
-        btn.textContent = '?? ?????';
+        if (statusEl) statusEl.textContent = '全文 MP3 已就绪 · 可暂停、拖动进度条或下载';
+        btn.textContent = '🔊 全文播放器';
         btn.disabled = false;
         Courseware.bindFullSpeakPlayer(player, {
           filename: (courseData?.title || 'article').replace(/[^a-zA-Z0-9_-]+/g, '_') + '_full-read.mp3',
@@ -244,7 +244,7 @@
         });
         await Courseware.playFullSpeak();
       } catch (e) {
-        if (e.message !== 'cancelled') Courseware.showToast('???????? Azure ??');
+        if (e.message !== 'cancelled') Courseware.showToast('合成失败，请检查 Azure 配置');
         player.hidden = true;
         resetFullReadBtn();
       }
@@ -253,12 +253,12 @@
 
     async function exportArticlePdfClick() {
       if (!courseData) {
-        Courseware.showToast('??????');
+        Courseware.showToast('文章尚未加载');
         return;
       }
       const accent = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#1a6b4a';
       const btn = document.getElementById('btn-export-pdf');
-      if (btn) { btn.disabled = true; btn.textContent = '? ?? PDF?'; }
+      if (btn) { btn.disabled = true; btn.textContent = '⏳ 生成 PDF…'; }
       try {
         await Courseware.exportArticlePdf({
           data: courseData,
@@ -266,11 +266,11 @@
           pageUrl: location.href.split('#')[0].split('?')[0],
           filename: (courseData.title || 'article').replace(/[^\w\u4e00-\u9fa5-]+/g, '_') + '_Reading.pdf'
         });
-        Courseware.showToast('?? PDF ???');
+        Courseware.showToast('文章 PDF 已下载');
       } catch (e) {
-        Courseware.showToast('PDF ?????' + (e.message || '???'));
+        Courseware.showToast('PDF 导出失败：' + (e.message || '请重试'));
       } finally {
-        if (btn) { btn.disabled = false; btn.textContent = '?? ???? PDF'; }
+        if (btn) { btn.disabled = false; btn.textContent = '📄 导出文章 PDF'; }
       }
     }
     window.exportArticlePdfClick = exportArticlePdfClick;
@@ -300,7 +300,7 @@
       if (btn) btn.classList.add('active');
       panel.hidden = false;
       panel.dataset.mode = mode;
-      panel.innerHTML = '<div class="panel-loading">?? ????</div>';
+      panel.innerHTML = '<div class="panel-loading">🤖 分析中…</div>';
       return panel;
     }
 
@@ -311,9 +311,9 @@
       const panel = openSentencePanel(block, 'translate', btn);
       try {
         const result = await Courseware.translateSelection(text);
-        panel.innerHTML = `<div class="panel-header"><b>?? ????</b><button type="button" class="panel-close" onclick="closeSentencePanel(this)">?</button></div><div class="panel-body"><p class="panel-quote">"${Courseware.escapeHtml(text)}"</p><p class="panel-trans">${Courseware.escapeHtml(result)}</p><button type="button" class="btn btn-outline sm" style="margin-top:10px" onclick="Courseware.speakText('${text.replace(/'/g, "\\'")}')">?? ????</button></div>`;
+        panel.innerHTML = `<div class="panel-header"><b>🌐 句子翻译</b><button type="button" class="panel-close" onclick="closeSentencePanel(this)">×</button></div><div class="panel-body"><p class="panel-quote">"${Courseware.escapeHtml(text)}"</p><p class="panel-trans">${Courseware.escapeHtml(result)}</p><button type="button" class="btn btn-outline sm" style="margin-top:10px" onclick="Courseware.speakText('${text.replace(/'/g, "\\'")}')">🔊 朗读原句</button></div>`;
       } catch (e) {
-        panel.innerHTML = '<div class="panel-header"><b>?? ????</b><button type="button" class="panel-close" onclick="closeSentencePanel(this)">?</button></div><p style="color:var(--accent2)">???????? DeepSeek ??</p>';
+        panel.innerHTML = '<div class="panel-header"><b>🌐 句子翻译</b><button type="button" class="panel-close" onclick="closeSentencePanel(this)">×</button></div><p style="color:var(--accent2)">翻译失败，请检查 DeepSeek 配置</p>';
       }
     }
 
@@ -324,9 +324,9 @@
       const panel = openSentencePanel(block, 'analyze', btn);
       try {
         const result = await Courseware.analyzeSentence(text, getSentenceContext(block));
-        panel.innerHTML = `<div class="panel-header"><b>?? ????</b><button type="button" class="panel-close" onclick="closeSentencePanel(this)">?</button></div><div class="panel-body"><p class="panel-quote">"${Courseware.escapeHtml(text)}"</p>${Courseware.formatAiMarkdown(result)}<button type="button" class="btn btn-outline sm" style="margin-top:10px" onclick="Courseware.speakText('${text.replace(/'/g, "\\'")}')">?? ????</button></div>`;
+        panel.innerHTML = `<div class="panel-header"><b>📖 语言解析</b><button type="button" class="panel-close" onclick="closeSentencePanel(this)">×</button></div><div class="panel-body"><p class="panel-quote">"${Courseware.escapeHtml(text)}"</p>${Courseware.formatAiMarkdown(result)}<button type="button" class="btn btn-outline sm" style="margin-top:10px" onclick="Courseware.speakText('${text.replace(/'/g, "\\'")}')">🔊 朗读原句</button></div>`;
       } catch (e) {
-        panel.innerHTML = '<div class="panel-header"><b>?? ????</b><button type="button" class="panel-close" onclick="closeSentencePanel(this)">?</button></div><p style="color:var(--accent2)">???????? DeepSeek ??</p>';
+        panel.innerHTML = '<div class="panel-header"><b>📖 语言解析</b><button type="button" class="panel-close" onclick="closeSentencePanel(this)">×</button></div><p style="color:var(--accent2)">解析失败，请检查 DeepSeek 配置</p>';
       }
     }
 
@@ -354,14 +354,14 @@
       const rect = token.getBoundingClientRect();
       popup.style.cssText = `left:${Math.min(rect.left, window.innerWidth-380)}px;top:${rect.bottom+8}px;transform:none`;
       popup.classList.add('open');
-      popup.innerHTML = `<div class="lookup-loading">?? ?? "${word}" ?</div>`;
+      popup.innerHTML = `<div class="lookup-loading">🔍 查询 "${word}" …</div>`;
       Courseware.speakText(word);
       try {
         const ctx = token.closest('.sentence-row')?.querySelector('.sentence-text')?.textContent || '';
         const data = await Courseware.lookupWord(word, ctx);
-        popup.innerHTML = `<div style="display:flex;justify-content:space-between"><b style="font-size:1.2rem;color:var(--primary)">${Courseware.escapeHtml(data.word||word)}</b><button onclick="closeLookup()" style="border:none;background:none;cursor:pointer">?</button></div>${data.phonetic?`<p style="color:var(--muted);font-size:0.85rem">${data.phonetic} ${data.pos||''}</p>`:''}<button class="btn-icon sm" onclick="Courseware.speakText('${word}')">??</button><p style="margin:8px 0;font-size:0.9rem">${Courseware.escapeHtml(data.definition_en||'')}</p><button class="cn-reveal" onclick="this.nextElementSibling.classList.toggle('show')">????</button><p class="ex-trans">${Courseware.escapeHtml(data.definition_cn||'')}</p>${data.example_en?`<div class="ex-box" style="margin-top:10px"><div class="ex-sent">${Courseware.escapeHtml(data.example_en)} <button class="btn-icon xs" onclick="Courseware.speakText('${(data.example_en||'').replace(/'/g,"\\'")}')">??</button></div><div class="ex-trans show">${Courseware.escapeHtml(data.example_cn||'')}</div></div>`:''}`;
+        popup.innerHTML = `<div style="display:flex;justify-content:space-between"><b style="font-size:1.2rem;color:var(--primary)">${Courseware.escapeHtml(data.word||word)}</b><button onclick="closeLookup()" style="border:none;background:none;cursor:pointer">✕</button></div>${data.phonetic?`<p style="color:var(--muted);font-size:0.85rem">${data.phonetic} ${data.pos||''}</p>`:''}<button class="btn-icon sm" onclick="Courseware.speakText('${word}')">🔊</button><p style="margin:8px 0;font-size:0.9rem">${Courseware.escapeHtml(data.definition_en||'')}</p><button class="cn-reveal" onclick="this.nextElementSibling.classList.toggle('show')">显示中文</button><p class="ex-trans">${Courseware.escapeHtml(data.definition_cn||'')}</p>${data.example_en?`<div class="ex-box" style="margin-top:10px"><div class="ex-sent">${Courseware.escapeHtml(data.example_en)} <button class="btn-icon xs" onclick="Courseware.speakText('${(data.example_en||'').replace(/'/g,"\\'")}')">🔊</button></div><div class="ex-trans show">${Courseware.escapeHtml(data.example_cn||'')}</div></div>`:''}`;
       } catch (e) {
-        popup.innerHTML = '<p>????</p><button onclick="closeLookup()">??</button>';
+        popup.innerHTML = '<p>查询失败</p><button onclick="closeLookup()">关闭</button>';
       }
     }
 
@@ -370,7 +370,7 @@
       if (Date.now() < lookupGuardUntil) return;
       if (!e.target.closest('#lookup-popup') && !e.target.closest('.word-token')) closeLookup();
     });
-    function toggleAnswer(btn) { btn.nextElementSibling.classList.toggle('show'); btn.textContent = btn.nextElementSibling.classList.contains('show') ? '????' : '????'; }
+    function toggleAnswer(btn) { btn.nextElementSibling.classList.toggle('show'); btn.textContent = btn.nextElementSibling.classList.contains('show') ? '隐藏答案' : '显示答案'; }
 
     function renderArticle(data) {
       courseData = data;
@@ -378,7 +378,7 @@
         <header class="article-masthead">
           <h1>${Courseware.escapeHtml(data.title_full)}</h1>
           <p class="article-lead" id="lead-text">${Courseware.escapeHtml(data.article_lead)}</p>
-          <p class="article-byline">${Courseware.escapeHtml(data.source)} ? Level ${data.level} ? ${data.word_count} words</p>
+          <p class="article-byline">${Courseware.escapeHtml(data.source)} · Level ${data.level} · ${data.word_count} words</p>
         </header>`;
 
       shownHeadings = new Set();
@@ -397,20 +397,20 @@
                 <div class="sentence-row">
                   <div class="sentence-text" ondblclick="onWordDblClick(event)">${Courseware.wrapWordsForLookup(s)}</div>
                   <div class="sentence-actions">
-                    <button type="button" class="sent-btn speak" title="??" onclick="Courseware.speakText('${s.replace(/'/g,"\\'")}')">??</button>
-                    <button type="button" class="sent-btn translate" title="??" onclick="translateSentence(this)">??</button>
-                    <button type="button" class="sent-btn analyze" title="????" onclick="analyzeSentenceBlock(this)">??</button>
+                    <button type="button" class="sent-btn speak" title="朗读" onclick="Courseware.speakText('${s.replace(/'/g,"\\'")}')">🔊</button>
+                    <button type="button" class="sent-btn translate" title="翻译" onclick="translateSentence(this)">🌐</button>
+                    <button type="button" class="sent-btn analyze" title="语言解析" onclick="analyzeSentenceBlock(this)">📖</button>
                   </div>
                 </div>
                 <div class="sentence-panel" hidden></div>
               </div>`).join('')}
           </div>
           <div class="socratic-box">
-            <h4>?? ?????????</h4>
+            <h4>🤔 苏格拉底式阅读理解</h4>
             ${p.socratic.map((q,i) => `
               <div class="soc-q">
                 <div class="q-text"><b>Q${i+1}.</b> ${Courseware.escapeHtml(q.q)}</div>
-                <button class="btn-show-ans" onclick="toggleAnswer(this)">????</button>
+                <button class="btn-show-ans" onclick="toggleAnswer(this)">显示答案</button>
                 <div class="answer">${Courseware.escapeHtml(q.a)}</div>
               </div>`).join('')}
           </div>
@@ -418,16 +418,16 @@
       }).join('');
 
       document.getElementById('quiz-section').innerHTML = `
-        <h2>?? ???? Quiz?PDF ???</h2>
+        <h2>📝 阅读理解 Quiz（PDF 原题）</h2>
         ${data.comprehension_questions.map((q, qi) => `
           <div class="quiz-item" data-answer="${q.answer}">
             <div class="q-title"><b>${qi+1}.</b> ${Courseware.escapeHtml(q.q)}</div>
             ${q.options.map((opt, oi) => `
               <button class="quiz-opt" onclick="pickQuiz(this, ${qi}, ${oi}, ${q.answer})">${String.fromCharCode(65+oi)}. ${Courseware.escapeHtml(opt)}</button>
             `).join('')}
-            <div class="quiz-analysis" id="qa-${qi}"><b>???</b>${Courseware.escapeHtml(q.analysis)}</div>
+            <div class="quiz-analysis" id="qa-${qi}"><b>解析：</b>${Courseware.escapeHtml(q.analysis)}</div>
           </div>`).join('')}
-        <button class="btn btn-primary" onclick="checkAllQuiz()">??????</button>`;
+        <button class="btn btn-primary" onclick="checkAllQuiz()">核对全部答案</button>`;
     }
 
     function pickQuiz(btn, qi, oi, correct) {

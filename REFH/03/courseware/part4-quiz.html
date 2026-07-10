@@ -100,11 +100,21 @@
     .analysis-box { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border); font-size: 0.88rem; color: var(--muted); }
     .analysis-box.show { display: block; }
     .ans-val { color: var(--g); font-weight: 700; }
-    .cloze-wrap { display: flex; gap: 16px; flex: 1; overflow: hidden; padding: 0 20px; }
-    .c-left { flex: 1.2; overflow-y: auto; background: #fff; padding: 16px; border-radius: 10px; line-height: 1.8; }
-    .c-right { flex: 0.8; overflow-y: auto; }
-    .cloze-slot { border-bottom: 2px solid #ccc; color: var(--a); font-weight: 700; padding: 0 4px; }
+    .cloze-wrap { display: flex; gap: 16px; flex: 1; overflow: hidden; padding: 0 20px; min-height: 0; }
+    .c-left {
+      flex: 1.2; overflow-y: auto; background: #fff; padding: 20px 24px;
+      border-radius: 10px; line-height: 2; font-size: 1.12rem;
+      -webkit-overflow-scrolling: touch;
+    }
+    .c-right {
+      flex: 0.8; overflow-y: auto; min-height: 0; padding-bottom: 96px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .cloze-slot { border-bottom: 2px solid #ccc; color: var(--a); font-weight: 700; padding: 0 4px; min-width: 2.5em; display: inline-block; }
     .cloze-slot.filled { border-color: var(--a); background: #eaf2f8; }
+    #page-6 { padding-bottom: 76px; }
+    #page-6 .c-left { font-size: 1.15rem; }
+    #page-6 .q-card:last-child { margin-bottom: 24px; }
     .quiz-wrap { flex: 1; position: relative; overflow: hidden; display: flex; flex-direction: column; }
     .result-header {
       text-align: center; padding: 30px 20px;
@@ -300,6 +310,28 @@
       await Courseware.openVocabPrintWindow(list, PDF_META);
     }
 
+    function shuffleArray(arr) {
+      const a = arr.slice();
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function scrambleLetters(letters, answer) {
+      let chars = String(letters || '').trim().split(/\s+/).filter(Boolean);
+      if (chars.length <= 1 && answer) chars = String(answer).split('');
+      if (chars.length <= 1) return letters;
+      const original = chars.join(' ').toLowerCase();
+      let shuffled = chars;
+      for (let i = 0; i < 20; i++) {
+        shuffled = shuffleArray(chars);
+        if (shuffled.join(' ').toLowerCase() !== original) break;
+      }
+      return shuffled.join(' ');
+    }
+
     function renderQuiz() {
       const q = courseData.quiz;
       document.getElementById('spelling-list').innerHTML = q.spelling.map(s =>
@@ -313,17 +345,23 @@
           <div class="analysis-box"><span class="ans-val">Answer: ${s.answer}</span> — ${s.hint_cn}</div>
         </div>`).join('');
 
-      document.getElementById('word-bank').innerHTML = q.word_selection.bank.map(w =>
-        `<span>${w}</span>`).join(' ');
-      document.getElementById('selection-list').innerHTML = q.word_selection.items.map(it =>
-        `<div class="q-card" data-ans="${it.answer}">
+      const selItems = q.word_selection.items;
+      const bankWords = shuffleArray(selItems.map(it => it.answer));
+      document.getElementById('word-bank').innerHTML = bankWords.map(w =>
+        `<span>${Courseware.escapeHtml(w)}</span>`).join(' ');
+      document.getElementById('selection-list').innerHTML = selItems.map(it => {
+        const altAttr = it.answer_alt?.length
+          ? ` data-ans-alt="${it.answer_alt.join('|')}"`
+          : '';
+        return `<div class="q-card" data-ans="${it.answer}"${altAttr}>
           <div>${it.sentence.replace('___', '<input type="text" class="inline-inp">')}</div>
-          <div class="analysis-box"><span class="ans-val">Answer: ${it.answer}</span><br>${Courseware.escapeHtml(it.analysis)}</div>
-        </div>`).join('');
+          <div class="analysis-box"><span class="ans-val">Answer: ${Courseware.escapeHtml(it.answer)}</span><br>${Courseware.escapeHtml(it.analysis)}</div>
+        </div>`;
+      }).join('');
 
       document.getElementById('unscramble-list').innerHTML = q.unscramble.map(u =>
         `<div class="q-card" data-ans="${u.answer}">
-          <div class="scram">${u.letters}</div>
+          <div class="scram">${scrambleLetters(u.letters, u.answer)}</div>
           <p style="font-size:0.82rem;color:var(--muted)">${u.hint}</p>
           <input type="text" class="block-inp" placeholder="Type answer...">
           <div class="analysis-box"><span class="ans-val">${u.answer}</span>: ${u.hint}</div>
@@ -346,13 +384,15 @@
         passage = passage.replace(`[${cq.num}]`, `<span id="slot-${cq.num}" class="cloze-slot">[${cq.num}]</span>`);
       });
       document.getElementById('cloze-passage').innerHTML = passage;
-      document.getElementById('cloze-questions').innerHTML = cloze.questions.map(cq =>
-        `<div class="q-card" data-ans="${cq.answer}">
+      document.getElementById('cloze-questions').innerHTML = cloze.questions.map(cq => {
+        const opts = shuffleArray(cq.options.slice());
+        return `<div class="q-card" data-ans="${cq.answer}">
           <b>${cq.num}</b>
-          <div class="opt-grp">${cq.options.map(o =>
-            `<div class="opt-btn" onclick="clozeSel(this,'${cq.num}','${o}')">${o}</div>`).join('')}</div>
-          <div class="analysis-box"><span class="ans-val">${cq.answer}</span><br>${Courseware.escapeHtml(cq.analysis)}</div>
-        </div>`).join('');
+          <div class="opt-grp">${opts.map(o =>
+            `<div class="opt-btn" onclick="clozeSel(this,'${cq.num}','${o.replace(/'/g, "\\'")}')">${Courseware.escapeHtml(o)}</div>`).join('')}</div>
+          <div class="analysis-box"><span class="ans-val">${Courseware.escapeHtml(cq.answer)}</span><br>${Courseware.escapeHtml(cq.analysis)}</div>
+        </div>`;
+      }).join('');
     }
 
     function clozeSel(el, n, w) {
@@ -370,6 +410,10 @@
           const v = inp.value.trim().toLowerCase().replace(/[.,]/g, '');
           const full = c.dataset.full;
           if (v && (v === ans || ans.includes(v))) corr = true;
+          if (!corr && c.dataset.ansAlt) {
+            const alts = c.dataset.ansAlt.split('|').map(s => s.trim().toLowerCase());
+            if (v && alts.includes(v)) corr = true;
+          }
           if (full && v && (full === (c.querySelector('.first-letter-hint')?.textContent || '') + v).toLowerCase()) corr = true;
         }
         const sel = c.querySelector('.opt-btn.selected');
