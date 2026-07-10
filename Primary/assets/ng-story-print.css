@@ -111,9 +111,10 @@ body.ng-story-print-body {
   gap: 1rem;
 }
 
-/* ── A4 页面 ── */
+/* ── A4 页面（所有预览、导出与打印统一为 210mm × 297mm）── */
 .story-print-sheet {
   width: 210mm;
+  height: 297mm;
   min-height: 297mm;
   margin: 0 auto;
   background: var(--paper);
@@ -142,6 +143,7 @@ body.ng-story-print-body {
 
 .story-print-inner {
   padding: 14mm 16mm 16mm 18mm;
+  height: 297mm;
   min-height: 297mm;
   display: flex;
   flex-direction: column;
@@ -393,13 +395,40 @@ body.ng-story-print-body {
 
   .story-print-sheet {
     width: calc(100vw - 1rem);
+    height: auto;
     min-height: auto;
   }
 
   .story-print-inner {
+    height: auto;
     min-height: auto;
     padding: 10mm 12mm;
   }
+}
+
+/* html2pdf 必须始终按真实 A4 尺寸采集，不能继承窄屏预览缩放。 */
+body.ng-story-print-body.is-exporting {
+  padding: 0;
+}
+
+body.ng-story-print-body.is-exporting #storyPrintArea {
+  width: 210mm;
+  max-width: none;
+  gap: 0;
+}
+
+body.ng-story-print-body.is-exporting .story-print-sheet {
+  width: 210mm !important;
+  height: 297mm !important;
+  min-height: 297mm !important;
+  margin: 0 !important;
+  transform: none !important;
+  box-shadow: none;
+}
+
+body.ng-story-print-body.is-exporting .story-print-inner {
+  height: 297mm !important;
+  min-height: 297mm !important;
 }
 
 @media print {
@@ -413,6 +442,7 @@ body.ng-story-print-body {
   }
 
   #storyPrintArea {
+    width: 210mm;
     max-width: none;
     gap: 0;
   }
@@ -420,12 +450,15 @@ body.ng-story-print-body {
   .story-print-sheet {
     box-shadow: none;
     margin: 0;
-    width: auto;
-    min-height: auto;
+    width: 210mm !important;
+    height: 297mm !important;
+    min-height: 297mm !important;
+    transform: none !important;
   }
 
   .story-print-inner {
-    min-height: auto;
+    height: 297mm !important;
+    min-height: 297mm !important;
   }
 }
 

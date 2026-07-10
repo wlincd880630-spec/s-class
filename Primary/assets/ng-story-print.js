@@ -5,6 +5,8 @@
 (function (global) {
   "use strict";
 
+  var A4_WIDTH_CSS_PX = Math.ceil((210 / 25.4) * 96);
+
   function esc(s) {
     return String(s)
       .replace(/&/g, "&amp;")
@@ -218,6 +220,7 @@
         btnPdf.disabled = true;
         btnPdf.textContent = "生成中…";
         render();
+        document.body.classList.add("is-exporting");
         loadPdfLibs()
           .then(function () { return preloadImages(area); })
           .then(function () {
@@ -237,7 +240,8 @@
                 letterRendering: true,
                 scrollX: 0,
                 scrollY: 0,
-                windowWidth: area.scrollWidth,
+                width: A4_WIDTH_CSS_PX,
+                windowWidth: A4_WIDTH_CSS_PX,
               },
               jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
               pagebreak: { mode: ["css", "legacy"], after: ".story-print-sheet" },
@@ -248,6 +252,7 @@
             alert("PDF 导出失败，请改用「打印 / 另存 PDF」。\n" + (err && err.message ? err.message : ""));
           })
           .finally(function () {
+            document.body.classList.remove("is-exporting");
             btnPdf.disabled = false;
             btnPdf.textContent = old;
           });
