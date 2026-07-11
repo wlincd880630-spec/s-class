@@ -193,7 +193,7 @@
         btn.disabled = true;
         btn.textContent = '正在启动...';
       }
-      if (status) status.textContent = '请点击「朗读」收听描述';
+      if (status) status.textContent = '请阅读句子并判断信息是否充分';
 
       reveal('p0-step-ready');
       reveal('p0-ready-line');
@@ -202,7 +202,7 @@
       var clueBtn = document.getElementById('p0-play-clue-btn');
       if (clueBtn) clueBtn.classList.remove('guide-hidden', 'hidden');
 
-      if (status) status.textContent = '请选择 YES / NO，或点击「朗读」';
+      if (status) status.textContent = '请选择 YES / NO';
       if (btn) {
         btn.disabled = false;
         btn.textContent = '已开始';
@@ -256,22 +256,24 @@
     dedupeVisibleReadButtons(page);
   }
 
+  function removeReadButtons(root) {
+    (root || document).querySelectorAll('.tts-btn, .sentence-play-btn').forEach(function (button) {
+      button.remove();
+    });
+  }
+
   function boot() {
     document.body.classList.add('l13rc-manual-tts');
     installSpeakGuard();
     wrapPlayFns();
     patchStartGuideSafe();
-    bindReadButtons();
-    injectReadButtonsInActivePage();
-    dedupeVisibleReadButtons();
+    removeReadButtons();
     renameStepButtons();
   }
 
   function onPageChange() {
     installSpeakGuard();
-    bindReadButtons();
-    injectReadButtonsInActivePage();
-    dedupeVisibleReadButtons();
+    removeReadButtons();
   }
 
   if (document.readyState === 'loading') {
@@ -312,12 +314,17 @@
       if (e.target.closest('[data-go-page], [onclick*="goToPage"]')) {
         setTimeout(onPageChange, 80);
       }
-      if (e.target.closest('.reveal-btn, .guide-launch, .tts-btn, .yesno-btn, .image-card')) {
-        setTimeout(function () {
-          dedupeVisibleReadButtons();
-        }, 100);
-      }
     },
     true
   );
+
+  new MutationObserver(function (records) {
+    records.forEach(function (record) {
+      record.addedNodes.forEach(function (node) {
+        if (!node || node.nodeType !== 1) return;
+        if (node.matches('.tts-btn, .sentence-play-btn')) node.remove();
+        else removeReadButtons(node);
+      });
+    });
+  }).observe(document.body, { childList: true, subtree: true });
 })();
