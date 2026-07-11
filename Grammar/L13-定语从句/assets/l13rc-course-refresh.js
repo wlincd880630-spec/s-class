@@ -11,7 +11,7 @@
   document.body.classList.add('l13rc-clarity-ui');
 
   var lessonPages = Array.prototype.slice
-    .call(app.querySelectorAll('.page[data-page]'))
+    .call(document.querySelectorAll('.page[data-page]'))
     .filter(function (page) {
       return page.getAttribute('data-page') !== 'welcome';
     });
@@ -30,7 +30,7 @@
   }
 
   function updateProgress() {
-    var active = app.querySelector('.page.active[data-page]');
+    var active = document.querySelector('.page.active[data-page]');
     if (!active || active.classList.contains('page-welcome')) {
       progress.hidden = true;
       return;
@@ -70,7 +70,7 @@
     }
   });
 
-  observer.observe(app, {
+  observer.observe(document.body, {
     subtree: true,
     attributes: true,
     attributeFilter: ['class'],
@@ -78,7 +78,7 @@
 
   document.addEventListener('keydown', function (event) {
     if (event.key !== 'r' || !event.altKey) return;
-    var active = app.querySelector('.page.active');
+    var active = document.querySelector('.page.active');
     var readButton = active && active.querySelector('.tts-btn:not(.l13rc-tts-duplicate)');
     if (readButton) {
       event.preventDefault();
