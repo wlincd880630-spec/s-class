@@ -39,6 +39,8 @@
 
   var READ_SVG =
     '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>';
+  var READ_BLOCK_SELECTOR =
+    '.sentence-block, .en-display, .build-line, .p5-demo-line, .picture-pick-copy > p';
 
   function installSpeakGuard() {
     if (window.__l13rcSpeakGuarded) return;
@@ -65,6 +67,43 @@
       if (p) return p.textContent.replace(/\s+/g, ' ').trim();
     }
     return '';
+  }
+
+  function normalizedReadText(btn) {
+    return getReadText(btn)
+      .replace(/\s+/g, ' ')
+      .trim()
+      .toLowerCase();
+  }
+
+  function isVisibleReadButton(btn) {
+    if (!btn || btn.hidden) return false;
+    if (btn.closest('[hidden], .guide-hidden, .hidden')) return false;
+    var style = window.getComputedStyle(btn);
+    return style.display !== 'none' && style.visibility !== 'hidden';
+  }
+
+  function dedupeVisibleReadButtons(root) {
+    var scope = root || document.querySelector('.page.active') || document;
+    scope.querySelectorAll('.tts-btn.l13rc-tts-duplicate').forEach(function (btn) {
+      btn.classList.remove('l13rc-tts-duplicate');
+      btn.removeAttribute('aria-hidden');
+      btn.removeAttribute('tabindex');
+    });
+
+    var seen = Object.create(null);
+    scope.querySelectorAll('.tts-btn').forEach(function (btn) {
+      if (!isVisibleReadButton(btn)) return;
+      var text = normalizedReadText(btn);
+      if (!text) return;
+      if (!seen[text]) {
+        seen[text] = btn;
+        return;
+      }
+      btn.classList.add('l13rc-tts-duplicate');
+      btn.setAttribute('aria-hidden', 'true');
+      btn.setAttribute('tabindex', '-1');
+    });
   }
 
   function resetPlaying(btn) {
@@ -187,10 +226,10 @@
   function injectReadButtonsInActivePage() {
     var page = document.querySelector('.page.active');
     if (!page) return;
-    var blocks = page.querySelectorAll(
-      '.sentence-block, .en-display, .build-line, .p5-demo-line, .picture-pick-copy > p'
-    );
+    var blocks = page.querySelectorAll(READ_BLOCK_SELECTOR);
     blocks.forEach(function (block) {
+      var parentBlock = block.parentElement && block.parentElement.closest(READ_BLOCK_SELECTOR);
+      if (parentBlock && page.contains(parentBlock)) return;
       if (block.querySelector('.tts-btn')) return;
       var text = '';
       var target = block.querySelector('.tts-target');
@@ -214,6 +253,7 @@
       block.appendChild(btn);
       bindReadButtons(block);
     });
+    dedupeVisibleReadButtons(page);
   }
 
   function boot() {
@@ -223,6 +263,7 @@
     patchStartGuideSafe();
     bindReadButtons();
     injectReadButtonsInActivePage();
+    dedupeVisibleReadButtons();
     renameStepButtons();
   }
 
@@ -230,6 +271,7 @@
     installSpeakGuard();
     bindReadButtons();
     injectReadButtonsInActivePage();
+    dedupeVisibleReadButtons();
   }
 
   if (document.readyState === 'loading') {
@@ -269,6 +311,11 @@
     function (e) {
       if (e.target.closest('[data-go-page], [onclick*="goToPage"]')) {
         setTimeout(onPageChange, 80);
+      }
+      if (e.target.closest('.reveal-btn, .guide-launch, .tts-btn, .yesno-btn, .image-card')) {
+        setTimeout(function () {
+          dedupeVisibleReadButtons();
+        }, 100);
       }
     },
     true
