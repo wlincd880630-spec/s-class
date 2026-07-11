@@ -143,9 +143,13 @@
 
     var minScale = getMinScale(stage);
     var fitScale = Math.min(1, box.h / contentH, box.w / contentW);
+    var preserveMergeLesson =
+      target.matches &&
+      target.matches('.page') &&
+      target.querySelector('.p5-two-col');
 
-    /* 桌面与投影优先保留课堂字号；内容较多时使用区内滚动，不再缩成小字。 */
-    if (viewportSize().w >= 900 && fitScale < 0.995) {
+    /* 合并句教学及桌面投影优先保留课堂字号；内容较多时改用区内滚动。 */
+    if ((preserveMergeLesson || viewportSize().w >= 900) && fitScale < 0.995) {
       target.classList.add('l13rc-fit-no-scale');
       markScrollRegions(stage, true);
       return;
