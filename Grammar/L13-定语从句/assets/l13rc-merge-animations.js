@@ -1,6 +1,7 @@
 /**
  * L13 句子融合 · 统一动态展示
- * 普通定语从句走七步合并；介词+which 课件额外展示“错误 which 形式 → 介词前移”。
+ * 普通定语从句走七步合并；宾语关系代词额外展示“宾语位替换 → 关系词前移”；
+ * 介词+which 课件额外展示“错误 which 形式 → 介词前移”。
  */
 (function (global) {
   'use strict';
@@ -40,6 +41,10 @@
         final: 'The girl who is sitting on the bench is my sister.',
       },
       '7': {
+        mode: 'object',
+        relationToken: 'whom',
+        awkward: 'The student the teacher likes whom very much is feeling sick.',
+        revealOnComplete: ['p8-final'],
         main: 'The student is feeling sick.',
         support: 'The teacher likes him very much.',
         commonA: 'The student',
@@ -53,6 +58,9 @@
         final: 'The student whom the teacher likes very much is feeling sick.',
       },
       '8': {
+        mode: 'object',
+        relationToken: 'whom',
+        awkward: 'The teacher we met whom yesterday is very experienced.',
         main: 'The teacher is very experienced.',
         support: 'We met the teacher yesterday.',
         commonA: 'The teacher',
@@ -94,6 +102,11 @@
         final: 'The building which stands at the corner is a hotel.',
       },
       '7': {
+        mode: 'object',
+        relationToken: 'which',
+        awkward:
+          'The Martian I highly recommend which to everyone is an exciting sci-fi movie.',
+        revealOnComplete: ['p8-step8-answer'],
         main: 'The Martian is an exciting sci-fi movie.',
         support: 'I highly recommend it to everyone.',
         commonA: 'The Martian',
@@ -107,6 +120,11 @@
         final: 'The Martian which I highly recommend to everyone is an exciting sci-fi movie.',
       },
       '8': {
+        mode: 'object',
+        relationToken: 'which',
+        awkward:
+          'The social media application my deskmate recommended which is really helpful for making friends.',
+        revealOnComplete: ['p9-result-sentence'],
         main: 'The social media application is really helpful for making friends.',
         support: 'My deskmate recommended it.',
         commonA: 'The social media application',
@@ -224,6 +242,16 @@
     '删除重复的人或物',
     '用关系词替换并紧挨先行词',
   ];
+  var objectStepLabels = [
+    '找共同名词（先行词）',
+    '确定主句与补充信息',
+    '主句写到先行词为止',
+    '把补充句放到先行词后',
+    '补全主句剩余内容',
+    '删除重复的人或物',
+    '用关系代词替换重复项',
+    '关系词移到先行词之后',
+  ];
   var prepStepLabels = [
     '找共同名词（先行词）',
     '确定主句与补充信息',
@@ -278,14 +306,32 @@
     return mark(config.final, phrase, 'is-relation', false);
   }
 
+  function relationToken(config) {
+    return config.relationToken || config.relation.split(' / ')[0];
+  }
+
+  function markAwkwardObject(config) {
+    return mark(config.awkward, relationToken(config), 'is-relation-wrong', false);
+  }
+
+  function markObjectFinal(config) {
+    return mark(config.final, relationToken(config), 'is-relation', false);
+  }
+
   function stepPlan(config) {
-    if (!config || config.mode !== 'prep') {
+    if (!config) {
       return { labels: standardStepLabels, count: standardStepLabels.length };
     }
-    if (config.pageStyle === 'qa') {
+    if (config.mode === 'object') {
+      return { labels: objectStepLabels, count: objectStepLabels.length };
+    }
+    if (config.mode === 'prep' && config.pageStyle === 'qa') {
       return { labels: prepQaLabels, count: prepQaLabels.length };
     }
-    return { labels: prepStepLabels, count: prepStepLabels.length };
+    if (config.mode === 'prep') {
+      return { labels: prepStepLabels, count: prepStepLabels.length };
+    }
+    return { labels: standardStepLabels, count: standardStepLabels.length };
   }
 
   function ensureStage(page, config) {
@@ -379,6 +425,29 @@
     );
   }
 
+  function stageBodyObject(config, index) {
+    if (index < 0) {
+      return '<p class="l13rc-merge-placeholder">点击“显示下一步”，逐步完成句子融合。</p>';
+    }
+    if (index <= 5) return stageBodyStandard(config, index);
+    if (index === 6) {
+      return (
+        '<p class="l13rc-merge-build">' +
+        markAwkwardObject(config) +
+        '</p><p class="l13rc-merge-note is-warning">' +
+        esc(relationToken(config)) +
+        ' 已填入从句宾语位，但定语从句要求关系词紧跟先行词。</p>'
+      );
+    }
+    return (
+      '<p class="l13rc-merge-build is-final">' +
+      markObjectFinal(config) +
+      '</p><p class="l13rc-merge-note is-success">融合完成：' +
+      esc(relationToken(config)) +
+      ' 前移到先行词之后，从句结构才正确。</p>'
+    );
+  }
+
   function stageBodyPrepSteps(config, index) {
     if (index < 0) {
       return '<p class="l13rc-merge-placeholder">点击“显示下一步”，逐步完成句子融合。</p>';
@@ -453,6 +522,9 @@
   }
 
   function stageBody(config, index) {
+    if (config.mode === 'object') {
+      return stageBodyObject(config, index);
+    }
     if (config.mode === 'prep' && config.pageStyle === 'qa') {
       return stageBodyPrepQa(config, index);
     }
@@ -528,6 +600,13 @@
       revealNode(steps[index]);
       steps[index].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
     }
+    if (config.mode === 'object' && index >= stepPlan(config).count - 1 && config.revealOnComplete) {
+      config.revealOnComplete.forEach(function (id) {
+        var extra = document.getElementById(id);
+        revealNode(extra);
+        if (extra && extra.style) extra.style.display = 'block';
+      });
+    }
   }
 
   function resetRightPanel(page, config) {
@@ -551,6 +630,11 @@
     page.querySelectorAll('.p5-right .step-item').forEach(function (step) {
       hideNode(step);
     });
+    if (config.mode === 'object' && config.revealOnComplete) {
+      config.revealOnComplete.forEach(function (id) {
+        hideNode(document.getElementById(id));
+      });
+    }
   }
 
   function configFor(page) {
