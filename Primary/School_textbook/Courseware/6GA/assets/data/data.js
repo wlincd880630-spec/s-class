@@ -3109,7 +3109,7 @@ const TEXTBOOK_DATA = {
               "letter": "ng"
             }
           ],
-          "image": "https://picsum.photos/seed/wing/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit4/wing/wing_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": []
         },
         {
@@ -3252,7 +3252,7 @@ const TEXTBOOK_DATA = {
               "letter": "m"
             }
           ],
-          "image": "https://picsum.photos/seed/drum/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit4/drum/drum_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": []
         }
       ]
@@ -3732,7 +3732,7 @@ const TEXTBOOK_DATA = {
               "letter": "p"
             }
           ],
-          "image": "https://picsum.photos/seed/tip/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit5/tip/tip_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": []
         },
         {
