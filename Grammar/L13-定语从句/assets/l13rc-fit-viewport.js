@@ -144,6 +144,13 @@
     var minScale = getMinScale(stage);
     var fitScale = Math.min(1, box.h / contentH, box.w / contentW);
 
+    /* 桌面与投影优先保留课堂字号；内容较多时使用区内滚动，不再缩成小字。 */
+    if (viewportSize().w >= 900 && fitScale < 0.995) {
+      target.classList.add('l13rc-fit-no-scale');
+      markScrollRegions(stage, true);
+      return;
+    }
+
     /* 缩放过小仍放不下 → 保持原字号，区内滚动 */
     if (fitScale < minScale + 0.02) {
       target.classList.add('l13rc-fit-no-scale');
@@ -163,6 +170,7 @@
 
   function fitAll() {
     if (isHandout) return;
+    if (document.body.classList.contains('g-index-scaled')) return;
     if (document.body.classList.contains('l13rc-practice-printing')) return;
     if (lastTarget) clearFit(lastTarget);
     lastTarget = null;
