@@ -10,6 +10,38 @@
 
   document.body.classList.add('l13rc-clarity-ui');
 
+  app.addEventListener('click', function (event) {
+    var button = event.target.closest && event.target.closest('.page-actions button');
+    if (!button) return;
+    var active = button.closest('.page[data-page]');
+    var stagedBefore = active
+      ? Array.prototype.slice.call(active.querySelectorAll('.step-item:not(.guide-hidden), .p5-right .question-box:not(.guide-hidden)'))
+      : [];
+    queueMicrotask(function () {
+      var stagedAfter = active
+        ? Array.prototype.slice.call(active.querySelectorAll('.step-item:not(.guide-hidden), .p5-right .question-box:not(.guide-hidden)'))
+        : [];
+      var newStage = stagedAfter.find(function (item) {
+        return stagedBefore.indexOf(item) < 0;
+      });
+      var hiddenAction = newStage && newStage.querySelector('.reveal-btn');
+      if (!hiddenAction) return;
+
+      var originalUnlockAudio = window.unlockAudio;
+      var originalSpeak = window.speak;
+      window.unlockAudio = function () { return Promise.resolve(); };
+      window.speak = function () { return Promise.resolve(); };
+      try {
+        hiddenAction.click();
+      } finally {
+        queueMicrotask(function () {
+          window.unlockAudio = originalUnlockAudio;
+          window.speak = originalSpeak;
+        });
+      }
+    });
+  }, true);
+
   var lessonPages = Array.prototype.slice
     .call(document.querySelectorAll('.page[data-page]'))
     .filter(function (page) {
@@ -21,6 +53,12 @@
   progress.setAttribute('aria-live', 'polite');
   progress.hidden = true;
   app.appendChild(progress);
+
+  var homeLink = document.createElement('a');
+  homeLink.className = 'l13rc-course-home';
+  homeLink.href = 'index.html';
+  homeLink.textContent = '课程目录';
+  app.appendChild(homeLink);
 
   function pageLabel(index) {
     var ratio = lessonPages.length ? index / lessonPages.length : 0;
