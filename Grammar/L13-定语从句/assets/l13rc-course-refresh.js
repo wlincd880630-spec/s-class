@@ -14,6 +14,14 @@
     var button = event.target.closest && event.target.closest('.page-actions button');
     if (!button) return;
     var active = button.closest('.page[data-page]');
+    if (
+      window.L13RCMergeAnimations &&
+      window.L13RCMergeAnimations.handleFooterClick(button, active)
+    ) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      return;
+    }
     var stagedBefore = active
       ? Array.prototype.slice.call(active.querySelectorAll('.step-item:not(.guide-hidden), .p5-right .question-box:not(.guide-hidden)'))
       : [];
@@ -112,16 +120,6 @@
     subtree: true,
     attributes: true,
     attributeFilter: ['class'],
-  });
-
-  document.addEventListener('keydown', function (event) {
-    if (event.key !== 'r' || !event.altKey) return;
-    var active = document.querySelector('.page.active');
-    var readButton = active && active.querySelector('.tts-btn:not(.l13rc-tts-duplicate)');
-    if (readButton) {
-      event.preventDefault();
-      readButton.click();
-    }
   });
 
   updateProgress();

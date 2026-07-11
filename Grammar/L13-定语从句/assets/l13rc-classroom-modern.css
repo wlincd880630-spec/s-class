@@ -1345,6 +1345,12 @@ body.has-lesson-pager > #app {
    以“内容先于装饰、一步一个主操作”为原则统一课件、练习、测验与讲义。
    ========================================================================== */
 @media screen {
+  /* 本讲取消所有可见朗读/发音入口，避免按钮干扰教学主线。 */
+  body.l13rc-no-scroll :is(.tts-btn, .sentence-play-btn, .tts-chip),
+  body.grammar-handout-page :is(.tts-btn, .tts-chip) {
+    display: none !important;
+  }
+
   body.l13rc-no-scroll {
     --l13rc-clean-bg: #f3f6fa;
     --l13rc-clean-surface: #ffffff;
@@ -1792,6 +1798,219 @@ body.has-lesson-pager > #app {
     background: #fff !important;
     box-shadow: none !important;
   }
+
+  /* —— 统一七步句子融合动态画布 —— */
+  body.l13rc-demo-screen .l13rc-legacy-merge-hidden {
+    display: none !important;
+  }
+
+  body.l13rc-demo-screen .l13rc-merge-stage {
+    overflow: hidden;
+    margin-top: 0.85rem;
+    border: 1px solid #dbe3ee;
+    border-radius: 14px;
+    background: #fff;
+  }
+
+  body.l13rc-demo-screen .l13rc-merge-stage > header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.72rem 0.85rem;
+    border-bottom: 1px solid #e2e8f0;
+    background: #f8fafc;
+  }
+
+  body.l13rc-demo-screen .l13rc-merge-stage > header span,
+  body.l13rc-demo-screen .l13rc-merge-stage > header strong {
+    display: block;
+  }
+
+  body.l13rc-demo-screen .l13rc-merge-stage > header > div:first-child > span {
+    margin-bottom: 0.15rem;
+    color: #2563eb;
+    font-size: 0.66rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+  }
+
+  body.l13rc-demo-screen .l13rc-merge-stage > header strong {
+    color: #172033;
+    font-size: 0.9rem;
+  }
+
+  body.l13rc-demo-screen .l13rc-merge-dots {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  body.l13rc-demo-screen .l13rc-merge-dots span {
+    width: 22px;
+    height: 22px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #e2e8f0;
+    color: #64748b;
+    font-size: 0.62rem;
+    font-weight: 900;
+  }
+
+  body.l13rc-demo-screen .l13rc-merge-dots span.is-done {
+    background: #dbeafe;
+    color: #1d4ed8;
+  }
+
+  body.l13rc-demo-screen .l13rc-merge-dots span.is-active {
+    background: #2563eb;
+    color: #fff;
+    box-shadow: 0 0 0 4px #dbeafe;
+  }
+
+  body.l13rc-demo-screen .l13rc-merge-canvas {
+    min-height: 9rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(16px, 2vw, 28px);
+  }
+
+  body.l13rc-demo-screen .l13rc-merge-pair {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  body.l13rc-demo-screen .l13rc-merge-pair p,
+  body.l13rc-demo-screen .l13rc-merge-role p,
+  body.l13rc-demo-screen .l13rc-merge-build {
+    margin: 0;
+    color: #172033;
+    font-size: clamp(1.15rem, 1.25vw, 1.65rem);
+    font-weight: 780;
+    line-height: 1.55;
+  }
+
+  body.l13rc-demo-screen .l13rc-merge-pair b {
+    display: inline-grid;
+    place-items: center;
+    width: 1.55rem;
+    height: 1.55rem;
+    margin-right: 0.38rem;
+    border-radius: 50%;
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-size: 0.72rem;
+  }
+
+  body.l13rc-demo-screen .l13rc-merge-role {
+    display: grid;
+    grid-template-columns: 4rem 1fr;
+    gap: 0.7rem;
+    align-items: center;
+    padding: 0.55rem 0;
+  }
+
+  body.l13rc-demo-screen .l13rc-merge-role + .l13rc-merge-role {
+    border-top: 1px solid #edf1f6;
+  }
+
+  body.l13rc-demo-screen .l13rc-merge-role > span {
+    padding: 0.3rem 0.45rem;
+    border-radius: 8px;
+    background: #dbeafe;
+    color: #1d4ed8;
+    font-size: 0.74rem;
+    font-weight: 900;
+    text-align: center;
+  }
+
+  body.l13rc-demo-screen .l13rc-merge-role.is-support > span {
+    background: #ede9fe;
+    color: #6d28d9;
+  }
+
+  body.l13rc-demo-screen :is(.is-common, .is-antecedent) {
+    padding: 0.06em 0.2em;
+    border-radius: 5px;
+    background: #fef3c7;
+    color: #92400e;
+  }
+
+  body.l13rc-demo-screen .is-inserted {
+    padding: 0.06em 0.2em;
+    border-radius: 5px;
+    background: #ede9fe;
+    color: #6d28d9;
+  }
+
+  body.l13rc-demo-screen .is-duplicate {
+    padding: 0.06em 0.2em;
+    border: 2px solid #fca5a5;
+    border-radius: 5px;
+    color: #b91c1c;
+  }
+
+  body.l13rc-demo-screen .is-deleted {
+    position: relative;
+    padding: 0.06em 0.2em;
+    border-radius: 5px;
+    background: #fee2e2;
+    color: #b91c1c;
+    text-decoration: line-through 3px;
+  }
+
+  body.l13rc-demo-screen .is-deleted::after {
+    content: "×";
+    position: absolute;
+    top: -0.9em;
+    right: -0.55em;
+    width: 1.15em;
+    height: 1.15em;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #dc2626;
+    color: #fff;
+    font-size: 0.72em;
+    line-height: 1;
+  }
+
+  body.l13rc-demo-screen .is-relation {
+    padding: 0.06em 0.24em;
+    border-radius: 5px;
+    background: #dcfce7;
+    color: #047857;
+  }
+
+  body.l13rc-demo-screen .l13rc-merge-build.is-final {
+    color: #065f46;
+    font-size: clamp(1.28rem, 1.45vw, 1.85rem);
+  }
+
+  body.l13rc-demo-screen .l13rc-merge-note {
+    margin: 0.65rem 0 0;
+    color: #64748b;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  body.l13rc-demo-screen .l13rc-merge-note.is-warning {
+    color: #b45309;
+  }
+
+  body.l13rc-demo-screen .l13rc-merge-note.is-success {
+    color: #047857;
+  }
+
+  body.l13rc-demo-screen .l13rc-merge-stage.is-updating .l13rc-merge-canvas {
+    animation: l13rcMergeStageIn 0.3s ease;
+  }
+
+  @keyframes l13rcMergeStageIn {
+    from { opacity: 0.35; transform: translateY(6px); }
+    to { opacity: 1; transform: none; }
+  }
 }
 
 @media screen and (max-width: 899px) {
@@ -1824,6 +2043,27 @@ body.has-lesson-pager > #app {
     grid-column: 1 / -1;
     min-height: 26px;
     padding: 0.15rem 0.4rem;
+  }
+
+  body.l13rc-demo-screen .l13rc-merge-stage > header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  body.l13rc-demo-screen .l13rc-merge-dots span {
+    width: 19px;
+    height: 19px;
+  }
+
+  body.l13rc-demo-screen .l13rc-merge-canvas {
+    min-height: 7rem;
+    padding: 14px;
+  }
+
+  body.l13rc-demo-screen .l13rc-merge-pair p,
+  body.l13rc-demo-screen .l13rc-merge-role p,
+  body.l13rc-demo-screen .l13rc-merge-build {
+    font-size: clamp(1rem, 4.2vw, 1.25rem);
   }
 }
 
