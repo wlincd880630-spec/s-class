@@ -21,6 +21,7 @@
         antecedent: 'The man',
         relation: 'who',
         lead: 'The man ...',
+        embedded: 'The man the man is waiting at the gate ...',
         raw: 'The man the man is waiting at the gate is my father.',
         duplicate: 'the man',
         final: 'The man who is waiting at the gate is my father.',
@@ -33,6 +34,7 @@
         antecedent: 'The girl',
         relation: 'who',
         lead: 'The girl ...',
+        embedded: 'The girl the girl is sitting on the bench ...',
         raw: 'The girl the girl is sitting on the bench is my sister.',
         duplicate: 'the girl',
         final: 'The girl who is sitting on the bench is my sister.',
@@ -45,6 +47,7 @@
         antecedent: 'The student',
         relation: 'whom',
         lead: 'The student ...',
+        embedded: 'The student the teacher likes the student very much ...',
         raw: 'The student the teacher likes the student very much is feeling sick.',
         duplicate: 'the student',
         final: 'The student whom the teacher likes very much is feeling sick.',
@@ -57,6 +60,7 @@
         antecedent: 'The teacher',
         relation: 'whom',
         lead: 'The teacher ...',
+        embedded: 'The teacher we met the teacher yesterday ...',
         raw: 'The teacher we met the teacher yesterday is very experienced.',
         duplicate: 'the teacher',
         final: 'The teacher whom we met yesterday is very experienced.',
@@ -71,6 +75,7 @@
         antecedent: 'The movie',
         relation: 'which',
         lead: 'The movie ...',
+        embedded: 'The movie the movie is popular ...',
         raw: 'The movie the movie is popular is about a hero.',
         duplicate: 'the movie',
         final: 'The movie which is popular is about a hero.',
@@ -83,6 +88,7 @@
         antecedent: 'The building',
         relation: 'which / that',
         lead: 'The building ...',
+        embedded: 'The building the building stands at the corner ...',
         raw: 'The building the building stands at the corner is a hotel.',
         duplicate: 'the building',
         final: 'The building which stands at the corner is a hotel.',
@@ -95,6 +101,7 @@
         antecedent: 'The Martian',
         relation: 'which / that',
         lead: 'The Martian ...',
+        embedded: 'The Martian I highly recommend The Martian to everyone ...',
         raw: 'The Martian I highly recommend The Martian to everyone is an exciting sci-fi movie.',
         duplicate: 'The Martian',
         final: 'The Martian which I highly recommend to everyone is an exciting sci-fi movie.',
@@ -107,6 +114,7 @@
         antecedent: 'The social media application',
         relation: 'which / that',
         lead: 'The social media application ...',
+        embedded: 'The social media application my deskmate recommended the social media application ...',
         raw: 'The social media application my deskmate recommended the social media application is really helpful for making friends.',
         duplicate: 'the social media application',
         final: 'The social media application which my deskmate recommended is really helpful for making friends.',
@@ -121,6 +129,7 @@
         antecedent: 'the day',
         relation: 'on which / when',
         lead: 'I will never forget the day ...',
+        embedded: 'I will never forget the day I gave a speech in front of the whole school on that day ...',
         raw: 'I will never forget the day I gave a speech in front of the whole school on that day.',
         duplicate: 'that day',
         final: 'I will never forget the day on which I gave a speech in front of the whole school.',
@@ -133,6 +142,7 @@
         antecedent: 'a golden period',
         relation: 'during which',
         lead: 'High school is a golden period ...',
+        embedded: 'High school is a golden period we grow rapidly both physically and mentally during this period ...',
         raw: 'High school is a golden period we grow rapidly both physically and mentally during this period.',
         duplicate: 'this period',
         final: 'High school is a golden period during which we grow rapidly both physically and mentally.',
@@ -145,6 +155,7 @@
         antecedent: 'a quiet space',
         relation: 'in which / where',
         lead: 'The school library is a quiet space ...',
+        embedded: 'The school library is a quiet space we can fully focus on our exam preparation in this space ...',
         raw: 'The school library is a quiet space we can fully focus on our exam preparation in this space.',
         duplicate: 'this space',
         final: 'The school library is a quiet space in which we can fully focus on our exam preparation.',
@@ -157,6 +168,7 @@
         antecedent: 'an excellent platform',
         relation: 'on which / where',
         lead: 'Our school has provided us with an excellent platform ...',
+        embedded: 'Our school has provided us with an excellent platform we can show our hidden talents on this platform ...',
         raw: 'Our school has provided us with an excellent platform we can show our hidden talents on this platform.',
         duplicate: 'this platform',
         final: 'Our school has provided us with an excellent platform on which we can show our hidden talents.',
@@ -227,24 +239,27 @@
     return stage;
   }
 
+  function originalPair(config, index) {
+    var main =
+      index >= 0 ? mark(config.main, config.commonA, 'is-common', false) : esc(config.main);
+    var support =
+      index >= 0 ? mark(config.support, config.commonB, 'is-common', false) : esc(config.support);
+    return (
+      '<section class="l13rc-merge-originals"><span>原始两句话 · 全程保留</span>' +
+      '<div class="l13rc-merge-pair"><p><b>1</b> ' +
+      main +
+      '</p><p><b>2</b> ' +
+      support +
+      '</p></div></section>'
+    );
+  }
+
   function stageBody(config, index) {
     if (index < 0) {
-      return (
-        '<div class="l13rc-merge-pair"><p><b>1</b> ' +
-        esc(config.main) +
-        '</p><p><b>2</b> ' +
-        esc(config.support) +
-        '</p></div>'
-      );
+      return '<p class="l13rc-merge-placeholder">点击“显示下一步”，逐步完成句子融合。</p>';
     }
     if (index === 0) {
-      return (
-        '<div class="l13rc-merge-pair"><p><b>1</b> ' +
-        mark(config.main, config.commonA, 'is-common', false) +
-        '</p><p><b>2</b> ' +
-        mark(config.support, config.commonB, 'is-common', false) +
-        '</p></div><p class="l13rc-merge-note">两处指向同一个先行词。</p>'
-      );
+      return '<p class="l13rc-merge-note">高亮部分指向同一个人或物，它就是先行词。</p>';
     }
     if (index === 1) {
       return (
@@ -261,12 +276,16 @@
     if (index === 3) {
       return (
         '<p class="l13rc-merge-build">' +
-        mark(config.raw, config.duplicate, 'is-inserted', true) +
-        '</p><p class="l13rc-merge-note">先把补充信息完整放到先行词后。</p>'
+        mark(config.embedded, config.duplicate, 'is-inserted', true) +
+        '</p><p class="l13rc-merge-note">这里只嵌入补充句，主句后半段暂时不写。</p>'
       );
     }
     if (index === 4) {
-      return '<p class="l13rc-merge-build">' + mark(config.raw, config.duplicate, 'is-duplicate', true) + '</p>';
+      return (
+        '<p class="l13rc-merge-build">' +
+        mark(config.raw, config.duplicate, 'is-duplicate', true) +
+        '</p><p class="l13rc-merge-note">现在补上主句剩余内容，主句才完整。</p>'
+      );
     }
     if (index === 5) {
       return (
@@ -298,8 +317,10 @@
       '</strong></div><div class="l13rc-merge-dots" aria-hidden="true">' +
       dots +
       '</div></header><div class="l13rc-merge-canvas">' +
+      originalPair(config, safeIndex) +
+      '<section class="l13rc-merge-process"><span>当前融合过程</span>' +
       stageBody(config, safeIndex) +
-      '</div>';
+      '</section></div>';
     stage.classList.remove('is-updating');
     void stage.offsetWidth;
     stage.classList.add('is-updating');
