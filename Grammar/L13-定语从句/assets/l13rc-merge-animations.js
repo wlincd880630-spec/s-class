@@ -296,9 +296,46 @@
     );
   }
 
+  function markMultiple(text, specs) {
+    var source = String(text);
+    var matches = [];
+    specs.forEach(function (spec) {
+      var needle = String(spec.token);
+      var haystack = source.toLowerCase();
+      var target = needle.toLowerCase();
+      var index = spec.last ? haystack.lastIndexOf(target) : haystack.indexOf(target);
+      if (index < 0) return;
+      matches.push({ index: index, length: needle.length, className: spec.className });
+    });
+    matches.sort(function (a, b) {
+      return a.index - b.index;
+    });
+    var result = '';
+    var cursor = 0;
+    matches.forEach(function (match) {
+      if (match.index < cursor) return;
+      result += esc(source.slice(cursor, match.index));
+      result +=
+        '<span class="' +
+        match.className +
+        '">' +
+        esc(source.slice(match.index, match.index + match.length)) +
+        '</span>';
+      cursor = match.index + match.length;
+    });
+    result += esc(source.slice(cursor));
+    return result;
+  }
+
   function markAwkward(config) {
-    var text = mark(config.awkward, 'which', 'is-relation', false);
-    return mark(text, config.prep, 'is-prep-split', true);
+    return markMultiple(config.awkward, [
+      { token: 'which', className: 'is-relation', last: false },
+      { token: config.prep, className: 'is-prep-split', last: true },
+    ]);
+  }
+
+  function markAwkwardWhich(config) {
+    return mark(config.awkward, 'which', 'is-relation', false);
   }
 
   function markPrepFinal(config) {
@@ -490,7 +527,7 @@
     if (index === 2) {
       return (
         '<p class="l13rc-merge-build">' +
-        markAwkward(config) +
+        markAwkwardWhich(config) +
         '</p><p class="l13rc-merge-note">先按普通 which 合并，得到带 which 的句子。</p>'
       );
     }
