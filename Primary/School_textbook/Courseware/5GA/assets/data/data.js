@@ -260,7 +260,7 @@ const TEXTBOOK_DATA = {
         },
         {
           "id": "w7",
-          "word": "cola",
+          "word": "Cola",
           "chinese": "可乐",
           "phonemes": [
             {
@@ -418,7 +418,7 @@ const TEXTBOOK_DATA = {
           "id": "w11",
           "word": "choose",
           "chinese": "挑选，选择",
-                    "phonemes": [
+          "phonemes": [
             {
               "symbol": "/tʃ/",
               "letter": "ch"
@@ -481,6 +481,27 @@ const TEXTBOOK_DATA = {
               "image": "https://picsum.photos/seed/meat-context2/500/300"
             }
           ]
+        },
+        {
+          "id": "w115",
+          "word": "roll",
+          "chinese": "面包卷",
+          "phonemes": [
+            {
+              "symbol": "/r/",
+              "letter": "r"
+            },
+            {
+              "symbol": "/əʊ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "ll"
+            }
+          ],
+          "image": "https://picsum.photos/seed/roll/400/300",
+          "sentences": []
         },
         {
           "id": "w13",
@@ -606,7 +627,7 @@ const TEXTBOOK_DATA = {
         },
         {
           "id": "w16",
-          "word": "that’s enough",
+          "word": "That's enough",
           "chinese": "够了",
           "phonemes": [
             {
@@ -623,7 +644,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/z/",
-              "letter": "’s"
+              "letter": "'s"
             },
             {
               "symbol": "—",
@@ -898,7 +919,7 @@ const TEXTBOOK_DATA = {
           "id": "w23",
           "word": "always",
           "chinese": "总是，一直",
-                              "phonemes": [
+          "phonemes": [
             {
               "symbol": "/ɔː/",
               "letter": "al"
@@ -1081,36 +1102,6 @@ const TEXTBOOK_DATA = {
               "zh": "骑自行车时请慢下来。",
               "source": "context2",
               "image": "https://picsum.photos/seed/slow-context2/500/300"
-            }
-          ]
-        },
-        {
-          "id": "w28",
-          "word": "whoa",
-          "chinese": "冷静，慢些",
-          "phonemes": [
-            {
-              "symbol": "/w/",
-              "letter": "wh"
-            },
-            {
-              "symbol": "/əʊ/",
-              "letter": "oa"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/whoa/whoa_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Whoa! That roller coaster is so fast!",
-              "zh": "哇！那个过山车好快！",
-              "source": "context",
-              "image": "https://picsum.photos/seed/whoa-context/500/300"
-            },
-            {
-              "en": "Whoa, slow down and tell me the story again.",
-              "zh": "慢点，再跟我讲一遍这个故事。",
-              "source": "context2",
-              "image": "https://picsum.photos/seed/whoa-context2/500/300"
             }
           ]
         },
@@ -1567,7 +1558,7 @@ const TEXTBOOK_DATA = {
         },
         {
           "id": "w41",
-          "word": "Yours",
+          "word": "yours",
           "chinese": "（用于书信结尾）你真挚的",
           "phonemes": [
             {
@@ -1821,21 +1812,9 @@ const TEXTBOOK_DATA = {
         },
         {
           "id": "w48",
-          "word": "newspaper",
-          "chinese": "报纸",
+          "word": "paper",
+          "chinese": "报纸；纸",
           "phonemes": [
-            {
-              "symbol": "/n/",
-              "letter": "n"
-            },
-            {
-              "symbol": "/juː/",
-              "letter": "ew"
-            },
-            {
-              "symbol": "/s/",
-              "letter": "s"
-            },
             {
               "symbol": "/p/",
               "letter": "p"
@@ -2031,16 +2010,16 @@ const TEXTBOOK_DATA = {
         },
         {
           "id": "w53",
-          "word": "seat",
-          "chinese": "座，座位",
+          "word": "sit",
+          "chinese": "坐；座位",
           "phonemes": [
             {
               "symbol": "/s/",
               "letter": "s"
             },
             {
-              "symbol": "/iː/",
-              "letter": "ea"
+              "symbol": "/ɪ/",
+              "letter": "i"
             },
             {
               "symbol": "/t/",
@@ -2411,32 +2390,6 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w62",
-          "word": "er",
-          "chinese": "喂，哦",
-          "phonemes": [
-            {
-              "symbol": "/ɜː/",
-              "letter": "er"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit3/er/er_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Er, I think I left my book at home today.",
-              "zh": "呃，我想我今天把书忘在家里了。",
-              "source": "context",
-              "image": "https://picsum.photos/seed/er-context/500/300"
-            },
-            {
-              "en": "Er, could you help me find my pencil case?",
-              "zh": "呃，你能帮我找找铅笔盒吗？",
-              "source": "context2",
-              "image": "https://picsum.photos/seed/er-context2/500/300"
-            }
-          ]
-        },
-        {
           "id": "w63",
           "word": "rabbit",
           "chinese": "兔",
@@ -2509,9 +2462,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w65",
-          "word": "parent",
-          "chinese": "父，母",
+          "id": "w116",
+          "word": "pair",
+          "chinese": "一双，一对",
           "phonemes": [
             {
               "symbol": "/p/",
@@ -2519,40 +2472,11 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/eə/",
-              "letter": "a"
-            },
-            {
-              "symbol": "/r/",
-              "letter": "r"
-            },
-            {
-              "symbol": "/ə/",
-              "letter": "e"
-            },
-            {
-              "symbol": "/n/",
-              "letter": "n"
-            },
-            {
-              "symbol": "/t/",
-              "letter": "t"
+              "letter": "air"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit3/parent/parent_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "My parent always reads a story before I sleep.",
-              "zh": "我父母总在我睡前读一个故事。",
-              "source": "context",
-              "image": "https://picsum.photos/seed/parent-context/500/300"
-            },
-            {
-              "en": "Each parent helps with homework after dinner.",
-              "zh": "每位父母都在晚饭后帮忙做作业。",
-              "source": "context2",
-              "image": "https://picsum.photos/seed/parent-context2/500/300"
-            }
-          ]
+          "image": "https://picsum.photos/seed/pair/400/300",
+          "sentences": []
         },
         {
           "id": "w66",
@@ -2797,7 +2721,7 @@ const TEXTBOOK_DATA = {
           "id": "w72",
           "word": "healthily",
           "chinese": "健康地",
-                    "phonemes": [
+          "phonemes": [
             {
               "symbol": "/h/",
               "letter": "h"
@@ -3381,7 +3305,7 @@ const TEXTBOOK_DATA = {
         },
         {
           "id": "w85",
-          "word": "sell",
+          "word": "sale",
           "chinese": "卖，出售",
           "phonemes": [
             {
@@ -3389,12 +3313,12 @@ const TEXTBOOK_DATA = {
               "letter": "s"
             },
             {
-              "symbol": "/e/",
-              "letter": "e"
+              "symbol": "/eɪ/",
+              "letter": "a"
             },
             {
               "symbol": "/l/",
-              "letter": "ll"
+              "letter": "le"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit4/sell/sell_%E9%A3%8E%E6%A0%BCA.png",
@@ -3681,7 +3605,7 @@ const TEXTBOOK_DATA = {
         },
         {
           "id": "w93",
-          "word": "metre",
+          "word": "meter",
           "chinese": "米",
           "phonemes": [
             {
@@ -3690,7 +3614,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/tə/",
-              "letter": "tre"
+              "letter": "ter"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit4/metre/metre_%E9%A3%8E%E6%A0%BCA.png",
@@ -4433,8 +4357,8 @@ const TEXTBOOK_DATA = {
         },
         {
           "id": "w112",
-          "word": "Merry Christmas!",
-          "chinese": "圣诞快乐！",
+          "word": "Merry Christmas",
+          "chinese": "圣诞快乐",
           "phonemes": [
             {
               "symbol": "/m/",
@@ -4487,10 +4411,6 @@ const TEXTBOOK_DATA = {
             {
               "symbol": "/s/",
               "letter": "s"
-            },
-            {
-              "symbol": "—",
-              "letter": "!"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit6/Merry_Christmas!/Merry_Christmas%21_%E9%A3%8E%E6%A0%BCA.png",
@@ -4597,5 +4517,3 @@ const TEXTBOOK_DATA = {
     }
   ]
 };
-
-if (typeof module !== 'undefined') module.exports = TEXTBOOK_DATA;
