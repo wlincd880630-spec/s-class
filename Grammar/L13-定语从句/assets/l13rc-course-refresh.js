@@ -54,6 +54,12 @@
   progress.hidden = true;
   app.appendChild(progress);
 
+  var homeLink = document.createElement('a');
+  homeLink.className = 'l13rc-course-home';
+  homeLink.href = 'index.html';
+  homeLink.textContent = '课程目录';
+  app.appendChild(homeLink);
+
   function pageLabel(index) {
     var ratio = lessonPages.length ? index / lessonPages.length : 0;
     if (ratio >= 0.88) return '拓展';
