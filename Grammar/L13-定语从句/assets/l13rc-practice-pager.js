@@ -23,6 +23,7 @@
     stepper.className = 'practice-pager';
     stepper.setAttribute('aria-label', '题目翻页');
     stepper.innerHTML =
+      '<a class="practice-home" href="index.html" aria-label="返回课程目录">课程目录</a>' +
       '<button type="button" id="practice-prev">上一题</button>' +
       '<span class="practice-mid" id="practice-mid" aria-live="polite">1 / 1</span>' +
       '<button type="button" id="practice-next">下一题</button>';
@@ -132,6 +133,12 @@
     onStart();
   };
 
+  function autoStart() {
+    var welcome = document.getElementById('welcome-view');
+    if (welcome) welcome.style.display = 'none';
+    window.startApp();
+  }
+
   document.addEventListener('keydown', function (e) {
     if (!built || !stepper || !stepper.classList.contains('is-visible')) return;
     if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
@@ -164,4 +171,12 @@
       return idx;
     },
   };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () {
+      setTimeout(autoStart, 0);
+    });
+  } else {
+    setTimeout(autoStart, 0);
+  }
 })();
