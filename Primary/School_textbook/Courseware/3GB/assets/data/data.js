@@ -5409,24 +5409,21 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "word": "a clock",
-          "chinese": "一个钟表",
+          "id": "w146",
+          "word": "o'clock",
+          "chinese": "点钟",
           "phonemes": [
             {
               "symbol": "/ə/",
-              "letter": "a"
+              "letter": "o"
             },
             {
               "symbol": "—",
-              "letter": " "
+              "letter": "'"
             },
             {
-              "symbol": "/k/",
-              "letter": "c"
-            },
-            {
-              "symbol": "/l/",
-              "letter": "l"
+              "symbol": "/kl/",
+              "letter": "cl"
             },
             {
               "symbol": "/ɒ/",
@@ -5437,9 +5434,21 @@ const TEXTBOOK_DATA = {
               "letter": "ck"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit5/a_clock/a_clock_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
-          "id": "w146"
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit5/oclock/o%E2%80%99clock_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "It's six o'clock in the morning.",
+              "zh": "现在是早上六点。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/o_clock-textbook.jpg"
+            },
+            {
+              "en": "School starts at eight o'clock.",
+              "zh": "学校八点钟开始上课。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/o_clock-context.jpg"
+            }
+          ]
         },
         {
           "id": "w147",

@@ -183,7 +183,7 @@ const TARGET = {
     words: [
       ['tell', '告诉'],
       ['clock', '钟表'],
-      ['a clock', '一个钟表'],
+      ["o'clock", '点钟'],
       ['fifteen', '十五'],
       ['thirteen', '十三'],
       ['forty-five', '四十五'],
@@ -317,17 +317,6 @@ const NEW_WORDS = {
       { symbol: '/v/', letter: 'f' },
     ],
     '3gb-a-lot-of'
-  ),
-  'a clock': PHRASE(
-    [
-      { symbol: '/ə/', letter: 'a' },
-      { symbol: '—', letter: ' ' },
-      { symbol: '/k/', letter: 'c' },
-      { symbol: '/l/', letter: 'l' },
-      { symbol: '/ɒ/', letter: 'o' },
-      { symbol: '/k/', letter: 'ck' },
-    ],
-    '3gb-a-clock'
   ),
   thirteen: PHRASE(
     [
