@@ -363,16 +363,8 @@ const TEXTBOOK_DATA = {
               "letter": "f"
             },
             {
-              "symbol": "—",
-              "letter": "t"
-            },
-            {
-              "symbol": "/ə/",
-              "letter": "e"
-            },
-            {
               "symbol": "/n/",
-              "letter": "n"
+              "letter": "ten"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/often/often_%E9%A3%8E%E6%A0%BCA.png",
@@ -591,12 +583,8 @@ const TEXTBOOK_DATA = {
           "chinese": "作家",
           "phonemes": [
             {
-              "symbol": "—",
-              "letter": "w"
-            },
-            {
               "symbol": "/r/",
-              "letter": "r"
+              "letter": "wr"
             },
             {
               "symbol": "/aɪ/",
@@ -1865,12 +1853,8 @@ const TEXTBOOK_DATA = {
               "letter": "i"
             },
             {
-              "symbol": "—",
-              "letter": "e"
-            },
-            {
               "symbol": "/d/",
-              "letter": "d"
+              "letter": "ed"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit2/worried/worried_%E9%A3%8E%E6%A0%BCA.png",
@@ -3351,11 +3335,11 @@ const TEXTBOOK_DATA = {
           "chinese": "小时",
           "phonemes": [
             {
-              "symbol": "—",
+              "symbol": "/aʊ/",
               "letter": "h"
             },
             {
-              "symbol": "/aʊə/",
+              "symbol": "/ə/",
               "letter": "our"
             }
           ],
@@ -3465,12 +3449,8 @@ const TEXTBOOK_DATA = {
               "letter": "i"
             },
             {
-              "symbol": "—",
-              "letter": "g"
-            },
-            {
               "symbol": "/n/",
-              "letter": "n"
+              "letter": "gn"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/design/design_%E9%A3%8E%E6%A0%BCA.png",
@@ -3919,12 +3899,8 @@ const TEXTBOOK_DATA = {
           "chinese": "错误的",
           "phonemes": [
             {
-              "symbol": "—",
-              "letter": "w"
-            },
-            {
               "symbol": "/r/",
-              "letter": "r"
+              "letter": "wr"
             },
             {
               "symbol": "/ɒ/",

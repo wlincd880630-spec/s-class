@@ -28,18 +28,22 @@ const RULES = `
 1. 每个字素(grapheme)对应一个 IPA 音素，写在 ipa 字段，格式如 /f/、/aɪ/、/ə/
 2. 字素拼接（忽略空格、连字符）必须能还原单词拼写
 3. 英式英语(RP)发音
-4. 常见字素组合优先识别（固定组合视为一个音素，不得拆成单字母）：
+4. **每个 box 必须显示音标，禁止单独出现「—」静音格**（短语词间空格除外）
+5. 常见字素组合优先识别（固定组合视为一个音素，不得拆成单字母）：
    - 辅音混合：bl, br, cl, cr, dr, fl, fr, gl, gr, pl, pr, sc, sk, sl, sm, sn, sp, st, str, sw, tr, tw 等
-   - 静音组合：wr→/r/, kn→/n/, gn→/n/, mb→/m/
+   - 静音组合并入同一格：wr→/r/, kn→/n/, gn→/n/, mb→/m/（如 write→wr/i/te，不是 w(—)+r）
    - 二合字母：sh→/ʃ/, ch→/tʃ/, th→/θ/或/ð/, ph→/f/, wh→/w/, ck→/k/, ng→/ŋ/, tion→/ʃən/
    - 元音组合：igh→/aɪ/, oo→/uː/或/ʊ/, ee→/iː/, ea→/iː/或/e/, ai→/eɪ/, ay→/eɪ/, oa→/əʊ/, ou→/aʊ/, ow→/əʊ/或/aʊ/
-   - r 控元音：ar→/ɑː/, er→/ə/, ir→/ɜː/, or→/ɔː/, ur→/ɜː/
-5. Magic-e：元音读长音；静音 e 与前面最后一个辅音字符合并为同一格（如 plate→pl/a/te, waste→w/a/st/e, same→s/a/me）
-6. 完全静音字母 ipa 用 "—"
-7. 短语按单词分别拆分：that's enough → that + 's + enough 或按自然拼读连续拆分
-8. 正确示例：
+   - r 控元音：ar→/ɑː/, er→/ə/, ir→/ɜː/, or→/ɔː/, ur→/ɜː/, our→/ɔː/（如 your→y/our）
+6. Magic-e：元音读长音；静音 e 与前面辅音字符合并为同一格且该格必须有音标（如 plate→pl/a/te, write→wr/i/te）
+7. 复合词按词根拆分：everyone→every(e/v/e/r/y)+one(o/ne)，词间用 letter:" " ipa:"—"（不显示 box）
+8. 短语按单词分别拆分；单词 are 整体一格：are→/ɑː/
+9. 正确示例：
+   - write: [{"letter":"wr","ipa":"/r/"},{"letter":"i","ipa":"/aɪ/"},{"letter":"te","ipa":"/t/"}]
+   - are: [{"letter":"are","ipa":"/ɑː/"}]
+   - your: [{"letter":"y","ipa":"/j/"},{"letter":"our","ipa":"/ɔː/"}]
+   - everyone: [{"letter":"e","ipa":"/e/"},{"letter":"v","ipa":"/v/"},{"letter":"e","ipa":"/ə/"},{"letter":"r","ipa":"/r/"},{"letter":"y","ipa":"/i/"},{"letter":" ","ipa":"—"},{"letter":"o","ipa":"/w/"},{"letter":"ne","ipa":"/n/"}]
    - plate: [{"letter":"pl","ipa":"/pl/"},{"letter":"a","ipa":"/eɪ/"},{"letter":"te","ipa":"/t/"}]
-   - waste: [{"letter":"w","ipa":"/w/"},{"letter":"a","ipa":"/eɪ/"},{"letter":"st","ipa":"/st/"},{"letter":"e","ipa":"/—/"}]
    - group: [{"letter":"gr","ipa":"/ɡr/"},{"letter":"ou","ipa":"/uː/"},{"letter":"p","ipa":"/p/"}]
 `;
 
@@ -423,4 +427,7 @@ async function main() {
 
 export { fixWords, loadDataJs, patchWordPhonemes, normalizeItems, callDeepseek, RULES };
 
-main().catch(e => { console.error(e); process.exit(1); });
+const isMain = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+if (isMain) {
+  main().catch(e => { console.error(e); process.exit(1); });
+}

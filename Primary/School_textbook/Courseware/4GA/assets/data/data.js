@@ -20,12 +20,8 @@ const TEXTBOOK_DATA = {
           "chinese": "体育运动",
           "phonemes": [
             {
-              "symbol": "/s/",
-              "letter": "s"
-            },
-            {
-              "symbol": "/p/",
-              "letter": "p"
+              "symbol": "/sp/",
+              "letter": "sp"
             },
             {
               "symbol": "/ɔː/",
@@ -260,12 +256,8 @@ const TEXTBOOK_DATA = {
               "letter": "a"
             },
             {
-              "symbol": "/k/",
-              "letter": "c"
-            },
-            {
-              "symbol": "/r/",
-              "letter": "r"
+              "symbol": "/kr/",
+              "letter": "cr"
             },
             {
               "symbol": "/ɒ/",
@@ -742,11 +734,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/e/",
-              "letter": "e"
-            },
-            {
-              "symbol": "/m/",
-              "letter": "m"
+              "letter": "em"
             },
             {
               "symbol": "/b/",
@@ -931,12 +919,8 @@ const TEXTBOOK_DATA = {
           "chinese": "努力；尝试",
           "phonemes": [
             {
-              "symbol": "/t/",
-              "letter": "t"
-            },
-            {
-              "symbol": "/r/",
-              "letter": "r"
+              "symbol": "/tr/",
+              "letter": "tr"
             },
             {
               "symbol": "/aɪ/",
@@ -1035,12 +1019,8 @@ const TEXTBOOK_DATA = {
           "chinese": "明星，最出色者",
           "phonemes": [
             {
-              "symbol": "/s/",
-              "letter": "s"
-            },
-            {
-              "symbol": "/t/",
-              "letter": "t"
+              "symbol": "/st/",
+              "letter": "st"
             },
             {
               "symbol": "/ɑː/",
@@ -1119,12 +1099,8 @@ const TEXTBOOK_DATA = {
           "chinese": "运动员，选手，球员",
           "phonemes": [
             {
-              "symbol": "/p/",
-              "letter": "p"
-            },
-            {
-              "symbol": "/l/",
-              "letter": "l"
+              "symbol": "/pl/",
+              "letter": "pl"
             },
             {
               "symbol": "/eɪ/",
@@ -1266,12 +1242,8 @@ const TEXTBOOK_DATA = {
           "chinese": "扫，打扫，清扫",
           "phonemes": [
             {
-              "symbol": "/s/",
-              "letter": "s"
-            },
-            {
-              "symbol": "/w/",
-              "letter": "w"
+              "symbol": "/sw/",
+              "letter": "sw"
             },
             {
               "symbol": "/iː/",
@@ -1801,12 +1773,8 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             },
             {
-              "symbol": "/s/",
-              "letter": "s"
-            },
-            {
-              "symbol": "/k/",
-              "letter": "k"
+              "symbol": "/sk/",
+              "letter": "sk"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit2/desk/desk_%E9%A3%8E%E6%A0%BCA.png",
@@ -1992,11 +1960,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/m/",
-              "letter": "m"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "me"
             },
             {
               "symbol": "/t/",
@@ -3034,12 +2998,8 @@ const TEXTBOOK_DATA = {
               "letter": "a"
             },
             {
-              "symbol": "/r/",
-              "letter": "r"
-            },
-            {
-              "symbol": "/i/",
-              "letter": "y"
+              "symbol": "/ri/",
+              "letter": "ry"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit3/diary/diary_%E9%A3%8E%E6%A0%BCA.png",
@@ -3471,24 +3431,12 @@ const TEXTBOOK_DATA = {
           "chinese": "春天，春季",
           "phonemes": [
             {
-              "symbol": "/s/",
-              "letter": "s"
+              "symbol": "/spr/",
+              "letter": "spr"
             },
             {
-              "symbol": "/p/",
-              "letter": "p"
-            },
-            {
-              "symbol": "/r/",
-              "letter": "r"
-            },
-            {
-              "symbol": "/ɪ/",
-              "letter": "i"
-            },
-            {
-              "symbol": "/ŋ/",
-              "letter": "ng"
+              "symbol": "/ɪŋ/",
+              "letter": "ing"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit4/spring/spring_%E9%A3%8E%E6%A0%BCA.png",
@@ -3564,11 +3512,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/m/",
-              "letter": "m"
-            },
-            {
-              "symbol": "—",
-              "letter": "n"
+              "letter": "mn"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit4/autumn/autumn_%E9%A3%8E%E6%A0%BCA.png",
@@ -3648,19 +3592,11 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/ə/",
-              "letter": "o"
-            },
-            {
-              "symbol": "/r/",
-              "letter": "r"
-            },
-            {
-              "symbol": "/ɪ/",
-              "letter": "i"
+              "letter": "or"
             },
             {
               "symbol": "/t/",
-              "letter": "te"
+              "letter": "ite"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit4/favourite/favourite_%E9%A3%8E%E6%A0%BCA.png",
@@ -4678,11 +4614,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/m/",
-              "letter": "m"
-            },
-            {
-              "symbol": "/b/",
-              "letter": "b"
+              "letter": "mb"
             },
             {
               "symbol": "/uː/",
@@ -5005,12 +4937,8 @@ const TEXTBOOK_DATA = {
               "letter": "a"
             },
             {
-              "symbol": "/r/",
-              "letter": "r"
-            },
-            {
-              "symbol": "/i/",
-              "letter": "y"
+              "symbol": "/ri/",
+              "letter": "ry"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit6/library/library_%E9%A3%8E%E6%A0%BCA.png",
@@ -5093,12 +5021,8 @@ const TEXTBOOK_DATA = {
               "letter": "e"
             },
             {
-              "symbol": "/m/",
-              "letter": "m"
-            },
-            {
-              "symbol": "/ə/",
-              "letter": "a"
+              "symbol": "/mə/",
+              "letter": "ma"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit6/cinema/cinema_%E9%A3%8E%E6%A0%BCA.png",
@@ -5131,12 +5055,8 @@ const TEXTBOOK_DATA = {
               "letter": "o"
             },
             {
-              "symbol": "/s/",
-              "letter": "s"
-            },
-            {
-              "symbol": "/p/",
-              "letter": "p"
+              "symbol": "/sp/",
+              "letter": "sp"
             },
             {
               "symbol": "/ɪ/",
@@ -5147,7 +5067,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             },
             {
-              "symbol": "/əl/",
+              "symbol": "/l/",
               "letter": "al"
             }
           ],
