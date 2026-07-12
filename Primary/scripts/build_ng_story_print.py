@@ -15,6 +15,13 @@ BOOKS = [
         "filename": "Peek-Otter-Story.pdf",
     },
     {
+        "dir": "Dive Dolphin/dive-dolphin-courseware",
+        "accent": "#0277bd",
+        "wild": "#1e3a5f",
+        "emoji": "🐬",
+        "filename": "Dive-Dolphin-Story.pdf",
+    },
+    {
         "dir": "Jump Pup/jump-pup-courseware",
         "accent": "#2e7d32",
         "wild": "#2c4a3e",

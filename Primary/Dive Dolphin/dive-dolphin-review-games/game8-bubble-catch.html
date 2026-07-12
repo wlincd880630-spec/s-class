@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>泡泡捞词 · Dive, dolphin!</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+SC:wght@500;700&display=swap" rel="stylesheet" />
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Peek%20Dolphin/dive-dolphin-review-games/audio/audio-manifest.js"></script>
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Peek%20Dolphin/dive-dolphin-review-games/audio/local-audio.js"></script>
+  <script src="azure-tts.js"></script>
+  <script src="words-data.js"></script>
+  <style>
+/* 国家地理分级阅读 · 复习游戏共享样式 */
+:root {
+  --ng-gold: #f5c400;
+  --ng-ink: #1a1a1a;
+  --ng-paper: #f7f5f0;
+  --ng-accent: #2e7d32;
+  --ng-muted: #546e7a;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body.ng-game {
+  font-family: "Noto Sans SC", sans-serif;
+  min-height: 100dvh;
+  background: linear-gradient(165deg, #37474f, #1b2327);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: clip;
+  -webkit-tap-highlight-color: rgba(67, 160, 71, 0.12);
+  padding:
+    max(0.75rem, env(safe-area-inset-top))
+    max(0.5rem, env(safe-area-inset-right))
+    max(2rem, env(safe-area-inset-bottom))
+    max(0.5rem, env(safe-area-inset-left));
+}
+
+.ng-toolbar {
+  width: 100%;
+  max-width: 56rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.65rem 1rem;
+  background: #fffef8;
+  border-bottom: 3px solid var(--ng-gold);
+  margin-bottom: 1rem;
+  border-radius: 0 0 8px 8px;
+}
+
+.ng-toolbar h1 {
+  font-family: "Fredoka", sans-serif;
+  font-size: clamp(0.95rem, 3.5vw, 1.1rem);
+  color: var(--ng-ink);
+}
+
+.ng-toolbar .meta { font-size: 0.8rem; color: #78909c; }
+
+.ng-toolbar .btns { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+
+.ng-btn {
+  font-family: "Fredoka", sans-serif;
+  font-weight: 700;
+  border: none;
+  border-radius: 999px;
+  padding: 0.45rem 1rem;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  font-size: 0.88rem;
+  background: #fff;
+  border: 2px solid var(--ng-ink);
+  color: var(--ng-ink);
+  text-decoration: none;
+  touch-action: manipulation;
+  flex-shrink: 0;
+}
+
+.ng-btn:active { filter: brightness(0.96); }
+.ng-btn.primary { background: var(--ng-gold); border-color: #c9a008; }
+.ng-btn.accent { background: var(--ng-accent); border-color: var(--ng-accent); color: #fff; }
+.ng-btn.big { font-size: 1.05rem; padding: 0.65rem 1.75rem; }
+.ng-btn.sm { min-height: 36px; padding: 0.3rem 0.7rem; font-size: 0.8rem; }
+.ng-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.ng-stage {
+  width: min(56rem, 100%);
+  background: var(--ng-paper);
+  border-radius: 10px;
+  padding: 1rem 0.85rem 1.25rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  border-left: 4px solid var(--ng-gold);
+}
+
+.ng-banner {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 0.85rem;
+  display: block;
+  max-height: 120px;
+  object-fit: cover;
+}
+
+.ng-badge {
+  text-align: center;
+  font-family: "Fredoka", sans-serif;
+  font-size: 0.95rem;
+  color: var(--ng-accent);
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.ng-hint {
+  text-align: center;
+  font-size: 0.88rem;
+  color: var(--ng-muted);
+  line-height: 1.55;
+  margin-bottom: 0.75rem;
+  padding: 0.55rem 0.65rem;
+  background: #fff8e1;
+  border: 2px solid var(--ng-gold);
+  border-radius: 10px;
+}
+
+.ng-timer-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem 1.25rem;
+  font-size: 0.88rem;
+  color: var(--ng-muted);
+  margin-bottom: 0.75rem;
+}
+
+.ng-timer-bar strong { color: var(--ng-accent); font-family: "Fredoka", sans-serif; }
+
+.ng-feedback {
+  text-align: center;
+  padding: 0.65rem 0.85rem;
+  border-radius: 10px;
+  font-weight: 700;
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+}
+
+.ng-feedback.good { background: #e8f5e9; color: #2e7d32; border: 2px solid #81c784; }
+.ng-feedback.bad { background: #ffebee; color: #c62828; border: 2px solid #ef9a9a; }
+.ng-feedback.hidden { display: none; }
+
+.ng-done {
+  text-align: center;
+  padding: 1.5rem 1rem;
+}
+
+.ng-done h2 {
+  font-family: "Fredoka", sans-serif;
+  font-size: 1.6rem;
+  color: var(--ng-accent);
+  margin-bottom: 0.75rem;
+}
+
+.ng-done .stats-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.ng-done .stat {
+  background: #fff;
+  border: 2px solid var(--ng-gold);
+  border-radius: 12px;
+  padding: 0.75rem 1.1rem;
+  min-width: 5.5rem;
+}
+
+.ng-done .stat .val {
+  font-family: "Fredoka", sans-serif;
+  font-size: 1.5rem;
+  color: var(--ng-accent);
+}
+
+.ng-done .stat .lbl { font-size: 0.78rem; color: var(--ng-muted); }
+
+/* ── 迷宫 ── */
+.ng-maze-targets {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 0.65rem;
+  margin-bottom: 0.85rem;
+}
+
+.ng-maze-target {
+  background: #fff;
+  border: 2px solid #cfd8dc;
+  border-radius: 10px;
+  padding: 0.5rem;
+  text-align: center;
+  position: relative;
+}
+
+.ng-maze-target.done { border-color: #81c784; background: #e8f5e9; }
+.ng-maze-target.hint-target { border-color: #ab47bc; box-shadow: 0 0 0 3px rgba(171, 71, 188, 0.25); }
+
+.ng-maze-target img {
+  width: 100%;
+  max-width: 72px;
+  height: 56px;
+  object-fit: contain;
+  border-radius: 6px;
+  margin: 0 auto 0.35rem;
+  display: block;
+}
+
+.ng-maze-target .zh-area {
+  min-height: 1.4rem;
+  font-size: 0.82rem;
+  color: var(--ng-muted);
+  cursor: pointer;
+  padding: 0.15rem;
+  border-radius: 6px;
+  margin-bottom: 0.25rem;
+}
+
+.ng-maze-target .zh-area.hidden-zh {
+  color: transparent;
+  background: repeating-linear-gradient(45deg, #eceff1, #eceff1 4px, #fff 4px, #fff 8px);
+  user-select: none;
+}
+
+.ng-maze-target .zh-area:not(.hidden-zh) { color: #37474f; font-weight: 700; }
+
+.ng-maze-target .word-label {
+  font-family: "Fredoka", sans-serif;
+  font-size: 0.95rem;
+  color: var(--ng-accent);
+  font-weight: 700;
+}
+
+.ng-maze-target .target-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.3rem;
+  margin-top: 0.3rem;
+}
+
+.ng-maze-grid {
+  display: grid;
+  gap: 3px;
+  max-width: 22rem;
+  margin: 0 auto;
+  background: #263238;
+  padding: 4px;
+  border-radius: 8px;
+}
+
+.ng-maze-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  font-family: "Fredoka", sans-serif;
+  font-weight: 700;
+  font-size: clamp(0.85rem, 3.5vw, 1.05rem);
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 4px;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.ng-maze-cell.selected { background: #fff9c4; box-shadow: inset 0 0 0 2px var(--ng-gold); }
+.ng-maze-cell.found { background: #c8e6c9; color: #2e7d32; }
+.ng-maze-cell.hint { background: #e1bee7; box-shadow: inset 0 0 0 2px #ab47bc; animation: ng-pulse 0.8s ease infinite; }
+
+@keyframes ng-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+.ng-maze-path { text-align: center; font-size: 0.85rem; color: var(--ng-muted); min-height: 1.2rem; margin: 0.4rem 0; }
+.ng-maze-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-top: 0.75rem; }
+
+/* ── 选择题 ── */
+.ng-quiz-prompt {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.ng-quiz-prompt img {
+  max-width: 140px;
+  max-height: 110px;
+  object-fit: contain;
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
+}
+
+.ng-quiz-prompt .zh-big {
+  font-size: clamp(1.4rem, 5vw, 1.8rem);
+  font-weight: 700;
+  color: var(--ng-ink);
+}
+
+.ng-quiz-prompt .en-big {
+  font-family: "Fredoka", sans-serif;
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  color: var(--ng-accent);
+  font-weight: 700;
+}
+
+.ng-quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  max-width: 28rem;
+  margin: 0 auto;
+}
+
+.ng-quiz-opt {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.75rem 1rem;
+  background: #fff;
+  border: 2px solid #cfd8dc;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: "Fredoka", sans-serif;
+  font-size: 1.05rem;
+  touch-action: manipulation;
+  text-align: left;
+}
+
+.ng-quiz-opt:active { transform: scale(0.98); }
+.ng-quiz-opt.correct { border-color: #66bb6a; background: #e8f5e9; }
+.ng-quiz-opt.wrong { border-color: #ef5350; background: #ffebee; }
+.ng-quiz-opt:disabled { cursor: default; }
+
+/* ── 连线 ── */
+.ng-connect-wrap {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  min-height: 280px;
+}
+
+.ng-connect-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.ng-connect-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  z-index: 2;
+}
+
+.ng-connect-item {
+  background: #fff;
+  border: 2px solid #cfd8dc;
+  border-radius: 12px;
+  padding: 0.55rem;
+  cursor: pointer;
+  text-align: center;
+  touch-action: manipulation;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.ng-connect-item img {
+  width: 100%;
+  max-width: 100px;
+  height: 72px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+
+.ng-connect-item .en-label {
+  font-family: "Fredoka", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ng-accent);
+  padding: 0.5rem;
+}
+
+.ng-connect-item.selected { border-color: var(--ng-gold); box-shadow: 0 0 0 3px rgba(245, 196, 0, 0.35); }
+.ng-connect-item.matched { border-color: #66bb6a; background: #e8f5e9; pointer-events: none; opacity: 0.85; }
+
+/* ── 泡泡捞词 ── */
+.ng-bubble-stage {
+  position: relative;
+  height: min(52vh, 380px);
+  background: linear-gradient(180deg, #b3e5fc 0%, #4fc3f7 55%, #0288d1 100%);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+}
+
+.ng-bubble-prompt {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 0.65rem;
+  background: rgba(255, 254, 248, 0.92);
+  text-align: center;
+  z-index: 5;
+  border-bottom: 2px solid var(--ng-gold);
+}
+
+.ng-bubble-prompt .zh { font-size: 1.35rem; font-weight: 700; color: var(--ng-ink); }
+.ng-bubble-prompt .combo { font-size: 0.82rem; color: var(--ng-accent); margin-top: 0.2rem; }
+
+.ng-bubble {
+  position: absolute;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Fredoka", sans-serif;
+  font-weight: 700;
+  font-size: clamp(0.75rem, 2.5vw, 0.95rem);
+  color: #1565c0;
+  cursor: pointer;
+  touch-action: manipulation;
+  box-shadow: inset -4px -4px 12px rgba(255,255,255,0.5), 0 4px 12px rgba(0,0,0,0.15);
+  animation: ng-float-up linear forwards;
+  user-select: none;
+  transform: translateX(-50%);
+  z-index: 1;
+  padding: 0 4px;
+  text-align: center;
+  line-height: 1.1;
+}
+
+.ng-bubble:hover,
+.ng-bubble:active {
+  z-index: 20;
+  box-shadow: inset -4px -4px 12px rgba(255,255,255,0.6), 0 6px 16px rgba(0,0,0,0.22);
+}
+
+.ng-bubble.pop { animation: ng-pop 0.35s ease forwards !important; }
+
+@keyframes ng-float-up {
+  from { transform: translateX(-50%) translateY(0); }
+  to { transform: translateX(-50%) translateY(-115%); }
+}
+
+@keyframes ng-pop {
+  to { transform: translateX(-50%) scale(1.4); opacity: 0; }
+}
+
+/* ── 转盘 ── */
+.ng-spin-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.ng-wheel-container {
+  position: relative;
+  width: min(260px, 70vw);
+  height: min(260px, 70vw);
+}
+
+.ng-wheel {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 6px solid var(--ng-gold);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  transition: transform 3.2s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+  overflow: hidden;
+  transform-origin: center center;
+  position: relative;
+}
+
+.ng-wheel-pointer {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 22px solid #c62828;
+  z-index: 3;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3));
+}
+
+.ng-spin-challenge {
+  width: 100%;
+  max-width: 24rem;
+}
+
+.ng-spin-images {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.55rem;
+}
+
+.ng-spin-img-opt {
+  background: #fff;
+  border: 2px solid #cfd8dc;
+  border-radius: 10px;
+  padding: 0.4rem;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.ng-spin-img-opt img {
+  width: 100%;
+  height: 72px;
+  object-fit: contain;
+}
+
+.ng-spin-img-opt.correct { border-color: #66bb6a; background: #e8f5e9; }
+.ng-spin-img-opt.wrong { border-color: #ef5350; background: #ffebee; }
+
+.ng-hidden { display: none !important; }
+
+@media (max-width: 520px) {
+  .ng-connect-wrap { gap: 0.75rem; }
+  .ng-maze-targets { grid-template-columns: repeat(2, 1fr); }
+}
+
+:root { --ng-accent: #0277bd; }
+.setup-panel .chip { font-family:"Fredoka",sans-serif; font-size:0.82rem; padding:0.3rem 0.55rem; border:2px solid #d4cfc3; border-radius:999px; background:#fff; }
+.setup-panel .chips { display:flex; flex-wrap:wrap; gap:0.35rem; justify-content:center; margin:0.65rem 0; }
+.setup-panel.hidden, .play-panel { display:none; }
+.play-panel.on { display:block; }
+
+  </style>
+</head>
+<body class="ng-game">
+  <div class="ng-toolbar">
+    <div><h1>🐬 泡泡捞词</h1><div class="meta" id="metaBar"></div></div>
+    <div class="btns"><a class="ng-btn" href="index.html">← 游戏列表</a><a class="ng-btn" href="settings.html">选词</a></div>
+  </div>
+  <div class="ng-stage">
+    <section class="setup-panel" id="setupPanel">
+      <div class="ng-badge">准备开始</div>
+      <p class="ng-hint">看中文提示，从上升的泡泡中点击正确的英文单词。</p>
+      <p class="ng-hint">已选 <strong id="wordCount">0</strong> 个单词：</p>
+      <div class="chips" id="wordChips"></div>
+      <div style="text-align:center;margin-top:0.75rem;">
+        <button type="button" class="ng-btn primary big" id="btnStart">开始游戏 ▶</button>
+      </div>
+    </section>
+    <section class="play-panel" id="playPanel">
+
+      <div class="ng-badge" id="progressBadge">第 1 题</div>
+      <div class="ng-timer-bar"><span>⏱ <strong id="timerEl">0:00</strong></span><span>得分 <strong id="scoreEl">0</strong></span></div>
+      <div class="ng-bubble-stage" id="bubbleStage">
+        <div class="ng-bubble-prompt"><div class="zh" id="promptZh">—</div><div class="combo">点击正确的英文泡泡</div></div>
+      </div>
+      <div class="ng-feedback hidden" id="feedback"></div>
+
+    </section>
+  </div>
+
+  <script>/**
+ * 国家地理分级阅读 · 复习游戏共享工具
+ * 依赖：各书 words-data.js、azure-tts.js、audio manifest
+ * 配置：window.NG_REVIEW = { wordsApi, ttsApi, title, accent, hubUrl, gamesUrl }
+ */
+(function (global) {
+  "use strict";
+
+  var AZURE_CONFIG = {
+    subscriptionKey: "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu",
+    region: "southeastasia",
+    language: "en-GB",
+    voice: "en-GB-RyanNeural",
+    speechRate: "0.90",
+  };
+
+  var speechSdkReady = null;
+  var currentSynthesizer = null;
+
+  function cfg() {
+    return global.NG_REVIEW || {};
+  }
+
+  function wordsApi() {
+    var name = cfg().wordsApi;
+    return name && global[name] ? global[name] : null;
+  }
+
+  function ttsApi() {
+    var name = cfg().ttsApi;
+    return name && global[name] ? global[name] : null;
+  }
+
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i];
+      a[i] = a[j];
+      a[j] = t;
+    }
+    return a;
+  }
+
+  function chunkGroups(arr, size) {
+    size = size || 4;
+    var out = [];
+    for (var i = 0; i < arr.length; i += size) {
+      out.push(arr.slice(i, i + size));
+    }
+    return out;
+  }
+
+  function wordImg(w) {
+    var api = wordsApi();
+    if (!api) return "";
+    var base = api.IMG_BASE || "";
+    var file = api.wordImgFile ? api.wordImgFile(w) : w.word;
+    return base + file + ".png";
+  }
+
+  function isMazeEligible(w) {
+    return w && w.word && w.word.indexOf(" ") < 0 && w.word.replace(/-/g, "").length >= 2;
+  }
+
+  function getSelected() {
+    var api = wordsApi();
+    return api ? api.getSelected() : [];
+  }
+
+  function loadSpeechSDK() {
+    if (global.SpeechSDK) return Promise.resolve();
+    if (speechSdkReady) return speechSdkReady;
+    speechSdkReady = new Promise(function (resolve, reject) {
+      var s = document.createElement("script");
+      s.src = "https://aka.ms/csspeech/jsbrowserpackageraw";
+      s.onload = function () {
+        resolve();
+      };
+      s.onerror = function () {
+        reject(new Error("Speech SDK 加载失败"));
+      };
+      document.head.appendChild(s);
+    });
+    return speechSdkReady;
+  }
+
+  function escapeSsml(text) {
+    return String(text)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&apos;");
+  }
+
+  function buildSpeakSsml(text, slow) {
+    var rate = slow ? "0.80" : AZURE_CONFIG.speechRate;
+    var safe = escapeSsml(text);
+    return (
+      '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="' +
+      AZURE_CONFIG.language +
+      '"><voice name="' +
+      AZURE_CONFIG.voice +
+      '"><prosody rate="' +
+      rate +
+      '">' +
+      safe +
+      "</prosody></voice></speak>"
+    );
+  }
+
+  function fallbackSpeak(text, onEnd, slow) {
+    if (!global.speechSynthesis) {
+      if (onEnd) onEnd();
+      return;
+    }
+    try {
+      global.speechSynthesis.cancel();
+    } catch (e0) {}
+    var u = new global.SpeechSynthesisUtterance(String(text));
+    u.lang = "en-GB";
+    u.rate = slow ? 0.82 : Number(AZURE_CONFIG.speechRate) || 0.9;
+    u.onend = function () {
+      if (onEnd) onEnd();
+    };
+    u.onerror = function () {
+      if (onEnd) onEnd();
+    };
+    global.speechSynthesis.speak(u);
+  }
+
+  function stopSpeak() {
+    try {
+      if (global.speechSynthesis) global.speechSynthesis.cancel();
+    } catch (e1) {}
+    if (currentSynthesizer) {
+      try {
+        currentSynthesizer.close();
+      } catch (e2) {}
+      currentSynthesizer = null;
+    }
+    var tts = ttsApi();
+    if (tts && tts.stop) tts.stop();
+  }
+
+  function speakAzure(text, onEnd, slow) {
+    return loadSpeechSDK()
+      .then(function () {
+        if (currentSynthesizer) {
+          try {
+            currentSynthesizer.close();
+          } catch (e3) {}
+          currentSynthesizer = null;
+        }
+        var sdk = global.SpeechSDK;
+        var speechCfg = sdk.SpeechConfig.fromSubscription(
+          AZURE_CONFIG.subscriptionKey,
+          AZURE_CONFIG.region
+        );
+        speechCfg.speechSynthesisVoiceName = AZURE_CONFIG.voice;
+        var audioCfg = sdk.AudioConfig.fromDefaultSpeakerOutput();
+        var synthesizer = new sdk.SpeechSynthesizer(speechCfg, audioCfg);
+        currentSynthesizer = synthesizer;
+        return new Promise(function (resolve) {
+          synthesizer.speakSsmlAsync(
+            buildSpeakSsml(text, slow),
+            function () {
+              try {
+                synthesizer.close();
+              } catch (e4) {}
+              currentSynthesizer = null;
+              if (onEnd) onEnd();
+              resolve(true);
+            },
+            function () {
+              try {
+                synthesizer.close();
+              } catch (e5) {}
+              currentSynthesizer = null;
+              fallbackSpeak(text, onEnd, slow);
+              resolve(false);
+            }
+          );
+        });
+      })
+      .catch(function () {
+        fallbackSpeak(text, onEnd, slow);
+        return false;
+      });
+  }
+
+  function speak(text, options) {
+    options = options || {};
+    if (!text) return Promise.resolve(false);
+    stopSpeak();
+    var slow = !!options.slow;
+    var onEnd = options.onEnd || options.onDone;
+    var tts = ttsApi();
+
+    function tryLocal() {
+      if (!tts || !tts.speak) return Promise.resolve(false);
+      try {
+        var result = tts.speak(text, {
+          slow: slow,
+          rate: slow ? "0.80" : AZURE_CONFIG.speechRate,
+          onDone: function () {
+            if (onEnd) onEnd();
+          },
+        });
+        if (result && typeof result.then === "function") {
+          return result.then(function (ok) {
+            return !!ok;
+          });
+        }
+        return Promise.resolve(true);
+      } catch (e6) {
+        return Promise.resolve(false);
+      }
+    }
+
+    return tryLocal().then(function (ok) {
+      if (ok) return true;
+      return speakAzure(text, onEnd, slow);
+    });
+  }
+
+  function buildMcOptions(correct, pool, count) {
+    count = count || 3;
+    var distractors = shuffle(
+      pool.filter(function (w) {
+        return w.word !== correct.word;
+      })
+    ).slice(0, count - 1);
+    return shuffle([correct].concat(distractors));
+  }
+
+  function showFeedback(el, msg, good) {
+    if (!el) return;
+    el.textContent = msg;
+    el.className = "ng-feedback " + (good ? "good" : "bad");
+  }
+
+  function hideFeedback(el) {
+    if (!el) return;
+    el.className = "ng-feedback hidden";
+  }
+
+  function formatTime(sec) {
+    var m = Math.floor(sec / 60);
+    var s = sec % 60;
+    return m + ":" + String(s).padStart(2, "0");
+  }
+
+  function GameTimer(el) {
+    this.el = el;
+    this.sec = 0;
+    this._id = null;
+  }
+
+  GameTimer.prototype.start = function () {
+    var self = this;
+    this.stop();
+    this.sec = 0;
+    if (this.el) this.el.textContent = formatTime(0);
+    this._id = setInterval(function () {
+      self.sec++;
+      if (self.el) self.el.textContent = formatTime(self.sec);
+    }, 1000);
+  };
+
+  GameTimer.prototype.stop = function () {
+    if (this._id) {
+      clearInterval(this._id);
+      this._id = null;
+    }
+    return this.sec;
+  };
+
+  function showDonePanel(el, stats) {
+    if (!el) return;
+    var accuracy =
+      stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+    el.className = "ng-stage ng-done";
+    el.innerHTML =
+      "<h2>🎉 " +
+      (stats.title || "完成！") +
+      "</h2>" +
+      '<div class="stats-grid">' +
+      '<div class="stat"><div class="val">' +
+      stats.correct +
+      '</div><div class="lbl">正确</div></div>' +
+      '<div class="stat"><div class="val">' +
+      stats.wrong +
+      '</div><div class="lbl">错误</div></div>' +
+      '<div class="stat"><div class="val">' +
+      accuracy +
+      '%</div><div class="lbl">正确率</div></div>' +
+      '<div class="stat"><div class="val">' +
+      formatTime(stats.timeSec || 0) +
+      '</div><div class="lbl">用时</div></div>' +
+      "</div>" +
+      '<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:0.5rem;margin-top:1rem;">' +
+      '<button type="button" class="ng-btn primary" id="ngRetryBtn">再玩一次</button>' +
+      '<a class="ng-btn" href="' +
+      (cfg().gamesUrl || "index.html") +
+      '">返回游戏列表</a>' +
+      "</div>";
+    var retry = el.querySelector("#ngRetryBtn");
+    if (retry && stats.onRetry) {
+      retry.addEventListener("click", stats.onRetry);
+    }
+  }
+
+  function speakBtn(word) {
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "ng-btn sm";
+    btn.title = "朗读";
+    btn.textContent = "🔊";
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      speak(word);
+    });
+    return btn;
+  }
+
+  /* ── 7×7 单词迷宫生成 ── */
+  function generateMazeGrid7(words) {
+    var MAZE_SIZE = 7;
+    var DIR_SLOTS = [
+      { id: "lr", dr: 0, dc: 1, quadrant: 0 },
+      { id: "rl", dr: 0, dc: -1, quadrant: 1 },
+      { id: "tb", dr: 1, dc: 0, quadrant: 2 },
+      { id: "bt", dr: -1, dc: 0, quadrant: 3 },
+    ];
+
+    function lettersOf(word) {
+      return word.word.replace(/[\s-]/g, "").toLowerCase().split("");
+    }
+
+    function quadrantsFor(size) {
+      var midR = Math.floor(size / 2);
+      var midC = Math.floor(size / 2);
+      return [
+        { rMin: 0, rMax: midR - 1, cMin: 0, cMax: midC - 1 },
+        { rMin: 0, rMax: midR - 1, cMin: midC, cMax: size - 1 },
+        { rMin: midR, rMax: size - 1, cMin: 0, cMax: midC - 1 },
+        { rMin: midR, rMax: size - 1, cMin: midC, cMax: size - 1 },
+      ];
+    }
+
+    function fits(size, len, r, c, dir) {
+      for (var i = 0; i < len; i++) {
+        var nr = r + dir.dr * i;
+        var nc = c + dir.dc * i;
+        if (nr < 0 || nr >= size || nc < 0 || nc >= size) return false;
+      }
+      return true;
+    }
+
+    function buildCells(grid, size, letters, r, c, dir) {
+      if (!fits(size, letters.length, r, c, dir)) return null;
+      var cells = [];
+      for (var i = 0; i < letters.length; i++) {
+        var nr = r + dir.dr * i;
+        var nc = c + dir.dc * i;
+        var existing = grid[nr][nc];
+        if (existing !== "" && existing !== letters[i]) return null;
+        cells.push({ r: nr, c: nc, letter: letters[i] });
+      }
+      return cells;
+    }
+
+    function candidates(size, len, dir, quad) {
+      var cr = (quad.rMin + quad.rMax) / 2;
+      var cc = (quad.cMin + quad.cMax) / 2;
+      var list = [];
+      var r, c;
+      for (r = quad.rMin; r <= quad.rMax; r++) {
+        for (c = quad.cMin; c <= quad.cMax; c++) {
+          if (fits(size, len, r, c, dir)) {
+            list.push({ r: r, c: c, dist: Math.abs(r - cr) + Math.abs(c - cc) });
+          }
+        }
+      }
+      list.sort(function (a, b) {
+        return a.dist - b.dist;
+      });
+      var near = list.slice(0, Math.max(4, Math.ceil(list.length * 0.5)));
+      return shuffle(near.length ? near : list);
+    }
+
+    function applyCells(grid, usage, cells) {
+      cells.forEach(function (cell) {
+        grid[cell.r][cell.c] = cell.letter;
+        usage[cell.r][cell.c]++;
+      });
+    }
+
+    function revertCells(grid, usage, cells) {
+      cells.forEach(function (cell) {
+        usage[cell.r][cell.c]--;
+        if (usage[cell.r][cell.c] === 0) grid[cell.r][cell.c] = "";
+      });
+    }
+
+    function placeAll(grid, usage, size, pairs, idx, placements) {
+      if (idx >= pairs.length) return placements;
+      var pair = pairs[idx];
+      var letters = lettersOf(pair.word);
+      var dirs = pair.dir;
+      var quad = pair.quad;
+      var candList = candidates(size, letters.length, dirs, quad);
+      var ci;
+      for (ci = 0; ci < candList.length; ci++) {
+        var pos = candList[ci];
+        var cells = buildCells(grid, size, letters, pos.r, pos.c, dirs);
+        if (!cells) continue;
+        applyCells(grid, usage, cells);
+        var result = placeAll(grid, usage, size, pairs, idx + 1, placements.concat([
+          { word: pair.word, cells: cells, dir: dirs.id },
+        ]));
+        if (result) return result;
+        revertCells(grid, usage, cells);
+      }
+      return null;
+    }
+
+    function fillNoise(grid, size) {
+      var r, c;
+      for (r = 0; r < size; r++) {
+        for (c = 0; c < size; c++) {
+          if (!grid[r][c]) {
+            grid[r][c] = String.fromCharCode(97 + Math.floor(Math.random() * 26));
+          }
+        }
+      }
+    }
+
+    function tryLayout(wordList, size) {
+      var grid = Array.from({ length: size }, function () {
+        return Array.from({ length: size }, function () {
+          return "";
+        });
+      });
+      var usage = Array.from({ length: size }, function () {
+        return Array.from({ length: size }, function () {
+          return 0;
+        });
+      });
+      var quads = quadrantsFor(size);
+      var slots = shuffle(DIR_SLOTS.slice());
+      var ordered = wordList.slice().sort(function (a, b) {
+        return lettersOf(b).length - lettersOf(a).length;
+      });
+      var pairs = ordered.map(function (word, i) {
+        return { word: word, dir: slots[i], quad: quads[slots[i].quadrant] };
+      });
+      pairs = shuffle(pairs);
+      var placements = placeAll(grid, usage, size, pairs, 0, []);
+      if (!placements || placements.length !== wordList.length) return null;
+      fillNoise(grid, size);
+      return { grid: grid, placements: shuffle(placements), size: size };
+    }
+
+    var list = words.slice(0, 4);
+    if (list.length < 4) return { grid: [[]], placements: [], size: MAZE_SIZE };
+
+    var sizes = [MAZE_SIZE, 8];
+    var si, retry;
+    for (si = 0; si < sizes.length; si++) {
+      for (retry = 0; retry < 200; retry++) {
+        var result = tryLayout(shuffle(list.slice()), sizes[si]);
+        if (result) return result;
+      }
+    }
+    return tryLayout(list, 8) || { grid: [[]], placements: [], size: 8 };
+  }
+
+  global.NgReview = {
+    AZURE_CONFIG: AZURE_CONFIG,
+    cfg: cfg,
+    wordsApi: wordsApi,
+    shuffle: shuffle,
+    chunkGroups: chunkGroups,
+    wordImg: wordImg,
+    isMazeEligible: isMazeEligible,
+    getSelected: getSelected,
+    speak: speak,
+    stopSpeak: stopSpeak,
+    buildMcOptions: buildMcOptions,
+    showFeedback: showFeedback,
+    hideFeedback: hideFeedback,
+    GameTimer: GameTimer,
+    showDonePanel: showDonePanel,
+    speakBtn: speakBtn,
+    generateMazeGrid7: generateMazeGrid7,
+    formatTime: formatTime,
+    boot: function (run) {
+      function start() {
+        if (typeof global.NgReview === "undefined") {
+          showBootError("游戏脚本未加载，请检查网络后刷新。");
+          return;
+        }
+        var api = wordsApi();
+        if (!api || !api.getSelected) {
+          showBootError("词表未加载，请返回游戏列表重试。");
+          return;
+        }
+        try {
+          run(global.NgReview);
+        } catch (err) {
+          console.error(err);
+          showBootError("游戏初始化失败：" + (err && err.message ? err.message : String(err)));
+        }
+      }
+      function showBootError(msg) {
+        var stage = global.document && global.document.getElementById("stage");
+        if (stage) {
+          stage.innerHTML =
+            '<p class="ng-hint">' +
+            msg +
+            '<br><a href="index.html">返回游戏列表</a> · <a href="settings.html">选词设置</a></p>';
+        }
+        var btn = global.document && global.document.getElementById("btnStart");
+        if (btn) btn.style.display = "none";
+      }
+      if (global.document.readyState === "loading") {
+        global.document.addEventListener("DOMContentLoaded", start);
+      } else {
+        start();
+      }
+    },
+    renderWordPreview: function (pool) {
+      var el = global.document && global.document.getElementById("wordPreview");
+      if (!el || !pool || !pool.length) return;
+      el.textContent =
+        "本次已选 " +
+        pool.length +
+        " 个单词：" +
+        pool
+          .map(function (w) {
+            return w.word + "（" + w.zh + "）";
+          })
+          .join(" · ");
+    },
+  };
+})(typeof window !== "undefined" ? window : this);
+</script>
+  <script>
+  (function(){"use strict";var W=window.DiveDolphinWords;function speakWord(text){if(window.DiveDolphinTTS)DiveDolphinTTS.speak(text,{slow:false,azureOnly:true});};if(!W)return;
+    var pool=NgReview.shuffle(W.getSelected().slice());document.getElementById("wordCount").textContent=String(pool.length);
+    pool.forEach(function(w){var s=document.createElement("span");s.className="chip";s.textContent=w.word+" "+w.zh;document.getElementById("wordChips").appendChild(s);});
+    if(pool.length<4){document.getElementById("setupPanel").innerHTML='<p class="ng-hint">至少 4 个单词。<a href="settings.html">去选词</a></p>';return;}
+    var queue=[],qi=0,correct=0,wrong=0,score=0,timer=null,active=false;
+    var colors=["#e1f5fe","#b3e5fc","#81d4fa","#4fc3f7"];
+    var BUBBLE_SIZE=76;
+    document.getElementById("btnStart").onclick=function(){
+      document.getElementById("setupPanel").classList.add("hidden");document.getElementById("playPanel").classList.add("on");
+      queue=NgReview.shuffle(pool.slice());qi=0;correct=0;wrong=0;score=0;active=true;timer=new NgReview.GameTimer(document.getElementById("timerEl"));timer.start();nextRound();
+    };
+    function nextRound(){
+      if(qi>=queue.length){finish();return;}
+      var answer=queue[qi];document.getElementById("progressBadge").textContent="第 "+(qi+1)+" / "+queue.length+" 题";
+      document.getElementById("promptZh").textContent=answer.zh;document.getElementById("scoreEl").textContent=String(score);
+      clearBubbles();
+      var opts=NgReview.shuffle(NgReview.buildMcOptions(answer,pool,4));
+      var lanes=NgReview.shuffle([14,36,58,80]);
+      opts.forEach(function(w,i){setTimeout(function(){spawnBubble(w,w.word===answer.word,lanes[i],i);},i*320);});
+    }
+    function clearBubbles(){document.getElementById("bubbleStage").querySelectorAll(".ng-bubble").forEach(function(b){b.remove();});}
+    function spawnBubble(w,isAnswer,lanePct,stagger){
+      if(!active)return;var stage=document.getElementById("bubbleStage"),b=document.createElement("div");
+      b.className="ng-bubble";b.style.width=BUBBLE_SIZE+"px";b.style.height=BUBBLE_SIZE+"px";
+      b.style.left=lanePct+"%";b.style.bottom=(6+stagger*5)+"%";b.style.background=colors[stagger%colors.length];
+      b.textContent=w.word;b.style.animationDuration=(7+stagger*0.6)+"s";
+      b.onclick=function(){
+        if(!active||b.classList.contains("pop"))return;
+        if(isAnswer){b.classList.add("pop");correct++;score+=15;active=false;speakWord(w.word);
+          NgReview.showFeedback(document.getElementById("feedback"),"捞到了！+15",true);
+          qi++;setTimeout(function(){active=true;nextRound();},800);}
+        else{b.classList.add("pop");wrong++;NgReview.showFeedback(document.getElementById("feedback"),"破了！再试",false);}
+        document.getElementById("scoreEl").textContent=String(score);
+      };stage.appendChild(b);
+    }
+    function finish(){active=false;timer.stop();document.getElementById("playPanel").innerHTML='<div class="ng-done"><h2>得分 '+score+'</h2><a class="ng-btn primary" href="index.html">返回</a></div>';}
+  })();
+  </script>
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/primary-responsive.js?v=2" defer></script>
+</body>
+</html>

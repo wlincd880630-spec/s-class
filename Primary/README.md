@@ -9,6 +9,7 @@
 | Play, Kitty! | [Play Kitty/index.html](Play%20Kitty/index.html) |
 | Jump, Pup! | [Jump Pup/index.html](Jump%20Pup/index.html) |
 | Peek, Otter! | [Peek Otter/index.html](Peek%20Otter/index.html) |
+| Dive, dolphin! | [Dive Dolphin/index.html](Dive%20Dolphin/index.html) |
 | Helpers in Your Neighborhood | [Helpers in your neighborhood/index.html](Helpers%20in%20your%20neighborhood/index.html) |
 
 ## 说明

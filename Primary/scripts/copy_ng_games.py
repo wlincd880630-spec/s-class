@@ -31,6 +31,18 @@ BOOKS = {
         "audio_local": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Peek%20Otter/peek-otter-review-games/audio/local-audio.js",
         "stroke": "#0277bd",
     },
+    "Dive Dolphin/dive-dolphin-review-games": {
+        "from_title": "Jump, Pup!",
+        "title": "Dive, dolphin!",
+        "emoji_old": "🐶",
+        "emoji": "🐬",
+        "words_api": "DiveDolphinWords",
+        "tts_api": "DiveDolphinTTS",
+        "accent": "#0277bd",
+        "audio_manifest": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-review-games/audio/audio-manifest.js",
+        "audio_local": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-review-games/audio/local-audio.js",
+        "stroke": "#0277bd",
+    },
     "Helpers in your neighborhood/helpers-neighborhood-review-games": {
         "from_title": "Jump, Pup!",
         "title": "Helpers in Your Neighborhood",

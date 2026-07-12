@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Dive, dolphin! · 单词涂色卡 · 43 词</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root { --ng-gold: #f5c400; --ink: #1a1a1a; --accent: #01579B; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Fredoka", sans-serif;
+      background: linear-gradient(165deg, #37474f 0%, #263238 100%);
+      display: flex; flex-direction: column; align-items: center;
+      padding-bottom: max(48px, env(safe-area-inset-bottom));
+      min-height: 100dvh;
+      overflow-x: clip;
+      -webkit-tap-highlight-color: rgba(0, 172, 193, 0.12);
+    }
+    .back-hub {
+      align-self: flex-start;
+      margin: 12px 0 0 max(16px, env(safe-area-inset-left));
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 44px;
+      padding: 6px 14px 6px 10px;
+      border-radius: 999px;
+      border: 2px solid #4FC3F7;
+      background: rgba(255, 255, 255, 0.95);
+      color: #01579B;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-decoration: none;
+      touch-action: manipulation;
+    }
+    .back-hub:active { background: #E1F5FE; }
+    #app {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 max(8px, env(safe-area-inset-right)) 0 max(8px, env(safe-area-inset-left));
+    }
+    .toolbar {
+      width: 100%; padding: 14px 22px;
+      padding-top: max(14px, env(safe-area-inset-top));
+      padding-left: max(16px, env(safe-area-inset-left));
+      padding-right: max(16px, env(safe-area-inset-right));
+      background: #fffef8;
+      border-bottom: 3px solid var(--ng-gold);
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
+      position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,.2);
+    }
+    .toolbar h1 { font-size: 1.1rem; color: var(--ink); }
+    .toolbar p { font-size: 0.8rem; color: #546e7a; max-width: 32rem; line-height: 1.4; }
+    .btn {
+      font-family: inherit; font-weight: 700; border: none; border-radius: 999px;
+      padding: 10px 22px; min-height: 44px; cursor: pointer;
+      background: linear-gradient(180deg, #26c6da, var(--accent));
+      color: #fff; box-shadow: 0 4px 12px rgba(0,131,143,.4);
+      touch-action: manipulation;
+      flex-shrink: 0;
+    }
+    .page-viewport {
+      width: min(210mm, calc(100vw - 24px));
+      margin: 24px auto;
+      overflow: hidden;
+    }
+    .sheet {
+      width: 210mm; min-height: 297mm; margin: 24px 0; padding: 12mm 14mm;
+      background: #fff; box-shadow: 0 0 40px rgba(0,0,0,.5);
+      page-break-after: always; display: flex; flex-direction: column; align-items: center;
+    }
+    .page-viewport .sheet { margin: 0; }
+    .sheet-hdr {
+      width: 100%; display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.82rem; color: #78909c; border-bottom: 2px solid #eceff1;
+      padding-bottom: 4mm; margin-bottom: 6mm; gap: 4px; flex-wrap: wrap;
+    }
+    .sheet-hdr .badge {
+      font-weight: 700; padding: 4px 14px; border-radius: 8px;
+      background: #e0f7fa; border: 2px solid var(--ng-gold); color: var(--accent);
+    }
+    .sheet-img {
+      flex: 1; width: 100%; max-width: 170mm;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .sheet-img img {
+      width: 100%; height: auto; max-height: 230mm; object-fit: contain;
+    }
+    .sheet-ftr { margin-top: 4mm; font-size: 0.75rem; color: #b0bec5; text-align: center; }
+    @media screen and (max-width: 720px) {
+      .toolbar { justify-content: center; }
+      .toolbar h1 { font-size: 1rem; line-height: 1.35; }
+      .toolbar p { max-width: 100%; font-size: 0.82rem; }
+      .btn { width: 100%; }
+      .page-viewport { width: calc(100vw - 16px); margin: 12px auto; }
+      .sheet { box-shadow: 0 0 28px rgba(0, 0, 0, 0.45); }
+    }
+    @media (hover: none) and (pointer: coarse) {
+      .btn:active { transform: scale(0.98); }
+    }
+    @media print {
+      body { background: #fff; padding: 0; }
+      .back-hub { display: none !important; }
+      .toolbar { display: none !important; }
+      #app { padding: 0; }
+      .page-viewport {
+        width: auto; height: auto; overflow: visible; margin: 0;
+      }
+      .page-viewport .sheet {
+        transform: none !important;
+        margin: 0; box-shadow: none;
+      }
+      .sheet-img img { max-height: 250mm; }
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+  <link rel="stylesheet" href="../../assets/primary-responsive.css?v=2" />
+</head>
+<body>
+  <a class="back-hub" href="../index.html">← Dive, dolphin! 首页</a>
+
+  <div class="toolbar">
+    <div>
+      <h1>🐬 Dive, dolphin! · 单词涂色卡（一年级）</h1>
+      <p>每页一词：顶部大号空心英文 + 黑色线稿图，学生用彩笔涂色记单词。fish · crab · peek · swim · flip · find · food · teach · call · sleep · busy · tail · feet。打印选「另存为 PDF」。</p>
+    </div>
+    <button type="button" class="btn" onclick="window.print()">🖨️ 打印 / 导出 PDF</button>
+  </div>
+
+  <div id="app">
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">dolphin · 海豚</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/dolphin.png" alt="dolphin 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · dolphin</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">ocean · 海洋</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/ocean.png" alt="ocean 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · ocean</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">river · 河流</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/river.png" alt="river 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · river</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">dive · 潜水</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/dive.png" alt="dive 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · dive</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">swim · 游泳</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/swim.png" alt="swim 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · swim</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">hunt · 捕猎</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/hunt.png" alt="hunt 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · hunt</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">play · 玩耍</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/play.png" alt="play 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · play</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">leap · 跃起</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/leap.png" alt="leap 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · leap</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">flipper · 鳍肢</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/flipper.png" alt="flipper 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · flipper</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">fin · 背鳍</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/fin.png" alt="fin 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · fin</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">tail · 尾巴</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/tail.png" alt="tail 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · tail</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">there · 那里</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/there.png" alt="there 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · there</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">many · 许多</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/many.png" alt="many 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · many</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">beak · 喙</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/beak.png" alt="beak 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · beak</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">long · 长的</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/long.png" alt="long 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · long</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">short · 短的</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/short.png" alt="short 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · short</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">have · 有</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/have.png" alt="have 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · have</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">these · 这些</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/these.png" alt="these 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · these</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">stripe · 条纹</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/stripe.png" alt="stripe 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · stripe</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">some · 一些</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/some.png" alt="some 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · some</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">live · 生活</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/live.png" alt="live 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · live</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">this · 这个</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/this.png" alt="this 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · this</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">spot · 斑点</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/spot.png" alt="spot 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · spot</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">others · 其他的</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/others.png" alt="others 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · others</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">together · 一起</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/together.png" alt="together 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · together</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">work · 工作</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/work.png" alt="work 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · work</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">team · 团队</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/team.png" alt="team 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · team</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">with · 和/用</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/with.png" alt="with 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · with</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">thing · 东西</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/thing.png" alt="thing 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · thing</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">they · 它们</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/they.png" alt="they 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · they</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">water · 水</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/water.png" alt="water 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · water</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">seaweed · 海草</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/seaweed.png" alt="seaweed 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · seaweed</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">like · 喜欢</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/like.png" alt="like 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · like</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">blowhole · 呼吸孔</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/blowhole.png" alt="blowhole 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · blowhole</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">back · 背部</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/back.png" alt="back 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · back</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">down · 向下</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/down.png" alt="down 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · down</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">through · 穿过</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/through.png" alt="through 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · through</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">air · 空气</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/air.png" alt="air 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · air</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">breathe · 呼吸</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/breathe.png" alt="breathe 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · breathe</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">need to · 需要</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/need-to.png" alt="need to 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · need to</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">come · 来</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/come.png" alt="come 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · come</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">top · 顶部</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/top.png" alt="top 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · top</p></section>
+  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">get · 获得</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-coloring/images/get.png" alt="get 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · get</p></section>
+  </div>
+
+  <script>
+    (function () {
+      var app = document.getElementById("app");
+      var sheets = Array.prototype.slice.call(app.querySelectorAll(".sheet"));
+      sheets.forEach(function (sheet) {
+        var vp = document.createElement("div");
+        vp.className = "page-viewport";
+        sheet.parentNode.insertBefore(vp, sheet);
+        vp.appendChild(sheet);
+      });
+
+      function fitPageViewports() {
+        if (window.matchMedia("print").matches) return;
+        document.querySelectorAll(".page-viewport").forEach(function (vp) {
+          var sheet = vp.querySelector(".sheet");
+          if (!sheet) return;
+          sheet.style.transform = "none";
+          sheet.style.transformOrigin = "top left";
+          var naturalW = sheet.offsetWidth;
+          var targetW = vp.clientWidth;
+          if (!naturalW || !targetW) return;
+          var scale = Math.min(1, targetW / naturalW);
+          sheet.style.transform = scale < 1 ? "scale(" + scale + ")" : "none";
+          vp.style.height = scale < 1 ? sheet.offsetHeight * scale + "px" : "auto";
+        });
+      }
+
+      var fitTimer;
+      window.addEventListener("resize", function () {
+        clearTimeout(fitTimer);
+        fitTimer = setTimeout(fitPageViewports, 120);
+      });
+      window.addEventListener("orientationchange", fitPageViewports);
+      window.addEventListener("load", fitPageViewports);
+    })();
+  </script>
+  <script src="../../assets/primary-responsive.js?v=2" defer></script>
+</body>
+</html>

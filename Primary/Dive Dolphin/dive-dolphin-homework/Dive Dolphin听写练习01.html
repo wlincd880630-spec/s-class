@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Dive, dolphin! 听写练习 · fish crab peek swim flip find food</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --font-hand: "Patrick Hand", cursive;
+      --font-ui: "Fredoka", sans-serif;
+      --img-w: 38mm;
+      --row-h: 28mm;
+      --line-blue: #90caf9;
+      --line-red: #ef9a9a;
+      --line-dash: rgba(33, 150, 243, 0.28);
+      --text-dark: #263238;
+      --ng-gold: #f5c400;
+      --ng-ink: #1a1a1a;
+      --wild: #2c4a3e;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-ui);
+      background: linear-gradient(165deg, #37474f 0%, #263238 45%, #1b2327 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: max(56px, env(safe-area-inset-bottom));
+      min-height: 100dvh;
+      overflow-x: clip;
+      -webkit-tap-highlight-color: rgba(0, 172, 193, 0.12);
+    }
+
+    .back-hub {
+      align-self: flex-start;
+      margin: 12px 0 0 max(16px, env(safe-area-inset-left));
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 44px;
+      padding: 6px 14px 6px 10px;
+      border-radius: 999px;
+      border: 2px solid #4FC3F7;
+      background: rgba(255, 255, 255, 0.95);
+      color: #01579B;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-decoration: none;
+      touch-action: manipulation;
+    }
+    .back-hub:active { background: #E1F5FE; }
+
+    #app {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 max(8px, env(safe-area-inset-right)) 0 max(8px, env(safe-area-inset-left));
+    }
+
+    .toolbar {
+      width: 100%;
+      padding: 14px 22px;
+      padding-top: max(14px, env(safe-area-inset-top));
+      padding-left: max(16px, env(safe-area-inset-left));
+      padding-right: max(16px, env(safe-area-inset-right));
+      background: linear-gradient(90deg, #fffef8 0%, #f5f0e8 100%);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 3px solid var(--ng-gold);
+    }
+    .toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      color: var(--ng-ink);
+      font-size: 1.05rem;
+    }
+    .toolbar-left .icon { font-size: 1.5rem; }
+    .toolbar-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    .btn {
+      font-family: var(--font-ui);
+      font-weight: 700;
+      border: none;
+      border-radius: 999px;
+      padding: 10px 22px;
+      min-height: 44px;
+      font-size: 0.98rem;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      white-space: nowrap;
+      touch-action: manipulation;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn-pdf {
+      background: linear-gradient(180deg, #ff7043, #e64a19);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(230, 74, 25, 0.45);
+    }
+    .btn-pdf:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(230, 74, 25, 0.5); }
+    .btn-ghost {
+      background: #fff;
+      color: var(--wild);
+      border: 2px solid var(--wild);
+    }
+    .btn-ghost.on { background: #e8f5e9; }
+    .btn-speak {
+      background: linear-gradient(180deg, #5c6bc0, #3949ab);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(57, 73, 171, 0.35);
+    }
+    .hint {
+      font-size: 0.78rem;
+      color: #546e7a;
+      max-width: 18rem;
+      line-height: 1.35;
+    }
+
+    .hw-section { display: block; width: 100%; }
+
+    .page-viewport {
+      width: min(210mm, calc(100vw - 24px));
+      margin: 22px auto;
+      overflow: hidden;
+    }
+
+    .page {
+      background: #fffef9;
+      width: 210mm;
+      min-height: 297mm;
+      padding: 12mm 14mm 10mm;
+      margin: 22px 0;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.55);
+      display: flex;
+      flex-direction: column;
+      page-break-after: always;
+      border-radius: 2px;
+    }
+
+    .page-hdr {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4mm;
+      border-bottom: 2px solid #eceff1;
+      padding-bottom: 3mm;
+      margin-bottom: 4mm;
+      font-size: 0.82rem;
+      color: #78909c;
+    }
+    .page-hdr .badge {
+      font-size: 1.05rem;
+      font-weight: 700;
+      padding: 4px 16px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #fff8e1, #ffecb3);
+      color: #5d4037;
+      border: 2px solid var(--ng-gold);
+      white-space: nowrap;
+    }
+
+    .page-body { flex: 1; display: flex; flex-direction: column; gap: 0; }
+
+    .page-ftr {
+      flex-shrink: 0;
+      margin-top: auto;
+      padding-top: 3mm;
+      border-top: 1px solid #eee;
+      font-size: 0.72rem;
+      color: #b0bec5;
+      text-align: center;
+    }
+
+    .word-block {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      border-bottom: 1px dashed #e0e0e0;
+      min-height: 0;
+      padding-bottom: 2mm;
+      margin-bottom: 2mm;
+      gap: 0;
+    }
+    .word-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+    .write-stack {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .img-col {
+      width: var(--img-w);
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 2mm;
+      padding: 2mm 3mm 2mm 0;
+      border-right: 1px dashed #cfd8dc;
+    }
+    .img-frame {
+      width: 32mm;
+      height: 32mm;
+      border-radius: 12px;
+      border: 2px solid #c5cae9;
+      background: linear-gradient(145deg, #fafbff, #e8eaf6);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .img-frame img { width: 100%; height: 100%; object-fit: contain; }
+
+    .word-meta {
+      text-align: center;
+      width: 100%;
+    }
+    .word-num {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #90a4ae;
+      letter-spacing: 0.06em;
+    }
+    .word-answer {
+      font-family: var(--font-hand);
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: #3949ab;
+      letter-spacing: 0.04em;
+      min-height: 1.4em;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s;
+    }
+    body.show-answers .word-answer {
+      opacity: 1;
+      visibility: visible;
+    }
+    .btn-word {
+      font-size: 0.72rem;
+      padding: 6px 12px;
+      min-height: 40px;
+      border-radius: 8px;
+      border: 1px solid #9fa8da;
+      background: #fff;
+      color: #3949ab;
+      cursor: pointer;
+      font-family: var(--font-ui);
+      font-weight: 600;
+      touch-action: manipulation;
+    }
+    .btn-word:hover { background: #e8eaf6; }
+
+    .dict-row {
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px dashed #f5f5f5;
+    }
+    .write-stack .dict-row {
+      flex: 0 0 auto;
+      min-height: 30mm;
+      height: 30mm;
+      border-bottom: none;
+    }
+
+    @page { size: A4; margin: 12mm; }
+
+    .grid-bg {
+      position: absolute;
+      top: 22%;
+      height: 56%;
+      left: 2mm;
+      right: 1mm;
+      pointer-events: none;
+    }
+    .gl { position: absolute; left: 0; right: 0; height: 0; }
+    .gl-sky { top: 0%; border-top: 1.3pt solid var(--line-blue); }
+    .gl-cloud { top: 33%; border-top: 1.3pt dashed var(--line-dash); }
+    .gl-grass { top: 67%; border-top: 2.6pt solid var(--line-blue); }
+    .gl-dirt { top: 100%; border-top: 1.3pt solid var(--line-red); }
+
+    .blank-zone {
+      position: absolute;
+      inset: 0;
+    }
+
+    @media screen and (max-width: 720px) {
+      .toolbar-left span:not(.icon) {
+        font-size: 0.92rem;
+        line-height: 1.35;
+      }
+      .toolbar {
+        justify-content: center;
+      }
+      .toolbar-actions {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .toolbar-actions .btn {
+        width: 100%;
+        white-space: normal;
+        text-align: center;
+      }
+      .hint {
+        max-width: 100%;
+        flex: 1 1 100%;
+        font-size: 0.82rem;
+      }
+      .page-viewport {
+        width: calc(100vw - 16px);
+        margin: 12px auto;
+      }
+      .page {
+        margin: 0;
+        box-shadow: 0 0 28px rgba(0, 0, 0, 0.45);
+      }
+      .btn-word {
+        min-height: 44px;
+        width: 100%;
+      }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .btn-pdf:hover,
+      .btn-speak:hover { transform: none; }
+      .btn-word:hover { background: #fff; }
+      .btn-word:active { background: #e8eaf6; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .btn,
+      .word-answer { transition: none !important; }
+    }
+
+    @media print {
+      body { background: #fff; padding: 0; }
+      .back-hub { display: none !important; }
+      .toolbar { display: none !important; }
+      #app { padding: 0; }
+      .page-viewport {
+        width: auto;
+        height: auto;
+        overflow: visible;
+        margin: 0;
+      }
+      .page-viewport .page {
+        transform: none !important;
+      }
+      .page {
+        margin: 0;
+        box-shadow: none;
+        width: 210mm;
+        min-height: 297mm;
+        page-break-after: always;
+      }
+      body.show-answers .word-answer { opacity: 1; visibility: visible; }
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+  <link rel="stylesheet" href="../../assets/primary-responsive.css?v=2" />
+</head>
+<body>
+  <a class="back-hub" href="../index.html">← Dive, dolphin! 首页</a>
+
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <span class="icon">✏️</span>
+      <span>Dive, dolphin! 听写练习（小写）</span>
+    </div>
+    <div class="toolbar-actions">
+      <button type="button" class="btn btn-speak" id="btnReadAll">🔊 按顺序朗读</button>
+      <button type="button" class="btn btn-ghost" id="btnToggleAns">显示答案（对答案用）</button>
+      <button type="button" class="btn btn-pdf" onclick="window.print()">🖨️ 打印 / 导出 PDF</button>
+    </div>
+    <p class="hint">导出 PDF：点按钮后在打印对话框中选择「另存为 PDF / Microsoft Print to PDF」。朗读优先使用 Microsoft Azure 神经网络语音（需联网）；若 SDK 未加载则回退为浏览器自带发音。</p>
+  </div>
+
+  <div id="app"></div>
+
+  <!-- Azure 密钥写在页面中会被他人复制滥用；勿将本页上传到公网，可在门户轮换密钥 -->
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Peek%20Dolphin/audio/audio-manifest.js"></script>
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Peek%20Dolphin/audio/local-audio.js"></script>
+  <script>
+    (function () {
+      "use strict";
+
+      var LESSON = {
+        title: "Dive, dolphin!",
+        subtitle: "听写 · 小写单词",
+        words: ["dolphin", "ocean", "river", "dive", "swim", "hunt", "play", "leap", "flipper", "fin", "tail", "there", "many", "beak", "long", "short", "have", "these", "stripe", "some", "live"],
+      };
+
+      var IMG_BASE = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-courseware/images/words/";
+
+      function stopAllSpeech() {
+        if (window.LocalAudio) LocalAudio.stop();
+      }
+
+      function esc(t) {
+        return String(t)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
+
+      function svgPlaceholder(word) {
+        var svg =
+          "<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'>" +
+          "<defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='#e8eaf6'/><stop offset='100%' stop-color='#fff8e1'/></linearGradient></defs>" +
+          "<rect width='100%' height='100%' fill='url(#g)'/>" +
+          "<text x='50%' y='42%' text-anchor='middle' font-size='42' fill='#3949ab' font-family='Segoe UI,Arial,sans-serif' font-weight='700'>" +
+          esc(word) +
+          "</text>" +
+          "<text x='50%' y='58%' text-anchor='middle' font-size='13' fill='#78909c' font-family='Segoe UI,Arial,sans-serif'>配图路径 " +
+          esc(IMG_BASE + word + ".png") +
+          "</text></svg>";
+        return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+      }
+
+      function speakWord(w, onComplete) {
+        stopAllSpeech();
+        if (!window.LocalAudio) {
+          if (onComplete) onComplete();
+          return;
+        }
+        LocalAudio.speak(w, { slow: true, onDone: onComplete });
+      }
+
+      function buildBlankRows(n) {
+        var i;
+        var html = "";
+        for (i = 0; i < n; i++) {
+          html +=
+            "<div class='dict-row'>" +
+            "<div class='grid-bg'><div class='gl gl-sky'></div><div class='gl gl-cloud'></div><div class='gl gl-grass'></div><div class='gl gl-dirt'></div></div>" +
+            "<div class='blank-zone'></div></div>";
+        }
+        return html;
+      }
+
+      function buildWordBlock(word, idx, total) {
+        var wrap = document.createElement("div");
+        wrap.className = "word-block";
+        wrap.innerHTML =
+          "<div class='img-col'>" +
+          "<div class='word-meta'><span class='word-num'>第 " +
+          (idx + 1) +
+          " 题 / " +
+          total +
+          "</span></div>" +
+          "<div class='img-frame'><img src='" +
+          IMG_BASE +
+          word +
+          ".png' alt='" +
+          esc(word) +
+          "' /></div>" +
+          "<button type='button' class='btn-word' data-w='" +
+          word +
+          "'>▶ 读这个词</button>" +
+          "<div class='word-answer'>" +
+          esc(word) +
+          "</div></div>" +
+          "<div class='write-stack'>" +
+          buildBlankRows(1) +
+          "</div>";
+        var img = wrap.querySelector(".img-frame img");
+        img.addEventListener(
+          "error",
+          function () {
+            img.src = svgPlaceholder(word);
+          },
+          { once: true }
+        );
+        wrap.querySelector(".btn-word").addEventListener("click", function () {
+          speakWord(word);
+        });
+        return wrap;
+      }
+
+      function buildPage(words, pageNum, totalPages, globalStart) {
+        var viewport = document.createElement("div");
+        viewport.className = "page-viewport";
+
+        var page = document.createElement("div");
+        page.className = "page";
+        var hdr = document.createElement("div");
+        hdr.className = "page-hdr";
+        hdr.innerHTML =
+          "<span>姓名: ___________________</span>" +
+          "<span class='badge'>" +
+          esc(LESSON.title) +
+          " · " +
+          esc(LESSON.subtitle) +
+          "</span>";
+        page.appendChild(hdr);
+        var body = document.createElement("div");
+        body.className = "page-body";
+        var i;
+        for (i = 0; i < words.length; i++) {
+          body.appendChild(buildWordBlock(words[i], globalStart + i, LESSON.words.length));
+        }
+        page.appendChild(body);
+        var ftr = document.createElement("div");
+        ftr.className = "page-ftr";
+        ftr.textContent =
+          "Dive, dolphin! · 国家地理分级 · 听写练习  |  本页单词: " +
+          words.join(", ") +
+          "  |  第 " +
+          pageNum +
+          " / " +
+          totalPages +
+          " 页";
+        page.appendChild(ftr);
+        viewport.appendChild(page);
+        return viewport;
+      }
+
+      function chunk(arr, size) {
+        var out = [];
+        var i;
+        for (i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
+        return out;
+      }
+
+      function fitPageViewports() {
+        if (window.matchMedia("print").matches) return;
+        document.querySelectorAll(".page-viewport").forEach(function (vp) {
+          var page = vp.querySelector(".page");
+          if (!page) return;
+          page.style.transform = "none";
+          page.style.transformOrigin = "top left";
+          var naturalW = page.offsetWidth;
+          var targetW = vp.clientWidth;
+          if (!naturalW || !targetW) return;
+          var scale = Math.min(1, targetW / naturalW);
+          page.style.transform = scale < 1 ? "scale(" + scale + ")" : "none";
+          vp.style.height = scale < 1 ? page.offsetHeight * scale + "px" : "auto";
+        });
+      }
+
+      function buildAll() {
+        var app = document.getElementById("app");
+        var section = document.createElement("div");
+        section.className = "hw-section";
+        var pages = chunk(LESSON.words, 6);
+        var pi;
+        var off = 0;
+        for (pi = 0; pi < pages.length; pi++) {
+          section.appendChild(buildPage(pages[pi], pi + 1, pages.length, off));
+          off += pages[pi].length;
+        }
+        app.appendChild(section);
+        fitPageViewports();
+      }
+
+      document.getElementById("btnToggleAns").addEventListener("click", function () {
+        document.body.classList.toggle("show-answers");
+        this.classList.toggle("on");
+        this.textContent = document.body.classList.contains("show-answers")
+          ? "隐藏答案"
+          : "显示答案（对答案用）";
+      });
+
+      document.getElementById("btnReadAll").addEventListener("click", function () {
+        var i = 0;
+        function next() {
+          if (i >= LESSON.words.length) return;
+          speakWord(LESSON.words[i], function () {
+            i++;
+            setTimeout(next, 450);
+          });
+        }
+        next();
+      });
+
+      var fitTimer;
+      window.addEventListener("resize", function () {
+        clearTimeout(fitTimer);
+        fitTimer = setTimeout(fitPageViewports, 120);
+      });
+      window.addEventListener("orientationchange", fitPageViewports);
+
+      window.addEventListener("load", buildAll);
+    })();
+  </script>
+  <script src="../../assets/primary-responsive.js?v=2" defer></script>
+</body>
+</html>
