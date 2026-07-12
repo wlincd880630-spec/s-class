@@ -259,7 +259,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/s/",
-              "letter": "ce"
+              "letter": "c"
             },
             {
               "symbol": "/ə/",

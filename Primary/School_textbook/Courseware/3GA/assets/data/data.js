@@ -3622,11 +3622,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/ə/",
-              "letter": "ou"
-            },
-            {
-              "symbol": "/r/",
-              "letter": "r"
+              "letter": "or"
             },
             {
               "symbol": "/f/",
@@ -4162,11 +4158,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/ə/",
-              "letter": "ou"
-            },
-            {
-              "symbol": "/r/",
-              "letter": "r"
+              "letter": "or"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit3/colour/colour_%E9%A3%8E%E6%A0%BCA.png",
@@ -6076,15 +6068,11 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/s/",
-              "letter": "s"
-            },
-            {
-              "symbol": "/t/",
-              "letter": "t"
+              "letter": "st"
             },
             {
               "symbol": "/ə/",
-              "letter": "er"
+              "letter": "er（Mr.）"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/Mister（Mr）/Mister%EF%BC%88Mr%EF%BC%89_%E9%A3%8E%E6%A0%BCA.png",
@@ -6597,8 +6585,8 @@ const TEXTBOOK_DATA = {
               "letter": "m"
             },
             {
-              "symbol": "/ʌ/",
-              "letter": "u"
+              "symbol": "/ɒ/",
+              "letter": "o"
             },
             {
               "symbol": "/m/",

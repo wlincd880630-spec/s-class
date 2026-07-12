@@ -4476,19 +4476,15 @@ const TEXTBOOK_DATA = {
           "phonemes": [
             {
               "symbol": "/t/",
-              "letter": "t"
+              "letter": "T"
             },
             {
               "symbol": "/aɪ/",
               "letter": "ai"
             },
             {
-              "symbol": "—",
-              "letter": " "
-            },
-            {
-              "symbol": "/tʃ/",
-              "letter": "ch"
+              "symbol": "/dʒ/",
+              "letter": "j"
             },
             {
               "symbol": "/iː/",
@@ -6422,10 +6418,6 @@ const TEXTBOOK_DATA = {
             {
               "symbol": "/θ/",
               "letter": "th"
-            },
-            {
-              "symbol": "/s/",
-              "letter": "s"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit6/maths/maths_%E9%A3%8E%E6%A0%BCA.png",

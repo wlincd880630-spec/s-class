@@ -970,11 +970,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/ɔː/",
-              "letter": "ou"
-            },
-            {
-              "symbol": "/r/",
-              "letter": "r"
+              "letter": "our"
             },
             {
               "symbol": "—",
