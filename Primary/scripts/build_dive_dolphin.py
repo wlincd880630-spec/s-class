@@ -639,19 +639,24 @@ def patch_coloring(path: str):
       font-size: clamp(3rem, 11vw, 4.8rem);
       line-height: 1.05;
       letter-spacing: 0.03em;
-      color: #fafafa;
-      -webkit-text-stroke: 3.2px var(--stroke);
+      color: #ffffff;
+      -webkit-text-stroke: 3.5px #1a1a1a;
       paint-order: stroke fill;
       text-transform: lowercase;
       word-break: keep-all;
+      text-shadow:
+        2px 0 0 #1a1a1a, -2px 0 0 #1a1a1a,
+        0 2px 0 #1a1a1a, 0 -2px 0 #1a1a1a,
+        1.5px 1.5px 0 #1a1a1a, -1.5px 1.5px 0 #1a1a1a,
+        1.5px -1.5px 0 #1a1a1a, -1.5px -1.5px 0 #1a1a1a;
     }}
     .sheet-word.long {{
       font-size: clamp(2.4rem, 8.5vw, 3.6rem);
-      -webkit-text-stroke-width: 2.8px;
+      -webkit-text-stroke-width: 3px;
     }}
     .sheet-word.xlong {{
       font-size: clamp(1.9rem, 7vw, 2.9rem);
-      -webkit-text-stroke-width: 2.5px;
+      -webkit-text-stroke-width: 2.6px;
       letter-spacing: 0.01em;
     }}
     .sheet-img {{
@@ -687,7 +692,8 @@ def patch_coloring(path: str):
       }}
       .sheet-word {{
         color: #fff !important;
-        -webkit-text-stroke: 3px #000 !important;
+        -webkit-text-stroke: 3.5px #000 !important;
+        text-shadow: none !important;
       }}
       .sheet-img img {{ max-height: 220mm; }}
       * {{ -webkit-print-color-adjust: exact; print-color-adjust: exact; }}
