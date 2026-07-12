@@ -18,7 +18,7 @@ const TEXTBOOK_DATA = {
         {
           "id": "w1",
           "word": "doctor",
-          "chinese": "医生，大夫",
+          "chinese": "医生",
           "phonemes": [
             {
               "symbol": "/d/",
@@ -60,7 +60,7 @@ const TEXTBOOK_DATA = {
         {
           "id": "w2",
           "word": "fireman",
-          "chinese": "消防队员",
+          "chinese": "消防员",
           "phonemes": [
             {
               "symbol": "/f/",
@@ -106,7 +106,7 @@ const TEXTBOOK_DATA = {
         {
           "id": "w3",
           "word": "farmer",
-          "chinese": "农民；农场主；养殖场主",
+          "chinese": "农民",
           "phonemes": [
             {
               "symbol": "/f/",
@@ -144,7 +144,7 @@ const TEXTBOOK_DATA = {
         {
           "id": "w4",
           "word": "cook",
-          "chinese": "厨师，炊事员",
+          "chinese": "厨师",
           "phonemes": [
             {
               "symbol": "/k/",
@@ -178,7 +178,7 @@ const TEXTBOOK_DATA = {
         {
           "id": "w5",
           "word": "police",
-          "chinese": "警察",
+          "chinese": "警察；警方",
           "phonemes": [
             {
               "symbol": "/p/",
@@ -218,9 +218,62 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w6",
+          "word": "police officer",
+          "chinese": "警察（职员）",
+          "phonemes": [
+            {
+              "symbol": "/p/",
+              "letter": "p"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "l"
+            },
+            {
+              "symbol": "/iː/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/s/",
+              "letter": "ce"
+            },
+            {
+              "symbol": "—",
+              "letter": " "
+            },
+            {
+              "symbol": "/ɒ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/f/",
+              "letter": "ff"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/s/",
+              "letter": "ce"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "er"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/police_officer/police_officer_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [],
+          "id": "w6"
+        },
+        {
+          "id": "w7",
           "word": "station",
-          "chinese": "车站",
+          "chinese": "车站，局",
           "phonemes": [
             {
               "symbol": "/st/",
@@ -252,9 +305,54 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w7",
+          "word": "police station",
+          "chinese": "警察局",
+          "phonemes": [
+            {
+              "symbol": "/p/",
+              "letter": "p"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "l"
+            },
+            {
+              "symbol": "/iː/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/s/",
+              "letter": "ce"
+            },
+            {
+              "symbol": "—",
+              "letter": " "
+            },
+            {
+              "symbol": "/st/",
+              "letter": "st"
+            },
+            {
+              "symbol": "/eɪ/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/ʃən/",
+              "letter": "tion"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/police_station/police_station_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [],
+          "id": "w8"
+        },
+        {
+          "id": "w9",
           "word": "often",
-          "chinese": "经常，时常，多次",
+          "chinese": "经常",
           "phonemes": [
             {
               "symbol": "/ɒ/",
@@ -294,9 +392,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w8",
+          "id": "w10",
           "word": "field",
-          "chinese": "田地，田野",
+          "chinese": "田地；场地",
           "phonemes": [
             {
               "symbol": "/f/",
@@ -332,7 +430,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w9",
+          "id": "w11",
           "word": "painter",
           "chinese": "画家",
           "phonemes": [
@@ -374,9 +472,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w10",
+          "id": "w12",
           "word": "use",
-          "chinese": "用，使用",
+          "chinese": "使用",
           "phonemes": [
             {
               "symbol": "/juː/",
@@ -404,9 +502,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w11",
+          "id": "w13",
           "word": "brush",
-          "chinese": "刷子；毛刷",
+          "chinese": "画笔；刷子",
           "phonemes": [
             {
               "symbol": "/br/",
@@ -438,7 +536,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w12",
+          "id": "w14",
           "word": "scientist",
           "chinese": "科学家",
           "phonemes": [
@@ -488,9 +586,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w13",
+          "id": "w15",
           "word": "writer",
-          "chinese": "作家；作者",
+          "chinese": "作家",
           "phonemes": [
             {
               "symbol": "—",
@@ -530,7 +628,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w14",
+          "id": "w16",
           "word": "worker",
           "chinese": "工人",
           "phonemes": [
@@ -568,9 +666,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w15",
+          "id": "w17",
           "word": "aunt",
-          "chinese": "姑母；姨母",
+          "chinese": "姑姑；阿姨；舅妈",
           "phonemes": [
             {
               "symbol": "/ɑː/",
@@ -602,9 +700,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w16",
+          "id": "w18",
           "word": "night",
-          "chinese": "夜晚，夜间",
+          "chinese": "夜晚",
           "phonemes": [
             {
               "symbol": "/n/",
@@ -636,7 +734,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w17",
+          "id": "w19",
           "word": "owl",
           "chinese": "猫头鹰",
           "phonemes": [
@@ -666,9 +764,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w18",
-          "word": "night owl",
-          "chinese": "夜猫子，喜欢熬夜的人",
+          "id": "w20",
+          "word": "night-owl",
+          "chinese": "夜猫子",
           "phonemes": [
             {
               "symbol": "/n/",
@@ -712,9 +810,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w19",
+          "id": "w21",
           "word": "driver",
-          "chinese": "司机，驾驶员",
+          "chinese": "司机",
           "phonemes": [
             {
               "symbol": "/dr/",
@@ -750,9 +848,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w20",
+          "id": "w22",
           "word": "taxi",
-          "chinese": "出租车，计程车",
+          "chinese": "出租车",
           "phonemes": [
             {
               "symbol": "/t/",
@@ -788,9 +886,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w21",
+          "id": "w23",
           "word": "safe",
-          "chinese": "安全的，没有危险的",
+          "chinese": "安全的",
           "phonemes": [
             {
               "symbol": "/s/",
@@ -822,7 +920,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w22",
+          "id": "w24",
           "word": "nurse",
           "chinese": "护士",
           "phonemes": [
@@ -856,9 +954,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w23",
+          "id": "w25",
           "word": "light",
-          "chinese": "灯；光线",
+          "chinese": "灯光；光线",
           "phonemes": [
             {
               "symbol": "/l/",
@@ -890,9 +988,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w24",
+          "id": "w26",
           "word": "uncle",
-          "chinese": "伯父；叔父；舅父；姑父；姨父",
+          "chinese": "叔叔；伯父；舅舅",
           "phonemes": [
             {
               "symbol": "/ʌ/",
@@ -928,9 +1026,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w25",
+          "id": "w27",
           "word": "bake",
-          "chinese": "烘，烤，焙",
+          "chinese": "烘烤",
           "phonemes": [
             {
               "symbol": "/b/",
@@ -962,7 +1060,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w26",
+          "id": "w28",
           "word": "bee",
           "chinese": "蜜蜂",
           "phonemes": [
@@ -992,9 +1090,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w27",
+          "id": "w29",
           "word": "same",
-          "chinese": "相同的，完全相同的，一模一样的",
+          "chinese": "相同的",
           "phonemes": [
             {
               "symbol": "/s/",
@@ -1026,9 +1124,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w28",
+          "id": "w30",
           "word": "sound",
-          "chinese": "声，声音",
+          "chinese": "听起来；声音",
           "phonemes": [
             {
               "symbol": "/s/",
@@ -1064,7 +1162,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w29",
+          "id": "w31",
           "word": "postman",
           "chinese": "邮递员",
           "phonemes": [
@@ -1110,9 +1208,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w30",
+          "id": "w32",
           "word": "life",
-          "chinese": "生活",
+          "chinese": "生活；生命",
           "phonemes": [
             {
               "symbol": "/l/",
@@ -1144,7 +1242,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w31",
+          "id": "w33",
           "word": "mountain",
           "chinese": "高山",
           "phonemes": [
@@ -1197,9 +1295,9 @@ const TEXTBOOK_DATA = {
       "title": "情感与生活",
       "words": [
         {
-          "id": "w32",
+          "id": "w34",
           "word": "laugh",
-          "chinese": "发出笑声，（大）笑",
+          "chinese": "大笑",
           "phonemes": [
             {
               "symbol": "/l/",
@@ -1231,9 +1329,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w33",
+          "id": "w35",
           "word": "sad",
-          "chinese": "不愉快的，伤心的，难过的",
+          "chinese": "伤心的",
           "phonemes": [
             {
               "symbol": "/s/",
@@ -1265,9 +1363,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w34",
+          "id": "w36",
           "word": "scared",
-          "chinese": "害怕的，恐惧的；紧张的",
+          "chinese": "害怕的",
           "phonemes": [
             {
               "symbol": "/sk/",
@@ -1299,9 +1397,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w35",
+          "id": "w37",
           "word": "angry",
-          "chinese": "发怒的，生气的，气愤的",
+          "chinese": "生气的",
           "phonemes": [
             {
               "symbol": "/æ/",
@@ -1337,9 +1435,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w36",
+          "id": "w38",
           "word": "excited",
-          "chinese": "兴奋的，激动的",
+          "chinese": "兴奋的",
           "phonemes": [
             {
               "symbol": "/ɪ/",
@@ -1387,9 +1485,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w37",
+          "id": "w39",
           "word": "opera",
-          "chinese": "歌剧",
+          "chinese": "戏剧；歌剧",
           "phonemes": [
             {
               "symbol": "/ɒ/",
@@ -1425,9 +1523,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w38",
+          "id": "w40",
           "word": "next",
-          "chinese": "（时间）紧接着的；下次的",
+          "chinese": "紧接着，下一个",
           "phonemes": [
             {
               "symbol": "/n/",
@@ -1463,9 +1561,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w39",
+          "id": "w41",
           "word": "cough",
-          "chinese": "咳嗽，咳",
+          "chinese": "咳嗽",
           "phonemes": [
             {
               "symbol": "/k/",
@@ -1497,9 +1595,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w40",
+          "id": "w42",
           "word": "better",
-          "chinese": "（健康状况）好转的；（疼痛、伤势等）减轻的",
+          "chinese": "更好的",
           "phonemes": [
             {
               "symbol": "/b/",
@@ -1535,7 +1633,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w41",
+          "id": "w43",
           "word": "gift",
           "chinese": "礼物",
           "phonemes": [
@@ -1573,9 +1671,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w42",
+          "id": "w44",
           "word": "model",
-          "chinese": "（尤指可拼装的）模型",
+          "chinese": "模型",
           "phonemes": [
             {
               "symbol": "/m/",
@@ -1615,9 +1713,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w43",
+          "id": "w45",
           "word": "shout",
-          "chinese": "大声说，喊叫，呼喊",
+          "chinese": "大喊，叫嚷",
           "phonemes": [
             {
               "symbol": "/ʃ/",
@@ -1649,47 +1747,30 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w44",
-          "word": "should",
-          "chinese": "应当，应该",
+          "word": "shoot",
+          "chinese": "射击",
           "phonemes": [
             {
               "symbol": "/ʃ/",
               "letter": "sh"
             },
             {
-              "symbol": "/ʊ/",
-              "letter": "ou"
+              "symbol": "/uː/",
+              "letter": "oo"
             },
             {
-              "symbol": "—",
-              "letter": "l"
-            },
-            {
-              "symbol": "/d/",
-              "letter": "d"
+              "symbol": "/t/",
+              "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit2/should/should_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "You should brush your teeth every day.",
-              "zh": "你应该每天刷牙。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit2/should/textbook.png"
-            },
-            {
-              "en": "You should brush your teeth before going to bed every night.",
-              "zh": "你应该每晚睡觉前刷牙。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit2/should/context.png"
-            }
-          ]
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit2/shoot/shoot_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [],
+          "id": "w46"
         },
         {
-          "id": "w45",
+          "id": "w47",
           "word": "feeling",
-          "chinese": "感觉，感触",
+          "chinese": "情绪，感受",
           "phonemes": [
             {
               "symbol": "/f/",
@@ -1729,7 +1810,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w46",
+          "id": "w48",
           "word": "huge",
           "chinese": "巨大的",
           "phonemes": [
@@ -1763,9 +1844,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w47",
+          "id": "w49",
           "word": "worried",
-          "chinese": "担心的，焦虑的",
+          "chinese": "担心的",
           "phonemes": [
             {
               "symbol": "/w/",
@@ -1809,43 +1890,30 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w48",
-          "word": "street",
-          "chinese": "大街，街道",
+          "word": "straight",
+          "chinese": "笔直的；大街",
           "phonemes": [
             {
               "symbol": "/str/",
               "letter": "str"
             },
             {
-              "symbol": "/iː/",
-              "letter": "ee"
+              "symbol": "/eɪ/",
+              "letter": "aigh"
             },
             {
               "symbol": "/t/",
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit2/street/street_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "I'm walking on the street.",
-              "zh": "我正在街上走。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit2/street/textbook.png"
-            },
-            {
-              "en": "We must look both ways before crossing the street.",
-              "zh": "过马路前我们必须两边都看看。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit2/street/context.png"
-            }
-          ]
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit2/straight/straight_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [],
+          "id": "w50"
         },
         {
-          "id": "w49",
+          "id": "w51",
           "word": "hit",
-          "chinese": "撞击，碰撞",
+          "chinese": "击打，碰撞",
           "phonemes": [
             {
               "symbol": "/h/",
@@ -1880,13 +1948,13 @@ const TEXTBOOK_DATA = {
     },
     {
       "id": "unit3",
-      "name": "Unit 3 · Talents & Performance",
-      "title": "才能与表演",
+      "name": "Unit 3 · Talent Show",
+      "title": "才艺表演",
       "words": [
         {
-          "id": "w50",
+          "id": "w52",
           "word": "talent",
-          "chinese": "天资，天赋，才能",
+          "chinese": "天赋，才能",
           "phonemes": [
             {
               "symbol": "/t/",
@@ -1930,9 +1998,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w51",
+          "id": "w53",
           "word": "act",
-          "chinese": "演出；扮演",
+          "chinese": "表演；行动",
           "phonemes": [
             {
               "symbol": "/æ/",
@@ -1964,9 +2032,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w52",
+          "id": "w54",
           "word": "magic",
-          "chinese": "魔术，戏法",
+          "chinese": "魔法；有魔力的",
           "phonemes": [
             {
               "symbol": "/m/",
@@ -2006,9 +2074,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w53",
+          "id": "w55",
           "word": "shine",
-          "chinese": "表现突出，出众",
+          "chinese": "发光，闪耀",
           "phonemes": [
             {
               "symbol": "/ʃ/",
@@ -2040,9 +2108,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w54",
+          "id": "w56",
           "word": "puzzle",
-          "chinese": "拼图游戏",
+          "chinese": "谜题；拼图",
           "phonemes": [
             {
               "symbol": "/p/",
@@ -2078,9 +2146,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w55",
+          "id": "w57",
           "word": "dancer",
-          "chinese": "舞蹈演员",
+          "chinese": "舞者，舞蹈演员",
           "phonemes": [
             {
               "symbol": "/d/",
@@ -2120,9 +2188,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w56",
+          "id": "w58",
           "word": "win",
-          "chinese": "获胜，赢",
+          "chinese": "获胜，赢得",
           "phonemes": [
             {
               "symbol": "/w/",
@@ -2154,9 +2222,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w57",
+          "id": "w59",
           "word": "just",
-          "chinese": "就，只是",
+          "chinese": "仅仅，只是",
           "phonemes": [
             {
               "symbol": "/dʒ/",
@@ -2188,9 +2256,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w58",
+          "id": "w60",
           "word": "boy",
-          "chinese": "男孩；儿子",
+          "chinese": "男孩",
           "phonemes": [
             {
               "symbol": "/b/",
@@ -2218,9 +2286,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w59",
-          "word": "slowly",
-          "chinese": "缓慢地，慢慢地",
+          "id": "w61",
+          "word": "slow",
+          "chinese": "缓慢的",
           "phonemes": [
             {
               "symbol": "/sl/",
@@ -2229,14 +2297,6 @@ const TEXTBOOK_DATA = {
             {
               "symbol": "/əʊ/",
               "letter": "ow"
-            },
-            {
-              "symbol": "/l/",
-              "letter": "l"
-            },
-            {
-              "symbol": "/i/",
-              "letter": "y"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit3/slowly/slowly_%E9%A3%8E%E6%A0%BCA.png",
@@ -2259,13 +2319,13 @@ const TEXTBOOK_DATA = {
     },
     {
       "id": "unit4",
-      "name": "Unit 4 · Plant Growth",
-      "title": "植物生长",
+      "name": "Unit 4 · Plant Growth & Culture",
+      "title": "植物生长与文化",
       "words": [
         {
-          "id": "w60",
+          "id": "w62",
           "word": "seed",
-          "chinese": "种子，籽",
+          "chinese": "种子",
           "phonemes": [
             {
               "symbol": "/s/",
@@ -2297,9 +2357,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w61",
+          "id": "w63",
           "word": "earth",
-          "chinese": "泥土，土壤",
+          "chinese": "泥土；地球",
           "phonemes": [
             {
               "symbol": "/ɜː/",
@@ -2327,7 +2387,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w62",
+          "id": "w64",
           "word": "root",
           "chinese": "根",
           "phonemes": [
@@ -2361,9 +2421,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w63",
+          "id": "w65",
           "word": "stem",
-          "chinese": "（植物的）茎，柄",
+          "chinese": "（植物的）茎",
           "phonemes": [
             {
               "symbol": "/st/",
@@ -2395,43 +2455,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w64",
-          "word": "thin",
-          "chinese": "细的",
-          "phonemes": [
-            {
-              "symbol": "/θ/",
-              "letter": "th"
-            },
-            {
-              "symbol": "/ɪ/",
-              "letter": "i"
-            },
-            {
-              "symbol": "/n/",
-              "letter": "n"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit4/thin/thin_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "My stem is thin.",
-              "zh": "我的茎很细。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit4/thin/textbook.png"
-            },
-            {
-              "en": "My pencil is thin, but your pencil is thick.",
-              "zh": "我的铅笔很细，但你的铅笔很粗。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit4/thin/context.png"
-            }
-          ]
-        },
-        {
-          "id": "w65",
+          "id": "w66",
           "word": "leaf",
-          "chinese": "叶，叶子",
+          "chinese": "叶子",
           "phonemes": [
             {
               "symbol": "/l/",
@@ -2463,9 +2489,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w66",
+          "id": "w67",
           "word": "dig",
-          "chinese": "挖",
+          "chinese": "挖掘",
           "phonemes": [
             {
               "symbol": "/d/",
@@ -2497,7 +2523,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w67",
+          "id": "w68",
           "word": "sunflower",
           "chinese": "向日葵",
           "phonemes": [
@@ -2543,9 +2569,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w68",
+          "id": "w69",
           "word": "plant",
-          "chinese": "种植，栽种；播（种）",
+          "chinese": "种植；植物",
           "phonemes": [
             {
               "symbol": "/pl/",
@@ -2581,9 +2607,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w69",
+          "id": "w70",
           "word": "dream",
-          "chinese": "梦想，愿望，理想",
+          "chinese": "梦想",
           "phonemes": [
             {
               "symbol": "/dr/",
@@ -2615,9 +2641,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w70",
+          "id": "w71",
           "word": "sleep",
-          "chinese": "睡，睡觉",
+          "chinese": "睡觉",
           "phonemes": [
             {
               "symbol": "/sl/",
@@ -2649,9 +2675,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w71",
+          "id": "w72",
           "word": "will",
-          "chinese": "将，会，要",
+          "chinese": "将要",
           "phonemes": [
             {
               "symbol": "/w/",
@@ -2683,9 +2709,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w72",
+          "id": "w73",
           "word": "true",
-          "chinese": "真的，真实的",
+          "chinese": "真实的",
           "phonemes": [
             {
               "symbol": "/tr/",
@@ -2713,7 +2739,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w73",
+          "id": "w74",
           "word": "come true",
           "chinese": "实现",
           "phonemes": [
@@ -2759,9 +2785,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w74",
+          "id": "w75",
           "word": "paper",
-          "chinese": "纸",
+          "chinese": "纸张",
           "phonemes": [
             {
               "symbol": "/p/",
@@ -2795,16 +2821,9 @@ const TEXTBOOK_DATA = {
               "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit4/paper/context.png"
             }
           ]
-        }
-      ]
-    },
-    {
-      "id": "unit5",
-      "name": "Unit 5 · Culture Fair & Hometown",
-      "title": "文化博览与家乡",
-      "words": [
+        },
         {
-          "id": "w75",
+          "id": "w76",
           "word": "drama",
           "chinese": "戏剧",
           "phonemes": [
@@ -2842,9 +2861,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w76",
+          "id": "w77",
           "word": "trip",
-          "chinese": "旅游，旅行，出行",
+          "chinese": "短途出行",
           "phonemes": [
             {
               "symbol": "/tr/",
@@ -2876,9 +2895,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w77",
+          "id": "w78",
           "word": "fair",
-          "chinese": "集市；义卖会；户外游艺会",
+          "chinese": "集市；义卖会；户外联谊会",
           "phonemes": [
             {
               "symbol": "/f/",
@@ -2906,9 +2925,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w78",
+          "id": "w79",
           "word": "festival",
-          "chinese": "节，节庆，汇演",
+          "chinese": "节日",
           "phonemes": [
             {
               "symbol": "/f/",
@@ -2956,9 +2975,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w79",
+          "id": "w80",
           "word": "horn",
-          "chinese": "角",
+          "chinese": "角；号角",
           "phonemes": [
             {
               "symbol": "/h/",
@@ -2990,9 +3009,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w80",
+          "id": "w81",
           "word": "dot",
-          "chinese": "点，小圆点",
+          "chinese": "小圆点",
           "phonemes": [
             {
               "symbol": "/d/",
@@ -3024,9 +3043,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w81",
+          "id": "w82",
           "word": "raindrop",
-          "chinese": "雨点，雨滴",
+          "chinese": "雨滴",
           "phonemes": [
             {
               "symbol": "/r/",
@@ -3070,7 +3089,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w82",
+          "id": "w83",
           "word": "more",
           "chinese": "更多的",
           "phonemes": [
@@ -3100,9 +3119,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w83",
+          "id": "w84",
           "word": "special",
-          "chinese": "特殊的，特别的",
+          "chinese": "特别的",
           "phonemes": [
             {
               "symbol": "/sp/",
@@ -3142,9 +3161,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w84",
+          "id": "w85",
           "word": "keeper",
-          "chinese": "看守人，保管人",
+          "chinese": "饲养员；守护者",
           "phonemes": [
             {
               "symbol": "/k/",
@@ -3180,9 +3199,8 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w85",
-          "word": "hey",
-          "chinese": "嘿，喂",
+          "word": "hay",
+          "chinese": "干草",
           "phonemes": [
             {
               "symbol": "/h/",
@@ -3190,29 +3208,17 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/eɪ/",
-              "letter": "ey"
+              "letter": "ay"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit5/hey/hey_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Hey, look at that big bird!",
-              "zh": "嘿，看那只大鸟！",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit5/hey/textbook.png"
-            },
-            {
-              "en": "Hey, don't forget to bring your umbrella today!",
-              "zh": "嘿，今天别忘了带你的雨伞！",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit5/hey/context.png"
-            }
-          ]
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit4/hay/hay_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [],
+          "id": "w86"
         },
         {
-          "id": "w86",
+          "id": "w87",
           "word": "lovely",
-          "chinese": "美好的；令人愉快的；可爱的",
+          "chinese": "可爱的",
           "phonemes": [
             {
               "symbol": "/l/",
@@ -3252,7 +3258,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w87",
+          "id": "w88",
           "word": "student",
           "chinese": "学生",
           "phonemes": [
@@ -3298,7 +3304,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w88",
+          "id": "w89",
           "word": "culture",
           "chinese": "文化",
           "phonemes": [
@@ -3340,7 +3346,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w89",
+          "id": "w90",
           "word": "hour",
           "chinese": "小时",
           "phonemes": [
@@ -3370,9 +3376,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w90",
+          "id": "w91",
           "word": "note",
-          "chinese": "笔记，记录",
+          "chinese": "笔记；便条",
           "phonemes": [
             {
               "symbol": "/n/",
@@ -3404,9 +3410,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w91",
+          "id": "w92",
           "word": "vote",
-          "chinese": "选票",
+          "chinese": "投票",
           "phonemes": [
             {
               "symbol": "/v/",
@@ -3438,7 +3444,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w92",
+          "id": "w93",
           "word": "design",
           "chinese": "设计",
           "phonemes": [
@@ -3484,9 +3490,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w93",
+          "id": "w94",
           "word": "hometown",
-          "chinese": "家乡，故乡",
+          "chinese": "家乡",
           "phonemes": [
             {
               "symbol": "/h/",
@@ -3537,9 +3543,9 @@ const TEXTBOOK_DATA = {
       "title": "服装打扮",
       "words": [
         {
-          "id": "w94",
+          "id": "w95",
           "word": "T-shirt",
-          "chinese": "T恤（衫）",
+          "chinese": "T恤衫",
           "phonemes": [
             {
               "symbol": "/tiː/",
@@ -3579,9 +3585,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w95",
+          "id": "w96",
           "word": "skirt",
-          "chinese": "半身裙，裙子",
+          "chinese": "短裙",
           "phonemes": [
             {
               "symbol": "/sk/",
@@ -3613,7 +3619,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w96",
+          "id": "w97",
           "word": "shorts",
           "chinese": "短裤",
           "phonemes": [
@@ -3651,9 +3657,30 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w97",
+          "word": "shirt",
+          "chinese": "衬衫",
+          "phonemes": [
+            {
+              "symbol": "/ʃ/",
+              "letter": "sh"
+            },
+            {
+              "symbol": "/ɜː/",
+              "letter": "ir"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit6/shirt/shirt_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [],
+          "id": "w98"
+        },
+        {
+          "id": "w99",
           "word": "trousers",
-          "chinese": "裤子",
+          "chinese": "长裤",
           "phonemes": [
             {
               "symbol": "/tr/",
@@ -3693,7 +3720,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w98",
+          "id": "w100",
           "word": "scarf",
           "chinese": "围巾",
           "phonemes": [
@@ -3727,9 +3754,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w99",
+          "id": "w101",
           "word": "sweater",
-          "chinese": "毛线衣，羊毛衫，针织衫",
+          "chinese": "毛衣",
           "phonemes": [
             {
               "symbol": "/sw/",
@@ -3765,7 +3792,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w100",
+          "id": "w102",
           "word": "dress",
           "chinese": "连衣裙",
           "phonemes": [
@@ -3799,9 +3826,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w101",
+          "id": "w103",
           "word": "party",
-          "chinese": "聚会，派对",
+          "chinese": "派对",
           "phonemes": [
             {
               "symbol": "/p/",
@@ -3837,7 +3864,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w102",
+          "id": "w104",
           "word": "dressmaker",
           "chinese": "裁缝",
           "phonemes": [
@@ -3887,9 +3914,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w103",
+          "id": "w105",
           "word": "wrong",
-          "chinese": "不正确的，错误的",
+          "chinese": "错误的",
           "phonemes": [
             {
               "symbol": "—",
@@ -3925,7 +3952,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w104",
+          "id": "w106",
           "word": "clever",
           "chinese": "聪明的",
           "phonemes": [
@@ -3963,43 +3990,68 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w105",
-          "word": "whale",
-          "chinese": "鲸",
+          "id": "w107",
+          "word": "will",
+          "chinese": "将要",
           "phonemes": [
             {
               "symbol": "/w/",
-              "letter": "wh"
+              "letter": "w"
             },
             {
-              "symbol": "/eɪ/",
-              "letter": "a"
+              "symbol": "/ɪ/",
+              "letter": "i"
             },
             {
               "symbol": "/l/",
-              "letter": "le"
+              "letter": "ll"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit6/whale/whale_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit4/will/will_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
-              "en": "A birthday gift for Ms Whale?",
-              "zh": "给鲸鱼女士的生日礼物？",
+              "en": "I think his dreams will come true!",
+              "zh": "我想他的梦想会实现！",
               "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit6/whale/textbook.png"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit4/will/textbook.png"
             },
             {
-              "en": "A big whale jumped out of the water near the boat.",
-              "zh": "一头大鲸在船附近跳出了水面。",
+              "en": "I will finish my homework before dinner.",
+              "zh": "我将在晚饭前完成我的作业。",
               "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit6/whale/context.png"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/sentences/Unit4/will/context.png"
             }
           ]
         },
         {
-          "id": "w106",
+          "word": "mister",
+          "chinese": "先生",
+          "phonemes": [
+            {
+              "symbol": "/m/",
+              "letter": "m"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/st/",
+              "letter": "st"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "er"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit6/mister/mister_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [],
+          "id": "w108"
+        },
+        {
+          "id": "w109",
           "word": "uniform",
-          "chinese": "制服",
+          "chinese": "校服，制服",
           "phonemes": [
             {
               "symbol": "/juː/",
@@ -4043,7 +4095,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w107",
+          "id": "w110",
           "word": "robe",
           "chinese": "长袍",
           "phonemes": [
@@ -4081,4 +4133,6 @@ const TEXTBOOK_DATA = {
   ]
 };
 
-if (typeof module !== 'undefined') module.exports = TEXTBOOK_DATA;
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = TEXTBOOK_DATA;
+}
