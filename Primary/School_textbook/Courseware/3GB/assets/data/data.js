@@ -64,7 +64,7 @@ const TEXTBOOK_DATA = {
         {
           "id": "w2",
           "word": "panda",
-          "chinese": "大熊猫",
+          "chinese": "熊猫",
           "phonemes": [
             {
               "symbol": "/p/",
@@ -106,7 +106,7 @@ const TEXTBOOK_DATA = {
         {
           "id": "w3",
           "word": "elephant",
-          "chinese": "象",
+          "chinese": "大象",
           "phonemes": [
             {
               "symbol": "/ˈɛ/",
@@ -232,7 +232,7 @@ const TEXTBOOK_DATA = {
         {
           "id": "w6",
           "word": "monkey",
-          "chinese": "猴",
+          "chinese": "猴子",
           "phonemes": [
             {
               "symbol": "/m/",
@@ -274,7 +274,7 @@ const TEXTBOOK_DATA = {
         {
           "id": "w7",
           "word": "them",
-          "chinese": "他们；她们；它们",
+          "chinese": "他们（宾格）",
           "phonemes": [
             {
               "symbol": "/ð/",
@@ -308,7 +308,7 @@ const TEXTBOOK_DATA = {
         {
           "id": "w8",
           "word": "draw",
-          "chinese": "画，绘画",
+          "chinese": "画画",
           "phonemes": [
             {
               "symbol": "/dr/",
@@ -338,7 +338,7 @@ const TEXTBOOK_DATA = {
         {
           "id": "w9",
           "word": "tiger",
-          "chinese": "老虎，虎",
+          "chinese": "老虎",
           "phonemes": [
             {
               "symbol": "/t/",
@@ -376,7 +376,7 @@ const TEXTBOOK_DATA = {
         {
           "id": "w10",
           "word": "strong",
-          "chinese": "强壮的，力气大的",
+          "chinese": "强壮的",
           "phonemes": [
             {
               "symbol": "/str/",
@@ -410,7 +410,7 @@ const TEXTBOOK_DATA = {
         {
           "id": "w11",
           "word": "short",
-          "chinese": "个子矮的",
+          "chinese": "矮的；短的",
           "phonemes": [
             {
               "symbol": "/ʃ/",
@@ -444,7 +444,7 @@ const TEXTBOOK_DATA = {
         {
           "id": "w12",
           "word": "white",
-          "chinese": "白的，白色的",
+          "chinese": "白色；白色的",
           "phonemes": [
             {
               "symbol": "/w/",
@@ -478,7 +478,7 @@ const TEXTBOOK_DATA = {
         {
           "id": "w13",
           "word": "brown",
-          "chinese": "棕色的；褐色的",
+          "chinese": "棕色；棕色的",
           "phonemes": [
             {
               "symbol": "/br/",
@@ -512,7 +512,7 @@ const TEXTBOOK_DATA = {
         {
           "id": "w14",
           "word": "tall",
-          "chinese": "高的，高大的",
+          "chinese": "高大的",
           "phonemes": [
             {
               "symbol": "/t/",
@@ -546,7 +546,7 @@ const TEXTBOOK_DATA = {
         {
           "id": "w15",
           "word": "him",
-          "chinese": "他；它（指雄性动物）",
+          "chinese": "他（宾格）",
           "phonemes": [
             {
               "symbol": "/h/",
@@ -626,7 +626,7 @@ const TEXTBOOK_DATA = {
         {
           "id": "w17",
           "word": "fast",
-          "chinese": "快的，快速的",
+          "chinese": "快速地；快的",
           "phonemes": [
             {
               "symbol": "/f/",
@@ -663,6 +663,44 @@ const TEXTBOOK_DATA = {
         },
         {
           "id": "w18",
+          "word": "small",
+          "chinese": "小的",
+          "phonemes": [
+            {
+              "symbol": "/s/",
+              "letter": "s"
+            },
+            {
+              "symbol": "/m/",
+              "letter": "m"
+            },
+            {
+              "symbol": "/ɔː/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "ll"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit1/small/small_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "I have got a small nose.",
+              "zh": "我有一个小鼻子。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/small-textbook.jpg"
+            },
+            {
+              "en": "My cat has small ears.",
+              "zh": "我的猫有小的耳朵。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/small-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w19",
           "word": "chameleon",
           "chinese": "变色龙",
           "phonemes": [
@@ -716,44 +754,6 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w19",
-          "word": "small",
-          "chinese": "小的",
-          "phonemes": [
-            {
-              "symbol": "/s/",
-              "letter": "s"
-            },
-            {
-              "symbol": "/m/",
-              "letter": "m"
-            },
-            {
-              "symbol": "/ɔː/",
-              "letter": "a"
-            },
-            {
-              "symbol": "/l/",
-              "letter": "ll"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit1/small/small_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "I have got a small nose.",
-              "zh": "我有一个小鼻子。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/small-textbook.jpg"
-            },
-            {
-              "en": "My cat has small ears.",
-              "zh": "我的猫有小的耳朵。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/small-context.jpg"
-            }
-          ]
-        },
-        {
           "id": "w20",
           "word": "lion",
           "chinese": "狮子",
@@ -794,7 +794,7 @@ const TEXTBOOK_DATA = {
         {
           "id": "w21",
           "word": "cute",
-          "chinese": "可爱的，漂亮的，逗人喜爱的",
+          "chinese": "可爱的",
           "phonemes": [
             {
               "symbol": "/k/",
@@ -828,7 +828,7 @@ const TEXTBOOK_DATA = {
         {
           "id": "w22",
           "word": "out",
-          "chinese": "往外，向外，出来",
+          "chinese": "向外",
           "phonemes": [
             {
               "symbol": "/aʊ/",
@@ -887,8 +887,8 @@ const TEXTBOOK_DATA = {
         },
         {
           "id": "w24",
-          "word": "go",
-          "chinese": "走，去",
+          "word": "goal",
+          "chinese": "目标",
           "phonemes": [
             {
               "symbol": "/ɡ/",
@@ -896,7 +896,11 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/əʊ/",
-              "letter": "o"
+              "letter": "oa"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "l"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit1/go/go_%E9%A3%8E%E6%A0%BCA.png",
@@ -994,7 +998,7 @@ const TEXTBOOK_DATA = {
         {
           "id": "w27",
           "word": "road",
-          "chinese": "路，道路",
+          "chinese": "道路",
           "phonemes": [
             {
               "symbol": "/r/",
@@ -1066,7 +1070,7 @@ const TEXTBOOK_DATA = {
         {
           "id": "w29",
           "word": "along",
-          "chinese": "一起",
+          "chinese": "沿着；顺着",
           "phonemes": [
             {
               "symbol": "/ə/",
@@ -1104,7 +1108,7 @@ const TEXTBOOK_DATA = {
         {
           "id": "w30",
           "word": "which",
-          "chinese": "哪一个；哪些",
+          "chinese": "哪一个",
           "phonemes": [
             {
               "symbol": "/w/",
@@ -1136,7 +1140,28 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w31",
+          "word": "word",
+          "chinese": "单词",
+          "phonemes": [
+            {
+              "symbol": "/w/",
+              "letter": "w"
+            },
+            {
+              "symbol": "/ɜː/",
+              "letter": "or"
+            },
+            {
+              "symbol": "/d/",
+              "letter": "d"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit1/word/word_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [],
+          "id": "w31"
+        },
+        {
+          "id": "w32",
           "word": "stone",
           "chinese": "石头",
           "phonemes": [
@@ -1170,7 +1195,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w32",
+          "id": "w33",
           "word": "hat",
           "chinese": "帽子",
           "phonemes": [
@@ -1204,9 +1229,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w33",
+          "id": "w34",
           "word": "shoe",
-          "chinese": "鞋",
+          "chinese": "鞋子",
           "phonemes": [
             {
               "symbol": "/ʃ/",
@@ -1241,7 +1266,7 @@ const TEXTBOOK_DATA = {
       "title": "认识身体",
       "words": [
         {
-          "id": "w34",
+          "id": "w35",
           "word": "body",
           "chinese": "身体",
           "phonemes": [
@@ -1279,9 +1304,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w35",
+          "id": "w36",
           "word": "head",
-          "chinese": "头，头部",
+          "chinese": "头",
           "phonemes": [
             {
               "symbol": "/h/",
@@ -1313,7 +1338,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w36",
+          "id": "w37",
           "word": "eye",
           "chinese": "眼睛",
           "phonemes": [
@@ -1339,7 +1364,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w37",
+          "id": "w38",
           "word": "ear",
           "chinese": "耳朵",
           "phonemes": [
@@ -1365,9 +1390,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w38",
+          "id": "w39",
           "word": "mouth",
-          "chinese": "嘴，口",
+          "chinese": "嘴巴",
           "phonemes": [
             {
               "symbol": "/m/",
@@ -1399,7 +1424,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w39",
+          "id": "w40",
           "word": "nose",
           "chinese": "鼻子",
           "phonemes": [
@@ -1433,9 +1458,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w40",
+          "id": "w41",
           "word": "touch",
-          "chinese": "触摸，碰",
+          "chinese": "触摸",
           "phonemes": [
             {
               "symbol": "/t/",
@@ -1467,7 +1492,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w41",
+          "id": "w42",
           "word": "hand",
           "chinese": "手",
           "phonemes": [
@@ -1505,9 +1530,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w42",
+          "id": "w43",
           "word": "arm",
-          "chinese": "手臂，上肢",
+          "chinese": "胳膊",
           "phonemes": [
             {
               "symbol": "/ɑː/",
@@ -1535,7 +1560,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w43",
+          "id": "w44",
           "word": "leg",
           "chinese": "腿",
           "phonemes": [
@@ -1569,9 +1594,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w44",
+          "id": "w45",
           "word": "foot",
-          "chinese": "（复数feet）脚",
+          "chinese": "脚（单数）",
           "phonemes": [
             {
               "symbol": "/f/",
@@ -1603,7 +1628,28 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w45",
+          "word": "feet",
+          "chinese": "脚（复数）",
+          "phonemes": [
+            {
+              "symbol": "/f/",
+              "letter": "f"
+            },
+            {
+              "symbol": "/iː/",
+              "letter": "ee"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit2/feet/feet_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [],
+          "id": "w46"
+        },
+        {
+          "id": "w47",
           "word": "toe",
           "chinese": "脚趾",
           "phonemes": [
@@ -1633,9 +1679,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w46",
+          "id": "w48",
           "word": "get",
-          "chinese": "获得，得到",
+          "chinese": "得到",
           "phonemes": [
             {
               "symbol": "/ɡ/",
@@ -1667,9 +1713,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w47",
+          "id": "w49",
           "word": "snowy",
-          "chinese": "多雪的，积雪的",
+          "chinese": "下雪的",
           "phonemes": [
             {
               "symbol": "/sn/",
@@ -1701,9 +1747,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w48",
+          "id": "w50",
           "word": "child",
-          "chinese": "（复数children）儿童，小孩",
+          "chinese": "小孩（单数）",
           "phonemes": [
             {
               "symbol": "/tʃ/",
@@ -1735,9 +1781,42 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w49",
+          "word": "children",
+          "chinese": "孩子们（复数）",
+          "phonemes": [
+            {
+              "symbol": "/tʃ/",
+              "letter": "ch"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "l"
+            },
+            {
+              "symbol": "/d/",
+              "letter": "dr"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit2/children/children_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [],
+          "id": "w51"
+        },
+        {
+          "id": "w52",
           "word": "work",
-          "chinese": "事情，工作",
+          "chinese": "工作",
           "phonemes": [
             {
               "symbol": "/w/",
@@ -1769,7 +1848,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w50",
+          "id": "w53",
           "word": "snowman",
           "chinese": "雪人",
           "phonemes": [
@@ -1811,7 +1890,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w51",
+          "id": "w54",
           "word": "long",
           "chinese": "长的",
           "phonemes": [
@@ -1845,9 +1924,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w52",
+          "id": "w55",
           "word": "rock",
-          "chinese": "石头，石子",
+          "chinese": "岩石",
           "phonemes": [
             {
               "symbol": "/r/",
@@ -1879,9 +1958,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w53",
+          "id": "w56",
           "word": "cool",
-          "chinese": "时髦的，酷的",
+          "chinese": "酷的；凉爽的",
           "phonemes": [
             {
               "symbol": "/k/",
@@ -1913,47 +1992,30 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w54",
-          "word": "best",
-          "chinese": "最好的",
+          "word": "bat",
+          "chinese": "球拍；蝙蝠",
           "phonemes": [
             {
               "symbol": "/b/",
               "letter": "b"
             },
             {
-              "symbol": "/e/",
-              "letter": "e"
-            },
-            {
-              "symbol": "/s/",
-              "letter": "s"
+              "symbol": "/æ/",
+              "letter": "a"
             },
             {
               "symbol": "/t/",
               "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit2/best/best_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Which is the best body part?",
-              "zh": "哪个身体部位最棒？",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/best-textbook.jpg"
-            },
-            {
-              "en": "This is my best toy.",
-              "zh": "这是我最好的玩具。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/best-context.jpg"
-            }
-          ]
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit2/bat/bat_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [],
+          "id": "w57"
         },
         {
-          "id": "w55",
+          "id": "w58",
           "word": "part",
-          "chinese": "器官；部位；组成部分",
+          "chinese": "部分",
           "phonemes": [
             {
               "symbol": "/p/",
@@ -1985,9 +2047,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w56",
+          "id": "w59",
           "word": "well",
-          "chinese": "嗯，这个；健康的",
+          "chinese": "好",
           "phonemes": [
             {
               "symbol": "/w/",
@@ -2019,7 +2081,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w57",
+          "id": "w60",
           "word": "hear",
           "chinese": "听见",
           "phonemes": [
@@ -2049,9 +2111,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w58",
+          "id": "w61",
           "word": "smell",
-          "chinese": "闻到，嗅到",
+          "chinese": "闻",
           "phonemes": [
             {
               "symbol": "/sm/",
@@ -2083,9 +2145,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w59",
+          "id": "w62",
           "word": "talk",
-          "chinese": "说话",
+          "chinese": "交谈",
           "phonemes": [
             {
               "symbol": "/t/",
@@ -2117,7 +2179,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w60",
+          "id": "w63",
           "word": "eat",
           "chinese": "吃",
           "phonemes": [
@@ -2147,39 +2209,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w61",
-          "word": "hey",
-          "chinese": "嘿，喂",
-          "phonemes": [
-            {
-              "symbol": "/h/",
-              "letter": "h"
-            },
-            {
-              "symbol": "/eɪ/",
-              "letter": "ey"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit2/hey/hey_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Hey, look at that bird!",
-              "zh": "嘿，看那只鸟！",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/hey-textbook.jpg"
-            },
-            {
-              "en": "Hey, let's play together!",
-              "zh": "嘿，我们一起玩吧！",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/hey-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w62",
+          "id": "w64",
           "word": "stop",
-          "chinese": "停止，终止",
+          "chinese": "停止",
           "phonemes": [
             {
               "symbol": "/st/",
@@ -2211,9 +2243,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w63",
+          "id": "w65",
           "word": "important",
-          "chinese": "重要的，重大的",
+          "chinese": "重要的",
           "phonemes": [
             {
               "symbol": "/ɪ/",
@@ -2261,9 +2293,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w64",
+          "id": "w66",
           "word": "team",
-          "chinese": "队",
+          "chinese": "团队",
           "phonemes": [
             {
               "symbol": "/t/",
@@ -2295,9 +2327,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w65",
+          "id": "w67",
           "word": "dream",
-          "chinese": "梦",
+          "chinese": "梦想",
           "phonemes": [
             {
               "symbol": "/dr/",
@@ -2329,9 +2361,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w66",
+          "id": "w68",
           "word": "ask",
-          "chinese": "问，提问",
+          "chinese": "提问",
           "phonemes": [
             {
               "symbol": "/ɑː/",
@@ -2359,9 +2391,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w67",
+          "id": "w69",
           "word": "answer",
-          "chinese": "回答，答复",
+          "chinese": "回答",
           "phonemes": [
             {
               "symbol": "/ɑː/",
@@ -2401,7 +2433,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w68",
+          "id": "w70",
           "word": "hair",
           "chinese": "头发",
           "phonemes": [
@@ -2431,9 +2463,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w69",
+          "id": "w71",
           "word": "different",
-          "chinese": "不同的，不一样的，有差异的",
+          "chinese": "不同的",
           "phonemes": [
             {
               "symbol": "/d/",
@@ -2477,7 +2509,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w70",
+          "id": "w72",
           "word": "face",
           "chinese": "脸",
           "phonemes": [
@@ -2518,7 +2550,79 @@ const TEXTBOOK_DATA = {
       "title": "美食",
       "words": [
         {
-          "id": "w71",
+          "id": "w73",
+          "word": "yummy",
+          "chinese": "美味的",
+          "phonemes": [
+            {
+              "symbol": "/j/",
+              "letter": "y"
+            },
+            {
+              "symbol": "/ʌ/",
+              "letter": "u"
+            },
+            {
+              "symbol": "/m/",
+              "letter": "mm"
+            },
+            {
+              "symbol": "/i/",
+              "letter": "y"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit3/yummy/yummy_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Yummy, yummy food!",
+              "zh": "好吃，好吃的食物！",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/yummy-textbook.jpg"
+            },
+            {
+              "en": "This cake is yummy!",
+              "zh": "这个蛋糕很美味！",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/yummy-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w74",
+          "word": "food",
+          "chinese": "食物",
+          "phonemes": [
+            {
+              "symbol": "/f/",
+              "letter": "f"
+            },
+            {
+              "symbol": "/uː/",
+              "letter": "oo"
+            },
+            {
+              "symbol": "/d/",
+              "letter": "d"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit3/food/food_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "What food do your friends like and not like?",
+              "zh": "你的朋友们喜欢什么食物，不喜欢什么食物？",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/food-textbook.jpg"
+            },
+            {
+              "en": "I have yummy food for lunch.",
+              "zh": "我午餐有好吃的食物。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/food-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w75",
           "word": "strawberry",
           "chinese": "草莓",
           "phonemes": [
@@ -2564,9 +2668,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w72",
+          "id": "w76",
           "word": "tomato",
-          "chinese": "番茄，西红柿",
+          "chinese": "西红柿",
           "phonemes": [
             {
               "symbol": "/t/",
@@ -2610,9 +2714,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w73",
+          "id": "w77",
           "word": "noodles",
-          "chinese": "（一般用复数）面条",
+          "chinese": "面条",
           "phonemes": [
             {
               "symbol": "/n/",
@@ -2652,7 +2756,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w74",
+          "id": "w78",
           "word": "carrot",
           "chinese": "胡萝卜",
           "phonemes": [
@@ -2694,9 +2798,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w75",
+          "id": "w79",
           "word": "chicken",
-          "chinese": "鸡肉；鸡",
+          "chinese": "鸡肉；小鸡",
           "phonemes": [
             {
               "symbol": "/tʃ/",
@@ -2736,7 +2840,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w76",
+          "id": "w80",
           "word": "fish",
           "chinese": "鱼肉；鱼",
           "phonemes": [
@@ -2770,9 +2874,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w77",
+          "id": "w81",
           "word": "rice",
-          "chinese": "米；米饭",
+          "chinese": "米饭",
           "phonemes": [
             {
               "symbol": "/r/",
@@ -2804,7 +2908,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w78",
+          "id": "w82",
           "word": "meat",
           "chinese": "肉",
           "phonemes": [
@@ -2838,7 +2942,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w79",
+          "id": "w83",
           "word": "fruit",
           "chinese": "水果",
           "phonemes": [
@@ -2876,7 +2980,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w80",
+          "id": "w84",
           "word": "vegetable",
           "chinese": "蔬菜",
           "phonemes": [
@@ -2930,7 +3034,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w81",
+          "id": "w85",
           "word": "salad",
           "chinese": "沙拉",
           "phonemes": [
@@ -2972,7 +3076,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w82",
+          "id": "w86",
           "word": "banana",
           "chinese": "香蕉",
           "phonemes": [
@@ -3018,7 +3122,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w83",
+          "id": "w87",
           "word": "bean",
           "chinese": "豆子",
           "phonemes": [
@@ -3052,7 +3156,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w84",
+          "id": "w88",
           "word": "cucumber",
           "chinese": "黄瓜",
           "phonemes": [
@@ -3102,9 +3206,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w85",
+          "id": "w89",
           "word": "then",
-          "chinese": "那么；然后，接下来",
+          "chinese": "然后",
           "phonemes": [
             {
               "symbol": "/ð/",
@@ -3136,7 +3240,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w86",
+          "id": "w90",
           "word": "about",
           "chinese": "关于",
           "phonemes": [
@@ -3174,7 +3278,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w87",
+          "id": "w91",
           "word": "what about...",
           "chinese": "……怎么样",
           "phonemes": [
@@ -3240,7 +3344,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w88",
+          "id": "w92",
           "word": "grape",
           "chinese": "葡萄",
           "phonemes": [
@@ -3274,9 +3378,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w89",
+          "id": "w93",
           "word": "juice",
-          "chinese": "汁",
+          "chinese": "果汁",
           "phonemes": [
             {
               "symbol": "/dʒ/",
@@ -3308,7 +3412,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w90",
+          "id": "w94",
           "word": "why",
           "chinese": "为什么",
           "phonemes": [
@@ -3338,9 +3442,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w91",
+          "id": "w95",
           "word": "early",
-          "chinese": "提早，提前；早的",
+          "chinese": "早的",
           "phonemes": [
             {
               "symbol": "/ɜː/",
@@ -3372,9 +3476,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w92",
+          "id": "w96",
           "word": "breakfast",
-          "chinese": "早餐，早饭",
+          "chinese": "早餐",
           "phonemes": [
             {
               "symbol": "/br/",
@@ -3414,7 +3518,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w93",
+          "id": "w97",
           "word": "time",
           "chinese": "时间",
           "phonemes": [
@@ -3448,9 +3552,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w94",
+          "id": "w98",
           "word": "still",
-          "chinese": "还，仍然",
+          "chinese": "仍然",
           "phonemes": [
             {
               "symbol": "/st/",
@@ -3482,7 +3586,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w95",
+          "id": "w99",
           "word": "ready",
           "chinese": "准备好的",
           "phonemes": [
@@ -3520,7 +3624,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w96",
+          "id": "w100",
           "word": "corn",
           "chinese": "玉米",
           "phonemes": [
@@ -3554,7 +3658,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w97",
+          "id": "w101",
           "word": "lunch",
           "chinese": "午餐",
           "phonemes": [
@@ -3584,150 +3688,6 @@ const TEXTBOOK_DATA = {
               "zh": "我们十二点吃午餐。",
               "source": "context",
               "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/lunch-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w98",
-          "word": "very",
-          "chinese": "很，非常",
-          "phonemes": [
-            {
-              "symbol": "/v/",
-              "letter": "v"
-            },
-            {
-              "symbol": "/e/",
-              "letter": "e"
-            },
-            {
-              "symbol": "/r/",
-              "letter": "r"
-            },
-            {
-              "symbol": "/i/",
-              "letter": "y"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit3/very/very_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "The cat is very cute and soft.",
-              "zh": "这只猫非常可爱和柔软。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/very-textbook.jpg"
-            },
-            {
-              "en": "The cat is very cute.",
-              "zh": "这只猫非常可爱。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/very-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w99",
-          "word": "much",
-          "chinese": "非常",
-          "phonemes": [
-            {
-              "symbol": "/m/",
-              "letter": "m"
-            },
-            {
-              "symbol": "/ʌ/",
-              "letter": "u"
-            },
-            {
-              "symbol": "/tʃ/",
-              "letter": "ch"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit3/much/much_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "So much to do, so much to see.",
-              "zh": "有那么多事情要做，有那么多东西要看。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/much-textbook.jpg"
-            },
-            {
-              "en": "I love you very much.",
-              "zh": "我非常爱你。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/much-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w100",
-          "word": "yummy",
-          "chinese": "美味的，很好吃的",
-          "phonemes": [
-            {
-              "symbol": "/j/",
-              "letter": "y"
-            },
-            {
-              "symbol": "/ʌ/",
-              "letter": "u"
-            },
-            {
-              "symbol": "/m/",
-              "letter": "mm"
-            },
-            {
-              "symbol": "/i/",
-              "letter": "y"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit3/yummy/yummy_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Yummy, yummy food!",
-              "zh": "好吃，好吃的食物！",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/yummy-textbook.jpg"
-            },
-            {
-              "en": "This cake is yummy!",
-              "zh": "这个蛋糕很美味！",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/yummy-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w101",
-          "word": "food",
-          "chinese": "食物",
-          "phonemes": [
-            {
-              "symbol": "/f/",
-              "letter": "f"
-            },
-            {
-              "symbol": "/uː/",
-              "letter": "oo"
-            },
-            {
-              "symbol": "/d/",
-              "letter": "d"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit3/food/food_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "What food do your friends like and not like?",
-              "zh": "你的朋友们喜欢什么食物，不喜欢什么食物？",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/food-textbook.jpg"
-            },
-            {
-              "en": "I have yummy food for lunch.",
-              "zh": "我午餐有好吃的食物。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/food-context.jpg"
             }
           ]
         },
@@ -3787,86 +3747,6 @@ const TEXTBOOK_DATA = {
         },
         {
           "id": "w103",
-          "word": "afternoon",
-          "chinese": "下午，午后",
-          "phonemes": [
-            {
-              "symbol": "/ɑː/",
-              "letter": "a"
-            },
-            {
-              "symbol": "/f/",
-              "letter": "f"
-            },
-            {
-              "symbol": "/t/",
-              "letter": "t"
-            },
-            {
-              "symbol": "/ə/",
-              "letter": "er"
-            },
-            {
-              "symbol": "/n/",
-              "letter": "n"
-            },
-            {
-              "symbol": "/uː/",
-              "letter": "oo"
-            },
-            {
-              "symbol": "/n/",
-              "letter": "n"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit3/afternoon/afternoon_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "It’s five o’clock in the afternoon.",
-              "zh": "下午五点钟。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/afternoon-textbook.jpg"
-            },
-            {
-              "en": "We play in the afternoon.",
-              "zh": "我们下午玩。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/afternoon-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w104",
-          "word": "tea",
-          "chinese": "茶；茶叶",
-          "phonemes": [
-            {
-              "symbol": "/t/",
-              "letter": "t"
-            },
-            {
-              "symbol": "/iː/",
-              "letter": "ea"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit3/tea/tea_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Mum likes to drink tea in the morning.",
-              "zh": "妈妈喜欢早上喝茶。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/tea-textbook.jpg"
-            },
-            {
-              "en": "Mom drinks hot tea.",
-              "zh": "妈妈喝热茶。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/tea-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w105",
           "word": "afternoon tea",
           "chinese": "下午茶",
           "phonemes": [
@@ -3928,9 +3808,8 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w106",
-          "word": "every",
-          "chinese": "每，每逢，每隔",
+          "word": "every week",
+          "chinese": "每周",
           "phonemes": [
             {
               "symbol": "/e/",
@@ -3947,29 +3826,11 @@ const TEXTBOOK_DATA = {
             {
               "symbol": "/i/",
               "letter": "y"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit3/every/every_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Every day is so much fun!",
-              "zh": "每一天都充满乐趣！",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/every-textbook.jpg"
             },
             {
-              "en": "I read a book every day.",
-              "zh": "我每天读一本书。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/every-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w107",
-          "word": "week",
-          "chinese": "星期，周",
-          "phonemes": [
+              "symbol": "—",
+              "letter": " "
+            },
             {
               "symbol": "/w/",
               "letter": "w"
@@ -3983,24 +3844,12 @@ const TEXTBOOK_DATA = {
               "letter": "k"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit3/week/week_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "There are seven days in a week.",
-              "zh": "一周有七天。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/week-textbook.jpg"
-            },
-            {
-              "en": "A week has seven days.",
-              "zh": "一周有七天。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/week-context.jpg"
-            }
-          ]
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit3/every_week/every_week_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [],
+          "id": "w104"
         },
         {
-          "id": "w108",
+          "id": "w105",
           "word": "tree",
           "chinese": "树",
           "phonemes": [
@@ -4030,9 +3879,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w109",
+          "id": "w106",
           "word": "milk",
-          "chinese": "奶，牛奶",
+          "chinese": "牛奶",
           "phonemes": [
             {
               "symbol": "/m/",
@@ -4064,9 +3913,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w110",
+          "id": "w107",
           "word": "cupcake",
-          "chinese": "杯形蛋糕",
+          "chinese": "纸杯蛋糕",
           "phonemes": [
             {
               "symbol": "/k/",
@@ -4110,9 +3959,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w111",
+          "id": "w108",
           "word": "sandwich",
-          "chinese": "三明治，夹心面包",
+          "chinese": "三明治",
           "phonemes": [
             {
               "symbol": "/s/",
@@ -4160,7 +4009,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w112",
+          "id": "w109",
           "word": "beef",
           "chinese": "牛肉",
           "phonemes": [
@@ -4194,9 +4043,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w113",
+          "id": "w110",
           "word": "dumpling",
-          "chinese": "水饺",
+          "chinese": "饺子",
           "phonemes": [
             {
               "symbol": "/d/",
@@ -4244,7 +4093,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w114",
+          "id": "w111",
           "word": "hot",
           "chinese": "热的",
           "phonemes": [
@@ -4278,8 +4127,8 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w115",
-          "word": "hot dog",
+          "id": "w112",
+          "word": "hot-dog",
           "chinese": "热狗",
           "phonemes": [
             {
@@ -4328,7 +4177,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w116",
+          "id": "w113",
           "word": "sushi",
           "chinese": "寿司",
           "phonemes": [
@@ -4366,7 +4215,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w117",
+          "id": "w114",
           "word": "cake",
           "chinese": "蛋糕",
           "phonemes": [
@@ -4404,664 +4253,12 @@ const TEXTBOOK_DATA = {
     {
       "id": "unit4",
       "name": "Unit 4 · What's Your Hobby",
-      "title": "兴趣爱好",
+      "title": "爱好",
       "words": [
         {
-          "id": "w118",
-          "word": "learn",
-          "chinese": "学习",
-          "phonemes": [
-            {
-              "symbol": "/l/",
-              "letter": "l"
-            },
-            {
-              "symbol": "/ɜː/",
-              "letter": "ear"
-            },
-            {
-              "symbol": "/n/",
-              "letter": "n"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/learn/learn_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "We don’t learn to speak with our hands.",
-              "zh": "我们不是用手来学说话的。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/learn-textbook.jpg"
-            },
-            {
-              "en": "We learn new words today.",
-              "zh": "我们今天学习新单词。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/learn-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w119",
-          "word": "plant",
-          "chinese": "植物",
-          "phonemes": [
-            {
-              "symbol": "/pl/",
-              "letter": "pl"
-            },
-            {
-              "symbol": "/ɑː/",
-              "letter": "a"
-            },
-            {
-              "symbol": "/nt/",
-              "letter": "nt"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/plant/plant_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Apples are from a plant.",
-              "zh": "苹果来自植物。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/plant-textbook.jpg"
-            },
-            {
-              "en": "This plant needs water.",
-              "zh": "这棵植物需要水。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/plant-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w120",
-          "word": "when",
-          "chinese": "什么时候",
-          "phonemes": [
-            {
-              "symbol": "/w/",
-              "letter": "wh"
-            },
-            {
-              "symbol": "/e/",
-              "letter": "e"
-            },
-            {
-              "symbol": "/n/",
-              "letter": "n"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/when/when_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "When does Yuanyuan’s mum go to work?",
-              "zh": "媛媛的妈妈什么时候去上班？",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/when-textbook.jpg"
-            },
-            {
-              "en": "When do you go home?",
-              "zh": "你什么时候回家？",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/when-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w121",
-          "word": "question",
-          "chinese": "问题，疑问",
-          "phonemes": [
-            {
-              "symbol": "/kw/",
-              "letter": "qu"
-            },
-            {
-              "symbol": "/e/",
-              "letter": "e"
-            },
-            {
-              "symbol": "/s/",
-              "letter": "s"
-            },
-            {
-              "symbol": "/tʃ/",
-              "letter": "ti"
-            },
-            {
-              "symbol": "/ən/",
-              "letter": "on"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/question/question_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Then answer the question.",
-              "zh": "然后回答问题。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/question-textbook.jpg"
-            },
-            {
-              "en": "I have a question for you.",
-              "zh": "我有一个问题问你。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/question-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w122",
-          "word": "watch",
-          "chinese": "观察",
-          "phonemes": [
-            {
-              "symbol": "/w/",
-              "letter": "w"
-            },
-            {
-              "symbol": "/ɒ/",
-              "letter": "a"
-            },
-            {
-              "symbol": "/tʃ/",
-              "letter": "tch"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/watch/watch_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "He stays there and watches for a long time.",
-              "zh": "他在那里看了很长时间。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/watch-textbook.jpg"
-            },
-            {
-              "en": "I watch the bird fly.",
-              "zh": "我观察鸟飞。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/watch-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w123",
-          "word": "study",
-          "chinese": "研究；仔细察看",
-          "phonemes": [
-            {
-              "symbol": "/st/",
-              "letter": "st"
-            },
-            {
-              "symbol": "/ʌ/",
-              "letter": "u"
-            },
-            {
-              "symbol": "/d/",
-              "letter": "d"
-            },
-            {
-              "symbol": "/i/",
-              "letter": "y"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/study/study_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "One day he goes up a tree to study a mantis.",
-              "zh": "有一天，他爬到树上去研究一只螳螂。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/study-textbook.jpg"
-            },
-            {
-              "en": "I study the picture book.",
-              "zh": "我仔细看图画书。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/study-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w124",
-          "word": "mantis",
-          "chinese": "螳螂",
-          "phonemes": [
-            {
-              "symbol": "/m/",
-              "letter": "m"
-            },
-            {
-              "symbol": "/æ/",
-              "letter": "a"
-            },
-            {
-              "symbol": "/n/",
-              "letter": "n"
-            },
-            {
-              "symbol": "/t/",
-              "letter": "t"
-            },
-            {
-              "symbol": "/ɪ/",
-              "letter": "i"
-            },
-            {
-              "symbol": "/s/",
-              "letter": "s"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/mantis/mantis_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "One day he goes up a tree to study a mantis.",
-              "zh": "有一天，他爬到树上去研究一只螳螂。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/mantis-textbook.jpg"
-            },
-            {
-              "en": "I see a green mantis on the leaf.",
-              "zh": "我在叶子上看到一只绿色的螳螂。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/mantis-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w125",
-          "word": "stay",
-          "chinese": "停留，逗留，留下",
-          "phonemes": [
-            {
-              "symbol": "/st/",
-              "letter": "st"
-            },
-            {
-              "symbol": "/eɪ/",
-              "letter": "ay"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/stay/stay_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "He stays there and watches for a long time.",
-              "zh": "他在那里看了很长时间。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/stay-textbook.jpg"
-            },
-            {
-              "en": "Please stay here with me.",
-              "zh": "请和我一起留在这里。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/stay-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w126",
-          "word": "interesting",
-          "chinese": "有趣的，吸引人的",
-          "phonemes": [
-            {
-              "symbol": "/ˈɪn/",
-              "letter": "in"
-            },
-            {
-              "symbol": "/tər/",
-              "letter": "ter"
-            },
-            {
-              "symbol": "/ɪst/",
-              "letter": "est"
-            },
-            {
-              "symbol": "/ɪŋ/",
-              "letter": "ing"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/interesting/interesting_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "It’s so interesting!",
-              "zh": "真有趣！",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/interesting-textbook.jpg"
-            },
-            {
-              "en": "This story is very interesting.",
-              "zh": "这个故事非常有趣。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/interesting-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w127",
-          "word": "grow",
-          "chinese": "成长，长大",
-          "phonemes": [
-            {
-              "symbol": "/ɡr/",
-              "letter": "gr"
-            },
-            {
-              "symbol": "/əʊ/",
-              "letter": "ow"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/grow/grow_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Fabre grows up.",
-              "zh": "法布尔长大了。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/grow-textbook.jpg"
-            },
-            {
-              "en": "The small plant will grow tall.",
-              "zh": "这棵小植物会长高。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/grow-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w128",
-          "word": "grow up",
-          "chinese": "长大",
-          "phonemes": [
-            {
-              "symbol": "/ɡr/",
-              "letter": "gr"
-            },
-            {
-              "symbol": "/əʊ/",
-              "letter": "ow"
-            },
-            {
-              "symbol": "—",
-              "letter": " "
-            },
-            {
-              "symbol": "/ʌ/",
-              "letter": "u"
-            },
-            {
-              "symbol": "/p/",
-              "letter": "p"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/grow_up/grow_up_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "I want to be a teacher when I grow up.",
-              "zh": "我长大后想当老师。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/grow_up-textbook.jpg"
-            },
-            {
-              "en": "I want to be a doctor when I grow up.",
-              "zh": "我长大后想当医生。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/grow_up-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w129",
-          "word": "country",
-          "chinese": "国家",
-          "phonemes": [
-            {
-              "symbol": "/k/",
-              "letter": "c"
-            },
-            {
-              "symbol": "/ʌ/",
-              "letter": "ou"
-            },
-            {
-              "symbol": "/n/",
-              "letter": "n"
-            },
-            {
-              "symbol": "/tr/",
-              "letter": "tr"
-            },
-            {
-              "symbol": "/i/",
-              "letter": "y"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/country/country_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "China is a big and beautiful country.",
-              "zh": "中国是一个又大又美丽的国家。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/country-textbook.jpg"
-            },
-            {
-              "en": "China is a big country.",
-              "zh": "中国是一个大国。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/country-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w130",
-          "word": "robot",
-          "chinese": "机器人",
-          "phonemes": [
-            {
-              "symbol": "/r/",
-              "letter": "r"
-            },
-            {
-              "symbol": "/əʊ/",
-              "letter": "o"
-            },
-            {
-              "symbol": "/b/",
-              "letter": "b"
-            },
-            {
-              "symbol": "/ɒ/",
-              "letter": "o"
-            },
-            {
-              "symbol": "/t/",
-              "letter": "t"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/robot/robot_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Tell the class about your robot.",
-              "zh": "向全班同学介绍你的机器人。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/robot-textbook.jpg"
-            },
-            {
-              "en": "My toy robot can walk and talk.",
-              "zh": "我的玩具机器人会走路和说话。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/robot-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w131",
-          "word": "kite",
-          "chinese": "风筝",
-          "phonemes": [
-            {
-              "symbol": "/k/",
-              "letter": "k"
-            },
-            {
-              "symbol": "/aɪ/",
-              "letter": "i"
-            },
-            {
-              "symbol": "/t/",
-              "letter": "te"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/kite/kite_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "People here like flying kites.",
-              "zh": "这里的人们喜欢放风筝。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/kite-textbook.jpg"
-            },
-            {
-              "en": "We fly a kite in the park.",
-              "zh": "我们在公园放风筝。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/kite-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w132",
-          "word": "skate",
-          "chinese": "滑冰，溜冰",
-          "phonemes": [
-            {
-              "symbol": "/sk/",
-              "letter": "sk"
-            },
-            {
-              "symbol": "/eɪ/",
-              "letter": "a"
-            },
-            {
-              "symbol": "/t/",
-              "letter": "te"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/skate/skate_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "I can skate on the ice.",
-              "zh": "我会在冰上滑冰。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/skate-textbook.jpg"
-            },
-            {
-              "en": "I learn to skate on the lake.",
-              "zh": "我在湖上学习滑冰。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/skate-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w133",
-          "word": "ice",
-          "chinese": "冰",
-          "phonemes": [
-            {
-              "symbol": "/aɪ/",
-              "letter": "i"
-            },
-            {
-              "symbol": "/s/",
-              "letter": "ce"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/ice/ice_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "The ice is very cold.",
-              "zh": "冰很冷。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/ice-textbook.jpg"
-            },
-            {
-              "en": "The ice is cold and hard.",
-              "zh": "冰又冷又硬。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/ice-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w134",
-          "word": "ski",
-          "chinese": "滑雪",
-          "phonemes": [
-            {
-              "symbol": "/sk/",
-              "letter": "sk"
-            },
-            {
-              "symbol": "/iː/",
-              "letter": "i"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/ski/ski_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "I can ski on the snow.",
-              "zh": "我可以在雪上滑雪。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/ski-textbook.jpg"
-            },
-            {
-              "en": "I ski down the hill with Dad.",
-              "zh": "我和爸爸一起滑雪下山。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/ski-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w135",
-          "word": "garden",
-          "chinese": "做园艺工作；花园",
-          "phonemes": [
-            {
-              "symbol": "/ɡ/",
-              "letter": "g"
-            },
-            {
-              "symbol": "/ɑː/",
-              "letter": "ar"
-            },
-            {
-              "symbol": "/d/",
-              "letter": "d"
-            },
-            {
-              "symbol": "/ən/",
-              "letter": "en"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/garden/garden_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "We work in the garden.",
-              "zh": "我们在花园里劳作。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/garden-textbook.jpg"
-            },
-            {
-              "en": "We plant flowers in the garden.",
-              "zh": "我们在花园里种花。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/garden-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w136",
+          "id": "w115",
           "word": "hobby",
-          "chinese": "业余爱好，嗜好",
+          "chinese": "爱好",
           "phonemes": [
             {
               "symbol": "/h/",
@@ -5097,9 +4294,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w137",
+          "id": "w116",
           "word": "free",
-          "chinese": "空闲的，有空的",
+          "chinese": "空闲的",
           "phonemes": [
             {
               "symbol": "/f/",
@@ -5131,9 +4328,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w138",
+          "id": "w117",
           "word": "after",
-          "chinese": "在……后",
+          "chinese": "在……之后",
           "phonemes": [
             {
               "symbol": "/ɑː/",
@@ -5169,7 +4366,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w139",
+          "id": "w118",
           "word": "swim",
           "chinese": "游泳",
           "phonemes": [
@@ -5207,9 +4404,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w140",
+          "id": "w119",
           "word": "lot",
-          "chinese": "许多",
+          "chinese": "大量",
           "phonemes": [
             {
               "symbol": "/l/",
@@ -5241,9 +4438,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w141",
-          "word": "a lot",
-          "chinese": "大量，许多",
+          "id": "w120",
+          "word": "a lot of",
+          "chinese": "许多",
           "phonemes": [
             {
               "symbol": "/ə/",
@@ -5264,9 +4461,21 @@ const TEXTBOOK_DATA = {
             {
               "symbol": "/t/",
               "letter": "t"
+            },
+            {
+              "symbol": "—",
+              "letter": " "
+            },
+            {
+              "symbol": "/ɒ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/v/",
+              "letter": "f"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/a_lot/a_lot_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/a_lot_of/a_lot_of_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "We have a lot of fun!",
@@ -5283,9 +4492,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w142",
+          "id": "w121",
           "word": "these",
-          "chinese": "这些（this的复数形式）",
+          "chinese": "这些",
           "phonemes": [
             {
               "symbol": "/ð/",
@@ -5300,7 +4509,7 @@ const TEXTBOOK_DATA = {
               "letter": "se"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/these.jpg",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/these/these_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "But do you know about these two?",
@@ -5317,9 +4526,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w143",
-          "word": "tai chi",
-          "chinese": "太极",
+          "id": "w122",
+          "word": "Taiji",
+          "chinese": "太极拳",
           "phonemes": [
             {
               "symbol": "/t/",
@@ -5359,7 +4568,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w144",
+          "id": "w123",
           "word": "his",
           "chinese": "他的",
           "phonemes": [
@@ -5393,7 +4602,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w145",
+          "id": "w124",
           "word": "insect",
           "chinese": "昆虫",
           "phonemes": [
@@ -5439,9 +4648,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w146",
+          "id": "w125",
           "word": "man",
-          "chinese": "成年男子，男人",
+          "chinese": "男人",
           "phonemes": [
             {
               "symbol": "/m/",
@@ -5471,19 +4680,240 @@ const TEXTBOOK_DATA = {
               "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/man-context.jpg"
             }
           ]
-        }
-      ]
-    },
-    {
-      "id": "unit5",
-      "name": "Unit 5 · What Time Is It",
-      "title": "几点了",
-      "words": [
+        },
         {
-          "id": "w147",
-          "word": "tick-tock",
-          "chinese": "嘀嗒声",
+          "id": "w126",
+          "word": "learn",
+          "chinese": "学习",
           "phonemes": [
+            {
+              "symbol": "/l/",
+              "letter": "l"
+            },
+            {
+              "symbol": "/ɜː/",
+              "letter": "ear"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/learn/learn_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "We don’t learn to speak with our hands.",
+              "zh": "我们不是用手来学说话的。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/learn-textbook.jpg"
+            },
+            {
+              "en": "We learn new words today.",
+              "zh": "我们今天学习新单词。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/learn-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w127",
+          "word": "plant",
+          "chinese": "植物；种植",
+          "phonemes": [
+            {
+              "symbol": "/pl/",
+              "letter": "pl"
+            },
+            {
+              "symbol": "/ɑː/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/nt/",
+              "letter": "nt"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/plant/plant_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Apples are from a plant.",
+              "zh": "苹果来自植物。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/plant-textbook.jpg"
+            },
+            {
+              "en": "This plant needs water.",
+              "zh": "这棵植物需要水。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/plant-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w128",
+          "word": "when",
+          "chinese": "什么时候",
+          "phonemes": [
+            {
+              "symbol": "/w/",
+              "letter": "wh"
+            },
+            {
+              "symbol": "/e/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/when/when_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "When does Yuanyuan’s mum go to work?",
+              "zh": "媛媛的妈妈什么时候去上班？",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/when-textbook.jpg"
+            },
+            {
+              "en": "When do you go home?",
+              "zh": "你什么时候回家？",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/when-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w129",
+          "word": "question",
+          "chinese": "问题",
+          "phonemes": [
+            {
+              "symbol": "/kw/",
+              "letter": "qu"
+            },
+            {
+              "symbol": "/e/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/s/",
+              "letter": "s"
+            },
+            {
+              "symbol": "/tʃ/",
+              "letter": "ti"
+            },
+            {
+              "symbol": "/ən/",
+              "letter": "on"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/question/question_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Then answer the question.",
+              "zh": "然后回答问题。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/question-textbook.jpg"
+            },
+            {
+              "en": "I have a question for you.",
+              "zh": "我有一个问题问你。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/question-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w130",
+          "word": "watch",
+          "chinese": "观看；手表",
+          "phonemes": [
+            {
+              "symbol": "/w/",
+              "letter": "w"
+            },
+            {
+              "symbol": "/ɒ/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/tʃ/",
+              "letter": "tch"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/watch/watch_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "He stays there and watches for a long time.",
+              "zh": "他在那里看了很长时间。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/watch-textbook.jpg"
+            },
+            {
+              "en": "I watch the bird fly.",
+              "zh": "我观察鸟飞。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/watch-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w131",
+          "word": "study",
+          "chinese": "学习",
+          "phonemes": [
+            {
+              "symbol": "/st/",
+              "letter": "st"
+            },
+            {
+              "symbol": "/ʌ/",
+              "letter": "u"
+            },
+            {
+              "symbol": "/d/",
+              "letter": "d"
+            },
+            {
+              "symbol": "/i/",
+              "letter": "y"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/study/study_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "One day he goes up a tree to study a mantis.",
+              "zh": "有一天，他爬到树上去研究一只螳螂。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/study-textbook.jpg"
+            },
+            {
+              "en": "I study the picture book.",
+              "zh": "我仔细看图画书。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/study-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w132",
+          "word": "mantis",
+          "chinese": "螳螂",
+          "phonemes": [
+            {
+              "symbol": "/m/",
+              "letter": "m"
+            },
+            {
+              "symbol": "/æ/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
             {
               "symbol": "/t/",
               "letter": "t"
@@ -5493,46 +4923,427 @@ const TEXTBOOK_DATA = {
               "letter": "i"
             },
             {
-              "symbol": "/k/",
-              "letter": "ck"
+              "symbol": "/s/",
+              "letter": "s"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/mantis/mantis_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "One day he goes up a tree to study a mantis.",
+              "zh": "有一天，他爬到树上去研究一只螳螂。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/mantis-textbook.jpg"
+            },
+            {
+              "en": "I see a green mantis on the leaf.",
+              "zh": "我在叶子上看到一只绿色的螳螂。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/mantis-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w133",
+          "word": "stay",
+          "chinese": "停留",
+          "phonemes": [
+            {
+              "symbol": "/st/",
+              "letter": "st"
+            },
+            {
+              "symbol": "/eɪ/",
+              "letter": "ay"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/stay/stay_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "He stays there and watches for a long time.",
+              "zh": "他在那里看了很长时间。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/stay-textbook.jpg"
+            },
+            {
+              "en": "Please stay here with me.",
+              "zh": "请和我一起留在这里。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/stay-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w134",
+          "word": "interesting",
+          "chinese": "有趣的",
+          "phonemes": [
+            {
+              "symbol": "/ˈɪn/",
+              "letter": "in"
+            },
+            {
+              "symbol": "/tər/",
+              "letter": "ter"
+            },
+            {
+              "symbol": "/ɪst/",
+              "letter": "est"
+            },
+            {
+              "symbol": "/ɪŋ/",
+              "letter": "ing"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/interesting/interesting_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "It’s so interesting!",
+              "zh": "真有趣！",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/interesting-textbook.jpg"
+            },
+            {
+              "en": "This story is very interesting.",
+              "zh": "这个故事非常有趣。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/interesting-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w135",
+          "word": "grow",
+          "chinese": "成长",
+          "phonemes": [
+            {
+              "symbol": "/ɡr/",
+              "letter": "gr"
+            },
+            {
+              "symbol": "/əʊ/",
+              "letter": "ow"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/grow/grow_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Fabre grows up.",
+              "zh": "法布尔长大了。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/grow-textbook.jpg"
+            },
+            {
+              "en": "The small plant will grow tall.",
+              "zh": "这棵小植物会长高。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/grow-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w136",
+          "word": "grow up",
+          "chinese": "长大",
+          "phonemes": [
+            {
+              "symbol": "/ɡr/",
+              "letter": "gr"
+            },
+            {
+              "symbol": "/əʊ/",
+              "letter": "ow"
             },
             {
               "symbol": "—",
-              "letter": "-"
+              "letter": " "
             },
             {
-              "symbol": "/t/",
-              "letter": "t"
+              "symbol": "/ʌ/",
+              "letter": "u"
+            },
+            {
+              "symbol": "/p/",
+              "letter": "p"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/grow_up/grow_up_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "I want to be a teacher when I grow up.",
+              "zh": "我长大后想当老师。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/grow_up-textbook.jpg"
+            },
+            {
+              "en": "I want to be a doctor when I grow up.",
+              "zh": "我长大后想当医生。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/grow_up-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w137",
+          "word": "country",
+          "chinese": "国家",
+          "phonemes": [
+            {
+              "symbol": "/k/",
+              "letter": "c"
+            },
+            {
+              "symbol": "/ʌ/",
+              "letter": "ou"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/tr/",
+              "letter": "tr"
+            },
+            {
+              "symbol": "/i/",
+              "letter": "y"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/country/country_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "China is a big and beautiful country.",
+              "zh": "中国是一个又大又美丽的国家。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/country-textbook.jpg"
+            },
+            {
+              "en": "China is a big country.",
+              "zh": "中国是一个大国。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/country-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w138",
+          "word": "robot",
+          "chinese": "机器人",
+          "phonemes": [
+            {
+              "symbol": "/r/",
+              "letter": "r"
+            },
+            {
+              "symbol": "/əʊ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/b/",
+              "letter": "b"
             },
             {
               "symbol": "/ɒ/",
               "letter": "o"
             },
             {
-              "symbol": "/k/",
-              "letter": "ck"
+              "symbol": "/t/",
+              "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit5/tick-tock/tick-tock_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/robot/robot_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
-              "en": "Tick-tock, it’s one o’clock.",
-              "zh": "滴答滴答，一点钟了。",
+              "en": "Tell the class about your robot.",
+              "zh": "向全班同学介绍你的机器人。",
               "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/tick_tock-textbook.jpg"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/robot-textbook.jpg"
             },
             {
-              "en": "Tick-tock, the clock is loud.",
-              "zh": "嘀嗒声，时钟很响。",
+              "en": "My toy robot can walk and talk.",
+              "zh": "我的玩具机器人会走路和说话。",
               "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/tick_tock-context.jpg"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/robot-context.jpg"
             }
           ]
         },
         {
-          "id": "w148",
+          "id": "w139",
+          "word": "kite",
+          "chinese": "风筝",
+          "phonemes": [
+            {
+              "symbol": "/k/",
+              "letter": "k"
+            },
+            {
+              "symbol": "/aɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "te"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/kite/kite_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "People here like flying kites.",
+              "zh": "这里的人们喜欢放风筝。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/kite-textbook.jpg"
+            },
+            {
+              "en": "We fly a kite in the park.",
+              "zh": "我们在公园放风筝。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/kite-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w140",
+          "word": "skate",
+          "chinese": "滑冰",
+          "phonemes": [
+            {
+              "symbol": "/sk/",
+              "letter": "sk"
+            },
+            {
+              "symbol": "/eɪ/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "te"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/skate/skate_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "I can skate on the ice.",
+              "zh": "我会在冰上滑冰。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/skate-textbook.jpg"
+            },
+            {
+              "en": "I learn to skate on the lake.",
+              "zh": "我在湖上学习滑冰。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/skate-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w141",
+          "word": "ice",
+          "chinese": "冰",
+          "phonemes": [
+            {
+              "symbol": "/aɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/s/",
+              "letter": "ce"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/ice/ice_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "The ice is very cold.",
+              "zh": "冰很冷。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/ice-textbook.jpg"
+            },
+            {
+              "en": "The ice is cold and hard.",
+              "zh": "冰又冷又硬。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/ice-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w142",
+          "word": "ski",
+          "chinese": "滑雪",
+          "phonemes": [
+            {
+              "symbol": "/sk/",
+              "letter": "sk"
+            },
+            {
+              "symbol": "/iː/",
+              "letter": "i"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/ski/ski_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "I can ski on the snow.",
+              "zh": "我可以在雪上滑雪。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/ski-textbook.jpg"
+            },
+            {
+              "en": "I ski down the hill with Dad.",
+              "zh": "我和爸爸一起滑雪下山。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/ski-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w143",
+          "word": "garden",
+          "chinese": "花园",
+          "phonemes": [
+            {
+              "symbol": "/ɡ/",
+              "letter": "g"
+            },
+            {
+              "symbol": "/ɑː/",
+              "letter": "ar"
+            },
+            {
+              "symbol": "/d/",
+              "letter": "d"
+            },
+            {
+              "symbol": "/ən/",
+              "letter": "en"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit4/garden/garden_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "We work in the garden.",
+              "zh": "我们在花园里劳作。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/garden-textbook.jpg"
+            },
+            {
+              "en": "We plant flowers in the garden.",
+              "zh": "我们在花园里种花。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/garden-context.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit5",
+      "name": "Unit 5 · What Time Is It",
+      "title": "几点了",
+      "words": [
+        {
+          "id": "w144",
           "word": "tell",
-          "chinese": "告诉，告知",
+          "chinese": "告诉",
           "phonemes": [
             {
               "symbol": "/t/",
@@ -5564,9 +5375,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w149",
+          "id": "w145",
           "word": "clock",
-          "chinese": "时钟",
+          "chinese": "钟表",
           "phonemes": [
             {
               "symbol": "/kl/",
@@ -5598,21 +5409,24 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w150",
-          "word": "o’clock",
-          "chinese": "点钟",
+          "word": "a clock",
+          "chinese": "一个钟表",
           "phonemes": [
             {
               "symbol": "/ə/",
-              "letter": "o"
+              "letter": "a"
             },
             {
               "symbol": "—",
-              "letter": "’"
+              "letter": " "
             },
             {
-              "symbol": "/kl/",
-              "letter": "cl"
+              "symbol": "/k/",
+              "letter": "c"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "l"
             },
             {
               "symbol": "/ɒ/",
@@ -5623,24 +5437,12 @@ const TEXTBOOK_DATA = {
               "letter": "ck"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit5/oclock/o%E2%80%99clock_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "It’s six o’clock in the morning.",
-              "zh": "现在是早上六点。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/o_clock-textbook.jpg"
-            },
-            {
-              "en": "School starts at eight o’clock.",
-              "zh": "学校八点钟开始上课。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/o_clock-context.jpg"
-            }
-          ]
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit5/a_clock/a_clock_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [],
+          "id": "w146"
         },
         {
-          "id": "w151",
+          "id": "w147",
           "word": "fifteen",
           "chinese": "十五",
           "phonemes": [
@@ -5686,9 +5488,8 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w152",
-          "word": "thirty",
-          "chinese": "三十",
+          "word": "thirteen",
+          "chinese": "十三",
           "phonemes": [
             {
               "symbol": "/θ/",
@@ -5699,32 +5500,16 @@ const TEXTBOOK_DATA = {
               "letter": "ir"
             },
             {
-              "symbol": "/t/",
-              "letter": "t"
-            },
-            {
-              "symbol": "/i/",
-              "letter": "y"
+              "symbol": "/tiː/",
+              "letter": "teen"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit5/thirty/thirty_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Tick-tock, it’s one thirty.",
-              "zh": "嘀嗒嘀嗒，一点三十分。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/thirty-textbook.jpg"
-            },
-            {
-              "en": "There are thirty students.",
-              "zh": "有三十个学生。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/thirty-context.jpg"
-            }
-          ]
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit5/thirteen/thirteen_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [],
+          "id": "w148"
         },
         {
-          "id": "w153",
+          "id": "w149",
           "word": "forty-five",
           "chinese": "四十五",
           "phonemes": [
@@ -5778,9 +5563,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w154",
+          "id": "w150",
           "word": "dinner",
-          "chinese": "正餐，主餐",
+          "chinese": "晚餐",
           "phonemes": [
             {
               "symbol": "/d/",
@@ -5816,9 +5601,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w155",
+          "id": "w151",
           "word": "half",
-          "chinese": "一半，半",
+          "chinese": "一半",
           "phonemes": [
             {
               "symbol": "/h/",
@@ -5854,183 +5639,30 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w156",
-          "word": "past",
-          "chinese": "晚于；在……之后",
+          "word": "test",
+          "chinese": "测试",
           "phonemes": [
             {
-              "symbol": "/p/",
-              "letter": "p"
+              "symbol": "/t/",
+              "letter": "t"
             },
             {
-              "symbol": "/ɑː/",
-              "letter": "a"
+              "symbol": "/e/",
+              "letter": "e"
             },
             {
               "symbol": "/s/",
-              "letter": "s"
-            },
-            {
-              "symbol": "/t/",
-              "letter": "t"
+              "letter": "st"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit5/past/past_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "It’s half past eight in the morning.",
-              "zh": "现在是早上八点半。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/past-textbook.jpg"
-            },
-            {
-              "en": "It is ten past three in the afternoon.",
-              "zh": "现在是下午三点十分。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/past-context.jpg"
-            }
-          ]
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit5/test/test_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [],
+          "id": "w152"
         },
         {
-          "id": "w157",
-          "word": "half past one / two...",
-          "chinese": "1点半 / 2点半等",
-                    "phonemes": [
-            {
-              "symbol": "/h/",
-              "letter": "h"
-            },
-            {
-              "symbol": "/ɑː/",
-              "letter": "a"
-            },
-            {
-              "symbol": "/l/",
-              "letter": "l"
-            },
-            {
-              "symbol": "/f/",
-              "letter": "f"
-            },
-            {
-              "symbol": "—",
-              "letter": " "
-            },
-            {
-              "symbol": "/p/",
-              "letter": "p"
-            },
-            {
-              "symbol": "/ɑː/",
-              "letter": "a"
-            },
-            {
-              "symbol": "/s/",
-              "letter": "s"
-            },
-            {
-              "symbol": "/t/",
-              "letter": "t"
-            },
-            {
-              "symbol": "—",
-              "letter": " "
-            },
-            {
-              "symbol": "/əʊ/",
-              "letter": "o"
-            },
-            {
-              "symbol": "/n/",
-              "letter": "ne"
-            },
-            {
-              "symbol": "—",
-              "letter": " "
-            },
-            {
-              "symbol": "—",
-              "letter": "/"
-            },
-            {
-              "symbol": "—",
-              "letter": " "
-            },
-            {
-              "symbol": "/t/",
-              "letter": "t"
-            },
-            {
-              "symbol": "/w/",
-              "letter": "w"
-            },
-            {
-              "symbol": "/ʌ/",
-              "letter": "o"
-            },
-            {
-              "symbol": "—",
-              "letter": "."
-            },
-            {
-              "symbol": "—",
-              "letter": "."
-            },
-            {
-              "symbol": "—",
-              "letter": "."
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/half_past_one_two.jpg",
-          "sentences": [
-            {
-              "en": "It's half past two.",
-              "zh": "现在两点半。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/half_past_one_two-textbook.jpg"
-            },
-            {
-              "en": "We eat lunch at half past twelve.",
-              "zh": "我们十二点半吃午饭。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/half_past_one_two-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w158",
-          "word": "urgh",
-          "chinese": "呃，呸",
-          "phonemes": [
-            {
-              "symbol": "/ɜː/",
-              "letter": "ur"
-            },
-            {
-              "symbol": "/x/",
-              "letter": "gh"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit5/urgh/urgh_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Urgh… Not now.",
-              "zh": "呃……现在不行。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/urgh-textbook.jpg"
-            },
-            {
-              "en": "Urgh, this milk tastes bad.",
-              "zh": "呃，这牛奶味道不好。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/urgh-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w159",
+          "id": "w153",
           "word": "homework",
-          "chinese": "家庭作业，功课",
+          "chinese": "家庭作业",
           "phonemes": [
             {
               "symbol": "/h/",
@@ -6074,7 +5706,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w160",
+          "id": "w154",
           "word": "need",
           "chinese": "需要",
           "phonemes": [
@@ -6108,7 +5740,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w161",
+          "id": "w155",
           "word": "activity",
           "chinese": "活动",
           "phonemes": [
@@ -6162,9 +5794,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w162",
+          "id": "w156",
           "word": "her",
-          "chinese": "她的",
+          "chinese": "她（宾格）；她的",
           "phonemes": [
             {
               "symbol": "/h/",
@@ -6192,9 +5824,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w163",
+          "id": "w157",
           "word": "class",
-          "chinese": "课；班级",
+          "chinese": "课堂；班级",
           "phonemes": [
             {
               "symbol": "/kl/",
@@ -6226,9 +5858,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w164",
+          "id": "w158",
           "word": "evening",
-          "chinese": "傍晚；晚上",
+          "chinese": "晚上",
           "phonemes": [
             {
               "symbol": "/iː/",
@@ -6272,9 +5904,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w165",
+          "id": "w159",
           "word": "call",
-          "chinese": "（给……）打电话",
+          "chinese": "打电话；称呼",
           "phonemes": [
             {
               "symbol": "/k/",
@@ -6310,12 +5942,462 @@ const TEXTBOOK_DATA = {
     {
       "id": "unit6",
       "name": "Unit 6 · A Great Week",
-      "title": "美好一周",
+      "title": "精彩一周",
       "words": [
         {
+          "id": "w160",
+          "word": "Monday",
+          "chinese": "星期一",
+          "phonemes": [
+            {
+              "symbol": "/m/",
+              "letter": "M"
+            },
+            {
+              "symbol": "/ʌ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/d/",
+              "letter": "d"
+            },
+            {
+              "symbol": "/eɪ/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/i/",
+              "letter": "y"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit6/Monday/Monday_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "We go to school from Monday to Friday.",
+              "zh": "我们从周一到周五去上学。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/monday-textbook.jpg"
+            },
+            {
+              "en": "Monday is the first school day.",
+              "zh": "星期一是第一个上学日。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/monday-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w161",
+          "word": "Tuesday",
+          "chinese": "星期二",
+          "phonemes": [
+            {
+              "symbol": "/t/",
+              "letter": "T"
+            },
+            {
+              "symbol": "/juː/",
+              "letter": "ue"
+            },
+            {
+              "symbol": "/z/",
+              "letter": "s"
+            },
+            {
+              "symbol": "/deɪ/",
+              "letter": "day"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit6/Tuesday/Tuesday_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "We have music class on Tuesday.",
+              "zh": "我们星期二有音乐课。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/tuesday-textbook.jpg"
+            },
+            {
+              "en": "We have art class on Tuesday.",
+              "zh": "我们星期二有美术课。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/tuesday-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w162",
+          "word": "Wednesday",
+          "chinese": "星期三",
+          "phonemes": [
+            {
+              "symbol": "/w/",
+              "letter": "W"
+            },
+            {
+              "symbol": "/ɛ/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/d/",
+              "letter": "d"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/z/",
+              "letter": "s"
+            },
+            {
+              "symbol": "/deɪ/",
+              "letter": "day"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit6/Wednesday/Wednesday_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "I go to the library on Wednesday.",
+              "zh": "我星期三去图书馆。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/wednesday-textbook.jpg"
+            },
+            {
+              "en": "Wednesday is in the middle of the week.",
+              "zh": "星期三是一周的中段。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/wednesday-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w163",
+          "word": "Thursday",
+          "chinese": "星期四",
+          "phonemes": [
+            {
+              "symbol": "/θ/",
+              "letter": "Th"
+            },
+            {
+              "symbol": "/ɜː/",
+              "letter": "ur"
+            },
+            {
+              "symbol": "/z/",
+              "letter": "s"
+            },
+            {
+              "symbol": "/deɪ/",
+              "letter": "day"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit6/Thursday/Thursday_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "My birthday is on Thursday.",
+              "zh": "我的生日在星期四。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/thursday-textbook.jpg"
+            },
+            {
+              "en": "I have a music lesson on Thursday.",
+              "zh": "我星期四有一节音乐课。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/thursday-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w164",
+          "word": "Friday",
+          "chinese": "星期五",
+          "phonemes": [
+            {
+              "symbol": "/f/",
+              "letter": "F"
+            },
+            {
+              "symbol": "/r/",
+              "letter": "r"
+            },
+            {
+              "symbol": "/aɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/deɪ/",
+              "letter": "day"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit6/Friday/Friday_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "We go to school from Monday to Friday.",
+              "zh": "我们从周一到周五去上学。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/friday-textbook.jpg"
+            },
+            {
+              "en": "We can play football after school on Friday.",
+              "zh": "我们星期五放学后可以踢足球。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/friday-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w165",
+          "word": "Saturday",
+          "chinese": "星期六",
+          "phonemes": [
+            {
+              "symbol": "/s/",
+              "letter": "S"
+            },
+            {
+              "symbol": "/æ/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "ur"
+            },
+            {
+              "symbol": "/deɪ/",
+              "letter": "day"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit6/Saturday/Saturday_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Friday, Saturday and Sunday.",
+              "zh": "星期五、星期六和星期日。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/saturday-textbook.jpg"
+            },
+            {
+              "en": "I go to the park with my mom on Saturday.",
+              "zh": "我星期六和妈妈去公园。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/saturday-context.jpg"
+            }
+          ]
+        },
+        {
           "id": "w166",
+          "word": "Sunday",
+          "chinese": "星期日",
+          "phonemes": [
+            {
+              "symbol": "/s/",
+              "letter": "S"
+            },
+            {
+              "symbol": "/ʌ/",
+              "letter": "u"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/deɪ/",
+              "letter": "day"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit6/Sunday/Sunday_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "What does Wenwen do on Sunday?",
+              "zh": "文文在星期日做什么？",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/sunday-textbook.jpg"
+            },
+            {
+              "en": "We visit my grandma on Sunday.",
+              "zh": "我们星期日去看望奶奶。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/sunday-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w167",
+          "word": "park",
+          "chinese": "公园",
+          "phonemes": [
+            {
+              "symbol": "/p/",
+              "letter": "p"
+            },
+            {
+              "symbol": "/ɑː/",
+              "letter": "ar"
+            },
+            {
+              "symbol": "/k/",
+              "letter": "k"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit6/park/park_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Let's play in the park.",
+              "zh": "让我们在公园里玩吧。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/park-textbook.jpg"
+            },
+            {
+              "en": "The park is near my school.",
+              "zh": "公园在我学校附近。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/park-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w168",
+          "word": "visit",
+          "chinese": "参观；拜访",
+          "phonemes": [
+            {
+              "symbol": "/v/",
+              "letter": "v"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/z/",
+              "letter": "s"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit6/visit/visit_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Let’s go and visit our",
+              "zh": "我们去拜访我们的",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/visit-textbook.jpg"
+            },
+            {
+              "en": "I visit my friend on Saturday.",
+              "zh": "我星期六拜访我的朋友。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/visit-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w169",
+          "word": "lesson",
+          "chinese": "课程",
+          "phonemes": [
+            {
+              "symbol": "/l/",
+              "letter": "l"
+            },
+            {
+              "symbol": "/ɛ/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/s/",
+              "letter": "ss"
+            },
+            {
+              "symbol": "/ən/",
+              "letter": "on"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit6/lesson/lesson_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "We have an English lesson today.",
+              "zh": "我们今天有一节英语课。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/lesson-textbook.jpg"
+            },
+            {
+              "en": "We have a football lesson today.",
+              "zh": "我们今天有一节足球课。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/lesson-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w170",
+          "word": "football",
+          "chinese": "足球",
+          "phonemes": [
+            {
+              "symbol": "/f/",
+              "letter": "f"
+            },
+            {
+              "symbol": "/ʊ/",
+              "letter": "oo"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            },
+            {
+              "symbol": "/b/",
+              "letter": "b"
+            },
+            {
+              "symbol": "/ɔː/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "ll"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit6/football/football_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Computer club and football club!",
+              "zh": "电脑俱乐部和足球俱乐部！",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/football-textbook.jpg"
+            },
+            {
+              "en": "I like to play football in the park.",
+              "zh": "我喜欢在公园里踢足球。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/football-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w171",
           "word": "art",
-          "chinese": "美术，艺术",
+          "chinese": "美术",
           "phonemes": [
             {
               "symbol": "/ɑː/",
@@ -6343,7 +6425,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w167",
+          "id": "w172",
           "word": "subject",
           "chinese": "学科",
           "phonemes": [
@@ -6393,8 +6475,8 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w168",
-          "word": "maths",
+          "id": "w173",
+          "word": "math",
           "chinese": "数学",
           "phonemes": [
             {
@@ -6431,7 +6513,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w169",
+          "id": "w174",
           "word": "science",
           "chinese": "科学",
           "phonemes": [
@@ -6473,9 +6555,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w170",
+          "id": "w175",
           "word": "something",
-          "chinese": "某物；某事",
+          "chinese": "某物，某事",
           "phonemes": [
             {
               "symbol": "/s/",
@@ -6519,9 +6601,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w171",
+          "id": "w176",
           "word": "idea",
-          "chinese": "想法，主意",
+          "chinese": "主意",
           "phonemes": [
             {
               "symbol": "/aɪ/",
@@ -6553,9 +6635,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w172",
+          "id": "w177",
           "word": "soon",
-          "chinese": "不久，即刻，很快",
+          "chinese": "不久",
           "phonemes": [
             {
               "symbol": "/s/",
@@ -6587,9 +6669,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w173",
+          "id": "w178",
           "word": "teach",
-          "chinese": "教，教授",
+          "chinese": "教",
           "phonemes": [
             {
               "symbol": "/t/",
@@ -6621,7 +6703,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w174",
+          "id": "w179",
           "word": "English",
           "chinese": "英语",
           "phonemes": [
@@ -6663,7 +6745,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w175",
+          "id": "w180",
           "word": "card",
           "chinese": "卡片",
           "phonemes": [
@@ -6697,9 +6779,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w176",
+          "id": "w181",
           "word": "busy",
-          "chinese": "忙的，忙碌的",
+          "chinese": "忙碌的",
           "phonemes": [
             {
               "symbol": "/b/",
@@ -6735,9 +6817,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w177",
+          "id": "w182",
           "word": "old",
-          "chinese": "年老的；相识很久的",
+          "chinese": "年老的；旧的",
           "phonemes": [
             {
               "symbol": "/əʊ/",
@@ -6769,9 +6851,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w178",
+          "id": "w183",
           "word": "some",
-          "chinese": "一些，若干",
+          "chinese": "一些",
           "phonemes": [
             {
               "symbol": "/s/",
@@ -6803,7 +6885,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w179",
+          "id": "w184",
           "word": "bookmark",
           "chinese": "书签",
           "phonemes": [
@@ -6849,9 +6931,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w180",
+          "id": "w185",
           "word": "stick",
-          "chinese": "木棍，拐杖",
+          "chinese": "贴纸",
           "phonemes": [
             {
               "symbol": "/st/",
@@ -6883,9 +6965,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w181",
+          "id": "w186",
           "word": "sure",
-          "chinese": "当然，好的",
+          "chinese": "当然",
           "phonemes": [
             {
               "symbol": "/ʃ/",
@@ -6913,9 +6995,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w182",
+          "id": "w187",
           "word": "flower",
-          "chinese": "花，花朵",
+          "chinese": "花朵",
           "phonemes": [
             {
               "symbol": "/fl/",
@@ -6947,9 +7029,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w183",
-          "word": "afterschool",
-          "chinese": "课外的",
+          "id": "w188",
+          "word": "after school",
+          "chinese": "放学后",
           "phonemes": [
             {
               "symbol": "/ɑː/",
@@ -7001,7 +7083,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w184",
+          "id": "w189",
           "word": "club",
           "chinese": "俱乐部",
           "phonemes": [
@@ -7035,7 +7117,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w185",
+          "id": "w190",
           "word": "piano",
           "chinese": "钢琴",
           "phonemes": [
@@ -7077,7 +7159,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w186",
+          "id": "w191",
           "word": "basketball",
           "chinese": "篮球",
           "phonemes": [
@@ -7135,9 +7217,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w187",
+          "id": "w192",
           "word": "computer",
-          "chinese": "计算机；电脑",
+          "chinese": "电脑",
           "phonemes": [
             {
               "symbol": "/k/",
@@ -7185,7 +7267,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w188",
+          "id": "w193",
           "word": "music",
           "chinese": "音乐",
           "phonemes": [
@@ -7223,456 +7305,6 @@ const TEXTBOOK_DATA = {
               "zh": "我睡前听音乐。",
               "source": "context",
               "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/music-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w189",
-          "word": "Monday",
-          "chinese": "星期一",
-          "phonemes": [
-            {
-              "symbol": "/m/",
-              "letter": "M"
-            },
-            {
-              "symbol": "/ʌ/",
-              "letter": "o"
-            },
-            {
-              "symbol": "/n/",
-              "letter": "n"
-            },
-            {
-              "symbol": "/d/",
-              "letter": "d"
-            },
-            {
-              "symbol": "/eɪ/",
-              "letter": "a"
-            },
-            {
-              "symbol": "/i/",
-              "letter": "y"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit6/Monday/Monday_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "We go to school from Monday to Friday.",
-              "zh": "我们从周一到周五去上学。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/monday-textbook.jpg"
-            },
-            {
-              "en": "Monday is the first school day.",
-              "zh": "星期一是第一个上学日。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/monday-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w190",
-          "word": "Tuesday",
-          "chinese": "星期二",
-          "phonemes": [
-            {
-              "symbol": "/t/",
-              "letter": "T"
-            },
-            {
-              "symbol": "/juː/",
-              "letter": "ue"
-            },
-            {
-              "symbol": "/z/",
-              "letter": "s"
-            },
-            {
-              "symbol": "/deɪ/",
-              "letter": "day"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit6/Tuesday/Tuesday_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "We have music class on Tuesday.",
-              "zh": "我们星期二有音乐课。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/tuesday-textbook.jpg"
-            },
-            {
-              "en": "We have art class on Tuesday.",
-              "zh": "我们星期二有美术课。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/tuesday-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w191",
-          "word": "Wednesday",
-          "chinese": "星期三",
-          "phonemes": [
-            {
-              "symbol": "/w/",
-              "letter": "W"
-            },
-            {
-              "symbol": "/ɛ/",
-              "letter": "e"
-            },
-            {
-              "symbol": "/d/",
-              "letter": "d"
-            },
-            {
-              "symbol": "/n/",
-              "letter": "n"
-            },
-            {
-              "symbol": "/ə/",
-              "letter": "e"
-            },
-            {
-              "symbol": "/z/",
-              "letter": "s"
-            },
-            {
-              "symbol": "/deɪ/",
-              "letter": "day"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit6/Wednesday/Wednesday_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "I go to the library on Wednesday.",
-              "zh": "我星期三去图书馆。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/wednesday-textbook.jpg"
-            },
-            {
-              "en": "Wednesday is in the middle of the week.",
-              "zh": "星期三是一周的中段。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/wednesday-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w192",
-          "word": "Thursday",
-          "chinese": "星期四",
-          "phonemes": [
-            {
-              "symbol": "/θ/",
-              "letter": "Th"
-            },
-            {
-              "symbol": "/ɜː/",
-              "letter": "ur"
-            },
-            {
-              "symbol": "/z/",
-              "letter": "s"
-            },
-            {
-              "symbol": "/deɪ/",
-              "letter": "day"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit6/Thursday/Thursday_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "My birthday is on Thursday.",
-              "zh": "我的生日在星期四。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/thursday-textbook.jpg"
-            },
-            {
-              "en": "I have a music lesson on Thursday.",
-              "zh": "我星期四有一节音乐课。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/thursday-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w193",
-          "word": "Friday",
-          "chinese": "星期五",
-          "phonemes": [
-            {
-              "symbol": "/f/",
-              "letter": "F"
-            },
-            {
-              "symbol": "/r/",
-              "letter": "r"
-            },
-            {
-              "symbol": "/aɪ/",
-              "letter": "i"
-            },
-            {
-              "symbol": "/deɪ/",
-              "letter": "day"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit6/Friday/Friday_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "We go to school from Monday to Friday.",
-              "zh": "我们从周一到周五去上学。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/friday-textbook.jpg"
-            },
-            {
-              "en": "We can play football after school on Friday.",
-              "zh": "我们星期五放学后可以踢足球。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/friday-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w194",
-          "word": "Saturday",
-          "chinese": "星期六",
-          "phonemes": [
-            {
-              "symbol": "/s/",
-              "letter": "S"
-            },
-            {
-              "symbol": "/æ/",
-              "letter": "a"
-            },
-            {
-              "symbol": "/t/",
-              "letter": "t"
-            },
-            {
-              "symbol": "/ə/",
-              "letter": "ur"
-            },
-            {
-              "symbol": "/deɪ/",
-              "letter": "day"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit6/Saturday/Saturday_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Friday, Saturday and Sunday.",
-              "zh": "星期五、星期六和星期日。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/saturday-textbook.jpg"
-            },
-            {
-              "en": "I go to the park with my mom on Saturday.",
-              "zh": "我星期六和妈妈去公园。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/saturday-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w195",
-          "word": "Sunday",
-          "chinese": "星期日",
-          "phonemes": [
-            {
-              "symbol": "/s/",
-              "letter": "S"
-            },
-            {
-              "symbol": "/ʌ/",
-              "letter": "u"
-            },
-            {
-              "symbol": "/n/",
-              "letter": "n"
-            },
-            {
-              "symbol": "/deɪ/",
-              "letter": "day"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit6/Sunday/Sunday_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "What does Wenwen do on Sunday?",
-              "zh": "文文在星期日做什么？",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/sunday-textbook.jpg"
-            },
-            {
-              "en": "We visit my grandma on Sunday.",
-              "zh": "我们星期日去看望奶奶。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/sunday-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w196",
-          "word": "park",
-          "chinese": "公园",
-          "phonemes": [
-            {
-              "symbol": "/p/",
-              "letter": "p"
-            },
-            {
-              "symbol": "/ɑː/",
-              "letter": "ar"
-            },
-            {
-              "symbol": "/k/",
-              "letter": "k"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit6/park/park_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Let's play in the park.",
-              "zh": "让我们在公园里玩吧。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/park-textbook.jpg"
-            },
-            {
-              "en": "The park is near my school.",
-              "zh": "公园在我学校附近。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/park-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w197",
-          "word": "visit",
-          "chinese": "看望，拜访",
-          "phonemes": [
-            {
-              "symbol": "/v/",
-              "letter": "v"
-            },
-            {
-              "symbol": "/ɪ/",
-              "letter": "i"
-            },
-            {
-              "symbol": "/z/",
-              "letter": "s"
-            },
-            {
-              "symbol": "/ɪ/",
-              "letter": "i"
-            },
-            {
-              "symbol": "/t/",
-              "letter": "t"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit6/visit/visit_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Let’s go and visit our",
-              "zh": "我们去拜访我们的",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/visit-textbook.jpg"
-            },
-            {
-              "en": "I visit my friend on Saturday.",
-              "zh": "我星期六拜访我的朋友。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/visit-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w198",
-          "word": "lesson",
-          "chinese": "课，课程",
-          "phonemes": [
-            {
-              "symbol": "/l/",
-              "letter": "l"
-            },
-            {
-              "symbol": "/ɛ/",
-              "letter": "e"
-            },
-            {
-              "symbol": "/s/",
-              "letter": "ss"
-            },
-            {
-              "symbol": "/ən/",
-              "letter": "on"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit6/lesson/lesson_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "We have an English lesson today.",
-              "zh": "我们今天有一节英语课。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/lesson-textbook.jpg"
-            },
-            {
-              "en": "We have a football lesson today.",
-              "zh": "我们今天有一节足球课。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/lesson-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w199",
-          "word": "football",
-          "chinese": "足球",
-          "phonemes": [
-            {
-              "symbol": "/f/",
-              "letter": "f"
-            },
-            {
-              "symbol": "/ʊ/",
-              "letter": "oo"
-            },
-            {
-              "symbol": "/t/",
-              "letter": "t"
-            },
-            {
-              "symbol": "/b/",
-              "letter": "b"
-            },
-            {
-              "symbol": "/ɔː/",
-              "letter": "a"
-            },
-            {
-              "symbol": "/l/",
-              "letter": "ll"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit6/football/football_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Computer club and football club!",
-              "zh": "电脑俱乐部和足球俱乐部！",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/football-textbook.jpg"
-            },
-            {
-              "en": "I like to play football in the park.",
-              "zh": "我喜欢在公园里踢足球。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/football-context.jpg"
             }
           ]
         }
