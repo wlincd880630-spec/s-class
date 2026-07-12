@@ -1156,25 +1156,10 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "word": "meet you",
-          "chinese": "见到你",
+          "id": "w35",
+          "word": "you",
+          "chinese": "你",
           "phonemes": [
-            {
-              "symbol": "/m/",
-              "letter": "m"
-            },
-            {
-              "symbol": "/iː/",
-              "letter": "ee"
-            },
-            {
-              "symbol": "/t/",
-              "letter": "t"
-            },
-            {
-              "symbol": "—",
-              "letter": " "
-            },
             {
               "symbol": "/j/",
               "letter": "y"
@@ -1184,9 +1169,21 @@ const TEXTBOOK_DATA = {
               "letter": "ou"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit1/meet_you/meet_you_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
-          "id": "w35"
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit1/you/you_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "You are my friend.",
+              "zh": "你是我的朋友。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/you-textbook.jpg"
+            },
+            {
+              "en": "You are very kind.",
+              "zh": "你非常善良。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/you-context.jpg"
+            }
+          ]
         },
         {
           "id": "w36",

@@ -54,7 +54,7 @@ const TARGET = {
       ['to', '向；到'],
       ['meet', '遇见'],
       ['friend', '朋友'],
-      ['meet you', '见到你'],
+      ['you', '你'],
       ['play', '玩耍'],
       ['happy', '开心的'],
       ['new', '新的'],
@@ -323,14 +323,6 @@ const NEW_WORDS = {
     { symbol: '/ɪ/', letter: 'i' },
     { symbol: '/ŋ/', letter: 'ng' },
   ], '3ga-good-morning'),
-  'meet you': PHRASE('meet you', [
-    { symbol: '/m/', letter: 'm' },
-    { symbol: '/iː/', letter: 'ee' },
-    { symbol: '/t/', letter: 't' },
-    { symbol: '—', letter: ' ' },
-    { symbol: '/j/', letter: 'y' },
-    { symbol: '/uː/', letter: 'ou' },
-  ], '3ga-meet-you'),
   other: PHRASE('other', [
     { symbol: '/ʌ/', letter: 'o' },
     { symbol: '/ð/', letter: 'th' },
