@@ -713,7 +713,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/ear/ear_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": []
+          "sentences": [
+            {
+              "en": "I have two ears.",
+              "zh": "我有两只耳朵。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/ear-textbook.jpg"
+            },
+            {
+              "en": "My ear hurts a little.",
+              "zh": "我的耳朵有点疼。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/ear-context.jpg"
+            }
+          ]
         },
         {
           "id": "w3",
@@ -1631,7 +1644,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit2/wolf/wolf_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": []
+          "sentences": [
+            {
+              "en": "The wolf is big and gray.",
+              "zh": "这只狼又大又灰。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/wolf-textbook.jpg"
+            },
+            {
+              "en": "I see a wolf in the zoo.",
+              "zh": "我在动物园看到一只狼。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/wolf-context.jpg"
+            }
+          ]
         },
         {
           "id": "w54",
@@ -3954,7 +3980,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit4/quiet/quiet_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": []
+          "sentences": [
+            {
+              "en": "Please be quiet in class.",
+              "zh": "课堂上请安静。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/quiet-textbook.jpg"
+            },
+            {
+              "en": "The library is very quiet.",
+              "zh": "图书馆很安静。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/quiet-context.jpg"
+            }
+          ]
         },
         {
           "id": "w101",
@@ -4504,7 +4543,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit5/where/where_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": []
+          "sentences": [
+            {
+              "en": "Where is the school?",
+              "zh": "学校在哪里？",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/where-textbook.jpg"
+            },
+            {
+              "en": "Where do you live?",
+              "zh": "你住在哪里？",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/where-context.jpg"
+            }
+          ]
         },
         {
           "id": "w160",
@@ -4525,7 +4577,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit5/leave/leave_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": []
+          "sentences": [
+            {
+              "en": "Please leave the room.",
+              "zh": "请离开房间。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/leave-textbook.jpg"
+            },
+            {
+              "en": "I leave home at seven.",
+              "zh": "我七点离开家。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/leave-context.jpg"
+            }
+          ]
         },
         {
           "id": "w125",
@@ -4837,7 +4902,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit6/will/will_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": []
+          "sentences": [
+            {
+              "en": "I will go to the park.",
+              "zh": "我将要去公园。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/will-textbook.jpg"
+            },
+            {
+              "en": "She will help you.",
+              "zh": "她会帮助你。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/will-context.jpg"
+            }
+          ]
         },
         {
           "id": "w135",
