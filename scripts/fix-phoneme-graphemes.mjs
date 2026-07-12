@@ -100,6 +100,10 @@ const OVERRIDES = {
   grow: [{ letter: 'gr', symbol: '/ɡr/' }, { letter: 'ow', symbol: '/əʊ/' }],
   first: [{ letter: 'f', symbol: '/f/' }, { letter: 'ir', symbol: '/ɜː/' }, { letter: 'st', symbol: '/st/' }],
   around: [{ letter: 'a', symbol: '/ə/' }, { letter: 'r', symbol: '/r/' }, { letter: 'ou', symbol: '/aʊ/' }, { letter: 'nd', symbol: '/nd/' }],
+  grandfather: [{ letter: 'gr', symbol: '/ɡr/' }, { letter: 'a', symbol: '/æ/' }, { letter: 'nd', symbol: '/n/' }, { letter: 'f', symbol: '/f/' }, { letter: 'a', symbol: '/ɑː/' }, { letter: 'th', symbol: '/ð/' }, { letter: 'er', symbol: '/ə/' }],
+  grandmother: [{ letter: 'gr', symbol: '/ɡr/' }, { letter: 'a', symbol: '/æ/' }, { letter: 'nd', symbol: '/n/' }, { letter: 'm', symbol: '/m/' }, { letter: 'o', symbol: '/ʌ/' }, { letter: 'th', symbol: '/ð/' }, { letter: 'er', symbol: '/ə/' }],
+  grandma: [{ letter: 'gr', symbol: '/ɡr/' }, { letter: 'a', symbol: '/æ/' }, { letter: 'nd', symbol: '/n/' }, { letter: 'm', symbol: '/m/' }, { letter: 'a', symbol: '/ɑː/' }],
+  grandpa: [{ letter: 'gr', symbol: '/ɡr/' }, { letter: 'a', symbol: '/æ/' }, { letter: 'nd', symbol: '/n/' }, { letter: 'p', symbol: '/p/' }, { letter: 'a', symbol: '/ɑː/' }],
   'here you are': [
     { letter: 'h', symbol: '/h/' }, { letter: 'ere', symbol: '/ɪə/' }, { letter: ' ', symbol: '—' },
     { letter: 'y', symbol: '/j/' }, { letter: 'ou', symbol: '/uː/' }, { letter: ' ', symbol: '—' },
