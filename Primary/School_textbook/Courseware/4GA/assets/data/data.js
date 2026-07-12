@@ -2435,8 +2435,8 @@ const TEXTBOOK_DATA = {
         },
         {
           "id": "w154",
-          "word": "cut grass",
-          "chinese": "割草",
+          "word": "cut",
+          "chinese": "割",
           "phonemes": [
             {
               "symbol": "/k/",
@@ -2449,22 +2449,6 @@ const TEXTBOOK_DATA = {
             {
               "symbol": "/t/",
               "letter": "t"
-            },
-            {
-              "symbol": "—",
-              "letter": " "
-            },
-            {
-              "symbol": "/ɡr/",
-              "letter": "gr"
-            },
-            {
-              "symbol": "/ɑː/",
-              "letter": "a"
-            },
-            {
-              "symbol": "/s/",
-              "letter": "ss"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit2/cut/cut_%E9%A3%8E%E6%A0%BCA.png",
@@ -2480,6 +2464,40 @@ const TEXTBOOK_DATA = {
               "zh": "请把纸剪成星星形状做卡片。",
               "source": "context",
               "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/cut-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w155",
+          "word": "grass",
+          "chinese": "草",
+          "phonemes": [
+            {
+              "symbol": "/ɡr/",
+              "letter": "gr"
+            },
+            {
+              "symbol": "/ɑː/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/s/",
+              "letter": "ss"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit2/grass/grass_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "The grass is green.",
+              "zh": "草是绿色的。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/grass-textbook.jpg"
+            },
+            {
+              "en": "The dog loves to run and play on the soft green grass.",
+              "zh": "狗喜欢在柔软的绿草地上跑着玩。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/grass-context.jpg"
             }
           ]
         }
@@ -5391,8 +5409,8 @@ const TEXTBOOK_DATA = {
         },
         {
           "id": "w156",
-          "word": "step on",
-          "chinese": "踩上",
+          "word": "step",
+          "chinese": "步；踩",
           "phonemes": [
             {
               "symbol": "/st/",
@@ -5405,18 +5423,6 @@ const TEXTBOOK_DATA = {
             {
               "symbol": "/p/",
               "letter": "p"
-            },
-            {
-              "symbol": "—",
-              "letter": " "
-            },
-            {
-              "symbol": "/ɒ/",
-              "letter": "o"
-            },
-            {
-              "symbol": "/n/",
-              "letter": "n"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit6/step/step_%E9%A3%8E%E6%A0%BCA.png",
@@ -5436,9 +5442,39 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
+          "id": "w157",
+          "word": "own",
+          "chinese": "自己的",
+          "phonemes": [
+            {
+              "symbol": "/əʊ/",
+              "letter": "ow"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit6/own/own_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "I have my own room.",
+              "zh": "我有自己的房间。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/own-textbook.jpg"
+            },
+            {
+              "en": "I have my own small garden with pretty flowers.",
+              "zh": "我有自己的小花园，里面种着美丽的花。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/own-context.jpg"
+            }
+          ]
+        },
+        {
           "id": "w148",
           "word": "on one's own",
-          "chinese": "独立地",
+          "chinese": "独自",
           "phonemes": [
             {
               "symbol": "/ɒ/",
