@@ -18,7 +18,39 @@
       .replace(/"/g, '&quot;');
   }
 
-  function highlightSentence(sentence, highlights) {
+  function displaySentence(item) {
+    return item.sentenceComplete || item.sentence || '';
+  }
+
+  function highlightFills(sentence, fills) {
+    if (!fills || !fills.length) return esc(sentence);
+    var marks = fills
+      .map(function (fill) {
+        var index = sentence.indexOf(fill.answer);
+        if (index < 0) return null;
+        return { index: index, end: index + fill.answer.length };
+      })
+      .filter(Boolean)
+      .sort(function (a, b) {
+        return a.index - b.index;
+      });
+    if (!marks.length) return esc(sentence);
+    var html = '';
+    var cursor = 0;
+    marks.forEach(function (mark) {
+      if (mark.index < cursor) return;
+      html += esc(sentence.slice(cursor, mark.index));
+      html +=
+        '<span class="corpus-zk__hl is-fill">' +
+        esc(sentence.slice(mark.index, mark.end)) +
+        '</span>';
+      cursor = mark.end;
+    });
+    html += esc(sentence.slice(cursor));
+    return html;
+  }
+
+  function highlightSentence(sentence, highlights, fills) {
     var source = String(sentence || '');
     if (!highlights || !highlights.length) return esc(source);
 
@@ -71,6 +103,7 @@
       { key: 'highlight', label: '从句高亮' },
       { key: 'zh', label: '中文翻译' },
     ];
+    var sentence = displaySentence(item);
 
     return (
       '<article class="corpus-zk__card" data-zk-id="' +
@@ -92,7 +125,7 @@
       '</span>' +
       '</header>' +
       '<p class="corpus-zk__sentence" lang="en">' +
-      esc(item.sentence) +
+      highlightFills(sentence, item.fills) +
       '</p>' +
       '<p class="corpus-zk__context">' +
       esc(item.context) +
@@ -125,7 +158,7 @@
       '<div class="corpus-zk__panel" data-zk-panel="highlight" hidden>' +
       '<h4>定语从句高亮</h4>' +
       '<p class="corpus-zk__sentence corpus-zk__sentence--hl" lang="en">' +
-      highlightSentence(item.sentence, item.highlights) +
+      highlightSentence(sentence, item.highlights, item.fills) +
       '</p>' +
       '<p class="corpus-zk__meta">先行词：<strong>' +
       esc(item.antecedent) +
