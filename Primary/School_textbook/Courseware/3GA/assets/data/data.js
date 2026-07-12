@@ -6134,7 +6134,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/n/",
-              "letter": "n"
+              "letter": "nd"
             },
             {
               "symbol": "/f/",
@@ -6171,7 +6171,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/n/",
-              "letter": "m"
+              "letter": "nd"
             },
             {
               "symbol": "/m/",
@@ -6200,7 +6200,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/n/",
-              "letter": "n"
+              "letter": "nd"
             },
             {
               "symbol": "/m/",
