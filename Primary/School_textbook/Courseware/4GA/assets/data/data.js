@@ -720,7 +720,7 @@ const TEXTBOOK_DATA = {
               "letter": "ear"
             }
           ],
-          "image": "https://picsum.photos/seed/ear/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/ear/ear_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": []
         },
         {
@@ -1662,7 +1662,7 @@ const TEXTBOOK_DATA = {
               "letter": "f"
             }
           ],
-          "image": "https://picsum.photos/seed/wolf/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit2/wolf/wolf_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": []
         },
         {
@@ -4021,7 +4021,7 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             }
           ],
-          "image": "https://picsum.photos/seed/quiet/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit4/quiet/quiet_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": []
         },
         {
@@ -4571,7 +4571,7 @@ const TEXTBOOK_DATA = {
               "letter": "ere"
             }
           ],
-          "image": "https://picsum.photos/seed/where/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit5/where/where_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": []
         },
         {
@@ -4592,7 +4592,7 @@ const TEXTBOOK_DATA = {
               "letter": "ve"
             }
           ],
-          "image": "https://picsum.photos/seed/leave/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit5/leave/leave_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": []
         },
         {
@@ -4908,7 +4908,7 @@ const TEXTBOOK_DATA = {
               "letter": "ll"
             }
           ],
-          "image": "https://picsum.photos/seed/will/400/300",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit6/will/will_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": []
         },
         {
