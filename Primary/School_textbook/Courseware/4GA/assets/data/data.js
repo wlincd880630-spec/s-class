@@ -1,6 +1,5 @@
 /**
  * 外研版小学英语四年级上册（新版）单词数据
- * 自动生成，请勿手动编辑
  */
 const TEXTBOOK_DATA = {
   "book": {
@@ -15,6 +14,672 @@ const TEXTBOOK_DATA = {
       "name": "Unit 1 · I Love Sports",
       "title": "我爱运动",
       "words": [
+        {
+          "id": "w13",
+          "word": "sport",
+          "chinese": "体育运动",
+          "phonemes": [
+            {
+              "symbol": "/s/",
+              "letter": "s"
+            },
+            {
+              "symbol": "/p/",
+              "letter": "p"
+            },
+            {
+              "symbol": "/ɔː/",
+              "letter": "or"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/sport/sport_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Here’s the sports centre.",
+              "zh": "这里是体育中心。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/sport-textbook.jpg"
+            },
+            {
+              "en": "My favorite sport is basketball because it is fun to play with friends.",
+              "zh": "我最喜欢的体育运动是篮球，因为和朋友一起打很有趣。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/sport-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w14",
+          "word": "jump",
+          "chinese": "跳",
+          "phonemes": [
+            {
+              "symbol": "/dʒ/",
+              "letter": "j"
+            },
+            {
+              "symbol": "/ʌ/",
+              "letter": "u"
+            },
+            {
+              "symbol": "/m/",
+              "letter": "m"
+            },
+            {
+              "symbol": "/p/",
+              "letter": "p"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/jump/jump_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Jump in the sea!",
+              "zh": "跳进海里！",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/jump-textbook.jpg"
+            },
+            {
+              "en": "The rabbit can jump very high to reach the carrot on the table.",
+              "zh": "兔子能跳得很高去够桌子上的胡萝卜。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/jump-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w15",
+          "word": "high",
+          "chinese": "高高地",
+          "phonemes": [
+            {
+              "symbol": "/h/",
+              "letter": "h"
+            },
+            {
+              "symbol": "/aɪ/",
+              "letter": "igh"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/high/high_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "High up in the sky.",
+              "zh": "高高的天空中。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/high-textbook.jpg"
+            },
+            {
+              "en": "The bird flies high in the sky and looks for food below.",
+              "zh": "鸟儿高高地飞在天空中，寻找下面的食物。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/high-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w16",
+          "word": "far",
+          "chinese": "远",
+          "phonemes": [
+            {
+              "symbol": "/f/",
+              "letter": "f"
+            },
+            {
+              "symbol": "/ɑː/",
+              "letter": "ar"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/far/far_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "How far can you jump?",
+              "zh": "你能跳多远？",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/far-textbook.jpg"
+            },
+            {
+              "en": "We walked far along the beach until we found a big shell.",
+              "zh": "我们沿着海滩走了很远，直到发现一个大贝壳。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/far-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w17",
+          "word": "ping-pong",
+          "chinese": "乒乓球运动",
+          "phonemes": [
+            {
+              "symbol": "/p/",
+              "letter": "p"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/ŋ/",
+              "letter": "ng"
+            },
+            {
+              "symbol": "—",
+              "letter": "-"
+            },
+            {
+              "symbol": "/p/",
+              "letter": "p"
+            },
+            {
+              "symbol": "/ɒ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/ŋ/",
+              "letter": "ng"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/ping-pong/ping-pong_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "I like playing ping-pong after school.",
+              "zh": "我喜欢放学后打乒乓球。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/ping_pong-textbook.jpg"
+            },
+            {
+              "en": "After class, my brother and I play ping-pong in the garden.",
+              "zh": "下课后，我和弟弟在花园里打乒乓球。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/ping_pong-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w18",
+          "word": "volleyball",
+          "chinese": "排球（运动）",
+          "phonemes": [
+            {
+              "symbol": "/v/",
+              "letter": "v"
+            },
+            {
+              "symbol": "/ɒ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "ll"
+            },
+            {
+              "symbol": "/i/",
+              "letter": "ey"
+            },
+            {
+              "symbol": "/b/",
+              "letter": "b"
+            },
+            {
+              "symbol": "/ɔː/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "ll"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/volleyball/volleyball_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "We play volleyball in the gym.",
+              "zh": "我们在体育馆打排球。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/volleyball-textbook.jpg"
+            },
+            {
+              "en": "The girls play volleyball on the sand every Sunday morning.",
+              "zh": "女孩们每个周日上午在沙滩上打排球。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/volleyball-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w19",
+          "word": "across",
+          "chinese": "从一边到另一边；穿过，越过",
+          "phonemes": [
+            {
+              "symbol": "/ə/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/k/",
+              "letter": "c"
+            },
+            {
+              "symbol": "/r/",
+              "letter": "r"
+            },
+            {
+              "symbol": "/ɒ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/s/",
+              "letter": "ss"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/across/across_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Across the sea.",
+              "zh": "穿过大海。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/across-textbook.jpg"
+            },
+            {
+              "en": "The cat walked across the street very carefully to avoid cars.",
+              "zh": "猫小心翼翼地穿过街道，避开汽车。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/across-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w20",
+          "word": "hope",
+          "chinese": "希望",
+          "phonemes": [
+            {
+              "symbol": "/h/",
+              "letter": "h"
+            },
+            {
+              "symbol": "/əʊ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/p/",
+              "letter": "pe"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/hope/hope_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "I hope they like it!",
+              "zh": "我希望他们喜欢它！",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/hope-textbook.jpg"
+            },
+            {
+              "en": "I hope you can come to my birthday party this Saturday.",
+              "zh": "我希望你这个星期六能来参加我的生日派对。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/hope-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w21",
+          "word": "lose",
+          "chinese": "失去",
+          "phonemes": [
+            {
+              "symbol": "/l/",
+              "letter": "l"
+            },
+            {
+              "symbol": "/uː/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/z/",
+              "letter": "se"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/lose/lose_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Don't lose hope.",
+              "zh": "不要失去希望。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/lose-textbook.jpg"
+            },
+            {
+              "en": "If you lose your keys, ask your mom for help to find them.",
+              "zh": "如果你丢了钥匙，就请妈妈帮忙找。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/lose-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w22",
+          "word": "because",
+          "chinese": "因为",
+          "phonemes": [
+            {
+              "symbol": "/b/",
+              "letter": "b"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/k/",
+              "letter": "c"
+            },
+            {
+              "symbol": "/ɒ/",
+              "letter": "au"
+            },
+            {
+              "symbol": "/z/",
+              "letter": "s"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "e"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/because/because_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Because my birthday",
+              "zh": "因为我的生日。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/because-textbook.jpg"
+            },
+            {
+              "en": "She is happy because she got a new puppy from her parents.",
+              "zh": "她很高兴，因为父母送了她一只新小狗。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/because-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w23",
+          "word": "because of",
+          "chinese": "因为",
+          "phonemes": [
+            {
+              "symbol": "/b/",
+              "letter": "b"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/k/",
+              "letter": "c"
+            },
+            {
+              "symbol": "/ɒ/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/z/",
+              "letter": "u"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "se"
+            },
+            {
+              "symbol": "—",
+              "letter": " "
+            },
+            {
+              "symbol": "/ɒ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/v/",
+              "letter": "f"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/because_of_sb_sth/because_of_sb_sth_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "He ran across Canada because of his dream.",
+              "zh": "因为梦想，他跑过了加拿大。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/because_of_sb_sth-textbook.jpg"
+            },
+            {
+              "en": "We use the word \"because of sb / sth\" in our English class.",
+              "zh": "我们在英语课上学习「because of sb / sth」（因为梦想）。",
+              "source": "fallback",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/because_of_sb_sth-fallback.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w24",
+          "word": "cancer",
+          "chinese": "癌（症）",
+          "phonemes": [
+            {
+              "symbol": "/k/",
+              "letter": "c"
+            },
+            {
+              "symbol": "/æ/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/s/",
+              "letter": "c"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "er"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/cancer/cancer_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Terry Fox had cancer when he was young.",
+              "zh": "特里·福克斯年轻时患了癌症。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/cancer-textbook.jpg"
+            },
+            {
+              "en": "My grandpa beat cancer and now he is healthy again.",
+              "zh": "我爷爷战胜了癌症，现在又健康了。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/cancer-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w25",
+          "word": "money",
+          "chinese": "钱",
+          "phonemes": [
+            {
+              "symbol": "/m/",
+              "letter": "m"
+            },
+            {
+              "symbol": "/ʌ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/i/",
+              "letter": "ey"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/money/money_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "He raised money for other people.",
+              "zh": "他为别人筹集善款。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/money-textbook.jpg"
+            },
+            {
+              "en": "I saved my pocket money to buy a new toy car.",
+              "zh": "我攒下零花钱买了一辆新玩具车。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/money-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w26",
+          "word": "hard",
+          "chinese": "困难的",
+          "phonemes": [
+            {
+              "symbol": "/h/",
+              "letter": "h"
+            },
+            {
+              "symbol": "/ɑː/",
+              "letter": "ar"
+            },
+            {
+              "symbol": "/d/",
+              "letter": "d"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/hard/hard_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Dad and Mum work hard on the farm.",
+              "zh": "爸爸和妈妈在农场辛苦工作。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/hard-textbook.jpg"
+            },
+            {
+              "en": "The math problem was hard, but I solved it with help.",
+              "zh": "这道数学题很难，但我在帮助下解出来了。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/hard-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w27",
+          "word": "kind",
+          "chinese": "亲切的；友好的；善良的",
+          "phonemes": [
+            {
+              "symbol": "/k/",
+              "letter": "k"
+            },
+            {
+              "symbol": "/aɪnd/",
+              "letter": "ind"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/kind/kind_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "This kind of green!",
+              "zh": "这种绿色！",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/kind-textbook.jpg"
+            },
+            {
+              "en": "My kind teacher helped me carry my heavy bag.",
+              "zh": "我友善的老师帮我拿沉重的书包。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/kind-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w28",
+          "word": "keep",
+          "chinese": "持续；继续",
+          "phonemes": [
+            {
+              "symbol": "/k/",
+              "letter": "k"
+            },
+            {
+              "symbol": "/iː/",
+              "letter": "ee"
+            },
+            {
+              "symbol": "/p/",
+              "letter": "p"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/keep/keep_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Please keep your desk clean.",
+              "zh": "请保持你的书桌干净。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/keep-textbook.jpg"
+            },
+            {
+              "en": "Please keep your desk clean every day.",
+              "zh": "请每天保持你的书桌干净。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/keep-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w29",
+          "word": "month",
+          "chinese": "一个月",
+          "phonemes": [
+            {
+              "symbol": "/m/",
+              "letter": "m"
+            },
+            {
+              "symbol": "/ʌ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/θ/",
+              "letter": "th"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/month/month_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "He ran for many months.",
+              "zh": "他跑了很多个月。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/month-textbook.jpg"
+            },
+            {
+              "en": "We will visit my grandma in another month.",
+              "zh": "再过一个月我们就要去看我奶奶。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/month-context.jpg"
+            }
+          ]
+        },
         {
           "id": "w1",
           "word": "ill",
@@ -46,34 +711,17 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w2",
-          "word": "year",
-          "chinese": "年；年度",
+          "id": "w157",
+          "word": "ear",
+          "chinese": "耳朵",
           "phonemes": [
-            {
-              "symbol": "/j/",
-              "letter": "y"
-            },
             {
               "symbol": "/ɪə/",
               "letter": "ear"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/year/year_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Four seasons in a year.",
-              "zh": "一年有四季。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/year-textbook.jpg"
-            },
-            {
-              "en": "This year my family went to the beach in summer.",
-              "zh": "今年夏天我们一家去了海滩。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/year-context.jpg"
-            }
-          ]
+          "image": "https://picsum.photos/seed/ear/400/300",
+          "sentences": []
         },
         {
           "id": "w3",
@@ -502,708 +1150,6 @@ const TEXTBOOK_DATA = {
               "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/player-context.jpg"
             }
           ]
-        },
-        {
-          "id": "w13",
-          "word": "sport",
-          "chinese": "体育运动",
-          "phonemes": [
-            {
-              "symbol": "/s/",
-              "letter": "s"
-            },
-            {
-              "symbol": "/p/",
-              "letter": "p"
-            },
-            {
-              "symbol": "/ɔː/",
-              "letter": "or"
-            },
-            {
-              "symbol": "/t/",
-              "letter": "t"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/sport/sport_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Here’s the sports centre.",
-              "zh": "这里是体育中心。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/sport-textbook.jpg"
-            },
-            {
-              "en": "My favorite sport is basketball because it is fun to play with friends.",
-              "zh": "我最喜欢的体育运动是篮球，因为和朋友一起打很有趣。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/sport-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w14",
-          "word": "jump",
-          "chinese": "跳",
-          "phonemes": [
-            {
-              "symbol": "/dʒ/",
-              "letter": "j"
-            },
-            {
-              "symbol": "/ʌ/",
-              "letter": "u"
-            },
-            {
-              "symbol": "/m/",
-              "letter": "m"
-            },
-            {
-              "symbol": "/p/",
-              "letter": "p"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/jump/jump_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Jump in the sea!",
-              "zh": "跳进海里！",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/jump-textbook.jpg"
-            },
-            {
-              "en": "The rabbit can jump very high to reach the carrot on the table.",
-              "zh": "兔子能跳得很高去够桌子上的胡萝卜。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/jump-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w15",
-          "word": "high",
-          "chinese": "高高地",
-          "phonemes": [
-            {
-              "symbol": "/h/",
-              "letter": "h"
-            },
-            {
-              "symbol": "/aɪ/",
-              "letter": "igh"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/high/high_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "High up in the sky.",
-              "zh": "高高的天空中。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/high-textbook.jpg"
-            },
-            {
-              "en": "The bird flies high in the sky and looks for food below.",
-              "zh": "鸟儿高高地飞在天空中，寻找下面的食物。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/high-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w16",
-          "word": "far",
-          "chinese": "远",
-          "phonemes": [
-            {
-              "symbol": "/f/",
-              "letter": "f"
-            },
-            {
-              "symbol": "/ɑː/",
-              "letter": "ar"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/far/far_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "How far can you jump?",
-              "zh": "你能跳多远？",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/far-textbook.jpg"
-            },
-            {
-              "en": "We walked far along the beach until we found a big shell.",
-              "zh": "我们沿着海滩走了很远，直到发现一个大贝壳。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/far-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w17",
-          "word": "ping-pong",
-          "chinese": "乒乓球运动",
-          "phonemes": [
-            {
-              "symbol": "/p/",
-              "letter": "p"
-            },
-            {
-              "symbol": "/ɪ/",
-              "letter": "i"
-            },
-            {
-              "symbol": "/ŋ/",
-              "letter": "ng"
-            },
-            {
-              "symbol": "—",
-              "letter": "-"
-            },
-            {
-              "symbol": "/p/",
-              "letter": "p"
-            },
-            {
-              "symbol": "/ɒ/",
-              "letter": "o"
-            },
-            {
-              "symbol": "/ŋ/",
-              "letter": "ng"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/ping-pong/ping-pong_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "I like playing ping-pong after school.",
-              "zh": "我喜欢放学后打乒乓球。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/ping_pong-textbook.jpg"
-            },
-            {
-              "en": "After class, my brother and I play ping-pong in the garden.",
-              "zh": "下课后，我和弟弟在花园里打乒乓球。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/ping_pong-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w18",
-          "word": "volleyball",
-          "chinese": "排球（运动）",
-          "phonemes": [
-            {
-              "symbol": "/v/",
-              "letter": "v"
-            },
-            {
-              "symbol": "/ɒ/",
-              "letter": "o"
-            },
-            {
-              "symbol": "/l/",
-              "letter": "ll"
-            },
-            {
-              "symbol": "/i/",
-              "letter": "ey"
-            },
-            {
-              "symbol": "/b/",
-              "letter": "b"
-            },
-            {
-              "symbol": "/ɔː/",
-              "letter": "a"
-            },
-            {
-              "symbol": "/l/",
-              "letter": "ll"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/volleyball/volleyball_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "We play volleyball in the gym.",
-              "zh": "我们在体育馆打排球。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/volleyball-textbook.jpg"
-            },
-            {
-              "en": "The girls play volleyball on the sand every Sunday morning.",
-              "zh": "女孩们每个周日上午在沙滩上打排球。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/volleyball-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w19",
-          "word": "across",
-          "chinese": "从一边到另一边；穿过，越过",
-          "phonemes": [
-            {
-              "symbol": "/ə/",
-              "letter": "a"
-            },
-            {
-              "symbol": "/k/",
-              "letter": "c"
-            },
-            {
-              "symbol": "/r/",
-              "letter": "r"
-            },
-            {
-              "symbol": "/ɒ/",
-              "letter": "o"
-            },
-            {
-              "symbol": "/s/",
-              "letter": "ss"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/across/across_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Across the sea.",
-              "zh": "穿过大海。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/across-textbook.jpg"
-            },
-            {
-              "en": "The cat walked across the street very carefully to avoid cars.",
-              "zh": "猫小心翼翼地穿过街道，避开汽车。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/across-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w20",
-          "word": "hope",
-          "chinese": "希望",
-          "phonemes": [
-            {
-              "symbol": "/h/",
-              "letter": "h"
-            },
-            {
-              "symbol": "/əʊ/",
-              "letter": "o"
-            },
-            {
-              "symbol": "/p/",
-              "letter": "pe"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/hope/hope_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "I hope they like it!",
-              "zh": "我希望他们喜欢它！",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/hope-textbook.jpg"
-            },
-            {
-              "en": "I hope you can come to my birthday party this Saturday.",
-              "zh": "我希望你这个星期六能来参加我的生日派对。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/hope-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w21",
-          "word": "lose",
-          "chinese": "失去",
-          "phonemes": [
-            {
-              "symbol": "/l/",
-              "letter": "l"
-            },
-            {
-              "symbol": "/uː/",
-              "letter": "o"
-            },
-            {
-              "symbol": "/z/",
-              "letter": "se"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/lose/lose_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Don't lose hope.",
-              "zh": "不要失去希望。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/lose-textbook.jpg"
-            },
-            {
-              "en": "If you lose your keys, ask your mom for help to find them.",
-              "zh": "如果你丢了钥匙，就请妈妈帮忙找。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/lose-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w22",
-          "word": "because",
-          "chinese": "因为",
-          "phonemes": [
-            {
-              "symbol": "/b/",
-              "letter": "b"
-            },
-            {
-              "symbol": "/ɪ/",
-              "letter": "e"
-            },
-            {
-              "symbol": "/k/",
-              "letter": "c"
-            },
-            {
-              "symbol": "/ɒ/",
-              "letter": "au"
-            },
-            {
-              "symbol": "/z/",
-              "letter": "s"
-            },
-            {
-              "symbol": "/ə/",
-              "letter": "e"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/because/because_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Because my birthday",
-              "zh": "因为我的生日。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/because-textbook.jpg"
-            },
-            {
-              "en": "She is happy because she got a new puppy from her parents.",
-              "zh": "她很高兴，因为父母送了她一只新小狗。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/because-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w23",
-          "word": "because of sb / sth",
-          "chinese": "因为某人 / 某事物",
-          "phonemes": [
-            {
-              "symbol": "/b/",
-              "letter": "b"
-            },
-            {
-              "symbol": "/ɪ/",
-              "letter": "e"
-            },
-            {
-              "symbol": "/k/",
-              "letter": "c"
-            },
-            {
-              "symbol": "/ɒ/",
-              "letter": "au"
-            },
-            {
-              "symbol": "/z/",
-              "letter": "s"
-            },
-            {
-              "symbol": "/ə/",
-              "letter": "e"
-            },
-            {
-              "symbol": "—",
-              "letter": " "
-            },
-            {
-              "symbol": "/ɒ/",
-              "letter": "o"
-            },
-            {
-              "symbol": "/v/",
-              "letter": "f"
-            },
-            {
-              "symbol": "—",
-              "letter": " "
-            },
-            {
-              "symbol": "/s/",
-              "letter": "s"
-            },
-            {
-              "symbol": "/b/",
-              "letter": "b"
-            },
-            {
-              "symbol": "—",
-              "letter": " "
-            },
-            {
-              "symbol": "—",
-              "letter": "/"
-            },
-            {
-              "symbol": "—",
-              "letter": " "
-            },
-            {
-              "symbol": "/s/",
-              "letter": "s"
-            },
-            {
-              "symbol": "/t/",
-              "letter": "t"
-            },
-            {
-              "symbol": "/θ/",
-              "letter": "h"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/because_of_sb_sth/because_of_sb_sth_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "He ran across Canada because of his dream.",
-              "zh": "因为梦想，他跑过了加拿大。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/because_of_sb_sth-textbook.jpg"
-            },
-            {
-              "en": "We use the word \"because of sb / sth\" in our English class.",
-              "zh": "我们在英语课上学习「because of sb / sth」（因为梦想）。",
-              "source": "fallback",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/because_of_sb_sth-fallback.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w24",
-          "word": "cancer",
-          "chinese": "癌（症）",
-          "phonemes": [
-            {
-              "symbol": "/k/",
-              "letter": "c"
-            },
-            {
-              "symbol": "/æ/",
-              "letter": "a"
-            },
-            {
-              "symbol": "/n/",
-              "letter": "n"
-            },
-            {
-              "symbol": "/s/",
-              "letter": "c"
-            },
-            {
-              "symbol": "/ə/",
-              "letter": "er"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/cancer/cancer_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Terry Fox had cancer when he was young.",
-              "zh": "特里·福克斯年轻时患了癌症。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/cancer-textbook.jpg"
-            },
-            {
-              "en": "My grandpa beat cancer and now he is healthy again.",
-              "zh": "我爷爷战胜了癌症，现在又健康了。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/cancer-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w25",
-          "word": "money",
-          "chinese": "钱",
-          "phonemes": [
-            {
-              "symbol": "/m/",
-              "letter": "m"
-            },
-            {
-              "symbol": "/ʌ/",
-              "letter": "o"
-            },
-            {
-              "symbol": "/n/",
-              "letter": "n"
-            },
-            {
-              "symbol": "/i/",
-              "letter": "ey"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/money/money_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "He raised money for other people.",
-              "zh": "他为别人筹集善款。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/money-textbook.jpg"
-            },
-            {
-              "en": "I saved my pocket money to buy a new toy car.",
-              "zh": "我攒下零花钱买了一辆新玩具车。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/money-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w26",
-          "word": "hard",
-          "chinese": "困难的",
-          "phonemes": [
-            {
-              "symbol": "/h/",
-              "letter": "h"
-            },
-            {
-              "symbol": "/ɑː/",
-              "letter": "ar"
-            },
-            {
-              "symbol": "/d/",
-              "letter": "d"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/hard/hard_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Dad and Mum work hard on the farm.",
-              "zh": "爸爸和妈妈在农场辛苦工作。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/hard-textbook.jpg"
-            },
-            {
-              "en": "The math problem was hard, but I solved it with help.",
-              "zh": "这道数学题很难，但我在帮助下解出来了。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/hard-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w27",
-          "word": "kind",
-          "chinese": "亲切的；友好的；善良的",
-          "phonemes": [
-            {
-              "symbol": "/k/",
-              "letter": "k"
-            },
-            {
-              "symbol": "/aɪnd/",
-              "letter": "ind"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/kind/kind_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "This kind of green!",
-              "zh": "这种绿色！",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/kind-textbook.jpg"
-            },
-            {
-              "en": "My kind teacher helped me carry my heavy bag.",
-              "zh": "我友善的老师帮我拿沉重的书包。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/kind-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w28",
-          "word": "keep",
-          "chinese": "持续；继续",
-          "phonemes": [
-            {
-              "symbol": "/k/",
-              "letter": "k"
-            },
-            {
-              "symbol": "/iː/",
-              "letter": "ee"
-            },
-            {
-              "symbol": "/p/",
-              "letter": "p"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/keep/keep_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Please keep your desk clean.",
-              "zh": "请保持你的书桌干净。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/keep-textbook.jpg"
-            },
-            {
-              "en": "Please keep your desk clean every day.",
-              "zh": "请每天保持你的书桌干净。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/keep-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w29",
-          "word": "month",
-          "chinese": "一个月",
-          "phonemes": [
-            {
-              "symbol": "/m/",
-              "letter": "m"
-            },
-            {
-              "symbol": "/ʌ/",
-              "letter": "o"
-            },
-            {
-              "symbol": "/n/",
-              "letter": "n"
-            },
-            {
-              "symbol": "/θ/",
-              "letter": "th"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit1/month/month_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "He ran for many months.",
-              "zh": "他跑了很多个月。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/month-textbook.jpg"
-            },
-            {
-              "en": "We will visit my grandma in another month.",
-              "zh": "再过一个月我们就要去看我奶奶。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/month-context.jpg"
-            }
-          ]
         }
       ]
     },
@@ -1212,36 +1158,6 @@ const TEXTBOOK_DATA = {
       "name": "Unit 2 · Helping at Home",
       "title": "在家帮忙",
       "words": [
-        {
-          "id": "w30",
-          "word": "phew",
-          "chinese": "啊，唷，唉",
-          "phonemes": [
-            {
-              "symbol": "/f/",
-              "letter": "ph"
-            },
-            {
-              "symbol": "/juː/",
-              "letter": "ew"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit2/phew/phew_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Phew! So much work!",
-              "zh": "啊，唷！好多活儿！",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/phew-textbook.jpg"
-            },
-            {
-              "en": "Phew! I finally finished all my chores.",
-              "zh": "唷！我终于做完了所有家务。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/phew-context.jpg"
-            }
-          ]
-        },
         {
           "id": "w31",
           "word": "wash",
@@ -1459,332 +1375,6 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w37",
-          "word": "warm up",
-          "chinese": "（使）变暖",
-          "phonemes": [
-            {
-              "symbol": "/w/",
-              "letter": "w"
-            },
-            {
-              "symbol": "/ɔː/",
-              "letter": "ar"
-            },
-            {
-              "symbol": "/m/",
-              "letter": "m"
-            },
-            {
-              "symbol": "—",
-              "letter": " "
-            },
-            {
-              "symbol": "/ʌ/",
-              "letter": "u"
-            },
-            {
-              "symbol": "/p/",
-              "letter": "p"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit2/warm_up/warm_up_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "I'm happy to warm up my family.",
-              "zh": "我很高兴温暖我的家人。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/warm_up-textbook.jpg"
-            },
-            {
-              "en": "I do some stretches to warm up before playing soccer.",
-              "zh": "踢足球前我做些拉伸来热身。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/warm_up-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w38",
-          "word": "water",
-          "chinese": "给……浇水",
-          "phonemes": [
-            {
-              "symbol": "/w/",
-              "letter": "w"
-            },
-            {
-              "symbol": "/ɔː/",
-              "letter": "a"
-            },
-            {
-              "symbol": "/t/",
-              "letter": "t"
-            },
-            {
-              "symbol": "/ə/",
-              "letter": "er"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit2/water/water_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "There are some drops of water on the bag.",
-              "zh": "书包上有几滴水。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/water-textbook.jpg"
-            },
-            {
-              "en": "Every morning I water the flowers in our garden.",
-              "zh": "每天早上我给花园里的花浇水。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/water-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w39",
-          "word": "yard",
-          "chinese": "庭院",
-          "phonemes": [
-            {
-              "symbol": "/j/",
-              "letter": "y"
-            },
-            {
-              "symbol": "/ɑː/",
-              "letter": "ar"
-            },
-            {
-              "symbol": "/d/",
-              "letter": "d"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit2/yard/yard_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Sweep the yard.",
-              "zh": "打扫院子。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/yard-textbook.jpg"
-            },
-            {
-              "en": "We played hide-and-seek in the big yard behind the house.",
-              "zh": "我们在房子后面的大庭院里玩捉迷藏。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/yard-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w40",
-          "word": "helper",
-          "chinese": "帮手；助手",
-          "phonemes": [
-            {
-              "symbol": "/h/",
-              "letter": "h"
-            },
-            {
-              "symbol": "/e/",
-              "letter": "e"
-            },
-            {
-              "symbol": "/l/",
-              "letter": "l"
-            },
-            {
-              "symbol": "/p/",
-              "letter": "p"
-            },
-            {
-              "symbol": "/ə/",
-              "letter": "er"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit2/helper/helper_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "We’re good helpers to Mum and Dad.",
-              "zh": "我们是爸爸妈妈的好帮手。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/helper-textbook.jpg"
-            },
-            {
-              "en": "My big brother is a great helper when I clean my room.",
-              "zh": "我哥哥在我打扫房间时是个好帮手。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/helper-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w41",
-          "word": "pick",
-          "chinese": "采，摘",
-          "phonemes": [
-            {
-              "symbol": "/p/",
-              "letter": "p"
-            },
-            {
-              "symbol": "/ɪ/",
-              "letter": "i"
-            },
-            {
-              "symbol": "/k/",
-              "letter": "ck"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit2/pick/pick_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Now pick a colour.",
-              "zh": "现在选一种颜色。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/pick-textbook.jpg"
-            },
-            {
-              "en": "We can pick some red apples from the tree today.",
-              "zh": "今天我们可以从树上摘一些红苹果。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/pick-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w42",
-          "word": "pig",
-          "chinese": "猪",
-          "phonemes": [
-            {
-              "symbol": "/p/",
-              "letter": "p"
-            },
-            {
-              "symbol": "/ɪ/",
-              "letter": "i"
-            },
-            {
-              "symbol": "/ɡ/",
-              "letter": "g"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit2/pig/pig_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "The pig is pink and fat.",
-              "zh": "这只猪又粉又胖。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/pig-textbook.jpg"
-            },
-            {
-              "en": "The little pig likes to roll in the mud after eating.",
-              "zh": "小猪吃完东西后喜欢在泥里打滚。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/pig-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w43",
-          "word": "cow",
-          "chinese": "奶牛",
-          "phonemes": [
-            {
-              "symbol": "/k/",
-              "letter": "c"
-            },
-            {
-              "symbol": "/aʊ/",
-              "letter": "ow"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit2/cow/cow_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "The cow is eating grass.",
-              "zh": "奶牛正在吃草。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/cow-textbook.jpg"
-            },
-            {
-              "en": "The cow gives us fresh milk every morning on the farm.",
-              "zh": "奶牛每天早上在农场给我们提供新鲜的牛奶。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/cow-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w44",
-          "word": "cut",
-          "chinese": "修剪",
-          "phonemes": [
-            {
-              "symbol": "/k/",
-              "letter": "c"
-            },
-            {
-              "symbol": "/ʌ/",
-              "letter": "u"
-            },
-            {
-              "symbol": "/t/",
-              "letter": "t"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit2/cut/cut_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Cut two circles.",
-              "zh": "剪两个圆圈。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/cut-textbook.jpg"
-            },
-            {
-              "en": "Please cut the paper into a star shape for the card.",
-              "zh": "请把纸剪成星星形状做卡片。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/cut-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w45",
-          "word": "grass",
-          "chinese": "草地；草，青草",
-          "phonemes": [
-            {
-              "symbol": "/ɡr/",
-              "letter": "gr"
-            },
-            {
-              "symbol": "/ɑː/",
-              "letter": "a"
-            },
-            {
-              "symbol": "/s/",
-              "letter": "ss"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit2/grass/grass_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "The grass is green.",
-              "zh": "草是绿色的。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/grass-textbook.jpg"
-            },
-            {
-              "en": "The dog loves to run and play on the soft green grass.",
-              "zh": "狗喜欢在柔软的绿草地上跑着玩。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/grass-context.jpg"
-            }
-          ]
-        },
-        {
           "id": "w46",
           "word": "chore",
           "chinese": "家庭杂务",
@@ -1816,7 +1406,7 @@ const TEXTBOOK_DATA = {
         },
         {
           "id": "w47",
-          "word": "to-do list",
+          "word": "to-do-list",
           "chinese": "待办清单",
           "phonemes": [
             {
@@ -1841,7 +1431,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "—",
-              "letter": " "
+              "letter": "-"
             },
             {
               "symbol": "/l/",
@@ -1853,11 +1443,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/s/",
-              "letter": "s"
-            },
-            {
-              "symbol": "/t/",
-              "letter": "t"
+              "letter": "st"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit2/to-do_list/to-do_list_%E9%A3%8E%E6%A0%BCA.png",
@@ -2055,9 +1641,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w53",
-          "word": "woof",
-          "chinese": "汪汪（形容狗吠声）",
+          "id": "w162",
+          "word": "wolf",
+          "chinese": "狼",
           "phonemes": [
             {
               "symbol": "/w/",
@@ -2065,28 +1651,19 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/ʊ/",
-              "letter": "oo"
+              "letter": "o"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "l"
             },
             {
               "symbol": "/f/",
               "letter": "f"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit2/woof/woof_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "The dog says woof at the door.",
-              "zh": "狗在门口汪汪叫。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/woof-textbook.jpg"
-            },
-            {
-              "en": "The dog said “woof” when I came home from school.",
-              "zh": "我放学回家时，狗叫了一声“汪汪”。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/woof-context.jpg"
-            }
-          ]
+          "image": "https://picsum.photos/seed/wolf/400/300",
+          "sentences": []
         },
         {
           "id": "w54",
@@ -2124,8 +1701,8 @@ const TEXTBOOK_DATA = {
         },
         {
           "id": "w55",
-          "word": "Good job!",
-          "chinese": "干得好！真不错！",
+          "word": "good job",
+          "chinese": "做得好",
           "phonemes": [
             {
               "symbol": "/ɡ/",
@@ -2154,10 +1731,6 @@ const TEXTBOOK_DATA = {
             {
               "symbol": "/b/",
               "letter": "b"
-            },
-            {
-              "symbol": "—",
-              "letter": "!"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit2/Good_job!/Good_job!_%E9%A3%8E%E6%A0%BCA.png",
@@ -2408,7 +1981,7 @@ const TEXTBOOK_DATA = {
           "id": "w62",
           "word": "sometimes",
           "chinese": "有时",
-                              "phonemes": [
+          "phonemes": [
             {
               "symbol": "/s/",
               "letter": "s"
@@ -2599,6 +2172,314 @@ const TEXTBOOK_DATA = {
               "zh": "雨后太阳会让冰冷的地面温暖起来。",
               "source": "context",
               "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/warm-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w37",
+          "word": "warm-up",
+          "chinese": "（使）变暖",
+          "phonemes": [
+            {
+              "symbol": "/w/",
+              "letter": "w"
+            },
+            {
+              "symbol": "/ɔː/",
+              "letter": "ar"
+            },
+            {
+              "symbol": "/m/",
+              "letter": "m"
+            },
+            {
+              "symbol": "—",
+              "letter": "-"
+            },
+            {
+              "symbol": "/ʌ/",
+              "letter": "u"
+            },
+            {
+              "symbol": "/p/",
+              "letter": "p"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit2/warm_up/warm_up_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "I'm happy to warm up my family.",
+              "zh": "我很高兴温暖我的家人。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/warm_up-textbook.jpg"
+            },
+            {
+              "en": "I do some stretches to warm up before playing soccer.",
+              "zh": "踢足球前我做些拉伸来热身。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/warm_up-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w38",
+          "word": "water",
+          "chinese": "给……浇水",
+          "phonemes": [
+            {
+              "symbol": "/w/",
+              "letter": "w"
+            },
+            {
+              "symbol": "/ɔː/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "er"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit2/water/water_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "There are some drops of water on the bag.",
+              "zh": "书包上有几滴水。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/water-textbook.jpg"
+            },
+            {
+              "en": "Every morning I water the flowers in our garden.",
+              "zh": "每天早上我给花园里的花浇水。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/water-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w39",
+          "word": "yard",
+          "chinese": "庭院",
+          "phonemes": [
+            {
+              "symbol": "/j/",
+              "letter": "y"
+            },
+            {
+              "symbol": "/ɑː/",
+              "letter": "ar"
+            },
+            {
+              "symbol": "/d/",
+              "letter": "d"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit2/yard/yard_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Sweep the yard.",
+              "zh": "打扫院子。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/yard-textbook.jpg"
+            },
+            {
+              "en": "We played hide-and-seek in the big yard behind the house.",
+              "zh": "我们在房子后面的大庭院里玩捉迷藏。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/yard-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w40",
+          "word": "helper",
+          "chinese": "帮手；助手",
+          "phonemes": [
+            {
+              "symbol": "/h/",
+              "letter": "h"
+            },
+            {
+              "symbol": "/e/",
+              "letter": "e"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "l"
+            },
+            {
+              "symbol": "/p/",
+              "letter": "p"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "er"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit2/helper/helper_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "We’re good helpers to Mum and Dad.",
+              "zh": "我们是爸爸妈妈的好帮手。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/helper-textbook.jpg"
+            },
+            {
+              "en": "My big brother is a great helper when I clean my room.",
+              "zh": "我哥哥在我打扫房间时是个好帮手。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/helper-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w41",
+          "word": "pick",
+          "chinese": "采，摘",
+          "phonemes": [
+            {
+              "symbol": "/p/",
+              "letter": "p"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/k/",
+              "letter": "ck"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit2/pick/pick_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Now pick a colour.",
+              "zh": "现在选一种颜色。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/pick-textbook.jpg"
+            },
+            {
+              "en": "We can pick some red apples from the tree today.",
+              "zh": "今天我们可以从树上摘一些红苹果。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/pick-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w42",
+          "word": "pig",
+          "chinese": "猪",
+          "phonemes": [
+            {
+              "symbol": "/p/",
+              "letter": "p"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/ɡ/",
+              "letter": "g"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit2/pig/pig_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "The pig is pink and fat.",
+              "zh": "这只猪又粉又胖。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/pig-textbook.jpg"
+            },
+            {
+              "en": "The little pig likes to roll in the mud after eating.",
+              "zh": "小猪吃完东西后喜欢在泥里打滚。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/pig-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w43",
+          "word": "cow",
+          "chinese": "奶牛",
+          "phonemes": [
+            {
+              "symbol": "/k/",
+              "letter": "c"
+            },
+            {
+              "symbol": "/aʊ/",
+              "letter": "ow"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit2/cow/cow_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "The cow is eating grass.",
+              "zh": "奶牛正在吃草。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/cow-textbook.jpg"
+            },
+            {
+              "en": "The cow gives us fresh milk every morning on the farm.",
+              "zh": "奶牛每天早上在农场给我们提供新鲜的牛奶。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/cow-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w154",
+          "word": "cut grass",
+          "chinese": "割草",
+          "phonemes": [
+            {
+              "symbol": "/k/",
+              "letter": "c"
+            },
+            {
+              "symbol": "/ʌ/",
+              "letter": "u"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            },
+            {
+              "symbol": "—",
+              "letter": " "
+            },
+            {
+              "symbol": "/ɡr/",
+              "letter": "gr"
+            },
+            {
+              "symbol": "/ɑː/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/s/",
+              "letter": "ss"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit2/cut/cut_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Cut two circles.",
+              "zh": "剪两个圆圈。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/cut-textbook.jpg"
+            },
+            {
+              "en": "Please cut the paper into a star shape for the card.",
+              "zh": "请把纸剪成星星形状做卡片。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/cut-context.jpg"
             }
           ]
         }
@@ -3251,7 +3132,7 @@ const TEXTBOOK_DATA = {
         },
         {
           "id": "w85",
-          "word": "ice cream",
+          "word": "ice-cream",
           "chinese": "冰激凌，雪糕",
           "phonemes": [
             {
@@ -3264,7 +3145,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "—",
-              "letter": " "
+              "letter": "-"
             },
             {
               "symbol": "/k/",
@@ -3486,9 +3367,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w91",
-          "word": "TV",
-          "chinese": "电视",
+          "id": "w155",
+          "word": "TV report",
+          "chinese": "天气预报",
           "phonemes": [
             {
               "symbol": "/tiː/",
@@ -3497,29 +3378,11 @@ const TEXTBOOK_DATA = {
             {
               "symbol": "/viː/",
               "letter": "V"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit3/TV/TV_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Let’s turn on the TV.",
-              "zh": "咱们打开电视吧。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/tv-textbook.jpg"
             },
             {
-              "en": "My dad watches the news on TV after dinner every day.",
-              "zh": "我爸爸每天晚饭后都会在电视上看新闻。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/tv-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w92",
-          "word": "report",
-          "chinese": "报道",
-          "phonemes": [
+              "symbol": "—",
+              "letter": " "
+            },
             {
               "symbol": "/r/",
               "letter": "r"
@@ -3564,6 +3427,300 @@ const TEXTBOOK_DATA = {
       "name": "Unit 4 · Wonderful Seasons",
       "title": "美妙的季节",
       "words": [
+        {
+          "id": "w102",
+          "word": "season",
+          "chinese": "季节",
+          "phonemes": [
+            {
+              "symbol": "/s/",
+              "letter": "s"
+            },
+            {
+              "symbol": "/iː/",
+              "letter": "ea"
+            },
+            {
+              "symbol": "/z/",
+              "letter": "s"
+            },
+            {
+              "symbol": "/ən/",
+              "letter": "on"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit4/season/season_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Find photos of a place in different seasons.",
+              "zh": "找一个地方不同季节的照片。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/season-textbook.jpg"
+            },
+            {
+              "en": "My favorite season is summer because I can swim.",
+              "zh": "我最喜欢的季节是夏天，因为我可以游泳。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/season-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w103",
+          "word": "spring",
+          "chinese": "春天，春季",
+          "phonemes": [
+            {
+              "symbol": "/s/",
+              "letter": "s"
+            },
+            {
+              "symbol": "/p/",
+              "letter": "p"
+            },
+            {
+              "symbol": "/r/",
+              "letter": "r"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/ŋ/",
+              "letter": "ng"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit4/spring/spring_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "I can fly kites in spring.",
+              "zh": "春天我可以放风筝。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/spring-textbook.jpg"
+            },
+            {
+              "en": "Birds sing and flowers bloom in spring.",
+              "zh": "春天鸟儿唱歌，花儿开放。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/spring-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w104",
+          "word": "summer",
+          "chinese": "夏天，夏季",
+          "phonemes": [
+            {
+              "symbol": "/s/",
+              "letter": "s"
+            },
+            {
+              "symbol": "/ʌ/",
+              "letter": "u"
+            },
+            {
+              "symbol": "/m/",
+              "letter": "mm"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "er"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit4/summer/summer_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Spring, summer, autumn and winter.",
+              "zh": "春、夏、秋、冬。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/summer-textbook.jpg"
+            },
+            {
+              "en": "We go to the beach every summer vacation.",
+              "zh": "我们每个暑假都去海滩。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/summer-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w105",
+          "word": "autumn",
+          "chinese": "秋天，秋季",
+          "phonemes": [
+            {
+              "symbol": "/ɔː/",
+              "letter": "au"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "u"
+            },
+            {
+              "symbol": "/m/",
+              "letter": "m"
+            },
+            {
+              "symbol": "—",
+              "letter": "n"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit4/autumn/autumn_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "Spring, summer, autumn and winter.",
+              "zh": "春、夏、秋、冬。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/autumn-textbook.jpg"
+            },
+            {
+              "en": "Leaves turn yellow and red in autumn.",
+              "zh": "秋天叶子变成黄色和红色。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/autumn-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w106",
+          "word": "winter",
+          "chinese": "冬天，冬季",
+          "phonemes": [
+            {
+              "symbol": "/w/",
+              "letter": "w"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "t"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "er"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit4/winter/winter_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "What happens to the apple tree in winter?",
+              "zh": "冬天苹果树会怎么样？",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/winter-textbook.jpg"
+            },
+            {
+              "en": "Children love to build snowmen in winter.",
+              "zh": "孩子们喜欢在冬天堆雪人。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/winter-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w107",
+          "word": "favorite",
+          "chinese": "最喜欢的",
+          "phonemes": [
+            {
+              "symbol": "/f/",
+              "letter": "f"
+            },
+            {
+              "symbol": "/eɪ/",
+              "letter": "a"
+            },
+            {
+              "symbol": "/v/",
+              "letter": "v"
+            },
+            {
+              "symbol": "/ə/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/r/",
+              "letter": "r"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/t/",
+              "letter": "te"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit4/favourite/favourite_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "What are the children’s favourite seasons?",
+              "zh": "孩子们最喜欢的季节是什么？",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/favourite-textbook.jpg"
+            },
+            {
+              "en": "My favourite fruit is the sweet strawberry.",
+              "zh": "我最喜欢的水果是甜草莓。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/favourite-context.jpg"
+            }
+          ]
+        },
+        {
+          "id": "w108",
+          "word": "birthday",
+          "chinese": "生日",
+          "phonemes": [
+            {
+              "symbol": "/b/",
+              "letter": "b"
+            },
+            {
+              "symbol": "/ɜː/",
+              "letter": "ir"
+            },
+            {
+              "symbol": "/θ/",
+              "letter": "th"
+            },
+            {
+              "symbol": "/d/",
+              "letter": "d"
+            },
+            {
+              "symbol": "/eɪ/",
+              "letter": "ay"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit4/birthday/birthday_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "What is Yanyan’s birthday wish?",
+              "zh": "燕燕的生日愿望是什么？",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/birthday-textbook.jpg"
+            },
+            {
+              "en": "She got a new bike for her birthday.",
+              "zh": "她生日得到了一辆新自行车。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/birthday-context.jpg"
+            }
+          ]
+        },
         {
           "id": "w93",
           "word": "fly",
@@ -3847,9 +4004,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w100",
-          "word": "quite",
-          "chinese": "非常，十分",
+          "id": "w161",
+          "word": "quiet",
+          "chinese": "安静的",
           "phonemes": [
             {
               "symbol": "/kw/",
@@ -3857,28 +4014,15 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/aɪ/",
-              "letter": "i"
+              "letter": "ie"
             },
             {
-              "symbol": "/t/",
-              "letter": "te"
+              "symbol": "/ə/",
+              "letter": "t"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit4/quite/quite_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "The weather’s quite cold.",
-              "zh": "天气挺冷的。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/quite-textbook.jpg"
-            },
-            {
-              "en": "The movie was quite exciting for everyone.",
-              "zh": "这部电影对每个人来说都非常激动人心。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/quite-context.jpg"
-            }
-          ]
+          "image": "https://picsum.photos/seed/quiet/400/300",
+          "sentences": []
         },
         {
           "id": "w101",
@@ -3911,296 +4055,6 @@ const TEXTBOOK_DATA = {
               "zh": "午饭后我能加入你们的游戏吗？",
               "source": "context",
               "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/join-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w102",
-          "word": "season",
-          "chinese": "季节",
-          "phonemes": [
-            {
-              "symbol": "/s/",
-              "letter": "s"
-            },
-            {
-              "symbol": "/iː/",
-              "letter": "ea"
-            },
-            {
-              "symbol": "/z/",
-              "letter": "s"
-            },
-            {
-              "symbol": "/ən/",
-              "letter": "on"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit4/season/season_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Find photos of a place in different seasons.",
-              "zh": "找一个地方不同季节的照片。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/season-textbook.jpg"
-            },
-            {
-              "en": "My favorite season is summer because I can swim.",
-              "zh": "我最喜欢的季节是夏天，因为我可以游泳。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/season-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w103",
-          "word": "spring",
-          "chinese": "春天，春季",
-          "phonemes": [
-            {
-              "symbol": "/s/",
-              "letter": "s"
-            },
-            {
-              "symbol": "/p/",
-              "letter": "p"
-            },
-            {
-              "symbol": "/r/",
-              "letter": "r"
-            },
-            {
-              "symbol": "/ɪ/",
-              "letter": "i"
-            },
-            {
-              "symbol": "/ŋ/",
-              "letter": "ng"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit4/spring/spring_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "I can fly kites in spring.",
-              "zh": "春天我可以放风筝。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/spring-textbook.jpg"
-            },
-            {
-              "en": "Birds sing and flowers bloom in spring.",
-              "zh": "春天鸟儿唱歌，花儿开放。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/spring-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w104",
-          "word": "summer",
-          "chinese": "夏天，夏季",
-          "phonemes": [
-            {
-              "symbol": "/s/",
-              "letter": "s"
-            },
-            {
-              "symbol": "/ʌ/",
-              "letter": "u"
-            },
-            {
-              "symbol": "/m/",
-              "letter": "mm"
-            },
-            {
-              "symbol": "/ə/",
-              "letter": "er"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit4/summer/summer_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Spring, summer, autumn and winter.",
-              "zh": "春、夏、秋、冬。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/summer-textbook.jpg"
-            },
-            {
-              "en": "We go to the beach every summer vacation.",
-              "zh": "我们每个暑假都去海滩。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/summer-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w105",
-          "word": "autumn",
-          "chinese": "秋天，秋季",
-          "phonemes": [
-            {
-              "symbol": "/ɔː/",
-              "letter": "au"
-            },
-            {
-              "symbol": "/t/",
-              "letter": "t"
-            },
-            {
-              "symbol": "/ə/",
-              "letter": "u"
-            },
-            {
-              "symbol": "/m/",
-              "letter": "m"
-            },
-            {
-              "symbol": "—",
-              "letter": "n"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit4/autumn/autumn_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Spring, summer, autumn and winter.",
-              "zh": "春、夏、秋、冬。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/autumn-textbook.jpg"
-            },
-            {
-              "en": "Leaves turn yellow and red in autumn.",
-              "zh": "秋天叶子变成黄色和红色。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/autumn-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w106",
-          "word": "winter",
-          "chinese": "冬天，冬季",
-          "phonemes": [
-            {
-              "symbol": "/w/",
-              "letter": "w"
-            },
-            {
-              "symbol": "/ɪ/",
-              "letter": "i"
-            },
-            {
-              "symbol": "/n/",
-              "letter": "n"
-            },
-            {
-              "symbol": "/t/",
-              "letter": "t"
-            },
-            {
-              "symbol": "/ə/",
-              "letter": "er"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit4/winter/winter_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "What happens to the apple tree in winter?",
-              "zh": "冬天苹果树会怎么样？",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/winter-textbook.jpg"
-            },
-            {
-              "en": "Children love to build snowmen in winter.",
-              "zh": "孩子们喜欢在冬天堆雪人。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/winter-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w107",
-          "word": "favourite",
-          "chinese": "最喜欢的",
-          "phonemes": [
-            {
-              "symbol": "/f/",
-              "letter": "f"
-            },
-            {
-              "symbol": "/eɪ/",
-              "letter": "a"
-            },
-            {
-              "symbol": "/v/",
-              "letter": "v"
-            },
-            {
-              "symbol": "/ə/",
-              "letter": "our"
-            },
-            {
-              "symbol": "/ɪ/",
-              "letter": "i"
-            },
-            {
-              "symbol": "/t/",
-              "letter": "te"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit4/favourite/favourite_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "What are the children’s favourite seasons?",
-              "zh": "孩子们最喜欢的季节是什么？",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/favourite-textbook.jpg"
-            },
-            {
-              "en": "My favourite fruit is the sweet strawberry.",
-              "zh": "我最喜欢的水果是甜草莓。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/favourite-context.jpg"
-            }
-          ]
-        },
-        {
-          "id": "w108",
-          "word": "birthday",
-          "chinese": "生日",
-          "phonemes": [
-            {
-              "symbol": "/b/",
-              "letter": "b"
-            },
-            {
-              "symbol": "/ɜː/",
-              "letter": "ir"
-            },
-            {
-              "symbol": "/θ/",
-              "letter": "th"
-            },
-            {
-              "symbol": "/d/",
-              "letter": "d"
-            },
-            {
-              "symbol": "/eɪ/",
-              "letter": "ay"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit4/birthday/birthday_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "What is Yanyan’s birthday wish?",
-              "zh": "燕燕的生日愿望是什么？",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/birthday-textbook.jpg"
-            },
-            {
-              "en": "She got a new bike for her birthday.",
-              "zh": "她生日得到了一辆新自行车。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/birthday-context.jpg"
             }
           ]
         }
@@ -4619,7 +4473,7 @@ const TEXTBOOK_DATA = {
           "id": "w121",
           "word": "picnic",
           "chinese": "野餐",
-                    "phonemes": [
+          "phonemes": [
             {
               "symbol": "/p/",
               "letter": "p"
@@ -4704,68 +4558,42 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w123",
-          "word": "wear",
-          "chinese": "穿；戴",
+          "id": "w159",
+          "word": "where",
+          "chinese": "哪里",
           "phonemes": [
             {
               "symbol": "/w/",
-              "letter": "w"
+              "letter": "wh"
             },
             {
               "symbol": "/eə/",
-              "letter": "ear"
+              "letter": "ere"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit5/wear/wear_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "I wear a red hat.",
-              "zh": "我戴着一顶红帽子。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/wear-textbook.jpg"
-            },
-            {
-              "en": "I wear my red coat when it is cold outside.",
-              "zh": "外面冷的时候我穿我的红外套。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/wear-context.jpg"
-            }
-          ]
+          "image": "https://picsum.photos/seed/where/400/300",
+          "sentences": []
         },
         {
-          "id": "w124",
-          "word": "live",
-          "chinese": "住，居住",
+          "id": "w160",
+          "word": "leave",
+          "chinese": "离开",
           "phonemes": [
             {
               "symbol": "/l/",
               "letter": "l"
             },
             {
-              "symbol": "/ɪ/",
-              "letter": "i"
+              "symbol": "/iː/",
+              "letter": "ea"
             },
             {
               "symbol": "/v/",
               "letter": "ve"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit5/live/live_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "We live in Sichuan.",
-              "zh": "我们住在四川。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/live-textbook.jpg"
-            },
-            {
-              "en": "My grandparents live in a small house near the lake.",
-              "zh": "我的祖父母住在湖边的一座小房子里。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/live-context.jpg"
-            }
-          ]
+          "image": "https://picsum.photos/seed/leave/400/300",
+          "sentences": []
         },
         {
           "id": "w125",
@@ -4912,36 +4740,36 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w129",
-          "word": "ring",
-          "chinese": "（钟、铃）鸣响",
+          "id": "w163",
+          "word": "rain",
+          "chinese": "雨",
           "phonemes": [
             {
               "symbol": "/r/",
               "letter": "r"
             },
             {
-              "symbol": "/ɪ/",
-              "letter": "i"
+              "symbol": "/eɪ/",
+              "letter": "ai"
             },
             {
-              "symbol": "/ŋ/",
-              "letter": "ng"
+              "symbol": "/n/",
+              "letter": "n"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit5/ring/ring_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit3/rain/rain_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
-              "en": "The bell rings at eight.",
-              "zh": "铃在八点钟鸣响。",
+              "en": "The rain comes down, down, down.",
+              "zh": "雨下啊，下啊，下。",
               "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/ring-textbook.jpg"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/rain-textbook.jpg"
             },
             {
-              "en": "The school bell will ring at twelve o'clock.",
-              "zh": "学校的铃会在十二点鸣响。",
+              "en": "The rain makes the flowers grow tall and green.",
+              "zh": "雨水让花儿长得又高又绿。",
               "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/ring-context.jpg"
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/rain-context.jpg"
             }
           ]
         },
@@ -5022,40 +4850,6 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w132",
-          "word": "whoosh",
-          "chinese": "（呼呼地）飞快移动",
-          "phonemes": [
-            {
-              "symbol": "/w/",
-              "letter": "wh"
-            },
-            {
-              "symbol": "/uː/",
-              "letter": "oo"
-            },
-            {
-              "symbol": "/ʃ/",
-              "letter": "sh"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit5/whoosh/whoosh_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Whoosh! The plane flies fast.",
-              "zh": "呼呼！飞机飞得很快。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/whoosh-textbook.jpg"
-            },
-            {
-              "en": "The toy car goes whoosh down the slide.",
-              "zh": "玩具车呼呼地从滑梯上滑下来。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/whoosh-context.jpg"
-            }
-          ]
-        },
-        {
           "id": "w133",
           "word": "tram",
           "chinese": "有轨电车",
@@ -5088,40 +4882,6 @@ const TEXTBOOK_DATA = {
               "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/tram-context.jpg"
             }
           ]
-        },
-        {
-          "id": "w134",
-          "word": "chug",
-          "chinese": "（汽车、火车等）突突地缓慢前进",
-          "phonemes": [
-            {
-              "symbol": "/tʃ/",
-              "letter": "ch"
-            },
-            {
-              "symbol": "/ʌ/",
-              "letter": "u"
-            },
-            {
-              "symbol": "/ɡ/",
-              "letter": "g"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit5/chug/chug_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Chug! Chug! The train is coming.",
-              "zh": "突突！火车开过来了。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/chug-textbook.jpg"
-            },
-            {
-              "en": "The little train chug chug up the hill.",
-              "zh": "小火车突突地爬上小山丘。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/chug-context.jpg"
-            }
-          ]
         }
       ]
     },
@@ -5130,6 +4890,27 @@ const TEXTBOOK_DATA = {
       "name": "Unit 6 · Find Your Way",
       "title": "找到你的路",
       "words": [
+        {
+          "id": "w158",
+          "word": "will",
+          "chinese": "将要",
+          "phonemes": [
+            {
+              "symbol": "/w/",
+              "letter": "w"
+            },
+            {
+              "symbol": "/ɪ/",
+              "letter": "i"
+            },
+            {
+              "symbol": "/l/",
+              "letter": "ll"
+            }
+          ],
+          "image": "https://picsum.photos/seed/will/400/300",
+          "sentences": []
+        },
         {
           "id": "w135",
           "word": "left",
@@ -5250,7 +5031,7 @@ const TEXTBOOK_DATA = {
         },
         {
           "id": "w138",
-          "word": "centre",
+          "word": "center",
           "chinese": "中心",
           "phonemes": [
             {
@@ -5270,12 +5051,8 @@ const TEXTBOOK_DATA = {
               "letter": "t"
             },
             {
-              "symbol": "—",
-              "letter": "r"
-            },
-            {
               "symbol": "/ə/",
-              "letter": "e"
+              "letter": "er"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit6/centre/centre_%E9%A3%8E%E6%A0%BCA.png",
@@ -5613,9 +5390,9 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w146",
-          "word": "step",
-          "chinese": "步；一步（的距离）",
+          "id": "w156",
+          "word": "step on",
+          "chinese": "踩上",
           "phonemes": [
             {
               "symbol": "/st/",
@@ -5628,6 +5405,18 @@ const TEXTBOOK_DATA = {
             {
               "symbol": "/p/",
               "letter": "p"
+            },
+            {
+              "symbol": "—",
+              "letter": " "
+            },
+            {
+              "symbol": "/ɒ/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "n"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit6/step/step_%E9%A3%8E%E6%A0%BCA.png",
@@ -5647,38 +5436,8 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w147",
-          "word": "own",
-          "chinese": "自己的",
-          "phonemes": [
-            {
-              "symbol": "/əʊ/",
-              "letter": "ow"
-            },
-            {
-              "symbol": "/n/",
-              "letter": "n"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit6/own/own_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "I have my own room.",
-              "zh": "我有自己的房间。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/own-textbook.jpg"
-            },
-            {
-              "en": "I have my own small garden with pretty flowers.",
-              "zh": "我有自己的小花园，里面种着美丽的花。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/own-context.jpg"
-            }
-          ]
-        },
-        {
           "id": "w148",
-          "word": "on one’s own",
+          "word": "on one's own",
           "chinese": "独立地",
           "phonemes": [
             {
@@ -5703,7 +5462,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "—",
-              "letter": "’"
+              "letter": "'"
             },
             {
               "symbol": "/z/",
@@ -5913,44 +5672,8 @@ const TEXTBOOK_DATA = {
               "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/underground-context.jpg"
             }
           ]
-        },
-        {
-          "id": "w153",
-          "word": "wheel",
-          "chinese": "车轮",
-          "phonemes": [
-            {
-              "symbol": "/w/",
-              "letter": "wh"
-            },
-            {
-              "symbol": "/iː/",
-              "letter": "ee"
-            },
-            {
-              "symbol": "/l/",
-              "letter": "l"
-            }
-          ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GA/assets/images/words/Unit6/wheel/wheel_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [
-            {
-              "en": "Take your weather wheel home.",
-              "zh": "把你的天气转盘带回家。",
-              "source": "textbook",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/wheel-textbook.jpg"
-            },
-            {
-              "en": "One wheel on my bicycle is flat.",
-              "zh": "我自行车的一个车轮没气了。",
-              "source": "context",
-              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/wheel-context.jpg"
-            }
-          ]
         }
       ]
     }
   ]
 };
-
-if (typeof module !== 'undefined') module.exports = TEXTBOOK_DATA;
