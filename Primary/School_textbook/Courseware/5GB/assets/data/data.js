@@ -857,8 +857,8 @@ const TEXTBOOK_DATA = {
         },
         {
           "id": "w21",
-          "word": "care home",
-          "chinese": "护理院",
+          "word": "care",
+          "chinese": "照顾；护理",
           "phonemes": [
             {
               "symbol": "/k/",
@@ -867,11 +867,29 @@ const TEXTBOOK_DATA = {
             {
               "symbol": "/eə/",
               "letter": "are"
+            }
+          ],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/care_home/care_home_%E9%A3%8E%E6%A0%BCA.png",
+          "sentences": [
+            {
+              "en": "I take care of my little sister.",
+              "zh": "我照顾我的小妹妹。",
+              "source": "textbook",
+              "image": "https://picsum.photos/seed/care_home-context/500/300"
             },
             {
-              "symbol": "—",
-              "letter": " "
-            },
+              "en": "Nurses care for people in the hospital.",
+              "zh": "护士在医院里护理病人。",
+              "source": "context",
+              "image": "https://picsum.photos/seed/care_home-context2/500/300"
+            }
+          ]
+        },
+        {
+          "id": "w22",
+          "word": "home",
+          "chinese": "家",
+          "phonemes": [
             {
               "symbol": "/h/",
               "letter": "h"
@@ -885,7 +903,7 @@ const TEXTBOOK_DATA = {
               "letter": "me"
             }
           ],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/care_home/care_home_%E9%A3%8E%E6%A0%BCA.png",
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/home/home_%E9%A3%8E%E6%A0%BCA.png",
           "sentences": [
             {
               "en": "My grandma lives in a care home with friendly nurses.",
@@ -894,15 +912,15 @@ const TEXTBOOK_DATA = {
               "image": "https://picsum.photos/seed/care_home-context/500/300"
             },
             {
-              "en": "We visit the care home every Sunday to sing songs.",
-              "zh": "我们每个星期天去护理院唱歌。",
+              "en": "I go home after school every day.",
+              "zh": "我每天放学后回家。",
               "source": "context2",
-              "image": "https://picsum.photos/seed/care_home-context2/500/300"
+              "image": "https://picsum.photos/seed/home-context/500/300"
             }
           ]
         },
         {
-          "id": "w22",
+          "id": "w23",
           "word": "poem",
           "chinese": "诗; 韵文",
           "phonemes": [
