@@ -441,6 +441,13 @@ def patch_courseware(path: str):
     text = text.replace("--wild-green: #2C4A3E;", f"--wild-green: {WILD};")
     text = text.replace("--edge-blue: #1E3A5F;", f"--edge-blue: {WILD};")
     text = text.replace("border: 2px solid #4DD0E1;", f"border: 2px solid {ACCENT_LIGHT};")
+    if "ng-azure-tts-enhance.js" not in text:
+        text = text.replace(
+            '<script src="audio/local-audio.js"></script>',
+            '<script src="audio/local-audio.js"></script>\n'
+            '  <script src="../../assets/ng-azure-tts-enhance.js"></script>\n'
+            '  <script>NgAzureTTS.enhance("LocalAudio");</script>',
+        )
 
     with open(path, "w", encoding="utf-8") as f:
         f.write(text)
