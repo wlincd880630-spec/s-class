@@ -501,7 +501,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit1/roll/roll_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": []
+          "sentences": [
+            {
+              "en": "I have a bread roll.",
+              "zh": "我有一个面包卷。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/roll-textbook.jpg"
+            },
+            {
+              "en": "She eats a roll for lunch.",
+              "zh": "她午餐吃了一个面包卷。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/roll-context.jpg"
+            }
+          ]
         },
         {
           "id": "w13",
@@ -2472,7 +2485,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GA/assets/images/words/Unit3/pair/pair_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": []
+          "sentences": [
+            {
+              "en": "I have a pair of shoes.",
+              "zh": "我有一双鞋。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/pair-textbook.jpg"
+            },
+            {
+              "en": "This pair of socks is red.",
+              "zh": "这双袜子是红色的。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/pair-context.jpg"
+            }
+          ]
         },
         {
           "id": "w66",

@@ -3098,7 +3098,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit4/wing/wing_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": []
+          "sentences": [
+            {
+              "en": "A bird has two wings.",
+              "zh": "鸟有两只翅膀。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/wing-textbook.jpg"
+            },
+            {
+              "en": "The butterfly flaps its wing.",
+              "zh": "蝴蝶拍打它的翅膀。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/wing-context.jpg"
+            }
+          ]
         },
         {
           "id": "w74",
@@ -3241,7 +3254,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit4/drum/drum_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": []
+          "sentences": [
+            {
+              "en": "He can play the drum.",
+              "zh": "他会打鼓。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/drum-textbook.jpg"
+            },
+            {
+              "en": "The drum makes a loud sound.",
+              "zh": "鼓发出很大的声音。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/drum-context.jpg"
+            }
+          ]
         }
       ]
     },
@@ -3717,7 +3743,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit5/tip/tip_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": []
+          "sentences": [
+            {
+              "en": "The tip of the pencil is very sharp, so please be careful.",
+              "zh": "铅笔的尖端非常锋利，所以请小心。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/tip-textbook.jpg"
+            },
+            {
+              "en": "My mom gave me a useful tip on how to clean my room quickly.",
+              "zh": "妈妈给了我一个有用的提示，关于如何快速打扫我的房间。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/tip-context.jpg"
+            }
+          ]
         },
         {
           "id": "w88",

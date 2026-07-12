@@ -2706,7 +2706,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/silk/silk_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": []
+          "sentences": [
+            {
+              "en": "This dress is made of silk.",
+              "zh": "这条裙子是丝绸做的。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/silk-textbook.jpg"
+            },
+            {
+              "en": "She likes the soft silk scarf.",
+              "zh": "她喜欢那条柔软的丝绸围巾。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/silk-context.jpg"
+            }
+          ]
         },
         {
           "id": "w66",
@@ -3514,7 +3527,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit5/its/its_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": []
+          "sentences": [
+            {
+              "en": "The cat licks its paw.",
+              "zh": "猫舔它的爪子。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/its-textbook.jpg"
+            },
+            {
+              "en": "The bird opens its wings.",
+              "zh": "鸟张开它的翅膀。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/its-context.jpg"
+            }
+          ]
         },
         {
           "id": "w85",

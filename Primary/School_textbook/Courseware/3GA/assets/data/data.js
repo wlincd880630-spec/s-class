@@ -85,7 +85,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Welcome/am/am_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "I am a student.",
+              "zh": "我是一个学生。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/am-textbook.jpg"
+            },
+            {
+              "en": "I am happy today.",
+              "zh": "我今天很开心。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/am-context.jpg"
+            }
+          ],
           "id": "w3"
         },
         {
@@ -102,7 +115,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Welcome/is/is_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "She is my friend.",
+              "zh": "她是我的朋友。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/is-textbook.jpg"
+            },
+            {
+              "en": "It is a sunny day.",
+              "zh": "这是一个晴天。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/is-context.jpg"
+            }
+          ],
           "id": "w4"
         },
         {
@@ -115,7 +141,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Welcome/are/are_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "You are nice.",
+              "zh": "你很好。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/are-textbook.jpg"
+            },
+            {
+              "en": "We are in the park.",
+              "zh": "我们在公园里。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/are-context.jpg"
+            }
+          ],
           "id": "w5"
         },
         {
@@ -374,7 +413,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Welcome/a/a_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "I have a book.",
+              "zh": "我有一本书。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/a-textbook.jpg"
+            },
+            {
+              "en": "This is a cat.",
+              "zh": "这是一只猫。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/a-context.jpg"
+            }
+          ],
           "id": "w13"
         },
         {
@@ -391,7 +443,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Welcome/an/an_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "It is an apple.",
+              "zh": "它是一个苹果。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/an-textbook.jpg"
+            },
+            {
+              "en": "I see an elephant.",
+              "zh": "我看到一头大象。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/an-context.jpg"
+            }
+          ],
           "id": "w14"
         },
         {
@@ -488,7 +553,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Welcome/nice_day/nice_day_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "It is a nice day.",
+              "zh": "这是美好的一天。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/nice_day-textbook.jpg"
+            },
+            {
+              "en": "Have a nice day!",
+              "zh": "祝你度过美好的一天！",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/nice_day-context.jpg"
+            }
+          ],
           "id": "w17"
         },
         {
@@ -533,7 +611,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Welcome/good_morning/good_morning_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "Good morning, class.",
+              "zh": "早上好，同学们。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/good_morning-textbook.jpg"
+            },
+            {
+              "en": "Good morning, Mum.",
+              "zh": "早上好，妈妈。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/good_morning-context.jpg"
+            }
+          ],
           "id": "w18"
         },
         {
@@ -1149,7 +1240,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit1/meet_you/meet_you_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "Nice to meet you.",
+              "zh": "很高兴见到你。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/meet_you-textbook.jpg"
+            },
+            {
+              "en": "I meet you at school.",
+              "zh": "我在学校见到你。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/meet_you-context.jpg"
+            }
+          ],
           "id": "w35"
         },
         {
@@ -1976,7 +2080,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit1/other/other_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "I have other books.",
+              "zh": "我有其他的书。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/other-textbook.jpg"
+            },
+            {
+              "en": "Can you show me the other one?",
+              "zh": "你能给我看看另外一个吗？",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/other-context.jpg"
+            }
+          ],
           "id": "w59"
         },
         {
@@ -3220,7 +3337,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit2/take_care_of_somebody/take_care_of_somebody_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "I take care of my sister.",
+              "zh": "我照顾我的妹妹。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/take_care_of_somebody-textbook.jpg"
+            },
+            {
+              "en": "Mom, take care of Dad.",
+              "zh": "妈妈，照顾爸爸。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/take_care_of_somebody-context.jpg"
+            }
+          ],
           "id": "w92"
         },
         {
@@ -3289,7 +3419,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit2/take_care_of_something/take_care_of_something_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "Please take care of your bag.",
+              "zh": "请保管好你的书包。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/take_care_of_something-textbook.jpg"
+            },
+            {
+              "en": "Take care of my toy, please.",
+              "zh": "请保管好我的玩具。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/take_care_of_something-context.jpg"
+            }
+          ],
           "id": "w93"
         },
         {
@@ -3536,7 +3679,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit2/look_at_somebody/look_at_somebody_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "Look at me, please.",
+              "zh": "请看着我。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/look_at_somebody-textbook.jpg"
+            },
+            {
+              "en": "Look at your teacher.",
+              "zh": "看着你的老师。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/look_at_somebody-context.jpg"
+            }
+          ],
           "id": "w99"
         },
         {
@@ -3593,7 +3749,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit2/look_at_something/look_at_something_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "Look at the blackboard.",
+              "zh": "看黑板。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/look_at_something-textbook.jpg"
+            },
+            {
+              "en": "Look at that red car.",
+              "zh": "看那辆红色的车。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/look_at_something-context.jpg"
+            }
+          ],
           "id": "w100"
         }
       ]
@@ -4461,7 +4630,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit3/so_many/so_many_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "I see so many colours.",
+              "zh": "我看到这么多颜色。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/so_many-textbook.jpg"
+            },
+            {
+              "en": "There are so many toys.",
+              "zh": "有这么多玩具。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/so_many-context.jpg"
+            }
+          ],
           "id": "w123"
         },
         {
@@ -5916,7 +6098,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/father/father_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "My father is tall.",
+              "zh": "我的父亲很高。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/father-textbook.jpg"
+            },
+            {
+              "en": "Father, I love you.",
+              "zh": "父亲，我爱你。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/father-context.jpg"
+            }
+          ],
           "id": "w162"
         },
         {
@@ -5975,7 +6170,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/mother/mother_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "My mother is kind.",
+              "zh": "我的母亲很和蔼。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/mother-textbook.jpg"
+            },
+            {
+              "en": "Mother, let's go home.",
+              "zh": "母亲，我们回家吧。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/mother-context.jpg"
+            }
+          ],
           "id": "w164"
         },
         {
@@ -6076,7 +6284,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/Mister（Mr）/Mister%EF%BC%88Mr%EF%BC%89_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "Hello, Mr. Li.",
+              "zh": "你好，李先生。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/mistermr-textbook.jpg"
+            },
+            {
+              "en": "Mr. Wang is my dad.",
+              "zh": "王先生是我爸爸。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/mistermr-context.jpg"
+            }
+          ],
           "id": "w167"
         },
         {
@@ -6105,7 +6326,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/grandpa/grandpa_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "I love my grandpa.",
+              "zh": "我爱我的爷爷。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/grandpa-textbook.jpg"
+            },
+            {
+              "en": "Grandpa reads a book.",
+              "zh": "爷爷在看书。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/grandpa-context.jpg"
+            }
+          ],
           "id": "w168"
         },
         {
@@ -6142,7 +6376,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/grandfather/grandfather_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "My grandfather is kind.",
+              "zh": "我的祖父很和蔼。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/grandfather-textbook.jpg"
+            },
+            {
+              "en": "Grandfather has a hat.",
+              "zh": "祖父有一顶帽子。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/grandfather-context.jpg"
+            }
+          ],
           "id": "w169"
         },
         {
@@ -6171,7 +6418,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/grandma/grandma_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "Grandma cooks dinner.",
+              "zh": "奶奶做晚饭。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/grandma-textbook.jpg"
+            },
+            {
+              "en": "I hug my grandma.",
+              "zh": "我拥抱奶奶。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/grandma-context.jpg"
+            }
+          ],
           "id": "w170"
         },
         {
@@ -6208,7 +6468,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GA/assets/images/words/Unit5/grandmother/grandmother_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "My grandmother is old.",
+              "zh": "我的祖母年纪大了。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/grandmother-textbook.jpg"
+            },
+            {
+              "en": "Grandmother likes flowers.",
+              "zh": "祖母喜欢花。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/grandmother-context.jpg"
+            }
+          ],
           "id": "w171"
         },
         {

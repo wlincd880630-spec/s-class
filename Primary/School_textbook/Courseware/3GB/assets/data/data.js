@@ -1145,7 +1145,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit1/word/word_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "I know this word.",
+              "zh": "我知道这个单词。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/word-textbook.jpg"
+            },
+            {
+              "en": "Say the word again.",
+              "zh": "再说一遍这个单词。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/word-context.jpg"
+            }
+          ],
           "id": "w31"
         },
         {
@@ -1633,7 +1646,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit2/feet/feet_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "I have two feet.",
+              "zh": "我有两只脚。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/feet-textbook.jpg"
+            },
+            {
+              "en": "My feet are clean.",
+              "zh": "我的脚很干净。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/feet-context.jpg"
+            }
+          ],
           "id": "w46"
         },
         {
@@ -1794,7 +1820,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit2/children/children_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "The children play games.",
+              "zh": "孩子们玩游戏。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/children-textbook.jpg"
+            },
+            {
+              "en": "Children like to run.",
+              "zh": "孩子们喜欢跑步。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/children-context.jpg"
+            }
+          ],
           "id": "w51"
         },
         {
@@ -1993,7 +2032,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit2/bat/bat_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "I have a new bat.",
+              "zh": "我有一个新球拍。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/bat-textbook.jpg"
+            },
+            {
+              "en": "The bat flies at night.",
+              "zh": "蝙蝠在夜里飞。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/bat-context.jpg"
+            }
+          ],
           "id": "w57"
         },
         {
@@ -3805,7 +3857,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit3/every_week/every_week_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "We have English every week.",
+              "zh": "我们每周都有英语课。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/every_week-textbook.jpg"
+            },
+            {
+              "en": "I go swimming every week.",
+              "zh": "我每周去游泳。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/every_week-context.jpg"
+            }
+          ],
           "id": "w104"
         },
         {
@@ -5374,7 +5439,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit5/a_clock/a_clock_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "I see a clock on the wall.",
+              "zh": "我看到墙上的一个钟表。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/a_clock-textbook.jpg"
+            },
+            {
+              "en": "There is a clock in my room.",
+              "zh": "我的房间里有一个钟表。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/a_clock-context.jpg"
+            }
+          ],
           "id": "w146"
         },
         {
@@ -5441,7 +5519,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit5/thirteen/thirteen_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "I have thirteen books.",
+              "zh": "我有十三本书。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/thirteen-textbook.jpg"
+            },
+            {
+              "en": "She is thirteen years old.",
+              "zh": "她十三岁了。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/thirteen-context.jpg"
+            }
+          ],
           "id": "w148"
         },
         {
@@ -5592,7 +5683,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/words/Unit5/test/test_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "We have a test today.",
+              "zh": "我们今天有一个测试。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/test-textbook.jpg"
+            },
+            {
+              "en": "I did well on the test.",
+              "zh": "我测试考得很好。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/test-context.jpg"
+            }
+          ],
           "id": "w152"
         },
         {

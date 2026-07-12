@@ -267,7 +267,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/police_officer/police_officer_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "The police officer helps us.",
+              "zh": "警察帮助我们。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/police_officer-textbook.jpg"
+            },
+            {
+              "en": "My uncle is a police officer.",
+              "zh": "我叔叔是一名警察。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/police_officer-context.jpg"
+            }
+          ],
           "id": "w6"
         },
         {
@@ -346,7 +359,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit1/police_station/police_station_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "Go to the police station.",
+              "zh": "去警察局。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/police_station-textbook.jpg"
+            },
+            {
+              "en": "The police station is near.",
+              "zh": "警察局在附近。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/police_station-context.jpg"
+            }
+          ],
           "id": "w8"
         },
         {
@@ -1752,7 +1778,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit2/shoot/shoot_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "Do not shoot the ball.",
+              "zh": "不要射球。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/shoot-textbook.jpg"
+            },
+            {
+              "en": "He can shoot a basket.",
+              "zh": "他能投篮。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/shoot-context.jpg"
+            }
+          ],
           "id": "w46"
         },
         {
@@ -1891,7 +1930,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit2/straight/straight_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "Walk straight ahead.",
+              "zh": "一直向前走。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/straight-textbook.jpg"
+            },
+            {
+              "en": "The road is straight.",
+              "zh": "这条路是笔直的。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/straight-context.jpg"
+            }
+          ],
           "id": "w50"
         },
         {
@@ -3196,7 +3248,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit4/hay/hay_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "The horse eats hay.",
+              "zh": "马吃干草。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/hay-textbook.jpg"
+            },
+            {
+              "en": "We put hay in the barn.",
+              "zh": "我们把干草放进谷仓。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/hay-context.jpg"
+            }
+          ],
           "id": "w86"
         },
         {
@@ -3654,7 +3719,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit6/shirt/shirt_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "This is my new shirt.",
+              "zh": "这是我的新衬衫。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/shirt-textbook.jpg"
+            },
+            {
+              "en": "I wear a blue shirt today.",
+              "zh": "我今天穿了一件蓝衬衫。",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/shirt-context.jpg"
+            }
+          ],
           "id": "w98"
         },
         {
@@ -4021,7 +4099,20 @@ const TEXTBOOK_DATA = {
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/words/Unit6/mister/mister_%E9%A3%8E%E6%A0%BCA.png",
-          "sentences": [],
+          "sentences": [
+            {
+              "en": "Hello, Mister Li.",
+              "zh": "你好，李先生。",
+              "source": "textbook",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/mister-textbook.jpg"
+            },
+            {
+              "en": "Mister, can you help me?",
+              "zh": "先生，你能帮我吗？",
+              "source": "context",
+              "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/assets/images/sentences/mister-context.jpg"
+            }
+          ],
           "id": "w108"
         },
         {
