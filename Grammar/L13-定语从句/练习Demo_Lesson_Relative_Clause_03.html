@@ -115,27 +115,6 @@
             box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
         }
         .btn-main:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(14, 165, 233, 0.35); }
-
-        .print-btn {
-            position: fixed; top: 20px; right: 20px;
-            background: white; border: none; padding: 10px;
-            border-radius: 50%; cursor: pointer; box-shadow: var(--shadow);
-            z-index: 100;
-        }
-        .print-btn i { color: var(--primary-color); }
-
-        /* 打印适配（PDF 也带 Logo，答题横线不显示 Placeholder，防止题目跨页被截断） */
-        @media print {
-            body { background: white; }
-            .print-btn, #welcome-view, .btn-main { display: none !important; }
-            #app-frame { display: block !important; padding: 0; padding-top: 50px !important; max-width: 100%; }
-/* 保证 Section 和具体的每一道题(包含选项)不会被强行切断，避免一半在上一页一半在下一页 */
-            .section-card { box-shadow: none; border: 1px solid #eee; break-inside: avoid; margin-bottom: 30px; }
-            .exercise-item { break-inside: avoid; page-break-inside: avoid; }
-            
-            input[type="text"] { border-bottom: 1px solid black; }
-            input[type="text"]::placeholder { color: transparent !important; opacity: 0 !important; }
-        }
     </style>
   <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
   <link rel="stylesheet" href="assets/lesson-screen-16x9.css" />
@@ -145,12 +124,11 @@
   <link rel="stylesheet" href="assets/l13rc-responsive.css" />
   <link rel="stylesheet" href="assets/l13rc-practice-one-page.css" />
   <link rel="stylesheet" href="assets/l13rc-practice-answers.css" />
+  <link rel="stylesheet" href="assets/l13rc-practice-print.css" />
   <link rel="stylesheet" href="../shared/grammar-logo.css" />
   <link rel="stylesheet" href="assets/l13rc-classroom-modern.css" />
 </head>
-<body class="l13rc-no-scroll has-lesson-pager l13rc-demo-screen l13rc-practice-one">
-
-    <button class="print-btn" type="button" onclick="window.l13rcPracticePrint && window.l13rcPracticePrint()" title="打印全部题目"><i class="fas fa-print"></i></button>
+<body class="l13rc-no-scroll has-lesson-pager l13rc-demo-screen l13rc-practice-one l13rc-practice-pdf">
 
     <div id="welcome-view">
         <div class="welcome-card">
@@ -161,7 +139,12 @@
         </div>
     </div>
 
-    <div id="app-frame">
+    <div id="app-frame"
+         data-practice-kicker="第13讲 · 定语从句 · 课堂练习"
+         data-practice-title="Relative Clauses 03"
+         data-practice-subtitle="综合强化：who/whom/which、介词+which 及 where/when 替换用法"
+         data-practice-parts="5"
+         data-practice-questions="18">
         
         <div class="section-card">
             <h2>Part 1: Combine the Sentences</h2>
@@ -335,21 +318,6 @@
             });
         });
 
-        // 打印/导出 PDF 时去掉答题横线上的占位符文本，打印结束后恢复
-        window.addEventListener('beforeprint', function() {
-            document.querySelectorAll('input[type="text"]').forEach(function(inp) {
-                inp.dataset.placeholderBackup = inp.getAttribute('placeholder') || '';
-                inp.removeAttribute('placeholder');
-            });
-        });
-        window.addEventListener('afterprint', function() {
-            document.querySelectorAll('input[type="text"]').forEach(function(inp) {
-                if (inp.dataset.placeholderBackup) {
-                    inp.setAttribute('placeholder', inp.dataset.placeholderBackup);
-                    delete inp.dataset.placeholderBackup;
-                }
-            });
-        });
     </script>
   <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
   <script src="assets/lesson-image-lightbox.js" defer></script>
