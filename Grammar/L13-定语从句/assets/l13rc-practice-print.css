@@ -1,0 +1,395 @@
+/**
+ * L13 巩固练习 · 打印 PDF 工具栏与排版（每 Part 一页）
+ */
+
+/* —— 屏幕：PDF 工具栏 —— */
+.practice-pdf-bar {
+  position: fixed;
+  top: max(12px, env(safe-area-inset-top, 0px));
+  right: max(12px, env(safe-area-inset-right, 0px));
+  z-index: 250;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.45rem;
+  max-width: min(320px, calc(100vw - 24px));
+  pointer-events: none;
+}
+
+.practice-pdf-bar > * {
+  pointer-events: auto;
+}
+
+.btn-practice-pdf {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.55rem 1.1rem;
+  border: 2px solid #0284c7;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ffffff 0%, #e0f2fe 100%);
+  color: #0369a1;
+  font-family: var(--font-family, 'Nunito', system-ui, sans-serif);
+  font-size: 0.92rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(14, 165, 233, 0.28);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  touch-action: manipulation;
+}
+
+.btn-practice-pdf i {
+  font-size: 1rem;
+  color: #0ea5e9;
+}
+
+.btn-practice-pdf:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(14, 165, 233, 0.32);
+  background: linear-gradient(180deg, #f0f9ff 0%, #bae6fd 100%);
+}
+
+.practice-pdf-hint {
+  margin: 0;
+  padding: 0.45rem 0.65rem;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: #475569;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+  max-width: 18rem;
+}
+
+.practice-pdf-hint strong {
+  color: #0369a1;
+}
+
+/* 旧圆形打印钮：有 PDF 工具栏时隐藏 */
+body.l13rc-practice-pdf .print-btn {
+  display: none !important;
+}
+
+@media (max-width: 520px) {
+  .practice-pdf-hint {
+    display: none;
+  }
+
+  .btn-practice-pdf span {
+    display: none;
+  }
+
+  .btn-practice-pdf {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 50%;
+  }
+}
+
+/* —— 打印专用结构（屏幕隐藏） —— */
+.practice-print-sheet {
+  display: none;
+}
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 12mm 14mm 14mm;
+  }
+
+  html.l13rc-no-scroll-root,
+  html.l13rc-no-scroll-root body.l13rc-no-scroll {
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  body.l13rc-practice-one,
+  body.l13rc-practice-printing {
+    background: #fff !important;
+    padding: 0 !important;
+    --lesson-pager-gap: 0 !important;
+    --l13rc-demo-stage-h: auto !important;
+  }
+
+  body.l13rc-practice-printing .practice-pdf-bar,
+  body.l13rc-practice-printing .print-btn,
+  body.l13rc-practice-printing #welcome-view,
+  body.l13rc-practice-printing .btn-main,
+  body.l13rc-practice-printing .practice-pager,
+  body.l13rc-practice-printing nav.lesson-pager,
+  body.l13rc-practice-printing .practice-answer-toggle {
+    display: none !important;
+  }
+
+  body.l13rc-practice-printing #app-frame,
+  body.l13rc-practice-printing #app-frame.practice-book {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    transform: none !important;
+    background: #fff !important;
+  }
+
+  body.l13rc-practice-printing #app-frame .section-card {
+    display: none !important;
+  }
+
+  body.l13rc-practice-printing .practice-page,
+  body.l13rc-practice-printing .practice-page.l13rc-print-source-hidden {
+    display: none !important;
+  }
+
+  body.l13rc-practice-printing .practice-print-sheet {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  /* 封面 */
+  body.l13rc-practice-printing .practice-print-cover {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 2mm);
+    page-break-after: always;
+    break-after: page;
+    text-align: center;
+    padding: 18mm 10mm 14mm;
+  }
+
+  body.l13rc-practice-printing .practice-print-logo {
+    width: auto;
+    height: 52px;
+    margin-bottom: 16px;
+    object-fit: contain;
+  }
+
+  body.l13rc-practice-printing .practice-print-cover-banner {
+    width: 100%;
+    padding: 22px 20px 18px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #0ea5e9 0%, #10b981 55%, #06b6d4 100%);
+    color: #fff;
+    box-shadow: 0 8px 24px rgba(14, 165, 233, 0.22);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body.l13rc-practice-printing .practice-print-cover-kicker {
+    margin: 0 0 8px;
+    font-size: 10pt;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    opacity: 0.95;
+  }
+
+  body.l13rc-practice-printing .practice-print-cover-title {
+    margin: 0 0 10px;
+    font-family: var(--font-family-title, 'Fredoka', sans-serif);
+    font-size: 22pt;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  body.l13rc-practice-printing .practice-print-cover-sub {
+    margin: 0;
+    font-size: 10.5pt;
+    line-height: 1.55;
+    opacity: 0.96;
+  }
+
+  body.l13rc-practice-printing .practice-print-cover-stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin: 18px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  body.l13rc-practice-printing .practice-print-cover-stats li {
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 2px solid #bae6fd;
+    background: #f0f9ff;
+    color: #0369a1;
+    font-size: 9.5pt;
+    font-weight: 800;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body.l13rc-practice-printing .practice-print-cover-foot {
+    margin: 20px 0 0;
+    font-size: 8.5pt;
+    color: #64748b;
+    line-height: 1.5;
+  }
+
+  /* 每个 Part 独占一页 */
+  body.l13rc-practice-printing .practice-print-part {
+    display: flex !important;
+    flex-direction: column;
+    page-break-after: always;
+    break-after: page;
+    min-height: calc(100vh - 4mm);
+    padding: 0 2mm 4mm;
+  }
+
+  body.l13rc-practice-printing .practice-print-part:last-child {
+    page-break-after: auto;
+  }
+
+  body.l13rc-practice-printing .practice-print-part-head {
+    margin-bottom: 14px;
+    padding: 12px 14px 12px;
+    border-radius: 12px;
+    background: linear-gradient(90deg, #f0f9ff 0%, #ecfdf5 100%);
+    border: 1px solid #bae6fd;
+    border-left: 5px solid #0ea5e9;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body.l13rc-practice-printing .practice-print-part-badge {
+    display: inline-block;
+    margin-bottom: 6px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: #0ea5e9;
+    color: #fff;
+    font-size: 9pt;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body.l13rc-practice-printing .practice-print-part-title {
+    margin: 0 0 6px;
+    font-family: var(--font-family-title, 'Fredoka', sans-serif);
+    font-size: 15pt;
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1.25;
+  }
+
+  body.l13rc-practice-printing .practice-print-instruction {
+    margin: 0;
+    font-size: 9.5pt;
+    font-weight: 700;
+    color: #475569;
+    line-height: 1.5;
+  }
+
+  body.l13rc-practice-printing .practice-print-part-body {
+    flex: 1 1 auto;
+  }
+
+  body.l13rc-practice-printing .practice-print-part-foot {
+    flex-shrink: 0;
+    margin-top: 12px;
+    padding-top: 8px;
+    border-top: 1px solid #e2e8f0;
+    font-size: 8pt;
+    color: #94a3b8;
+    text-align: center;
+  }
+
+  body.l13rc-practice-printing .practice-print-item {
+    margin-bottom: 1rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px dashed #e2e8f0;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  body.l13rc-practice-printing .practice-print-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  body.l13rc-practice-printing .practice-print-item .exercise-item {
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+
+  body.l13rc-practice-printing .practice-print-item .instruction {
+    font-size: 9.5pt;
+    font-weight: 700;
+    color: #334155;
+    margin-bottom: 6px;
+    line-height: 1.5;
+  }
+
+  body.l13rc-practice-printing .practice-print-item .sentence-box {
+    font-size: 10.5pt;
+    line-height: 1.6;
+    color: #0f172a;
+    font-weight: 600;
+  }
+
+  body.l13rc-practice-printing .practice-print-item .sentence-box ins {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 2px;
+  }
+
+  body.l13rc-practice-printing .practice-print-item input[type="text"] {
+    border: none;
+    border-bottom: 1.5px solid #1e293b;
+    background: transparent;
+    font-size: 10pt;
+    min-width: 8em;
+    padding: 2px 4px;
+  }
+
+  body.l13rc-practice-printing .practice-print-item .choice-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    margin: 4px 0;
+    padding: 6px 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background: #f8fafc;
+    color: #1e293b;
+    font-size: 9.5pt;
+    font-weight: 600;
+    cursor: default;
+    box-shadow: none;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body.l13rc-practice-printing .practice-print-part-body,
+  body.l13rc-practice-printing .l13rc-fit-target {
+    transform: none !important;
+    width: auto !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  body.l13rc-practice-printing .practice-answer-panel[hidden] {
+    display: none !important;
+  }
+}
