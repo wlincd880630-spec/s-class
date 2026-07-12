@@ -519,35 +519,253 @@ def patch_copy_sentences(path: str, items: list[dict], label: str):
         f.write(text)
 
 
+def word_size_class(word: str) -> str:
+    w = word.lower()
+    if " " in w or len(w) > 10:
+        return " xlong"
+    if len(w) > 7:
+        return " long"
+    return ""
+
+
 def patch_coloring(path: str):
     sections = []
     for key, zh, _ex, _emoji in WORDS:
         s = slug(key)
+        wl = key.lower()
+        sz = word_size_class(wl)
         sections.append(
-            f"""  <section class="sheet"><div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">{key.lower()} · {zh}</span><span>日期: ____ / ____</span></div><div class="sheet-img"><img src="{COS}/dive-dolphin-coloring/images/{s}.png" alt="{key.lower()} 涂色" /></div><p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · {key.lower()}</p></section>"""
+            f"""  <section class="sheet">
+    <div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">{wl} · {zh}</span><span>日期: ____ / ____</span></div>
+    <p class="sheet-word{sz}" aria-label="涂色单词 {wl}">{wl}</p>
+    <div class="sheet-img"><img src="images/{s}.png" alt="{wl} 涂色" /></div>
+    <p class="sheet-ftr">Dive, dolphin! · 涂色记单词 · {wl}</p>
+  </section>"""
         )
-    with open(path, encoding="utf-8") as f:
-        text = f.read()
-    text = re.sub(
-        r"<title>[^<]+</title>",
-        f"<title>Dive, dolphin! · 单词涂色卡 · {len(WORDS)} 词</title>",
-        text,
-        count=1,
-    )
-    text = re.sub(
-        r":root \{ --ng-gold: #f5c400; --ink: #1a1a1a; --accent: [^;]+; \}",
-        f":root {{ --ng-gold: #f5c400; --ink: #1a1a1a; --accent: {ACCENT_DARK}; }}",
-        text,
-        count=1,
-    )
-    text = re.sub(
-        r"(<div id=\"app\">)\s*<section class=\"sheet\">[\s\S]*?</div>\s*<script>",
-        r"\1\n" + "\n".join(sections) + "\n  </div>\n\n  <script>",
-        text,
-        count=1,
-    )
+    word_list = " · ".join(k.lower() for k, *_ in WORDS[:12]) + " … 共 " + str(len(WORDS)) + " 词"
+    html = f"""<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Dive, dolphin! · 单词涂色卡 · {len(WORDS)} 词</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet" />
+  <style>
+    :root {{ --ng-gold: #f5c400; --ink: #1a1a1a; --accent: {ACCENT_DARK}; --stroke: #263238; }}
+    *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
+    body {{
+      font-family: "Fredoka", sans-serif;
+      background: linear-gradient(165deg, #37474f 0%, #263238 100%);
+      display: flex; flex-direction: column; align-items: center;
+      padding-bottom: max(48px, env(safe-area-inset-bottom));
+      min-height: 100dvh;
+      overflow-x: clip;
+      -webkit-tap-highlight-color: rgba(0, 172, 193, 0.12);
+    }}
+    .back-hub {{
+      align-self: flex-start;
+      margin: 12px 0 0 max(16px, env(safe-area-inset-left));
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 44px;
+      padding: 6px 14px 6px 10px;
+      border-radius: 999px;
+      border: 2px solid #4FC3F7;
+      background: rgba(255, 255, 255, 0.95);
+      color: {ACCENT_DARK};
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-decoration: none;
+      touch-action: manipulation;
+    }}
+    .back-hub:active {{ background: #E1F5FE; }}
+    #app {{
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 max(8px, env(safe-area-inset-right)) 0 max(8px, env(safe-area-inset-left));
+    }}
+    .toolbar {{
+      width: 100%; padding: 14px 22px;
+      padding-top: max(14px, env(safe-area-inset-top));
+      padding-left: max(16px, env(safe-area-inset-left));
+      padding-right: max(16px, env(safe-area-inset-right));
+      background: #fffef8;
+      border-bottom: 3px solid var(--ng-gold);
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
+      position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,.2);
+    }}
+    .toolbar h1 {{ font-size: 1.1rem; color: var(--ink); }}
+    .toolbar p {{ font-size: 0.8rem; color: #546e7a; max-width: 36rem; line-height: 1.4; }}
+    .btn {{
+      font-family: inherit; font-weight: 700; border: none; border-radius: 999px;
+      padding: 10px 22px; min-height: 44px; cursor: pointer;
+      background: linear-gradient(180deg, #26c6da, var(--accent));
+      color: #fff; box-shadow: 0 4px 12px rgba(0,131,143,.4);
+      touch-action: manipulation;
+      flex-shrink: 0;
+    }}
+    .page-viewport {{
+      width: min(210mm, calc(100vw - 24px));
+      margin: 24px auto;
+      overflow: hidden;
+    }}
+    .sheet {{
+      width: 210mm; min-height: 297mm; margin: 24px 0; padding: 12mm 14mm;
+      background: #fff; box-shadow: 0 0 40px rgba(0,0,0,.5);
+      page-break-after: always; display: flex; flex-direction: column; align-items: center;
+    }}
+    .page-viewport .sheet {{ margin: 0; }}
+    .sheet-hdr {{
+      width: 100%; display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.82rem; color: #78909c; border-bottom: 2px solid #eceff1;
+      padding-bottom: 4mm; margin-bottom: 4mm; gap: 4px; flex-wrap: wrap;
+    }}
+    .sheet-hdr .badge {{
+      font-weight: 700; padding: 4px 14px; border-radius: 8px;
+      background: #e0f7fa; border: 2px solid var(--ng-gold); color: var(--accent);
+    }}
+    /* 大号空心小写单词 — 孩子可用马克笔涂色 */
+    .sheet-word {{
+      width: 100%;
+      text-align: center;
+      margin: 2mm 0 5mm;
+      font-family: "Patrick Hand", "Fredoka", cursive;
+      font-weight: 700;
+      font-size: clamp(3rem, 11vw, 4.8rem);
+      line-height: 1.05;
+      letter-spacing: 0.03em;
+      color: #fafafa;
+      -webkit-text-stroke: 3.2px var(--stroke);
+      paint-order: stroke fill;
+      text-transform: lowercase;
+      word-break: keep-all;
+    }}
+    .sheet-word.long {{
+      font-size: clamp(2.4rem, 8.5vw, 3.6rem);
+      -webkit-text-stroke-width: 2.8px;
+    }}
+    .sheet-word.xlong {{
+      font-size: clamp(1.9rem, 7vw, 2.9rem);
+      -webkit-text-stroke-width: 2.5px;
+      letter-spacing: 0.01em;
+    }}
+    .sheet-img {{
+      flex: 1; width: 100%; max-width: 170mm;
+      display: flex; align-items: center; justify-content: center;
+    }}
+    .sheet-img img {{
+      width: 100%; height: auto; max-height: 210mm; object-fit: contain;
+    }}
+    .sheet-ftr {{ margin-top: 4mm; font-size: 0.75rem; color: #b0bec5; text-align: center; }}
+    @media screen and (max-width: 720px) {{
+      .toolbar {{ justify-content: center; }}
+      .toolbar h1 {{ font-size: 1rem; line-height: 1.35; }}
+      .toolbar p {{ max-width: 100%; font-size: 0.82rem; }}
+      .btn {{ width: 100%; }}
+      .page-viewport {{ width: calc(100vw - 16px); margin: 12px auto; }}
+      .sheet {{ box-shadow: 0 0 28px rgba(0, 0, 0, 0.45); }}
+    }}
+    @media (hover: none) and (pointer: coarse) {{
+      .btn:active {{ transform: scale(0.98); }}
+    }}
+    @media print {{
+      body {{ background: #fff; padding: 0; }}
+      .back-hub {{ display: none !important; }}
+      .toolbar {{ display: none !important; }}
+      #app {{ padding: 0; }}
+      .page-viewport {{
+        width: auto; height: auto; overflow: visible; margin: 0;
+      }}
+      .page-viewport .sheet {{
+        transform: none !important;
+        margin: 0; box-shadow: none;
+      }}
+      .sheet-word {{
+        color: #fff !important;
+        -webkit-text-stroke: 3px #000 !important;
+      }}
+      .sheet-img img {{ max-height: 220mm; }}
+      * {{ -webkit-print-color-adjust: exact; print-color-adjust: exact; }}
+    }}
+  </style>
+  <link rel="stylesheet" href="../../assets/primary-responsive.css?v=2" />
+</head>
+<body>
+  <a class="back-hub" href="../index.html">← Dive, dolphin! 首页</a>
+
+  <div class="toolbar">
+    <div>
+      <h1>🐬 Dive, dolphin! · 单词涂色卡（一年级）</h1>
+      <p>每页一词：顶部<strong>大号空心小写英文</strong> + 黑色线稿图。孩子用马克笔给<strong>单词字母</strong>和<strong>图画</strong>涂色记单词。{word_list}。打印选「另存为 PDF」。</p>
+    </div>
+    <button type="button" class="btn" onclick="window.print()">🖨️ 打印 / 导出 PDF</button>
+  </div>
+
+  <div id="app">
+{chr(10).join(sections)}
+  </div>
+
+  <script>
+    (function () {{
+      var IMG_COS = "{COS}/dive-dolphin-coloring/images/";
+
+      document.querySelectorAll(".sheet-img img").forEach(function (img) {{
+        var src = img.getAttribute("src") || "";
+        var file = src.replace(/^images\\//, "");
+        if (!file) return;
+        img.addEventListener("error", function onErr() {{
+          img.removeEventListener("error", onErr);
+          if (img.dataset.cosfb) return;
+          img.dataset.cosfb = "1";
+          img.src = IMG_COS + file;
+        }}, {{ once: true }});
+      }});
+
+      var app = document.getElementById("app");
+      var sheets = Array.prototype.slice.call(app.querySelectorAll(".sheet"));
+      sheets.forEach(function (sheet) {{
+        var vp = document.createElement("div");
+        vp.className = "page-viewport";
+        sheet.parentNode.insertBefore(vp, sheet);
+        vp.appendChild(sheet);
+      }});
+
+      function fitPageViewports() {{
+        if (window.matchMedia("print").matches) return;
+        document.querySelectorAll(".page-viewport").forEach(function (vp) {{
+          var sheet = vp.querySelector(".sheet");
+          if (!sheet) return;
+          sheet.style.transform = "none";
+          sheet.style.transformOrigin = "top left";
+          var naturalW = sheet.offsetWidth;
+          var targetW = vp.clientWidth;
+          if (!naturalW || !targetW) return;
+          var scale = Math.min(1, targetW / naturalW);
+          sheet.style.transform = scale < 1 ? "scale(" + scale + ")" : "none";
+          vp.style.height = scale < 1 ? sheet.offsetHeight * scale + "px" : "auto";
+        }});
+      }}
+
+      var fitTimer;
+      window.addEventListener("resize", function () {{
+        clearTimeout(fitTimer);
+        fitTimer = setTimeout(fitPageViewports, 120);
+      }});
+      window.addEventListener("orientationchange", fitPageViewports);
+      window.addEventListener("load", fitPageViewports);
+    }})();
+  </script>
+  <script src="../../assets/primary-responsive.js?v=2" defer></script>
+</body>
+</html>
+"""
     with open(path, "w", encoding="utf-8") as f:
-        f.write(text)
+        f.write(html)
 
 
 def patch_index_primary():
