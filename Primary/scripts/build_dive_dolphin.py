@@ -188,7 +188,7 @@ def words_js() -> str:
             f'      {{ key: "{key}", zh: "{zh}", ex: "{ex}", emoji: "{emoji}",\n'
             f"        soundBoxes: [\n          "
             + ",\n          ".join(sb_parts)
-            + ",\n        ] }},"
+            + ",\n        ] },"
         )
     lines.append("    ];")
     return "\n".join(lines)
@@ -363,6 +363,7 @@ def empty_manifest_json() -> str:
 def replace_all(text: str) -> str:
     pairs = [
         ("Peek Otter", "Dive Dolphin"),
+        ("Peek%20Otter", "Dive%20Dolphin"),
         ("peek-otter", "dive-dolphin"),
         ("Peek, Otter!", "Dive, dolphin!"),
         ("PeekOtter", "DiveDolphin"),
@@ -370,8 +371,6 @@ def replace_all(text: str) -> str:
         ("PEEK_OTTER", "DIVE_DOLPHIN"),
         ("好奇的水獭", "潜水吧，海豚"),
         ("水獭", "海豚"),
-        ("otter", "dolphin"),
-        ("Otter", "Dolphin"),
         ("🦦", "🐬"),
         ("#00838F", ACCENT_DARK),
         ("#00838f", ACCENT_DARK),
