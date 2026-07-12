@@ -3114,8 +3114,8 @@ const TEXTBOOK_DATA = {
         },
         {
           "id": "w91",
-          "word": "kit",
-          "chinese": "成套用品",
+          "word": "kid",
+          "chinese": "小孩",
           "phonemes": [
             {
               "symbol": "/k/",
