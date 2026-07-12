@@ -782,11 +782,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/eɪ/",
-              "letter": "a"
-            },
-            {
-              "symbol": "—",
-              "letter": "y"
+              "letter": "ay"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/yesterday/yesterday_%E9%A3%8E%E6%A0%BCA.png",
@@ -1036,15 +1032,19 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/m/",
-              "letter": "m"
+              "letter": "me"
             },
             {
-              "symbol": "/ə/",
-              "letter": "e"
+              "symbol": "—",
+              "letter": " "
             },
             {
-              "symbol": "/wʌn/",
-              "letter": "one"
+              "symbol": "/w/",
+              "letter": "o"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "ne"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/someone/someone_%E9%A3%8E%E6%A0%BCA.png",
@@ -2220,12 +2220,8 @@ const TEXTBOOK_DATA = {
               "letter": "ou"
             },
             {
-              "symbol": "—",
-              "letter": "l"
-            },
-            {
               "symbol": "/d/",
-              "letter": "d"
+              "letter": "ld"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit2/would/would_%E9%A3%8E%E6%A0%BCA.png",
@@ -3085,11 +3081,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/ɔː/",
-              "letter": "au"
-            },
-            {
-              "symbol": "—",
-              "letter": "gh"
+              "letter": "augh"
             },
             {
               "symbol": "/t/",
@@ -3950,19 +3942,11 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/ə/",
-              "letter": "u"
+              "letter": "ur"
             },
             {
-              "symbol": "—",
-              "letter": "r"
-            },
-            {
-              "symbol": "/p/",
-              "letter": "p"
-            },
-            {
-              "symbol": "/r/",
-              "letter": "r"
+              "symbol": "/pr/",
+              "letter": "pr"
             },
             {
               "symbol": "/aɪ/",
@@ -4210,11 +4194,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/m/",
-              "letter": "m"
-            },
-            {
-              "symbol": "—",
-              "letter": "b"
+              "letter": "mb"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/5GB/assets/images/words/Unit4/climb/climb_%E9%A3%8E%E6%A0%BCA.png",

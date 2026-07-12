@@ -2361,12 +2361,8 @@ const TEXTBOOK_DATA = {
               "letter": "er"
             },
             {
-              "symbol": "—",
-              "letter": "e"
-            },
-            {
               "symbol": "/n/",
-              "letter": "n"
+              "letter": "en"
             },
             {
               "symbol": "/s/",

@@ -786,11 +786,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/m/",
-              "letter": "m"
-            },
-            {
-              "symbol": "—",
-              "letter": "e"
+              "letter": "me"
             },
             {
               "symbol": "/t/",
@@ -1110,11 +1106,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/s/",
-              "letter": "s"
-            },
-            {
-              "symbol": "—",
-              "letter": "w"
+              "letter": "sw"
             },
             {
               "symbol": "/ə/",
@@ -2249,16 +2241,8 @@ const TEXTBOOK_DATA = {
           "chinese": "展览(会)",
           "phonemes": [
             {
-              "symbol": "/e/",
-              "letter": "e"
-            },
-            {
-              "symbol": "/ks/",
-              "letter": "x"
-            },
-            {
-              "symbol": "—",
-              "letter": "h"
+              "symbol": "/eks/",
+              "letter": "exh"
             },
             {
               "symbol": "/ɪ/",
@@ -2273,8 +2257,12 @@ const TEXTBOOK_DATA = {
               "letter": "i"
             },
             {
-              "symbol": "/ʃən/",
-              "letter": "tion"
+              "symbol": "/ʃ/",
+              "letter": "ti"
+            },
+            {
+              "symbol": "/n/",
+              "letter": "on"
             }
           ],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/6GA/assets/images/words/Unit2/exhibition/exhibition_%E9%A3%8E%E6%A0%BCA.png",
@@ -3577,11 +3565,7 @@ const TEXTBOOK_DATA = {
             },
             {
               "symbol": "/ɔː/",
-              "letter": "oa"
-            },
-            {
-              "symbol": "—",
-              "letter": "r"
+              "letter": "oar"
             },
             {
               "symbol": "/d/",
