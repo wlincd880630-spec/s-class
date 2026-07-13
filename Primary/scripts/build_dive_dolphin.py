@@ -924,6 +924,7 @@ def main():
     # image dirs
     for sub in [
         "dive-dolphin-courseware/images/words",
+        "dive-dolphin-courseware/images/words-meaning",
         "dive-dolphin-courseware/images/story",
         "dive-dolphin-coloring/images",
     ]:

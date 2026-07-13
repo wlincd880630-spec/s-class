@@ -609,9 +609,37 @@
     .word-col-art .hero-art {
       min-height: 0; margin: 0; width: 100%;
     }
+    .word-art-duo {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      width: 100%;
+      align-items: stretch;
+      justify-content: center;
+    }
+    .word-art-duo .polaroid {
+      flex: 1 1 calc(50% - 0.35rem);
+      min-width: min(12rem, 46%);
+      max-width: calc(50% - 0.2rem);
+      margin: 0;
+    }
+    .word-art-duo .polaroid .art-cap {
+      display: block;
+      text-align: center;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: #6d5c4a;
+      margin: 0 0 0.25rem;
+      text-transform: uppercase;
+    }
     .word-col-art .art-img {
       max-width: 100%;
-      max-height: min(32rem, 86vh);
+      max-height: min(18rem, 42vh);
+    }
+    .word-art-duo .art-img {
+      max-height: min(16rem, 38vh);
     }
     .word-col-panel {
       flex: 1; min-width: 0; display: flex; flex-direction: column;
@@ -700,6 +728,9 @@
       .word-study-wrap { flex-direction: column; align-items: center; }
       .word-col-art { max-width: 95%; flex: 0 0 auto; }
       .word-col-art .art-img { max-height: min(30rem, 70dvh); }
+      .word-art-duo { flex-direction: column; align-items: center; }
+      .word-art-duo .polaroid { max-width: 100%; flex: 1 1 auto; }
+      .word-art-duo .art-img { max-height: min(14rem, 34dvh); }
     }
     @media (hover: none) and (pointer: coarse) {
       .btn:hover { background: #fff; box-shadow: 0 2px 0 rgba(0,0,0,.08), 0 4px 12px rgba(0,0,0,.04); }
@@ -1150,13 +1181,27 @@
     }
 
     function wordImg(w) { return MEDIA_COS + "images/words/" + String(w.key).toLowerCase().replace(/ /g, "-") + ".png"; }
+    function wordMeaningImg(w) { return MEDIA_COS + "images/words-meaning/" + String(w.key).toLowerCase().replace(/ /g, "-") + ".png"; }
 
-    function artFromSrc(src, emoji) {
+    function artFromSrc(src, emoji, caption) {
+      var cap = caption
+        ? "<span class=\"art-cap\">" + caption + "</span>"
+        : "";
       return (
         "<div class=\"polaroid\" role=\"img\" aria-label=\"\" >" +
+        cap +
         "  <img class=\"art-img\" src=\"" + src + "\" alt=\"\" " +
         "  onerror=\"this.classList.add('is-hide');if(this.nextElementSibling)this.nextElementSibling.classList.add('on')\">" +
         "  <span class=\"art-fb\" aria-hidden=\"true\">" + emoji + "</span>" +
+        "</div>"
+      );
+    }
+
+    function wordArtDual(w) {
+      return (
+        "<div class=\"word-art-duo\">" +
+        artFromSrc(wordImg(w), w.emoji, "单词图") +
+        artFromSrc(wordMeaningImg(w), w.emoji, "词义图") +
         "</div>"
       );
     }
@@ -1674,7 +1719,7 @@
       wStepTag.textContent = (subStep + 1) + " / " + totalWordSteps;
       if (subStep === 0) {
         wStepTitle.textContent = "Sound mapping（音形对应）";
-        wArt.innerHTML = artFromSrc(wordImg(w), w.emoji);
+        wArt.innerHTML = wordArtDual(w);
         wActions.innerHTML = "<button type='button' class='btn primary' id='act1'>再听一遍单词</button>";
         document.getElementById("act1").onclick = function () {
           speakText(w.key, { slow: true });
@@ -1685,7 +1730,7 @@
       } else if (subStep === 1) {
         wStepTitle.textContent = "例句跟读";
         wArt.classList.add("wiggle");
-        wArt.innerHTML = artFromSrc(wordImg(w), w.emoji);
+        wArt.innerHTML = wordArtDual(w);
         wDisplay.style.display = "";
         wDisplay.textContent = w.ex;
         wEx.textContent = w.zh + " · 先听示范，再看着句子大声跟读；可多次点「再听例句」。";
@@ -1695,7 +1740,7 @@
         speakText(w.ex, { slow: true });
       } else {
         wStepTitle.textContent = "拼写";
-        wArt.innerHTML = artFromSrc(wordImg(w), w.emoji);
+        wArt.innerHTML = wordArtDual(w);
         wDisplay.className = "word-big w-display-line w-display-skip";
         wDisplay.textContent = " ";
         wEx.textContent = "不显示整词。先点上面待选字母，再点下面空格；点格内字母可收回。可点「再听本词」。";
