@@ -170,9 +170,11 @@ def make_sound_boxes(word: str) -> list:
 
 
 def words_js() -> str:
+    from dive_dolphin_sound_boxes import SOUND_BOXES
+
     lines = ["    var WORDS = ["]
     for key, zh, ex, emoji in WORDS:
-        sb = make_sound_boxes(key)
+        sb = SOUND_BOXES.get(key) or make_sound_boxes(key)
         sb_parts = []
         for b in sb:
             if b.get("combo"):
@@ -924,6 +926,7 @@ def main():
     # image dirs
     for sub in [
         "dive-dolphin-courseware/images/words",
+        "dive-dolphin-courseware/images/words-meaning",
         "dive-dolphin-courseware/images/story",
         "dive-dolphin-coloring/images",
     ]:

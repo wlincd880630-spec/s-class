@@ -1,0 +1,271 @@
+#!/usr/bin/env python3
+"""Dive Dolphin 单词 soundBoxes 手工校对表（供 build 与课件同步）。"""
+
+from __future__ import annotations
+
+WORDS_META = [
+    ("Dolphin", "海豚", "There are many kinds of dolphins.", "🐬"),
+    ("Ocean", "海洋", "Some dolphins live in oceans.", "🌊"),
+    ("River", "河流", "Others live in rivers.", "🏞️"),
+    ("Dive", "潜水", "Dive, dolphin!", "🤿"),
+    ("Swim", "游泳", "Dolphins swim together.", "🏊"),
+    ("Hunt", "捕猎", "They work as a team to hunt fish.", "🎣"),
+    ("Play", "玩耍", "Dolphins like to play.", "🎾"),
+    ("Leap", "跃起", "They like to leap and jump.", "⬆️"),
+    ("Flipper", "鳍肢", "All dolphins have flippers.", "🦭"),
+    ("Fin", "背鳍", "All dolphins have a fin.", "🔺"),
+    ("Tail", "尾巴", "All dolphins have a tail.", "〰️"),
+    ("There", "那里", "There are many kinds of dolphins.", "📍"),
+    ("Many", "许多", "There are many kinds of dolphins.", "🔢"),
+    ("Beak", "喙", "Some have long beaks.", "🦆"),
+    ("Long", "长的", "Some have long beaks.", "📏"),
+    ("Short", "短的", "Some have short beaks.", "📐"),
+    ("Have", "有", "All dolphins have flippers.", "✅"),
+    ("These", "这些", "These dolphins have stripes.", "👆"),
+    ("Stripe", "条纹", "These dolphins have stripes.", "〰️"),
+    ("Some", "一些", "Some dolphins live in oceans.", "🔹"),
+    ("Live", "生活", "Some dolphins live in oceans.", "🏠"),
+    ("This", "这个", "This dolphin has spots.", "👉"),
+    ("Spot", "斑点", "This dolphin has spots.", "🔵"),
+    ("Others", "其他的", "Others live in rivers.", "👥"),
+    ("Together", "一起", "Dolphins swim together.", "🤝"),
+    ("Work", "工作", "They work as a team.", "💼"),
+    ("Team", "团队", "They work as a team.", "👥"),
+    ("With", "和/用", "Play with things they find.", "🤲"),
+    ("Thing", "东西", "Things they find in the water.", "📦"),
+    ("They", "它们", "They work as a team.", "🐬"),
+    ("Water", "水", "They find things in the water.", "💧"),
+    ("Seaweed", "海草", "Seaweed in the ocean.", "🌿"),
+    ("Like", "喜欢", "Dolphins like to play.", "❤️"),
+    ("Blowhole", "呼吸孔", "Dolphins breathe through a blowhole.", "💨"),
+    ("Back", "背部", "A fin on the dolphin's back.", "🔙"),
+    ("Down", "向下", "Dive down in the water.", "⬇️"),
+    ("Through", "穿过", "Air goes through the blowhole.", "↔️"),
+    ("Air", "空气", "They come to get air.", "🌬️"),
+    ("Breathe", "呼吸", "Dolphins need to breathe.", "😮‍💨"),
+    ("Need to", "需要", "Dolphins need to breathe.", "⚠️"),
+    ("Come", "来", "They come to the top.", "➡️"),
+    ("Top", "顶部", "Come to the top of the water.", "⬆️"),
+    ("Get", "获得", "Get air at the top.", "🎯"),
+]
+
+
+def b(text, hint, combo=False, friends=None):
+    o = {"text": text, "hint": hint, "combo": combo}
+    if combo:
+        o["friends"] = friends or []
+    return o
+
+
+SOUND_BOXES: dict[str, list] = {
+    "Dolphin": [
+        b("d", "/d/"),
+        b("o", "短 o"),
+        b("l", "/l/"),
+        b("ph", "/f/", True, ["dolphin", "phone", "graph", "photo"]),
+        b("i", "短 i"),
+        b("n", "/n/"),
+    ],
+    "Ocean": [
+        b("o", "短 o"),
+        b("c", "/k/"),
+        b("ea", "发 /ə/", True, ["ocean", "idea", "real", "create"]),
+        b("n", "/n/"),
+    ],
+    "River": [
+        b("r", "/r/"),
+        b("i", "短 i"),
+        b("v", "/v/"),
+        b("er", "/ər/", True, ["river", "water", "other", "mother"]),
+    ],
+    "Dive": [
+        b("d", "/d/"),
+        b("i", "i + silent e 发长 /ī/"),
+        b("v", "/v/"),
+        b("e", "silent e 不发音"),
+    ],
+    "Swim": [b("s", "/s/"), b("w", "/w/"), b("i", "短 i"), b("m", "/m/")],
+    "Hunt": [b("h", "/h/"), b("u", "短 u"), b("n", "/n/"), b("t", "/t/")],
+    "Play": [
+        b("p", "/p/"),
+        b("l", "/l/"),
+        b("ay", "/ay/ 像 day", True, ["play", "day", "say", "stay"]),
+    ],
+    "Leap": [
+        b("l", "/l/"),
+        b("ea", "发 /ē/", True, ["leap", "team", "sea", "beach"]),
+        b("p", "/p/"),
+    ],
+    "Flipper": [
+        b("f", "/f/"),
+        b("l", "/l/"),
+        b("i", "短 i"),
+        b("pp", "双写 p", True, ["flipper", "happy", "puppy", "apple"]),
+        b("er", "/ər/", True, ["river", "water", "other", "mother"]),
+    ],
+    "Fin": [b("f", "/f/"), b("i", "短 i"), b("n", "/n/")],
+    "Tail": [
+        b("t", "/t/"),
+        b("ai", "长 /ā/", True, ["tail", "rain", "wait", "mail"]),
+        b("l", "/l/"),
+    ],
+    "There": [
+        b("th", "/th/", True, ["there", "they", "this", "with"]),
+        b("e", "短 e"),
+        b("r", "/r/"),
+        b("e", "silent e 不发音"),
+    ],
+    "Many": [b("m", "/m/"), b("a", "短 a"), b("n", "/n/"), b("y", "y 发 /ē/")],
+    "Beak": [
+        b("b", "/b/"),
+        b("ea", "发 /ē/", True, ["beak", "peak", "speak", "team"]),
+        b("k", "/k/"),
+    ],
+    "Long": [
+        b("l", "/l/"),
+        b("o", "短 o"),
+        b("ng", "/ng/", True, ["long", "song", "ring", "sing"]),
+    ],
+    "Short": [
+        b("sh", "/sh/", True, ["short", "fish", "wish", "dash"]),
+        b("or", "/or/", True, ["short", "fork", "corn", "horse"]),
+        b("t", "/t/"),
+    ],
+    "Have": [
+        b("h", "/h/"),
+        b("a", "短 a"),
+        b("v", "/v/"),
+        b("e", "silent e 不发音"),
+    ],
+    "These": [
+        b("th", "/th/", True, ["these", "they", "this", "with"]),
+        b("e", "短 e"),
+        b("se", "发 /z/", True, ["these", "those", "rose", "nose"]),
+    ],
+    "Stripe": [
+        b("str", "/str/", True, ["stripe", "string", "strong", "street"]),
+        b("i", "i + silent e 发长 /ī/"),
+        b("p", "/p/"),
+        b("e", "silent e 不发音"),
+    ],
+    "Some": [
+        b("s", "/s/"),
+        b("o", "短 o 发 /ʌ/"),
+        b("m", "/m/"),
+        b("e", "silent e 不发音"),
+    ],
+    "Live": [
+        b("l", "/l/"),
+        b("i", "短 i"),
+        b("v", "/v/"),
+        b("e", "silent e 不发音"),
+    ],
+    "This": [
+        b("th", "/th/", True, ["this", "they", "with", "there"]),
+        b("i", "短 i"),
+        b("s", "/s/"),
+    ],
+    "Spot": [b("s", "/s/"), b("p", "/p/"), b("o", "短 o"), b("t", "/t/")],
+    "Others": [
+        b("o", "短 o 发 /ʌ/"),
+        b("th", "/th/", True, ["others", "they", "this", "with"]),
+        b("er", "/ər/", True, ["other", "mother", "brother", "water"]),
+        b("s", "/s/"),
+    ],
+    "Together": [
+        b("t", "/t/"),
+        b("o", "弱读 /ə/"),
+        b("g", "/g/"),
+        b("e", "短 e"),
+        b("th", "/th/", True, ["together", "they", "this", "with"]),
+        b("er", "/ər/", True, ["together", "weather", "feather", "father"]),
+    ],
+    "Work": [
+        b("w", "/w/"),
+        b("or", "/or/", True, ["work", "fork", "corn", "horse"]),
+        b("k", "/k/"),
+    ],
+    "Team": [
+        b("t", "/t/"),
+        b("ea", "发 /ē/", True, ["team", "dream", "steam", "beach"]),
+        b("m", "/m/"),
+    ],
+    "With": [
+        b("w", "/w/"),
+        b("i", "短 i"),
+        b("th", "/th/", True, ["with", "they", "this", "there"]),
+    ],
+    "Thing": [
+        b("th", "/th/", True, ["thing", "they", "this", "with"]),
+        b("i", "短 i"),
+        b("ng", "/ng/", True, ["thing", "sing", "ring", "long"]),
+    ],
+    "They": [
+        b("th", "/th/", True, ["they", "this", "with", "there"]),
+        b("ey", "/ā/", True, ["they", "grey", "prey", "obey"]),
+    ],
+    "Water": [
+        b("w", "/w/"),
+        b("a", "短 a"),
+        b("t", "/t/"),
+        b("er", "/ər/", True, ["water", "river", "other", "mother"]),
+    ],
+    "Seaweed": [
+        b("s", "/s/"),
+        b("ea", "发 /ē/", True, ["sea", "team", "beach", "read"]),
+        b("w", "/w/"),
+        b("ee", "长 e /ēē/", True, ["weed", "need", "feed", "seed"]),
+        b("d", "/d/"),
+    ],
+    "Like": [
+        b("l", "/l/"),
+        b("i", "i + silent e 发长 /ī/"),
+        b("k", "/k/"),
+        b("e", "silent e 不发音"),
+    ],
+    "Blowhole": [
+        b("bl", "/bl/", True, ["blow", "blue", "black", "blend"]),
+        b("ow", "/ō/", True, ["blow", "show", "grow", "snow"]),
+        b("h", "/h/"),
+        b("ole", "发 /ōl/", True, ["hole", "whole", "pole", "role"]),
+    ],
+    "Back": [
+        b("b", "/b/"),
+        b("a", "短 a"),
+        b("ck", "/k/", True, ["back", "duck", "pick", "luck"]),
+    ],
+    "Down": [
+        b("d", "/d/"),
+        b("ow", "/ow/ 像 cow", True, ["down", "cow", "now", "how"]),
+        b("n", "/n/"),
+    ],
+    "Through": [
+        b("th", "/th/", True, ["through", "they", "this", "with"]),
+        b("r", "/r/"),
+        b("ough", "发长 /ū/", True, ["through", "blue", "fruit", "suit"]),
+    ],
+    "Air": [b("air", "/air/", True, ["air", "fair", "hair", "chair"])],
+    "Breathe": [
+        b("b", "/b/"),
+        b("r", "/r/"),
+        b("ea", "发 /ē/", True, ["breathe", "team", "sea", "beach"]),
+        b("th", "/th/", True, ["breathe", "they", "this", "with"]),
+        b("e", "silent e 不发音"),
+    ],
+    "Need to": [
+        b("n", "/n/"),
+        b("ee", "长 e /ēē/", True, ["need", "feed", "seed", "tree"]),
+        b("d", "/d/"),
+        b(" ", "空格"),
+        b("t", "/t/"),
+        b("o", "短 o"),
+    ],
+    "Come": [
+        b("c", "/k/"),
+        b("o", "短 o 发 /ʌ/"),
+        b("m", "/m/"),
+        b("e", "silent e 不发音"),
+    ],
+    "Top": [b("t", "/t/"), b("o", "短 o"), b("p", "/p/")],
+    "Get": [b("g", "/g/"), b("e", "短 e"), b("t", "/t/")],
+}
