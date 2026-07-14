@@ -14,8 +14,10 @@
   --font-ui    : 'Fredoka', sans-serif;
   --img-w      : 40mm;
   --row-h      : 31mm;
-  --sentence-font: 2.2rem;
-  --write-y-offset: -1.4mm;
+  /* 描红字号 +10%；大写另 +15%；整体相对原先下移 0.5mm（-1.4 → -0.9） */
+  --sentence-font: calc(2.2rem * 1.1);
+  --sentence-cap-scale: 1.15;
+  --write-y-offset: -0.9mm;
   --line-blue  : #90CAF9;
   --line-red   : #EF9A9A;
   --line-dash  : rgba(33,150,243,.32);
@@ -264,6 +266,10 @@ body {
 .cell-full.trace { color: var(--trace-color); }
 .cell-full.trace-light { color: var(--trace-light); }
 .cell-full.empty { color: transparent; }
+.cell-full .cap {
+  font-size: calc(1em * var(--sentence-cap-scale));
+  line-height: 1;
+}
 
 @media screen and (max-width: 720px) {
   .toolbar-left span:not(.icon) {
@@ -363,6 +369,11 @@ function esc(t) {
     .replace(/"/g, '&quot;');
 }
 
+/* 大写字母单独放大 15%（相对描红基准字号） */
+function escSentenceWithCaps(t) {
+  return esc(t).replace(/[A-Z]/g, (ch) => `<span class="cap">${ch}</span>`);
+}
+
 function svgPlaceholderDataUrl(line1, line2) {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
     <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#e0f7fa"/><stop offset="100%" stop-color="#fff8e1"/></linearGradient></defs>
@@ -408,7 +419,7 @@ function buildWriteRowFull(sentence, rowClass, kind) {
         <div class="gl gl-grass"></div><div class="gl gl-dirt"></div>
       </div>
       <div class="cells-sentence">
-        <div class="${cellCls}">${esc(sentence)}</div>
+        <div class="${cellCls}">${escSentenceWithCaps(sentence)}</div>
       </div>
     </div>`;
 }
