@@ -13,17 +13,15 @@
   --font-hand  : 'Patrick Hand', cursive;
   --font-ui    : 'Fredoka', sans-serif;
   --img-w      : 40mm;
-  --block-h    : 62mm;
   --row-h      : 31mm;
+  --sentence-font: 2.2rem;
+  --write-y-offset: -1.4mm;
   --line-blue  : #90CAF9;
   --line-red   : #EF9A9A;
   --line-dash  : rgba(33,150,243,.32);
   --text-dark  : #2C3E50;
   --trace-color: rgba(144,202,249,.55);
-  /* 字号 +5%；书写行较默认下移 1.2mm（-1.4mm → -0.2mm） */
-  --write-y-offset: -0.7mm;
-  --sentence-font: calc(2.58rem * 0.95 * 0.9 * 1.05);
-  --sentence-font-long: calc(var(--sentence-font) * 0.85);
+  --trace-light: rgba(144,202,249,.28);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -141,6 +139,10 @@ body {
   flex-direction: column;
 }
 
+.page-body--flow .sentence-block {
+  flex: 0 0 auto;
+}
+
 .page-ftr {
   flex-shrink: 0;
   height: 7mm;
@@ -150,26 +152,36 @@ body {
   padding-top: 2mm;
 }
 
-/* 句子块：与 01 单词块 .word-block 相同 — 均分页体高度 + 两行 1fr */
+/* 每句固定 3 行四线格：描红 / 浅色描红 / 空白，行高·字号全页一致 */
 .sentence-block {
-  flex: 1;
   display: grid;
   grid-template-columns: var(--img-w) 1fr;
-  grid-template-rows: 1fr 1fr;
   border-bottom: 1px solid #F5F5F5;
   min-height: 0;
 }
 .sentence-block:last-child { border-bottom: none; }
 
-/* 本页不足 4 条时（与 01 每页 4 块对比）避免单条/少条把行高撑爆，固定为与 01 注释中 62mm/31mm 一致 */
-.page-body--compact .sentence-block {
-  flex: 0 0 var(--block-h);
-  height: var(--block-h);
-  grid-template-rows: var(--row-h) var(--row-h);
+.sentence-block--three {
+  --sentence-row-h: var(--row-h);
+  grid-template-rows: repeat(3, var(--sentence-row-h));
+  flex: 0 0 calc(3 * var(--sentence-row-h));
+  height: calc(3 * var(--sentence-row-h));
+}
+.sentence-block--three .img-col {
+  grid-row: 1 / -1;
+}
+.sentence-block--three .write-row {
+  position: relative;
+  height: var(--sentence-row-h);
+  min-height: var(--sentence-row-h);
+  max-height: var(--sentence-row-h);
+  overflow: hidden;
+}
+.sentence-block--three .write-row:not(:last-child) {
+  border-bottom: 1px dashed #EEEEEE;
 }
 
 .img-col {
-  grid-row: 1 / 3;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
   gap: 2.5mm;
@@ -202,19 +214,14 @@ body {
   hyphens: auto;
 }
 
-/* 书写行：与 01 .write-row 一致 */
 .write-row {
   position: relative;
-  min-height: 0;
   overflow: hidden;
 }
-.write-row:first-of-type { border-bottom: 1px dashed #EEEEEE; }
 
-/* 四线格：默认（短句） */
 .grid-bg {
   position: absolute;
-  top: 25%;
-  height: 50%;
+  top: 25%; height: 50%;
   left: 2mm; right: 1mm;
   pointer-events: none;
 }
@@ -231,8 +238,8 @@ body {
   position: absolute; inset: 0;
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   padding: 0 2mm;
-  gap: 1mm;
 }
 .cell-full {
   flex: 1;
@@ -240,72 +247,23 @@ body {
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-family: var(--font-hand);
-  font-size: calc(var(--sentence-font) * var(--item-font-scale, 1));
-  letter-spacing: 0;
-  transform: translateY(var(--write-y-offset));
-  user-select: none;
-  line-height: 1;
-}
-.cell-full.model { color: var(--text-dark); font-weight: 700; }
-.cell-full.trace { color: var(--trace-color); font-weight: 700; }
-.cell-full.empty { color: transparent; }
-
-.write-row.row2 .cell-full.trace { color: rgba(144,202,249,.28); }
-
-.vsep {
-  width: 1px; height: 36%; background: #DEDEDE;
-  flex-shrink: 0;
-  transform: translateY(var(--write-y-offset));
-  align-self: center;
-}
-
-/* longLine 栏：范字 ×0.85；四线格竖向区域 ×0.85（线间距缩小 15%），居中 */
-.sentence-block--longline .grid-bg {
-  top: 28.75%;
-  height: 42.5%;
-}
-.sentence-block--longline .cell-full {
-  font-size: calc(var(--sentence-font-long) * var(--item-font-scale, 1));
-  letter-spacing: -0.01em;
-  white-space: nowrap;
-}
-/* 长句分行：每行一句，多行描红 */
-.page-body--flow .sentence-block {
-  flex: 0 0 auto;
-}
-.sentence-block--multiline {
-  grid-template-rows: repeat(var(--write-rows, 4), 13.5mm);
-  flex: 0 0 auto;
-  height: auto;
-  min-height: calc(var(--write-rows, 4) * 13.5mm);
-}
-.page-body--flow .sentence-block--multiline {
-  flex: 0 0 calc(var(--write-rows, 4) * 13.5mm);
-  height: calc(var(--write-rows, 4) * 13.5mm);
-}
-.sentence-block--multiline .img-col {
-  grid-row: 1 / -1;
-}
-.sentence-block--multiline .write-row {
-  min-height: 13.5mm;
-  max-height: 13.5mm;
-}
-.sentence-block--multiline .cell-full {
-  font-size: calc(var(--sentence-font) * var(--item-font-scale, 1));
-  white-space: nowrap;
   justify-content: flex-start;
   text-align: left;
   padding-left: 2.5mm;
   padding-right: 1mm;
+  font-family: var(--font-hand);
+  font-size: var(--sentence-font);
+  font-weight: 700;
   letter-spacing: 0;
+  transform: translateY(var(--write-y-offset));
+  user-select: none;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
 }
-.sentence-block--multiline .cells-sentence {
-  justify-content: flex-start;
-}
-
+.cell-full.trace { color: var(--trace-color); }
+.cell-full.trace-light { color: var(--trace-light); }
+.cell-full.empty { color: transparent; }
 
 @media screen and (max-width: 720px) {
   .toolbar-left span:not(.icon) {
@@ -377,7 +335,7 @@ body {
 <div id="app"></div>
 
 <script>
-/* 抄写 04：课文例句（配图 ../dive-dolphin-courseware/images/words/） */
+/* 抄写 04：每句三行四线格 — 描红 / 浅色描红 / 自主书写；行高·字号全页统一 */
 const LESSON = {
   label: 'Dive Dolphin 04',
   color: '#01579B',
@@ -387,12 +345,15 @@ const LESSON = {
     { word: 'swim', sentence: 'Dolphins swim together.' },
     { word: 'leap', sentence: 'They like to leap and jump.' },
     { word: 'breathe', sentence: 'Dolphins need to breathe.' },
-    { word: 'air', sentence: 'They come to the top to get air.', longLine: true },
+    { word: 'air', sentence: 'They come to the top to get air.' },
     { word: 'ocean', sentence: 'Some dolphins live in oceans.' }
   ]
 };
 
 const IMG_BASE = 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-courseware/images/words/';
+
+const SENTENCE_ROW_H_MM = 31;
+const SENTENCE_ROWS = 3;
 
 function esc(t) {
   return String(t)
@@ -412,43 +373,8 @@ function svgPlaceholderDataUrl(line1, line2) {
   return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
 }
 
-
-const LINE_MAX_CHARS = 34;
-
-function splitSentenceLines(sentence, maxChars) {
-  maxChars = maxChars || LINE_MAX_CHARS;
-  const words = String(sentence).trim().split(/\s+/);
-  if (!words.length || (words.length === 1 && !words[0])) return [''];
-  const lines = [];
-  let cur = words[0];
-  for (let i = 1; i < words.length; i++) {
-    const candidate = cur + ' ' + words[i];
-    if (candidate.length <= maxChars) cur = candidate;
-    else {
-      lines.push(cur);
-      cur = words[i];
-    }
-  }
-  lines.push(cur);
-  return lines;
-}
-
-function getSentenceLines(item) {
-  if (item.lines && item.lines.length) return item.lines;
-  const max = item.lineMax != null ? item.lineMax : LINE_MAX_CHARS;
-  return splitSentenceLines(item.sentence, max);
-}
-
-function isMultilineItem(item) {
-  if (item.multiline === false) return false;
-  const lines = getSentenceLines(item);
-  return lines.length > 1 || !!item.longLine || String(item.sentence).length > LINE_MAX_CHARS;
-}
-
-function estimateBlockHeightMm(item) {
-  if (!isMultilineItem(item)) return 62;
-  const n = getSentenceLines(item).length;
-  return Math.max(62, n * 2 * 13.5 + 6);
+function estimateBlockHeightMm() {
+  return SENTENCE_ROWS * SENTENCE_ROW_H_MM + 4;
 }
 
 function chunkByHeight(items, budgetMm) {
@@ -470,22 +396,11 @@ function chunkByHeight(items, budgetMm) {
   return pages.length ? pages : [[]];
 }
 
-function buildWriteRow(sentence, rowClass, mode) {
-  /* mode: 'r1' 范字+描红 | 'r2' 浅描+空白 */
-  if (mode === 'r1') {
-    return `
-    <div class="write-row ${rowClass}">
-      <div class="grid-bg">
-        <div class="gl gl-sky"></div><div class="gl gl-cloud"></div>
-        <div class="gl gl-grass"></div><div class="gl gl-dirt"></div>
-      </div>
-      <div class="cells-sentence">
-        <div class="cell-full model">${esc(sentence)}</div>
-        <div class="vsep"></div>
-        <div class="cell-full trace">${esc(sentence)}</div>
-      </div>
-    </div>`;
-  }
+function buildWriteRowFull(sentence, rowClass, kind) {
+  let cellCls = 'cell-full';
+  if (kind === 'trace') cellCls += ' trace';
+  else if (kind === 'trace-light') cellCls += ' trace-light';
+  else cellCls += ' empty';
   return `
     <div class="write-row ${rowClass}">
       <div class="grid-bg">
@@ -493,9 +408,7 @@ function buildWriteRow(sentence, rowClass, mode) {
         <div class="gl gl-grass"></div><div class="gl gl-dirt"></div>
       </div>
       <div class="cells-sentence">
-        <div class="cell-full trace">${esc(sentence)}</div>
-        <div class="vsep"></div>
-        <div class="cell-full empty">${esc(sentence)}</div>
+        <div class="${cellCls}">${esc(sentence)}</div>
       </div>
     </div>`;
 }
@@ -504,23 +417,8 @@ function buildSentenceBlock(item, accentColor) {
   const s = item.sentence;
   const w = item.word;
   const imgKey = item.imgKey || w;
-  const lines = getSentenceLines(item);
-  const multiline = isMultilineItem(item);
   const block = document.createElement('div');
-  block.className = 'sentence-block' + (multiline ? ' sentence-block--multiline' : '');
-  if (item.fontScale != null) {
-    block.style.setProperty('--item-font-scale', String(item.fontScale));
-  }
-  if (multiline) {
-    block.style.setProperty('--write-rows', String(lines.length * 2));
-  }
-  let writeHtml = '';
-  if (multiline) {
-    lines.forEach((line, i) => { writeHtml += buildWriteRow(line, 'row-m' + i, 'r1'); });
-    lines.forEach((line, i) => { writeHtml += buildWriteRow(line, 'row-p' + i, 'r2'); });
-  } else {
-    writeHtml = buildWriteRow(s, 'row1', 'r1') + buildWriteRow(s, 'row2', 'r2');
-  }
+  block.className = 'sentence-block sentence-block--three';
   block.innerHTML = `
     <div class="img-col">
       <div class="img-frame">
@@ -529,7 +427,9 @@ function buildSentenceBlock(item, accentColor) {
       <div class="word-lbl" style="color:${accentColor}">${esc(w)}</div>
       <div class="sentence-hint">${esc(s)}</div>
     </div>
-    ${writeHtml}
+    ${buildWriteRowFull(s, 'row-trace', 'trace')}
+    ${buildWriteRowFull(s, 'row-trace-light', 'trace-light')}
+    ${buildWriteRowFull(s, 'row-empty', 'empty')}
   `;
   const img = block.querySelector('.hw-word-img');
   img.src = IMG_BASE + imgKey + '.png';
@@ -558,10 +458,7 @@ function buildPage(vData, items, pageNum, totalPages) {
   page.appendChild(hdr);
 
   const body = document.createElement('div');
-  const anyMulti = items.some(isMultilineItem);
-  body.className = anyMulti
-    ? 'page-body page-body--flow'
-    : (items.length < 4 ? 'page-body page-body--compact' : 'page-body');
+  body.className = 'page-body page-body--flow';
   items.forEach(it => body.appendChild(buildSentenceBlock(it, vData.color)));
   page.appendChild(body);
 
@@ -576,18 +473,11 @@ function buildPage(vData, items, pageNum, totalPages) {
   return viewport;
 }
 
-function chunkArray(arr, size) {
-  const result = [];
-  for (let i = 0; i < arr.length; i += size) result.push(arr.slice(i, i + size));
-  return result;
-}
-
 function buildAll() {
   const app = document.getElementById('app');
   const section = document.createElement('div');
   section.className = 'hw-section active';
   section.id = 'section-dive-dolphin-hw04';
-  /* 与 01 单词抄写相同：每页 4 条，均分竖向空间 */
   const pages = chunkByHeight(LESSON.items);
   pages.forEach((pageItems, pi) => {
     section.appendChild(buildPage(LESSON, pageItems, pi + 1, pages.length));
