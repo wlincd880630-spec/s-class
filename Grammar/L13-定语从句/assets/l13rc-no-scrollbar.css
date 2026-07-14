@@ -1,5 +1,6 @@
 /**
- * 定语从句 · 禁止整页滚动；区内溢出时由 l13rc-scrollable.css 显示滚动条
+ * 定语从句 · 课件/练习禁止整页滚动；区内溢出时由 l13rc-scrollable.css 显示滚动条
+ * 目录页（g-index-scaled）例外：允许整页滚动
  * 视口适配见 l13rc-fit-viewport.js（先适度缩放，仍放不下则滚动）
  */
 html.l13rc-no-scroll-root {
@@ -31,16 +32,27 @@ html.l13rc-no-scroll-root body.l13rc-no-scroll {
   }
 }
 
-/* 目录页 */
+/* 目录页：允许整页滚动（内容多 / 浏览器放大时需看到下方入口） */
+html.l13rc-no-scroll-root:has(body.g-index-scaled),
+html.l13rc-no-scroll-root.g-index-scaled {
+  height: auto !important;
+  max-height: none !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+}
+
+html.l13rc-no-scroll-root body.l13rc-no-scroll.g-index-scaled,
 body.l13rc-no-scroll.g-index-scaled {
-  overflow: hidden !important;
-  height: 100dvh;
+  overflow-x: clip !important;
+  overflow-y: auto !important;
+  height: auto !important;
+  max-height: none !important;
+  overscroll-behavior: auto;
 }
 
 body.l13rc-no-scroll.g-index-scaled .g-index {
-  max-height: calc(100dvh - 2rem);
-  overflow-y: auto;
-  overflow-x: hidden;
+  max-height: none;
+  overflow: visible;
 }
 
 /* 区内滚动细节见 assets/l13rc-scrollable.css */
