@@ -4,7 +4,14 @@
 (function () {
   'use strict';
 
-  document.documentElement.classList.add('l13rc-no-scroll-root');
+  var isIndexPage =
+    document.body.classList.contains('g-index-scaled') ||
+    document.documentElement.classList.contains('g-index-scaled');
+
+  /* 目录页需要整页滚动；课件/练习页才锁定视口 */
+  if (!isIndexPage) {
+    document.documentElement.classList.add('l13rc-no-scroll-root');
+  }
 
   var PAD = 6;
   var rafId = 0;

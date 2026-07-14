@@ -41,26 +41,31 @@ body.l13rc-no-scroll :is(button, a, .image-card, .choice-btn) {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* 目录：取消旧版 161% 整页缩放，改为真正的响应式网格。 */
+/* 目录：取消旧版 161% 整页缩放；允许整页滚动以适配放大与长列表。 */
 html.l13rc-no-scroll-root.g-index-scaled,
 html.g-index-scaled:has(body.l13rc-no-scroll) {
   width: 100% !important;
   max-width: none !important;
   margin: 0 !important;
   zoom: 1 !important;
-  overflow-x: hidden;
+  height: auto !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
 }
 
 body.g-index-scaled.l13rc-no-scroll {
   min-height: 100dvh;
+  height: auto !important;
+  max-height: none !important;
   padding: clamp(18px, 2.4vw, 42px) !important;
-  overflow-y: auto;
+  overflow-x: clip !important;
+  overflow-y: auto !important;
 }
 
 body.g-index-scaled.l13rc-no-scroll .g-index {
   width: min(1440px, 100%) !important;
   max-width: 1440px !important;
-  max-height: none;
+  max-height: none !important;
   margin: 0 auto;
   padding: clamp(24px, 2.7vw, 44px) !important;
   border: 1px solid rgba(255, 255, 255, 0.72);
