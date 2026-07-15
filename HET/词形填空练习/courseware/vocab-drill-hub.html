@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>词形变形练习中心 · HET 选词填空</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0c0b09;
+      --gold: #c9a24d;
+      --gold-dim: #8a7035;
+      --cream: #ebe4d6;
+      --muted: #a89f8f;
+      --card: rgba(28, 24, 20, 0.94);
+      --line: rgba(201, 162, 77, 0.35);
+      --accent: #4a7c7c;
+      --ok: #66c38a;
+      --bad: #e28585;
+      --paper: #f7f3ea;
+      --ink: #1c1914;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      font-family: "Source Sans 3", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background:
+        radial-gradient(1100px 600px at 12% -8%, rgba(201,162,77,.14), transparent 55%),
+        radial-gradient(900px 500px at 100% 20%, rgba(74,124,124,.12), transparent 50%),
+        var(--bg);
+      color: var(--cream);
+    }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 28px 18px 64px; }
+    header.hero { text-align: center; margin-bottom: 28px; }
+    header.hero .brand {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      color: var(--gold);
+      letter-spacing: .04em;
+      margin: 0 0 8px;
+    }
+    header.hero p { color: var(--muted); margin: 0 auto; max-width: 42rem; line-height: 1.55; }
+    .nav-top { text-align: center; margin-bottom: 16px; }
+    .nav-top a { color: #8ebdb8; text-decoration: none; font-size: .92rem; }
+    .nav-top a:hover { text-decoration: underline; }
+    .stats {
+      display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+      margin: 18px 0 0;
+    }
+    .stat {
+      border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px;
+      font-size: .85rem; color: var(--muted); background: rgba(0,0,0,.2);
+    }
+    .stat strong { color: var(--gold); font-weight: 700; }
+
+    .panel {
+      background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+      padding: 18px 18px 16px; margin-bottom: 16px;
+    }
+    .panel h2 {
+      margin: 0 0 12px; font-size: 1.05rem; color: var(--gold);
+      font-weight: 700; letter-spacing: .04em;
+    }
+    .toolbar {
+      display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 12px;
+    }
+    input[type="search"], select, input[type="number"] {
+      font: inherit; background: rgba(0,0,0,.28); color: var(--cream);
+      border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px;
+    }
+    input[type="search"] { flex: 1 1 220px; min-width: 180px; }
+    button, .btn {
+      font: inherit; font-weight: 600; border-radius: 8px; cursor: pointer;
+      border: 1px solid var(--gold-dim); padding: 8px 14px;
+      background: linear-gradient(180deg, #2a241c, #1a1612); color: var(--cream);
+    }
+    button.primary, .btn.primary {
+      background: linear-gradient(145deg, #ffb74d, #c9a24d); color: #1a1208; border: none;
+    }
+    button.ghost { background: transparent; color: var(--gold); }
+    button:hover { border-color: var(--gold); }
+    button:disabled { opacity: .4; cursor: not-allowed; }
+    .seg {
+      display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden;
+    }
+    .seg button {
+      border: none; border-radius: 0; background: transparent; padding: 8px 12px;
+    }
+    .seg button.is-on { background: rgba(201,162,77,.2); color: var(--gold); }
+
+    .word-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 8px; max-height: 320px; overflow: auto; padding-right: 4px;
+    }
+    .word-grid::-webkit-scrollbar { width: 6px; }
+    .word-grid::-webkit-scrollbar-thumb { background: rgba(201,162,77,.35); border-radius: 99px; }
+    label.word-chip {
+      display: flex; flex-direction: column; gap: 2px;
+      border: 1px solid transparent; border-radius: 8px;
+      padding: 8px 10px; background: rgba(0,0,0,.22); cursor: pointer;
+      user-select: none;
+    }
+    label.word-chip:hover { border-color: rgba(201,162,77,.35); }
+    label.word-chip.is-on {
+      border-color: rgba(201,162,77,.55); background: rgba(201,162,77,.12);
+    }
+    label.word-chip .hw { font-weight: 700; color: #f3ead8; font-size: .95rem; }
+    label.word-chip .meta { font-size: .72rem; color: var(--muted); }
+    label.word-chip input { display: none; }
+
+    .actions-row {
+      display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 14px;
+    }
+    .hint { font-size: .85rem; color: var(--muted); }
+
+    .quiz-head {
+      display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px;
+      align-items: center; margin-bottom: 12px;
+    }
+    .q-card {
+      border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px;
+      margin-bottom: 12px; background: rgba(0,0,0,.18);
+    }
+    .q-card .q-num { color: var(--gold); font-size: .78rem; letter-spacing: .06em; margin-bottom: 6px; }
+    .q-card .prompt {
+      font-size: 1.05rem; line-height: 1.55; color: #f3ead8; margin: 0 0 8px;
+    }
+    .q-card .head-hint {
+      display: inline-block; color: var(--accent); font-weight: 700;
+      font-family: ui-monospace, Consolas, monospace;
+    }
+    .q-card .zh { color: var(--muted); font-size: .9rem; margin: 0 0 10px; }
+    .q-card input.ans {
+      width: min(100%, 280px); border: none; border-bottom: 2px solid var(--gold);
+      background: transparent; color: #fff; font: inherit; font-family: ui-monospace, Consolas, monospace;
+      text-align: center; padding: 4px 6px; outline: none;
+    }
+    .q-card .feedback { margin-top: 8px; font-size: .9rem; display: none; }
+    .q-card.is-ok .feedback { display: block; color: var(--ok); }
+    .q-card.is-bad .feedback { display: block; color: var(--bad); }
+    .q-card .explain {
+      display: none; margin-top: 8px; padding: 10px; border-left: 3px solid var(--accent);
+      background: rgba(74,124,124,.1); color: #d7cfc2; font-size: .88rem; line-height: 1.45;
+    }
+    .q-card.show-explain .explain { display: block; }
+    .scoreboard {
+      position: sticky; bottom: 12px; margin-top: 16px;
+      background: rgba(20,17,14,.95); border: 1px solid var(--line);
+      border-radius: 10px; padding: 12px 16px;
+      display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between;
+    }
+
+    /* ===== Print / PDF sheets ===== */
+    #printRoot { display: none; }
+    @media print {
+      body * { visibility: hidden !important; }
+      #printRoot, #printRoot * { visibility: visible !important; }
+      #printRoot {
+        display: block !important; position: absolute; left: 0; top: 0; width: 100%;
+        background: #fff; color: #1c1914; padding: 0;
+      }
+      @page { size: A4; margin: 14mm 14mm 16mm; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="nav-top">
+      <a href="index.html">← 返回课件导航</a>
+      ·
+      <a href="../../index.html">站点首页</a>
+    </p>
+    <header class="hero">
+      <h1 class="brand">Word Forms Drill</h1>
+      <p>汇总全部选词填空课件中的词形练习。勾选词汇后生成练习：句子后括号标出词库原形；可在线作答，也可导出精美练习卷 / 答案卷 PDF。</p>
+      <div class="stats" id="statsBar"></div>
+    </header>
+
+    <section class="panel">
+      <h2>1 · 选择词汇</h2>
+      <div class="toolbar">
+        <input type="search" id="searchBox" placeholder="搜索单词 / 变形…" autocomplete="off" />
+        <select id="sourceFilter" aria-label="来源筛选">
+          <option value="">全部来源</option>
+        </select>
+        <button type="button" class="ghost" id="btnSelectVisible">全选当前</button>
+        <button type="button" class="ghost" id="btnClear">清空</button>
+      </div>
+      <div class="word-grid" id="wordGrid"></div>
+      <p class="hint" id="selHint">已选 0 个词</p>
+    </section>
+
+    <section class="panel">
+      <h2>2 · 出题设置</h2>
+      <div class="toolbar">
+        <span class="hint">排列</span>
+        <div class="seg" role="group" aria-label="排列方式">
+          <button type="button" class="is-on" data-order="random" id="orderRandom">随机</button>
+          <button type="button" data-order="sequential" id="orderSeq">顺序</button>
+        </div>
+        <label class="hint" style="display:flex;align-items:center;gap:8px;">
+          题量上限
+          <input type="number" id="maxQ" min="1" max="500" value="40" style="width:5.5rem;" />
+        </label>
+        <label class="hint" style="display:flex;align-items:center;gap:8px;">
+          <input type="checkbox" id="includeDer" checked />
+          含派生配套句
+        </label>
+        <label class="hint" style="display:flex;align-items:center;gap:8px;">
+          <input type="checkbox" id="includeExam" checked />
+          含考点测试句
+        </label>
+      </div>
+      <div class="actions-row">
+        <button type="button" class="primary" id="btnGenerate">生成练习</button>
+        <button type="button" id="btnPdfPractice" disabled>下载练习 PDF</button>
+        <button type="button" id="btnPdfAnswers" disabled>下载答案 PDF</button>
+        <span class="hint" id="genHint">先勾选词汇再生成</span>
+      </div>
+    </section>
+
+    <section class="panel" id="quizPanel" hidden>
+      <div class="quiz-head">
+        <h2 style="margin:0;">3 · 在线作答</h2>
+        <div class="toolbar" style="margin:0;">
+          <button type="button" id="btnCheck">核对答案</button>
+          <button type="button" class="ghost" id="btnReveal">显示解析</button>
+          <button type="button" class="ghost" id="btnReset">清空作答</button>
+        </div>
+      </div>
+      <div id="quizList"></div>
+      <div class="scoreboard" id="scoreBoard" hidden>
+        <div id="scoreText">—</div>
+        <div class="actions-row" style="margin:0;">
+          <button type="button" class="primary" id="btnPdfPractice2">练习 PDF</button>
+          <button type="button" id="btnPdfAnswers2">答案 PDF</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div id="printRoot" aria-hidden="true"></div>
+
+  <script src="vocab-drill-bank.js"></script>
+  <script>
+    (function () {
+      "use strict";
+      const bank = window.VOCAB_DRILL_BANK;
+      if (!bank || !bank.words) {
+        document.body.innerHTML = "<p style='padding:2rem;color:#fff;'>题库未加载。请先运行 node scripts/build-vocab-drill-bank.mjs</p>";
+        return;
+      }
+
+      const state = {
+        order: "random",
+        selected: new Set(),
+        quiz: [],
+      };
+
+      const $ = (id) => document.getElementById(id);
+      const wordGrid = $("wordGrid");
+      const sourceFilter = $("sourceFilter");
+      const searchBox = $("searchBox");
+
+      // stats
+      $("statsBar").innerHTML = `
+        <span class="stat">课件 <strong>${bank.stats.sources}</strong></span>
+        <span class="stat">词条 <strong>${bank.stats.words}</strong></span>
+        <span class="stat">练习句 <strong>${bank.stats.questions}</strong></span>
+        <span class="stat">生成于 <strong>${(bank.generatedAt || "").slice(0, 10)}</strong></span>
+      `;
+
+      // sources
+      const sources = [...new Set(bank.words.flatMap((w) => w.sources))].sort((a, b) =>
+        a.localeCompare(b, "zh")
+      );
+      sources.forEach((s) => {
+        const opt = document.createElement("option");
+        opt.value = s;
+        opt.textContent = s;
+        sourceFilter.appendChild(opt);
+      });
+
+      function escapeHtml(s) {
+        return String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function updateSelHint() {
+        const n = state.selected.size;
+        const qn = bank.questions.filter((q) => state.selected.has(q.headword.toLowerCase())).length;
+        $("selHint").textContent = n
+          ? `已选 ${n} 个词 · 相关练习句约 ${qn} 道`
+          : "已选 0 个词";
+      }
+
+      function renderWords() {
+        const q = (searchBox.value || "").trim().toLowerCase();
+        const src = sourceFilter.value;
+        const list = bank.words.filter((w) => {
+          if (src && !w.sources.includes(src)) return false;
+          if (!q) return true;
+          const hay = [w.headword, ...(w.forms || [])].join(" ").toLowerCase();
+          return hay.includes(q);
+        });
+        wordGrid.innerHTML = list
+          .map((w) => {
+            const key = w.headword.toLowerCase();
+            const on = state.selected.has(key);
+            return `<label class="word-chip${on ? " is-on" : ""}" data-hw="${escapeHtml(key)}">
+              <input type="checkbox" ${on ? "checked" : ""} />
+              <span class="hw">${escapeHtml(w.headword)}</span>
+              <span class="meta">${w.count} 题 · ${w.forms.length} 形</span>
+            </label>`;
+          })
+          .join("");
+        wordGrid.querySelectorAll(".word-chip").forEach((el) => {
+          el.addEventListener("click", (e) => {
+            e.preventDefault();
+            const hw = el.getAttribute("data-hw");
+            if (state.selected.has(hw)) state.selected.delete(hw);
+            else state.selected.add(hw);
+            el.classList.toggle("is-on", state.selected.has(hw));
+            el.querySelector("input").checked = state.selected.has(hw);
+            updateSelHint();
+          });
+        });
+      }
+
+      function shuffle(arr) {
+        const a = arr.slice();
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+      }
+
+      function buildQuiz() {
+        const includeExam = $("includeExam").checked;
+        const includeDer = $("includeDer").checked;
+        let max = Number($("maxQ").value) || 40;
+        max = Math.max(1, Math.min(500, max));
+
+        let pool = bank.questions.filter((q) => {
+          if (!state.selected.has(q.headword.toLowerCase())) return false;
+          if (q.kind === "exam" && !includeExam) return false;
+          if (q.kind === "derivative" && !includeDer) return false;
+          return true;
+        });
+
+        if (state.order === "random") pool = shuffle(pool);
+        else {
+          pool.sort((a, b) => {
+            const hw = a.headword.localeCompare(b.headword);
+            if (hw) return hw;
+            return a.id.localeCompare(b.id);
+          });
+        }
+        state.quiz = pool.slice(0, max);
+      }
+
+      function renderQuiz() {
+        const list = $("quizList");
+        if (!state.quiz.length) {
+          $("quizPanel").hidden = true;
+          $("btnPdfPractice").disabled = true;
+          $("btnPdfAnswers").disabled = true;
+          $("genHint").textContent = "当前筛选下没有题目，请调整选项";
+          return;
+        }
+        $("quizPanel").hidden = false;
+        $("btnPdfPractice").disabled = false;
+        $("btnPdfAnswers").disabled = false;
+        $("scoreBoard").hidden = true;
+        $("genHint").textContent = `已生成 ${state.quiz.length} 题（${state.order === "random" ? "随机" : "顺序"}）`;
+
+        list.innerHTML = state.quiz
+          .map((q, i) => {
+            return `<article class="q-card" data-idx="${i}">
+              <div class="q-num">Q${i + 1} · ${escapeHtml(q.source)} · ${escapeHtml(q.formLabel || "")}</div>
+              <p class="prompt">${escapeHtml(q.prompt)} <span class="head-hint">(${escapeHtml(q.headword)})</span></p>
+              ${q.zh ? `<p class="zh">${escapeHtml(q.zh)}</p>` : ""}
+              <input class="ans" type="text" autocomplete="off" spellcheck="false" placeholder="填入正确词形" aria-label="答案 ${i + 1}" />
+              <div class="feedback"></div>
+              <div class="explain">
+                <strong>答案：</strong><span class="mono">${escapeHtml(q.answer)}</span>
+                ${q.explain ? `<br/><strong>解析：</strong>${escapeHtml(q.explain)}` : ""}
+                <br/><span style="opacity:.8;">完整句：${escapeHtml(q.promptFull)}</span>
+              </div>
+            </article>`;
+          })
+          .join("");
+      }
+
+      function normalizeAns(s) {
+        return String(s || "")
+          .trim()
+          .toLowerCase()
+          .replace(/\s+/g, " ");
+      }
+
+      function checkAnswers(showExplain) {
+        let ok = 0;
+        const cards = [...$("quizList").querySelectorAll(".q-card")];
+        cards.forEach((card) => {
+          const idx = Number(card.getAttribute("data-idx"));
+          const q = state.quiz[idx];
+          const inp = card.querySelector(".ans");
+          const fb = card.querySelector(".feedback");
+          const user = normalizeAns(inp.value);
+          const ans = normalizeAns(q.answer);
+          card.classList.remove("is-ok", "is-bad", "show-explain");
+          if (!user) {
+            fb.textContent = "未作答";
+            card.classList.add("is-bad");
+          } else if (user === ans) {
+            ok++;
+            fb.textContent = "正确";
+            card.classList.add("is-ok");
+            inp.style.borderBottomColor = "var(--ok)";
+          } else {
+            fb.textContent = `不正确（参考：${q.answer}）`;
+            card.classList.add("is-bad");
+            inp.style.borderBottomColor = "var(--bad)";
+          }
+          if (showExplain) card.classList.add("show-explain");
+        });
+        $("scoreBoard").hidden = false;
+        $("scoreText").innerHTML = `得分 <strong style="color:var(--ok)">${ok}</strong> / ${cards.length}`;
+      }
+
+      function printSheet(mode) {
+        // mode: 'practice' | 'answers'
+        const root = $("printRoot");
+        const now = new Date();
+        const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+        const words = [...state.selected]
+          .map((k) => bank.words.find((w) => w.headword.toLowerCase() === k)?.headword || k)
+          .sort((a, b) => a.localeCompare(b));
+
+        const items = state.quiz
+          .map((q, i) => {
+            if (mode === "practice") {
+              return `<div class="pi">
+                <div class="pi-n">${i + 1}.</div>
+                <div class="pi-b">
+                  <div class="pi-p">${escapeHtml(q.prompt)} <span class="pi-hw">(${escapeHtml(q.headword)})</span></div>
+                  <div class="pi-line"></div>
+                </div>
+              </div>`;
+            }
+            return `<div class="pi">
+              <div class="pi-n">${i + 1}.</div>
+              <div class="pi-b">
+                <div class="pi-p">${escapeHtml(q.prompt)} <span class="pi-hw">(${escapeHtml(q.headword)})</span></div>
+                <div class="pi-a"><strong>${escapeHtml(q.answer)}</strong>
+                  ${q.zh ? `<span class="pi-zh"> · ${escapeHtml(q.zh)}</span>` : ""}
+                </div>
+                ${q.explain ? `<div class="pi-e">${escapeHtml(q.explain)}</div>` : ""}
+              </div>
+            </div>`;
+          })
+          .join("");
+
+        root.innerHTML = `
+          <style>
+            #printRoot {
+              font-family: "Source Sans 3", "PingFang SC", "Microsoft YaHei", sans-serif;
+              color: #1c1914; background: #fff;
+            }
+            .sheet { padding: 8px 4px 20px; }
+            .sheet-cover {
+              text-align: center; border-bottom: 2px solid #c9a24d; padding-bottom: 14px; margin-bottom: 16px;
+            }
+            .sheet-cover .eyebrow {
+              letter-spacing: .18em; text-transform: uppercase; font-size: 11px; color: #8a7035; margin-bottom: 6px;
+            }
+            .sheet-cover h1 {
+              font-family: "Cormorant Garamond", Georgia, serif; font-size: 28px; margin: 0 0 6px; color: #1c1914;
+            }
+            .sheet-cover .sub { color: #5c574e; font-size: 13px; margin: 0; }
+            .meta-row {
+              display: flex; flex-wrap: wrap; gap: 8px 18px; justify-content: center;
+              margin-top: 10px; font-size: 12px; color: #5c574e;
+            }
+            .bank-box {
+              border: 1px solid rgba(138,109,47,.35); border-radius: 8px; padding: 10px 12px;
+              margin: 0 0 16px; background: #faf7f0;
+            }
+            .bank-box h3 { margin: 0 0 6px; font-size: 12px; color: #8a7035; letter-spacing: .08em; }
+            .bank-box .words {
+              font-family: ui-monospace, Consolas, monospace; font-size: 12px; line-height: 1.55; color: #2d5a5a;
+            }
+            .pi { display: flex; gap: 8px; margin: 0 0 12px; page-break-inside: avoid; }
+            .pi-n { flex: 0 0 28px; font-weight: 700; color: #8a7035; padding-top: 2px; }
+            .pi-b { flex: 1; min-width: 0; }
+            .pi-p { font-size: 13.5px; line-height: 1.55; margin-bottom: 6px; }
+            .pi-hw { color: #2d5a5a; font-family: ui-monospace, Consolas, monospace; font-weight: 700; }
+            .pi-line {
+              border-bottom: 1.5px solid #c9a24d; height: 22px; margin-top: 2px; max-width: 280px;
+            }
+            .pi-a { font-size: 13px; margin-top: 4px; color: #1c1914; }
+            .pi-zh { color: #5c574e; font-weight: 400; }
+            .pi-e { font-size: 11.5px; color: #5c574e; margin-top: 3px; line-height: 1.4; }
+            .sheet-foot {
+              margin-top: 22px; padding-top: 10px; border-top: 1px solid rgba(138,109,47,.3);
+              font-size: 11px; color: #8a8a8a; text-align: center;
+            }
+          </style>
+          <div class="sheet">
+            <div class="sheet-cover">
+              <div class="eyebrow">HET · Word Forms Lab</div>
+              <h1>${mode === "practice" ? "词形变形练习卷" : "词形变形 · 答案与解析"}</h1>
+              <p class="sub">${mode === "practice" ? "根据括号中的词库原形，写出正确词形填入空格。" : "核对答案 · 关注词族变形与考点依据。"}</p>
+              <div class="meta-row">
+                <span>日期 ${dateStr}</span>
+                <span>题量 ${state.quiz.length}</span>
+                <span>排列 ${state.order === "random" ? "随机" : "顺序"}</span>
+                <span>选词 ${words.length}</span>
+              </div>
+            </div>
+            <div class="bank-box">
+              <h3>WORD BANK（已选原形）</h3>
+              <div class="words">${words.map(escapeHtml).join(" · ")}</div>
+            </div>
+            ${items}
+            <div class="sheet-foot">S-Class · 词形填空练习中心 · 请在打印对话框选择「另存为 PDF」</div>
+          </div>
+        `;
+
+        document.title =
+          mode === "practice"
+            ? `词形练习卷_${dateStr}`
+            : `词形答案卷_${dateStr}`;
+        setTimeout(() => {
+          window.print();
+          document.title = "词形变形练习中心 · HET 选词填空";
+        }, 80);
+      }
+
+      // events
+      searchBox.addEventListener("input", renderWords);
+      sourceFilter.addEventListener("change", renderWords);
+      $("btnSelectVisible").addEventListener("click", () => {
+        wordGrid.querySelectorAll(".word-chip").forEach((el) => {
+          state.selected.add(el.getAttribute("data-hw"));
+        });
+        renderWords();
+        updateSelHint();
+      });
+      $("btnClear").addEventListener("click", () => {
+        state.selected.clear();
+        renderWords();
+        updateSelHint();
+      });
+      document.querySelectorAll(".seg button").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".seg button").forEach((b) => b.classList.remove("is-on"));
+          btn.classList.add("is-on");
+          state.order = btn.getAttribute("data-order");
+        });
+      });
+      $("btnGenerate").addEventListener("click", () => {
+        if (!state.selected.size) {
+          $("genHint").textContent = "请先勾选至少一个词汇";
+          return;
+        }
+        buildQuiz();
+        renderQuiz();
+      });
+      $("btnCheck").addEventListener("click", () => checkAnswers(false));
+      $("btnReveal").addEventListener("click", () => checkAnswers(true));
+      $("btnReset").addEventListener("click", () => {
+        $("quizList").querySelectorAll(".q-card").forEach((card) => {
+          card.classList.remove("is-ok", "is-bad", "show-explain");
+          const inp = card.querySelector(".ans");
+          inp.value = "";
+          inp.style.borderBottomColor = "";
+        });
+        $("scoreBoard").hidden = true;
+      });
+      $("btnPdfPractice").addEventListener("click", () => printSheet("practice"));
+      $("btnPdfAnswers").addEventListener("click", () => printSheet("answers"));
+      $("btnPdfPractice2").addEventListener("click", () => printSheet("practice"));
+      $("btnPdfAnswers2").addEventListener("click", () => printSheet("answers"));
+
+      renderWords();
+      updateSelHint();
+    })();
+  </script>
+</body>
+</html>
