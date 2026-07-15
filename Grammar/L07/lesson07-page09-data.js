@@ -986,5 +986,22 @@ window.PAGE09_BANK = [
     "analysis": "less stressful than the exam；less + 形容词原级构成降级比较。",
     "knowledge": "less + adj.",
     "cluster": "阅读·细节"
+  },
+  {
+    "id": 61,
+    "theme": "购物与消费",
+    "difficulty": 2,
+    "type": "error",
+    "stem": "找出错误：The old stamp is more worth than the silver coin.",
+    "options": [
+      "A. The old stamp",
+      "B. is",
+      "C. more worth than",
+      "D. the silver coin"
+    ],
+    "answer": "C",
+    "analysis": "worth 是表语形容词，比较价值时 more 修饰「价值量」，应放在 worth 后面：is worth more than，不说 more worth than。",
+    "knowledge": "worth more than",
+    "cluster": "形式错误"
   }
 ];
