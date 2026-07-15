@@ -358,12 +358,14 @@
 (function () {
   "use strict";
 
-  var IMG_LOCAL = "assets/page05-worth-more/";
   var IMG_COS =
     "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/page05-worth-more/";
+  var IMG_LOCAL = "assets/page05-worth-more/";
 
   function imgUrl(name) {
-    return IMG_LOCAL + name;
+    var host = typeof location !== "undefined" ? location.hostname : "";
+    var localDev = host === "localhost" || host === "127.0.0.1" || host === "";
+    return (localDev ? IMG_LOCAL : IMG_COS) + name;
   }
 
   var SCENES = [
@@ -690,7 +692,7 @@
     img.alt = S.alt;
     img.loading = "lazy";
     img.onerror = function () {
-      if (img.dataset.fallback !== "1") {
+      if (img.dataset.fallback !== "1" && img.src.indexOf(IMG_COS) < 0) {
         img.dataset.fallback = "1";
         img.src = IMG_COS + S.img;
       }
@@ -873,7 +875,7 @@
       "<li>Good health is worth more than anything else in the world.</li>" +
       "<li>This second-hand dictionary is worth more than that new notebook.</li>" +
       "</ol>" +
-      "<p>回到 <a href=\"lesson07-page05-more-comparative.html\" style=\"color:var(--gold)\">more + 形容词</a> 继续本课。</p>" +
+      "<p>回到 <a href=\"lesson07-page05-more-comparative.html\" style=\"color:var(--gold)\">more + 形容词</a> 继续本课；可打开 <a href=\"lesson07-handout-classroom-full.html#sync-p05b\" style=\"color:var(--gold)\">课堂讲义 5+</a> 核对三句。</p>" +
       "</div>";
     var b = document.createElement("button");
     b.type = "button";
