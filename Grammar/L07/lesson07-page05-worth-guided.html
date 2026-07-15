@@ -346,7 +346,8 @@
   <script>
     window.__L07_LOCAL_TTS_BASE__ = "assets/tts-mp3/l07-google-mp3/";
   </script>
-  <script src="assets/tts-mp3/l07-google-mp3/manifest.embed.js"></script>
+  <script src="assets/tts-mp3/l07-google-mp3/manifest.embed.js?v=worth20260716"></script>
+  <script src="assets/tts-mp3/l07-google-mp3/manifest-worth-patch.embed.js"></script>
   <script src="../shared/play-local-mp3.js"></script>
   <script src="../shared/lesson-tts-azure-config.js"></script>
   <script src="../shared/lesson-tts-azure-play.js"></script>
@@ -497,8 +498,19 @@
     if (!clean) return;
     var go = window.unlockAudio ? window.unlockAudio() : Promise.resolve();
     go.then(function () {
-      if (typeof window.playLessonL07LocalTts === "function") {
-        window.playLessonL07LocalTts(clean);
+      if (typeof window.playLessonL07LocalTts !== "function") {
+        showToast("未加载朗读模块 lesson-tts-l07-local.js", false);
+        return;
+      }
+      return window.playLessonL07LocalTts(clean);
+    }).then(function (ok) {
+      if (ok === false) {
+        var r = String(window.__L07_TTS_FAIL_REASON__ || "");
+        if (r === "map_miss") {
+          showToast("朗读句未在清单中匹配，请刷新页面或更新 manifest", false);
+        } else if (r === "audio" || r === "play_rejected") {
+          showToast("无法播放 MP3，请确认 COS 上已有 worth 语音文件", false);
+        }
       }
     });
   }
