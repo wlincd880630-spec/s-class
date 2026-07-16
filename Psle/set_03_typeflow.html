@@ -622,6 +622,14 @@
       padding: 0 1.2em;
       margin: 0 0.15em;
     }
+    /* 词汇变形填空等：加长题干横线，便于手写 */
+    .exam-item-written .exam-blank,
+    .exam-blank.exam-blank-wide {
+      display: inline-block;
+      min-width: 7.5em;
+      padding: 0 0.4em;
+      vertical-align: baseline;
+    }
     /* 阅读/单选等：默认 2×2；按选项数单列等分对齐 */
     .exam-opts-row {
       display: grid;
@@ -781,6 +789,30 @@
         #ddd 1.45em,
         #ddd calc(1.45em + 1px)
       );
+    }
+    /* 句型转换、词汇填空等书写题：与客观题区分的标准卷面条目 + 作答横线区 */
+    .exam-item-written {
+      padding: 0 0 1mm 0;
+    }
+    .exam-item-written .exam-item-row {
+      line-height: 1.55;
+      font-size: 10.5pt;
+      text-align: justify;
+    }
+    .exam-written-lines {
+      min-height: 4.2em;
+      margin: 1.5mm 0 0 0;
+      border: 1px solid #222;
+      background: repeating-linear-gradient(
+        transparent,
+        transparent 1.38em,
+        #e0e0e0 1.38em,
+        #e0e0e0 calc(1.38em + 0.55px)
+      );
+    }
+    /* 连词成句：每句后多留一行书写空间 */
+    .exam-item-written.exam-item-sentence-transform .exam-written-lines {
+      min-height: 5.6em;
     }
     @media print {
       @page { size: A4; margin: 12mm 14mm; }
@@ -1515,11 +1547,10 @@
     return (rows || []).filter((r) => !isClozeDialogueCompletionSection(r));
   }
 
-  /** 左侧已有文章的完形小题：仅展示对齐的 A–D，不重复题干与选项词 */
+  /** 左侧已有文章的完形小题：仅展示对齐的 A–D，不重复题干与选项词（含题号占位 stem） */
   function isPassageClozeAbcdLayout(row, it) {
     if (!row || row.type !== "cloze") return false;
     if (isClozeDialogueCompletionSection(row)) return false;
-    if (isClozeDialoguePlaceholderStem(it && it.stem)) return false;
     const raw = it && it.options && typeof it.options === "object" ? it.options : {};
     const n = ["A", "B", "C", "D"].filter((L) => String(raw[L] || "").trim()).length;
     return n >= 2;
@@ -2050,12 +2081,29 @@
     return buildExamPaperOptionsHtmlWithLayout(letters, opts);
   }
 
+  function isPdfWrittenAnswerItem(row) {
+    const typ = row.type;
+    if (typ === "writing") return false;
+    if (typ === "sentence_transform") return true;
+    if (isFillBlankQuizType(typ)) return true;
+    if (typ === "grammar_fill") return true;
+    if (typ === "other") return true;
+    return false;
+  }
+
   function buildExamPaperItemBlock(row, it, t) {
     const num = String(it.number);
     const layout = getObjectiveChoiceLayout(row, it);
     const letters = layout.letters;
     const opts = layout.opts;
-    const itemCls = "exam-item" + (t === "reading" ? " exam-item-reading" : "");
+    const written = !letters.length && isPdfWrittenAnswerItem(row);
+    const itemCls =
+      "exam-item" +
+      (t === "reading" ? " exam-item-reading" : "") +
+      (written ? " exam-item-written" : "") +
+      (written && (t === "sentence_transform" || row.type === "sentence_transform")
+        ? " exam-item-sentence-transform"
+        : "");
     let block = "<div class='" + itemCls + "'>";
     if (letters.length) {
       block += "<div class='exam-item-row'><span class='exam-n'>" + esc(num) + ".</span>";
@@ -2067,6 +2115,8 @@
       block += buildExamPaperStemPlain(it.stem);
       if (t === "writing" || row.type === "writing") {
         block += "</div><div class='exam-answer-lines'></div>";
+      } else if (written) {
+        block += "</div><div class='exam-written-lines' aria-hidden='true'></div>";
       } else {
         block += "</div>";
       }
@@ -2110,7 +2160,6 @@
           g.rows.every((row) => {
             const it = row.it;
             return (
-              !isClozeDialoguePlaceholderStem(it.stem) &&
               isPassageClozeAbcdLayout(row, it) &&
               getObjectiveChoiceLayout(row, it).letters.length > 0
             );
@@ -2124,8 +2173,10 @@
             const layoutZ = getObjectiveChoiceLayout(row, it);
             const lettersZ = layoutZ.letters;
             const optsZ = layoutZ.opts;
-            const diaGapZ = isClozeDialoguePlaceholderStem(it.stem);
             const abcdOnlyZ = isPassageClozeAbcdLayout(row, it);
+            /* 有文章的完形：题号占位 stem 也走同行 A–D 表格，勿按补全对话换行 */
+            const diaGapZ =
+              isClozeDialoguePlaceholderStem(it.stem) && !abcdOnlyZ;
             out +=
               "<div class='exam-item exam-item-cloze" +
               (diaGapZ && lettersZ.length ? " exam-cloze-dialogue-gap" : "") +
@@ -2243,7 +2294,13 @@
         fg.rows.forEach((row) => {
           const it = row.it;
           const num = String(it.number);
-          h += "<div class='exam-item'><div class='exam-item-row'><span class='exam-n'>" + esc(num) + ".</span> ";
+          const wideBlank = row.type === "fill_blank_word_form";
+          h +=
+            "<div class='exam-item" +
+            (wideBlank ? " exam-item-written" : "") +
+            "'><div class='exam-item-row'><span class='exam-n'>" +
+            esc(num) +
+            ".</span> ";
           h += buildExamPaperStemPlain(it.stem) + "</div></div>";
         });
       });
