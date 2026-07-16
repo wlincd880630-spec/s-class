@@ -622,13 +622,15 @@
       padding: 0 1.2em;
       margin: 0 0.15em;
     }
-    /* 词汇变形填空等：加长题干横线，便于手写 */
+    /* 词汇变形填空等：加长题干横线，便于手写（约 4.8cm） */
     .exam-item-written .exam-blank,
     .exam-blank.exam-blank-wide {
       display: inline-block;
-      min-width: 7.5em;
-      padding: 0 0.4em;
+      min-width: 4.8cm;
+      width: 4.8cm;
+      padding: 0 0.35em;
       vertical-align: baseline;
+      box-sizing: border-box;
     }
     /* 阅读/单选等：默认 2×2；按选项数单列等分对齐 */
     .exam-opts-row {
@@ -728,19 +730,28 @@
     .exam-item-cloze .exam-opts-row.exam-opts-bank {
       grid-template-columns: repeat(auto-fill, minmax(10.5em, 1fr));
     }
-    /* 完形 PDF：整卷表格，题号与 A/B/C 同一行；各题 A 列、B 列、C 列分别左对齐 */
+    /* 完形 PDF：每题一行，题号与 A–D 同一行；选项不拆词换行 */
     .exam-cloze-pdf-grid {
-      display: grid;
-      grid-template-columns: minmax(2.85em, auto) repeat(3, minmax(0, 1fr));
-      column-gap: 0.75em;
-      row-gap: 0.5em;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55em;
       margin: 0.55em 0 0.85em;
-      align-items: start;
+      width: 100%;
     }
     .exam-cloze-pdf-grid.exam-cloze-pdf-grid-4opt {
-      grid-template-columns: minmax(2.85em, auto) repeat(4, minmax(0, 1fr));
+      /* 保留类名兼容；布局由 .exam-cloze-pdf-row 控制 */
+    }
+    .exam-cloze-pdf-row {
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: baseline;
+      column-gap: 0.85em;
+      width: 100%;
+      font-size: 10.5pt;
+      line-height: 1.45;
     }
     .exam-cloze-pdf-num {
+      flex: 0 0 auto;
       text-align: left;
       white-space: nowrap;
       font-weight: 600;
@@ -749,8 +760,10 @@
       font-weight: 700;
     }
     .exam-cloze-pdf-opt {
+      flex: 0 1 auto;
       text-align: left;
-      min-width: 0;
+      white-space: nowrap;
+      overflow: visible;
       line-height: 1.45;
     }
     .exam-cloze-pdf-opt b {
@@ -792,13 +805,14 @@
     }
     /* 句型转换、词汇填空等书写题：与客观题区分的标准卷面条目 + 作答横线区 */
     .exam-item-written {
-      padding: 0 0 1mm 0;
+      padding: 0 0 2.5mm 0;
     }
     .exam-item-written .exam-item-row {
       line-height: 1.55;
       font-size: 10.5pt;
-      text-align: justify;
+      text-align: left;
     }
+    /* 通用书写框（书面表达等） */
     .exam-written-lines {
       min-height: 4.2em;
       margin: 1.5mm 0 0 0;
@@ -810,9 +824,19 @@
         #e0e0e0 calc(1.38em + 0.55px)
       );
     }
-    /* 连词成句：每句后多留一行书写空间 */
-    .exam-item-written.exam-item-sentence-transform .exam-written-lines {
-      min-height: 5.6em;
+    /* 连词成句：题后两道下划线，便于手写整句（避免 PDF 渐变灰条伪影） */
+    .exam-sentence-write {
+      margin: 2mm 0 3.5mm 0;
+      width: 100%;
+    }
+    .exam-sentence-write .exam-write-line {
+      display: block;
+      width: 100%;
+      height: 1.75em;
+      border: none;
+      border-bottom: 1px solid #222;
+      margin: 0;
+      box-sizing: border-box;
     }
     @media print {
       @page { size: A4; margin: 12mm 14mm; }
@@ -2042,7 +2066,7 @@
     return "<div class='exam-opts-row " + cls + "'>" + parts.join("") + "</div>";
   }
 
-  /** 完形 PDF：多行表格，每行「题号 | A | B | C | (D)」，列对齐 */
+  /** 完形 PDF：每题一行「题号  A. …  B. …  C. …  D. …」，选项不拆行 */
   function buildExamPaperClozePdfGrid(rows) {
     if (!rows || !rows.length) return "";
     const hasD = rows.some((row) => {
@@ -2058,6 +2082,7 @@
       const layout = getObjectiveChoiceLayout(row, it);
       const letters = layout.letters;
       const opts = layout.opts;
+      h += "<div class='exam-cloze-pdf-row'>";
       h +=
         "<span class='exam-cloze-pdf-num'><span class='exam-n'>" +
         esc(num) +
@@ -2065,11 +2090,17 @@
       order.forEach((L) => {
         const tx = String((opts && opts[L]) || "").trim();
         if (letters.includes(L) && tx) {
-          h += "<span class='exam-cloze-pdf-opt'><b>" + esc(L) + ".</b> " + esc(tx).replace(/\n/g, " ") + "</span>";
+          h +=
+            "<span class='exam-cloze-pdf-opt'><b>" +
+            esc(L) +
+            ".</b> " +
+            esc(tx).replace(/\n/g, " ") +
+            "</span>";
         } else {
           h += "<span class='exam-cloze-pdf-opt exam-cloze-pdf-opt-empty'></span>";
         }
       });
+      h += "</div>";
     });
     h += "</div>";
     return h;
@@ -2115,6 +2146,11 @@
       block += buildExamPaperStemPlain(it.stem);
       if (t === "writing" || row.type === "writing") {
         block += "</div><div class='exam-answer-lines'></div>";
+      } else if (written && (t === "sentence_transform" || row.type === "sentence_transform")) {
+        block +=
+          "</div><div class='exam-sentence-write' aria-hidden='true'>" +
+          "<span class='exam-write-line'></span><span class='exam-write-line'></span>" +
+          "</div>";
       } else if (written) {
         block += "</div><div class='exam-written-lines' aria-hidden='true'></div>";
       } else {
