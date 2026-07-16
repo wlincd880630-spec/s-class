@@ -168,10 +168,12 @@ body {
    单词块：图片列 + 两行书写
 ══════════════════════════════════════════════════ */
 .word-block {
-  flex: 1;                        /* 4块均分页体高度 */
+  /* 固定高度：避免本页词数少于 4 时 flex:1 把块拉高，四线格变大而字号不变 */
+  flex: 0 0 var(--block-h);
+  height: var(--block-h);
   display: grid;
   grid-template-columns: var(--img-w) 1fr;
-  grid-template-rows: 1fr 1fr;   /* 两行 */
+  grid-template-rows: var(--row-h) var(--row-h);
   border-bottom: 1px solid #F5F5F5;
   min-height: 0;
 }
@@ -210,7 +212,9 @@ body {
 /* 书写行 */
 .write-row {
   position: relative;
-  min-height: 0;
+  height: var(--row-h);
+  min-height: var(--row-h);
+  max-height: var(--row-h);
   overflow: hidden;
 }
 .write-row:first-of-type { border-bottom: 1px dashed #EEEEEE; }
@@ -350,7 +354,8 @@ const LESSON = {
   words: ['pup', 'jump', 'cute', 'roll', 'catch', 'tug', 'run']
 };
 
-const IMG_BASE = 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Jump%20Pup/jump-pup-courseware/images/words/';
+/* 抄写配图目录（含 cute.png）；课件 words/ 下缺 cute，勿改回该路径 */
+const IMG_BASE = 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Jump%20Pup/jump-pup-homework/assets/images/jump-pup-hw/';
 
 /** PNG 不存在时用内嵌 SVG 占位（浏览器可显示），放入同名文件后自动显示真图 */
 function svgPlaceholderDataUrl(line1, line2) {
@@ -363,7 +368,7 @@ function svgPlaceholderDataUrl(line1, line2) {
     <rect width="100%" height="100%" fill="url(#g)"/>
     <text x="50%" y="38%" text-anchor="middle" font-size="34" fill="#1565C0" font-family="Segoe UI,Arial,sans-serif" font-weight="700">${esc(line1)}</text>
     <text x="50%" y="52%" text-anchor="middle" font-size="14" fill="#546E7A" font-family="Segoe UI,Arial,sans-serif">${esc(line2)}</text>
-    <text x="50%" y="68%" text-anchor="middle" font-size="12" fill="#90A4AE" font-family="Segoe UI,Arial,sans-serif">请将 PNG 放入项目后刷新本页</text>
+    <text x="50%" y="68%" text-anchor="middle" font-size="12" fill="#90A4AE" font-family="Segoe UI,Arial,sans-serif">请将 PNG 放入 jump-pup-homework/assets/images/jump-pup-hw/ 后刷新</text>
   </svg>`;
   return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
 }
