@@ -76,13 +76,17 @@
     );
   }
 
+  function normApostrophe(s) {
+    return String(s || "").replace(/[\u2018\u2019`´]/g, "'");
+  }
+
   function sentBlock(sentence, zh, cls) {
-    var inner = global.L01pWord ? global.L01pWord.wrap(sentence) : esc(sentence);
+    var s = normApostrophe(sentence);
     return (
       '<div class="l01p-sentence-wrap' +
       (cls ? " " + cls : "") +
-      '"><p class="l01p-sentence">' +
-      inner +
+      '"><p class="l01p-sentence en-line" lang="en">' +
+      esc(s) +
       "</p>" +
       (zh ? '<span class="l01p-zh">' + esc(zh) + "</span>" : "") +
       "</div>"
@@ -109,6 +113,7 @@
       });
     });
     if (global.L01pWord) global.L01pWord.bind(root || document);
+    else if (global.refreshHandoutLookup) global.refreshHandoutLookup(root || document.getElementById("l01pApp"));
   }
 
   function renderScene(page) {
@@ -804,8 +809,12 @@
     summary: renderSummary,
   };
 
+  function bindScenePage() {
+    bindCommon(document.getElementById("l01pApp"));
+  }
+
   var BIND = {
-    scene: bindCommon,
+    scene: bindScenePage,
     "sound-first": bindSoundFirst,
     socratic: bindSocratic,
     discover: bindDiscover,
@@ -816,7 +825,7 @@
     "picture-build": bindPictureBuild,
     "listen-order": bindListenOrder,
     quiz: bindQuiz,
-    summary: bindCommon,
+    summary: bindScenePage,
   };
 
   function renderPager(pageId) {
@@ -844,10 +853,28 @@
     var fn = RENDER[page.type];
     app.innerHTML = fn ? fn(page) : "<p>未知类型</p>";
     var b = BIND[page.type];
-    if (b) b(page);
-    else bindCommon(app);
+    try {
+      if (b) b(page);
+      else bindCommon(app);
+    } catch (err) {
+      console.error("[L01p] bind error:", err);
+      bindCommon(app);
+    }
     renderPager(pageId);
   }
 
   global.L01pEngine = { render: render };
+
+  if (global.L01pPractice) {
+    global.L01pPractice.register(RENDER, BIND, {
+      esc: esc,
+      header: header,
+      hero: hero,
+      sentBlock: sentBlock,
+      ttsRow: ttsRow,
+      bindCommon: bindCommon,
+      speak: speak,
+      img: img,
+    });
+  }
 })(typeof window !== "undefined" ? window : null);
