@@ -1,0 +1,1797 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>短文填空 · 新课02 · 苏秦刺股 · 词形课件</title>
+  <style>
+    :root {
+      --ng-bg0: #0c0b09;
+      --ng-gold: #c9a24d;
+      --ng-gold-dim: #8a7035;
+      --ng-cream: #ebe4d6;
+      --ng-muted: #a89f8f;
+      --ng-card: rgba(28, 24, 20, 0.92);
+      --ng-line: rgba(201, 162, 77, 0.35);
+      --ng-accent: #4a7c7c;
+      --ok: #66c38a;
+      --bad: #e28585;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: var(--ng-bg0);
+      color: var(--ng-cream);
+      font-family: "Source Sans 3", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .app {
+      min-height: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      justify-content: center;
+      padding: 12px;
+      background:
+        radial-gradient(1200px 600px at 20% -10%, rgba(201, 162, 77, 0.12), transparent 55%),
+        radial-gradient(900px 500px at 110% 30%, rgba(74, 124, 124, 0.12), transparent 50%),
+        var(--ng-bg0);
+      gap: 0;
+    }
+    .course-nav {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      flex-shrink: 0;
+      width: min(230px, 30vw);
+      max-height: min(96vh, calc(100vh - 24px));
+      align-self: center;
+      border: 1px solid var(--ng-line);
+      border-radius: 4px;
+      background: rgba(20, 17, 14, 0.94);
+      overflow: hidden;
+      transition: width .22s ease;
+    }
+    .course-nav.is-collapsed { width: 40px; }
+    .course-nav-edge {
+      flex-shrink: 0;
+      width: 40px;
+      border: none;
+      border-right: 1px solid var(--ng-line);
+      background: rgba(28, 24, 20, 0.95);
+      color: var(--ng-gold);
+      font-size: 18px;
+      cursor: pointer;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      letter-spacing: .15em;
+      font-weight: 700;
+      padding: 8px 0;
+    }
+    .course-nav-edge:hover { background: rgba(201, 162, 77, 0.12); }
+    .course-nav-panel {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .course-nav.is-collapsed .course-nav-panel { display: none; }
+    .course-nav-heading {
+      margin: 0;
+      padding: 10px 12px 6px;
+      font-size: clamp(11px, 1vw, 13px);
+      color: var(--ng-muted);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(201, 162, 77, 0.2);
+    }
+    .course-nav-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 6px 12px;
+    }
+    .course-nav-scroll::-webkit-scrollbar { width: 5px; }
+    .course-nav-scroll::-webkit-scrollbar-thumb {
+      background: rgba(201, 162, 77, .35);
+      border-radius: 99px;
+    }
+    .course-nav-h {
+      font-size: clamp(11px, .95vw, 13px);
+      color: var(--ng-accent);
+      font-weight: 700;
+      margin: 0 6px 6px;
+      padding-bottom: 4px;
+      border-bottom: 1px dashed rgba(74, 124, 124, .45);
+    }
+    .course-nav-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .course-nav-list li { margin: 0; }
+    button.nav-vocab-link {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin: 0 0 3px;
+      padding: 7px 10px;
+      font: inherit;
+      font-size: clamp(12px, 1.05vw, 15px);
+      color: #e8dfd0;
+      background: rgba(0, 0, 0, .2);
+      border: 1px solid transparent;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button.nav-vocab-link:hover {
+      border-color: rgba(201, 162, 77, .35);
+      background: rgba(201, 162, 77, .08);
+    }
+    button.nav-vocab-link.is-active {
+      color: var(--ng-gold);
+      border-color: rgba(201, 162, 77, .55);
+      background: rgba(201, 162, 77, .12);
+      font-weight: 700;
+    }
+    .deck-stage {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .deck-shell {
+      width: min(100vw - 24px, calc((100vh - 24px) * 16 / 9));
+      height: min(100vh - 24px, calc((100vw - 24px) * 9 / 16));
+      aspect-ratio: 16 / 9;
+      border: 1px solid var(--ng-line);
+      border-radius: 4px;
+      overflow: hidden;
+      background: linear-gradient(168deg, #14110e 0%, #1f1a15 38%, #0b0a08 100%);
+      box-shadow: 0 0 0 3px rgba(201, 162, 77, .15), 0 28px 90px rgba(0, 0, 0, .65);
+    }
+    .deck {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: clamp(14px, 1.6vw, 28px) clamp(18px, 2.2vw, 36px);
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-shrink: 0;
+      border-bottom: 1px solid var(--ng-line);
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+    }
+    .brand {
+      font-size: clamp(14px, 1.35vw, 20px);
+      color: var(--ng-gold);
+      letter-spacing: .04em;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .progress {
+      font-size: clamp(12px, 1.1vw, 15px);
+      color: var(--ng-muted);
+    }
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    select, button {
+      font: inherit;
+      border-radius: 3px;
+    }
+    select {
+      background: var(--ng-card);
+      color: var(--ng-cream);
+      border: 1px solid var(--ng-line);
+      padding: 6px 10px;
+      font-size: clamp(11px, 1vw, 14px);
+    }
+    button.nav {
+      background: linear-gradient(180deg, #2a241c, #1a1612);
+      color: var(--ng-cream);
+      border: 1px solid var(--ng-gold-dim);
+      padding: 7px 14px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button.nav:hover { border-color: var(--ng-gold); color: #fff; }
+    button.nav:disabled { opacity: .35; cursor: not-allowed; }
+    .slide-body {
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+      padding: 8px 6px 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .slide-body::-webkit-scrollbar { width: 6px; }
+    .slide-body::-webkit-scrollbar-thumb {
+      background: rgba(201, 162, 77, .35);
+      border-radius: 99px;
+    }
+    .slide-body-inner {
+      width: calc(100% / 1.75);
+      max-width: calc(100% / 1.75);
+      transform: scale(1.75);
+      transform-origin: center center;
+      box-sizing: border-box;
+      flex: 0 0 auto;
+    }
+    h1.slide-title {
+      font-size: clamp(22px, 2.6vw, 40px);
+      margin: 0 0 10px;
+      line-height: 1.15;
+      color: #f3ead8;
+    }
+    h2.slide-h2 {
+      font-size: clamp(18px, 2vw, 30px);
+      margin: 0 0 8px;
+      color: var(--ng-gold);
+    }
+    p, li {
+      font-size: clamp(14px, 1.25vw, 20px);
+      line-height: 1.45;
+      margin: 0 0 10px;
+      color: #e8dfd0;
+    }
+    .tag {
+      display: inline-block;
+      font-size: clamp(11px, .95vw, 14px);
+      padding: 3px 10px;
+      border: 1px solid var(--ng-line);
+      color: var(--ng-gold);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .card {
+      background: var(--ng-card);
+      border: 1px solid var(--ng-line);
+      border-radius: 6px;
+      padding: clamp(10px, 1.1vw, 16px);
+      margin-bottom: 10px;
+    }
+    .card h3 {
+      margin: 0 0 6px;
+      font-size: clamp(15px, 1.35vw, 22px);
+      color: #fff;
+    }
+    .mono {
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: .95em;
+      color: #cfe8e4;
+    }
+    .sense {
+      font-size: clamp(13px, 1.15vw, 18px);
+      color: #d7cfc2;
+      border-left: 3px solid var(--ng-accent);
+      padding-left: 12px;
+      margin: 8px 0 12px;
+    }
+    .row-audio {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin: 8px 0;
+    }
+    button.tts {
+      background: rgba(74, 124, 124, .25);
+      border: 1px solid rgba(74, 124, 124, .65);
+      color: #dff5f3;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-size: clamp(12px, 1.05vw, 16px);
+    }
+    button.tts:hover { background: rgba(74, 124, 124, .4); }
+    button.tts:disabled { opacity: .5; cursor: wait; }
+    .hidden-reveal {
+      display: none;
+      margin-top: 6px;
+      padding: 10px;
+      background: rgba(0,0,0,.25);
+      border-radius: 4px;
+      border: 1px dashed rgba(201, 162, 77, .35);
+    }
+    .hidden-reveal.show { display: block; }
+    .spell-zone {
+      display: inline-block;
+      min-width: min(96%, 520px);
+      padding: 12px 14px;
+      margin: 10px 0;
+      border: 1px dashed var(--ng-line);
+      border-radius: 6px;
+      cursor: pointer;
+      background: rgba(0,0,0,.2);
+      user-select: none;
+    }
+    .spell-zone:focus { outline: 2px solid var(--ng-gold); outline-offset: 2px; }
+    .letter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 6px;
+      justify-content: center;
+      min-height: 2.2em;
+    }
+    .letter-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 1.15em;
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: clamp(17px, 1.9vw, 28px);
+      font-weight: 700;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+    .letter-chip.blind { color: #5c574e; background: rgba(255,255,255,.04); }
+    .letter-chip.shown { color: var(--ng-gold); background: rgba(201,162,77,.12); }
+    .usage-strip {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border: 1px dashed var(--ng-line);
+      border-radius: 6px;
+      cursor: pointer;
+      background: rgba(0,0,0,.15);
+    }
+    .usage-strip:focus { outline: 2px solid var(--ng-gold); outline-offset: 2px; }
+    .usage-strip.is-revealed {
+      border-style: solid;
+      border-color: rgba(201, 162, 77, .4);
+      background: rgba(0,0,0,.22);
+    }
+    .usage-strip-hint {
+      margin: 0;
+      font-size: clamp(12px, 1.05vw, 16px);
+      color: var(--ng-muted);
+      line-height: 1.4;
+    }
+    .usage-strip.is-revealed .usage-strip-hint { display: none; }
+    .usage-sentence-zh-persistent {
+      margin: 8px 0 0;
+      font-size: clamp(13px, 1.1vw, 17px);
+      color: #c8bba8;
+      line-height: 1.55;
+      padding: 8px 10px;
+      background: rgba(0, 0, 0, .2);
+      border-radius: 4px;
+      border-left: 3px solid rgba(201, 162, 77, .45);
+    }
+    .exam-sentence-zh {
+      margin: 10px 0 0;
+      font-size: clamp(13px, 1.1vw, 17px);
+      color: #c8bba8;
+      line-height: 1.55;
+    }
+    .exam-blank-card {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border: 1px dashed var(--ng-line);
+      border-radius: 6px;
+      background: rgba(0,0,0,.15);
+      line-height: 1.65;
+      font-size: clamp(14px, 1.15vw, 18px);
+    }
+    .exam-blank {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0;
+      cursor: pointer;
+      color: var(--ng-gold);
+      border-bottom: 2px solid rgba(201, 162, 77, .72);
+      padding: 0 2px;
+      user-select: none;
+    }
+    .exam-blank:focus {
+      outline: 2px solid var(--ng-gold);
+      outline-offset: 2px;
+      border-radius: 3px;
+    }
+    .exam-blank-mask { letter-spacing: .04em; }
+    .exam-blank-ans { display: none; font-weight: 700; }
+    .exam-blank.is-revealed .exam-blank-mask { display: none; }
+    .exam-blank.is-revealed .exam-blank-ans { display: inline; }
+    details.card.grammar-induct-details {
+      margin-top: 12px;
+      border-left: 3px solid var(--ng-accent);
+      background: rgba(74, 124, 124, .08);
+    }
+    .grammar-induct-summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 6px 14px;
+      user-select: none;
+    }
+    .grammar-induct-summary::-webkit-details-marker { display: none; }
+    .grammar-induct-summary::marker { content: ""; }
+    .grammar-induct-summary .grammar-induct-title {
+      margin: 0;
+      font-size: clamp(14px,1.2vw,18px);
+      color: var(--ng-gold);
+      font-weight: 700;
+    }
+    .grammar-induct-hint { font-size: clamp(11px,.95vw,14px); color: #8ebdb8; }
+    .grammar-induct-hint-open { display: none; }
+    details[open].grammar-induct-details > .grammar-induct-summary .grammar-induct-hint-closed { display: none; }
+    details[open].grammar-induct-details > .grammar-induct-summary .grammar-induct-hint-open { display: inline; }
+    .grammar-induct-inner {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(201, 162, 77, .2);
+    }
+    .passage {
+      font-size: clamp(13px,1.15vw,18px);
+      line-height: 1.5;
+      color: #efe6d8;
+    }
+    .passage .blank {
+      display: inline-block;
+      min-width: 2.8em;
+      border-bottom: 2px solid var(--ng-gold);
+      margin: 0 2px;
+      text-align: center;
+      color: var(--ng-gold);
+      font-weight: 700;
+      font-family: ui-monospace, Consolas, monospace;
+    }
+    .bank {
+      font-size: clamp(12px,1.05vw,16px);
+      color: var(--ng-muted);
+      margin-top: 8px;
+    }
+    .practice-input {
+      width: 7.2em;
+      border: none;
+      border-bottom: 2px solid var(--ng-gold);
+      background: transparent;
+      color: #fff;
+      text-align: center;
+      font: inherit;
+      font-family: ui-monospace, Consolas, monospace;
+      outline: none;
+      margin: 0 2px;
+    }
+    .practice-input::placeholder { color: #7f7566; }
+    .score {
+      font-size: clamp(12px, 1vw, 15px);
+      color: var(--ng-muted);
+      margin-top: 4px;
+    }
+    .score .ok { color: var(--ok); font-weight: 700; }
+    .score .bad { color: var(--bad); font-weight: 700; }
+    .toast {
+      position: absolute;
+      left: 50%;
+      bottom: 14px;
+      transform: translateX(-50%);
+      background: rgba(180, 40, 40, .92);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 4px;
+      font-size: 14px;
+      display: none;
+      max-width: 92%;
+      text-align: center;
+      z-index: 20;
+    }
+    .toast.show { display: block; }
+    .footnote {
+      font-size: clamp(11px,.95vw,14px);
+      color: var(--ng-muted);
+      margin-top: 8px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 720px) {
+      .app { flex-direction: column; align-items: stretch; }
+      .course-nav {
+        width: 100% !important;
+        max-height: min(220px, 32vh);
+        align-self: stretch;
+      }
+      .course-nav.is-collapsed { width: 100% !important; max-height: 48px; }
+      .course-nav-edge {
+        writing-mode: horizontal-tb;
+        width: auto;
+        min-width: 72px;
+        padding: 10px 12px;
+      }
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+  </style>
+  <link rel="stylesheet" href="../../exam-shared/courseware-cloze-lookup.css?v=1" />
+</head>
+<body>
+  <div class="app">
+    <aside class="course-nav" id="courseNav" aria-label="词汇目录">
+      <button type="button" class="course-nav-edge" id="navToggle" aria-expanded="true" aria-controls="courseNavPanel" title="折叠/展开目录">目录</button>
+      <div class="course-nav-panel" id="courseNavPanel">
+        <p class="course-nav-heading">词汇流 · 点击跳转 Step1</p>
+        <div class="course-nav-scroll" id="courseNavScroll"></div>
+      </div>
+    </aside>
+
+    <div class="deck-stage">
+      <div class="deck-shell">
+        <div class="deck">
+          <div class="topbar">
+            <div class="brand">Word Forms Lab · Cloze</div>
+            <div class="progress" id="progress">—</div>
+            <div class="controls">
+              <span id="ttsBadge" class="footnote" style="margin-right:6px;max-width:min(42vw,220px);line-height:1.25;"></span>
+              <label class="footnote" style="margin:0;display:flex;align-items:center;gap:6px;">
+                朗读声音
+                <select id="voiceSel" aria-label="朗读声音">
+                  <option value="en-US-AvaNeural" selected>Ava（美）</option>
+                  <option value="en-US-JennyNeural">Jenny（美）</option>
+                  <option value="en-US-GuyNeural">Guy（美）</option>
+                  <option value="en-GB-SoniaNeural">Sonia（英）</option>
+                </select>
+              </label>
+              <button type="button" class="nav" id="prevBtn">上一页</button>
+              <button type="button" class="nav" id="nextBtn">下一页</button>
+            </div>
+          </div>
+          <div class="slide-body" id="slideRoot"></div>
+          <div class="toast" id="toast" role="status"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../exam-shared/courseware-cloze-lookup.js?v=1"></script>
+  <script>
+    function hetAzureSpeechKey() {
+      var HET_AZURE_SPEECH_KEY_FALLBACK =
+        "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+      try {
+        if (typeof window !== "undefined" && window.__HET_AZURE_SPEECH_KEY__) {
+          var wk = String(window.__HET_AZURE_SPEECH_KEY__).trim();
+          if (wk) return wk;
+        }
+      } catch (_) {}
+      try {
+        var k = (localStorage.getItem("het-azure-speech-key") || localStorage.getItem("AZURE_SPEECH_KEY") || "").trim();
+        if (k) return k;
+      } catch (_) {}
+      return HET_AZURE_SPEECH_KEY_FALLBACK;
+    }
+    const AZURE_SPEECH_REGION = "southeastasia";
+    const AZURE_TTS_PROSODY_RATE = "-15%";
+    const audioCache = new Map();
+    let currentTtsAudio = null;
+    const HET_CLOZE_ASSETS_BASE_COS = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/HET/词形填空练习/courseware/Assets/";
+    let __hetResolvedAssetsBase = null;
+    let __hetManifestMap = null;
+    function __hetNorm(s) {
+      var t = String(s || "")
+        .replace(/\uFEFF/g, "")
+        .replace(/\u00A0|\u3000/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+      return t
+        .replace(/\uFF1B/g, ";")
+        .replace(/\uFF1A/g, ":")
+        .replace(/\uFF0C/g, ",")
+        .replace(/\uFF08/g, "(")
+        .replace(/\uFF09/g, ")")
+        .replace(/\u201C|\u201D/g, '"')
+        .replace(/\u2018|\u2019/g, "'");
+    }
+    async function __hetEnsureManifest() {
+      if (__hetManifestMap) return __hetManifestMap;
+      var bases = [];
+      try {
+        if (typeof window !== "undefined" && window.__HET_CLOZE_ASSETS_BASE__)
+          bases.push(String(window.__HET_CLOZE_ASSETS_BASE__).replace(/\/?$/, "/"));
+      } catch (_) {}
+      bases.push(HET_CLOZE_ASSETS_BASE_COS);
+      bases.push(HET_CLOZE_ASSETS_BASE_COS.replace(/Assets\/$/, "assets/"));
+      try {
+        [HET_CLOZE_ASSETS_BASE_COS, HET_CLOZE_ASSETS_BASE_COS.replace(/Assets\/$/, "assets/")].forEach(function (root) {
+          var _u = new URL(root);
+          var _parts = _u.pathname.split("/").filter(function (x) { return x; });
+          var _enc = "/" + _parts.map(function (seg) { return encodeURIComponent(seg); }).join("/") + "/";
+          bases.push(_u.origin + _enc);
+        });
+      } catch (_) {}
+      try {
+        bases.push(new URL("Assets/", window.location.href).href);
+      } catch (_) {}
+      try {
+        bases.push(new URL("assets/", window.location.href).href);
+      } catch (_) {}
+      var lastErr = null;
+      for (var bi = 0; bi < bases.length; bi++) {
+        var base = bases[bi];
+        try {
+          var res = await fetch(base + "manifest.json", { cache: "no-cache" });
+          if (!res.ok) continue;
+          var data = await res.json();
+          __hetResolvedAssetsBase = base;
+          __hetManifestMap = new Map();
+          for (const ent of Object.values(data)) {
+            const t = __hetNorm(ent.text);
+            if (t && ent.file) __hetManifestMap.set(t, ent.file);
+          }
+          return __hetManifestMap;
+        } catch (e) {
+          lastErr = e;
+        }
+      }
+      throw lastErr || new Error("无法加载 manifest.json（检查 COS / 同目录 Assets / CORS）");
+    }
+
+
+    function refreshTtsBadge() {
+      const el = document.getElementById("ttsBadge");
+      if (!el) return;
+      el.textContent = "朗读：预录音频优先（COS / 课件旁 Assets）；否则需 Azure 密钥";
+    }
+    function escapeSsmlText(s) {
+      return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
+    }
+    function voiceGenderAndLang(voiceName) {
+      if (voiceName.indexOf("Guy") !== -1) return { gender: "Male", lang: "en-US" };
+      if (voiceName.indexOf("Sonia") !== -1 || voiceName.indexOf("en-GB") !== -1) return { gender: "Female", lang: "en-GB" };
+      return { gender: "Female", lang: "en-US" };
+    }
+    function playUrl(url) {
+      if (currentTtsAudio) { currentTtsAudio.pause(); currentTtsAudio = null; }
+      const a = new Audio(url);
+      currentTtsAudio = a;
+      return a.play();
+    }
+    function playAzureTTS(text) {
+      var AZURE_SPEECH_KEY = hetAzureSpeechKey();
+      if (!AZURE_SPEECH_KEY) return Promise.reject(new Error("未配置 Azure Speech Key。"));
+      const endpoint = `https://${AZURE_SPEECH_REGION}.tts.speech.microsoft.com/cognitiveservices/v1`;
+      const voice = document.getElementById("voiceSel")?.value || "en-US-AvaNeural";
+      const g = voiceGenderAndLang(voice);
+      const cacheKey = `${voice}|${text}|${AZURE_TTS_PROSODY_RATE}`;
+      if (audioCache.has(cacheKey)) return playUrl(audioCache.get(cacheKey));
+      const ssml = `<?xml version="1.0" encoding="utf-8"?>
+<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="${g.lang}">
+  <voice name="${voice}">
+    <prosody rate="${AZURE_TTS_PROSODY_RATE}">${escapeSsmlText(text)}</prosody>
+  </voice>
+</speak>`;
+      return fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Ocp-Apim-Subscription-Key": AZURE_SPEECH_KEY,
+          "Content-Type": "application/ssml+xml",
+          "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+        },
+        body: ssml,
+      }).then((res) => {
+        if (!res.ok) return res.text().then((t) => {
+          var hint = res.status === 401 ? " （密钥无效/过期或未授权；请配置有效的 het-azure-speech-key 或使用预录音频）" : "";
+          throw new Error(`Azure ${res.status}${hint}: ${(t || "").slice(0, 120)}`);
+        });
+        return res.blob();
+      }).then((blob) => {
+        const u = URL.createObjectURL(blob);
+        audioCache.set(cacheKey, u);
+        return playUrl(u);
+      });
+    }
+    async function playTts(text) {
+      const key = __hetNorm(text);
+      var manifestLoaded = false;
+      try {
+        const map = await __hetEnsureManifest();
+        manifestLoaded = true;
+        const rel = map.get(key);
+        if (rel && __hetResolvedAssetsBase) {
+          const url = __hetResolvedAssetsBase + String(rel).replace(/^\/+/g, "");
+          await playUrl(url);
+          return;
+        }
+      } catch (e) {
+        console.warn("[het-cloze] 预录音频:", e && e.message ? e.message : e);
+      }
+      var ak = hetAzureSpeechKey();
+      if (!ak) {
+        if (!manifestLoaded) {
+          throw new Error(
+            "无法加载预录音频索引 manifest.json（常见原因：COS 上该路径 404、被 CORS 拦截、或对象键与课件默认地址不一致）。默认尝试：" +
+              HET_CLOZE_ASSETS_BASE_COS +
+              "manifest.json 。请在 COS 控制台核对对象键是否包含 s-class/HET/词形填空练习/courseware/Assets/manifest.json；若实际上传目录不同，可在控制台执行：window.__HET_CLOZE_ASSETS_BASE__='https://你的桶域名/你的Assets前缀/' 再刷新。"
+          );
+        }
+        throw new Error(
+          "manifest 已加载，但未找到与朗读文案完全一致的预录条目（标点、空格、大小写须与 manifest 中 text 相同）：「" +
+            key.slice(0, 160) +
+            (key.length > 160 ? "…" : "") +
+            "」。也可 localStorage.setItem('het-azure-speech-key','你的密钥') 后刷新使用在线合成。"
+        );
+      }
+      await playAzureTTS(text);
+    }
+    function showToast(msg, ms = 3200) {
+      const el = document.getElementById("toast");
+      el.textContent = msg;
+      el.classList.add("show");
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(() => el.classList.remove("show"), ms);
+    }
+    function escapeHtml(s) {
+      return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    async function bindTtsButtons(root) {
+      root.querySelectorAll("button.tts").forEach((btn) => {
+        btn.addEventListener("click", async () => {
+          const t = btn.getAttribute("data-text") || "";
+          btn.disabled = true;
+          try { await playTts(t); } catch (e) { showToast(e.message || String(e)); }
+          finally { btn.disabled = false; }
+        });
+      });
+      root.querySelectorAll("button.reveal").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const id = btn.getAttribute("data-target");
+          const box = id && document.getElementById(id);
+          if (box) box.classList.add("show");
+        });
+      });
+    }
+
+    function bindVocabInteractions(root) {
+      root.querySelectorAll(".spell-zone").forEach((zone) => {
+        const word = zone.getAttribute("data-spell") || "";
+        const chars = [...word];
+        const chips = zone.querySelectorAll(".letter-chip");
+        let idx = 0;
+        const countEl = zone.querySelector(".spell-count");
+        const noteTarget = zone.getAttribute("data-reveal-note");
+        const revealNext = () => {
+          if (idx >= chars.length) return;
+          const ch = chars[idx];
+          chips[idx].textContent = ch === " " ? "·" : ch;
+          chips[idx].classList.remove("blind");
+          chips[idx].classList.add("shown");
+          idx++;
+          if (countEl) countEl.textContent = String(idx);
+          if (noteTarget && idx >= chars.length) {
+            const box = document.getElementById(noteTarget);
+            if (box) box.classList.add("show");
+          }
+        };
+        zone.addEventListener("click", (e) => {
+          if (e.target.closest("button") || e.target.closest("a")) return;
+          revealNext();
+        });
+      });
+      root.querySelectorAll(".usage-strip").forEach((strip) => {
+        const reveal = () => {
+          const body = strip.querySelector(".usage-strip-body");
+          if (body) body.classList.add("show");
+          strip.classList.add("is-revealed");
+        };
+        strip.addEventListener("click", (e) => { if (!e.target.closest("button")) reveal(); });
+        strip.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); reveal(); }
+        });
+      });
+      root.querySelectorAll(".practice-input").forEach((inp) => {
+        inp.addEventListener("input", () => { inp.style.borderBottomColor = "var(--ng-gold)"; });
+      });
+      root.querySelectorAll(".exam-blank").forEach((blank) => {
+        const toggle = () => blank.classList.toggle("is-revealed");
+        blank.addEventListener("click", toggle);
+        blank.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            toggle();
+          }
+        });
+      });
+      root.querySelectorAll("#checkPracticeBtn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const inputs = [...root.querySelectorAll(".practice-input")];
+          let ok = 0;
+          inputs.forEach((inp) => {
+            const n = Number(inp.dataset.num);
+            const user = (inp.value || "").trim().toLowerCase().replace(/\s+/g, " ");
+            const ans = (PRACTICE_ANS[n] || "").trim().toLowerCase().replace(/\s+/g, " ");
+            if (!user) return;
+            if (user === ans) { ok++; inp.style.borderBottomColor = "var(--ok)"; }
+            else inp.style.borderBottomColor = "var(--bad)";
+          });
+          const total = inputs.length;
+          const score = root.querySelector("#practiceScore");
+          if (score) score.innerHTML = `已答对 <span class="ok">${ok}</span> / ${total}。${ok === total ? "全部正确！" : "请继续检查词形。"}`
+        });
+      });
+    }
+
+    function spellBlock(word, revealNoteId) {
+      const chars = [...word];
+      const chips = chars.map(() => `<span class="letter-chip blind">□</span>`).join("");
+      const noteAttr = revealNoteId ? ` data-reveal-note="${escapeHtml(revealNoteId)}"` : "";
+      const hint = revealNoteId
+        ? `点击词区逐字母显示；全部显示后自动出现拼写提示 · <span class="spell-count">0</span> / ${chars.length}`
+        : `点击词区逐字母显示 · <span class="spell-count">0</span> / ${chars.length}`;
+      return `<div class="spell-zone" data-spell="${escapeHtml(word)}" tabindex="0"${noteAttr}>
+        <div class="letter-row">${chips}</div>
+        <p class="footnote" style="margin:6px 0 0;">${hint}</p>
+      </div>`;
+    }
+
+    function uid() { return "x_" + Math.random().toString(36).slice(2, 10); }
+
+    function derivativeInductHtml(d) {
+      if (!d.induct || !Array.isArray(d.induct.peers) || !d.induct.peers.length) return "";
+      const title = d.induct.title || "归纳 · 同类构词";
+      const peers = d.induct.peers.map((w) => `<span class="mono">${escapeHtml(w)}</span>`).join(" · ");
+      const tip = d.induct.tip ? `<p class="footnote" style="margin:10px 0 0;">${escapeHtml(d.induct.tip)}</p>` : "";
+      return `<details class="card grammar-induct-details">
+        <summary class="grammar-induct-summary">
+          <h3 class="grammar-induct-title">${escapeHtml(title)}</h3>
+          <span class="grammar-induct-hint grammar-induct-hint-closed">点击展开</span>
+          <span class="grammar-induct-hint grammar-induct-hint-open">点击收起</span>
+        </summary>
+        <div class="grammar-induct-inner">
+          <p style="margin:0;line-height:1.65;font-size:clamp(13px,1.15vw,18px);">${peers}</p>
+          ${tip}
+        </div>
+      </details>`;
+    }
+
+    function slidesFromUnit(unit, articleTag) {
+      const h = unit.headword;
+      const sid = uid();
+      const out = [];
+      out.push(`<div class="tag">${escapeHtml(articleTag)} · 词汇流 · ${escapeHtml(h)}</div>
+        <h2 class="slide-h2">Step 1 · 听音 → 拼写 → A2 释义</h2>
+        <p class="sense">本页例句与释义均为教学自编，服务短文填空词形判断。</p>
+        <div class="row-audio"><button type="button" class="tts" data-text="${escapeHtml(unit.ttsWord || unit.spell)}">① 听单词发音</button></div>
+        ${spellBlock(unit.spell)}
+        <div class="row-audio" style="margin-top:10px;">
+          <button type="button" class="tts" data-text="${escapeHtml(unit.defReadAloud)}">② 听英文释义（A2）</button>
+          <button type="button" class="nav reveal" data-target="def_${sid}">③ 点击显示释义文字</button>
+        </div>
+        <div class="hidden-reveal" id="def_${sid}">
+          <p style="margin:0;font-size:clamp(14px,1.2vw,19px);line-height:1.4;"><strong>A2 meaning:</strong> ${escapeHtml(unit.defA2)}</p>
+        </div>`);
+
+      const usageTotal = unit.usages.length;
+      unit.usages.forEach((u, ui) => {
+        const idx = ui + 1;
+        const rephraseId = `reph_${uid()}`;
+        const oneCard = `<div class="card">
+            <div class="row-audio"><button type="button" class="tts" data-text="${escapeHtml(u.sentence)}">听例句</button></div>
+            <p class="usage-sentence-zh-persistent"><strong>【译文】</strong>${escapeHtml(u.sentenceZh || "")}</p>
+            <p class="footnote" style="margin:6px 0 0;">本页仅含第 ${idx} 条用法。先听句，再点击三块信息。</p>
+            <div class="usage-strip" tabindex="0"><p class="usage-strip-hint">① 点击显示中文用法标签</p><div class="usage-strip-body hidden-reveal"><p style="margin:0;color:var(--ng-gold);font-weight:700;">${escapeHtml(u.label)}</p></div></div>
+            <div class="usage-strip" tabindex="0"><p class="usage-strip-hint">② 点击显示英文例句</p><div class="usage-strip-body hidden-reveal"><p style="margin:0;">${escapeHtml(u.sentence)}</p></div></div>
+            <div class="usage-strip" tabindex="0"><p class="usage-strip-hint">③ 点击显示解释</p><div class="usage-strip-body hidden-reveal"><p style="margin:0;"><strong>解释：</strong>${escapeHtml(u.explain)}</p><p class="footnote" style="margin:8px 0 0;"><button type="button" class="nav reveal" data-target="${escapeHtml(rephraseId)}">点击显示 Rephrase</button></p><div class="hidden-reveal" id="${escapeHtml(rephraseId)}"><p class="footnote" style="margin:0;"><strong>Rephrase：</strong>${escapeHtml(u.rephrase)}</p></div></div></div>
+          </div>`;
+        out.push(`<div class="tag">${escapeHtml(articleTag)} · 词汇流 · ${escapeHtml(h)}</div>
+          <h2 class="slide-h2">Step 2 · 常见用法（${idx} / ${usageTotal}）</h2>${oneCard}`);
+      });
+
+      (unit.derivatives || []).forEach((d) => {
+        const derivNoteId = d.note ? `dnote_${uid()}` : "";
+        out.push(`<div class="tag">${escapeHtml(articleTag)} · 词汇流 · ${escapeHtml(h)}</div>
+          <h2 class="slide-h2">Step 3 · ${escapeHtml(d.q)}</h2>
+          <div class="row-audio"><button type="button" class="tts" data-text="${escapeHtml(d.readAloud || d.answer)}">听目标词发音</button></div>
+          ${spellBlock(d.answer, derivNoteId)}
+          ${d.note ? `<div class="hidden-reveal" id="${escapeHtml(derivNoteId)}"><p class="footnote" style="margin:0;"><strong>拼写提示：</strong>${escapeHtml(d.note)}</p></div>` : ""}
+          ${derivativeInductHtml(d)}
+          ${d.exampleSentence ? `<div class="card" style="margin-top:12px;"><div class="row-audio"><button type="button" class="tts" data-text="${escapeHtml(d.exampleSentence)}">听 Step3 派生配套例句</button></div><p class="usage-sentence-zh-persistent" style="margin:10px 0 0;"><strong>【译文】</strong>${escapeHtml(d.exampleZh || "")}</p></div>` : ""}`);
+      });
+
+      if (unit.examTarget) {
+        const e = unit.examTarget;
+        const examples = Array.isArray(e.examExamples) && e.examExamples.length ? e.examExamples : [{
+          readSentence: e.readSentence, readSentenceZh: e.readSentenceZh, blankAnswer: e.form,
+        }];
+        const nEx = examples.length;
+        examples.forEach((ex, i) => {
+          const idx = i + 1;
+          const rs = String(ex.readSentence || "");
+          const ba = String(ex.blankAnswer || e.form || "");
+          const re = new RegExp(ba.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
+          const m = rs.match(re);
+          const line = m
+            ? rs.replace(re, `<span class="exam-blank" role="button" tabindex="0" aria-label="点击显示答案"><span class="exam-blank-mask">__________</span><span class="exam-blank-ans">${escapeHtml(ba)}</span></span>`)
+            : `${escapeHtml(rs)} <span class="exam-blank" role="button" tabindex="0" aria-label="点击显示答案"><span class="exam-blank-mask">__________</span><span class="exam-blank-ans">${escapeHtml(ba)}</span></span>`;
+          out.push(`<div class="tag">${escapeHtml(articleTag)} · 词汇流 · ${escapeHtml(h)}</div>
+            <h2 class="slide-h2">${nEx > 1 ? `Step 4 · 考点词形测试（${idx}/${nEx}）` : "Step 4 · 考点词形测试"}</h2>
+            ${i === 0 ? `<p class="sense">先看语境填词形，再核对答案。该步骤对应短文填空真实考法。</p>` : ""}
+            <div class="row-audio"><button type="button" class="tts" data-text="${escapeHtml(rs)}">听完整句（含答案）</button></div>
+            <div class="card">
+              <p class="exam-blank-card">${line}</p>
+              <p class="footnote" style="margin:8px 0 0;">点击横线可显示 / 隐藏答案</p>
+            </div>
+            <p class="exam-sentence-zh"><strong>【译文】</strong>${escapeHtml(ex.readSentenceZh || "")}</p>
+            ${(e.note && i === nEx - 1) ? `<p class="footnote">${escapeHtml(e.note)}</p>` : ""}`);
+        });
+      }
+      return out;
+    }
+
+    function renderPassage(raw, answerList, mode) {
+      const parts = raw.split(/(__\d+__)/g);
+      return parts.map((p) => {
+        const m = /^__(\d+)__$/.exec(p);
+        if (!m) return escapeHtml(p).replace(/\n/g, "<br/>");
+        const num = Number(m[1]);
+        const ans = answerList[num] || "";
+        if (mode === "key") return `<span class="blank">${escapeHtml(ans)}</span>`;
+        if (mode === "study") return `<span class="blank">(${num})</span>`;
+        return `<input class="practice-input" data-num="${num}" placeholder="(${num})" />`;
+      }).join("");
+    }
+
+    const WORD_BANK = ["cold","effort","he","painful","pay","pierce","receive","shame","something","wake","warm","year"];
+    const PRACTICE_ANS =     {
+        "1": "to pay",
+        "2": "himself",
+        "3": "year's",
+        "4": "received",
+        "5": "coldly",
+        "6": "effort",
+        "7": "was pierced",
+        "8": "awake",
+        "9": "pain",
+        "10": "shame"
+    };
+
+    const PASSAGE = `During the Warring States Period, there lived a man named Su Qin. He was poor when he was young and had no money __1__ an education. In order to make a living, he had to work for others. But he wanted to better __2__, so he left home and went to the State of Qi to study.
+
+After a __3__ study, he thought that he had learned all of his teacher's skills. He quickly said goodbye to his teacher and classmates, then traveled from place to place to make a living. However, a year later, he had __4__ nothing and had to go back home.
+
+When he got home, his family treated him __5__. His wife sighed (叹息) and kept making cloth. His sister-in-law turned and walked off, not ready to cook for him. His parents, brothers, and sisters all laughed at him. Feeling sad, he closed the door and then took out all his books, sparing no __6__ to study.
+
+He studied late every night. One day, he was so sleepy that he fell asleep at his desk. But he woke up suddenly because his arm __7__ by something—it was an awl (锥子). Then he had an idea to stay __8__: piercing his legs! After that, every time he felt sleepy, he used the awl to pierce his leg. The __9__ would wake him up at once.
+
+Seeing this, his family said, "We know you want to succeed, but you should not treat yourself like this." Su Qin replied, "If I do not do this, I will forget my past __10__." After a year of such hard study, Su Qin became a man of great learning. And he finally became good at the "zong-heng" principle (纵横之术) and a famous prime minister in the Warring States period.`;
+
+    const VOCAB_UNITS =     [
+        {
+            "headword": "cold",
+            "spell": "cold",
+            "ttsWord": "cold",
+            "defA2": "having a low temperature",
+            "defReadAloud": "having a low temperature",
+            "usages": [
+                {
+                    "label": "天气",
+                    "sentence": "It is very cold in winter, so we wear warm clothes.",
+                    "sentenceZh": "冬天很冷，所以我们穿暖和的衣服。",
+                    "explain": "cold 表示温度低。",
+                    "rephrase": "In winter, the temperature is low, so we put on warm clothes."
+                },
+                {
+                    "label": "食物",
+                    "sentence": "I don't like cold milk; I prefer it hot.",
+                    "sentenceZh": "我不喜欢冷牛奶，我更喜欢热的。",
+                    "explain": "cold 形容食物温度低。",
+                    "rephrase": "I like hot milk better than cold milk."
+                },
+                {
+                    "label": "态度",
+                    "sentence": "She gave me a cold look and walked away.",
+                    "sentenceZh": "她冷冷地看了我一眼，然后走开了。",
+                    "explain": "cold 也可以形容不友好的态度。",
+                    "rephrase": "She looked at me without warmth and left."
+                }
+            ],
+            "derivatives": [
+                {
+                    "q": "副词形式",
+                    "answer": "coldly",
+                    "readAloud": "coldly",
+                    "note": "加 -ly 变成副词",
+                    "exampleSentence": "He spoke coldly to the stranger.",
+                    "exampleZh": "他冷淡地对陌生人说话。",
+                    "induct": {
+                        "title": "形容词变副词",
+                        "peers": [
+                            "quickly",
+                            "slowly",
+                            "happily",
+                            "sadly",
+                            "carefully",
+                            "loudly"
+                        ],
+                        "tip": "大多数形容词加 -ly 变成副词，修饰动词。"
+                    }
+                }
+            ],
+            "examTarget": {
+                "form": "coldly",
+                "examExamples": [
+                    {
+                        "readSentence": "His teacher treated him coldly at first.",
+                        "readSentenceZh": "他的老师起初对他很冷淡。",
+                        "blankAnswer": "coldly"
+                    }
+                ],
+                "note": "考点：形容词变副词修饰动词 treated。"
+            }
+        },
+        {
+            "headword": "effort",
+            "spell": "effort",
+            "ttsWord": "effort",
+            "defA2": "the physical or mental energy needed to do something",
+            "defReadAloud": "the physical or mental energy needed to do something",
+            "usages": [
+                {
+                    "label": "努力",
+                    "sentence": "She made a great effort to finish the race.",
+                    "sentenceZh": "她付出了巨大的努力来完成比赛。",
+                    "explain": "effort 指付出的努力。",
+                    "rephrase": "She tried very hard to finish the race."
+                },
+                {
+                    "label": "尝试",
+                    "sentence": "It was his first effort to cook dinner.",
+                    "sentenceZh": "这是他第一次尝试做晚饭。",
+                    "explain": "effort 可以指一次尝试。",
+                    "rephrase": "He tried to cook dinner for the first time."
+                },
+                {
+                    "label": "不费力",
+                    "sentence": "He passed the exam without much effort.",
+                    "sentenceZh": "他没费多大力气就通过了考试。",
+                    "explain": "effort 常与 without 连用表示轻松。",
+                    "rephrase": "He passed the exam easily."
+                }
+            ],
+            "derivatives": [
+                {
+                    "q": "动词形式",
+                    "answer": "make an effort",
+                    "readAloud": "make an effort",
+                    "note": "固定短语，表示努力做某事",
+                    "exampleSentence": "You should make an effort to learn English every day.",
+                    "exampleZh": "你应该每天努力学英语。",
+                    "induct": {
+                        "title": "努力相关短语",
+                        "peers": [
+                            "try one's best",
+                            "work hard",
+                            "do one's utmost",
+                            "spare no effort",
+                            "put in effort",
+                            "go all out"
+                        ],
+                        "tip": "make an effort 后接 to do 不定式。"
+                    }
+                }
+            ],
+            "examTarget": {
+                "form": "effort",
+                "examExamples": [
+                    {
+                        "readSentence": "He made a great effort and finally became a famous strategist.",
+                        "readSentenceZh": "他付出了巨大的努力，最终成为著名的战略家。",
+                        "blankAnswer": "effort"
+                    }
+                ],
+                "note": "考点：名词作宾语，make a great effort 固定搭配。"
+            }
+        },
+        {
+            "headword": "he",
+            "spell": "he",
+            "ttsWord": "he",
+            "defA2": "used to refer to a male person or animal",
+            "defReadAloud": "used to refer to a male person or animal",
+            "usages": [
+                {
+                    "label": "代词主格",
+                    "sentence": "He is my best friend.",
+                    "sentenceZh": "他是我最好的朋友。",
+                    "explain": "he 作主语，指代男性。",
+                    "rephrase": "That boy is my best friend."
+                },
+                {
+                    "label": "泛指",
+                    "sentence": "He who laughs last laughs best.",
+                    "sentenceZh": "笑到最后的人笑得最好。",
+                    "explain": "he 可以泛指任何人。",
+                    "rephrase": "The person who laughs last laughs best."
+                },
+                {
+                    "label": "动物",
+                    "sentence": "He is a strong dog.",
+                    "sentenceZh": "它是一只强壮的狗。",
+                    "explain": "he 也可用于雄性动物。",
+                    "rephrase": "That dog is strong."
+                }
+            ],
+            "derivatives": [
+                {
+                    "q": "反身代词",
+                    "answer": "himself",
+                    "readAloud": "himself",
+                    "note": "he 的反身代词，表示他自己",
+                    "exampleSentence": "He taught himself to play the guitar.",
+                    "exampleZh": "他自学了弹吉他。",
+                    "induct": {
+                        "title": "反身代词",
+                        "peers": [
+                            "myself",
+                            "yourself",
+                            "herself",
+                            "itself",
+                            "ourselves",
+                            "themselves"
+                        ],
+                        "tip": "反身代词用于主语和宾语相同的情况。"
+                    }
+                }
+            ],
+            "examTarget": {
+                "form": "himself",
+                "examExamples": [
+                    {
+                        "readSentence": "He remembered the shame he had suffered himself.",
+                        "readSentenceZh": "他记得自己遭受的耻辱。",
+                        "blankAnswer": "himself"
+                    }
+                ],
+                "note": "考点：反身代词强调主语本身。"
+            }
+        },
+        {
+            "headword": "painful",
+            "spell": "painful",
+            "ttsWord": "painful",
+            "defA2": "causing physical or emotional pain",
+            "defReadAloud": "causing physical or emotional pain",
+            "usages": [
+                {
+                    "label": "身体疼痛",
+                    "sentence": "The cut on his finger was very painful.",
+                    "sentenceZh": "他手指上的伤口很疼。",
+                    "explain": "painful 形容引起疼痛的事物。",
+                    "rephrase": "His finger hurt a lot because of the cut."
+                },
+                {
+                    "label": "情感痛苦",
+                    "sentence": "It was painful to say goodbye to her.",
+                    "sentenceZh": "和她告别很痛苦。",
+                    "explain": "painful 也可指情感上的痛苦。",
+                    "rephrase": "Saying goodbye to her made him sad."
+                },
+                {
+                    "label": "困难经历",
+                    "sentence": "Learning a new language can be painful.",
+                    "sentenceZh": "学习一门新语言可能会很痛苦。",
+                    "explain": "painful 形容困难且不愉快的经历。",
+                    "rephrase": "Learning a new language is hard and not fun."
+                }
+            ],
+            "derivatives": [
+                {
+                    "q": "名词形式",
+                    "answer": "pain",
+                    "readAloud": "pain",
+                    "note": "去掉 -ful 变成名词，表示疼痛",
+                    "exampleSentence": "He felt a sharp pain in his leg.",
+                    "exampleZh": "他感到腿上一阵剧痛。",
+                    "induct": {
+                        "title": "形容词变名词",
+                        "peers": [
+                            "beautiful → beauty",
+                            "helpful → help",
+                            "useful → use",
+                            "colorful → color",
+                            "hopeful → hope",
+                            "peaceful → peace"
+                        ],
+                        "tip": "以 -ful 结尾的形容词去掉 -ful 常得到名词。"
+                    }
+                }
+            ],
+            "examTarget": {
+                "form": "pain",
+                "examExamples": [
+                    {
+                        "readSentence": "The pain was nothing compared to the shame of failure.",
+                        "readSentenceZh": "这疼痛与失败的耻辱相比算不了什么。",
+                        "blankAnswer": "pain"
+                    }
+                ],
+                "note": "考点：名词作主语，pain 表示疼痛。"
+            }
+        },
+        {
+            "headword": "pay",
+            "spell": "pay",
+            "ttsWord": "pay",
+            "defA2": "to give money for something you buy",
+            "defReadAloud": "to give money for something you buy",
+            "usages": [
+                {
+                    "label": "付钱",
+                    "sentence": "I need to pay for the book.",
+                    "sentenceZh": "我需要付这本书的钱。",
+                    "explain": "pay 表示支付金钱。",
+                    "rephrase": "I have to give money for the book."
+                },
+                {
+                    "label": "支付账单",
+                    "sentence": "She pays the rent every month.",
+                    "sentenceZh": "她每个月付房租。",
+                    "explain": "pay 后直接接账单或费用。",
+                    "rephrase": "She gives money for the rent each month."
+                },
+                {
+                    "label": "注意",
+                    "sentence": "You must pay attention in class.",
+                    "sentenceZh": "你必须在课堂上注意听讲。",
+                    "explain": "pay attention 是固定短语，表示注意。",
+                    "rephrase": "You should listen carefully in class."
+                }
+            ],
+            "derivatives": [
+                {
+                    "q": "动词不定式",
+                    "answer": "to pay",
+                    "readAloud": "to pay",
+                    "note": "pay 前加 to 构成不定式，常作目的状语",
+                    "exampleSentence": "He stopped to pay for the ticket.",
+                    "exampleZh": "他停下来买票。",
+                    "induct": {
+                        "title": "不定式作目的状语",
+                        "peers": [
+                            "to buy",
+                            "to see",
+                            "to learn",
+                            "to help",
+                            "to find",
+                            "to get"
+                        ],
+                        "tip": "不定式 to do 常表示做某事的目的。"
+                    }
+                }
+            ],
+            "examTarget": {
+                "form": "to pay",
+                "examExamples": [
+                    {
+                        "readSentence": "He wanted to pay attention to the lesson.",
+                        "readSentenceZh": "他想要注意听讲。",
+                        "blankAnswer": "to pay"
+                    }
+                ],
+                "note": "考点：不定式作宾语，want to do 结构。"
+            }
+        },
+        {
+            "headword": "pierce",
+            "spell": "pierce",
+            "ttsWord": "pierce",
+            "defA2": "to make a hole in something using a sharp point",
+            "defReadAloud": "to make a hole in something using a sharp point",
+            "usages": [
+                {
+                    "label": "刺穿",
+                    "sentence": "The needle pierced the cloth easily.",
+                    "sentenceZh": "针轻易地刺穿了布料。",
+                    "explain": "pierce 表示用尖锐物刺穿。",
+                    "rephrase": "The needle made a hole in the cloth."
+                },
+                {
+                    "label": "穿孔",
+                    "sentence": "She pierced her ears to wear earrings.",
+                    "sentenceZh": "她打了耳洞戴耳环。",
+                    "explain": "pierce 也可指在身体上穿孔。",
+                    "rephrase": "She made holes in her ears for earrings."
+                },
+                {
+                    "label": "穿透",
+                    "sentence": "The light pierced the darkness.",
+                    "sentenceZh": "光线穿透了黑暗。",
+                    "explain": "pierce 可比喻光线或声音穿透。",
+                    "rephrase": "The light went through the darkness."
+                }
+            ],
+            "derivatives": [
+                {
+                    "q": "被动语态",
+                    "answer": "was pierced",
+                    "readAloud": "was pierced",
+                    "note": "pierce 的过去分词，用于被动语态",
+                    "exampleSentence": "The balloon was pierced by a pin.",
+                    "exampleZh": "气球被大头针刺破了。",
+                    "induct": {
+                        "title": "一般过去时被动语态",
+                        "peers": [
+                            "was broken",
+                            "was made",
+                            "was written",
+                            "was found",
+                            "was seen",
+                            "was given"
+                        ],
+                        "tip": "was/were + 过去分词构成被动语态。"
+                    }
+                }
+            ],
+            "examTarget": {
+                "form": "was pierced",
+                "examExamples": [
+                    {
+                        "readSentence": "His thigh was pierced many times.",
+                        "readSentenceZh": "他的大腿被刺了很多次。",
+                        "blankAnswer": "was pierced"
+                    }
+                ],
+                "note": "考点：被动语态，主语 thigh 承受动作。"
+            }
+        },
+        {
+            "headword": "receive",
+            "spell": "receive",
+            "ttsWord": "receive",
+            "defA2": "to get something that someone gives or sends to you",
+            "defReadAloud": "to get something that someone gives or sends to you",
+            "usages": [
+                {
+                    "label": "收到礼物",
+                    "sentence": "I received a gift from my mother.",
+                    "sentenceZh": "我收到了妈妈的一份礼物。",
+                    "explain": "receive 表示收到某物。",
+                    "rephrase": "My mother gave me a gift, and I got it."
+                },
+                {
+                    "label": "接受教育",
+                    "sentence": "He received a good education.",
+                    "sentenceZh": "他接受了良好的教育。",
+                    "explain": "receive 可接抽象名词如 education。",
+                    "rephrase": "He got a good education."
+                },
+                {
+                    "label": "接待",
+                    "sentence": "The hotel received many guests.",
+                    "sentenceZh": "酒店接待了许多客人。",
+                    "explain": "receive 也可表示接待。",
+                    "rephrase": "The hotel had many guests."
+                }
+            ],
+            "derivatives": [
+                {
+                    "q": "过去式",
+                    "answer": "received",
+                    "readAloud": "received",
+                    "note": "receive 的过去式，加 -d",
+                    "exampleSentence": "She received a letter yesterday.",
+                    "exampleZh": "她昨天收到了一封信。",
+                    "induct": {
+                        "title": "规则动词过去式",
+                        "peers": [
+                            "arrived",
+                            "decided",
+                            "helped",
+                            "played",
+                            "studied",
+                            "wanted"
+                        ],
+                        "tip": "大多数动词加 -ed 构成过去式，以 e 结尾加 -d。"
+                    }
+                }
+            ],
+            "examTarget": {
+                "form": "received",
+                "examExamples": [
+                    {
+                        "readSentence": "He received a book on military strategy.",
+                        "readSentenceZh": "他收到了一本军事策略书。",
+                        "blankAnswer": "received"
+                    }
+                ],
+                "note": "考点：一般过去时，动作发生在过去。"
+            }
+        },
+        {
+            "headword": "shame",
+            "spell": "shame",
+            "ttsWord": "shame",
+            "defA2": "a feeling of being embarrassed or guilty because of something wrong",
+            "defReadAloud": "a feeling of being embarrassed or guilty because of something wrong",
+            "usages": [
+                {
+                    "label": "羞愧感",
+                    "sentence": "He felt shame for lying to his parents.",
+                    "sentenceZh": "他因为对父母撒谎而感到羞愧。",
+                    "explain": "shame 是一种情感。",
+                    "rephrase": "He felt bad because he lied to his parents."
+                },
+                {
+                    "label": "耻辱",
+                    "sentence": "It is a shame to waste food.",
+                    "sentenceZh": "浪费食物是可耻的。",
+                    "explain": "shame 可表示令人遗憾或可耻的事。",
+                    "rephrase": "Wasting food is a bad thing."
+                },
+                {
+                    "label": "丢脸",
+                    "sentence": "She brought shame to her family.",
+                    "sentenceZh": "她给家人带来了耻辱。",
+                    "explain": "shame 可指带来耻辱的人或事。",
+                    "rephrase": "She made her family feel ashamed."
+                }
+            ],
+            "derivatives": [
+                {
+                    "q": "形容词形式",
+                    "answer": "ashamed",
+                    "readAloud": "ashamed",
+                    "note": "shame 的形容词，表示感到羞愧的",
+                    "exampleSentence": "He was ashamed of his mistake.",
+                    "exampleZh": "他为自己的错误感到羞愧。",
+                    "induct": {
+                        "title": "名词变形容词",
+                        "peers": [
+                            "anger → angry",
+                            "hunger → hungry",
+                            "thirst → thirsty",
+                            "fog → foggy",
+                            "sun → sunny",
+                            "rain → rainy"
+                        ],
+                        "tip": "有些名词加 -y 或 -ed 变成形容词。"
+                    }
+                }
+            ],
+            "examTarget": {
+                "form": "shame",
+                "examExamples": [
+                    {
+                        "readSentence": "The shame of failure drove him to work harder.",
+                        "readSentenceZh": "失败的耻辱驱使他更加努力。",
+                        "blankAnswer": "shame"
+                    }
+                ],
+                "note": "考点：名词作宾语，the shame of... 结构。"
+            }
+        },
+        {
+            "headword": "something",
+            "spell": "something",
+            "ttsWord": "something",
+            "defA2": "an unknown or unspecified thing",
+            "defReadAloud": "an unknown or unspecified thing",
+            "usages": [
+                {
+                    "label": "某物",
+                    "sentence": "I want something to eat.",
+                    "sentenceZh": "我想吃点东西。",
+                    "explain": "something 表示不确定的某物。",
+                    "rephrase": "I want some food."
+                },
+                {
+                    "label": "重要的事",
+                    "sentence": "There is something I need to tell you.",
+                    "sentenceZh": "有件事我需要告诉你。",
+                    "explain": "something 可指重要的事情。",
+                    "rephrase": "I have an important thing to tell you."
+                },
+                {
+                    "label": "大约",
+                    "sentence": "He is something like 30 years old.",
+                    "sentenceZh": "他大约30岁。",
+                    "explain": "something like 表示大约。",
+                    "rephrase": "He is about 30 years old."
+                }
+            ],
+            "derivatives": [],
+            "examTarget": {
+                "form": "something",
+                "examExamples": [],
+                "note": "干扰项，未使用。"
+            }
+        },
+        {
+            "headword": "wake",
+            "spell": "wake",
+            "ttsWord": "wake",
+            "defA2": "to stop sleeping",
+            "defReadAloud": "to stop sleeping",
+            "usages": [
+                {
+                    "label": "醒来",
+                    "sentence": "I usually wake up at 7 o'clock.",
+                    "sentenceZh": "我通常7点醒来。",
+                    "explain": "wake up 表示醒来。",
+                    "rephrase": "I get out of bed at 7 o'clock."
+                },
+                {
+                    "label": "叫醒",
+                    "sentence": "Please wake me at 6 in the morning.",
+                    "sentenceZh": "请早上6点叫醒我。",
+                    "explain": "wake 可作及物动词表示叫醒。",
+                    "rephrase": "Please make me get up at 6 in the morning."
+                },
+                {
+                    "label": "唤醒记忆",
+                    "sentence": "The song woke old memories.",
+                    "sentenceZh": "这首歌唤起了旧日的记忆。",
+                    "explain": "wake 可比喻唤醒记忆。",
+                    "rephrase": "The song made me remember old times."
+                }
+            ],
+            "derivatives": [
+                {
+                    "q": "形容词形式",
+                    "answer": "awake",
+                    "readAloud": "awake",
+                    "note": "wake 的形容词，表示醒着的",
+                    "exampleSentence": "He stayed awake all night.",
+                    "exampleZh": "他整晚都醒着。",
+                    "induct": {
+                        "title": "动词变形容词",
+                        "peers": [
+                            "sleep → asleep",
+                            "live → alive",
+                            "light → alight",
+                            "float → afloat",
+                            "blaze → ablaze",
+                            "gleam → agleam"
+                        ],
+                        "tip": "有些动词加 a- 前缀变成形容词。"
+                    }
+                }
+            ],
+            "examTarget": {
+                "form": "awake",
+                "examExamples": [
+                    {
+                        "readSentence": "He stayed awake and kept reading.",
+                        "readSentenceZh": "他保持清醒，继续读书。",
+                        "blankAnswer": "awake"
+                    }
+                ],
+                "note": "考点：形容词作表语，stay awake 保持清醒。"
+            }
+        },
+        {
+            "headword": "warm",
+            "spell": "warm",
+            "ttsWord": "warm",
+            "defA2": "having a pleasant temperature, not cold",
+            "defReadAloud": "having a pleasant temperature, not cold",
+            "usages": [
+                {
+                    "label": "天气",
+                    "sentence": "It is warm in spring.",
+                    "sentenceZh": "春天天气暖和。",
+                    "explain": "warm 形容温度适中。",
+                    "rephrase": "Spring has nice temperatures."
+                },
+                {
+                    "label": "食物",
+                    "sentence": "The soup is still warm.",
+                    "sentenceZh": "汤还是温的。",
+                    "explain": "warm 形容食物温热。",
+                    "rephrase": "The soup is not cold."
+                },
+                {
+                    "label": "温暖的感觉",
+                    "sentence": "She gave me a warm hug.",
+                    "sentenceZh": "她给了我一个温暖的拥抱。",
+                    "explain": "warm 也可形容情感温暖。",
+                    "rephrase": "She hugged me in a friendly way."
+                }
+            ],
+            "derivatives": [],
+            "examTarget": {
+                "form": "warm",
+                "examExamples": [],
+                "note": "干扰项，未使用。"
+            }
+        },
+        {
+            "headword": "year",
+            "spell": "year",
+            "ttsWord": "year",
+            "defA2": "a period of 12 months",
+            "defReadAloud": "a period of 12 months",
+            "usages": [
+                {
+                    "label": "时间单位",
+                    "sentence": "There are 12 months in a year.",
+                    "sentenceZh": "一年有12个月。",
+                    "explain": "year 是时间单位。",
+                    "rephrase": "A year has 12 months."
+                },
+                {
+                    "label": "年龄",
+                    "sentence": "She is ten years old.",
+                    "sentenceZh": "她十岁。",
+                    "explain": "year 用于表示年龄。",
+                    "rephrase": "She is ten."
+                },
+                {
+                    "label": "年度",
+                    "sentence": "The new year begins in January.",
+                    "sentenceZh": "新年从一月开始。",
+                    "explain": "year 可指年度。",
+                    "rephrase": "The new year starts in January."
+                }
+            ],
+            "derivatives": [
+                {
+                    "q": "所有格形式",
+                    "answer": "year's",
+                    "readAloud": "year's",
+                    "note": "year 加 's 表示一年的",
+                    "exampleSentence": "We had a year's supply of food.",
+                    "exampleZh": "我们有一年的食物供应。",
+                    "induct": {
+                        "title": "名词所有格",
+                        "peers": [
+                            "day's",
+                            "month's",
+                            "week's",
+                            "hour's",
+                            "minute's",
+                            "second's"
+                        ],
+                        "tip": "表示时间名词加 's 表示‘...的’。"
+                    }
+                }
+            ],
+            "examTarget": {
+                "form": "year's",
+                "examExamples": [
+                    {
+                        "readSentence": "He remembered the year's shame he had suffered.",
+                        "readSentenceZh": "他记得那一年遭受的耻辱。",
+                        "blankAnswer": "year's"
+                    }
+                ],
+                "note": "考点：名词所有格，表示一年的。"
+            }
+        }
+    ]
+
+    const slides = [];
+    function add(html, meta) { slides.push({ html, meta: meta || null }); }
+    function pushVocabProgram(units, articleTag) {
+      units.forEach((u) => {
+        const parts = slidesFromUnit(u, articleTag);
+        parts.forEach((html, i) => add(html, i === 0 ? { vocabStart: { article: articleTag, headword: u.headword } } : null));
+      });
+    }
+
+    add(`<div class="tag">课程地图</div>
+      <h1 class="slide-title">短文填空 · 新课02 · 苏秦刺股</h1>
+      <p>本套结构：背景输入 → 词汇四步流 → 证据链 → 半独立练习 → 独立作答 → 答案复盘。Step3 派生配套例句均<strong>不复述本题英文原文</strong>。</p>
+      <div class="card"><h3>本题节奏</h3>
+        <ol>
+          <li>战国励志 · 苏秦刺股 · 悬梁刺股</li>
+          <li>方框 12 词 · 语篇 10 空；干扰项：<strong>warm / something</strong></li>
+          <li>复盘：<span class="mono">1 to pay · 2 himself · 3 year's · 4 received · 5 coldly · 6 effort · 7 was pierced · 8 awake · 9 pain · 10 shame</span></li>
+        </ol>
+      </div>`);
+
+    add(`<div class="tag">背景导入</div>
+      <h2 class="slide-h2">战国励志 · 苏秦刺股 · 刻苦攻读</h2>
+      <p>关注词性槽与证据链；核对答案清单见复盘页。</p>
+      <div class="row-audio"><button type="button" class="tts" data-text="Never forget your shame, and keep working hard until you succeed.">听迁移句（自编）</button></div>`);
+
+    add(`<div class="tag">方框词</div>
+      <h2 class="slide-h2">词库（12 词 · 10 空）</h2>
+      <p class="mono">cold / effort / he / painful / pay / pierce / receive / shame / something / wake / warm / year</p>
+      <div class="card"><h3>策略提示</h3><p>先标出十大槽位，再回填变形；注意反身代词、所有格、副词、被动语态与名动转换；干扰项勿强行代入。</p></div>`);
+
+    pushVocabProgram(VOCAB_UNITS, "新课02");
+
+    add(`<div class="tag">证据链</div>
+      <h2 class="slide-h2">槽位梳理（1–5）</h2>
+      <div class="sense">结合词性、搭配与比较结构判定前五空；口述证据后再书写。</div>`);
+
+    add(`<div class="tag">证据链</div>
+      <h2 class="slide-h2">槽位梳理（6–10）</h2>
+      <div class="sense">处理后五空：注意 received、coldly、was pierced、awake、pain、shame 等词形与搭配。</div>`);
+
+    add(`<div class="tag">半独立</div>
+      <h2 class="slide-h2">语篇填空（编号提示 · 1–10）</h2>
+      <p>只显示编号，先判定词性与词形。</p>
+      <div class="passage">${renderPassage(PASSAGE, PRACTICE_ANS, "study")}</div>
+      <p class="bank">词库：${WORD_BANK.join(" / ")}</p>`);
+
+    add(`<div class="tag">独立作答</div>
+      <h2 class="slide-h2">独立作答页（答案隐藏）</h2>
+      <div class="passage">${renderPassage(PASSAGE, PRACTICE_ANS, "practice")}</div>
+      <div class="row-audio" style="margin-top:10px;"><button type="button" class="nav" id="checkPracticeBtn">一键核对</button></div>
+      <p id="practiceScore" class="score">先独立填写，再点击核对。</p>`);
+
+    add(`<div class="tag">答案</div>
+      <h2 class="slide-h2">答案与词形</h2>
+      <div class="passage">${renderPassage(PASSAGE, PRACTICE_ANS, "key")}</div>
+      <div class="card"><h3>快速核对清单</h3><p class="mono">1 to pay · 2 himself · 3 year's · 4 received · 5 coldly · 6 effort · 7 was pierced · 8 awake · 9 pain · 10 shame</p></div>`);
+
+    const vocabNavEntries = [];
+    let idx = 0;
+
+    function fillCourseNav() {
+      const scroll = document.getElementById("courseNavScroll");
+      const list = vocabNavEntries.map((e) => `<li><button type="button" class="nav-vocab-link" data-slide-index="${e.index}">${escapeHtml(e.headword)}</button></li>`).join("");
+      scroll.innerHTML = `<div class="course-nav-h">新课02 词汇流（12 词族 · 方框 12 词）</div><ul class="course-nav-list">${list}</ul>`;
+      scroll.querySelectorAll(".nav-vocab-link").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const i = Number(btn.getAttribute("data-slide-index"));
+          if (!Number.isNaN(i)) { idx = i; render(); }
+        });
+      });
+    }
+
+    function syncNavActive() {
+      const sorted = [...vocabNavEntries].sort((a, b) => a.index - b.index);
+      document.querySelectorAll(".nav-vocab-link").forEach((btn) => {
+        const i = Number(btn.getAttribute("data-slide-index"));
+        const pos = sorted.findIndex((e) => e.index === i);
+        const nextStart = pos >= 0 && pos < sorted.length - 1 ? sorted[pos + 1].index : slides.length;
+        btn.classList.toggle("is-active", idx >= i && idx < nextStart);
+      });
+    }
+
+    function render() {
+      const root = document.getElementById("slideRoot");
+      root.innerHTML = `<div class="slide-body-inner">${slides[idx].html}</div>`;
+      document.getElementById("progress").textContent = `Slide ${idx + 1} / ${slides.length}`;
+      document.getElementById("prevBtn").disabled = idx === 0;
+      document.getElementById("nextBtn").disabled = idx === slides.length - 1;
+      bindTtsButtons(root);
+      bindVocabInteractions(root);
+      if (typeof bindClozePracticeLookup === "function") bindClozePracticeLookup(root, PASSAGE);
+      syncNavActive();
+    }
+
+    slides.forEach((s, i) => {
+      if (s.meta && s.meta.vocabStart) {
+        vocabNavEntries.push({ index: i, article: s.meta.vocabStart.article, headword: s.meta.vocabStart.headword });
+      }
+    });
+    fillCourseNav();
+
+    document.getElementById("navToggle").addEventListener("click", () => {
+      const nav = document.getElementById("courseNav");
+      const btn = document.getElementById("navToggle");
+      const collapsed = nav.classList.toggle("is-collapsed");
+      btn.setAttribute("aria-expanded", collapsed ? "false" : "true");
+      btn.textContent = collapsed ? "展开" : "目录";
+    });
+    document.getElementById("prevBtn").addEventListener("click", () => { idx = Math.max(0, idx - 1); render(); });
+    document.getElementById("nextBtn").addEventListener("click", () => { idx = Math.min(slides.length - 1, idx + 1); render(); });
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight" || e.key === "PageDown") document.getElementById("nextBtn").click();
+      if (e.key === "ArrowLeft" || e.key === "PageUp") document.getElementById("prevBtn").click();
+    });
+
+    refreshTtsBadge();
+    render();
+  </script>
+</body>
+</html>
