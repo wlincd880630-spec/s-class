@@ -124,21 +124,23 @@
     return html;
   }
 
-  function renderSpellSheet(words, showAns) {
+  function renderSpellSheet(words, showAns, startNum = 1) {
     let html = sheetHeader(`${bookName()} · 字母排序`, `看图 · 乱序字母 · 写出单词 · 共 ${words.length} 题`, 'spell');
     if (showAns) html = html.replace('class="pw-sheet', 'class="pw-sheet pw-answer-key');
 
+    html += '<div class="pw-spell-list">';
     words.forEach((w, i) => {
       const letters = w.word.replace(/[\s-]/g, '').split('');
       const scrambled = shuffle(letters);
       html += `<div class="pw-spell-item">`;
       html += `<img src="${esc(w.image)}" alt="" />`;
-      html += `<div><div class="pw-spell-zh">${i + 1}. ${esc(shortMeaning(w))}</div>`;
+      html += `<div><div class="pw-spell-zh">${startNum + i}. ${esc(shortMeaning(w))}</div>`;
       html += `<div class="pw-spell-letters">${scrambled.map((ch) => `<span>${esc(ch)}</span>`).join('')}</div>`;
       html += `<div class="pw-spell-write">写出单词：`;
       html += showAns ? `<span class="pw-ans">${esc(w.word)}</span>` : '<span class="pw-spell-line"></span>';
       html += '</div></div></div>';
     });
+    html += '</div>';
 
     html += sheetFooter();
     return html;
@@ -168,37 +170,41 @@
     return html;
   }
 
-  function renderQuizSheet(words, mode, showAns, distractorPool) {
+  function renderQuizSheet(words, mode, showAns, distractorPool, pageIdx, pageTotal, startNum = 1) {
     const title = mode === 'zh-en' ? '看中文选英文' : '看单词选中文';
-    let html = sheetHeader(`${bookName()} · ${title}`, `共 ${words.length} 题 · 四选一`, mode);
+    const sub = pageTotal > 1 ? `第 ${pageIdx} / ${pageTotal} 页 · 本页 ${words.length} 题 · 四选一` : `共 ${words.length} 题 · 四选一`;
+    let html = sheetHeader(`${bookName()} · ${title}`, sub, mode);
     if (showAns) html = html.replace('class="pw-sheet', 'class="pw-sheet pw-answer-key');
 
     const all = distractorPool;
+    html += '<div class="pw-quiz-list">';
     words.forEach((w, i) => {
       const opts = pickQuizOptions(w, all, 4, (item) => (mode === 'zh-en' ? item.word : shortMeaning(item)));
       html += `<div class="pw-quiz-item">`;
       html += `<img src="${esc(w.image)}" alt="" />`;
-      html += `<div><div class="pw-quiz-q"><strong>${i + 1}.</strong> ${mode === 'zh-en' ? esc(shortMeaning(w)) : esc(w.word)}</div>`;
+      html += `<div><div class="pw-quiz-q"><strong>${startNum + i}.</strong> ${mode === 'zh-en' ? esc(shortMeaning(w)) : esc(w.word)}</div>`;
       html += `<div class="pw-quiz-options">${opts.map((o, j) => `<span class="pw-quiz-opt"><span class="pw-opt-letter">${OPT_LETTERS[j]}</span>${esc(o.label)}</span>`).join('')}</div>`;
       if (showAns) {
         html += `<div class="pw-ans" style="margin-top:6px">✅ 答案：${mode === 'zh-en' ? esc(w.word) : esc(shortMeaning(w))}</div>`;
       }
       html += '</div></div>';
     });
+    html += '</div>';
 
     html += sheetFooter();
     return html;
   }
 
-  function renderPickImgSheet(words, distractorPool, showAns) {
+  function renderPickImgSheet(words, distractorPool, showAns, pageIdx, pageTotal, startNum = 1) {
     const all = distractorPool;
-    let html = sheetHeader(`${bookName()} · 看单词选图`, `共 ${words.length} 题 · 四选一`, 'pick');
+    const sub = pageTotal > 1 ? `第 ${pageIdx} / ${pageTotal} 页 · 本页 ${words.length} 题 · 四选一` : `共 ${words.length} 题 · 四选一`;
+    let html = sheetHeader(`${bookName()} · 看单词选图`, sub, 'pick');
     if (showAns) html = html.replace('class="pw-sheet', 'class="pw-sheet pw-answer-key');
 
     words.forEach((w, i) => {
       const opts = pickQuizOptions(w, all, 4, (item) => item.word);
       html += `<div class="pw-pick-item">`;
-      html += `<div class="pw-pick-word">${i + 1}. ${esc(w.word)}</div>`;
+      html += `<div class="pw-pick-word">${startNum + i}. ${esc(w.word)}</div>`;
       html += `<div class="pw-pick-grid">${opts.map((o, j) => `<div class="pw-pick-opt"><span class="pw-opt-letter">${OPT_LETTERS[j]}</span><img src="${esc(o.word.image)}" alt="" /></div>`).join('')}</div>`;
       if (showAns) html += `<div class="pw-ans" style="text-align:center;margin-top:6px">✅ 答案：${OPT_LETTERS[opts.findIndex((o) => o.word.id === w.id)] || '?'}</div>`;
       html += '</div>';
@@ -206,6 +212,12 @@
 
     html += sheetFooter();
     return html;
+  }
+
+  function paginate(list, size) {
+    const pages = [];
+    for (let i = 0; i < list.length; i += size) pages.push(list.slice(i, i + size));
+    return pages.length ? pages : [[]];
   }
 
   function renderMemorySheet(group, idx, total, showAns) {
@@ -272,13 +284,18 @@
 
     if (optSpell) {
       const spellWords = shuffle(pool.slice());
-      for (let i = 0; i < spellWords.length; i += 6) {
-        html += renderSpellSheet(spellWords.slice(i, i + 6), false);
-      }
+      const spellPages = paginate(spellWords, 4);
+      let spellOffset = 0;
+      spellPages.forEach((page) => {
+        html += renderSpellSheet(page, false, spellOffset + 1);
+        spellOffset += page.length;
+      });
       if (optAnswers) {
-        for (let i = 0; i < spellWords.length; i += 6) {
-          html += renderSpellSheet(spellWords.slice(i, i + 6), true);
-        }
+        spellOffset = 0;
+        spellPages.forEach((page) => {
+          html += renderSpellSheet(page, true, spellOffset + 1);
+          spellOffset += page.length;
+        });
       }
     }
 
@@ -291,24 +308,51 @@
     }
 
     if (optZhPickEn) {
-      html += renderQuizSheet(shuffle(pool.slice()), 'zh-en', false, pool);
-      if (optAnswers) html += renderQuizSheet(pool, 'zh-en', true, pool);
+      const zhEnPages = paginate(shuffle(pool.slice()), 5);
+      let zhOffset = 0;
+      zhEnPages.forEach((page, i) => {
+        html += renderQuizSheet(page, 'zh-en', false, pool, i + 1, zhEnPages.length, zhOffset + 1);
+        zhOffset += page.length;
+      });
+      if (optAnswers) {
+        zhOffset = 0;
+        paginate(pool, 5).forEach((page, i) => {
+          html += renderQuizSheet(page, 'zh-en', true, pool, i + 1, zhEnPages.length, zhOffset + 1);
+          zhOffset += page.length;
+        });
+      }
     }
 
     if (optEnPickZh) {
-      html += renderQuizSheet(shuffle(pool.slice()), 'en-zh', false, pool);
-      if (optAnswers) html += renderQuizSheet(pool, 'en-zh', true, pool);
+      const enZhPages = paginate(shuffle(pool.slice()), 5);
+      let enOffset = 0;
+      enZhPages.forEach((page, i) => {
+        html += renderQuizSheet(page, 'en-zh', false, pool, i + 1, enZhPages.length, enOffset + 1);
+        enOffset += page.length;
+      });
+      if (optAnswers) {
+        enOffset = 0;
+        paginate(pool, 5).forEach((page, i) => {
+          html += renderQuizSheet(page, 'en-zh', true, pool, i + 1, enZhPages.length, enOffset + 1);
+          enOffset += page.length;
+        });
+      }
     }
 
     if (optPickImg) {
       const pickWords = shuffle(pool.slice());
-      for (let i = 0; i < pickWords.length; i += 4) {
-        html += renderPickImgSheet(pickWords.slice(i, i + 4), pool, false);
-      }
+      const pickPages = paginate(pickWords, 2);
+      let pickOffset = 0;
+      pickPages.forEach((page, i) => {
+        html += renderPickImgSheet(page, pool, false, i + 1, pickPages.length, pickOffset + 1);
+        pickOffset += page.length;
+      });
       if (optAnswers) {
-        for (let i = 0; i < pickWords.length; i += 4) {
-          html += renderPickImgSheet(pickWords.slice(i, i + 4), pool, true);
-        }
+        pickOffset = 0;
+        pickPages.forEach((page, i) => {
+          html += renderPickImgSheet(page, pool, true, i + 1, pickPages.length, pickOffset + 1);
+          pickOffset += page.length;
+        });
       }
     }
 
@@ -323,14 +367,9 @@
     if (optSentence) {
       const sentences = shuffle(pool.filter((w) => w.sentences && w.sentences[0]).map((w) => w.sentences[0]));
       if (sentences.length) {
-        for (let i = 0; i < sentences.length; i += 4) {
-          html += renderSentenceSheet(sentences.slice(i, i + 4), false);
-        }
-        if (optAnswers) {
-          for (let i = 0; i < sentences.length; i += 4) {
-            html += renderSentenceSheet(sentences.slice(i, i + 4), true);
-          }
-        }
+        const sentencePages = paginate(sentences, 3);
+        sentencePages.forEach((page) => { html += renderSentenceSheet(page, false); });
+        if (optAnswers) sentencePages.forEach((page) => { html += renderSentenceSheet(page, true); });
       }
     }
 
