@@ -26,6 +26,7 @@ const SHELL = (id, title) => `<!DOCTYPE html>
   <script src="../../js/api-config.js"></script>
   <script src="../shared/lesson-tts-azure-config.js"></script>
   <script src="assets/l01p-img.js"></script>
+  <script src="assets/l01p-scenes.js"></script>
   <script src="assets/l01p-tts.js"></script>
   <script src="assets/l01p-word.js"></script>
   <script src="assets/l01p-data.js"></script>
