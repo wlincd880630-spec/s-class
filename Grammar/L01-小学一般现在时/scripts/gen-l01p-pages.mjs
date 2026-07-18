@@ -45,6 +45,8 @@ const SHELL = (id, title, ids) => `<!DOCTYPE html>
   <script src="assets/l01p-img.js"></script>
   <script src="assets/l01p-scenes.js"></script>
   <script src="assets/l01p-tts.js"></script>
+  <script src="assets/l01p-corpus.js"></script>
+  <script src="assets/l01p-practice.js"></script>
   <script src="../shared/grammar-handout-lookup.js"></script>
   <script src="assets/l01p-word.js"></script>
   <script src="assets/l01p-data.js"></script>

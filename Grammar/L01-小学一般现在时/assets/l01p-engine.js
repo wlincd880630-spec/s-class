@@ -864,4 +864,17 @@
   }
 
   global.L01pEngine = { render: render };
+
+  if (global.L01pPractice) {
+    global.L01pPractice.register(RENDER, BIND, {
+      esc: esc,
+      header: header,
+      hero: hero,
+      sentBlock: sentBlock,
+      ttsRow: ttsRow,
+      bindCommon: bindCommon,
+      speak: speak,
+      img: img,
+    });
+  }
 })(typeof window !== "undefined" ? window : null);

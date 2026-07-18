@@ -29,6 +29,20 @@
     "Tom plays football.": "l01p-scene-he-plays-football.png",
     "She washes her hands.": "l01p-scene-washes-hands.png",
     "Are they students?": "l01p-be-they-are-students.png",
-    "Am I late?": "l01p-be-i-am-happy.png",
+    "Does she read books every day?": "l01p-scene-does-she-read.png",
+    "He watches TV at night.": "l01p-scene-doesnt-watch-tv.png",
+    "They don't play games.": "l01p-playground.png",
+    "He doesn't eat meat.": "l01p-family-dinner.png",
+    "It is a cat.": "l01p-cat-sleep.png",
+    "Tom goes to school.": "l01p-scene-go-school.png",
+    "She studies English.": "l01p-school-class.png",
+    "She reads books every day.": "l01p-scene-does-she-read.png",
+    "He brushes his teeth every morning.": "l01p-brush-teeth.png",
+    "We study English at school.": "l01p-school-class.png",
+    "He is from China.": "l01p-be-he-is-from-china.png",
+    "We are friends.": "l01p-be-we-are-friends.png",
+    "I wake up at seven o'clock.": "l01p-morning-wake.png",
+    "We eat dinner together.": "l01p-family-dinner.png",
+    "She plays football after school.": "l01p-scene-he-plays-football.png"
   };
 })(typeof window !== "undefined" ? window : null);

@@ -202,7 +202,122 @@
       image:"l01p-scene-doesnt-watch-tv.png", q:"She ___ watch TV at night.", opts:["don't","doesn't","isn't"], ans:1,
       hint:"She → doesn't + 动词原形", sentence:"She doesn't watch TV at night.", zh:"她晚上不看电视。" },
 
-    { id:"p36", section:"小结", title:"本讲小结", type:"summary", badge:"image", badgeText:"🎉 完成",
+    { id:"p37", section:"课堂练习", title:"课堂练习中心", type:"practice-hub", badge:"game", badgeText:"🎮 练习",
+      image:"l01p-playground.png",
+      lead:"选择一种练习模式，巩固一般现在时！",
+      modes:[
+        { icon:"📖", title:"词汇拓展", desc:"p38-40", href:"p38.html" },
+        { icon:"🖼", title:"拓展例句", desc:"p41-44", href:"p41.html" },
+        { icon:"📝", title:"套题练习", desc:"p45-47", href:"p45.html" },
+        { icon:"⏱", title:"限时挑战", desc:"p48-50", href:"p48.html" },
+        { icon:"🔥", title:"连对闯关", desc:"p51-52", href:"p51.html" },
+        { icon:"🔗", title:"配对游戏", desc:"p53", href:"p53.html" },
+        { icon:"🎧", title:"听音快选", desc:"p54-55", href:"p54.html" },
+        { icon:"🧩", title:"看图造句", desc:"p56", href:"p56.html" },
+        { icon:"🎵", title:"听音排序", desc:"p57", href:"p57.html" },
+        { icon:"🏆", title:"终极闯关", desc:"p58-60", href:"p58.html" }
+      ]},
+
+    { id:"p38", section:"词汇拓展", title:"日常动词词汇卡", type:"vocab-cards", badge:"vocab", badgeText:"📖 词汇",
+      pool:"vocabDaily", lead:"点击 🔊 听例句；点击蓝色单词可查词典" },
+
+    { id:"p39", section:"词汇拓展", title:"be 动词 · 形容词", type:"vocab-cards", badge:"vocab", badgeText:"📖 词汇",
+      pool:"vocabBe", lead:"状态义核心词汇" },
+
+    { id:"p40", section:"词汇拓展", title:"时间频率词组", type:"vocab-cards", badge:"vocab", badgeText:"📖 词汇",
+      pool:"vocabTime", lead:"every day / at night / after school …" },
+
+    { id:"p41", section:"拓展例句", title:"例句 · 刷牙", type:"scene", badge:"action", badgeText:"🖼 例句",
+      image:"l01p-brush-teeth.png", lead:"三单 +es 例句",
+      sentence:"He brushes his teeth every morning.", zh:"他每天早上刷牙。", verbType:"action" },
+
+    { id:"p42", section:"拓展例句", title:"例句 · 在学校学习", type:"scene", badge:"image", badgeText:"🖼 例句",
+      image:"l01p-school-class.png", sentence:"We study English at school.", zh:"我们在学校学英语。" },
+
+    { id:"p43", section:"拓展例句", title:"例句 · 他来自中国", type:"scene", badge:"state", badgeText:"💙 be",
+      image:"l01p-be-he-is-from-china.png", sentence:"He is from China.", zh:"他来自中国。", verbType:"state" },
+
+    { id:"p44", section:"拓展例句", title:"例句 · 我们是朋友", type:"scene", badge:"state", badgeText:"💙 be",
+      image:"l01p-be-we-are-friends.png", sentence:"We are friends.", zh:"我们是朋友。", verbType:"state" },
+
+    { id:"p45", section:"套题练习", title:"课堂套题 ① · be与动作", type:"multi-quiz", badge:"ask", badgeText:"📝 套题",
+      image:"l01p-action-vs-be.png", lead:"共 6 题，做完点交卷",
+      questions:[
+        { q:"I ___ happy.", opts:["am","is","are"], ans:0 },
+        { q:"He ___ football.", opts:["play","plays","playing"], ans:1 },
+        { q:"They ___ students.", opts:["am","is","are"], ans:2 },
+        { q:"We ___ breakfast.", opts:["eat","eats","eating"], ans:0 },
+        { q:"She ___ in the classroom.", opts:["am","is","are"], ans:1 },
+        { q:"Tom ___ to school.", opts:["go","goes","going"], ans:1 }
+      ]},
+
+    { id:"p46", section:"套题练习", title:"课堂套题 ② · 三单拼写", type:"multi-quiz", badge:"ask", badgeText:"📝 套题",
+      image:"l01p-scene-washes-hands.png", lead:"共 6 题",
+      questions:[
+        { q:"She ___ her hands.", opts:["wash","washes","washing"], ans:1 },
+        { q:"He ___ TV at night.", opts:["watch","watches","watching"], ans:1 },
+        { q:"My sister ___ basketball.", opts:["play","plays","playing"], ans:1 },
+        { q:"The cat ___ on the bed.", opts:["sleep","sleeps","sleeping"], ans:1 },
+        { q:"She ___ English.", opts:["study","studies","studying"], ans:1 },
+        { q:"We ___ in the park.", opts:["run","runs","running"], ans:0 }
+      ]},
+
+    { id:"p47", section:"套题练习", title:"课堂套题 ③ · 综合", type:"multi-quiz", badge:"ask", badgeText:"📝 套题",
+      image:"l01p-playground.png", lead:"共 8 题 · 否定/疑问/be/三单",
+      questions:[
+        { q:"I ___ like spicy food.", opts:["don't","doesn't","isn't"], ans:0 },
+        { q:"___ you like English?", opts:["Do","Does","Are"], ans:0 },
+        { q:"She ___ watch TV.", opts:["don't","doesn't","isn't"], ans:1 },
+        { q:"___ she read books?", opts:["Do","Does","Is"], ans:1 },
+        { q:"They ___ friends.", opts:["am","is","are"], ans:2 },
+        { q:"He ___ football.", opts:["play","plays","playing"], ans:1 },
+        { q:"We ___ dinner together.", opts:["eat","eats","eating"], ans:0 },
+        { q:"___ they students?", opts:["Do","Does","Are"], ans:2 }
+      ]},
+
+    { id:"p48", section:"限时挑战", title:"限时 · be 动词 45秒", type:"timed-quiz", badge:"timed", badgeText:"⏱ 限时",
+      pool:"qBe", seconds:45, perQuestion:10, pass:4, lead:"每题约 10 秒，尽量多答对！" },
+
+    { id:"p49", section:"限时挑战", title:"限时 · 三单 45秒", type:"timed-quiz", badge:"timed", badgeText:"⏱ 限时",
+      pool:"q3s", seconds:45, perQuestion:10, pass:4, lead:"注意动词加 s / es！" },
+
+    { id:"p50", section:"限时挑战", title:"限时 · 综合 60秒", type:"timed-quiz", badge:"timed", badgeText:"⏱ 限时",
+      pool:"qMix", seconds:60, perQuestion:12, pass:6, lead:"be + 三单 + 否定疑问混合！" },
+
+    { id:"p51", section:"连对闯关", title:"连对 5 题 · be 动词", type:"streak-quiz", badge:"game", badgeText:"🔥 闯关",
+      pool:"qBe", target:5, lead:"答错连击清零，连续答对 5 题通关！" },
+
+    { id:"p52", section:"连对闯关", title:"连对 5 题 · 综合", type:"streak-quiz", badge:"game", badgeText:"🔥 闯关",
+      pool:"qMix", target:5, lead:"综合巩固，挑战自我！" },
+
+    { id:"p53", section:"配对游戏", title:"英中配对", type:"match-pairs", badge:"game", badgeText:"🔗 配对",
+      image:"l01p-action-vs-be.png", pool:"matchPairs" },
+
+    { id:"p54", section:"听音快选", title:"听音快选 ①", type:"listen-pick", badge:"sound", badgeText:"🎧 听音",
+      image:"l01p-be-i-am-happy.png", audio:"I am happy.", opts:["I am happy.","I am sad.","He is happy."], ans:0, zh:"我很高兴。", hint:"再听一遍！" },
+
+    { id:"p55", section:"听音快选", title:"听音快选 ②", type:"listen-pick", badge:"sound", badgeText:"🎧 听音",
+      image:"l01p-scene-do-you-like-english.png", audio:"Do you like English?", opts:["Do you like English?","Does she like English?","You like English."], ans:0, zh:"你喜欢英语吗？" },
+
+    { id:"p56", section:"课堂游戏", title:"看图造句 ③", type:"picture-build", badge:"action", badgeText:"🧩 造句",
+      image:"l01p-brush-teeth.png", instruction:"组成句子：",
+      tokens:["He","brushes","his","teeth","every","morning"], sentence:"He brushes his teeth every morning.", zh:"他每天早上刷牙。" },
+
+    { id:"p57", section:"课堂游戏", title:"听音排序 ③", type:"listen-order", badge:"sound", badgeText:"🎧 听音",
+      image:"l01p-scene-does-she-read.png",
+      audio:"Does she read books every day?", tokens:["Does","she","read","books","every","day"],
+      sentence:"Does she read books every day?", zh:"她每天读书吗？" },
+
+    { id:"p58", section:"终极闯关", title:"限时大闯关 90秒", type:"timed-quiz", badge:"timed", badgeText:"🏆 终极",
+      pool:"qMix", seconds:90, perQuestion:12, pass:8, lead:"90 秒综合挑战！答对 8 题以上即通关。" },
+
+    { id:"p59", section:"听音快选", title:"听音快选 ③ · 五题连战", type:"listen-pick", badge:"sound", badgeText:"🎧 听音",
+      image:"l01p-scene-he-plays-football.png", pool:"listenPick", rounds:5, lead:"从题库随机抽 5 题，听音选句！" },
+
+    { id:"p60", section:"限时挑战", title:"限时 · 否定句 45秒", type:"timed-quiz", badge:"timed", badgeText:"⏱ 限时",
+      pool:"qNeg", seconds:45, perQuestion:10, pass:3, lead:"don't / doesn't 专项训练！" },
+
+    { id:"p61", section:"小结", title:"本讲小结", type:"summary", badge:"image", badgeText:"🎉 完成",
       image:"l01p-action-vs-be.png",
       checklist:[
         "动作义：play / run / eat —— 实义动词，描述「做了什么」",
@@ -211,7 +326,9 @@
         "I/We/They + 动词原形；He/She/It + 动词加 s",
         "拼写：+s / +es / y→ies / goes·has",
         "否定：don't / doesn't + 动词原形",
-        "疑问：Do/Does 放句首 + 动词原形？"
+        "疑问：Do/Does 放句首 + 动词原形？",
+        "课堂练习：限时挑战 · 连对闯关 · 套题 · 配对 · 听音快选（p37 起）",
+        "词汇拓展 18 词 + 语料题库 30+ 题，可反复刷题"
       ],
       chant:"一般现在时常出现，\n动作用实义动词干；\n状态用 am is are，\nI am, he is, they are；\nhe she it 动词加 s，\ndon't doesn't 表否定，\nDo Does 放句首问一问！",
       chantSpeak:"I play football. He plays football. I am happy. They are students." }
