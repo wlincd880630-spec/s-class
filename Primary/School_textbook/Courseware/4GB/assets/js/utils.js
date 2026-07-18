@@ -449,6 +449,50 @@ function fallbackSpeak(text, onEnd) {
   speechSynthesis.speak(u);
 }
 
+/** 清洗参考文本，避免中文括号等干扰 Azure 发音测评 */
+function normalizePronunciationReference(text) {
+  if (!text) return '';
+  return String(text)
+    .replace(/[（(][^）)]*[）)]/g, '')
+    .replace(/[一-鿿　-〿＀-￯]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function parsePronunciationScores(sdk, result) {
+  let accuracy = 0;
+  let fluency = 0;
+  let completeness = 0;
+  let pronScore = 0;
+  try {
+    const pa = sdk.PronunciationAssessmentResult.fromResult(result);
+    accuracy = pa.accuracyScore ?? 0;
+    fluency = pa.fluencyScore ?? 0;
+    completeness = pa.completenessScore ?? 0;
+    pronScore = pa.pronunciationScore ?? 0;
+  } catch (_) {}
+  try {
+    const jsonStr = result.properties.getProperty(sdk.PropertyId.SpeechServiceResponse_JsonResult);
+    if (jsonStr) {
+      const paJson = JSON.parse(jsonStr).NBest?.[0]?.PronunciationAssessment;
+      if (paJson) {
+        accuracy = paJson.AccuracyScore ?? accuracy;
+        fluency = paJson.FluencyScore ?? fluency;
+        completeness = paJson.CompletenessScore ?? completeness;
+        pronScore = paJson.PronScore ?? pronScore;
+      }
+    }
+  } catch (_) {}
+  const score = accuracy > 0 ? accuracy : (pronScore || accuracy);
+  return { accuracy, fluency, completeness, pronScore, score };
+}
+
+/** 单词/短语测评展示分：优先准确度，避免韵律/流畅度拉低综合分 */
+function getPronunciationDisplayScore(result) {
+  if (!result) return 0;
+  return result.score ?? result.accuracy ?? result.pronScore ?? 0;
+}
+
 // ─── 发音评估：点击开始 / 再次点击结束 ───
 class PronunciationRecorder {
   constructor() {
@@ -460,7 +504,8 @@ class PronunciationRecorder {
 
   async start(referenceText) {
     if (this.isRecording) return;
-    this.referenceText = referenceText;
+    const ref = normalizePronunciationReference(referenceText) || String(referenceText || '').trim();
+    this.referenceText = ref;
     this.lastResult = null;
     await loadSpeechSDK();
     const sdk = window.SpeechSDK;
@@ -468,12 +513,11 @@ class PronunciationRecorder {
     cfg.speechRecognitionLanguage = AZURE_CONFIG.language;
 
     const paConfig = new sdk.PronunciationAssessmentConfig(
-      referenceText,
+      ref,
       sdk.PronunciationAssessmentGradingSystem.HundredMark,
-      sdk.PronunciationAssessmentGranularity.Phoneme,
-      true
+      sdk.PronunciationAssessmentGranularity.Word,
+      false
     );
-    paConfig.enableProsodyAssessment = true;
 
     const audioCfg = sdk.AudioConfig.fromDefaultMicrophoneInput();
     this.recognizer = new sdk.SpeechRecognizer(cfg, audioCfg);
@@ -481,12 +525,9 @@ class PronunciationRecorder {
 
     this.recognizer.recognized = (s, e) => {
       if (e.result.reason === sdk.ResultReason.RecognizedSpeech) {
-        const pa = sdk.PronunciationAssessmentResult.fromResult(e.result);
+        const scores = parsePronunciationScores(sdk, e.result);
         this.lastResult = {
-          accuracy: pa.accuracyScore,
-          fluency: pa.fluencyScore,
-          completeness: pa.completenessScore,
-          pronScore: pa.pronunciationScore,
+          ...scores,
           recognized: e.result.text
         };
       }
@@ -505,20 +546,22 @@ class PronunciationRecorder {
   async stop() {
     if (!this.recognizer || !this.isRecording) return this.lastResult;
     this.isRecording = false;
-    await new Promise((resolve, reject) => {
-      this.recognizer.stopContinuousRecognitionAsync(resolve, reject);
-    });
-    this.recognizer.close();
+    const recognizer = this.recognizer;
     this.recognizer = null;
+    await new Promise((resolve, reject) => {
+      recognizer.stopContinuousRecognitionAsync(resolve, reject);
+    });
+    recognizer.close();
     return this.lastResult;
   }
 
   cancel() {
     if (this.recognizer && this.isRecording) {
       this.isRecording = false;
-      this.recognizer.stopContinuousRecognitionAsync(() => {
-        this.recognizer.close();
-        this.recognizer = null;
+      const recognizer = this.recognizer;
+      this.recognizer = null;
+      recognizer.stopContinuousRecognitionAsync(() => {
+        recognizer.close();
       });
     }
   }
@@ -755,7 +798,7 @@ async function togglePronunciationRecording(referenceText, onResult, onError) {
       return true;
     }
     const result = await pronunciationRecorder.stop();
-    if (result && (result.pronScore > 0 || result.recognized)) {
+    if (result && (getPronunciationDisplayScore(result) > 0 || result.recognized)) {
       onResult(result);
     } else {
       onError('没有听清，请再试一次！靠近麦克风，清晰朗读。');

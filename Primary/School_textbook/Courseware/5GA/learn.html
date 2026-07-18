@@ -291,8 +291,8 @@
       btn.innerHTML = '<i class="fa-solid fa-microphone"></i> 跟读录音';
       resultEl.classList.remove('hidden');
 
-      if (result && (result.pronScore > 0 || result.recognized)) {
-        const score = result.pronScore || result.accuracy || 0;
+      if (result && (getPronunciationDisplayScore(result) > 0 || result.recognized)) {
+        const score = getPronunciationDisplayScore(result);
         renderStars(document.getElementById('starDisplay'), scoreToStars(score));
         document.getElementById('scoreFill').style.width = score + '%';
         assessText.textContent = `发音 ${Math.round(score)} 分 · 准确度 ${Math.round(result.accuracy)} · 流畅度 ${Math.round(result.fluency)}`;
