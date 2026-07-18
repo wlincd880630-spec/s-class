@@ -300,7 +300,7 @@
 
   function normalizeLookupWord(word) {
     return String(word || "")
-      .replace(/[’‘]/g, "'")
+      .replace(/[\u2018\u2019`´]/g, "'")
       .replace(/[^A-Za-z'-]/g, "")
       .trim()
       .toLowerCase();
@@ -524,7 +524,8 @@
 
   function parseWordToken(tok) {
     if (!tok) return null;
-    var m = String(tok).match(/^([A-Za-z]+(?:'[A-Za-z]+)?)(.*)$/);
+    var t = String(tok).replace(/[\u2018\u2019`´]/g, "'");
+    var m = t.match(/^([A-Za-z]+(?:'[A-Za-z]+)?)(.*)$/);
     if (!m || !m[1]) return null;
     return { word: m[1], suffix: m[2] || "" };
   }

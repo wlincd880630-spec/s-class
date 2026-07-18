@@ -76,12 +76,17 @@
     );
   }
 
+  function normApostrophe(s) {
+    return String(s || "").replace(/[\u2018\u2019`´]/g, "'");
+  }
+
   function sentBlock(sentence, zh, cls) {
+    var s = normApostrophe(sentence);
     return (
       '<div class="l01p-sentence-wrap' +
       (cls ? " " + cls : "") +
       '"><p class="l01p-sentence en-line" lang="en">' +
-      esc(sentence) +
+      esc(s) +
       "</p>" +
       (zh ? '<span class="l01p-zh">' + esc(zh) + "</span>" : "") +
       "</div>"
