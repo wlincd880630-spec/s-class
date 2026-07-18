@@ -1,0 +1,705 @@
+/**
+ * 外研版教材单词 · 纸质练习 / PDF 导出
+ * 参照 Peek Otter print-worksheets 设计，适配 FLTRP 视觉主题
+ */
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+
+:root {
+  --pw-paper: #fffef8;
+  --pw-ink: #1f2937;
+  --pw-muted: #5c6b7a;
+  --pw-accent-maze: #2b7cb8;
+  --pw-accent-spell: #e86f00;
+  --pw-accent-connect: #2d6a2e;
+  --pw-accent-quiz: #7c4dff;
+  --pw-accent-memory: #e91e8c;
+  --pw-accent-sentence: #3d5afe;
+  --pw-accent-pick: #ff9100;
+  --pw-gold: #ffd24a;
+  --pw-green-light: #e8f7e3;
+  --pw-sky-light: #e3f4fc;
+  --pw-orange-light: #fff3e0;
+  --pw-pink-light: #fce4ec;
+  --pw-purple-light: #ede7f6;
+}
+
+/* ── 页面与工具栏 ── */
+body.print-worksheet-page {
+  background: #eceff1;
+}
+
+body.print-worksheet-page::before,
+body.print-worksheet-page::after {
+  display: none;
+}
+
+.pw-toolbar {
+  max-width: 52rem;
+  margin: 0 auto 1rem;
+  background: #fff;
+  border-radius: var(--radius, 18px);
+  padding: 1.1rem 1.25rem;
+  border-left: 5px solid var(--fltrp-green, #6cc24a);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.pw-toolbar h1 {
+  font-family: var(--font, 'Fredoka', sans-serif);
+  font-size: 1.3rem;
+  color: var(--fltrp-green-dark, #2d6a2e);
+  margin-bottom: 0.45rem;
+}
+
+.pw-toolbar .pw-desc {
+  font-size: 0.88rem;
+  color: var(--pw-muted);
+  line-height: 1.55;
+  margin-bottom: 0.65rem;
+}
+
+.pw-toolbar .pw-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: center;
+  margin: 0.5rem 0;
+}
+
+.pw-toolbar label {
+  font-size: 0.88rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 8px;
+  transition: background 0.15s;
+}
+
+.pw-toolbar label:hover {
+  background: var(--pw-green-light);
+}
+
+.pw-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 0.35rem;
+}
+
+.pw-chip {
+  font-size: 0.76rem;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid #cfd8dc;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #fafafa, #f0f4f8);
+  color: var(--pw-ink);
+}
+
+.pw-chip-count {
+  font-size: 0.85rem;
+  color: var(--pw-muted);
+  margin: 0.35rem 0;
+}
+
+#printArea {
+  max-width: 52rem;
+  margin: 0 auto;
+}
+
+.pw-empty {
+  text-align: center;
+  padding: 2rem;
+  color: #78909c;
+}
+
+/* ── 练习纸页面 ── */
+.pw-sheet {
+  position: relative;
+  background: var(--pw-paper);
+  padding: 10mm 14mm 14mm;
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+}
+
+.pw-sheet::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, var(--fltrp-green, #6cc24a) 0%, var(--fltrp-green, #6cc24a) 40%, var(--fltrp-orange, #ff8f1f) 100%);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.pw-sheet--maze::before { background: linear-gradient(90deg, #2b7cb8, #5eb8e5); }
+.pw-sheet--spell::before { background: linear-gradient(90deg, #e86f00, #ffb347); }
+.pw-sheet--connect::before { background: linear-gradient(90deg, #2d6a2e, #6cc24a); }
+.pw-sheet--quiz::before { background: linear-gradient(90deg, #7c4dff, #b388ff); }
+.pw-sheet--memory::before { background: linear-gradient(90deg, #e91e8c, #f48fb1); }
+.pw-sheet--sentence::before { background: linear-gradient(90deg, #3d5afe, #82b1ff); }
+.pw-sheet--pick::before { background: linear-gradient(90deg, #ff9100, #ffd24a); }
+
+.pw-sheet-hdr {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 2px solid var(--pw-gold);
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+  margin-top: 4px;
+}
+
+.pw-sheet-hdr h2 {
+  font-family: var(--font, 'Fredoka', sans-serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--fltrp-green-dark, #2d6a2e);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.pw-sheet-hdr .pw-meta {
+  font-size: 0.76rem;
+  color: #78909c;
+  text-align: right;
+}
+
+.pw-name-line {
+  font-size: 0.82rem;
+  margin-bottom: 10px;
+  color: var(--pw-ink);
+}
+
+.pw-name-line span {
+  display: inline-block;
+  min-width: 8rem;
+  border-bottom: 1.5px solid #90a4ae;
+}
+
+/* ── 单词迷宫 ── */
+.pw-maze-targets {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.pw-maze-target {
+  text-align: center;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 6px 4px;
+  background: linear-gradient(180deg, #fff 0%, var(--pw-sky-light) 100%);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.pw-maze-target:nth-child(1) { border-color: #00b4d8; background: linear-gradient(180deg, #fff 0%, #e0f7fa 100%); }
+.pw-maze-target:nth-child(2) { border-color: #e91e8c; background: linear-gradient(180deg, #fff 0%, #fce4ec 100%); }
+.pw-maze-target:nth-child(3) { border-color: #3d5afe; background: linear-gradient(180deg, #fff 0%, #e8eaf6 100%); }
+.pw-maze-target:nth-child(4) { border-color: #ff9100; background: linear-gradient(180deg, #fff 0%, #fff3e0 100%); }
+
+.pw-maze-target img {
+  width: 100%;
+  max-height: 76px;
+  object-fit: contain;
+}
+
+.pw-maze-target .pw-num {
+  font-family: var(--font, 'Fredoka', sans-serif);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--pw-accent-maze);
+  width: 1.5rem;
+  height: 1.5rem;
+  line-height: 1.5rem;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--pw-accent-maze);
+  margin: 0 auto 4px;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.pw-maze-target .pw-zh {
+  font-size: 0.78rem;
+  color: var(--pw-muted);
+  margin-top: 3px;
+}
+
+.pw-maze-grid {
+  display: grid;
+  gap: 3px;
+  max-width: 360px;
+  margin: 0 auto;
+  border: 3px solid #37474f;
+  border-radius: 8px;
+  padding: 5px;
+  background: #37474f;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.pw-maze-cell {
+  aspect-ratio: 1;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font, 'Fredoka', sans-serif);
+  font-weight: 700;
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  border-radius: 3px;
+}
+
+.pw-maze-cell:nth-child(odd) { background: #fafafa; }
+
+/* ── 字母排序 ── */
+.pw-spell-item {
+  display: grid;
+  grid-template-columns: 76px 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px dashed #cfd8dc;
+}
+
+.pw-spell-item:last-child { border-bottom: none; }
+
+.pw-spell-item img {
+  width: 76px;
+  height: 58px;
+  object-fit: contain;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 3px;
+  background: #fff;
+}
+
+.pw-spell-zh {
+  font-size: 0.85rem;
+  color: var(--pw-muted);
+  margin-bottom: 5px;
+}
+
+.pw-spell-letters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 6px;
+}
+
+.pw-spell-letters span {
+  width: 1.7rem;
+  height: 1.7rem;
+  border: 2px solid #90caf9;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.15rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #e3f2fd, #fff);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.pw-spell-letters span:nth-child(4n+1) { border-color: #81c784; background: linear-gradient(135deg, #e8f5e9, #fff); }
+.pw-spell-letters span:nth-child(4n+2) { border-color: #ffb74d; background: linear-gradient(135deg, #fff3e0, #fff); }
+.pw-spell-letters span:nth-child(4n+3) { border-color: #f48fb1; background: linear-gradient(135deg, #fce4ec, #fff); }
+
+.pw-spell-write {
+  font-size: 0.8rem;
+  color: #78909c;
+}
+
+.pw-spell-line {
+  display: inline-block;
+  min-width: 10rem;
+  border-bottom: 2px solid #37474f;
+  margin-left: 4px;
+  height: 1.3rem;
+}
+
+/* ── 图片单词连线 ── */
+.pw-connect-hdr {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 8px 0;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--pw-ink);
+}
+
+.pw-connect-hdr div:first-child { color: var(--pw-accent-maze); }
+.pw-connect-hdr div:last-child { color: var(--pw-accent-spell); }
+
+.pw-connect-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 10px 0;
+}
+
+.pw-connect-item {
+  border: 2px solid #cfd8dc;
+  border-radius: 12px;
+  padding: 10px;
+  text-align: center;
+  min-height: 125px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.pw-connect-item--img {
+  background: linear-gradient(135deg, #e3f4fc 0%, #fff 100%);
+  border-color: #5eb8e5;
+}
+
+.pw-connect-item--word {
+  background: linear-gradient(135deg, #fff8e1 0%, #fff 100%);
+  border-color: #ffb74d;
+}
+
+.pw-connect-item img {
+  height: 104px;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.pw-connect-word {
+  font-family: var(--font, 'Fredoka', sans-serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--pw-ink);
+}
+
+/* ── 选择题 ── */
+.pw-quiz-item {
+  display: grid;
+  grid-template-columns: 68px 1fr;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px dashed #cfd8dc;
+  align-items: start;
+}
+
+.pw-quiz-item:last-child { border-bottom: none; }
+
+.pw-quiz-item img {
+  width: 68px;
+  height: 52px;
+  object-fit: contain;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 2px;
+  background: #fff;
+}
+
+.pw-quiz-q {
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+}
+
+.pw-quiz-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.pw-quiz-opt {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px 4px 6px;
+  border: 2px solid #b0bec5;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  background: #fff;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.pw-quiz-opt .pw-opt-letter {
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.75rem;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.pw-quiz-opt:nth-child(1) .pw-opt-letter { background: #00b4d8; }
+.pw-quiz-opt:nth-child(2) .pw-opt-letter { background: #e91e8c; }
+.pw-quiz-opt:nth-child(3) .pw-opt-letter { background: #3d5afe; }
+.pw-quiz-opt:nth-child(4) .pw-opt-letter { background: #ff9100; }
+
+/* ── 看单词选图（游戏九纸质版）── */
+.pw-pick-item {
+  padding: 14px 0;
+  border-bottom: 1px dashed #cfd8dc;
+}
+
+.pw-pick-item:last-child { border-bottom: none; }
+
+.pw-pick-word {
+  font-family: var(--font, 'Fredoka', sans-serif);
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 10px;
+  color: var(--pw-accent-pick);
+}
+
+.pw-pick-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.pw-pick-opt {
+  border: 2px solid #cfd8dc;
+  border-radius: 12px;
+  padding: 8px;
+  text-align: center;
+  background: #fff;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.pw-pick-opt:nth-child(1) { border-color: #00b4d8; background: linear-gradient(180deg, #e0f7fa, #fff); }
+.pw-pick-opt:nth-child(2) { border-color: #e91e8c; background: linear-gradient(180deg, #fce4ec, #fff); }
+.pw-pick-opt:nth-child(3) { border-color: #3d5afe; background: linear-gradient(180deg, #e8eaf6, #fff); }
+.pw-pick-opt:nth-child(4) { border-color: #ff9100; background: linear-gradient(180deg, #fff3e0, #fff); }
+
+.pw-pick-opt img {
+  max-height: 80px;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.pw-pick-opt .pw-opt-letter {
+  position: absolute;
+  top: 4px;
+  left: 6px;
+  width: 1.3rem;
+  height: 1.3rem;
+  border-radius: 50%;
+  background: var(--pw-ink);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pw-pick-opt {
+  position: relative;
+}
+
+/* ── 翻翻配对卡片 ── */
+.pw-memory-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.pw-memory-card {
+  border: 2px dashed #90a4ae;
+  border-radius: 10px;
+  padding: 6px;
+  text-align: center;
+  min-height: 92px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.82rem;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.pw-memory-card:nth-child(odd) {
+  border-color: #5eb8e5;
+  background: linear-gradient(180deg, #e3f4fc, #fff);
+}
+
+.pw-memory-card:nth-child(even) {
+  border-color: #ffb74d;
+  background: linear-gradient(180deg, #fff8e1, #fff);
+}
+
+.pw-memory-card img {
+  max-height: 54px;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.pw-memory-card .pw-card-word {
+  font-family: var(--font, 'Fredoka', sans-serif);
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-top: 3px;
+}
+
+/* ── 句子排序 ── */
+.pw-sentence-item {
+  padding: 12px 0;
+  border-bottom: 1px dashed #cfd8dc;
+}
+
+.pw-sentence-item:last-child { border-bottom: none; }
+
+.pw-sentence-zh {
+  font-size: 0.9rem;
+  color: var(--pw-muted);
+  margin-bottom: 8px;
+}
+
+.pw-sentence-words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0;
+}
+
+.pw-sentence-words span {
+  padding: 5px 12px;
+  border: 2px solid #90caf9;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background: linear-gradient(135deg, #e3f2fd, #fff);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.pw-sentence-words span:nth-child(3n+1) { border-color: #81c784; background: linear-gradient(135deg, #e8f5e9, #fff); }
+.pw-sentence-words span:nth-child(3n+2) { border-color: #ffb74d; background: linear-gradient(135deg, #fff3e0, #fff); }
+
+.pw-sentence-line {
+  margin-top: 8px;
+  min-height: 1.5rem;
+  border-bottom: 2px solid #37474f;
+}
+
+/* ── 答案页 ── */
+.pw-answer-key {
+  background: linear-gradient(180deg, #f1f8e9 0%, var(--pw-paper) 30%);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.pw-answer-key .pw-ans {
+  font-family: var(--font, 'Fredoka', sans-serif);
+  color: var(--fltrp-green-dark, #2d6a2e);
+  font-weight: 700;
+}
+
+.pw-hint {
+  text-align: center;
+  font-size: 0.76rem;
+  color: #78909c;
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px dotted #e0e0e0;
+}
+
+.pw-sheet-footer {
+  text-align: center;
+  font-size: 0.68rem;
+  color: #b0bec5;
+  margin-top: 8px;
+}
+
+/* ── 打印 ── */
+@media print {
+  body.print-worksheet-page,
+  body.print-worksheet-print {
+    background: #fff !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  body.print-worksheet-page::before,
+  body.print-worksheet-page::after,
+  body.print-worksheet-print::before,
+  body.print-worksheet-print::after {
+    display: none !important;
+  }
+
+  .no-print { display: none !important; }
+
+  body.print-worksheet-print .container {
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  body.print-worksheet-print .card {
+    box-shadow: none !important;
+    border: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  #printArea {
+    max-width: none;
+    margin: 0;
+  }
+
+  .pw-sheet {
+    box-shadow: none;
+    border-radius: 0;
+    margin: 0;
+    page-break-after: always;
+    break-after: page;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .pw-sheet:last-child {
+    page-break-after: auto;
+    break-after: auto;
+  }
+
+  .pw-maze-target,
+  .pw-maze-grid,
+  .pw-spell-letters span,
+  .pw-connect-item,
+  .pw-quiz-opt,
+  .pw-pick-opt,
+  .pw-memory-card,
+  .pw-sentence-words span,
+  .pw-answer-key {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+
+@page {
+  size: A4 portrait;
+  margin: 10mm 12mm;
+}

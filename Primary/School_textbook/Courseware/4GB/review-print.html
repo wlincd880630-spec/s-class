@@ -6,286 +6,53 @@
   <title>纸质练习 / PDF · 四年级下册</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="assets/css/common.css">
+  <link rel="stylesheet" href="../assets/css/print-worksheets.css">
 </head>
-<body>
+<body class="print-worksheet-page">
   <div class="container">
-    <div class="top-bar">
+    <div class="top-bar no-print">
       <a class="course-logo" href="index.html" title="Steven's Class English Studio">
         <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/4GB/assets/images/logo.png" alt="Steven's Class English Studio">
       </a>
       <a class="back-link" href="index.html"><i class="fa-solid fa-house"></i> 返回</a>
       <h1 class="page-title"><i class="fa-solid fa-print"></i> 纸质练习 / PDF</h1>
     </div>
-    <div class="card no-print print-toolbar">
+
+    <div class="pw-toolbar no-print">
+      <h1>📄 纸质练习 · 打印 / 导出 PDF</h1>
+      <p class="pw-desc">根据所选单元与单词生成可在纸上完成的练习。导出 PDF：点「打印」→ 目标选「另存为 PDF」→ 缩放 <strong>100%</strong>、边距 <strong>无/默认</strong>。</p>
       <div class="control-row"><label>单元：</label><select id="unitSelect"></select></div>
       <div id="wordCheckArea"></div>
-      <p style="color:#636e72;font-size:0.9rem;margin:8px 0;">
-        根据所选单词生成可在纸上完成的练习。导出 PDF：点「打印」→ 目标选「另存为 PDF」→ 缩放 <strong>100%</strong>、边距 <strong>无</strong>。
-      </p>
-      <div class="row">
-        <label><input type="checkbox" id="optMaze" checked /> 单词迷宫</label>
+      <p class="pw-chip-count" id="pwWordCount">已选 0 个单词</p>
+      <div class="pw-chips" id="pwWordChips"></div>
+      <div class="pw-row">
+        <label><input type="checkbox" id="optMaze" checked /> 单词迷宫（每组 4 词 / 页）</label>
         <label><input type="checkbox" id="optSpell" checked /> 字母排序（看图拼词）</label>
         <label><input type="checkbox" id="optConnect" checked /> 图片单词连线</label>
         <label><input type="checkbox" id="optZhPickEn" checked /> 看中文选英文</label>
         <label><input type="checkbox" id="optEnPickZh" checked /> 看单词选中文</label>
+        <label><input type="checkbox" id="optPickImg" checked /> 看单词选图</label>
         <label><input type="checkbox" id="optMemory" checked /> 翻翻配对卡片</label>
-        <label><input type="checkbox" id="optSentence" checked /> 句子听音排序</label>
+        <label><input type="checkbox" id="optSentence" checked /> 句子排序</label>
         <label><input type="checkbox" id="optAnswers" /> 含答案页（教师用）</label>
       </div>
-      <div class="row">
+      <div class="pw-row" style="margin-top:0.75rem;">
         <button type="button" class="btn btn-primary" id="btnGen"><i class="fa-solid fa-file-lines"></i> 生成练习纸</button>
         <button type="button" class="btn btn-success" id="btnPrint"><i class="fa-solid fa-print"></i> 打印 / 导出 PDF</button>
       </div>
     </div>
 
     <div id="printArea">
-      <p class="print-hint no-print" id="placeholder">请选择单元与单词，点击「生成练习纸」预览</p>
+      <p class="pw-empty no-print" id="placeholder">请选择单元与单词，练习纸将自动生成</p>
     </div>
   </div>
+  <script>
+    window.PRINT_WORKSHEETS = { bookName: "外研版四年级下册" };
+  </script>
   <script src="assets/data/data.js"></script>
   <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/audio/audio-manifest.js?v=1"></script>
   <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/audio/local-audio.js?v=1"></script>
   <script src="assets/js/utils.js"></script>
-  <script>
-    const BOOK_NAME = "外研版四年级下册";
-    const unitSelect = document.getElementById('unitSelect');
-    const wordCheckArea = document.getElementById('wordCheckArea');
-
-    buildUnitSelector(unitSelect, () => buildWordCheckboxes(wordCheckArea, unitSelect.value));
-    buildWordCheckboxes(wordCheckArea, unitSelect.value);
-
-    function esc(s) {
-      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    }
-
-    function sheetHeader(title, sub) {
-      return `<div class="print-sheet-hdr"><h2>${esc(title)}</h2><div class="meta">${esc(sub)}</div></div>
-        <div class="print-name-line">姓名：<span></span> &nbsp; 日期：<span></span></div>`;
-    }
-
-    function getPool() {
-      const unitId = unitSelect.value;
-      const ids = getSelectedWordIds(wordCheckArea);
-      return shuffle(getAllWords(unitId).filter(w => ids.includes(w.id)));
-    }
-
-    function padGroupToFour(group, source) {
-      const words = group.slice();
-      const src = shuffle(source.slice());
-      while (words.length < 4) {
-        const cands = src.filter(w => !words.some(x => x.id === w.id));
-        words.push((cands.length ? cands : src)[Math.floor(Math.random() * (cands.length ? cands : src).length)]);
-      }
-      return shuffle(words.slice(0, 4));
-    }
-
-    function padGroupToThree(group, source) {
-      const words = group.slice();
-      const src = shuffle(source.slice());
-      while (words.length < 3) {
-        words.push(src[Math.floor(Math.random() * src.length)]);
-      }
-      return shuffle(words.slice(0, 3));
-    }
-
-    function renderMazeSheet(words, idx, total, showAns) {
-      const prepared = padGroupToFour(words, words);
-      let maze = null, tries = 0;
-      do {
-        maze = generateMazeGrid(prepared);
-        tries++;
-      } while (tries < 12 && (!maze || !maze.grid || !maze.grid[0] || !maze.grid[0].length));
-      const sz = maze?.size || (maze?.grid?.length || 0);
-      let html = `<div class="print-sheet${showAns ? ' print-answer-key' : ''}">`;
-      html += sheetHeader(`${BOOK_NAME} · 单词迷宫`, `第 ${idx} / ${total} 组`);
-      html += '<div class="print-maze-targets">';
-      prepared.forEach((w, i) => {
-        html += `<div class="print-maze-target"><div>${i+1}</div><img src="${esc(w.image)}" alt="" /><div class="zh">${esc(shortMeaning(w))}</div>`;
-        if (showAns) html += `<div class="ans">${esc(w.word)}</div>`;
-        html += '</div>';
-      });
-      html += '</div>';
-      if (maze && maze.grid && maze.grid.length) {
-        html += `<div class="print-maze-grid" style="grid-template-columns:repeat(${sz},1fr)">`;
-        maze.grid.forEach(row => row.forEach(ch => {
-          html += `<div class="print-maze-cell">${esc((ch||'?').toUpperCase())}</div>`;
-        }));
-        html += '</div>';
-      }
-      html += `<p class="print-hint">${showAns ? '答案页' : '在宫格中找出 4 个单词（横/竖直线）'}</p></div>`;
-      return html;
-    }
-
-    function renderSpellSheet(words, showAns) {
-      let html = `<div class="print-sheet${showAns ? ' print-answer-key' : ''}">`;
-      html += sheetHeader(`${BOOK_NAME} · 字母排序`, `共 ${words.length} 题`);
-      words.forEach((w, i) => {
-        const letters = w.word.replace(/[\s-]/g, '').split('');
-        const scrambled = shuffle(letters);
-        html += `<div class="print-spell-item"><img src="${esc(w.image)}" alt="" /><div>
-          <div>${i+1}. ${esc(shortMeaning(w))}</div>
-          <div class="print-spell-letters">${scrambled.map(ch => `<span>${esc(ch)}</span>`).join('')}</div>
-          <div>写出单词：${showAns ? `<span class="ans">${esc(w.word)}</span>` : '<span class="print-spell-line"></span>'}</div>
-        </div></div>`;
-      });
-      html += '</div>';
-      return html;
-    }
-
-    function renderConnectSheet(group, idx, total, showAns) {
-      const words = shuffle(group.slice());
-      const shuffled = shuffle(words.slice());
-      let html = `<div class="print-sheet${showAns ? ' print-answer-key' : ''}">`;
-      html += sheetHeader(`${BOOK_NAME} · 图片单词连线`, `第 ${idx} / ${total} 页`);
-      html += '<div class="print-connect-row"><div><strong>图片</strong></div><div><strong>单词（已打乱）</strong></div></div>';
-      words.forEach((w, i) => {
-        html += `<div class="print-connect-row">
-          <div class="print-connect-item"><img src="${esc(w.image)}" alt="" /></div>
-          <div class="print-connect-item"><span class="print-connect-word">${esc(shuffled[i].word)}</span></div>
-        </div>`;
-      });
-      if (showAns) {
-        html += '<p class="print-hint">答案：' + words.map(w => `${esc(w.word)} ↔ ${esc(shortMeaning(w))}`).join(' &nbsp; ') + '</p>';
-      } else {
-        html += '<p class="print-hint">用线将左侧图片与右侧对应的英文单词相连</p>';
-      }
-      html += '</div>';
-      return html;
-    }
-
-    function renderQuizSheet(words, mode, showAns) {
-      const title = mode === 'zh-en' ? '看中文选英文' : '看单词选中文';
-      let html = `<div class="print-sheet${showAns ? ' print-answer-key' : ''}">`;
-      html += sheetHeader(`${BOOK_NAME} · ${title}`, `共 ${words.length} 题`);
-      const unitId = unitSelect.value;
-      const all = getAllWords(unitId);
-      words.forEach((w, i) => {
-        const opts = pickQuizOptions(w, all, 4, item => mode === 'zh-en' ? item.word : shortMeaning(item));
-        html += `<div class="print-quiz-item"><img src="${esc(w.image)}" alt="" /><div>
-          <div><strong>${i+1}.</strong> ${mode === 'zh-en' ? esc(shortMeaning(w)) : esc(w.word)}</div>
-          <div class="print-quiz-options">${opts.map(o => `<span>${esc(o.label)}</span>`).join('')}</div>
-          ${showAns ? `<div class="ans" style="margin-top:4px">答案：${mode === 'zh-en' ? esc(w.word) : esc(shortMeaning(w))}</div>` : ''}
-        </div></div>`;
-      });
-      html += '</div>';
-      return html;
-    }
-
-    function renderMemorySheet(group, idx, total, showAns) {
-      let html = `<div class="print-sheet${showAns ? ' print-answer-key' : ''}">`;
-      html += sheetHeader(`${BOOK_NAME} · 翻翻配对卡片`, `第 ${idx} / ${total} 组 · 剪下配对`);
-      html += '<div class="print-memory-grid">';
-      group.forEach(w => {
-        html += `<div class="print-memory-card"><img src="${esc(w.image)}" alt="" /><div>${esc(w.word)}</div></div>`;
-        html += `<div class="print-memory-card">${showAns ? `<div class="ans">${esc(w.word)}</div>` : '?'}<div>${esc(shortMeaning(w))}</div></div>`;
-      });
-      html += '</div><p class="print-hint">剪下卡片，翻面后凭记忆配对单词与图片/中文</p></div>';
-      return html;
-    }
-
-    function renderSentenceSheet(items, showAns) {
-      let html = `<div class="print-sheet${showAns ? ' print-answer-key' : ''}">`;
-      html += sheetHeader(`${BOOK_NAME} · 句子听音排序`, `共 ${items.length} 句`);
-      items.forEach((item, i) => {
-        const parts = item.en.replace(/[.!?]+$/,'').split(/\s+/);
-        const scrambled = shuffle(parts);
-        html += `<div class="print-sentence-item">
-          <div><strong>${i+1}.</strong> ${esc(item.zh)}</div>
-          <div class="print-sentence-words">${scrambled.map(p => `<span>${esc(p)}</span>`).join('')}</div>
-          <div>正确语序：${showAns ? `<span class="ans">${esc(item.en)}</span>` : '<span class="print-sentence-line"></span>'}</div>
-        </div>`;
-      });
-      html += '</div>';
-      return html;
-    }
-
-    function generate() {
-      const pool = getPool();
-      const area = document.getElementById('printArea');
-      if (!pool.length) {
-        area.innerHTML = '<p class="print-hint">请至少选择一个单词</p>';
-        return;
-      }
-      const optMaze = document.getElementById('optMaze').checked;
-      const optSpell = document.getElementById('optSpell').checked;
-      const optConnect = document.getElementById('optConnect').checked;
-      const optZhPickEn = document.getElementById('optZhPickEn').checked;
-      const optEnPickZh = document.getElementById('optEnPickZh').checked;
-      const optMemory = document.getElementById('optMemory').checked;
-      const optSentence = document.getElementById('optSentence').checked;
-      const optAnswers = document.getElementById('optAnswers').checked;
-      let html = '';
-      const mazeWords = pool.filter(w => isMazeWord(w));
-
-      if (optMaze && mazeWords.length) {
-        const groups = [];
-        const shuffled = shuffle(mazeWords.slice());
-        for (let i = 0; i < shuffled.length; i += 4) groups.push(shuffled.slice(i, i + 4));
-        groups.forEach((g, i) => { html += renderMazeSheet(g, i + 1, groups.length, false); });
-        if (optAnswers) groups.forEach((g, i) => { html += renderMazeSheet(g, i + 1, groups.length, true); });
-      }
-
-      if (optSpell) {
-        const spellWords = shuffle(pool.slice());
-        for (let i = 0; i < spellWords.length; i += 6) {
-          html += renderSpellSheet(spellWords.slice(i, i + 6), false);
-        }
-        if (optAnswers) {
-          for (let i = 0; i < spellWords.length; i += 6) {
-            html += renderSpellSheet(spellWords.slice(i, i + 6), true);
-          }
-        }
-      }
-
-      if (optConnect) {
-        const connGroups = [];
-        const shuffled = shuffle(pool.slice());
-        for (let i = 0; i < shuffled.length; i += 3) connGroups.push(padGroupToThree(shuffled.slice(i, i + 3), pool));
-        connGroups.forEach((g, i) => { html += renderConnectSheet(g, i + 1, connGroups.length, false); });
-        if (optAnswers) connGroups.forEach((g, i) => { html += renderConnectSheet(g, i + 1, connGroups.length, true); });
-      }
-
-      if (optZhPickEn) {
-        html += renderQuizSheet(shuffle(pool.slice()), 'zh-en', false);
-        if (optAnswers) html += renderQuizSheet(pool, 'zh-en', true);
-      }
-
-      if (optEnPickZh) {
-        html += renderQuizSheet(shuffle(pool.slice()), 'en-zh', false);
-        if (optAnswers) html += renderQuizSheet(pool, 'en-zh', true);
-      }
-
-      if (optMemory) {
-        const memGroups = [];
-        const shuffled = shuffle(pool.slice());
-        for (let i = 0; i < shuffled.length; i += 4) memGroups.push(padGroupToFour(shuffled.slice(i, i + 4), pool));
-        memGroups.forEach((g, i) => { html += renderMemorySheet(g, i + 1, memGroups.length, false); });
-        if (optAnswers) memGroups.forEach((g, i) => { html += renderMemorySheet(g, i + 1, memGroups.length, true); });
-      }
-
-      if (optSentence) {
-        const sentences = shuffle(pool.filter(w => w.sentences && w.sentences[0]).map(w => w.sentences[0]));
-        if (sentences.length) {
-          for (let i = 0; i < sentences.length; i += 4) {
-            html += renderSentenceSheet(sentences.slice(i, i + 4), false);
-          }
-          if (optAnswers) {
-            for (let i = 0; i < sentences.length; i += 4) {
-              html += renderSentenceSheet(sentences.slice(i, i + 4), true);
-            }
-          }
-        }
-      }
-
-      if (!html) html = '<p class="print-hint">请至少勾选一种练习类型</p>';
-      area.innerHTML = html;
-    }
-
-    document.getElementById('btnGen').addEventListener('click', generate);
-    document.getElementById('btnPrint').addEventListener('click', () => {
-      if (!document.querySelector('#printArea .print-sheet')) generate();
-      window.print();
-    });
-  </script>
+  <script src="../assets/js/print-worksheets.js"></script>
 </body>
 </html>
