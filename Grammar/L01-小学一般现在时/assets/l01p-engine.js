@@ -77,12 +77,11 @@
   }
 
   function sentBlock(sentence, zh, cls) {
-    var inner = global.L01pWord ? global.L01pWord.wrap(sentence) : esc(sentence);
     return (
       '<div class="l01p-sentence-wrap' +
       (cls ? " " + cls : "") +
-      '"><p class="l01p-sentence">' +
-      inner +
+      '"><p class="l01p-sentence en-line" lang="en">' +
+      esc(sentence) +
       "</p>" +
       (zh ? '<span class="l01p-zh">' + esc(zh) + "</span>" : "") +
       "</div>"
@@ -109,6 +108,7 @@
       });
     });
     if (global.L01pWord) global.L01pWord.bind(root || document);
+    else if (global.refreshHandoutLookup) global.refreshHandoutLookup(root || document.getElementById("l01pApp"));
   }
 
   function renderScene(page) {
