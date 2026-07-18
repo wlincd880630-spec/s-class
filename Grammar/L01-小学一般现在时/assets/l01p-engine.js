@@ -126,6 +126,7 @@
       "</h1>" +
       (page.lead ? '<p class="l01p-lead">' + esc(page.lead) + "</p>" : "") +
       sentBlock(page.sentence, page.zh, page.verbType ? "l01p-sentence-wrap--" + page.verbType : "") +
+      (page.source ? '<p class="l01p-source">出处：' + esc(page.source) + "</p>" : "") +
       ttsRow(page.sentence) +
       "</div></article>"
     );

@@ -30,6 +30,7 @@
             "</div><div class=\"l01p-vocab-card__zh\">" + esc(w.zh) + "</div>" +
             '<div class="l01p-vocab-card__ex en-line" lang="en">' + esc(w.example) + "</div>" +
             '<div class="l01p-vocab-card__exzh">' + esc(w.exampleZh) + "</div>" +
+            (w.source ? '<div class="l01p-vocab-card__src">出处：' + esc(w.source) + "</div>" : "") +
             '<button type="button" class="l01p-btn l01p-btn--ghost l01p-vocab-card__btn" data-speak="' + esc(w.example) + '">🔊</button></div>'
           );
         })
