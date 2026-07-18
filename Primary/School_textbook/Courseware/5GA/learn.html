@@ -195,7 +195,11 @@
         const card = document.createElement('div');
         card.className = 'sentence-card';
         const wrapped = wrapSentenceWords(s.en);
+        const imgHtml = s.image
+          ? `<img class="sentence-image" src="${s.image}" alt="" loading="lazy" width="500" height="300">`
+          : '';
         card.innerHTML = `
+          ${imgHtml}
           <div class="sentence-en">
             <span class="sentence-text" data-sentence="${s.en.replace(/"/g, '&quot;')}">${wrapped}</span>
             ${s.source === 'textbook' ? '<span style="font-size:0.75rem;background:#ffeaa7;padding:2px 8px;border-radius:8px;margin-left:8px;">📖 教材原文</span>' : '<span style="font-size:0.75rem;background:#dfe6e9;padding:2px 8px;border-radius:8px;margin-left:8px;">🌍 拓展语境</span>'}
