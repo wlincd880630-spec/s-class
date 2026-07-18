@@ -384,8 +384,7 @@
           }))
       );
       if (sentences.length) {
-        // 带图后每页 2 句，避免作答区与插图挤在一起
-        const sentencePages = paginate(sentences, 2);
+        const sentencePages = paginate(sentences, 4);
         sentencePages.forEach((page) => { html += renderSentenceSheet(page, false); });
         if (optAnswers) sentencePages.forEach((page) => { html += renderSentenceSheet(page, true); });
       }
