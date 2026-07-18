@@ -13,419 +13,407 @@
     return global.L01pImg ? global.L01pImg.url(name) : name;
   }
 
+  function sceneImg(sentence, fallback) {
+    var map = global.L01pScenes || {};
+    return map[sentence] || fallback || "";
+  }
+
   function speak(text, btn) {
     if (global.L01pTTS) return global.L01pTTS.speak(text, btn);
     return Promise.resolve();
   }
 
-  function wrapSentence(text, cls) {
-    var inner = global.L01pWord ? global.L01pWord.wrap(text) : esc(text);
-    return (
-      '<div class="l01p-sentence' +
-      (cls ? " " + cls : "") +
-      '">' +
-      inner +
-      "</div>"
-    );
+  function idx(page) {
+    return global.L01pData.indexOf(page.id);
   }
 
-  function header(page, idx, total) {
-    var pct = Math.round(((idx + 1) / total) * 100);
+  function header(page) {
+    var pct = Math.round(((idx(page) + 1) / global.L01pData.total) * 100);
     return (
-      '<header class="l01p-hd">' +
-      '<span class="l01p-hd__section">' +
+      '<header class="l01p-hd"><span class="l01p-hd__section">' +
       esc(page.section) +
-      "</span>" +
-      '<span class="l01p-hd__step">' +
-      (idx + 1) +
+      '</span><span class="l01p-hd__step">' +
+      (idx(page) + 1) +
       " / " +
-      total +
-      "</span></header>" +
-      '<div class="l01p-hd__bar"><i style="width:' +
+      global.L01pData.total +
+      '</span></header><div class="l01p-hd__bar"><i style="width:' +
       pct +
       '%"></i></div>'
     );
   }
 
-  function mediaBlock(page) {
-    if (!page.image) return "";
-    var tall = page.imageTall ? " l01p-card__media--tall" : "";
-    var badgeCls = page.badge ? " l01p-card__badge--" + page.badge : "";
+  function hero(page, sentence) {
+    var im = page.image || sceneImg(sentence || page.sentence, "");
+    if (!im) return "";
+    var b = page.badge || "image";
     return (
-      '<div class="l01p-card__media' +
-      tall +
+      '<div class="l01p-hero"><span class="l01p-hero__badge l01p-hero__badge--' +
+      b +
       '">' +
-      (page.badgeText
-        ? '<span class="l01p-card__badge' + badgeCls + '">' + esc(page.badgeText) + "</span>"
-        : "") +
-      '<img src="' +
-      img(page.image) +
+      esc(page.badgeText || "") +
+      '</span><img src="' +
+      img(im) +
       '" alt="" decoding="async" onerror="this.src=\'' +
-      esc(global.L01pImg ? global.L01pImg.local(page.image) : page.image) +
-      "'\" />" +
+      esc(global.L01pImg.local(im)) +
+      "'\" /></div>"
+    );
+  }
+
+  function sentBlock(sentence, zh, cls) {
+    var inner = global.L01pWord ? global.L01pWord.wrap(sentence) : esc(sentence);
+    return (
+      '<div class="l01p-sentence-wrap' +
+      (cls ? " " + cls : "") +
+      '"><p class="l01p-sentence">' +
+      inner +
+      "</p>" +
+      (zh ? '<span class="l01p-zh">' + esc(zh) + "</span>" : "") +
       "</div>"
     );
   }
 
-  function renderSoundFirst(page) {
-    var html =
-      header(page, global.L01pData.indexOf(page.id), global.L01pData.total) +
-      '<article class="l01p-card"><div class="l01p-card__body">' +
-      "<h1 class=\"l01p-title\">" +
+  function ttsRow(sentence) {
+    return (
+      '<div class="l01p-toolbar"><button type="button" class="l01p-btn l01p-btn--play" data-speak="' +
+      esc(sentence) +
+      '" aria-label="朗读">🔊</button><span class="l01p-lead" style="margin:0;font-size:.78rem">点击蓝色单词可查 DeepSeek 词典</span></div>'
+    );
+  }
+
+  function bindCommon(root) {
+    (root || document).querySelectorAll("[data-speak]").forEach(function (btn) {
+      if (btn._b) return;
+      btn._b = true;
+      btn.addEventListener("click", function () {
+        btn.classList.add("is-on");
+        speak(btn.getAttribute("data-speak"), btn).finally(function () {
+          btn.classList.remove("is-on");
+        });
+      });
+    });
+    if (global.L01pWord) global.L01pWord.bind(root || document);
+  }
+
+  /* ── scene：每句必配图 ── */
+  function renderScene(page) {
+    return (
+      header(page) +
+      '<article class="l01p-card">' +
+      hero(page) +
+      '<div class="l01p-body-inner"><h1 class="l01p-title">' +
       esc(page.title) +
       "</h1>" +
-      '<div class="l01p-sound-stage" id="l01pSoundStage">' +
-      '<button type="button" class="l01p-sound-btn" id="l01pSoundBtn" aria-label="播放">🔊</button>' +
-      '<p class="l01p-sound-hint">' +
-      esc(page.soundHint || "先听，再思考") +
-      "</p></div>" +
-      '<div class="l01p-reveal" id="l01pReveal">' +
+      (page.lead ? '<p class="l01p-lead">' + esc(page.lead) + "</p>" : "") +
+      sentBlock(page.sentence, page.zh, page.verbType ? "l01p-sentence-wrap--" + page.verbType : "") +
+      ttsRow(page.sentence) +
+      "</div></article>"
+    );
+  }
+
+  /* ── sound-first ── */
+  function renderSoundFirst(page) {
+    return (
+      header(page) +
+      '<article class="l01p-card"><div class="l01p-body-inner"><h1 class="l01p-title">' +
+      esc(page.title) +
+      '</h1><div class="l01p-sound-panel"><button type="button" class="l01p-btn l01p-btn--play" id="sfPlay">🔊</button><p>' +
+      esc(page.soundHint) +
+      '</p></div><div id="sfReveal" class="l01p-reveal">' +
       (page.question ? '<p class="l01p-ask">' + esc(page.question) + "</p>" : "") +
-      (page.revealTitle ? "<h2 class=\"l01p-title\">" + esc(page.revealTitle) + "</h2>" : "") +
-      (page.revealText ? '<p class="l01p-lead">' + esc(page.revealText) + "</p>" : "") +
       "</div>" +
-      '<div class="l01p-btn-row"><button type="button" class="l01p-btn l01p-btn--ghost" id="l01pShowBtn" disabled>显示答案</button></div>' +
-      "</div></article>";
-    return html;
+      '<div class="l01p-toolbar"><button type="button" class="l01p-btn l01p-btn--ghost" id="sfShow" disabled>显示句子与图片</button></div></div></article>'
+    );
   }
 
   function bindSoundFirst(page) {
-    var btn = document.getElementById("l01pSoundBtn");
-    var show = document.getElementById("l01pShowBtn");
-    var reveal = document.getElementById("l01pReveal");
     var played = false;
-    if (btn) {
-      btn.addEventListener("click", function () {
-        btn.classList.add("is-playing");
-        speak(page.audio, btn).finally(function () {
-          btn.classList.remove("is-playing");
+    var play = document.getElementById("sfPlay");
+    var show = document.getElementById("sfShow");
+    var rev = document.getElementById("sfReveal");
+    if (play)
+      play.addEventListener("click", function () {
+        speak(page.audio, play).then(function () {
           played = true;
           if (show) show.disabled = false;
         });
       });
-    }
-    if (show && reveal) {
+    if (show && rev)
       show.addEventListener("click", function () {
         if (!played) return;
-        reveal.classList.add("is-show");
-        var extra = "";
-        if (page.image) {
-          extra =
-            '<div class="l01p-card__media" style="margin-top:0.65rem;border-radius:12px;overflow:hidden"><img src="' +
-            img(page.image) +
-            '" alt="" style="max-height:180px;width:100%;object-fit:cover" onerror="this.src=\'' +
-            esc(global.L01pImg.local(page.image)) +
-            "'\" /></div>";
-        }
-        if (page.sentence) {
-          extra +=
-            wrapSentence(page.sentence, page.verbType === "state" ? "l01p-sentence--state" : page.verbType === "action" ? "l01p-sentence--action" : "") +
-            (page.zh ? '<span class="l01p-zh">' + esc(page.zh) + "</span>" : "");
-        }
-        reveal.insertAdjacentHTML("beforeend", extra);
-        if (global.L01pWord) global.L01pWord.bind(reveal);
+        rev.classList.add("is-show");
+        rev.insertAdjacentHTML(
+          "beforeend",
+          hero(page, page.sentence) +
+            '<div style="padding:0 0 .5rem">' +
+            sentBlock(page.sentence, page.zh) +
+            ttsRow(page.sentence) +
+            "</div>"
+        );
+        bindCommon(rev);
         show.disabled = true;
-        show.textContent = "已显示 ✓";
-        if (page.sentence) speak(page.sentence);
+        speak(page.sentence);
       });
-    }
   }
 
+  /* ── socratic ── */
   function renderSocratic(page) {
-    var choices = (page.choices || [])
+    var ch = (page.choices || [])
       .map(function (c, i) {
-        return (
-          '<button type="button" class="l01p-choice" data-i="' +
-          i +
-          '">' +
-          esc(c.text) +
-          "</button>"
-        );
+        return '<button type="button" class="l01p-choice" data-i="' + i + '">' + esc(c.text) + "</button>";
       })
       .join("");
-  return (
-      header(page, global.L01pData.indexOf(page.id), global.L01pData.total) +
+    return (
+      header(page) +
       '<article class="l01p-card">' +
-      mediaBlock(page) +
-      '<div class="l01p-card__body"><h1 class="l01p-title">' +
+      hero(page) +
+      '<div class="l01p-body-inner"><h1 class="l01p-title">' +
       esc(page.title) +
       '</h1><p class="l01p-ask">' +
       esc(page.question) +
-      '</p><div class="l01p-choices" id="l01pChoices">' +
-      choices +
-      '</div><div class="l01p-fb" id="l01pFb"></div><div id="l01pFollow" class="l01p-reveal"></div></div></article>'
+      '</p><div class="l01p-choices" id="socCh">' +
+      ch +
+      '</div><div class="l01p-fb" id="socFb"></div><div id="socFollow" class="l01p-reveal"></div></div></article>'
     );
   }
 
   function bindSocratic(page) {
-    var fb = document.getElementById("l01pFb");
-    var follow = document.getElementById("l01pFollow");
-    document.querySelectorAll("#l01pChoices .l01p-choice").forEach(function (btn) {
+    var fb = document.getElementById("socFb");
+    var fol = document.getElementById("socFollow");
+    document.querySelectorAll("#socCh .l01p-choice").forEach(function (btn) {
       btn.addEventListener("click", function () {
         if (btn.disabled) return;
         var i = Number(btn.getAttribute("data-i"));
         var c = page.choices[i];
-        document.querySelectorAll("#l01pChoices .l01p-choice").forEach(function (b, j) {
+        document.querySelectorAll("#socCh .l01p-choice").forEach(function (b, j) {
           b.disabled = true;
           if (page.choices[j].correct) b.classList.add("is-ok");
           else if (j === i) b.classList.add("is-no");
         });
         fb.className = "l01p-fb is-show " + (c.correct ? "l01p-fb--ok" : "l01p-fb--no");
         fb.textContent = c.fb;
-        if (page.sentence && follow) {
-          follow.classList.add("is-show");
-          follow.innerHTML =
-            wrapSentence(page.sentence, page.verbType ? "l01p-sentence--" + page.verbType : "") +
-            (page.zh ? '<span class="l01p-zh">' + esc(page.zh) + "</span>" : "");
-          if (global.L01pWord) global.L01pWord.bind(follow);
+        if (page.sentence && fol) {
+          fol.classList.add("is-show");
+          fol.innerHTML = sentBlock(page.sentence, page.zh, page.verbType ? "l01p-sentence-wrap--" + page.verbType : "") + ttsRow(page.sentence);
+          bindCommon(fol);
           speak(page.sentence);
         }
       });
     });
   }
 
-  function renderImageFirst(page) {
+  /* ── discover-3s：自我发现对比 ── */
+  function renderDiscover(page) {
     return (
-      header(page, global.L01pData.indexOf(page.id), global.L01pData.total) +
-      '<article class="l01p-card">' +
-      mediaBlock(page) +
-      '<div class="l01p-card__body"><h1 class="l01p-title">' +
+      header(page) +
+      '<article class="l01p-card"><div class="l01p-body-inner"><h1 class="l01p-title">' +
       esc(page.title) +
       '</h1><p class="l01p-lead">' +
-      esc(page.question) +
-      "</p>" +
-      (page.tip ? '<p class="l01p-lead" style="font-size:0.82rem">' + esc(page.tip) + "</p>" : "") +
-      '<div class="l01p-reveal" id="l01pImgReveal">' +
-      '<button type="button" class="l01p-btn" id="l01pImgBtn">显示句子 🔊</button></div></div></article>'
+      esc(page.lead) +
+      '</p><div class="l01p-discover"><div class="l01p-discover__card" data-side="i"><img src="' +
+      img(page.leftImage) +
+      '" alt=""/><div class="l01p-discover__txt">' +
+      esc(page.leftLabel) +
+      '</div></div><div class="l01p-discover__card" data-side="he"><img src="' +
+      img(page.rightImage) +
+      '" alt=""/><div class="l01p-discover__txt">' +
+      esc(page.rightLabel) +
+      '</div></div></div><div id="discMorph" class="l01p-morph" style="margin-top:.65rem"></div><div class="l01p-toolbar"><button type="button" class="l01p-btn" id="discBtn">我发现了！对比动词</button></div><div class="l01p-fb" id="discFb"></div></div></article>'
     );
   }
 
-  function bindImageFirst(page) {
-    var box = document.getElementById("l01pImgReveal");
-    var btn = document.getElementById("l01pImgBtn");
-    if (!btn || !box) return;
-    btn.addEventListener("click", function () {
-      box.innerHTML =
-        wrapSentence(page.sentence, page.verbType ? "l01p-sentence--" + page.verbType : "") +
-        (page.zh ? '<span class="l01p-zh">' + esc(page.zh) + "</span>" : "");
-      box.classList.add("is-show");
-      if (global.L01pWord) global.L01pWord.bind(box);
-      speak(page.sentence);
-    });
-  }
-
-  function renderCompare(page) {
-    return (
-      header(page, global.L01pData.indexOf(page.id), global.L01pData.total) +
-      '<article class="l01p-card">' +
-      (page.image
-        ? '<div class="l01p-card__media"><img src="' +
-          img(page.image) +
-          '" alt="" style="max-height:160px" onerror="this.src=\'' +
-          esc(global.L01pImg.local(page.image)) +
-          "'\" /></div>"
-        : "") +
-      '<div class="l01p-card__body"><h1 class="l01p-title">' +
-      esc(page.title) +
-      "</h1>" +
-      (page.tip ? '<p class="l01p-lead">' + esc(page.tip) + "</p>" : "") +
-      '<div class="l01p-compare">' +
-      '<div class="l01p-compare__col l01p-compare__col--action" data-side="left" tabindex="0">' +
-      '<div class="l01p-compare__label">' +
-      esc(page.left.label) +
-      "</div>" +
-      (page.image
-        ? ""
-        : '<img src="' + img("l01p-action-football.png") + '" alt="" onerror="this.style.display=\'none\'" />') +
-      '<div class="l01p-compare__txt"><strong>' +
-      esc(page.left.verbs) +
-      "</strong><br>" +
-      esc(page.left.zh) +
-      "</div></div>" +
-      '<div class="l01p-compare__col l01p-compare__col--state" data-side="right" tabindex="0">' +
-      '<div class="l01p-compare__label">' +
-      esc(page.right.label) +
-      "</div>" +
-      (page.image
-        ? ""
-        : '<img src="' + img("l01p-state-reading.png") + '" alt="" onerror="this.style.display=\'none\'" />') +
-      '<div class="l01p-compare__txt"><strong>' +
-      esc(page.right.verbs) +
-      "</strong><br>" +
-      esc(page.right.zh) +
-      "</div></div></div>" +
-      '<div id="l01pCompareSent"></div></div></article>'
-    );
-  }
-
-  function bindCompare(page) {
-    var out = document.getElementById("l01pCompareSent");
-    document.querySelectorAll(".l01p-compare__col").forEach(function (col) {
-      col.addEventListener("click", function () {
-        document.querySelectorAll(".l01p-compare__col").forEach(function (c) {
-          c.classList.remove("is-active");
+  function bindDiscover(page) {
+    var morph = document.getElementById("discMorph");
+    var fb = document.getElementById("discFb");
+    var btn = document.getElementById("discBtn");
+    document.querySelectorAll(".l01p-discover__card").forEach(function (card) {
+      card.addEventListener("click", function () {
+        document.querySelectorAll(".l01p-discover__card").forEach(function (c) {
+          c.classList.remove("is-pick");
         });
-        col.classList.add("is-active");
-        var side = col.getAttribute("data-side");
-        var data = side === "left" ? page.left : page.right;
-        if (out) {
-          out.innerHTML =
-            wrapSentence(data.sentence, side === "left" ? "l01p-sentence--action" : "l01p-sentence--state") +
-            '<span class="l01p-zh">' +
-            esc(data.zh) +
-            "</span>";
-          if (global.L01pWord) global.L01pWord.bind(out);
-          speak(data.sentence);
+        card.classList.add("is-pick");
+        var side = card.getAttribute("data-side");
+        var s = side === "he" ? page.rightSentence : page.leftSentence;
+        if (morph) {
+          morph.innerHTML = sentBlock(s, side === "he" ? page.rightZh : page.leftZh);
+          bindCommon(morph);
+          speak(s);
         }
       });
     });
+    if (btn)
+      btn.addEventListener("click", function () {
+        if (morph) {
+          morph.innerHTML =
+            '<span class="l01p-token l01p-token--subj">I</span><span class="l01p-token l01p-token--verb">play</span>' +
+            '<span style="font-weight:900;color:#94a3b8;margin:0 .35rem">vs</span>' +
+            '<span class="l01p-token l01p-token--subj">He</span><span class="l01p-token l01p-token--verb l01p-token--pop">play<span style="color:#f59e0b">s</span></span>';
+        }
+        if (fb) {
+          fb.className = "l01p-fb is-show l01p-fb--ok";
+          fb.textContent = page.discovery || "He/She/It 后面动词要加 s！";
+        }
+        speak("I play football. He plays football.");
+      });
   }
 
-  function renderDemo(page) {
+  /* ── dynamic-neg / dynamic-q ── */
+  function renderDynamic(page) {
     return (
-      header(page, global.L01pData.indexOf(page.id), global.L01pData.total) +
-      '<article class="l01p-card"><div class="l01p-card__body"><h1 class="l01p-title">' +
+      header(page) +
+      '<article class="l01p-card">' +
+      hero(page) +
+      '<div class="l01p-body-inner"><h1 class="l01p-title">' +
       esc(page.title) +
-      '</h1><div class="l01p-demo" id="l01pDemo">' +
-      '<span class="l01p-demo__subj" id="l01pDemoSubj">I</span>' +
-      '<span class="l01p-demo__arrow">↓</span>' +
-      '<span class="l01p-demo__verb" id="l01pDemoVerb">play</span>' +
-      '<span class="l01p-demo__tail" id="l01pDemoTail">s</span>' +
-      "</div>" +
-      (page.rule ? '<p class="l01p-lead" style="text-align:center">' + page.rule + "</p>" : "") +
-      '<div class="l01p-btn-row"><button type="button" class="l01p-btn" id="l01pDemoBtn">切换主语 ▶</button></div>' +
-      '<div id="l01pDemoSent" class="l01p-reveal"></div></div></article>'
+      '</h1><p class="l01p-lead">' +
+      esc(page.lead) +
+      '</p><div class="l01p-steps" id="dynSteps"></div><div class="l01p-morph" id="dynMorph"></div><div class="l01p-toolbar"><button type="button" class="l01p-btn" id="dynNext">下一步 ▶</button></div><div id="dynSent" class="l01p-reveal"></div></div></article>'
     );
   }
 
-  function bindDemo(page) {
-    var subs = page.subjects || ["I", "He"];
-    var idx = 0;
-    var subjEl = document.getElementById("l01pDemoSubj");
-    var verbEl = document.getElementById("l01pDemoVerb");
-    var tailEl = document.getElementById("l01pDemoTail");
-    var sentEl = document.getElementById("l01pDemoSent");
-    var btn = document.getElementById("l01pDemoBtn");
+  function bindDynamic(page) {
+    var steps = page.steps || [];
+    var cur = 0;
+    var morph = document.getElementById("dynMorph");
+    var dots = document.getElementById("dynSteps");
+    var next = document.getElementById("dynNext");
+    var sent = document.getElementById("dynSent");
 
-    function update() {
-      var s = subs[idx % subs.length];
-      var isThird = /^(he|she|it|tom|my|the)/i.test(s) || ["He", "She", "It", "Tom"].indexOf(s) >= 0;
-      if (subjEl) subjEl.textContent = s;
-      if (verbEl) {
-        verbEl.textContent = isThird ? "play" : "play";
-        verbEl.classList.add("pop");
-        setTimeout(function () {
-          verbEl.classList.remove("pop");
-        }, 450);
-      }
-      if (tailEl) tailEl.classList.toggle("is-on", isThird);
-      if (sentEl) {
-        var sent = isThird ? page.sentence : "I play football.";
-        sentEl.classList.add("is-show");
-        sentEl.innerHTML = wrapSentence(sent) + '<span class="l01p-zh">' + esc(page.zh) + "</span>";
-        if (global.L01pWord) global.L01pWord.bind(sentEl);
+    function renderDots() {
+      if (!dots) return;
+      dots.innerHTML = steps
+        .map(function (_, i) {
+          var cls = i < cur ? "is-done" : i === cur ? "is-on" : "";
+          return '<span class="l01p-step-dot ' + cls + '">' + (i + 1) + "</span>";
+        })
+        .join("");
+    }
+
+    function showStep() {
+      var st = steps[cur];
+      if (!st) return;
+      if (morph) morph.innerHTML = st.html;
+      if (st.speak) speak(st.speak);
+      renderDots();
+      if (cur >= steps.length - 1) {
+        if (next) next.textContent = "完成 ✓";
+        if (sent && page.sentence) {
+          sent.classList.add("is-show");
+          sent.innerHTML =
+            sentBlock(page.sentence, page.zh, page.kind === "neg" ? "l01p-sentence-wrap--neg" : "l01p-sentence-wrap--q") +
+            ttsRow(page.sentence);
+          bindCommon(sent);
+        }
       }
     }
 
-    if (btn) {
-      btn.addEventListener("click", function () {
-        idx++;
-        update();
-        speak(idx % 2 === 0 ? page.sentence : "I play football.");
+    renderDots();
+    showStep();
+    if (next)
+      next.addEventListener("click", function () {
+        if (cur < steps.length - 1) {
+          cur++;
+          showStep();
+        }
       });
-    }
-    update();
   }
 
-  function renderClassify(page) {
-    var bank = page.items
-      .map(function (it, i) {
+  /* ── spelling-lab ── */
+  function renderSpelling(page) {
+    var tabs = page.rules
+      .map(function (r, i) {
+        return '<button type="button" class="l01p-spell-tab' + (i === 0 ? " is-on" : "") + '" data-i="' + i + '">' + esc(r.tab) + "</button>";
+      })
+      .join("");
+    var panels = page.rules
+      .map(function (r, i) {
+        var rows = r.examples
+          .map(function (e) {
+            return '<div class="l01p-spell-row"><span>' + esc(e.from) + '</span><span class="l01p-spell-arrow">→</span><span style="color:#b91c1c">' + esc(e.to) + "</span></div>";
+          })
+          .join("");
         return (
-          '<button type="button" class="l01p-token" data-i="' +
+          '<div class="l01p-spell-panel' +
+          (i === 0 ? " is-on" : "") +
+          '" data-i="' +
           i +
-          '" data-type="' +
-          it.type +
-          '">' +
-          esc(it.word) +
-          "</button>"
+          '"><p class="l01p-lead" style="font-weight:800;color:#6d28d9">' +
+          esc(r.rule) +
+          "</p>" +
+          rows +
+          (r.sample ? '<div style="margin-top:.5rem">' + sentBlock(r.sample, r.sampleZh) + ttsRow(r.sample) + "</div>" : "") +
+          "</div>"
         );
       })
       .join("");
     return (
-      header(page, global.L01pData.indexOf(page.id), global.L01pData.total) +
-      '<article class="l01p-card"><div class="l01p-card__body"><h1 class="l01p-title">' +
+      header(page) +
+      '<article class="l01p-card"><div class="l01p-body-inner"><h1 class="l01p-title">' +
       esc(page.title) +
-      '</h1><p class="l01p-lead">' +
-      esc(page.instruction) +
-      '</p><div class="l01p-sort-bank" id="l01pBank">' +
-      bank +
-      '</div><div class="l01p-sort-zones"><div class="l01p-sort-zone l01p-sort-zone--action" data-zone="action">动作义 Action</div><div class="l01p-sort-zone l01p-sort-zone--state" data-zone="state">状态义 State</div></div><div class="l01p-fb" id="l01pFb"></div></div></article>'
+      '</h1><div class="l01p-spell-tabs" id="spellTabs">' +
+      tabs +
+      '</div><div id="spellPanels">' +
+      panels +
+      "</div></div></article>"
     );
   }
 
-  function bindClassify(page) {
-    var placed = 0;
-    var fb = document.getElementById("l01pFb");
-    document.querySelectorAll("#l01pBank .l01p-token").forEach(function (tok) {
-      tok.addEventListener("click", function () {
-        if (tok.classList.contains("is-used")) return;
-        var type = tok.getAttribute("data-type");
-        var zone = document.querySelector('.l01p-sort-zone[data-zone="' + type + '"]');
-        if (!zone) return;
-        zone.appendChild(tok);
-        tok.classList.add("is-used");
-        placed++;
-        if (placed >= page.items.length && fb) {
-          fb.className = "l01p-fb is-show l01p-fb--ok";
-          fb.textContent = "全部分类正确！动作义看得见，状态义是感受。";
-        }
+  function bindSpelling() {
+    document.querySelectorAll("#spellTabs .l01p-spell-tab").forEach(function (tab) {
+      tab.addEventListener("click", function () {
+        var i = tab.getAttribute("data-i");
+        document.querySelectorAll("#spellTabs .l01p-spell-tab").forEach(function (t) {
+          t.classList.toggle("is-on", t === tab);
+        });
+        document.querySelectorAll("#spellPanels .l01p-spell-panel").forEach(function (p) {
+          p.classList.toggle("is-on", p.getAttribute("data-i") === i);
+        });
       });
     });
+    bindCommon(document.getElementById("spellPanels"));
   }
 
+  /* ── picture-build / listen-order / quiz / summary ── */
   function renderPictureBuild(page) {
-    var tokens = page.tokens
-      .map(function (t, i) {
-        return '<button type="button" class="l01p-token" data-t="' + esc(t) + '" data-ord="' + i + '">' + esc(t) + "</button>";
+    var chips = page.tokens
+      .map(function (t) {
+        return '<button type="button" class="l01p-chip" data-t="' + esc(t) + '">' + esc(t) + "</button>";
       })
       .join("");
     return (
-      header(page, global.L01pData.indexOf(page.id), global.L01pData.total) +
+      header(page) +
       '<article class="l01p-card">' +
-      mediaBlock(page) +
-      '<div class="l01p-card__body"><h1 class="l01p-title">' +
+      hero(page) +
+      '<div class="l01p-body-inner"><h1 class="l01p-title">' +
       esc(page.title) +
       '</h1><p class="l01p-lead">' +
       esc(page.instruction) +
-      '</p><div class="l01p-build" id="l01pBuild"></div><div id="l01pTokenBank" style="display:flex;flex-wrap:wrap;gap:0.4rem">' +
-      tokens +
-      '</div><div class="l01p-fb" id="l01pFb"></div></div></article>'
+      '</p><div class="l01p-build" id="pbBuild"></div><div style="display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.45rem" id="pbBank">' +
+      chips +
+      '</div><div class="l01p-fb" id="pbFb"></div></div></article>'
     );
   }
 
   function bindPictureBuild(page) {
-    var build = document.getElementById("l01pBuild");
-    var fb = document.getElementById("l01pFb");
     var picked = [];
-    document.querySelectorAll("#l01pTokenBank .l01p-token").forEach(function (tok) {
-      tok.addEventListener("click", function () {
-        if (tok.classList.contains("is-used")) return;
-        tok.classList.add("is-used", "in-slot");
-        picked.push(tok.getAttribute("data-t"));
-        var span = document.createElement("span");
-        span.className = "l01p-token in-slot";
-        span.textContent = tok.getAttribute("data-t");
-        build.appendChild(span);
+    var build = document.getElementById("pbBuild");
+    var fb = document.getElementById("pbFb");
+    document.querySelectorAll("#pbBank .l01p-chip").forEach(function (chip) {
+      chip.addEventListener("click", function () {
+        if (chip.classList.contains("is-used")) return;
+        chip.classList.add("is-used");
+        picked.push(chip.getAttribute("data-t"));
+        var s = document.createElement("span");
+        s.className = "l01p-chip";
+        s.textContent = chip.getAttribute("data-t");
+        build.appendChild(s);
         if (picked.length >= page.tokens.length) {
-          var ok = picked.join(" ") === page.sentence.replace(/\s+/g, " ").trim();
-          if (fb) {
-            fb.className = "l01p-fb is-show " + (ok ? "l01p-fb--ok" : "l01p-fb--no");
-            fb.innerHTML = ok
-              ? "正确！" + wrapSentence(page.sentence) + '<span class="l01p-zh">' + esc(page.zh) + "</span>"
-              : "再试一次！正确顺序：" + esc(page.sentence);
-            if (ok && global.L01pWord) global.L01pWord.bind(fb);
-            if (ok) speak(page.sentence);
-          }
+          var ok = picked.join(" ") === page.sentence;
+          fb.className = "l01p-fb is-show " + (ok ? "l01p-fb--ok" : "l01p-fb--no");
+          fb.innerHTML = ok
+            ? "正确！" + sentBlock(page.sentence, page.zh) + ttsRow(page.sentence)
+            : "再试一次，正确顺序：" + esc(page.sentence);
+          if (ok) bindCommon(fb);
+          if (ok) speak(page.sentence);
         }
       });
     });
@@ -441,154 +429,174 @@
       })
       .join("");
     return (
-      header(page, global.L01pData.indexOf(page.id), global.L01pData.total) +
-      '<article class="l01p-card"><div class="l01p-card__body"><h1 class="l01p-title">' +
+      header(page) +
+      '<article class="l01p-card">' +
+      hero(page, page.sentence) +
+      '<div class="l01p-body-inner"><h1 class="l01p-title">' +
       esc(page.title) +
-      '</h1><div class="l01p-sound-stage" style="padding:1rem"><button type="button" class="l01p-sound-btn" id="l01pOrderPlay" style="width:64px;height:64px;font-size:1.5rem">🔊</button><p class="l01p-sound-hint">先听，再拖动排序</p></div>' +
-      '<div class="l01p-order-list" id="l01pOrderList">' +
+      '</h1><div class="l01p-sound-panel" style="padding:.75rem"><button type="button" class="l01p-btn l01p-btn--play" data-speak="' +
+      esc(page.audio || page.sentence) +
+      '">🔊</button><p>先听，再拖动排序</p></div><div id="loList" style="display:flex;flex-direction:column;gap:.35rem">' +
       items +
-      '</div><div class="l01p-btn-row"><button type="button" class="l01p-btn" id="l01pOrderCheck">检查答案</button></div><div class="l01p-fb" id="l01pFb"></div></div></article>'
+      '</div><div class="l01p-toolbar"><button type="button" class="l01p-btn" id="loCheck">检查答案</button></div><div class="l01p-fb" id="loFb"></div></div></article>'
     );
   }
 
   function bindListenOrder(page) {
-    var list = document.getElementById("l01pOrderList");
-    var play = document.getElementById("l01pOrderPlay");
-    var check = document.getElementById("l01pOrderCheck");
-    var fb = document.getElementById("l01pFb");
-    if (play) {
-      play.addEventListener("click", function () {
-        speak(page.audio, play);
-      });
-    }
+    var list = document.getElementById("loList");
+    var fb = document.getElementById("loFb");
+    var drag = null;
     if (list) {
-      var dragEl = null;
       list.querySelectorAll(".l01p-order-item").forEach(function (item) {
         item.addEventListener("dragstart", function () {
-          dragEl = item;
-          item.classList.add("dragging");
-        });
-        item.addEventListener("dragend", function () {
-          item.classList.remove("dragging");
-          dragEl = null;
+          drag = item;
         });
         item.addEventListener("dragover", function (e) {
           e.preventDefault();
         });
         item.addEventListener("drop", function (e) {
           e.preventDefault();
-          if (dragEl && dragEl !== item) {
+          if (drag && drag !== item) {
             var nodes = Array.from(list.children);
-            var from = nodes.indexOf(dragEl);
-            var to = nodes.indexOf(item);
-            if (from < to) list.insertBefore(dragEl, item.nextSibling);
-            else list.insertBefore(dragEl, item);
+            var a = nodes.indexOf(drag);
+            var b = nodes.indexOf(item);
+            if (a < b) list.insertBefore(drag, item.nextSibling);
+            else list.insertBefore(drag, item);
           }
         });
         item.addEventListener("click", function () {
-          if (!item.nextSibling) return;
-          list.insertBefore(item.nextSibling, item);
+          if (item.nextSibling) list.insertBefore(item.nextSibling, item);
         });
       });
     }
-    if (check && list) {
-      check.addEventListener("click", function () {
+    var chk = document.getElementById("loCheck");
+    if (chk)
+      chk.addEventListener("click", function () {
         var order = Array.from(list.querySelectorAll(".l01p-order-item")).map(function (el) {
           return el.getAttribute("data-t");
         });
         var ok = order.join(" ") === page.tokens.join(" ");
-        if (fb) {
-          fb.className = "l01p-fb is-show " + (ok ? "l01p-fb--ok" : "l01p-fb--no");
-          fb.innerHTML = ok
-            ? "排序正确！" + wrapSentence(page.sentence) + '<span class="l01p-zh">' + esc(page.zh) + "</span>"
-            : "还不对，再听一遍试试。";
-          if (ok && global.L01pWord) global.L01pWord.bind(fb);
-          if (ok) speak(page.sentence);
+        fb.className = "l01p-fb is-show " + (ok ? "l01p-fb--ok" : "l01p-fb--no");
+        fb.innerHTML = ok
+          ? sentBlock(page.sentence, page.zh) + ttsRow(page.sentence)
+          : "还不对，再听一遍！";
+        if (ok) {
+          bindCommon(fb);
+          speak(page.sentence);
         }
       });
-    }
+    bindCommon(document);
+  }
+
+  function renderQuiz(page) {
+    var opts = page.opts
+      .map(function (o, i) {
+        return '<button type="button" class="l01p-choice" data-i="' + i + '">' + esc(o) + "</button>";
+      })
+      .join("");
+    return (
+      header(page) +
+      '<article class="l01p-card">' +
+      hero(page, page.sentence) +
+      '<div class="l01p-body-inner"><h1 class="l01p-title">' +
+      esc(page.title) +
+      '</h1><p class="l01p-ask" style="background:#ede9fe;border-color:#c4b5fd;color:#4c1d95">' +
+      esc(page.q) +
+      '</p><div class="l01p-choices" id="qzCh">' +
+      opts +
+      '</div><div class="l01p-fb" id="qzFb"></div></div></article>'
+    );
+  }
+
+  function bindQuiz(page) {
+    var fb = document.getElementById("qzFb");
+    document.querySelectorAll("#qzCh .l01p-choice").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        if (btn.disabled) return;
+        var i = Number(btn.getAttribute("data-i"));
+        var ok = i === page.ans;
+        document.querySelectorAll("#qzCh .l01p-choice").forEach(function (b, j) {
+          b.disabled = true;
+          if (j === page.ans) b.classList.add("is-ok");
+          else if (j === i) b.classList.add("is-no");
+        });
+        fb.className = "l01p-fb is-show " + (ok ? "l01p-fb--ok" : "l01p-fb--no");
+        fb.textContent = ok ? "太棒了！✓" : page.hint;
+        if (page.sentence && ok) speak(page.sentence);
+      });
+    });
   }
 
   function renderSummary(page) {
-    var items = (page.checklist || [])
+    var list = (page.checklist || [])
       .map(function (t) {
         return "<li>" + esc(t) + "</li>";
       })
       .join("");
     return (
-      header(page, global.L01pData.indexOf(page.id), global.L01pData.total) +
+      header(page) +
       '<article class="l01p-card">' +
-      mediaBlock(page) +
-      '<div class="l01p-card__body"><h1 class="l01p-title">' +
+      hero(page) +
+      '<div class="l01p-body-inner"><h1 class="l01p-title">' +
       esc(page.title) +
-      '</h1><ul class="l01p-checklist">' +
-      items +
-      '</ul><div class="l01p-chant" style="margin-top:0.65rem;white-space:pre-line">' +
+      '</h1><ul style="margin:0;padding:0;list-style:none">' +
+      list +
+      '</ul><div class="l01p-chant" style="margin-top:.65rem">' +
       esc(page.chant) +
-      '</div><div class="l01p-btn-row"><button type="button" class="l01p-btn" id="l01pChantPlay">🔊 听口诀</button><a class="l01p-btn l01p-btn--ghost" href="index.html">返回目录</a></div></div></article>'
+      '</div><div class="l01p-toolbar"><button type="button" class="l01p-btn" data-speak="I play football. She plays football.">🔊 听口诀</button><a class="l01p-btn l01p-btn--ghost" href="index.html">目录</a></div></div></article>'
     );
   }
 
-  function bindSummary(page) {
-    var btn = document.getElementById("l01pChantPlay");
-    if (btn && page.chant) {
-      btn.addEventListener("click", function () {
-        speak("I play football. She plays football. We do not run. Does he read books?");
-      });
-    }
-  }
-
-  var BINDERS = {
-    "sound-first": bindSoundFirst,
-    socratic: bindSocratic,
-    "image-first": bindImageFirst,
-    compare: bindCompare,
-    demo: bindDemo,
-    classify: bindClassify,
-    "picture-build": bindPictureBuild,
-    "listen-order": bindListenOrder,
-    summary: bindSummary,
-  };
-
-  var RENDERERS = {
+  var RENDER = {
+    scene: renderScene,
     "sound-first": renderSoundFirst,
     socratic: renderSocratic,
-    "image-first": renderImageFirst,
-    compare: renderCompare,
-    demo: renderDemo,
-    classify: renderClassify,
+    discover: renderDiscover,
+    dynamic: renderDynamic,
+    spelling: renderSpelling,
     "picture-build": renderPictureBuild,
     "listen-order": renderListenOrder,
+    quiz: renderQuiz,
     summary: renderSummary,
   };
+
+  var BIND = {
+    scene: bindCommon,
+    "sound-first": bindSoundFirst,
+    socratic: bindSocratic,
+    discover: bindDiscover,
+    dynamic: bindDynamic,
+    spelling: bindSpelling,
+    "picture-build": bindPictureBuild,
+    "listen-order": bindListenOrder,
+    quiz: bindQuiz,
+    summary: bindCommon,
+  };
+
+  function renderPager(pageId) {
+    var nav = document.getElementById("l01pPager");
+    if (!nav) return;
+    var i = global.L01pData.indexOf(pageId);
+    var pages = global.L01pData.pages;
+    var prev = i > 0 ? pages[i - 1].id : null;
+    var next = i < pages.length - 1 ? pages[i + 1].id : null;
+    nav.innerHTML =
+      (prev ? '<a class="l01p-pager__prev" href="' + prev + '.html">← 上一页</a>' : '<a class="l01p-pager__prev is-muted" href="index.html">← 目录</a>') +
+      '<a class="l01p-pager__logo" href="../index.html"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Logo" width="96" height="34" decoding="async"/></a>' +
+      (next ? '<a class="l01p-pager__next" href="' + next + '.html">下一页 →</a>' : '<a class="l01p-pager__next" href="index.html">目录 →</a>');
+  }
 
   function render(pageId) {
     var page = global.L01pData.byId(pageId);
     var app = document.getElementById("l01pApp");
     if (!page || !app) return;
     document.title = "L01P · " + page.title;
-    var fn = RENDERERS[page.type];
-    app.innerHTML = fn ? fn(page) : "<p>未知页面类型</p>";
-    var binder = BINDERS[page.type];
-    if (binder) binder(page);
+    var fn = RENDER[page.type];
+    app.innerHTML = fn ? fn(page) : "<p>未知类型</p>";
+    var b = BIND[page.type];
+    if (b) b(page);
+    else bindCommon(app);
     renderPager(pageId);
-  }
-
-  function renderPager(pageId) {
-    var nav = document.getElementById("l01pPager");
-    if (!nav || !global.L01pData) return;
-    var idx = global.L01pData.indexOf(pageId);
-    var pages = global.L01pData.pages;
-    var prev = idx > 0 ? pages[idx - 1].id : null;
-    var next = idx < pages.length - 1 ? pages[idx + 1].id : null;
-    nav.innerHTML =
-      (prev
-        ? '<a class="l01p-pager__prev" href="' + prev + '.html">← 上一页</a>'
-        : '<a class="l01p-pager__prev is-muted" href="index.html">← 目录</a>') +
-      '<a class="l01p-pager__logo" href="../index.html" aria-label="主页"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven\'s Class" width="96" height="34" decoding="async" /></a>' +
-      (next
-        ? '<a class="l01p-pager__next" href="' + next + '.html">下一页 →</a>'
-        : '<a class="l01p-pager__next" href="index.html">目录 →</a>');
   }
 
   global.L01pEngine = { render: render };
