@@ -19,6 +19,7 @@
 
     <div class="card" id="setupPanel">
       <div class="control-row"><label>单元：</label><select id="unitSelect"></select></div>
+      <div id="wordCheckArea"></div>
       <p style="color:#636e72;margin:8px 0;">每组 4 个单词，全部完成后显示统计（含正误数量）</p>
       <button class="btn btn-primary btn-lg" id="btnStart"><i class="fa-solid fa-play"></i> 开始游戏</button>
     </div>
@@ -67,14 +68,16 @@
     const gamePanel = document.getElementById('gamePanel');
     const donePanel = document.getElementById('donePanel');
 
-    buildUnitSelector(document.getElementById('unitSelect'));
+    const unitSelect = document.getElementById('unitSelect');
+    const wordCheckArea = document.getElementById('wordCheckArea');
+    initGameWordSelection(unitSelect, wordCheckArea);
 
     document.getElementById('btnStart').addEventListener('click', startGame);
     document.getElementById('btnFlip').addEventListener('click', startPairing);
 
     function startGame() {
-      const all = shuffle(getAllWords(document.getElementById('unitSelect').value));
-      if (!all.length) return alert('该单元暂无单词！');
+      const all = getSelectedWords(unitSelect.value, wordCheckArea);
+      if (!all.length) return alert('请至少选择一个单词！');
       groups = [];
       for (let i = 0; i < all.length; i += GROUP_SIZE) {
         groups.push(all.slice(i, i + GROUP_SIZE));

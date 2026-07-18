@@ -18,6 +18,7 @@
     </div>
     <div class="card" id="setupPanel">
       <div class="control-row"><label>单元：</label><select id="unitSelect"></select></div>
+      <div id="wordCheckArea"></div>
       <p style="color:#636e72;font-size:0.9rem;">转动幸运转盘，听音选图——高互动趣味挑战！至少 4 个单词。</p>
       <button class="btn btn-primary btn-lg" id="btnStart"><i class="fa-solid fa-play"></i> 开始游戏</button>
     </div>
@@ -56,17 +57,21 @@
     const WHEEL_COLORS = ['#f5c400','#66bb6a','#42a5f5','#ab47bc','#ef5350','#ffa726','#26c6da','#8d6e63'];
     let segments = [], qi = 0, score = 0, statCorrect = 0, statWrong = 0;
     let gameTimer = null, spinning = false, cur = null, rot = 0, segAngle = 45;
-    let unitId = '', pool = [];
+    let unitId = '', pool = [], wordPool = [];
 
-    buildUnitSelector(document.getElementById('unitSelect'));
+    const unitSelect = document.getElementById('unitSelect');
+    const wordCheckArea = document.getElementById('wordCheckArea');
+    initGameWordSelection(unitSelect, wordCheckArea);
     document.getElementById('btnStart').addEventListener('click', startGame);
     document.getElementById('btnSpin').addEventListener('click', spinWheel);
     document.getElementById('btnReplay').addEventListener('click', () => { if (cur) speakText(cur.word); });
 
     function startGame() {
-      unitId = document.getElementById('unitSelect').value;
-      pool = shuffle(getAllWords(unitId));
-      if (pool.length < 4) return alert('该单元至少需要 4 个单词！');
+      unitId = unitSelect.value;
+      wordPool = getSelectedWords(unitId, wordCheckArea);
+      if (!wordPool.length) return alert('请至少选择一个单词！');
+      if (wordPool.length < 4) return alert('请至少选择 4 个单词！');
+      pool = wordPool;
       segments = shuffle(pool.slice()).slice(0, Math.min(8, pool.length));
       segAngle = 360 / segments.length;
       qi = 0; score = 0; statCorrect = 0; statWrong = 0; rot = 0;
@@ -122,8 +127,7 @@
       document.getElementById('targetWord').textContent = w.word;
       document.getElementById('progressBadge').textContent = `第 ${qi + 1} / ${segments.length} 轮`;
       speakText(w.word);
-      const all = getAllWords(unitId);
-      const opts = pickQuizOptions(w, all, 4, item => item.word).map(o => o.word);
+      const opts = pickQuizOptions(w, wordPool, 4, item => item.word).map(o => o.word);
       const el = document.getElementById('imgOpts');
       el.innerHTML = '';
       opts.forEach(opt => {

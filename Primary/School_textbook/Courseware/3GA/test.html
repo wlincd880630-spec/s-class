@@ -20,6 +20,7 @@
 
     <div class="card" id="setupPanel">
       <div class="control-row"><label>单元：</label><select id="unitSelect"></select></div>
+      <div id="wordCheckArea"></div>
       <p style="color:#636e72;margin:12px 0;">每词四关：朗读（≥60分通过）→ 英译中 → 中译英 → 拼写</p>
       <button class="btn btn-success btn-lg" id="btnStart"><i class="fa-solid fa-play"></i> 开始测试</button>
     </div>
@@ -70,7 +71,8 @@
     const testContent = document.getElementById('testContent');
     const unitSelect = document.getElementById('unitSelect');
 
-    buildUnitSelector(unitSelect);
+    const wordCheckArea = document.getElementById('wordCheckArea');
+    initGameWordSelection(unitSelect, wordCheckArea);
 
     document.getElementById('btnStart').addEventListener('click', startTest);
     document.getElementById('btnRetry').addEventListener('click', () => {
@@ -81,7 +83,8 @@
 
     function startTest() {
       unitId = unitSelect.value;
-      testWords = shuffle(getAllWords(unitId));
+      testWords = getSelectedWords(unitId, wordCheckArea);
+      if (!testWords.length) return alert('请至少选择一个单词！');
       wordIdx = 0;
       stageIdx = 0;
       results = [];
@@ -192,7 +195,7 @@
 
     // ── 英译中 ──
     function renderEn2Zh(w) {
-      const all = getAllWords(unitId);
+      const all = testWords;
       const options = pickQuizOptions(w, all, 6, shortMeaning);
       testContent.innerHTML = `
         <div class="quiz-question">
@@ -219,7 +222,7 @@
 
     // ── 中译英 ──
     function renderZh2En(w) {
-      const all = getAllWords(unitId);
+      const all = testWords;
       const options = pickQuizOptions(w, all, 6, item => item.word);
       testContent.innerHTML = `
         <div class="quiz-question">
