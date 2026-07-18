@@ -581,11 +581,36 @@ body.print-worksheet-page::after {
 
 /* ── 句子排序 ── */
 .pw-sentence-item {
-  padding: 16px 0;
+  display: grid;
+  grid-template-columns: 132px 1fr;
+  gap: 16px;
+  align-items: start;
+  padding: 18px 0;
   border-bottom: 1px dashed #cfd8dc;
 }
 
 .pw-sentence-item:last-child { border-bottom: none; }
+
+.pw-sentence-img {
+  width: 132px;
+  height: 100px;
+  object-fit: contain;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 4px;
+  background: #fff;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.pw-sentence-img--empty {
+  background: linear-gradient(135deg, #eceff1, #fff);
+  border-style: dashed;
+}
+
+.pw-sentence-body {
+  min-width: 0;
+}
 
 .pw-sentence-zh {
   font-size: 1.05rem;
@@ -614,10 +639,41 @@ body.print-worksheet-page::after {
 .pw-sentence-words span:nth-child(3n+1) { border-color: #81c784; background: linear-gradient(135deg, #e8f5e9, #fff); }
 .pw-sentence-words span:nth-child(3n+2) { border-color: #ffb74d; background: linear-gradient(135deg, #fff3e0, #fff); }
 
+.pw-sentence-write {
+  margin-top: 8px;
+  font-size: 0.95rem;
+  color: #546e7a;
+}
+
 .pw-sentence-line {
-  margin-top: 10px;
-  min-height: 2rem;
-  border-bottom: 2.5px solid #37474f;
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  min-height: 4.75rem;
+  border: 2px solid #90a4ae;
+  border-radius: 10px;
+  background:
+    repeating-linear-gradient(
+      transparent,
+      transparent calc(1.55rem - 1px),
+      #cfd8dc calc(1.55rem - 1px),
+      #cfd8dc 1.55rem
+    );
+  background-size: 100% 1.55rem;
+  background-position: 0 0.35rem;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.pw-answer-key .pw-sentence-line {
+  display: none;
+}
+
+.pw-answer-key .pw-sentence-write .pw-ans {
+  display: block;
+  margin-top: 8px;
+  font-size: 1.05rem;
+  line-height: 1.5;
 }
 
 /* ── 答案页 ── */
@@ -754,6 +810,23 @@ body.print-worksheet-page::after {
 
   .pw-memory-card img {
     max-height: 92px;
+  }
+
+  .pw-sentence-item {
+    grid-template-columns: 140px 1fr;
+    gap: 18px;
+    padding: 20px 0;
+  }
+
+  .pw-sentence-img {
+    width: 140px;
+    height: 108px;
+  }
+
+  .pw-sentence-line {
+    min-height: 5.25rem;
+    background-size: 100% 1.7rem;
+    background-position: 0 0.4rem;
   }
 
   .pw-maze-target,

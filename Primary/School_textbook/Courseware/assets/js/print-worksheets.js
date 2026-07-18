@@ -236,17 +236,27 @@
   }
 
   function renderSentenceSheet(items, showAns) {
-    let html = sheetHeader(`${bookName()} · 句子排序`, `共 ${items.length} 句 · 排列语序`, 'sentence');
+    let html = sheetHeader(`${bookName()} · 句子排序`, `共 ${items.length} 句 · 看图 · 排列语序`, 'sentence');
     if (showAns) html = html.replace('class="pw-sheet', 'class="pw-sheet pw-answer-key');
 
     items.forEach((item, i) => {
       const parts = item.en.replace(/[.!?]+$/, '').split(/\s+/);
       const scrambled = shuffle(parts);
+      const img = item.image || item.wordImage || '';
       html += `<div class="pw-sentence-item">`;
+      if (img) {
+        html += `<img class="pw-sentence-img" src="${esc(img)}" alt="" />`;
+      } else {
+        html += `<div class="pw-sentence-img pw-sentence-img--empty" aria-hidden="true"></div>`;
+      }
+      html += `<div class="pw-sentence-body">`;
       html += `<div class="pw-sentence-zh"><strong>${i + 1}.</strong> ${esc(item.zh)}</div>`;
       html += `<div class="pw-sentence-words">${scrambled.map((p) => `<span>${esc(p)}</span>`).join('')}</div>`;
-      html += `<div>正确语序：${showAns ? `<span class="pw-ans">${esc(item.en)}</span>` : '<span class="pw-sentence-line"></span>'}</div>`;
-      html += '</div>';
+      html += `<div class="pw-sentence-write">正确语序：`;
+      html += showAns
+        ? `<span class="pw-ans">${esc(item.en)}</span>`
+        : '<span class="pw-sentence-line"></span>';
+      html += `</div></div></div>`;
     });
 
     html += sheetFooter();
@@ -365,9 +375,17 @@
     }
 
     if (optSentence) {
-      const sentences = shuffle(pool.filter((w) => w.sentences && w.sentences[0]).map((w) => w.sentences[0]));
+      const sentences = shuffle(
+        pool
+          .filter((w) => w.sentences && w.sentences[0])
+          .map((w) => ({
+            ...w.sentences[0],
+            wordImage: w.image || '',
+          }))
+      );
       if (sentences.length) {
-        const sentencePages = paginate(sentences, 3);
+        // 带图后每页 2 句，避免作答区与插图挤在一起
+        const sentencePages = paginate(sentences, 2);
         sentencePages.forEach((page) => { html += renderSentenceSheet(page, false); });
         if (optAnswers) sentencePages.forEach((page) => { html += renderSentenceSheet(page, true); });
       }
