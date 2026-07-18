@@ -171,8 +171,8 @@
         btn.innerHTML = '<i class="fa-solid fa-microphone"></i> 开始录音';
         speakResult.classList.remove('hidden');
 
-        if (result && (result.pronScore > 0 || result.recognized)) {
-          const score = result.pronScore || result.accuracy || 0;
+        if (result && (getPronunciationDisplayScore(result) > 0 || result.recognized)) {
+          const score = getPronunciationDisplayScore(result);
           renderStars(document.getElementById('speakStars'), scoreToStars(score));
           if (score >= 60) {
             speakText_el.textContent = `发音 ${Math.round(score)} 分 · 准确度 ${Math.round(result.accuracy)} · 达标！`;
