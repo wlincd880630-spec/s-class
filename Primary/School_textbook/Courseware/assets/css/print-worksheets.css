@@ -579,26 +579,60 @@ body.print-worksheet-page::after {
   margin-top: 6px;
 }
 
-/* ── 句子排序（每页 4 句） ── */
+/* ── 句子排序（每页 4 句，铺满 A4） ── */
+.pw-sheet--sentence {
+  display: flex;
+  flex-direction: column;
+  min-height: 260mm;
+}
+
+.pw-sheet--sentence > .pw-sheet-hdr,
+.pw-sheet--sentence > .pw-name-line,
+.pw-sheet--sentence > .pw-sheet-footer {
+  flex-shrink: 0;
+}
+
+.pw-sheet--sentence > .pw-sheet-hdr {
+  margin-bottom: 6px;
+  padding-bottom: 4px;
+}
+
+.pw-sheet--sentence > .pw-name-line {
+  margin-bottom: 4px;
+}
+
+.pw-sheet--sentence > .pw-sheet-footer {
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+.pw-sheet--sentence > .pw-sentence-item {
+  flex: 1 1 0;
+  min-height: 0;
+}
+
 .pw-sentence-item {
   display: grid;
-  grid-template-columns: 96px 1fr;
-  gap: 12px;
-  align-items: start;
-  padding: 10px 0;
+  grid-template-columns: 168px 1fr;
+  gap: 14px;
+  align-items: stretch;
+  padding: 8px 0;
   border-bottom: 1px dashed #cfd8dc;
+  box-sizing: border-box;
 }
 
 .pw-sentence-item:last-child { border-bottom: none; }
 
 .pw-sentence-img {
-  width: 96px;
-  height: 72px;
+  width: 168px;
+  height: 100%;
+  min-height: 132px;
   object-fit: contain;
-  border: 2px solid #e0e0e0;
-  border-radius: 10px;
-  padding: 3px;
+  border: 2px solid #cfd8dc;
+  border-radius: 12px;
+  padding: 4px;
   background: #fff;
+  align-self: stretch;
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
 }
@@ -606,14 +640,20 @@ body.print-worksheet-page::after {
 .pw-sentence-img--empty {
   background: linear-gradient(135deg, #eceff1, #fff);
   border-style: dashed;
+  min-height: 132px;
 }
 
 .pw-sentence-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   min-width: 0;
+  min-height: 132px;
 }
 
 .pw-sentence-zh {
-  font-size: 0.98rem;
+  flex-shrink: 0;
+  font-size: 1.05rem;
   color: var(--pw-muted);
   margin-bottom: 6px;
   line-height: 1.4;
@@ -622,15 +662,16 @@ body.print-worksheet-page::after {
 .pw-sentence-words {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin: 6px 0;
+  flex-shrink: 0;
+  gap: 7px;
+  margin: 2px 0 6px;
 }
 
 .pw-sentence-words span {
-  padding: 5px 11px;
+  padding: 6px 12px;
   border: 2px solid #90caf9;
-  border-radius: 8px;
-  font-size: 0.95rem;
+  border-radius: 9px;
+  font-size: 1rem;
   background: linear-gradient(135deg, #e3f2fd, #fff);
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
@@ -640,27 +681,33 @@ body.print-worksheet-page::after {
 .pw-sentence-words span:nth-child(3n+2) { border-color: #ffb74d; background: linear-gradient(135deg, #fff3e0, #fff); }
 
 .pw-sentence-write {
-  margin-top: 4px;
-  font-size: 0.9rem;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  margin-top: 2px;
+  font-size: 0.95rem;
   color: #546e7a;
+  min-height: 0;
 }
 
 .pw-sentence-line {
   display: block;
+  flex: 1 1 auto;
   width: 100%;
+  box-sizing: border-box;
   margin-top: 5px;
-  min-height: 3rem;
+  min-height: 5.5rem;
   border: 2px solid #90a4ae;
-  border-radius: 8px;
+  border-radius: 10px;
   background:
     repeating-linear-gradient(
       transparent,
-      transparent calc(1.4rem - 1px),
-      #cfd8dc calc(1.4rem - 1px),
-      #cfd8dc 1.4rem
+      transparent calc(1.55rem - 1px),
+      #cfd8dc calc(1.55rem - 1px),
+      #cfd8dc 1.55rem
     );
-  background-size: 100% 1.4rem;
-  background-position: 0 0.25rem;
+  background-size: 100% 1.55rem;
+  background-position: 0 0.3rem;
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
 }
@@ -672,7 +719,7 @@ body.print-worksheet-page::after {
 .pw-answer-key .pw-sentence-write .pw-ans {
   display: block;
   margin-top: 5px;
-  font-size: 0.98rem;
+  font-size: 1.05rem;
   line-height: 1.45;
 }
 
@@ -812,21 +859,32 @@ body.print-worksheet-page::after {
     max-height: 92px;
   }
 
-  .pw-sentence-item {
-    grid-template-columns: 100px 1fr;
-    gap: 12px;
-    padding: 8px 0;
+  .pw-sheet--sentence {
+    /* 不设死 height，避免浏览器默认页边距导致整页缩小 */
+    min-height: 255mm !important;
+    height: auto;
   }
 
-  .pw-sentence-img {
-    width: 100px;
-    height: 76px;
+  .pw-sentence-item {
+    grid-template-columns: 180px 1fr;
+    gap: 14px;
+    padding: 7px 0;
+  }
+
+  .pw-sentence-img,
+  .pw-sentence-img--empty {
+    width: 180px;
+    min-height: 145px;
+  }
+
+  .pw-sentence-body {
+    min-height: 145px;
   }
 
   .pw-sentence-line {
-    min-height: 3.15rem;
-    background-size: 100% 1.45rem;
-    background-position: 0 0.28rem;
+    min-height: 6.25rem;
+    background-size: 100% 1.6rem;
+    background-position: 0 0.35rem;
   }
 
   .pw-maze-target,
@@ -845,5 +903,5 @@ body.print-worksheet-page::after {
 
 @page {
   size: A4 portrait;
-  margin: 8mm 10mm;
+  margin: 6mm 8mm;
 }
