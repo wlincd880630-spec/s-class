@@ -22,32 +22,35 @@ if (!fs.existsSync(CONFIG)) {
 }
 const cfg = JSON.parse(fs.readFileSync(CONFIG, "utf8"));
 const prefix = (cfg.CosPrefix || "s-class/").replace(/\/+$/, "") + "/";
-const cos = new COS({ SecretId: cfg.SecretId, SecretKey: cfg.SecretKey, Timeout: 180000 });
+const cos = new COS({ SecretId: cfg.SecretId, SecretKey: cfg.SecretKey, Timeout: 300000, FileParallelLimit: 2, ChunkParallelLimit: 2, ChunkSize: 1024 * 1024 });
 
 function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
-async function uploadOne(name, retries = 4) {
+async function uploadOne(name, retries = 5) {
   const local = path.join(IMG_DIR, name);
   if (!fs.existsSync(local)) {
     console.warn("SKIP (missing)", name);
     return false;
   }
   const key = prefix + "Grammar/L01-小学一般现在时/assets/img/" + name;
+  const size = fs.statSync(local).size;
   for (let i = 0; i < retries; i++) {
     try {
       await new Promise((resolve, reject) => {
-        cos.putObject(
-          { Bucket: cfg.Bucket, Region: cfg.Region, Key: key, Body: fs.createReadStream(local) },
-          (err, data) => (err ? reject(err) : resolve(data))
-        );
+        const opts = { Bucket: cfg.Bucket, Region: cfg.Region, Key: key };
+        if (size > 1024 * 1024) {
+          cos.sliceUploadFile({ ...opts, FilePath: local }, (err, data) => (err ? reject(err) : resolve(data)));
+        } else {
+          cos.putObject({ ...opts, Body: fs.readFileSync(local) }, (err, data) => (err ? reject(err) : resolve(data)));
+        }
       });
-      console.log("OK", name);
+      console.log("OK", name, "(" + Math.round(size / 1024) + "KB)");
       return true;
     } catch (e) {
       console.warn("retry", i + 1, name, e.message);
-      await sleep(4000 * (i + 1));
+      await sleep(5000 * (i + 1));
     }
   }
   console.error("FAIL", name);
