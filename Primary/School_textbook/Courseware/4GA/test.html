@@ -19,8 +19,7 @@
     </div>
 
     <div class="card" id="setupPanel">
-      <div class="control-row"><label>单元：</label><select id="unitSelect"></select></div>
-      <div id="wordCheckArea"></div>
+      <div id="reviewWordSummary"></div>
       <p style="color:#636e72;margin:12px 0;">每词四关：朗读（≥60分通过）→ 英译中 → 中译英 → 拼写</p>
       <button class="btn btn-success btn-lg" id="btnStart"><i class="fa-solid fa-play"></i> 开始测试</button>
     </div>
@@ -62,17 +61,15 @@
     let results = [];
     let currentResult = null;
     let stageTimer = null;
-    let unitId = '';
+
     let spellBuilt = [], spellTarget = [];
 
     const setupPanel = document.getElementById('setupPanel');
     const testPanel = document.getElementById('testPanel');
     const reportPanel = document.getElementById('reportPanel');
     const testContent = document.getElementById('testContent');
-    const unitSelect = document.getElementById('unitSelect');
 
-    const wordCheckArea = document.getElementById('wordCheckArea');
-    initGameWordSelection(unitSelect, wordCheckArea);
+    renderReviewWordSummary(document.getElementById('reviewWordSummary'));
 
     document.getElementById('btnStart').addEventListener('click', startTest);
     document.getElementById('btnRetry').addEventListener('click', () => {
@@ -82,9 +79,8 @@
     document.getElementById('btnExport').addEventListener('click', exportReport);
 
     function startTest() {
-      unitId = unitSelect.value;
-      testWords = getSelectedWords(unitId, wordCheckArea);
-      if (!testWords.length) return alert('请至少选择一个单词！');
+      testWords = requireReviewWords({ minCount: 1 });
+      if (!testWords) return;
       wordIdx = 0;
       stageIdx = 0;
       results = [];
@@ -299,9 +295,9 @@
       testPanel.classList.add('hidden');
       reportPanel.classList.remove('hidden');
 
-      const unit = getUnitById(unitId);
+      const bookName = TEXTBOOK_DATA.book?.name || "单词测试";
       document.getElementById('reportUnit').textContent =
-        `${unit.name} · ${testWords.length} 个单词 · ${new Date().toLocaleString('zh-CN')}`;
+        `${bookName} · ${testWords.length} 个单词 · ${new Date().toLocaleString('zh-CN')}`;
 
       const byStage = {};
       STAGES.forEach(s => { byStage[s] = { correct: 0, total: 0, time: 0, score: 0 }; });

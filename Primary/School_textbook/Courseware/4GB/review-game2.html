@@ -18,8 +18,7 @@
     </div>
 
     <div class="card" id="setupPanel">
-      <div class="control-row"><label>单元：</label><select id="unitSelect"></select></div>
-      <div id="wordCheckArea"></div>
+      <div id="reviewWordSummary"></div>
       <p style="color:#636e72;font-size:0.9rem;">每个迷宫 <strong>4 个单词</strong>（左→右、右→左、上→下、下→上各一，分布四象限）；交叉字母可重复选用。</p>
       <button class="btn btn-primary btn-lg" id="btnStart"><i class="fa-solid fa-play"></i> 开始游戏</button>
     </div>
@@ -61,11 +60,8 @@
     const setupPanel = document.getElementById('setupPanel');
     const gamePanel = document.getElementById('gamePanel');
     const donePanel = document.getElementById('donePanel');
-    const unitSelect = document.getElementById('unitSelect');
     const mazeGridEl = document.getElementById('mazeGrid');
-
-    buildUnitSelector(unitSelect, refreshWordList);
-    refreshWordList();
+    renderReviewWordSummary(document.getElementById('reviewWordSummary'), { wordFilter: isMazeWord, minCount: 4 });
     document.getElementById('btnStart').addEventListener('click', startGame);
     document.getElementById('btnConfirm').addEventListener('click', confirmSelection);
     document.getElementById('btnClear').addEventListener('click', clearSelection);
@@ -78,10 +74,6 @@
       const c = +cell.dataset.c;
       clickPath(r, c, mazeData.grid[r][c], cellKey(r, c));
     });
-
-    function refreshWordList() {
-      buildWordCheckboxes(document.getElementById('wordCheckArea'), unitSelect.value, [], isMazeWord);
-    }
 
     function cellKey(r, c) { return `${r},${c}`; }
 
@@ -120,10 +112,8 @@
     }
 
     function startGame() {
-      const ids = getSelectedWordIds(document.getElementById('wordCheckArea'));
-      const all = shuffle(getMazeWords(unitSelect.value).filter(w => ids.includes(w.id)));
-      if (!all.length) return alert('请至少选择一个单词！');
-      if (all.length < 4) return alert('请至少选择 4 个单词！');
+      const all = requireReviewWords({ wordFilter: isMazeWord, minCount: 4, emptyMsg: '请先在首页选择至少 4 个适合迷宫的单词（不含空格、长度≤9）！' });
+      if (!all) return;
       groups = chunkGroups(all, 4);
       groupIdx = 0;
       statCorrect = 0;

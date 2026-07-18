@@ -880,6 +880,162 @@ function buildWordCheckboxes(container, unitId, selected = [], wordFilter = null
 function getSelectedWordIds(container) {
   return [...container.querySelectorAll('input[type=checkbox]:checked')].map(c => c.value);
 }
+
+// ─── 全局复习词表（册别首页勾选，各游戏共用） ───
+
+function escHtml(s) {
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function getReviewStorageKey() {
+  const id =
+    typeof TEXTBOOK_DATA !== 'undefined' && TEXTBOOK_DATA.book
+      ? TEXTBOOK_DATA.book.id
+      : (location.pathname.match(/\/([A-Za-z0-9]+)\//) || [])[1] || 'courseware';
+  return `courseware-review-words-${id}`;
+}
+
+function loadReviewSelection() {
+  try {
+    const raw = localStorage.getItem(getReviewStorageKey());
+    if (!raw) return { unitId: '', wordIds: [] };
+    const data = JSON.parse(raw);
+    if (Array.isArray(data)) return { unitId: '', wordIds: data };
+    return { unitId: data.unitId || '', wordIds: data.wordIds || [] };
+  } catch {
+    return { unitId: '', wordIds: [] };
+  }
+}
+
+function saveReviewSelection(unitId, wordIds) {
+  localStorage.setItem(
+    getReviewStorageKey(),
+    JSON.stringify({ unitId, wordIds, updatedAt: Date.now() })
+  );
+}
+
+function getWordsByIds(ids) {
+  if (!ids?.length || typeof TEXTBOOK_DATA === 'undefined') return [];
+  const set = new Set(ids);
+  const out = [];
+  TEXTBOOK_DATA.units.forEach((u) => {
+    u.words.forEach((w) => {
+      if (set.has(w.id)) out.push(w);
+    });
+  });
+  return out;
+}
+
+/** 读取首页保存的复习单词（已打乱） */
+function getReviewWords(wordFilter = null) {
+  const { wordIds } = loadReviewSelection();
+  let words = getWordsByIds(wordIds);
+  if (wordFilter) words = words.filter(wordFilter);
+  return shuffle(words);
+}
+
+/** 游戏启动：校验词数，不足则提示回首页选词 */
+function requireReviewWords({ wordFilter = null, minCount = 1, emptyMsg } = {}) {
+  const words = getReviewWords(wordFilter);
+  if (words.length < minCount) {
+    alert(
+      emptyMsg ||
+        `请先在首页选择至少 ${minCount} 个复习单词！\n\n返回首页 →「选择复习单词」区域勾选后，再进入游戏。`
+    );
+    return null;
+  }
+  return words;
+}
+
+/** 游戏准备页：显示当前复习词摘要 */
+function renderReviewWordSummary(host, { wordFilter = null, minCount = 1 } = {}) {
+  if (!host) return;
+  const { wordIds } = loadReviewSelection();
+  let words = getWordsByIds(wordIds);
+  if (wordFilter) words = words.filter(wordFilter);
+  const ok = words.length >= minCount;
+  const chips = words
+    .slice(0, 24)
+    .map((w) => `<span class="review-word-chip">${escHtml(w.word)}</span>`)
+    .join('');
+  const more = words.length > 24 ? `<span class="review-word-chip">+${words.length - 24}</span>` : '';
+  host.innerHTML =
+    `<div class="review-word-summary${ok ? '' : ' review-word-summary--empty'}">` +
+    `<p><i class="fa-solid fa-list-check"></i> 当前复习：<strong>${words.length}</strong> 个单词</p>` +
+    (words.length ? `<div class="review-word-chips">${chips}${more}</div>` : '') +
+    `<p class="review-word-hint">${ok ? '在首页可更换复习单词' : `请先在首页选择至少 ${minCount} 个单词`}` +
+    ` · <a href="index.html#review-words">去选词</a></p></div>`;
+}
+
+function updateReviewPickerUI(countEl, chipsEl) {
+  const words = getWordsByIds(loadReviewSelection().wordIds);
+  if (countEl) countEl.textContent = `已选 ${words.length} 个单词（全书）`;
+  if (chipsEl) {
+    chipsEl.innerHTML =
+      words
+        .slice(0, 40)
+        .map((w) => `<span class="review-word-chip">${escHtml(w.word)}</span>`)
+        .join('') +
+      (words.length > 40 ? `<span class="review-word-chip">+${words.length - 40}</span>` : '');
+  }
+}
+
+/** 册别首页：初始化全局复习词勾选 */
+function initReviewWordPickerOnIndex() {
+  const unitSelect = document.getElementById('unitSelect');
+  const wordCheckArea = document.getElementById('wordCheckArea');
+  const countEl = document.getElementById('reviewWordCount');
+  const chipsEl = document.getElementById('reviewWordChips');
+  if (!unitSelect || !wordCheckArea) return;
+
+  let { unitId, wordIds } = loadReviewSelection();
+  if (!wordIds.length) {
+    const firstUnit = TEXTBOOK_DATA.units[0]?.id;
+    wordIds = getAllWords(firstUnit).map((w) => w.id);
+    saveReviewSelection(firstUnit, wordIds);
+  }
+
+  function mergeUnitSelection() {
+    const currentIds = new Set(loadReviewSelection().wordIds);
+    getAllWords(unitSelect.value).forEach((w) => currentIds.delete(w.id));
+    getSelectedWordIds(wordCheckArea).forEach((id) => currentIds.add(id));
+    saveReviewSelection(unitSelect.value, [...currentIds]);
+    updateReviewPickerUI(countEl, chipsEl);
+  }
+
+  function refresh() {
+    const sel = loadReviewSelection();
+    buildWordCheckboxes(wordCheckArea, unitSelect.value, sel.wordIds);
+    updateReviewPickerUI(countEl, chipsEl);
+  }
+
+  buildUnitSelector(unitSelect, () => {
+    saveReviewSelection(unitSelect.value, loadReviewSelection().wordIds);
+    refresh();
+  });
+  if (unitId) unitSelect.value = unitId;
+  refresh();
+
+  wordCheckArea.addEventListener('change', mergeUnitSelection);
+
+  document.getElementById('btnSelectAll')?.addEventListener('click', () => {
+    const currentIds = new Set(loadReviewSelection().wordIds);
+    getAllWords(unitSelect.value).forEach((w) => currentIds.add(w.id));
+    saveReviewSelection(unitSelect.value, [...currentIds]);
+    refresh();
+  });
+
+  document.getElementById('btnClearUnit')?.addEventListener('click', () => {
+    const unitSet = new Set(getAllWords(unitSelect.value).map((w) => w.id));
+    const merged = loadReviewSelection().wordIds.filter((id) => !unitSet.has(id));
+    saveReviewSelection(unitSelect.value, merged);
+    refresh();
+  });
+}
 /** 从勾选区获取已选单词（已打乱） */
 function getSelectedWords(unitId, container) {
   const ids = getSelectedWordIds(container);

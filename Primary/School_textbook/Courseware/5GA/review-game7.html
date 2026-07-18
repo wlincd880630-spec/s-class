@@ -17,8 +17,7 @@
       <h1 class="page-title"><i class="fa-solid fa-language"></i> 看单词选中文</h1>
     </div>
     <div class="card" id="setupPanel">
-      <div class="control-row"><label>单元：</label><select id="unitSelect"></select></div>
-      <div id="wordCheckArea"></div>
+      <div id="reviewWordSummary"></div>
       <p style="color:#636e72;font-size:0.9rem;">每组 4 题，看英文单词与图片，选出正确中文意思</p>
       <button class="btn btn-primary btn-lg" id="btnStart"><i class="fa-solid fa-play"></i> 开始游戏</button>
     </div>
@@ -49,9 +48,7 @@
     let statCorrect = 0, statWrong = 0, totalWords = 0;
     let gameTimer = null, answered = false, unitId = '', wordPool = [];
 
-    const unitSelect = document.getElementById('unitSelect');
-    const wordCheckArea = document.getElementById('wordCheckArea');
-    initGameWordSelection(unitSelect, wordCheckArea);
+    renderReviewWordSummary(document.getElementById('reviewWordSummary'));
     document.getElementById('btnStart').addEventListener('click', startGame);
     document.getElementById('btnSpeak').addEventListener('click', () => {
       const w = groups[groupIdx]?.[qIdx];
@@ -59,9 +56,8 @@
     });
 
     function startGame() {
-      unitId = unitSelect.value;
-      const all = getSelectedWords(unitId, wordCheckArea);
-      if (!all.length) return alert('请至少选择一个单词！');
+      const all = requireReviewWords({ minCount: 1 });
+      if (!all) return;
       wordPool = all;
       groups = chunkGroups(all);
       groupIdx = 0; qIdx = 0; statCorrect = 0; statWrong = 0; totalWords = all.length;
