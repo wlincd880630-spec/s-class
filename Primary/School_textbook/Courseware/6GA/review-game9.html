@@ -17,8 +17,7 @@
       <h1 class="page-title"><i class="fa-solid fa-dharmachakra"></i> 转盘寻宝</h1>
     </div>
     <div class="card" id="setupPanel">
-      <div class="control-row"><label>单元：</label><select id="unitSelect"></select></div>
-      <div id="wordCheckArea"></div>
+      <div id="reviewWordSummary"></div>
       <p style="color:#636e72;font-size:0.9rem;">转动幸运转盘，听音选图——高互动趣味挑战！至少 4 个单词。</p>
       <button class="btn btn-primary btn-lg" id="btnStart"><i class="fa-solid fa-play"></i> 开始游戏</button>
     </div>
@@ -59,18 +58,14 @@
     let gameTimer = null, spinning = false, cur = null, rot = 0, segAngle = 45;
     let unitId = '', pool = [], wordPool = [];
 
-    const unitSelect = document.getElementById('unitSelect');
-    const wordCheckArea = document.getElementById('wordCheckArea');
-    initGameWordSelection(unitSelect, wordCheckArea);
+    renderReviewWordSummary(document.getElementById('reviewWordSummary'), { minCount: 4 });
     document.getElementById('btnStart').addEventListener('click', startGame);
     document.getElementById('btnSpin').addEventListener('click', spinWheel);
     document.getElementById('btnReplay').addEventListener('click', () => { if (cur) speakText(cur.word); });
 
     function startGame() {
-      unitId = unitSelect.value;
-      wordPool = getSelectedWords(unitId, wordCheckArea);
-      if (!wordPool.length) return alert('请至少选择一个单词！');
-      if (wordPool.length < 4) return alert('请至少选择 4 个单词！');
+      wordPool = requireReviewWords({ minCount: 4 });
+      if (!wordPool) return;
       pool = wordPool;
       segments = shuffle(pool.slice()).slice(0, Math.min(8, pool.length));
       segAngle = 360 / segments.length;

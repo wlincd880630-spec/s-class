@@ -168,12 +168,12 @@
     return html;
   }
 
-  function renderQuizSheet(words, mode, showAns, unitId) {
+  function renderQuizSheet(words, mode, showAns, distractorPool) {
     const title = mode === 'zh-en' ? '看中文选英文' : '看单词选中文';
     let html = sheetHeader(`${bookName()} · ${title}`, `共 ${words.length} 题 · 四选一`, mode);
     if (showAns) html = html.replace('class="pw-sheet', 'class="pw-sheet pw-answer-key');
 
-    const all = getAllWords(unitId);
+    const all = distractorPool;
     words.forEach((w, i) => {
       const opts = pickQuizOptions(w, all, 4, (item) => (mode === 'zh-en' ? item.word : shortMeaning(item)));
       html += `<div class="pw-quiz-item">`;
@@ -190,8 +190,8 @@
     return html;
   }
 
-  function renderPickImgSheet(words, unitId, showAns) {
-    const all = getAllWords(unitId);
+  function renderPickImgSheet(words, distractorPool, showAns) {
+    const all = distractorPool;
     let html = sheetHeader(`${bookName()} · 看单词选图`, `共 ${words.length} 题 · 四选一`, 'pick');
     if (showAns) html = html.replace('class="pw-sheet', 'class="pw-sheet pw-answer-key');
 
@@ -244,7 +244,6 @@
   function generate(opts) {
     const {
       pool,
-      unitId,
       optMaze,
       optSpell,
       optConnect,
@@ -292,23 +291,23 @@
     }
 
     if (optZhPickEn) {
-      html += renderQuizSheet(shuffle(pool.slice()), 'zh-en', false, unitId);
-      if (optAnswers) html += renderQuizSheet(pool, 'zh-en', true, unitId);
+      html += renderQuizSheet(shuffle(pool.slice()), 'zh-en', false, pool);
+      if (optAnswers) html += renderQuizSheet(pool, 'zh-en', true, pool);
     }
 
     if (optEnPickZh) {
-      html += renderQuizSheet(shuffle(pool.slice()), 'en-zh', false, unitId);
-      if (optAnswers) html += renderQuizSheet(pool, 'en-zh', true, unitId);
+      html += renderQuizSheet(shuffle(pool.slice()), 'en-zh', false, pool);
+      if (optAnswers) html += renderQuizSheet(pool, 'en-zh', true, pool);
     }
 
     if (optPickImg) {
       const pickWords = shuffle(pool.slice());
       for (let i = 0; i < pickWords.length; i += 4) {
-        html += renderPickImgSheet(pickWords.slice(i, i + 4), unitId, false);
+        html += renderPickImgSheet(pickWords.slice(i, i + 4), pool, false);
       }
       if (optAnswers) {
         for (let i = 0; i < pickWords.length; i += 4) {
-          html += renderPickImgSheet(pickWords.slice(i, i + 4), unitId, true);
+          html += renderPickImgSheet(pickWords.slice(i, i + 4), pool, true);
         }
       }
     }
@@ -353,24 +352,12 @@
   }
 
   function boot() {
-    const unitSelect = document.getElementById('unitSelect');
-    const wordCheckArea = document.getElementById('wordCheckArea');
     const printArea = document.getElementById('printArea');
-
-    if (!unitSelect || !wordCheckArea || !printArea) return;
-
-    buildUnitSelector(unitSelect, () => {
-      buildWordCheckboxes(wordCheckArea, unitSelect.value);
-      doGenerate();
-    });
-    buildWordCheckboxes(wordCheckArea, unitSelect.value);
-
-    wordCheckArea.addEventListener('change', doGenerate);
+    if (!printArea) return;
 
     function getPool() {
-      const unitId = unitSelect.value;
-      const ids = getSelectedWordIds(wordCheckArea);
-      return shuffle(getAllWords(unitId).filter((w) => ids.includes(w.id)));
+      if (typeof getReviewWords === 'function') return getReviewWords();
+      return [];
     }
 
     function doGenerate() {
@@ -378,13 +365,12 @@
       updateChips(pool);
 
       if (!pool.length) {
-        printArea.innerHTML = '<p class="pw-empty">请至少选择一个单词</p>';
+        printArea.innerHTML = '<p class="pw-empty">请先在首页「选择复习单词」区域勾选至少一个单词</p>';
         return;
       }
 
       printArea.innerHTML = generate({
         pool,
-        unitId: unitSelect.value,
         optMaze: document.getElementById('optMaze')?.checked,
         optSpell: document.getElementById('optSpell')?.checked,
         optConnect: document.getElementById('optConnect')?.checked,

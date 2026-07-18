@@ -18,8 +18,7 @@
     </div>
 
     <div class="card" id="setupPanel">
-      <div class="control-row"><label>单元：</label><select id="unitSelect"></select></div>
-      <div id="wordCheckArea"></div>
+      <div id="reviewWordSummary"></div>
       <p style="color:#636e72;font-size:0.9rem;">每组 4 句，全部完成后显示统计</p>
       <button class="btn btn-primary btn-lg" id="btnStart"><i class="fa-solid fa-play"></i> 开始游戏</button>
     </div>
@@ -55,9 +54,7 @@
     let gameTimer = null;
     let statCorrect = 0, statWrong = 0, totalSentences = 0;
 
-    const unitSelect = document.getElementById('unitSelect');
-    const wordCheckArea = document.getElementById('wordCheckArea');
-    initGameWordSelection(unitSelect, wordCheckArea);
+    renderReviewWordSummary(document.getElementById('reviewWordSummary'));
     document.getElementById('btnStart').addEventListener('click', startGame);
     document.getElementById('btnPlay').addEventListener('click', () => { if (current) speakText(current.en); });
     document.getElementById('chineseHint').addEventListener('click', function () {
@@ -65,8 +62,8 @@
     });
 
     function startGame() {
-      const all = getSelectedWords(unitSelect.value, wordCheckArea);
-      if (!all.length) return alert('请至少选择一个单词！');
+      const all = requireReviewWords({ minCount: 1 });
+      if (!all) return;
       const pool = shuffle(all.map(w => ({ ...w.sentences[0], word: w })));
       groups = chunkGroups(pool);
       groupIdx = 0;

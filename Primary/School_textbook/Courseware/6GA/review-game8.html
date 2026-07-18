@@ -17,8 +17,7 @@
       <h1 class="page-title"><i class="fa-solid fa-link"></i> 图片单词连线</h1>
     </div>
     <div class="card" id="setupPanel">
-      <div class="control-row"><label>单元：</label><select id="unitSelect"></select></div>
-      <div id="wordCheckArea"></div>
+      <div id="reviewWordSummary"></div>
       <p style="color:#636e72;font-size:0.9rem;">每页 3 组：左侧图片与右侧单词配对连线（不显示中文）</p>
       <button class="btn btn-primary btn-lg" id="btnStart"><i class="fa-solid fa-play"></i> 开始游戏</button>
     </div>
@@ -50,16 +49,12 @@
     let statCorrect = 0, statWrong = 0, totalWords = 0;
     let gameTimer = null, unitId = '';
 
-    const unitSelect = document.getElementById('unitSelect');
-    const wordCheckArea = document.getElementById('wordCheckArea');
-    initGameWordSelection(unitSelect, wordCheckArea);
+    renderReviewWordSummary(document.getElementById('reviewWordSummary'), { minCount: 3 });
     document.getElementById('btnStart').addEventListener('click', startGame);
 
     function startGame() {
-      unitId = unitSelect.value;
-      const all = getSelectedWords(unitId, wordCheckArea);
-      if (!all.length) return alert('请至少选择一个单词！');
-      if (all.length < 3) return alert('请至少选择 3 个单词！');
+      const all = requireReviewWords({ minCount: 3 });
+      if (!all) return;
       groups = [];
       for (let i = 0; i < all.length; i += CONNECT_SIZE) {
         groups.push(all.slice(i, i + CONNECT_SIZE));
