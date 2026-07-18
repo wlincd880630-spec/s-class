@@ -923,6 +923,19 @@ function buildWordCheckboxes(container, unitId, selected = [], wordFilter = null
 function getSelectedWordIds(container) {
   return [...container.querySelectorAll('input[type=checkbox]:checked')].map(c => c.value);
 }
+/** 从勾选区获取已选单词（已打乱） */
+function getSelectedWords(unitId, container) {
+  const ids = getSelectedWordIds(container);
+  return shuffle(getAllWords(unitId).filter((w) => ids.includes(w.id)));
+}
+
+/** 绑定单元下拉与单词勾选区 */
+function initGameWordSelection(unitSelect, wordCheckArea, wordFilter = null) {
+  const refresh = () => buildWordCheckboxes(wordCheckArea, unitSelect.value, [], wordFilter);
+  buildUnitSelector(unitSelect, refresh);
+  refresh();
+}
+
 
 /** 迷宫游戏用词：排除组合短语，且长度不超过 9（适配 8×8 / 9×9） */
 function isMazeWord(w) {

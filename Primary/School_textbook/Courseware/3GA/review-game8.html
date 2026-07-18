@@ -18,6 +18,7 @@
     </div>
     <div class="card" id="setupPanel">
       <div class="control-row"><label>单元：</label><select id="unitSelect"></select></div>
+      <div id="wordCheckArea"></div>
       <p style="color:#636e72;font-size:0.9rem;">每页 3 组：左侧图片与右侧单词配对连线（不显示中文）</p>
       <button class="btn btn-primary btn-lg" id="btnStart"><i class="fa-solid fa-play"></i> 开始游戏</button>
     </div>
@@ -49,13 +50,16 @@
     let statCorrect = 0, statWrong = 0, totalWords = 0;
     let gameTimer = null, unitId = '';
 
-    buildUnitSelector(document.getElementById('unitSelect'));
+    const unitSelect = document.getElementById('unitSelect');
+    const wordCheckArea = document.getElementById('wordCheckArea');
+    initGameWordSelection(unitSelect, wordCheckArea);
     document.getElementById('btnStart').addEventListener('click', startGame);
 
     function startGame() {
-      unitId = document.getElementById('unitSelect').value;
-      const all = shuffle(getAllWords(unitId));
-      if (all.length < 3) return alert('该单元至少需要 3 个单词！');
+      unitId = unitSelect.value;
+      const all = getSelectedWords(unitId, wordCheckArea);
+      if (!all.length) return alert('请至少选择一个单词！');
+      if (all.length < 3) return alert('请至少选择 3 个单词！');
       groups = [];
       for (let i = 0; i < all.length; i += CONNECT_SIZE) {
         groups.push(all.slice(i, i + CONNECT_SIZE));

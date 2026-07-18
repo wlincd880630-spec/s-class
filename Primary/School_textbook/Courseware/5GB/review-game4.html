@@ -19,6 +19,7 @@
 
     <div class="card" id="setupPanel">
       <div class="control-row"><label>单元：</label><select id="unitSelect"></select></div>
+      <div id="wordCheckArea"></div>
       <p style="color:#636e72;font-size:0.9rem;">每组 4 题，全部单词完成后显示统计</p>
       <button class="btn btn-primary btn-lg" id="btnStart"><i class="fa-solid fa-play"></i> 开始游戏</button>
     </div>
@@ -47,15 +48,18 @@
   <script>
     let groups = [], groupIdx = 0, qIdx = 0;
     let statCorrect = 0, statWrong = 0, totalWords = 0;
-    let gameTimer = null, answered = false, unitId = '';
+    let gameTimer = null, answered = false, unitId = '', wordPool = [];
 
-    buildUnitSelector(document.getElementById('unitSelect'));
+    const unitSelect = document.getElementById('unitSelect');
+    const wordCheckArea = document.getElementById('wordCheckArea');
+    initGameWordSelection(unitSelect, wordCheckArea);
     document.getElementById('btnStart').addEventListener('click', startGame);
 
     function startGame() {
-      unitId = document.getElementById('unitSelect').value;
-      const all = shuffle(getAllWords(unitId));
-      if (!all.length) return alert('该单元暂无单词！');
+      unitId = unitSelect.value;
+      const all = getSelectedWords(unitId, wordCheckArea);
+      if (!all.length) return alert('请至少选择一个单词！');
+      wordPool = all;
       groups = chunkGroups(all);
       groupIdx = 0;
       qIdx = 0;
@@ -94,10 +98,9 @@
       document.getElementById('qChinese').textContent = shortMeaning(w);
       document.getElementById('feedback').classList.add('hidden');
 
-      const all = getAllWords(unitId);
       const el = document.getElementById('options');
       el.innerHTML = '';
-      pickQuizOptions(w, all, 4, item => item.word).forEach(({ word: opt, label }) => {
+      pickQuizOptions(w, wordPool, 4, item => item.word).forEach(({ word: opt, label }) => {
         const btn = document.createElement('div');
         btn.className = 'quiz-option';
         btn.textContent = label;

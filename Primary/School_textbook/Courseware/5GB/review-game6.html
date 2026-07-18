@@ -19,6 +19,7 @@
 
     <div class="card" id="setupPanel">
       <div class="control-row"><label>单元：</label><select id="unitSelect"></select></div>
+      <div id="wordCheckArea"></div>
       <p style="color:#636e72;font-size:0.9rem;margin:8px 0;">
         听单词发音，在限时内点击正确的「单词鱼」！每组 4 题，连击有惊喜 🎣
       </p>
@@ -71,7 +72,7 @@
     let groups = [], groupIdx = 0, qIdx = 0;
     let statCorrect = 0, statWrong = 0, totalWords = 0;
     let gameTimer = null, roundTimer = null, roundTick = null;
-    let answered = false, unitId = '', streak = 0;
+    let answered = false, unitId = '', streak = 0, wordPool = [];
     let currentWord = null;
 
     const gamePanel = document.getElementById('gamePanel');
@@ -81,16 +82,19 @@
     const roundTimerFill = document.getElementById('roundTimerFill');
     const streakDisplay = document.getElementById('streakDisplay');
 
-    buildUnitSelector(document.getElementById('unitSelect'));
+    const unitSelect = document.getElementById('unitSelect');
+    const wordCheckArea = document.getElementById('wordCheckArea');
+    initGameWordSelection(unitSelect, wordCheckArea);
     document.getElementById('btnStart').addEventListener('click', startGame);
     document.getElementById('btnReplay').addEventListener('click', () => {
       if (currentWord) speakText(currentWord.word);
     });
 
     function startGame() {
-      unitId = document.getElementById('unitSelect').value;
-      const all = shuffle(getAllWords(unitId));
-      if (!all.length) return alert('该单元暂无单词！');
+      unitId = unitSelect.value;
+      const all = getSelectedWords(unitId, wordCheckArea);
+      if (!all.length) return alert('请至少选择一个单词！');
+      wordPool = all;
       groups = chunkGroups(all);
       groupIdx = 0;
       qIdx = 0;
@@ -173,8 +177,7 @@
       feedback.classList.add('hidden');
       streakDisplay.textContent = streak >= 2 ? `🔥 连击 ×${streak}` : '';
 
-      const pool = getAllWords(unitId);
-      const options = pickQuizOptions(currentWord, pool, 4, item => item.word);
+      const options = pickQuizOptions(currentWord, wordPool, 4, item => item.word);
 
       fishGrid.innerHTML = '';
       options.forEach((opt, i) => {
