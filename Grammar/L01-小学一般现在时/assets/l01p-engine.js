@@ -804,8 +804,12 @@
     summary: renderSummary,
   };
 
+  function bindScenePage() {
+    bindCommon(document.getElementById("l01pApp"));
+  }
+
   var BIND = {
-    scene: bindCommon,
+    scene: bindScenePage,
     "sound-first": bindSoundFirst,
     socratic: bindSocratic,
     discover: bindDiscover,
@@ -816,7 +820,7 @@
     "picture-build": bindPictureBuild,
     "listen-order": bindListenOrder,
     quiz: bindQuiz,
-    summary: bindCommon,
+    summary: bindScenePage,
   };
 
   function renderPager(pageId) {
@@ -844,8 +848,13 @@
     var fn = RENDER[page.type];
     app.innerHTML = fn ? fn(page) : "<p>未知类型</p>";
     var b = BIND[page.type];
-    if (b) b(page);
-    else bindCommon(app);
+    try {
+      if (b) b(page);
+      else bindCommon(app);
+    } catch (err) {
+      console.error("[L01p] bind error:", err);
+      bindCommon(app);
+    }
     renderPager(pageId);
   }
 

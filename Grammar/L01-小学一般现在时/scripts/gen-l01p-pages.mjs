@@ -13,7 +13,23 @@ const DATA = path.join(ROOT, "assets", "l01p-data.js");
 const src = fs.readFileSync(DATA, "utf8");
 const ids = [...src.matchAll(/id:\s*"(p\d+)"/g)].map((m) => m[1]);
 
-const SHELL = (id, title) => `<!DOCTYPE html>
+const LOGO =
+  'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png';
+
+function pagerHtml(id, ids) {
+  const i = ids.indexOf(id);
+  const prev = i > 0 ? ids[i - 1] : null;
+  const next = i < ids.length - 1 ? ids[i + 1] : null;
+  const prevLink = prev
+    ? `<a class="l01p-pager__prev" href="${prev}.html">← 上一页</a>`
+    : `<a class="l01p-pager__prev is-muted" href="index.html">← 目录</a>`;
+  const nextLink = next
+    ? `<a class="l01p-pager__next" href="${next}.html">下一页 →</a>`
+    : `<a class="l01p-pager__next" href="index.html">目录 →</a>`;
+  return `${prevLink}<a class="l01p-pager__logo" href="../index.html"><img src="${LOGO}" alt="Logo" width="96" height="34" decoding="async"/></a>${nextLink}`;
+}
+
+const SHELL = (id, title, ids) => `<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8" />
@@ -37,7 +53,7 @@ const SHELL = (id, title) => `<!DOCTYPE html>
 </head>
 <body class="l01p-body" data-l01p-id="${id}">
   <div id="l01pApp" class="l01p-stage" aria-live="polite"></div>
-  <nav id="l01pPager" class="l01p-pager" aria-label="页面导航"></nav>
+  <nav id="l01pPager" class="l01p-pager" aria-label="页面导航">${pagerHtml(id, ids)}</nav>
 </body>
 </html>
 `;
@@ -49,7 +65,7 @@ for (const m of src.matchAll(/id:\s*"(p\d+)"[\s\S]*?title:\s*"([^"]+)"/g)) {
 
 for (const id of ids) {
   const file = path.join(ROOT, id + ".html");
-  fs.writeFileSync(file, SHELL(id, titles[id] || id), "utf8");
+  fs.writeFileSync(file, SHELL(id, titles[id] || id, ids), "utf8");
   console.log("wrote", id + ".html");
 }
 
