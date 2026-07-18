@@ -6,8 +6,11 @@
     "He plays football.": "l01p-scene-he-plays-football.png",
     "He plays football every day.": "l01p-scene-he-plays-football.png",
     "They run in the park.": "l01p-scene-run-park.png",
-    "She likes reading.": "l01p-state-reading.png",
-    "The cat sleeps on the sofa.": "l01p-cat-sleep.png",
+    "I am happy.": "l01p-be-i-am-happy.png",
+    "She is in the classroom.": "l01p-be-she-is-classroom.png",
+    "They are students.": "l01p-be-they-are-students.png",
+    "He is from China.": "l01p-be-he-is-from-china.png",
+    "We are friends.": "l01p-be-we-are-friends.png",
     "We go to school.": "l01p-scene-go-school.png",
     "We go to school at eight.": "l01p-scene-go-school.png",
     "She washes her hands.": "l01p-scene-washes-hands.png",
@@ -23,5 +26,9 @@
     "Do they play football on weekends?": "l01p-playground.png",
     "My cat sleeps on the bed.": "l01p-cat-sleep.png",
     "My sister plays basketball.": "l01p-playground.png",
+    "Tom plays football.": "l01p-scene-he-plays-football.png",
+    "She washes her hands.": "l01p-scene-washes-hands.png",
+    "Are they students?": "l01p-be-they-are-students.png",
+    "Am I late?": "l01p-be-i-am-happy.png",
   };
 })(typeof window !== "undefined" ? window : null);
