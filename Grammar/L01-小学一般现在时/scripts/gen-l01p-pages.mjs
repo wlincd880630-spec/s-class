@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * 生成 L01P 分页 HTML 壳（p01.html – p24.html）
+ * 生成 L01P 分页 HTML 壳（从 l01p-data.js 自动生成全部页面）
  */
 import fs from "fs";
 import path from "path";
