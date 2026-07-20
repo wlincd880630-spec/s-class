@@ -21,7 +21,7 @@ function loadAzure() {
   const c = fs.readFileSync(fp, "utf8");
   const km = c.match(/var\s+AZURE_KEY\s*=\s*"([^"]+)"/);
   const rm = c.match(/var\s+AZURE_REGION\s*=\s*"([^"]+)"/);
-  return { key: km?.[1]?.trim() || "", region: rm?.[1]?.trim() || "southeastasia" };
+  return { key: km?.[1]?.trim() || "", region: rm?.[1]?.trim() || "eastasia" };
 }
 
 async function azureSynth(text, key, region, outFile) {
@@ -30,7 +30,7 @@ async function azureSynth(text, key, region, outFile) {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
-  const ssml = `<speak version='1.0' xml:lang='en-US'><voice xml:lang='en-US' name='en-US-AvaNeural'>${esc}</voice></speak>`;
+  const ssml = `<speak version='1.0' xml:lang='en-GB'><voice xml:lang='en-GB' name='en-GB-RyanNeural'>${esc}</voice></speak>`;
   const res = await fetch(`https://${region}.tts.speech.microsoft.com/cognitiveservices/v1`, {
     method: "POST",
     headers: {

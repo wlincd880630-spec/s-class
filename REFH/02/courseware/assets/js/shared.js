@@ -8,8 +8,8 @@
   const ARTICLE_PAGE_URL = COURSEWARE_WEB_BASE + 'part2-reading.html';
 
   const DEFAULT_CONFIG = {
-    azureKey: 'C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu',
-    azureRegion: 'southeastasia',
+    azureKey: '3C2ai7PPgPnOLlhb1c7gBw207PAVNfVJni6JnESsPjYPaVyFeQ9YJQQJ99CGAC3pKaRXJ3w3AAAYACOG0Zbc',
+    azureRegion: 'eastasia',
     deepseekKey: 'sk-daa16008e81843deba6fefe9dce51465'
   };
 
@@ -275,7 +275,7 @@
     if (!raw) return null;
     const cfg = getConfig();
     const speed = rate === 'slow' ? '-25%' : rate === 'fast' ? '+15%' : '+0%';
-    const ssml = `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US"><voice name="en-US-JennyNeural"><prosody rate="${speed}">${xmlEscape(raw)}</prosody></voice></speak>`;
+    const ssml = `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-GB"><voice name="en-GB-RyanNeural"><prosody rate="${speed}">${xmlEscape(raw)}</prosody></voice></speak>`;
     const res = await fetch(`https://${cfg.azureRegion}.tts.speech.microsoft.com/cognitiveservices/v1`, {
       method: 'POST',
       headers: {

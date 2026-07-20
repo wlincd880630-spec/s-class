@@ -6,7 +6,7 @@
  * 3) 用 Azure Speech REST 合成缺失的 MP3
  * 4) 为含内联 playAudio / speakAzure 的页面注入 manifest + 改 playAudio 为仅本地播放
  *
- * 环境变量：AZURE_SPEECH_KEY（必填）、AZURE_SPEECH_REGION（默认 southeastasia）
+ * 环境变量：AZURE_SPEECH_KEY（必填）、AZURE_SPEECH_REGION（默认 eastasia）
  *
  * 用法：node scripts/sync-all-lesson-tts-local.mjs [--dry-run] [--skip-download] [--only-cos] [--skip-patch]
  */
@@ -21,8 +21,8 @@ const ROOT = path.join(__dirname, "..");
 const COS_PREFIX =
   "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/";
 
-const EN_VOICE_DEFAULT = "en-US-AvaNeural";
-const EN_VOICE_ARIA = "en-US-AriaNeural";
+const EN_VOICE_DEFAULT = "en-GB-RyanNeural";
+const EN_VOICE_ARIA = "en-GB-RyanNeural";
 const ZH_VOICE = "zh-CN-XiaoxiaoNeural";
 
 const EN_FIELD_KEYS = new Set([
@@ -333,7 +333,7 @@ function parseArgs() {
 async function main() {
   const { dryRun, skipDownload, onlyCos, skipPatch } = parseArgs();
   const key = String(process.env.AZURE_SPEECH_KEY || process.env.SPEECH_KEY || "").trim();
-  const region = String(process.env.AZURE_SPEECH_REGION || "southeastasia").trim();
+  const region = String(process.env.AZURE_SPEECH_REGION || "eastasia").trim();
 
   const files = walkFiles(ROOT).filter((f) => !f.includes(`${path.sep}scripts${path.sep}`));
 

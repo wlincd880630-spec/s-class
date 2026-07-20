@@ -19,7 +19,7 @@ LINK = ROOT / "L00-主系表与非谓语"
 MP3_DIR = LINK / "assets" / "tts-mp3"
 OUT = LINK / "assets" / "l00link-course-tts-manifest.js"
 PHRASES_JSON = ROOT / "scripts" / "l00link-tts-phrases.json"
-VOICE_EN = "en-US-JennyNeural"
+VOICE_EN = "en-GB-RyanNeural"
 VOICE_ZH = "zh-CN-XiaoxiaoNeural"
 HASH_PREFIX = "l00link-tts|"
 

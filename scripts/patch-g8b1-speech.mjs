@@ -13,12 +13,12 @@ const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const G8_B1 = path.join(ROOT, "junior_vocab", "G8_B1");
 
 const OLD_KEY = "43gMKIlSRVGT9PnAFgWkdXyogwXfudT33O2Zk6QtfTKuY1nm01BdJQQJ99BLACHYHv6XJ3w3AAAYACOGts5S";
-const NEW_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+const NEW_KEY = "3C2ai7PPgPnOLlhb1c7gBw207PAVNfVJni6JnESsPjYPaVyFeQ9YJQQJ99CGAC3pKaRXJ3w3AAAYACOG0Zbc";
 
 const OLD_INIT = `async function initSpeech() {
   try {
   speechConfig = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
-  speechConfig.speechRecognitionLanguage = "en-US";
+  speechConfig.speechRecognitionLanguage = "en-GB";
   synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig);
   } catch(e) { console.warn("Speech init:", e); }
 }`;
@@ -27,8 +27,8 @@ const NEW_INIT = `async function initSpeech() {
   try {
     if (typeof SpeechSDK === "undefined") throw new Error("Speech SDK 未加载，请检查网络");
     speechConfig = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
-    speechConfig.speechRecognitionLanguage = "en-US";
-    speechConfig.speechSynthesisVoiceName = "en-US-JennyNeural";
+    speechConfig.speechRecognitionLanguage = "en-GB";
+    speechConfig.speechSynthesisVoiceName = "en-GB-RyanNeural";
     if (SpeechSDK.SpeechSynthesisOutputFormat && SpeechSDK.SpeechSynthesisOutputFormat.Audio24Khz48KBitRateMonoMp3 != null)
       speechConfig.speechSynthesisOutputFormat = SpeechSDK.SpeechSynthesisOutputFormat.Audio24Khz48KBitRateMonoMp3;
     var audioConfig = null;
@@ -93,7 +93,7 @@ const NEW_SPEAK_WORD = `function speakWord(word) {
   function fallbackWebSpeech() {
     if ("speechSynthesis" in window) {
       var u = new SpeechSynthesisUtterance(w);
-      u.lang = "en-US";
+      u.lang = "en-GB";
       window.speechSynthesis.speak(u);
     }
   }
@@ -149,7 +149,7 @@ function patchFile(fp) {
   let s = fs.readFileSync(fp, "utf8");
   const orig = s;
   s = s.replace(new RegExp(`const AZURE_KEY\\s*=\\s*"${OLD_KEY.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}";`), `const AZURE_KEY    = "${NEW_KEY}";`);
-  s = s.replace(/const AZURE_REGION\s*=\s*"eastus2";/, 'const AZURE_REGION = "southeastasia";');
+  s = s.replace(/const AZURE_REGION\s*=\s*"eastus2";/, 'const AZURE_REGION = "eastasia";');
   if (!s.includes("SpeakerAudioDestination")) {
     s = s.replace(
       /async function initSpeech\(\)\s*\{[\s\S]*?\n\}/,

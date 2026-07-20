@@ -11,7 +11,7 @@ except ImportError:
     print("pip install edge-tts", file=sys.stderr)
     sys.exit(1)
 
-VOICE = "en-US-JennyNeural"
+VOICE = "en-GB-RyanNeural"
 HERE = pathlib.Path(__file__).resolve().parent
 MANIFEST = HERE / "manifest.json"
 

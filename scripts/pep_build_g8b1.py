@@ -121,7 +121,7 @@ def edge_tts_mp3(text: str, out_path: Path) -> bool:
     try:
         out_path.parent.mkdir(parents=True, exist_ok=True)
         subprocess.run(
-            ["edge-tts", "--voice", "en-US-JennyNeural", "--text", text, "--write-media", str(out_path)],
+            ["edge-tts", "--voice", "en-GB-RyanNeural", "--text", text, "--write-media", str(out_path)],
             check=True,
             capture_output=True,
             timeout=90,

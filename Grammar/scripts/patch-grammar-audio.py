@@ -40,7 +40,7 @@ PLAY_AUDIO_NEW = """async function playAudio(text) {
       if (window.speechSynthesis) {
         await new Promise(function (resolve) {
           var u = new SpeechSynthesisUtterance(line);
-          u.lang = "en-US";
+          u.lang = "en-GB";
           u.onend = u.onerror = function () { resolve(); };
           var speak = window.speechSynthesis.__lessonOrigSpeak || window.speechSynthesis.speak.bind(window.speechSynthesis);
           speak(u);

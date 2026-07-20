@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * 为 L13 page01 缺失的 8 句生成 MP3，并写入 page01 manifest。
- * 需要环境变量 AZURE_SPEECH_KEY（可选 AZURE_SPEECH_REGION，默认 southeastasia）。
+ * 需要环境变量 AZURE_SPEECH_KEY（可选 AZURE_SPEECH_REGION，默认 eastasia）。
  * 生成后请运行 scripts/upload-media-to-cos.js 上传 L13/assets/tts-mp3。
  */
 import fs from "fs";
@@ -32,11 +32,11 @@ function sha20(text) {
 
 async function downloadTts(text, outPath) {
   const key = process.env.AZURE_SPEECH_KEY;
-  const region = process.env.AZURE_SPEECH_REGION || "southeastasia";
+  const region = process.env.AZURE_SPEECH_REGION || "eastasia";
   if (!key) throw new Error("缺少 AZURE_SPEECH_KEY");
-  const voice = "en-US-AvaNeural";
+  const voice = "en-GB-RyanNeural";
   const esc = text.replace(/&/g, "&amp;").replace(/</g, "&lt;");
-  const ssml = `<speak version='1.0' xml:lang='en-US'><voice name='${voice}'>${esc}</voice></speak>`;
+  const ssml = `<speak version='1.0' xml:lang='en-GB'><voice name='${voice}'>${esc}</voice></speak>`;
   const r = await fetch(`https://${region}.tts.speech.microsoft.com/cognitiveservices/v1`, {
     method: "POST",
     headers: {

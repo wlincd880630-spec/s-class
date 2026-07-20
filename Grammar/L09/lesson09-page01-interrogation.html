@@ -736,8 +736,8 @@
   <!-- 本页内置密钥：便于双击 HTML 本地演示。正式分发请改为空字符串并从安全渠道注入。 -->
   <script>
     window.L09_CFG = {
-      azureKey: "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu",
-      azureRegion: "southeastasia",
+      azureKey: "3C2ai7PPgPnOLlhb1c7gBw207PAVNfVJni6JnESsPjYPaVyFeQ9YJQQJ99CGAC3pKaRXJ3w3AAAYACOG0Zbc",
+      azureRegion: "eastasia",
       deepseekKey: "sk-daa16008e81843deba6fefe9dce51465",
       deepseekEndpoint: "https://api.deepseek.com/v1/chat/completions",
       deepseekModel: "deepseek-chat"
@@ -1178,13 +1178,13 @@
     }
     const c = CFG();
     const key = c.azureKey;
-    const region = c.azureRegion || "southeastasia";
+    const region = c.azureRegion || "eastasia";
     if (!key) {
       const plain = ssmlInner.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
       if (window.speechSynthesis) {
         return new Promise((resolve) => {
           const u = new SpeechSynthesisUtterance(plain);
-          u.lang = "en-US";
+          u.lang = "en-GB";
           u.rate = 0.92;
           u.onend = resolve;
           u.onerror = resolve;
@@ -1195,8 +1195,8 @@
     }
     const endpoint = `https://${region}.tts.speech.microsoft.com/cognitiveservices/v1`;
     const body =
-      "<speak version='1.0' xml:lang='en-US' xmlns:mstts='http://www.w3.org/2001/mstts'>" +
-      "<voice name='en-US-GuyNeural'>" +
+      "<speak version='1.0' xml:lang='en-GB' xmlns:mstts='http://www.w3.org/2001/mstts'>" +
+      "<voice name='en-GB-RyanNeural'>" +
       ssmlInner +
       "</voice></speak>";
     const ctrl = new AbortController();
@@ -1247,7 +1247,7 @@
       if (window.speechSynthesis) {
         await new Promise((resolve) => {
           const u = new SpeechSynthesisUtterance(plain);
-          u.lang = "en-US";
+          u.lang = "en-GB";
           u.onend = resolve;
           u.onerror = resolve;
           window.speechSynthesis.speak(u);

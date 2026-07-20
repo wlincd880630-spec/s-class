@@ -23,8 +23,8 @@ const WORDS = [
   "shouted",
 ];
 const key = String(process.env.AZURE_SPEECH_KEY || "").trim();
-const region = String(process.env.AZURE_SPEECH_REGION || "southeastasia").trim();
-const voice = "en-US-AvaNeural";
+const region = String(process.env.AZURE_SPEECH_REGION || "eastasia").trim();
+const voice = "en-GB-RyanNeural";
 
 if (!key) {
   console.error("需要 AZURE_SPEECH_KEY");
@@ -33,7 +33,7 @@ if (!key) {
 
 async function synth(word, outFile) {
   const esc = word.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-  const ssml = `<speak version='1.0' xml:lang='en-US'><voice name='${voice}'>${esc}</voice></speak>`;
+  const ssml = `<speak version='1.0' xml:lang='en-GB'><voice name='${voice}'>${esc}</voice></speak>`;
   const res = await fetch(`https://${region}.tts.speech.microsoft.com/cognitiveservices/v1`, {
     method: "POST",
     headers: {

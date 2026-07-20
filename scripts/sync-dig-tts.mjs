@@ -16,7 +16,7 @@ const COS_BASE =
   "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/audio/";
 
 const key = String(process.env.AZURE_SPEECH_KEY || process.env.SPEECH_KEY || "").trim();
-const region = String(process.env.AZURE_SPEECH_REGION || "southeastasia").trim();
+const region = String(process.env.AZURE_SPEECH_REGION || "eastasia").trim();
 
 const DIG_TEXTS = ["dig", "We're digging.", "The boy is digging a hole in the garden."];
 

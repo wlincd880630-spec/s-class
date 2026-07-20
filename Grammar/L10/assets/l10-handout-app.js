@@ -8,7 +8,7 @@ var ttsLock = false;
     try {
       window.speechSynthesis.cancel();
       var u = new SpeechSynthesisUtterance(t);
-      u.lang = "en-US";
+      u.lang = "en-GB";
       u.rate = 0.92;
       window.speechSynthesis.speak(u);
     } catch (e) {}

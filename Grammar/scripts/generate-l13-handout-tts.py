@@ -19,7 +19,7 @@ MP3_DIR = L13 / "assets" / "tts-mp3"
 MANIFEST = L13 / "assets" / "handout-tts-manifest.js"
 HANDOUT = L13 / "lesson13-page08-handout.html"
 CLASSROOM = L13 / "lesson13-handout-classroom-full.html"
-VOICE_EN = "en-US-JennyNeural"
+VOICE_EN = "en-GB-RyanNeural"
 VOICE_ZH = "zh-CN-XiaoxiaoNeural"
 HASH_PREFIX = "l13-handout-tts|"
 

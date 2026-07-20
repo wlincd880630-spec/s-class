@@ -2814,8 +2814,8 @@ const COURSE_DATA_INJECTED = {
     "version": "2.0 (Detailed)"
   }
 };
-const AZURE_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
-const AZURE_REGION = "southeastasia";
+const AZURE_KEY = "3C2ai7PPgPnOLlhb1c7gBw207PAVNfVJni6JnESsPjYPaVyFeQ9YJQQJ99CGAC3pKaRXJ3w3AAAYACOG0Zbc";
+const AZURE_REGION = "eastasia";
 const IMAGE_DIR = "generated_images";
 
 const { createApp, ref, computed, onMounted } = Vue;
@@ -3149,7 +3149,7 @@ createApp({
             if (synthesizer) { synthesizer.close(); synthesizer = null; }
             try {
                 const config = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
-                config.speechSynthesisVoiceName = "en-US-AriaNeural"; 
+                config.speechSynthesisVoiceName = "en-GB-RyanNeural"; 
                 synthesizer = new SpeechSDK.SpeechSynthesizer(config);
                 synthesizer.speakTextAsync(text, () => { synthesizer.close(); synthesizer = null; });
             } catch (e) { console.error(e); }
@@ -3163,7 +3163,7 @@ createApp({
             try {
                 await navigator.mediaDevices.getUserMedia({ audio: true });
                 const config = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
-                config.speechRecognitionLanguage = "en-US";
+                config.speechRecognitionLanguage = "en-GB";
                 const audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
                 const pronConfig = new SpeechSDK.PronunciationAssessmentConfig(text, SpeechSDK.PronunciationAssessmentGradingSystem.HundredMark, SpeechSDK.PronunciationAssessmentGranularity.Phoneme, true);
                 recognizer = new SpeechSDK.SpeechRecognizer(config, audioConfig);

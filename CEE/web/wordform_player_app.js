@@ -1,8 +1,8 @@
 (function () {
     'use strict';
     const { createApp, ref, computed, onMounted } = Vue;
-    const AZURE_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
-    const AZURE_REGION = "southeastasia";
+    const AZURE_KEY = "3C2ai7PPgPnOLlhb1c7gBw207PAVNfVJni6JnESsPjYPaVyFeQ9YJQQJ99CGAC3pKaRXJ3w3AAAYACOG0Zbc";
+    const AZURE_REGION = "eastasia";
     const DEEPSEEK_KEY = "sk-daa16008e81843deba6fefe9dce51465";
     const EMAILJS_PUBLIC = "1QhXV5G_92GdK7_DF";
     const EMAILJS_SERVICE = "service_6dfbs2n";
@@ -142,7 +142,7 @@
                 if (!toSpeak) return;
                 isPlaying.value = true;
                 const config = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
-                config.speechSynthesisVoiceName = "en-US-AvaMultilingualNeural";
+                config.speechSynthesisVoiceName = "en-GB-RyanNeural";
                 const synth = new SpeechSDK.SpeechSynthesizer(config);
                 synth.speakTextAsync(toSpeak, () => { isPlaying.value = false; synth.close(); }, () => { isPlaying.value = false; synth.close(); });
             }
@@ -380,7 +380,7 @@
                 if (!toSpeak) return;
                 isPlaying.value = true;
                 const config = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
-                config.speechSynthesisVoiceName = "en-US-AvaMultilingualNeural";
+                config.speechSynthesisVoiceName = "en-GB-RyanNeural";
                 const synth = new SpeechSDK.SpeechSynthesizer(config);
                 synth.speakTextAsync(toSpeak, () => { isPlaying.value = false; synth.close(); }, () => { isPlaying.value = false; synth.close(); });
             }
@@ -392,7 +392,7 @@
                 sttBuffer = '';
                 if (isEn) isRecordingEn.value = true; else isRecordingCn.value = true;
                 const config = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
-                config.speechRecognitionLanguage = isEn ? "en-US" : "zh-CN";
+                config.speechRecognitionLanguage = isEn ? "en-GB" : "zh-CN";
                 const audio = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
                 const rec = new SpeechSDK.SpeechRecognizer(config, audio);
                 rec.recognized = (s, e) => { if (e.result.reason === SpeechSDK.ResultReason.RecognizedSpeech && e.result.text) sttBuffer += (sttBuffer ? ' ' : '') + e.result.text; };

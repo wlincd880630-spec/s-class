@@ -17,7 +17,7 @@
     var speakFn = global.speechSynthesis.__lessonOrigSpeak || global.speechSynthesis.speak.bind(global.speechSynthesis);
     return new Promise(function (resolve) {
       var u = new SpeechSynthesisUtterance(text);
-      u.lang = "en-US";
+      u.lang = "en-GB";
       u.onend = function () {
         resolve(true);
       };

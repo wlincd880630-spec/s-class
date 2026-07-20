@@ -3,7 +3,7 @@
 import json
 from pathlib import Path
 
-VOICE = "en-US-JennyNeural"
+VOICE = "en-GB-RyanNeural"
 
 
 def djb_hex(key: str) -> str:

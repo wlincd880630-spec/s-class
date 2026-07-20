@@ -128,8 +128,8 @@
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
-        const AZURE_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
-        const AZURE_REGION = "southeastasia"; 
+        const AZURE_KEY = "3C2ai7PPgPnOLlhb1c7gBw207PAVNfVJni6JnESsPjYPaVyFeQ9YJQQJ99CGAC3pKaRXJ3w3AAAYACOG0Zbc";
+        const AZURE_REGION = "eastasia"; 
 
         let synthesizer = null;
         let recognizer = null;
@@ -140,7 +140,7 @@
             window.speechSynthesis.cancel(); 
             try {
                 const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
-                speechConfig.speechSynthesisVoiceName = "en-US-AriaNeural"; 
+                speechConfig.speechSynthesisVoiceName = "en-GB-RyanNeural"; 
                 const audioConfig = SpeechSDK.AudioConfig.fromDefaultSpeakerOutput();
                 synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig, audioConfig);
                 
@@ -150,8 +150,8 @@
                 const rateStr = pct === 0 ? "+0%" : (pct > 0 ? `+${pct}%` : `${pct}%`);
 
                 const ssml = `
-                    <speak xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US">
-                        <voice name="en-US-AriaNeural">
+                    <speak xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-GB">
+                        <voice name="en-GB-RyanNeural">
                             <prosody rate="${rateStr}">
                                 ${text}
                             </prosody>
@@ -781,7 +781,7 @@ const Dashboard = ({ onStart, onResume }) => {
 
                     try {
                         const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
-                        speechConfig.speechRecognitionLanguage = "en-US";
+                        speechConfig.speechRecognitionLanguage = "en-GB";
                         const audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
                         const pronunciationConfig = new SpeechSDK.PronunciationAssessmentConfig(
                             targetSentence,

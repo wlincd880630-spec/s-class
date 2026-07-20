@@ -4,7 +4,7 @@
  *
  * 环境变量：
  *   AZURE_SPEECH_KEY / SPEECH_KEY
- *   AZURE_SPEECH_REGION（默认 southeastasia）
+ *   AZURE_SPEECH_REGION（默认 eastasia）
  *
  * 用法（在 Grammar/L07 目录）：
  *   node scripts/sync-worth-tts-azure.mjs
@@ -59,9 +59,9 @@ function escapeXmlText(s) {
 }
 
 async function azureSynthesizeMp3(text, key, region, outFile) {
-  const voiceName = "en-US-JennyNeural";
+  const voiceName = "en-GB-RyanNeural";
   const xmlSafe = escapeXmlText(text);
-  const ssml = `<speak version='1.0' xml:lang='en-US'><voice xml:lang='en-US' xml:gender='Female' name='${voiceName}'>${xmlSafe}</voice></speak>`;
+  const ssml = `<speak version='1.0' xml:lang='en-GB'><voice xml:lang='en-GB' xml:gender='Female' name='${voiceName}'>${xmlSafe}</voice></speak>`;
   const url = `https://${region}.tts.speech.microsoft.com/cognitiveservices/v1`;
   const res = await fetch(url, {
     method: "POST",
@@ -100,7 +100,7 @@ function nextIndex(entries) {
 function writeManifestEmbed(data) {
   data.generatedAt = new Date().toISOString();
   data.provider = "azure-speech";
-  data.voice = "en-US-JennyNeural";
+  data.voice = "en-GB-RyanNeural";
   data.audioEncoding = "MP3";
   const body =
     '"use strict";\n(function (g) {\n  if (!g) return;\n  g.__L07_LOCAL_MANIFEST_EMBED__ = ' +
@@ -141,7 +141,7 @@ async function main() {
   const dryRun = process.argv.includes("--dry-run");
   const uploadCos = process.argv.includes("--upload-cos");
   const key = String(process.env.AZURE_SPEECH_KEY || process.env.SPEECH_KEY || "").trim();
-  const region = String(process.env.AZURE_SPEECH_REGION || "southeastasia").trim();
+  const region = String(process.env.AZURE_SPEECH_REGION || "eastasia").trim();
 
   if (!dryRun && !key) {
     console.error("请设置 AZURE_SPEECH_KEY");
@@ -176,7 +176,7 @@ async function main() {
     data.entries.push({
       text,
       file,
-      voice: "en-US-JennyNeural",
+      voice: "en-GB-RyanNeural",
       provider: "azure",
     });
     existingTexts.add(text);

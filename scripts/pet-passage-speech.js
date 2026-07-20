@@ -5,8 +5,8 @@
 (function () {
     'use strict';
 
-    var AZURE_KEY = window.PET_AZURE_KEY || "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
-    var AZURE_REGION = window.PET_AZURE_REGION || "southeastasia";
+    var AZURE_KEY = window.PET_AZURE_KEY || "3C2ai7PPgPnOLlhb1c7gBw207PAVNfVJni6JnESsPjYPaVyFeQ9YJQQJ99CGAC3pKaRXJ3w3AAAYACOG0Zbc";
+    var AZURE_REGION = window.PET_AZURE_REGION || "eastasia";
 
     function azureSpeak(text, opts) {
         opts = opts || {};
@@ -17,7 +17,8 @@
         function useBrowserTTS() {
             try {
                 var u = new SpeechSynthesisUtterance(t);
-                u.lang = opts.voice && opts.voice.indexOf('zh') !== -1 ? 'zh-CN' : 'en-US';
+                u.lang = opts.voice && opts.voice.indexOf('zh') !== -1 ? 'zh-CN' : 'en-GB';
+                u.rate = 0.9;
                 var voices = speechSynthesis.getVoices();
                 var v = opts.voice && opts.voice.indexOf('zh') !== -1
                     ? voices.filter(function (x) { return x.lang.startsWith('zh'); })[0]
@@ -36,9 +37,16 @@
         if (SpeechSDK && AZURE_KEY && AZURE_REGION) {
             try {
                 var config = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
-                config.speechSynthesisVoiceName = (opts.voice && opts.voice.indexOf('zh') !== -1) ? 'zh-CN-XiaoxiaoNeural' : 'en-US-AvaMultilingualNeural';
+                var isZh = opts.voice && opts.voice.indexOf('zh') !== -1;
+                var voiceName = isZh ? 'zh-CN-XiaoxiaoNeural' : 'en-GB-RyanNeural';
+                config.speechSynthesisVoiceName = voiceName;
                 var synth = new SpeechSDK.SpeechSynthesizer(config);
-                synth.speakTextAsync(t,
+                var safe = t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+                var lang = isZh ? 'zh-CN' : 'en-GB';
+                var ssml = '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="' + lang + '">' +
+                    '<voice name="' + voiceName + '"><prosody rate="0.90">' + safe + '</prosody></voice></speak>';
+                synth.speakSsmlAsync(ssml,
                     function () { try { synth.close(); } catch (_) {} onEnd(); },
                     function (err) {
                         console.warn('pet-passage-speech: Azure TTS failed, using browser', err);
@@ -66,7 +74,7 @@
                 return;
             }
             var rec = new SpeechRecognition();
-            rec.lang = locale === 'zh-CN' ? 'zh-CN' : 'en-US';
+            rec.lang = locale === 'zh-CN' ? 'zh-CN' : 'en-GB';
             rec.continuous = false;
             rec.interimResults = false;
             var closed = false;
@@ -93,7 +101,8 @@
         if (SpeechSDK && AZURE_KEY && AZURE_REGION) {
             try {
                 var config = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
-                config.speechRecognitionLanguage = locale;
+                var localeNorm = (locale === 'zh-CN') ? 'zh-CN' : 'en-GB';
+                config.speechRecognitionLanguage = localeNorm;
                 var audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
                 var recognizer = new SpeechSDK.SpeechRecognizer(config, audioConfig);
                 onRecognizer(recognizer);

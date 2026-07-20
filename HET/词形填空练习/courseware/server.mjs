@@ -5,7 +5,7 @@
  *
  * 可通过环境变量覆盖密钥与区域：
  *   set AZURE_SPEECH_KEY=你的密钥
- *   set AZURE_SPEECH_REGION=southeastasia
+ *   set AZURE_SPEECH_REGION=eastasia
  */
 import http from "node:http";
 import fs from "node:fs";
@@ -17,8 +17,8 @@ const PORT = Number(process.env.PORT) || 3456;
 
 const AZURE_KEY =
   process.env.AZURE_SPEECH_KEY ||
-  "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
-const REGION = process.env.AZURE_SPEECH_REGION || "southeastasia";
+  "3C2ai7PPgPnOLlhb1c7gBw207PAVNfVJni6JnESsPjYPaVyFeQ9YJQQJ99CGAC3pKaRXJ3w3AAAYACOG0Zbc";
+const REGION = process.env.AZURE_SPEECH_REGION || "eastasia";
 const TTS_URL = `https://${REGION}.tts.speech.microsoft.com/cognitiveservices/v1`;
 
 const MIME = {
@@ -71,13 +71,13 @@ const server = http.createServer(async (req, res) => {
       return;
     }
     const text = (payload.text || "").trim();
-    const voice = payload.voice || "en-US-JennyNeural";
+    const voice = payload.voice || "en-GB-RyanNeural";
     if (!text) {
       res.writeHead(400, { "Content-Type": "application/json; charset=utf-8" });
       res.end(JSON.stringify({ error: "Missing text" }));
       return;
     }
-    const ssml = `<speak version="1.0" xml:lang="en-US"><voice name="${escapeXml(voice)}">${escapeXml(
+    const ssml = `<speak version="1.0" xml:lang="en-GB"><voice name="${escapeXml(voice)}">${escapeXml(
       text
     )}</voice></speak>`;
     try {

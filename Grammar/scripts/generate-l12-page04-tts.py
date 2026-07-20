@@ -17,7 +17,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 P04 = ROOT / "L12" / "lesson12-page04-wh-if-object-clauses.html"
 MP3_DIR = ROOT / "L12" / "assets" / "tts-mp3"
 MANIFEST_OUT = ROOT / "L12" / "assets" / "l12-page04-tts-manifest.js"
-VOICE = "en-US-JennyNeural"
+VOICE = "en-GB-RyanNeural"
 
 
 def hash_name(text: str) -> str:

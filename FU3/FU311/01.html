@@ -224,8 +224,8 @@
 </div>
 
 <script>
-    const AZURE_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
-    const AZURE_REGION = "southeastasia";
+    const AZURE_KEY = "3C2ai7PPgPnOLlhb1c7gBw207PAVNfVJni6JnESsPjYPaVyFeQ9YJQQJ99CGAC3pKaRXJ3w3AAAYACOG0Zbc";
+    const AZURE_REGION = "eastasia";
     const DEEPSEEK_KEY = "sk-daa16008e81843deba6fefe9dce51465";
 
     const destinations = [
@@ -248,8 +248,8 @@
     function initAzure() {
         if(typeof SpeechSDK !== 'undefined') {
             const sc = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
-            sc.speechSynthesisVoiceName = "en-US-JennyNeural";
-            sc.speechRecognitionLanguage = "en-US";
+            sc.speechSynthesisVoiceName = "en-GB-RyanNeural";
+            sc.speechRecognitionLanguage = "en-GB";
             synthesizer = new SpeechSDK.SpeechSynthesizer(sc);
         }
     }
@@ -263,12 +263,12 @@
         // 尝试 Azure
         try {
             const sc = SpeechSDK.SpeechConfig.fromSubscription(AZURE_KEY, AZURE_REGION);
-            sc.speechSynthesisVoiceName = "en-US-JennyNeural";
+            sc.speechSynthesisVoiceName = "en-GB-RyanNeural";
             const ac = SpeechSDK.AudioConfig.fromDefaultSpeakerOutput();
             synthesizer = new SpeechSDK.SpeechSynthesizer(sc, ac);
 
             // 修改文案适合语音
-            const ssml = `<speak xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US"><voice name="en-US-JennyNeural"><prosody rate="0.9">${text.replace(/UP Stars/g, "U P Stars")}</prosody></voice></speak>`;
+            const ssml = `<speak xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-GB"><voice name="en-GB-RyanNeural"><prosody rate="0.9">${text.replace(/UP Stars/g, "U P Stars")}</prosody></voice></speak>`;
 
             synthesizer.speakSsmlAsync(ssml, 
                 result => {
@@ -291,7 +291,7 @@
 
     function speakNative(text) {
         const u = new SpeechSynthesisUtterance(text);
-        u.lang = 'en-US';
+        u.lang = 'en-GB';
         u.rate = 0.9;
         window.speechSynthesis.speak(u);
     }

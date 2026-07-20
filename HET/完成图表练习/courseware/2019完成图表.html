@@ -661,9 +661,9 @@
               <label class="footnote" style="margin:0;display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ng-muted);">
                 朗读
                 <select id="voiceSel" aria-label="朗读声音">
-                  <option value="en-US-JennyNeural" selected>Jenny（美）</option>
-                  <option value="en-US-AvaNeural">Ava（美）</option>
-                  <option value="en-US-GuyNeural">Guy（美）</option>
+                  <option value="en-GB-RyanNeural" selected>Jenny（美）</option>
+                  <option value="en-GB-RyanNeural">Ryan（英）</option>
+                  <option value="en-GB-RyanNeural">Guy（美）</option>
                   <option value="en-GB-SoniaNeural">Sonia（英）</option>
                 </select>
               </label>
@@ -715,8 +715,8 @@
       return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
     }
 
-    const AZURE_SPEECH_KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
-    const AZURE_SPEECH_REGION = "southeastasia";
+    const AZURE_SPEECH_KEY = "3C2ai7PPgPnOLlhb1c7gBw207PAVNfVJni6JnESsPjYPaVyFeQ9YJQQJ99CGAC3pKaRXJ3w3AAAYACOG0Zbc";
+    const AZURE_SPEECH_REGION = "eastasia";
     const DEEPSEEK_API_KEY = "sk-daa16008e81843deba6fefe9dce51465";
     const DEEPSEEK_ENDPOINT = "https://api.deepseek.com/v1/chat/completions";
     const AZURE_TTS_PROSODY_RATE = "-12%";
@@ -743,7 +743,7 @@
     function playAzureTTS(text) {
       if (!AZURE_SPEECH_KEY) return Promise.reject(new Error("未配置 Azure Speech Key"));
       const endpoint = `https://${AZURE_SPEECH_REGION}.tts.speech.microsoft.com/cognitiveservices/v1`;
-      const voice = document.getElementById("voiceSel")?.value || "en-US-JennyNeural";
+      const voice = document.getElementById("voiceSel")?.value || "en-GB-RyanNeural";
       const g = voiceGenderAndLang(voice);
       const cacheKey = `${voice}|${text}|${AZURE_TTS_PROSODY_RATE}`;
       if (audioCache.has(cacheKey)) return playUrl(audioCache.get(cacheKey));

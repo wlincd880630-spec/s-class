@@ -157,14 +157,14 @@
       var region =
         (typeof window !== "undefined" && window.__AZURE_SPEECH_REGION__) ||
         (typeof window !== "undefined" && window.__AZURE_TTS_REGION__) ||
-        "southeastasia";
+        "eastasia";
       if (!key) {
         console.warn("[LessonSpeak] 无本地 MP3 且未配置 Azure 密钥:", String(text).slice(0, 80));
         resolve();
         return;
       }
       var l = lang || "en-US";
-      var voice = /^zh/i.test(l) ? "zh-CN-YunxiNeural" : "en-US-AvaNeural";
+      var voice = /^zh/i.test(l) ? "zh-CN-YunxiNeural" : "en-GB-RyanNeural";
       var ssml =
         "<speak version='1.0' xml:lang='" +
         xmlEscape(l) +

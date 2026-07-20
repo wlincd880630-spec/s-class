@@ -14,7 +14,8 @@
         function useBrowserTTS() {
             try {
                 var u = new SpeechSynthesisUtterance(t);
-                u.lang = 'en-US';
+                u.lang = 'en-GB';
+                u.rate = 0.9;
                 var voices = speechSynthesis.getVoices();
                 var en = voices.filter(function (v) { return v.lang.startsWith('en'); })[0];
                 if (en) u.voice = en;
@@ -28,9 +29,13 @@
         if (SpeechSDK && azureKey && azureRegion) {
             try {
                 var config = SpeechSDK.SpeechConfig.fromSubscription(azureKey, azureRegion);
-                config.speechSynthesisVoiceName = 'en-US-AriaNeural';
+                config.speechSynthesisVoiceName = 'en-GB-RyanNeural';
                 var synth = new SpeechSDK.SpeechSynthesizer(config);
-                synth.speakTextAsync(t,
+                var safe = t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+                var ssml = '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-GB">' +
+                    '<voice name="en-GB-RyanNeural"><prosody rate="0.90">' + safe + '</prosody></voice></speak>';
+                synth.speakSsmlAsync(ssml,
                     function () { try { synth.close(); } catch (_) {} },
                     function (err) {
                         console.warn('PetSpeech: Azure TTS failed, using browser', err);
@@ -71,7 +76,7 @@
             }
             try {
                 browserRec = new SpeechRecognition();
-                browserRec.lang = 'en-US';
+                browserRec.lang = 'en-GB';
                 browserRec.continuous = true;
                 browserRec.interimResults = false;
                 browserRec.onresult = function (e) {
@@ -104,7 +109,7 @@
                 if (SpeechSDK && azureKey && azureRegion && referenceText) {
                     try {
                         var config = SpeechSDK.SpeechConfig.fromSubscription(azureKey, azureRegion);
-                        config.speechRecognitionLanguage = 'en-US';
+                        config.speechRecognitionLanguage = 'en-GB';
                         var audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
                         var pronConfig = new SpeechSDK.PronunciationAssessmentConfig(
                             referenceText,

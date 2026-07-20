@@ -7,9 +7,9 @@
   const DEEPSEEK_API_KEY = "sk-daa16008e81843deba6fefe9dce51465";
   const DEEPSEEK_ENDPOINT = "https://api.deepseek.com/v1/chat/completions";
   const AZURE_SPEECH_KEY =
-    "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
-  const AZURE_SPEECH_REGION = "southeastasia";
-  const AZURE_TTS_VOICE = "en-US-JennyNeural";
+    "3C2ai7PPgPnOLlhb1c7gBw207PAVNfVJni6JnESsPjYPaVyFeQ9YJQQJ99CGAC3pKaRXJ3w3AAAYACOG0Zbc";
+  const AZURE_SPEECH_REGION = "eastasia";
+  const AZURE_TTS_VOICE = "en-GB-RyanNeural";
   const AZURE_TTS_PROSODY_RATE = "-12%";
 
   const audioCache = new Map();
@@ -132,7 +132,7 @@
     if (audioCache.has(cacheKey)) return playUrl(audioCache.get(cacheKey));
 
     const ssml = `<?xml version="1.0" encoding="utf-8"?>
-<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US">
+<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-GB">
   <voice name="${AZURE_TTS_VOICE}">
     <prosody rate="${AZURE_TTS_PROSODY_RATE}">${escapeSsmlText(text)}</prosody>
   </voice>
