@@ -4,7 +4,7 @@
  *
  * 环境变量：
  *   AZURE_SPEECH_KEY 或 SPEECH_KEY —— Azure Speech 资源密钥（必填）
- *   AZURE_SPEECH_REGION —— 默认 southeastasia
+ *   AZURE_SPEECH_REGION —— 默认 eastasia
  *
  * 用法：
  *   cd Grammar/L01
@@ -143,7 +143,7 @@ function escapeXmlText(s) {
 
 async function azureSynthesizeMp3(text, key, region, outFile) {
   const en = !hasCjk(text);
-  const voiceName = en ? "en-US-JennyNeural" : "zh-CN-XiaoxiaoNeural";
+  const voiceName = en ? "en-GB-RyanNeural" : "zh-CN-XiaoxiaoNeural";
   const lang = en ? "en-US" : "zh-CN";
   const gender = en ? "Female" : "Female";
   const xmlSafe = escapeXmlText(text);
@@ -209,7 +209,7 @@ function parseArgs() {
 async function main() {
   const { dryRun, cosBase } = parseArgs();
   const key = String(process.env.AZURE_SPEECH_KEY || process.env.SPEECH_KEY || "").trim();
-  const region = String(process.env.AZURE_SPEECH_REGION || "southeastasia").trim();
+  const region = String(process.env.AZURE_SPEECH_REGION || "eastasia").trim();
 
   let html = fs.readFileSync(HTML_PATH, "utf8");
   const manifest = extractManifest(html);

@@ -18,7 +18,7 @@ RC = ROOT / "L13-定语从句"
 MP3_DIR = RC / "assets" / "tts-mp3"
 DEMO_MANIFEST = RC / "assets" / "l13rc-demo-tts-manifest.js"
 HANDOUT_MANIFEST = RC / "assets" / "handout-tts-manifest.js"
-VOICE_EN = "en-US-JennyNeural"
+VOICE_EN = "en-GB-RyanNeural"
 VOICE_ZH = "zh-CN-XiaoxiaoNeural"
 HASH_PREFIX = "l13rc-tts|"
 

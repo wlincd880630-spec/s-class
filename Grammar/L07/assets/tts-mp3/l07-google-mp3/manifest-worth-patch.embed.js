@@ -75,7 +75,7 @@
     embed.entries.push({
       text: patch[j].text,
       file: patch[j].file,
-      voice: "en-US-JennyNeural",
+      voice: "en-GB-RyanNeural",
       provider: "azure",
     });
   }

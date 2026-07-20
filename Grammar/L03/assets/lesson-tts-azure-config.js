@@ -6,12 +6,12 @@
   "use strict";
   if (!global) return;
 
-  var AZURE_REGION = "southeastasia";
+  var AZURE_REGION = "eastasia";
   var AZURE_KEY =
-    "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+    "3C2ai7PPgPnOLlhb1c7gBw207PAVNfVJni6JnESsPjYPaVyFeQ9YJQQJ99CGAC3pKaRXJ3w3AAAYACOG0Zbc";
 
   if (!global.__AZURE_SPEECH_REGION__) {
-    global.__AZURE_SPEECH_REGION__ = String(AZURE_REGION || "southeastasia").trim() || "southeastasia";
+    global.__AZURE_SPEECH_REGION__ = String(AZURE_REGION || "eastasia").trim() || "eastasia";
   }
   if (!global.__AZURE_SPEECH_KEY__) {
     global.__AZURE_SPEECH_KEY__ = String(AZURE_KEY || "").trim();

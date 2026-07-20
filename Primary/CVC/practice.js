@@ -47,7 +47,7 @@ const MEDIA_BASE = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-cla
     if (!key) return null;
     try {
       const config = window.SpeechConfig.fromSubscription(key, region);
-      config.speechSynthesisVoiceName = 'en-US-JennyNeural';
+      config.speechSynthesisVoiceName = 'en-GB-RyanNeural';
       speechSynthesizer = new window.SpeechSynthesizer(config, null);
       return speechSynthesizer;
     } catch (e) { return null; }

@@ -104,7 +104,7 @@ function escapeXmlText(s) {
 
 async function azureSynthesizeMp3(text, key, region, outFile) {
   const en = !hasCjk(text);
-  const voiceName = en ? "en-US-JennyNeural" : "zh-CN-XiaoxiaoNeural";
+  const voiceName = en ? "en-GB-RyanNeural" : "zh-CN-XiaoxiaoNeural";
   const lang = en ? "en-US" : "zh-CN";
   const xmlSafe = escapeXmlText(text);
   const ssml = `<speak version='1.0' xml:lang='${lang}'><voice xml:lang='${lang}' xml:gender='Female' name='${voiceName}'>${xmlSafe}</voice></speak>`;
@@ -147,7 +147,7 @@ function patchManifestHtml(html, additions, cosBase) {
 
 async function main() {
   const key = String(process.env.AZURE_SPEECH_KEY || process.env.SPEECH_KEY || "").trim();
-  const region = String(process.env.AZURE_SPEECH_REGION || "southeastasia").trim();
+  const region = String(process.env.AZURE_SPEECH_REGION || "eastasia").trim();
   let html = fs.readFileSync(HTML_PATH, "utf8");
   const manifest = extractManifest(html);
   const wanted = collectPage04Phrases(html);

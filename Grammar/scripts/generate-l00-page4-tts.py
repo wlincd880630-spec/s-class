@@ -19,7 +19,7 @@ L00 = ROOT / "L00-主谓宾与非谓语"
 VERBS_JS = L00 / "page4verbs.js"
 MP3_DIR = L00 / "assets" / "tts-mp3"
 OUT = L00 / "assets" / "l00-page4-tts-manifest.js"
-VOICE_EN = "en-US-JennyNeural"
+VOICE_EN = "en-GB-RyanNeural"
 HASH_PREFIX = "l00-p4-tts|"
 
 

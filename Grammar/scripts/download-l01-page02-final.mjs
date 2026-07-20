@@ -16,7 +16,7 @@ const esc = text
   .replace(/</g, "&lt;")
   .replace(/>/g, "&gt;")
   .replace(/"/g, "&quot;");
-const ssml = `<speak version='1.0' xml:lang='en-US'><voice name='en-US-AvaNeural'>${esc}</voice></speak>`;
+const ssml = `<speak version='1.0' xml:lang='en-GB'><voice name='en-GB-RyanNeural'>${esc}</voice></speak>`;
 const res = await fetch(`https://${region}.tts.speech.microsoft.com/cognitiveservices/v1`, {
   method: "POST",
   headers: {

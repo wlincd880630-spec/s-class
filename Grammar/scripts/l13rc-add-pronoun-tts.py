@@ -23,7 +23,7 @@ async def main() -> None:
     rel = f"assets/tts-mp3/{hash_name(TEXT)}.mp3"
     out = RC / rel
     if not out.exists():
-        await edge_tts.Communicate(TEXT, "en-US-JennyNeural").save(str(out))
+        await edge_tts.Communicate(TEXT, "en-GB-RyanNeural").save(str(out))
         print("created", rel)
     mf = RC / "assets" / "l13rc-demo-tts-manifest.js"
     t = mf.read_text(encoding="utf-8")

@@ -4,10 +4,10 @@ import { fileURLToPath } from "url";
 const text = process.argv[2];
 const out = process.argv[3];
 const key = process.env.AZURE_SPEECH_KEY;
-const region = process.env.AZURE_SPEECH_REGION || "southeastasia";
-const voice = "en-US-AvaNeural";
+const region = process.env.AZURE_SPEECH_REGION || "eastasia";
+const voice = "en-GB-RyanNeural";
 const esc = text.replace(/&/g, "&amp;").replace(/</g, "&lt;");
-const ssml = `<speak version='1.0' xml:lang='en-US'><voice name='${voice}'>${esc}</voice></speak>`;
+const ssml = `<speak version='1.0' xml:lang='en-GB'><voice name='${voice}'>${esc}</voice></speak>`;
 const r = await fetch(`https://${region}.tts.speech.microsoft.com/cognitiveservices/v1`, {
   method: "POST",
   headers: {

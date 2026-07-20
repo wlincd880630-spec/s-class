@@ -2,13 +2,13 @@ import glob
 import os
 import urllib.request
 
-KEY = "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu"
-REGION = "southeastasia"
+KEY = "3C2ai7PPgPnOLlhb1c7gBw207PAVNfVJni6JnESsPjYPaVyFeQ9YJQQJ99CGAC3pKaRXJ3w3AAAYACOG0Zbc"
+REGION = "eastasia"
 
 url = f"https://{REGION}.tts.speech.microsoft.com/cognitiveservices/v1"
 ssml = (
-    '<speak version="1.0" xml:lang="en-US">'
-    '<voice name="en-US-AvaNeural">Hello test</voice></speak>'
+    '<speak version="1.0" xml:lang="en-GB">'
+    '<voice name="en-GB-RyanNeural">Hello test</voice></speak>'
 )
 req = urllib.request.Request(url, data=ssml.encode("utf-8"), method="POST")
 req.add_header("Ocp-Apim-Subscription-Key", KEY)

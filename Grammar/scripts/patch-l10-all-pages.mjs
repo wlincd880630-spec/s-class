@@ -8,7 +8,7 @@ const HEAD_SNIP =
   '  <script src="../assets/lesson-tts-bootstrap.js"></script>\n  <script src="assets/l10-tts-manifest.js"></script>\n  <script src="assets/l10-tts-play.js"></script>\n';
 
 const REPLACE_FN = `  function azureRest(ssml, ok, fail) {
-    window.L10LocalTts.speakSsml(ssml, "en-US-JennyNeural", ok);
+    window.L10LocalTts.speakSsml(ssml, "en-GB-RyanNeural", ok);
   }
   function azureSdk(ssml, voiceName, ok, fail) {
     window.L10LocalTts.speakSsml(ssml, voiceName, ok);
@@ -17,7 +17,7 @@ const REPLACE_FN = `  function azureRest(ssml, ok, fail) {
     window.L10LocalTts.speakSsml(ssml, voice, onDone);
   }
   function azureTtsRestPlay(ssml, onOk, onFail) {
-    window.L10LocalTts.speakSsml(ssml, "en-US-JennyNeural", function () {
+    window.L10LocalTts.speakSsml(ssml, "en-GB-RyanNeural", function () {
       if (onOk) onOk();
     });
     if (onFail) setTimeout(function () {}, 0);

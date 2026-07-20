@@ -177,7 +177,7 @@
                 playTTS() {
                     this.isPlaying = true;
                     (window.azureSpeak || function(t,o){o.onEnd();})(this.currentSentence, {
-                        voice: "en-US-AvaMultilingualNeural",
+                        voice: "en-GB-RyanNeural",
                         onEnd: () => { this.isPlaying = false; }
                     });
                 },
@@ -188,7 +188,7 @@
                     this.stopRecord();
                     if (isEn) this.isRecordingEn = true; else this.isRecordingCn = true;
                     const vm = this;
-                    (window.azureRecognizeOnce || function(){ vm.stopRecord(); })(isEn ? "en-US" : "zh-CN",
+                    (window.azureRecognizeOnce || function(){ vm.stopRecord(); })(isEn ? "en-GB" : "zh-CN",
                         (text) => { if (isEn) vm.sttEn = text; else vm.sttCn = text; vm.stopRecord(); },
                         (err) => { console.error(err); vm.stopRecord(); },
                         { onRecognizer: (r) => { vm.recognizer = r; } }

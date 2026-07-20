@@ -73,9 +73,9 @@
     var safe = xmlEscapeForSsml(raw);
     var ssml =
       '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-GB">' +
-      '<voice name="en-GB-RyanNeural">' +
+      '<voice name="en-GB-RyanNeural"><prosody rate="0.90">' +
       safe +
-      "</voice></speak>";
+      "</prosody></voice></speak>";
 
     var headers = {
       "Content-Type": "application/ssml+xml; charset=utf-8",

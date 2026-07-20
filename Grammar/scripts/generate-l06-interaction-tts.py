@@ -17,7 +17,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 L06 = ROOT / "L06"
 MP3_DIR = L06 / "assets" / "tts-mp3"
 OUT = L06 / "assets" / "l06-interaction-tts-manifest.js"
-VOICE_EN = "en-US-JennyNeural"
+VOICE_EN = "en-GB-RyanNeural"
 VOICE_ZH = "zh-CN-XiaoxiaoNeural"
 HASH_PREFIX = "l06-tts|"
 

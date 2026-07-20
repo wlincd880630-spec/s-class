@@ -13,7 +13,7 @@ const force = process.argv.includes("--force");
 const delayMs = Number(process.env.TTS_DELAY_MS || "120");
 
 const key = process.env.AZURE_SPEECH_KEY;
-const region = process.env.AZURE_SPEECH_REGION || "southeastasia";
+const region = process.env.AZURE_SPEECH_REGION || "eastasia";
 if (!key && !dryRun) {
   console.error("Set AZURE_SPEECH_KEY and optionally AZURE_SPEECH_REGION");
   process.exit(1);
@@ -40,7 +40,7 @@ function hasCjk(t) {
   return /[\u3400-\u9fff]/.test(String(t || ""));
 }
 function pickVoice(text) {
-  return hasCjk(text) ? "zh-CN-XiaoxiaoNeural" : "en-US-AvaNeural";
+  return hasCjk(text) ? "zh-CN-XiaoxiaoNeural" : "en-GB-RyanNeural";
 }
 function ttsPlain(text) {
   // 箭头转化：读成 "quick, quickly" 更易懂

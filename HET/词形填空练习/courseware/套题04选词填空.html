@@ -541,9 +541,9 @@
               <label class="footnote" style="margin:0;display:flex;align-items:center;gap:6px;">
                 朗读声音
                 <select id="voiceSel" aria-label="朗读声音">
-                  <option value="en-US-AvaNeural" selected>Ava（美）</option>
-                  <option value="en-US-JennyNeural">Jenny（美）</option>
-                  <option value="en-US-GuyNeural">Guy（美）</option>
+                  <option value="en-GB-RyanNeural" selected>Ryan（英）</option>
+                  <option value="en-GB-RyanNeural">Jenny（美）</option>
+                  <option value="en-GB-RyanNeural">Guy（美）</option>
                   <option value="en-GB-SoniaNeural">Sonia（英）</option>
                 </select>
               </label>
@@ -562,7 +562,7 @@
   <script>
     function hetAzureSpeechKey() {
       var HET_AZURE_SPEECH_KEY_FALLBACK =
-        "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu";
+        "3C2ai7PPgPnOLlhb1c7gBw207PAVNfVJni6JnESsPjYPaVyFeQ9YJQQJ99CGAC3pKaRXJ3w3AAAYACOG0Zbc";
       try {
         if (typeof window !== "undefined" && window.__HET_AZURE_SPEECH_KEY__) {
           var wk = String(window.__HET_AZURE_SPEECH_KEY__).trim();
@@ -575,7 +575,7 @@
       } catch (_) {}
       return HET_AZURE_SPEECH_KEY_FALLBACK;
     }
-    const AZURE_SPEECH_REGION = "southeastasia";
+    const AZURE_SPEECH_REGION = "eastasia";
     const AZURE_TTS_PROSODY_RATE = "-15%";
     const audioCache = new Map();
     let currentTtsAudio = null;
@@ -665,7 +665,7 @@
       var AZURE_SPEECH_KEY = hetAzureSpeechKey();
       if (!AZURE_SPEECH_KEY) return Promise.reject(new Error("未配置 Azure Speech Key。"));
       const endpoint = `https://${AZURE_SPEECH_REGION}.tts.speech.microsoft.com/cognitiveservices/v1`;
-      const voice = document.getElementById("voiceSel")?.value || "en-US-AvaNeural";
+      const voice = document.getElementById("voiceSel")?.value || "en-GB-RyanNeural";
       const g = voiceGenderAndLang(voice);
       const cacheKey = `${voice}|${text}|${AZURE_TTS_PROSODY_RATE}`;
       if (audioCache.has(cacheKey)) return playUrl(audioCache.get(cacheKey));

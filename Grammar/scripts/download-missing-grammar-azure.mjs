@@ -4,7 +4,7 @@
  * 为本地缺失的 assets/tts-mp3/*.mp3 调用 Azure 合成。不修改任何 HTML/JS。
  *
  *   $env:AZURE_SPEECH_KEY="..."
- *   $env:AZURE_SPEECH_REGION="southeastasia"
+ *   $env:AZURE_SPEECH_REGION="eastasia"
  *   node scripts/download-missing-grammar-azure.mjs [--dry-run] [--probe-cos]
  */
 import fs from "fs";
@@ -15,7 +15,7 @@ import { fileURLToPath } from "url";
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const COS_PREFIX =
   "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/";
-const EN_VOICE = "en-US-AvaNeural";
+const EN_VOICE = "en-GB-RyanNeural";
 const ZH_VOICE = "zh-CN-XiaoxiaoNeural";
 
 const dryRun = process.argv.includes("--dry-run");
@@ -134,7 +134,7 @@ async function cosMissing(url) {
 }
 
 const key = String(process.env.AZURE_SPEECH_KEY || process.env.SPEECH_KEY || "").trim();
-const region = String(process.env.AZURE_SPEECH_REGION || "southeastasia").trim();
+const region = String(process.env.AZURE_SPEECH_REGION || "eastasia").trim();
 if (!dryRun && !key) {
   console.error("请设置 AZURE_SPEECH_KEY");
   process.exit(1);

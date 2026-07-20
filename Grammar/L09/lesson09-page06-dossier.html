@@ -431,7 +431,7 @@
   <script>
     window.L09_CFG = window.L09_CFG || {
       azureKey: "",
-      azureRegion: "southeastasia",
+      azureRegion: "eastasia",
       azureTtsEndpoint: "https://{region}.tts.speech.microsoft.com/cognitiveservices/v1",
       deepseekKey: "",
       deepseekEndpoint: "https://api.deepseek.com/v1/chat/completions",
@@ -900,7 +900,7 @@
         }
         const c = CFG();
         const key = (c.azureKey || "").trim();
-        const region = (c.azureRegion || "southeastasia").trim();
+        const region = (c.azureRegion || "eastasia").trim();
         if (!key) {
           setFb("未找到本句本地朗读文件，且未配置 azureKey。请运行 scripts/generate-l09-tts-vertex.mjs 生成 MP3。", "err");
           return;
@@ -908,7 +908,7 @@
         const ep = (c.azureTtsEndpoint || "https://" + region + ".tts.speech.microsoft.com/cognitiveservices/v1")
           .replace("{region}", region);
         const ssml =
-          '<speak version="1.0" xml:lang="en-US"><voice name="en-US-GuyNeural">' +
+          '<speak version="1.0" xml:lang="en-GB"><voice name="en-GB-RyanNeural">' +
           "<prosody rate=\"-5%\">" +
           text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") +
           "</prosody></voice></speak>";

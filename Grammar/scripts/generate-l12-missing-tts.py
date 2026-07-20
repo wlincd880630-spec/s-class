@@ -17,7 +17,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 L12 = ROOT / "L12"
 MP3_DIR = L12 / "assets" / "tts-mp3"
 OUT = L12 / "assets" / "l12-extra-tts-manifest.js"
-VOICE_EN = "en-US-JennyNeural"
+VOICE_EN = "en-GB-RyanNeural"
 VOICE_ZH = "zh-CN-XiaoxiaoNeural"
 
 

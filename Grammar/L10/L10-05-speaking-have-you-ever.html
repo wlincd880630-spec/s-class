@@ -638,7 +638,7 @@
         var line = SCRIPT_LINES[i];
         if (!line) return;
         setTtsBusy(true, null);
-        azureSpeakSsml(buildSsml(line.text, "en-US-JennyNeural"), "en-US-JennyNeural", function () { setTtsBusy(false); });
+        azureSpeakSsml(buildSsml(line.text, "en-GB-RyanNeural"), "en-GB-RyanNeural", function () { setTtsBusy(false); });
       });
     });
   }
@@ -685,7 +685,7 @@
     );
   }
     function azureRest(ssml, ok, fail) {
-    window.L10LocalTts.speakSsml(ssml, "en-US-JennyNeural", ok);
+    window.L10LocalTts.speakSsml(ssml, "en-GB-RyanNeural", ok);
   }
   function azureSdk(ssml, voiceName, ok, fail) {
     window.L10LocalTts.speakSsml(ssml, voiceName, ok);
@@ -734,7 +734,7 @@
   }
 
   function buildDemoSsmlList() {
-    var v = "en-US-JennyNeural";
+    var v = "en-GB-RyanNeural";
     return SCRIPT_LINES.map(function (line) {
       return { voice: v, ssml: buildSsml(line.text, v) };
     });
@@ -751,14 +751,14 @@
   document.getElementById("btnReadPhrase").addEventListener("click", function () {
     if (ttsBusy) return;
     setTtsBusy(true, "btnReadPhrase");
-    var list = [{ voice: "en-US-JennyNeural", ssml: buildSsml(PHRASE_BANK_EN, "en-US-JennyNeural") }];
+    var list = [{ voice: "en-GB-RyanNeural", ssml: buildSsml(PHRASE_BANK_EN, "en-GB-RyanNeural") }];
     speakChain(list, 0, function () { setTtsBusy(false); });
   });
 
   document.getElementById("btnReadBank").addEventListener("click", function () {
     if (ttsBusy) return;
     setTtsBusy(true, "btnReadBank");
-    var list = [{ voice: "en-US-JennyNeural", ssml: buildSsml(PHRASE_BANK_EN, "en-US-JennyNeural") }];
+    var list = [{ voice: "en-GB-RyanNeural", ssml: buildSsml(PHRASE_BANK_EN, "en-GB-RyanNeural") }];
     speakChain(list, 0, function () { setTtsBusy(false); });
   });
 
@@ -973,7 +973,7 @@
     micBusy = true;
     document.getElementById("btnMic").textContent = "识别中…";
     var cfg = SpeechSDK.SpeechConfig.fromSubscription(AZURE_SPEECH_KEY, AZURE_SPEECH_REGION);
-    cfg.speechRecognitionLanguage = "en-US";
+    cfg.speechRecognitionLanguage = "en-GB";
     var audio = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
     recog = new SpeechSDK.SpeechRecognizer(cfg, audio);
     recog.recognizeOnceAsync(

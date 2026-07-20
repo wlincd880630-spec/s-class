@@ -6,12 +6,12 @@
  *
  * PowerShell:
  *   $env:AZURE_SPEECH_KEY="你的密钥"
- *   $env:AZURE_SPEECH_REGION="southeastasia"
+ *   $env:AZURE_SPEECH_REGION="eastasia"
  *   node scripts/download-l12p6-tts.mjs
  *
  * cmd.exe:
  *   set AZURE_SPEECH_KEY=你的密钥
- *   set AZURE_SPEECH_REGION=southeastasia
+ *   set AZURE_SPEECH_REGION=eastasia
  *   node scripts\download-l12p6-tts.mjs
  *
  * 需要 Node 18+（内置 fetch）。
@@ -24,8 +24,8 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const key = process.env.AZURE_SPEECH_KEY;
-const region = process.env.AZURE_SPEECH_REGION || "southeastasia";
-const voice = process.env.AZURE_SPEECH_VOICE || "en-US-JennyNeural";
+const region = process.env.AZURE_SPEECH_REGION || "eastasia";
+const voice = process.env.AZURE_SPEECH_VOICE || "en-GB-RyanNeural";
 
 /** 与 lesson12-page06-unit-wrap.html 听力稿保持一致 */
 const LISTENING_TEXT =
@@ -50,7 +50,7 @@ async function main() {
   }
 
   const url = `https://${region}.tts.speech.microsoft.com/cognitiveservices/v1`;
-  const ssml = `<speak version="1.0" xml:lang="en-US"><voice xml:lang="en-US" name="${voice}">${escapeXml(
+  const ssml = `<speak version="1.0" xml:lang="en-GB"><voice xml:lang="en-GB" name="${voice}">${escapeXml(
     LISTENING_TEXT
   )}</voice></speak>`;
 

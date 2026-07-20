@@ -46,7 +46,7 @@
         utterance && utterance instanceof SpeechSynthesisUtterance
           ? utterance
           : new SpeechSynthesisUtterance(text);
-      if (!u.lang) u.lang = "en-US";
+      if (!u.lang) u.lang = "en-GB";
       u.onend = function () {
         resolve(true);
       };

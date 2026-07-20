@@ -14,7 +14,7 @@ import { spawnSync } from "child_process";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const BOOT_SRC = path.join(ROOT, "L10", "assets", "lesson-tts-bootstrap.js");
-const EN_VOICE = "en-US-AvaNeural";
+const EN_VOICE = "en-GB-RyanNeural";
 const ZH_VOICE = "zh-CN-XiaoxiaoNeural";
 const patchOnly = process.argv.includes("--patch-only");
 
@@ -273,7 +273,7 @@ console.log("\n讲义 TTS 待检查 MP3:", jobs.size);
 let need = 0;
 let got = 0;
 const key = String(process.env.AZURE_SPEECH_KEY || process.env.SPEECH_KEY || "").trim();
-const region = String(process.env.AZURE_SPEECH_REGION || "southeastasia").trim();
+const region = String(process.env.AZURE_SPEECH_REGION || "eastasia").trim();
 
 for (const job of jobs.values()) {
   const out = path.join(ROOT, job.lesson, "assets", "tts-mp3", job.fileName);
