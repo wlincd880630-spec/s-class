@@ -49,6 +49,16 @@
     return t.split("\n")[0].trim();
   }
 
+  function ttsChip(en) {
+    var t = String(en || "").trim();
+    if (!t) return "";
+    return (
+      ' <button type="button" class="tts-chip no-print" data-tts="' +
+      esc(t) +
+      '" aria-label="朗读">🔊</button>'
+    );
+  }
+
   function groupSvoByType(items) {
     var order = ["doing", "to_do", "bare_do"];
     var map = { doing: [], to_do: [], bare_do: [] };
@@ -88,6 +98,7 @@
           esc(it.pattern) +
           '</span></td><td class="en" lang="en">' +
           esc(it.example_sentence) +
+          ttsChip(it.example_sentence) +
           '</td><td class="logic">' +
           esc(compactSvoLogic(it.logic_explanation, level)) +
           "</td></tr>";
@@ -110,6 +121,7 @@
         esc(e.phrase) +
         '</strong></td><td class="en" lang="en">' +
         esc(e.example_en) +
+        ttsChip(e.example_en) +
         '</td><td class="zh">' +
         esc(zhFirstLine(e.example_cn)) +
         "</td></tr>";
@@ -153,6 +165,10 @@
       count +
       "</strong> 条 · 含例句</p>" +
       body;
+
+    if (window.LessonLocalAudio && window.LessonLocalAudio.wireTtsChips) {
+      window.LessonLocalAudio.wireTtsChips(mount);
+    }
   }
 
   function init() {
