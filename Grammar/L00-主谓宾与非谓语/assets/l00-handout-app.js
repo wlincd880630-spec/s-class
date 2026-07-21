@@ -49,8 +49,8 @@
     return t.split("\n")[0].trim();
   }
 
-  function ttsChip(text) {
-    var t = String(text || "").trim();
+  function ttsChip(en) {
+    var t = String(en || "").trim();
     if (!t) return "";
     return (
       ' <button type="button" class="tts-chip no-print" data-tts="' +
