@@ -15,6 +15,7 @@ COURSE = ROOT / "Primary" / "What are reptiles" / "what-are-reptiles-courseware"
 WORD_DIR = COURSE / "images" / "words"
 IMG_DIR = COURSE / "images"
 COS_REL = "Primary/What are reptiles/what-are-reptiles-courseware/images"
+MEANING_DIR = COURSE / "images" / "words-meaning"
 
 # BBC + Wikimedia（教育用途配图）
 WORD_SOURCES: dict[str, str] = {
@@ -142,15 +143,37 @@ def get_cos_config() -> dict | None:
 
 
 def upload_file(local: Path, rel_key: str, cfg: dict) -> str:
+    import time
+
     from qcloud_cos import CosConfig, CosS3Client
 
     prefix = cfg.get("CosPrefix", "s-class/").rstrip("/") + "/"
     key = prefix + rel_key
     client = CosS3Client(CosConfig(Region=cfg["Region"], SecretId=cfg["SecretId"], SecretKey=cfg["SecretKey"]))
     ct = "image/png" if local.suffix.lower() == ".png" else "image/jpeg"
-    with open(local, "rb") as f:
-        client.put_object(Bucket=cfg["Bucket"], Body=f, Key=key, ContentType=ct)
-    return f"https://{cfg['Bucket']}.cos.{cfg['Region']}.myqcloud.com/{key}"
+    for attempt in range(1, 5):
+        try:
+            if local.stat().st_size > 1_500_000:
+                client.upload_file(
+                    Bucket=cfg["Bucket"],
+                    LocalFilePath=str(local),
+                    Key=key,
+                    PartSize=2,
+                    MAXThread=4,
+                    EnableMD5=False,
+                    ContentType=ct,
+                )
+            else:
+                with open(local, "rb") as f:
+                    client.put_object(Bucket=cfg["Bucket"], Body=f, Key=key, ContentType=ct)
+            return f"https://{cfg['Bucket']}.cos.{cfg['Region']}.myqcloud.com/{key}"
+        except Exception as e:
+            if attempt == 4:
+                raise
+            wait = 4 * attempt
+            print(f"  ⚠ 上传 {local.name} 失败，{wait}s 后重试… ({e})")
+            time.sleep(wait)
+    return ""
 
 
 def build_words(force: bool = False) -> list[Path]:
@@ -206,7 +229,11 @@ def main():
         files = build_words(force=args.force)
         files.extend(build_assets())
     else:
-        files = list(WORD_DIR.glob("*.png")) + list(IMG_DIR.glob("*.png"))
+        files = (
+            list(WORD_DIR.glob("*.png"))
+            + list(MEANING_DIR.glob("*.png"))
+            + list(IMG_DIR.glob("*.png"))
+        )
 
     if args.skip_upload:
         return
@@ -217,14 +244,17 @@ def main():
         return
 
     print("上传到腾讯 COS…")
-    for local in sorted(set(files)):
-        if not local.is_file():
+    upload_dirs = [WORD_DIR, MEANING_DIR, IMG_DIR]
+    for d in upload_dirs:
+        if not d.is_dir():
             continue
-        rel = f"{COS_REL}/{local.parent.name}/{local.name}"
-        if local.parent.name == "images" and local.name.startswith(("course-", "icon-")):
-            rel = f"{COS_REL}/{local.name}"
-        url = upload_file(local, rel, cfg)
-        print(f"  ✓ {rel}")
+        for local in sorted(d.glob("*.png")):
+            if d.name in ("words", "words-meaning"):
+                rel = f"{COS_REL}/{d.name}/{local.name}"
+            else:
+                rel = f"{COS_REL}/{local.name}"
+            url = upload_file(local, rel, cfg)
+            print(f"  ✓ {rel}")
 
 
 if __name__ == "__main__":

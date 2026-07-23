@@ -39,8 +39,11 @@ AZURE_KEY = os.environ.get(
 )
 AZURE_REGION = os.environ.get("AZURE_SPEECH_REGION", "eastasia")
 AZURE_VOICE = "en-GB-RyanNeural"
-# 小学四年级：放慢语速（原 0.92 偏快）
-AZURE_SPEECH_RATE = os.environ.get("REPTILE_VIDEO_SPEECH_RATE", "0.76")
+# 小学四年级：放慢语速
+AZURE_SPEECH_RATE = os.environ.get("REPTILE_VIDEO_SPEECH_RATE", "0.68")
+# 每句结束后留白，更接近 BBC 原片节奏
+SLIDE_PAD_SEC = float(os.environ.get("REPTILE_VIDEO_PAD_SEC", "0.55"))
+KEN_BURNS_FPS = 25
 
 VIDEOS = [
     {
@@ -69,14 +72,19 @@ VIDEOS = [
             ("Oh and there she goes starting to walk off to have a sunbathe and keep warm.", "哦，她走开去晒太阳保暖了。"),
         ],
         "images": [
-            ("https://ichef.bbci.co.uk/images/ic/1200xn/p0k5kbmq.jpg", "tortoise"),
+            ("https://ichef.bbci.co.uk/images/ic/1200xn/p0k5kbmq.jpg", "tyler_marion"),
+            ("https://ichef.bbci.co.uk/images/ic/1200xn/p0jqtwdd.png", "reptiles_group"),
             ("https://ichef.bbci.co.uk/images/ic/800xn/p0j74dp2.jpg", "snake"),
             ("https://ichef.bbci.co.uk/images/ic/800xn/p0j74f2g.jpg", "lizard"),
-            ("https://ichef.bbci.co.uk/images/ic/800xn/p0j74dvr.jpg", "tortoise2"),
+            ("https://ichef.bbci.co.uk/images/ic/800xn/p0j74dvr.jpg", "tortoise"),
             ("https://ichef.bbci.co.uk/images/ic/800xn/p0j74dzp.jpg", "chameleon"),
-            ("https://ichef.bbci.co.uk/images/ic/1200xn/p0jqtwdd.png", "reptiles"),
+            ("https://ichef.bbci.co.uk/images/ic/1200xn/p0k7026l.png", "komodo"),
+            ("https://ichef.bbci.co.uk/images/ic/800xn/p0k0xcxl.png", "basking"),
             ("https://ichef.bbci.co.uk/images/ic/800xn/p0nyj7m7.jpg", "fossil"),
+            ("https://ichef.bbci.co.uk/images/ic/800xn/p0k5sd9f.png", "eggs"),
         ],
+        # 每句对应配图（BBC 页面素材），避免轮播错位
+        "image_map": [0, 1, 2, 2, 3, 4, 6, 6, 5, 5, 9, 2, 7, 8, 0, 0],
     },
     {
         "id": "02-reptiles-around-the-world",
@@ -107,7 +115,10 @@ VIDEOS = [
             ("https://ichef.bbci.co.uk/images/ic/800xn/p0j74dzp.jpg", "chameleon"),
             ("https://ichef.bbci.co.uk/images/ic/800xn/p0j74f2g.jpg", "lizard"),
             ("https://ichef.bbci.co.uk/images/ic/1200xn/p0jqtwdd.png", "crocodile"),
+            ("https://ichef.bbci.co.uk/images/ic/800xn/p0ksfnbg.jpg", "tuatara"),
+            ("https://ichef.bbci.co.uk/images/ic/800xn/p0ksfqyf.jpg", "skink"),
         ],
+        "image_map": [0, 0, 1, 2, 2, 3, 4, 5, 5, 1, 2, 3, 6, 7, 2],
     },
 ]
 
@@ -216,13 +227,43 @@ def fmt_vtt_time(seconds: float) -> str:
     return f"{h:02d}:{m:02d}:{s:02d}.{ms:03d}"
 
 
-def make_slide(image: Path, audio: Path, out_mp4: Path, en: str, zh: str, ass_path: Path) -> float:
+def pad_audio(audio: Path, out_audio: Path, pad_sec: float) -> float:
     dur = probe_duration(audio)
+    total = dur + pad_sec
+    subprocess.run(
+        [
+            "ffmpeg",
+            "-y",
+            "-i",
+            str(audio),
+            "-af",
+            f"apad=pad_dur={pad_sec:.3f}",
+            "-t",
+            f"{total:.3f}",
+            "-c:a",
+            "aac",
+            "-b:a",
+            "128k",
+            str(out_audio),
+        ],
+        check=True,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
+    return total
+
+
+def make_slide(image: Path, audio: Path, out_mp4: Path, en: str, zh: str, ass_path: Path) -> float:
+    padded = out_mp4.with_suffix(".pad.m4a")
+    dur = pad_audio(audio, padded, SLIDE_PAD_SEC)
     write_ass_caption(ass_path, en, zh, dur)
     ass_escaped = str(ass_path.resolve()).replace("\\", "/").replace(":", "\\:")
+    frames = max(int(dur * KEN_BURNS_FPS), 1)
     vf = (
-        "scale=1280:720:force_original_aspect_ratio=decrease,"
-        "pad=1280:720:(ow-iw)/2:(oh-ih)/2:color=0x1b4332,"
+        "scale=1920:1080:force_original_aspect_ratio=increase,"
+        "crop=1920:1080,"
+        f"zoompan=z='min(1+0.00035*on,1.14)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':"
+        f"d={frames}:s=1280x720:fps={KEN_BURNS_FPS},"
         f"subtitles={ass_escaped}"
     )
     subprocess.run(
@@ -234,7 +275,7 @@ def make_slide(image: Path, audio: Path, out_mp4: Path, en: str, zh: str, ass_pa
             "-i",
             str(image),
             "-i",
-            str(audio),
+            str(padded),
             "-c:v",
             "libx264",
             "-tune",
@@ -256,6 +297,7 @@ def make_slide(image: Path, audio: Path, out_mp4: Path, en: str, zh: str, ass_pa
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
     )
+    padded.unlink(missing_ok=True)
     return dur
 
 
@@ -313,10 +355,13 @@ def build_video(spec: dict) -> Path:
     cues: list[dict] = []
     t = 0.0
 
+    image_map = spec.get("image_map") or list(range(len(sentences)))
+
     for i, (en, zh) in enumerate(sentences):
         mp3 = work / f"audio_{i:03d}.mp3"
         azure_tts(en, mp3)
-        img = images[i % len(images)]
+        img_idx = image_map[i] if i < len(image_map) else i % len(images)
+        img = images[min(img_idx, len(images) - 1)]
         seg = work / f"slide_{i:03d}.mp4"
         ass = work / f"caption_{i:03d}.ass"
         dur = make_slide(img, mp3, seg, en, zh, ass)
@@ -381,10 +426,34 @@ def upload_videos() -> None:
                 print(f"  跳过（不存在）: {local}")
                 continue
             key = prefix + rel_base + "/" + fname
-            print(f"  上传 COS: {key}")
-            with open(local, "rb") as f:
-                client.put_object(Bucket=cfg["Bucket"], Body=f, Key=key, ContentType=ctype)
-            print(f"  ✓ https://{cfg['Bucket']}.cos.{cfg['Region']}.myqcloud.com/{key}")
+            print(f"  上传 COS: {key} ({local.stat().st_size // 1024} KB)")
+            for attempt in range(1, 5):
+                try:
+                    if local.stat().st_size > 2_000_000:
+                        client.upload_file(
+                            Bucket=cfg["Bucket"],
+                            LocalFilePath=str(local),
+                            Key=key,
+                            PartSize=2,
+                            MAXThread=4,
+                            EnableMD5=False,
+                            ContentType=ctype,
+                        )
+                    else:
+                        with open(local, "rb") as f:
+                            client.put_object(
+                                Bucket=cfg["Bucket"], Body=f, Key=key, ContentType=ctype
+                            )
+                    print(f"  ✓ https://{cfg['Bucket']}.cos.{cfg['Region']}.myqcloud.com/{key}")
+                    break
+                except Exception as e:
+                    if attempt == 4:
+                        raise
+                    wait = 4 * attempt
+                    print(f"  ⚠ 上传失败 ({e})，{wait}s 后重试…")
+                    import time
+
+                    time.sleep(wait)
 
 
 def parse_vtt_cues(path: Path) -> list[dict]:
@@ -435,10 +504,19 @@ def write_manifest() -> None:
     print(f"  ✓ manifest → {out}")
 
 
+def has_bbc_original(spec: dict) -> bool:
+    out = VIDEO_DIR / spec["file"]
+    if not out.exists() or out.stat().st_size < 500_000:
+        return False
+    # 合成版通常 < 8MB；BBC 原片一般明显更大
+    return out.stat().st_size > 8_000_000
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--upload-only", action="store_true")
     parser.add_argument("--skip-upload", action="store_true")
+    parser.add_argument("--force-synthetic", action="store_true", help="即使已有较大 MP4 也重新合成")
     args = parser.parse_args()
 
     VIDEO_DIR.mkdir(parents=True, exist_ok=True)
@@ -446,8 +524,13 @@ def main():
     if not args.upload_only:
         if not shutil.which("ffmpeg"):
             sys.exit("需要 ffmpeg")
-        print(f"生成 BBC 课程视频（语速 {AZURE_SPEECH_RATE} + 中英字幕）…")
+        print(
+            f"生成 BBC 课程视频（语速 {AZURE_SPEECH_RATE} · 句间留白 {SLIDE_PAD_SEC}s · Ken Burns + 字幕）…"
+        )
         for spec in VIDEOS:
+            if not args.force_synthetic and has_bbc_original(spec):
+                print(f"  跳过合成（已存在疑似 BBC 原片）: {spec['file']}")
+                continue
             build_video(spec)
         write_manifest()
 
