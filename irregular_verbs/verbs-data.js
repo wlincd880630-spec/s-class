@@ -4,20 +4,21 @@
  */
 window.IRREGULAR_VERBS_DATA = {
   "version": 1,
-  "mediaBase": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/",
+  "mediaBase": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/",
   "verbs": [
     {
       "id": "be",
       "base": "be",
+      "past": "was / were",
       "pp": "been",
       "cn": "是；在",
       "ipa": "/biː/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/be.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/be.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/be.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/be_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/be_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/be_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/be.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/be_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/be_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/be_perfect.webp"
       },
       "examples": {
         "present": {
@@ -43,15 +44,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "beat",
       "base": "beat",
+      "past": "beat",
       "pp": "beaten",
       "cn": "打败；敲打",
       "ipa": "/biːt/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/beat.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/beat.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/beat.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/beat_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/beat_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/beat_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/beat.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/beat_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/beat_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/beat_perfect.webp"
       },
       "examples": {
         "present": {
@@ -77,15 +79,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "become",
       "base": "become",
+      "past": "became",
       "pp": "become",
       "cn": "变成；成为",
       "ipa": "/bɪˈkʌm/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/become.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/become.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/become.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/become_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/become_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/become_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/become.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/become_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/become_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/become_perfect.webp"
       },
       "examples": {
         "present": {
@@ -111,15 +114,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "begin",
       "base": "begin",
+      "past": "began",
       "pp": "begun",
       "cn": "开始",
       "ipa": "/bɪˈɡɪn/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/begin.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/begin.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/begin.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/begin_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/begin_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/begin_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/begin.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/begin_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/begin_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/begin_perfect.webp"
       },
       "examples": {
         "present": {
@@ -145,15 +149,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "break",
       "base": "break",
+      "past": "broke",
       "pp": "broken",
       "cn": "打破；弄坏",
       "ipa": "/breɪk/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/break.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/break.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/break.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/break_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/break_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/break_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/break.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/break_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/break_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/break_perfect.webp"
       },
       "examples": {
         "present": {
@@ -169,8 +174,8 @@ window.IRREGULAR_VERBS_DATA = {
           "level": "初一"
         },
         "perfect": {
-          "en": "The old bridge has been broken for months.",
-          "cn": "那座旧桥已经坏了好几个月了。",
+          "en": "Someone has broken the classroom window, so we must report it.",
+          "cn": "有人打破了教室窗户，所以我们必须上报。",
           "tense": "现在完成时",
           "level": "初三中考"
         }
@@ -179,15 +184,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "bring",
       "base": "bring",
+      "past": "brought",
       "pp": "brought",
       "cn": "带来",
       "ipa": "/brɔːt/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/bring.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/bring.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/bring.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/bring_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/bring_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/bring_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/bring.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/bring_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/bring_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/bring_perfect.webp"
       },
       "examples": {
         "present": {
@@ -213,15 +219,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "build",
       "base": "build",
+      "past": "built",
       "pp": "built",
       "cn": "建造",
       "ipa": "/bɪld/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/build.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/build.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/build.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/build_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/build_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/build_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/build.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/build_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/build_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/build_perfect.webp"
       },
       "examples": {
         "present": {
@@ -247,15 +254,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "buy",
       "base": "buy",
+      "past": "bought",
       "pp": "bought",
       "cn": "买",
       "ipa": "/bɔːt/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/buy.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/buy.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/buy.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/buy_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/buy_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/buy_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/buy.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/buy_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/buy_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/buy_perfect.webp"
       },
       "examples": {
         "present": {
@@ -281,16 +289,17 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "can",
       "base": "can",
+      "past": "could",
       "pp": "—",
       "cn": "能；会",
       "ipa": "/kæn/",
       "special": true,
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/can.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/can.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/can.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/can_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/can_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/can_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/can.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/can_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/can_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/can_perfect.webp"
       },
       "examples": {
         "present": {
@@ -306,8 +315,8 @@ window.IRREGULAR_VERBS_DATA = {
           "level": "初一"
         },
         "perfect": {
-          "en": "With practice, you could have done better in the test.",
-          "cn": "多练习的话，你本可以在考试中做得更好。",
+          "en": "She has been able to swim since she was six.",
+          "cn": "她从六岁起就已经会游泳了。",
           "tense": "现在完成时",
           "level": "初三中考"
         }
@@ -316,15 +325,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "catch",
       "base": "catch",
+      "past": "caught",
       "pp": "caught",
       "cn": "抓住；赶上",
       "ipa": "/kætʃ/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/catch.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/catch.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/catch.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/catch_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/catch_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/catch_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/catch.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/catch_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/catch_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/catch_perfect.webp"
       },
       "examples": {
         "present": {
@@ -340,8 +350,8 @@ window.IRREGULAR_VERBS_DATA = {
           "level": "初一"
         },
         "perfect": {
-          "en": "I have caught a bad cold, so I stayed at home.",
-          "cn": "我得了重感冒，所以待在家里。",
+          "en": "I have caught a bad cold, so I need to rest at home.",
+          "cn": "我得了重感冒，所以需要在家休息。",
           "tense": "现在完成时",
           "level": "初三中考"
         }
@@ -350,15 +360,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "choose",
       "base": "choose",
+      "past": "chose",
       "pp": "chosen",
       "cn": "选择",
       "ipa": "/tʃuːz/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/choose.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/choose.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/choose.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/choose_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/choose_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/choose_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/choose.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/choose_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/choose_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/choose_perfect.webp"
       },
       "examples": {
         "present": {
@@ -384,15 +395,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "come",
       "base": "come",
+      "past": "came",
       "pp": "come",
       "cn": "来",
       "ipa": "/kʌm/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/come.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/come.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/come.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/come_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/come_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/come_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/come.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/come_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/come_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/come_perfect.webp"
       },
       "examples": {
         "present": {
@@ -418,15 +430,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "cost",
       "base": "cost",
+      "past": "cost",
       "pp": "cost",
       "cn": "花费",
       "ipa": "/kɒst/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/cost.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/cost.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/cost.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/cost_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/cost_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/cost_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/cost.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/cost_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/cost_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/cost_perfect.webp"
       },
       "examples": {
         "present": {
@@ -452,15 +465,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "cut",
       "base": "cut",
+      "past": "cut",
       "pp": "cut",
       "cn": "切；剪",
       "ipa": "/kʌt/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/cut.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/cut.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/cut.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/cut_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/cut_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/cut_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/cut.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/cut_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/cut_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/cut_perfect.webp"
       },
       "examples": {
         "present": {
@@ -486,15 +500,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "do",
       "base": "do",
+      "past": "did",
       "pp": "done",
       "cn": "做",
       "ipa": "/duː/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/do.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/do.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/do.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/do_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/do_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/do_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/do.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/do_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/do_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/do_perfect.webp"
       },
       "examples": {
         "present": {
@@ -520,15 +535,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "draw",
       "base": "draw",
+      "past": "drew",
       "pp": "drawn",
       "cn": "画；拉",
       "ipa": "/drɔː/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/draw.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/draw.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/draw.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/draw_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/draw_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/draw_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/draw.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/draw_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/draw_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/draw_perfect.webp"
       },
       "examples": {
         "present": {
@@ -554,15 +570,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "drink",
       "base": "drink",
+      "past": "drank",
       "pp": "drunk",
       "cn": "喝",
       "ipa": "/drɪŋk/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/drink.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/drink.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/drink.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/drink_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/drink_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/drink_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/drink.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/drink_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/drink_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/drink_perfect.webp"
       },
       "examples": {
         "present": {
@@ -588,15 +605,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "drive",
       "base": "drive",
+      "past": "drove",
       "pp": "driven",
       "cn": "驾驶",
       "ipa": "/draɪv/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/drive.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/drive.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/drive.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/drive_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/drive_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/drive_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/drive.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/drive_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/drive_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/drive_perfect.webp"
       },
       "examples": {
         "present": {
@@ -622,15 +640,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "eat",
       "base": "eat",
+      "past": "ate",
       "pp": "eaten",
       "cn": "吃",
       "ipa": "/iːt/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/eat.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/eat.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/eat.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/eat_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/eat_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/eat_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/eat.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/eat_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/eat_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/eat_perfect.webp"
       },
       "examples": {
         "present": {
@@ -656,15 +675,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "fall",
       "base": "fall",
+      "past": "fell",
       "pp": "fallen",
       "cn": "落下；跌倒",
       "ipa": "/fɔːl/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/fall.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/fall.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/fall.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/fall_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/fall_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/fall_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/fall.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/fall_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/fall_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/fall_perfect.webp"
       },
       "examples": {
         "present": {
@@ -690,15 +710,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "feel",
       "base": "feel",
+      "past": "felt",
       "pp": "felt",
       "cn": "感觉",
       "ipa": "/fiːl/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/feel.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/feel.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/feel.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/feel_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/feel_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/feel_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/feel.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/feel_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/feel_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/feel_perfect.webp"
       },
       "examples": {
         "present": {
@@ -724,15 +745,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "fight",
       "base": "fight",
+      "past": "fought",
       "pp": "fought",
       "cn": "打架；奋斗",
       "ipa": "/faɪt/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/fight.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/fight.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/fight.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/fight_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/fight_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/fight_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/fight.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/fight_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/fight_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/fight_perfect.webp"
       },
       "examples": {
         "present": {
@@ -758,15 +780,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "find",
       "base": "find",
+      "past": "found",
       "pp": "found",
       "cn": "找到；发现",
       "ipa": "/faʊnd/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/find.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/find.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/find.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/find_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/find_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/find_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/find.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/find_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/find_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/find_perfect.webp"
       },
       "examples": {
         "present": {
@@ -792,15 +815,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "fly",
       "base": "fly",
+      "past": "flew",
       "pp": "flown",
       "cn": "飞",
       "ipa": "/flaɪ/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/fly.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/fly.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/fly.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/fly_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/fly_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/fly_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/fly.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/fly_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/fly_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/fly_perfect.webp"
       },
       "examples": {
         "present": {
@@ -826,15 +850,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "forget",
       "base": "forget",
+      "past": "forgot",
       "pp": "forgotten",
       "cn": "忘记",
       "ipa": "/fəˈɡɒt/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/forget.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/forget.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/forget.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/forget_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/forget_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/forget_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/forget.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/forget_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/forget_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/forget_perfect.webp"
       },
       "examples": {
         "present": {
@@ -860,15 +885,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "get",
       "base": "get",
+      "past": "got",
       "pp": "got",
       "cn": "得到；变得",
       "ipa": "/ɡet/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/get.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/get.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/get.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/get_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/get_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/get_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/get.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/get_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/get_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/get_perfect.webp"
       },
       "examples": {
         "present": {
@@ -894,15 +920,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "give",
       "base": "give",
+      "past": "gave",
       "pp": "given",
       "cn": "给",
       "ipa": "/ɡɪv/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/give.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/give.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/give.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/give_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/give_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/give_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/give.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/give_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/give_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/give_perfect.webp"
       },
       "examples": {
         "present": {
@@ -928,15 +955,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "go",
       "base": "go",
+      "past": "went",
       "pp": "gone",
       "cn": "去",
       "ipa": "/ɡəʊ/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/go.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/go.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/go.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/go_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/go_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/go_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/go.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/go_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/go_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/go_perfect.webp"
       },
       "examples": {
         "present": {
@@ -962,15 +990,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "grow",
       "base": "grow",
+      "past": "grew",
       "pp": "grown",
       "cn": "生长；种植",
       "ipa": "/ɡrəʊ/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/grow.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/grow.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/grow.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/grow_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/grow_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/grow_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/grow.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/grow_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/grow_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/grow_perfect.webp"
       },
       "examples": {
         "present": {
@@ -996,15 +1025,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "hang",
       "base": "hang",
+      "past": "hung",
       "pp": "hung",
       "cn": "悬挂",
       "ipa": "/hæŋ/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/hang.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/hang.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/hang.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/hang_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/hang_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/hang_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/hang.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/hang_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/hang_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/hang_perfect.webp"
       },
       "examples": {
         "present": {
@@ -1020,8 +1050,8 @@ window.IRREGULAR_VERBS_DATA = {
           "level": "初一"
         },
         "perfect": {
-          "en": "A new picture has hung in the art room since Monday.",
-          "cn": "从周一起美术室挂了一幅新画。",
+          "en": "We have hung a new picture in the art room.",
+          "cn": "我们已经在美术室挂了一幅新画。",
           "tense": "现在完成时",
           "level": "初三中考"
         }
@@ -1030,15 +1060,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "have",
       "base": "have",
+      "past": "had",
       "pp": "had",
       "cn": "有；吃",
       "ipa": "/hæv/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/have.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/have.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/have.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/have_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/have_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/have_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/have.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/have_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/have_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/have_perfect.webp"
       },
       "examples": {
         "present": {
@@ -1064,15 +1095,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "hear",
       "base": "hear",
+      "past": "heard",
       "pp": "heard",
       "cn": "听见",
       "ipa": "/hɪə/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/hear.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/hear.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/hear.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/hear_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/hear_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/hear_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/hear.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/hear_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/hear_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/hear_perfect.webp"
       },
       "examples": {
         "present": {
@@ -1098,15 +1130,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "hit",
       "base": "hit",
+      "past": "hit",
       "pp": "hit",
       "cn": "打；撞击",
       "ipa": "/hɪt/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/hit.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/hit.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/hit.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/hit_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/hit_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/hit_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/hit.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/hit_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/hit_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/hit_perfect.webp"
       },
       "examples": {
         "present": {
@@ -1132,15 +1165,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "hurt",
       "base": "hurt",
+      "past": "hurt",
       "pp": "hurt",
       "cn": "伤害；疼",
       "ipa": "/hɜːt/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/hurt.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/hurt.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/hurt.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/hurt_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/hurt_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/hurt_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/hurt.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/hurt_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/hurt_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/hurt_perfect.webp"
       },
       "examples": {
         "present": {
@@ -1166,15 +1200,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "hold",
       "base": "hold",
+      "past": "held",
       "pp": "held",
       "cn": "拿着；举行",
       "ipa": "/həʊld/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/hold.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/hold.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/hold.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/hold_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/hold_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/hold_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/hold.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/hold_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/hold_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/hold_perfect.webp"
       },
       "examples": {
         "present": {
@@ -1200,15 +1235,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "keep",
       "base": "keep",
+      "past": "kept",
       "pp": "kept",
       "cn": "保持；饲养",
       "ipa": "/kept/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/keep.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/keep.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/keep.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/keep_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/keep_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/keep_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/keep.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/keep_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/keep_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/keep_perfect.webp"
       },
       "examples": {
         "present": {
@@ -1234,15 +1270,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "know",
       "base": "know",
+      "past": "knew",
       "pp": "known",
       "cn": "知道；认识",
       "ipa": "/nəʊ/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/know.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/know.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/know.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/know_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/know_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/know_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/know.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/know_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/know_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/know_perfect.webp"
       },
       "examples": {
         "present": {
@@ -1258,8 +1295,8 @@ window.IRREGULAR_VERBS_DATA = {
           "level": "初一"
         },
         "perfect": {
-          "en": "China has been known as a country of inventions.",
-          "cn": "中国一直以发明之国而闻名。",
+          "en": "I have known my best friend since primary school.",
+          "cn": "我从小学起就认识我最好的朋友。",
           "tense": "现在完成时",
           "level": "初三中考"
         }
@@ -1268,15 +1305,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "lead",
       "base": "lead",
+      "past": "led",
       "pp": "led",
       "cn": "带领；导致",
       "ipa": "/liːd/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/lead.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/lead.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/lead.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/lead_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/lead_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/lead_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/lead.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/lead_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/lead_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/lead_perfect.webp"
       },
       "examples": {
         "present": {
@@ -1302,15 +1340,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "leave",
       "base": "leave",
+      "past": "left",
       "pp": "left",
       "cn": "离开；留下",
       "ipa": "/liːv/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/leave.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/leave.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/leave.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/leave_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/leave_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/leave_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/leave.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/leave_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/leave_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/leave_perfect.webp"
       },
       "examples": {
         "present": {
@@ -1336,15 +1375,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "lend",
       "base": "lend",
+      "past": "lent",
       "pp": "lent",
       "cn": "借出",
       "ipa": "/lend/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/lend.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/lend.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/lend.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/lend_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/lend_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/lend_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/lend.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/lend_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/lend_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/lend_perfect.webp"
       },
       "examples": {
         "present": {
@@ -1370,15 +1410,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "let",
       "base": "let",
+      "past": "let",
       "pp": "let",
       "cn": "让",
       "ipa": "/let/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/let.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/let.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/let.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/let_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/let_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/let_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/let.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/let_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/let_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/let_perfect.webp"
       },
       "examples": {
         "present": {
@@ -1394,8 +1435,8 @@ window.IRREGULAR_VERBS_DATA = {
           "level": "初一"
         },
         "perfect": {
-          "en": "Don't let small mistakes stop you from trying again.",
-          "cn": "别让小小失误阻止你再次尝试。",
+          "en": "My parents have let me choose my own hobby.",
+          "cn": "父母已经让我自己选择兴趣爱好。",
           "tense": "现在完成时",
           "level": "初三中考"
         }
@@ -1404,15 +1445,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "lie",
       "base": "lie",
+      "past": "lay",
       "pp": "lain",
       "cn": "躺；位于",
       "ipa": "/laɪ/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/lie.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/lie.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/lie.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/lie_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/lie_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/lie_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/lie.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/lie_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/lie_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/lie_perfect.webp"
       },
       "examples": {
         "present": {
@@ -1428,8 +1470,8 @@ window.IRREGULAR_VERBS_DATA = {
           "level": "初一"
         },
         "perfect": {
-          "en": "The problem has lain unsolved for a long time.",
-          "cn": "这个问题长期未能解决。",
+          "en": "The book has lain on my desk since yesterday.",
+          "cn": "这本书从昨天起就一直放在我的书桌上。",
           "tense": "现在完成时",
           "level": "初三中考"
         }
@@ -1438,15 +1480,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "light",
       "base": "light",
+      "past": "lit",
       "pp": "lit",
       "cn": "点亮",
       "ipa": "/laɪt/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/light.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/light.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/light.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/light_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/light_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/light_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/light.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/light_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/light_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/light_perfect.webp"
       },
       "examples": {
         "present": {
@@ -1472,15 +1515,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "lose",
       "base": "lose",
+      "past": "lost",
       "pp": "lost",
       "cn": "丢失；输掉",
       "ipa": "/luːz/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/lose.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/lose.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/lose.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/lose_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/lose_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/lose_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/lose.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/lose_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/lose_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/lose_perfect.webp"
       },
       "examples": {
         "present": {
@@ -1506,15 +1550,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "make",
       "base": "make",
+      "past": "made",
       "pp": "made",
       "cn": "制作；使",
       "ipa": "/meɪk/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/make.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/make.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/make.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/make_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/make_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/make_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/make.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/make_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/make_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/make_perfect.webp"
       },
       "examples": {
         "present": {
@@ -1540,15 +1585,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "mean",
       "base": "mean",
+      "past": "meant",
       "pp": "meant",
       "cn": "意思是；意味着",
       "ipa": "/miːn/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/mean.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/mean.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/mean.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/mean_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/mean_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/mean_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/mean.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/mean_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/mean_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/mean_perfect.webp"
       },
       "examples": {
         "present": {
@@ -1574,15 +1620,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "meet",
       "base": "meet",
+      "past": "met",
       "pp": "met",
       "cn": "遇见；开会",
       "ipa": "/miːt/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/meet.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/meet.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/meet.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/meet_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/meet_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/meet_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/meet.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/meet_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/meet_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/meet_perfect.webp"
       },
       "examples": {
         "present": {
@@ -1608,15 +1655,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "pay",
       "base": "pay",
+      "past": "paid",
       "pp": "paid",
-      "cn": "付款",
+      "cn": "付款；注意",
       "ipa": "/peɪ/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/pay.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/pay.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/pay.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/pay_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/pay_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/pay_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/pay.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/pay_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/pay_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/pay_perfect.webp"
       },
       "examples": {
         "present": {
@@ -1632,8 +1680,8 @@ window.IRREGULAR_VERBS_DATA = {
           "level": "初一"
         },
         "perfect": {
-          "en": "She has paid great effort to improve her English.",
-          "cn": "她为提高英语付出了巨大努力。",
+          "en": "She has paid close attention to every detail in her writing.",
+          "cn": "她一直非常注意写作中的每一个细节。",
           "tense": "现在完成时",
           "level": "初三中考"
         }
@@ -1642,15 +1690,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "put",
       "base": "put",
+      "past": "put",
       "pp": "put",
       "cn": "放",
       "ipa": "/pʊt/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/put.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/put.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/put.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/put_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/put_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/put_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/put.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/put_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/put_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/put_perfect.webp"
       },
       "examples": {
         "present": {
@@ -1676,16 +1725,17 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "read",
       "base": "read",
+      "past": "read",
       "pp": "read",
       "cn": "读",
       "ipa": "/riːd/",
       "ipa_note": "原形 /riːd/，过去式/分词 /red/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/read.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/read.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/read.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/read_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/read_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/read_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/read.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/read_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/read_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/read_perfect.webp"
       },
       "examples": {
         "present": {
@@ -1711,15 +1761,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "ride",
       "base": "ride",
+      "past": "rode",
       "pp": "ridden",
       "cn": "骑；乘坐",
       "ipa": "/raɪd/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/ride.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/ride.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/ride.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/ride_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/ride_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/ride_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/ride.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/ride_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/ride_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/ride_perfect.webp"
       },
       "examples": {
         "present": {
@@ -1745,15 +1796,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "ring",
       "base": "ring",
+      "past": "rang",
       "pp": "rung",
       "cn": "响；打电话",
       "ipa": "/rɪŋ/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/ring.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/ring.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/ring.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/ring_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/ring_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/ring_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/ring.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/ring_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/ring_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/ring_perfect.webp"
       },
       "examples": {
         "present": {
@@ -1769,8 +1821,8 @@ window.IRREGULAR_VERBS_DATA = {
           "level": "初一"
         },
         "perfect": {
-          "en": "Changes have rung in a new era of learning.",
-          "cn": "变革迎来了一个学习的新时代。",
+          "en": "The school bell has rung, so let's hurry to class.",
+          "cn": "校铃已经响了，我们快去上课吧。",
           "tense": "现在完成时",
           "level": "初三中考"
         }
@@ -1779,15 +1831,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "rise",
       "base": "rise",
+      "past": "rose",
       "pp": "risen",
       "cn": "上升；起床",
       "ipa": "/raɪz/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/rise.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/rise.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/rise.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/rise_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/rise_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/rise_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/rise.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/rise_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/rise_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/rise_perfect.webp"
       },
       "examples": {
         "present": {
@@ -1813,15 +1866,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "run",
       "base": "run",
+      "past": "ran",
       "pp": "run",
       "cn": "跑；经营",
       "ipa": "/rʌn/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/run.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/run.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/run.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/run_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/run_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/run_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/run.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/run_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/run_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/run_perfect.webp"
       },
       "examples": {
         "present": {
@@ -1847,15 +1901,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "say",
       "base": "say",
+      "past": "said",
       "pp": "said",
       "cn": "说",
       "ipa": "/seɪ/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/say.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/say.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/say.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/say_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/say_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/say_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/say.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/say_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/say_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/say_perfect.webp"
       },
       "examples": {
         "present": {
@@ -1871,8 +1926,8 @@ window.IRREGULAR_VERBS_DATA = {
           "level": "初一"
         },
         "perfect": {
-          "en": "As the saying goes, practice makes perfect.",
-          "cn": "俗话说，熟能生巧。",
+          "en": "Our teacher has said that practice makes progress many times.",
+          "cn": "老师多次说过，练习使人进步。",
           "tense": "现在完成时",
           "level": "初三中考"
         }
@@ -1881,15 +1936,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "see",
       "base": "see",
+      "past": "saw",
       "pp": "seen",
       "cn": "看见",
       "ipa": "/siː/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/see.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/see.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/see.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/see_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/see_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/see_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/see.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/see_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/see_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/see_perfect.webp"
       },
       "examples": {
         "present": {
@@ -1915,15 +1971,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "sell",
       "base": "sell",
+      "past": "sold",
       "pp": "sold",
       "cn": "卖",
       "ipa": "/səʊld/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/sell.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/sell.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/sell.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/sell_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/sell_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/sell_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/sell.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/sell_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/sell_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/sell_perfect.webp"
       },
       "examples": {
         "present": {
@@ -1949,15 +2006,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "send",
       "base": "send",
+      "past": "sent",
       "pp": "sent",
       "cn": "发送；派遣",
       "ipa": "/sent/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/send.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/send.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/send.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/send_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/send_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/send_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/send.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/send_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/send_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/send_perfect.webp"
       },
       "examples": {
         "present": {
@@ -1983,15 +2041,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "set",
       "base": "set",
+      "past": "set",
       "pp": "set",
       "cn": "放置；设定",
       "ipa": "/set/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/set.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/set.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/set.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/set_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/set_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/set_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/set.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/set_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/set_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/set_perfect.webp"
       },
       "examples": {
         "present": {
@@ -2017,15 +2076,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "shoot",
       "base": "shoot",
+      "past": "shot",
       "pp": "shot",
       "cn": "射击；拍摄",
       "ipa": "/ʃuːt/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/shoot.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/shoot.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/shoot.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/shoot_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/shoot_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/shoot_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/shoot.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/shoot_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/shoot_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/shoot_perfect.webp"
       },
       "examples": {
         "present": {
@@ -2051,15 +2111,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "show",
       "base": "show",
+      "past": "showed",
       "pp": "shown",
       "cn": "展示；给…看",
       "ipa": "/ʃəʊ/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/show.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/show.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/show.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/show_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/show_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/show_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/show.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/show_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/show_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/show_perfect.webp"
       },
       "examples": {
         "present": {
@@ -2085,15 +2146,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "sing",
       "base": "sing",
+      "past": "sang",
       "pp": "sung",
       "cn": "唱",
       "ipa": "/sɪŋ/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/sing.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/sing.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/sing.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/sing_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/sing_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/sing_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/sing.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/sing_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/sing_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/sing_perfect.webp"
       },
       "examples": {
         "present": {
@@ -2119,19 +2181,20 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "sit",
       "base": "sit",
+      "past": "sat",
       "pp": "sat",
       "cn": "坐",
       "ipa": "/sɪt/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/sit.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/sit.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/sit.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/sit_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/sit_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/sit_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/sit.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/sit_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/sit_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/sit_perfect.webp"
       },
       "examples": {
         "present": {
-          "en": "Please sit straight and listen carefully in class.",
+          "en": "Please sit up straight and listen carefully in class.",
           "cn": "上课请坐直认真听。",
           "tense": "一般现在时",
           "level": "初一"
@@ -2143,8 +2206,8 @@ window.IRREGULAR_VERBS_DATA = {
           "level": "初一"
         },
         "perfect": {
-          "en": "She has sat the entrance exam twice.",
-          "cn": "她已参加过两次升学考试。",
+          "en": "We have sat together in the front row since September.",
+          "cn": "从九月起我们一直一起坐在前排。",
           "tense": "现在完成时",
           "level": "初三中考"
         }
@@ -2153,15 +2216,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "sleep",
       "base": "sleep",
+      "past": "slept",
       "pp": "slept",
       "cn": "睡觉",
       "ipa": "/sliːp/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/sleep.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/sleep.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/sleep.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/sleep_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/sleep_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/sleep_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/sleep.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/sleep_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/sleep_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/sleep_perfect.webp"
       },
       "examples": {
         "present": {
@@ -2187,15 +2251,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "speak",
       "base": "speak",
+      "past": "spoke",
       "pp": "spoken",
       "cn": "说；讲",
       "ipa": "/spiːk/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/speak.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/speak.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/speak.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/speak_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/speak_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/speak_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/speak.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/speak_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/speak_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/speak_perfect.webp"
       },
       "examples": {
         "present": {
@@ -2211,8 +2276,8 @@ window.IRREGULAR_VERBS_DATA = {
           "level": "初一"
         },
         "perfect": {
-          "en": "English is spoken in many countries around the world.",
-          "cn": "世界上许多国家都说英语。",
+          "en": "She has spoken English confidently in public many times.",
+          "cn": "她已经多次在公众面前自信地说英语。",
           "tense": "现在完成时",
           "level": "初三中考"
         }
@@ -2221,15 +2286,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "spend",
       "base": "spend",
+      "past": "spent",
       "pp": "spent",
       "cn": "花费；度过",
       "ipa": "/spend/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/spend.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/spend.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/spend.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/spend_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/spend_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/spend_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/spend.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/spend_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/spend_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/spend_perfect.webp"
       },
       "examples": {
         "present": {
@@ -2255,15 +2321,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "stand",
       "base": "stand",
+      "past": "stood",
       "pp": "stood",
       "cn": "站立；忍受",
       "ipa": "/stænd/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/stand.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/stand.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/stand.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/stand_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/stand_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/stand_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/stand.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/stand_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/stand_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/stand_perfect.webp"
       },
       "examples": {
         "present": {
@@ -2289,15 +2356,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "steal",
       "base": "steal",
+      "past": "stole",
       "pp": "stolen",
       "cn": "偷",
       "ipa": "/stiːl/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/steal.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/steal.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/steal.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/steal_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/steal_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/steal_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/steal.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/steal_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/steal_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/steal_perfect.webp"
       },
       "examples": {
         "present": {
@@ -2323,15 +2391,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "strike",
       "base": "strike",
+      "past": "struck",
       "pp": "struck",
       "cn": "打击；撞击",
       "ipa": "/straɪk/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/strike.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/strike.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/strike.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/strike_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/strike_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/strike_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/strike.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/strike_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/strike_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/strike_perfect.webp"
       },
       "examples": {
         "present": {
@@ -2347,8 +2416,8 @@ window.IRREGULAR_VERBS_DATA = {
           "level": "初一"
         },
         "perfect": {
-          "en": "The earthquake has struck the region twice this year.",
-          "cn": "今年地震已两次袭击该地区。",
+          "en": "Lightning has struck the same tree twice this year.",
+          "cn": "今年闪电已经两次击中同一棵树。",
           "tense": "现在完成时",
           "level": "初三中考"
         }
@@ -2357,15 +2426,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "swim",
       "base": "swim",
+      "past": "swam",
       "pp": "swum",
       "cn": "游泳",
       "ipa": "/swɪm/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/swim.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/swim.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/swim.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/swim_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/swim_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/swim_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/swim.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/swim_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/swim_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/swim_perfect.webp"
       },
       "examples": {
         "present": {
@@ -2391,15 +2461,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "take",
       "base": "take",
+      "past": "took",
       "pp": "taken",
       "cn": "拿；花费",
       "ipa": "/teɪk/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/take.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/take.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/take.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/take_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/take_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/take_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/take.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/take_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/take_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/take_perfect.webp"
       },
       "examples": {
         "present": {
@@ -2425,15 +2496,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "teach",
       "base": "teach",
+      "past": "taught",
       "pp": "taught",
       "cn": "教",
       "ipa": "/tiːtʃ/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/teach.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/teach.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/teach.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/teach_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/teach_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/teach_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/teach.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/teach_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/teach_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/teach_perfect.webp"
       },
       "examples": {
         "present": {
@@ -2459,15 +2531,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "tell",
       "base": "tell",
+      "past": "told",
       "pp": "told",
       "cn": "告诉",
       "ipa": "/tel/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/tell.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/tell.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/tell.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/tell_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/tell_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/tell_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/tell.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/tell_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/tell_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/tell_perfect.webp"
       },
       "examples": {
         "present": {
@@ -2493,15 +2566,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "think",
       "base": "think",
+      "past": "thought",
       "pp": "thought",
       "cn": "想；认为",
       "ipa": "/θɪŋk/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/think.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/think.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/think.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/think_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/think_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/think_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/think.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/think_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/think_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/think_perfect.webp"
       },
       "examples": {
         "present": {
@@ -2527,15 +2601,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "throw",
       "base": "throw",
+      "past": "threw",
       "pp": "thrown",
       "cn": "扔",
       "ipa": "/θruː/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/throw.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/throw.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/throw.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/throw_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/throw_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/throw_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/throw.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/throw_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/throw_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/throw_perfect.webp"
       },
       "examples": {
         "present": {
@@ -2551,8 +2626,8 @@ window.IRREGULAR_VERBS_DATA = {
           "level": "初一"
         },
         "perfect": {
-          "en": "Too much plastic has been thrown into the ocean.",
-          "cn": "太多塑料已被扔进海洋。",
+          "en": "We have thrown away all the rubbish after the picnic.",
+          "cn": "野餐后我们已经把垃圾全都扔掉了。",
           "tense": "现在完成时",
           "level": "初三中考"
         }
@@ -2561,15 +2636,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "understand",
       "base": "understand",
+      "past": "understood",
       "pp": "understood",
       "cn": "理解",
       "ipa": "/ˌʌndəˈstænd/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/understand.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/understand.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/understand.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/understand_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/understand_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/understand_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/understand.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/understand_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/understand_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/understand_perfect.webp"
       },
       "examples": {
         "present": {
@@ -2595,15 +2671,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "wake",
       "base": "wake",
+      "past": "woke",
       "pp": "woken",
       "cn": "醒来",
       "ipa": "/weɪk/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/wake.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/wake.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/wake.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/wake_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/wake_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/wake_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/wake.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/wake_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/wake_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/wake_perfect.webp"
       },
       "examples": {
         "present": {
@@ -2619,8 +2696,8 @@ window.IRREGULAR_VERBS_DATA = {
           "level": "初一"
         },
         "perfect": {
-          "en": "He has woken up to the value of daily exercise.",
-          "cn": "他已认识到日常锻炼的价值。",
+          "en": "She has woken up early every day this week.",
+          "cn": "这周她每天都很早醒来。",
           "tense": "现在完成时",
           "level": "初三中考"
         }
@@ -2629,15 +2706,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "wear",
       "base": "wear",
+      "past": "wore",
       "pp": "worn",
       "cn": "穿；戴",
       "ipa": "/weə/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/wear.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/wear.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/wear.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/wear_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/wear_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/wear_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/wear.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/wear_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/wear_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/wear_perfect.webp"
       },
       "examples": {
         "present": {
@@ -2663,15 +2741,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "win",
       "base": "win",
+      "past": "won",
       "pp": "won",
       "cn": "赢",
       "ipa": "/wɪn/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/win.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/win.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/win.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/win_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/win_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/win_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/win.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/win_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/win_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/win_perfect.webp"
       },
       "examples": {
         "present": {
@@ -2697,15 +2776,16 @@ window.IRREGULAR_VERBS_DATA = {
     {
       "id": "write",
       "base": "write",
+      "past": "wrote",
       "pp": "written",
       "cn": "写",
       "ipa": "/raɪt/",
-      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/write.png",
+      "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/write.webp",
       "images": {
-        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/write.png",
-        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/write_present.png",
-        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/write_past.png",
-        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images/write_perfect.png"
+        "verb": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/write.webp",
+        "present": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/write_present.webp",
+        "past": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/write_past.webp",
+        "perfect": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/irregular_verbs/images-v2/write_perfect.webp"
       },
       "examples": {
         "present": {
