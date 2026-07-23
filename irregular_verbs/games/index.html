@@ -3,89 +3,149 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>游戏复习 · 不规则动词</title>
+  <title>Verb Atlas · 五种时态游戏</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <script src="../scripts/auth-check.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@600;700;800&family=Noto+Sans+SC:wght@400;500;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/verbverse.css" />
+  <script src="../../scripts/auth-check.js"></script>
   <script src="../verbs-data.js"></script>
   <script src="../shared.js"></script>
-  <style>
-    :root { --bg:#0c1222; --surface:#151d2e; --accent:#3b82f6; --accent2:#8b5cf6; --gold:#f59e0b; --text:#f1f5f9; --muted:#94a3b8; --border:rgba(148,163,184,0.15); }
-    * { box-sizing:border-box; margin:0; padding:0; }
-    body { font-family:"Noto Sans SC","DM Sans",sans-serif; min-height:100dvh; background:var(--bg); color:var(--text);
-      background-image:radial-gradient(ellipse 60% 40% at 80% 0%,rgba(139,92,246,0.18),transparent); }
-    .wrap { max-width:800px; margin:0 auto; padding:1.25rem; }
-    .back { display:inline-flex; align-items:center; gap:0.4rem; color:var(--muted); text-decoration:none; font-size:0.85rem; margin-bottom:1rem; }
-    .hdr { text-align:center; margin-bottom:1.5rem; }
-    .hdr h1 { font-family:"DM Sans",sans-serif; font-size:clamp(1.4rem,4vw,1.9rem); margin-bottom:0.35rem; }
-    .hdr p { color:var(--muted); font-size:0.9rem; }
-    .banner { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:0.85rem 1rem; margin-bottom:1.25rem; font-size:0.85rem; color:var(--muted); }
-    .banner strong { color:var(--gold); }
-    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem; }
-    .game-card {
-      background:var(--surface); border:1px solid var(--border); border-radius:14px;
-      padding:1.2rem; text-decoration:none; color:inherit;
-      transition:transform 0.2s,border-color 0.2s;
-      display:flex; flex-direction:column; gap:0.4rem;
-    }
-    .game-card:hover { transform:translateY(-2px); border-color:rgba(59,130,246,0.4); }
-    .game-num { font-size:0.7rem; font-weight:700; color:var(--accent); letter-spacing:0.08em; }
-    .game-icon { font-size:1.5rem; margin:0.25rem 0; }
-    .game-card h2 { font-size:1rem; font-weight:700; }
-    .game-card p { font-size:0.8rem; color:var(--muted); flex:1; }
-    .game-card .go { font-size:0.8rem; color:var(--accent); font-weight:600; }
-  </style>
+  <script src="../assets/verbverse.js"></script>
 </head>
 <body>
-  <div class="wrap">
-    <a href="../index.html" class="back"><i class="fas fa-arrow-left"></i> 返回模块首页</a>
-    <header class="hdr">
-      <h1>五种游戏复习</h1>
-      <p>用你选定的词汇进行互动练习，巩固三态变化</p>
-    </header>
-    <div class="banner">当前练习词汇：<strong id="wordCount">0</strong> 个 · 可在<a href="../index.html" style="color:var(--accent)">首页</a>调整选词</div>
-    <div class="grid">
-      <a href="game1-triple-match.html" class="game-card">
-        <span class="game-num">GAME 01</span>
-        <div class="game-icon">🔗</div>
-        <h2>三态连线</h2>
-        <p>将原形、过去式、过去分词正确配对，训练三态肌肉记忆。</p>
-        <span class="go">开始 →</span>
-      </a>
-      <a href="game2-listen-pick.html" class="game-card">
-        <span class="game-num">GAME 02</span>
-        <div class="game-icon">👂</div>
-        <h2>听音辨形</h2>
-        <p>听 Azure 英音朗读，从四个选项中选出正确的动词形式。</p>
-        <span class="go">开始 →</span>
-      </a>
-      <a href="game3-sentence-gap.html" class="game-card">
-        <span class="game-num">GAME 03</span>
-        <div class="game-icon">✏️</div>
-        <h2>例句填空</h2>
-        <p>根据时态提示，在例句空格中填入正确的动词形式。</p>
-        <span class="go">开始 →</span>
-      </a>
-      <a href="game4-time-tunnel.html" class="game-card">
-        <span class="game-num">GAME 04</span>
-        <div class="game-icon">⏳</div>
-        <h2>时光隧道</h2>
-        <p>将动词卡片拖入「现在」「过去」「完成」三条时间轨道。</p>
-        <span class="go">开始 →</span>
-      </a>
-      <a href="game5-memory-flip.html" class="game-card">
-        <span class="game-num">GAME 05</span>
-        <div class="game-icon">🃏</div>
-        <h2>记忆翻牌</h2>
-        <p>翻开卡片，找到同一动词的不同形式配对，锻炼记忆力。</p>
-        <span class="go">开始 →</span>
-      </a>
+  <header class="site-topbar">
+    <a class="topbar-back" href="../index.html">
+      <span aria-hidden="true">←</span>
+      <span>返回 Verb Atlas</span>
+    </a>
+    <a class="brand-lockup" href="../index.html" aria-label="Verb Atlas 首页">
+      <span class="brand-mark">VA</span>
+      <span class="brand-copy"><strong>Verb Atlas</strong><span>Tense Observatory</span></span>
+    </a>
+  </header>
+
+  <main class="game-lobby-shell">
+    <section class="game-lobby-hero" aria-labelledby="lobbyTitle">
+      <div class="game-lobby-copy">
+        <p class="eyebrow">PRACTICE CONSTELLATION · 05</p>
+        <h1 id="lobbyTitle">时态<em>轨道</em></h1>
+        <p>从辨认三态到建立语境，让原形、过去式与过去分词在五条训练路径中彼此连接。</p>
+      </div>
+      <aside class="lobby-snapshot" aria-label="当前学习概览">
+        <p class="eyebrow">YOUR ATLAS</p>
+        <h2>本次训练词库</h2>
+        <div class="snapshot-stats">
+          <div><strong id="selectedCount">0</strong><span>当前选词</span></div>
+          <div><strong id="masteryPercent">0%</strong><span>掌握度</span></div>
+        </div>
+        <div class="mastery-track" aria-hidden="true"><div class="mastery-fill" id="masteryFill"></div></div>
+        <a class="snapshot-link" href="../index.html#wordStudio">调整词库&nbsp; →</a>
+      </aside>
+    </section>
+
+    <section class="recommended-path" aria-labelledby="pathTitle">
+      <span class="path-number" id="pathNumber">01</span>
+      <div class="path-copy">
+        <strong id="pathTitle">推荐从「三态组装」开始</strong>
+        <span id="pathReason">先稳固形式，再进入语境与轨道。</span>
+      </div>
+      <a class="button button-primary" id="pathLink" href="game1-triple-match.html">进入推荐游戏</a>
+    </section>
+
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">FIVE ROUTES</p>
+        <h2>选择一条训练轨道</h2>
+      </div>
+      <p>每一局都有即时反馈、进度记录和完整回看；建议按编号依次完成。</p>
     </div>
-  </div>
+
+    <section class="game-card-grid" aria-label="五种不规则动词游戏">
+      <a class="game-hub-card" href="game1-triple-match.html">
+        <span class="hub-card-number" aria-hidden="true">01</span>
+        <div class="hub-card-copy">
+          <p class="eyebrow">FORM ASSEMBLY</p>
+          <h2>三态组装</h2>
+          <p>给定原形，分别锁定唯一过去式与过去分词，建立最基础的三态坐标。</p>
+          <span class="hub-card-link">开始组装 <span aria-hidden="true">→</span></span>
+        </div>
+      </a>
+      <a class="game-hub-card" href="game2-listen-pick.html">
+        <span class="hub-card-number" aria-hidden="true">02</span>
+        <div class="hub-card-copy">
+          <p class="eyebrow">SOUND SIGNAL</p>
+          <h2>听音辨形</h2>
+          <p>只凭英式发音判断原形、过去式或过去分词，把声音接入记忆轨道。</p>
+          <span class="hub-card-link">接收信号 <span aria-hidden="true">→</span></span>
+        </div>
+      </a>
+      <a class="game-hub-card" href="game3-sentence-gap.html">
+        <span class="hub-card-number" aria-hidden="true">03</span>
+        <div class="hub-card-copy">
+          <p class="eyebrow">CONTEXT LAB</p>
+          <h2>语境填空</h2>
+          <p>从真实例句中找回缺失的目标词，让形式与时态线索同步出现。</p>
+          <span class="hub-card-link">进入语境 <span aria-hidden="true">→</span></span>
+        </div>
+      </a>
+      <a class="game-hub-card" href="game4-time-tunnel.html">
+        <span class="hub-card-number" aria-hidden="true">04</span>
+        <div class="hub-card-copy">
+          <p class="eyebrow">SIGNATURE ROUTE</p>
+          <h2>时态轨道</h2>
+          <p>主打训练：移动六张动词卡，让现在、过去与完成三条轨道精准归位。</p>
+          <span class="hub-card-link">校准轨道 <span aria-hidden="true">→</span></span>
+        </div>
+      </a>
+      <a class="game-hub-card" href="game5-memory-flip.html">
+        <span class="hub-card-number" aria-hidden="true">05</span>
+        <div class="hub-card-copy">
+          <p class="eyebrow">MEMORY FIELD</p>
+          <h2>记忆翻牌</h2>
+          <p>翻开六组原形与过去式，在有限步数中完成最终配对。</p>
+          <span class="hub-card-link">展开记忆场 <span aria-hidden="true">→</span></span>
+        </div>
+      </a>
+    </section>
+  </main>
+
   <script>
-    document.getElementById("wordCount").textContent = window.IrregularVerbsUtil.getSelectedVerbs().length;
+    (function () {
+      "use strict";
+      var U = window.IrregularVerbsUtil;
+      var selected = U.getSelectedVerbs();
+      var summary = U.getMasterySummary(selected.map(function (verb) { return verb.id; }));
+      var recommendation =
+        summary.percent >= 60
+          ? {
+              number: "04",
+              title: "推荐挑战「时态轨道」",
+              reason: "你已掌握多数词汇，适合进行跨时态归类。",
+              href: "game4-time-tunnel.html"
+            }
+          : summary.percent >= 25
+            ? {
+                number: "03",
+                title: "推荐进入「语境填空」",
+                reason: "形式已有基础，现在把三态放回真实句子。",
+                href: "game3-sentence-gap.html"
+              }
+            : {
+                number: "01",
+                title: "推荐从「三态组装」开始",
+                reason: "先稳固形式，再进入语境与轨道。",
+                href: "game1-triple-match.html"
+              };
+
+      document.getElementById("selectedCount").textContent = selected.length;
+      document.getElementById("masteryPercent").textContent = summary.percent + "%";
+      document.getElementById("masteryFill").style.setProperty("--progress", summary.percent + "%");
+      document.getElementById("pathNumber").textContent = recommendation.number;
+      document.getElementById("pathTitle").textContent = recommendation.title;
+      document.getElementById("pathReason").textContent = recommendation.reason;
+      document.getElementById("pathLink").href = recommendation.href;
+    })();
   </script>
 </body>
 </html>

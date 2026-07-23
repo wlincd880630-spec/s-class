@@ -3,81 +3,257 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>听音辨形 · 不规则动词</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@600;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <title>听音辨形 · Verb Atlas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@600;700;800&family=Noto+Sans+SC:wght@400;500;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/verbverse.css" />
   <script src="../../scripts/auth-check.js"></script>
   <script src="../verbs-data.js"></script>
   <script src="../shared.js"></script>
   <script src="../azure-tts.js"></script>
-  <style>
-    :root{--bg:#0c1222;--surface:#151d2e;--accent:#3b82f6;--ok:#22c55e;--bad:#ef4444;--text:#f1f5f9;--muted:#94a3b8;--border:rgba(148,163,184,0.15)}
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:"Noto Sans SC","DM Sans",sans-serif;min-height:100dvh;background:var(--bg);color:var(--text);padding:1rem}
-    .toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
-    .toolbar a{color:var(--muted);text-decoration:none;font-size:0.85rem}
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.5rem;max-width:480px;margin:0 auto;text-align:center}
-    .play-btn{width:80px;height:80px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:#fff;font-size:1.8rem;margin:0.5rem auto 1rem;display:flex;align-items:center;justify-content:center}
-    .play-btn.playing{animation:pulse 1s infinite}
-    @keyframes pulse{50%{box-shadow:0 0 30px rgba(59,130,246,0.6)}}
-    .hint{font-size:0.85rem;color:var(--muted);margin-bottom:1rem}
-    .hint strong{color:#f59e0b}
-    .opts{display:grid;gap:0.5rem}
-    .opt{font-family:"DM Sans",sans-serif;font-size:1.05rem;font-weight:600;padding:0.85rem;border-radius:10px;border:2px solid var(--border);background:#1c2740;color:var(--text);cursor:pointer}
-    .opt.correct{border-color:var(--ok);background:rgba(34,197,94,0.15)}
-    .opt.wrong{border-color:var(--bad);background:rgba(239,68,68,0.15)}
-    .score{margin-top:1rem;font-size:0.85rem;color:var(--muted)}
-    .score strong{color:var(--accent)}
-  </style>
+  <script src="../assets/verbverse.js"></script>
 </head>
-<body>
-  <div class="toolbar"><a href="index.html"><i class="fas fa-arrow-left"></i> 游戏列表</a></div>
-  <div class="card">
-    <p class="hint">听发音，选出你听到的 <strong id="formLabel">过去式</strong></p>
-    <button type="button" class="play-btn" id="playBtn"><i class="fas fa-volume-high"></i></button>
-    <div class="opts" id="opts"></div>
-    <p class="score">得分 <strong id="score">0</strong> / <span id="total">10</span></p>
-  </div>
+<body class="game-page">
+  <header class="game-topbar">
+    <a class="topbar-back" href="index.html" aria-label="返回游戏大厅"><span aria-hidden="true">←</span><span>游戏大厅</span></a>
+    <div class="game-progress" aria-label="游戏进度">
+      <div class="game-progress-labels"><span>GAME 02 · 听音辨形</span><strong id="progressLabel">1 / 10</strong></div>
+      <div class="game-progress-track"><div class="game-progress-fill" id="progressFill"></div></div>
+    </div>
+    <a class="brand-lockup" href="../index.html"><span class="brand-mark">VA</span><span class="brand-copy"><strong>Verb Atlas</strong><span>Tense Observatory</span></span></a>
+  </header>
+
+  <main class="game-shell" id="gameStage" data-game-stage>
+    <div class="game-stage-head">
+      <div><p class="eyebrow">SOUND SIGNAL · 10 QUESTIONS</p><h1>听音辨形</h1></div>
+      <p>播放英式发音，从四个形式中识别声音信号。数字键 1–4 也可作答。</p>
+    </div>
+    <section class="game-panel">
+      <div class="question-meta">
+        <span class="question-index" id="questionIndex">QUESTION 01</span>
+        <span class="tense-pill" id="formLabel">过去式 · PAST</span>
+      </div>
+      <div class="listen-layout">
+        <div>
+          <div class="listen-orbit">
+            <button class="listen-button" id="playButton" type="button" aria-label="播放当前动词发音"></button>
+          </div>
+          <p class="listen-copy">可随时重播 · British English</p>
+          <p class="audio-fallback" id="audioFallback" role="status" aria-live="polite"></p>
+        </div>
+        <div>
+          <div class="choice-grid is-single-column" id="answerOptions" aria-label="发音对应的动词形式"></div>
+          <p class="game-feedback" id="gameFeedback" role="status" aria-live="polite">先听发音，再选择对应形式。</p>
+          <div class="game-action-row">
+            <button class="button button-primary" id="nextButton" type="button" hidden>下一题</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
   <script>
-  (function(){
-    var U=window.IrregularVerbsUtil,TTS=window.IrregularVerbsTTS,verbs=U.getSelectedVerbs();
-    if(!verbs.length){alert("请先选择词汇");location.href="../index.html";return;}
-    var forms=[{key:"past",label:"过去式"},{key:"pp",label:"过去分词"},{key:"base",label:"原形"}];
-    var pool=U.shuffle(verbs).slice(0,Math.min(10,verbs.length));
-    var qi=0,score=0,answered=false,currentForm,spoken;
-    document.getElementById("total").textContent=pool.length;
+    (function () {
+      "use strict";
+      var U = window.IrregularVerbsUtil;
+      var VV = window.VerbVerse;
+      var TTS = window.IrregularVerbsTTS;
+      var GAME_ID = "listen-pick";
+      var TOTAL = 10;
+      var FORM_META = {
+        base: { label: "原形 · BASE", tone: "" },
+        past: { label: "过去式 · PAST", tone: "is-past" },
+        pp: { label: "过去分词 · PARTICIPLE", tone: "is-perfect" }
+      };
+      var verbs = U.getSelectedVerbs();
+      var stage = document.getElementById("gameStage");
+      var playButton = document.getElementById("playButton");
+      var optionsBox = document.getElementById("answerOptions");
+      var nextButton = document.getElementById("nextButton");
+      var feedback = document.getElementById("gameFeedback");
+      var fallback = document.getElementById("audioFallback");
+      var questions = [];
+      var roundIndex = 0;
+      var score = 0;
+      var answered = false;
+      var mistakes = [];
 
-    function speak(){
-      var btn=document.getElementById("playBtn");btn.classList.add("playing");
-      TTS.speak(spoken,{onDone:function(){btn.classList.remove("playing");}});
-    }
+      playButton.innerHTML = VV.icon("volume");
 
-    function round(){
-      if(qi>=pool.length){alert("完成！得分 "+score+"/"+pool.length);location.href="index.html";return;}
-      answered=false;
-      var v=pool[qi];
-      currentForm=forms[Math.floor(Math.random()*forms.length)];
-      spoken=v[currentForm.key].split(/\s*\/\s*/)[0].trim();
-      if(spoken==="—"){qi++;round();return;}
-      document.getElementById("formLabel").textContent=currentForm.label;
-      var wrong=U.pickRandom(verbs.filter(function(x){return x.id!==v.id}),3).map(function(x){return x[currentForm.key].split(/\s*\/\s*/)[0].trim();});
-      var opts=U.shuffle([spoken].concat(wrong));
-      var box=document.getElementById("opts");box.innerHTML="";
-      opts.forEach(function(o){
-        var b=document.createElement("button");b.type="button";b.className="opt";b.textContent=o;
-        b.addEventListener("click",function(){
-          if(answered)return;answered=true;
-          if(o===spoken){score++;document.getElementById("score").textContent=score;b.classList.add("correct");}
-          else{b.classList.add("wrong");box.querySelectorAll(".opt").forEach(function(x){if(x.textContent===spoken)x.classList.add("correct");});}
-          setTimeout(function(){qi++;round();},1200);
+      function showEmpty() {
+        stage.innerHTML =
+          '<section class="game-empty"><p class="eyebrow">EMPTY ATLAS</p><h1>先选择练习词汇</h1>' +
+          '<p>词库为空，暂时无法生成听音题。</p><a class="button button-primary" href="../index.html#wordStudio">前往调整词库</a></section>';
+      }
+
+      function firstForm(value) {
+        return U.splitForms(value)[0] || "";
+      }
+
+      function buildCandidates() {
+        var candidates = [];
+        verbs.forEach(function (verb) {
+          ["base", "past", "pp"].forEach(function (key) {
+            var spoken = firstForm(verb[key]);
+            if (!spoken || spoken === "—") return;
+            if (verb.id === "read" && key !== "base") return;
+            candidates.push({ verb: verb, key: key, spoken: spoken });
+          });
         });
-        box.appendChild(b);
+        return candidates;
+      }
+
+      function makeOptions(question) {
+        var alternatives = VV.uniqueStrings(
+          verbs.map(function (verb) { return firstForm(verb[question.key]); })
+        ).filter(function (value) {
+          return value !== "—" && U.normalizeForm(value) !== U.normalizeForm(question.spoken);
+        });
+        return U.shuffle([question.spoken].concat(U.shuffle(alternatives).slice(0, 3)));
+      }
+
+      function speak() {
+        var question = questions[roundIndex];
+        if (!question || answered && !question.spoken) return;
+        fallback.textContent = "";
+        playButton.classList.add("is-playing");
+        playButton.setAttribute("aria-busy", "true");
+        Promise.resolve(TTS.speak(question.spoken, { slow: true }))
+          .then(function (ok) {
+            if (!ok) {
+              fallback.textContent = "音频暂不可用 · 文字重播：" + question.spoken;
+              VV.announce("文字重播：" + question.spoken);
+            }
+          })
+          .catch(function () {
+            fallback.textContent = "音频暂不可用 · 文字重播：" + question.spoken;
+            VV.announce("文字重播：" + question.spoken);
+          })
+          .finally(function () {
+            playButton.classList.remove("is-playing");
+            playButton.removeAttribute("aria-busy");
+          });
+      }
+
+      function updateProgress(completed) {
+        var current = Math.min(TOTAL, roundIndex + (completed ? 1 : 0));
+        document.getElementById("progressLabel").textContent =
+          Math.min(roundIndex + 1, TOTAL) + " / " + TOTAL;
+        document.getElementById("progressFill").style.setProperty(
+          "--progress",
+          Math.round((current / TOTAL) * 100) + "%"
+        );
+      }
+
+      function choose(button, value) {
+        if (answered) return;
+        var question = questions[roundIndex];
+        var correct = value === question.spoken;
+        answered = true;
+        Array.prototype.forEach.call(optionsBox.children, function (option) {
+          option.disabled = true;
+          if (option.dataset.value === question.spoken) option.classList.add("is-correct");
+        });
+        if (correct) {
+          score += 1;
+          feedback.className = "game-feedback is-success";
+          feedback.textContent = "声音匹配正确：" + question.spoken;
+        } else {
+          button.classList.add("is-wrong");
+          mistakes.push({
+            prompt: FORM_META[question.key].label,
+            answer: question.spoken
+          });
+          feedback.className = "game-feedback is-error";
+          feedback.textContent = "你听到的是：" + question.spoken;
+        }
+        VV.recordGameAttempt(GAME_ID, {
+          verbId: question.verb.id,
+          form: question.key,
+          correct: correct,
+          answer: value,
+          expected: question.spoken
+        });
+        nextButton.hidden = false;
+        nextButton.textContent = roundIndex === TOTAL - 1 ? "查看结算" : "下一题";
+        updateProgress(true);
+      }
+
+      function renderRound() {
+        if (roundIndex >= TOTAL) {
+          finishGame();
+          return;
+        }
+        var question = questions[roundIndex];
+        var meta = FORM_META[question.key];
+        answered = false;
+        fallback.textContent = "";
+        feedback.className = "game-feedback";
+        feedback.textContent = "先听发音，再选择对应形式。";
+        nextButton.hidden = true;
+        document.getElementById("questionIndex").textContent =
+          "QUESTION " + String(roundIndex + 1).padStart(2, "0");
+        document.getElementById("formLabel").className = "tense-pill " + meta.tone;
+        document.getElementById("formLabel").textContent = meta.label;
+        optionsBox.innerHTML = "";
+        makeOptions(question).forEach(function (option, index) {
+          var button = document.createElement("button");
+          button.type = "button";
+          button.className = "choice-button";
+          button.dataset.value = option;
+          button.textContent = String(index + 1) + " · " + option;
+          button.addEventListener("click", function () { choose(button, option); });
+          optionsBox.appendChild(button);
+        });
+        updateProgress(false);
+        window.setTimeout(speak, 320);
+      }
+
+      function finishGame() {
+        document.getElementById("progressLabel").textContent = TOTAL + " / " + TOTAL;
+        document.getElementById("progressFill").style.setProperty("--progress", "100%");
+        if (TTS && typeof TTS.stop === "function") TTS.stop();
+        VV.recordGameSession(GAME_ID, {
+          score: score,
+          total: TOTAL,
+          mistakes: mistakes.length
+        });
+        VV.showGameSettlement({
+          host: stage,
+          title: "声音轨道接通",
+          message: "十个声音信号已经完成辨认。",
+          score: score,
+          total: TOTAL,
+          mistakes: mistakes,
+          nextHref: "game3-sentence-gap.html"
+        });
+      }
+
+      if (!verbs.length) {
+        showEmpty();
+        return;
+      }
+      questions = VV.buildRounds(buildCandidates(), TOTAL);
+      if (!questions.length) {
+        showEmpty();
+        return;
+      }
+      playButton.addEventListener("click", speak);
+      nextButton.addEventListener("click", function () {
+        roundIndex += 1;
+        renderRound();
       });
-      setTimeout(speak,300);
-    }
-    document.getElementById("playBtn").addEventListener("click",speak);
-    round();
-  })();
+      document.addEventListener("keydown", function (event) {
+        if (!answered && /^[1-4]$/.test(event.key)) {
+          var option = optionsBox.children[Number(event.key) - 1];
+          if (option) option.click();
+        } else if (event.key === "Enter" && event.target === document.body && !nextButton.hidden) {
+          nextButton.click();
+        }
+      });
+      renderRound();
+    })();
   </script>
 </body>
 </html>

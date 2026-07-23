@@ -225,6 +225,183 @@
     return modal;
   }
 
+  function uniqueStrings(values) {
+    var seen = {};
+    return (Array.isArray(values) ? values : []).filter(function (value) {
+      var text = String(value === undefined || value === null ? "" : value).trim();
+      var key = text.toLocaleLowerCase("en");
+      if (!text || seen[key]) return false;
+      seen[key] = true;
+      return true;
+    });
+  }
+
+  function buildRounds(source, count) {
+    var items = Array.isArray(source) ? source.filter(Boolean) : [];
+    var target = Math.max(0, Number(count) || 0);
+    var rounds = [];
+    if (!items.length || !target) return rounds;
+    while (rounds.length < target) {
+      var batch = items.slice();
+      for (var i = batch.length - 1; i > 0; i -= 1) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = batch[i];
+        batch[i] = batch[j];
+        batch[j] = temp;
+      }
+      if (
+        rounds.length &&
+        batch.length > 1 &&
+        rounds[rounds.length - 1] === batch[0]
+      ) {
+        var swap = batch[0];
+        batch[0] = batch[1];
+        batch[1] = swap;
+      }
+      rounds = rounds.concat(batch);
+    }
+    return rounds.slice(0, target);
+  }
+
+  function getGameStore(gameId) {
+    var util = global.IrregularVerbsUtil;
+    var empty = { version: 1, attempts: [], sessions: [], updatedAt: null };
+    if (!util || typeof util.loadProgress !== "function") return empty;
+    var stored = util.loadProgress("game-" + gameId);
+    if (!stored || typeof stored !== "object") return empty;
+    if (!Array.isArray(stored.attempts)) stored.attempts = [];
+    if (!Array.isArray(stored.sessions)) stored.sessions = [];
+    return stored;
+  }
+
+  function recordGameAttempt(gameId, details) {
+    var util = global.IrregularVerbsUtil;
+    var entry = Object.assign(
+      { gameId: gameId, recordedAt: new Date().toISOString() },
+      details || {}
+    );
+    if (util && typeof util.recordAttempt === "function") {
+      return util.recordAttempt(gameId, entry);
+    }
+    if (!util || typeof util.saveProgress !== "function") return null;
+    var store = getGameStore(gameId);
+    store.attempts.push(entry);
+    store.attempts = store.attempts.slice(-80);
+    store.updatedAt = entry.recordedAt;
+    util.saveProgress("game-" + gameId, store);
+    return entry;
+  }
+
+  function recordGameSession(gameId, details) {
+    var util = global.IrregularVerbsUtil;
+    var entry = Object.assign(
+      { gameId: gameId, completedAt: new Date().toISOString() },
+      details || {}
+    );
+    if (util && typeof util.recordSession === "function") {
+      return util.recordSession(gameId, entry);
+    }
+    if (!util || typeof util.saveProgress !== "function") return null;
+    var store = getGameStore(gameId);
+    store.sessions.push(entry);
+    store.sessions = store.sessions.slice(-24);
+    store.bestScore = Math.max(Number(store.bestScore) || 0, Number(entry.score) || 0);
+    store.updatedAt = entry.completedAt;
+    util.saveProgress("game-" + gameId, store);
+    return entry;
+  }
+
+  function showGameSettlement(options) {
+    options = options || {};
+    var host =
+      options.host ||
+      document.querySelector("[data-game-stage]") ||
+      document.querySelector(".game-shell");
+    if (!host) return null;
+    var mistakes = Array.isArray(options.mistakes) ? options.mistakes : [];
+    var total = Math.max(0, Number(options.total) || 0);
+    var score = Math.max(0, Number(options.score) || 0);
+    var percent = total ? Math.round((score / total) * 100) : 0;
+    var listHtml = mistakes.length
+      ? '<div class="result-review"><h3>本轮回看</h3><ul>' +
+        mistakes
+          .map(function (item) {
+            if (typeof item === "string") {
+              return "<li>" + escapeGameHtml(item) + "</li>";
+            }
+            var prompt = item && item.prompt ? item.prompt + "：" : "";
+            var answer = item && item.answer ? item.answer : "";
+            return (
+              "<li><span>" +
+              escapeGameHtml(prompt) +
+              "</span><strong>" +
+              escapeGameHtml(answer) +
+              "</strong></li>"
+            );
+          })
+          .join("") +
+        "</ul></div>"
+      : '<p class="result-perfect">轨道清晰，没有错题。</p>';
+    host.innerHTML =
+      '<section class="game-result" tabindex="-1" aria-labelledby="gameResultTitle">' +
+      '<div class="result-orbit" aria-hidden="true"><span></span><span></span><span></span></div>' +
+      '<p class="eyebrow">ATLAS CHECKPOINT</p>' +
+      '<h1 id="gameResultTitle">' +
+      escapeGameHtml(options.title || "本轮完成") +
+      "</h1>" +
+      '<p class="result-lede">' +
+      escapeGameHtml(options.message || "三条时态轨道已经连成一张更清晰的记忆地图。") +
+      "</p>" +
+      '<div class="result-metrics">' +
+      '<div><strong>' +
+      score +
+      "/" +
+      total +
+      "</strong><span>本轮得分</span></div>" +
+      '<div><strong>' +
+      percent +
+      "%</strong><span>正确率</span></div>" +
+      '<div><strong>' +
+      mistakes.length +
+      "</strong><span>待回看</span></div>" +
+      "</div>" +
+      listHtml +
+      '<div class="result-actions">' +
+      '<button class="button button-secondary" type="button" data-result-restart>再玩一次</button>' +
+      '<a class="button button-secondary" href="' +
+      escapeGameAttribute(options.backHref || "index.html") +
+      '">返回大厅</a>' +
+      '<a class="button button-primary" href="' +
+      escapeGameAttribute(options.nextHref || "index.html") +
+      '">下一游戏' +
+      icon("arrowRight") +
+      "</a></div></section>";
+    host.querySelector("[data-result-restart]").addEventListener("click", function () {
+      if (typeof options.onRestart === "function") {
+        options.onRestart();
+      } else {
+        global.location.reload();
+      }
+    });
+    var result = host.querySelector(".game-result");
+    result.focus();
+    announce((options.title || "本轮完成") + "，得分 " + score + " / " + total);
+    return result;
+  }
+
+  function escapeGameHtml(value) {
+    return String(value === undefined || value === null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function escapeGameAttribute(value) {
+    return escapeGameHtml(value).replace(/`/g, "&#96;");
+  }
+
   global.VerbVerse = {
     icon: icon,
     announce: announce,
@@ -234,5 +411,10 @@
     pulseButton: pulseButton,
     showSettlement: showSettlement,
     closeSettlement: closeSettlement,
+    uniqueStrings: uniqueStrings,
+    buildRounds: buildRounds,
+    recordGameAttempt: recordGameAttempt,
+    recordGameSession: recordGameSession,
+    showGameSettlement: showGameSettlement,
   };
 })(typeof window !== "undefined" ? window : this);

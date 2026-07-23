@@ -3,111 +3,238 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>三态连线 · 不规则动词</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@600;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <title>三态组装 · Verb Atlas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@600;700;800&family=Noto+Sans+SC:wght@400;500;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/verbverse.css" />
   <script src="../../scripts/auth-check.js"></script>
   <script src="../verbs-data.js"></script>
   <script src="../shared.js"></script>
-  <style>
-    :root{--bg:#0c1222;--surface:#151d2e;--accent:#3b82f6;--ok:#22c55e;--bad:#ef4444;--text:#f1f5f9;--muted:#94a3b8;--border:rgba(148,163,184,0.15)}
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:"Noto Sans SC","DM Sans",sans-serif;min-height:100dvh;background:var(--bg);color:var(--text);padding:1rem}
-    .toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem}
-    .toolbar a{color:var(--muted);text-decoration:none;font-size:0.85rem}
-    .score{font-weight:700;color:var(--accent)}
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.25rem;max-width:520px;margin:0 auto}
-    .prompt{text-align:center;margin-bottom:1.25rem}
-    .prompt .label{font-size:0.75rem;color:var(--muted);margin-bottom:0.3rem}
-    .prompt .word{font-family:"DM Sans",sans-serif;font-size:2rem;font-weight:700}
-    .prompt .cn{color:#93c5fd;font-size:0.9rem;margin-top:0.25rem}
-    .q{margin-bottom:1rem}
-    .q label{display:block;font-size:0.78rem;color:var(--muted);margin-bottom:0.4rem}
-    .opts{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem}
-    .opt{font-family:"DM Sans",sans-serif;font-size:0.95rem;font-weight:600;padding:0.7rem;border-radius:10px;border:2px solid var(--border);background:#1c2740;color:var(--text);cursor:pointer;transition:all 0.15s}
-    .opt:hover{border-color:var(--accent)}
-    .opt.sel{border-color:var(--accent);background:rgba(59,130,246,0.15)}
-    .opt.correct{border-color:var(--ok);background:rgba(34,197,94,0.15)}
-    .opt.wrong{border-color:var(--bad);background:rgba(239,68,68,0.15)}
-    .btn{display:block;width:100%;margin-top:1rem;padding:0.75rem;border:none;border-radius:10px;font-family:inherit;font-size:0.95rem;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:#fff}
-    .btn:disabled{opacity:0.5;cursor:not-allowed}
-    .feedback{text-align:center;margin-top:0.75rem;font-size:0.9rem;min-height:1.4rem}
-    .feedback.ok{color:var(--ok)}.feedback.bad{color:var(--bad)}
-  </style>
+  <script src="../assets/verbverse.js"></script>
 </head>
-<body>
-  <div class="toolbar">
-    <a href="index.html"><i class="fas fa-arrow-left"></i> 游戏列表</a>
-    <span class="score">得分 <span id="score">0</span> · <span id="round">1</span>/<span id="total">10</span></span>
-  </div>
-  <div class="card">
-    <div class="prompt">
-      <div class="label">原形 Base Form</div>
-      <div class="word" id="baseWord">—</div>
-      <div class="cn" id="baseCn"></div>
+<body class="game-page">
+  <header class="game-topbar">
+    <a class="topbar-back" href="index.html" aria-label="返回游戏大厅"><span aria-hidden="true">←</span><span>游戏大厅</span></a>
+    <div class="game-progress" aria-label="游戏进度">
+      <div class="game-progress-labels"><span>GAME 01 · 三态组装</span><strong id="progressLabel">1 / 10</strong></div>
+      <div class="game-progress-track"><div class="game-progress-fill" id="progressFill"></div></div>
     </div>
-    <div class="q">
-      <label>选择正确的过去式 Past Simple</label>
-      <div class="opts" id="pastOpts"></div>
+    <a class="brand-lockup" href="../index.html"><span class="brand-mark">VA</span><span class="brand-copy"><strong>Verb Atlas</strong><span>Tense Observatory</span></span></a>
+  </header>
+
+  <main class="game-shell" id="gameStage" data-game-stage>
+    <div class="game-stage-head">
+      <div><p class="eyebrow">FORM ASSEMBLY · 10 QUESTIONS</p><h1>三态组装</h1></div>
+      <p>根据原形分别选择过去式与过去分词。每一栏只有一个正确选项。</p>
     </div>
-    <div class="q">
-      <label>选择正确的过去分词 Past Participle</label>
-      <div class="opts" id="ppOpts"></div>
-    </div>
-    <button type="button" class="btn" id="checkBtn" disabled>确认答案</button>
-    <p class="feedback" id="feedback"></p>
-  </div>
+    <section class="game-panel" aria-labelledby="baseWord">
+      <div class="question-meta">
+        <span class="question-index" id="questionIndex">QUESTION 01</span>
+        <span class="tense-pill">BASE → PAST → PARTICIPLE</span>
+      </div>
+      <h2 class="verb-prompt" id="baseWord">—</h2>
+      <p class="verb-meaning" id="baseMeaning"></p>
+      <div class="assembly-grid">
+        <section class="assembly-zone is-past" aria-labelledby="pastTitle">
+          <h2 id="pastTitle">过去式 · Past Simple</h2>
+          <div class="choice-grid" id="pastOptions"></div>
+        </section>
+        <section class="assembly-zone is-perfect" aria-labelledby="ppTitle">
+          <h2 id="ppTitle">过去分词 · Past Participle</h2>
+          <div class="choice-grid" id="ppOptions"></div>
+        </section>
+      </div>
+      <p class="game-feedback" id="gameFeedback" role="status" aria-live="polite">请在两条轨道各选择一个形式。</p>
+      <div class="game-action-row">
+        <button class="button button-primary" id="checkButton" type="button" disabled>检查组装</button>
+      </div>
+    </section>
+  </main>
+
   <script>
-  (function(){
-    var U=window.IrregularVerbsUtil, verbs=U.getSelectedVerbs();
-    if(!verbs.length){alert("请先选择词汇");location.href="../index.html";return;}
-    var pool=U.shuffle(verbs).slice(0,Math.min(10,verbs.length));
-    var round=0,score=0,pastSel=null,ppSel=null,answered=false;
-    var pastOpts=document.getElementById("pastOpts"),ppOpts=document.getElementById("ppOpts"),checkBtn=document.getElementById("checkBtn");
-    document.getElementById("total").textContent=pool.length;
+    (function () {
+      "use strict";
+      var U = window.IrregularVerbsUtil;
+      var VV = window.VerbVerse;
+      var GAME_ID = "triple-match";
+      var TOTAL = 10;
+      var verbs = U.getSelectedVerbs();
+      var stage = document.getElementById("gameStage");
+      var pastBox = document.getElementById("pastOptions");
+      var ppBox = document.getElementById("ppOptions");
+      var checkButton = document.getElementById("checkButton");
+      var feedback = document.getElementById("gameFeedback");
+      var rounds;
+      var roundIndex = 0;
+      var score = 0;
+      var selections = { past: "", pp: "" };
+      var answered = false;
+      var mistakes = [];
 
-    function makeOpts(container, correct, field, selRef){
-      container.innerHTML="";
-      var wrong=U.pickRandom(verbs.filter(function(v){return v.id!==pool[round].id}),3).map(function(v){return v[field];});
-      var opts=U.shuffle([correct].concat(wrong));
-      opts.forEach(function(o){
-        var b=document.createElement("button");b.type="button";b.className="opt";b.textContent=o;
-        b.addEventListener("click",function(){
-          if(answered)return;
-          container.querySelectorAll(".opt").forEach(function(x){x.classList.remove("sel");});
-          b.classList.add("sel");
-          if(field==="past")pastSel=o;else ppSel=o;
-          document.getElementById("checkBtn").disabled=!(pastSel&&ppSel);
+      function showEmpty() {
+        stage.innerHTML =
+          '<section class="game-empty"><p class="eyebrow">EMPTY ATLAS</p><h1>先选择练习词汇</h1>' +
+          '<p>词库为空，暂时无法生成十道组装题。</p><a class="button button-primary" href="../index.html#wordStudio">前往调整词库</a></section>';
+      }
+
+      function displayForm(verb, field) {
+        if (field === "pp" && (verb.id === "can" || verb.pp === "—")) {
+          return "无过去分词（特殊）";
+        }
+        return String(verb[field] || "").trim();
+      }
+
+      function makeOptions(field, correct) {
+        var alternatives = VV.uniqueStrings(
+          verbs.map(function (verb) { return displayForm(verb, field); })
+        ).filter(function (value) {
+          return U.normalizeForm(value) !== U.normalizeForm(correct);
         });
-        container.appendChild(b);
+        return U.shuffle([correct].concat(U.shuffle(alternatives).slice(0, 3)));
+      }
+
+      function renderOptions(container, field, options) {
+        container.innerHTML = "";
+        options.forEach(function (option) {
+          var button = document.createElement("button");
+          button.type = "button";
+          button.className = "choice-button";
+          button.textContent = option;
+          button.dataset.value = option;
+          button.setAttribute("aria-pressed", "false");
+          button.addEventListener("click", function () {
+            if (answered) return;
+            selections[field] = option;
+            Array.prototype.forEach.call(container.children, function (item) {
+              var selected = item === button;
+              item.classList.toggle("is-selected", selected);
+              item.setAttribute("aria-pressed", selected ? "true" : "false");
+            });
+            checkButton.disabled = !(selections.past && selections.pp);
+            feedback.className = "game-feedback";
+            feedback.textContent =
+              selections.past && selections.pp
+                ? "两条轨道已就位，可以检查。"
+                : "还需要选择另一条轨道。";
+          });
+          container.appendChild(button);
+        });
+      }
+
+      function updateProgress(completed) {
+        var current = Math.min(TOTAL, roundIndex + (completed ? 1 : 0));
+        document.getElementById("progressLabel").textContent =
+          Math.min(roundIndex + 1, TOTAL) + " / " + TOTAL;
+        document.getElementById("progressFill").style.setProperty(
+          "--progress",
+          Math.round((current / TOTAL) * 100) + "%"
+        );
+      }
+
+      function renderRound() {
+        if (roundIndex >= TOTAL) {
+          finishGame();
+          return;
+        }
+        var verb = rounds[roundIndex];
+        answered = false;
+        selections = { past: "", pp: "" };
+        document.getElementById("questionIndex").textContent =
+          "QUESTION " + String(roundIndex + 1).padStart(2, "0");
+        document.getElementById("baseWord").textContent = verb.base;
+        document.getElementById("baseMeaning").textContent =
+          verb.cn + (verb.id === "can" ? " · 特殊情态动词" : "");
+        renderOptions(pastBox, "past", makeOptions("past", displayForm(verb, "past")));
+        renderOptions(ppBox, "pp", makeOptions("pp", displayForm(verb, "pp")));
+        feedback.className = "game-feedback";
+        feedback.textContent =
+          verb.id === "can"
+            ? "can 没有过去分词，请选择对应的特殊说明。"
+            : "请在两条轨道各选择一个形式。";
+        checkButton.disabled = true;
+        checkButton.textContent = "检查组装";
+        updateProgress(false);
+      }
+
+      function markOptions(container, correct, selected) {
+        Array.prototype.forEach.call(container.children, function (button) {
+          button.disabled = true;
+          if (button.dataset.value === correct) button.classList.add("is-correct");
+          if (button.dataset.value === selected && selected !== correct) {
+            button.classList.add("is-wrong");
+          }
+        });
+      }
+
+      function checkAnswer() {
+        if (answered) {
+          roundIndex += 1;
+          renderRound();
+          return;
+        }
+        var verb = rounds[roundIndex];
+        var correctPast = displayForm(verb, "past");
+        var correctPp = displayForm(verb, "pp");
+        var correct = selections.past === correctPast && selections.pp === correctPp;
+        answered = true;
+        if (correct) {
+          score += 1;
+          feedback.className = "game-feedback is-success";
+          feedback.textContent = "组装正确：" + verb.base + " → " + correctPast + " → " + correctPp;
+        } else {
+          mistakes.push({
+            prompt: verb.base,
+            answer: correctPast + " / " + correctPp
+          });
+          feedback.className = "game-feedback is-error";
+          feedback.textContent = "正确轨道：" + correctPast + " / " + correctPp;
+        }
+        markOptions(pastBox, correctPast, selections.past);
+        markOptions(ppBox, correctPp, selections.pp);
+        VV.recordGameAttempt(GAME_ID, {
+          verbId: verb.id,
+          correct: correct,
+          answer: selections.past + " / " + selections.pp,
+          expected: correctPast + " / " + correctPp
+        });
+        checkButton.textContent = roundIndex === TOTAL - 1 ? "查看结算" : "下一题";
+        checkButton.disabled = false;
+        updateProgress(true);
+      }
+
+      function finishGame() {
+        document.getElementById("progressLabel").textContent = TOTAL + " / " + TOTAL;
+        document.getElementById("progressFill").style.setProperty("--progress", "100%");
+        VV.recordGameSession(GAME_ID, {
+          score: score,
+          total: TOTAL,
+          mistakes: mistakes.length
+        });
+        VV.showGameSettlement({
+          host: stage,
+          title: "组装轨道完成",
+          message: "十组动词已经完成三态校准。",
+          score: score,
+          total: TOTAL,
+          mistakes: mistakes,
+          nextHref: "game2-listen-pick.html"
+        });
+      }
+
+      if (!verbs.length) {
+        showEmpty();
+        return;
+      }
+      rounds = VV.buildRounds(verbs, TOTAL);
+      checkButton.addEventListener("click", checkAnswer);
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" && event.target === document.body && !checkButton.disabled) {
+          checkButton.click();
+        }
       });
-    }
-
-    function next(){
-      if(round>=pool.length){alert("完成！得分 "+score+"/"+pool.length);location.href="index.html";return;}
-      var v=pool[round];
-      answered=false;pastSel=null;ppSel=null;
-      document.getElementById("baseWord").textContent=v.base;
-      document.getElementById("baseCn").textContent=v.cn;
-      document.getElementById("round").textContent=round+1;
-      document.getElementById("feedback").textContent="";
-      checkBtn.disabled=true;
-      checkBtn.textContent="确认答案";
-      makeOpts(pastOpts,v.past,"past");makeOpts(ppOpts,v.pp,"pp");
-    }
-
-    checkBtn.addEventListener("click",function(){
-      if(answered){round++;next();return;}
-      answered=true;
-      var v=pool[round],ok=(pastSel===v.past&&ppSel===v.pp);
-      if(ok){score++;document.getElementById("score").textContent=score;document.getElementById("feedback").className="feedback ok";document.getElementById("feedback").textContent="✓ 完全正确！";}
-      else{document.getElementById("feedback").className="feedback bad";document.getElementById("feedback").textContent="✗ 正确答案："+v.past+" / "+v.pp;}
-      pastOpts.querySelectorAll(".opt").forEach(function(b){if(b.textContent===v.past)b.classList.add("correct");else if(b.classList.contains("sel"))b.classList.add("wrong");});
-      ppOpts.querySelectorAll(".opt").forEach(function(b){if(b.textContent===v.pp)b.classList.add("correct");else if(b.classList.contains("sel"))b.classList.add("wrong");});
-      checkBtn.textContent="下一题 →";
-    });
-    next();
-  })();
+      renderRound();
+    })();
   </script>
 </body>
 </html>
