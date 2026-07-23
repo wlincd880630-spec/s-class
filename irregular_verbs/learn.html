@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>沉浸式学习 · 不规则动词</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="../scripts/auth-check.js"></script>
+  <script src="verbs-data.js"></script>
+  <script src="shared.js"></script>
+  <script src="azure-tts.js"></script>
+  <style>
+    :root {
+      --bg: #0c1222; --surface: #151d2e; --surface2: #1c2740;
+      --accent: #3b82f6; --accent2: #8b5cf6; --gold: #f59e0b;
+      --present: #22c55e; --past: #f59e0b; --perfect: #a855f7;
+      --text: #f1f5f9; --muted: #94a3b8; --border: rgba(148,163,184,0.15);
+      --radius: 16px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Noto Sans SC", "DM Sans", sans-serif;
+      min-height: 100dvh; background: var(--bg); color: var(--text);
+      background-image: radial-gradient(ellipse 70% 40% at 50% 0%, rgba(59,130,246,0.15), transparent);
+    }
+    .toolbar {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      background: rgba(12,18,34,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .toolbar a { color: var(--muted); text-decoration: none; font-size: 0.85rem; }
+    .toolbar a:hover { color: var(--accent); }
+    .progress-bar { flex: 1; min-width: 120px; max-width: 200px; height: 6px; background: var(--surface2); border-radius: 999px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 999px; transition: width 0.3s; }
+    .progress-text { font-size: 0.78rem; color: var(--muted); min-width: 3.5rem; text-align: right; }
+    .stage { max-width: 720px; margin: 0 auto; padding: 1.25rem; }
+    .phase-label {
+      text-align: center; font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.75rem;
+    }
+    .sound-card {
+      text-align: center; padding: 2rem 1rem;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); margin-bottom: 1rem;
+    }
+    .sound-btn {
+      width: 88px; height: 88px; border-radius: 50%;
+      border: none; cursor: pointer;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff; font-size: 2rem;
+      box-shadow: 0 8px 24px rgba(59,130,246,0.4);
+      transition: transform 0.2s;
+      margin-bottom: 1rem;
+    }
+    .sound-btn:hover { transform: scale(1.05); }
+    .sound-btn.playing { animation: pulse 1s infinite; }
+    @keyframes pulse { 0%,100%{box-shadow:0 8px 24px rgba(59,130,246,0.4)} 50%{box-shadow:0 8px 40px rgba(139,92,246,0.6)} }
+    .verb-word {
+      font-family: "DM Sans", sans-serif;
+      font-size: clamp(2rem, 8vw, 3rem); font-weight: 700;
+      color: #fff; margin-bottom: 0.25rem;
+    }
+    .verb-ipa { font-size: 0.95rem; color: var(--muted); margin-bottom: 0.35rem; }
+    .verb-cn { font-size: 1rem; color: #93c5fd; }
+    .image-card {
+      position: relative; border-radius: var(--radius); overflow: hidden;
+      aspect-ratio: 16/10; margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--surface2), #243352);
+      border: 1px solid var(--border);
+    }
+    .image-card img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: opacity 0.4s;
+    }
+    .image-card .placeholder {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-size: 4rem; opacity: 0.6;
+    }
+    .image-card .placeholder span { font-size: 0.9rem; color: var(--muted); margin-top: 0.5rem; }
+    .forms-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem;
+      margin-bottom: 1.25rem;
+    }
+    .form-box {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 0.85rem 0.5rem; text-align: center;
+    }
+    .form-box .label { font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.3rem; }
+    .form-box .value { font-family: "DM Sans", sans-serif; font-size: 1rem; font-weight: 700; word-break: break-word; }
+    .form-box.base { border-color: rgba(59,130,246,0.4); }
+    .form-box.past { border-color: rgba(245,158,11,0.4); }
+    .form-box.pp { border-color: rgba(168,85,247,0.4); }
+    .examples { display: flex; flex-direction: column; gap: 1rem; }
+    .ex-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+    }
+    .ex-card.present { border-left: 4px solid var(--present); }
+    .ex-card.past { border-left: 4px solid var(--past); }
+    .ex-card.perfect { border-left: 4px solid var(--perfect); }
+    .ex-img {
+      aspect-ratio: 16/9; background: var(--surface2);
+      position: relative; overflow: hidden;
+    }
+    .ex-img img { width: 100%; height: 100%; object-fit: cover; }
+    .ex-img .ph {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem; opacity: 0.5;
+    }
+    .ex-body { padding: 1rem; }
+    .ex-tag {
+      display: inline-block; font-size: 0.68rem; font-weight: 700;
+      padding: 0.2rem 0.5rem; border-radius: 4px; margin-bottom: 0.5rem;
+    }
+    .ex-card.present .ex-tag { background: rgba(34,197,94,0.15); color: var(--present); }
+    .ex-card.past .ex-tag { background: rgba(245,158,11,0.15); color: var(--past); }
+    .ex-card.perfect .ex-tag { background: rgba(168,85,247,0.15); color: var(--perfect); }
+    .ex-en {
+      font-family: "DM Sans", sans-serif; font-size: 1.05rem; line-height: 1.55;
+      margin-bottom: 0.4rem;
+    }
+    .ex-en mark { background: rgba(59,130,246,0.25); color: #93c5fd; padding: 0 0.15rem; border-radius: 3px; }
+    .ex-cn { font-size: 0.88rem; color: var(--muted); margin-bottom: 0.6rem; }
+    .ex-play {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      font-size: 0.8rem; font-weight: 600; color: var(--accent);
+      background: rgba(59,130,246,0.1); border: none; border-radius: 6px;
+      padding: 0.35rem 0.7rem; cursor: pointer;
+    }
+    .nav-row {
+      display: flex; justify-content: space-between; gap: 0.75rem;
+      margin-top: 1.5rem; padding-bottom: 2rem;
+    }
+    .nav-btn {
+      flex: 1; font-family: inherit; font-size: 0.9rem; font-weight: 600;
+      padding: 0.75rem 1rem; border-radius: 10px; border: 1px solid var(--border);
+      background: var(--surface); color: var(--text); cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+    }
+    .nav-btn.primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); border: none; color: #fff; }
+    .nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .hidden { display: none !important; }
+    .reveal { animation: fadeUp 0.5s ease; }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+    .step-dots { display: flex; justify-content: center; gap: 0.4rem; margin-bottom: 1rem; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--surface2); transition: background 0.3s; }
+    .dot.active { background: var(--accent); width: 24px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <a href="index.html"><i class="fas fa-arrow-left"></i> 返回</a>
+    <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
+    <span class="progress-text" id="progText">0/0</span>
+  </div>
+
+  <main class="stage" id="mainStage">
+    <div class="step-dots" id="stepDots">
+      <div class="dot active" data-step="0"></div>
+      <div class="dot" data-step="1"></div>
+      <div class="dot" data-step="2"></div>
+      <div class="dot" data-step="3"></div>
+    </div>
+
+    <!-- Step 0: Sound first -->
+    <section id="stepSound">
+      <p class="phase-label">Step 1 · 声音先行</p>
+      <div class="sound-card">
+        <button type="button" class="sound-btn" id="playVerb" aria-label="播放发音"><i class="fas fa-volume-high"></i></button>
+        <div class="verb-word" id="verbBase">—</div>
+        <div class="verb-ipa" id="verbIpa"></div>
+        <div class="verb-cn" id="verbCn"></div>
+      </div>
+      <div class="nav-row">
+        <button type="button" class="nav-btn" id="prevBtn" disabled><i class="fas fa-chevron-left"></i> 上一个</button>
+        <button type="button" class="nav-btn primary" id="toImage">看图意 <i class="fas fa-arrow-right"></i></button>
+      </div>
+    </section>
+
+    <!-- Step 1: Image -->
+    <section id="stepImage" class="hidden">
+      <p class="phase-label">Step 2 · 图意先行</p>
+      <div class="image-card" id="verbImageCard">
+        <img id="verbImg" alt="" style="opacity:0" />
+        <div class="placeholder" id="verbPlaceholder"><span id="verbEmoji">📖</span><span>动词场景图</span></div>
+      </div>
+      <div class="nav-row">
+        <button type="button" class="nav-btn" id="backSound"><i class="fas fa-chevron-left"></i> 重听</button>
+        <button type="button" class="nav-btn primary" id="toForms">学三态 <i class="fas fa-arrow-right"></i></button>
+      </div>
+    </section>
+
+    <!-- Step 2: Three forms -->
+    <section id="stepForms" class="hidden">
+      <p class="phase-label">Step 3 · 三态变化</p>
+      <div class="forms-grid">
+        <div class="form-box base"><div class="label">原形 Base</div><div class="value" id="fBase">—</div></div>
+        <div class="form-box past"><div class="label">过去式 Past</div><div class="value" id="fPast">—</div></div>
+        <div class="form-box pp"><div class="label">过去分词 PP</div><div class="value" id="fPp">—</div></div>
+      </div>
+      <div class="nav-row">
+        <button type="button" class="nav-btn" id="backImage"><i class="fas fa-chevron-left"></i> 返回</button>
+        <button type="button" class="nav-btn primary" id="toExamples">看例句 <i class="fas fa-arrow-right"></i></button>
+      </div>
+    </section>
+
+    <!-- Step 3: Examples -->
+    <section id="stepExamples" class="hidden">
+      <p class="phase-label">Step 4 · 三时态例句</p>
+      <div class="examples" id="examplesBox"></div>
+      <div class="nav-row">
+        <button type="button" class="nav-btn" id="backForms"><i class="fas fa-chevron-left"></i> 返回</button>
+        <button type="button" class="nav-btn primary" id="nextVerb">下一个动词 <i class="fas fa-chevron-right"></i></button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      var U = window.IrregularVerbsUtil;
+      var TTS = window.IrregularVerbsTTS;
+      var verbs = U.getSelectedVerbs();
+      if (!verbs.length) { alert("请先在首页选择词汇"); location.href = "index.html"; return; }
+
+      var idx = 0;
+      var step = 0;
+      var EMOJI = {be:"🧍",beat:"🥁",become:"🦋",begin:"🚀",break:"💔",bring:"🎁",build:"🏗️",buy:"🛒",can:"💪",catch:"🤲",choose:"✅",come:"👋",cost:"💰",cut:"✂️",do:"✍️",draw:"🎨",drink:"🥤",drive:"🚗",eat:"🍽️",fall:"🍂",feel:"💭",fight:"🥊",find:"🔍",fly:"✈️",forget:"🤔",get:"🎯",give:"🤝",go:"🚶",grow:"🌱",hang:"🖼️",have:"📚",hear:"👂",hit:"⚾",hurt:"🩹",hold:"🤲",keep:"🔒",know:"💡",lead:"🧭",leave:"🚪",lend:"📖",let:"🚦",lie:"🛏️",light:"💡",lose:"😢",make:"🔨",mean:"📖",meet:"👥",pay:"💳",put:"📦",read:"📕",ride:"🚲",ring:"🔔",rise:"🌅",run:"🏃",say:"💬",see:"👁️",sell:"🏪",send:"✉️",set:"⏰",shoot:"📷",show:"🎬",sing:"🎤",sit:"🪑",sleep:"😴",speak:"🗣️",spend:"⏳",stand:"🧍‍♂️",steal:"🚫",strike:"⚡",swim:"🏊",take:"🤏",teach:"👩‍🏫",tell:"📢",think:"🧠",throw:"🎯",understand:"🤓",wake:"⏰",wear:"👕",win:"🏆",write:"✏️"};
+
+      var steps = ["stepSound","stepImage","stepForms","stepExamples"];
+      var progFill = document.getElementById("progFill");
+      var progText = document.getElementById("progText");
+
+      function v() { return verbs[idx]; }
+
+      function setStep(s) {
+        step = s;
+        steps.forEach(function (id, i) {
+          document.getElementById(id).classList.toggle("hidden", i !== s);
+        });
+        document.querySelectorAll(".dot").forEach(function (d, i) {
+          d.classList.toggle("active", i === s);
+        });
+        if (s === 0) autoPlayVerb();
+      }
+
+      function updateProgress() {
+        var pct = ((idx + (step + 1) / 4) / verbs.length) * 100;
+        progFill.style.width = pct + "%";
+        progText.textContent = (idx + 1) + "/" + verbs.length;
+      }
+
+      function loadImg(imgEl, src, phEl, localId) {
+        if (!src && !localId) { if (phEl) phEl.style.display = "flex"; imgEl.style.opacity = "0"; return; }
+        imgEl.onload = function () { imgEl.style.opacity = "1"; if (phEl) phEl.style.display = "none"; };
+        imgEl.onerror = function () {
+          if (localId && !imgEl.dataset.triedLocal) {
+            imgEl.dataset.triedLocal = "1";
+            imgEl.src = "images/" + localId + ".png";
+            return;
+          }
+          imgEl.style.opacity = "0"; if (phEl) phEl.style.display = "flex";
+        };
+        imgEl.src = src || ("images/" + localId + ".png");
+      }
+
+      function renderVerb() {
+        var verb = v();
+        document.getElementById("verbBase").textContent = verb.base;
+        document.getElementById("verbIpa").textContent = verb.ipa + (verb.ipa_note ? "  " + verb.ipa_note : "");
+        document.getElementById("verbCn").textContent = verb.cn;
+        document.getElementById("fBase").textContent = verb.base;
+        document.getElementById("fPast").textContent = verb.past;
+        document.getElementById("fPp").textContent = verb.pp;
+        document.getElementById("verbEmoji").textContent = EMOJI[verb.id] || "📖";
+        loadImg(document.getElementById("verbImg"), verb.images.verb, document.getElementById("verbPlaceholder"), verb.id);
+        renderExamples(verb);
+        document.getElementById("prevBtn").disabled = idx === 0;
+        updateProgress();
+      }
+
+      function renderExamples(verb) {
+        var box = document.getElementById("examplesBox");
+        box.innerHTML = "";
+        ["present","past","perfect"].forEach(function (key) {
+          var ex = verb.examples[key];
+          var formMap = { present: verb.base, past: verb.past, perfect: "have/has " + verb.pp };
+          var card = document.createElement("div");
+          card.className = "ex-card " + key + " reveal";
+          var imgSrc = verb.images[key];
+          card.innerHTML =
+            '<div class="ex-img"><img alt="" /><div class="ph">' + (EMOJI[verb.id] || "📖") + '</div></div>' +
+            '<div class="ex-body">' +
+            '<span class="ex-tag">' + ex.tense + ' · ' + ex.level + '</span>' +
+            '<p class="ex-en">' + U.highlightVerb(ex.en, formMap[key]) + '</p>' +
+            '<p class="ex-cn">' + ex.cn + '</p>' +
+            '<button type="button" class="ex-play"><i class="fas fa-volume-high"></i> 朗读例句</button>' +
+            '</div>';
+          var img = card.querySelector(".ex-img img");
+          var ph = card.querySelector(".ex-img .ph");
+          loadImg(img, imgSrc, ph, verb.id + "_" + key);
+          card.querySelector(".ex-play").addEventListener("click", function () {
+            TTS.speak(ex.en);
+          });
+          box.appendChild(card);
+        });
+      }
+
+      function autoPlayVerb() {
+        var btn = document.getElementById("playVerb");
+        btn.classList.add("playing");
+        TTS.speak(v().base, { onDone: function () { btn.classList.remove("playing"); } });
+      }
+
+      document.getElementById("playVerb").addEventListener("click", autoPlayVerb);
+      document.getElementById("toImage").addEventListener("click", function () { setStep(1); });
+      document.getElementById("backSound").addEventListener("click", function () { setStep(0); });
+      document.getElementById("toForms").addEventListener("click", function () { setStep(2); });
+      document.getElementById("backImage").addEventListener("click", function () { setStep(1); });
+      document.getElementById("toExamples").addEventListener("click", function () { setStep(3); });
+      document.getElementById("backForms").addEventListener("click", function () { setStep(2); });
+
+      document.getElementById("prevBtn").addEventListener("click", function () {
+        if (idx > 0) { idx--; setStep(0); renderVerb(); }
+      });
+      document.getElementById("nextVerb").addEventListener("click", function () {
+        if (idx < verbs.length - 1) { idx++; setStep(0); renderVerb(); }
+        else { alert("恭喜！已学完所选 " + verbs.length + " 个动词。去游戏复习吧！"); location.href = "games/index.html"; }
+      });
+
+      renderVerb();
+      setTimeout(autoPlayVerb, 400);
+    })();
+  </script>
+</body>
+</html>
