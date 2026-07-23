@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>单词抄写作业 · What are reptiles?</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/reptile-course.css">
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Noto+Sans+SC:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="audio/audio-manifest.js"></script>
+  <script src="audio/local-audio.js"></script>
+  <script src="../../assets/ng-azure-tts-enhance.js"></script>
+  <script>NgAzureTTS.enhance("LocalAudio");</script>
+</head>
+<body>
+  <header class="top-bar no-print">
+    <a class="back-link" href="../index.html"><i class="fa-solid fa-house"></i> 课程首页</a>
+    <h1><i class="fa-solid fa-pen-fancy"></i> 单词抄写作业 · BBC 爬行动物</h1>
+  </header>
+
+  <div style="max-width:900px;margin:0 auto;padding:1rem;">
+    <div class="card no-print">
+      <div class="control-row">
+        <label for="rangeSelect"><i class="fa-solid fa-book"></i> 选择范围：</label>
+        <select id="rangeSelect">
+          <option value="all">全部 46 词</option>
+          <option value="1">第 1–12 词（基础）</option>
+          <option value="2">第 13–24 词（动物类型）</option>
+          <option value="3">第 25–36 词（习性）</option>
+          <option value="4">第 37–46 词（拓展）</option>
+        </select>
+      </div>
+      <div class="copy-legend">
+        <span><i class="dot trace"></i> 描红 ×3（浅蓝底字）</span>
+        <span><i class="dot write"></i> 独立书写 ×3（空白四线格）</span>
+      </div>
+      <p style="margin-top:8px;font-size:0.88rem;color:var(--muted);">
+        参照外研版抄写页设计：打印或导出 PDF 后学生在纸上书写。屏幕可点 🔊 听 Azure 发音。
+        导出时缩放 <strong>100%</strong>、页边距 <strong>无</strong>。
+      </p>
+      <div style="margin-top:0.65rem;">
+        <button type="button" class="btn btn-primary" id="btnPrint"><i class="fa-solid fa-print"></i> 打印 / 导出 PDF</button>
+      </div>
+    </div>
+
+    <div class="card copy-card" id="workbookCard">
+      <div class="copy-workbook" id="copyWorkbook"></div>
+    </div>
+  </div>
+
+  <script src="assets/data/words-data.js"></script>
+  <script src="assets/js/utils.js"></script>
+  <script>
+    const copyWorkbook = document.getElementById('copyWorkbook');
+    const ranges = {
+      all: [0, 46],
+      1: [0, 12],
+      2: [12, 24],
+      3: [24, 36],
+      4: [36, 46]
+    };
+
+    function render(rangeKey) {
+      const [start, end] = ranges[rangeKey];
+      const slice = REPTILE_COURSE.words.slice(start, end);
+      copyWorkbook.innerHTML = '';
+      const header = document.createElement('div');
+      header.className = 'copy-unit-header';
+      header.innerHTML = `<h2>What are reptiles? · 单词抄写作业 · 第 ${start + 1}–${end} 词</h2>`;
+      copyWorkbook.appendChild(header);
+      slice.forEach(w => buildCopySheet(w, copyWorkbook));
+    }
+
+    document.getElementById('rangeSelect').onchange = e => render(e.target.value);
+    document.getElementById('btnPrint').onclick = () => {
+      document.body.classList.add('copy-print-body');
+      window.print();
+    };
+    window.addEventListener('afterprint', () => document.body.classList.remove('copy-print-body'));
+
+    render('all');
+  </script>
+</body>
+</html>
