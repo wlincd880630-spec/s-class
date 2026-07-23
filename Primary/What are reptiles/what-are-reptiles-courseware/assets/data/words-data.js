@@ -7,6 +7,7 @@ const REPTILE_COURSE = {
   titleZh: "什么是爬行动物",
   source: "BBC Bitesize KS1 Science",
   accent: "#2e7d32",
+  imgBase: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/What%20are%20reptiles/what-are-reptiles-courseware/images/words/",
   bbcImages: {
     hero: "https://ichef.bbci.co.uk/images/ic/1200xn/p0jqtwdd.png",
     snake: "images/words/snake.png",
@@ -182,17 +183,9 @@ const REPTILE_COURSE = {
 };
 
 function getReptileWordImage(w) {
-  if (!w) return REPTILE_COURSE.bbcImages.hero;
-  var key = w.image;
-  if (key && REPTILE_COURSE.bbcImages[key]) {
-    var src = REPTILE_COURSE.bbcImages[key];
-    if (src.indexOf('http') !== 0 && typeof location !== 'undefined') {
-      var base = location.pathname.replace(/[^/]+$/, '');
-      return base + src;
-    }
-    return src;
-  }
-  return REPTILE_COURSE.bbcImages.hero;
+  if (!w || !w.word) return REPTILE_COURSE.imgBase + "reptile.png";
+  var slug = w.word.toLowerCase().replace(/ /g, "-");
+  return REPTILE_COURSE.imgBase + slug + ".png";
 }
 
 function getReptileWordById(id) {

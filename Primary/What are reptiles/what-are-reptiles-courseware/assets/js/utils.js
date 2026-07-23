@@ -87,7 +87,6 @@ function renderPhonemeBoxes(container, w) {
       const show = !box.classList.contains('show-letter');
       box.textContent = show ? ph.letter : (isSilent ? '—' : ph.symbol);
       box.classList.toggle('show-letter', show);
-      if (!isSilent) speakText(ph.letter.length === 1 ? w.word : ph.letter);
     });
     container.appendChild(box);
   });
