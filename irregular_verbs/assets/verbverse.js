@@ -4,6 +4,20 @@
 (function (global) {
   "use strict";
 
+  if (global.document && !global.document.querySelector('link[rel~="icon"]')) {
+    var favicon = global.document.createElement("link");
+    favicon.rel = "icon";
+    favicon.href =
+      "data:image/svg+xml," +
+      encodeURIComponent(
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">' +
+          '<rect width="64" height="64" rx="20" fill="#0a1f3b"/>' +
+          '<text x="32" y="41" text-anchor="middle" font-family="Arial,sans-serif" font-size="25" font-weight="700" fill="white">VA</text>' +
+        "</svg>"
+      );
+    global.document.head.appendChild(favicon);
+  }
+
   var toastTimer = null;
   var settlementEscapeHandler = null;
   var iconPaths = {
