@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>单词学习 · What are reptiles?</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/reptile-course.css">
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Noto+Sans+SC:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="audio/audio-manifest.js"></script>
+  <script src="audio/local-audio.js"></script>
+  <script src="../../assets/ng-azure-tts-enhance.js"></script>
+  <script>NgAzureTTS.enhance("LocalAudio");</script>
+</head>
+<body class="tv-layout">
+  <div class="tv-frame">
+    <header class="top-bar">
+      <a class="back-link" href="../index.html"><i class="fa-solid fa-house"></i> 课程首页</a>
+      <h1><i class="fa-solid fa-book-open"></i> 单词学习 · 一词一页 · BBC 爬行动物</h1>
+      <a class="back-link" href="index.html">互动课件</a>
+    </header>
+    <div class="tv-inner">
+      <div class="card no-print">
+        <div class="control-row">
+          <label for="wordSelect"><i class="fa-solid fa-list"></i> 选择单词：</label>
+          <select id="wordSelect"></select>
+          <span id="wordCounter" style="font-size:0.85rem;color:var(--muted);font-weight:600;"></span>
+        </div>
+        <div id="wordTabs" class="word-tabs"></div>
+      </div>
+
+      <div class="card word-display" id="wordPanel">
+        <div class="word-media">
+          <img id="wordImg" class="word-image" src="" alt="">
+          <p id="wordEmoji" style="text-align:center;font-size:2rem;margin-top:0.25rem;"></p>
+        </div>
+        <div class="word-info">
+          <p class="word-big" id="wordText"></p>
+          <div id="phonemeBoxes" class="phoneme-boxes"></div>
+          <div class="action-row">
+            <button class="btn btn-primary" id="btnSpeak"><i class="fa-solid fa-volume-high"></i> Azure 朗读</button>
+            <button class="btn btn-secondary" id="btnSlow"><i class="fa-solid fa-turtle"></i> 慢速</button>
+          </div>
+          <div class="chinese-hidden" id="chineseHint">👆 点击显示中文意思</div>
+          <p id="wordChinese" class="sentence-zh" style="display:none;font-size:1.15rem;font-weight:700;color:var(--accent-dark);"></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-bottom:0.5rem;font-size:1rem;color:var(--accent-dark);"><i class="fa-solid fa-comment-dots"></i> 例句</h3>
+        <div id="sentences"></div>
+      </div>
+
+      <div class="nav-word-row no-print">
+        <button class="btn btn-secondary" id="btnPrev"><i class="fa-solid fa-chevron-left"></i> 上一个</button>
+        <button class="btn btn-primary" id="btnNext">下一个 <i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/data/words-data.js"></script>
+  <script src="assets/js/utils.js"></script>
+  <script>
+    const words = REPTILE_COURSE.words;
+    let currentIdx = 0;
+    const wordSelect = document.getElementById('wordSelect');
+    const wordTabs = document.getElementById('wordTabs');
+
+    words.forEach((w, i) => {
+      const opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = `${i + 1}. ${w.word} · ${w.chinese}`;
+      wordSelect.appendChild(opt);
+      const tab = document.createElement('button');
+      tab.type = 'button';
+      tab.className = 'word-tab' + (i === 0 ? ' active' : '');
+      tab.textContent = w.word;
+      tab.addEventListener('click', () => switchWord(i));
+      wordTabs.appendChild(tab);
+    });
+
+    function switchWord(idx) {
+      currentIdx = idx;
+      const w = words[idx];
+      document.getElementById('wordCounter').textContent = `第 ${idx + 1} / ${words.length} 词`;
+      wordSelect.value = idx;
+      wordTabs.querySelectorAll('.word-tab').forEach((t, i) => t.classList.toggle('active', i === idx));
+      document.getElementById('wordImg').src = getReptileWordImage(w);
+      document.getElementById('wordImg').alt = w.word;
+      document.getElementById('wordEmoji').textContent = w.emoji || '';
+      document.getElementById('wordText').textContent = w.word;
+      renderPhonemeBoxes(document.getElementById('phonemeBoxes'), w);
+      const zhEl = document.getElementById('wordChinese');
+      const hint = document.getElementById('chineseHint');
+      zhEl.style.display = 'none';
+      zhEl.textContent = w.chinese;
+      hint.style.display = 'block';
+      hint.onclick = () => { hint.style.display = 'none'; zhEl.style.display = 'block'; };
+      const sentBox = document.getElementById('sentences');
+      sentBox.innerHTML = '';
+      (w.sentences || []).forEach(s => {
+        const card = document.createElement('div');
+        card.className = 'sentence-card';
+        card.innerHTML = `<div class="sentence-en">${s.en} <button type="button" class="btn btn-outline" style="padding:0.2rem 0.5rem;min-height:auto;font-size:0.75rem;margin-left:0.35rem;">🔊</button></div>
+          <div class="sentence-zh-sm">${s.zh}</div>`;
+        card.querySelector('button').addEventListener('click', () => speakText(s.en));
+        sentBox.appendChild(card);
+      });
+      speakText(w.word);
+    }
+
+    document.getElementById('btnSpeak').onclick = () => speakText(words[currentIdx].word);
+    document.getElementById('btnSlow').onclick = () => speakText(words[currentIdx].word);
+    document.getElementById('btnPrev').onclick = () => { if (currentIdx > 0) switchWord(currentIdx - 1); };
+    document.getElementById('btnNext').onclick = () => { if (currentIdx < words.length - 1) switchWord(currentIdx + 1); };
+    wordSelect.onchange = () => switchWord(Number(wordSelect.value));
+
+    switchWord(0);
+  </script>
+</body>
+</html>

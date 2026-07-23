@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>互动活动 · What are reptiles?</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/reptile-course.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="audio/audio-manifest.js"></script>
+  <script src="audio/local-audio.js"></script>
+  <script src="../../assets/ng-azure-tts-enhance.js"></script>
+  <script>NgAzureTTS.enhance("LocalAudio");</script>
+  <style>
+    .act-nav { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.65rem; }
+    .act-nav button { flex: 1; min-width: 7rem; }
+    .act-panel { display: none; }
+    .act-panel.on { display: block; }
+    .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; }
+    .video-card { background: #f5f5f5; border-radius: 12px; overflow: hidden; border: 2px solid #c8e6c9; }
+    .video-card iframe { width: 100%; aspect-ratio: 16/9; border: 0; }
+    .video-card h4 { padding: 0.45rem 0.6rem; font-size: 0.88rem; background: #e8f5e9; }
+    .video-card p { padding: 0 0.6rem 0.5rem; font-size: 0.78rem; color: var(--muted); }
+    .find-scene {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      background: url('https://ichef.bbci.co.uk/images/ic/1200xn/p0jqtwdd.png') center/cover;
+      min-height: min(32vh, 260px);
+    }
+    .find-hotspot {
+      position: absolute;
+      width: 14%;
+      height: 18%;
+      border: 3px dashed rgba(255,255,255,.7);
+      border-radius: 12px;
+      cursor: pointer;
+      transform: translate(-50%, -50%);
+      transition: border-color .2s, background .2s;
+    }
+    .find-hotspot:hover { border-color: #ffeb3b; background: rgba(255,235,59,.2); }
+    .find-hotspot.found { border-color: #4caf50; background: rgba(76,175,80,.35); pointer-events: none; }
+    .find-hotspot.wrong { animation: shake .4s; border-color: #f44336; }
+    @keyframes shake { 25% { transform: translate(-52%,-50%); } 75% { transform: translate(-48%,-50%); } }
+    .quiz-opt {
+      display: block; width: 100%; text-align: left;
+      padding: 0.65rem 0.85rem; margin-bottom: 0.4rem;
+      border-radius: 12px; border: 2px solid #c8e6c9;
+      background: #fff; font-size: 0.95rem; cursor: pointer;
+    }
+    .quiz-opt.correct { border-color: #4caf50; background: #e8f5e9; }
+    .quiz-opt.wrong { border-color: #ef5350; background: #ffebee; }
+    .sort-zones { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.45rem; }
+    .sort-zone {
+      min-height: 5rem; border: 2px dashed var(--accent-light);
+      border-radius: 12px; padding: 0.35rem; background: #f9fbe7;
+      font-size: 0.72rem; font-weight: 700; text-align: center;
+    }
+    .sort-zone h5 { margin-bottom: 0.35rem; color: var(--accent-dark); }
+    .sort-pool { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.5rem 0; }
+    .sort-chip {
+      padding: 0.4rem 0.65rem; border-radius: 999px;
+      background: var(--accent); color: #fff; font-weight: 700;
+      font-size: 0.82rem; cursor: grab; touch-action: none;
+    }
+    .sort-chip.placed { opacity: 0.5; }
+    .fact-list { list-style: none; }
+    .fact-list li {
+      padding: 0.45rem 0.65rem; margin-bottom: 0.35rem;
+      background: #f1f8e9; border-radius: 10px; border-left: 4px solid var(--accent);
+      font-size: 0.9rem;
+    }
+    .score-badge {
+      display: inline-block; padding: 0.35rem 0.75rem;
+      background: #fff9c4; border-radius: 999px; font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    @media (max-width: 820px) {
+      .video-grid, .sort-zones { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body class="tv-layout">
+  <div class="tv-frame">
+    <header class="top-bar">
+      <a class="back-link" href="../index.html"><i class="fa-solid fa-house"></i> 首页</a>
+      <h1><i class="fa-solid fa-gamepad"></i> BBC 互动活动 · 视频 · 测验</h1>
+      <a class="back-link" href="index.html">课件</a>
+    </header>
+    <div class="tv-inner">
+      <div class="act-nav no-print">
+        <button class="btn btn-primary act-tab" data-act="videos">📺 视频</button>
+        <button class="btn btn-secondary act-tab" data-act="facts">📖 科学知识</button>
+        <button class="btn btn-secondary act-tab" data-act="find">🔍 找爬行动物</button>
+        <button class="btn btn-secondary act-tab" data-act="quiz">❓ 测验</button>
+        <button class="btn btn-secondary act-tab" data-act="sort">📂 分类</button>
+      </div>
+
+      <!-- 视频 -->
+      <div id="act-videos" class="act-panel on">
+        <div class="card">
+          <h3 style="color:var(--accent-dark);margin-bottom:0.5rem;">Watch: BBC Bitesize 教学视频</h3>
+          <div class="video-grid" id="videoGrid"></div>
+          <p style="margin-top:0.5rem;font-size:0.82rem;color:var(--muted);">
+            视频来源：BBC Bitesize KS1 Science · 若无法播放请点击下方链接在 BBC 官网观看。
+          </p>
+        </div>
+      </div>
+
+      <!-- 科学知识 -->
+      <div id="act-facts" class="act-panel">
+        <div class="card">
+          <h3 style="color:var(--accent-dark);margin-bottom:0.5rem;">Fascinating facts about reptiles</h3>
+          <ul class="fact-list" id="factList"></ul>
+        </div>
+        <div class="card">
+          <h3 style="color:var(--accent-dark);margin-bottom:0.5rem;">Important words · 重要词汇</h3>
+          <div id="glossary"></div>
+        </div>
+      </div>
+
+      <!-- Activity 1: Find reptiles -->
+      <div id="act-find" class="act-panel">
+        <div class="card">
+          <span class="score-badge" id="findScore">找到 0 / 5 只爬行动物</span>
+          <p style="margin-bottom:0.5rem;">Activity 1 — 点击图中的<strong>爬行动物</strong>（不要点哺乳动物或鸟类！）</p>
+          <div class="find-scene" id="findScene"></div>
+          <p id="findMsg" style="margin-top:0.5rem;font-weight:600;color:var(--accent-dark);"></p>
+        </div>
+      </div>
+
+      <!-- Activity 2: Quiz -->
+      <div id="act-quiz" class="act-panel">
+        <div class="card">
+          <span class="score-badge" id="quizScore">得分：0</span>
+          <p id="quizQ" style="font-size:1.05rem;font-weight:700;margin-bottom:0.65rem;"></p>
+          <div id="quizOpts"></div>
+          <button class="btn btn-primary" id="quizNext" style="margin-top:0.5rem;display:none;">下一题</button>
+        </div>
+      </div>
+
+      <!-- Activity 3: Sort -->
+      <div id="act-sort" class="act-panel">
+        <div class="card">
+          <p style="margin-bottom:0.5rem;">Activity 3 — 把动物拖到正确的类别（参照 BBC 活动表）</p>
+          <div class="sort-pool" id="sortPool"></div>
+          <div class="sort-zones" id="sortZones"></div>
+          <button class="btn btn-primary" id="sortCheck" style="margin-top:0.65rem;">检查答案</button>
+          <p id="sortMsg" style="margin-top:0.5rem;font-weight:600;"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/data/words-data.js"></script>
+  <script src="assets/js/utils.js"></script>
+  <script>
+    // Tab navigation
+    document.querySelectorAll('.act-tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.act-tab').forEach(b => {
+          b.classList.toggle('btn-primary', b === btn);
+          b.classList.toggle('btn-secondary', b !== btn);
+        });
+        document.querySelectorAll('.act-panel').forEach(p => p.classList.remove('on'));
+        document.getElementById('act-' + btn.dataset.act).classList.add('on');
+      });
+    });
+
+    // Videos
+    const vg = document.getElementById('videoGrid');
+    REPTILE_COURSE.videos.forEach(v => {
+      const card = document.createElement('div');
+      card.className = 'video-card';
+      card.innerHTML = `
+        <iframe src="${v.embed}" title="${v.title}" allowfullscreen loading="lazy"
+          allow="autoplay; encrypted-media"></iframe>
+        <h4>${v.titleZh} · ${v.title}</h4>
+        <p>${v.desc}</p>
+        <p style="padding:0 0.6rem 0.5rem;"><a href="${v.page}" target="_blank" rel="noopener">在 BBC 官网打开 ↗</a></p>`;
+      vg.appendChild(card);
+    });
+
+    // Facts from BBC
+    const facts = [
+      'Some reptiles live on land, while others like crocodiles spend much of their time in the water. 有些生活在陆地，有些如鳄鱼大部分时间在水里。',
+      'All reptiles have lungs and need air to breathe. 所有爬行动物都有肺，需要空气呼吸。',
+      'Reptiles are vertebrates — they have a backbone. 爬行动物是脊椎动物，有脊柱。',
+      'Most reptiles have four legs, but snakes have no legs at all. 大多数有四条腿，但蛇没有腿。',
+      'Most reptiles are covered in dry, scaly skin. 大多数身上有干燥、有鳞片的皮肤。',
+      'Reptiles are cold-blooded (ectothermic). 爬行动物是冷血/变温动物。',
+      'Most reptiles lay eggs, but some skinks give birth to live young. 大多数产卵，有些石龙子胎生。',
+      'Most reptiles are carnivores. Turtles and tortoises are mostly herbivores. 大多数吃肉，龟类大多吃植物。'
+    ];
+    facts.forEach(f => {
+      const li = document.createElement('li');
+      li.textContent = f;
+      li.addEventListener('click', () => speakText(f.split('.')[0]));
+      document.getElementById('factList').appendChild(li);
+    });
+
+    const glossary = [
+      ['Carnivores', '食肉动物', 'Most reptiles are carnivores.'],
+      ['Cold-blooded', '冷血动物', 'All reptiles are cold-blooded.'],
+      ['Exoskeleton', '外骨骼', 'The tortoise shell is an exoskeleton.'],
+      ['Herbivores', '食草动物', 'Turtles are herbivorous reptiles.'],
+      ['Predators', '捕食者', 'Adders hunt small mammals.'],
+      ['Scales', '鳞片', 'Most reptiles have scales.'],
+      ['Tuatara', '喙头蜥', 'Found only in New Zealand.'],
+      ['Vertebrate', '脊椎动物', 'All reptiles are vertebrates.']
+    ];
+    const gl = document.getElementById('glossary');
+    glossary.forEach(([en, zh, ex]) => {
+      const d = document.createElement('div');
+      d.className = 'sentence-card';
+      d.innerHTML = `<div class="sentence-en">${en} <button type="button" class="btn btn-outline" style="padding:0.15rem 0.4rem;min-height:auto;font-size:0.72rem;">🔊</button></div>
+        <div class="sentence-zh-sm">${zh} — ${ex}</div>`;
+      d.querySelector('button').onclick = () => speakText(en);
+      gl.appendChild(d);
+    });
+
+    // Find reptiles
+    const hotspots = [
+      { x: 22, y: 55, reptile: true, label: 'Snake' },
+      { x: 45, y: 40, reptile: true, label: 'Lizard' },
+      { x: 68, y: 50, reptile: true, label: 'Tortoise' },
+      { x: 35, y: 72, reptile: true, label: 'Crocodile' },
+      { x: 78, y: 35, reptile: true, label: 'Chameleon' },
+      { x: 55, y: 25, reptile: false, label: 'Bird (not a reptile!)' },
+      { x: 15, y: 30, reptile: false, label: 'Mammal (not a reptile!)' }
+    ];
+    let found = 0;
+    const scene = document.getElementById('findScene');
+    const totalReptiles = hotspots.filter(h => h.reptile).length;
+    hotspots.forEach(h => {
+      const el = document.createElement('button');
+      el.type = 'button';
+      el.className = 'find-hotspot';
+      el.style.left = h.x + '%';
+      el.style.top = h.y + '%';
+      el.title = '点击';
+      el.addEventListener('click', () => {
+        if (el.classList.contains('found')) return;
+        if (h.reptile) {
+          el.classList.add('found');
+          found++;
+          document.getElementById('findScore').textContent = `找到 ${found} / ${totalReptiles} 只爬行动物`;
+          document.getElementById('findMsg').textContent = `✅ 对了！这是 ${h.label}。`;
+          speakText(h.label);
+          if (found === totalReptiles) {
+            document.getElementById('findMsg').textContent = '🎉 太棒了！你找到了所有爬行动物！';
+          }
+        } else {
+          el.classList.add('wrong');
+          document.getElementById('findMsg').textContent = `❌ ${h.label}`;
+          setTimeout(() => el.classList.remove('wrong'), 500);
+        }
+      });
+      scene.appendChild(el);
+    });
+
+    // Quiz
+    const quizData = [
+      { q: 'What covers most reptiles\' skin?', opts: ['Fur', 'Dry, scaly skin', 'Feathers', 'Wet slime'], a: 1 },
+      { q: 'How many species of reptile live in the UK?', opts: ['Six', 'Sixty', 'Six hundred', 'Zero'], a: 0 },
+      { q: 'Which continent has NO reptiles?', opts: ['Africa', 'Asia', 'Antarctica', 'Europe'], a: 2 },
+      { q: 'A tortoise shell is called an…', opts: ['Endoskeleton', 'Exoskeleton', 'Backbone', 'Scale only'], a: 1 },
+      { q: 'Reptiles are…', opts: ['Warm-blooded', 'Cold-blooded', 'Made of metal', 'Always flying'], a: 1 },
+      { q: 'Snakes have…', opts: ['Four legs', 'No limbs', 'Wings', 'Fins only'], a: 1 },
+      { q: 'Tuatara are found only in…', opts: ['China', 'UK', 'New Zealand', 'Antarctica'], a: 2 },
+      { q: 'Most reptiles are…', opts: ['Herbivores', 'Carnivores', 'Plants', 'Rocks'], a: 1 }
+    ];
+    let qi = 0, qScore = 0;
+    function showQuiz() {
+      const item = quizData[qi];
+      document.getElementById('quizQ').textContent = `Q${qi + 1}. ${item.q}`;
+      const box = document.getElementById('quizOpts');
+      box.innerHTML = '';
+      document.getElementById('quizNext').style.display = 'none';
+      item.opts.forEach((opt, i) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'quiz-opt';
+        b.textContent = opt;
+        b.addEventListener('click', () => {
+          if (b.disabled) return;
+          box.querySelectorAll('.quiz-opt').forEach(o => o.disabled = true);
+          if (i === item.a) { b.classList.add('correct'); qScore++; speakText('Correct!'); }
+          else { b.classList.add('wrong'); box.querySelectorAll('.quiz-opt')[item.a].classList.add('correct'); }
+          document.getElementById('quizScore').textContent = `得分：${qScore} / ${qi + 1}`;
+          document.getElementById('quizNext').style.display = 'inline-block';
+        });
+        box.appendChild(b);
+      });
+    }
+    document.getElementById('quizNext').onclick = () => {
+      qi = (qi + 1) % quizData.length;
+      showQuiz();
+    };
+    showQuiz();
+
+    // Sort activity
+    const sortItems = [
+      { name: 'Snake', cat: 'lizard' },
+      { name: 'Adder', cat: 'lizard' },
+      { name: 'Crocodile', cat: 'croc' },
+      { name: 'Alligator', cat: 'croc' },
+      { name: 'Turtle', cat: 'turtle' },
+      { name: 'Tortoise', cat: 'turtle' },
+      { name: 'Tuatara', cat: 'tuatara' }
+    ];
+    const zones = {
+      lizard: 'Lizards & snakes',
+      croc: 'Crocodiles & alligators',
+      turtle: 'Turtles & tortoises',
+      tuatara: 'Tuatara'
+    };
+    const pool = document.getElementById('sortPool');
+    const zonesEl = document.getElementById('sortZones');
+    Object.entries(zones).forEach(([key, title]) => {
+      const z = document.createElement('div');
+      z.className = 'sort-zone';
+      z.dataset.cat = key;
+      z.innerHTML = `<h5>${title}</h5><div class="zone-drop"></div>`;
+      z.addEventListener('dragover', e => e.preventDefault());
+      z.addEventListener('drop', e => {
+        e.preventDefault();
+        const id = e.dataTransfer.getData('text');
+        const chip = document.getElementById(id);
+        if (chip) z.querySelector('.zone-drop').appendChild(chip);
+      });
+      zonesEl.appendChild(z);
+    });
+    sortItems.forEach((item, i) => {
+      const chip = document.createElement('span');
+      chip.className = 'sort-chip';
+      chip.id = 'chip-' + i;
+      chip.textContent = item.name;
+      chip.draggable = true;
+      chip.dataset.cat = item.cat;
+      chip.addEventListener('dragstart', e => e.dataTransfer.setData('text', chip.id));
+      chip.addEventListener('click', () => speakText(item.name));
+      pool.appendChild(chip);
+    });
+    document.getElementById('sortCheck').onclick = () => {
+      let ok = 0, total = sortItems.length;
+      document.querySelectorAll('.sort-zone').forEach(z => {
+        z.querySelectorAll('.sort-chip').forEach(chip => {
+          if (chip.dataset.cat === z.dataset.cat) ok++;
+        });
+      });
+      document.getElementById('sortMsg').textContent =
+        ok === total ? '🎉 全部分类正确！' : `已正确 ${ok} / ${total}，再试试吧！`;
+    };
+  </script>
+</body>
+</html>

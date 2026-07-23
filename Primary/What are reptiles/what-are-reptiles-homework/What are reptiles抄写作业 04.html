@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>What are reptiles 句子抄写作业 04</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --font-hand  : 'Patrick Hand', cursive;
+  --font-ui    : 'Fredoka', sans-serif;
+  --img-w      : 40mm;
+  --row-h      : 31mm;
+  /* 描红字号 +10%；大写另 +15%；整体相对原先下移 0.5mm（-1.4 → -0.9） */
+  --sentence-font: calc(2.2rem * 1.1);
+  --sentence-cap-scale: 1.15;
+  --write-y-offset: -0.9mm;
+  --line-blue  : #90CAF9;
+  --line-red   : #EF9A9A;
+  --line-dash  : rgba(33,150,243,.32);
+  --text-dark  : #2C3E50;
+  --trace-color: rgba(144,202,249,.55);
+  --trace-light: rgba(144,202,249,.28);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-ui);
+  background: #455A64;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: max(48px, env(safe-area-inset-bottom));
+  min-height: 100dvh;
+  overflow-x: clip;
+  -webkit-tap-highlight-color: rgba(0, 172, 193, 0.12);
+}
+
+.back-hub {
+  align-self: flex-start;
+  margin: 12px 0 0 max(16px, env(safe-area-inset-left));
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 6px 14px 6px 10px;
+  border-radius: 999px;
+  border: 2px solid #66bb6a;
+  background: rgba(255, 255, 255, 0.95);
+  color: #1b5e20;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  touch-action: manipulation;
+}
+.back-hub:active { background: #e8f5e9; }
+
+#app {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 max(8px, env(safe-area-inset-right)) 0 max(8px, env(safe-area-inset-left));
+}
+
+.toolbar {
+  width: 100%; padding: 12px 24px;
+  padding-top: max(12px, env(safe-area-inset-top));
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
+  background: #fff;
+  box-shadow: 0 2px 18px rgba(0,0,0,.2);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+  position: sticky; top: 0; z-index: 999;
+}
+
+.toolbar-left {
+  display: flex; align-items: center; gap: 10px;
+  font-weight: 700; color: #37474F; font-size: 1.05rem;
+}
+.toolbar-left .icon { font-size: 1.4rem; }
+
+.btn-print {
+  background: #2e7d32; color: #fff; border: none;
+  padding: 10px 28px; min-height: 44px;
+  border-radius: 50px;
+  font-family: var(--font-ui); font-size: 1.05rem; font-weight: 700;
+  cursor: pointer; transition: .18s;
+  box-shadow: 0 4px 12px rgba(0,172,193,.35);
+  white-space: nowrap;
+  touch-action: manipulation;
+  flex-shrink: 0;
+}
+.btn-print:hover { transform: scale(1.05); background: #1b5e20; }
+
+.hw-section { display: none; width: 100%; }
+.hw-section.active { display: flex; flex-direction: column; align-items: center; }
+
+.page-viewport {
+  width: min(210mm, calc(100vw - 24px));
+  margin: 24px auto;
+  overflow: hidden;
+}
+
+.page {
+  background: #fff;
+  width: 210mm; height: 297mm;
+  padding: 14mm 14mm 10mm;
+  margin: 24px 0;
+  box-shadow: 0 0 36px rgba(0,0,0,.55);
+  display: flex; flex-direction: column;
+  page-break-after: always;
+  overflow: hidden;
+}
+
+.page-hdr {
+  flex-shrink: 0;
+  height: 15mm;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 2.5px solid #ECEFF1;
+  padding-bottom: 3mm;
+  margin-bottom: 3mm;
+  font-size: .84rem; color: #9E9E9E;
+  white-space: nowrap;
+  gap: 3mm;
+}
+.page-hdr > span { white-space: nowrap; }
+.page-hdr .vowel-badge {
+  font-size: 1.15rem; font-weight: 700;
+  padding: 2px 14px; border-radius: 8px;
+}
+
+.page-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-body--flow .sentence-block {
+  flex: 0 0 auto;
+}
+
+.page-ftr {
+  flex-shrink: 0;
+  height: 7mm;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .72rem; color: #BDBDBD;
+  border-top: 1px solid #F5F5F5;
+  padding-top: 2mm;
+}
+
+/* 每句固定 3 行四线格：描红 / 浅色描红 / 空白，行高·字号全页一致 */
+.sentence-block {
+  display: grid;
+  grid-template-columns: var(--img-w) 1fr;
+  border-bottom: 1px solid #F5F5F5;
+  min-height: 0;
+}
+.sentence-block:last-child { border-bottom: none; }
+
+.sentence-block--three {
+  --sentence-row-h: var(--row-h);
+  grid-template-rows: repeat(3, var(--sentence-row-h));
+  flex: 0 0 calc(3 * var(--sentence-row-h));
+  height: calc(3 * var(--sentence-row-h));
+}
+.sentence-block--three .img-col {
+  grid-row: 1 / -1;
+}
+.sentence-block--three .write-row {
+  position: relative;
+  height: var(--sentence-row-h);
+  min-height: var(--sentence-row-h);
+  max-height: var(--sentence-row-h);
+  overflow: hidden;
+}
+.sentence-block--three .write-row:not(:last-child) {
+  border-bottom: 1px dashed #EEEEEE;
+}
+
+.img-col {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 2.5mm;
+  padding: 3mm 2mm 3mm 0;
+  border-right: 1px dashed #E0E0E0;
+}
+.img-frame {
+  width: 30mm; height: 30mm;
+  border-radius: 10px;
+  border: 2px solid #E8F5E9;
+  background: #F9FFF9;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.img-frame img { width: 100%; height: 100%; object-fit: contain; }
+.word-lbl {
+  font-family: var(--font-hand);
+  font-size: 1.1rem; font-weight: 700;
+  letter-spacing: 1px;
+}
+.sentence-hint {
+  font-family: var(--font-ui);
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: #78909c;
+  text-align: center;
+  line-height: 1.25;
+  max-width: 38mm;
+  hyphens: auto;
+}
+
+.write-row {
+  position: relative;
+  overflow: hidden;
+}
+
+.grid-bg {
+  position: absolute;
+  top: 25%; height: 50%;
+  left: 2mm; right: 1mm;
+  pointer-events: none;
+}
+.gl {
+  position: absolute;
+  left: 0; right: 0; height: 0;
+}
+.gl-sky   { top: 0%;   border-top: 1.3pt solid var(--line-blue); }
+.gl-cloud { top: 33%;  border-top: 1.3pt dashed var(--line-dash); }
+.gl-grass { top: 67%;  border-top: 2.8pt solid var(--line-blue); }
+.gl-dirt  { top: 100%; border-top: 1.3pt solid var(--line-red); }
+
+.cells-sentence {
+  position: absolute; inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 2mm;
+}
+.cell-full {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: left;
+  padding-left: 2.5mm;
+  padding-right: 1mm;
+  font-family: var(--font-hand);
+  font-size: var(--sentence-font);
+  font-weight: 700;
+  letter-spacing: 0;
+  transform: translateY(var(--write-y-offset));
+  user-select: none;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.cell-full.trace { color: var(--trace-color); }
+.cell-full.trace-light { color: var(--trace-light); }
+.cell-full.empty { color: transparent; }
+.cell-full .cap {
+  font-size: calc(1em * var(--sentence-cap-scale));
+  line-height: 1;
+}
+
+@media screen and (max-width: 720px) {
+  .toolbar-left span:not(.icon) {
+    font-size: 0.92rem;
+    line-height: 1.35;
+  }
+  .toolbar {
+    justify-content: center;
+  }
+  .btn-print {
+    width: 100%;
+  }
+  .page-viewport {
+    width: calc(100vw - 16px);
+    margin: 12px auto;
+  }
+  .page {
+    margin: 0;
+    box-shadow: 0 0 24px rgba(0,0,0,.45);
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .btn-print:hover { transform: none; }
+  .btn-print:active { transform: scale(0.98); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-print { transition: none !important; }
+}
+
+@media print {
+  body { background: #fff; padding: 0; }
+  .back-hub { display: none !important; }
+  .toolbar { display: none !important; }
+  .hw-section { display: none !important; }
+  .hw-section.active { display: block !important; }
+  .page-viewport {
+    width: auto;
+    height: auto;
+    overflow: visible;
+    margin: 0;
+  }
+  .page-viewport .page {
+    transform: none !important;
+  }
+  .page {
+    margin: 0; box-shadow: none; border: none;
+    width: 210mm; height: 297mm;
+    padding: 14mm 14mm 10mm;
+  }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style>
+  <link rel="stylesheet" href="../../assets/primary-responsive.css?v=2" />
+</head>
+<body>
+
+<a class="back-hub" href="../index.html">← What are reptiles? 首页</a>
+
+<div class="toolbar">
+  <div class="toolbar-left">
+    <span class="icon">📝</span>
+    <span>What are reptiles 句子抄写作业 04</span>
+  </div>
+  <button class="btn-print" onclick="window.print()">🖨️ 打印</button>
+</div>
+
+<div id="app"></div>
+
+<script>
+/* 抄写 04：每句三行四线格 — 描红 / 浅色描红 / 自主书写；行高·字号全页统一 */
+const LESSON = {
+  label: 'What are reptiles 04',
+  color: '#1b5e20',
+  bg   : '#e8f5e9',
+  items: [
+    { word: 'dolphin', sentence: 'What are reptiles?' },
+    { word: 'swim', sentence: 'Dolphins swim together.' },
+    { word: 'leap', sentence: 'They like to leap and jump.' },
+    { word: 'breathe', sentence: 'Dolphins need to breathe.' },
+    { word: 'air', sentence: 'They come to the top to get air.' },
+    { word: 'ocean', sentence: 'Some dolphins live in oceans.' }
+  ]
+};
+
+const IMG_BASE = 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/What%20are%20reptiles/what-are-reptiles-courseware/images/words/';
+
+const SENTENCE_ROW_H_MM = 31;
+const SENTENCE_ROWS = 3;
+
+function esc(t) {
+  return String(t)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+/* 大写字母单独放大 15%（相对描红基准字号） */
+function escSentenceWithCaps(t) {
+  return esc(t).replace(/[A-Z]/g, (ch) => `<span class="cap">${ch}</span>`);
+}
+
+function svgPlaceholderDataUrl(line1, line2) {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+    <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#e0f7fa"/><stop offset="100%" stop-color="#fff8e1"/></linearGradient></defs>
+    <rect width="100%" height="100%" fill="url(#g)"/>
+    <text x="50%" y="40%" text-anchor="middle" font-size="30" fill="#1b5e20" font-family="Segoe UI,Arial,sans-serif" font-weight="700">${esc(line1)}</text>
+    <text x="50%" y="54%" text-anchor="middle" font-size="13" fill="#546E7A" font-family="Segoe UI,Arial,sans-serif">${esc(line2)}</text>
+  </svg>`;
+  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+}
+
+function estimateBlockHeightMm() {
+  return SENTENCE_ROWS * SENTENCE_ROW_H_MM + 4;
+}
+
+function chunkByHeight(items, budgetMm) {
+  budgetMm = budgetMm || 246;
+  const pages = [];
+  let page = [];
+  let used = 0;
+  items.forEach((item) => {
+    const h = estimateBlockHeightMm(item);
+    if (page.length && used + h > budgetMm) {
+      pages.push(page);
+      page = [];
+      used = 0;
+    }
+    page.push(item);
+    used += h;
+  });
+  if (page.length) pages.push(page);
+  return pages.length ? pages : [[]];
+}
+
+function buildWriteRowFull(sentence, rowClass, kind) {
+  let cellCls = 'cell-full';
+  if (kind === 'trace') cellCls += ' trace';
+  else if (kind === 'trace-light') cellCls += ' trace-light';
+  else cellCls += ' empty';
+  return `
+    <div class="write-row ${rowClass}">
+      <div class="grid-bg">
+        <div class="gl gl-sky"></div><div class="gl gl-cloud"></div>
+        <div class="gl gl-grass"></div><div class="gl gl-dirt"></div>
+      </div>
+      <div class="cells-sentence">
+        <div class="${cellCls}">${escSentenceWithCaps(sentence)}</div>
+      </div>
+    </div>`;
+}
+
+function buildSentenceBlock(item, accentColor) {
+  const s = item.sentence;
+  const w = item.word;
+  const imgKey = item.imgKey || w;
+  const block = document.createElement('div');
+  block.className = 'sentence-block sentence-block--three';
+  block.innerHTML = `
+    <div class="img-col">
+      <div class="img-frame">
+        <img class="hw-word-img" alt="${esc(w)}" />
+      </div>
+      <div class="word-lbl" style="color:${accentColor}">${esc(w)}</div>
+      <div class="sentence-hint">${esc(s)}</div>
+    </div>
+    ${buildWriteRowFull(s, 'row-trace', 'trace')}
+    ${buildWriteRowFull(s, 'row-trace-light', 'trace-light')}
+    ${buildWriteRowFull(s, 'row-empty', 'empty')}
+  `;
+  const img = block.querySelector('.hw-word-img');
+  img.src = IMG_BASE + imgKey + '.png';
+  img.addEventListener('error', function onImgErr() {
+    this.removeEventListener('error', onImgErr);
+    this.src = svgPlaceholderDataUrl(w, IMG_BASE + imgKey + '.png');
+  }, { once: true });
+  return block;
+}
+
+function buildPage(vData, items, pageNum, totalPages) {
+  const viewport = document.createElement('div');
+  viewport.className = 'page-viewport';
+
+  const page = document.createElement('div');
+  page.className = 'page';
+
+  const hdr = document.createElement('div');
+  hdr.className = 'page-hdr';
+  hdr.innerHTML = `
+    <span>姓名: ___________________</span>
+    <span class="vowel-badge" style="background:${vData.bg}; color:${vData.color}">
+      ${esc(vData.label)} · 句子抄写
+    </span>
+  `;
+  page.appendChild(hdr);
+
+  const body = document.createElement('div');
+  body.className = 'page-body page-body--flow';
+  items.forEach(it => body.appendChild(buildSentenceBlock(it, vData.color)));
+  page.appendChild(body);
+
+  const ftr = document.createElement('div');
+  ftr.className = 'page-ftr';
+  const titles = items.map(x => x.sentence).join(' · ');
+  ftr.textContent =
+    `What are reptiles · 国家地理分级 · 句子抄写 04  |  第 ${pageNum} / ${totalPages} 页  |  ${titles}`;
+  page.appendChild(ftr);
+
+  viewport.appendChild(page);
+  return viewport;
+}
+
+function buildAll() {
+  const app = document.getElementById('app');
+  const section = document.createElement('div');
+  section.className = 'hw-section active';
+  section.id = 'section-what-are-reptiles-hw04';
+  const pages = chunkByHeight(LESSON.items);
+  pages.forEach((pageItems, pi) => {
+    section.appendChild(buildPage(LESSON, pageItems, pi + 1, pages.length));
+  });
+  app.appendChild(section);
+}
+
+function buildAllAndFit() {
+  buildAll();
+  fitPageViewports();
+}
+
+function fitPageViewports() {
+  if (window.matchMedia('print').matches) return;
+  document.querySelectorAll('.page-viewport').forEach((vp) => {
+    const page = vp.querySelector('.page');
+    if (!page) return;
+    page.style.transform = 'none';
+    page.style.transformOrigin = 'top left';
+    const naturalW = page.offsetWidth;
+    const targetW = vp.clientWidth;
+    if (!naturalW || !targetW) return;
+    const scale = Math.min(1, targetW / naturalW);
+    page.style.transform = scale < 1 ? `scale(${scale})` : 'none';
+    vp.style.height = scale < 1 ? `${page.offsetHeight * scale}px` : 'auto';
+  });
+}
+
+let fitTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(fitTimer);
+  fitTimer = setTimeout(fitPageViewports, 120);
+});
+window.addEventListener('orientationchange', fitPageViewports);
+
+window.addEventListener('load', buildAllAndFit);
+</script>
+  <script src="../../assets/primary-responsive.js?v=2" defer></script>
+</body>
+</html>
