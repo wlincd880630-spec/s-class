@@ -10,8 +10,8 @@ const AZURE_CONFIG = {
 
 let currentSynthesizer = null;
 const COPY_WRITE_PATTERN = [
-  ['trace', 'trace', 'trace'],
-  ['write', 'write', 'write']
+  ['trace', 'trace', 'write'],
+  ['trace', 'write', 'write'],
 ];
 
 function loadSpeechSDK() {
@@ -94,38 +94,75 @@ function renderPhonemeBoxes(container, w) {
 }
 
 function createCopyLineCell(mode, word) {
+  const isTrace = mode === 'trace';
   const cell = document.createElement('div');
-  cell.className = 'copy-cell';
-  const line = document.createElement('div');
-  line.className = 'four-line' + (mode === 'trace' ? ' trace' : '');
-  if (mode === 'trace') line.textContent = word;
-  cell.appendChild(line);
+  cell.className = 'copy-cell copy-cell--' + mode;
+
+  const tag = document.createElement('span');
+  tag.className = 'copy-cell-tag no-print';
+  tag.textContent = isTrace ? '描红' : '独立书写';
+
+  const grid = document.createElement('div');
+  grid.className = 'copy-line-grid';
+  grid.setAttribute('aria-hidden', 'true');
+
+  if (isTrace && word) {
+    const guide = document.createElement('span');
+    guide.className = 'copy-trace-text';
+    guide.textContent = word;
+    grid.appendChild(guide);
+  }
+
+  ['dl-top', 'dl-mid', 'dl-grass', 'dl-base'].forEach(cls => {
+    const line = document.createElement('i');
+    line.className = 'dl-line ' + cls;
+    grid.appendChild(line);
+  });
+
+  cell.append(tag, grid);
   return cell;
 }
 
-function buildCopySheet(word, mount) {
+function buildCopySheet(word, mount, options = {}) {
+  const { interactivePhoneme = true } = options;
   const sheet = document.createElement('div');
   sheet.className = 'copy-sheet';
+  sheet.dataset.wordId = word.id;
+
   const head = document.createElement('div');
   head.className = 'copy-word-head';
-  head.innerHTML = `<span class="copy-word-title">${word.word}</span><span class="copy-word-cn">${word.chinese}</span>
-    <button type="button" class="btn btn-outline btn-sm copy-speak no-print">🔊</button>`;
+  head.innerHTML = `
+    <span class="copy-word-title">${word.word}</span>
+    <span class="copy-word-cn">${word.chinese}</span>
+    <button type="button" class="btn btn-sm btn-outline copy-speak no-print" title="朗读">
+      <i class="fa-solid fa-volume-high"></i>
+    </button>`;
   head.querySelector('.copy-speak').addEventListener('click', () => speakText(word.word));
+
   const phonemeRow = document.createElement('div');
   phonemeRow.className = 'copy-phoneme-row';
-  const boxes = document.createElement('div');
-  boxes.className = 'phoneme-boxes';
-  renderPhonemeBoxes(boxes, word);
-  phonemeRow.appendChild(boxes);
+  const phonemeBoxes = document.createElement('div');
+  phonemeBoxes.className = 'phoneme-boxes';
+  renderPhonemeBoxes(phonemeBoxes, word);
+  if (!interactivePhoneme) {
+    phonemeBoxes.querySelectorAll('.phoneme-box').forEach(box => {
+      box.style.pointerEvents = 'none';
+    });
+  }
+  phonemeRow.appendChild(phonemeBoxes);
+
   const rowsWrap = document.createElement('div');
+  rowsWrap.className = 'copy-rows';
   COPY_WRITE_PATTERN.forEach(rowModes => {
     const row = document.createElement('div');
     row.className = 'copy-row';
     rowModes.forEach(mode => row.appendChild(createCopyLineCell(mode, word.word)));
     rowsWrap.appendChild(row);
   });
+
   sheet.append(head, phonemeRow, rowsWrap);
   mount.appendChild(sheet);
+  return sheet;
 }
 
 function formatTime(sec) {
