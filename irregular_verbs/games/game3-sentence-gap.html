@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>例句填空 · 不规则动词</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@600;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="../../scripts/auth-check.js"></script>
+  <script src="../verbs-data.js"></script>
+  <script src="../shared.js"></script>
+  <script src="../azure-tts.js"></script>
+  <style>
+    :root{--bg:#0c1222;--surface:#151d2e;--accent:#3b82f6;--ok:#22c55e;--bad:#ef4444;--text:#f1f5f9;--muted:#94a3b8;--border:rgba(148,163,184,0.15)}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:"Noto Sans SC","DM Sans",sans-serif;min-height:100dvh;background:var(--bg);color:var(--text);padding:1rem}
+    .toolbar{display:flex;justify-content:space-between;margin-bottom:1rem}
+    .toolbar a{color:var(--muted);text-decoration:none;font-size:0.85rem}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.25rem;max-width:560px;margin:0 auto}
+    .tag{display:inline-block;font-size:0.7rem;font-weight:700;padding:0.2rem 0.5rem;border-radius:4px;margin-bottom:0.75rem;background:rgba(59,130,246,0.15);color:var(--accent)}
+    .sentence{font-family:"DM Sans",sans-serif;font-size:1.1rem;line-height:1.7;margin-bottom:0.5rem}
+    .sentence .gap{display:inline-block;min-width:5rem;border-bottom:2px solid var(--accent);text-align:center;color:#93c5fd;font-weight:700}
+    .cn{font-size:0.85rem;color:var(--muted);margin-bottom:1rem}
+    .opts{display:flex;flex-wrap:wrap;gap:0.5rem}
+    .opt{font-family:"DM Sans",sans-serif;font-size:0.95rem;font-weight:600;padding:0.6rem 1rem;border-radius:8px;border:2px solid var(--border);background:#1c2740;color:var(--text);cursor:pointer}
+    .opt.correct{border-color:var(--ok)}.opt.wrong{border-color:var(--bad)}
+    .play{display:inline-flex;align-items:center;gap:0.3rem;font-size:0.8rem;color:var(--accent);background:none;border:none;cursor:pointer;margin-bottom:0.75rem}
+    .score{text-align:center;margin-top:1rem;font-size:0.85rem;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <div class="toolbar"><a href="index.html"><i class="fas fa-arrow-left"></i> 游戏列表</a><span id="prog" style="font-size:0.85rem;color:var(--muted)"></span></div>
+  <div class="card">
+    <span class="tag" id="tenseTag">一般过去时</span>
+    <button type="button" class="play" id="playBtn"><i class="fas fa-volume-high"></i> 朗读例句</button>
+    <p class="sentence" id="sentence"></p>
+    <p class="cn" id="cn"></p>
+    <div class="opts" id="opts"></div>
+    <p class="score">得分 <strong id="score">0</strong></p>
+  </div>
+  <script>
+  (function(){
+    var U=window.IrregularVerbsUtil,TTS=window.IrregularVerbsTTS,verbs=U.getSelectedVerbs();
+    if(!verbs.length){alert("请先选择词汇");location.href="../index.html";return;}
+    var keys=["present","past","perfect"];
+    var items=[];
+    U.shuffle(verbs).slice(0,Math.min(10,verbs.length)).forEach(function(v){
+      var k=keys[Math.floor(Math.random()*keys.length)];
+      var ex=v.examples[k];
+      var answer,formKey;
+      if(k==="present"){answer=v.base;formKey="base";}
+      else if(k==="past"){answer=v.past.split(/\s*\/\s*/)[0].trim();formKey="past";}
+      else{answer="has "+v.pp.split(/\s*\/\s*/)[0].trim();formKey="pp";}
+      if(v.pp==="—"&&k==="perfect")return;
+      var sent=ex.en.replace(new RegExp(answer.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),"i"),"___");
+      if(sent===ex.en&&k!=="perfect"){
+        var w=(k==="present"?v.base:v.past).split(/\s*\/\s*/)[0];
+        sent=ex.en.replace(new RegExp("\\b"+w+"\\b","i"),"___");
+        answer=w;
+      }
+      items.push({v:v,ex:ex,key:k,answer:answer,sent:sent,formKey:formKey});
+    });
+    var qi=0,score=0,fullSent="";
+    document.getElementById("prog").textContent="1/"+items.length;
+
+    function round(){
+      if(qi>=items.length){alert("完成！得分 "+score+"/"+items.length);location.href="index.html";return;}
+      var it=items[qi];
+      fullSent=it.ex.en;
+      document.getElementById("tenseTag").textContent=it.ex.tense+" · "+it.ex.level;
+      document.getElementById("sentence").innerHTML=it.sent.replace("___",'<span class="gap">?</span>');
+      document.getElementById("cn").textContent=it.ex.cn;
+      document.getElementById("prog").textContent=(qi+1)+"/"+items.length;
+      var wrong=U.pickRandom(verbs.filter(function(x){return x.id!==it.v.id}),3).map(function(x){
+        return it.formKey==="pp"?"has "+x.pp.split(/\s*\/\s*/)[0]:x[it.formKey].split(/\s*\/\s*/)[0];
+      });
+      var opts=U.shuffle([it.answer].concat(wrong));
+      var box=document.getElementById("opts");box.innerHTML="";
+      opts.forEach(function(o){
+        var b=document.createElement("button");b.type="button";b.className="opt";b.textContent=o;
+        b.addEventListener("click",function(){
+          box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
+          if(o===it.answer){score++;document.getElementById("score").textContent=score;b.classList.add("correct");}
+          else{b.classList.add("wrong");}
+          document.getElementById("sentence").innerHTML=it.sent.replace("___",'<span class="gap">'+it.answer+'</span>');
+          setTimeout(function(){qi++;round();},1400);
+        });
+        box.appendChild(b);
+      });
+    }
+    document.getElementById("playBtn").addEventListener("click",function(){TTS.speak(fullSent);});
+    round();
+  })();
+  </script>
+</body>
+</html>

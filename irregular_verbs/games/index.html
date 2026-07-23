@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>游戏复习 · 不规则动词</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="../scripts/auth-check.js"></script>
+  <script src="../verbs-data.js"></script>
+  <script src="../shared.js"></script>
+  <style>
+    :root { --bg:#0c1222; --surface:#151d2e; --accent:#3b82f6; --accent2:#8b5cf6; --gold:#f59e0b; --text:#f1f5f9; --muted:#94a3b8; --border:rgba(148,163,184,0.15); }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:"Noto Sans SC","DM Sans",sans-serif; min-height:100dvh; background:var(--bg); color:var(--text);
+      background-image:radial-gradient(ellipse 60% 40% at 80% 0%,rgba(139,92,246,0.18),transparent); }
+    .wrap { max-width:800px; margin:0 auto; padding:1.25rem; }
+    .back { display:inline-flex; align-items:center; gap:0.4rem; color:var(--muted); text-decoration:none; font-size:0.85rem; margin-bottom:1rem; }
+    .hdr { text-align:center; margin-bottom:1.5rem; }
+    .hdr h1 { font-family:"DM Sans",sans-serif; font-size:clamp(1.4rem,4vw,1.9rem); margin-bottom:0.35rem; }
+    .hdr p { color:var(--muted); font-size:0.9rem; }
+    .banner { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:0.85rem 1rem; margin-bottom:1.25rem; font-size:0.85rem; color:var(--muted); }
+    .banner strong { color:var(--gold); }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem; }
+    .game-card {
+      background:var(--surface); border:1px solid var(--border); border-radius:14px;
+      padding:1.2rem; text-decoration:none; color:inherit;
+      transition:transform 0.2s,border-color 0.2s;
+      display:flex; flex-direction:column; gap:0.4rem;
+    }
+    .game-card:hover { transform:translateY(-2px); border-color:rgba(59,130,246,0.4); }
+    .game-num { font-size:0.7rem; font-weight:700; color:var(--accent); letter-spacing:0.08em; }
+    .game-icon { font-size:1.5rem; margin:0.25rem 0; }
+    .game-card h2 { font-size:1rem; font-weight:700; }
+    .game-card p { font-size:0.8rem; color:var(--muted); flex:1; }
+    .game-card .go { font-size:0.8rem; color:var(--accent); font-weight:600; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a href="../index.html" class="back"><i class="fas fa-arrow-left"></i> 返回模块首页</a>
+    <header class="hdr">
+      <h1>五种游戏复习</h1>
+      <p>用你选定的词汇进行互动练习，巩固三态变化</p>
+    </header>
+    <div class="banner">当前练习词汇：<strong id="wordCount">0</strong> 个 · 可在<a href="../index.html" style="color:var(--accent)">首页</a>调整选词</div>
+    <div class="grid">
+      <a href="game1-triple-match.html" class="game-card">
+        <span class="game-num">GAME 01</span>
+        <div class="game-icon">🔗</div>
+        <h2>三态连线</h2>
+        <p>将原形、过去式、过去分词正确配对，训练三态肌肉记忆。</p>
+        <span class="go">开始 →</span>
+      </a>
+      <a href="game2-listen-pick.html" class="game-card">
+        <span class="game-num">GAME 02</span>
+        <div class="game-icon">👂</div>
+        <h2>听音辨形</h2>
+        <p>听 Azure 英音朗读，从四个选项中选出正确的动词形式。</p>
+        <span class="go">开始 →</span>
+      </a>
+      <a href="game3-sentence-gap.html" class="game-card">
+        <span class="game-num">GAME 03</span>
+        <div class="game-icon">✏️</div>
+        <h2>例句填空</h2>
+        <p>根据时态提示，在例句空格中填入正确的动词形式。</p>
+        <span class="go">开始 →</span>
+      </a>
+      <a href="game4-time-tunnel.html" class="game-card">
+        <span class="game-num">GAME 04</span>
+        <div class="game-icon">⏳</div>
+        <h2>时光隧道</h2>
+        <p>将动词卡片拖入「现在」「过去」「完成」三条时间轨道。</p>
+        <span class="go">开始 →</span>
+      </a>
+      <a href="game5-memory-flip.html" class="game-card">
+        <span class="game-num">GAME 05</span>
+        <div class="game-icon">🃏</div>
+        <h2>记忆翻牌</h2>
+        <p>翻开卡片，找到同一动词的不同形式配对，锻炼记忆力。</p>
+        <span class="go">开始 →</span>
+      </a>
+    </div>
+  </div>
+  <script>
+    document.getElementById("wordCount").textContent = window.IrregularVerbsUtil.getSelectedVerbs().length;
+  </script>
+</body>
+</html>
