@@ -387,6 +387,28 @@ def upload_videos() -> None:
             print(f"  ✓ https://{cfg['Bucket']}.cos.{cfg['Region']}.myqcloud.com/{key}")
 
 
+def parse_vtt_cues(path: Path) -> list[dict]:
+    cues: list[dict] = []
+    if not path.exists():
+        return cues
+    text = path.read_text(encoding="utf-8")
+
+    def parse_ts(ts: str) -> float:
+        h, m, s = ts.strip().split(":")
+        sec, ms = s.split(".")
+        return int(h) * 3600 + int(m) * 60 + int(sec) + int(ms) / 1000
+
+    for block in re.split(r"\n\n+", text.strip()):
+        lines = block.strip().split("\n")
+        if len(lines) < 3 or "-->" not in lines[1]:
+            continue
+        start_s, end_s = [x.strip() for x in lines[1].split("-->")]
+        en = lines[2]
+        zh = lines[3] if len(lines) > 3 else ""
+        cues.append({"start": parse_ts(start_s), "end": parse_ts(end_s), "en": en, "zh": zh})
+    return cues
+
+
 def write_manifest() -> None:
     manifest = {
         "cosBase": COS_BASE,
@@ -400,7 +422,8 @@ def write_manifest() -> None:
                 "title": v["title"],
                 "titleZh": v["title_zh"],
                 "vpid": v["vpid"],
-                "cues": VIDEO_CUES.get(v["id"], []),
+                "cues": VIDEO_CUES.get(v["id"])
+                or parse_vtt_cues(VIDEO_DIR / v["file"].replace(".mp4", ".vtt")),
             }
             for v in VIDEOS
         ],
