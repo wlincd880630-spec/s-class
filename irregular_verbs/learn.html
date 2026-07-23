@@ -3,340 +3,531 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>沉浸式学习 · 不规则动词</title>
+  <meta name="theme-color" content="#f7f3ea" />
+  <title>学习轨道 · Verb Atlas</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&family=Noto+Sans+SC:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/verbverse.css" />
   <script src="../scripts/auth-check.js"></script>
   <script src="verbs-data.js"></script>
   <script src="shared.js"></script>
   <script src="azure-tts.js"></script>
-  <style>
-    :root {
-      --bg: #0c1222; --surface: #151d2e; --surface2: #1c2740;
-      --accent: #3b82f6; --accent2: #8b5cf6; --gold: #f59e0b;
-      --present: #22c55e; --past: #f59e0b; --perfect: #a855f7;
-      --text: #f1f5f9; --muted: #94a3b8; --border: rgba(148,163,184,0.15);
-      --radius: 16px;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: "Noto Sans SC", "DM Sans", sans-serif;
-      min-height: 100dvh; background: var(--bg); color: var(--text);
-      background-image: radial-gradient(ellipse 70% 40% at 50% 0%, rgba(59,130,246,0.15), transparent);
-    }
-    .toolbar {
-      position: sticky; top: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;
-      padding: 0.75rem 1rem;
-      background: rgba(12,18,34,0.92); backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-    }
-    .toolbar a { color: var(--muted); text-decoration: none; font-size: 0.85rem; }
-    .toolbar a:hover { color: var(--accent); }
-    .progress-bar { flex: 1; min-width: 120px; max-width: 200px; height: 6px; background: var(--surface2); border-radius: 999px; overflow: hidden; }
-    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 999px; transition: width 0.3s; }
-    .progress-text { font-size: 0.78rem; color: var(--muted); min-width: 3.5rem; text-align: right; }
-    .stage { max-width: 720px; margin: 0 auto; padding: 1.25rem; }
-    .phase-label {
-      text-align: center; font-size: 0.72rem; font-weight: 700;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--gold); margin-bottom: 0.75rem;
-    }
-    .sound-card {
-      text-align: center; padding: 2rem 1rem;
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); margin-bottom: 1rem;
-    }
-    .sound-btn {
-      width: 88px; height: 88px; border-radius: 50%;
-      border: none; cursor: pointer;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #fff; font-size: 2rem;
-      box-shadow: 0 8px 24px rgba(59,130,246,0.4);
-      transition: transform 0.2s;
-      margin-bottom: 1rem;
-    }
-    .sound-btn:hover { transform: scale(1.05); }
-    .sound-btn.playing { animation: pulse 1s infinite; }
-    @keyframes pulse { 0%,100%{box-shadow:0 8px 24px rgba(59,130,246,0.4)} 50%{box-shadow:0 8px 40px rgba(139,92,246,0.6)} }
-    .verb-word {
-      font-family: "DM Sans", sans-serif;
-      font-size: clamp(2rem, 8vw, 3rem); font-weight: 700;
-      color: #fff; margin-bottom: 0.25rem;
-    }
-    .verb-ipa { font-size: 0.95rem; color: var(--muted); margin-bottom: 0.35rem; }
-    .verb-cn { font-size: 1rem; color: #93c5fd; }
-    .image-card {
-      position: relative; border-radius: var(--radius); overflow: hidden;
-      aspect-ratio: 16/10; margin-bottom: 1rem;
-      background: linear-gradient(135deg, var(--surface2), #243352);
-      border: 1px solid var(--border);
-    }
-    .image-card img {
-      width: 100%; height: 100%; object-fit: cover;
-      transition: opacity 0.4s;
-    }
-    .image-card .placeholder {
-      position: absolute; inset: 0;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      font-size: 4rem; opacity: 0.6;
-    }
-    .image-card .placeholder span { font-size: 0.9rem; color: var(--muted); margin-top: 0.5rem; }
-    .forms-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem;
-      margin-bottom: 1.25rem;
-    }
-    .form-box {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 12px; padding: 0.85rem 0.5rem; text-align: center;
-    }
-    .form-box .label { font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.3rem; }
-    .form-box .value { font-family: "DM Sans", sans-serif; font-size: 1rem; font-weight: 700; word-break: break-word; }
-    .form-box.base { border-color: rgba(59,130,246,0.4); }
-    .form-box.past { border-color: rgba(245,158,11,0.4); }
-    .form-box.pp { border-color: rgba(168,85,247,0.4); }
-    .examples { display: flex; flex-direction: column; gap: 1rem; }
-    .ex-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); overflow: hidden;
-    }
-    .ex-card.present { border-left: 4px solid var(--present); }
-    .ex-card.past { border-left: 4px solid var(--past); }
-    .ex-card.perfect { border-left: 4px solid var(--perfect); }
-    .ex-img {
-      aspect-ratio: 16/9; background: var(--surface2);
-      position: relative; overflow: hidden;
-    }
-    .ex-img img { width: 100%; height: 100%; object-fit: cover; }
-    .ex-img .ph {
-      position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 3rem; opacity: 0.5;
-    }
-    .ex-body { padding: 1rem; }
-    .ex-tag {
-      display: inline-block; font-size: 0.68rem; font-weight: 700;
-      padding: 0.2rem 0.5rem; border-radius: 4px; margin-bottom: 0.5rem;
-    }
-    .ex-card.present .ex-tag { background: rgba(34,197,94,0.15); color: var(--present); }
-    .ex-card.past .ex-tag { background: rgba(245,158,11,0.15); color: var(--past); }
-    .ex-card.perfect .ex-tag { background: rgba(168,85,247,0.15); color: var(--perfect); }
-    .ex-en {
-      font-family: "DM Sans", sans-serif; font-size: 1.05rem; line-height: 1.55;
-      margin-bottom: 0.4rem;
-    }
-    .ex-en mark { background: rgba(59,130,246,0.25); color: #93c5fd; padding: 0 0.15rem; border-radius: 3px; }
-    .ex-cn { font-size: 0.88rem; color: var(--muted); margin-bottom: 0.6rem; }
-    .ex-play {
-      display: inline-flex; align-items: center; gap: 0.35rem;
-      font-size: 0.8rem; font-weight: 600; color: var(--accent);
-      background: rgba(59,130,246,0.1); border: none; border-radius: 6px;
-      padding: 0.35rem 0.7rem; cursor: pointer;
-    }
-    .nav-row {
-      display: flex; justify-content: space-between; gap: 0.75rem;
-      margin-top: 1.5rem; padding-bottom: 2rem;
-    }
-    .nav-btn {
-      flex: 1; font-family: inherit; font-size: 0.9rem; font-weight: 600;
-      padding: 0.75rem 1rem; border-radius: 10px; border: 1px solid var(--border);
-      background: var(--surface); color: var(--text); cursor: pointer;
-      display: flex; align-items: center; justify-content: center; gap: 0.4rem;
-    }
-    .nav-btn.primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); border: none; color: #fff; }
-    .nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-    .hidden { display: none !important; }
-    .reveal { animation: fadeUp 0.5s ease; }
-    @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
-    .step-dots { display: flex; justify-content: center; gap: 0.4rem; margin-bottom: 1rem; }
-    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--surface2); transition: background 0.3s; }
-    .dot.active { background: var(--accent); width: 24px; border-radius: 4px; }
-  </style>
+  <script src="assets/verbverse.js"></script>
 </head>
-<body>
-  <div class="toolbar">
-    <a href="index.html"><i class="fas fa-arrow-left"></i> 返回</a>
-    <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
-    <span class="progress-text" id="progText">0/0</span>
+<body class="learn-page">
+  <header class="learning-topbar">
+    <a class="topbar-back" href="index.html" aria-label="返回 Verb Atlas 首页">
+      <span id="backIcon" aria-hidden="true"></span>
+      <span>返回 Atlas</span>
+    </a>
+    <div class="learning-progress" aria-label="学习进度">
+      <div class="progress-labels">
+        <span>时态轨道</span>
+        <strong id="progressText" aria-live="polite">1 / 1</strong>
+      </div>
+      <div class="progress-track" aria-hidden="true">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+    <a class="brand-lockup" href="index.html" aria-label="Verb Atlas 首页">
+      <span class="brand-mark" aria-hidden="true">VA</span>
+      <span class="brand-copy"><strong lang="en">Verb Atlas</strong><span>Learning orbit</span></span>
+    </a>
+    <select class="mobile-word-select" id="mobileWordSelect" aria-label="跳转到动词"></select>
+  </header>
+
+  <div id="learningApp">
+    <main class="learning-shell">
+      <aside class="word-rail" aria-label="本轮动词列表">
+        <div class="word-rail-head">
+          <p class="eyebrow">YOUR ORBIT</p>
+          <h2>本轮词轨 · <span id="railCount">0</span></h2>
+        </div>
+        <div class="word-rail-list" id="wordRail"></div>
+      </aside>
+
+      <section class="learning-canvas is-sound-step" id="learningCanvas" aria-label="动词视觉画布">
+        <div class="canvas-meta">
+          <span class="canvas-step" id="canvasStep">01 · LISTEN</span>
+          <span class="canvas-hint" id="canvasHint">先听声音，再揭开图意</span>
+        </div>
+        <div class="learning-image-wrap">
+          <img class="learning-image" id="verbImage" alt="" />
+          <div class="image-placeholder" id="imagePlaceholder">
+            <div class="placeholder-orbit"><span>Verb scene</span></div>
+          </div>
+        </div>
+        <div class="sound-curtain" id="soundCurtain">
+          <div class="sound-orbit">
+            <button class="primary-sound-button" id="primarySound" type="button" aria-label="播放当前动词发音">
+              <span id="primarySoundIcon" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+        <div class="canvas-caption">
+          <div>
+            <strong id="canvasVerb" lang="en">—</strong>
+            <span id="canvasMeaning">正在载入</span>
+          </div>
+          <span class="canvas-ordinal" id="canvasOrdinal">01 / 01</span>
+        </div>
+      </section>
+
+      <section class="lesson-panel" aria-label="学习内容">
+        <div class="lesson-panel-inner">
+          <header class="lesson-header">
+            <div>
+              <p class="eyebrow">CURRENT COORDINATE</p>
+              <h1 id="verbBase" lang="en">—</h1>
+              <p class="verb-ipa" id="verbIpa" lang="en"></p>
+            </div>
+            <div class="mastery-badge" id="masteryBadge">探索中</div>
+          </header>
+
+          <div class="step-track" aria-label="四步学习进度">
+            <span class="step-track-item is-active" data-track-step="0"></span>
+            <span class="step-track-item" data-track-step="1"></span>
+            <span class="step-track-item" data-track-step="2"></span>
+            <span class="step-track-item" data-track-step="3"></span>
+          </div>
+
+          <div id="lessonContent" aria-live="polite">
+            <section class="learn-step" id="stepSound">
+              <div class="step-kicker"><span>01</span> Sound first</div>
+              <h2>先让耳朵认识它</h2>
+              <p>点击左侧声波按钮。首次进入不会自动播放，避免移动端拦截声音。</p>
+              <div class="sound-word" id="soundWord" lang="en">—</div>
+              <p class="sound-meaning" id="soundMeaning"></p>
+              <button class="sound-prompt button button-secondary" id="inlineSound" type="button">
+                <span class="inlineSoundIcon" aria-hidden="true"></span>
+                再听一次英式慢速发音
+              </button>
+            </section>
+
+            <section class="learn-step" id="stepImage" hidden>
+              <div class="step-kicker"><span>02</span> Image meaning</div>
+              <h2>把声音放进场景</h2>
+              <p>观察画面中的动作与人物关系，不急着背中文，让图像先成为记忆线索。</p>
+              <div class="meaning-note">
+                <strong id="imageMeaning">—</strong>
+                <p>回想刚才的发音，再看画面说出这个动作。</p>
+              </div>
+            </section>
+
+            <section class="learn-step" id="stepForms" hidden>
+              <div class="step-kicker"><span>03</span> Three forms</div>
+              <h2>沿三条时态轨道变形</h2>
+              <p>钴蓝是原形，琥珀是过去式，紫色是过去分词。点击每一态可单独朗读。</p>
+              <div class="forms-stack" id="formsStack"></div>
+              <div class="can-note" id="canNote" hidden>
+                <strong lang="en">can</strong> 是情态动词，没有独立的过去分词；完成意义需根据语境改写。
+              </div>
+            </section>
+
+            <section class="learn-step" id="stepExamples" hidden>
+              <div class="step-kicker"><span>04</span> Context orbit</div>
+              <h2>在三段语境里完成闭环</h2>
+              <p>每条例句都有独立场景图、难度标签与朗读按钮，重点形式已按轨道颜色标记。</p>
+              <div class="examples-list" id="examplesList"></div>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <nav class="learning-bottom-nav" aria-label="学习导航">
+      <div class="word-switcher">
+        <button class="button button-secondary" id="previousWord" type="button">
+          <span class="previousWordIcon" aria-hidden="true"></span><span>上一词</span>
+        </button>
+        <button class="button button-secondary" id="nextWordQuick" type="button">
+          <span>下一词</span><span class="nextWordIcon" aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="step-switcher">
+        <button class="button button-secondary" id="previousStep" type="button">
+          <span class="previousStepIcon" aria-hidden="true"></span><span>上一步</span>
+        </button>
+        <button class="button button-primary" id="nextStep" type="button">
+          <span id="nextStepLabel">揭开图意</span><span class="nextStepIcon" aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="next-word-zone">
+        <button class="button button-primary" id="completeWord" type="button">
+          <span id="completeLabel">完成本词</span><span class="completeIcon" aria-hidden="true"></span>
+        </button>
+      </div>
+    </nav>
   </div>
 
-  <main class="stage" id="mainStage">
-    <div class="step-dots" id="stepDots">
-      <div class="dot active" data-step="0"></div>
-      <div class="dot" data-step="1"></div>
-      <div class="dot" data-step="2"></div>
-      <div class="dot" data-step="3"></div>
-    </div>
-
-    <!-- Step 0: Sound first -->
-    <section id="stepSound">
-      <p class="phase-label">Step 1 · 声音先行</p>
-      <div class="sound-card">
-        <button type="button" class="sound-btn" id="playVerb" aria-label="播放发音"><i class="fas fa-volume-high"></i></button>
-        <div class="verb-word" id="verbBase">—</div>
-        <div class="verb-ipa" id="verbIpa"></div>
-        <div class="verb-cn" id="verbCn"></div>
-      </div>
-      <div class="nav-row">
-        <button type="button" class="nav-btn" id="prevBtn" disabled><i class="fas fa-chevron-left"></i> 上一个</button>
-        <button type="button" class="nav-btn primary" id="toImage">看图意 <i class="fas fa-arrow-right"></i></button>
-      </div>
-    </section>
-
-    <!-- Step 1: Image -->
-    <section id="stepImage" class="hidden">
-      <p class="phase-label">Step 2 · 图意先行</p>
-      <div class="image-card" id="verbImageCard">
-        <img id="verbImg" alt="" style="opacity:0" />
-        <div class="placeholder" id="verbPlaceholder"><span id="verbEmoji">📖</span><span>动词场景图</span></div>
-      </div>
-      <div class="nav-row">
-        <button type="button" class="nav-btn" id="backSound"><i class="fas fa-chevron-left"></i> 重听</button>
-        <button type="button" class="nav-btn primary" id="toForms">学三态 <i class="fas fa-arrow-right"></i></button>
-      </div>
-    </section>
-
-    <!-- Step 2: Three forms -->
-    <section id="stepForms" class="hidden">
-      <p class="phase-label">Step 3 · 三态变化</p>
-      <div class="forms-grid">
-        <div class="form-box base"><div class="label">原形 Base</div><div class="value" id="fBase">—</div></div>
-        <div class="form-box past"><div class="label">过去式 Past</div><div class="value" id="fPast">—</div></div>
-        <div class="form-box pp"><div class="label">过去分词 PP</div><div class="value" id="fPp">—</div></div>
-      </div>
-      <div class="nav-row">
-        <button type="button" class="nav-btn" id="backImage"><i class="fas fa-chevron-left"></i> 返回</button>
-        <button type="button" class="nav-btn primary" id="toExamples">看例句 <i class="fas fa-arrow-right"></i></button>
-      </div>
-    </section>
-
-    <!-- Step 3: Examples -->
-    <section id="stepExamples" class="hidden">
-      <p class="phase-label">Step 4 · 三时态例句</p>
-      <div class="examples" id="examplesBox"></div>
-      <div class="nav-row">
-        <button type="button" class="nav-btn" id="backForms"><i class="fas fa-chevron-left"></i> 返回</button>
-        <button type="button" class="nav-btn primary" id="nextVerb">下一个动词 <i class="fas fa-chevron-right"></i></button>
-      </div>
+  <main class="learning-error" id="learningError" hidden>
+    <section class="error-card">
+      <p class="eyebrow">ORBIT PAUSED</p>
+      <h1 id="errorTitle">学习轨道暂时不可用</h1>
+      <p id="errorMessage">返回首页检查词库后再试。</p>
+      <a class="button button-primary" href="index.html">返回词汇星图</a>
     </section>
   </main>
 
   <script>
     (function () {
+      "use strict";
+
       var U = window.IrregularVerbsUtil;
+      var VV = window.VerbVerse;
       var TTS = window.IrregularVerbsTTS;
+      var status = U.getDataStatus();
       var verbs = U.getSelectedVerbs();
-      if (!verbs.length) { alert("请先在首页选择词汇"); location.href = "index.html"; return; }
-
-      var idx = 0;
+      var index = 0;
       var step = 0;
-      var EMOJI = {be:"🧍",beat:"🥁",become:"🦋",begin:"🚀",break:"💔",bring:"🎁",build:"🏗️",buy:"🛒",can:"💪",catch:"🤲",choose:"✅",come:"👋",cost:"💰",cut:"✂️",do:"✍️",draw:"🎨",drink:"🥤",drive:"🚗",eat:"🍽️",fall:"🍂",feel:"💭",fight:"🥊",find:"🔍",fly:"✈️",forget:"🤔",get:"🎯",give:"🤝",go:"🚶",grow:"🌱",hang:"🖼️",have:"📚",hear:"👂",hit:"⚾",hurt:"🩹",hold:"🤲",keep:"🔒",know:"💡",lead:"🧭",leave:"🚪",lend:"📖",let:"🚦",lie:"🛏️",light:"💡",lose:"😢",make:"🔨",mean:"📖",meet:"👥",pay:"💳",put:"📦",read:"📕",ride:"🚲",ring:"🔔",rise:"🌅",run:"🏃",say:"💬",see:"👁️",sell:"🏪",send:"✉️",set:"⏰",shoot:"📷",show:"🎬",sing:"🎤",sit:"🪑",sleep:"😴",speak:"🗣️",spend:"⏳",stand:"🧍‍♂️",steal:"🚫",strike:"⚡",swim:"🏊",take:"🤏",teach:"👩‍🏫",tell:"📢",think:"🧠",throw:"🎯",understand:"🤓",wake:"⏰",wear:"👕",win:"🏆",write:"✏️"};
+      var completedIds = [];
+      var STEP_META = [
+        { code: "01 · LISTEN", hint: "先听声音，再揭开图意", next: "揭开图意" },
+        { code: "02 · SEE", hint: "让图像成为记忆线索", next: "进入三态" },
+        { code: "03 · TRANSFORM", hint: "沿颜色轨道观察变化", next: "阅读例句" },
+        { code: "04 · USE", hint: "把形式放回真实语境", next: "掌握并下一词" },
+      ];
+      var STEP_IDS = ["stepSound", "stepImage", "stepForms", "stepExamples"];
+      var EXAMPLE_KEYS = ["present", "past", "perfect"];
 
-      var steps = ["stepSound","stepImage","stepForms","stepExamples"];
-      var progFill = document.getElementById("progFill");
-      var progText = document.getElementById("progText");
+      function currentVerb() {
+        return verbs[index] || null;
+      }
 
-      function v() { return verbs[idx]; }
+      function decorateIcons() {
+        document.getElementById("backIcon").innerHTML = VV.icon("arrowLeft");
+        document.getElementById("primarySoundIcon").innerHTML = VV.icon("volume");
+        document.querySelector(".inlineSoundIcon").innerHTML = VV.icon("volume");
+        document.querySelector(".previousWordIcon").innerHTML = VV.icon("chevronLeft");
+        document.querySelector(".nextWordIcon").innerHTML = VV.icon("chevronRight");
+        document.querySelector(".previousStepIcon").innerHTML = VV.icon("arrowLeft");
+        document.querySelector(".nextStepIcon").innerHTML = VV.icon("arrowRight");
+        document.querySelector(".completeIcon").innerHTML = VV.icon("check");
+      }
 
-      function setStep(s) {
-        step = s;
-        steps.forEach(function (id, i) {
-          document.getElementById(id).classList.toggle("hidden", i !== s);
+      function showError(title, message) {
+        document.getElementById("learningApp").hidden = true;
+        document.getElementById("learningError").hidden = false;
+        document.getElementById("errorTitle").textContent = title;
+        document.getElementById("errorMessage").textContent = message;
+      }
+
+      function restoreProgress() {
+        var fresh = new URLSearchParams(window.location.search).get("fresh") === "1";
+        if (fresh) return;
+        var progress = U.getLearningProgress();
+        if (!progress) return;
+        var restoredIndex = verbs.findIndex(function (verb) {
+          return verb.id === progress.verbId;
         });
-        document.querySelectorAll(".dot").forEach(function (d, i) {
-          d.classList.toggle("active", i === s);
+        if (restoredIndex !== -1) {
+          index = restoredIndex;
+          step = Math.max(0, Math.min(3, Number(progress.step) || 0));
+        }
+        completedIds = Array.isArray(progress.completedIds) ? progress.completedIds.slice() : [];
+      }
+
+      function saveProgress() {
+        var verb = currentVerb();
+        if (!verb) return;
+        U.saveLearningProgress({
+          verbId: verb.id,
+          index: index,
+          step: step,
+          completedIds: completedIds,
         });
-        if (s === 0) autoPlayVerb();
       }
 
-      function updateProgress() {
-        var pct = ((idx + (step + 1) / 4) / verbs.length) * 100;
-        progFill.style.width = pct + "%";
-        progText.textContent = (idx + 1) + "/" + verbs.length;
+      function buildNavigation() {
+        var rail = document.getElementById("wordRail");
+        var select = document.getElementById("mobileWordSelect");
+        rail.replaceChildren();
+        select.replaceChildren();
+        verbs.forEach(function (verb, position) {
+          var mastery = U.getMastery(verb.id);
+          var button = document.createElement("button");
+          button.type = "button";
+          button.className =
+            "rail-word" +
+            (position === index ? " is-current" : "") +
+            (mastery.completed ? " is-mastered" : "");
+          button.setAttribute("aria-current", position === index ? "true" : "false");
+          button.innerHTML =
+            '<span class="rail-index">' +
+            String(position + 1).padStart(2, "0") +
+            '</span><strong lang="en"></strong><span class="rail-state" aria-hidden="true"></span>';
+          button.querySelector("strong").textContent = verb.base;
+          button.addEventListener("click", function () {
+            goToWord(position);
+          });
+          rail.appendChild(button);
+
+          var option = document.createElement("option");
+          option.value = String(position);
+          option.textContent = String(position + 1).padStart(2, "0") + " · " + verb.base;
+          option.selected = position === index;
+          select.appendChild(option);
+        });
+        document.getElementById("railCount").textContent = verbs.length;
+        window.setTimeout(function () {
+          var current = rail.querySelector(".is-current");
+          if (current) current.scrollIntoView({ block: "nearest" });
+        }, 20);
       }
 
-      function loadImg(imgEl, src, phEl, localId) {
-        if (!src && !localId) { if (phEl) phEl.style.display = "flex"; imgEl.style.opacity = "0"; return; }
-        imgEl.onload = function () { imgEl.style.opacity = "1"; if (phEl) phEl.style.display = "none"; };
-        imgEl.onerror = function () {
-          if (localId && !imgEl.dataset.triedLocal) {
-            imgEl.dataset.triedLocal = "1";
-            imgEl.src = "images/" + localId + ".png";
-            return;
-          }
-          imgEl.style.opacity = "0"; if (phEl) phEl.style.display = "flex";
-        };
-        imgEl.src = src || ("images/" + localId + ".png");
-      }
-
-      function renderVerb() {
-        var verb = v();
-        document.getElementById("verbBase").textContent = verb.base;
-        document.getElementById("verbIpa").textContent = verb.ipa + (verb.ipa_note ? "  " + verb.ipa_note : "");
-        document.getElementById("verbCn").textContent = verb.cn;
-        document.getElementById("fBase").textContent = verb.base;
-        document.getElementById("fPast").textContent = verb.past;
-        document.getElementById("fPp").textContent = verb.pp;
-        document.getElementById("verbEmoji").textContent = EMOJI[verb.id] || "📖";
-        loadImg(document.getElementById("verbImg"), verb.images.verb, document.getElementById("verbPlaceholder"), verb.id);
-        renderExamples(verb);
-        document.getElementById("prevBtn").disabled = idx === 0;
-        updateProgress();
+      function renderForms(verb) {
+        var stack = document.getElementById("formsStack");
+        var forms = [
+          { label: "Base · 原形", value: verb.base, speak: verb.base },
+          { label: "Past · 过去式", value: verb.past, speak: verb.past.replace(/\s*\/\s*/g, " or ") },
+          {
+            label: "Past participle · 过去分词",
+            value: verb.id === "can" ? "— 无独立分词" : verb.pp,
+            speak: verb.id === "can" ? "Can has no independent past participle." : verb.pp,
+          },
+        ];
+        stack.replaceChildren();
+        forms.forEach(function (form, position) {
+          var row = document.createElement("div");
+          row.className = "form-orbit";
+          row.innerHTML =
+            '<span class="form-number">0' +
+            (position + 1) +
+            '</span><span class="form-copy"><span></span><strong lang="en"></strong></span>' +
+            '<button class="icon-button form-speak" type="button" aria-label="朗读"></button>';
+          row.querySelector(".form-copy span").textContent = form.label;
+          row.querySelector(".form-copy strong").textContent = form.value;
+          var button = row.querySelector("button");
+          button.setAttribute("aria-label", "朗读 " + form.label + "：" + form.value);
+          button.innerHTML = VV.icon("volume");
+          button.addEventListener("click", function () {
+            playSpeech(form.speak, button, "正在朗读" + form.label);
+          });
+          stack.appendChild(row);
+        });
+        document.getElementById("canNote").hidden = verb.id !== "can";
       }
 
       function renderExamples(verb) {
-        var box = document.getElementById("examplesBox");
-        box.innerHTML = "";
-        ["present","past","perfect"].forEach(function (key) {
-          var ex = verb.examples[key];
-          var formMap = { present: verb.base, past: verb.past, perfect: "have/has " + verb.pp };
-          var card = document.createElement("div");
-          card.className = "ex-card " + key + " reveal";
-          var imgSrc = verb.images[key];
+        var list = document.getElementById("examplesList");
+        list.replaceChildren();
+        EXAMPLE_KEYS.forEach(function (key) {
+          var example = verb.examples[key];
+          var card = document.createElement("article");
+          card.className = "example-card";
+          card.dataset.tense = key;
           card.innerHTML =
-            '<div class="ex-img"><img alt="" /><div class="ph">' + (EMOJI[verb.id] || "📖") + '</div></div>' +
-            '<div class="ex-body">' +
-            '<span class="ex-tag">' + ex.tense + ' · ' + ex.level + '</span>' +
-            '<p class="ex-en">' + U.highlightVerb(ex.en, formMap[key]) + '</p>' +
-            '<p class="ex-cn">' + ex.cn + '</p>' +
-            '<button type="button" class="ex-play"><i class="fas fa-volume-high"></i> 朗读例句</button>' +
-            '</div>';
-          var img = card.querySelector(".ex-img img");
-          var ph = card.querySelector(".ex-img .ph");
-          loadImg(img, imgSrc, ph, verb.id + "_" + key);
-          card.querySelector(".ex-play").addEventListener("click", function () {
-            TTS.speak(ex.en);
+            '<div class="example-thumb"><img alt="" /><span class="example-thumb-placeholder">' +
+            (key === "present" ? "NOW" : key === "past" ? "PAST" : "PERFECT") +
+            '</span></div><div class="example-body"><div class="example-meta">' +
+            '<span class="tense-tag"></span><span class="level-tag"></span></div>' +
+            '<p class="example-en" lang="en"></p><p class="example-cn"></p>' +
+            '<button class="icon-button example-speak" type="button" aria-label="朗读例句"></button></div>';
+
+          card.querySelector(".tense-tag").textContent = example.tense;
+          card.querySelector(".level-tag").textContent = example.level;
+          card.querySelector(".example-en").innerHTML = U.highlightVerb(
+            example.en,
+            U.getHighlightForms(verb, key)
+          );
+          card.querySelector(".example-cn").textContent = example.cn;
+          var speakButton = card.querySelector(".example-speak");
+          speakButton.innerHTML = VV.icon("volume");
+          speakButton.setAttribute("aria-label", "朗读" + example.tense + "例句");
+          speakButton.addEventListener("click", function () {
+            playSpeech(example.en, speakButton, "正在朗读" + example.tense + "例句");
           });
-          box.appendChild(card);
+
+          var image = card.querySelector("img");
+          var placeholder = card.querySelector(".example-thumb-placeholder");
+          VV.loadImage(image, U.mediaUrl(verb.images[key]), {
+            placeholder: placeholder,
+            alt: example.cn + "的场景图",
+          });
+          list.appendChild(card);
         });
       }
 
-      function autoPlayVerb() {
-        var btn = document.getElementById("playVerb");
-        btn.classList.add("playing");
-        TTS.speak(v().base, { onDone: function () { btn.classList.remove("playing"); } });
+      function playSpeech(text, button, announcement) {
+        if (!text) return;
+        document.querySelectorAll(".is-playing").forEach(function (node) {
+          node.classList.remove("is-playing");
+        });
+        button.classList.add("is-playing");
+        VV.announce(announcement);
+        TTS.speak(text).then(function (worked) {
+          button.classList.remove("is-playing");
+          if (!worked) VV.toast("当前设备暂时无法播放语音。", { tone: "error" });
+        });
       }
 
-      document.getElementById("playVerb").addEventListener("click", autoPlayVerb);
-      document.getElementById("toImage").addEventListener("click", function () { setStep(1); });
-      document.getElementById("backSound").addEventListener("click", function () { setStep(0); });
-      document.getElementById("toForms").addEventListener("click", function () { setStep(2); });
-      document.getElementById("backImage").addEventListener("click", function () { setStep(1); });
-      document.getElementById("toExamples").addEventListener("click", function () { setStep(3); });
-      document.getElementById("backForms").addEventListener("click", function () { setStep(2); });
+      function renderVerb() {
+        var verb = currentVerb();
+        if (!verb) return;
+        TTS.stop();
+        document.getElementById("verbBase").textContent = verb.base;
+        document.getElementById("verbIpa").textContent =
+          verb.ipa + (verb.ipa_note ? " · " + verb.ipa_note : "");
+        document.getElementById("soundWord").textContent = verb.base;
+        document.getElementById("soundMeaning").textContent = verb.cn;
+        document.getElementById("imageMeaning").textContent = verb.cn;
+        document.getElementById("canvasVerb").textContent = verb.base;
+        document.getElementById("canvasMeaning").textContent = verb.cn;
+        document.getElementById("canvasOrdinal").textContent =
+          String(index + 1).padStart(2, "0") + " / " + String(verbs.length).padStart(2, "0");
 
-      document.getElementById("prevBtn").addEventListener("click", function () {
-        if (idx > 0) { idx--; setStep(0); renderVerb(); }
-      });
-      document.getElementById("nextVerb").addEventListener("click", function () {
-        if (idx < verbs.length - 1) { idx++; setStep(0); renderVerb(); }
-        else { alert("恭喜！已学完所选 " + verbs.length + " 个动词。去游戏复习吧！"); location.href = "games/index.html"; }
-      });
+        var mastery = U.getMastery(verb.id);
+        var badge = document.getElementById("masteryBadge");
+        badge.classList.toggle("is-mastered", Boolean(mastery.completed));
+        badge.textContent = mastery.completed ? "已掌握" : "探索中";
 
+        var image = document.getElementById("verbImage");
+        VV.loadImage(image, U.mediaUrl(verb.images.verb), {
+          placeholder: document.getElementById("imagePlaceholder"),
+          alt: verb.cn + "的动词场景图",
+        });
+        renderForms(verb);
+        renderExamples(verb);
+        buildNavigation();
+        setStep(step, false);
+        U.recordMastery(verb.id, { visited: true, step: step + 1 });
+      }
+
+      function updateProgress() {
+        var position = index * 4 + step + 1;
+        var total = verbs.length * 4;
+        var percent = total ? Math.round((position / total) * 100) : 0;
+        document.getElementById("progressFill").style.setProperty("--progress", percent + "%");
+        document.getElementById("progressText").textContent =
+          (index + 1) + " / " + verbs.length + " · " + percent + "%";
+      }
+
+      function setStep(nextStep, shouldAnnounce) {
+        step = Math.max(0, Math.min(3, nextStep));
+        var meta = STEP_META[step];
+        STEP_IDS.forEach(function (id, position) {
+          document.getElementById(id).hidden = position !== step;
+        });
+        document.querySelectorAll("[data-track-step]").forEach(function (item, position) {
+          item.classList.toggle("is-active", position === step);
+          item.classList.toggle("is-done", position < step);
+        });
+        document.getElementById("learningCanvas").classList.toggle("is-sound-step", step === 0);
+        document.getElementById("canvasStep").textContent = meta.code;
+        document.getElementById("canvasHint").textContent = meta.hint;
+        document.getElementById("nextStepLabel").textContent = meta.next;
+        document.getElementById("previousStep").disabled = step === 0;
+        document.getElementById("completeWord").disabled = step < 3;
+        document.getElementById("completeLabel").textContent =
+          index === verbs.length - 1 ? "完成本轮" : "掌握本词";
+        U.recordMastery(currentVerb().id, { step: step + 1 });
+        updateProgress();
+        saveProgress();
+        if (shouldAnnounce) {
+          VV.announce("第 " + (step + 1) + " 步：" + meta.code);
+        }
+      }
+
+      function goToWord(nextIndex) {
+        if (nextIndex < 0 || nextIndex >= verbs.length || nextIndex === index) return;
+        index = nextIndex;
+        step = 0;
+        renderVerb();
+        VV.announce("当前动词：" + currentVerb().base + "，" + currentVerb().cn);
+      }
+
+      function previousWord() {
+        if (index > 0) goToWord(index - 1);
+        else VV.toast("已经是本轮第一个动词。");
+      }
+
+      function nextWord() {
+        if (index < verbs.length - 1) goToWord(index + 1);
+        else VV.toast("已经到达本轮最后一个动词。");
+      }
+
+      function completeCurrent() {
+        var verb = currentVerb();
+        U.recordMastery(verb.id, { completed: true, step: 4 });
+        if (completedIds.indexOf(verb.id) === -1) completedIds.push(verb.id);
+        saveProgress();
+        buildNavigation();
+        document.getElementById("masteryBadge").classList.add("is-mastered");
+        document.getElementById("masteryBadge").textContent = "已掌握";
+
+        if (index < verbs.length - 1) {
+          VV.toast("已掌握 “" + verb.base + "”，进入下一个动词。");
+          goToWord(index + 1);
+          return;
+        }
+        VV.showSettlement({
+          count: verbs.length,
+          title: "轨道探索完成",
+          message: "你已走完声音、图意、三态和语境四个坐标。现在用游戏检验提取速度。",
+          gamesHref: "games/index.html",
+          onRestart: function () {
+            index = 0;
+            step = 0;
+            renderVerb();
+          },
+        });
+      }
+
+      function handleKeyboard(event) {
+        var target = event.target;
+        if (target && /INPUT|SELECT|TEXTAREA|BUTTON|A/.test(target.tagName)) return;
+        if (event.key === "ArrowUp") {
+          event.preventDefault();
+          previousWord();
+        } else if (event.key === "ArrowDown") {
+          event.preventDefault();
+          nextWord();
+        } else if (event.key === "ArrowLeft" && step > 0) {
+          event.preventDefault();
+          setStep(step - 1, true);
+        } else if (event.key === "ArrowRight") {
+          event.preventDefault();
+          if (step < 3) setStep(step + 1, true);
+          else completeCurrent();
+        }
+      }
+
+      if (!status.valid) {
+        showError("动词数据需要检查", status.errors.slice(0, 2).join("；"));
+        return;
+      }
+      if (!verbs.length) {
+        showError("本轮词库还是空的", "返回词汇星图选择至少一个动词，即可开启学习轨道。");
+        return;
+      }
+
+      decorateIcons();
+      restoreProgress();
       renderVerb();
-      setTimeout(autoPlayVerb, 400);
+
+      document.getElementById("primarySound").addEventListener("click", function () {
+        playSpeech(currentVerb().base, this, "正在朗读 " + currentVerb().base);
+      });
+      document.getElementById("inlineSound").addEventListener("click", function () {
+        playSpeech(currentVerb().base, this, "正在朗读 " + currentVerb().base);
+      });
+      document.getElementById("previousStep").addEventListener("click", function () {
+        setStep(step - 1, true);
+      });
+      document.getElementById("nextStep").addEventListener("click", function () {
+        if (step < 3) setStep(step + 1, true);
+        else completeCurrent();
+      });
+      document.getElementById("completeWord").addEventListener("click", completeCurrent);
+      document.getElementById("previousWord").addEventListener("click", previousWord);
+      document.getElementById("nextWordQuick").addEventListener("click", nextWord);
+      document.getElementById("mobileWordSelect").addEventListener("change", function () {
+        goToWord(Number(this.value));
+      });
+      document.addEventListener("keydown", handleKeyboard);
+
+      VV.announce("学习轨道已载入。点击播放按钮开始，不会自动播放声音。");
     })();
   </script>
 </body>

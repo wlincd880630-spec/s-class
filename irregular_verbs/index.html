@@ -3,278 +3,407 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>不规则动词 · 学习 · 练习 · 复习</title>
+  <meta name="theme-color" content="#f7f3ea" />
+  <title>Verb Atlas · 不规则动词时态轨道</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&family=Noto+Sans+SC:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/verbverse.css" />
   <script src="../scripts/auth-check.js"></script>
   <script src="verbs-data.js"></script>
   <script src="shared.js"></script>
-  <style>
-    :root {
-      --bg: #0c1222;
-      --surface: #151d2e;
-      --surface2: #1c2740;
-      --accent: #3b82f6;
-      --accent2: #8b5cf6;
-      --gold: #f59e0b;
-      --text: #f1f5f9;
-      --muted: #94a3b8;
-      --border: rgba(148, 163, 184, 0.15);
-      --radius: 16px;
-      --shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: "Noto Sans SC", "DM Sans", sans-serif;
-      min-height: 100dvh;
-      background: var(--bg);
-      background-image:
-        radial-gradient(ellipse 80% 50% at 20% -10%, rgba(59, 130, 246, 0.22), transparent),
-        radial-gradient(ellipse 60% 40% at 90% 10%, rgba(139, 92, 246, 0.18), transparent);
-      color: var(--text);
-      line-height: 1.6;
-    }
-    .wrap { max-width: 960px; margin: 0 auto; padding: 1.25rem; }
-    .back {
-      display: inline-flex; align-items: center; gap: 0.4rem;
-      color: var(--muted); text-decoration: none; font-size: 0.88rem;
-      margin-bottom: 1.25rem; transition: color 0.2s;
-    }
-    .back:hover { color: var(--accent); }
-    .hero {
-      text-align: center;
-      padding: 2rem 1rem 2.5rem;
-      background: linear-gradient(145deg, var(--surface) 0%, var(--surface2) 100%);
-      border-radius: calc(var(--radius) + 4px);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      margin-bottom: 1.5rem;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero::before {
-      content: "";
-      position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(139,92,246,0.06));
-      pointer-events: none;
-    }
-    .hero-badge {
-      display: inline-block;
-      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
-      text-transform: uppercase; color: var(--gold);
-      background: rgba(245, 158, 11, 0.12);
-      border: 1px solid rgba(245, 158, 11, 0.3);
-      padding: 0.3rem 0.75rem; border-radius: 999px;
-      margin-bottom: 0.75rem;
-    }
-    .hero h1 {
-      font-family: "DM Sans", sans-serif;
-      font-size: clamp(1.6rem, 5vw, 2.2rem);
-      font-weight: 700;
-      background: linear-gradient(135deg, #fff 30%, #93c5fd);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 0.5rem;
-      position: relative;
-    }
-    .hero p { color: var(--muted); font-size: 0.95rem; max-width: 32rem; margin: 0 auto; position: relative; }
-    .stats {
-      display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;
-      margin-top: 1.25rem; position: relative;
-    }
-    .stat { text-align: center; }
-    .stat strong { display: block; font-size: 1.5rem; color: var(--accent); font-family: "DM Sans", sans-serif; }
-    .stat span { font-size: 0.78rem; color: var(--muted); }
-    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.35rem;
-      text-decoration: none; color: inherit;
-      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
-      display: flex; flex-direction: column; gap: 0.5rem;
-    }
-    .card:hover {
-      transform: translateY(-3px);
-      border-color: rgba(59, 130, 246, 0.4);
-      box-shadow: 0 12px 32px rgba(59, 130, 246, 0.15);
-    }
-    .card-icon {
-      width: 48px; height: 48px; border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.25rem; margin-bottom: 0.25rem;
-    }
-    .card.learn .card-icon { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
-    .card.games .card-icon { background: rgba(139, 92, 246, 0.15); color: #a78bfa; }
-    .card h2 { font-size: 1.1rem; font-weight: 700; }
-    .card p { font-size: 0.85rem; color: var(--muted); flex: 1; }
-    .card .arrow { color: var(--accent); font-size: 0.85rem; font-weight: 600; }
-    .panel {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem;
-      margin-bottom: 1.5rem;
-    }
-    .panel-head {
-      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
-      gap: 0.75rem; margin-bottom: 1rem;
-    }
-    .panel-head h3 { font-size: 1rem; font-weight: 700; }
-    .panel-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-    .btn {
-      font-family: inherit; font-size: 0.82rem; font-weight: 600;
-      padding: 0.45rem 0.9rem; border-radius: 8px; border: none; cursor: pointer;
-      transition: background 0.2s, transform 0.15s;
-    }
-    .btn:active { transform: scale(0.97); }
-    .btn-ghost { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
-    .btn-ghost:hover { background: rgba(59, 130, 246, 0.12); }
-    .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; }
-    .word-grid {
-      display: flex; flex-wrap: wrap; gap: 0.4rem;
-      max-height: 280px; overflow-y: auto;
-      padding: 0.25rem;
-    }
-    .word-chip {
-      font-family: "DM Sans", sans-serif;
-      font-size: 0.78rem; font-weight: 600;
-      padding: 0.3rem 0.65rem; border-radius: 999px;
-      border: 1px solid var(--border);
-      background: var(--surface2);
-      color: var(--muted);
-      cursor: pointer;
-      transition: all 0.15s;
-      user-select: none;
-    }
-    .word-chip.on {
-      background: rgba(59, 130, 246, 0.2);
-      border-color: rgba(59, 130, 246, 0.5);
-      color: #93c5fd;
-    }
-    .selected-count { font-size: 0.82rem; color: var(--muted); }
-    .selected-count strong { color: var(--gold); }
-    .features {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 0.75rem;
-    }
-    .feat {
-      background: var(--surface2);
-      border-radius: 10px;
-      padding: 0.85rem;
-      font-size: 0.82rem;
-      color: var(--muted);
-    }
-    .feat i { color: var(--accent); margin-right: 0.35rem; }
-    .feat strong { color: var(--text); display: block; margin-bottom: 0.2rem; font-size: 0.88rem; }
-  </style>
+  <script src="azure-tts.js"></script>
+  <script src="assets/verbverse.js"></script>
 </head>
-<body>
-  <div class="wrap">
-    <a href="../index.html#stage-junior" class="back"><i class="fas fa-arrow-left"></i> 返回初中阶段</a>
+<body class="atlas-index">
+  <header class="site-topbar">
+    <a class="brand-lockup" href="index.html" aria-label="Verb Atlas 首页">
+      <span class="brand-mark" aria-hidden="true">VA</span>
+      <span class="brand-copy">
+        <strong lang="en">Verb Atlas</strong>
+        <span>Irregular verb studio</span>
+      </span>
+    </a>
+    <a class="topbar-back" href="../index.html#stage-junior">
+      <span aria-hidden="true" id="topBackIcon"></span>
+      <span>返回初中阶段</span>
+    </a>
+  </header>
 
-    <header class="hero">
-      <div class="hero-badge">Junior High · Grammar</div>
-      <h1>不规则动词专项</h1>
-      <p>80 个核心不规则动词 · 声音先行 · 图意先行 · 三时态例句 · 五种游戏复习</p>
-      <div class="stats">
-        <div class="stat"><strong>80</strong><span>核心动词</span></div>
-        <div class="stat"><strong>3</strong><span>时态例句</span></div>
-        <div class="stat"><strong>5</strong><span>复习游戏</span></div>
+  <main class="atlas-shell">
+    <section class="atlas-hero" aria-labelledby="heroTitle">
+      <div class="hero-copy">
+        <p class="eyebrow">Junior English · Tense Orbit 01</p>
+        <h1 class="hero-title" id="heroTitle" lang="en">
+          Verb<br />Atlas
+          <em>不规则动词 · 时态轨道</em>
+        </h1>
+        <p class="hero-lede">
+          从声音出发，经过图意、三态与真实语境，把 80 个核心动词绘成一张可重复探索的记忆地图。
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary guarded-learn-link" href="learn.html">
+            开始探索
+            <span class="action-arrow" aria-hidden="true"></span>
+          </a>
+          <a class="button button-secondary" href="#wordStudio">定制词库</a>
+        </div>
       </div>
-    </header>
+      <div class="hero-media" aria-label="动词场景插画">
+        <div class="hero-image-frame hero-image-main">
+          <img id="heroMainImage" alt="学生在运动场奔跑的动词场景" />
+        </div>
+        <div class="hero-image-frame hero-image-accent">
+          <img id="heroAccentImage" alt="书写动词的学习场景" />
+        </div>
+        <div class="hero-orbit" aria-hidden="true"><strong>80</strong></div>
+      </div>
+    </section>
 
-    <div class="cards">
-      <a href="learn.html" class="card learn">
-        <div class="card-icon"><i class="fas fa-headphones"></i></div>
-        <h2>沉浸式学习</h2>
-        <p>先听发音、再看图意，配合一般现在时、一般过去时、现在完成时例句，逐词掌握三态变化。</p>
-        <span class="arrow">进入学习 <i class="fas fa-arrow-right"></i></span>
-      </a>
-      <a href="games/index.html" class="card games">
-        <div class="card-icon"><i class="fas fa-gamepad"></i></div>
-        <h2>游戏复习</h2>
-        <p>三态连线、听音辨形、例句填空、时光隧道、记忆翻牌——五种玩法巩固记忆。</p>
-        <span class="arrow">开始游戏 <i class="fas fa-arrow-right"></i></span>
-      </a>
-    </div>
+    <section class="overview-strip" aria-label="课程数据概览">
+      <div class="overview-intro">
+        <p class="eyebrow">DATA OVERVIEW</p>
+        <p>按变化规律组织，以现在、过去、完成三条色彩轨道建立结构化记忆。</p>
+      </div>
+      <div class="overview-stat">
+        <strong id="totalVerbStat">80</strong>
+        <span>核心动词</span>
+      </div>
+      <div class="overview-stat">
+        <strong>240</strong>
+        <span>分级语境例句</span>
+      </div>
+      <div class="overview-stat">
+        <strong>5</strong>
+        <span>互动复习游戏</span>
+      </div>
+    </section>
 
-    <section class="panel">
-      <div class="panel-head">
+    <section aria-labelledby="routeTitle">
+      <div class="section-heading">
         <div>
-          <h3>选定练习词汇</h3>
-          <p class="selected-count">已选 <strong id="selCount">80</strong> / 80 个动词</p>
+          <p class="eyebrow">CHOOSE YOUR ROUTE</p>
+          <h2 id="routeTitle">双入口，一条学习闭环</h2>
         </div>
-        <div class="panel-actions">
-          <button type="button" class="btn btn-ghost" id="btnAll">全选</button>
-          <button type="button" class="btn btn-ghost" id="btnNone">清空</button>
-          <button type="button" class="btn btn-primary" id="btnSave">保存选择</button>
-        </div>
+        <p>先在 Atlas 建立声音与时态联结，再用五类游戏提取记忆。你选择的词库会在两个入口间同步。</p>
       </div>
-      <div class="word-grid" id="wordGrid"></div>
+      <div class="route-grid">
+        <a class="route-card guarded-learn-link" href="learn.html">
+          <div class="route-copy">
+            <span class="route-number">ROUTE 01 · LEARN</span>
+            <h3>探索<br />时态轨道</h3>
+            <p>声音 → 图意 → 三态 → 例句，一次只处理一个认知任务，逐词形成完整记忆。</p>
+            <span class="route-link">进入学习 <span class="route-arrow" aria-hidden="true"></span></span>
+          </div>
+          <div class="route-visual">
+            <img id="routeLearnImage" alt="学习不规则动词的三维场景" />
+          </div>
+        </a>
+        <a class="route-card route-card-games" href="games/index.html">
+          <div class="route-copy">
+            <span class="route-number">ROUTE 02 · PRACTISE</span>
+            <h3>挑战<br />五个游戏</h3>
+            <p>三态连线、听音辨形、语境填空、时光隧道与记忆翻牌，让提取练习真正发生。</p>
+            <span class="route-link">打开游戏大厅 <span class="route-arrow" aria-hidden="true"></span></span>
+          </div>
+          <div class="game-constellation" aria-hidden="true"></div>
+          <span class="game-count" aria-hidden="true">05</span>
+        </a>
+      </div>
     </section>
 
-    <section class="panel">
-      <h3 style="margin-bottom:0.75rem;font-size:1rem;">学习特色</h3>
-      <div class="features">
-        <div class="feat"><strong><i class="fas fa-volume-high"></i>声音先行</strong>Azure 英式慢速男声，教材标准发音</div>
-        <div class="feat"><strong><i class="fas fa-image"></i>图意先行</strong>卡通 3D 配图，一眼记住词义场景</div>
-        <div class="feat"><strong><i class="fas fa-clock"></i>三时态例句</strong>初一难度现在/过去 + 中考难度完成时</div>
-        <div class="feat"><strong><i class="fas fa-pen"></i>写作价值</strong>例句贴近校园生活，可直接用于表达</div>
+    <section class="continue-band" id="continueBand" aria-labelledby="continueTitle">
+      <div class="continue-meter" id="continueMeter"><strong id="continuePercent">0%</strong></div>
+      <div class="continue-copy">
+        <p class="eyebrow">YOUR CHECKPOINT</p>
+        <h2 id="continueTitle">建立你的第一条轨道</h2>
+        <p id="continueDescription">学习位置和掌握记录会自动保存在当前设备。</p>
+      </div>
+      <a class="button button-primary guarded-learn-link" id="continueLink" href="learn.html">
+        <span id="continueAction">开始学习</span>
+        <span class="continue-arrow" aria-hidden="true"></span>
+      </a>
+    </section>
+
+    <section class="workbench" id="wordStudio" aria-labelledby="studioTitle">
+      <div class="workbench-head">
+        <div class="workbench-title">
+          <p class="eyebrow">WORD STUDIO</p>
+          <h2 id="studioTitle">组装你的词汇星图</h2>
+          <p>搜索中英文或按变化规律筛选。选择会自动保存在本机，并同步到学习与游戏。</p>
+        </div>
+        <div class="selection-total" aria-live="polite" aria-atomic="true">
+          <strong><span id="selectedCount">0</span>/<span id="totalVerbCount">80</span></strong>
+          <span>已加入本轮轨道</span>
+        </div>
+      </div>
+
+      <div class="workbench-tools">
+        <label class="search-field">
+          <span class="sr-only">搜索动词、词义或音标</span>
+          <span id="searchIcon" aria-hidden="true"></span>
+          <input id="verbSearch" type="search" inputmode="search" autocomplete="off" placeholder="搜索 go / went / 去……" />
+        </label>
+        <div class="selection-actions">
+          <button class="button button-secondary" id="selectAll" type="button">全选</button>
+          <button class="button button-secondary" id="clearAll" type="button">清空</button>
+          <button class="button button-secondary" id="selectVisible" type="button">选择当前组</button>
+        </div>
+      </div>
+
+      <div class="group-tabs" id="groupTabs" role="group" aria-label="按三态变化规律筛选"></div>
+      <div class="verb-work-grid" id="verbGrid" aria-live="polite"></div>
+
+      <div class="workbench-footer">
+        <p id="studioStatus" aria-live="polite">词库选择会自动保存。</p>
+        <button class="button button-primary" id="saveAndLearn" type="button">
+          保存并进入学习
+          <span class="save-arrow" aria-hidden="true"></span>
+        </button>
       </div>
     </section>
-  </div>
+
+    <div class="data-notice" id="dataNotice" role="status" hidden></div>
+  </main>
 
   <script>
     (function () {
+      "use strict";
+
       var U = window.IrregularVerbsUtil;
+      var VV = window.VerbVerse;
+      var status = U.getDataStatus();
       var verbs = U.getAllVerbs();
       var selected = new Set(U.getSelectedIds());
-      var grid = document.getElementById("wordGrid");
-      var countEl = document.getElementById("selCount");
+      var activeGroup = "all";
+      var query = "";
 
-      function render() {
-        grid.innerHTML = "";
-        verbs.forEach(function (v) {
-          var chip = document.createElement("button");
-          chip.type = "button";
-          chip.className = "word-chip" + (selected.has(v.id) ? " on" : "");
-          chip.textContent = v.base;
-          chip.title = v.cn;
-          chip.addEventListener("click", function () {
-            if (selected.has(v.id)) selected.delete(v.id);
-            else selected.add(v.id);
-            chip.classList.toggle("on");
-            countEl.textContent = selected.size;
-          });
-          grid.appendChild(chip);
+      var grid = document.getElementById("verbGrid");
+      var countNode = document.getElementById("selectedCount");
+      var totalNodes = [
+        document.getElementById("totalVerbStat"),
+        document.getElementById("totalVerbCount"),
+      ];
+
+      function decorateIcons() {
+        document.getElementById("topBackIcon").innerHTML = VV.icon("arrowLeft");
+        document.getElementById("searchIcon").innerHTML = VV.icon("search");
+        document.querySelectorAll(".action-arrow, .route-arrow, .continue-arrow, .save-arrow").forEach(function (node) {
+          node.innerHTML = VV.icon("arrowRight");
         });
-        countEl.textContent = selected.size;
       }
 
-      document.getElementById("btnAll").addEventListener("click", function () {
-        selected = new Set(verbs.map(function (v) { return v.id; }));
-        render();
-      });
-      document.getElementById("btnNone").addEventListener("click", function () {
-        selected.clear();
-        render();
-      });
-      document.getElementById("btnSave").addEventListener("click", function () {
-        if (selected.size === 0) {
-          alert("请至少选择一个动词");
-          return;
+      function loadEditorialImages() {
+        var run = U.getVerbById("run") || verbs[0];
+        var write = U.getVerbById("write") || verbs[1] || run;
+        var build = U.getVerbById("build") || verbs[2] || run;
+        if (!run) return;
+        VV.loadImage(document.getElementById("heroMainImage"), U.mediaUrl(run.images.verb));
+        VV.loadImage(document.getElementById("heroAccentImage"), U.mediaUrl(write.images.verb));
+        VV.loadImage(document.getElementById("routeLearnImage"), U.mediaUrl(build.images.verb));
+      }
+
+      function persistSelection(silent) {
+        var result = U.setSelectedIds(Array.from(selected));
+        if (!result.saved && !silent) {
+          VV.toast("浏览器未能保存选择，请检查隐私设置。", { tone: "error" });
         }
-        U.setSelectedIds(Array.from(selected));
-        var btn = document.getElementById("btnSave");
-        btn.textContent = "已保存 ✓";
-        setTimeout(function () { btn.textContent = "保存选择"; }, 1500);
+        return result.saved;
+      }
+
+      function updateCount() {
+        countNode.textContent = selected.size;
+        totalNodes.forEach(function (node) {
+          node.textContent = verbs.length;
+        });
+        document.getElementById("studioStatus").textContent = selected.size
+          ? "已选择 " + selected.size + " 个动词，学习与游戏将使用同一词库。"
+          : "当前词库为空；选择至少一个动词后即可开始。";
+      }
+
+      function filteredVerbs() {
+        return U.searchVerbs(query, activeGroup, verbs);
+      }
+
+      function createVerbCard(verb) {
+        var button = document.createElement("button");
+        var isSelected = selected.has(verb.id);
+        button.type = "button";
+        button.className = "verb-select-card" + (isSelected ? " is-selected" : "");
+        button.setAttribute("aria-pressed", String(isSelected));
+        button.setAttribute("aria-label", (isSelected ? "移除 " : "选择 ") + verb.base + "，" + verb.cn);
+
+        var check = document.createElement("span");
+        check.className = "select-check";
+        check.innerHTML = VV.icon("check");
+
+        var word = document.createElement("span");
+        word.className = "select-word";
+        var base = document.createElement("strong");
+        base.lang = "en";
+        base.textContent = verb.base;
+        var cn = document.createElement("span");
+        cn.textContent = verb.cn;
+        word.append(base, cn);
+
+        var forms = document.createElement("span");
+        forms.className = "select-forms";
+        [verb.base, verb.past, verb.id === "can" ? "无独立分词" : verb.pp].forEach(function (form) {
+          var part = document.createElement("span");
+          part.lang = "en";
+          part.textContent = form;
+          forms.appendChild(part);
+        });
+
+        button.append(check, word, forms);
+        button.addEventListener("click", function () {
+          if (selected.has(verb.id)) selected.delete(verb.id);
+          else selected.add(verb.id);
+          persistSelection(true);
+          renderGrid();
+          updateContinue();
+        });
+        return button;
+      }
+
+      function renderGrid() {
+        var matches = filteredVerbs();
+        grid.replaceChildren();
+        if (!matches.length) {
+          var empty = document.createElement("p");
+          empty.className = "workbench-empty";
+          empty.textContent = "没有找到匹配的动词，换一个关键词或分组试试。";
+          grid.appendChild(empty);
+        } else {
+          var fragment = document.createDocumentFragment();
+          matches.forEach(function (verb) {
+            fragment.appendChild(createVerbCard(verb));
+          });
+          grid.appendChild(fragment);
+        }
+        updateCount();
+      }
+
+      function renderGroups() {
+        var tabs = document.getElementById("groupTabs");
+        tabs.replaceChildren();
+        U.GROUPS.forEach(function (group) {
+          var count = group.id === "all"
+            ? verbs.length
+            : verbs.filter(function (verb) { return U.getVerbGroup(verb) === group.id; }).length;
+          var button = document.createElement("button");
+          button.type = "button";
+          button.className = "group-tab" + (activeGroup === group.id ? " is-active" : "");
+          button.setAttribute("aria-pressed", String(activeGroup === group.id));
+          button.textContent = group.label + " · " + count;
+          button.addEventListener("click", function () {
+            activeGroup = group.id;
+            renderGroups();
+            renderGrid();
+          });
+          tabs.appendChild(button);
+        });
+      }
+
+      function updateContinue() {
+        var progress = U.getLearningProgress();
+        var summary = U.getMasterySummary(Array.from(selected));
+        var current = progress && U.getVerbById(progress.verbId);
+        var percent = summary.percent;
+        var title = document.getElementById("continueTitle");
+        var description = document.getElementById("continueDescription");
+        var action = document.getElementById("continueAction");
+        var meter = document.getElementById("continueMeter");
+
+        meter.style.setProperty("--progress", percent + "%");
+        document.getElementById("continuePercent").textContent = percent + "%";
+        if (current && selected.has(current.id)) {
+          title.textContent = "继续探索 “" + current.base + "”";
+          description.textContent =
+            "已掌握 " + summary.mastered + "/" + summary.total + " 个动词 · 回到第 " + (progress.step + 1) + " 步";
+          action.textContent = "继续学习";
+        } else {
+          title.textContent = summary.started ? "继续完成你的时态轨道" : "建立你的第一条轨道";
+          description.textContent = summary.total
+            ? "已掌握 " + summary.mastered + "/" + summary.total + " 个动词，位置会自动保存。"
+            : "先在下方词汇星图中选择本轮学习内容。";
+          action.textContent = summary.started ? "继续学习" : "开始学习";
+        }
+      }
+
+      function guardLearn(event) {
+        if (selected.size) return;
+        event.preventDefault();
+        VV.toast("先从词汇星图中选择至少一个动词。", { tone: "error" });
+        document.getElementById("wordStudio").scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      function showDataStatus() {
+        if (status.valid && !status.warnings.length) return;
+        var notice = document.getElementById("dataNotice");
+        notice.hidden = false;
+        notice.textContent = status.valid
+          ? "部分图片资源缺失，文字学习内容仍可正常使用。"
+          : "数据存在异常：" + status.errors.slice(0, 2).join("；");
+      }
+
+      document.getElementById("verbSearch").addEventListener("input", function (event) {
+        query = event.target.value;
+        renderGrid();
       });
 
-      render();
+      document.getElementById("selectAll").addEventListener("click", function () {
+        selected = new Set(verbs.map(function (verb) { return verb.id; }));
+        persistSelection(true);
+        renderGrid();
+        updateContinue();
+        VV.toast("已将全部 " + verbs.length + " 个动词加入轨道。");
+      });
+
+      document.getElementById("clearAll").addEventListener("click", function () {
+        selected.clear();
+        persistSelection(true);
+        renderGrid();
+        updateContinue();
+        VV.toast("已清空本轮词库。");
+      });
+
+      document.getElementById("selectVisible").addEventListener("click", function () {
+        var matches = filteredVerbs();
+        matches.forEach(function (verb) { selected.add(verb.id); });
+        persistSelection(true);
+        renderGrid();
+        updateContinue();
+        VV.toast("已选择当前结果中的 " + matches.length + " 个动词。");
+      });
+
+      document.getElementById("saveAndLearn").addEventListener("click", function () {
+        if (!selected.size) {
+          VV.toast("至少选择一个动词，才能进入学习。", { tone: "error" });
+          return;
+        }
+        var button = this;
+        VV.setButtonBusy(button, true, { busy: "正在保存" });
+        if (!persistSelection(false)) {
+          VV.setButtonBusy(button, false);
+          return;
+        }
+        VV.setButtonBusy(button, false, { done: "已保存" });
+        window.setTimeout(function () {
+          window.location.href = "learn.html";
+        }, 280);
+      });
+
+      document.querySelectorAll(".guarded-learn-link").forEach(function (link) {
+        link.addEventListener("click", guardLearn);
+      });
+
+      decorateIcons();
+      loadEditorialImages();
+      renderGroups();
+      renderGrid();
+      updateContinue();
+      showDataStatus();
     })();
   </script>
 </body>
