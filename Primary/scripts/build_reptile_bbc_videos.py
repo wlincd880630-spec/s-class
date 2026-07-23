@@ -23,7 +23,7 @@ import re
 import shutil
 import subprocess
 import sys
-import tempfile
+import textwrap
 import urllib.request
 from pathlib import Path
 
@@ -39,41 +39,8 @@ AZURE_KEY = os.environ.get(
 )
 AZURE_REGION = os.environ.get("AZURE_SPEECH_REGION", "eastasia")
 AZURE_VOICE = "en-GB-RyanNeural"
-
-# BBC 页面官方 transcript（p0k5jtcx）
-TRANSCRIPT_01 = (
-    "Hi I'm Tyler and this is Marion, a Sulcata tortoise. "
-    "She has dry, scaly skin making her a reptile just like crocodiles, lizards, turtles and snakes. "
-    "The grass snake is the UK's longest snake and having scaly skin protects it when moving across rough ground. "
-    "The adder has brown zigzags running along its skin. They're also shy and hard to find. "
-    "Some reptiles like snakes haven't got any legs whilst other reptiles like sand lizards have four. "
-    "The common lizard, smooth snake and slow worm can also be found living in the UK and reptiles are found living all over the world. "
-    "The Komodo dragon is the heaviest lizard on earth. It lives on land. "
-    "Reptiles can also live in the water like turtles. "
-    "And sometimes both like the green anaconda. "
-    "Nearly all reptiles lay eggs. "
-    "They also breathe air like we do, so those who live in water must come up for air. "
-    "As reptiles are cold-blooded they need to bask in the sun to warm themselves up and be ready for action. "
-    "And if you think reptiles look a bit like dinosaurs that's because dinosaurs were reptiles! "
-    "So because Marion is a reptile, that means that she lays eggs, has dry scaly skin, is cold blooded and breathes air. "
-    "Oh and there she goes starting to walk off to have a sunbathe and keep warm."
-)
-
-# 第二段：BBC 课文 + Reptiles around the world 章节
-TRANSCRIPT_02 = (
-    "Reptiles are found on all the continents of the world except Antarctica. "
-    "There are four main types of reptiles: lizards and snakes, crocodiles and alligators, turtles and tortoises, and tuatara, which are only found in New Zealand. "
-    "Each reptile has its own distinct features. "
-    "Snakes are reptiles which do not have limbs. "
-    "The shell of a tortoise is part of its skeleton on the outside of its body. It is called an exoskeleton. "
-    "A veiled chameleon has its own distinct features. "
-    "Some species of lizard drop their tails to escape predators. "
-    "Some reptiles live on land, while others like crocodiles spend much of their time in the water. "
-    "All reptiles have lungs and need air to breathe. "
-    "Reptiles are cold-blooded, which means they cannot control their body temperature. "
-    "Most reptiles lay eggs, but some reptiles such as skinks give birth to live young. "
-    "Most reptiles are carnivores and eat meat. Turtles and tortoises are mostly herbivores."
-)
+# 小学四年级：放慢语速（原 0.92 偏快）
+AZURE_SPEECH_RATE = os.environ.get("REPTILE_VIDEO_SPEECH_RATE", "0.76")
 
 VIDEOS = [
     {
@@ -82,7 +49,25 @@ VIDEOS = [
         "title": "What are reptiles?",
         "title_zh": "什么是爬行动物？",
         "vpid": "p0k5jtcx",
-        "transcript": TRANSCRIPT_01,
+        "sentences": [
+            ("Hi I'm Tyler and this is Marion, a Sulcata tortoise.", "我是 Tyler，这是苏卡达陆龟 Marion。"),
+            ("She has dry, scaly skin making her a reptile just like crocodiles, lizards, turtles and snakes.", "她有干燥、有鳞片的皮肤，是爬行动物，就像鳄鱼、蜥蜴、海龟和蛇一样。"),
+            ("The grass snake is the UK's longest snake and having scaly skin protects it when moving across rough ground.", "草蛇是英国最长的蛇，鳞片皮肤能保护它爬过粗糙的地面。"),
+            ("The adder has brown zigzags running along its skin.", "蝰蛇的皮肤上有棕色之字形花纹。"),
+            ("They're also shy and hard to find.", "它们也很害羞，很难被发现。"),
+            ("Some reptiles like snakes haven't got any legs whilst other reptiles like sand lizards have four.", "有些爬行动物如蛇没有腿，而有些如沙蜥有四条腿。"),
+            ("The common lizard, smooth snake and slow worm can also be found living in the UK and reptiles are found living all over the world.", "普通蜥蜴、滑蛇和慢蠕虫也生活在英国，爬行动物遍布世界各地。"),
+            ("The Komodo dragon is the heaviest lizard on earth.", "科莫多龙是地球上最重的蜥蜴。"),
+            ("It lives on land.", "它生活在陆地上。"),
+            ("Reptiles can also live in the water like turtles.", "爬行动物也能像海龟一样生活在水中。"),
+            ("And sometimes both like the green anaconda.", "有时两者兼具，比如绿水蟒。"),
+            ("Nearly all reptiles lay eggs.", "几乎所有爬行动物都产卵。"),
+            ("They also breathe air like we do, so those who live in water must come up for air.", "它们也像我们一样呼吸空气，生活在水中的必须上来换气。"),
+            ("As reptiles are cold-blooded they need to bask in the sun to warm themselves up and be ready for action.", "爬行动物是冷血动物，需要在阳光下取暖才能活动。"),
+            ("And if you think reptiles look a bit like dinosaurs that's because dinosaurs were reptiles!", "如果你觉得爬行动物有点像恐龙，那是因为恐龙就是爬行动物！"),
+            ("So because Marion is a reptile, that means that she lays eggs, has dry scaly skin, is cold blooded and breathes air.", "所以 Marion 是爬行动物：她产卵、有干燥鳞片皮肤、冷血并且呼吸空气。"),
+            ("Oh and there she goes starting to walk off to have a sunbathe and keep warm.", "哦，她走开去晒太阳保暖了。"),
+        ],
         "images": [
             ("https://ichef.bbci.co.uk/images/ic/1200xn/p0k5kbmq.jpg", "tortoise"),
             ("https://ichef.bbci.co.uk/images/ic/800xn/p0j74dp2.jpg", "snake"),
@@ -99,7 +84,22 @@ VIDEOS = [
         "title": "Reptiles around the world",
         "title_zh": "世界各地的爬行动物",
         "vpid": "p02n9s9t",
-        "transcript": TRANSCRIPT_02,
+        "sentences": [
+            ("Reptiles are found on all the continents of the world except Antarctica.", "除南极洲外，世界各地都有爬行动物。"),
+            ("There are four main types of reptiles: lizards and snakes, crocodiles and alligators, turtles and tortoises, and tuatara, which are only found in New Zealand.", "爬行动物主要有四类：蜥蜴和蛇、鳄鱼和短吻鳄、海龟和陆龟，以及仅生活在新西兰的喙头蜥。"),
+            ("Each reptile has its own distinct features.", "每种爬行动物都有自己独特的特征。"),
+            ("Snakes are reptiles which do not have limbs.", "蛇是没有四肢的爬行动物。"),
+            ("The shell of a tortoise is part of its skeleton on the outside of its body.", "陆龟的壳是长在体外的骨骼的一部分。"),
+            ("It is called an exoskeleton.", "这叫做外骨骼。"),
+            ("A veiled chameleon has its own distinct features.", "高冠变色龙也有自己独特的特征。"),
+            ("Some species of lizard drop their tails to escape predators.", "有些蜥蜴会断尾逃跑，躲避捕食者。"),
+            ("Some reptiles live on land, while others like crocodiles spend much of their time in the water.", "有些生活在陆地，有些如鳄鱼大部分时间在水里。"),
+            ("All reptiles have lungs and need air to breathe.", "所有爬行动物都有肺，需要空气才能呼吸。"),
+            ("Reptiles are cold-blooded, which means they cannot control their body temperature.", "爬行动物是冷血动物，不能自己调节体温。"),
+            ("Most reptiles lay eggs, but some reptiles such as skinks give birth to live young.", "大多数产卵，但有些石龙子直接生下幼崽。"),
+            ("Most reptiles are carnivores and eat meat.", "大多数爬行动物是食肉动物。"),
+            ("Turtles and tortoises are mostly herbivores.", "海龟和陆龟大多是食草动物。"),
+        ],
         "images": [
             ("https://ichef.bbci.co.uk/images/ic/1200xn/p0b1sszy.jpg", "world"),
             ("https://ichef.bbci.co.uk/images/ic/800xn/p0j74dp2.jpg", "snake"),
@@ -111,10 +111,8 @@ VIDEOS = [
     },
 ]
 
-
-def split_sentences(text: str) -> list[str]:
-    parts = re.split(r"(?<=[.!?])\s+", text.strip())
-    return [p.strip() for p in parts if p.strip()]
+# 构建后写入 manifest 的字幕时间轴
+VIDEO_CUES: dict[str, list[dict]] = {}
 
 
 def download(url: str, dest: Path) -> None:
@@ -137,7 +135,7 @@ def azure_tts(text: str, out_mp3: Path) -> None:
     )
     ssml = (
         f'<speak version="1.0" xml:lang="en-GB">'
-        f'<voice name="{AZURE_VOICE}"><prosody rate="0.92">{esc}</prosody></voice></speak>'
+        f'<voice name="{AZURE_VOICE}"><prosody rate="{AZURE_SPEECH_RATE}">{esc}</prosody></voice></speak>'
     )
     req = urllib.request.Request(
         f"https://{AZURE_REGION}.tts.speech.microsoft.com/cognitiveservices/v1",
@@ -172,8 +170,61 @@ def probe_duration(path: Path) -> float:
     return max(float(out), 0.5)
 
 
-def make_slide(image: Path, audio: Path, out_mp4: Path) -> None:
+def ass_escape(text: str) -> str:
+    return text.replace("\\", "\\\\").replace("{", "\\{").replace("}", "\\}").replace("\n", "\\N")
+
+
+def wrap_lines(text: str, width: int) -> str:
+    return "\\N".join(textwrap.wrap(text, width=width)) if text else ""
+
+
+def write_ass_caption(path: Path, en: str, zh: str, duration: float) -> None:
+    end = duration
+    en_lines = wrap_lines(en, 46)
+    zh_lines = wrap_lines(zh, 24)
+    content = f"""[Script Info]
+ScriptType: v4.00+
+PlayResX: 1280
+PlayResY: 720
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: EN,Arial,30,&H00FFFFFF,&H00FFFFFF,&H00000000,&H96000000,1,0,0,0,100,100,0,0,1,2,0,2,24,24,92,1
+Style: ZH,Microsoft YaHei,26,&H0000E6FF,&H0000E6FF,&H00000000,&H96000000,1,0,0,0,100,100,0,0,1,2,0,2,24,24,24,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,{fmt_ass_time(end)},EN,,0,0,0,,{ass_escape(en_lines)}
+Dialogue: 0,0:00:00.00,{fmt_ass_time(end)},ZH,,0,0,0,,{ass_escape(zh_lines)}
+"""
+    path.write_text(content, encoding="utf-8")
+
+
+def fmt_ass_time(seconds: float) -> str:
+    cs = int(round(seconds * 100))
+    s, cent = divmod(cs, 100)
+    m, s = divmod(s, 60)
+    h, m = divmod(m, 60)
+    return f"{h}:{m:02d}:{s:02d}.{cent:02d}"
+
+
+def fmt_vtt_time(seconds: float) -> str:
+    ms = int(round(seconds * 1000))
+    s, ms = divmod(ms, 1000)
+    m, s = divmod(s, 60)
+    h, m = divmod(m, 60)
+    return f"{h:02d}:{m:02d}:{s:02d}.{ms:03d}"
+
+
+def make_slide(image: Path, audio: Path, out_mp4: Path, en: str, zh: str, ass_path: Path) -> float:
     dur = probe_duration(audio)
+    write_ass_caption(ass_path, en, zh, dur)
+    ass_escaped = str(ass_path.resolve()).replace("\\", "/").replace(":", "\\:")
+    vf = (
+        "scale=1280:720:force_original_aspect_ratio=decrease,"
+        "pad=1280:720:(ow-iw)/2:(oh-ih)/2:color=0x1b4332,"
+        f"subtitles={ass_escaped}"
+    )
     subprocess.run(
         [
             "ffmpeg",
@@ -191,7 +242,7 @@ def make_slide(image: Path, audio: Path, out_mp4: Path) -> None:
             "-pix_fmt",
             "yuv420p",
             "-vf",
-            "scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2:color=0x1b4332",
+            vf,
             "-c:a",
             "aac",
             "-b:a",
@@ -205,6 +256,7 @@ def make_slide(image: Path, audio: Path, out_mp4: Path) -> None:
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
     )
+    return dur
 
 
 def concat_videos(parts: list[Path], out_mp4: Path) -> None:
@@ -231,6 +283,18 @@ def concat_videos(parts: list[Path], out_mp4: Path) -> None:
     lst.unlink(missing_ok=True)
 
 
+def write_vtt(spec_id: str, cues: list[dict], path: Path) -> None:
+    lines = ["WEBVTT", ""]
+    for i, cue in enumerate(cues, 1):
+        lines.append(str(i))
+        lines.append(f"{fmt_vtt_time(cue['start'])} --> {fmt_vtt_time(cue['end'])}")
+        lines.append(f"{cue['en']}")
+        if cue.get("zh"):
+            lines.append(cue["zh"])
+        lines.append("")
+    path.write_text("\n".join(lines), encoding="utf-8")
+
+
 def build_video(spec: dict) -> Path:
     work = BUILD_DIR / spec["id"]
     if work.exists():
@@ -244,20 +308,29 @@ def build_video(spec: dict) -> Path:
         download(url, p)
         images.append(p)
 
-    sentences = split_sentences(spec["transcript"])
+    sentences: list[tuple[str, str]] = spec["sentences"]
     slides: list[Path] = []
-    for i, sent in enumerate(sentences):
+    cues: list[dict] = []
+    t = 0.0
+
+    for i, (en, zh) in enumerate(sentences):
         mp3 = work / f"audio_{i:03d}.mp3"
-        azure_tts(sent, mp3)
+        azure_tts(en, mp3)
         img = images[i % len(images)]
         seg = work / f"slide_{i:03d}.mp4"
-        make_slide(img, mp3, seg)
+        ass = work / f"caption_{i:03d}.ass"
+        dur = make_slide(img, mp3, seg, en, zh, ass)
+        cues.append({"start": t, "end": t + dur, "en": en, "zh": zh})
+        t += dur
         slides.append(seg)
-        print(f"  [{spec['id']}] slide {i+1}/{len(sentences)}")
+        print(f"  [{spec['id']}] slide {i+1}/{len(sentences)} ({dur:.1f}s)")
 
     out = VIDEO_DIR / spec["file"]
     concat_videos(slides, out)
-    print(f"  ✓ {out} ({out.stat().st_size // 1024} KB)")
+    vtt = VIDEO_DIR / spec["file"].replace(".mp4", ".vtt")
+    write_vtt(spec["id"], cues, vtt)
+    VIDEO_CUES[spec["id"]] = cues
+    print(f"  ✓ {out} ({out.stat().st_size // 1024} KB) + {vtt.name}")
     return out
 
 
@@ -299,29 +372,35 @@ def upload_videos() -> None:
     rel_base = "Primary/What are reptiles/what-are-reptiles-courseware/videos"
 
     for spec in VIDEOS:
-        local = VIDEO_DIR / spec["file"]
-        if not local.exists():
-            print(f"  跳过（不存在）: {local}")
-            continue
-        key = prefix + rel_base + "/" + spec["file"]
-        print(f"  上传 COS: {key}")
-        with open(local, "rb") as f:
-            client.put_object(Bucket=cfg["Bucket"], Body=f, Key=key, ContentType="video/mp4")
-        url = f"https://{cfg['Bucket']}.cos.{cfg['Region']}.myqcloud.com/{key}"
-        print(f"  ✓ {url}")
+        for fname, ctype in (
+            (spec["file"], "video/mp4"),
+            (spec["file"].replace(".mp4", ".vtt"), "text/vtt"),
+        ):
+            local = VIDEO_DIR / fname
+            if not local.exists():
+                print(f"  跳过（不存在）: {local}")
+                continue
+            key = prefix + rel_base + "/" + fname
+            print(f"  上传 COS: {key}")
+            with open(local, "rb") as f:
+                client.put_object(Bucket=cfg["Bucket"], Body=f, Key=key, ContentType=ctype)
+            print(f"  ✓ https://{cfg['Bucket']}.cos.{cfg['Region']}.myqcloud.com/{key}")
 
 
 def write_manifest() -> None:
     manifest = {
         "cosBase": COS_BASE,
+        "speechRate": AZURE_SPEECH_RATE,
         "videos": [
             {
                 "id": v["id"],
                 "file": v["file"],
                 "url": f"{COS_BASE}/{v['file']}",
+                "vtt": f"{COS_BASE}/{v['file'].replace('.mp4', '.vtt')}",
                 "title": v["title"],
                 "titleZh": v["title_zh"],
                 "vpid": v["vpid"],
+                "cues": VIDEO_CUES.get(v["id"], []),
             }
             for v in VIDEOS
         ],
@@ -344,7 +423,7 @@ def main():
     if not args.upload_only:
         if not shutil.which("ffmpeg"):
             sys.exit("需要 ffmpeg")
-        print("生成 BBC 课程视频（文稿+配图+Azure 英音）…")
+        print(f"生成 BBC 课程视频（语速 {AZURE_SPEECH_RATE} + 中英字幕）…")
         for spec in VIDEOS:
             build_video(spec)
         write_manifest()
@@ -352,6 +431,8 @@ def main():
     if not args.skip_upload:
         print("上传到腾讯 COS…")
         upload_videos()
+        if args.upload_only:
+            write_manifest()
 
 
 if __name__ == "__main__":
