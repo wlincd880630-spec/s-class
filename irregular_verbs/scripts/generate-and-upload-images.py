@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import json
 import os
+import random
 import re
 import sys
 import time
@@ -40,9 +41,10 @@ STYLE = (
     "No text, no letters, no words, no captions, no watermarks, no logos. "
 )
 
-WORKERS = 4
+WORKERS = 2
 MIN_BYTES = 8000
-RETRIES = 3
+RETRIES = 5
+REQUEST_DELAY = 2.5  # 秒，降低 429 限流
 
 
 def load_verbs() -> list[dict]:
@@ -102,6 +104,7 @@ def download_one(task: dict) -> tuple[str, bool, str]:
     url = pollinations_url(task["prompt"], task["seed"])
     for attempt in range(1, RETRIES + 1):
         try:
+            time.sleep(REQUEST_DELAY + random.uniform(0, 1.5))
             req = urllib.request.Request(url, headers={"User-Agent": "s-class-irregular-verbs/1.0"})
             with urllib.request.urlopen(req, timeout=120) as resp:
                 data = resp.read()
@@ -110,6 +113,13 @@ def download_one(task: dict) -> tuple[str, bool, str]:
             dest.parent.mkdir(parents=True, exist_ok=True)
             dest.write_bytes(data)
             return task["file"], True, f"ok ({len(data)//1024}KB)"
+        except urllib.error.HTTPError as e:
+            if e.code == 429 and attempt < RETRIES:
+                wait = 5 * attempt
+                time.sleep(wait)
+                continue
+            if attempt == RETRIES:
+                return task["file"], False, str(e)
         except Exception as e:
             if attempt == RETRIES:
                 return task["file"], False, str(e)
