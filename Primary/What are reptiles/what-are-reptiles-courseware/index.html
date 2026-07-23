@@ -1867,7 +1867,6 @@
         };
         wEx.textContent = "";
         mountSoundMap(w, wSoundMapHost);
-        speakText(w.key, { slow: true });
       } else if (subStep === 1) {
         wStepTitle.textContent = "例句跟读";
         wArt.classList.add("wiggle");
@@ -1878,7 +1877,6 @@
         wActions.innerHTML = "<button type='button' class='btn' id='vSlow'>例句(慢)</button> <button type='button' class='btn primary' id='v1'>再听例句</button>";
         document.getElementById("v1").onclick = function () { speakText(w.ex, { slow: false }); };
         document.getElementById("vSlow").onclick = function () { speakText(w.ex, { slow: true }); };
-        speakText(w.ex, { slow: true });
       } else {
         wStepTitle.textContent = "拼写";
         wArt.innerHTML = wordArtDual(w);
@@ -1890,7 +1888,6 @@
           wWordSpell.setAttribute("aria-hidden", "false");
           mountLetterPoolSpelling(w, wWordSpell, wActions, wSpellMsg, "再听本词");
         }
-        speakText(w.key, { slow: true });
       }
       wPrev.disabled = currentWord === 0 && subStep === 0;
     }
@@ -1963,7 +1960,6 @@
           var rEl = document.getElementById("rMsg");
           if (pickImg === w.key) { rEl.innerHTML = "<span class='ok'>对！</span>"; showOkCelebrate(); } else { rEl.innerHTML = "<span class='bad'>再选选</span>"; }
         };
-        speakText(w.key, { slow: true });
       } else if (mode === "zhPick3") {
         q.textContent = "「" + w.key + "」的中文应该是哪一个？三选一。";
         zhWrong = [];
@@ -1994,7 +1990,6 @@
         zbox.appendChild((function () { var p2 = document.createElement("div"); p2.className = "btns"; p2.innerHTML = "<button type='button' class='btn' id='rHearW'>再听单词</button>"; return p2; })());
         body.appendChild(zbox);
         document.getElementById("rHearW").onclick = function () { speakText(w.key, { slow: true }); };
-        speakText(w.key, { slow: true });
       } else {
         ptext = w.ex;
         toks = ptext.split(/\s+/).filter(function (x) { return x; });
@@ -2048,7 +2043,6 @@
           line.querySelectorAll(".chip").forEach(function (c2) { c2.style.visibility = "visible"; });
           out.textContent = "";
         };
-        speakText(w.ex, { slow: true });
       }
     }
     document.getElementById("rNext").onclick = function () {
