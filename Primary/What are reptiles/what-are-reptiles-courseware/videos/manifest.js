@@ -1,21 +1,214 @@
 window.REPTILE_VIDEO_MANIFEST = {
   "cosBase": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/What%20are%20reptiles/what-are-reptiles-courseware/videos",
+  "speechRate": "0.76",
   "videos": [
     {
       "id": "01-what-are-reptiles",
       "file": "01-what-are-reptiles.mp4",
       "url": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/What%20are%20reptiles/what-are-reptiles-courseware/videos/01-what-are-reptiles.mp4",
+      "vtt": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/What%20are%20reptiles/what-are-reptiles-courseware/videos/01-what-are-reptiles.vtt",
       "title": "What are reptiles?",
       "titleZh": "什么是爬行动物？",
-      "vpid": "p0k5jtcx"
+      "vpid": "p0k5jtcx",
+      "cues": [
+        {
+          "start": 0.0,
+          "end": 5.712,
+          "en": "Hi I'm Tyler and this is Marion, a Sulcata tortoise.",
+          "zh": "我是 Tyler，这是苏卡达陆龟 Marion。"
+        },
+        {
+          "start": 5.712,
+          "end": 15.384,
+          "en": "She has dry, scaly skin making her a reptile just like crocodiles, lizards, turtles and snakes.",
+          "zh": "她有干燥、有鳞片的皮肤，是爬行动物，就像鳄鱼、蜥蜴、海龟和蛇一样。"
+        },
+        {
+          "start": 15.384,
+          "end": 24.048,
+          "en": "The grass snake is the UK's longest snake and having scaly skin protects it when moving across rough ground.",
+          "zh": "草蛇是英国最长的蛇，鳞片皮肤能保护它爬过粗糙的地面。"
+        },
+        {
+          "start": 24.048,
+          "end": 28.992,
+          "en": "The adder has brown zigzags running along its skin.",
+          "zh": "蝰蛇的皮肤上有棕色之字形花纹。"
+        },
+        {
+          "start": 28.992,
+          "end": 32.832,
+          "en": "They're also shy and hard to find.",
+          "zh": "它们也很害羞，很难被发现。"
+        },
+        {
+          "start": 32.832,
+          "end": 40.8,
+          "en": "Some reptiles like snakes haven't got any legs whilst other reptiles like sand lizards have four.",
+          "zh": "有些爬行动物如蛇没有腿，而有些如沙蜥有四条腿。"
+        },
+        {
+          "start": 40.8,
+          "end": 51.456,
+          "en": "The common lizard, smooth snake and slow worm can also be found living in the UK and reptiles are found living all over the world.",
+          "zh": "普通蜥蜴、滑蛇和慢蠕虫也生活在英国，爬行动物遍布世界各地。"
+        },
+        {
+          "start": 51.456,
+          "end": 56.136,
+          "en": "The Komodo dragon is the heaviest lizard on earth.",
+          "zh": "科莫多龙是地球上最重的蜥蜴。"
+        },
+        {
+          "start": 56.136,
+          "end": 58.872,
+          "en": "It lives on land.",
+          "zh": "它生活在陆地上。"
+        },
+        {
+          "start": 58.872,
+          "end": 63.792,
+          "en": "Reptiles can also live in the water like turtles.",
+          "zh": "爬行动物也能像海龟一样生活在水中。"
+        },
+        {
+          "start": 63.792,
+          "end": 68.112,
+          "en": "And sometimes both like the green anaconda.",
+          "zh": "有时两者兼具，比如绿水蟒。"
+        },
+        {
+          "start": 68.112,
+          "end": 71.904,
+          "en": "Nearly all reptiles lay eggs.",
+          "zh": "几乎所有爬行动物都产卵。"
+        },
+        {
+          "start": 71.904,
+          "end": 78.72,
+          "en": "They also breathe air like we do, so those who live in water must come up for air.",
+          "zh": "它们也像我们一样呼吸空气，生活在水中的必须上来换气。"
+        },
+        {
+          "start": 78.72,
+          "end": 86.616,
+          "en": "As reptiles are cold-blooded they need to bask in the sun to warm themselves up and be ready for action.",
+          "zh": "爬行动物是冷血动物，需要在阳光下取暖才能活动。"
+        },
+        {
+          "start": 86.616,
+          "end": 93.84,
+          "en": "And if you think reptiles look a bit like dinosaurs that's because dinosaurs were reptiles!",
+          "zh": "如果你觉得爬行动物有点像恐龙，那是因为恐龙就是爬行动物！"
+        },
+        {
+          "start": 93.84,
+          "end": 103.992,
+          "en": "So because Marion is a reptile, that means that she lays eggs, has dry scaly skin, is cold blooded and breathes air.",
+          "zh": "所以 Marion 是爬行动物：她产卵、有干燥鳞片皮肤、冷血并且呼吸空气。"
+        },
+        {
+          "start": 103.992,
+          "end": 109.896,
+          "en": "Oh and there she goes starting to walk off to have a sunbathe and keep warm.",
+          "zh": "哦，她走开去晒太阳保暖了。"
+        }
+      ]
     },
     {
       "id": "02-reptiles-around-the-world",
       "file": "02-reptiles-around-the-world.mp4",
       "url": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/What%20are%20reptiles/what-are-reptiles-courseware/videos/02-reptiles-around-the-world.mp4",
+      "vtt": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/What%20are%20reptiles/what-are-reptiles-courseware/videos/02-reptiles-around-the-world.vtt",
       "title": "Reptiles around the world",
       "titleZh": "世界各地的爬行动物",
-      "vpid": "p02n9s9t"
+      "vpid": "p02n9s9t",
+      "cues": [
+        {
+          "start": 0.0,
+          "end": 6.288,
+          "en": "Reptiles are found on all the continents of the world except Antarctica.",
+          "zh": "除南极洲外，世界各地都有爬行动物。"
+        },
+        {
+          "start": 6.288,
+          "end": 20.28,
+          "en": "There are four main types of reptiles: lizards and snakes, crocodiles and alligators, turtles and tortoises, and tuatara, which are only found in New Zealand.",
+          "zh": "爬行动物主要有四类：蜥蜴和蛇、鳄鱼和短吻鳄、海龟和陆龟，以及仅生活在新西兰的喙头蜥。"
+        },
+        {
+          "start": 20.28,
+          "end": 24.744,
+          "en": "Each reptile has its own distinct features.",
+          "zh": "每种爬行动物都有自己独特的特征。"
+        },
+        {
+          "start": 24.744,
+          "end": 29.352,
+          "en": "Snakes are reptiles which do not have limbs.",
+          "zh": "蛇是没有四肢的爬行动物。"
+        },
+        {
+          "start": 29.352,
+          "end": 35.136,
+          "en": "The shell of a tortoise is part of its skeleton on the outside of its body.",
+          "zh": "陆龟的壳是长在体外的骨骼的一部分。"
+        },
+        {
+          "start": 35.136,
+          "end": 38.472,
+          "en": "It is called an exoskeleton.",
+          "zh": "这叫做外骨骼。"
+        },
+        {
+          "start": 38.472,
+          "end": 43.152,
+          "en": "A veiled chameleon has its own distinct features.",
+          "zh": "高冠变色龙也有自己独特的特征。"
+        },
+        {
+          "start": 43.152,
+          "end": 48.672,
+          "en": "Some species of lizard drop their tails to escape predators.",
+          "zh": "有些蜥蜴会断尾逃跑，躲避捕食者。"
+        },
+        {
+          "start": 48.672,
+          "end": 56.472,
+          "en": "Some reptiles live on land, while others like crocodiles spend much of their time in the water.",
+          "zh": "有些生活在陆地，有些如鳄鱼大部分时间在水里。"
+        },
+        {
+          "start": 56.472,
+          "end": 61.032,
+          "en": "All reptiles have lungs and need air to breathe.",
+          "zh": "所有爬行动物都有肺，需要空气才能呼吸。"
+        },
+        {
+          "start": 61.032,
+          "end": 67.704,
+          "en": "Reptiles are cold-blooded, which means they cannot control their body temperature.",
+          "zh": "爬行动物是冷血动物，不能自己调节体温。"
+        },
+        {
+          "start": 67.704,
+          "end": 74.832,
+          "en": "Most reptiles lay eggs, but some reptiles such as skinks give birth to live young.",
+          "zh": "大多数产卵，但有些石龙子直接生下幼崽。"
+        },
+        {
+          "start": 74.832,
+          "end": 79.32,
+          "en": "Most reptiles are carnivores and eat meat.",
+          "zh": "大多数爬行动物是食肉动物。"
+        },
+        {
+          "start": 79.32,
+          "end": 84.072,
+          "en": "Turtles and tortoises are mostly herbivores.",
+          "zh": "海龟和陆龟大多是食草动物。"
+        }
+      ]
     }
   ]
 };

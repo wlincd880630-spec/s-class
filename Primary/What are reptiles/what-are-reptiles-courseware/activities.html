@@ -18,15 +18,48 @@
     .act-panel.on { display: block; }
     .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; }
     .video-card { background: #f5f5f5; border-radius: 12px; overflow: hidden; border: 2px solid #c8e6c9; }
+    .video-wrap { position: relative; background: #000; }
     .video-card video { width: 100%; aspect-ratio: 16/9; border: 0; background: #000; display: block; }
+    .video-caption {
+      position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
+      padding: 0.45rem 0.55rem 0.5rem;
+      background: linear-gradient(transparent, rgba(0,0,0,.82));
+      color: #fff; font-size: 0.78rem; line-height: 1.35;
+      pointer-events: none;
+    }
+    .video-caption .cap-en { font-weight: 600; margin-bottom: 0.15rem; }
+    .video-caption .cap-zh { color: #ffe082; font-size: 0.74rem; }
+    .video-caption.off { display: none; }
+    .video-tools {
+      display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center;
+      padding: 0.35rem 0.6rem; background: #e8f5e9; border-top: 1px solid #c8e6c9;
+    }
+    .video-tools label { font-size: 0.75rem; color: var(--muted); display: inline-flex; align-items: center; gap: 0.25rem; }
+    .video-tools select { font-size: 0.78rem; padding: 0.2rem 0.35rem; border-radius: 8px; border: 1px solid #c8e6c9; }
     .video-card h4 { padding: 0.45rem 0.6rem; font-size: 0.88rem; background: #e8f5e9; }
     .video-card p { padding: 0 0.6rem 0.5rem; font-size: 0.78rem; color: var(--muted); }
+    .bbc-note {
+      padding: 0.55rem 0.7rem; margin-bottom: 0.55rem;
+      background: #fff8e1; border-left: 4px solid #ffb300;
+      border-radius: 8px; font-size: 0.82rem; line-height: 1.45;
+    }
+    .bbc-link { color: var(--accent-dark); font-weight: 700; }
+    .riddle-frame {
+      width: 100%; min-height: 420px; border: 0; border-radius: 12px;
+      background: #f5f5f5;
+    }
+    .pdf-btn { display: inline-flex; align-items: center; gap: 0.35rem; margin: 0.35rem 0.5rem 0.35rem 0; }
+    .worksheet-img {
+      width: 100%; max-width: 640px; border-radius: 12px;
+      border: 2px solid #c8e6c9; margin: 0.5rem 0;
+    }
     .find-scene {
       position: relative;
       border-radius: 12px;
       overflow: hidden;
-      background: url('https://ichef.bbci.co.uk/images/ic/1200xn/p0jqtwdd.png') center/cover;
-      min-height: min(32vh, 260px);
+      background: #1b4332 center/cover no-repeat;
+      min-height: min(38vh, 320px);
+      aspect-ratio: 16 / 9;
     }
     .find-hotspot {
       position: absolute;
@@ -84,25 +117,31 @@
   <div class="tv-frame">
     <header class="top-bar">
       <a class="back-link" href="../index.html"><i class="fa-solid fa-house"></i> 首页</a>
-      <h1><i class="fa-solid fa-gamepad"></i> BBC 互动活动 · 视频 · 测验</h1>
+      <h1><i class="fa-solid fa-gamepad"></i> BBC 互动活动 · 视频 · Activity 1–3</h1>
       <a class="back-link" href="index.html">课件</a>
     </header>
     <div class="tv-inner">
       <div class="act-nav no-print">
         <button class="btn btn-primary act-tab" data-act="videos">📺 视频</button>
         <button class="btn btn-secondary act-tab" data-act="facts">📖 科学知识</button>
-        <button class="btn btn-secondary act-tab" data-act="find">🔍 找爬行动物</button>
-        <button class="btn btn-secondary act-tab" data-act="quiz">❓ 测验</button>
-        <button class="btn btn-secondary act-tab" data-act="sort">📂 分类</button>
+        <button class="btn btn-secondary act-tab" data-act="find">① Find the reptiles</button>
+        <button class="btn btn-secondary act-tab" data-act="quiz">② Take the quiz</button>
+        <button class="btn btn-secondary act-tab" data-act="sort">③ Sort the reptiles</button>
       </div>
 
       <!-- 视频 -->
       <div id="act-videos" class="act-panel on">
         <div class="card">
           <h3 style="color:var(--accent-dark);margin-bottom:0.5rem;">Watch: BBC Bitesize 教学视频</h3>
+          <div class="bbc-note">
+            <strong>关于视频来源：</strong>BBC iPlayer 原片在境外受地理限制，无法直接下载 Tyler 与 Marion 的实拍画面。
+            下方为<strong>完整官方文稿</strong>（与 BBC 字幕一致，时长约 1 分 51 秒）+ BBC 配图 + 慢速英音合成版，并已上传腾讯 COS。
+            如需观看 BBC 原片，请访问
+            <a class="bbc-link" href="https://www.bbc.co.uk/bitesize/articles/zvfx7yc" target="_blank" rel="noopener">BBC Bitesize 官网</a>（通常需英国网络）。
+          </div>
           <div class="video-grid" id="videoGrid"></div>
           <p style="margin-top:0.5rem;font-size:0.82rem;color:var(--muted);">
-            视频已托管在腾讯 COS（BBC 官方文稿 + 配图 + Azure 英音）。若无法播放，请确认 COS 已上传或本地存在 <code>videos/*.mp4</code>。
+            画面内已烧录中英字幕；也可在播放器工具栏开关叠加字幕、调节语速。
           </p>
         </div>
       </div>
@@ -119,30 +158,60 @@
         </div>
       </div>
 
-      <!-- Activity 1: Find reptiles -->
+      <!-- Activity 1: Find the reptiles (BBC Riddle vQ07jlAd) -->
       <div id="act-find" class="act-panel">
         <div class="card">
-          <span class="score-badge" id="findScore">找到 0 / 5 只爬行动物</span>
-          <p style="margin-bottom:0.5rem;">Activity 1 — 点击图中的<strong>爬行动物</strong>（不要点哺乳动物或鸟类！）</p>
-          <div class="find-scene" id="findScene"></div>
-          <p id="findMsg" style="margin-top:0.5rem;font-weight:600;color:var(--accent-dark);"></p>
+          <h3 style="color:var(--accent-dark);margin-bottom:0.35rem;">Activity 1 — Find the reptiles</h3>
+          <p style="font-size:0.85rem;color:var(--muted);margin-bottom:0.5rem;">
+            BBC 官网使用 Riddle 互动游戏。因域名限制无法直接嵌入时，下方提供同款复刻版（沙漠场景 · 找 3 只爬行动物 · 3 条命）。
+          </p>
+          <iframe class="riddle-frame no-print" id="riddleFind" title="BBC Find the reptiles"
+            src="https://www.riddle.com/embed/a/vQ07jlAd"
+            allow="fullscreen" loading="lazy" hidden></iframe>
+          <div id="findFallback">
+            <span class="score-badge" id="findScore">找到 0 / 3 只爬行动物 · ❤️ 3</span>
+            <p style="margin-bottom:0.5rem;">点击图中<strong>爬行动物</strong>（火蜥蜴、变色龙、科莫多龙）。点错会扣一条命！</p>
+            <div class="find-scene" id="findScene"></div>
+            <p id="findMsg" style="margin-top:0.5rem;font-weight:600;color:var(--accent-dark);"></p>
+          </div>
+          <p style="margin-top:0.45rem;font-size:0.78rem;">
+            <a class="bbc-link" href="https://www.bbc.co.uk/bitesize/articles/zvfx7yc" target="_blank" rel="noopener">在 BBC 官网玩原版 →</a>
+          </p>
         </div>
       </div>
 
-      <!-- Activity 2: Quiz -->
+      <!-- Activity 2: Take the quiz (BBC Riddle e8A4eWtb) -->
       <div id="act-quiz" class="act-panel">
         <div class="card">
-          <span class="score-badge" id="quizScore">得分：0</span>
-          <p id="quizQ" style="font-size:1.05rem;font-weight:700;margin-bottom:0.65rem;"></p>
-          <div id="quizOpts"></div>
-          <button class="btn btn-primary" id="quizNext" style="margin-top:0.5rem;display:none;">下一题</button>
+          <h3 style="color:var(--accent-dark);margin-bottom:0.35rem;">Activity 2 — Take the quiz</h3>
+          <p style="font-size:0.85rem;color:var(--muted);margin-bottom:0.5rem;">BBC 官方 5 道选择题（内容与 Riddle 游戏一致）。</p>
+          <iframe class="riddle-frame no-print" id="riddleQuiz" title="BBC What are reptiles quiz"
+            src="https://www.riddle.com/embed/a/e8A4eWtb"
+            allow="fullscreen" loading="lazy" hidden></iframe>
+          <div id="quizFallback">
+            <span class="score-badge" id="quizScore">得分：0 / 5</span>
+            <p id="quizQ" style="font-size:1.05rem;font-weight:700;margin-bottom:0.65rem;"></p>
+            <div id="quizOpts"></div>
+            <button class="btn btn-primary" id="quizNext" style="margin-top:0.5rem;display:none;">下一题</button>
+          </div>
+          <p style="margin-top:0.45rem;font-size:0.78rem;">
+            <a class="bbc-link" href="https://www.bbc.co.uk/bitesize/articles/zvfx7yc" target="_blank" rel="noopener">在 BBC 官网玩原版 →</a>
+          </p>
         </div>
       </div>
 
-      <!-- Activity 3: Sort -->
+      <!-- Activity 3: Sort the reptiles (BBC PDF worksheet) -->
       <div id="act-sort" class="act-panel">
         <div class="card">
-          <p style="margin-bottom:0.5rem;">Activity 3 — 把动物拖到正确的类别（参照 BBC 活动表）</p>
+          <h3 style="color:var(--accent-dark);margin-bottom:0.35rem;">Activity 3 — Sort the reptiles</h3>
+          <p style="margin-bottom:0.5rem;font-size:0.85rem;">
+            BBC 官网提供<strong>可打印活动单 PDF</strong>（剪下动物卡片，分到四类）。下方可下载 PDF，并在线练习分类。
+          </p>
+          <a class="btn btn-outline pdf-btn" href="https://bam.files.bbci.co.uk/bam/live/content/zrqg239/pdf" target="_blank" rel="noopener" download>
+            <i class="fa-solid fa-file-pdf"></i> 下载 BBC 活动单 PDF
+          </a>
+          <img class="worksheet-img" src="https://ichef.bbci.co.uk/images/ic/1200xn/p0jtvnw8.png" alt="BBC Sort the reptiles worksheet" loading="lazy">
+          <p style="margin:0.5rem 0;font-size:0.85rem;">在线分类练习：把动物拖到正确类别</p>
           <div class="sort-pool" id="sortPool"></div>
           <div class="sort-zones" id="sortZones"></div>
           <button class="btn btn-primary" id="sortCheck" style="margin-top:0.65rem;">检查答案</button>
@@ -156,17 +225,120 @@
   <script src="assets/data/words-data.js"></script>
   <script src="assets/js/utils.js"></script>
   <script>
-    function reptileVideoSrc(v) {
+    function reptileVideoMeta(v) {
       if (window.REPTILE_VIDEO_MANIFEST && REPTILE_VIDEO_MANIFEST.videos) {
-        var m = REPTILE_VIDEO_MANIFEST.videos.find(function (x) { return x.file === v.file; });
-        if (m && m.url) return m.url;
+        return REPTILE_VIDEO_MANIFEST.videos.find(function (x) { return x.file === v.file; }) || null;
       }
+      return null;
+    }
+
+    function reptileVideoSrc(v) {
+      var m = reptileVideoMeta(v);
+      if (m && m.url) return m.url;
       if (v.cos) return v.cos;
       if (v.local) return v.local;
       return '';
     }
 
-    // Tab navigation
+    function reptileVideoVtt(v) {
+      var m = reptileVideoMeta(v);
+      if (m && m.vtt) return m.vtt;
+      if (v.local) return v.local.replace(/\.mp4$/i, '.vtt');
+      return '';
+    }
+
+    function findCue(cues, t) {
+      if (!cues || !cues.length) return null;
+      for (var i = 0; i < cues.length; i++) {
+        if (t >= cues[i].start && t < cues[i].end) return cues[i];
+      }
+      return null;
+    }
+
+    function mountVideoPlayer(v) {
+      const src = reptileVideoSrc(v);
+      const meta = reptileVideoMeta(v);
+      const vttSrc = reptileVideoVtt(v);
+      const cues = (meta && meta.cues) ? meta.cues : [];
+      const card = document.createElement('div');
+      card.className = 'video-card';
+      card.innerHTML = `
+        <div class="video-wrap">
+          <video controls playsinline preload="metadata" poster="https://ichef.bbci.co.uk/images/ic/1200xn/p0jqtwdd.png"></video>
+          <div class="video-caption off" aria-live="polite">
+            <div class="cap-en"></div>
+            <div class="cap-zh"></div>
+          </div>
+        </div>
+        <div class="video-tools no-print">
+          <label><input type="checkbox" class="cap-toggle" checked> 叠加字幕</label>
+          <label>语速
+            <select class="rate-select">
+              <option value="0.85">较慢 0.85×</option>
+              <option value="1" selected>正常 1×</option>
+              <option value="1.1">稍快 1.1×</option>
+            </select>
+          </label>
+        </div>
+        <h4>${v.titleZh} · ${v.title}</h4>
+        <p>${v.desc}</p>
+        <p style="padding:0 0.6rem 0.5rem;font-size:0.75rem;color:var(--muted);">BBC vpid: ${v.vpid}</p>`;
+      const video = card.querySelector('video');
+      const source = document.createElement('source');
+      source.src = src;
+      source.type = 'video/mp4';
+      video.appendChild(source);
+      if (vttSrc) {
+        const track = document.createElement('track');
+        track.kind = 'subtitles';
+        track.label = '中英字幕';
+        track.srclang = 'zh';
+        track.src = vttSrc;
+        track.default = true;
+        video.appendChild(track);
+      }
+      const capBox = card.querySelector('.video-caption');
+      const capEn = card.querySelector('.cap-en');
+      const capZh = card.querySelector('.cap-zh');
+      const capToggle = card.querySelector('.cap-toggle');
+      const rateSelect = card.querySelector('.rate-select');
+
+      function updateCaption() {
+        if (!capToggle.checked) {
+          capBox.classList.add('off');
+          return;
+        }
+        const cue = findCue(cues, video.currentTime);
+        if (!cue) {
+          capBox.classList.add('off');
+          return;
+        }
+        capEn.textContent = cue.en || '';
+        capZh.textContent = cue.zh || '';
+        capBox.classList.toggle('off', !cue.en && !cue.zh);
+      }
+
+      video.addEventListener('timeupdate', updateCaption);
+      video.addEventListener('seeked', updateCaption);
+      capToggle.addEventListener('change', updateCaption);
+      rateSelect.addEventListener('change', function () {
+        video.playbackRate = parseFloat(rateSelect.value) || 1;
+      });
+
+      video.addEventListener('error', function () {
+        if (v.local && source.src.indexOf(v.local) < 0) {
+          source.src = v.local;
+          video.load();
+        }
+      });
+      return card;
+    }
+
+    // Videos (COS / local MP4)
+    const vg = document.getElementById('videoGrid');
+    REPTILE_COURSE.videos.forEach(v => {
+      vg.appendChild(mountVideoPlayer(v));
+    });
     document.querySelectorAll('.act-tab').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.act-tab').forEach(b => {
@@ -176,29 +348,6 @@
         document.querySelectorAll('.act-panel').forEach(p => p.classList.remove('on'));
         document.getElementById('act-' + btn.dataset.act).classList.add('on');
       });
-    });
-
-    // Videos (COS / local MP4)
-    const vg = document.getElementById('videoGrid');
-    REPTILE_COURSE.videos.forEach(v => {
-      const src = reptileVideoSrc(v);
-      const card = document.createElement('div');
-      card.className = 'video-card';
-      card.innerHTML = `
-        <video controls playsinline preload="metadata" poster="https://ichef.bbci.co.uk/images/ic/1200xn/p0jqtwdd.png">
-          <source src="${src}" type="video/mp4" />
-        </video>
-        <h4>${v.titleZh} · ${v.title}</h4>
-        <p>${v.desc}</p>
-        <p style="padding:0 0.6rem 0.5rem;font-size:0.75rem;color:var(--muted);">BBC vpid: ${v.vpid}</p>`;
-      const video = card.querySelector('video');
-      video.addEventListener('error', function () {
-        if (v.local && video.querySelector('source').src.indexOf(v.local) < 0) {
-          video.querySelector('source').src = v.local;
-          video.load();
-        }
-      });
-      vg.appendChild(card);
     });
 
     // Facts from BBC
@@ -239,61 +388,109 @@
       gl.appendChild(d);
     });
 
-    // Find reptiles
+    // Try BBC Riddle embeds; show local fallback when domain is not whitelisted
+    function setupRiddleEmbed(iframeId, fallbackId) {
+      const iframe = document.getElementById(iframeId);
+      const fallback = document.getElementById(fallbackId);
+      if (!iframe || !fallback) return;
+      let decided = false;
+      function useFallback() {
+        if (decided) return;
+        decided = true;
+        iframe.hidden = true;
+        fallback.hidden = false;
+      }
+      function useIframe() {
+        if (decided) return;
+        decided = true;
+        iframe.hidden = false;
+        fallback.hidden = true;
+      }
+      window.addEventListener('message', function (ev) {
+        if (!ev.data || !ev.data.isRiddle2Event) return;
+        if (ev.data.type === 'RiddleInited') useIframe();
+        if (ev.data.type === 'RiddleUnavailable') useFallback();
+      });
+      iframe.addEventListener('load', function () {
+        setTimeout(function () {
+          try {
+            const doc = iframe.contentDocument;
+            if (doc && /unavailable|not detect the domain/i.test(doc.body && doc.body.textContent || '')) {
+              useFallback();
+            }
+          } catch (e) { /* cross-origin: wait for postMessage */ }
+        }, 2500);
+      });
+      setTimeout(useFallback, 4000);
+    }
+    setupRiddleEmbed('riddleFind', 'findFallback');
+    setupRiddleEmbed('riddleQuiz', 'quizFallback');
+
+    // Activity 1 — BBC Riddle "Find the reptiles" (desert scene, 3 reptiles, 3 lives)
+    const BBC_FIND_IMAGE = 'https://cdn.riddle.com/embeds/v3/images/transformed/w_960,h_540/835/835379ac00a627b5f4d6864bb7d3d7af.webp';
     const hotspots = [
-      { x: 22, y: 55, reptile: true, label: 'Snake' },
-      { x: 45, y: 40, reptile: true, label: 'Lizard' },
-      { x: 68, y: 50, reptile: true, label: 'Tortoise' },
-      { x: 35, y: 72, reptile: true, label: 'Crocodile' },
-      { x: 78, y: 35, reptile: true, label: 'Chameleon' },
-      { x: 55, y: 25, reptile: false, label: 'Bird (not a reptile!)' },
-      { x: 15, y: 30, reptile: false, label: 'Mammal (not a reptile!)' }
+      { x: 41, y: 41, reptile: true, label: 'Fire skink', w: 24, h: 26 },
+      { x: 88, y: 28, reptile: true, label: 'Chameleon', w: 21, h: 25 },
+      { x: 26, y: 84, reptile: true, label: 'Komodo dragon', w: 49, h: 26 },
+      { x: 12, y: 55, reptile: false, label: 'Squirrel (mammal)' },
+      { x: 62, y: 62, reptile: false, label: 'Frog (amphibian)' },
+      { x: 48, y: 18, reptile: false, label: 'Wasp (insect)' }
     ];
     let found = 0;
+    let lives = 3;
     const scene = document.getElementById('findScene');
+    scene.style.backgroundImage = "url('" + BBC_FIND_IMAGE + "')";
     const totalReptiles = hotspots.filter(h => h.reptile).length;
+    function updateFindScore() {
+      document.getElementById('findScore').textContent =
+        `找到 ${found} / ${totalReptiles} 只爬行动物 · ❤️ ${lives}`;
+    }
     hotspots.forEach(h => {
       const el = document.createElement('button');
       el.type = 'button';
       el.className = 'find-hotspot';
       el.style.left = h.x + '%';
       el.style.top = h.y + '%';
+      if (h.w) { el.style.width = h.w + '%'; el.style.height = (h.h || h.w) + '%'; }
       el.title = '点击';
       el.addEventListener('click', () => {
-        if (el.classList.contains('found')) return;
+        if (el.classList.contains('found') || lives <= 0) return;
         if (h.reptile) {
           el.classList.add('found');
           found++;
-          document.getElementById('findScore').textContent = `找到 ${found} / ${totalReptiles} 只爬行动物`;
+          updateFindScore();
           document.getElementById('findMsg').textContent = `✅ 对了！这是 ${h.label}。`;
           speakText(h.label);
           if (found === totalReptiles) {
-            document.getElementById('findMsg').textContent = '🎉 太棒了！你找到了所有爬行动物！';
+            document.getElementById('findMsg').textContent = '🎉 Well done! You are a really reliable reptile spotter.';
           }
         } else {
+          lives--;
           el.classList.add('wrong');
-          document.getElementById('findMsg').textContent = `❌ ${h.label}`;
+          updateFindScore();
+          document.getElementById('findMsg').textContent = `❌ ${h.label} — 不是爬行动物！`;
           setTimeout(() => el.classList.remove('wrong'), 500);
+          if (lives <= 0) {
+            document.getElementById('findMsg').textContent = '💔 三条命用完了，再试一次吧！';
+          }
         }
       });
       scene.appendChild(el);
     });
 
-    // Quiz
+    // Activity 2 — BBC Riddle quiz (5 questions)
     const quizData = [
-      { q: 'What covers most reptiles\' skin?', opts: ['Fur', 'Dry, scaly skin', 'Feathers', 'Wet slime'], a: 1 },
-      { q: 'How many species of reptile live in the UK?', opts: ['Six', 'Sixty', 'Six hundred', 'Zero'], a: 0 },
-      { q: 'Which continent has NO reptiles?', opts: ['Africa', 'Asia', 'Antarctica', 'Europe'], a: 2 },
-      { q: 'A tortoise shell is called an…', opts: ['Endoskeleton', 'Exoskeleton', 'Backbone', 'Scale only'], a: 1 },
-      { q: 'Reptiles are…', opts: ['Warm-blooded', 'Cold-blooded', 'Made of metal', 'Always flying'], a: 1 },
-      { q: 'Snakes have…', opts: ['Four legs', 'No limbs', 'Wings', 'Fins only'], a: 1 },
-      { q: 'Tuatara are found only in…', opts: ['China', 'UK', 'New Zealand', 'Antarctica'], a: 2 },
-      { q: 'Most reptiles are…', opts: ['Herbivores', 'Carnivores', 'Plants', 'Rocks'], a: 1 }
+      { q: 'What do reptiles look like?', opts: ['Humans', 'Fish', 'Dinosaurs'], a: 2 },
+      { q: 'What do most reptiles have?', opts: ['Long, furry coats', 'Dry, scaly skin', 'Lots of hair'], a: 1 },
+      { q: 'Reptiles are _________.', opts: ['Cold-blooded', 'Warm-blooded'], a: 0 },
+      { q: 'Where are you most likely to find reptiles?', opts: ['In the snow', 'Near water', 'By a fire'], a: 1 },
+      { q: 'What do all reptiles have in common?', opts: ['They have lungs', 'They have no legs', 'They all have four legs'], a: 0 }
     ];
-    let qi = 0, qScore = 0;
+    let qi = 0, qScore = 0, quizDone = false;
     function showQuiz() {
+      if (quizDone) return;
       const item = quizData[qi];
-      document.getElementById('quizQ').textContent = `Q${qi + 1}. ${item.q}`;
+      document.getElementById('quizQ').textContent = `Q${qi + 1} / ${quizData.length}. ${item.q}`;
       const box = document.getElementById('quizOpts');
       box.innerHTML = '';
       document.getElementById('quizNext').style.display = 'none';
@@ -308,13 +505,27 @@
           if (i === item.a) { b.classList.add('correct'); qScore++; speakText('Correct!'); }
           else { b.classList.add('wrong'); box.querySelectorAll('.quiz-opt')[item.a].classList.add('correct'); }
           document.getElementById('quizScore').textContent = `得分：${qScore} / ${qi + 1}`;
-          document.getElementById('quizNext').style.display = 'inline-block';
+          if (qi + 1 >= quizData.length) {
+            quizDone = true;
+            document.getElementById('quizNext').textContent = '再玩一次';
+            document.getElementById('quizNext').style.display = 'inline-block';
+            document.getElementById('quizQ').textContent =
+              qScore === quizData.length ? '🎉 全对！Well done!' : `完成！得分 ${qScore} / ${quizData.length}`;
+          } else {
+            document.getElementById('quizNext').style.display = 'inline-block';
+          }
         });
         box.appendChild(b);
       });
     }
     document.getElementById('quizNext').onclick = () => {
-      qi = (qi + 1) % quizData.length;
+      if (quizDone) {
+        qi = 0; qScore = 0; quizDone = false;
+        document.getElementById('quizNext').textContent = '下一题';
+        document.getElementById('quizScore').textContent = '得分：0 / 5';
+      } else {
+        qi++;
+      }
       showQuiz();
     };
     showQuiz();
