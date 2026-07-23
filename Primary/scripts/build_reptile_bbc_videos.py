@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """
-下载 BBC Bitesize 配图 + 用官方文稿 + Azure 英音合成视频，并上传到腾讯 COS。
+用科学审校脚本、S-Class 写实配图和 Azure 英音合成课程视频，并上传腾讯 COS。
 
-说明：BBC iPlayer 视频在英国境外受地理限制，无法直接抓取原片。
-本脚本使用 BBC 页面嵌入的官方 transcript 与 holding images 生成课程视频（内容与 BBC 一致）。
+视频为 S-Class 原创课程内容，不是 BBC 原片或逐字文稿。
 
 用法：
   python3 Primary/scripts/build_reptile_bbc_videos.py
@@ -41,7 +40,7 @@ AZURE_REGION = os.environ.get("AZURE_SPEECH_REGION", "eastasia")
 AZURE_VOICE = "en-GB-RyanNeural"
 # 小学四年级：放慢语速
 AZURE_SPEECH_RATE = os.environ.get("REPTILE_VIDEO_SPEECH_RATE", "0.68")
-# 每句结束后留白，更接近 BBC 原片节奏
+# 每句结束后留白，给小学生留出理解时间
 SLIDE_PAD_SEC = float(os.environ.get("REPTILE_VIDEO_PAD_SEC", "0.55"))
 KEN_BURNS_FPS = 25
 
@@ -49,76 +48,62 @@ VIDEOS = [
     {
         "id": "01-what-are-reptiles",
         "file": "01-what-are-reptiles.mp4",
-        "title": "What are reptiles?",
-        "title_zh": "什么是爬行动物？",
-        "vpid": "p0k5jtcx",
+        "title": "Reptile body toolkit",
+        "title_zh": "爬行动物的身体工具箱",
+        "vpid": "sclass-reptile-01",
         "sentences": [
-            ("Hi I'm Tyler and this is Marion, a Sulcata tortoise.", "我是 Tyler，这是苏卡达陆龟 Marion。"),
-            ("She has dry, scaly skin making her a reptile just like crocodiles, lizards, turtles and snakes.", "她有干燥、有鳞片的皮肤，是爬行动物，就像鳄鱼、蜥蜴、海龟和蛇一样。"),
-            ("The grass snake is the UK's longest snake and having scaly skin protects it when moving across rough ground.", "草蛇是英国最长的蛇，鳞片皮肤能保护它爬过粗糙的地面。"),
-            ("The adder has brown zigzags running along its skin.", "蝰蛇的皮肤上有棕色之字形花纹。"),
-            ("They're also shy and hard to find.", "它们也很害羞，很难被发现。"),
-            ("Some reptiles like snakes haven't got any legs whilst other reptiles like sand lizards have four.", "有些爬行动物如蛇没有腿，而有些如沙蜥有四条腿。"),
-            ("The common lizard, smooth snake and slow worm can also be found living in the UK and reptiles are found living all over the world.", "普通蜥蜴、滑蛇和慢蠕虫也生活在英国，爬行动物遍布世界各地。"),
-            ("The Komodo dragon is the heaviest lizard on earth.", "科莫多龙是地球上最重的蜥蜴。"),
-            ("It lives on land.", "它生活在陆地上。"),
-            ("Reptiles can also live in the water like turtles.", "爬行动物也能像海龟一样生活在水中。"),
-            ("And sometimes both like the green anaconda.", "有时两者兼具，比如绿水蟒。"),
-            ("Nearly all reptiles lay eggs.", "几乎所有爬行动物都产卵。"),
-            ("They also breathe air like we do, so those who live in water must come up for air.", "它们也像我们一样呼吸空气，生活在水中的必须上来换气。"),
-            ("As reptiles are cold-blooded they need to bask in the sun to warm themselves up and be ready for action.", "爬行动物是冷血动物，需要在阳光下取暖才能活动。"),
-            ("And if you think reptiles look a bit like dinosaurs that's because dinosaurs were reptiles!", "如果你觉得爬行动物有点像恐龙，那是因为恐龙就是爬行动物！"),
-            ("So because Marion is a reptile, that means that she lays eggs, has dry scaly skin, is cold blooded and breathes air.", "所以 Marion 是爬行动物：她产卵、有干燥鳞片皮肤、冷血并且呼吸空气。"),
-            ("Oh and there she goes starting to walk off to have a sunbathe and keep warm.", "哦，她走开去晒太阳保暖了。"),
+            ("Reptiles are vertebrates, so they have a backbone.", "爬行动物是脊椎动物，所以体内有脊柱。"),
+            ("Their skin is dry and tough, and is usually covered with scales or scutes.", "它们的皮肤干燥而坚韧，通常覆盖着鳞片或盾片。"),
+            ("All living reptiles breathe with lungs.", "所有现生爬行动物都用肺呼吸。"),
+            ("Aquatic reptiles usually need to surface for air.", "水生爬行动物通常需要浮到水面呼吸。"),
+            ("Most living non-bird reptiles are ectothermic.", "大多数现生非鸟类爬行动物是变温动物。"),
+            ("They move between warm and cool places to adjust their temperature.", "它们会在温暖和凉爽的地方之间移动来调节体温。"),
+            ("Most reptiles lay eggs.", "大多数爬行动物产卵。"),
+            ("Some snakes and lizards, including some skinks, give birth to live young.", "部分蛇和蜥蜴——包括一些石龙子——会直接产下幼体。"),
+            ("A turtle's shell is part of its skeleton, not an exoskeleton.", "龟壳是龟自身骨骼的一部分，并不是外骨骼。"),
         ],
         "images": [
-            ("https://ichef.bbci.co.uk/images/ic/1200xn/p0k5kbmq.jpg", "tyler_marion"),
-            ("https://ichef.bbci.co.uk/images/ic/1200xn/p0jqtwdd.png", "reptiles_group"),
-            ("https://ichef.bbci.co.uk/images/ic/800xn/p0j74dp2.jpg", "snake"),
-            ("https://ichef.bbci.co.uk/images/ic/800xn/p0j74f2g.jpg", "lizard"),
-            ("https://ichef.bbci.co.uk/images/ic/800xn/p0j74dvr.jpg", "tortoise"),
-            ("https://ichef.bbci.co.uk/images/ic/800xn/p0j74dzp.jpg", "chameleon"),
-            ("https://ichef.bbci.co.uk/images/ic/1200xn/p0k7026l.png", "komodo"),
-            ("https://ichef.bbci.co.uk/images/ic/800xn/p0k0xcxl.png", "basking"),
-            ("https://ichef.bbci.co.uk/images/ic/800xn/p0nyj7m7.jpg", "fossil"),
-            ("https://ichef.bbci.co.uk/images/ic/800xn/p0k5sd9f.png", "eggs"),
+            ("local:images/story/01.png", "reptile_groups"),
+            ("local:images/story/02.png", "scales"),
+            ("local:images/story/06.png", "lungs"),
+            ("local:images/story/07.png", "surface_air"),
+            ("local:images/story/04.png", "ectothermy"),
+            ("local:images/story/08.png", "eggs"),
+            ("local:images/story/09.png", "live_young"),
+            ("local:images/story/13.png", "shell_skeleton"),
         ],
-        # 每句对应配图（BBC 页面素材），避免轮播错位
-        "image_map": [0, 1, 2, 2, 3, 4, 6, 6, 5, 5, 9, 2, 7, 8, 0, 0],
+        "image_map": [0, 1, 2, 3, 4, 4, 5, 6, 7],
     },
     {
         "id": "02-reptiles-around-the-world",
         "file": "02-reptiles-around-the-world.mp4",
-        "title": "Reptiles around the world",
-        "title_zh": "世界各地的爬行动物",
-        "vpid": "p02n9s9t",
+        "title": "Reptile diversity and habitats",
+        "title_zh": "爬行动物的多样性与栖息地",
+        "vpid": "sclass-reptile-02",
         "sentences": [
-            ("Reptiles are found on all the continents of the world except Antarctica.", "除南极洲外，世界各地都有爬行动物。"),
-            ("There are four main types of reptiles: lizards and snakes, crocodiles and alligators, turtles and tortoises, and tuatara, which are only found in New Zealand.", "爬行动物主要有四类：蜥蜴和蛇、鳄鱼和短吻鳄、海龟和陆龟，以及仅生活在新西兰的喙头蜥。"),
-            ("Each reptile has its own distinct features.", "每种爬行动物都有自己独特的特征。"),
-            ("Snakes are reptiles which do not have limbs.", "蛇是没有四肢的爬行动物。"),
-            ("The shell of a tortoise is part of its skeleton on the outside of its body.", "陆龟的壳是长在体外的骨骼的一部分。"),
-            ("It is called an exoskeleton.", "这叫做外骨骼。"),
-            ("A veiled chameleon has its own distinct features.", "高冠变色龙也有自己独特的特征。"),
-            ("Some species of lizard drop their tails to escape predators.", "有些蜥蜴会断尾逃跑，躲避捕食者。"),
-            ("Some reptiles live on land, while others like crocodiles spend much of their time in the water.", "有些生活在陆地，有些如鳄鱼大部分时间在水里。"),
-            ("All reptiles have lungs and need air to breathe.", "所有爬行动物都有肺，需要空气才能呼吸。"),
-            ("Reptiles are cold-blooded, which means they cannot control their body temperature.", "爬行动物是冷血动物，不能自己调节体温。"),
-            ("Most reptiles lay eggs, but some reptiles such as skinks give birth to live young.", "大多数产卵，但有些石龙子直接生下幼崽。"),
-            ("Most reptiles are carnivores and eat meat.", "大多数爬行动物是食肉动物。"),
-            ("Turtles and tortoises are mostly herbivores.", "海龟和陆龟大多是食草动物。"),
+            ("Living non-bird reptiles include squamates, turtles, crocodilians, and tuatara.", "现生非鸟类爬行动物主要包括有鳞类、龟类、鳄类和喙头蜥。"),
+            ("Squamates include lizards, snakes, and worm lizards.", "有鳞类包括蜥蜴、蛇和蚓蜥。"),
+            ("Crocodiles and alligators are both crocodilians.", "鳄和短吻鳄都属于鳄类。"),
+            ("Tuatara look like lizards, but belong to a different ancient group.", "喙头蜥看起来像蜥蜴，但属于另一个古老类群。"),
+            ("Reptiles live in forests, deserts, grasslands, wetlands, rivers, and seas.", "爬行动物生活在森林、沙漠、草原、湿地、河流和海洋等多种环境中。"),
+            ("Native reptiles occur on every continent except Antarctica.", "除南极洲外，各大洲都有本土爬行动物。"),
+            ("Reptile diets vary from species to species.", "不同种类爬行动物的食性各不相同。"),
+            ("Some eat animals, some are omnivores, and some mainly eat plants.", "有的吃动物，有的杂食，还有的主要吃植物。"),
+            ("Dinosaurs are part of the reptile family tree, and birds are living dinosaurs.", "恐龙属于爬行动物演化家族树，鸟类是仍然存活的恐龙。"),
+            ("Watch wild reptiles from a safe distance and never touch a wild snake.", "请与野生爬行动物保持安全距离，绝不要触摸野生蛇类。"),
         ],
         "images": [
-            ("https://ichef.bbci.co.uk/images/ic/1200xn/p0b1sszy.jpg", "world"),
-            ("https://ichef.bbci.co.uk/images/ic/800xn/p0j74dp2.jpg", "snake"),
-            ("https://ichef.bbci.co.uk/images/ic/800xn/p0j74dvr.jpg", "tortoise"),
-            ("https://ichef.bbci.co.uk/images/ic/800xn/p0j74dzp.jpg", "chameleon"),
-            ("https://ichef.bbci.co.uk/images/ic/800xn/p0j74f2g.jpg", "lizard"),
-            ("https://ichef.bbci.co.uk/images/ic/1200xn/p0jqtwdd.png", "crocodile"),
-            ("https://ichef.bbci.co.uk/images/ic/800xn/p0ksfnbg.jpg", "tuatara"),
-            ("https://ichef.bbci.co.uk/images/ic/800xn/p0ksfqyf.jpg", "skink"),
+            ("local:images/story/05.png", "living_groups"),
+            ("local:images/words/snake.png", "squamates"),
+            ("local:images/story/14.png", "crocodilians"),
+            ("local:images/story/15.png", "tuatara"),
+            ("local:images/story/10.png", "habitats"),
+            ("local:images/story/11.png", "continents"),
+            ("local:images/story/12.png", "diets"),
+            ("local:images/story/17.png", "dinosaurs"),
+            ("local:images/story/18.png", "safety"),
         ],
-        "image_map": [0, 0, 1, 2, 2, 3, 4, 5, 5, 1, 2, 3, 6, 7, 2],
+        "image_map": [0, 1, 2, 3, 4, 5, 6, 6, 7, 8],
     },
 ]
 
@@ -347,7 +332,13 @@ def build_video(spec: dict) -> Path:
     for i, (url, name) in enumerate(spec["images"]):
         ext = ".png" if url.endswith(".png") else ".jpg"
         p = work / f"img_{i:02d}_{name}{ext}"
-        download(url, p)
+        if url.startswith("local:"):
+            source = COURSE / url.removeprefix("local:")
+            if not source.exists():
+                raise FileNotFoundError(f"缺少课程配图: {source}")
+            shutil.copy2(source, p)
+        else:
+            download(url, p)
         images.append(p)
 
     sentences: list[tuple[str, str]] = spec["sentences"]
@@ -504,11 +495,11 @@ def write_manifest() -> None:
     print(f"  ✓ manifest → {out}")
 
 
-def has_bbc_original(spec: dict) -> bool:
+def has_existing_course_video(spec: dict) -> bool:
     out = VIDEO_DIR / spec["file"]
     if not out.exists() or out.stat().st_size < 500_000:
         return False
-    # 合成版通常 < 8MB；BBC 原片一般明显更大
+    # 较大的已生成 MP4 默认保留，需 --force-synthetic 才覆盖
     return out.stat().st_size > 8_000_000
 
 
@@ -525,11 +516,11 @@ def main():
         if not shutil.which("ffmpeg"):
             sys.exit("需要 ffmpeg")
         print(
-            f"生成 BBC 课程视频（语速 {AZURE_SPEECH_RATE} · 句间留白 {SLIDE_PAD_SEC}s · Ken Burns + 字幕）…"
+            f"生成 S-Class 科学课程视频（语速 {AZURE_SPEECH_RATE} · 句间留白 {SLIDE_PAD_SEC}s · Ken Burns + 字幕）…"
         )
         for spec in VIDEOS:
-            if not args.force_synthetic and has_bbc_original(spec):
-                print(f"  跳过合成（已存在疑似 BBC 原片）: {spec['file']}")
+            if not args.force_synthetic and has_existing_course_video(spec):
+                print(f"  跳过合成（已存在课程视频）: {spec['file']}")
                 continue
             build_video(spec)
         write_manifest()

@@ -1,250 +1,311 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>What are reptiles? · 课程入口</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>What are reptiles? · S-Class 科学考察营</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,650;9..144,800&family=Noto+Sans+SC:wght@400;600;700;900&family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --accent: #2e7d32;
-      --accent-dim: #1b5e20;
-      --text: #e8eaed;
-      --muted: #9aa5b8;
-      --glass: rgba(255,255,255,0.06);
-      --glass-border: rgba(255,255,255,0.11);
+      --forest: #14392b;
+      --forest-soft: #285a42;
+      --clay: #d76549;
+      --amber: #eab13d;
+      --paper: #f5eee2;
+      --ink: #282218;
+      --muted: #71695d;
+      --white: #fffdf8;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; }
     body {
-      font-family: "DM Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
-      min-height: 100vh;
-      color: var(--text);
-      background: #0d1117;
-      line-height: 1.5;
-    }
-    .bg {
-      position: fixed; inset: 0; z-index: 0;
+      margin: 0;
+      color: var(--ink);
       background:
-        radial-gradient(ellipse 70% 45% at 20% 0%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 55%),
-        radial-gradient(ellipse 50% 40% at 100% 100%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 50%),
-        linear-gradient(180deg, #0a0e14, #121820 45%, #0d1117);
+        radial-gradient(circle at 0 0, rgba(234,177,61,.23), transparent 30rem),
+        linear-gradient(145deg, #d6c7ad, #e8dfd1 58%, #c4d0c3);
+      font-family: "Nunito", "Noto Sans SC", sans-serif;
     }
-    .page {
-      position: relative; z-index: 1;
-      max-width: 720px; margin: 0 auto;
-      padding: clamp(1.25rem, 4vw, 2rem) clamp(1rem, 4vw, 1.75rem) 3rem;
+    a { color: inherit; }
+    .camp {
+      width: min(1240px, calc(100% - 24px));
+      min-height: calc(100vh - 24px);
+      margin: 12px auto;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.7);
+      border-radius: 30px;
+      background: rgba(245,238,226,.94);
+      box-shadow: 0 28px 80px rgba(20,57,43,.22);
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 24px;
+      color: #fff;
+      background: var(--forest);
     }
     .back {
-      display: inline-flex; align-items: center; gap: 0.45rem;
-      color: var(--muted); text-decoration: none;
-      font-size: 0.88rem; font-weight: 500;
-      margin-bottom: 1.25rem;
-      padding: 0.4rem 0.75rem 0.4rem 0.5rem;
+      display: inline-flex;
+      align-items: center;
+      min-height: 42px;
+      padding: 8px 14px;
+      border: 1px solid rgba(255,255,255,.25);
       border-radius: 999px;
-      border: 1px solid var(--glass-border);
-      background: var(--glass);
-      transition: color .2s, border-color .2s;
+      text-decoration: none;
+      font-size: .82rem;
+      font-weight: 900;
+      background: rgba(255,255,255,.08);
     }
-    .back:hover { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 40%, transparent); }
-    .back img { opacity: 0.85; }
+    .topbar-tag { margin-left: auto; color: rgba(255,255,255,.68); font-size: .78rem; font-weight: 800; letter-spacing: .1em; }
     .hero {
-      display: flex; align-items: center; gap: 1.1rem;
-      padding: 1.35rem 1.25rem;
-      margin-bottom: 2rem;
-      border-radius: 18px;
-      background: var(--glass);
-      border: 1px solid var(--glass-border);
-      box-shadow: 0 16px 40px rgba(0,0,0,.35);
-    }
-    .hero-icon {
-      width: 72px; height: 72px; flex-shrink: 0;
-      border-radius: 16px; overflow: hidden;
-      border: 1px solid rgba(255,255,255,.12);
-      box-shadow: 0 8px 24px color-mix(in srgb, var(--accent) 35%, transparent);
-    }
-    .hero-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .hero-tag {
-      font-size: 0.68rem; font-weight: 700;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 0.25rem;
-    }
-    .hero h1 {
-      font-family: "Cormorant Garamond", Georgia, serif;
-      font-size: clamp(1.65rem, 4.5vw, 2rem);
-      font-weight: 700; color: #fff; line-height: 1.15;
-    }
-    .hero p { font-size: 0.92rem; color: var(--muted); margin-top: 0.35rem; }
-    h2 {
-      font-size: 0.72rem; font-weight: 700;
-      letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--muted); margin: 0 0 0.85rem 0.2rem;
-    }
-    .grid { display: grid; gap: 0.75rem; margin-bottom: 2rem; }
-    a.card {
-      display: flex; align-items: center; gap: 0.9rem;
-      padding: 1rem 1.05rem;
-      border-radius: 14px;
-      text-decoration: none; color: inherit;
-      background: var(--glass);
-      border: 1px solid var(--glass-border);
-      transition: transform .3s, border-color .3s, box-shadow .3s;
-    }
-    a.card:hover {
-      transform: translateY(-3px);
-      border-color: color-mix(in srgb, var(--accent) 45%, transparent);
-      box-shadow: 0 12px 32px rgba(0,0,0,.35);
-    }
-    .card-icon {
-      width: 44px; height: 44px; flex-shrink: 0;
-      border-radius: 11px; overflow: hidden;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.08);
-    }
-    .card-icon img { width: 100%; height: 100%; object-fit: cover; }
-    .card-body { flex: 1; min-width: 0; }
-    .card-label { font-weight: 600; font-size: 1rem; color: #fff; }
-    .card-desc { font-size: 0.8rem; color: var(--muted); margin-top: 0.15rem; }
-    .card-arrow {
-      width: 32px; height: 32px; flex-shrink: 0;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      border: 1px solid var(--glass-border);
-      background: rgba(255,255,255,.04);
-      transition: background .25s;
-    }
-    a.card:hover .card-arrow { background: var(--accent); border-color: var(--accent); }
-    .hw-grid {
+      position: relative;
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.55rem;
+      grid-template-columns: 1.08fr .92fr;
+      min-height: 430px;
+      color: #fff;
+      background: var(--forest);
     }
-    a.hw {
-      display: flex; align-items: center; gap: 0.65rem;
-      padding: 0.7rem 0.85rem;
-      border-radius: 12px;
-      text-decoration: none; color: #fff;
-      font-size: 0.9rem; font-weight: 500;
-      background: var(--glass);
-      border: 1px solid var(--glass-border);
-      transition: transform .2s, border-color .2s;
+    .hero-copy {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(34px, 6vw, 78px);
+      background:
+        radial-gradient(circle at 10% 0, rgba(234,177,61,.2), transparent 20rem),
+        linear-gradient(110deg, var(--forest), rgba(20,57,43,.94));
     }
-    a.hw:hover {
-      transform: translateY(-2px);
-      border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+    .kicker { margin: 0 0 12px; color: var(--amber); font-size: .76rem; font-weight: 1000; letter-spacing: .15em; }
+    h1 {
+      max-width: 700px;
+      margin: 0;
+      font-family: "Fraunces", "Noto Serif SC", serif;
+      font-size: clamp(2.8rem, 6vw, 5.8rem);
+      line-height: .94;
+      letter-spacing: -.04em;
     }
-    a.hw img {
-      width: 28px; height: 28px; flex-shrink: 0;
-      border-radius: 8px;
+    .hero-copy h2 { margin: 14px 0 0; color: #e8dbca; font-size: clamp(1.05rem,2.5vw,1.7rem); }
+    .hero-copy p { max-width: 620px; margin: 20px 0 0; color: rgba(255,255,255,.76); line-height: 1.7; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      min-height: 48px;
+      padding: 10px 19px;
+      border-radius: 999px;
+      color: var(--forest);
+      background: var(--amber);
+      text-decoration: none;
+      font-weight: 1000;
+      box-shadow: 0 10px 25px rgba(0,0,0,.16);
     }
-    footer {
-      margin-top: 2.5rem; padding-top: 1.25rem;
-      border-top: 1px solid var(--glass-border);
-      text-align: center;
-      font-size: 0.78rem; color: var(--muted);
+    .cta.secondary { color: #fff; border: 1px solid rgba(255,255,255,.28); background: rgba(255,255,255,.08); box-shadow: none; }
+    .hero-image { position: relative; min-height: 430px; }
+    .hero-image img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-image::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, var(--forest), transparent 32%); }
+    .field-label {
+      position: absolute;
+      right: 24px;
+      bottom: 20px;
+      z-index: 2;
+      padding: 10px 14px;
+      border-radius: 6px;
+      color: var(--forest);
+      background: rgba(255,253,248,.92);
+      transform: rotate(-1.5deg);
+      font-size: .78rem;
+      font-weight: 900;
+      box-shadow: 0 8px 20px rgba(0,0,0,.18);
     }
-    @media (max-width: 480px) { .hw-grid { grid-template-columns: 1fr; } }
+    .camp-body { padding: clamp(24px, 4vw, 48px); }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 18px; }
+    .section-head span { color: var(--clay); font-size: .74rem; font-weight: 1000; letter-spacing: .14em; text-transform: uppercase; }
+    .section-head h2 { margin: 4px 0 0; color: var(--forest); font-family: "Fraunces", serif; font-size: clamp(1.8rem,3.3vw,3rem); }
+    .section-head p { max-width: 470px; margin: 0; color: var(--muted); line-height: 1.55; text-align: right; }
+    .mission-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0,1fr));
+      gap: 14px;
+    }
+    .mission {
+      position: relative;
+      display: flex;
+      min-height: 240px;
+      overflow: hidden;
+      border: 1px solid rgba(40,34,24,.12);
+      border-radius: 22px;
+      color: var(--ink);
+      background: var(--white);
+      text-decoration: none;
+      box-shadow: 0 12px 28px rgba(20,57,43,.08);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .mission:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(20,57,43,.15); }
+    .mission.large { grid-column: span 7; }
+    .mission.medium { grid-column: span 5; }
+    .mission.third { grid-column: span 4; }
+    .mission-content { position: relative; z-index: 2; display: flex; flex-direction: column; width: 58%; padding: 23px; }
+    .mission.medium .mission-content, .mission.third .mission-content { width: 100%; }
+    .mission-icon { font-size: 1.8rem; }
+    .mission h3 { margin: 12px 0 6px; color: var(--forest); font-size: 1.25rem; }
+    .mission p { margin: 0; color: var(--muted); font-size: .86rem; line-height: 1.55; }
+    .mission-go { margin-top: auto; padding-top: 18px; color: var(--clay); font-weight: 1000; }
+    .mission-photo { position: absolute; top: 0; right: 0; bottom: 0; width: 46%; object-fit: cover; }
+    .mission-photo::after { content:""; }
+    .route {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 12px;
+      margin-top: 34px;
+    }
+    .route-step {
+      position: relative;
+      padding: 18px;
+      border-top: 4px solid var(--amber);
+      border-radius: 0 0 15px 15px;
+      background: rgba(255,255,255,.55);
+    }
+    .route-step b { display:block; color:var(--forest); }
+    .route-step small { color:var(--muted); }
+    .print-pack {
+      display: grid;
+      grid-template-columns: 1.2fr repeat(3,1fr);
+      gap: 12px;
+      margin-top: 38px;
+      padding: 22px;
+      border-radius: 22px;
+      color: #fff;
+      background: var(--forest);
+    }
+    .print-intro h2 { margin: 0 0 7px; font-family:"Fraunces",serif; }
+    .print-intro p { margin:0; color:rgba(255,255,255,.68); font-size:.84rem; }
+    .print-link { display:flex; align-items:center; justify-content:center; min-height:80px; padding:12px; border:1px solid rgba(255,255,255,.2); border-radius:15px; text-align:center; text-decoration:none; font-weight:900; background:rgba(255,255,255,.08); }
+    footer { padding: 20px 24px 30px; color: var(--muted); text-align:center; font-size:.78rem; }
+    @media (max-width: 900px) {
+      .camp { width:100%; min-height:100vh; margin:0; border:0; border-radius:0; }
+      .hero { grid-template-columns:1fr; }
+      .hero-copy { min-height:390px; }
+      .hero-image { min-height:300px; }
+      .hero-image::after { background:linear-gradient(180deg,var(--forest),transparent 35%); }
+      .mission.large,.mission.medium,.mission.third { grid-column:span 6; }
+      .mission.large .mission-content { width:100%; background:linear-gradient(90deg,#fff 60%,rgba(255,255,255,.6)); }
+      .route { grid-template-columns:repeat(2,1fr); }
+      .print-pack { grid-template-columns:1fr; }
+    }
+    @media (max-width: 560px) {
+      .topbar { padding:10px 12px; }
+      .topbar-tag { display:none; }
+      .hero-copy { padding:35px 22px; min-height:390px; }
+      .hero-image { min-height:240px; }
+      .camp-body { padding:26px 14px; }
+      .section-head { align-items:start; flex-direction:column; }
+      .section-head p { text-align:left; }
+      .mission.large,.mission.medium,.mission.third { grid-column:span 12; }
+      .mission { min-height:210px; }
+      .mission-photo { opacity:.28; width:60%; }
+      .mission-content { width:100%; }
+      .route { grid-template-columns:1fr; }
+    }
   </style>
-  <link rel="stylesheet" href="../assets/primary-responsive.css?v=2" />
 </head>
 <body>
-  <div class="bg" aria-hidden="true"></div>
-  <div class="page">
-  <a class="back" href="../index.html">
-    <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/icon-back.png" alt="" width="16" height="16" />
-    <span>返回总目录</span>
-  </a>
-
-    <header class="hero">
-      <div class="hero-icon">
-        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/What%20are%20reptiles/what-are-reptiles-courseware/images/course-hero.png" alt="What are reptiles?" width="72" height="72" />
-      </div>
-      <div>
-        <div class="hero-tag">What are reptiles?</div>
-        <h1>什么是爬行动物</h1>
-        <p>BBC Bitesize 科学 · 小学四年级 · KS1 Science</p>
-      </div>
-    </header>
-
-    <h2>学习模块</h2>
-    <div class="grid">
-      <a class="card" href="what-are-reptiles-courseware/index.html">
-        <div class="card-icon"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/icon-courseware.png" alt="" width="44" height="44" /></div>
-        <div class="card-body">
-          <div class="card-label">互动课件</div>
-          <div class="card-desc">16:9 电视屏 · 单词 Soundbox · 课文跟读</div>
-        </div>
-        <span class="card-arrow"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/icon-arrow.png" alt="" width="16" height="16" /></span>
-      </a>
-      <a class="card" href="what-are-reptiles-courseware/learn.html">
-        <div class="card-icon"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/What%20are%20reptiles/what-are-reptiles-courseware/images/icon-learn.png" alt="" width="44" height="44" /></div>
-        <div class="card-body">
-          <div class="card-label">单词学习</div>
-          <div class="card-desc">一词一页 · 图片 · Soundbox · 例句 · Azure 发音</div>
-        </div>
-        <span class="card-arrow"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/icon-arrow.png" alt="" width="16" height="16" /></span>
-      </a>
-      <a class="card" href="what-are-reptiles-courseware/activities.html">
-        <div class="card-icon"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/What%20are%20reptiles/what-are-reptiles-courseware/images/icon-activities.png" alt="" width="44" height="44" /></div>
-        <div class="card-body">
-          <div class="card-label">BBC 活动与视频</div>
-          <div class="card-desc">教学视频 · 找爬行动物 · 测验 · 分类游戏</div>
-        </div>
-        <span class="card-arrow"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/icon-arrow.png" alt="" width="16" height="16" /></span>
-      </a>
-      <a class="card" href="what-are-reptiles-review-games/index.html">
-        <div class="card-icon"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/icon-games.png" alt="" width="44" height="44" /></div>
-        <div class="card-body">
-          <div class="card-label">复习游戏</div>
-          <div class="card-desc">9 款复习游戏：迷宫 · 选择 · 连线 · 泡泡 · 转盘</div>
-        </div>
-        <span class="card-arrow"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/icon-arrow.png" alt="" width="16" height="16" /></span>
-      </a>
-      <a class="card" href="what-are-reptiles-coloring/index.html">
-        <div class="card-icon"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/icon-coloring.png" alt="" width="44" height="44" /></div>
-        <div class="card-body">
-          <div class="card-label">单词涂色卡</div>
-          <div class="card-desc">打印涂色练习</div>
-        </div>
-        <span class="card-arrow"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/icon-arrow.png" alt="" width="16" height="16" /></span>
-      </a>
+  <main class="camp">
+    <div class="topbar">
+      <a class="back" href="../index.html">← Primary 总目录</a>
+      <span class="topbar-tag">S-CLASS SCIENCE · FIELD EXPEDITION 01</span>
     </div>
 
-    <h2>作业练习</h2>
-    <div class="hw-grid">
-      <a class="hw" href="what-are-reptiles-courseware/copy.html">
-        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/icon-homework.png" alt="" width="28" height="28" />
-        <span>单词抄写 PDF</span>
-      </a>
-      <a class="hw" href="what-are-reptiles-homework/What are reptiles听写练习01.html">
-        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/icon-dictation.png" alt="" width="28" height="28" />
-        <span>听写 01</span>
-      </a>
-      <a class="hw" href="what-are-reptiles-homework/What are reptiles听写练习02.html">
-        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/icon-dictation.png" alt="" width="28" height="28" />
-        <span>听写 02</span>
-      </a>
-      <a class="hw" href="what-are-reptiles-homework/What are reptiles抄写作业 01.html">
-        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/icon-homework.png" alt="" width="28" height="28" />
-        <span>抄写 01</span>
-      </a>
-      <a class="hw" href="what-are-reptiles-homework/What are reptiles抄写作业 02.html">
-        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/icon-homework.png" alt="" width="28" height="28" />
-        <span>抄写 02</span>
-      </a>
-      <a class="hw" href="what-are-reptiles-homework/What are reptiles抄写作业 03.html">
-        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/icon-homework.png" alt="" width="28" height="28" />
-        <span>抄写 03</span>
-      </a>
-      <a class="hw" href="what-are-reptiles-homework/What are reptiles抄写作业 04.html">
-        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/icon-homework.png" alt="" width="28" height="28" />
-        <span>抄写 04</span>
-      </a>
-    </div>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="kicker">A SCIENTIFIC FIELD EXPEDITION</p>
+        <h1>What are reptiles?</h1>
+        <h2>走进爬行动物的真实世界</h2>
+        <p>从鳞片与肺，到变温、繁殖和演化。用写实图像、原创科学课文、互动实验和游戏，完成一次真正准确的野外考察。</p>
+        <div class="hero-actions">
+          <a class="cta" href="what-are-reptiles-courseware/index.html">打开野外日志 →</a>
+          <a class="cta secondary" href="what-are-reptiles-courseware/activities.html">进入视频观测站</a>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/What%20are%20reptiles/what-are-reptiles-courseware/images/story/01.png" alt="蛇、蜥蜴、陆龟和鳄等爬行动物">
+        <span class="field-label">标本组：现生非鸟类爬行动物</span>
+      </div>
+    </section>
 
-    <footer>本地 MP3 发音 · en-GB-RyanNeural</footer>
-  </div>
-  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/primary-responsive.js?v=2" defer></script>
+    <div class="camp-body">
+      <div class="section-head">
+        <div>
+          <span>Your expedition map</span>
+          <h2>六项核心考察任务</h2>
+        </div>
+        <p>从视觉、内容到活动全部重新构建，并按现行科学知识审校。</p>
+      </div>
+
+      <div class="mission-grid">
+        <a class="mission large" href="what-are-reptiles-courseware/index.html">
+          <div class="mission-content">
+            <span class="mission-icon">📓</span>
+            <h3>野外科学日志</h3>
+            <p>46 个标本单词、18 条科学记录、四大类群和关键事实。</p>
+            <span class="mission-go">开始主课程 →</span>
+          </div>
+          <img class="mission-photo" src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/What%20are%20reptiles/what-are-reptiles-courseware/images/words/reptile.png" alt="">
+        </a>
+        <a class="mission medium" href="what-are-reptiles-courseware/activities.html">
+          <div class="mission-content">
+            <span class="mission-icon">🔭</span>
+            <h3>视频观测站</h3>
+            <p>两段原创科普脚本、慢速英音、中英字幕与句级时间轴。</p>
+            <span class="mission-go">观看与实验 →</span>
+          </div>
+        </a>
+        <a class="mission third" href="what-are-reptiles-courseware/index.html#specimens">
+          <div class="mission-content">
+            <span class="mission-icon">🔎</span>
+            <h3>一词一标本</h3>
+            <p>写实主体图、词义场景、音形对应与例句。</p>
+            <span class="mission-go">学习 46 词 →</span>
+          </div>
+        </a>
+        <a class="mission third" href="what-are-reptiles-review-games/index.html">
+          <div class="mission-content">
+            <span class="mission-icon">🎮</span>
+            <h3>九项训练游戏</h3>
+            <p>记忆、听音、拼写、迷宫、泡泡和转盘。</p>
+            <span class="mission-go">进入训练场 →</span>
+          </div>
+        </a>
+        <a class="mission third" href="what-are-reptiles-coloring/index.html">
+          <div class="mission-content">
+            <span class="mission-icon">🗂️</span>
+            <h3>全彩标本卡</h3>
+            <p>46 张真实、达意的全彩单词卡，不再使用黑白涂色图。</p>
+            <span class="mission-go">预览与打印 →</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="route" aria-label="建议学习路线">
+        <div class="route-step"><b>01 · Observe</b><small>观察写实图，建立科学概念</small></div>
+        <div class="route-step"><b>02 · Read</b><small>阅读 18 条中英科学记录</small></div>
+        <div class="route-step"><b>03 · Test</b><small>完成分类、判断和测验</small></div>
+        <div class="route-step"><b>04 · Record</b><small>打印卡片和 PDF 记录发现</small></div>
+      </div>
+
+      <section class="print-pack">
+        <div class="print-intro">
+          <h2>Field Pack · 全彩资料包</h2>
+          <p>课文、单词与活动 PDF 使用同一套科学数据和图片。</p>
+        </div>
+        <a class="print-link" href="what-are-reptiles-courseware/print-story.html">📕<br>科学课文 PDF</a>
+        <a class="print-link" href="what-are-reptiles-courseware/copy.html">✍️<br>单词抄写 PDF</a>
+        <a class="print-link" href="what-are-reptiles-review-games/print-worksheets.html">🧩<br>活动练习 PDF</a>
+      </section>
+    </div>
+    <footer>S-Class Science · What are reptiles? · 科学内容与视觉体系重新设计</footer>
+  </main>
 </body>
 </html>
