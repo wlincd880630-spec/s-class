@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>中文辨形 · Verb Atlas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@600;700;800&family=Noto+Sans+SC:wght@400;500;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/verbverse.css" />
+  <style>
+    .mode-switcher {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: rgba(255, 253, 248, 0.86);
+      padding: 0.75rem 0.85rem;
+    }
+
+    .mode-switcher p,
+    .mode-confirm p {
+      margin: 0;
+      color: var(--ink-muted);
+      font-size: 0.78rem;
+    }
+
+    .mode-tabs {
+      display: flex;
+      gap: 0.45rem;
+    }
+
+    .mode-button {
+      min-height: 44px;
+      cursor: pointer;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      background: var(--paper);
+      padding: 0.55rem 0.9rem;
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    .mode-button.is-active {
+      border-color: var(--cobalt);
+      background: var(--cobalt);
+      color: #fff;
+    }
+
+    .mode-confirm {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(216, 138, 23, 0.34);
+      border-radius: var(--radius-md);
+      background: var(--amber-pale);
+      padding: 0.9rem 1rem;
+    }
+
+    .mode-confirm strong {
+      display: block;
+      margin-bottom: 0.12rem;
+      font-family: var(--font-display);
+    }
+
+    .mode-confirm-actions {
+      display: flex;
+      flex: 0 0 auto;
+      gap: 0.45rem;
+    }
+
+    .chinese-prompt {
+      margin: 0.5rem 0 0;
+      font-size: clamp(1.55rem, 5vw, 2.7rem);
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .base-cue {
+      margin: 0.25rem 0 2rem;
+      color: var(--cobalt);
+      font-family: var(--font-en);
+      font-size: clamp(2.6rem, 8vw, 5.4rem);
+      font-weight: 800;
+      letter-spacing: -0.06em;
+      line-height: 1;
+      text-align: center;
+    }
+
+    .binary-options {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 680px) {
+      .mode-switcher,
+      .mode-confirm {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .mode-tabs,
+      .mode-confirm-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .mode-button {
+        padding-inline: 0.55rem;
+      }
+    }
+  </style>
+  <script src="../../scripts/auth-check.js"></script>
+  <script src="../verbs-data.js"></script>
+  <script src="../shared.js"></script>
+  <script src="../distractors.js"></script>
+  <script src="../assets/verbverse.js"></script>
+</head>
+<body class="game-page">
+  <header class="game-topbar">
+    <a class="topbar-back" href="index.html" aria-label="返回游戏大厅"><span aria-hidden="true">←</span><span>游戏大厅</span></a>
+    <div class="game-progress" aria-label="游戏进度">
+      <div class="game-progress-labels"><span id="progressTitle">GAME 08 · 中文辨形</span><strong id="progressLabel">0 / 10</strong></div>
+      <div class="game-progress-track"><div class="game-progress-fill" id="progressFill"></div></div>
+    </div>
+    <a class="brand-lockup" href="../index.html"><span class="brand-mark">VA</span><span class="brand-copy"><strong>Verb Atlas</strong><span>Tense Observatory</span></span></a>
+  </header>
+
+  <main class="game-shell">
+    <div class="game-stage-head">
+      <div><p class="eyebrow">MEANING SIGNAL · 10 QUESTIONS</p><h1>中文辨形</h1></div>
+      <p>根据中文与原形，从两个高度相近的形式中锁定答案。数字键 1 / 2 也可作答。</p>
+    </div>
+
+    <section class="mode-switcher" aria-label="选择训练模式">
+      <p><strong>训练模式</strong> · 切换模式会重新开始本局</p>
+      <div class="mode-tabs">
+        <button class="mode-button" type="button" data-mode="past" aria-pressed="false">过去式</button>
+        <button class="mode-button" type="button" data-mode="pp" aria-pressed="false">过去分词</button>
+      </div>
+    </section>
+
+    <section class="mode-confirm" id="modeConfirm" role="dialog" aria-modal="true" aria-labelledby="confirmTitle" hidden>
+      <div>
+        <strong id="confirmTitle">切换训练模式？</strong>
+        <p id="confirmCopy">当前进度会清空，并从第 1 题重新开始。</p>
+      </div>
+      <div class="mode-confirm-actions">
+        <button class="button button-secondary" id="cancelMode" type="button">继续本局</button>
+        <button class="button button-primary" id="confirmMode" type="button">确认切换</button>
+      </div>
+    </section>
+
+    <div id="gameStage" data-game-stage>
+      <section class="game-empty">
+        <p class="eyebrow">SELECT A ROUTE</p>
+        <h1>先选择辨形模式</h1>
+        <p>选择过去式或过去分词，开始十题中文辨形。</p>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      "use strict";
+      var U = window.IrregularVerbsUtil;
+      var D = window.IrregularVerbsDistractors;
+      var VV = window.VerbVerse;
+      var GAME_ID = "chinese-form";
+      var TOTAL = 10;
+      var MODE_META = {
+        past: { label: "过去式", pill: "过去式 · PAST", tone: "is-past" },
+        pp: { label: "过去分词", pill: "过去分词 · PARTICIPLE", tone: "is-perfect" }
+      };
+      var selectedVerbs = U.getSelectedVerbs();
+      var stage = document.getElementById("gameStage");
+      var modeButtons = Array.prototype.slice.call(document.querySelectorAll("[data-mode]"));
+      var modeConfirm = document.getElementById("modeConfirm");
+      var pendingMode = null;
+      var restoreFocus = null;
+      var mode = null;
+      var rounds = [];
+      var currentQuestion = null;
+      var roundIndex = 0;
+      var score = 0;
+      var answered = false;
+      var mistakes = [];
+      var optionsBox;
+      var feedback;
+      var nextButton;
+
+      function setModeButtons() {
+        modeButtons.forEach(function (button) {
+          var active = button.dataset.mode === mode;
+          button.classList.toggle("is-active", active);
+          button.setAttribute("aria-pressed", active ? "true" : "false");
+        });
+      }
+
+      function updateProgress(completed) {
+        var count = mode ? Math.min(TOTAL, roundIndex + (completed ? 1 : 0)) : 0;
+        document.getElementById("progressLabel").textContent =
+          mode ? Math.min(roundIndex + 1, TOTAL) + " / " + TOTAL : "0 / " + TOTAL;
+        document.getElementById("progressFill").style.setProperty(
+          "--progress",
+          Math.round((count / TOTAL) * 100) + "%"
+        );
+      }
+
+      function showModeConfirm(nextMode, source) {
+        pendingMode = nextMode;
+        restoreFocus = source || document.activeElement;
+        document.getElementById("confirmCopy").textContent =
+          "切换到「" + MODE_META[nextMode].label + "」会清空当前进度，并从第 1 题重新开始。";
+        modeConfirm.hidden = false;
+        document.getElementById("confirmMode").focus();
+      }
+
+      function closeModeConfirm() {
+        modeConfirm.hidden = true;
+        pendingMode = null;
+        if (restoreFocus && typeof restoreFocus.focus === "function") restoreFocus.focus();
+        restoreFocus = null;
+      }
+
+      function eligibleVerbs(field) {
+        return selectedVerbs.filter(function (verb) {
+          return Boolean(D.createChineseQuestion({ verb: verb, field: field }));
+        });
+      }
+
+      function showEmpty(field) {
+        stage.innerHTML =
+          '<section class="game-empty"><p class="eyebrow">NO FORM PAIRS</p><h1>当前词库无法生成题目</h1>' +
+          '<p>「' + MODE_META[field].label + '」模式需要至少一个可辨认的变化形式。过去分词模式会跳过 can。</p>' +
+          '<a class="button button-primary" href="../index.html#wordStudio">前往调整词库</a></section>';
+        updateProgress(false);
+      }
+
+      function renderPlayShell() {
+        stage.innerHTML =
+          '<section class="game-panel" aria-labelledby="baseWord">' +
+          '<div class="question-meta"><span class="question-index" id="questionIndex">QUESTION 01</span>' +
+          '<span class="tense-pill" id="formLabel"></span></div>' +
+          '<p class="chinese-prompt" id="chineseMeaning">—</p>' +
+          '<h2 class="base-cue" id="baseWord">—</h2>' +
+          '<div class="choice-grid binary-options" id="answerOptions" aria-label="动词形式选项"></div>' +
+          '<p class="game-feedback" id="gameFeedback" role="status" aria-live="polite">选择正确形式。</p>' +
+          '<div class="game-action-row"><button class="button button-primary" id="nextButton" type="button" hidden>下一题</button></div>' +
+          '</section>';
+        optionsBox = document.getElementById("answerOptions");
+        feedback = document.getElementById("gameFeedback");
+        nextButton = document.getElementById("nextButton");
+        nextButton.addEventListener("click", nextRound);
+      }
+
+      function startMode(nextMode) {
+        var candidates = eligibleVerbs(nextMode);
+        mode = nextMode;
+        roundIndex = 0;
+        score = 0;
+        answered = false;
+        mistakes = [];
+        rounds = VV.buildRounds(candidates, TOTAL);
+        setModeButtons();
+        document.getElementById("progressTitle").textContent =
+          "GAME 08 · " + MODE_META[mode].label;
+        if (!rounds.length) {
+          showEmpty(mode);
+          return;
+        }
+        renderPlayShell();
+        renderRound();
+      }
+
+      function choose(button, value) {
+        if (answered || !currentQuestion) return;
+        var correct = U.normalizeForm(value) === U.normalizeForm(currentQuestion.correct);
+        answered = true;
+        Array.prototype.forEach.call(optionsBox.children, function (option) {
+          option.disabled = true;
+          if (U.normalizeForm(option.dataset.value) === U.normalizeForm(currentQuestion.correct)) {
+            option.classList.add("is-correct");
+          }
+        });
+        if (correct) {
+          score += 1;
+          feedback.className = "game-feedback is-success";
+          feedback.textContent = "辨形正确：" + currentQuestion.base + " → " + currentQuestion.correct;
+        } else {
+          button.classList.add("is-wrong");
+          mistakes.push({
+            prompt: currentQuestion.cn + " · " + currentQuestion.base,
+            answer: currentQuestion.correct
+          });
+          feedback.className = "game-feedback is-error";
+          feedback.textContent = "正确形式是 " + currentQuestion.correct + "。";
+        }
+        VV.recordGameAttempt(GAME_ID, {
+          verbId: currentQuestion.verb.id,
+          mode: mode,
+          round: roundIndex + 1,
+          correct: correct,
+          answer: value,
+          expected: currentQuestion.correct
+        });
+        nextButton.hidden = false;
+        nextButton.textContent = roundIndex === TOTAL - 1 ? "查看结算" : "下一题";
+        updateProgress(true);
+      }
+
+      function renderRound() {
+        if (roundIndex >= TOTAL) {
+          finishGame();
+          return;
+        }
+        currentQuestion = D.createChineseQuestion({ verb: rounds[roundIndex], field: mode });
+        answered = false;
+        document.getElementById("questionIndex").textContent =
+          "QUESTION " + String(roundIndex + 1).padStart(2, "0");
+        document.getElementById("formLabel").className =
+          "tense-pill " + MODE_META[mode].tone;
+        document.getElementById("formLabel").textContent = MODE_META[mode].pill;
+        document.getElementById("chineseMeaning").textContent = currentQuestion.cn;
+        document.getElementById("baseWord").textContent = currentQuestion.base;
+        optionsBox.innerHTML = "";
+        currentQuestion.options.forEach(function (option, index) {
+          var button = document.createElement("button");
+          button.type = "button";
+          button.className = "choice-button";
+          button.dataset.value = option;
+          button.textContent = String(index + 1) + " · " + option;
+          button.addEventListener("click", function () { choose(button, option); });
+          optionsBox.appendChild(button);
+        });
+        feedback.className = "game-feedback";
+        feedback.textContent = "根据中文与原形，选择正确的" + MODE_META[mode].label + "。";
+        nextButton.hidden = true;
+        updateProgress(false);
+      }
+
+      function nextRound() {
+        if (!answered) return;
+        roundIndex += 1;
+        renderRound();
+      }
+
+      function finishGame() {
+        document.getElementById("progressLabel").textContent = TOTAL + " / " + TOTAL;
+        document.getElementById("progressFill").style.setProperty("--progress", "100%");
+        VV.recordGameSession(GAME_ID, {
+          mode: mode,
+          score: score,
+          total: TOTAL,
+          mistakes: mistakes.length
+        });
+        VV.showGameSettlement({
+          host: stage,
+          title: MODE_META[mode].label + "辨形完成",
+          message: "十组中文信号已经与正确形式对齐。",
+          score: score,
+          total: TOTAL,
+          mistakes: mistakes,
+          nextHref: "game9-letter-sort.html",
+          onRestart: function () { startMode(mode); }
+        });
+      }
+
+      modeButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          var nextMode = button.dataset.mode;
+          if (!mode) {
+            startMode(nextMode);
+          } else if (nextMode !== mode) {
+            showModeConfirm(nextMode, button);
+          }
+        });
+      });
+      document.getElementById("cancelMode").addEventListener("click", closeModeConfirm);
+      document.getElementById("confirmMode").addEventListener("click", function () {
+        var nextMode = pendingMode;
+        closeModeConfirm();
+        if (nextMode) startMode(nextMode);
+      });
+      document.addEventListener("keydown", function (event) {
+        if (!modeConfirm.hidden) {
+          if (event.key === "Escape") {
+            event.preventDefault();
+            closeModeConfirm();
+          }
+          return;
+        }
+        if (!mode && /^[12]$/.test(event.key)) {
+          modeButtons[Number(event.key) - 1].click();
+          return;
+        }
+        if (!answered && /^[12]$/.test(event.key) && optionsBox) {
+          var option = optionsBox.children[Number(event.key) - 1];
+          if (option) option.click();
+        } else if (answered && event.key === "Enter" && nextButton && !nextButton.hidden) {
+          event.preventDefault();
+          nextButton.click();
+        }
+      });
+      setModeButtons();
+      updateProgress(false);
+    })();
+  </script>
+</body>
+</html>

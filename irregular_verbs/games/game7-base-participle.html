@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>原形到过去分词 · Verb Atlas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@600;700;800&family=Noto+Sans+SC:wght@400;500;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/verbverse.css" />
+  <script src="../../scripts/auth-check.js"></script>
+  <script src="../verbs-data.js"></script>
+  <script src="../shared.js"></script>
+  <script src="../distractors.js"></script>
+  <script src="../assets/verbverse.js"></script>
+</head>
+<body class="game-page">
+  <header class="game-topbar">
+    <a class="topbar-back" href="index.html" aria-label="返回游戏大厅"><span aria-hidden="true">←</span><span>游戏大厅</span></a>
+    <div class="game-progress" aria-label="游戏进度">
+      <div class="game-progress-labels"><span>GAME 07 · BASE → PARTICIPLE</span><strong id="progressLabel">1 / 10</strong></div>
+      <div class="game-progress-track"><div class="game-progress-fill" id="progressFill"></div></div>
+    </div>
+    <a class="brand-lockup" href="../index.html"><span class="brand-mark">VA</span><span class="brand-copy"><strong>Verb Atlas</strong><span>Tense Observatory</span></span></a>
+  </header>
+
+  <main class="game-shell" id="gameStage" data-game-stage>
+    <div class="game-stage-head">
+      <div><p class="eyebrow">PARTICIPLE SIGNAL · 10 QUESTIONS</p><h1>原形到过去分词</h1></div>
+      <p>根据原形与中文含义，从四个相近形式中锁定过去分词。按数字键 1–4 也可作答。</p>
+    </div>
+    <section class="game-panel" aria-labelledby="baseWord">
+      <div class="question-meta">
+        <span class="question-index" id="questionIndex">QUESTION 01</span>
+        <span class="tense-pill is-perfect" id="groupLabel">ABC · 三态全变化</span>
+      </div>
+      <h2 class="verb-prompt" id="baseWord">—</h2>
+      <p class="verb-meaning" id="baseMeaning"></p>
+      <div class="choice-grid" id="answerOptions" aria-label="过去分词选项"></div>
+      <p class="game-feedback" id="gameFeedback" role="status" aria-live="polite" aria-atomic="true">选择这个动词的过去分词。</p>
+      <div class="game-action-row">
+        <button class="button button-primary" id="nextButton" type="button" hidden>下一题</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      "use strict";
+      var U = window.IrregularVerbsUtil;
+      var D = window.IrregularVerbsDistractors;
+      var VV = window.VerbVerse;
+      var GAME_ID = "base-participle";
+      var TOTAL = 10;
+      var eligibleVerbs = U.getSelectedVerbs().filter(function (verb) {
+        return verb.id !== "can";
+      });
+      var stage = document.getElementById("gameStage");
+      var optionsBox = document.getElementById("answerOptions");
+      var feedback = document.getElementById("gameFeedback");
+      var nextButton = document.getElementById("nextButton");
+      var questions = [];
+      var roundIndex = 0;
+      var score = 0;
+      var answered = false;
+      var mistakes = [];
+
+      function showEmpty() {
+        stage.innerHTML =
+          '<section class="game-empty"><p class="eyebrow">EMPTY ATLAS</p><h1>缺少过去分词词汇</h1>' +
+          '<p>本游戏会跳过没有过去分词的 can，请在词库中选择其他动词。</p><a class="button button-primary" href="../index.html#wordStudio">前往调整词库</a></section>';
+      }
+
+      function groupLabel(group) {
+        var meta = U.getGroupMeta(group);
+        return meta.shortLabel + " · " + meta.label;
+      }
+
+      function hasOption(question, value) {
+        var target = U.normalizeForm(value);
+        return question.options.some(function (option) {
+          return U.normalizeForm(option) === target;
+        });
+      }
+
+      function buildQuestion(verb) {
+        var question = D.createChoiceQuestion({
+          verb: verb,
+          field: "pp",
+          optionCount: 4
+        });
+        question.group = U.getVerbGroup(verb);
+        question.pastDistractor = D.canonical(verb, "past");
+        if (
+          (question.group === "abc" || question.group === "aba") &&
+          !hasOption(question, question.pastDistractor)
+        ) {
+          throw new Error("同词过去式未进入过去分词干扰项：" + verb.id);
+        }
+        D.assertSingleCorrect(question, verb, "pp");
+        return question;
+      }
+
+      function ruleText(question) {
+        var verb = question.verb;
+        if (question.group === "abb") {
+          return "ABB：过去式与过去分词同形（" + verb.base + " → " + verb.past + " → " + verb.pp + "）。";
+        }
+        if (question.group === "aba") {
+          return "ABA：原形与过去分词同形；过去式 " + verb.past + " 是本题的高迷惑项。";
+        }
+        if (question.group === "aaa") {
+          return "AAA：原形、过去式、过去分词三态同形。";
+        }
+        return "ABC：三态都变化；过去式 " + verb.past + " 不等于过去分词 " + verb.pp + "。";
+      }
+
+      function updateProgress(completed) {
+        var progress = Math.min(TOTAL, roundIndex + (completed ? 1 : 0));
+        document.getElementById("progressLabel").textContent =
+          Math.min(roundIndex + 1, TOTAL) + " / " + TOTAL;
+        document.getElementById("progressFill").style.setProperty(
+          "--progress",
+          Math.round((progress / TOTAL) * 100) + "%"
+        );
+      }
+
+      function choose(button, value) {
+        if (answered) return;
+        var question = questions[roundIndex];
+        var correct = U.normalizeForm(value) === U.normalizeForm(question.correct);
+        var message;
+        answered = true;
+        Array.prototype.forEach.call(optionsBox.children, function (option) {
+          option.disabled = true;
+          if (U.normalizeForm(option.dataset.value) === U.normalizeForm(question.correct)) {
+            option.classList.add("is-correct");
+          }
+        });
+        if (correct) {
+          score += 1;
+          feedback.className = "game-feedback is-success";
+          message = "正确：" + question.verb.base + " → " + question.correct + "。";
+        } else {
+          button.classList.add("is-wrong");
+          message = "答错了。正确答案：" + question.correct + "。形态规律：" + ruleText(question);
+          mistakes.push({
+            prompt: question.verb.base,
+            answer: question.correct + " · " + ruleText(question)
+          });
+          feedback.className = "game-feedback is-error";
+        }
+        feedback.textContent = message;
+        VV.recordGameAttempt(GAME_ID, {
+          question: roundIndex + 1,
+          verbId: question.verb.id,
+          field: "pp",
+          group: question.group,
+          correct: correct,
+          answer: value,
+          expected: question.correct
+        });
+        nextButton.hidden = false;
+        nextButton.textContent = roundIndex === TOTAL - 1 ? "查看结算" : "下一题";
+        updateProgress(true);
+      }
+
+      function renderRound() {
+        if (roundIndex >= TOTAL) {
+          finishGame();
+          return;
+        }
+        var question = questions[roundIndex];
+        answered = false;
+        document.getElementById("questionIndex").textContent =
+          "QUESTION " + String(roundIndex + 1).padStart(2, "0");
+        document.getElementById("groupLabel").textContent = groupLabel(question.group);
+        document.getElementById("baseWord").textContent = question.verb.base;
+        document.getElementById("baseMeaning").textContent =
+          question.verb.cn + " · 请选择过去分词";
+        optionsBox.innerHTML = "";
+        question.options.forEach(function (option, index) {
+          var button = document.createElement("button");
+          button.type = "button";
+          button.className = "choice-button";
+          button.dataset.value = option;
+          button.textContent = String(index + 1) + " · " + option;
+          button.setAttribute("aria-label", "选项 " + (index + 1) + "，" + option);
+          button.addEventListener("click", function () { choose(button, option); });
+          optionsBox.appendChild(button);
+        });
+        feedback.className = "game-feedback";
+        feedback.textContent = "选择 " + question.verb.base + " 的过去分词。";
+        nextButton.hidden = true;
+        updateProgress(false);
+      }
+
+      function finishGame() {
+        document.getElementById("progressLabel").textContent = TOTAL + " / " + TOTAL;
+        document.getElementById("progressFill").style.setProperty("--progress", "100%");
+        VV.recordGameSession(GAME_ID, {
+          score: score,
+          total: TOTAL,
+          mistakes: mistakes.length
+        });
+        VV.showGameSettlement({
+          host: stage,
+          title: "过去分词信号已锁定",
+          message: "十道原形到过去分词的辨形任务已完成。",
+          score: score,
+          total: TOTAL,
+          mistakes: mistakes,
+          nextHref: "game8-chinese-form.html"
+        });
+      }
+
+      if (!eligibleVerbs.length) {
+        showEmpty();
+        return;
+      }
+      questions = VV.buildRounds(eligibleVerbs, TOTAL).map(buildQuestion);
+      nextButton.addEventListener("click", function () {
+        roundIndex += 1;
+        renderRound();
+      });
+      document.addEventListener("keydown", function (event) {
+        if (!answered && !event.altKey && !event.ctrlKey && !event.metaKey && /^[1-4]$/.test(event.key)) {
+          var option = optionsBox.children[Number(event.key) - 1];
+          if (option) {
+            event.preventDefault();
+            option.click();
+          }
+        } else if (answered && event.key === "Enter" && event.target === document.body && !nextButton.hidden) {
+          nextButton.click();
+        }
+      });
+      renderRound();
+    })();
+  </script>
+</body>
+</html>

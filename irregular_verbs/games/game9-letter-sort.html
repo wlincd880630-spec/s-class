@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>双倍字母拼写 · Verb Atlas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@600;700;800&family=Noto+Sans+SC:wght@400;500;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/verbverse.css" />
+  <style>
+    .mode-switcher {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: rgba(255, 253, 248, 0.86);
+      padding: 0.75rem 0.85rem;
+    }
+
+    .mode-switcher p,
+    .mode-confirm p {
+      margin: 0;
+      color: var(--ink-muted);
+      font-size: 0.78rem;
+    }
+
+    .mode-tabs {
+      display: flex;
+      gap: 0.45rem;
+    }
+
+    .mode-button {
+      min-height: 44px;
+      cursor: pointer;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      background: var(--paper);
+      padding: 0.55rem 0.9rem;
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    .mode-button.is-active {
+      border-color: var(--cobalt);
+      background: var(--cobalt);
+      color: #fff;
+    }
+
+    .mode-confirm {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(216, 138, 23, 0.34);
+      border-radius: var(--radius-md);
+      background: var(--amber-pale);
+      padding: 0.9rem 1rem;
+    }
+
+    .mode-confirm strong {
+      display: block;
+      margin-bottom: 0.12rem;
+      font-family: var(--font-display);
+    }
+
+    .mode-confirm-actions {
+      display: flex;
+      flex: 0 0 auto;
+      gap: 0.45rem;
+    }
+
+    .spelling-cue {
+      text-align: center;
+    }
+
+    .spelling-cue h2 {
+      margin: 0;
+      font-family: var(--font-en);
+      font-size: clamp(2.6rem, 8vw, 5.4rem);
+      letter-spacing: -0.06em;
+      line-height: 1;
+    }
+
+    .spelling-cue p {
+      margin: 0.45rem 0 0;
+      color: var(--cobalt);
+      font-weight: 700;
+    }
+
+    .pool-count {
+      margin: 1.4rem 0 0.65rem;
+      color: var(--ink-muted);
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .spelling-answer {
+      display: flex;
+      min-height: 68px;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      align-items: center;
+      justify-content: center;
+      max-width: 760px;
+      margin: 0 auto 1rem;
+      border: 2px dashed var(--line-strong);
+      border-radius: var(--radius-md);
+      background: var(--ivory);
+      padding: 0.65rem;
+    }
+
+    .spelling-answer.is-correct {
+      border-color: rgba(22, 128, 93, 0.55);
+      background: var(--green-pale);
+    }
+
+    .spelling-answer.is-wrong {
+      border-color: #d06472;
+      background: #fff0f2;
+    }
+
+    .answer-placeholder {
+      color: var(--ink-muted);
+      font-size: 0.8rem;
+    }
+
+    .selected-letter,
+    .letter-key {
+      display: inline-grid;
+      min-width: 44px;
+      min-height: 44px;
+      cursor: pointer;
+      place-items: center;
+      border: 1px solid var(--line-strong);
+      border-radius: 12px;
+      background: #fff;
+      font-family: var(--font-en);
+      font-size: 1rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .selected-letter {
+      border-color: var(--cobalt);
+      background: var(--cobalt-pale);
+      color: var(--cobalt-deep);
+    }
+
+    .letter-pool {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      justify-content: center;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .letter-key:hover:not(:disabled) {
+      border-color: var(--cobalt);
+      color: var(--cobalt);
+    }
+
+    .letter-key.is-used {
+      opacity: 0.24;
+    }
+
+    .correct-spelling {
+      margin: 0.8rem 0 0;
+      color: #8c2735;
+      font-size: 0.86rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .correct-spelling strong {
+      font-family: var(--font-en);
+      font-size: 1.15rem;
+    }
+
+    .spelling-actions {
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 680px) {
+      .mode-switcher,
+      .mode-confirm {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .mode-tabs,
+      .mode-confirm-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .mode-button {
+        padding-inline: 0.55rem;
+      }
+
+      .spelling-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+  <script src="../../scripts/auth-check.js"></script>
+  <script src="../verbs-data.js"></script>
+  <script src="../shared.js"></script>
+  <script src="../distractors.js"></script>
+  <script src="../assets/verbverse.js"></script>
+</head>
+<body class="game-page">
+  <header class="game-topbar">
+    <a class="topbar-back" href="index.html" aria-label="返回游戏大厅"><span aria-hidden="true">←</span><span>游戏大厅</span></a>
+    <div class="game-progress" aria-label="游戏进度">
+      <div class="game-progress-labels"><span id="progressTitle">GAME 09 · 双倍字母拼写</span><strong id="progressLabel">0 / 8</strong></div>
+      <div class="game-progress-track"><div class="game-progress-fill" id="progressFill"></div></div>
+    </div>
+    <a class="brand-lockup" href="../index.html"><span class="brand-mark">VA</span><span class="brand-copy"><strong>Verb Atlas</strong><span>Tense Observatory</span></span></a>
+  </header>
+
+  <main class="game-shell">
+    <div class="game-stage-head">
+      <div><p class="eyebrow">DOUBLE LETTER POOL · 08 QUESTIONS</p><h1>双倍字母拼写</h1></div>
+      <p>从严格两倍数量的字母池中拼出目标形式。可直接输入字母，并用退格、Delete 与 Enter 操作。</p>
+    </div>
+
+    <section class="mode-switcher" aria-label="选择训练模式">
+      <p><strong>拼写模式</strong> · 切换模式会重新开始本局</p>
+      <div class="mode-tabs">
+        <button class="mode-button" type="button" data-mode="past" aria-pressed="false">过去式拼写</button>
+        <button class="mode-button" type="button" data-mode="pp" aria-pressed="false">过去分词拼写</button>
+      </div>
+    </section>
+
+    <section class="mode-confirm" id="modeConfirm" role="dialog" aria-modal="true" aria-labelledby="confirmTitle" hidden>
+      <div>
+        <strong id="confirmTitle">切换拼写模式？</strong>
+        <p id="confirmCopy">当前进度会清空，并从第 1 题重新开始。</p>
+      </div>
+      <div class="mode-confirm-actions">
+        <button class="button button-secondary" id="cancelMode" type="button">继续本局</button>
+        <button class="button button-primary" id="confirmMode" type="button">确认切换</button>
+      </div>
+    </section>
+
+    <div id="gameStage" data-game-stage>
+      <section class="game-empty">
+        <p class="eyebrow">SELECT A ROUTE</p>
+        <h1>先选择拼写模式</h1>
+        <p>选择过去式或过去分词，开始八题双倍字母拼写。</p>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      "use strict";
+      var U = window.IrregularVerbsUtil;
+      var D = window.IrregularVerbsDistractors;
+      var VV = window.VerbVerse;
+      var GAME_ID = "letter-sort";
+      var TOTAL = 8;
+      var MODE_META = {
+        past: { label: "过去式拼写", pill: "过去式 · PAST", tone: "is-past" },
+        pp: { label: "过去分词拼写", pill: "过去分词 · PARTICIPLE", tone: "is-perfect" }
+      };
+      var selectedVerbs = U.getSelectedVerbs();
+      var stage = document.getElementById("gameStage");
+      var modeButtons = Array.prototype.slice.call(document.querySelectorAll("[data-mode]"));
+      var modeConfirm = document.getElementById("modeConfirm");
+      var pendingMode = null;
+      var restoreFocus = null;
+      var mode = null;
+      var questions = [];
+      var currentQuestion = null;
+      var roundIndex = 0;
+      var score = 0;
+      var answered = false;
+      var mistakes = [];
+      var selectedIndexes = [];
+      var answerBox;
+      var poolBox;
+      var feedback;
+      var correctSpelling;
+      var undoButton;
+      var clearButton;
+      var submitButton;
+      var nextButton;
+
+      function setModeButtons() {
+        modeButtons.forEach(function (button) {
+          var active = button.dataset.mode === mode;
+          button.classList.toggle("is-active", active);
+          button.setAttribute("aria-pressed", active ? "true" : "false");
+        });
+      }
+
+      function updateProgress(completed) {
+        var count = mode ? Math.min(TOTAL, roundIndex + (completed ? 1 : 0)) : 0;
+        document.getElementById("progressLabel").textContent =
+          mode ? Math.min(roundIndex + 1, TOTAL) + " / " + TOTAL : "0 / " + TOTAL;
+        document.getElementById("progressFill").style.setProperty(
+          "--progress",
+          Math.round((count / TOTAL) * 100) + "%"
+        );
+      }
+
+      function showModeConfirm(nextMode, source) {
+        pendingMode = nextMode;
+        restoreFocus = source || document.activeElement;
+        document.getElementById("confirmCopy").textContent =
+          "切换到「" + MODE_META[nextMode].label + "」会清空当前进度，并从第 1 题重新开始。";
+        modeConfirm.hidden = false;
+        document.getElementById("confirmMode").focus();
+      }
+
+      function closeModeConfirm() {
+        modeConfirm.hidden = true;
+        pendingMode = null;
+        if (restoreFocus && typeof restoreFocus.focus === "function") restoreFocus.focus();
+        restoreFocus = null;
+      }
+
+      function buildQuestions(field) {
+        var candidates = [];
+        selectedVerbs.forEach(function (verb) {
+          try {
+            if (D.createLetterQuestion({ verb: verb, field: field })) candidates.push(verb);
+          } catch (error) {
+          }
+        });
+        return VV.buildRounds(candidates, TOTAL).map(function (verb) {
+          return D.createLetterQuestion({ verb: verb, field: field });
+        });
+      }
+
+      function showEmpty(field) {
+        stage.innerHTML =
+          '<section class="game-empty"><p class="eyebrow">NO LETTER ROUTE</p><h1>当前词库无法生成题目</h1>' +
+          '<p>「' + MODE_META[field].label + '」需要至少一个可用形式。过去分词模式会跳过 can。</p>' +
+          '<a class="button button-primary" href="../index.html#wordStudio">前往调整词库</a></section>';
+        updateProgress(false);
+      }
+
+      function renderPlayShell() {
+        stage.innerHTML =
+          '<section class="game-panel" aria-labelledby="baseWord">' +
+          '<div class="question-meta"><span class="question-index" id="questionIndex">QUESTION 01</span>' +
+          '<span class="tense-pill" id="formLabel"></span></div>' +
+          '<div class="spelling-cue"><h2 id="baseWord">—</h2><p id="chineseMeaning">—</p></div>' +
+          '<p class="pool-count" id="poolCount">目标0字母 · 字母池0枚</p>' +
+          '<div class="spelling-answer" id="answerSlots" aria-label="已选择的字母"></div>' +
+          '<div class="letter-pool" id="letterPool" aria-label="可用字母池"></div>' +
+          '<p class="correct-spelling" id="correctSpelling" hidden></p>' +
+          '<p class="game-feedback" id="gameFeedback" role="status" aria-live="polite">点击或输入字母开始拼写。</p>' +
+          '<div class="game-action-row spelling-actions">' +
+          '<button class="button button-secondary" id="undoButton" type="button">退格</button>' +
+          '<button class="button button-secondary" id="clearButton" type="button">清空</button>' +
+          '<button class="button button-primary" id="submitButton" type="button">提交</button>' +
+          '<button class="button button-primary" id="nextButton" type="button" hidden>下一题</button>' +
+          '</div></section>';
+        answerBox = document.getElementById("answerSlots");
+        poolBox = document.getElementById("letterPool");
+        feedback = document.getElementById("gameFeedback");
+        correctSpelling = document.getElementById("correctSpelling");
+        undoButton = document.getElementById("undoButton");
+        clearButton = document.getElementById("clearButton");
+        submitButton = document.getElementById("submitButton");
+        nextButton = document.getElementById("nextButton");
+        undoButton.addEventListener("click", undoLetter);
+        clearButton.addEventListener("click", clearAnswer);
+        submitButton.addEventListener("click", submitAnswer);
+        nextButton.addEventListener("click", nextRound);
+      }
+
+      function startMode(nextMode) {
+        questions = buildQuestions(nextMode);
+        mode = nextMode;
+        roundIndex = 0;
+        score = 0;
+        answered = false;
+        mistakes = [];
+        selectedIndexes = [];
+        setModeButtons();
+        document.getElementById("progressTitle").textContent =
+          "GAME 09 · " + MODE_META[mode].label;
+        if (!questions.length) {
+          showEmpty(mode);
+          return;
+        }
+        renderPlayShell();
+        renderRound();
+      }
+
+      function selectedMap() {
+        var map = {};
+        selectedIndexes.forEach(function (index) { map[index] = true; });
+        return map;
+      }
+
+      function answerText() {
+        return selectedIndexes.map(function (index) {
+          return currentQuestion.letters[index];
+        }).join("");
+      }
+
+      function targetLength() {
+        return currentQuestion ? currentQuestion.letters.length / 2 : 0;
+      }
+
+      function renderAnswer() {
+        answerBox.innerHTML = "";
+        if (!selectedIndexes.length) {
+          var placeholder = document.createElement("span");
+          placeholder.className = "answer-placeholder";
+          placeholder.textContent = "点击字母，或直接使用键盘输入";
+          answerBox.appendChild(placeholder);
+        } else {
+          selectedIndexes.forEach(function (poolIndex, position) {
+            var button = document.createElement("button");
+            button.type = "button";
+            button.className = "selected-letter";
+            button.textContent = currentQuestion.letters[poolIndex];
+            button.disabled = answered;
+            button.setAttribute(
+              "aria-label",
+              "撤回第 " + (position + 1) + " 个字母 " + currentQuestion.letters[poolIndex]
+            );
+            button.addEventListener("click", function () { removeLetter(position); });
+            answerBox.appendChild(button);
+          });
+        }
+        answerBox.setAttribute("aria-label", "当前拼写：" + (answerText() || "空"));
+      }
+
+      function syncControls() {
+        var used = selectedMap();
+        var full = selectedIndexes.length >= targetLength();
+        Array.prototype.forEach.call(poolBox.children, function (button) {
+          var index = Number(button.dataset.index);
+          var isUsed = Boolean(used[index]);
+          button.classList.toggle("is-used", isUsed);
+          button.disabled = answered || isUsed || full;
+        });
+        undoButton.disabled = answered || !selectedIndexes.length;
+        clearButton.disabled = answered || !selectedIndexes.length;
+        submitButton.disabled = answered || selectedIndexes.length !== targetLength();
+      }
+
+      function chooseLetter(index) {
+        if (
+          answered ||
+          selectedIndexes.length >= targetLength() ||
+          selectedIndexes.indexOf(index) !== -1
+        ) return;
+        selectedIndexes.push(index);
+        renderAnswer();
+        syncControls();
+        feedback.className = "game-feedback";
+        feedback.textContent =
+          selectedIndexes.length === targetLength()
+            ? "字母数量已满，可以提交答案。"
+            : "已选择 " + selectedIndexes.length + " / " + targetLength() + " 个字母。";
+      }
+
+      function removeLetter(position) {
+        if (answered || position < 0 || position >= selectedIndexes.length) return;
+        selectedIndexes.splice(position, 1);
+        renderAnswer();
+        syncControls();
+        feedback.className = "game-feedback";
+        feedback.textContent = "已撤回一个字母，可以继续拼写。";
+      }
+
+      function undoLetter() {
+        removeLetter(selectedIndexes.length - 1);
+      }
+
+      function clearAnswer() {
+        if (answered || !selectedIndexes.length) return;
+        selectedIndexes = [];
+        renderAnswer();
+        syncControls();
+        feedback.className = "game-feedback";
+        feedback.textContent = "已清空答案，请重新拼写。";
+      }
+
+      function submitAnswer() {
+        if (answered || submitButton.disabled) return;
+        var value = answerText();
+        var correct = U.normalizeForm(value) === U.normalizeForm(currentQuestion.target);
+        answered = true;
+        answerBox.classList.add(correct ? "is-correct" : "is-wrong");
+        if (correct) {
+          score += 1;
+          feedback.className = "game-feedback is-success";
+          feedback.textContent = "拼写正确：" + currentQuestion.target;
+        } else {
+          mistakes.push({
+            prompt: currentQuestion.base + " · " + currentQuestion.cn,
+            answer: currentQuestion.target
+          });
+          correctSpelling.hidden = false;
+          correctSpelling.textContent = "正确拼写 · ";
+          var strong = document.createElement("strong");
+          strong.textContent = currentQuestion.target;
+          correctSpelling.appendChild(strong);
+          feedback.className = "game-feedback is-error";
+          feedback.textContent = "本题拼写不正确，正确答案是 " + currentQuestion.target + "。";
+        }
+        renderAnswer();
+        syncControls();
+        VV.recordGameAttempt(GAME_ID, {
+          verbId: currentQuestion.verb.id,
+          mode: mode,
+          round: roundIndex + 1,
+          correct: correct,
+          answer: value,
+          expected: currentQuestion.target,
+          poolSize: currentQuestion.letters.length
+        });
+        submitButton.hidden = true;
+        undoButton.hidden = true;
+        clearButton.hidden = true;
+        nextButton.hidden = false;
+        nextButton.textContent = roundIndex === TOTAL - 1 ? "查看结算" : "下一题";
+        updateProgress(true);
+      }
+
+      function renderRound() {
+        if (roundIndex >= TOTAL) {
+          finishGame();
+          return;
+        }
+        currentQuestion = questions[roundIndex];
+        answered = false;
+        selectedIndexes = [];
+        document.getElementById("questionIndex").textContent =
+          "QUESTION " + String(roundIndex + 1).padStart(2, "0");
+        document.getElementById("formLabel").className =
+          "tense-pill " + MODE_META[mode].tone;
+        document.getElementById("formLabel").textContent = MODE_META[mode].pill;
+        document.getElementById("baseWord").textContent = currentQuestion.base;
+        document.getElementById("chineseMeaning").textContent = currentQuestion.cn;
+        document.getElementById("poolCount").textContent =
+          "目标" + targetLength() + "字母 · 字母池" +
+          currentQuestion.letters.length + "枚";
+        answerBox.className = "spelling-answer";
+        correctSpelling.hidden = true;
+        correctSpelling.textContent = "";
+        poolBox.innerHTML = "";
+        currentQuestion.letters.forEach(function (letter, index) {
+          var button = document.createElement("button");
+          button.type = "button";
+          button.className = "letter-key";
+          button.dataset.index = String(index);
+          button.textContent = letter;
+          button.setAttribute("aria-label", "字母 " + letter);
+          button.addEventListener("click", function () { chooseLetter(index); });
+          poolBox.appendChild(button);
+        });
+        feedback.className = "game-feedback";
+        feedback.textContent = "从 " + currentQuestion.letters.length + " 枚字母中拼出" +
+          MODE_META[mode].label.replace("拼写", "") + "。";
+        undoButton.hidden = false;
+        clearButton.hidden = false;
+        submitButton.hidden = false;
+        nextButton.hidden = true;
+        renderAnswer();
+        syncControls();
+        updateProgress(false);
+      }
+
+      function nextRound() {
+        if (!answered) return;
+        roundIndex += 1;
+        renderRound();
+      }
+
+      function finishGame() {
+        document.getElementById("progressLabel").textContent = TOTAL + " / " + TOTAL;
+        document.getElementById("progressFill").style.setProperty("--progress", "100%");
+        VV.recordGameSession(GAME_ID, {
+          mode: mode,
+          score: score,
+          total: TOTAL,
+          mistakes: mistakes.length
+        });
+        VV.showGameSettlement({
+          host: stage,
+          title: MODE_META[mode].label + "完成",
+          message: "八个目标形式已经从双倍字母池中完成拼写。",
+          score: score,
+          total: TOTAL,
+          mistakes: mistakes,
+          nextHref: "index.html",
+          onRestart: function () { startMode(mode); }
+        });
+      }
+
+      function chooseKeyboardLetter(letter) {
+        if (!currentQuestion || answered) return;
+        var used = selectedMap();
+        for (var index = 0; index < currentQuestion.letters.length; index += 1) {
+          if (!used[index] && currentQuestion.letters[index].toLowerCase() === letter.toLowerCase()) {
+            chooseLetter(index);
+            return;
+          }
+        }
+      }
+
+      modeButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          var nextMode = button.dataset.mode;
+          if (!mode) {
+            startMode(nextMode);
+          } else if (nextMode !== mode) {
+            showModeConfirm(nextMode, button);
+          }
+        });
+      });
+      document.getElementById("cancelMode").addEventListener("click", closeModeConfirm);
+      document.getElementById("confirmMode").addEventListener("click", function () {
+        var nextMode = pendingMode;
+        closeModeConfirm();
+        if (nextMode) startMode(nextMode);
+      });
+      document.addEventListener("keydown", function (event) {
+        if (!modeConfirm.hidden) {
+          if (event.key === "Escape") {
+            event.preventDefault();
+            closeModeConfirm();
+          }
+          return;
+        }
+        if (!mode && /^[12]$/.test(event.key)) {
+          modeButtons[Number(event.key) - 1].click();
+          return;
+        }
+        if (!currentQuestion) return;
+        if (answered && event.key === "Enter" && nextButton && !nextButton.hidden) {
+          event.preventDefault();
+          nextButton.click();
+        } else if (!answered && /^[a-z]$/i.test(event.key)) {
+          event.preventDefault();
+          chooseKeyboardLetter(event.key);
+        } else if (!answered && event.key === "Backspace") {
+          event.preventDefault();
+          undoLetter();
+        } else if (!answered && event.key === "Delete") {
+          event.preventDefault();
+          clearAnswer();
+        } else if (!answered && event.key === "Enter" && submitButton && !submitButton.disabled) {
+          event.preventDefault();
+          submitButton.click();
+        }
+      });
+      setModeButtons();
+      updateProgress(false);
+    })();
+  </script>
+</body>
+</html>
