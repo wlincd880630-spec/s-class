@@ -22,6 +22,10 @@ const REQUIRED_PAGES = [
   "games/game3-sentence-gap.html",
   "games/game4-time-tunnel.html",
   "games/game5-memory-flip.html",
+  "games/game6-base-past.html",
+  "games/game7-base-participle.html",
+  "games/game8-chinese-form.html",
+  "games/game9-letter-sort.html",
 ];
 
 function loadData() {
@@ -146,7 +150,7 @@ async function main() {
     process.exit(1);
   }
   console.log(
-    `校验通过：80 个动词、240 条例句、8 个页面${ONLINE ? "、320 张 COS WebP" : ""}。`,
+    `校验通过：80 个动词、240 条例句、12 个页面${ONLINE ? "、320 张 COS WebP" : ""}。`,
   );
 }
 
