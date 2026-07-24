@@ -116,6 +116,11 @@
       font-size: 1.3rem;
       text-transform: uppercase;
     }
+    .answer-key .maze-cell.answer {
+      color: #1b5e20;
+      background: #c8e6c9;
+      box-shadow: inset 0 0 0 2px #66bb6a;
+    }
     .maze-hint { text-align: center; font-size: 0.75rem; color: #78909c; margin-top: 6px; }
     .spell-item {
       display: grid;
@@ -847,7 +852,7 @@
 })(typeof window !== "undefined" ? window : this);
 
   </script>
-  <script src="maze-generator.js"></script>
+  <script src="maze-generator.js?v=2"></script>
   <script>
   (function() {
     "use strict";
@@ -919,6 +924,14 @@
       var words = prepared.words;
       var maze = prepared.maze;
       var mazeSize = maze && maze.size ? maze.size : 7;
+      var answerCells = {};
+      if (showAns && maze && maze.placements) {
+        maze.placements.forEach(function (placement) {
+          placement.cells.forEach(function (cell) {
+            answerCells[cell.r + "-" + cell.c] = true;
+          });
+        });
+      }
       var html = '<div class="sheet' + (showAns ? ' answer-key' : '') + '">';
       html += sheetHeader("What are reptiles? · 单词迷宫", "第 " + idx + " / " + total + " 组 · " + mazeSize + "×" + mazeSize);
       html += '<div class="maze-targets">';
@@ -935,9 +948,10 @@
         var cellFont = sz >= 12 ? "0.82rem" : (sz >= 10 ? "1rem" : "1.3rem");
         var cellGap = sz >= 10 ? "2px" : "3px";
         html += '<div class="maze-grid" style="grid-template-columns:repeat(' + sz + ',1fr);gap:' + cellGap + '">';
-        maze.grid.forEach(function(row) {
-          row.forEach(function(ch) {
-            html += '<div class="maze-cell" style="font-size:' + cellFont + '">' + esc((ch||"?").toUpperCase()) + '</div>';
+        maze.grid.forEach(function(row, r) {
+          row.forEach(function(ch, c) {
+            var answerClass = answerCells[r + "-" + c] ? " answer" : "";
+            html += '<div class="maze-cell' + answerClass + '" style="font-size:' + cellFont + '">' + esc((ch||"?").toUpperCase()) + '</div>';
           });
         });
         html += '</div>';
