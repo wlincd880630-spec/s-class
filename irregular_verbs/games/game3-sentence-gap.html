@@ -3,94 +3,283 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>例句填空 · 不规则动词</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@600;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <title>语境填空 · Verb Atlas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@600;700;800&family=Noto+Sans+SC:wght@400;500;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/verbverse.css" />
   <script src="../../scripts/auth-check.js"></script>
   <script src="../verbs-data.js"></script>
   <script src="../shared.js"></script>
   <script src="../azure-tts.js"></script>
-  <style>
-    :root{--bg:#0c1222;--surface:#151d2e;--accent:#3b82f6;--ok:#22c55e;--bad:#ef4444;--text:#f1f5f9;--muted:#94a3b8;--border:rgba(148,163,184,0.15)}
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:"Noto Sans SC","DM Sans",sans-serif;min-height:100dvh;background:var(--bg);color:var(--text);padding:1rem}
-    .toolbar{display:flex;justify-content:space-between;margin-bottom:1rem}
-    .toolbar a{color:var(--muted);text-decoration:none;font-size:0.85rem}
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.25rem;max-width:560px;margin:0 auto}
-    .tag{display:inline-block;font-size:0.7rem;font-weight:700;padding:0.2rem 0.5rem;border-radius:4px;margin-bottom:0.75rem;background:rgba(59,130,246,0.15);color:var(--accent)}
-    .sentence{font-family:"DM Sans",sans-serif;font-size:1.1rem;line-height:1.7;margin-bottom:0.5rem}
-    .sentence .gap{display:inline-block;min-width:5rem;border-bottom:2px solid var(--accent);text-align:center;color:#93c5fd;font-weight:700}
-    .cn{font-size:0.85rem;color:var(--muted);margin-bottom:1rem}
-    .opts{display:flex;flex-wrap:wrap;gap:0.5rem}
-    .opt{font-family:"DM Sans",sans-serif;font-size:0.95rem;font-weight:600;padding:0.6rem 1rem;border-radius:8px;border:2px solid var(--border);background:#1c2740;color:var(--text);cursor:pointer}
-    .opt.correct{border-color:var(--ok)}.opt.wrong{border-color:var(--bad)}
-    .play{display:inline-flex;align-items:center;gap:0.3rem;font-size:0.8rem;color:var(--accent);background:none;border:none;cursor:pointer;margin-bottom:0.75rem}
-    .score{text-align:center;margin-top:1rem;font-size:0.85rem;color:var(--muted)}
-  </style>
+  <script src="../assets/verbverse.js"></script>
 </head>
-<body>
-  <div class="toolbar"><a href="index.html"><i class="fas fa-arrow-left"></i> 游戏列表</a><span id="prog" style="font-size:0.85rem;color:var(--muted)"></span></div>
-  <div class="card">
-    <span class="tag" id="tenseTag">一般过去时</span>
-    <button type="button" class="play" id="playBtn"><i class="fas fa-volume-high"></i> 朗读例句</button>
-    <p class="sentence" id="sentence"></p>
-    <p class="cn" id="cn"></p>
-    <div class="opts" id="opts"></div>
-    <p class="score">得分 <strong id="score">0</strong></p>
-  </div>
-  <script>
-  (function(){
-    var U=window.IrregularVerbsUtil,TTS=window.IrregularVerbsTTS,verbs=U.getSelectedVerbs();
-    if(!verbs.length){alert("请先选择词汇");location.href="../index.html";return;}
-    var keys=["present","past","perfect"];
-    var items=[];
-    U.shuffle(verbs).slice(0,Math.min(10,verbs.length)).forEach(function(v){
-      var k=keys[Math.floor(Math.random()*keys.length)];
-      var ex=v.examples[k];
-      var answer,formKey;
-      if(k==="present"){answer=v.base;formKey="base";}
-      else if(k==="past"){answer=v.past.split(/\s*\/\s*/)[0].trim();formKey="past";}
-      else{answer="has "+v.pp.split(/\s*\/\s*/)[0].trim();formKey="pp";}
-      if(v.pp==="—"&&k==="perfect")return;
-      var sent=ex.en.replace(new RegExp(answer.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),"i"),"___");
-      if(sent===ex.en&&k!=="perfect"){
-        var w=(k==="present"?v.base:v.past).split(/\s*\/\s*/)[0];
-        sent=ex.en.replace(new RegExp("\\b"+w+"\\b","i"),"___");
-        answer=w;
-      }
-      items.push({v:v,ex:ex,key:k,answer:answer,sent:sent,formKey:formKey});
-    });
-    var qi=0,score=0,fullSent="";
-    document.getElementById("prog").textContent="1/"+items.length;
+<body class="game-page">
+  <header class="game-topbar">
+    <a class="topbar-back" href="index.html" aria-label="返回游戏大厅"><span aria-hidden="true">←</span><span>游戏大厅</span></a>
+    <div class="game-progress" aria-label="游戏进度">
+      <div class="game-progress-labels"><span>GAME 03 · 语境填空</span><strong id="progressLabel">1 / 10</strong></div>
+      <div class="game-progress-track"><div class="game-progress-fill" id="progressFill"></div></div>
+    </div>
+    <a class="brand-lockup" href="../index.html"><span class="brand-mark">VA</span><span class="brand-copy"><strong>Verb Atlas</strong><span>Tense Observatory</span></span></a>
+  </header>
 
-    function round(){
-      if(qi>=items.length){alert("完成！得分 "+score+"/"+items.length);location.href="index.html";return;}
-      var it=items[qi];
-      fullSent=it.ex.en;
-      document.getElementById("tenseTag").textContent=it.ex.tense+" · "+it.ex.level;
-      document.getElementById("sentence").innerHTML=it.sent.replace("___",'<span class="gap">?</span>');
-      document.getElementById("cn").textContent=it.ex.cn;
-      document.getElementById("prog").textContent=(qi+1)+"/"+items.length;
-      var wrong=U.pickRandom(verbs.filter(function(x){return x.id!==it.v.id}),3).map(function(x){
-        return it.formKey==="pp"?"has "+x.pp.split(/\s*\/\s*/)[0]:x[it.formKey].split(/\s*\/\s*/)[0];
-      });
-      var opts=U.shuffle([it.answer].concat(wrong));
-      var box=document.getElementById("opts");box.innerHTML="";
-      opts.forEach(function(o){
-        var b=document.createElement("button");b.type="button";b.className="opt";b.textContent=o;
-        b.addEventListener("click",function(){
-          box.querySelectorAll(".opt").forEach(function(x){x.disabled=true;});
-          if(o===it.answer){score++;document.getElementById("score").textContent=score;b.classList.add("correct");}
-          else{b.classList.add("wrong");}
-          document.getElementById("sentence").innerHTML=it.sent.replace("___",'<span class="gap">'+it.answer+'</span>');
-          setTimeout(function(){qi++;round();},1400);
+  <main class="game-shell" id="gameStage" data-game-stage>
+    <div class="game-stage-head">
+      <div><p class="eyebrow">CONTEXT LAB · 10 QUESTIONS</p><h1>语境填空</h1></div>
+      <p>每题来自词库中的真实例句。根据时态与上下文，找回被隐藏的目标词。</p>
+    </div>
+    <section class="game-panel">
+      <div class="question-meta">
+        <span class="question-index" id="questionIndex">QUESTION 01</span>
+        <span class="tense-pill" id="tenseLabel">一般现在时</span>
+      </div>
+      <div class="context-card" id="contextCard" data-tense="present">
+        <p class="context-sentence" id="sentence"></p>
+        <p class="context-translation" id="translation"></p>
+      </div>
+      <div class="choice-grid" id="answerOptions" aria-label="句子填空选项"></div>
+      <p class="game-feedback" id="gameFeedback" role="status" aria-live="polite">选择最符合例句的实际动词形式。</p>
+      <div class="game-action-row">
+        <button class="button button-secondary" id="speakButton" type="button">朗读完整例句</button>
+        <button class="button button-primary" id="nextButton" type="button" hidden>下一题</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      "use strict";
+      var U = window.IrregularVerbsUtil;
+      var VV = window.VerbVerse;
+      var TTS = window.IrregularVerbsTTS;
+      var GAME_ID = "sentence-gap";
+      var TOTAL = 10;
+      var verbs = U.getSelectedVerbs();
+      var stage = document.getElementById("gameStage");
+      var sentenceNode = document.getElementById("sentence");
+      var contextCard = document.getElementById("contextCard");
+      var optionsBox = document.getElementById("answerOptions");
+      var feedback = document.getElementById("gameFeedback");
+      var nextButton = document.getElementById("nextButton");
+      var speakButton = document.getElementById("speakButton");
+      var candidates = [];
+      var questions = [];
+      var roundIndex = 0;
+      var score = 0;
+      var answered = false;
+      var mistakes = [];
+
+      function showEmpty() {
+        stage.innerHTML =
+          '<section class="game-empty"><p class="eyebrow">EMPTY ATLAS</p><h1>缺少可用例句</h1>' +
+          '<p>请先选择包含完整例句的练习词汇。</p><a class="button button-primary" href="../index.html#wordStudio">前往调整词库</a></section>';
+      }
+
+      function escapeRegExp(value) {
+        return String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      }
+
+      function findActualTarget(sentence, forms) {
+        var sorted = VV.uniqueStrings(forms).sort(function (a, b) {
+          return b.length - a.length;
         });
-        box.appendChild(b);
+        for (var i = 0; i < sorted.length; i += 1) {
+          var expression = new RegExp(
+            "(^|[^A-Za-z])(" + escapeRegExp(sorted[i]) + ")(?=$|[^A-Za-z])",
+            "i"
+          );
+          var match = expression.exec(sentence);
+          if (match) {
+            return {
+              answer: match[2],
+              start: match.index + match[1].length,
+              end: match.index + match[1].length + match[2].length
+            };
+          }
+        }
+        return null;
+      }
+
+      function buildCandidates() {
+        var list = [];
+        verbs.forEach(function (verb) {
+          ["present", "past", "perfect"].forEach(function (key) {
+            if (verb.id === "can" && key === "perfect") return;
+            var example = verb.examples && verb.examples[key];
+            if (!example || !example.en) return;
+            var target = findActualTarget(example.en, U.getHighlightForms(verb, key));
+            if (!target) return;
+            list.push({
+              verb: verb,
+              key: key,
+              example: example,
+              answer: target.answer,
+              start: target.start,
+              end: target.end
+            });
+          });
+        });
+        return list;
+      }
+
+      function renderSentence(item, reveal) {
+        var before = U.escapeHtml(item.example.en.slice(0, item.start));
+        var after = U.escapeHtml(item.example.en.slice(item.end));
+        var middle = reveal ? U.escapeHtml(item.answer) : "?";
+        sentenceNode.innerHTML =
+          before + '<span class="sentence-gap">' + middle + "</span>" + after;
+      }
+
+      function makeOptions(item) {
+        var alternatives = VV.uniqueStrings(
+          candidates
+            .filter(function (candidate) {
+              return candidate.key === item.key && candidate.verb.id !== item.verb.id;
+            })
+            .map(function (candidate) { return candidate.answer; })
+        ).filter(function (value) {
+          return U.normalizeForm(value) !== U.normalizeForm(item.answer);
+        });
+        return U.shuffle([item.answer].concat(U.shuffle(alternatives).slice(0, 3)));
+      }
+
+      function speakSentence() {
+        var item = questions[roundIndex];
+        if (!item) return;
+        VV.setButtonBusy(speakButton, true, { busy: "正在朗读" });
+        Promise.resolve(TTS.speak(item.example.en, { slow: true }))
+          .catch(function () { return false; })
+          .finally(function () {
+            VV.setButtonBusy(speakButton, false);
+          });
+      }
+
+      function updateProgress(completed) {
+        var current = Math.min(TOTAL, roundIndex + (completed ? 1 : 0));
+        document.getElementById("progressLabel").textContent =
+          Math.min(roundIndex + 1, TOTAL) + " / " + TOTAL;
+        document.getElementById("progressFill").style.setProperty(
+          "--progress",
+          Math.round((current / TOTAL) * 100) + "%"
+        );
+      }
+
+      function choose(button, value) {
+        if (answered) return;
+        var item = questions[roundIndex];
+        var correct = U.normalizeForm(value) === U.normalizeForm(item.answer);
+        answered = true;
+        Array.prototype.forEach.call(optionsBox.children, function (option) {
+          option.disabled = true;
+          if (U.normalizeForm(option.dataset.value) === U.normalizeForm(item.answer)) {
+            option.classList.add("is-correct");
+          }
+        });
+        renderSentence(item, true);
+        if (correct) {
+          score += 1;
+          feedback.className = "game-feedback is-success";
+          feedback.textContent = "语境匹配正确：" + item.example.en;
+        } else {
+          button.classList.add("is-wrong");
+          mistakes.push({
+            prompt: item.example.en.slice(0, item.start) + "___" + item.example.en.slice(item.end),
+            answer: item.answer
+          });
+          feedback.className = "game-feedback is-error";
+          feedback.textContent = "正确答案是 " + item.answer + "。现在为你朗读完整例句。";
+          speakSentence();
+        }
+        VV.recordGameAttempt(GAME_ID, {
+          verbId: item.verb.id,
+          tense: item.key,
+          correct: correct,
+          answer: value,
+          expected: item.answer
+        });
+        nextButton.hidden = false;
+        nextButton.textContent = roundIndex === TOTAL - 1 ? "查看结算" : "下一题";
+        updateProgress(true);
+      }
+
+      function renderRound() {
+        if (roundIndex >= TOTAL) {
+          finishGame();
+          return;
+        }
+        var item = questions[roundIndex];
+        answered = false;
+        document.getElementById("questionIndex").textContent =
+          "QUESTION " + String(roundIndex + 1).padStart(2, "0");
+        document.getElementById("tenseLabel").textContent =
+          item.example.tense + " · " + item.example.level;
+        document.getElementById("tenseLabel").className =
+          "tense-pill " + (item.key === "past" ? "is-past" : item.key === "perfect" ? "is-perfect" : "");
+        contextCard.dataset.tense = item.key;
+        document.getElementById("translation").textContent = item.example.cn;
+        renderSentence(item, false);
+        optionsBox.innerHTML = "";
+        makeOptions(item).forEach(function (option, index) {
+          var button = document.createElement("button");
+          button.type = "button";
+          button.className = "choice-button";
+          button.dataset.value = option;
+          button.textContent = String(index + 1) + " · " + option;
+          button.addEventListener("click", function () { choose(button, option); });
+          optionsBox.appendChild(button);
+        });
+        feedback.className = "game-feedback";
+        feedback.textContent = "选择最符合例句的实际动词形式。";
+        nextButton.hidden = true;
+        updateProgress(false);
+      }
+
+      function finishGame() {
+        document.getElementById("progressLabel").textContent = TOTAL + " / " + TOTAL;
+        document.getElementById("progressFill").style.setProperty("--progress", "100%");
+        if (TTS && typeof TTS.stop === "function") TTS.stop();
+        VV.recordGameSession(GAME_ID, {
+          score: score,
+          total: TOTAL,
+          mistakes: mistakes.length
+        });
+        VV.showGameSettlement({
+          host: stage,
+          title: "语境实验完成",
+          message: "十个真实例句已经重新接回时态轨道。",
+          score: score,
+          total: TOTAL,
+          mistakes: mistakes,
+          nextHref: "game4-time-tunnel.html"
+        });
+      }
+
+      if (!verbs.length) {
+        showEmpty();
+        return;
+      }
+      candidates = buildCandidates();
+      questions = VV.buildRounds(candidates, TOTAL);
+      if (!questions.length) {
+        showEmpty();
+        return;
+      }
+      speakButton.addEventListener("click", speakSentence);
+      nextButton.addEventListener("click", function () {
+        roundIndex += 1;
+        renderRound();
       });
-    }
-    document.getElementById("playBtn").addEventListener("click",function(){TTS.speak(fullSent);});
-    round();
-  })();
+      document.addEventListener("keydown", function (event) {
+        if (!answered && /^[1-4]$/.test(event.key)) {
+          var option = optionsBox.children[Number(event.key) - 1];
+          if (option) option.click();
+        } else if (event.key === "Enter" && event.target === document.body && !nextButton.hidden) {
+          nextButton.click();
+        }
+      });
+      renderRound();
+    })();
   </script>
 </body>
 </html>

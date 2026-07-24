@@ -3,117 +3,287 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>时光隧道 · 不规则动词</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@600;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <title>时态轨道 · Verb Atlas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@600;700;800&family=Noto+Sans+SC:wght@400;500;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/verbverse.css" />
   <script src="../../scripts/auth-check.js"></script>
   <script src="../verbs-data.js"></script>
   <script src="../shared.js"></script>
-  <style>
-    :root{--bg:#0c1222;--surface:#151d2e;--present:#22c55e;--past:#f59e0b;--perfect:#a855f7;--text:#f1f5f9;--muted:#94a3b8;--border:rgba(148,163,184,0.15)}
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:"Noto Sans SC","DM Sans",sans-serif;min-height:100dvh;background:var(--bg);color:var(--text);padding:1rem}
-    .toolbar{display:flex;justify-content:space-between;margin-bottom:1rem}
-    .toolbar a{color:var(--muted);text-decoration:none;font-size:0.85rem}
-    .instr{font-size:0.85rem;color:var(--muted);text-align:center;margin-bottom:1rem}
-  .instr strong{color:#f59e0b}
-    .lanes{display:grid;grid-template-columns:repeat(3,1fr);gap:0.6rem;max-width:640px;margin:0 auto 1rem}
-    .lane{background:var(--surface);border:2px dashed var(--border);border-radius:12px;min-height:140px;padding:0.5rem}
-    .lane.present{border-color:rgba(34,197,94,0.4)}.lane.past{border-color:rgba(245,158,11,0.4)}.lane.perfect{border-color:rgba(168,85,247,0.4)}
-    .lane h3{font-size:0.72rem;text-align:center;margin-bottom:0.5rem;padding:0.2rem;border-radius:4px}
-    .lane.present h3{background:rgba(34,197,94,0.15);color:var(--present)}
-    .lane.past h3{background:rgba(245,158,11,0.15);color:var(--past)}
-    .lane.perfect h3{background:rgba(168,85,247,0.15);color:var(--perfect)}
-    .lane.drag-over{background:rgba(59,130,246,0.1)}
-    .pool{display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center;max-width:640px;margin:0 auto;padding:0.75rem;background:var(--surface);border-radius:12px;border:1px solid var(--border)}
-    .chip{font-family:"DM Sans",sans-serif;font-size:0.9rem;font-weight:600;padding:0.5rem 0.85rem;border-radius:8px;background:#1c2740;border:2px solid var(--border);cursor:grab;user-select:none;touch-action:none}
-    .chip.placed{cursor:default;opacity:0.85}
-    .chip.correct{border-color:var(--present)}.chip.wrong{border-color:#ef4444}
-    .score{text-align:center;margin-top:1rem;font-size:0.9rem}
-    .btn{display:block;margin:1rem auto 0;padding:0.7rem 1.5rem;border:none;border-radius:10px;font-family:inherit;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:#fff}
-  </style>
+  <script src="../assets/verbverse.js"></script>
 </head>
-<body>
-  <div class="toolbar"><a href="index.html"><i class="fas fa-arrow-left"></i> 游戏列表</a></div>
-  <p class="instr">将动词卡片拖入正确的时间轨道：<strong>现在</strong>用原形，<strong>过去</strong>用过去式，<strong>完成</strong>用 have/has + 过去分词</p>
-  <div class="lanes">
-    <div class="lane present" data-lane="present"><h3>现在 · Base</h3></div>
-    <div class="lane past" data-lane="past"><h3>过去 · Past</h3></div>
-    <div class="lane perfect" data-lane="perfect"><h3>完成 · Perfect</h3></div>
-  </div>
-  <div class="pool" id="pool"></div>
-  <p class="score" id="scoreText">已放置 0 / <span id="total">0</span></p>
-  <button type="button" class="btn" id="checkBtn" style="display:none">检查答案</button>
+<body class="game-page">
+  <header class="game-topbar">
+    <a class="topbar-back" href="index.html" aria-label="返回游戏大厅"><span aria-hidden="true">←</span><span>游戏大厅</span></a>
+    <div class="game-progress" aria-label="卡片放置进度">
+      <div class="game-progress-labels"><span>GAME 04 · 时态轨道</span><strong id="progressLabel">0 / 6</strong></div>
+      <div class="game-progress-track"><div class="game-progress-fill" id="progressFill"></div></div>
+    </div>
+    <a class="brand-lockup" href="../index.html"><span class="brand-mark">VA</span><span class="brand-copy"><strong>Verb Atlas</strong><span>Tense Observatory</span></span></a>
+  </header>
+
+  <main class="game-shell" id="gameStage" data-game-stage>
+    <div class="game-stage-head">
+      <div><p class="eyebrow">SIGNATURE ROUTE · 06 CARDS</p><h1>时态轨道</h1></div>
+      <p>手机：点卡片，再点轨道。桌面：也可拖放。卡片放错后可重新选择并移动。</p>
+    </div>
+    <section class="game-panel">
+      <div class="timeline-board">
+        <div class="timeline-lanes">
+          <section class="timeline-lane" data-lane="present" tabindex="0" aria-label="现在轨道，按回车放置已选卡片">
+            <div class="lane-head"><div><span>NOW · BASE</span><strong>现在轨道</strong></div><b class="lane-count">0</b></div>
+            <div class="lane-cards"></div>
+          </section>
+          <section class="timeline-lane" data-lane="past" tabindex="0" aria-label="过去轨道，按回车放置已选卡片">
+            <div class="lane-head"><div><span>THEN · PAST</span><strong>过去轨道</strong></div><b class="lane-count">0</b></div>
+            <div class="lane-cards"></div>
+          </section>
+          <section class="timeline-lane" data-lane="perfect" tabindex="0" aria-label="完成轨道，按回车放置已选卡片">
+            <div class="lane-head"><div><span>COMPLETED · PP</span><strong>完成轨道</strong></div><b class="lane-count">0</b></div>
+            <div class="lane-cards"></div>
+          </section>
+        </div>
+        <div class="timeline-pool">
+          <p>待校准卡片 · 先选择一张</p>
+          <div class="pool-cards" id="cardPool"></div>
+        </div>
+      </div>
+      <p class="game-feedback" id="gameFeedback" role="status" aria-live="polite">选择卡片后，把它送入对应时态轨道。</p>
+      <div class="game-action-row">
+        <button class="button button-primary" id="checkButton" type="button" disabled>放满 6 张后检查</button>
+      </div>
+    </section>
+  </main>
+
   <script>
-  (function(){
-    var U=window.IrregularVerbsUtil,verbs=U.getSelectedVerbs();
-    if(!verbs.length){alert("请先选择词汇");location.href="../index.html";return;}
-    var selected=U.shuffle(verbs).slice(0,Math.min(6,verbs.length));
-    document.getElementById("total").textContent=selected.length;
-    var pool=document.getElementById("pool"),placed=0,placements={};
-    var lanes=document.querySelectorAll(".lane");
+    (function () {
+      "use strict";
+      var U = window.IrregularVerbsUtil;
+      var VV = window.VerbVerse;
+      var GAME_ID = "time-tracks";
+      var TOTAL = 6;
+      var verbs = U.getSelectedVerbs();
+      var stage = document.getElementById("gameStage");
+      var pool = document.getElementById("cardPool");
+      var checkButton = document.getElementById("checkButton");
+      var feedback = document.getElementById("gameFeedback");
+      var lanes = Array.prototype.slice.call(document.querySelectorAll(".timeline-lane"));
+      var cards = [];
+      var selectedCard = null;
+      var dragCard = null;
+      var wrongMap = {};
+      var checkRound = 0;
 
-    selected.forEach(function(v){
-      var forms=[
-        {text:v.base,lane:"present",verb:v},
-        {text:v.past.split(/\s*\/\s*/)[0],lane:"past",verb:v},
-      ];
-      if(v.pp!=="—")forms.push({text:"has "+v.pp.split(/\s*\/\s*/)[0],lane:"perfect",verb:v});
-      var f=forms[Math.floor(Math.random()*forms.length)];
-      var chip=document.createElement("div");
-      chip.className="chip";chip.textContent=f.text;
-      chip.dataset.correctLane=f.lane;chip.dataset.verbId=f.verb.id;
-      chip.draggable=true;
-      chip.addEventListener("dragstart",function(e){e.dataTransfer.setData("text",chip.outerHTML);window._dragChip=chip;});
-      pool.appendChild(chip);
-    });
+      function showEmpty() {
+        stage.innerHTML =
+          '<section class="game-empty"><p class="eyebrow">EMPTY ATLAS</p><h1>先选择练习词汇</h1>' +
+          '<p>词库为空，暂时无法生成六张轨道卡。</p><a class="button button-primary" href="../index.html#wordStudio">前往调整词库</a></section>';
+      }
 
-    lanes.forEach(function(lane){
-      lane.addEventListener("dragover",function(e){e.preventDefault();lane.classList.add("drag-over");});
-      lane.addEventListener("dragleave",function(){lane.classList.remove("drag-over");});
-      lane.addEventListener("drop",function(e){
-        e.preventDefault();lane.classList.remove("drag-over");
-        var chip=window._dragChip;if(!chip||chip.classList.contains("placed"))return;
-        if(lane.children.length>1)return;
-        chip.classList.add("placed");chip.draggable=false;
-        lane.appendChild(chip);placed++;
-        placements[chip.dataset.verbId+chip.textContent]=lane.dataset.lane;
-        document.getElementById("scoreText").textContent="已放置 "+placed+" / "+selected.length;
-        if(placed>=selected.length)document.getElementById("checkBtn").style.display="block";
+      function firstForm(value) {
+        return U.splitForms(value)[0] || "";
+      }
+
+      function buildCardData() {
+        return VV.buildRounds(verbs, TOTAL).map(function (verb, index) {
+          var forms = [
+            { lane: "present", text: verb.base },
+            { lane: "past", text: firstForm(verb.past) }
+          ];
+          if (verb.id !== "can" && firstForm(verb.pp)) {
+            forms.push({ lane: "perfect", text: "has " + firstForm(verb.pp) });
+          }
+          var form = forms[Math.floor(Math.random() * forms.length)];
+          return {
+            id: "track-card-" + index,
+            verb: verb,
+            lane: form.lane,
+            text: form.text,
+            element: null
+          };
+        });
+      }
+
+      function setSelected(card) {
+        if (card && card.element.disabled) return;
+        selectedCard = selectedCard === card ? null : card;
+        cards.forEach(function (item) {
+          item.element.classList.toggle("is-selected", item === selectedCard);
+          item.element.setAttribute("aria-pressed", item === selectedCard ? "true" : "false");
+        });
+        if (selectedCard) {
+          feedback.className = "game-feedback";
+          feedback.textContent = "已选择「" + selectedCard.text + "」，现在选择一条轨道。";
+          VV.announce("已选择 " + selectedCard.text);
+        }
+      }
+
+      function updateLaneCounts() {
+        lanes.forEach(function (lane) {
+          lane.querySelector(".lane-count").textContent =
+            lane.querySelectorAll(".timeline-chip").length;
+        });
+      }
+
+      function placedCount() {
+        return cards.filter(function (card) {
+          return card.element.closest(".timeline-lane");
+        }).length;
+      }
+
+      function updateProgress() {
+        var count = placedCount();
+        document.getElementById("progressLabel").textContent = count + " / " + TOTAL;
+        document.getElementById("progressFill").style.setProperty(
+          "--progress",
+          Math.round((count / TOTAL) * 100) + "%"
+        );
+        checkButton.disabled = count !== TOTAL;
+        checkButton.textContent = count === TOTAL ? "检查轨道" : "放满 6 张后检查";
+        updateLaneCounts();
+      }
+
+      function placeCard(card, lane) {
+        if (!card || !lane || card.element.disabled) return;
+        lane.querySelector(".lane-cards").appendChild(card.element);
+        card.element.classList.remove("is-selected", "is-wrong");
+        card.element.setAttribute("aria-pressed", "false");
+        selectedCard = null;
+        feedback.className = "game-feedback";
+        feedback.textContent = "「" + card.text + "」已进入" +
+          lane.querySelector(".lane-head strong").textContent + "，仍可再次移动。";
+        updateProgress();
+        VV.announce(feedback.textContent);
+      }
+
+      function createCards() {
+        cards = buildCardData();
+        U.shuffle(cards).forEach(function (card) {
+          var button = document.createElement("button");
+          button.type = "button";
+          button.className = "timeline-chip";
+          button.textContent = card.text;
+          button.draggable = true;
+          button.dataset.cardId = card.id;
+          button.setAttribute("aria-pressed", "false");
+          button.setAttribute("aria-label", card.text + "，选择后放入时态轨道");
+          button.addEventListener("click", function (event) {
+            event.stopPropagation();
+            setSelected(card);
+          });
+          button.addEventListener("dragstart", function (event) {
+            if (button.disabled) {
+              event.preventDefault();
+              return;
+            }
+            dragCard = card;
+            event.dataTransfer.effectAllowed = "move";
+            event.dataTransfer.setData("text/plain", card.id);
+          });
+          button.addEventListener("dragend", function () {
+            dragCard = null;
+            lanes.forEach(function (lane) { lane.classList.remove("is-drag-over"); });
+          });
+          card.element = button;
+          pool.appendChild(button);
+        });
+      }
+
+      function checkTracks() {
+        checkRound += 1;
+        var wrong = [];
+        cards.forEach(function (card) {
+          var lane = card.element.closest(".timeline-lane");
+          var correct = lane && lane.dataset.lane === card.lane;
+          card.element.classList.remove("is-correct", "is-wrong", "is-selected");
+          card.element.classList.add(correct ? "is-correct" : "is-wrong");
+          card.element.disabled = Boolean(correct);
+          if (!correct) {
+            wrong.push(card);
+            wrongMap[card.id] = {
+              prompt: card.text,
+              answer:
+                card.lane === "present" ? "现在轨道" :
+                card.lane === "past" ? "过去轨道" : "完成轨道"
+            };
+          }
+          VV.recordGameAttempt(GAME_ID, {
+            check: checkRound,
+            verbId: card.verb.id,
+            form: card.text,
+            correct: correct,
+            answer: lane ? lane.dataset.lane : "",
+            expected: card.lane
+          });
+        });
+        selectedCard = null;
+        if (wrong.length) {
+          feedback.className = "game-feedback is-error";
+          feedback.textContent =
+            wrong.length + " 张卡片偏离轨道。正确卡已锁定，请移动红色卡片后重试。";
+          checkButton.textContent = "重新检查";
+          VV.announce(feedback.textContent);
+          return;
+        }
+        finishGame();
+      }
+
+      function finishGame() {
+        var mistakes = Object.keys(wrongMap).map(function (id) { return wrongMap[id]; });
+        var finalScore = Math.max(0, TOTAL - mistakes.length);
+        document.getElementById("progressLabel").textContent = TOTAL + " / " + TOTAL;
+        document.getElementById("progressFill").style.setProperty("--progress", "100%");
+        VV.recordGameSession(GAME_ID, {
+          score: finalScore,
+          total: TOTAL,
+          mistakes: mistakes.length,
+          checks: checkRound
+        });
+        VV.showGameSettlement({
+          host: stage,
+          title: "三条轨道已校准",
+          message: "六张卡片全部归位，时态坐标建立完成。",
+          score: finalScore,
+          total: TOTAL,
+          mistakes: mistakes,
+          nextHref: "game5-memory-flip.html"
+        });
+      }
+
+      if (!verbs.length) {
+        showEmpty();
+        return;
+      }
+      createCards();
+      lanes.forEach(function (lane) {
+        lane.addEventListener("click", function () {
+          if (selectedCard) placeCard(selectedCard, lane);
+        });
+        lane.addEventListener("keydown", function (event) {
+          if ((event.key === "Enter" || event.key === " ") && selectedCard) {
+            event.preventDefault();
+            placeCard(selectedCard, lane);
+          }
+        });
+        lane.addEventListener("dragover", function (event) {
+          if (!dragCard) return;
+          event.preventDefault();
+          lane.classList.add("is-drag-over");
+        });
+        lane.addEventListener("dragleave", function () {
+          lane.classList.remove("is-drag-over");
+        });
+        lane.addEventListener("drop", function (event) {
+          event.preventDefault();
+          lane.classList.remove("is-drag-over");
+          if (dragCard) placeCard(dragCard, lane);
+          dragCard = null;
+        });
       });
-    });
-
-  /* Touch support */
-    pool.addEventListener("click",function(e){
-      var chip=e.target.closest(".chip");
-      if(!chip||chip.classList.contains("placed"))return;
-      window._selectedChip=chip;
-      pool.querySelectorAll(".chip").forEach(function(c){c.style.outline=c===chip?"2px solid #3b82f6":"none";});
-    });
-    lanes.forEach(function(lane){
-      lane.addEventListener("click",function(){
-        var chip=window._selectedChip;
-        if(!chip||chip.classList.contains("placed")||lane.children.length>1)return;
-        chip.classList.add("placed");chip.style.outline="none";
-        lane.appendChild(chip);placed++;
-        if(placed>=selected.length)document.getElementById("checkBtn").style.display="block";
-        document.getElementById("scoreText").textContent="已放置 "+placed+" / "+selected.length;
-        window._selectedChip=null;
-      });
-    });
-
-    document.getElementById("checkBtn").addEventListener("click",function(){
-      var correct=0,total=0;
-      document.querySelectorAll(".lane .chip").forEach(function(chip){
-        total++;
-        var parent=chip.parentElement;
-        if(parent.dataset.lane===chip.dataset.correctLane){chip.classList.add("correct");correct++;}
-        else chip.classList.add("wrong");
-      });
-      alert("正确 "+correct+" / "+total);
-      if(correct===total)setTimeout(function(){location.href="index.html";},800);
-    });
-  })();
+      checkButton.addEventListener("click", checkTracks);
+      updateProgress();
+    })();
   </script>
 </body>
 </html>
