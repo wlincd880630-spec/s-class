@@ -107,6 +107,8 @@
     }
     .maze-cell {
       aspect-ratio: 1;
+      min-width: 0;
+      overflow: hidden;
       background: #fff;
       display: flex;
       align-items: center;
@@ -947,7 +949,7 @@
         var sz = maze.size || maze.grid.length;
         var cellFont = sz >= 12 ? "0.82rem" : (sz >= 10 ? "1rem" : "1.3rem");
         var cellGap = sz >= 10 ? "2px" : "3px";
-        html += '<div class="maze-grid" style="grid-template-columns:repeat(' + sz + ',1fr);gap:' + cellGap + '">';
+        html += '<div class="maze-grid" style="grid-template-columns:repeat(' + sz + ',minmax(0,1fr));gap:' + cellGap + '">';
         maze.grid.forEach(function(row, r) {
           row.forEach(function(ch, c) {
             var answerClass = answerCells[r + "-" + c] ? " answer" : "";

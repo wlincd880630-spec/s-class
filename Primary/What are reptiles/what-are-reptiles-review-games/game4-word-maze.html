@@ -271,6 +271,8 @@ body.ng-game {
 
 .ng-maze-cell {
   aspect-ratio: 1;
+  min-width: 0;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1199,7 +1201,7 @@ body.ng-game {
       var g=document.getElementById("mazeGrid");
       if(!mazeData||!mazeData.grid||!mazeData.grid.length){g.innerHTML='<p class="ng-hint">迷宫生成失败</p>';return;}
       var sz=mazeData.size||mazeData.grid.length;
-      g.style.gridTemplateColumns="repeat("+sz+",1fr)";
+      g.style.gridTemplateColumns="repeat("+sz+",minmax(0,1fr))";
       g.style.gap=sz>=10?"2px":"3px";
       g.innerHTML="";
       mazeData.grid.forEach(function(row,r){row.forEach(function(ch,c){
