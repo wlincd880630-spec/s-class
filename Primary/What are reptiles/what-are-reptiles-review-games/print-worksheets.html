@@ -99,7 +99,7 @@
     .maze-grid {
       display: grid;
       gap: 3px;
-      max-width: 360px;
+      width: min(100%, 420px);
       margin: 0 auto;
       border: 2px solid #37474f;
       padding: 4px;
@@ -580,7 +580,7 @@
     return btn;
   }
 
-  /* ── 7×7 单词迷宫生成 ── */
+  /* ── 动态宫格单词迷宫：7×7 起，按最长单词自动扩容 ── */
   function generateMazeGrid7(words) {
     var MAZE_SIZE = 7;
     var DIR_SLOTS = [
@@ -722,7 +722,16 @@
     var list = words.slice(0, 4);
     if (list.length < 4) return { grid: [[]], placements: [], size: MAZE_SIZE };
 
-    var sizes = [MAZE_SIZE, 8];
+    /*
+     * 旧版仅尝试 7×7 / 8×8，长度超过 8 的单词必然放不下。
+     * 当前词表中 cold-blooded、exoskeleton 均为 11 个字母（忽略连字符），
+     * 因此先按最长单词计算最小宫格，再额外尝试两档空间。
+     */
+    var longest = list.reduce(function (max, word) {
+      return Math.max(max, lettersOf(word).length);
+    }, 0);
+    var baseSize = Math.max(MAZE_SIZE, longest);
+    var sizes = [baseSize, baseSize + 1, baseSize + 2];
     var si, retry;
     for (si = 0; si < sizes.length; si++) {
       for (retry = 0; retry < 200; retry++) {
@@ -730,7 +739,41 @@
         if (result) return result;
       }
     }
-    return tryLayout(list, 8) || { grid: [[]], placements: [], size: 8 };
+
+    /*
+     * 确定性兜底：横向词放在内部行，纵向词放在最外侧两列，
+     * 路径互不相交，所以任何四个合法词都能生成，不再要求用户重试。
+     */
+    function guaranteedLayout(wordList, size) {
+      var grid = Array.from({ length: size }, function () {
+        return Array.from({ length: size }, function () { return ""; });
+      });
+      var slots = [
+        { id: "lr", dr: 0, dc: 1, r: 1, c: 1 },
+        { id: "rl", dr: 0, dc: -1, r: size - 2, c: size - 2 },
+        { id: "tb", dr: 1, dc: 0, r: 1, c: 0 },
+        { id: "bt", dr: -1, dc: 0, r: size - 2, c: size - 1 },
+      ];
+      var placements = [];
+      wordList.forEach(function (word, index) {
+        var letters = lettersOf(word);
+        var slot = slots[index];
+        var cells = letters.map(function (letter, i) {
+          var cell = {
+            r: slot.r + slot.dr * i,
+            c: slot.c + slot.dc * i,
+            letter: letter,
+          };
+          grid[cell.r][cell.c] = letter;
+          return cell;
+        });
+        placements.push({ word: word, cells: cells, dir: slot.id });
+      });
+      fillNoise(grid, size);
+      return { grid: grid, placements: shuffle(placements), size: size };
+    }
+
+    return guaranteedLayout(list, Math.max(8, longest + 2));
   }
 
   global.NgReview = {
@@ -804,6 +847,7 @@
 })(typeof window !== "undefined" ? window : this);
 
   </script>
+  <script src="maze-generator.js"></script>
   <script>
   (function() {
     "use strict";
@@ -874,8 +918,9 @@
     function renderMazeSheet(prepared, idx, total, showAns) {
       var words = prepared.words;
       var maze = prepared.maze;
+      var mazeSize = maze && maze.size ? maze.size : 7;
       var html = '<div class="sheet' + (showAns ? ' answer-key' : '') + '">';
-      html += sheetHeader("What are reptiles? · 单词迷宫", "第 " + idx + " / " + total + " 组 · 7×7");
+      html += sheetHeader("What are reptiles? · 单词迷宫", "第 " + idx + " / " + total + " 组 · " + mazeSize + "×" + mazeSize);
       html += '<div class="maze-targets">';
       words.forEach(function(w, i) {
         html += '<div class="maze-target"><div class="num">' + (i+1) + '</div>';
@@ -887,10 +932,12 @@
       html += '</div>';
       if (maze && maze.grid && maze.grid.length && maze.grid[0] && maze.grid[0].length) {
         var sz = maze.size || maze.grid.length;
-        html += '<div class="maze-grid" style="grid-template-columns:repeat(' + sz + ',1fr)">';
+        var cellFont = sz >= 12 ? "0.82rem" : (sz >= 10 ? "1rem" : "1.3rem");
+        var cellGap = sz >= 10 ? "2px" : "3px";
+        html += '<div class="maze-grid" style="grid-template-columns:repeat(' + sz + ',1fr);gap:' + cellGap + '">';
         maze.grid.forEach(function(row) {
           row.forEach(function(ch) {
-            html += '<div class="maze-cell">' + esc((ch||"?").toUpperCase()) + '</div>';
+            html += '<div class="maze-cell" style="font-size:' + cellFont + '">' + esc((ch||"?").toUpperCase()) + '</div>';
           });
         });
         html += '</div>';

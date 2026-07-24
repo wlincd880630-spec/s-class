@@ -564,7 +564,7 @@ body.ng-game {
   <div class="ng-stage">
     <section class="setup-panel" id="setupPanel">
       <div class="ng-badge">准备开始</div>
-      <p class="ng-hint">7×7 宫格藏 4 个单词（横/竖四方向）。点击图片下方灰条显示中文。仅支持无空格单词。</p>
+      <p class="ng-hint">宫格会按最长单词自动调整（7×7 至 13×13），藏入 4 个横/竖四方向单词。点击图片下方灰条显示中文。</p>
       <p class="ng-hint">已选 <strong id="wordCount">0</strong> 个单词：</p>
       <div class="chips" id="wordChips"></div>
       <div style="text-align:center;margin-top:0.75rem;">
@@ -1140,6 +1140,7 @@ body.ng-game {
 })(typeof window !== "undefined" ? window : this);
 
   </script>
+  <script src="maze-generator.js"></script>
   <script>
   (function() {
     "use strict";
@@ -1197,9 +1198,13 @@ body.ng-game {
     function renderGrid() {
       var g=document.getElementById("mazeGrid");
       if(!mazeData||!mazeData.grid||!mazeData.grid.length){g.innerHTML='<p class="ng-hint">迷宫生成失败</p>';return;}
-      var sz=mazeData.size||mazeData.grid.length; g.style.gridTemplateColumns="repeat("+sz+",1fr)"; g.innerHTML="";
+      var sz=mazeData.size||mazeData.grid.length;
+      g.style.gridTemplateColumns="repeat("+sz+",1fr)";
+      g.style.gap=sz>=10?"2px":"3px";
+      g.innerHTML="";
       mazeData.grid.forEach(function(row,r){row.forEach(function(ch,c){
         var key=cellKey(r,c),cell=document.createElement("div"),cls="ng-maze-cell";
+        cell.style.fontSize=sz>=12?"0.78rem":(sz>=10?"0.95rem":"1.15rem");
         if(selected.some(function(s){return s.key===key;})) cls+=" selected";
         if(hintCells[key]) cls+=" hint";
         Object.keys(foundPaths).forEach(function(w){if(foundPaths[w][key]) cls+=" found";});
