@@ -144,6 +144,7 @@
     .page {
       background: #fffef9;
       width: 210mm;
+      height: 297mm;
       min-height: 297mm;
       padding: 12mm 14mm 10mm;
       margin: 22px 0;
@@ -151,8 +152,11 @@
       display: flex;
       flex-direction: column;
       page-break-after: always;
+      break-after: page;
+      overflow: hidden;
       border-radius: 2px;
     }
+    .page:last-child { page-break-after: auto; break-after: auto; }
 
     .page-hdr {
       flex-shrink: 0;
@@ -286,7 +290,7 @@
       border-bottom: none;
     }
 
-    @page { size: A4; margin: 12mm; }
+    @page { size: A4 portrait; margin: 0; }
 
     .grid-bg {
       position: absolute;
@@ -374,9 +378,11 @@
         margin: 0;
         box-shadow: none;
         width: 210mm;
-        min-height: 297mm;
+        height: 296mm;
+        min-height: 296mm;
         page-break-after: always;
       }
+      .page:last-child { page-break-after: auto; break-after: auto; }
       body.show-answers .word-answer { opacity: 1; visibility: visible; }
       * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     }

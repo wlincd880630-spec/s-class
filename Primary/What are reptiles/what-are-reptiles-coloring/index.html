@@ -20,23 +20,24 @@
     .guide { max-width:210mm; margin:22px auto 0; padding:16px 20px; border-radius:15px; background:rgba(255,255,255,.8); box-shadow:0 9px 24px rgba(30,45,35,.12); }
     .guide strong { color:var(--forest); }
     #printArea { width:210mm; margin:20px auto 50px; }
-    .page { width:210mm; height:297mm; padding:11mm; page-break-after:always; background:#fffdf8; box-shadow:0 14px 45px rgba(0,0,0,.25); }
+    .page { width:210mm; height:297mm; padding:11mm; page-break-after:always; break-after:page; page-break-inside:avoid; break-inside:avoid; overflow:hidden; background:#fffdf8; box-shadow:0 14px 45px rgba(0,0,0,.25); }
+    .page:last-child { page-break-after:auto; break-after:auto; }
     .page-header { display:flex; align-items:center; justify-content:space-between; height:12mm; margin-bottom:5mm; border-bottom:1px solid rgba(40,34,24,.15); color:var(--muted); font-size:8.5pt; }
     .page-header b { color:var(--forest); font-family:"Fraunces",serif; font-size:13pt; }
-    .cards { display:grid; grid-template-rows:1fr 1fr; gap:7mm; height:255mm; }
-    .word-card { display:grid; grid-template-columns:43% 57%; overflow:hidden; border:1px solid rgba(21,58,44,.18); border-radius:7mm; background:linear-gradient(135deg,#fff,#faf2e5); box-shadow:0 3mm 7mm rgba(27,52,40,.08); }
-    .visuals { position:relative; display:grid; grid-template-rows:1fr 1fr; gap:2mm; padding:4mm; background:#e9e0d2; }
+    .cards { height:255mm; }
+    .word-card { display:grid; grid-template-rows:145mm 1fr; height:255mm; overflow:hidden; border:1px solid rgba(21,58,44,.18); border-radius:7mm; background:linear-gradient(135deg,#fff,#faf2e5); box-shadow:0 3mm 7mm rgba(27,52,40,.08); }
+    .visuals { position:relative; display:grid; grid-template-columns:1fr 1fr; gap:4mm; min-height:0; padding:5mm; background:#e9e0d2; }
     .visuals img { width:100%; min-height:0; height:100%; border-radius:4mm; background:#fff; object-fit:cover; }
     .visuals .tag { position:absolute; top:7mm; left:7mm; padding:1.5mm 3mm; border-radius:99px; color:#fff; background:rgba(21,58,44,.88); font-size:7pt; font-weight:900; }
-    .card-copy { position:relative; display:flex; flex-direction:column; justify-content:center; padding:7mm; }
+    .card-copy { position:relative; display:flex; flex-direction:column; justify-content:center; min-height:0; padding:7mm 9mm; }
     .card-number { position:absolute; top:5mm; right:6mm; color:var(--clay); font-size:8pt; font-weight:1000; letter-spacing:.12em; }
-    .word { margin:0; color:var(--forest); font-family:"Fraunces",serif; font-size:29pt; line-height:1; overflow-wrap:anywhere; }
-    .zh { margin:2mm 0 4mm; color:var(--clay); font-size:13pt; font-weight:900; }
+    .word { margin:0; color:var(--forest); font-family:"Fraunces",serif; font-size:36pt; line-height:1; overflow-wrap:anywhere; }
+    .zh { margin:2mm 0 4mm; color:var(--clay); font-size:15pt; font-weight:900; }
     .phonemes { display:flex; flex-wrap:wrap; gap:1.5mm; margin-bottom:4mm; }
     .phoneme { min-width:11mm; padding:1.5mm 2mm; border:1px solid rgba(21,58,44,.18); border-radius:2.5mm; color:var(--forest); background:#edf3ec; text-align:center; font-size:8pt; font-weight:900; }
-    .sentence { padding:3.5mm; border-left:2mm solid var(--amber); border-radius:0 3mm 3mm 0; background:#fff8e7; font-size:10pt; line-height:1.45; }
-    .sentence span { display:block; margin-top:1mm; color:var(--muted); font-size:8.5pt; }
-    .science-note { margin-top:3mm; color:var(--muted); font-size:7.8pt; line-height:1.4; }
+    .sentence { padding:3.5mm; border-left:2mm solid var(--amber); border-radius:0 3mm 3mm 0; background:#fff8e7; font-size:11pt; line-height:1.45; }
+    .sentence span { display:block; margin-top:1mm; color:var(--muted); font-size:9pt; }
+    .science-note { margin:3mm 0 0; color:var(--muted); font-size:8pt; line-height:1.4; }
     @media(max-width:850px){
       .toolbar p{display:none}.toolbar{flex-wrap:wrap}.toolbar-actions{width:100%;margin-left:0}.btn{flex:1;justify-content:center}
       .guide{margin:14px 12px 0}.viewport{width:calc(100vw - 18px);margin:14px auto;overflow:hidden}
@@ -47,7 +48,7 @@
       body{background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
       .toolbar,.guide{display:none!important}.viewport{width:auto!important;margin:0!important;overflow:visible!important}
       #printArea{width:210mm!important;margin:0!important;transform:none!important}
-      .page{margin:0;box-shadow:none}
+      .page{height:296mm;margin:0;box-shadow:none}
     }
   </style>
 </head>
@@ -62,7 +63,7 @@
       <button class="btn primary" onclick="window.print()">🖨️ 打印 / 保存 PDF</button>
     </div>
   </header>
-  <aside class="guide"><strong>不再是涂色卡：</strong>每页 2 张全彩标本卡，共 23 页。图片、中文释义和例句全部来自本课程；建议彩色双面或厚纸打印。</aside>
+  <aside class="guide"><strong>一词一页：</strong>每张 A4 只展示 1 个词，共 46 页。主体图与词义图完整呈现，适合彩色打印或保存 PDF。</aside>
   <div class="viewport"><main id="printArea"></main></div>
 
   <script src="../what-are-reptiles-courseware/assets/data/words-data.js"></script>
@@ -96,11 +97,11 @@
         '<p class="science-note">FIELD NOTE · '+esc(note(w))+'</p></div></article>';
     }
     var html="";
-    for(var i=0;i<words.length;i+=2){
-      html+='<section class="page"><div class="page-header"><b>What are reptiles?</b><span>S-Class Science · 全彩标本卡</span><span>'+(i/2+1)+' / '+Math.ceil(words.length/2)+'</span></div><div class="cards">'+card(words[i],i)+(words[i+1]?card(words[i+1],i+1):"")+'</div></section>';
+    for(var i=0;i<words.length;i++){
+      html+='<section class="page"><div class="page-header"><b>What are reptiles?</b><span>S-Class Science · 全彩标本卡</span><span>'+(i+1)+' / '+words.length+'</span></div><div class="cards">'+card(words[i],i)+'</div></section>';
     }
     document.getElementById("printArea").innerHTML=html;
-    function fit(){var v=document.querySelector(".viewport");if(innerWidth<=850){var scale=v.clientWidth/(210*3.7795275591);document.getElementById("printArea").style.transform="scale("+scale+")";v.style.height=(297*3.7795275591*Math.ceil(words.length/2)*scale)+"px";}}
+    function fit(){var v=document.querySelector(".viewport");if(innerWidth<=850){var scale=v.clientWidth/(210*3.7795275591);document.getElementById("printArea").style.transform="scale("+scale+")";v.style.height=(297*3.7795275591*words.length*scale)+"px";}}
     addEventListener("resize",fit);fit();
   })();
   </script>
