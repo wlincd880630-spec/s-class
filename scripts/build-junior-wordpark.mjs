@@ -104,10 +104,31 @@ function asList(v) {
   return String(v).split(/[,，]/).map((s) => s.trim()).filter(Boolean);
 }
 
-function resolveImage(bookFolder, unitNum, rel) {
-  if (!rel) return '';
-  if (/^https?:\/\//i.test(rel)) return rel;
-  const clean = String(rel).replace(/^\.?\/+/, '').replace(/^Unit\d+\//, '');
+function resolveImage(bookFolder, unitNum, rel, word = '') {
+  const unitDir = path.join(SRC, bookFolder, `Unit${unitNum}`);
+  if (rel && /^https?:\/\//i.test(rel)) return rel;
+
+  const clean = rel
+    ? String(rel).replace(/^\.?\/+/, '').replace(/^Unit\d+\//, '')
+    : '';
+
+  // Prefer locally generated art (composer images) over COS when file exists
+  const candidates = [];
+  if (clean) candidates.push(path.join(unitDir, clean));
+  if (word) {
+    const slug = safeSlug(word);
+    candidates.push(path.join(unitDir, 'images', `${slug}_1.jpg`));
+    candidates.push(path.join(unitDir, 'images', `${slug}_1.png`));
+  }
+  for (const local of candidates) {
+    if (local && fs.existsSync(local)) {
+      const base = path.basename(local);
+      // From Courseware/{BOOK}/learn.html → ../../{BOOK}/UnitN/images/...
+      return `../../${bookFolder}/Unit${unitNum}/images/${base}`;
+    }
+  }
+
+  if (!clean) return '';
   return `${COS_ROOT}/${bookFolder}/Unit${unitNum}/${clean}`;
 }
 
@@ -155,8 +176,8 @@ function buildBookData(meta) {
         chinese: w.meaning_cn || '',
         ipa: w.ipa || '',
         phonemes: [],
-        image: resolveImage(meta.folder, unit, w.img1),
-        image2: resolveImage(meta.folder, unit, w.img2),
+        image: resolveImage(meta.folder, unit, w.img1, w.word),
+        image2: resolveImage(meta.folder, unit, w.img2, w.word),
         usage: w.usage || '',
         collocations: asList(w.collocations),
         preposition_combos: asList(w.preposition_combos),

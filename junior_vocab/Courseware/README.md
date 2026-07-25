@@ -13,6 +13,8 @@
 
 ## 配图
 
-- 已有 COS 图：沿用 `junior_vocab/{册}/UnitN/images/{slug}_1.png` 等链接
-- 缺失配图（如八年级上）：页面运行时自动生成 SVG 词卡，保证学习/游戏可用
-- 重新生成课件：`node scripts/build-junior-wordpark.mjs`
+- **G8_B1（八年级上）**：已用 Composer 2.5 全量重绘 **549** 张「达意、无文字、精美」释义配图，存放于 `junior_vocab/G8_B1/UnitN/images/*_1.jpg`
+- 其他册：优先腾讯云 COS 已有配图；缺失时学习页自动生成 SVG 词卡兜底
+- 构建脚本会优先使用本地 `images/` 文件，再回退 COS
+
+重新生成课件数据：`node scripts/build-junior-wordpark.mjs`
