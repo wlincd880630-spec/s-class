@@ -328,7 +328,7 @@
   async function callDeepSeek(messages, streamCallback) {
     const key = getConfig().deepseekKey;
     const body = {
-      model: 'deepseek-chat',
+      model: 'deepseek-v4-flash',
       messages,
       temperature: 0.7,
       stream: !!streamCallback

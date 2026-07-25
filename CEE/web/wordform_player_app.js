@@ -115,7 +115,7 @@
                     const res = await fetch("https://api.deepseek.com/chat/completions", {
                         method: "POST",
                         headers: { "Content-Type": "application/json", "Authorization": "Bearer " + DEEPSEEK_KEY },
-                        body: JSON.stringify({ model: "deepseek-chat", messages: [{ role: "user", content: prompt }] })
+                        body: JSON.stringify({ model: "deepseek-v4-flash", messages: [{ role: "user", content: prompt }] })
                     });
                     const data = await res.json();
                     let raw = data.choices?.[0]?.message?.content || '';
@@ -425,7 +425,7 @@
                     const res = await fetch("https://api.deepseek.com/chat/completions", {
                         method: "POST",
                         headers: { "Content-Type": "application/json", "Authorization": "Bearer " + DEEPSEEK_KEY },
-                        body: JSON.stringify({ model: "deepseek-chat", messages: [{ role: "user", content: prompt }] })
+                        body: JSON.stringify({ model: "deepseek-v4-flash", messages: [{ role: "user", content: prompt }] })
                     });
                     const data = await res.json();
                     readEval.value = data.choices?.[0]?.message?.content || '评价失败';

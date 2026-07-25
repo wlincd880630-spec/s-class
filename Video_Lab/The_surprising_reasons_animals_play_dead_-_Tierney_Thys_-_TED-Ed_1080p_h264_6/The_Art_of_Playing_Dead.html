@@ -943,7 +943,7 @@
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${C.deepseekKey}` },
                 body: JSON.stringify({
-                    model: 'deepseek-chat',
+                    model: 'deepseek-v4-flash',
                     messages: [{ role: 'user', content: prompt }],
                     response_format: { type: 'json_object' }
                 })
@@ -1965,7 +1965,7 @@
         try {
             const r = await fetch("https://api.deepseek.com/v1/chat/completions", {
                 method: "POST", headers: {"Content-Type": "application/json", "Authorization": `Bearer ${C.deepseekKey}`},
-                body: JSON.stringify({model: "deepseek-chat", messages: [{role: "user", content: `Define "${w}" simply. JSON: {cn, en}`}], response_format:{type:"json_object"}})
+                body: JSON.stringify({model: "deepseek-v4-flash", messages: [{role: "user", content: `Define "${w}" simply. JSON: {cn, en}`}], response_format:{type:"json_object"}})
             });
             const d = JSON.parse((await r.json()).choices[0].message.content);
             document.getElementById('ds-con').innerHTML = `<strong>${w}</strong><br>${d.cn}<br><small>${d.en}</small>`;
