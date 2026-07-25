@@ -13,7 +13,7 @@
             return fetch('https://api.deepseek.com/chat/completions', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + DEEPSEEK_KEY },
-                body: JSON.stringify({ model: 'deepseek-chat', messages: messages })
+                body: JSON.stringify({ model: 'deepseek-v4-flash', messages: messages })
             })
                 .then(function(res) { return res.json(); })
                 .then(function(data) {
