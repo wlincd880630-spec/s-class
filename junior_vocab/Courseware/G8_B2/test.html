@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>单词测试 · 八年级下</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/common.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="top-bar">
+      <a class="course-logo" href="index.html" title="Steven's Class English Studio">
+        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/logo.png" alt="Steven's Class English Studio">
+      </a>
+      <a class="back-link" href="index.html"><i class="fa-solid fa-house"></i> 返回</a>
+      <h1 class="page-title"><i class="fa-solid fa-clipboard-check"></i> 单词测试</h1>
+    </div>
+
+    <div class="card" id="setupPanel">
+      <div id="reviewWordSummary"></div>
+      <p style="color:#636e72;margin:12px 0;">每词四关：朗读（≥60分通过）→ 英译中 → 中译英 → 拼写</p>
+      <button class="btn btn-success btn-lg" id="btnStart"><i class="fa-solid fa-play"></i> 开始测试</button>
+    </div>
+
+    <div class="card hidden" id="testPanel">
+      <div class="timer-bar">
+        <span>单词 <strong id="wordProgress">1/1</strong></span>
+        <span>环节：<strong id="stageName">朗读</strong></span>
+        <span>用时：<strong id="stageTime">0:00</strong></span>
+      </div>
+      <div id="testContent"></div>
+    </div>
+
+    <div class="card hidden" id="reportPanel">
+      <div class="report-card" id="reportContent">
+        <h2 style="text-align:center;color:var(--green-dark);margin-bottom:16px;">
+          <i class="fa-solid fa-trophy"></i> 测试报告
+        </h2>
+        <p style="text-align:center;margin-bottom:12px;" id="reportUnit"></p>
+        <div id="reportRows"></div>
+        <div class="report-total" id="reportTotal"></div>
+      </div>
+      <div style="text-align:center;margin-top:16px;">
+        <button class="btn btn-primary" id="btnExport"><i class="fa-solid fa-camera"></i> 截图导出</button>
+        <button class="btn btn-outline" id="btnRetry"><i class="fa-solid fa-rotate-right"></i> 重新测试</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/data/data.js"></script>
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/audio/audio-manifest.js?v=1"></script>
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/audio/local-audio.js?v=1"></script>
+<script src="../assets/js/utils.js"></script>
+  <script>
+    const STAGES = ['speak', 'en2zh', 'zh2en', 'spell'];
+    const STAGE_NAMES = { speak: '朗读测试', en2zh: '英译中', zh2en: '中译英', spell: '拼写' };
+
+    let testWords = [], wordIdx = 0, stageIdx = 0;
+    let results = [];
+    let currentResult = null;
+    let stageTimer = null;
+
+    let spellBuilt = [], spellTarget = [];
+
+    const setupPanel = document.getElementById('setupPanel');
+    const testPanel = document.getElementById('testPanel');
+    const reportPanel = document.getElementById('reportPanel');
+    const testContent = document.getElementById('testContent');
+
+    renderReviewWordSummary(document.getElementById('reviewWordSummary'));
+
+    document.getElementById('btnStart').addEventListener('click', startTest);
+    document.getElementById('btnRetry').addEventListener('click', () => {
+      reportPanel.classList.add('hidden');
+      setupPanel.classList.remove('hidden');
+    });
+    document.getElementById('btnExport').addEventListener('click', exportReport);
+
+    function startTest() {
+      testWords = requireReviewWords({ minCount: 1 });
+      if (!testWords) return;
+      wordIdx = 0;
+      stageIdx = 0;
+      results = [];
+      setupPanel.classList.add('hidden');
+      testPanel.classList.remove('hidden');
+      loadStage();
+    }
+
+    function loadStage() {
+      if (wordIdx >= testWords.length) {
+        showReport();
+        return;
+      }
+      const w = testWords[wordIdx];
+      const stage = STAGES[stageIdx];
+      document.getElementById('wordProgress').textContent = `${wordIdx + 1}/${testWords.length}`;
+      document.getElementById('stageName').textContent = STAGE_NAMES[stage];
+      currentResult = { wordId: w.id, word: w.word, stage, score: 0, time: 0, correct: false };
+
+      if (stageTimer) stageTimer.stop();
+      stageTimer = new GameTimer(document.getElementById('stageTime'));
+      stageTimer.start();
+
+      testContent.innerHTML = '';
+      switch (stage) {
+        case 'speak': renderSpeak(w); break;
+        case 'en2zh': renderEn2Zh(w); break;
+        case 'zh2en': renderZh2En(w); break;
+        case 'spell': renderSpell(w); break;
+      }
+    }
+
+    function nextStage(correct, score) {
+      currentResult.time = stageTimer.stop();
+      currentResult.correct = correct;
+      currentResult.score = score;
+      results.push({ ...currentResult });
+
+      stageIdx++;
+      if (stageIdx >= STAGES.length) {
+        stageIdx = 0;
+        wordIdx++;
+      }
+      loadStage();
+    }
+
+    // ── 朗读测试 ──
+    function renderSpeak(w) {
+      testContent.innerHTML = `
+        <div class="word-display">
+          <h2 class="word-text">${w.word}</h2>
+          <p style="text-align:center;color:#636e72;">${w.chinese}</p>
+          <div class="action-row">
+            <button class="btn btn-primary" id="btnListen"><i class="fa-solid fa-volume-high"></i> 听示范</button>
+            <button class="btn btn-danger" id="btnRec"><i class="fa-solid fa-microphone"></i> 开始录音</button>
+          </div>
+          <div id="speakResult" class="hidden">
+            <div class="stars" id="speakStars"></div>
+            <p id="speakText" style="text-align:center;"></p>
+          </div>
+        </div>`;
+      document.getElementById('btnListen').onclick = () => speakText(w.word);
+      document.getElementById('btnRec').onclick = async () => {
+        const btn = document.getElementById('btnRec');
+        const speakResult = document.getElementById('speakResult');
+        const speakText_el = document.getElementById('speakText');
+
+        if (!pronunciationRecorder.isRecording) {
+          try {
+            speakResult.classList.add('hidden');
+            speakText_el.style.color = '';
+            await pronunciationRecorder.start(w.word);
+            btn.classList.add('recording');
+            btn.innerHTML = '<i class="fa-solid fa-stop"></i> 停止录音';
+          } catch (e) {
+            speakText_el.textContent = '无法启动录音：' + e.message;
+            speakResult.classList.remove('hidden');
+          }
+          return;
+        }
+
+        btn.classList.remove('recording');
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 评估中…';
+        btn.disabled = true;
+        const result = await pronunciationRecorder.stop();
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-microphone"></i> 开始录音';
+        speakResult.classList.remove('hidden');
+
+        if (result && (getPronunciationDisplayScore(result) > 0 || result.recognized)) {
+          const score = getPronunciationDisplayScore(result);
+          renderStars(document.getElementById('speakStars'), scoreToStars(score));
+          if (score >= 60) {
+            speakText_el.textContent = `发音 ${Math.round(score)} 分 · 准确度 ${Math.round(result.accuracy)} · 达标！`;
+            speakText_el.style.color = 'var(--green-dark)';
+            setTimeout(() => nextStage(true, score), 2000);
+          } else {
+            speakText_el.textContent = `发音 ${Math.round(score)} 分，未达标（需≥60分），请再朗读一次！`;
+            speakText_el.style.color = '#d63031';
+          }
+        } else {
+          speakText_el.textContent = '没有听清，请再朗读一次！';
+          speakText_el.style.color = '#d63031';
+        }
+      };
+      speakText(w.word);
+    }
+
+    // ── 英译中 ──
+    function renderEn2Zh(w) {
+      const all = testWords;
+      const options = pickQuizOptions(w, all, 6, shortMeaning);
+      testContent.innerHTML = `
+        <div class="quiz-question">
+          <h2 class="word-text">${w.word}</h2>
+          <button class="btn btn-sm btn-outline" id="btnListen"><i class="fa-solid fa-volume-high"></i> 发音</button>
+        </div>
+        <div class="quiz-options" id="opts"></div>`;
+      document.getElementById('btnListen').onclick = () => speakText(w.word);
+      const opts = document.getElementById('opts');
+      options.forEach(({ word: m, label }) => {
+        const btn = document.createElement('div');
+        btn.className = 'quiz-option';
+        btn.textContent = label;
+        btn.onclick = () => {
+          if (btn.classList.contains('correct') || btn.classList.contains('wrong')) return;
+          const ok = m.id === w.id;
+          btn.classList.add(ok ? 'correct' : 'wrong');
+          setTimeout(() => nextStage(ok, ok ? 100 : 0), 1000);
+        };
+        opts.appendChild(btn);
+      });
+      speakText(w.word);
+    }
+
+    // ── 中译英 ──
+    function renderZh2En(w) {
+      const all = testWords;
+      const options = pickQuizOptions(w, all, 6, item => item.word);
+      testContent.innerHTML = `
+        <div class="quiz-question">
+          <img src="${w.image}" style="max-width:200px;border-radius:14px;">
+          <p style="font-size:1.4rem;font-weight:bold;">${shortMeaning(w)}</p>
+        </div>
+        <div class="quiz-options" id="opts"></div>`;
+      const opts = document.getElementById('opts');
+      options.forEach(({ word: m, label }) => {
+        const btn = document.createElement('div');
+        btn.className = 'quiz-option';
+        btn.textContent = label;
+        btn.onclick = () => {
+          if (btn.classList.contains('correct') || btn.classList.contains('wrong')) return;
+          const ok = m.id === w.id;
+          btn.classList.add(ok ? 'correct' : 'wrong');
+          setTimeout(() => nextStage(ok, ok ? 100 : 0), 1000);
+        };
+        opts.appendChild(btn);
+      });
+    }
+
+    // ── 拼写 ──
+    function renderSpell(w) {
+      spellBuilt = [];
+      spellTarget = w.word.replace(/\s/g, '').split('');
+      const extra = shuffle('abcdefghijklmnopqrstuvwxyz'.split(''))
+        .slice(0, spellTarget.length)
+        .concat(spellTarget);
+      testContent.innerHTML = `
+        <div class="quiz-question">
+          <img src="${w.image}" style="max-width:200px;border-radius:14px;">
+          <p style="font-size:1.2rem;">${w.chinese}</p>
+        </div>
+        <div class="target-slots" id="spellSlots"></div>
+        <div class="letter-pool" id="spellPool"></div>
+        <button class="btn btn-outline btn-sm" id="btnBackspace"><i class="fa-solid fa-delete-left"></i> 退格</button>`;
+
+      function renderSpellSlots() {
+        const el = document.getElementById('spellSlots');
+        el.innerHTML = '';
+        for (let i = 0; i < spellTarget.length; i++) {
+          const s = document.createElement('div');
+          s.className = 'slot' + (spellBuilt[i] ? ' filled' : '');
+          s.textContent = spellBuilt[i] || '';
+          el.appendChild(s);
+        }
+      }
+
+      renderSpellSlots();
+      createLetterPool(shuffle(extra), document.getElementById('spellPool'), (ch, el) => {
+        if (spellBuilt.length >= spellTarget.length) return;
+        el.classList.add('used');
+        spellBuilt.push(ch);
+        renderSpellSlots();
+        if (spellBuilt.length === spellTarget.length) {
+          const ok = spellBuilt.join('').toLowerCase() === spellTarget.join('').toLowerCase();
+          setTimeout(() => nextStage(ok, ok ? 100 : 0), 800);
+        }
+      });
+
+      document.getElementById('btnBackspace').onclick = () => {
+        if (!spellBuilt.length) return;
+        spellBuilt.pop();
+        const pool = document.getElementById('spellPool');
+        const used = [...pool.querySelectorAll('.used')];
+        if (used.length) used[used.length - 1].classList.remove('used');
+        renderSpellSlots();
+      };
+    }
+
+    // ── 报告 ──
+    function showReport() {
+      testPanel.classList.add('hidden');
+      reportPanel.classList.remove('hidden');
+
+      const bookName = TEXTBOOK_DATA.book?.name || "单词测试";
+      document.getElementById('reportUnit').textContent =
+        `${bookName} · ${testWords.length} 个单词 · ${new Date().toLocaleString('zh-CN')}`;
+
+      const byStage = {};
+      STAGES.forEach(s => { byStage[s] = { correct: 0, total: 0, time: 0, score: 0 }; });
+      let totalTime = 0;
+      results.forEach(r => {
+        byStage[r.stage].total++;
+        byStage[r.stage].time += r.time;
+        byStage[r.stage].score += r.score;
+        if (r.correct) byStage[r.stage].correct++;
+        totalTime += r.time;
+      });
+
+      const rows = document.getElementById('reportRows');
+      rows.innerHTML = '';
+      STAGES.forEach(s => {
+        const d = byStage[s];
+        const pct = d.total ? Math.round(d.correct / d.total * 100) : 0;
+        const avg = d.total ? Math.round(d.score / d.total) : 0;
+        rows.innerHTML += `
+          <div class="report-row">
+            <span>${STAGE_NAMES[s]}</span>
+            <span>正确 ${d.correct}/${d.total} (${pct}%) · 均分 ${avg} · ${formatTime(d.time)}</span>
+          </div>`;
+      });
+
+      const totalCorrect = results.filter(r => r.correct).length;
+      const totalPct = Math.round(totalCorrect / results.length * 100);
+      document.getElementById('reportTotal').textContent =
+        `总正确率 ${totalPct}% · 总用时 ${formatTime(totalTime)}`;
+    }
+
+    function exportReport() {
+      html2canvas(document.getElementById('reportContent'), { scale: 2, backgroundColor: '#fff' })
+        .then(canvas => {
+          const link = document.createElement('a');
+          link.download = `八年级下测试报告_${Date.now()}.png`;
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+        });
+    }
+  </script>
+</body>
+</html>

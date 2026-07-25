@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>游戏三：翻翻配对 · 八年级下</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+<body>
+  <div class="container">
+    <div class="top-bar">
+      <a class="course-logo" href="index.html" title="Steven's Class English Studio">
+        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/logo.png" alt="Steven's Class English Studio">
+      </a>
+      <a class="back-link" href="index.html"><i class="fa-solid fa-house"></i> 返回</a>
+      <h1 class="page-title"><i class="fa-solid fa-clone"></i> 翻翻配对</h1>
+    </div>
+
+    <div class="card" id="setupPanel">
+      <div id="reviewWordSummary"></div>
+      <p style="color:#636e72;margin:8px 0;">每组 4 个单词，全部完成后显示统计（含正误数量）</p>
+      <button class="btn btn-primary btn-lg" id="btnStart"><i class="fa-solid fa-play"></i> 开始游戏</button>
+    </div>
+
+    <div class="card hidden" id="memorizePanel">
+      <h3 class="card-title"><i class="fa-solid fa-brain"></i> 记忆阶段 — 请记住单词和图片的对应关系</h3>
+      <div class="timer-bar">
+        <span><i class="fa-solid fa-layer-group"></i> 第 <strong id="groupNum">1</strong> / <strong id="groupTotal">1</strong> 组</span>
+        <span><i class="fa-solid fa-clock"></i> 本组记忆：<strong id="memTime">0:00</strong></span>
+        <span><i class="fa-solid fa-hourglass-half"></i> 累计记忆：<strong id="totalMemTime">0:00</strong></span>
+      </div>
+      <div class="memory-board" id="memBoard" style="pointer-events:none;"></div>
+      <div style="text-align:center;margin-top:20px;">
+        <button class="btn btn-success btn-lg" id="btnFlip"><i class="fa-solid fa-rotate"></i> 开始配对</button>
+      </div>
+    </div>
+
+    <div class="card game-area hidden" id="gamePanel">
+      <div class="timer-bar">
+        <span><i class="fa-solid fa-layer-group"></i> 第 <strong id="groupNum2">1</strong> / <strong id="groupTotal2">1</strong> 组</span>
+        <span><i class="fa-solid fa-stopwatch"></i> 本组配对：<strong id="pairTime">0:00</strong></span>
+        <span><i class="fa-solid fa-hourglass-half"></i> 累计配对：<strong id="totalPairTime">0:00</strong></span>
+      </div>
+      <div class="memory-board" id="gameBoard"></div>
+      <div id="feedback" class="feedback hidden"></div>
+    </div>
+
+    <div class="card hidden" id="donePanel"></div>
+  </div>
+
+  <script src="assets/data/data.js"></script>
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/audio/audio-manifest.js?v=1"></script>
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/audio/local-audio.js?v=1"></script>
+<script src="../assets/js/utils.js"></script>
+  <script>
+    const GROUP_SIZE = 4;
+    let groups = [], groupIdx = 0;
+    let gameWords = [], cards = [], flipped = [], matched = 0;
+    let memTimer = null, pairTimer = null;
+    let totalMemSec = 0, totalPairSec = 0;
+    let totalWordCount = 0;
+    let statCorrect = 0, statWrong = 0;
+
+    const setupPanel = document.getElementById('setupPanel');
+    const memorizePanel = document.getElementById('memorizePanel');
+    const gamePanel = document.getElementById('gamePanel');
+    const donePanel = document.getElementById('donePanel');
+
+    renderReviewWordSummary(document.getElementById('reviewWordSummary'));
+
+    document.getElementById('btnStart').addEventListener('click', startGame);
+    document.getElementById('btnFlip').addEventListener('click', startPairing);
+
+    function startGame() {
+      const all = requireReviewWords({ minCount: 1 });
+      if (!all) return;
+      groups = [];
+      for (let i = 0; i < all.length; i += GROUP_SIZE) {
+        groups.push(all.slice(i, i + GROUP_SIZE));
+      }
+      groupIdx = 0;
+      totalMemSec = 0;
+      totalPairSec = 0;
+      statCorrect = 0;
+      statWrong = 0;
+      totalWordCount = all.length;
+
+      setupPanel.classList.add('hidden');
+      donePanel.classList.add('hidden');
+      loadGroup();
+    }
+
+    function updateGroupLabels() {
+      const n = groupIdx + 1;
+      const t = groups.length;
+      document.getElementById('groupNum').textContent = n;
+      document.getElementById('groupTotal').textContent = t;
+      document.getElementById('groupNum2').textContent = n;
+      document.getElementById('groupTotal2').textContent = t;
+      document.getElementById('totalMemTime').textContent = formatTime(totalMemSec);
+      document.getElementById('totalPairTime').textContent = formatTime(totalPairSec);
+    }
+
+    function buildCards() {
+      cards = [];
+      gameWords.forEach(w => {
+        cards.push({ type: 'word', word: w, pairId: w.id });
+        cards.push({ type: 'image', word: w, pairId: w.id });
+      });
+      cards = shuffle(cards);
+    }
+
+    function loadGroup() {
+      gameWords = groups[groupIdx];
+      buildCards();
+      matched = 0;
+      flipped = [];
+      updateGroupLabels();
+
+      gamePanel.classList.add('hidden');
+      memorizePanel.classList.remove('hidden');
+      document.getElementById('feedback').classList.add('hidden');
+      renderBoard('memBoard', true);
+
+      if (memTimer) memTimer.stop();
+      memTimer = new GameTimer(document.getElementById('memTime'));
+      memTimer.start();
+    }
+
+    function renderBoard(boardId, showFront) {
+      const board = document.getElementById(boardId);
+      board.innerHTML = '';
+      const cols = gameWords.length <= 2 ? 2 : 4;
+      board.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+
+      cards.forEach((card, i) => {
+        const el = document.createElement('div');
+        el.className = 'memory-card' + (showFront ? ' flipped' : '');
+        el.dataset.idx = i;
+        const inner = document.createElement('div');
+        inner.className = 'memory-card-inner';
+        inner.innerHTML = `
+          <div class="memory-front"><i class="fa-solid fa-question"></i></div>
+          <div class="memory-back ${card.type === 'image' ? 'memory-back--pic' : 'memory-back--word'}">
+            ${card.type === 'image' ? `<img src="${card.word.image}" alt="">` : `<span>${card.word.word}</span>`}
+          </div>`;
+        el.appendChild(inner);
+        if (!showFront) {
+          el.addEventListener('click', () => onCardClick(el, i));
+        }
+        board.appendChild(el);
+      });
+    }
+
+    function startPairing() {
+      totalMemSec += memTimer.stop();
+      updateGroupLabels();
+
+      memorizePanel.classList.add('hidden');
+      gamePanel.classList.remove('hidden');
+      flipped = [];
+      matched = 0;
+      renderBoard('gameBoard', false);
+
+      if (pairTimer) pairTimer.stop();
+      pairTimer = new GameTimer(document.getElementById('pairTime'));
+      pairTimer.start();
+    }
+
+    function onCardClick(el, idx) {
+      if (el.classList.contains('flipped') || el.classList.contains('matched')) return;
+      if (flipped.length >= 2) return;
+
+      el.classList.add('flipped');
+      const card = cards[idx];
+      if (card.type === 'word') speakText(card.word.word);
+      flipped.push({ el, idx, card });
+
+      if (flipped.length === 2) {
+        const [a, b] = flipped;
+        if (a.card.pairId === b.card.pairId && a.card.type !== b.card.type) {
+          statCorrect++;
+          setTimeout(() => {
+            a.el.classList.add('matched');
+            b.el.classList.add('matched');
+            matched++;
+            flipped = [];
+            if (matched === gameWords.length) onGroupComplete();
+          }, 600);
+        } else {
+          statWrong++;
+          setTimeout(() => {
+            a.el.classList.remove('flipped');
+            b.el.classList.remove('flipped');
+            flipped = [];
+            showFeedback(document.getElementById('feedback'), '不对哦，再试试！', false);
+          }, 800);
+        }
+      }
+    }
+
+    function onGroupComplete() {
+      totalPairSec += pairTimer.stop();
+      updateGroupLabels();
+
+      if (groupIdx < groups.length - 1) {
+        showFeedback(document.getElementById('feedback'), `第 ${groupIdx + 1} 组完成！准备下一组… 🎉`, true);
+        groupIdx++;
+        setTimeout(() => loadGroup(), 1800);
+      } else {
+        finishGame();
+      }
+    }
+
+    function finishGame() {
+      gamePanel.classList.add('hidden');
+      memorizePanel.classList.add('hidden');
+      donePanel.classList.remove('hidden');
+      showFinalGameStats(donePanel, {
+        title: '全部配对完成！',
+        groups: groups.length,
+        totalItems: totalWordCount,
+        correct: statCorrect,
+        wrong: statWrong,
+        timeSec: totalMemSec + totalPairSec,
+        extraRows: [
+          { label: '记忆用时', value: formatTime(totalMemSec) },
+          { label: '配对用时', value: formatTime(totalPairSec) }
+        ],
+        onRetry: () => { donePanel.classList.add('hidden'); setupPanel.classList.remove('hidden'); }
+      });
+    }
+  </script>
+</body>
+</html>
