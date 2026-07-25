@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>游戏六：听音捞鱼 · 七年级上</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+<body>
+  <div class="container">
+    <div class="top-bar">
+      <a class="course-logo" href="index.html" title="Steven's Class English Studio">
+        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/logo.png" alt="Steven's Class English Studio">
+      </a>
+      <a class="back-link" href="index.html"><i class="fa-solid fa-house"></i> 返回</a>
+      <h1 class="page-title"><i class="fa-solid fa-fish"></i> 听音捞鱼</h1>
+    </div>
+
+    <div class="card" id="setupPanel">
+      <div id="reviewWordSummary"></div>
+      <p style="color:#636e72;font-size:0.9rem;margin:8px 0;">
+        听单词发音，在限时内点击正确的「单词鱼」！每组 4 题，连击有惊喜 🎣
+      </p>
+      <button class="btn btn-primary btn-lg" id="btnStart"><i class="fa-solid fa-play"></i> 开始游戏</button>
+    </div>
+
+    <div class="card game-area fish-game-area hidden" id="gamePanel">
+      <div class="timer-bar">
+        <span><i class="fa-solid fa-layer-group"></i> 第 <strong id="groupNum">1</strong> / <strong id="groupTotal">1</strong> 组</span>
+        <span>第 <strong id="qNum">1</strong> / <strong id="groupSize">4</strong> 题</span>
+        <span><i class="fa-solid fa-stopwatch"></i> <strong id="gameTime">0:00</strong></span>
+      </div>
+
+      <div class="fish-pond" id="fishPond">
+        <div class="fish-pond-waves" aria-hidden="true"></div>
+        <div class="fish-pond-bubbles" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+
+        <div class="fish-listen-zone">
+          <p><i class="fa-solid fa-headphones"></i> 听一听，哪条鱼是正确答案？</p>
+          <button type="button" class="fish-listen-btn" id="btnReplay" title="再听一遍">
+            <i class="fa-solid fa-volume-high"></i>
+          </button>
+        </div>
+
+        <div class="fish-round-timer" aria-hidden="true">
+          <div class="fish-round-timer-fill" id="roundTimerFill"></div>
+        </div>
+
+        <div class="fish-streak" id="streakDisplay"></div>
+
+        <div class="fish-grid" id="fishGrid"></div>
+      </div>
+
+      <div id="feedback" class="feedback hidden"></div>
+    </div>
+
+    <div class="card hidden" id="donePanel"></div>
+  </div>
+
+  <script src="assets/data/data.js"></script>
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/audio/audio-manifest.js?v=1"></script>
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/audio/local-audio.js?v=1"></script>
+<script src="../assets/js/utils.js"></script>
+  <script>
+    const ROUND_SEC = 12;
+    const FISH_EMOJI = ['🐠', '🐟', '🐡', '🦈'];
+
+    let groups = [], groupIdx = 0, qIdx = 0;
+    let statCorrect = 0, statWrong = 0, totalWords = 0;
+    let gameTimer = null, roundTimer = null, roundTick = null;
+    let answered = false, unitId = '', streak = 0, wordPool = [];
+    let currentWord = null;
+
+    const gamePanel = document.getElementById('gamePanel');
+    const donePanel = document.getElementById('donePanel');
+    const fishGrid = document.getElementById('fishGrid');
+    const feedback = document.getElementById('feedback');
+    const roundTimerFill = document.getElementById('roundTimerFill');
+    const streakDisplay = document.getElementById('streakDisplay');
+
+    renderReviewWordSummary(document.getElementById('reviewWordSummary'));
+    document.getElementById('btnStart').addEventListener('click', startGame);
+    document.getElementById('btnReplay').addEventListener('click', () => {
+      if (currentWord) speakText(currentWord.word);
+    });
+
+    function startGame() {
+      const all = requireReviewWords({ minCount: 1 });
+      if (!all) return;
+      wordPool = all;
+      groups = chunkGroups(all);
+      groupIdx = 0;
+      qIdx = 0;
+      statCorrect = 0;
+      statWrong = 0;
+      streak = 0;
+      totalWords = all.length;
+      document.getElementById('setupPanel').classList.add('hidden');
+      donePanel.classList.add('hidden');
+      gamePanel.classList.remove('hidden');
+      gameTimer = new GameTimer(document.getElementById('gameTime'));
+      gameTimer.start();
+      showRound();
+    }
+
+    function clearRoundTimer() {
+      if (roundTick) clearInterval(roundTick);
+      roundTick = null;
+      roundTimer = null;
+    }
+
+    function startRoundTimer() {
+      clearRoundTimer();
+      let left = ROUND_SEC;
+      roundTimerFill.style.width = '100%';
+      roundTimerFill.classList.remove('urgent');
+      roundTimerFill.style.transition = 'none';
+      requestAnimationFrame(() => {
+        roundTimerFill.style.transition = 'width 1s linear';
+      });
+
+      roundTick = setInterval(() => {
+        left -= 1;
+        const pct = Math.max(0, (left / ROUND_SEC) * 100);
+        roundTimerFill.style.width = pct + '%';
+        if (left <= 4) roundTimerFill.classList.add('urgent');
+        if (left <= 0) {
+          clearRoundTimer();
+          if (!answered) onTimeout();
+        }
+      }, 1000);
+    }
+
+    function spawnSplash(x, y) {
+      const pond = document.getElementById('fishPond');
+      for (let i = 0; i < 6; i++) {
+        const s = document.createElement('span');
+        s.className = 'fish-splash';
+        s.style.left = (x + (Math.random() - 0.5) * 40) + 'px';
+        s.style.top = (y + (Math.random() - 0.5) * 30) + 'px';
+        pond.appendChild(s);
+        setTimeout(() => s.remove(), 700);
+      }
+    }
+
+    function showRound() {
+      if (groupIdx >= groups.length) {
+        finishGame();
+        return;
+      }
+      const group = groups[groupIdx];
+      if (qIdx >= group.length) {
+        if (groupIdx < groups.length - 1) {
+          showFeedback(feedback, `第 ${groupIdx + 1} 组捞完啦！下一组… 🎣`, true);
+          groupIdx++;
+          qIdx = 0;
+          setTimeout(showRound, 1500);
+        } else {
+          finishGame();
+        }
+        return;
+      }
+
+      updateGroupProgress(groupIdx, groups.length, { num: 'groupNum', total: 'groupTotal' });
+      document.getElementById('qNum').textContent = qIdx + 1;
+      document.getElementById('groupSize').textContent = group.length;
+
+      answered = false;
+      currentWord = group[qIdx];
+      feedback.classList.add('hidden');
+      streakDisplay.textContent = streak >= 2 ? `🔥 连击 ×${streak}` : '';
+
+      const options = pickQuizOptions(currentWord, wordPool, 4, item => item.word);
+
+      fishGrid.innerHTML = '';
+      options.forEach((opt, i) => {
+        const card = document.createElement('button');
+        card.type = 'button';
+        card.className = 'fish-card';
+        card.dataset.wordId = opt.word.id;
+        card.innerHTML = `
+          <span class="fish-card-icon">${FISH_EMOJI[i % FISH_EMOJI.length]}</span>
+          <span class="fish-card-word">${opt.label}</span>`;
+        card.addEventListener('click', e => onPick(card, opt.word.id === currentWord.id, e));
+        fishGrid.appendChild(card);
+      });
+
+      speakText(currentWord.word);
+      startRoundTimer();
+    }
+
+    function onTimeout() {
+      answered = true;
+      streak = 0;
+      statWrong++;
+      streakDisplay.textContent = '';
+      fishGrid.querySelectorAll('.fish-card').forEach(c => c.classList.add('disabled'));
+      const correctCard = fishGrid.querySelector(`[data-word-id="${currentWord.id}"]`);
+      if (correctCard) correctCard.classList.add('wrong');
+      showFeedback(feedback, `时间到！答案是 ${currentWord.word}`, false);
+      setTimeout(() => { qIdx++; showRound(); }, 1400);
+    }
+
+    function onPick(card, isCorrect, e) {
+      if (answered) return;
+      answered = true;
+      clearRoundTimer();
+
+      const rect = card.getBoundingClientRect();
+      const pondRect = document.getElementById('fishPond').getBoundingClientRect();
+      spawnSplash(rect.left - pondRect.left + rect.width / 2, rect.top - pondRect.top + rect.height / 2);
+
+      fishGrid.querySelectorAll('.fish-card').forEach(c => c.classList.add('disabled'));
+
+      if (isCorrect) {
+        streak++;
+        statCorrect++;
+        card.classList.add('correct');
+        const msg = streak >= 3 ? `连击 ×${streak}！捞到大鱼啦！🎉` : streak >= 2 ? '连击！捞对了！🐟' : '捞对了！🌟';
+        showFeedback(feedback, msg, true);
+        speakText(currentWord.word);
+      } else {
+        streak = 0;
+        statWrong++;
+        card.classList.add('wrong');
+        const correctCard = fishGrid.querySelector(`[data-word-id="${currentWord.id}"]`);
+        if (correctCard) {
+          setTimeout(() => correctCard.classList.add('correct'), 400);
+        }
+        showFeedback(feedback, `哎呀！正确答案是 ${currentWord.word}`, false);
+      }
+      streakDisplay.textContent = '';
+      setTimeout(() => { qIdx++; showRound(); }, 1300);
+    }
+
+    function finishGame() {
+      clearRoundTimer();
+      const timeSec = gameTimer.stop();
+      gamePanel.classList.add('hidden');
+      donePanel.classList.remove('hidden');
+      showFinalGameStats(donePanel, {
+        title: '听音捞鱼完成！',
+        groups: groups.length,
+        totalItems: totalWords,
+        itemLabel: '道题',
+        correct: statCorrect,
+        wrong: statWrong,
+        timeSec,
+        extraRows: streak > 0 ? [] : [],
+        onRetry: () => {
+          donePanel.classList.add('hidden');
+          document.getElementById('setupPanel').classList.remove('hidden');
+        }
+      });
+    }
+  </script>
+</body>
+</html>
