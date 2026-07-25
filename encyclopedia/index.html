@@ -451,7 +451,7 @@
                     "Authorization": `Bearer ${CONFIG.deepseekKey}`
                 },
                 body: JSON.stringify({
-                    model: "deepseek-chat", 
+                    model: "deepseek-v4-flash", 
                     messages: [{role: "user", content: prompt}],
                     // 不设置 max_tokens 或设置得很大，保证回答完整
                     temperature: 1.0 
@@ -613,7 +613,7 @@
         try {
             const res = await fetch("https://api.deepseek.com/v1/chat/completions", {
                 method:"POST", headers:{"Content-Type":"application/json", "Authorization":`Bearer ${CONFIG.deepseekKey}`},
-                body:JSON.stringify({model: "deepseek-chat", messages:[{role:"user", content:prompt}]})
+                body:JSON.stringify({model: "deepseek-v4-flash", messages:[{role:"user", content:prompt}]})
             });
             const d = await res.json();
             const i = JSON.parse(d.choices[0].message.content.replace(/```json|```/g,''));
@@ -645,7 +645,7 @@
         try {
             const res = await fetch("https://api.deepseek.com/v1/chat/completions", {
                 method:"POST", headers:{"Content-Type":"application/json", "Authorization":`Bearer ${CONFIG.deepseekKey}`},
-                body:JSON.stringify({model: "deepseek-chat", messages:[{role:"user", content:question}]})
+                body:JSON.stringify({model: "deepseek-v4-flash", messages:[{role:"user", content:question}]})
             });
             const d = await res.json();
             resBox.innerHTML = `<div class="chat-response">${d.choices[0].message.content}</div>`;
@@ -741,7 +741,7 @@
         const prompt = `Context: Education. Q: "${safeQ}" A: "${q.answer}". Output JSON: {"trans":"中文翻译","eng":"Simple English explanation","chn":"详细中文解析"}`;
         fetch("https://api.deepseek.com/v1/chat/completions", {
                 method:"POST", headers:{"Content-Type":"application/json", "Authorization":`Bearer ${CONFIG.deepseekKey}`},
-                body:JSON.stringify({model:"deepseek-chat", messages:[{role:"user", content:prompt}]})
+                body:JSON.stringify({model:"deepseek-v4-flash", messages:[{role:"user", content:prompt}]})
         }).then(r=>r.json()).then(d=>{
             const res = JSON.parse(d.choices[0].message.content.replace(/```json|```/g,''));
             renderAI(res);

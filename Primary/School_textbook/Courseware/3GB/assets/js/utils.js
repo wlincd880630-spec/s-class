@@ -12,7 +12,7 @@ const AZURE_CONFIG = {
 const DEEPSEEK_CONFIG = {
   apiKey: 'sk-daa16008e81843deba6fefe9dce51465',
   url: 'https://api.deepseek.com/chat/completions',
-  model: 'deepseek-chat'
+  model: 'deepseek-v4-flash'
 };
 
 const STORAGE_PREFIX = 'fltrp_g3x_';

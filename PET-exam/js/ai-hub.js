@@ -4,7 +4,7 @@
 const AIConfig = {
     key: "sk-daa16008e81843deba6fefe9dce51465", 
     endpoint: "https://api.deepseek.com/v1/chat/completions",
-    model: "deepseek-chat"
+    model: "deepseek-v4-flash"
 };
 
 const AIHub = {
