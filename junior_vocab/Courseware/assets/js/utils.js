@@ -221,34 +221,44 @@ function makeWordCardDataUri(w, variant = 1) {
   const word = (w && w.word) || '';
   const zh = (w && w.chinese) || '';
   const ipa = (w && w.ipa) || '';
+  const desc = (w && w.image_desc_cn) || '';
   const hue = (hashHue(word) + (variant - 1) * 48) % 360;
-  const hue2 = (hue + 36) % 360;
-  const c1 = `hsl(${hue}, 62%, 46%)`;
-  const c2 = `hsl(${hue2}, 55%, 58%)`;
-  const c3 = `hsl(${hue}, 70%, 92%)`;
+  const hue2 = (hue + 42) % 360;
+  const c1 = `hsl(${hue}, 58%, 42%)`;
+  const c2 = `hsl(${hue2}, 52%, 56%)`;
+  const c3 = `hsl(${hue}, 68%, 94%)`;
+  const c4 = `hsl(${hue2}, 45%, 88%)`;
   const displayWord = word.length > 22 ? word.slice(0, 20) + '…' : word;
-  const fontSize = displayWord.length > 14 ? 36 : displayWord.length > 9 ? 44 : 54;
-  const shapes = [
-    `<circle cx="70" cy="70" r="48" fill="${c2}" opacity="0.35"/>`,
-    `<circle cx="470" cy="300" r="70" fill="${c1}" opacity="0.22"/>`,
-    `<rect x="400" y="40" width="90" height="90" rx="22" fill="${c2}" opacity="0.28" transform="rotate(18 445 85)"/>`,
-    `<path d="M40 340 Q120 280 200 340 T360 340" fill="none" stroke="${c1}" stroke-width="10" opacity="0.25" stroke-linecap="round"/>`
+  const fontSize = displayWord.length > 14 ? 34 : displayWord.length > 9 ? 42 : 52;
+  const descShort = desc.length > 28 ? desc.slice(0, 26) + '…' : desc;
+  // 简易 pictogram：按词哈希选一组几何插画，避免纯文字空卡
+  const motif = hashHue(word + variant) % 5;
+  const motifs = [
+    `<g opacity="0.9"><circle cx="110" cy="120" r="46" fill="${c2}"/><rect x="78" y="155" width="64" height="70" rx="12" fill="${c1}"/><circle cx="95" cy="110" r="8" fill="#fff"/><circle cx="125" cy="110" r="8" fill="#fff"/></g>`,
+    `<g opacity="0.9"><ellipse cx="120" cy="180" rx="70" ry="28" fill="${c2}"/><rect x="70" y="90" width="100" height="90" rx="10" fill="${c1}"/><rect x="88" y="108" width="28" height="28" rx="4" fill="#fff" opacity="0.85"/><rect x="124" y="108" width="28" height="28" rx="4" fill="#fff" opacity="0.85"/></g>`,
+    `<g opacity="0.9"><path d="M60 200 L120 80 L180 200 Z" fill="${c1}"/><circle cx="120" cy="70" r="22" fill="${c2}"/><rect x="100" y="200" width="40" height="18" rx="4" fill="${c2}"/></g>`,
+    `<g opacity="0.9"><circle cx="120" cy="150" r="70" fill="${c2}" opacity="0.35"/><path d="M70 170 Q120 60 170 170" fill="${c1}"/><circle cx="120" cy="120" r="18" fill="#fff" opacity="0.9"/></g>`,
+    `<g opacity="0.9"><rect x="55" y="100" width="130" height="100" rx="16" fill="${c1}"/><circle cx="120" cy="150" r="28" fill="${c2}"/><path d="M90 210 H150" stroke="#fff" stroke-width="8" stroke-linecap="round"/></g>`
   ];
   const svg = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="560" height="400" viewBox="0 0 560 400">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="${c3}"/>
-      <stop offset="100%" stop-color="#ffffff"/>
+      <stop offset="55%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="${c4}"/>
     </linearGradient>
   </defs>
   <rect width="560" height="400" rx="28" fill="url(#bg)"/>
-  <rect x="18" y="18" width="524" height="364" rx="22" fill="none" stroke="${c1}" stroke-width="3" opacity="0.35"/>
-  ${shapes.join('\n  ')}
-  <text x="280" y="168" text-anchor="middle" font-family="DM Sans, Noto Sans SC, sans-serif" font-size="${fontSize}" font-weight="700" fill="#134e4a">${escSvg(displayWord)}</text>
-  <text x="280" y="220" text-anchor="middle" font-family="DM Sans, ui-monospace, monospace" font-size="22" fill="#0f766e">${escSvg(ipa)}</text>
-  <text x="280" y="280" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="28" font-weight="600" fill="#0d9488">${escSvg(zh)}</text>
-  <text x="280" y="340" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="14" fill="#5b7c78" letter-spacing="2">WORD PARK · PEP</text>
+  <rect x="16" y="16" width="528" height="368" rx="22" fill="none" stroke="${c1}" stroke-width="3" opacity="0.28"/>
+  <circle cx="480" cy="70" r="54" fill="${c2}" opacity="0.22"/>
+  <circle cx="40" cy="320" r="36" fill="${c1}" opacity="0.16"/>
+  <g transform="translate(20,40)">${motifs[motif]}</g>
+  <text x="340" y="150" text-anchor="middle" font-family="DM Sans, Noto Sans SC, sans-serif" font-size="${fontSize}" font-weight="700" fill="#134e4a">${escSvg(displayWord)}</text>
+  <text x="340" y="198" text-anchor="middle" font-family="DM Sans, ui-monospace, monospace" font-size="20" fill="#0f766e">${escSvg(ipa)}</text>
+  <text x="340" y="248" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="26" font-weight="600" fill="#0d9488">${escSvg(zh)}</text>
+  ${descShort ? `<text x="340" y="292" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="14" fill="#5b7c78">${escSvg(descShort)}</text>` : ''}
+  <text x="340" y="340" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="13" fill="#5b7c78" letter-spacing="1.5">WORD PARK · PEP JUNIOR</text>
 </svg>`;
   return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
 }
