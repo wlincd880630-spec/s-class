@@ -1557,6 +1557,41 @@ function ensureWordImages() {
 }
 ensureWordImages();
 
+/** 词卡配图点击放大预览 */
+function openImageLightbox(src, alt = '') {
+  if (!src) return;
+  let overlay = document.getElementById('imageLightbox');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'imageLightbox';
+    overlay.className = 'image-lightbox';
+    overlay.innerHTML = `
+      <button type="button" class="image-lightbox-close" aria-label="关闭预览">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <img alt="">
+    `;
+    document.body.appendChild(overlay);
+
+    const close = () => {
+      overlay.classList.remove('is-open');
+      document.body.style.overflow = '';
+    };
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay || e.target.closest('.image-lightbox-close')) close();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && overlay.classList.contains('is-open')) close();
+    });
+  }
+
+  const img = overlay.querySelector('img');
+  img.src = src;
+  img.alt = alt || '';
+  overlay.classList.add('is-open');
+  document.body.style.overflow = 'hidden';
+}
+
 // ─── 页面初始化动画 ───
 document.addEventListener('DOMContentLoaded', () => {
   document.body.classList.add('page-enter');

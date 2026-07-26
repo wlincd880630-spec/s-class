@@ -1532,6 +1532,7 @@ body.show-dictation-answers .dictation-answer {
   gap: 12px;
   justify-content: center;
   margin-bottom: 16px;
+  align-items: stretch;
 }
 
 .target-word-item {
@@ -1540,35 +1541,113 @@ body.show-dictation-answers .dictation-answer {
   background: #fff;
   border-radius: 12px;
   border: 2px solid var(--blue);
-  min-width: 80px;
+  width: 148px;
+  max-width: calc(50% - 8px);
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
 }
 
 .target-word-item img {
-  width: 60px;
-  height: 60px;
+  width: 100px;
+  height: 100px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  cursor: zoom-in;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.target-word-item img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
 .target-word-item.done { border-color: var(--green-dark); background: #dfffed; }
 
 .target-word-chinese {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: #636e72;
   margin-top: 6px;
-  line-height: 1.3;
+  line-height: 1.35;
+  width: 100%;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 .target-word-speak {
-  margin-top: 4px;
-  padding: 2px 10px;
-  font-size: 0.8rem;
+  margin-top: 6px;
+  width: 28px;
+  height: 28px;
+  min-height: 28px;
+  padding: 0;
+  font-size: 0.72rem;
+  border-radius: 50%;
+  gap: 0;
+  flex-shrink: 0;
 }
 
 .target-word-item .word-label {
   font-weight: 700;
   margin-top: 6px;
   font-size: 0.95rem;
+  width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* 词卡配图放大预览 */
+.image-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(20, 24, 28, 0.72);
+  backdrop-filter: blur(2px);
+  cursor: zoom-out;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.image-lightbox.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.image-lightbox img {
+  max-width: min(92vw, 520px);
+  max-height: 82vh;
+  object-fit: contain;
+  border-radius: 14px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
+  background: #fff;
+  cursor: default;
+}
+
+.image-lightbox-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  min-height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: #2d3436;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
 }
 
 /* 记忆配对 */
