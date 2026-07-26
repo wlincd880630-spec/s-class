@@ -23,7 +23,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/meɪk frendz/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/make_friends_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/make_friends_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/make_friends_2.jpg",
           "usage": "动词短语，常与 with 连用，表示与某人建立友谊。",
           "collocations": [
             "make friends with",
@@ -56,7 +56,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡet tə noʊ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/get_to_know_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/get_to_know_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/get_to_know_2.jpg",
           "usage": "表示通过时间或接触慢慢熟悉某人或某物，强调过程而非瞬间动作。",
           "collocations": [
             "get to know each other",
@@ -90,7 +90,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/fʊl/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/full_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/full_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/full_2.jpg",
           "usage": "形容词，常与 be 动词连用，表示某物被完全填满或某状态达到极限。",
           "collocations": [
             "be full of",
@@ -123,7 +123,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/fʊl neɪm/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/full_name_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/full_name_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/full_name_2.jpg",
           "usage": "用于正式场合或表格中，表示一个人的完整姓名，通常包括名（given name）和姓（family name）。",
           "collocations": [
             "write your full name",
@@ -157,7 +157,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡreɪd/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/grade_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/grade_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/grade_2.jpg",
           "usage": "grade 可指学校的年级，也可指作业或考试的分数等级。",
           "collocations": [
             "good grade",
@@ -191,7 +191,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/læst neɪm/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/last_name_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/last_name_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/last_name_2.jpg",
           "usage": "用于指代一个人的家族姓氏，常与 first name（名字）相对。",
           "collocations": [
             "write your last name",
@@ -224,7 +224,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈklɑːs.meɪt/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/classmate_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/classmate_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/classmate_2.jpg",
           "usage": "指在同一班级学习的人，常用于描述学校中一起上课的伙伴。",
           "collocations": [
             "my classmate",
@@ -258,7 +258,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/klɑːs ˈtiːtʃər/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/class_teacher_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/class_teacher_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/class_teacher_2.jpg",
           "usage": "class teacher 指负责管理一个班级的教师，常用于学校语境。",
           "collocations": [
             "our class teacher",
@@ -292,7 +292,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/hɒt pɒt/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/hot_pot_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/hot_pot_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/hot_pot_2.jpg",
           "usage": "名词，指一种将食材放入沸腾汤底中煮熟食用的中式烹饪方式。",
           "collocations": [
             "have hot pot",
@@ -328,7 +328,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/wʊd/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/Wood_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/Wood_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/Wood_2.jpg",
           "usage": "Wood 是不可数名词，指作为材料的木头或木材；也可指一片树林（woods）。",
           "collocations": [
             "a piece of wood",
@@ -363,7 +363,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsɪdni/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/Sydney_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/Sydney_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/Sydney_2.jpg",
           "usage": "Sydney 是专有名词，通常指澳大利亚最大的城市，常用于谈论旅行、地理位置或文化地标。",
           "collocations": [
             "visit Sydney",
@@ -398,7 +398,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɒˈstreɪliə/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/Australia_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/Australia_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/Australia_2.jpg",
           "usage": "名词，指大洋洲的一个国家，首都为堪培拉。",
           "collocations": [
             "in Australia",
@@ -434,7 +434,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmɑːpoʊ ˈtuːfuː/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/Mapo_tofu_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/Mapo_tofu_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/Mapo_tofu_2.jpg",
           "usage": "Mapo tofu 通常作为不可数名词使用，指一道菜。",
           "collocations": [
             "eat Mapo tofu",
@@ -469,7 +469,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌsɪŋəˈpɔːr/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/Singapore_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/Singapore_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/Singapore_2.jpg",
           "usage": "Singapore 用作专有名词，指代国家或城市，常与 in, from, to 等介词连用。",
           "collocations": [
             "Singapore is a small country.",
@@ -504,7 +504,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ðə ɡreɪt wɔːl/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/the_Great_Wall_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/the_Great_Wall_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/the_Great_Wall_2.jpg",
           "usage": "专有名词，通常与定冠词 the 连用，首字母大写。",
           "collocations": [
             "visit the Great Wall",
@@ -539,7 +539,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈlʌndən/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/London_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/London_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/London_2.jpg",
           "usage": "专有名词，指英国的首都城市。",
           "collocations": [
             "visit London",
@@ -574,7 +574,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/fɜːrst neɪm/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/first_name_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/first_name_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/first_name_2.jpg",
           "usage": "用于指代一个人的个人名字，通常在姓氏之前。",
           "collocations": [
             "write your first name",
@@ -608,7 +608,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/mɪˈsteɪk/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/mistake_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/mistake_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/mistake_2.jpg",
           "usage": "名词，指在行为、判断或理解中出现的错误。",
           "collocations": [
             "make a mistake",
@@ -642,7 +642,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkʌntri/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/country_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/country_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/country_2.jpg",
           "usage": "可数名词，指一个独立的政治地理区域，也可指乡村地区。",
           "collocations": [
             "home country",
@@ -678,7 +678,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/seɪm/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/same_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/same_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/same_2.jpg",
           "usage": "形容词，常与 the 连用，表示两个或以上事物完全一致。",
           "collocations": [
             "the same as",
@@ -711,7 +711,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/twɪn/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/twin_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/twin_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/twin_2.jpg",
           "usage": "twin 作名词指双胞胎之一，作形容词表示成双的、双胞胎的。",
           "collocations": [
             "twin sister",
@@ -745,7 +745,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/boʊθ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/both_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/both_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/both_2.jpg",
           "usage": "both 用于指代两个人或事物，常与 and 连用构成 both...and... 结构，表示“两者都”。",
           "collocations": [
             "both sides",
@@ -779,7 +779,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/bænd/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/band_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/band_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/band_2.jpg",
           "usage": "可数名词，常指演奏流行音乐、摇滚乐等的乐队，也可指带状物或一群有共同目的的人。",
           "collocations": [
             "rock band",
@@ -815,7 +815,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pɒt/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/pot_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/pot_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/pot_2.jpg",
           "usage": "名词，指用于烹饪、盛放食物或种植植物的容器。",
           "collocations": [
             "cooking pot",
@@ -850,7 +850,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ə lɒt/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/a_lot_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/a_lot_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/a_lot_2.jpg",
           "usage": "常用于修饰动词，表示程度或数量大，也可修饰比较级。",
           "collocations": [
             "like a lot",
@@ -881,7 +881,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈtoʊfuː/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/tofu_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/tofu_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/tofu_2.jpg",
           "usage": "可数名词（常作不可数名词，表示食物）",
           "collocations": [
             "tofu soup",
@@ -917,7 +917,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpærət/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/parrot_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/parrot_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/parrot_2.jpg",
           "usage": "名词，指一种色彩鲜艳、能模仿人说话的鸟。",
           "collocations": [
             "talking parrot",
@@ -953,7 +953,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡɪˈtɑːr/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/guitar_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/guitar_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/guitar_2.jpg",
           "usage": "可数名词，指一种弦乐器。",
           "collocations": [
             "play the guitar",
@@ -988,7 +988,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈtenɪs/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/tennis_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/tennis_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/tennis_2.jpg",
           "usage": "tennis 是不可数名词，常与 play 搭配表示打网球。",
           "collocations": [
             "play tennis",
@@ -1024,7 +1024,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/peɪdʒ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/page_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/page_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/page_2.jpg",
           "usage": "名词，指书、笔记本、文件等的一面或一页。",
           "collocations": [
             "turn the page",
@@ -1058,7 +1058,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈiːvən/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/even_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/even_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/even_2.jpg",
           "usage": "常用于加强语气，表示出乎意料或强调程度；也可作形容词表示表面平整或数量相等。",
           "collocations": [
             "even better",
@@ -1090,7 +1090,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/heɪ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/hey_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/hey_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/hey_2.jpg",
           "usage": "用于非正式场合，呼唤某人或表示惊讶、提醒。",
           "collocations": [
             "say hey",
@@ -1123,7 +1123,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pleɪ ðə ɡɪˈtɑːr/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/play_the_guitar_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/play_the_guitar_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/play_the_guitar_2.jpg",
           "usage": "表示演奏吉他这一乐器，play后接乐器时通常加定冠词the。",
           "collocations": [
             "play the guitar well",
@@ -1157,7 +1157,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/wʊd/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/would_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/would_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/would_2.jpg",
           "usage": "情态动词，后接动词原形，常用于礼貌请求、假设或过去习惯。",
           "collocations": [
             "would like",
@@ -1191,7 +1191,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌɪnfərˈmeɪʃn/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/information_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/information_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/information_2.jpg",
           "usage": "不可数名词，表示关于某人或某事的事实或细节。",
           "collocations": [
             "useful information",
@@ -1225,7 +1225,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈhɒbi/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/hobby_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/hobby_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/hobby_2.jpg",
           "usage": "可数名词，指在空闲时间经常做的活动。",
           "collocations": [
             "have a hobby",
@@ -1258,7 +1258,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡriːn/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/green_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/green_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/green_2.jpg",
           "usage": "形容词，描述颜色或未成熟的状态。",
           "collocations": [
             "green light",
@@ -1292,7 +1292,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌjuːˈkeɪ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/UK_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/UK_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/UK_2.jpg",
           "usage": "UK 是 United Kingdom 的缩写，用作专有名词，通常前面加定冠词 the。",
           "collocations": [
             "the UK government",
@@ -1327,7 +1327,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ʌs/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/US_1.jpg",
-          "image2": "../../G7_B1/Unit1/images/US_1.jpg",
+          "image2": "../../G7_B1/Unit1/images/US_2.jpg",
           "usage": "作动词或介词的宾语，表示“我们”",
           "collocations": [
             "tell us",
@@ -1371,7 +1371,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/miːn/",
           "phonemes": [],
           "image": "../../G7_B1/Unit2/images/mean_1.jpg",
-          "image2": "../../G7_B1/Unit2/images/mean_1.jpg",
+          "image2": "../../G7_B1/Unit2/images/mean_2.jpg",
           "usage": "动词，表示某词或符号的含义。",
           "collocations": [
             "mean something",
@@ -1403,7 +1403,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈhʌzbənd/",
           "phonemes": [],
           "image": "../../G7_B1/Unit2/images/husband_1.jpg",
-          "image2": "../../G7_B1/Unit2/images/husband_1.jpg",
+          "image2": "../../G7_B1/Unit2/images/husband_2.jpg",
           "usage": "名词，指已婚男性配偶。",
           "collocations": [
             "her husband",
@@ -1437,7 +1437,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/bæt/",
           "phonemes": [],
           "image": "../../G7_B1/Unit2/images/bat_1.jpg",
-          "image2": "../../G7_B1/Unit2/images/bat_1.jpg",
+          "image2": "../../G7_B1/Unit2/images/bat_2.jpg",
           "usage": "名词，指运动用的击球工具，或指一种夜间飞行的哺乳动物。",
           "collocations": [
             "baseball bat",
@@ -1471,7 +1471,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpɪŋ pɒŋ bæt/",
           "phonemes": [],
           "image": "../../G7_B1/Unit2/images/ping-pong_bat_1.jpg",
-          "image2": "../../G7_B1/Unit2/images/ping-pong_bat_1.jpg",
+          "image2": "../../G7_B1/Unit2/images/ping-pong_bat_2.jpg",
           "usage": "名词短语，指打乒乓球用的球拍。",
           "collocations": [
             "hold a ping-pong bat",
@@ -1504,7 +1504,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pleɪ ˈpɪŋ pɒŋ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit2/images/play_ping-pong_1.jpg",
-          "image2": "../../G7_B1/Unit2/images/play_ping-pong_1.jpg",
+          "image2": "../../G7_B1/Unit2/images/play_ping-pong_2.jpg",
           "usage": "动词短语，表示进行乒乓球运动。",
           "collocations": [
             "like to play ping-pong",
@@ -1537,7 +1537,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/təˈɡeðər/",
           "phonemes": [],
           "image": "../../G7_B1/Unit2/images/together_1.jpg",
-          "image2": "../../G7_B1/Unit2/images/together_1.jpg",
+          "image2": "../../G7_B1/Unit2/images/together_2.jpg",
           "usage": "副词，表示两个或以上的人/物在同一时间或同一地点做某事。",
           "collocations": [
             "get together",
@@ -1570,7 +1570,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈevri deɪ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit2/images/every_day_1.jpg",
-          "image2": "../../G7_B1/Unit2/images/every_day_1.jpg",
+          "image2": "../../G7_B1/Unit2/images/every_day_2.jpg",
           "usage": "副词短语，表示动作每天发生。注意与形容词 'everyday'（日常的）区分。",
           "collocations": [
             "every day of the week",
@@ -1601,7 +1601,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈfɪʃɪŋ rɒd/",
           "phonemes": [],
           "image": "../../G7_B1/Unit2/images/fishing_rod_1.jpg",
-          "image2": "../../G7_B1/Unit2/images/fishing_rod_1.jpg",
+          "image2": "../../G7_B1/Unit2/images/fishing_rod_2.jpg",
           "usage": "可数名词，指用来钓鱼的工具，通常由竿、线和鱼钩组成。",
           "collocations": [
             "hold a fishing rod",
@@ -1635,7 +1635,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/spend/",
           "phonemes": [],
           "image": "../../G7_B1/Unit2/images/spend_1.jpg",
-          "image2": "../../G7_B1/Unit2/images/spend_1.jpg",
+          "image2": "../../G7_B1/Unit2/images/spend_2.jpg",
           "usage": "动词，后接时间或金钱。常用结构：spend time/money on sth. 或 spend time (in) doing sth.",
           "collocations": [
             "spend money",
@@ -1669,7 +1669,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ə lɒt əv/",
           "phonemes": [],
           "image": "../../G7_B1/Unit2/images/a_lot_of_1.jpg",
-          "image2": "../../G7_B1/Unit2/images/a_lot_of_1.jpg",
+          "image2": "../../G7_B1/Unit2/images/a_lot_of_2.jpg",
           "usage": "形容词短语，修饰可数名词复数或不可数名词，表示数量多。口语中常用。",
           "collocations": [
             "a lot of people",
@@ -1700,7 +1700,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈriːəli/",
           "phonemes": [],
           "image": "../../G7_B1/Unit2/images/really_1.jpg",
-          "image2": "../../G7_B1/Unit2/images/really_1.jpg",
+          "image2": "../../G7_B1/Unit2/images/really_2.jpg",
           "usage": "副词，用于强调形容词、副词或动词的真实性。",
           "collocations": [
             "really good",
@@ -1731,7 +1731,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmembər/",
           "phonemes": [],
           "image": "../../G7_B1/Unit2/images/member_1.jpg",
-          "image2": "../../G7_B1/Unit2/images/member_1.jpg",
+          "image2": "../../G7_B1/Unit2/images/member_2.jpg",
           "usage": "名词，指属于某个团体、组织或俱乐部的人。",
           "collocations": [
             "family member",
@@ -1764,7 +1764,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ækˈtɪvəti/",
           "phonemes": [],
           "image": "../../G7_B1/Unit2/images/activity_1.jpg",
-          "image2": "../../G7_B1/Unit2/images/activity_1.jpg",
+          "image2": "../../G7_B1/Unit2/images/activity_2.jpg",
           "usage": "名词，指人们为了乐趣、学习或锻炼而做的事情。",
           "collocations": [
             "outdoor activity",
@@ -1797,7 +1797,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/tʃes/",
           "phonemes": [],
           "image": "../../G7_B1/Unit2/images/chess_1.jpg",
-          "image2": "../../G7_B1/Unit2/images/chess_1.jpg",
+          "image2": "../../G7_B1/Unit2/images/chess_2.jpg",
           "usage": "名词，一种两人对弈的棋盘游戏。",
           "collocations": [
             "play chess",
@@ -1828,7 +1828,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/tʃaɪˈniːz tʃes/",
           "phonemes": [],
           "image": "../../G7_B1/Unit2/images/Chinese_chess_1.jpg",
-          "image2": "../../G7_B1/Unit2/images/Chinese_chess_1.jpg",
+          "image2": "../../G7_B1/Unit2/images/Chinese_chess_2.jpg",
           "usage": "名词短语，一种流行于中国的传统两人棋盘游戏。",
           "collocations": [
             "play Chinese chess",
@@ -1859,7 +1859,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈɡrænpeərənt/",
           "phonemes": [],
           "image": "../../G7_B1/Unit2/images/grandparent_1.jpg",
-          "image2": "../../G7_B1/Unit2/images/grandparent_1.jpg",
+          "image2": "../../G7_B1/Unit2/images/grandparent_2.jpg",
           "usage": "常指祖父或祖母，也可统称祖辈。",
           "collocations": [
             "visit grandparent",
@@ -1893,7 +1893,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈfʌni/",
           "phonemes": [],
           "image": "../../G7_B1/Unit2/images/funny_1.jpg",
-          "image2": "../../G7_B1/Unit2/images/funny_1.jpg",
+          "image2": "../../G7_B1/Unit2/images/funny_2.jpg",
           "usage": "形容事物或行为让人发笑。",
           "collocations": [
             "funny story",
@@ -1927,7 +1927,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/læf/",
           "phonemes": [],
           "image": "../../G7_B1/Unit2/images/laugh_1.jpg",
-          "image2": "../../G7_B1/Unit2/images/laugh_1.jpg",
+          "image2": "../../G7_B1/Unit2/images/laugh_2.jpg",
           "usage": "动词，表示发出笑声。",
           "collocations": [
             "laugh loudly",
@@ -1961,7 +1961,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈdɪfərənt/",
           "phonemes": [],
           "image": "../../G7_B1/Unit2/images/different_1.jpg",
-          "image2": "../../G7_B1/Unit2/images/different_1.jpg",
+          "image2": "../../G7_B1/Unit2/images/different_2.jpg",
           "usage": "形容词，表示事物之间有差异。",
           "collocations": [
             "different colors",
@@ -1995,7 +1995,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌvaɪəˈlɪn/",
           "phonemes": [],
           "image": "../../G7_B1/Unit2/images/violin_1.jpg",
-          "image2": "../../G7_B1/Unit2/images/violin_1.jpg",
+          "image2": "../../G7_B1/Unit2/images/violin_2.jpg",
           "usage": "可数名词，指一种弦乐器。",
           "collocations": [
             "play the violin",
@@ -2029,7 +2029,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/hæv fʌn/",
           "phonemes": [],
           "image": "../../G7_B1/Unit2/images/have_fun_1.jpg",
-          "image2": "../../G7_B1/Unit2/images/have_fun_1.jpg",
+          "image2": "../../G7_B1/Unit2/images/have_fun_2.jpg",
           "usage": "动词短语，常用于祈使句或描述活动。",
           "collocations": [
             "have fun with friends",
@@ -2062,7 +2062,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/hæt/",
           "phonemes": [],
           "image": "../../G7_B1/Unit2/images/hat_1.jpg",
-          "image2": "../../G7_B1/Unit2/images/hat_1.jpg",
+          "image2": "../../G7_B1/Unit2/images/hat_2.jpg",
           "usage": "可数名词，指戴在头上的服饰。",
           "collocations": [
             "wear a hat",
@@ -2096,7 +2096,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈhænsəm/",
           "phonemes": [],
           "image": "../../G7_B1/Unit2/images/handsome_1.jpg",
-          "image2": "../../G7_B1/Unit2/images/handsome_1.jpg",
+          "image2": "../../G7_B1/Unit2/images/handsome_2.jpg",
           "usage": "形容词，通常形容男性外表好看。",
           "collocations": [
             "a handsome man",
@@ -2130,7 +2130,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/niː/",
           "phonemes": [],
           "image": "../../G7_B1/Unit2/images/knee_1.jpg",
-          "image2": "../../G7_B1/Unit2/images/knee_1.jpg",
+          "image2": "../../G7_B1/Unit2/images/knee_2.jpg",
           "usage": "可数名词，指腿中间的关节部位。",
           "collocations": [
             "hurt one's knee",
@@ -2165,7 +2165,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/æt naɪt/",
           "phonemes": [],
           "image": "../../G7_B1/Unit2/images/at_night_1.jpg",
-          "image2": "../../G7_B1/Unit2/images/at_night_1.jpg",
+          "image2": "../../G7_B1/Unit2/images/at_night_2.jpg",
           "usage": "表示在夜间发生某事，常与一般现在时或过去时连用。",
           "collocations": [
             "work at night",
@@ -2199,7 +2199,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪn ðə ˈmɪd.əl/",
           "phonemes": [],
           "image": "../../G7_B1/Unit2/images/in_the_middle_1.jpg",
-          "image2": "../../G7_B1/Unit2/images/in_the_middle_1.jpg",
+          "image2": "../../G7_B1/Unit2/images/in_the_middle_2.jpg",
           "usage": "表示某物位于一个空间或范围的中心位置。",
           "collocations": [
             "in the middle of the room",
@@ -2232,7 +2232,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈɡræn.tʃaɪld/",
           "phonemes": [],
           "image": "../../G7_B1/Unit2/images/grandchild_1.jpg",
-          "image2": "../../G7_B1/Unit2/images/grandchild_1.jpg",
+          "image2": "../../G7_B1/Unit2/images/grandchild_2.jpg",
           "usage": "指一个人的儿子或女儿的孩子，不分性别。",
           "collocations": [
             "visit grandchild",
@@ -2267,7 +2267,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/sʌn/",
           "phonemes": [],
           "image": "../../G7_B1/Unit2/images/son_1.jpg",
-          "image2": "../../G7_B1/Unit2/images/son_1.jpg",
+          "image2": "../../G7_B1/Unit2/images/son_2.jpg",
           "usage": "指父母的男性孩子。",
           "collocations": [
             "my son",
@@ -2303,7 +2303,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/haɪk/",
           "phonemes": [],
           "image": "../../G7_B1/Unit2/images/hike_1.jpg",
-          "image2": "../../G7_B1/Unit2/images/hike_1.jpg",
+          "image2": "../../G7_B1/Unit2/images/hike_2.jpg",
           "usage": "动词或名词，指在自然环境中长时间步行，通常在山间或乡村。",
           "collocations": [
             "go for a hike",
@@ -2339,7 +2339,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡəʊ ˈhaɪkɪŋ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit2/images/go_hiking_1.jpg",
-          "image2": "../../G7_B1/Unit2/images/go_hiking_1.jpg",
+          "image2": "../../G7_B1/Unit2/images/go_hiking_2.jpg",
           "usage": "go + 动词-ing 形式，表示进行某项户外活动。",
           "collocations": [
             "go hiking in the mountains",
@@ -2374,7 +2374,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/nekst tuː/",
           "phonemes": [],
           "image": "../../G7_B1/Unit2/images/next_to_1.jpg",
-          "image2": "../../G7_B1/Unit2/images/next_to_1.jpg",
+          "image2": "../../G7_B1/Unit2/images/next_to_2.jpg",
           "usage": "介词短语，表示位置关系，后接名词或代词。",
           "collocations": [
             "the house next to the school",
@@ -2416,7 +2416,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/hɔːl/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/hall_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/hall_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/hall_2.jpg",
           "usage": "hall 常指建筑物内的走廊或用于集会的大厅。",
           "collocations": [
             "dining hall",
@@ -2451,7 +2451,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈdaɪnɪŋ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/dining_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/dining_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/dining_2.jpg",
           "usage": "dining 常与其他名词连用，如 dining room（餐厅）、dining hall（食堂）。",
           "collocations": [
             "dining room",
@@ -2485,7 +2485,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪn frʌnt ɒv/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/in_front_of_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/in_front_of_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/in_front_of_2.jpg",
           "usage": "in front of 表示某物在另一物的外部前方，区别于 in the front of（在内部前部）。",
           "collocations": [
             "stand in front of",
@@ -2519,7 +2519,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈbɪldɪŋ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/building_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/building_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/building_2.jpg",
           "usage": "building 指任何有屋顶和墙壁的构造物，如房屋、学校、办公楼等。",
           "collocations": [
             "office building",
@@ -2554,7 +2554,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈkrɒs/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/across_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/across_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/across_2.jpg",
           "usage": "across 表示从一边到另一边，或表示在另一侧。",
           "collocations": [
             "across the street",
@@ -2589,7 +2589,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈkrɒs frɒm/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/across_from_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/across_from_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/across_from_2.jpg",
           "usage": "表示两个地点或物体之间隔着一条路或一个空间，彼此相对。",
           "collocations": [
             "across from the school",
@@ -2622,7 +2622,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsentər/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/centre_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/centre_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/centre_2.jpg",
           "usage": "指某个区域或活动的核心地点，也可指物体的中间部分。",
           "collocations": [
             "shopping centre",
@@ -2656,7 +2656,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/dʒɪm/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/gym_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/gym_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/gym_2.jpg",
           "usage": "指进行体育锻炼或运动的室内场所。",
           "collocations": [
             "go to the gym",
@@ -2690,7 +2690,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/fiːld/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/field_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/field_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/field_2.jpg",
           "usage": "指开阔的土地，可用于种植或运动。",
           "collocations": [
             "football field",
@@ -2724,7 +2724,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/spɔːrts fiːld/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/sports_field_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/sports_field_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/sports_field_2.jpg",
           "usage": "指进行体育比赛或活动的场地，常与介词 on 搭配。",
           "collocations": [
             "on the sports field",
@@ -2757,7 +2757,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈɒfɪs/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/office_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/office_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/office_2.jpg",
           "usage": "指人们工作或处理事务的房间或建筑，常与介词 in 搭配。",
           "collocations": [
             "in the office",
@@ -2790,7 +2790,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/lɑːrdʒ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/large_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/large_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/large_2.jpg",
           "usage": "形容物体尺寸或数量超出一般，比 big 更正式。",
           "collocations": [
             "a large room",
@@ -2821,7 +2821,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈspeʃəl/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/special_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/special_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/special_2.jpg",
           "usage": "形容不同于普通的事物，有独特意义或功能。",
           "collocations": [
             "special day",
@@ -2852,7 +2852,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/smɑːrt/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/smart_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/smart_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/smart_2.jpg",
           "usage": "形容人聪明或设备具有智能功能。",
           "collocations": [
             "smart phone",
@@ -2883,7 +2883,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈwaɪtbɔːrd/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/whiteboard_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/whiteboard_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/whiteboard_2.jpg",
           "usage": "可数名词，指教室或办公室中用于书写和展示信息的白色面板。",
           "collocations": [
             "write on the whiteboard",
@@ -2917,7 +2917,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pʊt ʌp/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/putup_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/putup_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/putup_2.jpg",
           "usage": "动词短语，及物，后接宾语。表示将某物固定在垂直表面或搭建起来。",
           "collocations": [
             "put up a poster",
@@ -2951,7 +2951,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪmˈpɔːrtənt/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/important_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/important_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/important_2.jpg",
           "usage": "形容词，用于描述某人或某物具有重大意义或价值。",
           "collocations": [
             "important meeting",
@@ -2985,7 +2985,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈnoʊtɪs/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/notice_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/notice_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/notice_2.jpg",
           "usage": "可数名词（通知）；也可作动词（注意到）。本单元侧重名词用法。",
           "collocations": [
             "read a notice",
@@ -3019,7 +3019,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈlɒkər/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/locker_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/locker_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/locker_2.jpg",
           "usage": "常用在校园、健身房、车站等公共场所存放个人物品。",
           "collocations": [
             "school locker",
@@ -3055,7 +3055,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/drɔːr/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/drawer_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/drawer_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/drawer_2.jpg",
           "usage": "通常指家具中可推拉的储物空间，如书桌、衣柜。",
           "collocations": [
             "top drawer",
@@ -3091,7 +3091,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/æt ðə bæk/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/at_the_back_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/at_the_back_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/at_the_back_2.jpg",
           "usage": "表示位置，常与 of 连用，如 at the back of the classroom。",
           "collocations": [
             "at the back of the room",
@@ -3125,7 +3125,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkɔːrnər/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/corner_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/corner_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/corner_2.jpg",
           "usage": "可指房间角落、街道拐角或物体边缘。",
           "collocations": [
             "in the corner",
@@ -3161,7 +3161,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈbʊk.keɪs/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/bookcase_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/bookcase_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/bookcase_2.jpg",
           "usage": "名词，指用来存放书籍的家具，通常有多层隔板。",
           "collocations": [
             "a tall bookcase",
@@ -3197,7 +3197,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/skriːn/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/screen_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/screen_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/screen_2.jpg",
           "usage": "名词，指电子设备（如电脑、电视、手机）的显示部分。",
           "collocations": [
             "a computer screen",
@@ -3233,7 +3233,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/æt skuːl/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/at_school_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/at_school_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/at_school_2.jpg",
           "usage": "介词短语，表示地点或状态，强调正在学校内或正在上课。",
           "collocations": [
             "be at school",
@@ -3265,7 +3265,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈdɪf.ər.ənt frɒm/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/different_from_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/different_from_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/different_from_2.jpg",
           "usage": "形容词短语，用于比较两个事物之间的差异，后接名词或代词。",
           "collocations": [
             "be different from",
@@ -3296,7 +3296,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmɒd.ən/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/modern_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/modern_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/modern_2.jpg",
           "usage": "形容事物属于当代或最新风格",
           "collocations": [
             "modern city",
@@ -3326,7 +3326,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/duː ˈek.sə.saɪ.zɪz/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/do_exercises_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/do_exercises_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/do_exercises_2.jpg",
           "usage": "指完成老师布置的书面或口头练习",
           "collocations": [
             "do grammar exercises",
@@ -3356,7 +3356,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈmeɪ.zɪŋ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/amazing_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/amazing_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/amazing_2.jpg",
           "usage": "表达对某事物非常赞叹",
           "collocations": [
             "amazing view",
@@ -3386,7 +3386,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/reɪz/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/raise_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/raise_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/raise_2.jpg",
           "usage": "表示把某物向上移动或增加数量/水平",
           "collocations": [
             "raise your hand",
@@ -3419,7 +3419,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/flæɡ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/flag_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/flag_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/flag_2.jpg",
           "usage": "名词，指代表国家、组织或用作标志的布制物品。",
           "collocations": [
             "national flag",
@@ -3453,7 +3453,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/moʊst/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/most_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/most_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/most_2.jpg",
           "usage": "形容词或副词，表示数量或程度上的最高。",
           "collocations": [
             "most of",
@@ -3486,7 +3486,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/tʃeɪndʒ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/change_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/change_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/change_2.jpg",
           "usage": "动词表示变化，名词表示找回的零钱。",
           "collocations": [
             "change clothes",
@@ -3520,7 +3520,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/siːt/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/seat_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/seat_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/seat_2.jpg",
           "usage": "名词，指供人坐的地方。",
           "collocations": [
             "take a seat",
@@ -3554,7 +3554,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/dɪˈlɪʃəs/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/delicious_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/delicious_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/delicious_2.jpg",
           "usage": "形容词，用于描述食物或饮料味道很好。",
           "collocations": [
             "delicious food",
@@ -3587,7 +3587,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/haʊ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/How_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/How_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/How_2.jpg",
           "usage": "疑问副词，用于询问方式、程度或数量，也可用于感叹句。",
           "collocations": [
             "how many",
@@ -3621,7 +3621,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/jɔːrz/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/yours_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/yours_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/yours_2.jpg",
           "usage": "名词性物主代词，代替前面提到的属于你的东西，避免重复。",
           "collocations": [
             "a friend of yours",
@@ -3653,7 +3653,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/send/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/send_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/send_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/send_2.jpg",
           "usage": "动词，常用于寄信、发邮件或传递物品。",
           "collocations": [
             "send a letter",
@@ -3687,7 +3687,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsɪmələr/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/similar_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/similar_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/similar_2.jpg",
           "usage": "形容词，表示两个事物在特征或外观上接近但不完全相同。",
           "collocations": [
             "similar to",
@@ -3720,7 +3720,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsɪmɪlər tuː/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/similar_to_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/similar_to_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/similar_to_2.jpg",
           "usage": "用于比较两个事物之间的相似性，后接名词或代词。",
           "collocations": [
             "be similar to",
@@ -3753,7 +3753,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/saʊnd/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/sound_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/sound_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/sound_2.jpg",
           "usage": "作名词指听到的声音；作系动词表示‘听起来……’，后接形容词。",
           "collocations": [
             "sound good",
@@ -3788,7 +3788,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/baɪ fɔːr naʊ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit3/images/bye_for_now_1.jpg",
-          "image2": "../../G7_B1/Unit3/images/bye_for_now_1.jpg",
+          "image2": "../../G7_B1/Unit3/images/bye_for_now_2.jpg",
           "usage": "非正式告别用语，表示暂时离开，以后还会再见。",
           "collocations": [
             "say bye for now",
@@ -3827,7 +3827,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈjuːsfəl/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/useful_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/useful_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/useful_2.jpg",
           "usage": "形容词，表示某物有帮助或能解决问题。",
           "collocations": [
             "useful tool",
@@ -3860,7 +3860,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪkˈsaɪtɪŋ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/exciting_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/exciting_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/exciting_2.jpg",
           "usage": "形容词，描述事物让人感到兴奋或激动。",
           "collocations": [
             "exciting news",
@@ -3893,7 +3893,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pɑːst/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/past_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/past_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/past_2.jpg",
           "usage": "可作形容词、名词、介词或副词。作形容词时表示“过去的”；作介词时表示“经过”。",
           "collocations": [
             "in the past",
@@ -3926,7 +3926,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡʊd wɪð/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/good_with_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/good_with_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/good_with_2.jpg",
           "usage": "短语形容词，后接名词或代词，表示在某方面有技巧或能友好相处。",
           "collocations": [
             "good with children",
@@ -3959,7 +3959,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈnʌmbər/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/number_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/number_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/number_2.jpg",
           "usage": "可数名词，表示数字、编号或数量。",
           "collocations": [
             "phone number",
@@ -3992,7 +3992,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/help ˈsʌmbədi wɪð/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/help_sb_with_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/help_sb_with_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/help_sb_with_2.jpg",
           "usage": "help sb with + 名词/动名词，表示在某个方面帮助某人。",
           "collocations": [
             "help me with my homework",
@@ -4026,7 +4026,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈriːzn/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/reason_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/reason_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/reason_2.jpg",
           "usage": "可数名词，常与 for 连用，表示……的原因。",
           "collocations": [
             "the reason for",
@@ -4059,7 +4059,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈlɪsn tuː/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/listen_to_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/listen_to_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/listen_to_2.jpg",
           "usage": "及物动词短语，后接听的对象（名词或代词）。",
           "collocations": [
             "listen to music",
@@ -4093,7 +4093,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡʊd æt/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/goodat_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/goodat_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/goodat_2.jpg",
           "usage": "be good at + 名词/动名词，表示在某方面擅长。",
           "collocations": [
             "be good at math",
@@ -4127,7 +4127,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/rɪˈmembər/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/remember_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/remember_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/remember_2.jpg",
           "usage": "及物动词，后接名词、代词、不定式或 that 从句。",
           "collocations": [
             "remember to do",
@@ -4160,7 +4160,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌeɪ ˈem/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/AM_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/AM_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/AM_2.jpg",
           "usage": "表示午夜12点到中午12点之间的时间，放在时间数字后。",
           "collocations": [
             "8:00 AM",
@@ -4194,7 +4194,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌpiː ˈem/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/PM_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/PM_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/PM_2.jpg",
           "usage": "表示中午12点到午夜12点之间的时间，放在时间数字后。",
           "collocations": [
             "3:00 PM",
@@ -4228,7 +4228,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/frentʃ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/French_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/French_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/French_2.jpg",
           "usage": "作名词时指法语语言，作形容词时表示来自法国或与法国相关的。",
           "collocations": [
             "French class",
@@ -4262,7 +4262,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈeksələnt/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/excellent_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/excellent_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/excellent_2.jpg",
           "usage": "形容质量、表现或结果非常好，超出一般水平。",
           "collocations": [
             "excellent job",
@@ -4296,7 +4296,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/æd/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/ad_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/ad_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/ad_2.jpg",
           "usage": "ad 是 advertisement 的缩写，常用于口语或非正式场合。",
           "collocations": [
             "TV ad",
@@ -4330,7 +4330,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈɪnstrəmənt/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/instrument_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/instrument_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/instrument_2.jpg",
           "usage": "通常指演奏音乐的工具，也可指科学或医疗工具。",
           "collocations": [
             "musical instrument",
@@ -4364,7 +4364,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsɪŋər/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/singer_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/singer_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/singer_2.jpg",
           "usage": "指唱歌的人，可以是职业或业余。",
           "collocations": [
             "pop singer",
@@ -4398,7 +4398,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈfjuːtʃər/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/future_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/future_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/future_2.jpg",
           "usage": "指尚未到来的时间，常与 the 连用。",
           "collocations": [
             "in the future",
@@ -4432,7 +4432,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪn ðə ˈfjuːtʃər/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/in_the_future_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/in_the_future_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/in_the_future_2.jpg",
           "usage": "固定短语，表示在将来的某个时间点或时期。",
           "collocations": [
             "sometime in the future",
@@ -4463,7 +4463,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/tɜːrm/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/term_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/term_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/term_2.jpg",
           "usage": "通常指学校划分的学期，也可指专业术语。",
           "collocations": [
             "this term",
@@ -4499,7 +4499,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/wɜːrk aʊt/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/work_out_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/work_out_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/work_out_2.jpg",
           "usage": "表示通过思考或计算找到答案，也可表示进行体育锻炼。",
           "collocations": [
             "work out a problem",
@@ -4533,7 +4533,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈprɑːbləm/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/problem_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/problem_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/problem_2.jpg",
           "usage": "指需要解决或回答的困难或疑问。",
           "collocations": [
             "math problem",
@@ -4568,7 +4568,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪn klæs/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/in_class_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/in_class_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/in_class_2.jpg",
           "usage": "表示在上课期间，通常用于描述课堂行为或活动。",
           "collocations": [
             "listen in class",
@@ -4602,7 +4602,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmædʒɪk/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/magic_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/magic_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/magic_2.jpg",
           "usage": "指超自然的力量或表演中的幻术，也可形容非常奇妙的事物。",
           "collocations": [
             "magic trick",
@@ -4637,7 +4637,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/laɪf/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/life_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/life_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/life_2.jpg",
           "usage": "life 既可指生物的生命，也可指人的日常生活。",
           "collocations": [
             "daily life",
@@ -4671,7 +4671,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/baɪˈɒlədʒi/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/biology_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/biology_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/biology_2.jpg",
           "usage": "biology 是研究生物及其生命过程的学科。",
           "collocations": [
             "biology class",
@@ -4705,7 +4705,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/tekˈnɒlədʒi/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/technology_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/technology_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/technology_2.jpg",
           "usage": "technology 指科学在工业或日常生活中的应用，如电脑、手机等。",
           "collocations": [
             "modern technology",
@@ -4739,7 +4739,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/dʒiˈɒɡrəfi/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/geography_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/geography_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/geography_2.jpg",
           "usage": "geography 是研究地球表面、国家、地形等的学科。",
           "collocations": [
             "geography lesson",
@@ -4773,7 +4773,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈhɪstri/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/history_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/history_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/history_2.jpg",
           "usage": "名词，指过去的事件或对过去的研究。",
           "collocations": [
             "history class",
@@ -4807,7 +4807,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈbɔːrɪŋ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/boring_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/boring_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/boring_2.jpg",
           "usage": "形容词，描述事物令人感到无趣。",
           "collocations": [
             "boring lesson",
@@ -4841,7 +4841,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsaɪəntɪst/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/scientist_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/scientist_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/scientist_2.jpg",
           "usage": "名词，指从事科学研究的人。",
           "collocations": [
             "famous scientist",
@@ -4875,7 +4875,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkænədə/",
           "phonemes": [],
           "image": "../../G7_B1/Unit4/images/Canada_1.jpg",
-          "image2": "../../G7_B1/Unit4/images/Canada_1.jpg",
+          "image2": "../../G7_B1/Unit4/images/Canada_2.jpg",
           "usage": "指北美洲的一个国家，首都为渥太华。",
           "collocations": [
             "in Canada",
@@ -4918,7 +4918,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/suːn/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/soon_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/soon_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/soon_2.jpg",
           "usage": "副词，常放在句末或动词前，表示时间短。",
           "collocations": [
             "come back soon",
@@ -4951,7 +4951,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ðæn/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/than_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/than_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/than_2.jpg",
           "usage": "连词，用于形容词或副词的比较级之后，引出比较对象。",
           "collocations": [
             "more than",
@@ -4983,7 +4983,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/mɔːr ðæn/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/more_than_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/more_than_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/more_than_2.jpg",
           "usage": "用于数量或程度比较，后接数字或名词。",
           "collocations": [
             "more than ten",
@@ -5014,7 +5014,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/maɪnd/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/mind_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/mind_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/mind_2.jpg",
           "usage": "动词：介意（常用于疑问句或否定句）；名词：头脑、思维。",
           "collocations": [
             "never mind",
@@ -5048,7 +5048,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/fɔːl/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/fall_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/fall_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/fall_2.jpg",
           "usage": "动词：掉落、跌倒；名词：秋天（美式英语）。",
           "collocations": [
             "fall down",
@@ -5084,7 +5084,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/fɔːl ɪn lʌv wɪð/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/fall_in_love_with_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/fall_in_love_with_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/fall_in_love_with_2.jpg",
           "usage": "动词短语，后接名词或代词，表示开始喜欢某人或某物。",
           "collocations": [
             "fall in love with a place",
@@ -5116,7 +5116,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/teɪk ˈfoʊtoʊz/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/take_photos_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/take_photos_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/take_photos_2.jpg",
           "usage": "动词短语，表示用相机记录影像。",
           "collocations": [
             "take photos of nature",
@@ -5148,7 +5148,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kəˈlekt/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/collect_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/collect_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/collect_2.jpg",
           "usage": "及物动词，后接被收集的物品。",
           "collocations": [
             "collect stamps",
@@ -5181,7 +5181,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈɪnsekt/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/insect_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/insect_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/insect_2.jpg",
           "usage": "可数名词，指身体分节、通常有六条腿的小动物。",
           "collocations": [
             "a small insect",
@@ -5214,7 +5214,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/dɪˈskʌvər/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/discover_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/discover_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/discover_2.jpg",
           "usage": "及物动词，后接名词或从句。",
           "collocations": [
             "discover a new place",
@@ -5247,7 +5247,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈwaɪld.laɪf/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/wildlife_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/wildlife_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/wildlife_2.jpg",
           "usage": "不可数名词，指自然环境中未被驯化的动物和植物整体。",
           "collocations": [
             "protect wildlife",
@@ -5281,7 +5281,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/klʌb/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/club_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/club_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/club_2.jpg",
           "usage": "指学生或人们因共同兴趣组成的团体。",
           "collocations": [
             "join a club",
@@ -5316,7 +5316,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/dʒɔɪn/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/join_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/join_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/join_2.jpg",
           "usage": "表示成为某个团体或活动的一员。",
           "collocations": [
             "join a club",
@@ -5350,7 +5350,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/tʃuːz/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/choose_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/choose_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/choose_2.jpg",
           "usage": "表示从多个选项中决定一个。",
           "collocations": [
             "choose a book",
@@ -5384,7 +5384,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈdrɑːmə/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/drama_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/drama_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/drama_2.jpg",
           "usage": "指表演故事的艺术形式，也指学校里的戏剧社团或课程。",
           "collocations": [
             "drama club",
@@ -5418,7 +5418,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pleɪ ˌtʃaɪˈniːz tʃes/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/play_Chinese_chess_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/play_Chinese_chess_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/play_Chinese_chess_2.jpg",
           "usage": "动词短语，表示进行中国象棋游戏",
           "collocations": [
             "play Chinese chess with friends",
@@ -5451,7 +5451,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈfiːlɪŋ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/feeling_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/feeling_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/feeling_2.jpg",
           "usage": "名词，指身体或情绪上的感受",
           "collocations": [
             "a good feeling",
@@ -5485,7 +5485,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/njuːz mjuː/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/news_mju_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/news_mju_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/news_mju_2.jpg",
           "usage": "名词，不可数，指新消息或新闻报道",
           "collocations": [
             "watch the news",
@@ -5519,7 +5519,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmjuːzɪkl/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/musical_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/musical_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/musical_2.jpg",
           "usage": "形容词时表示与音乐相关的；名词时指音乐剧",
           "collocations": [
             "musical instrument",
@@ -5553,7 +5553,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmjuːzɪkl ˈɪnstrəmənt/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/musical_instrument_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/musical_instrument_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/musical_instrument_2.jpg",
           "usage": "名词短语，指用来演奏音乐的器具",
           "collocations": [
             "play a musical instrument",
@@ -5587,7 +5587,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪɡˈzæktli/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/exactly_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/exactly_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/exactly_2.jpg",
           "usage": "副词，用于强调某事物完全正确或精确。",
           "collocations": [
             "exactly right",
@@ -5618,7 +5618,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/drʌm/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/drum_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/drum_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/drum_2.jpg",
           "usage": "名词，指一种打击乐器。",
           "collocations": [
             "play the drum",
@@ -5651,7 +5651,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈbɪləti/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/ability_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/ability_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/ability_2.jpg",
           "usage": "名词，指做某事的能力或才能。",
           "collocations": [
             "have the ability",
@@ -5684,7 +5684,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/peɪnt/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/paint_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/paint_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/paint_2.jpg",
           "usage": "名词指颜料或油漆；动词指用颜料涂或画。",
           "collocations": [
             "paint a picture",
@@ -5717,7 +5717,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/klaɪm/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/climb_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/climb_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/climb_2.jpg",
           "usage": "动词，常指用手脚向上爬或攀登。",
           "collocations": [
             "climb a tree",
@@ -5752,7 +5752,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/mɔːr/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/more_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/more_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/more_2.jpg",
           "usage": "形容词或副词，表示数量或程度上的增加。",
           "collocations": [
             "more water",
@@ -5786,7 +5786,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ækt/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/act_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/act_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/act_2.jpg",
           "usage": "动词，指在戏剧中扮演角色或采取行动。",
           "collocations": [
             "act in a play",
@@ -5821,7 +5821,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ækt aʊt/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/act_out_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/act_out_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/act_out_2.jpg",
           "usage": "动词短语，常指通过动作和对话把故事或想法表现出来。",
           "collocations": [
             "act out a story",
@@ -5855,7 +5855,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/æt hoʊm/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/at_home_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/at_home_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/at_home_2.jpg",
           "usage": "介词短语，表示地点，指在某人自己的家里。",
           "collocations": [
             "stay at home",
@@ -5888,7 +5888,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈɪntrəstɪd/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/interested_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/interested_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/interested_2.jpg",
           "usage": "形容词，常与 be 动词连用，表示对某事物有兴趣。",
           "collocations": [
             "be interested",
@@ -5921,7 +5921,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈɪntrəstɪd ɪn/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/interested_in_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/interested_in_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/interested_in_2.jpg",
           "usage": "固定短语，后接名词、代词或动名词，表示对某事物有兴趣。",
           "collocations": [
             "be interested in",
@@ -5954,7 +5954,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈneɪtʃər/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/nature_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/nature_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/nature_2.jpg",
           "usage": "不可数名词，指自然界、自然环境，常与定冠词 the 连用。",
           "collocations": [
             "love nature",
@@ -5989,7 +5989,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/biːf/",
           "phonemes": [],
           "image": "../../G7_B1/Unit5/images/beef_1.jpg",
-          "image2": "../../G7_B1/Unit5/images/beef_1.jpg",
+          "image2": "../../G7_B1/Unit5/images/beef_2.jpg",
           "usage": "不可数名词，指牛的肉，常用于饮食场景。",
           "collocations": [
             "beef noodles",
@@ -6031,7 +6031,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/meɪk juːz ɒv/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/make_use_of_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/make_use_of_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/make_use_of_2.jpg",
           "usage": "表示将某物用于某个目的，通常强调有效或创造性地使用。",
           "collocations": [
             "make good use of",
@@ -6064,7 +6064,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkwɔːrtər/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/quarter_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/quarter_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/quarter_2.jpg",
           "usage": "可指时间上的15分钟，也可指整体中的四等分之一。",
           "collocations": [
             "a quarter of",
@@ -6098,7 +6098,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈʃaʊər/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/shower_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/shower_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/shower_2.jpg",
           "usage": "可指洗澡的方式（淋浴），也可指短时间的降雨。",
           "collocations": [
             "take a shower",
@@ -6133,7 +6133,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/teɪk ə ˈʃaʊər/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/take_a_shower_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/take_a_shower_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/take_a_shower_2.jpg",
           "usage": "固定短语，表示进行淋浴这个动作，常用于日常作息描述。",
           "collocations": [
             "take a hot shower",
@@ -6167,7 +6167,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡet drest/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/get_dressed_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/get_dressed_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/get_dressed_2.jpg",
           "usage": "表示完成穿衣的动作，通常指穿好全套衣服。",
           "collocations": [
             "get dressed quickly",
@@ -6201,7 +6201,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/brʌʃ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/brush_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/brush_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/brush_2.jpg",
           "usage": "可作名词（刷子）或动词（刷）。",
           "collocations": [
             "brush teeth",
@@ -6236,7 +6236,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/tuːθ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/tooth_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/tooth_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/tooth_2.jpg",
           "usage": "可数名词，复数形式为 teeth。",
           "collocations": [
             "brush teeth",
@@ -6270,7 +6270,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈdjuːti/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/duty_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/duty_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/duty_2.jpg",
           "usage": "名词，常与 on duty 连用表示值班。",
           "collocations": [
             "on duty",
@@ -6305,7 +6305,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɒn ˈdjuːti/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/on_duty_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/on_duty_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/on_duty_2.jpg",
           "usage": "介词短语，常作表语或定语。",
           "collocations": [
             "be on duty",
@@ -6338,7 +6338,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈjuːʒuəli/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/usually_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/usually_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/usually_2.jpg",
           "usage": "副词，表示习惯性动作或常见情况，常放在行为动词前或be动词后。",
           "collocations": [
             "usually get up",
@@ -6369,7 +6369,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/prɪˈpeər/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/prepare_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/prepare_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/prepare_2.jpg",
           "usage": "动词，表示使某物或自己为某事做好准备，后接名词或不定式。",
           "collocations": [
             "prepare dinner",
@@ -6402,7 +6402,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/prɪˈpeər ˈsʌmθɪŋ fɔːr/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/prepare_sth_for_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/prepare_sth_for_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/prepare_sth_for_2.jpg",
           "usage": "动词短语，强调准备的具体物品和目的对象，结构为 prepare + 某物 + for + 某人/某事。",
           "collocations": [
             "prepare a gift for",
@@ -6433,7 +6433,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈhelsɪŋki/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/Helsinki_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/Helsinki_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/Helsinki_2.jpg",
           "usage": "专有名词，指芬兰的首都城市。",
           "collocations": [
             "in Helsinki",
@@ -6468,7 +6468,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈfɪnlənd/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/Finland_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/Finland_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/Finland_2.jpg",
           "usage": "专有名词，指北欧的一个国家。",
           "collocations": [
             "in Finland",
@@ -6503,7 +6503,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/hoʊm ˌekəˈnɑːmɪks/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/home_economics_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/home_economics_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/home_economics_2.jpg",
           "usage": "不可数名词，指教授烹饪、缝纫等生活技能的课程。",
           "collocations": [
             "take home economics",
@@ -6537,7 +6537,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡet ʌp/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/get_up_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/get_up_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/get_up_2.jpg",
           "usage": "动词短语，意为从床上起来。",
           "collocations": [
             "get up early",
@@ -6571,7 +6571,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/rɪˈpɔːrtər/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/reporter_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/reporter_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/reporter_2.jpg",
           "usage": "可数名词，指采访新闻并写报道的人。",
           "collocations": [
             "a news reporter",
@@ -6605,7 +6605,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈraʊnd/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/around_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/around_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/around_2.jpg",
           "usage": "既可作介词（在…周围），也可作副词（到处、大约）。",
           "collocations": [
             "walk around",
@@ -6641,7 +6641,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈhoʊmwɜːrk/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/homework_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/homework_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/homework_2.jpg",
           "usage": "不可数名词，没有复数形式。不能说 a homework，要说 some homework 或 a piece of homework。",
           "collocations": [
             "do homework",
@@ -6677,7 +6677,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡoʊ tuː bɛd/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/go_to_bed_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/go_to_bed_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/go_to_bed_2.jpg",
           "usage": "固定短语，bed 前不加冠词。强调“去睡觉”这个动作。",
           "collocations": [
             "go to bed early",
@@ -6711,7 +6711,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈseɪɪŋ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/saying_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/saying_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/saying_2.jpg",
           "usage": "可数名词，指广为流传的固定语句或谚语。",
           "collocations": [
             "old saying",
@@ -6747,7 +6747,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/raɪz/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/rise_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/rise_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/rise_2.jpg",
           "usage": "动词，过去式 rose，过去分词 risen。可指太阳升起、温度上升、数量增加等。",
           "collocations": [
             "rise up",
@@ -6783,7 +6783,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/steɪ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/stay_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/stay_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/stay_2.jpg",
           "usage": "表示在某地暂时不离开，常与地点副词连用。",
           "collocations": [
             "stay at home",
@@ -6818,7 +6818,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ruːˈtiːn/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/routine_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/routine_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/routine_2.jpg",
           "usage": "指每天固定做的事情或程序。",
           "collocations": [
             "daily routine",
@@ -6852,7 +6852,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈrestərɒnt/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/restaurant_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/restaurant_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/restaurant_2.jpg",
           "usage": "指提供餐饮服务的地方。",
           "collocations": [
             "go to a restaurant",
@@ -6887,7 +6887,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈhaʊswɜːrk/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/housework_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/housework_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/housework_2.jpg",
           "usage": "指打扫、洗衣、做饭等家庭劳动。",
           "collocations": [
             "do housework",
@@ -6921,7 +6921,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/waɪl/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/while_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/while_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/while_2.jpg",
           "usage": "连接两个同时发生的动作或状态。",
           "collocations": [
             "while reading",
@@ -6954,7 +6954,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌwiːkˈend/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/weekend_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/weekend_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/weekend_2.jpg",
           "usage": "名词，指周六和周日。",
           "collocations": [
             "on the weekend",
@@ -6988,7 +6988,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/æt ˈwiːkendz/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/at_weekends_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/at_weekends_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/at_weekends_2.jpg",
           "usage": "介词短语，表示经常在周末做某事。",
           "collocations": [
             "at weekends",
@@ -7022,7 +7022,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈdeɪli/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/daily_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/daily_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/daily_2.jpg",
           "usage": "形容词，常放在名词前。也可作副词，意为“每天”。",
           "collocations": [
             "daily life",
@@ -7056,7 +7056,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈdeɪli ruːˈtiːn/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/daily_routine_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/daily_routine_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/daily_routine_2.jpg",
           "usage": "名词短语，指每天固定做的事情。",
           "collocations": [
             "have a daily routine",
@@ -7090,7 +7090,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈəʊnli/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/only_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/only_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/only_2.jpg",
           "usage": "形容词或副词，表示唯一或仅仅。",
           "collocations": [
             "only child",
@@ -7124,7 +7124,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/breɪk/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/break_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/break_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/break_2.jpg",
           "usage": "动词表示使物体破裂，名词表示短暂休息。",
           "collocations": [
             "break a rule",
@@ -7159,7 +7159,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈfɪnɪʃ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/Finnish_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/Finnish_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/Finnish_2.jpg",
           "usage": "形容词，表示与芬兰相关。",
           "collocations": [
             "Finnish language",
@@ -7193,7 +7193,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈfɪnɪʃ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/finish_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/finish_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/finish_2.jpg",
           "usage": "动词，表示做完某事或到达终点。",
           "collocations": [
             "finish homework",
@@ -7227,7 +7227,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈhɒki/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/hockey_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/hockey_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/hockey_2.jpg",
           "usage": "名词，指一种冰上或草地上的球类运动。",
           "collocations": [
             "play hockey",
@@ -7261,7 +7261,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/aɪs ˈhɒki/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/ice_hockey_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/ice_hockey_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/ice_hockey_2.jpg",
           "usage": "不可数名词，指一种在冰上进行的团队球类运动。",
           "collocations": [
             "play ice hockey",
@@ -7295,7 +7295,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɔːlˈredi/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/already_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/already_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/already_2.jpg",
           "usage": "副词，常用于现在完成时或过去时，表示某事比预期更早发生。",
           "collocations": [
             "already finished",
@@ -7328,7 +7328,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/dɑːrk/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/dark_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/dark_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/dark_2.jpg",
           "usage": "形容词，描述缺少光线或颜色深。也可作名词（the dark）。",
           "collocations": [
             "dark room",
@@ -7363,7 +7363,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌaʊtˈsaɪd/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/outside_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/outside_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/outside_2.jpg",
           "usage": "副词/介词/名词。表示不在建筑物或某个范围之内。",
           "collocations": [
             "go outside",
@@ -7398,7 +7398,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pɑːrt/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/part_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/part_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/part_2.jpg",
           "usage": "名词，指整体中的一部分。也可作动词（分离）。",
           "collocations": [
             "part of",
@@ -7433,7 +7433,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈevriˌdeɪ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit6/images/everyday_1.jpg",
-          "image2": "../../G7_B1/Unit6/images/everyday_1.jpg",
+          "image2": "../../G7_B1/Unit6/images/everyday_2.jpg",
           "usage": "形容词，常放在名词前，表示‘日常的、平常的’",
           "collocations": [
             "everyday life",
@@ -7473,7 +7473,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈselɪbreɪt/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/celebrate_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/celebrate_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/celebrate_2.jpg",
           "usage": "动词，表示以活动或仪式纪念某个重要时刻。",
           "collocations": [
             "celebrate a birthday",
@@ -7507,7 +7507,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/sərˈpraɪz/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/surprise_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/surprise_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/surprise_2.jpg",
           "usage": "可作名词（惊喜）或动词（使惊讶）。",
           "collocations": [
             "a big surprise",
@@ -7541,7 +7541,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsʌmθɪŋ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/something_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/something_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/something_2.jpg",
           "usage": "不定代词，用于肯定句中代替不确定的事物。",
           "collocations": [
             "something new",
@@ -7575,7 +7575,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/seɪl/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/sale_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/sale_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/sale_2.jpg",
           "usage": "名词，指商品以较低价格出售的活动。",
           "collocations": [
             "on sale",
@@ -7610,7 +7610,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkiːloʊ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/kilo_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/kilo_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/kilo_2.jpg",
           "usage": "名词，重量单位，等于1000克。",
           "collocations": [
             "a kilo of apples",
@@ -7644,7 +7644,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkɪləɡræm/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/kilogramme_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/kilogramme_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/kilogramme_2.jpg",
           "usage": "表示重量单位，常用于称量食物或物品。",
           "collocations": [
             "a kilogramme of rice; half a kilogramme of sugar"
@@ -7675,7 +7675,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈjɒɡət/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/yogurt_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/yogurt_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/yogurt_2.jpg",
           "usage": "一种发酵乳制品，常作为零食或早餐。",
           "collocations": [
             "plain yogurt; strawberry yogurt; a cup of yogurt"
@@ -7706,7 +7706,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈtəʊtl/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/total_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/total_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/total_2.jpg",
           "usage": "表示所有部分相加后的总和，常用于购物或计算。",
           "collocations": [
             "the total cost; total number; in total"
@@ -7737,7 +7737,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/praɪs/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/price_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/price_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/price_2.jpg",
           "usage": "表示购买商品所需的钱数。",
           "collocations": [
             "low price; high price; the price of; at a good price"
@@ -7768,7 +7768,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/bəˈluːn/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/balloon_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/balloon_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/balloon_2.jpg",
           "usage": "用橡胶或塑料制成的充气玩具，常用于装饰或庆祝。",
           "collocations": [
             "blow up a balloon; a bunch of balloons; balloon decoration"
@@ -7799,7 +7799,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈtʃɒk.lət/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/chocolate_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/chocolate_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/chocolate_2.jpg",
           "usage": "可数或不可数名词，指巧克力食品或糖果。",
           "collocations": [
             "a bar of chocolate",
@@ -7834,7 +7834,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpiːt.sə/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/pizza_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/pizza_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/pizza_2.jpg",
           "usage": "可数名词，指一种意大利式烤饼。",
           "collocations": [
             "cheese pizza",
@@ -7869,7 +7869,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/lɪst/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/list_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/list_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/list_2.jpg",
           "usage": "可数名词，指按顺序写下的项目。",
           "collocations": [
             "shopping list",
@@ -7904,7 +7904,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əʊn/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/own_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/own_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/own_2.jpg",
           "usage": "形容词或代词，表示属于某人自己的。",
           "collocations": [
             "my own room",
@@ -7938,7 +7938,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪɡˈzɑːm.pəl/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/example_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/example_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/example_2.jpg",
           "usage": "可数名词，用来解释或说明某事。",
           "collocations": [
             "for example",
@@ -7972,7 +7972,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/fɔːr ɪɡˈzæmpəl/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/for_example_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/for_example_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/for_example_2.jpg",
           "usage": "用于引出具体例子，常放在句子中间或开头，后面接名词或句子。",
           "collocations": [
             "for example",
@@ -8006,7 +8006,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈlæŋɡwɪdʒ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/language_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/language_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/language_2.jpg",
           "usage": "指人类交流的系统，包括口语和书面语。可数名词。",
           "collocations": [
             "learn a language",
@@ -8039,7 +8039,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌɪntərˈnæʃənəl/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/international_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/international_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/international_2.jpg",
           "usage": "形容词，用于描述涉及多个国家或全世界的事物。",
           "collocations": [
             "international school",
@@ -8073,7 +8073,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/mɑːrk/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/mark_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/mark_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/mark_2.jpg",
           "usage": "可作名词表示记号或分数，也可作动词表示做标记。",
           "collocations": [
             "get a good mark",
@@ -8106,7 +8106,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈnæʃnəl/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/national_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/national_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/national_2.jpg",
           "usage": "形容词，常放在名词前，表示属于或关于整个国家的。",
           "collocations": [
             "national flag",
@@ -8140,7 +8140,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/faʊnd/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/found_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/found_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/found_2.jpg",
           "usage": "动词过去式，表示过去某个时间找到了某物或发现了某事。",
           "collocations": [
             "found a book",
@@ -8175,7 +8175,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmiːnɪŋfl/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/meaningful_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/meaningful_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/meaningful_2.jpg",
           "usage": "形容词，用来描述某件事或某物有深层含义或价值。",
           "collocations": [
             "a meaningful gift",
@@ -8209,7 +8209,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/meɪk ə wɪʃ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/make_a_wish_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/make_a_wish_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/make_a_wish_2.jpg",
           "usage": "动词短语，常用于生日吹蜡烛前或看到流星时。",
           "collocations": [
             "make a wish on a cake",
@@ -8242,7 +8242,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌselɪˈbreɪʃn/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/celebration_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/celebration_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/celebration_2.jpg",
           "usage": "名词，指为某个重要日子或事件举行的活动。",
           "collocations": [
             "birthday celebration",
@@ -8276,7 +8276,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pəʊst/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/post_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/post_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/post_2.jpg",
           "usage": "作动词时表示‘邮寄’或‘张贴’；作名词时表示‘邮件’或‘柱子’。",
           "collocations": [
             "post office",
@@ -8311,7 +8311,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkɒntækt/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/contact_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/contact_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/contact_2.jpg",
           "usage": "作名词表示‘联系’或‘联系人’；作动词表示‘与……联系’。",
           "collocations": [
             "contact number",
@@ -8346,7 +8346,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsɪmbəl/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/symbol_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/symbol_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/symbol_2.jpg",
           "usage": "指代表某种意义或事物的图形、标志或符号。",
           "collocations": [
             "traffic symbol",
@@ -8381,7 +8381,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/teɪk ə ˈfəʊtəʊ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/take_a_photo_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/take_a_photo_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/take_a_photo_2.jpg",
           "usage": "固定短语，表示用相机或手机拍摄照片。",
           "collocations": [
             "take a photo of",
@@ -8416,7 +8416,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈvɪlɪdʒ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/village_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/village_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/village_2.jpg",
           "usage": "可数名词，指比城镇小的居民点。",
           "collocations": [
             "small village",
@@ -8450,7 +8450,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡroʊ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/grow_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/grow_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/grow_2.jpg",
           "usage": "动词，可作及物或不及物。",
           "collocations": [
             "grow up",
@@ -8484,7 +8484,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/bloʊ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/blow_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/blow_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/blow_2.jpg",
           "usage": "动词，常与风或气息相关。",
           "collocations": [
             "blow away",
@@ -8518,7 +8518,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/bloʊ aʊt/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/blow_out_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/blow_out_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/blow_out_2.jpg",
           "usage": "动词短语，及物，后接宾语。",
           "collocations": [
             "blow out candles",
@@ -8548,7 +8548,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪnˈdʒɔɪ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/enjoy_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/enjoy_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/enjoy_2.jpg",
           "usage": "及物动词，后接名词、代词或动名词，表示从某事中获得乐趣。",
           "collocations": [
             "enjoy doing sth.",
@@ -8581,7 +8581,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/haɪt/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/height_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/height_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/height_2.jpg",
           "usage": "名词，用于描述物体或人的垂直尺寸。",
           "collocations": [
             "in height",
@@ -8615,7 +8615,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈleɪtər/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/later_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/later_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/later_2.jpg",
           "usage": "副词，表示在某个时间点之后，常用于将来时或过去时。",
           "collocations": [
             "later on",
@@ -8648,7 +8648,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/nekst taɪm/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/next_time_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/next_time_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/next_time_2.jpg",
           "usage": "短语，用作时间状语，指未来的某一次机会或场合。",
           "collocations": [
             "next time you come",
@@ -8681,7 +8681,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/huːm/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/whom_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/whom_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/whom_2.jpg",
           "usage": "whom 是 who 的宾格形式，在正式英语中用作动词或介词的宾语。",
           "collocations": [
             "to whom",
@@ -8716,7 +8716,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈnæʃənəl deɪ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/National_Day_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/National_Day_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/National_Day_2.jpg",
           "usage": "National Day 指一个国家成立的纪念日，常为公共假日。",
           "collocations": [
             "celebrate National Day",
@@ -8750,7 +8750,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌpiː.elˈeɪ deɪ/",
           "phonemes": [],
           "image": "../../G7_B1/Unit7/images/PLA_Day_1.jpg",
-          "image2": "../../G7_B1/Unit7/images/PLA_Day_1.jpg",
+          "image2": "../../G7_B1/Unit7/images/PLA_Day_2.jpg",
           "usage": "专有名词，通常大写首字母，指每年8月1日的中国建军节。",
           "collocations": [
             "celebrate PLA Day",
