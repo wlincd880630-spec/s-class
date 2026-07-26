@@ -49,19 +49,28 @@ for book in BOOKS:
             continue
         data = json.load(open(jf))
         changed = False
-        for w in data.get("words", []):
-            s = slug(w["word"])
-            for n, key in ((1, "img1"), (2, "img2")):
-                local = None
-                for p in img_dir.glob(f"*_{n}.jpg"):
-                    if p.stem.lower() == f"{s}_{n}".lower():
-                        local = p
-                        break
-                if local:
-                    rel = f"images/{local.name}"
-                    if w.get(key) != rel:
-                        w[key] = rel
-                        changed = True
+        for w in data.get('words', []):
+            s = slug(w['word'])
+            local = None
+            for p in img_dir.glob('*_1.jpg'):
+                if p.stem.lower() == f'{s}_1'.lower():
+                    local = p
+                    break
+            if local:
+                rel = f'images/{local.name}'
+                if w.get('img1') != rel:
+                    w['img1'] = rel
+                    changed = True
+            local2 = None
+            for p2 in img_dir.glob('*_2.jpg'):
+                if p2.stem.lower() == f'{s}_2'.lower():
+                    local2 = p2
+                    break
+            if local2:
+                rel2 = f'images/{local2.name}'
+                if w.get('img2') != rel2:
+                    w['img2'] = rel2
+                    changed = True
         if changed:
             json.dump(data, open(jf, "w"), ensure_ascii=False, indent=2)
 

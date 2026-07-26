@@ -22,8 +22,8 @@ const TEXTBOOK_DATA = {
           "chinese": "教科书；课本",
           "ipa": "/ˈtekstbʊk/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/textbook_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/textbook_2.png",
+          "image": "../../G9/Unit1/images/textbook_1.jpg",
+          "image2": "../../G9/Unit1/images/textbook_2.jpg",
           "usage": "n. 教科书；课本",
           "collocations": [
             "open the textbook",
@@ -56,8 +56,8 @@ const TEXTBOOK_DATA = {
           "chinese": "交谈；谈话",
           "ipa": "/ˌkɒnvəˈseɪʃn/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/conversation_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/conversation_2.png",
+          "image": "../../G9/Unit1/images/conversation_1.jpg",
+          "image2": "../../G9/Unit1/images/conversation_2.jpg",
           "usage": "n. 交谈；谈话",
           "collocations": [
             "have a conversation",
@@ -91,8 +91,8 @@ const TEXTBOOK_DATA = {
           "chinese": "大声地；出声地",
           "ipa": "/əˈlaʊd/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/aloud_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/aloud_2.png",
+          "image": "../../G9/Unit1/images/aloud_1.jpg",
+          "image2": "../../G9/Unit1/images/aloud_2.jpg",
           "usage": "adv. 大声地；出声地",
           "collocations": [
             "read aloud",
@@ -125,8 +125,8 @@ const TEXTBOOK_DATA = {
           "chinese": "发音；读音",
           "ipa": "/prəˌnʌnsiˈeɪʃn/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/pronunciation_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/pronunciation_2.png",
+          "image": "../../G9/Unit1/images/pronunciation_1.jpg",
+          "image2": "../../G9/Unit1/images/pronunciation_2.jpg",
           "usage": "n. 发音；读音",
           "collocations": [
             "improve pronunciation",
@@ -160,8 +160,8 @@ const TEXTBOOK_DATA = {
           "chinese": "句子",
           "ipa": "/ˈsentəns/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/sentence_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/sentence_2.png",
+          "image": "../../G9/Unit1/images/sentence_1.jpg",
+          "image2": "../../G9/Unit1/images/sentence_2.jpg",
           "usage": "n. 句子",
           "collocations": [
             "write a sentence",
@@ -194,8 +194,8 @@ const TEXTBOOK_DATA = {
           "chinese": "有耐心的；病人",
           "ipa": "/ˈpeɪʃnt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/patient_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/patient_2.png",
+          "image": "../../G9/Unit1/images/patient_1.jpg",
+          "image2": "../../G9/Unit1/images/patient_2.jpg",
           "usage": "adj. 有耐心的；n. 病人",
           "collocations": [
             "be patient with",
@@ -230,8 +230,8 @@ const TEXTBOOK_DATA = {
           "chinese": "表达（方式）；表示",
           "ipa": "/ɪkˈspreʃn/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/expression_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/expression_2.png",
+          "image": "../../G9/Unit1/images/expression_1.jpg",
+          "image2": "../../G9/Unit1/images/expression_2.jpg",
           "usage": "n. 表达，表情；词语",
           "collocations": [
             "facial expression",
@@ -265,8 +265,8 @@ const TEXTBOOK_DATA = {
           "chinese": "发现；发觉",
           "ipa": "/dɪˈskʌvə(r)/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/discover_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/discover_2.png",
+          "image": "../../G9/Unit1/images/discover_1.jpg",
+          "image2": "../../G9/Unit1/images/discover_2.jpg",
           "usage": "v. 发现（隐藏或未知的事物）",
           "collocations": [
             "discover new things",
@@ -300,8 +300,8 @@ const TEXTBOOK_DATA = {
           "chinese": "秘密；秘密的",
           "ipa": "/ˈsiːkrət/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/secret_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/secret_2.png",
+          "image": "../../G9/Unit1/images/secret_1.jpg",
+          "image2": "../../G9/Unit1/images/secret_2.jpg",
           "usage": "n. 秘密；adj. 秘密的",
           "collocations": [
             "keep a secret",
@@ -335,8 +335,8 @@ const TEXTBOOK_DATA = {
           "chinese": "爱上；与……相爱",
           "ipa": "/fɔːl ɪn lʌv wɪð/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/fall_in_love_with_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/fall_in_love_with_2.png",
+          "image": "../../G9/Unit1/images/fall_in_love_with_1.jpg",
+          "image2": "../../G9/Unit1/images/fall_in_love_with_2.jpg",
           "usage": "短语动词（常与with连用）爱上",
           "collocations": [
             "fall deeply in love with",
@@ -369,8 +369,8 @@ const TEXTBOOK_DATA = {
           "chinese": "语法",
           "ipa": "/ˈɡræmə(r)/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/grammar_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/grammar_2.png",
+          "image": "../../G9/Unit1/images/grammar_1.jpg",
+          "image2": "../../G9/Unit1/images/grammar_2.jpg",
           "usage": "n. 语法，语法学",
           "collocations": [
             "English grammar",
@@ -403,8 +403,8 @@ const TEXTBOOK_DATA = {
           "chinese": "重复；重做",
           "ipa": "/rɪˈpiːt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/repeat_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/repeat_2.png",
+          "image": "../../G9/Unit1/images/repeat_1.jpg",
+          "image2": "../../G9/Unit1/images/repeat_2.jpg",
           "usage": "v. 重复；重做",
           "collocations": [
             "repeat the word",
@@ -438,8 +438,8 @@ const TEXTBOOK_DATA = {
           "chinese": "笔记；记录；注意",
           "ipa": "/nəʊt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/note_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/note_2.png",
+          "image": "../../G9/Unit1/images/note_1.jpg",
+          "image2": "../../G9/Unit1/images/note_2.jpg",
           "usage": "n. 笔记；记录 / v. 注意",
           "collocations": [
             "take notes",
@@ -473,8 +473,8 @@ const TEXTBOOK_DATA = {
           "chinese": "朋友；伙伴",
           "ipa": "/pæl/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/pal_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/pal_2.png",
+          "image": "../../G9/Unit1/images/pal_1.jpg",
+          "image2": "../../G9/Unit1/images/pal_2.jpg",
           "usage": "n. 朋友；伙伴",
           "collocations": [
             "pen pal",
@@ -508,8 +508,8 @@ const TEXTBOOK_DATA = {
           "chinese": "模式；方式",
           "ipa": "/ˈpætn/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/pattern_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/pattern_2.png",
+          "image": "../../G9/Unit1/images/pattern_1.jpg",
+          "image2": "../../G9/Unit1/images/pattern_2.jpg",
           "usage": "n. 模式；方式",
           "collocations": [
             "sentence pattern",
@@ -543,8 +543,8 @@ const TEXTBOOK_DATA = {
           "chinese": "物理；物理学",
           "ipa": "/ˈfɪzɪks/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/physics_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/physics_2.png",
+          "image": "../../G9/Unit1/images/physics_1.jpg",
+          "image2": "../../G9/Unit1/images/physics_2.jpg",
           "usage": "n. 物理，物理学（不可数名词）",
           "collocations": [
             "physics class",
@@ -577,8 +577,8 @@ const TEXTBOOK_DATA = {
           "chinese": "化学",
           "ipa": "/ˈkemɪstri/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/chemistry_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/chemistry_2.png",
+          "image": "../../G9/Unit1/images/chemistry_1.jpg",
+          "image2": "../../G9/Unit1/images/chemistry_2.jpg",
           "usage": "n. 化学（不可数名词）",
           "collocations": [
             "chemistry lab",
@@ -611,8 +611,8 @@ const TEXTBOOK_DATA = {
           "chinese": "搭档；同伴",
           "ipa": "/ˈpɑːtnə(r)/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/partner_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/partner_2.png",
+          "image": "../../G9/Unit1/images/partner_1.jpg",
+          "image2": "../../G9/Unit1/images/partner_2.jpg",
           "usage": "n. 搭档；同伴（可数名词）",
           "collocations": [
             "business partner",
@@ -645,8 +645,8 @@ const TEXTBOOK_DATA = {
           "chinese": "发音",
           "ipa": "/prəˈnaʊns/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/pronounce_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/pronounce_2.png",
+          "image": "../../G9/Unit1/images/pronounce_1.jpg",
+          "image2": "../../G9/Unit1/images/pronounce_2.jpg",
           "usage": "v. 发音；读（及物动词或不及物动词）",
           "collocations": [
             "pronounce correctly",
@@ -679,8 +679,8 @@ const TEXTBOOK_DATA = {
           "chinese": "增加；增长",
           "ipa": "/ɪnˈkriːs/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/increase_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/increase_2.png",
+          "image": "../../G9/Unit1/images/increase_1.jpg",
+          "image2": "../../G9/Unit1/images/increase_2.jpg",
           "usage": "v. 增加；增长（及物或不及物动词）",
           "collocations": [
             "increase speed",
@@ -714,8 +714,8 @@ const TEXTBOOK_DATA = {
           "chinese": "速度；加速",
           "ipa": "/spiːd/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/speed_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/speed_2.png",
+          "image": "../../G9/Unit1/images/speed_1.jpg",
+          "image2": "../../G9/Unit1/images/speed_2.jpg",
           "usage": "n. / v. 速度；加速",
           "collocations": [
             "at full speed",
@@ -749,8 +749,8 @@ const TEXTBOOK_DATA = {
           "chinese": "能力；才能",
           "ipa": "/əˈbɪləti/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/ability_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/ability_2.png",
+          "image": "../../G9/Unit1/images/ability_1.jpg",
+          "image2": "../../G9/Unit1/images/ability_2.jpg",
           "usage": "n. 能力；才能",
           "collocations": [
             "reading ability",
@@ -785,8 +785,8 @@ const TEXTBOOK_DATA = {
           "chinese": "大脑",
           "ipa": "/breɪn/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/brain_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/brain_2.png",
+          "image": "../../G9/Unit1/images/brain_1.jpg",
+          "image2": "../../G9/Unit1/images/brain_2.jpg",
           "usage": "n. 大脑",
           "collocations": [
             "brain power",
@@ -820,8 +820,8 @@ const TEXTBOOK_DATA = {
           "chinese": "活跃的；积极的",
           "ipa": "/ˈæktɪv/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/active_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/active_2.png",
+          "image": "../../G9/Unit1/images/active_1.jpg",
+          "image2": "../../G9/Unit1/images/active_2.jpg",
           "usage": "adj. 活跃的；积极的",
           "collocations": [
             "active life",
@@ -854,8 +854,8 @@ const TEXTBOOK_DATA = {
           "chinese": "注意；关注",
           "ipa": "/əˈtenʃn/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/attention_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/attention_2.png",
+          "image": "../../G9/Unit1/images/attention_1.jpg",
+          "image2": "../../G9/Unit1/images/attention_2.jpg",
           "usage": "n. 注意；关注",
           "collocations": [
             "pay attention",
@@ -889,8 +889,8 @@ const TEXTBOOK_DATA = {
           "chinese": "注意；关注",
           "ipa": "/peɪ əˈtenʃn tuː/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/pay_attention_to_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/pay_attention_to_2.png",
+          "image": "../../G9/Unit1/images/pay_attention_to_1.jpg",
+          "image2": "../../G9/Unit1/images/pay_attention_to_2.jpg",
           "usage": "短语，意为“注意、关注”，后接名词或动名词。",
           "collocations": [
             "pay close attention to",
@@ -922,8 +922,8 @@ const TEXTBOOK_DATA = {
           "chinese": "（使）连接；与……有联系",
           "ipa": "/kəˈnekt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/connect_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/connect_2.png",
+          "image": "../../G9/Unit1/images/connect_1.jpg",
+          "image2": "../../G9/Unit1/images/connect_2.jpg",
           "usage": "v. （使）连接；与……有联系。及物动词，常接宾语。",
           "collocations": [
             "connect to",
@@ -956,8 +956,8 @@ const TEXTBOOK_DATA = {
           "chinese": "把……和……连接或联系起来",
           "ipa": "/kəˈnekt wɪð/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/connect_with_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/connect_with_2.png",
+          "image": "../../G9/Unit1/images/connect_with_1.jpg",
+          "image2": "../../G9/Unit1/images/connect_with_2.jpg",
           "usage": "短语，意为“把……和……连接或联系起来”，固定搭配。",
           "collocations": [
             "connect A with B",
@@ -988,8 +988,8 @@ const TEXTBOOK_DATA = {
           "chinese": "一夜之间；在夜间",
           "ipa": "/ˌəʊvəˈnaɪt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/overnight_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/overnight_2.png",
+          "image": "../../G9/Unit1/images/overnight_1.jpg",
+          "image2": "../../G9/Unit1/images/overnight_2.jpg",
           "usage": "adv. 一夜之间；在夜间。常置于句末或动词后。",
           "collocations": [
             "stay overnight",
@@ -1021,8 +1021,8 @@ const TEXTBOOK_DATA = {
           "chinese": "回顾；复习",
           "ipa": "/rɪˈvjuː/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/review_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/review_2.png",
+          "image": "../../G9/Unit1/images/review_1.jpg",
+          "image2": "../../G9/Unit1/images/review_2.jpg",
           "usage": "v./n. 复习；回顾；评论。作动词时可直接接宾语；作名词常用a review of。",
           "collocations": [
             "review notes",
@@ -1055,8 +1055,8 @@ const TEXTBOOK_DATA = {
           "chinese": "知识；学问",
           "ipa": "/ˈnɒlɪdʒ/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/knowledge_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/knowledge_2.png",
+          "image": "../../G9/Unit1/images/knowledge_1.jpg",
+          "image2": "../../G9/Unit1/images/knowledge_2.jpg",
           "usage": "n. 知识；学问（不可数名词，可用a knowledge of表示某方面的知识）",
           "collocations": [
             "common knowledge",
@@ -1089,8 +1089,8 @@ const TEXTBOOK_DATA = {
           "chinese": "明智地；聪明地",
           "ipa": "/ˈwaɪzli/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/wisely_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/wisely_2.png",
+          "image": "../../G9/Unit1/images/wisely_1.jpg",
+          "image2": "../../G9/Unit1/images/wisely_2.jpg",
           "usage": "adv. 明智地；聪明地（修饰动词，表示行为方式）",
           "collocations": [
             "act wisely",
@@ -1130,8 +1130,8 @@ const TEXTBOOK_DATA = {
           "chinese": "灯笼",
           "ipa": "/ˈlæntən/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/lantern_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/lantern_2.png",
+          "image": "../../G9/Unit2/images/lantern_1.jpg",
+          "image2": "../../G9/Unit2/images/lantern_2.jpg",
           "usage": "n. 灯笼（可数名词）",
           "collocations": [
             "paper lantern",
@@ -1165,8 +1165,8 @@ const TEXTBOOK_DATA = {
           "chinese": "陌生人",
           "ipa": "/ˈstreɪndʒə(r)/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/stranger_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/stranger_2.png",
+          "image": "../../G9/Unit2/images/stranger_1.jpg",
+          "image2": "../../G9/Unit2/images/stranger_2.jpg",
           "usage": "n. 陌生人（可数名词）",
           "collocations": [
             "complete stranger",
@@ -1199,8 +1199,8 @@ const TEXTBOOK_DATA = {
           "chinese": "亲属；亲戚",
           "ipa": "/ˈrelətɪv/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/relative_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/relative_2.png",
+          "image": "../../G9/Unit2/images/relative_1.jpg",
+          "image2": "../../G9/Unit2/images/relative_2.jpg",
           "usage": "n. 亲属；亲戚（可数名词）",
           "collocations": [
             "close relative",
@@ -1233,8 +1233,8 @@ const TEXTBOOK_DATA = {
           "chinese": "增加（体重）；发胖；穿上",
           "ipa": "/pʊt ɒn/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/put_on_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/put_on_2.png",
+          "image": "../../G9/Unit2/images/put_on_1.jpg",
+          "image2": "../../G9/Unit2/images/put_on_2.jpg",
           "usage": "短语动词，意为“穿上；增加（体重）”。",
           "collocations": [
             "put on weight",
@@ -1267,8 +1267,8 @@ const TEXTBOOK_DATA = {
           "chinese": "磅；英镑",
           "ipa": "/paʊnd/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/pound_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/pound_2.png",
+          "image": "../../G9/Unit2/images/pound_1.jpg",
+          "image2": "../../G9/Unit2/images/pound_2.jpg",
           "usage": "n. 磅（重量单位）；英镑（货币单位）。",
           "collocations": [
             "pound coin",
@@ -1302,8 +1302,8 @@ const TEXTBOOK_DATA = {
           "chinese": "民间的；民俗的",
           "ipa": "/fəʊk/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/folk_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/folk_2.png",
+          "image": "../../G9/Unit2/images/folk_1.jpg",
+          "image2": "../../G9/Unit2/images/folk_2.jpg",
           "usage": "adj. 民间的；民俗的。",
           "collocations": [
             "folk music",
@@ -1336,8 +1336,8 @@ const TEXTBOOK_DATA = {
           "chinese": "女神",
           "ipa": "/ˈɡɒdes/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/goddess_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/goddess_2.png",
+          "image": "../../G9/Unit2/images/goddess_1.jpg",
+          "image2": "../../G9/Unit2/images/goddess_2.jpg",
           "usage": "n. 女神。",
           "collocations": [
             "love goddess",
@@ -1370,8 +1370,8 @@ const TEXTBOOK_DATA = {
           "chinese": "偷；窃取",
           "ipa": "/stiːl/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/steal_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/steal_2.png",
+          "image": "../../G9/Unit2/images/steal_1.jpg",
+          "image2": "../../G9/Unit2/images/steal_2.jpg",
           "usage": "v. 偷；窃取。",
           "collocations": [
             "steal money",
@@ -1404,8 +1404,8 @@ const TEXTBOOK_DATA = {
           "chinese": "放置；产（卵）",
           "ipa": "/leɪ/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/lay_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/lay_2.png",
+          "image": "../../G9/Unit2/images/lay_1.jpg",
+          "image2": "../../G9/Unit2/images/lay_2.jpg",
           "usage": "v. 放置；产卵",
           "collocations": [
             "lay eggs",
@@ -1440,8 +1440,8 @@ const TEXTBOOK_DATA = {
           "chinese": "摆开；布置",
           "ipa": "/leɪ aʊt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/lay_out_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/lay_out_2.png",
+          "image": "../../G9/Unit2/images/lay_out_1.jpg",
+          "image2": "../../G9/Unit2/images/lay_out_2.jpg",
           "usage": "短语动词 摆开；布置；设计",
           "collocations": [
             "lay out clothes",
@@ -1473,8 +1473,8 @@ const TEXTBOOK_DATA = {
           "chinese": "（饭后）甜点；甜食",
           "ipa": "/dɪˈzɜːt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/dessert_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/dessert_2.png",
+          "image": "../../G9/Unit2/images/dessert_1.jpg",
+          "image2": "../../G9/Unit2/images/dessert_2.jpg",
           "usage": "n. 甜点；饭后甜食",
           "collocations": [
             "have dessert",
@@ -1507,8 +1507,8 @@ const TEXTBOOK_DATA = {
           "chinese": "花园；园子",
           "ipa": "/ˈɡɑːdn/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/garden_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/garden_2.png",
+          "image": "../../G9/Unit2/images/garden_1.jpg",
+          "image2": "../../G9/Unit2/images/garden_2.jpg",
           "usage": "n. 花园；园子",
           "collocations": [
             "flower garden",
@@ -1541,8 +1541,8 @@ const TEXTBOOK_DATA = {
           "chinese": "欣赏；仰慕",
           "ipa": "/ədˈmaɪə(r)/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/admire_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/admire_2.png",
+          "image": "../../G9/Unit2/images/admire_1.jpg",
+          "image2": "../../G9/Unit2/images/admire_2.jpg",
           "usage": "v. 欣赏；仰慕",
           "collocations": [
             "admire the view",
@@ -1575,8 +1575,8 @@ const TEXTBOOK_DATA = {
           "chinese": "领带；捆；束",
           "ipa": "/taɪ/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/tie_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/tie_2.png",
+          "image": "../../G9/Unit2/images/tie_1.jpg",
+          "image2": "../../G9/Unit2/images/tie_2.jpg",
           "usage": "n. 领带；v. 捆，束",
           "collocations": [
             "tie a knot",
@@ -1610,8 +1610,8 @@ const TEXTBOOK_DATA = {
           "chinese": "有鬼魂出没的",
           "ipa": "/ˈhɔːntɪd/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/haunted_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/haunted_2.png",
+          "image": "../../G9/Unit2/images/haunted_1.jpg",
+          "image2": "../../G9/Unit2/images/haunted_2.jpg",
           "usage": "adj. 有鬼魂出没的",
           "collocations": [
             "haunted house",
@@ -1644,8 +1644,8 @@ const TEXTBOOK_DATA = {
           "chinese": "鬼；鬼魂",
           "ipa": "/ɡəʊst/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/ghost_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/ghost_2.png",
+          "image": "../../G9/Unit2/images/ghost_1.jpg",
+          "image2": "../../G9/Unit2/images/ghost_2.jpg",
           "usage": "n. 鬼，鬼魂",
           "collocations": [
             "ghost story",
@@ -1678,8 +1678,8 @@ const TEXTBOOK_DATA = {
           "chinese": "花招；把戏",
           "ipa": "/trɪk/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/trick_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/trick_2.png",
+          "image": "../../G9/Unit2/images/trick_1.jpg",
+          "image2": "../../G9/Unit2/images/trick_2.jpg",
           "usage": "n. 花招，把戏",
           "collocations": [
             "play a trick",
@@ -1712,8 +1712,8 @@ const TEXTBOOK_DATA = {
           "chinese": "款待；招待；请客",
           "ipa": "/triːt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/treat_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/treat_2.png",
+          "image": "../../G9/Unit2/images/treat_1.jpg",
+          "image2": "../../G9/Unit2/images/treat_2.jpg",
           "usage": "n. 款待；v. 招待，请客",
           "collocations": [
             "treat someone to",
@@ -1746,8 +1746,8 @@ const TEXTBOOK_DATA = {
           "chinese": "蜘蛛",
           "ipa": "/ˈspaɪdə(r)/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/spider_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/spider_2.png",
+          "image": "../../G9/Unit2/images/spider_1.jpg",
+          "image2": "../../G9/Unit2/images/spider_2.jpg",
           "usage": "n. 蜘蛛",
           "collocations": [
             "black widow",
@@ -1780,8 +1780,8 @@ const TEXTBOOK_DATA = {
           "chinese": "圣诞节",
           "ipa": "/ˈkrɪsməs/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/Christmas_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/Christmas_2.png",
+          "image": "../../G9/Unit2/images/Christmas_1.jpg",
+          "image2": "../../G9/Unit2/images/Christmas_2.jpg",
           "usage": "n. 圣诞节",
           "collocations": [
             "Christmas tree",
@@ -1815,8 +1815,8 @@ const TEXTBOOK_DATA = {
           "chinese": "蠢人；愚弄；愚蠢的",
           "ipa": "/fuːl/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/fool_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/fool_2.png",
+          "image": "../../G9/Unit2/images/fool_1.jpg",
+          "image2": "../../G9/Unit2/images/fool_2.jpg",
           "usage": "n./v./adj. 蠢人；愚弄；愚蠢的",
           "collocations": [
             "April Fools' Day",
@@ -1850,8 +1850,8 @@ const TEXTBOOK_DATA = {
           "chinese": "平躺；处于",
           "ipa": "/laɪ/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/lie_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/lie_2.png",
+          "image": "../../G9/Unit2/images/lie_1.jpg",
+          "image2": "../../G9/Unit2/images/lie_2.jpg",
           "usage": "v. 平躺；处于",
           "collocations": [
             "lie down",
@@ -1886,8 +1886,8 @@ const TEXTBOOK_DATA = {
           "chinese": "（长篇）小说",
           "ipa": "/ˈnɒvl/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/novel_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/novel_2.png",
+          "image": "../../G9/Unit2/images/novel_1.jpg",
+          "image2": "../../G9/Unit2/images/novel_2.jpg",
           "usage": "n. （长篇）小说",
           "collocations": [
             "historical novel",
@@ -1920,8 +1920,8 @@ const TEXTBOOK_DATA = {
           "chinese": "前夕；前夜",
           "ipa": "/iːv/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/eve_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/eve_2.png",
+          "image": "../../G9/Unit2/images/eve_1.jpg",
+          "image2": "../../G9/Unit2/images/eve_2.jpg",
           "usage": "n. 前夕；前夜",
           "collocations": [
             "Christmas Eve",
@@ -1954,8 +1954,8 @@ const TEXTBOOK_DATA = {
           "chinese": "书店",
           "ipa": "/ˈbʊkstɔː(r)/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/bookstore_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/bookstore_2.png",
+          "image": "../../G9/Unit2/images/bookstore_1.jpg",
+          "image2": "../../G9/Unit2/images/bookstore_2.jpg",
           "usage": "n. 书店",
           "collocations": [
             "online bookstore",
@@ -1990,8 +1990,8 @@ const TEXTBOOK_DATA = {
           "chinese": "死的；失去生命的",
           "ipa": "/ded/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/dead_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/dead_2.png",
+          "image": "../../G9/Unit2/images/dead_1.jpg",
+          "image2": "../../G9/Unit2/images/dead_2.jpg",
           "usage": "adj. 死的；失去生命的；失效的",
           "collocations": [
             "dead body",
@@ -2024,8 +2024,8 @@ const TEXTBOOK_DATA = {
           "chinese": "生意；商业",
           "ipa": "/ˈbɪznəs/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/business_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/business_2.png",
+          "image": "../../G9/Unit2/images/business_1.jpg",
+          "image2": "../../G9/Unit2/images/business_2.jpg",
           "usage": "n. 生意；商业；职责",
           "collocations": [
             "do business",
@@ -2060,8 +2060,8 @@ const TEXTBOOK_DATA = {
           "chinese": "处罚；惩罚",
           "ipa": "/ˈpʌnɪʃ/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/punish_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/punish_2.png",
+          "image": "../../G9/Unit2/images/punish_1.jpg",
+          "image2": "../../G9/Unit2/images/punish_2.jpg",
           "usage": "v. 处罚；惩罚",
           "collocations": [
             "punish sb for",
@@ -2095,8 +2095,8 @@ const TEXTBOOK_DATA = {
           "chinese": "警告；告诫",
           "ipa": "/wɔːn/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/warn_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/warn_2.png",
+          "image": "../../G9/Unit2/images/warn_1.jpg",
+          "image2": "../../G9/Unit2/images/warn_2.jpg",
           "usage": "动词，意为“警告；告诫”，常用于 warn sb (not) to do sth 或 warn sb about/of sth 结构。",
           "collocations": [
             "warn sb about",
@@ -2131,8 +2131,8 @@ const TEXTBOOK_DATA = {
           "chinese": "现在；礼物；现在的",
           "ipa": "/ˈpreznt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/present_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/present_2.png",
+          "image": "../../G9/Unit2/images/present_1.jpg",
+          "image2": "../../G9/Unit2/images/present_2.jpg",
           "usage": "名词（礼物；现在）或形容词（现在的；出席的）。形容词时常见于 be present at。",
           "collocations": [
             "birthday present",
@@ -2166,8 +2166,8 @@ const TEXTBOOK_DATA = {
           "chinese": "没有人",
           "ipa": "/ˈnəʊbədi/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/nobody_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/nobody_2.png",
+          "image": "../../G9/Unit2/images/nobody_1.jpg",
+          "image2": "../../G9/Unit2/images/nobody_2.jpg",
           "usage": "代词，意为“没有人”，相当于 no one。用作主语时谓语用单数。",
           "collocations": [
             "nobody else",
@@ -2200,8 +2200,8 @@ const TEXTBOOK_DATA = {
           "chinese": "温暖；暖和",
           "ipa": "/wɔːmθ/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/warmth_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/warmth_2.png",
+          "image": "../../G9/Unit2/images/warmth_1.jpg",
+          "image2": "../../G9/Unit2/images/warmth_2.jpg",
           "usage": "不可数名词，意为“温暖；暖和”，可指温度或情感上的温暖。",
           "collocations": [
             "body warmth",
@@ -2235,8 +2235,8 @@ const TEXTBOOK_DATA = {
           "chinese": "传播；展开；蔓延",
           "ipa": "/spred/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/spread_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/spread_2.png",
+          "image": "../../G9/Unit2/images/spread_1.jpg",
+          "image2": "../../G9/Unit2/images/spread_2.jpg",
           "usage": "动词（传播；展开；涂）或名词（传播；蔓延）。过去式和过去分词均为 spread。",
           "collocations": [
             "spread news",
@@ -2278,8 +2278,8 @@ const TEXTBOOK_DATA = {
           "chinese": "洗手间；公共厕所",
           "ipa": "/ˈrestruːm/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/restroom_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/restroom_2.png",
+          "image": "../../G9/Unit3/images/restroom_1.jpg",
+          "image2": "../../G9/Unit3/images/restroom_2.jpg",
           "usage": "n. 洗手间；公共厕所",
           "collocations": [
             "public restroom",
@@ -2313,8 +2313,8 @@ const TEXTBOOK_DATA = {
           "chinese": "邮票；印章",
           "ipa": "/stæmp/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/stamp_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/stamp_2.png",
+          "image": "../../G9/Unit3/images/stamp_1.jpg",
+          "image2": "../../G9/Unit3/images/stamp_2.jpg",
           "usage": "n. 邮票；印章",
           "collocations": [
             "stamp collection",
@@ -2348,8 +2348,8 @@ const TEXTBOOK_DATA = {
           "chinese": "明信片",
           "ipa": "/ˈpəʊstkɑːd/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/postcard_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/postcard_2.png",
+          "image": "../../G9/Unit3/images/postcard_1.jpg",
+          "image2": "../../G9/Unit3/images/postcard_2.jpg",
           "usage": "n. 明信片",
           "collocations": [
             "send a postcard",
@@ -2383,8 +2383,8 @@ const TEXTBOOK_DATA = {
           "chinese": "请再说一遍；原谅",
           "ipa": "/ˈpɑːdn/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/pardon_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/pardon_2.png",
+          "image": "../../G9/Unit3/images/pardon_1.jpg",
+          "image2": "../../G9/Unit3/images/pardon_2.jpg",
           "usage": "interj. / n. / v. 请再说一遍；原谅",
           "collocations": [
             "pardon me",
@@ -2417,8 +2417,8 @@ const TEXTBOOK_DATA = {
           "chinese": "洗手间；厕所",
           "ipa": "/ˈwɒʃruːm/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/washroom_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/washroom_2.png",
+          "image": "../../G9/Unit3/images/washroom_1.jpg",
+          "image2": "../../G9/Unit3/images/washroom_2.jpg",
           "usage": "n. 洗手间；厕所",
           "collocations": [
             "men's washroom",
@@ -2452,8 +2452,8 @@ const TEXTBOOK_DATA = {
           "chinese": "浴室；洗手间",
           "ipa": "/ˈbɑːθruːm/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/bathroom_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/bathroom_2.png",
+          "image": "../../G9/Unit3/images/bathroom_1.jpg",
+          "image2": "../../G9/Unit3/images/bathroom_2.jpg",
           "usage": "n.",
           "collocations": [
             "clean the bathroom",
@@ -2487,8 +2487,8 @@ const TEXTBOOK_DATA = {
           "chinese": "快的；迅速的",
           "ipa": "/kwɪk/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/quick_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/quick_2.png",
+          "image": "../../G9/Unit3/images/quick_1.jpg",
+          "image2": "../../G9/Unit3/images/quick_2.jpg",
           "usage": "adj.",
           "collocations": [
             "a quick meal",
@@ -2521,8 +2521,8 @@ const TEXTBOOK_DATA = {
           "chinese": "仓促；急促",
           "ipa": "/rʌʃ/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/rush_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/rush_2.png",
+          "image": "../../G9/Unit3/images/rush_1.jpg",
+          "image2": "../../G9/Unit3/images/rush_2.jpg",
           "usage": "v. / n.",
           "collocations": [
             "rush hour",
@@ -2557,8 +2557,8 @@ const TEXTBOOK_DATA = {
           "chinese": "建议；提议",
           "ipa": "/səˈdʒest/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/suggest_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/suggest_2.png",
+          "image": "../../G9/Unit3/images/suggest_1.jpg",
+          "image2": "../../G9/Unit3/images/suggest_2.jpg",
           "usage": "v.",
           "collocations": [
             "suggest doing sth.",
@@ -2591,8 +2591,8 @@ const TEXTBOOK_DATA = {
           "chinese": "管理人员；职工",
           "ipa": "/stɑːf/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/staff_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/staff_2.png",
+          "image": "../../G9/Unit3/images/staff_1.jpg",
+          "image2": "../../G9/Unit3/images/staff_2.jpg",
           "usage": "n.",
           "collocations": [
             "teaching staff",
@@ -2625,8 +2625,8 @@ const TEXTBOOK_DATA = {
           "chinese": "葡萄",
           "ipa": "/ɡreɪp/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/grape_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/grape_2.png",
+          "image": "../../G9/Unit3/images/grape_1.jpg",
+          "image2": "../../G9/Unit3/images/grape_2.jpg",
           "usage": "n. 葡萄",
           "collocations": [
             "purple grapes",
@@ -2659,8 +2659,8 @@ const TEXTBOOK_DATA = {
           "chinese": "中心的；中央的",
           "ipa": "/ˈsentrəl/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/central_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/central_2.png",
+          "image": "../../G9/Unit3/images/central_1.jpg",
+          "image2": "../../G9/Unit3/images/central_2.jpg",
           "usage": "adj. 中心的；中央的",
           "collocations": [
             "central location",
@@ -2694,8 +2694,8 @@ const TEXTBOOK_DATA = {
           "chinese": "邮寄；邮件",
           "ipa": "/meɪl/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/mail_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/mail_2.png",
+          "image": "../../G9/Unit3/images/mail_1.jpg",
+          "image2": "../../G9/Unit3/images/mail_2.jpg",
           "usage": "v. & n. 邮寄；邮件",
           "collocations": [
             "send mail",
@@ -2729,8 +2729,8 @@ const TEXTBOOK_DATA = {
           "chinese": "东方的；向东；东方",
           "ipa": "/iːst/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/east_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/east_2.png",
+          "image": "../../G9/Unit3/images/east_1.jpg",
+          "image2": "../../G9/Unit3/images/east_2.jpg",
           "usage": "adj./adv./n. 东方的；向东；东方",
           "collocations": [
             "east coast",
@@ -2765,8 +2765,8 @@ const TEXTBOOK_DATA = {
           "chinese": "迷人的；有吸引力的",
           "ipa": "/ˈfæsɪneɪtɪŋ/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/fascinating_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/fascinating_2.png",
+          "image": "../../G9/Unit3/images/fascinating_1.jpg",
+          "image2": "../../G9/Unit3/images/fascinating_2.jpg",
           "usage": "adj. 迷人的；有吸引力的",
           "collocations": [
             "fascinating story",
@@ -2799,8 +2799,8 @@ const TEXTBOOK_DATA = {
           "chinese": "便利的；方便的",
           "ipa": "/kənˈviːniənt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/convenient_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/convenient_2.png",
+          "image": "../../G9/Unit3/images/convenient_1.jpg",
+          "image2": "../../G9/Unit3/images/convenient_2.jpg",
           "usage": "adj. 便利的；方便的",
           "collocations": [
             "convenient location",
@@ -2834,8 +2834,8 @@ const TEXTBOOK_DATA = {
           "chinese": "商场；购物中心",
           "ipa": "/mɔːl/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/mall_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/mall_2.png",
+          "image": "../../G9/Unit3/images/mall_1.jpg",
+          "image2": "../../G9/Unit3/images/mall_2.jpg",
           "usage": "n. 商场；购物中心",
           "collocations": [
             "shopping mall",
@@ -2869,8 +2869,8 @@ const TEXTBOOK_DATA = {
           "chinese": "职员",
           "ipa": "/klɑːk/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/clerk_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/clerk_2.png",
+          "image": "../../G9/Unit3/images/clerk_1.jpg",
+          "image2": "../../G9/Unit3/images/clerk_2.jpg",
           "usage": "n. 职员",
           "collocations": [
             "bank clerk",
@@ -2903,8 +2903,8 @@ const TEXTBOOK_DATA = {
           "chinese": "拐角；角落",
           "ipa": "/ˈkɔːnə(r)/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/corner_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/corner_2.png",
+          "image": "../../G9/Unit3/images/corner_1.jpg",
+          "image2": "../../G9/Unit3/images/corner_2.jpg",
           "usage": "n. 拐角；角落",
           "collocations": [
             "street corner",
@@ -2940,8 +2940,8 @@ const TEXTBOOK_DATA = {
           "chinese": "有礼貌的；客气的",
           "ipa": "/pəˈlaɪt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/polite_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/polite_2.png",
+          "image": "../../G9/Unit3/images/polite_1.jpg",
+          "image2": "../../G9/Unit3/images/polite_2.jpg",
           "usage": "adj. 有礼貌的；客气的",
           "collocations": [
             "polite behavior",
@@ -2974,8 +2974,8 @@ const TEXTBOOK_DATA = {
           "chinese": "礼貌地；客气地",
           "ipa": "/pəˈlaɪtli/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/politely_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/politely_2.png",
+          "image": "../../G9/Unit3/images/politely_1.jpg",
+          "image2": "../../G9/Unit3/images/politely_2.jpg",
           "usage": "adv. 礼貌地；客气地",
           "collocations": [
             "ask politely",
@@ -3008,8 +3008,8 @@ const TEXTBOOK_DATA = {
           "chinese": "讲（某种语言）的人；发言者",
           "ipa": "/ˈspiːkə(r)/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/speaker_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/speaker_2.png",
+          "image": "../../G9/Unit3/images/speaker_1.jpg",
+          "image2": "../../G9/Unit3/images/speaker_2.jpg",
           "usage": "n. 讲（某种语言）的人；发言者",
           "collocations": [
             "native speaker",
@@ -3042,8 +3042,8 @@ const TEXTBOOK_DATA = {
           "chinese": "要求；请求",
           "ipa": "/rɪˈkwest/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/request_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/request_2.png",
+          "image": "../../G9/Unit3/images/request_1.jpg",
+          "image2": "../../G9/Unit3/images/request_2.jpg",
           "usage": "n./v. 要求；请求",
           "collocations": [
             "make a request",
@@ -3076,8 +3076,8 @@ const TEXTBOOK_DATA = {
           "chinese": "选择；挑选",
           "ipa": "/tʃɔɪs/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/choice_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/choice_2.png",
+          "image": "../../G9/Unit3/images/choice_1.jpg",
+          "image2": "../../G9/Unit3/images/choice_2.jpg",
           "usage": "n. 选择；挑选",
           "collocations": [
             "make a choice",
@@ -3111,8 +3111,8 @@ const TEXTBOOK_DATA = {
           "chinese": "方向；方位",
           "ipa": "/dəˈrekʃn/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/direction_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/direction_2.png",
+          "image": "../../G9/Unit3/images/direction_1.jpg",
+          "image2": "../../G9/Unit3/images/direction_2.jpg",
           "usage": "n. 方向；方位",
           "collocations": [
             "in the direction of",
@@ -3146,8 +3146,8 @@ const TEXTBOOK_DATA = {
           "chinese": "正确的；恰当的",
           "ipa": "/kəˈrekt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/correct_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/correct_2.png",
+          "image": "../../G9/Unit3/images/correct_1.jpg",
+          "image2": "../../G9/Unit3/images/correct_2.jpg",
           "usage": "adj. 正确的；恰当的",
           "collocations": [
             "correct answer",
@@ -3180,8 +3180,8 @@ const TEXTBOOK_DATA = {
           "chinese": "直接的；直率的",
           "ipa": "/dəˈrekt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/direct_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/direct_2.png",
+          "image": "../../G9/Unit3/images/direct_1.jpg",
+          "image2": "../../G9/Unit3/images/direct_2.jpg",
           "usage": "adj. 直接的；直率的",
           "collocations": [
             "direct flight",
@@ -3215,8 +3215,8 @@ const TEXTBOOK_DATA = {
           "chinese": "谁；什么人",
           "ipa": "/huːm/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/whom_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/whom_2.png",
+          "image": "../../G9/Unit3/images/whom_1.jpg",
+          "image2": "../../G9/Unit3/images/whom_2.jpg",
           "usage": "pron. 谁；什么人（正式用语，常作介词宾语）",
           "collocations": [
             "to whom",
@@ -3252,8 +3252,8 @@ const TEXTBOOK_DATA = {
           "chinese": "地址；通讯处",
           "ipa": "/əˈdres/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/address_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/address_2.png",
+          "image": "../../G9/Unit3/images/address_1.jpg",
+          "image2": "../../G9/Unit3/images/address_2.jpg",
           "usage": "n. 地址；通讯处",
           "collocations": [
             "home address",
@@ -3287,8 +3287,8 @@ const TEXTBOOK_DATA = {
           "chinese": "忠实地；忠诚地",
           "ipa": "/ˈfeɪθfəli/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/faithfully_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/faithfully_2.png",
+          "image": "../../G9/Unit3/images/faithfully_1.jpg",
+          "image2": "../../G9/Unit3/images/faithfully_2.jpg",
           "usage": "adv. 忠实地；忠诚地",
           "collocations": [
             "serve faithfully",
@@ -3328,8 +3328,8 @@ const TEXTBOOK_DATA = {
           "chinese": "有幽默感的；滑稽的",
           "ipa": "/ˈhjuːmərəs/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/humorous_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/humorous_2.png",
+          "image": "../../G9/Unit4/images/humorous_1.jpg",
+          "image2": "../../G9/Unit4/images/humorous_2.jpg",
           "usage": "adj. 有幽默感的；滑稽的",
           "collocations": [
             "sense of humor",
@@ -3362,8 +3362,8 @@ const TEXTBOOK_DATA = {
           "chinese": "不说话的；沉默的",
           "ipa": "/ˈsaɪlənt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/silent_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/silent_2.png",
+          "image": "../../G9/Unit4/images/silent_1.jpg",
+          "image2": "../../G9/Unit4/images/silent_2.jpg",
           "usage": "adj. 不说话的；沉默的",
           "collocations": [
             "silent movie",
@@ -3396,8 +3396,8 @@ const TEXTBOOK_DATA = {
           "chinese": "有用的；有帮助的",
           "ipa": "/ˈhelpfl/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/helpful_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/helpful_2.png",
+          "image": "../../G9/Unit4/images/helpful_1.jpg",
+          "image2": "../../G9/Unit4/images/helpful_2.jpg",
           "usage": "adj. 有用的；有帮助的",
           "collocations": [
             "helpful advice",
@@ -3430,8 +3430,8 @@ const TEXTBOOK_DATA = {
           "chinese": "时常；有时",
           "ipa": "/frəm taɪm tə taɪm/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/from_time_to_time_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/from_time_to_time_2.png",
+          "image": "../../G9/Unit4/images/from_time_to_time_1.jpg",
+          "image2": "../../G9/Unit4/images/from_time_to_time_2.jpg",
           "usage": "短语 时常；有时",
           "collocations": [
             "visit from time to time",
@@ -3463,8 +3463,8 @@ const TEXTBOOK_DATA = {
           "chinese": "得分；打分",
           "ipa": "/skɔː(r)/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/score_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/score_2.png",
+          "image": "../../G9/Unit4/images/score_1.jpg",
+          "image2": "../../G9/Unit4/images/score_2.jpg",
           "usage": "n. 得分；v. 打分、得分",
           "collocations": [
             "score a goal",
@@ -3498,8 +3498,8 @@ const TEXTBOOK_DATA = {
           "chinese": "背景",
           "ipa": "/ˈbækɡraʊnd/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/background_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/background_2.png",
+          "image": "../../G9/Unit4/images/background_1.jpg",
+          "image2": "../../G9/Unit4/images/background_2.jpg",
           "usage": "n. 背景",
           "collocations": [
             "family background",
@@ -3534,8 +3534,8 @@ const TEXTBOOK_DATA = {
           "chinese": "采访；面试；访谈",
           "ipa": "/ˈɪntəvjuː/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/interview_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/interview_2.png",
+          "image": "../../G9/Unit4/images/interview_1.jpg",
+          "image2": "../../G9/Unit4/images/interview_2.jpg",
           "usage": "v./n. 采访；面试；访谈",
           "collocations": [
             "job interview",
@@ -3569,8 +3569,8 @@ const TEXTBOOK_DATA = {
           "chinese": "亚洲的；亚洲人",
           "ipa": "/ˈeɪʒn/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/Asian_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/Asian_2.png",
+          "image": "../../G9/Unit4/images/Asian_1.jpg",
+          "image2": "../../G9/Unit4/images/Asian_2.jpg",
           "usage": "adj./n. 亚洲的；亚洲人",
           "collocations": [
             "Asian countries",
@@ -3603,8 +3603,8 @@ const TEXTBOOK_DATA = {
           "chinese": "对付；应付",
           "ipa": "/diːl wɪð/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/deal_with_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/deal_with_2.png",
+          "image": "../../G9/Unit4/images/deal_with_1.jpg",
+          "image2": "../../G9/Unit4/images/deal_with_2.jpg",
           "usage": "短语 对付；应付",
           "collocations": [
             "deal with problems",
@@ -3637,8 +3637,8 @@ const TEXTBOOK_DATA = {
           "chinese": "敢于；胆敢",
           "ipa": "/deə(r)/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/dare_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/dare_2.png",
+          "image": "../../G9/Unit4/images/dare_1.jpg",
+          "image2": "../../G9/Unit4/images/dare_2.jpg",
           "usage": "v. 敢于；胆敢",
           "collocations": [
             "dare to do",
@@ -3671,8 +3671,8 @@ const TEXTBOOK_DATA = {
           "chinese": "私人的；私密的",
           "ipa": "/ˈpraɪvət/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/private_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/private_2.png",
+          "image": "../../G9/Unit4/images/private_1.jpg",
+          "image2": "../../G9/Unit4/images/private_2.jpg",
           "usage": "adj. 私人的；私密的",
           "collocations": [
             "private life",
@@ -3705,8 +3705,8 @@ const TEXTBOOK_DATA = {
           "chinese": "警卫；看守；守卫",
           "ipa": "/ɡɑːd/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/guard_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/guard_2.png",
+          "image": "../../G9/Unit4/images/guard_1.jpg",
+          "image2": "../../G9/Unit4/images/guard_2.jpg",
           "usage": "n. 警卫； v. 守卫",
           "collocations": [
             "security guard",
@@ -3740,8 +3740,8 @@ const TEXTBOOK_DATA = {
           "chinese": "需要；要求",
           "ipa": "/rɪˈkwaɪə(r)/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/require_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/require_2.png",
+          "image": "../../G9/Unit4/images/require_1.jpg",
+          "image2": "../../G9/Unit4/images/require_2.jpg",
           "usage": "v. 需要；要求",
           "collocations": [
             "require sb. to do",
@@ -3774,8 +3774,8 @@ const TEXTBOOK_DATA = {
           "chinese": "英国的；英国人的",
           "ipa": "/ˈbrɪtɪʃ/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/British_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/British_2.png",
+          "image": "../../G9/Unit4/images/British_1.jpg",
+          "image2": "../../G9/Unit4/images/British_2.jpg",
           "usage": "adj. 英国的；英国人的",
           "collocations": [
             "British people",
@@ -3808,8 +3808,8 @@ const TEXTBOOK_DATA = {
           "chinese": "讲话；发言",
           "ipa": "/spiːtʃ/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/speech_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/speech_2.png",
+          "image": "../../G9/Unit4/images/speech_1.jpg",
+          "image2": "../../G9/Unit4/images/speech_2.jpg",
           "usage": "n. 讲话；发言",
           "collocations": [
             "make a speech",
@@ -3844,8 +3844,8 @@ const TEXTBOOK_DATA = {
           "chinese": "蚂蚁",
           "ipa": "/ænt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/ant_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/ant_2.png",
+          "image": "../../G9/Unit4/images/ant_1.jpg",
+          "image2": "../../G9/Unit4/images/ant_2.jpg",
           "usage": "n. 蚂蚁",
           "collocations": [
             "worker ant",
@@ -3878,8 +3878,8 @@ const TEXTBOOK_DATA = {
           "chinese": "昆虫",
           "ipa": "/ˈɪnsekt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/insect_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/insect_2.png",
+          "image": "../../G9/Unit4/images/insect_1.jpg",
+          "image2": "../../G9/Unit4/images/insect_2.jpg",
           "usage": "n. 昆虫",
           "collocations": [
             "insect bite",
@@ -3912,8 +3912,8 @@ const TEXTBOOK_DATA = {
           "chinese": "影响",
           "ipa": "/ˈɪnfluəns/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/influence_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/influence_2.png",
+          "image": "../../G9/Unit4/images/influence_1.jpg",
+          "image2": "../../G9/Unit4/images/influence_2.jpg",
           "usage": "v. / n. 影响",
           "collocations": [
             "have influence on",
@@ -3947,8 +3947,8 @@ const TEXTBOOK_DATA = {
           "chinese": "不常；很少",
           "ipa": "/ˈseldəm/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/seldom_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/seldom_2.png",
+          "image": "../../G9/Unit4/images/seldom_1.jpg",
+          "image2": "../../G9/Unit4/images/seldom_2.jpg",
           "usage": "adv. 不常；很少",
           "collocations": [
             "seldom see",
@@ -3981,8 +3981,8 @@ const TEXTBOOK_DATA = {
           "chinese": "自豪的；骄傲的",
           "ipa": "/praʊd/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/proud_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/proud_2.png",
+          "image": "../../G9/Unit4/images/proud_1.jpg",
+          "image2": "../../G9/Unit4/images/proud_2.jpg",
           "usage": "adj. 自豪的；骄傲的",
           "collocations": [
             "proud of",
@@ -4015,8 +4015,8 @@ const TEXTBOOK_DATA = {
           "chinese": "为……骄傲；感到自豪",
           "ipa": "/bi praʊd əv/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/be_proud_of_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/be_proud_of_2.png",
+          "image": "../../G9/Unit4/images/be_proud_of_1.jpg",
+          "image2": "../../G9/Unit4/images/be_proud_of_2.jpg",
           "usage": "短语动词，意为“为……感到骄傲”，后接名词、代词或动名词。",
           "collocations": [
             "proud of oneself",
@@ -4049,8 +4049,8 @@ const TEXTBOOK_DATA = {
           "chinese": "缺席；不在",
           "ipa": "/ˈæbsənt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/absent_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/absent_2.png",
+          "image": "../../G9/Unit4/images/absent_1.jpg",
+          "image2": "../../G9/Unit4/images/absent_2.jpg",
           "usage": "形容词，“缺席的，不在的”，常与介词from连用。",
           "collocations": [
             "absent from",
@@ -4083,8 +4083,8 @@ const TEXTBOOK_DATA = {
           "chinese": "失败；未能（做到）",
           "ipa": "/feɪl/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/fail_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/fail_2.png",
+          "image": "../../G9/Unit4/images/fail_1.jpg",
+          "image2": "../../G9/Unit4/images/fail_2.jpg",
           "usage": "动词，“失败；未能（做到）”，可接不定式或介词in。",
           "collocations": [
             "fail to",
@@ -4118,8 +4118,8 @@ const TEXTBOOK_DATA = {
           "chinese": "考试；审查",
           "ipa": "/ɪɡˌzæmɪˈneɪʃn/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/examination_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/examination_2.png",
+          "image": "../../G9/Unit4/images/examination_1.jpg",
+          "image2": "../../G9/Unit4/images/examination_2.jpg",
           "usage": "名词，“考试；检查”，可数名词。",
           "collocations": [
             "take an examination",
@@ -4154,8 +4154,8 @@ const TEXTBOOK_DATA = {
           "chinese": "寄宿学校",
           "ipa": "/ˈbɔːdɪŋ skuːl/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/boarding_school_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/boarding_school_2.png",
+          "image": "../../G9/Unit4/images/boarding_school_1.jpg",
+          "image2": "../../G9/Unit4/images/boarding_school_2.jpg",
           "usage": "可数名词，“寄宿学校”，指学生食宿都在学校。",
           "collocations": [
             "attend boarding school",
@@ -4188,8 +4188,8 @@ const TEXTBOOK_DATA = {
           "chinese": "亲身；亲自",
           "ipa": "/ɪn ˈpɜːsn/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/in_person_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/in_person_2.png",
+          "image": "../../G9/Unit4/images/in_person_1.jpg",
+          "image2": "../../G9/Unit4/images/in_person_2.jpg",
           "usage": "短语，意为‘亲身；亲自’，常用于描述亲自做某事而不是通过电话、邮件等间接方式。",
           "collocations": [
             "appear in person",
@@ -4222,8 +4222,8 @@ const TEXTBOOK_DATA = {
           "chinese": "确切地；精确地",
           "ipa": "/ɪɡˈzæktli/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/exactly_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/exactly_2.png",
+          "image": "../../G9/Unit4/images/exactly_1.jpg",
+          "image2": "../../G9/Unit4/images/exactly_2.jpg",
           "usage": "adv. 副词，用于强调准确性或完全认同，意为‘确切地；精确地’。",
           "collocations": [
             "exactly the same",
@@ -4256,8 +4256,8 @@ const TEXTBOOK_DATA = {
           "chinese": "自豪；骄傲",
           "ipa": "/praɪd/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/pride_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/pride_2.png",
+          "image": "../../G9/Unit4/images/pride_1.jpg",
+          "image2": "../../G9/Unit4/images/pride_2.jpg",
           "usage": "n. 名词（不可数），意为‘自豪；骄傲’，常与in连用表示‘以……为傲’。",
           "collocations": [
             "take pride in",
@@ -4291,8 +4291,8 @@ const TEXTBOOK_DATA = {
           "chinese": "为……感到自豪",
           "ipa": "/teɪk praɪd ɪn/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/take_pride_in_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/take_pride_in_2.png",
+          "image": "../../G9/Unit4/images/take_pride_in_1.jpg",
+          "image2": "../../G9/Unit4/images/take_pride_in_2.jpg",
           "usage": "短语动词，意为‘为……感到自豪’，后接名词或动名词。",
           "collocations": [
             "take pride in one's work",
@@ -4324,8 +4324,8 @@ const TEXTBOOK_DATA = {
           "chinese": "孙子；外孙",
           "ipa": "/ˈɡrænsʌn/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/grandson_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/grandson_2.png",
+          "image": "../../G9/Unit4/images/grandson_1.jpg",
+          "image2": "../../G9/Unit4/images/grandson_2.jpg",
           "usage": "n. 可数名词，意为‘孙子；外孙’。",
           "collocations": [
             "loving grandson",
@@ -4358,8 +4358,8 @@ const TEXTBOOK_DATA = {
           "chinese": "普遍的；常规的；总的；将军",
           "ipa": "/ˈdʒenrəl/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/general_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/general_2.png",
+          "image": "../../G9/Unit4/images/general_1.jpg",
+          "image2": "../../G9/Unit4/images/general_2.jpg",
           "usage": "adj. / n. 普遍的；常规的；总的；将军",
           "collocations": [
             "general idea",
@@ -4392,8 +4392,8 @@ const TEXTBOOK_DATA = {
           "chinese": "介绍",
           "ipa": "/ˌɪntrəˈdʌkʃn/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/introduction_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/introduction_2.png",
+          "image": "../../G9/Unit4/images/introduction_1.jpg",
+          "image2": "../../G9/Unit4/images/introduction_2.jpg",
           "usage": "n. 介绍",
           "collocations": [
             "make an introduction",
@@ -4434,8 +4434,8 @@ const TEXTBOOK_DATA = {
           "chinese": "材料；原料",
           "ipa": "/məˈtɪəriəl/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/material_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/material_2.png",
+          "image": "../../G9/Unit5/images/material_1.jpg",
+          "image2": "../../G9/Unit5/images/material_2.jpg",
           "usage": "n. 材料；原料",
           "collocations": [
             "raw material",
@@ -4469,8 +4469,8 @@ const TEXTBOOK_DATA = {
           "chinese": "筷子",
           "ipa": "/ˈtʃɒpstɪks/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/chopsticks_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/chopsticks_2.png",
+          "image": "../../G9/Unit5/images/chopsticks_1.jpg",
+          "image2": "../../G9/Unit5/images/chopsticks_2.jpg",
           "usage": "n. (复数) 筷子",
           "collocations": [
             "a pair of chopsticks",
@@ -4503,8 +4503,8 @@ const TEXTBOOK_DATA = {
           "chinese": "硬币",
           "ipa": "/kɔɪn/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/coin_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/coin_2.png",
+          "image": "../../G9/Unit5/images/coin_1.jpg",
+          "image2": "../../G9/Unit5/images/coin_2.jpg",
           "usage": "n. 硬币",
           "collocations": [
             "collect coins",
@@ -4538,8 +4538,8 @@ const TEXTBOOK_DATA = {
           "chinese": "餐叉；叉子",
           "ipa": "/fɔːk/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/fork_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/fork_2.png",
+          "image": "../../G9/Unit5/images/fork_1.jpg",
+          "image2": "../../G9/Unit5/images/fork_2.jpg",
           "usage": "n. 餐叉；叉子",
           "collocations": [
             "knife and fork",
@@ -4573,8 +4573,8 @@ const TEXTBOOK_DATA = {
           "chinese": "（女士）短上衣；衬衫",
           "ipa": "/blaʊz/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/blouse_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/blouse_2.png",
+          "image": "../../G9/Unit5/images/blouse_1.jpg",
+          "image2": "../../G9/Unit5/images/blouse_2.jpg",
           "usage": "n. （女士）短上衣；衬衫",
           "collocations": [
             "white blouse",
@@ -4608,8 +4608,8 @@ const TEXTBOOK_DATA = {
           "chinese": "银；银器；银色的",
           "ipa": "/ˈsɪlvə(r)/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/silver_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/silver_2.png",
+          "image": "../../G9/Unit5/images/silver_1.jpg",
+          "image2": "../../G9/Unit5/images/silver_2.jpg",
           "usage": "n. 银；银器；adj. 银色的",
           "collocations": [
             "silver medal",
@@ -4643,8 +4643,8 @@ const TEXTBOOK_DATA = {
           "chinese": "玻璃",
           "ipa": "/ɡlɑːs/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/glass_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/glass_2.png",
+          "image": "../../G9/Unit5/images/glass_1.jpg",
+          "image2": "../../G9/Unit5/images/glass_2.jpg",
           "usage": "n. 玻璃",
           "collocations": [
             "a piece of glass",
@@ -4678,8 +4678,8 @@ const TEXTBOOK_DATA = {
           "chinese": "棉；棉花",
           "ipa": "/ˈkɒtn/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/cotton_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/cotton_2.png",
+          "image": "../../G9/Unit5/images/cotton_1.jpg",
+          "image2": "../../G9/Unit5/images/cotton_2.jpg",
           "usage": "n. 棉；棉花",
           "collocations": [
             "cotton shirt",
@@ -4713,8 +4713,8 @@ const TEXTBOOK_DATA = {
           "chinese": "钢；钢铁",
           "ipa": "/stiːl/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/steel_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/steel_2.png",
+          "image": "../../G9/Unit5/images/steel_1.jpg",
+          "image2": "../../G9/Unit5/images/steel_2.jpg",
           "usage": "n. 钢；钢铁",
           "collocations": [
             "steel industry",
@@ -4748,8 +4748,8 @@ const TEXTBOOK_DATA = {
           "chinese": "草；草地",
           "ipa": "/ɡrɑːs/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/grass_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/grass_2.png",
+          "image": "../../G9/Unit5/images/grass_1.jpg",
+          "image2": "../../G9/Unit5/images/grass_2.jpg",
           "usage": "n. 草；草地",
           "collocations": [
             "green grass",
@@ -4783,8 +4783,8 @@ const TEXTBOOK_DATA = {
           "chinese": "叶；叶子",
           "ipa": "/liːf/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/leaf_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/leaf_2.png",
+          "image": "../../G9/Unit5/images/leaf_1.jpg",
+          "image2": "../../G9/Unit5/images/leaf_2.jpg",
           "usage": "n. 叶；叶子",
           "collocations": [
             "green leaf",
@@ -4819,8 +4819,8 @@ const TEXTBOOK_DATA = {
           "chinese": "生产；制造；出产",
           "ipa": "/prəˈdjuːs/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/produce_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/produce_2.png",
+          "image": "../../G9/Unit5/images/produce_1.jpg",
+          "image2": "../../G9/Unit5/images/produce_2.jpg",
           "usage": "v. 生产；制造；出产",
           "collocations": [
             "produce goods",
@@ -4854,8 +4854,8 @@ const TEXTBOOK_DATA = {
           "chinese": "广泛地；普遍地",
           "ipa": "/ˈwaɪdli/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/widely_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/widely_2.png",
+          "image": "../../G9/Unit5/images/widely_1.jpg",
+          "image2": "../../G9/Unit5/images/widely_2.jpg",
           "usage": "adv. 广泛地；普遍地",
           "collocations": [
             "widely used",
@@ -4888,8 +4888,8 @@ const TEXTBOOK_DATA = {
           "chinese": "加工；处理",
           "ipa": "/ˈprəʊses/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/process_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/process_2.png",
+          "image": "../../G9/Unit5/images/process_1.jpg",
+          "image2": "../../G9/Unit5/images/process_2.jpg",
           "usage": "v. 加工，处理；n. 过程，步骤",
           "collocations": [
             "process data",
@@ -4923,8 +4923,8 @@ const TEXTBOOK_DATA = {
           "chinese": "法国",
           "ipa": "/frɑːns/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/France_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/France_2.png",
+          "image": "../../G9/Unit5/images/France_1.jpg",
+          "image2": "../../G9/Unit5/images/France_2.jpg",
           "usage": "n. 法国（国名，专有名词）",
           "collocations": [
             "visit France",
@@ -4957,8 +4957,8 @@ const TEXTBOOK_DATA = {
           "chinese": "不论；无论",
           "ipa": "/nəʊ ˈmætə(r)/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/no_matter_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/no_matter_2.png",
+          "image": "../../G9/Unit5/images/no_matter_1.jpg",
+          "image2": "../../G9/Unit5/images/no_matter_2.jpg",
           "usage": "短语，意为“不论；无论”，常与what, who, where, when, how等连用，引导让步状语从句",
           "collocations": [
             "no matter what",
@@ -4991,8 +4991,8 @@ const TEXTBOOK_DATA = {
           "chinese": "当地的；本地的",
           "ipa": "/ˈləʊkl/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/local_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/local_2.png",
+          "image": "../../G9/Unit5/images/local_1.jpg",
+          "image2": "../../G9/Unit5/images/local_2.jpg",
           "usage": "adj. 当地的；本地的",
           "collocations": [
             "local people",
@@ -5025,8 +5025,8 @@ const TEXTBOOK_DATA = {
           "chinese": "虽然；即使",
           "ipa": "/ˈiːvn ðəʊ/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/even_though_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/even_though_2.png",
+          "image": "../../G9/Unit5/images/even_though_1.jpg",
+          "image2": "../../G9/Unit5/images/even_though_2.jpg",
           "usage": "短语，意为“虽然；即使”，引导让步状语从句，表达对比或转折",
           "collocations": [
             "even though + subject + verb",
@@ -5058,8 +5058,8 @@ const TEXTBOOK_DATA = {
           "chinese": "品牌；牌子",
           "ipa": "/brænd/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/brand_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/brand_2.png",
+          "image": "../../G9/Unit5/images/brand_1.jpg",
+          "image2": "../../G9/Unit5/images/brand_2.jpg",
           "usage": "名词，指产品或公司的品牌、牌子。",
           "collocations": [
             "brand name",
@@ -5093,8 +5093,8 @@ const TEXTBOOK_DATA = {
           "chinese": "避免；回避",
           "ipa": "/əˈvɔɪd/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/avoid_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/avoid_2.png",
+          "image": "../../G9/Unit5/images/avoid_1.jpg",
+          "image2": "../../G9/Unit5/images/avoid_2.jpg",
           "usage": "动词，意为避免、回避，后常接名词或动名词。",
           "collocations": [
             "avoid doing",
@@ -5127,8 +5127,8 @@ const TEXTBOOK_DATA = {
           "chinese": "产品；制品",
           "ipa": "/ˈprɒdʌkt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/product_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/product_2.png",
+          "image": "../../G9/Unit5/images/product_1.jpg",
+          "image2": "../../G9/Unit5/images/product_2.jpg",
           "usage": "名词，指产品、制品。",
           "collocations": [
             "product design",
@@ -5162,8 +5162,8 @@ const TEXTBOOK_DATA = {
           "chinese": "小手提包",
           "ipa": "/ˈhændbæɡ/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/handbag_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/handbag_2.png",
+          "image": "../../G9/Unit5/images/handbag_1.jpg",
+          "image2": "../../G9/Unit5/images/handbag_2.jpg",
           "usage": "名词，指手提包、小手提包。",
           "collocations": [
             "leather handbag",
@@ -5197,8 +5197,8 @@ const TEXTBOOK_DATA = {
           "chinese": "可移动的；非固定的",
           "ipa": "/ˈməʊbaɪl/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/mobile_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/mobile_2.png",
+          "image": "../../G9/Unit5/images/mobile_1.jpg",
+          "image2": "../../G9/Unit5/images/mobile_2.jpg",
           "usage": "形容词，意为可移动的、非固定的。",
           "collocations": [
             "mobile phone",
@@ -5231,8 +5231,8 @@ const TEXTBOOK_DATA = {
           "chinese": "德国",
           "ipa": "/ˈdʒɜːməni/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/Germany_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/Germany_2.png",
+          "image": "../../G9/Unit5/images/Germany_1.jpg",
+          "image2": "../../G9/Unit5/images/Germany_2.jpg",
           "usage": "n. 德国（国家名）",
           "collocations": [
             "visit Germany",
@@ -5267,8 +5267,8 @@ const TEXTBOOK_DATA = {
           "chinese": "表面；表层",
           "ipa": "/ˈsɜːfɪs/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/surface_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/surface_2.png",
+          "image": "../../G9/Unit5/images/surface_1.jpg",
+          "image2": "../../G9/Unit5/images/surface_2.jpg",
           "usage": "n. 表面；表层",
           "collocations": [
             "on the surface",
@@ -5303,8 +5303,8 @@ const TEXTBOOK_DATA = {
           "chinese": "邮递员",
           "ipa": "/ˈpəʊstmən/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/postman_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/postman_2.png",
+          "image": "../../G9/Unit5/images/postman_1.jpg",
+          "image2": "../../G9/Unit5/images/postman_2.jpg",
           "usage": "n. 邮递员（可数名词）",
           "collocations": [
             "the postman delivers",
@@ -5337,8 +5337,8 @@ const TEXTBOOK_DATA = {
           "chinese": "（尤指有帽舌的）帽",
           "ipa": "/kæp/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/cap_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/cap_2.png",
+          "image": "../../G9/Unit5/images/cap_1.jpg",
+          "image2": "../../G9/Unit5/images/cap_2.jpg",
           "usage": "n. 有帽舌的帽子，如棒球帽、校帽",
           "collocations": [
             "wear a cap",
@@ -5371,8 +5371,8 @@ const TEXTBOOK_DATA = {
           "chinese": "（分手指的）手套",
           "ipa": "/ɡlʌv/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/glove_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/glove_2.png",
+          "image": "../../G9/Unit5/images/glove_1.jpg",
+          "image2": "../../G9/Unit5/images/glove_2.jpg",
           "usage": "n. 手套（常以复数形式 gloves 使用）",
           "collocations": [
             "wear gloves",
@@ -5405,8 +5405,8 @@ const TEXTBOOK_DATA = {
           "chinese": "国际的",
           "ipa": "/ˌɪntəˈnæʃnəl/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/international_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/international_2.png",
+          "image": "../../G9/Unit5/images/international_1.jpg",
+          "image2": "../../G9/Unit5/images/international_2.jpg",
           "usage": "adj. 国际的，世界性的",
           "collocations": [
             "international trade",
@@ -5439,8 +5439,8 @@ const TEXTBOOK_DATA = {
           "chinese": "参赛者；竞争者",
           "ipa": "/kəmˈpetɪtə(r)/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/competitor_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/competitor_2.png",
+          "image": "../../G9/Unit5/images/competitor_1.jpg",
+          "image2": "../../G9/Unit5/images/competitor_2.jpg",
           "usage": "n. 参赛者；竞争者",
           "collocations": [
             "fierce competitor",
@@ -5474,8 +5474,8 @@ const TEXTBOOK_DATA = {
           "chinese": "用颜料画；刷漆",
           "ipa": "/peɪnt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/paint_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/paint_2.png",
+          "image": "../../G9/Unit5/images/paint_1.jpg",
+          "image2": "../../G9/Unit5/images/paint_2.jpg",
           "usage": "v. 用颜料画；刷漆 / n. 油漆，颜料",
           "collocations": [
             "paint a picture",
@@ -5510,8 +5510,8 @@ const TEXTBOOK_DATA = {
           "chinese": "它的",
           "ipa": "/ɪts/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/its_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/its_2.png",
+          "image": "../../G9/Unit5/images/its_1.jpg",
+          "image2": "../../G9/Unit5/images/its_2.jpg",
           "usage": "pron. 它的（形容词性物主代词）",
           "collocations": [
             "its color",
@@ -5544,8 +5544,8 @@ const TEXTBOOK_DATA = {
           "chinese": "形式；类型",
           "ipa": "/fɔːm/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/form_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/form_2.png",
+          "image": "../../G9/Unit5/images/form_1.jpg",
+          "image2": "../../G9/Unit5/images/form_2.jpg",
           "usage": "n. 形式；类型；表格",
           "collocations": [
             "application form",
@@ -5578,8 +5578,8 @@ const TEXTBOOK_DATA = {
           "chinese": "黏土；陶土",
           "ipa": "/kleɪ/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/clay_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/clay_2.png",
+          "image": "../../G9/Unit5/images/clay_1.jpg",
+          "image2": "../../G9/Unit5/images/clay_2.jpg",
           "usage": "n. 黏土；陶土",
           "collocations": [
             "clay pot",
@@ -5614,8 +5614,8 @@ const TEXTBOOK_DATA = {
           "chinese": "气球",
           "ipa": "/bəˈluːn/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/balloon_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/balloon_2.png",
+          "image": "../../G9/Unit5/images/balloon_1.jpg",
+          "image2": "../../G9/Unit5/images/balloon_2.jpg",
           "usage": "n. 气球",
           "collocations": [
             "blow up balloons",
@@ -5650,8 +5650,8 @@ const TEXTBOOK_DATA = {
           "chinese": "剪刀",
           "ipa": "/ˈsɪzəz/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/scissors_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/scissors_2.png",
+          "image": "../../G9/Unit5/images/scissors_1.jpg",
+          "image2": "../../G9/Unit5/images/scissors_2.jpg",
           "usage": "n. 剪刀（常用复数形式）",
           "collocations": [
             "a pair of scissors",
@@ -5686,8 +5686,8 @@ const TEXTBOOK_DATA = {
           "chinese": "生气勃勃的；（色彩）鲜艳的",
           "ipa": "/ˈlaɪvli/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/lively_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/lively_2.png",
+          "image": "../../G9/Unit5/images/lively_1.jpg",
+          "image2": "../../G9/Unit5/images/lively_2.jpg",
           "usage": "adj. 生气勃勃的；（色彩）鲜艳的",
           "collocations": [
             "lively music",
@@ -5721,8 +5721,8 @@ const TEXTBOOK_DATA = {
           "chinese": "童话故事",
           "ipa": "/ˈfeəri teɪl/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/fairy_tale_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/fairy_tale_2.png",
+          "image": "../../G9/Unit5/images/fairy_tale_1.jpg",
+          "image2": "../../G9/Unit5/images/fairy_tale_2.jpg",
           "usage": "n. 童话故事",
           "collocations": [
             "tell a fairy tale",
@@ -5757,8 +5757,8 @@ const TEXTBOOK_DATA = {
           "chinese": "热；高温",
           "ipa": "/hiːt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/heat_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/heat_2.png",
+          "image": "../../G9/Unit5/images/heat_1.jpg",
+          "image2": "../../G9/Unit5/images/heat_2.jpg",
           "usage": "n. 热；高温",
           "collocations": [
             "solar heat",
@@ -5792,8 +5792,8 @@ const TEXTBOOK_DATA = {
           "chinese": "磨光；修改；润色",
           "ipa": "/ˈpɒlɪʃ/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/polish_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/polish_2.png",
+          "image": "../../G9/Unit5/images/polish_1.jpg",
+          "image2": "../../G9/Unit5/images/polish_2.jpg",
           "usage": "v. 磨光；修改；润色",
           "collocations": [
             "polish shoes",
@@ -5827,8 +5827,8 @@ const TEXTBOOK_DATA = {
           "chinese": "完成",
           "ipa": "/kəmˈpliːt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/complete_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/complete_2.png",
+          "image": "../../G9/Unit5/images/complete_1.jpg",
+          "image2": "../../G9/Unit5/images/complete_2.jpg",
           "usage": "v. 完成",
           "collocations": [
             "complete the project",
@@ -5868,8 +5868,8 @@ const TEXTBOOK_DATA = {
           "chinese": "鞋跟；足跟",
           "ipa": "/hiːl/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/heel_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/heel_2.png",
+          "image": "../../G9/Unit6/images/heel_1.jpg",
+          "image2": "../../G9/Unit6/images/heel_2.jpg",
           "usage": "n. 鞋跟；足跟",
           "collocations": [
             "high heels",
@@ -5903,8 +5903,8 @@ const TEXTBOOK_DATA = {
           "chinese": "电；电能",
           "ipa": "/ɪˌlekˈtrɪsəti/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/electricity_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/electricity_2.png",
+          "image": "../../G9/Unit6/images/electricity_1.jpg",
+          "image2": "../../G9/Unit6/images/electricity_2.jpg",
           "usage": "n. 电；电能",
           "collocations": [
             "generate electricity",
@@ -5938,8 +5938,8 @@ const TEXTBOOK_DATA = {
           "chinese": "勺；铲子",
           "ipa": "/skuːp/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/scoop_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/scoop_2.png",
+          "image": "../../G9/Unit6/images/scoop_1.jpg",
+          "image2": "../../G9/Unit6/images/scoop_2.jpg",
           "usage": "n. 勺，铲子；v. 舀，挖",
           "collocations": [
             "scoop of ice cream",
@@ -5973,8 +5973,8 @@ const TEXTBOOK_DATA = {
           "chinese": "样式；款式",
           "ipa": "/staɪl/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/style_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/style_2.png",
+          "image": "../../G9/Unit6/images/style_1.jpg",
+          "image2": "../../G9/Unit6/images/style_2.jpg",
           "usage": "n. 风格，款式；v. 设计，造型",
           "collocations": [
             "in style",
@@ -6008,8 +6008,8 @@ const TEXTBOOK_DATA = {
           "chinese": "项目；工程",
           "ipa": "/ˈprɒdʒekt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/project_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/project_2.png",
+          "image": "../../G9/Unit6/images/project_1.jpg",
+          "image2": "../../G9/Unit6/images/project_2.jpg",
           "usage": "n. 项目，课题；v. 投射，规划",
           "collocations": [
             "school project",
@@ -6043,8 +6043,8 @@ const TEXTBOOK_DATA = {
           "chinese": "高兴；愉快",
           "ipa": "/ˈpleʒə(r)/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/pleasure_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/pleasure_2.png",
+          "image": "../../G9/Unit6/images/pleasure_1.jpg",
+          "image2": "../../G9/Unit6/images/pleasure_2.jpg",
           "usage": "n. 愉快，乐事",
           "collocations": [
             "with pleasure",
@@ -6077,8 +6077,8 @@ const TEXTBOOK_DATA = {
           "chinese": "拉链；拉锁",
           "ipa": "/ˈzɪpə(r)/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/zipper_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/zipper_2.png",
+          "image": "../../G9/Unit6/images/zipper_1.jpg",
+          "image2": "../../G9/Unit6/images/zipper_2.jpg",
           "usage": "n. 拉链；v. 拉上拉链",
           "collocations": [
             "zip up",
@@ -6112,8 +6112,8 @@ const TEXTBOOK_DATA = {
           "chinese": "每日的；日常的",
           "ipa": "/ˈdeɪli/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/daily_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/daily_2.png",
+          "image": "../../G9/Unit6/images/daily_1.jpg",
+          "image2": "../../G9/Unit6/images/daily_2.jpg",
           "usage": "adj. 每日的；日常的",
           "collocations": [
             "daily routine",
@@ -6146,8 +6146,8 @@ const TEXTBOOK_DATA = {
           "chinese": "网站",
           "ipa": "/ˈwebsaɪt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/website_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/website_2.png",
+          "image": "../../G9/Unit6/images/website_1.jpg",
+          "image2": "../../G9/Unit6/images/website_2.jpg",
           "usage": "n. 网站",
           "collocations": [
             "official website",
@@ -6181,8 +6181,8 @@ const TEXTBOOK_DATA = {
           "chinese": "先锋；先驱",
           "ipa": "/ˌpaɪəˈnɪə(r)/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/pioneer_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/pioneer_2.png",
+          "image": "../../G9/Unit6/images/pioneer_1.jpg",
+          "image2": "../../G9/Unit6/images/pioneer_2.jpg",
           "usage": "n. 先锋；先驱",
           "collocations": [
             "pioneer in",
@@ -6216,8 +6216,8 @@ const TEXTBOOK_DATA = {
           "chinese": "列表；列清单；名单",
           "ipa": "/lɪst/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/list_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/list_2.png",
+          "image": "../../G9/Unit6/images/list_1.jpg",
+          "image2": "../../G9/Unit6/images/list_2.jpg",
           "usage": "v. / n. 列表；列清单；名单",
           "collocations": [
             "shopping list",
@@ -6251,8 +6251,8 @@ const TEXTBOOK_DATA = {
           "chinese": "提到；说到",
           "ipa": "/ˈmenʃn/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/mention_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/mention_2.png",
+          "image": "../../G9/Unit6/images/mention_1.jpg",
+          "image2": "../../G9/Unit6/images/mention_2.jpg",
           "usage": "v. 提到；说到",
           "collocations": [
             "mention that",
@@ -6286,8 +6286,8 @@ const TEXTBOOK_DATA = {
           "chinese": "偶然；意外地",
           "ipa": "/baɪ ˈæksɪdənt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/by_accident_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/by_accident_2.png",
+          "image": "../../G9/Unit6/images/by_accident_1.jpg",
+          "image2": "../../G9/Unit6/images/by_accident_2.jpg",
           "usage": "短语，表示偶然发生，非故意",
           "collocations": [
             "find by accident",
@@ -6320,8 +6320,8 @@ const TEXTBOOK_DATA = {
           "chinese": "几乎；差不多",
           "ipa": "/ˈnɪəli/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/nearly_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/nearly_2.png",
+          "image": "../../G9/Unit6/images/nearly_1.jpg",
+          "image2": "../../G9/Unit6/images/nearly_2.jpg",
           "usage": "adv. 几乎，差不多",
           "collocations": [
             "nearly finished",
@@ -6354,8 +6354,8 @@ const TEXTBOOK_DATA = {
           "chinese": "煮沸；烧开",
           "ipa": "/bɔɪl/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/boil_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/boil_2.png",
+          "image": "../../G9/Unit6/images/boil_1.jpg",
+          "image2": "../../G9/Unit6/images/boil_2.jpg",
           "usage": "v. 煮沸，烧开；激动",
           "collocations": [
             "boil water",
@@ -6390,8 +6390,8 @@ const TEXTBOOK_DATA = {
           "chinese": "气味；发出气味；闻到",
           "ipa": "/smel/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/smell_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/smell_2.png",
+          "image": "../../G9/Unit6/images/smell_1.jpg",
+          "image2": "../../G9/Unit6/images/smell_2.jpg",
           "usage": "n. 气味；v. 闻到，发出气味",
           "collocations": [
             "smell good",
@@ -6425,8 +6425,8 @@ const TEXTBOOK_DATA = {
           "chinese": "圣人；圣徒",
           "ipa": "/seɪnt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/saint_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/saint_2.png",
+          "image": "../../G9/Unit6/images/saint_1.jpg",
+          "image2": "../../G9/Unit6/images/saint_2.jpg",
           "usage": "n. 圣人，圣徒",
           "collocations": [
             "patron saint",
@@ -6459,8 +6459,8 @@ const TEXTBOOK_DATA = {
           "chinese": "发生；出现",
           "ipa": "/teɪk pleɪs/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/take_place_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/take_place_2.png",
+          "image": "../../G9/Unit6/images/take_place_1.jpg",
+          "image2": "../../G9/Unit6/images/take_place_2.jpg",
           "usage": "短语动词，意为“发生；出现”，常指有计划或安排的事件发生。",
           "collocations": [
             "take place in",
@@ -6496,8 +6496,8 @@ const TEXTBOOK_DATA = {
           "chinese": "疑惑；疑问；怀疑",
           "ipa": "/daʊt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/doubt_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/doubt_2.png",
+          "image": "../../G9/Unit6/images/doubt_1.jpg",
+          "image2": "../../G9/Unit6/images/doubt_2.jpg",
           "usage": "n. / v. 名词时意为“疑惑；疑问”；动词时意为“怀疑；不信任”。",
           "collocations": [
             "have doubt",
@@ -6532,8 +6532,8 @@ const TEXTBOOK_DATA = {
           "chinese": "毫无疑问；的确",
           "ipa": "/wɪˈðaʊt daʊt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/without_doubt_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/without_doubt_2.png",
+          "image": "../../G9/Unit6/images/without_doubt_1.jpg",
+          "image2": "../../G9/Unit6/images/without_doubt_2.jpg",
           "usage": "短语副词，意为“毫无疑问；的确”，用于强调肯定语气。",
           "collocations": [
             "without any doubt",
@@ -6565,8 +6565,8 @@ const TEXTBOOK_DATA = {
           "chinese": "冰箱",
           "ipa": "/frɪdʒ/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/fridge_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/fridge_2.png",
+          "image": "../../G9/Unit6/images/fridge_1.jpg",
+          "image2": "../../G9/Unit6/images/fridge_2.jpg",
           "usage": "n. 名词，意为“冰箱”，refrigerator的缩写。",
           "collocations": [
             "open the fridge",
@@ -6601,8 +6601,8 @@ const TEXTBOOK_DATA = {
           "chinese": "翻译",
           "ipa": "/trænsˈleɪt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/translate_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/translate_2.png",
+          "image": "../../G9/Unit6/images/translate_1.jpg",
+          "image2": "../../G9/Unit6/images/translate_2.jpg",
           "usage": "v. 动词，意为“翻译”，常指将一种语言转换成另一种语言。",
           "collocations": [
             "translate into",
@@ -6637,8 +6637,8 @@ const TEXTBOOK_DATA = {
           "chinese": "锁上；锁住",
           "ipa": "/lɒk/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/lock_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/lock_2.png",
+          "image": "../../G9/Unit6/images/lock_1.jpg",
+          "image2": "../../G9/Unit6/images/lock_2.jpg",
           "usage": "v. 锁上；n. 锁",
           "collocations": [
             "lock the door",
@@ -6673,8 +6673,8 @@ const TEXTBOOK_DATA = {
           "chinese": "地震",
           "ipa": "/ˈɜːθkweɪk/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/earthquake_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/earthquake_2.png",
+          "image": "../../G9/Unit6/images/earthquake_1.jpg",
+          "image2": "../../G9/Unit6/images/earthquake_2.jpg",
           "usage": "n. 地震",
           "collocations": [
             "strong earthquake",
@@ -6708,8 +6708,8 @@ const TEXTBOOK_DATA = {
           "chinese": "突然（的）",
           "ipa": "/ˈsʌdn/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/sudden_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/sudden_2.png",
+          "image": "../../G9/Unit6/images/sudden_1.jpg",
+          "image2": "../../G9/Unit6/images/sudden_2.jpg",
           "usage": "adj. 突然的",
           "collocations": [
             "sudden change",
@@ -6742,8 +6742,8 @@ const TEXTBOOK_DATA = {
           "chinese": "突然；猛地",
           "ipa": "/ɔːl əv ə ˈsʌdn/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/all_of_a_sudden_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/all_of_a_sudden_2.png",
+          "image": "../../G9/Unit6/images/all_of_a_sudden_1.jpg",
+          "image2": "../../G9/Unit6/images/all_of_a_sudden_2.jpg",
           "usage": "短语 突然；猛地",
           "collocations": [
             "appear all of a sudden",
@@ -6775,8 +6775,8 @@ const TEXTBOOK_DATA = {
           "chinese": "饼干",
           "ipa": "/ˈbɪskɪt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/biscuit_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/biscuit_2.png",
+          "image": "../../G9/Unit6/images/biscuit_1.jpg",
+          "image2": "../../G9/Unit6/images/biscuit_2.jpg",
           "usage": "n. 饼干",
           "collocations": [
             "eat a biscuit",
@@ -6809,8 +6809,8 @@ const TEXTBOOK_DATA = {
           "chinese": "曲奇饼干",
           "ipa": "/ˈkʊki/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/cookie_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/cookie_2.png",
+          "image": "../../G9/Unit6/images/cookie_1.jpg",
+          "image2": "../../G9/Unit6/images/cookie_2.jpg",
           "usage": "n. (可数名词) 曲奇饼干",
           "collocations": [
             "chocolate cookie",
@@ -6843,8 +6843,8 @@ const TEXTBOOK_DATA = {
           "chinese": "器械；仪器；工具",
           "ipa": "/ˈɪnstrəmənt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/instrument_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/instrument_2.png",
+          "image": "../../G9/Unit6/images/instrument_1.jpg",
+          "image2": "../../G9/Unit6/images/instrument_2.jpg",
           "usage": "n. (可数名词) 器械；仪器；工具；乐器",
           "collocations": [
             "musical instrument",
@@ -6877,8 +6877,8 @@ const TEXTBOOK_DATA = {
           "chinese": "脆的；酥脆的",
           "ipa": "/ˈkrɪspi/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/crispy_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/crispy_2.png",
+          "image": "../../G9/Unit6/images/crispy_1.jpg",
+          "image2": "../../G9/Unit6/images/crispy_2.jpg",
           "usage": "adj. 脆的；酥脆的",
           "collocations": [
             "crispy bacon",
@@ -6911,8 +6911,8 @@ const TEXTBOOK_DATA = {
           "chinese": "酸的；有酸味的",
           "ipa": "/ˈsaʊə(r)/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/sour_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/sour_2.png",
+          "image": "../../G9/Unit6/images/sour_1.jpg",
+          "image2": "../../G9/Unit6/images/sour_2.jpg",
           "usage": "adj. 酸的；有酸味的",
           "collocations": [
             "sour taste",
@@ -6945,8 +6945,8 @@ const TEXTBOOK_DATA = {
           "chinese": "错误地；无意中",
           "ipa": "/baɪ mɪˈsteɪk/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/by_mistake_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/by_mistake_2.png",
+          "image": "../../G9/Unit6/images/by_mistake_1.jpg",
+          "image2": "../../G9/Unit6/images/by_mistake_2.jpg",
           "usage": "短语 (副词性) 错误地；无意中",
           "collocations": [
             "take by mistake",
@@ -6979,8 +6979,8 @@ const TEXTBOOK_DATA = {
           "chinese": "顾客；客户",
           "ipa": "/ˈkʌstəmə(r)/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/customer_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/customer_2.png",
+          "image": "../../G9/Unit6/images/customer_1.jpg",
+          "image2": "../../G9/Unit6/images/customer_2.jpg",
           "usage": "n. 顾客；客户",
           "collocations": [
             "loyal customer",
@@ -7014,8 +7014,8 @@ const TEXTBOOK_DATA = {
           "chinese": "加拿大的；加拿大人",
           "ipa": "/kəˈneɪdiən/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/Canadian_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/Canadian_2.png",
+          "image": "../../G9/Unit6/images/Canadian_1.jpg",
+          "image2": "../../G9/Unit6/images/Canadian_2.jpg",
           "usage": "adj. / n. 加拿大的；加拿大人",
           "collocations": [
             "Canadian dollars",
@@ -7048,8 +7048,8 @@ const TEXTBOOK_DATA = {
           "chinese": "分开；分散",
           "ipa": "/dɪˈvaɪd/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/divide_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/divide_2.png",
+          "image": "../../G9/Unit6/images/divide_1.jpg",
+          "image2": "../../G9/Unit6/images/divide_2.jpg",
           "usage": "v. 分开；分散",
           "collocations": [
             "divide equally",
@@ -7085,8 +7085,8 @@ const TEXTBOOK_DATA = {
           "chinese": "把……分开",
           "ipa": "/dɪˈvaɪd ˈɪntə/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/divide_into_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/divide_into_2.png",
+          "image": "../../G9/Unit6/images/divide_into_1.jpg",
+          "image2": "../../G9/Unit6/images/divide_into_2.jpg",
           "usage": "短语 把……分开",
           "collocations": [
             "divide the class into",
@@ -7119,8 +7119,8 @@ const TEXTBOOK_DATA = {
           "chinese": "目的；目标",
           "ipa": "/ˈpɜːpəs/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/purpose_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/purpose_2.png",
+          "image": "../../G9/Unit6/images/purpose_1.jpg",
+          "image2": "../../G9/Unit6/images/purpose_2.jpg",
           "usage": "n. 目的；目标",
           "collocations": [
             "main purpose",
@@ -7154,8 +7154,8 @@ const TEXTBOOK_DATA = {
           "chinese": "篮；筐",
           "ipa": "/ˈbɑːskɪt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/basket_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/basket_2.png",
+          "image": "../../G9/Unit6/images/basket_1.jpg",
+          "image2": "../../G9/Unit6/images/basket_2.jpg",
           "usage": "n. 篮；筐",
           "collocations": [
             "shopping basket",
@@ -7189,8 +7189,8 @@ const TEXTBOOK_DATA = {
           "chinese": "奥林匹克运动会",
           "ipa": "/ði əˈlɪmpɪks/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/the_Olympics_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/the_Olympics_2.png",
+          "image": "../../G9/Unit6/images/the_Olympics_1.jpg",
+          "image2": "../../G9/Unit6/images/the_Olympics_2.jpg",
           "usage": "n. 奥林匹克运动会（专有名词，常加定冠词）",
           "collocations": [
             "hold the Olympics",
@@ -7224,8 +7224,8 @@ const TEXTBOOK_DATA = {
           "chinese": "钦佩",
           "ipa": "/lʊk ʌp tuː/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/look_up_to_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/look_up_to_2.png",
+          "image": "../../G9/Unit6/images/look_up_to_1.jpg",
+          "image2": "../../G9/Unit6/images/look_up_to_2.jpg",
           "usage": "phr. v. 钦佩；仰慕（通常接人作宾语）",
           "collocations": [
             "look up to someone",
@@ -7257,8 +7257,8 @@ const TEXTBOOK_DATA = {
           "chinese": "英雄；男主角",
           "ipa": "/ˈhɪərəʊ/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/hero_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/hero_2.png",
+          "image": "../../G9/Unit6/images/hero_1.jpg",
+          "image2": "../../G9/Unit6/images/hero_2.jpg",
           "usage": "n. 英雄；男主角",
           "collocations": [
             "national hero",
@@ -7299,8 +7299,8 @@ const TEXTBOOK_DATA = {
           "chinese": "冒烟；吸烟；烟",
           "ipa": "/sməʊk/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/smoke_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/smoke_2.png",
+          "image": "../../G9/Unit7/images/smoke_1.jpg",
+          "image2": "../../G9/Unit7/images/smoke_2.jpg",
           "usage": "v. 冒烟；吸烟；n. 烟",
           "collocations": [
             "smoke a cigarette",
@@ -7335,8 +7335,8 @@ const TEXTBOOK_DATA = {
           "chinese": "扎；刺破；穿透",
           "ipa": "/pɪəs/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/pierce_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/pierce_2.png",
+          "image": "../../G9/Unit7/images/pierce_1.jpg",
+          "image2": "../../G9/Unit7/images/pierce_2.jpg",
           "usage": "v. 扎，刺破，穿透",
           "collocations": [
             "pierce the sky",
@@ -7369,8 +7369,8 @@ const TEXTBOOK_DATA = {
           "chinese": "证；证件",
           "ipa": "/ˈlaɪsns/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/license_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/license_2.png",
+          "image": "../../G9/Unit7/images/license_1.jpg",
+          "image2": "../../G9/Unit7/images/license_2.jpg",
           "usage": "n. 证，证件",
           "collocations": [
             "driver's license",
@@ -7403,8 +7403,8 @@ const TEXTBOOK_DATA = {
           "chinese": "安全；安全性",
           "ipa": "/ˈseɪfti/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/safety_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/safety_2.png",
+          "image": "../../G9/Unit7/images/safety_1.jpg",
+          "image2": "../../G9/Unit7/images/safety_2.jpg",
           "usage": "n. 安全，安全性",
           "collocations": [
             "safety belt",
@@ -7438,8 +7438,8 @@ const TEXTBOOK_DATA = {
           "chinese": "耳环；耳饰",
           "ipa": "/ˈɪərɪŋ/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/earring_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/earring_2.png",
+          "image": "../../G9/Unit7/images/earring_1.jpg",
+          "image2": "../../G9/Unit7/images/earring_2.jpg",
           "usage": "n. 耳环，耳饰",
           "collocations": [
             "gold earring",
@@ -7471,8 +7471,8 @@ const TEXTBOOK_DATA = {
           "chinese": "哭；叫喊",
           "ipa": "/kraɪ/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/cry_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/cry_2.png",
+          "image": "../../G9/Unit7/images/cry_1.jpg",
+          "image2": "../../G9/Unit7/images/cry_2.jpg",
           "usage": "v./n. 哭，叫喊",
           "collocations": [
             "cry out",
@@ -7506,8 +7506,8 @@ const TEXTBOOK_DATA = {
           "chinese": "田野；场地",
           "ipa": "/fiːld/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/field_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/field_2.png",
+          "image": "../../G9/Unit7/images/field_1.jpg",
+          "image2": "../../G9/Unit7/images/field_2.jpg",
           "usage": "n. 田野；场地；领域",
           "collocations": [
             "field trip",
@@ -7542,8 +7542,8 @@ const TEXTBOOK_DATA = {
           "chinese": "拥抱；搂抱",
           "ipa": "/hʌɡ/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/hug_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/hug_2.png",
+          "image": "../../G9/Unit7/images/hug_1.jpg",
+          "image2": "../../G9/Unit7/images/hug_2.jpg",
           "usage": "n./v. 拥抱；搂抱",
           "collocations": [
             "give a hug",
@@ -7577,8 +7577,8 @@ const TEXTBOOK_DATA = {
           "chinese": "举起；抬高",
           "ipa": "/lɪft/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/lift_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/lift_2.png",
+          "image": "../../G9/Unit7/images/lift_1.jpg",
+          "image2": "../../G9/Unit7/images/lift_2.jpg",
           "usage": "v. 举起；抬高；提升",
           "collocations": [
             "lift up",
@@ -7613,8 +7613,8 @@ const TEXTBOOK_DATA = {
           "chinese": "回嘴；顶嘴",
           "ipa": "/tɔːk bæk/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/talk_back_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/talk_back_2.png",
+          "image": "../../G9/Unit7/images/talk_back_1.jpg",
+          "image2": "../../G9/Unit7/images/talk_back_2.jpg",
           "usage": "短语动词 回嘴；顶嘴",
           "collocations": [
             "talk back to someone",
@@ -7646,8 +7646,8 @@ const TEXTBOOK_DATA = {
           "chinese": "很坏的；讨厌的",
           "ipa": "/ˈɔːfl/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/awful_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/awful_2.png",
+          "image": "../../G9/Unit7/images/awful_1.jpg",
+          "image2": "../../G9/Unit7/images/awful_2.jpg",
           "usage": "adj. 很坏的；讨厌的；极度的",
           "collocations": [
             "awful weather",
@@ -7680,8 +7680,8 @@ const TEXTBOOK_DATA = {
           "chinese": "十几岁（十三至十九岁）",
           "ipa": "/tiːn/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/teen_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/teen_2.png",
+          "image": "../../G9/Unit7/images/teen_1.jpg",
+          "image2": "../../G9/Unit7/images/teen_2.jpg",
           "usage": "n. 十几岁的青少年（13-19岁）",
           "collocations": [
             "teen years",
@@ -7714,8 +7714,8 @@ const TEXTBOOK_DATA = {
           "chinese": "感到遗憾；懊悔",
           "ipa": "/rɪˈɡret/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/regret_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/regret_2.png",
+          "image": "../../G9/Unit7/images/regret_1.jpg",
+          "image2": "../../G9/Unit7/images/regret_2.jpg",
           "usage": "v. 感到遗憾；懊悔",
           "collocations": [
             "regret doing",
@@ -7748,8 +7748,8 @@ const TEXTBOOK_DATA = {
           "chinese": "诗；韵文",
           "ipa": "/ˈpəʊɪm/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/poem_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/poem_2.png",
+          "image": "../../G9/Unit7/images/poem_1.jpg",
+          "image2": "../../G9/Unit7/images/poem_2.jpg",
           "usage": "n. 诗；韵文",
           "collocations": [
             "write a poem",
@@ -7783,8 +7783,8 @@ const TEXTBOOK_DATA = {
           "chinese": "卧室",
           "ipa": "/ˈbedruːm/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/bedroom_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/bedroom_2.png",
+          "image": "../../G9/Unit7/images/bedroom_1.jpg",
+          "image2": "../../G9/Unit7/images/bedroom_2.jpg",
           "usage": "n. 卧室",
           "collocations": [
             "master bedroom",
@@ -7818,8 +7818,8 @@ const TEXTBOOK_DATA = {
           "chinese": "社区；社团",
           "ipa": "/kəˈmjuːnəti/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/community_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/community_2.png",
+          "image": "../../G9/Unit7/images/community_1.jpg",
+          "image2": "../../G9/Unit7/images/community_2.jpg",
           "usage": "n. 社区；社团",
           "collocations": [
             "local community",
@@ -7854,8 +7854,8 @@ const TEXTBOOK_DATA = {
           "chinese": "避免接近；远离",
           "ipa": "/kiːp əˈweɪ frəm/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/keep_away_from_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/keep_away_from_2.png",
+          "image": "../../G9/Unit7/images/keep_away_from_1.jpg",
+          "image2": "../../G9/Unit7/images/keep_away_from_2.jpg",
           "usage": "短语 verb phrase; 表示避免接近或远离",
           "collocations": [
             "keep away from fire",
@@ -7888,8 +7888,8 @@ const TEXTBOOK_DATA = {
           "chinese": "机会；可能性",
           "ipa": "/tʃɑːns/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/chance_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/chance_2.png",
+          "image": "../../G9/Unit7/images/chance_1.jpg",
+          "image2": "../../G9/Unit7/images/chance_2.jpg",
           "usage": "n. 可数名词，表示机会或可能性；常与不定冠词a连用，如a chance to do sth.",
           "collocations": [
             "have a chance",
@@ -7923,8 +7923,8 @@ const TEXTBOOK_DATA = {
           "chinese": "自己做决定",
           "ipa": "/meɪk wʌnz əʊn dɪˈsɪʒn/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/make_ones_own_decision_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/make_ones_own_decision_2.png",
+          "image": "../../G9/Unit7/images/make_ones_own_decision_1.jpg",
+          "image2": "../../G9/Unit7/images/make_ones_own_decision_2.jpg",
           "usage": "短语 verb phrase; 意为“自己做决定”，常与情态动词连用，如should/must make one's own decision",
           "collocations": [
             "make a wise decision",
@@ -7957,8 +7957,8 @@ const TEXTBOOK_DATA = {
           "chinese": "设法做到；应付（困难局面）",
           "ipa": "/ˈmænɪdʒ/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/manage_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/manage_2.png",
+          "image": "../../G9/Unit7/images/manage_1.jpg",
+          "image2": "../../G9/Unit7/images/manage_2.jpg",
           "usage": "v. 动词，意为设法做到或应付；常接不定式，如manage to do sth.",
           "collocations": [
             "manage to do",
@@ -7992,8 +7992,8 @@ const TEXTBOOK_DATA = {
           "chinese": "社会",
           "ipa": "/səˈsaɪəti/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/society_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/society_2.png",
+          "image": "../../G9/Unit7/images/society_1.jpg",
+          "image2": "../../G9/Unit7/images/society_2.jpg",
           "usage": "n. 名词，通常不可数，表示社会整体；也可作可数，如a modern society",
           "collocations": [
             "modern society",
@@ -8027,8 +8027,8 @@ const TEXTBOOK_DATA = {
           "chinese": "单位；单元",
           "ipa": "/ˈjuːnɪt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/unit_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/unit_2.png",
+          "image": "../../G9/Unit7/images/unit_1.jpg",
+          "image2": "../../G9/Unit7/images/unit_2.jpg",
           "usage": "n.",
           "collocations": [
             "a unit of",
@@ -8063,8 +8063,8 @@ const TEXTBOOK_DATA = {
           "chinese": "教育；教导",
           "ipa": "/ˈedʒukeɪt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/educate_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/educate_2.png",
+          "image": "../../G9/Unit7/images/educate_1.jpg",
+          "image2": "../../G9/Unit7/images/educate_2.jpg",
           "usage": "v.",
           "collocations": [
             "educate children",
@@ -8099,8 +8099,8 @@ const TEXTBOOK_DATA = {
           "chinese": "挡……的路；妨碍",
           "ipa": "/ɡet ɪn ðə weɪ əv/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/get_in_the_way_of_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/get_in_the_way_of_2.png",
+          "image": "../../G9/Unit7/images/get_in_the_way_of_1.jpg",
+          "image2": "../../G9/Unit7/images/get_in_the_way_of_2.jpg",
           "usage": "短语",
           "collocations": [
             "get in the way of progress",
@@ -8133,8 +8133,8 @@ const TEXTBOOK_DATA = {
           "chinese": "职业的；专业的",
           "ipa": "/prəˈfeʃənl/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/professional_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/professional_2.png",
+          "image": "../../G9/Unit7/images/professional_1.jpg",
+          "image2": "../../G9/Unit7/images/professional_2.jpg",
           "usage": "adj.",
           "collocations": [
             "professional athlete",
@@ -8169,8 +8169,8 @@ const TEXTBOOK_DATA = {
           "chinese": "进来；进去",
           "ipa": "/ˈentə(r)/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/enter_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/enter_2.png",
+          "image": "../../G9/Unit7/images/enter_1.jpg",
+          "image2": "../../G9/Unit7/images/enter_2.jpg",
           "usage": "v.",
           "collocations": [
             "enter the room",
@@ -8205,8 +8205,8 @@ const TEXTBOOK_DATA = {
           "chinese": "支持",
           "ipa": "/səˈpɔːt/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/support_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/support_2.png",
+          "image": "../../G9/Unit7/images/support_1.jpg",
+          "image2": "../../G9/Unit7/images/support_2.jpg",
           "usage": "动词：支持，帮助；名词：支持，帮助。",
           "collocations": [
             "support sb/sth",
@@ -8249,7 +8249,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/huːz/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/whose_1.jpg",
-          "image2": "../../G9/Unit8/images/whose_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/whose_2.png",
           "usage": "pron. (所有格)",
           "collocations": [
             "whose book",
@@ -8282,7 +8282,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/trʌk/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/truck_1.jpg",
-          "image2": "../../G9/Unit8/images/truck_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/truck_2.png",
           "usage": "n. (复数 trucks)",
           "collocations": [
             "truck driver",
@@ -8317,7 +8317,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈræbɪt/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/rabbit_1.jpg",
-          "image2": "../../G9/Unit8/images/rabbit_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/rabbit_2.png",
           "usage": "n. (复数 rabbits)",
           "collocations": [
             "pet rabbit",
@@ -8351,7 +8351,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈtend/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/attend_1.jpg",
-          "image2": "../../G9/Unit8/images/attend_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/attend_2.png",
           "usage": "v. (attended, attended)",
           "collocations": [
             "attend a meeting",
@@ -8385,7 +8385,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈvæljuəbl/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/valuable_1.jpg",
-          "image2": "../../G9/Unit8/images/valuable_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/valuable_2.png",
           "usage": "adj.",
           "collocations": [
             "valuable information",
@@ -8418,7 +8418,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pɪŋk/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/pink_1.jpg",
-          "image2": "../../G9/Unit8/images/pink_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/pink_2.png",
           "usage": "adj. / n.",
           "collocations": [
             "light pink",
@@ -8451,7 +8451,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈeniˌbɒdi/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/anybody_1.jpg",
-          "image2": "../../G9/Unit8/images/anybody_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/anybody_2.png",
           "usage": "pron.",
           "collocations": [
             "hardly anybody",
@@ -8483,7 +8483,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmɪstəri/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/mystery_1.jpg",
-          "image2": "../../G9/Unit8/images/mystery_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/mystery_2.png",
           "usage": "n. (复数 mysteries)",
           "collocations": [
             "solve a mystery",
@@ -8517,7 +8517,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/biː noʊn æz/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/be_known_as_1.jpg",
-          "image2": "../../G9/Unit8/images/be_known_as_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/be_known_as_2.png",
           "usage": "短语动词 phrase v.",
           "collocations": [
             "be widely known as",
@@ -8550,7 +8550,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈθɪəri/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/theory_1.jpg",
-          "image2": "../../G9/Unit8/images/theory_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/theory_2.png",
           "usage": "n. (复数 theories)",
           "collocations": [
             "in theory",
@@ -8584,7 +8584,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/fəˈmɪliər/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/familiar_1.jpg",
-          "image2": "../../G9/Unit8/images/familiar_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/familiar_2.png",
           "usage": "adj.",
           "collocations": [
             "familiar with",
@@ -8617,7 +8617,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈhɪdn/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/hidden_1.jpg",
-          "image2": "../../G9/Unit8/images/hidden_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/hidden_2.png",
           "usage": "adj.",
           "collocations": [
             "hidden treasure",
@@ -8650,7 +8650,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpaʊər/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/power_1.jpg",
-          "image2": "../../G9/Unit8/images/power_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/power_2.png",
           "usage": "n. / v. (过去式 powered, 过去分词 powered)",
           "collocations": [
             "have the power to",
@@ -8683,7 +8683,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/lɪŋk/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/link_1.jpg",
-          "image2": "../../G9/Unit8/images/link_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/link_2.png",
           "usage": "v. (过去式 linked, 过去分词 linked); n.",
           "collocations": [
             "strong link",
@@ -8717,7 +8717,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpærəlel/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/parallel_1.jpg",
-          "image2": "../../G9/Unit8/images/parallel_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/parallel_2.png",
           "usage": "adj. / n. / adv. (副词 rarely)",
           "collocations": [
             "run parallel to",
@@ -8750,7 +8750,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈjuːnɪvɜːrs/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/universe_1.jpg",
-          "image2": "../../G9/Unit8/images/universe_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/universe_2.png",
           "usage": "名词 n.",
           "collocations": [
             "the whole universe",
@@ -8783,7 +8783,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpærəlel ˈjuːnɪvɜːrsɪz/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/parallel_universes_1.jpg",
-          "image2": "../../G9/Unit8/images/parallel_universes_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/parallel_universes_2.png",
           "usage": "n. (plural)",
           "collocations": [
             "explore parallel universes",
@@ -8817,7 +8817,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmɪks.ʌp/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/mix-up_1.jpg",
-          "image2": "../../G9/Unit8/images/mix-up_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/mix-up_2.png",
           "usage": "n. (复数 mix-ups)",
           "collocations": [
             "a mix-up in",
@@ -8850,7 +8850,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈdʒenərəli/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/generally_1.jpg",
-          "image2": "../../G9/Unit8/images/generally_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/generally_2.png",
           "usage": "adv.",
           "collocations": [
             "generally speaking",
@@ -8884,7 +8884,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈberiəl/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/burial_1.jpg",
-          "image2": "../../G9/Unit8/images/burial_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/burial_2.png",
           "usage": "n. (复数 burials)",
           "collocations": [
             "funeral burial",
@@ -8917,7 +8917,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈɑːnər/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/honor_1.jpg",
-          "image2": "../../G9/Unit8/images/honor_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/honor_2.png",
           "usage": "n. / v. (过去式 honored, 过去分词 honored)",
           "collocations": [
             "in honor of",
@@ -8951,7 +8951,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈænsestər/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/ancestor_1.jpg",
-          "image2": "../../G9/Unit8/images/ancestor_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/ancestor_2.png",
           "usage": "n. (复数 ancestors)",
           "collocations": [
             "distant ancestor",
@@ -8984,7 +8984,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈvɪktəri/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/victory_1.jpg",
-          "image2": "../../G9/Unit8/images/victory_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/victory_2.png",
           "usage": "n. (复数 victories)",
           "collocations": [
             "win a victory",
@@ -9017,7 +9017,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈenəmi/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/enemy_1.jpg",
-          "image2": "../../G9/Unit8/images/enemy_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/enemy_2.png",
           "usage": "n. (复数 enemies)",
           "collocations": [
             "common enemy",
@@ -9050,7 +9050,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpɪəriəd/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/period_1.jpg",
-          "image2": "../../G9/Unit8/images/period_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/period_2.png",
           "usage": "n. (复数 periods)",
           "collocations": [
             "time period",
@@ -9083,7 +9083,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/nɔɪz/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/noise_1.jpg",
-          "image2": "../../G9/Unit8/images/noise_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/noise_2.png",
           "usage": "n. (复数 noises)",
           "collocations": [
             "make a noise",
@@ -9117,7 +9117,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈstoʊnˌhɛndʒ/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/Stonehenge_1.jpg",
-          "image2": "../../G9/Unit8/images/Stonehenge_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/Stonehenge_2.png",
           "usage": "n. (不可数名词)",
           "collocations": [
             "visit Stonehenge",
@@ -9151,7 +9151,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/trɪk/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/trick_1.jpg",
-          "image2": "../../G9/Unit8/images/trick_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/trick_2.png",
           "usage": "n. / v. (过去式 tricked, 过去分词 tricked)",
           "collocations": [
             "play a trick on",
@@ -9184,7 +9184,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ʌnˈsɒlvd/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/unsolved_1.jpg",
-          "image2": "../../G9/Unit8/images/unsolved_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/unsolved_2.png",
           "usage": "adj. ",
           "collocations": [
             "unsolved mystery",
@@ -9217,7 +9217,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ləˈbɒrətəri/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/laboratory_1.jpg",
-          "image2": "../../G9/Unit8/images/laboratory_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/laboratory_2.png",
           "usage": "n. (pl. laboratories) 实验室",
           "collocations": [
             "science laboratory",
@@ -9251,7 +9251,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌaʊtˈdɔːrz/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/outdoors_1.jpg",
-          "image2": "../../G9/Unit8/images/outdoors_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/outdoors_2.png",
           "usage": "adv.",
           "collocations": [
             "go outdoors",
@@ -9284,7 +9284,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/koʊt/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/coat_1.jpg",
-          "image2": "../../G9/Unit8/images/coat_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/coat_2.png",
           "usage": "n. (pl. coats) 外套，大衣",
           "collocations": [
             "put on a coat",
@@ -9317,7 +9317,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/laɪ/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/lie_1.jpg",
-          "image2": "../../G9/Unit8/images/lie_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/lie_2.png",
           "usage": "v. (过去式 lay, 过去分词 lain)；n.",
           "collocations": [
             "tell a lie",
@@ -9351,7 +9351,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsliːpi/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/sleepy_1.jpg",
-          "image2": "../../G9/Unit8/images/sleepy_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/sleepy_2.png",
           "usage": "adj.",
           "collocations": [
             "feel sleepy",
@@ -9384,7 +9384,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/lænd/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/land_1.jpg",
-          "image2": "../../G9/Unit8/images/land_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/land_2.png",
           "usage": "n. ; v.",
           "collocations": [
             "on land",
@@ -9417,7 +9417,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈeɪliən/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/alien_1.jpg",
-          "image2": "../../G9/Unit8/images/alien_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/alien_2.png",
           "usage": "n. / adj.",
           "collocations": [
             "alien life",
@@ -9450,7 +9450,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/rʌn ˈæftər/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/run_after_1.jpg",
-          "image2": "../../G9/Unit8/images/run_after_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/run_after_2.png",
           "usage": "v. (过去式 ran after, 过去分词 run after) ",
           "collocations": [
             "run after dreams",
@@ -9480,7 +9480,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/suːt/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/suit_1.jpg",
-          "image2": "../../G9/Unit8/images/suit_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/suit_2.png",
           "usage": "n. / v. (过去式 suited, 过去分词 suited)",
           "collocations": [
             "business suit",
@@ -9513,7 +9513,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/æt ðə seɪm taɪm/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/at_the_same_time_1.jpg",
-          "image2": "../../G9/Unit8/images/at_the_same_time_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/at_the_same_time_2.png",
           "usage": "短语",
           "collocations": [
             "do sth. at the same time",
@@ -9547,7 +9547,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsɜːrkl/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/circle_1.jpg",
-          "image2": "../../G9/Unit8/images/circle_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/circle_2.png",
           "usage": "n. (复数 circles)；v. (过去式 circled, 过去分词 circled)",
           "collocations": [
             "form a circle",
@@ -9581,7 +9581,7 @@ const TEXTBOOK_DATA = {
           "ipa": "ˈbrɪtn",
           "phonemes": [],
           "image": "../../G9/Unit8/images/Britain_1.jpg",
-          "image2": "../../G9/Unit8/images/Britain_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/Britain_2.png",
           "usage": "n. (专有名词)",
           "collocations": [
             "Great Britain",
@@ -9614,7 +9614,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/rɪˈsiːv/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/receive_1.jpg",
-          "image2": "../../G9/Unit8/images/receive_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/receive_2.png",
           "usage": "v. (过去式 received, 过去分词 received)",
           "collocations": [
             "receive a letter",
@@ -9647,7 +9647,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/hɪˈstɔːriən/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/historian_1.jpg",
-          "image2": "../../G9/Unit8/images/historian_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/historian_2.png",
           "usage": "n. (复数 historians)",
           "collocations": [
             "famous historian",
@@ -9680,7 +9680,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈtempl/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/temple_1.jpg",
-          "image2": "../../G9/Unit8/images/temple_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/temple_2.png",
           "usage": "n. (复数 temples)",
           "collocations": [
             "visit a temple",
@@ -9715,7 +9715,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈliːdər/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/leader_1.jpg",
-          "image2": "../../G9/Unit8/images/leader_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/leader_2.png",
           "usage": "n. (复数 leaders)",
           "collocations": [
             "team leader",
@@ -9748,7 +9748,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌmɪdˈsʌmər/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/midsummer_1.jpg",
-          "image2": "../../G9/Unit8/images/midsummer_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/midsummer_2.png",
           "usage": "n.",
           "collocations": [
             "midsummer night",
@@ -9780,7 +9780,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmedɪkl/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/medical_1.jpg",
-          "image2": "../../G9/Unit8/images/medical_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/medical_2.png",
           "usage": "adj.",
           "collocations": [
             "medical care",
@@ -9813,7 +9813,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpɜːrpəs/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/purpose_1.jpg",
-          "image2": "../../G9/Unit8/images/purpose_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/purpose_2.png",
           "usage": "n.",
           "collocations": [
             "main purpose",
@@ -9847,7 +9847,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/prɪˈvent/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/prevent_1.jpg",
-          "image2": "../../G9/Unit8/images/prevent_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/prevent_2.png",
           "usage": "v. (过去式 prevented, 过去分词 prevented)",
           "collocations": [
             "prevent sth; prevent sb from doing sth"
@@ -9878,7 +9878,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈenərɡi/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/energy_1.jpg",
-          "image2": "../../G9/Unit8/images/energy_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/energy_2.png",
           "usage": "n. (复数 energies)",
           "collocations": [
             "renewable energy",
@@ -9912,7 +9912,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pəˈzɪʃn/",
           "phonemes": [],
           "image": "../../G9/Unit8/images/position_1.jpg",
-          "image2": "../../G9/Unit8/images/position_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/position_2.png",
           "usage": "n. / v. (过去式 positioned, 过去分词 positioned)",
           "collocations": [
             "in a position",
@@ -9945,8 +9945,8 @@ const TEXTBOOK_DATA = {
           "chinese": "野餐",
           "ipa": "/ˈpɪknɪk/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/picnic_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/picnic_2.png",
+          "image": "../../G9/Unit8/images/picnic_1.jpg",
+          "image2": "../../G9/Unit8/images/picnic_2.jpg",
           "usage": "名词，指户外用餐。",
           "collocations": [
             "have a picnic",
@@ -9980,8 +9980,8 @@ const TEXTBOOK_DATA = {
           "chinese": "男警察",
           "ipa": "/pəˈliːsmən/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/policeman_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/policeman_2.png",
+          "image": "../../G9/Unit8/images/policeman_1.jpg",
+          "image2": "../../G9/Unit8/images/policeman_2.jpg",
           "usage": "名词，男警察（女性用policewoman或police officer）。",
           "collocations": [
             "a policeman",
@@ -10022,7 +10022,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/prɪˈfɜːr/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/prefer_1.jpg",
-          "image2": "../../G9/Unit9/images/prefer_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/prefer_2.png",
           "usage": "v. (过去式 preferred, 过去分词 preferred)",
           "collocations": [
             "prefer A to B; prefer doing sth.; prefer to do sth."
@@ -10053,7 +10053,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈlɪrɪks/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/lyrics_1.jpg",
-          "image2": "../../G9/Unit9/images/lyrics_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/lyrics_2.png",
           "usage": "n. (复数)",
           "collocations": [
             "write lyrics",
@@ -10087,7 +10087,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɒˈstreɪliən/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/Australian_1.jpg",
-          "image2": "../../G9/Unit9/images/Australian_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/Australian_2.png",
           "usage": "adj. relating to Australia or its people",
           "collocations": [
             "Australian accent",
@@ -10121,7 +10121,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌelɪkˈtrɒnɪk/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/electronic_1.jpg",
-          "image2": "../../G9/Unit9/images/electronic_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/electronic_2.png",
           "usage": "adj. ",
           "collocations": [
             "electronic device",
@@ -10154,7 +10154,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/səˈpoʊz/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/suppose_1.jpg",
-          "image2": "../../G9/Unit9/images/suppose_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/suppose_2.png",
           "usage": "v. (过去式 supposed, 过去分词 supposed)",
           "collocations": [
             "suppose that",
@@ -10188,7 +10188,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/smuːð/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/smooth_1.jpg",
-          "image2": "../../G9/Unit9/images/smooth_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/smooth_2.png",
           "usage": "adj. / v. (smoothed, smoothed)",
           "collocations": [
             "smooth surface",
@@ -10221,7 +10221,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/speər/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/spare_1.jpg",
-          "image2": "../../G9/Unit9/images/spare_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/spare_2.png",
           "usage": "adj. / v. (过去式 spared, 过去分词 spared)",
           "collocations": [
             "spare time",
@@ -10254,7 +10254,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/dəˈrektər/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/director_1.jpg",
-          "image2": "../../G9/Unit9/images/director_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/director_2.png",
           "usage": "名词 n.",
           "collocations": [
             "film director",
@@ -10286,7 +10286,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/keɪs/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/case_1.jpg",
-          "image2": "../../G9/Unit9/images/case_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/case_2.png",
           "usage": "n. (复数 cases)",
           "collocations": [
             "in case",
@@ -10319,7 +10319,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpɪti/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/pity_1.jpg",
-          "image2": "../../G9/Unit9/images/pity_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/pity_2.png",
           "usage": "n. / v. (过去式 pitied, 过去分词 pitied)",
           "collocations": [
             "take pity on",
@@ -10351,7 +10351,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈtoʊtl/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/total_1.jpg",
-          "image2": "../../G9/Unit9/images/total_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/total_2.png",
           "usage": "adj. / n. / v. (过去式 totaled, 过去分词 totaled) / adv. totally",
           "collocations": [
             "total cost",
@@ -10384,7 +10384,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪn ˈtoʊtl/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/in_total_1.jpg",
-          "image2": "../../G9/Unit9/images/in_total_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/in_total_2.png",
           "usage": "短语 adv.",
           "collocations": [
             "calculate in total",
@@ -10417,7 +10417,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmæstər/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/master_1.jpg",
-          "image2": "../../G9/Unit9/images/master_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/master_2.png",
           "usage": "n. / v. (过去式 mastered, 过去分词 mastered)",
           "collocations": [
             "chess master",
@@ -10449,7 +10449,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/preɪz/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/praise_1.jpg",
-          "image2": "../../G9/Unit9/images/praise_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/praise_2.png",
           "usage": "v. (过去式 praised, 过去分词 praised); n.",
           "collocations": [
             "praise for",
@@ -10481,7 +10481,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/rɪˈkɔːl/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/recall_1.jpg",
-          "image2": "../../G9/Unit9/images/recall_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/recall_2.png",
           "usage": "v. (recalled, recalled); n.",
           "collocations": [
             "easily recall",
@@ -10515,7 +10515,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/wuːnd/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/wound_1.jpg",
-          "image2": "../../G9/Unit9/images/wound_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/wound_2.png",
           "usage": "n. / v.",
           "collocations": [
             "serious wound",
@@ -10550,7 +10550,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpeɪnfl/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/painful_1.jpg",
-          "image2": "../../G9/Unit9/images/painful_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/painful_2.png",
           "usage": "adj. painfully (adv.)",
           "collocations": [
             "painful experience",
@@ -10583,7 +10583,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪn ðæt keɪs/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/in_that_case_1.jpg",
-          "image2": "../../G9/Unit9/images/in_that_case_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/in_that_case_2.png",
           "usage": "短语。表示在某种情况下采取相应的行动或做出相应的决定。",
           "collocations": [
             "in that case",
@@ -10616,7 +10616,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/wɔːr/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/war_1.jpg",
-          "image2": "../../G9/Unit9/images/war_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/war_2.png",
           "usage": "n. (wars) 战争; v. (warred, warred) 发动战争",
           "collocations": [
             "declare war",
@@ -10651,7 +10651,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/stɪk/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/stick_1.jpg",
-          "image2": "../../G9/Unit9/images/stick_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/stick_2.png",
           "usage": "n. / v. (过去式 stuck, 过去分词 stuck)",
           "collocations": [
             "a walking stick",
@@ -10684,7 +10684,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/stɪk tuː/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/stick_to_1.jpg",
-          "image2": "../../G9/Unit9/images/stick_to_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/stick_to_2.png",
           "usage": "v. (过去式 stuck to, 过去分词 stuck to)",
           "collocations": [
             "stick to a plan",
@@ -10717,7 +10717,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/daʊn/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/down_1.jpg",
-          "image2": "../../G9/Unit9/images/down_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/down_2.png",
           "usage": "adv. / prep. / adj.",
           "collocations": [
             "down the street",
@@ -10751,7 +10751,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈdaɪəlɒɡ/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/dialog_1.jpg",
-          "image2": "../../G9/Unit9/images/dialog_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/dialog_2.png",
           "usage": "n. (复数 dialogs 或 dialogues)",
           "collocations": [
             "have a dialog",
@@ -10785,7 +10785,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈendɪŋ/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/ending_1.jpg",
-          "image2": "../../G9/Unit9/images/ending_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/ending_2.png",
           "usage": "n. The way in which something ends.",
           "collocations": [
             "happy ending",
@@ -10818,7 +10818,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌdɒkjuˈmentri/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/documentary_1.jpg",
-          "image2": "../../G9/Unit9/images/documentary_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/documentary_2.png",
           "usage": "n. (pl. documentaries); adj.",
           "collocations": [
             "watch a documentary",
@@ -10851,7 +10851,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈdrɑːmə/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/drama_1.jpg",
-          "image2": "../../G9/Unit9/images/drama_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/drama_2.png",
           "usage": "n. (复数 dramas)",
           "collocations": [
             "school drama",
@@ -10884,7 +10884,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈplenti/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/plenty_1.jpg",
-          "image2": "../../G9/Unit9/images/plenty_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/plenty_2.png",
           "usage": "n.",
           "collocations": [
             "plenty of time",
@@ -10917,7 +10917,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈplenti ɒv/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/plenty_of_1.jpg",
-          "image2": "../../G9/Unit9/images/plenty_of_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/plenty_of_2.png",
           "usage": "短语，表示“大量的，充足的”，后接可数名词复数或不可数名词。",
           "collocations": [
             "plenty of time",
@@ -10950,7 +10950,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ʃʌt/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/shut_1.jpg",
-          "image2": "../../G9/Unit9/images/shut_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/shut_2.png",
           "usage": "v. (过去式 shut, 过去分词 shut)",
           "collocations": [
             "shut down",
@@ -10984,7 +10984,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ʃʌt ɔf/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/shut_off_1.jpg",
-          "image2": "../../G9/Unit9/images/shut_off_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/shut_off_2.png",
           "usage": "v. (过去式 shut off, 过去分词 shut off)",
           "collocations": [
             "shut off the engine",
@@ -11017,7 +11017,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsuːpərˌhɪroʊ/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/superhero_1.jpg",
-          "image2": "../../G9/Unit9/images/superhero_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/superhero_2.png",
           "usage": "n. (复数 superheroes)",
           "collocations": [
             "become a superhero",
@@ -11051,7 +11051,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/wʌns ɪn ə waɪl/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/once_in_a_while_1.jpg",
-          "image2": "../../G9/Unit9/images/once_in_a_while_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/once_in_a_while_2.png",
           "usage": "adv. 偶尔，有时",
           "collocations": [
             "visit once in a while",
@@ -11082,7 +11082,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪnˈtelɪdʒənt/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/intelligent_1.jpg",
-          "image2": "../../G9/Unit9/images/intelligent_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/intelligent_2.png",
           "usage": "adj.",
           "collocations": [
             "highly intelligent",
@@ -11115,7 +11115,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/sens/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/sense_1.jpg",
-          "image2": "../../G9/Unit9/images/sense_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/sense_2.png",
           "usage": "n. v. (过去式 sensed, 过去分词 sensed)",
           "collocations": [
             "common sense",
@@ -11149,7 +11149,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsædnəs/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/sadness_1.jpg",
-          "image2": "../../G9/Unit9/images/sadness_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/sadness_2.jpg",
           "usage": "n. (不可数名词)",
           "collocations": [
             "feel sadness",
@@ -11183,7 +11183,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/peɪn/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/pain_1.jpg",
-          "image2": "../../G9/Unit9/images/pain_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/pain_2.png",
           "usage": "n. / v. (过去式 pained, 过去分词 pained)",
           "collocations": [
             "feel pain",
@@ -11217,7 +11217,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/rɪˈflekt/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/reflect_1.jpg",
-          "image2": "../../G9/Unit9/images/reflect_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/reflect_2.png",
           "usage": "v. (过去式 reflected, 过去分词 reflected); reflection n.",
           "collocations": [
             "reflect on/upon",
@@ -11251,7 +11251,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmuːvɪŋ/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/moving_1.jpg",
-          "image2": "../../G9/Unit9/images/moving_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/moving_2.png",
           "usage": "adj.",
           "collocations": [
             "moving story",
@@ -11285,7 +11285,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pərˈfɔːrm/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/perform_1.jpg",
-          "image2": "../../G9/Unit9/images/perform_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/perform_2.png",
           "usage": "v. (performed, performed)",
           "collocations": [
             "perform a task",
@@ -11320,7 +11320,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈlaɪftaɪm/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/lifetime_1.jpg",
-          "image2": "../../G9/Unit9/images/lifetime_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/lifetime_2.jpg",
           "usage": "n.",
           "collocations": [
             "in a lifetime",
@@ -11352,7 +11352,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/baɪ ðə end ɒv/",
           "phonemes": [],
           "image": "../../G9/Unit9/images/by_the_end_of_1.jpg",
-          "image2": "../../G9/Unit9/images/by_the_end_of_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/by_the_end_of_2.png",
           "usage": "短语",
           "collocations": [
             "by the end of the year",
@@ -11384,8 +11384,8 @@ const TEXTBOOK_DATA = {
           "chinese": "对话；对白",
           "ipa": "/ˈdaɪəlɒɡ/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/dialogue_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/dialogue_2.png",
+          "image": "../../G9/Unit9/images/dialogue_1.jpg",
+          "image2": "../../G9/Unit9/images/dialogue_2.jpg",
           "usage": "名词，对话，对白（尤指戏剧、电影中的）。",
           "collocations": [
             "have a dialogue",
@@ -11419,8 +11419,8 @@ const TEXTBOOK_DATA = {
           "chinese": "震惊；恐惧",
           "ipa": "/ˈhɒrə(r)/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/horror_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/horror_2.png",
+          "image": "../../G9/Unit9/images/horror_1.jpg",
+          "image2": "../../G9/Unit9/images/horror_2.jpg",
           "usage": "名词，震惊，恐惧，恐怖。",
           "collocations": [
             "in horror",
@@ -11454,8 +11454,8 @@ const TEXTBOOK_DATA = {
           "chinese": "惊险电影（小说、戏剧）",
           "ipa": "/ˈθrɪlə(r)/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/thriller_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/thriller_2.png",
+          "image": "../../G9/Unit9/images/thriller_1.jpg",
+          "image2": "../../G9/Unit9/images/thriller_2.jpg",
           "usage": "n. 惊险电影/小说/戏剧；惊悚片",
           "collocations": [
             "horror thriller",
@@ -11488,8 +11488,8 @@ const TEXTBOOK_DATA = {
           "chinese": "第二次世界大战",
           "ipa": "/ˌwɜːld ˈwɔː tuː/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/World_War_II_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/World_War_II_2.png",
+          "image": "../../G9/Unit9/images/World_War_II_1.jpg",
+          "image2": "../../G9/Unit9/images/World_War_II_2.jpg",
           "usage": "n. 第二次世界大战（专有名词，常大写）",
           "collocations": [
             "during World War II",
@@ -11531,7 +11531,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/baʊ/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/bow_1.jpg",
-          "image2": "../../G9/Unit10/images/bow_1.jpg",
+          "image2": "../../G9/Unit10/images/bow_2.jpg",
           "usage": "n. / v. (过去式 bowed, 过去分词 bowed)",
           "collocations": [
             "take a bow",
@@ -11563,7 +11563,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kɪs/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/kiss_1.jpg",
-          "image2": "../../G9/Unit10/images/kiss_1.jpg",
+          "image2": "../../G9/Unit10/images/kiss_2.jpg",
           "usage": "v. (kissed, kissed); n.",
           "collocations": [
             "give a kiss",
@@ -11595,7 +11595,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡriːt/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/greet_1.jpg",
-          "image2": "../../G9/Unit10/images/greet_1.jpg",
+          "image2": "../../G9/Unit10/images/greet_2.jpg",
           "usage": "v. (过去式 greeted, 过去分词 greeted)",
           "collocations": [
             "greet warmly",
@@ -11627,7 +11627,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/rɪˈlækst/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/relaxed_1.jpg",
-          "image2": "../../G9/Unit10/images/relaxed_1.jpg",
+          "image2": "../../G9/Unit10/images/relaxed_2.jpg",
           "usage": "adj.",
           "collocations": [
             "feel relaxed",
@@ -11660,7 +11660,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈvæljuː/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/value_1.jpg",
-          "image2": "../../G9/Unit10/images/value_1.jpg",
+          "image2": "../../G9/Unit10/images/value_2.jpg",
           "usage": "n. (复数 values) ; v. (过去式 valued, 过去分词 valued)",
           "collocations": [
             "add value to",
@@ -11694,7 +11694,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈtiːneɪdʒ/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/teenage_1.jpg",
-          "image2": "../../G9/Unit10/images/teenage_1.jpg",
+          "image2": "../../G9/Unit10/images/teenage_2.jpg",
           "usage": "adj.",
           "collocations": [
             "teenage years",
@@ -11727,7 +11727,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈɡrændɔːtər/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/granddaughter_1.jpg",
-          "image2": "../../G9/Unit10/images/granddaughter_1.jpg",
+          "image2": "../../G9/Unit10/images/granddaughter_2.jpg",
           "usage": "n.",
           "collocations": [
             "loving granddaughter",
@@ -11759,7 +11759,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/bɪˈheɪv/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/behave_1.jpg",
-          "image2": "../../G9/Unit10/images/behave_1.jpg",
+          "image2": "../../G9/Unit10/images/behave_2.jpg",
           "usage": "v. (behaved, behaved)",
           "collocations": [
             "behave well/badly",
@@ -11791,7 +11791,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪkˈsept/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/except_1.jpg",
-          "image2": "../../G9/Unit10/images/except_1.jpg",
+          "image2": "../../G9/Unit10/images/except_2.jpg",
           "usage": "prep. 除了…之外；conj. 只是；除非",
           "collocations": [
             "except for",
@@ -11823,7 +11823,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈelboʊ/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/elbow_1.jpg",
-          "image2": "../../G9/Unit10/images/elbow_1.jpg",
+          "image2": "../../G9/Unit10/images/elbow_2.jpg",
           "usage": "n. (复数 elbows)",
           "collocations": [
             "at the elbow",
@@ -11857,7 +11857,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈɡrædʒuəli/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/gradually_1.jpg",
-          "image2": "../../G9/Unit10/images/gradually_1.jpg",
+          "image2": "../../G9/Unit10/images/gradually_2.jpg",
           "usage": "adv.",
           "collocations": [
             "gradually increase",
@@ -11890,7 +11890,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ədˈvaɪz/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/advise_1.jpg",
-          "image2": "../../G9/Unit10/images/advise_1.jpg",
+          "image2": "../../G9/Unit10/images/advise_2.jpg",
           "usage": "v. (过去式 advised, 过去分词 advised); advice (n.)",
           "collocations": [
             "advise sb. to do sth.",
@@ -11922,7 +11922,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡet ˈjuːst tuː/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/get_used_to_1.jpg",
-          "image2": "../../G9/Unit10/images/get_used_to_1.jpg",
+          "image2": "../../G9/Unit10/images/get_used_to_2.jpg",
           "usage": "v. 习惯于，适应 (getting used to, got used to)",
           "collocations": [
             "get used to doing sth",
@@ -11955,7 +11955,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/səˈdʒestʃən/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/suggestion_1.jpg",
-          "image2": "../../G9/Unit10/images/suggestion_1.jpg",
+          "image2": "../../G9/Unit10/images/suggestion_2.jpg",
           "usage": "n. (suggestions)",
           "collocations": [
             "make a suggestion",
@@ -11989,7 +11989,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/drɒp baɪ/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/drop_by_1.jpg",
-          "image2": "../../G9/Unit10/images/drop_by_1.jpg",
+          "image2": "../../G9/Unit10/images/drop_by_2.jpg",
           "usage": "v. (dropped by, dropped by)",
           "collocations": [
             "drop by for a visit",
@@ -12022,7 +12022,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkæpɪtl/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/capital_1.jpg",
-          "image2": "../../G9/Unit10/images/capital_1.jpg",
+          "image2": "../../G9/Unit10/images/capital_2.jpg",
           "usage": "n. / adj.",
           "collocations": [
             "capital city",
@@ -12055,7 +12055,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈæftər ɔl/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/after_all_1.jpg",
-          "image2": "../../G9/Unit10/images/after_all_1.jpg",
+          "image2": "../../G9/Unit10/images/after_all_2.jpg",
           "usage": "短语。表示经过考虑或努力后得出的结论或结果。",
           "collocations": [
             "not after all",
@@ -12087,7 +12087,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/nuːn/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/noon_1.jpg",
-          "image2": "../../G9/Unit10/images/noon_1.jpg",
+          "image2": "../../G9/Unit10/images/noon_2.jpg",
           "usage": "n.",
           "collocations": [
             "at noon",
@@ -12120,7 +12120,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/mæd/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/mad_1.jpg",
-          "image2": "../../G9/Unit10/images/mad_1.jpg",
+          "image2": "../../G9/Unit10/images/mad_2.jpg",
           "usage": "adj. (比较级 madder, 最高级 maddest); adv. madly (非正式)",
           "collocations": [
             "go mad",
@@ -12154,7 +12154,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡet mæd/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/get_mad_1.jpg",
-          "image2": "../../G9/Unit10/images/get_mad_1.jpg",
+          "image2": "../../G9/Unit10/images/get_mad_2.jpg",
           "usage": "v. 变得生气",
           "collocations": [
             "get mad at",
@@ -12187,7 +12187,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈefərt/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/effort_1.jpg",
-          "image2": "../../G9/Unit10/images/effort_1.jpg",
+          "image2": "../../G9/Unit10/images/effort_2.jpg",
           "usage": "n. 可数/不可数名词",
           "collocations": [
             "make an effort",
@@ -12221,7 +12221,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/meɪk ən ˈefərt/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/make_an_effort_1.jpg",
-          "image2": "../../G9/Unit10/images/make_an_effort_1.jpg",
+          "image2": "../../G9/Unit10/images/make_an_effort_2.jpg",
           "usage": "v. 尽力，努力",
           "collocations": [
             "make a great effort",
@@ -12254,7 +12254,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpɑːspɔːt/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/passport_1.jpg",
-          "image2": "../../G9/Unit10/images/passport_1.jpg",
+          "image2": "../../G9/Unit10/images/passport_2.jpg",
           "usage": "n.",
           "collocations": [
             "apply for a passport",
@@ -12288,7 +12288,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kliːn/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/clean_1.jpg",
-          "image2": "../../G9/Unit10/images/clean_1.jpg",
+          "image2": "../../G9/Unit10/images/clean_2.jpg",
           "usage": "adj. / v. (cleaned, cleaned)",
           "collocations": [
             "clean room",
@@ -12321,7 +12321,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/tʃɔːk/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/chalk_1.jpg",
-          "image2": "../../G9/Unit10/images/chalk_1.jpg",
+          "image2": "../../G9/Unit10/images/chalk_2.jpg",
           "usage": "n. ; v.",
           "collocations": [
             "piece of chalk",
@@ -12353,7 +12353,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈblækbɔːrd/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/blackboard_1.jpg",
-          "image2": "../../G9/Unit10/images/blackboard_1.jpg",
+          "image2": "../../G9/Unit10/images/blackboard_2.jpg",
           "usage": "n.",
           "collocations": [
             "clean the blackboard",
@@ -12385,7 +12385,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈnɔːrðərn/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/northern_1.jpg",
-          "image2": "../../G9/Unit10/images/northern_1.jpg",
+          "image2": "../../G9/Unit10/images/northern_2.jpg",
           "usage": "adj.",
           "collocations": [
             "northern lights",
@@ -12418,7 +12418,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/koʊst/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/coast_1.jpg",
-          "image2": "../../G9/Unit10/images/coast_1.jpg",
+          "image2": "../../G9/Unit10/images/coast_2.jpg",
           "usage": "n. / v.",
           "collocations": [
             "along the coast",
@@ -12453,7 +12453,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsiːzn/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/season_1.jpg",
-          "image2": "../../G9/Unit10/images/season_1.jpg",
+          "image2": "../../G9/Unit10/images/season_2.jpg",
           "usage": "n. (seasons)",
           "collocations": [
             "in season",
@@ -12486,7 +12486,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/nɒk/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/knock_1.jpg",
-          "image2": "../../G9/Unit10/images/knock_1.jpg",
+          "image2": "../../G9/Unit10/images/knock_2.jpg",
           "usage": "v. (knocked, knocked); n.",
           "collocations": [
             "knock at the door",
@@ -12521,7 +12521,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈiːstərn/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/eastern_1.jpg",
-          "image2": "../../G9/Unit10/images/eastern_1.jpg",
+          "image2": "../../G9/Unit10/images/eastern_2.jpg",
           "usage": "adj. ",
           "collocations": [
             "eastern Europe",
@@ -12555,7 +12555,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/teɪk ɔːf/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/take_off_1.jpg",
-          "image2": "../../G9/Unit10/images/take_off_1.jpg",
+          "image2": "../../G9/Unit10/images/take_off_2.jpg",
           "usage": "v. (过去式 took off, 过去分词 taken off)",
           "collocations": [
             "take off a hat",
@@ -12588,7 +12588,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/wɜːrθ/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/worth_1.jpg",
-          "image2": "../../G9/Unit10/images/worth_1.jpg",
+          "image2": "../../G9/Unit10/images/worth_2.jpg",
           "usage": "adj. / n.",
           "collocations": [
             "be worth doing",
@@ -12621,7 +12621,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmænər/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/manner_1.jpg",
-          "image2": "../../G9/Unit10/images/manner_1.jpg",
+          "image2": "../../G9/Unit10/images/manner_2.jpg",
           "usage": "n. (manners 复数形式指礼仪)",
           "collocations": [
             "in a manner",
@@ -12654,7 +12654,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈempti/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/empty_1.jpg",
-          "image2": "../../G9/Unit10/images/empty_1.jpg",
+          "image2": "../../G9/Unit10/images/empty_2.jpg",
           "usage": "adj. / v. (过去式 emptied, 过去分词 emptied)",
           "collocations": [
             "empty space",
@@ -12687,7 +12687,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈbeɪsɪk/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/basic_1.jpg",
-          "image2": "../../G9/Unit10/images/basic_1.jpg",
+          "image2": "../../G9/Unit10/images/basic_2.jpg",
           "usage": "adj.",
           "collocations": [
             "basic knowledge",
@@ -12720,7 +12720,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪksˈtʃeɪndʒ/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/exchange_1.jpg",
-          "image2": "../../G9/Unit10/images/exchange_1.jpg",
+          "image2": "../../G9/Unit10/images/exchange_2.jpg",
           "usage": "v. (exchanged, exchanged); n.",
           "collocations": [
             "exchange ideas",
@@ -12753,7 +12753,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡoʊ aʊt əv wʌnz weɪ/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/go_out_of_ones_way_1.jpg",
-          "image2": "../../G9/Unit10/images/go_out_of_ones_way_1.jpg",
+          "image2": "../../G9/Unit10/images/go_out_of_ones_way_2.jpg",
           "usage": "v. 短语",
           "collocations": [
             "go out of my way",
@@ -12786,7 +12786,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/meɪk/",
           "phonemes": [],
           "image": "../../G9/Unit10/images/make_1.jpg",
-          "image2": "../../G9/Unit10/images/make_1.jpg",
+          "image2": "../../G9/Unit10/images/make_2.jpg",
           "usage": "v. (made, made)",
           "collocations": [
             "make a mistake",
@@ -12819,8 +12819,8 @@ const TEXTBOOK_DATA = {
           "chinese": "使（某人）感到宾至如归",
           "ipa": "/meɪk fiːl æt həʊm/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit10/images/make_feel_at_home_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit10/images/make_feel_at_home_2.png",
+          "image": "../../G9/Unit10/images/make_feel_at_home_1.jpg",
+          "image2": "../../G9/Unit10/images/make_feel_at_home_2.jpg",
           "usage": "短语 v. 使（某人）感到宾至如归",
           "collocations": [
             "make guests feel at home",
@@ -12861,7 +12861,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈræðər/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/rather_1.jpg",
-          "image2": "../../G9/Unit11/images/rather_1.jpg",
+          "image2": "../../G9/Unit11/images/rather_2.jpg",
           "usage": "adv. / adj.",
           "collocations": [
             "rather than",
@@ -12893,7 +12893,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/wʊd ˈræðər/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/would_rather_1.jpg",
-          "image2": "../../G9/Unit11/images/would_rather_1.jpg",
+          "image2": "../../G9/Unit11/images/would_rather_2.jpg",
           "usage": "情态动词短语。表示一种偏好或选择，后接动词原形。",
           "collocations": [
             "would rather do sth than do sth; would rather not do sth"
@@ -12924,7 +12924,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/draɪv/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/drive_1.jpg",
-          "image2": "../../G9/Unit11/images/drive_1.jpg",
+          "image2": "../../G9/Unit11/images/drive_2.jpg",
           "usage": "v. (过去式 drove, 过去分词 driven); n.",
           "collocations": [
             "drive a car",
@@ -12958,7 +12958,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈdrɪvən/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/driven_1.jpg",
-          "image2": "../../G9/Unit11/images/driven_1.jpg",
+          "image2": "../../G9/Unit11/images/driven_2.jpg",
           "usage": "adj. / v. (drive v. (过去式 drove, 过去分词 driven))",
           "collocations": [
             "driven by ambition",
@@ -12991,7 +12991,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/draɪv/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/drive_sb_1.jpg",
-          "image2": "../../G9/Unit11/images/drive_sb_1.jpg",
+          "image2": "../../G9/Unit11/images/drive_sb_2.jpg",
           "usage": "v. (过去式 drove, 过去分词 driven) to force someone to act in a particular way",
           "collocations": [
             "drive sb crazy",
@@ -13025,7 +13025,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ðə mɔːr/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/the_more_1.jpg",
-          "image2": "../../G9/Unit11/images/the_more_1.jpg",
+          "image2": "../../G9/Unit11/images/the_more_2.jpg",
           "usage": "用于表示随着一个数量或程度的增加，另一个数量或程度也随之增加。",
           "collocations": [
             "the more... the more..."
@@ -13056,7 +13056,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈleɪtli/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/lately_1.jpg",
-          "image2": "../../G9/Unit11/images/lately_1.jpg",
+          "image2": "../../G9/Unit11/images/lately_2.jpg",
           "usage": "adv.",
           "collocations": [
             "have lately",
@@ -13088,7 +13088,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/biː frendz wɪð ˈsʌmbɒdi/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/be_friends_with_sb_1.jpg",
-          "image2": "../../G9/Unit11/images/be_friends_with_sb_1.jpg",
+          "image2": "../../G9/Unit11/images/be_friends_with_sb_2.jpg",
           "usage": "phrase",
           "collocations": [
             "become friends with",
@@ -13121,7 +13121,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/liːv aʊt/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/leave_out_1.jpg",
-          "image2": "../../G9/Unit11/images/leave_out_1.jpg",
+          "image2": "../../G9/Unit11/images/leave_out_2.jpg",
           "usage": "v. to not include someone or something",
           "collocations": [
             "leave out details",
@@ -13154,7 +13154,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈfrendʃɪp/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/friendship_1.jpg",
-          "image2": "../../G9/Unit11/images/friendship_1.jpg",
+          "image2": "../../G9/Unit11/images/friendship_2.jpg",
           "usage": "n. 友谊，友情",
           "collocations": [
             "build a friendship",
@@ -13188,7 +13188,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kɪŋ/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/king_1.jpg",
-          "image2": "../../G9/Unit11/images/king_1.jpg",
+          "image2": "../../G9/Unit11/images/king_2.jpg",
           "usage": "n.",
           "collocations": [
             "king of the jungle",
@@ -13221,7 +13221,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/praɪm/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/prime_1.jpg",
-          "image2": "../../G9/Unit11/images/prime_1.jpg",
+          "image2": "../../G9/Unit11/images/prime_2.jpg",
           "usage": "adj. / n.",
           "collocations": [
             "prime example",
@@ -13254,7 +13254,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmɪnɪstər/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/minister_1.jpg",
-          "image2": "../../G9/Unit11/images/minister_1.jpg",
+          "image2": "../../G9/Unit11/images/minister_2.jpg",
           "usage": "n. (复数 ministers)",
           "collocations": [
             "prime minister",
@@ -13287,7 +13287,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌpraɪm ˈmɪnɪstər/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/prime_minister_1.jpg",
-          "image2": "../../G9/Unit11/images/prime_minister_1.jpg",
+          "image2": "../../G9/Unit11/images/prime_minister_2.jpg",
           "usage": "n. (复数 prime ministers)",
           "collocations": [
             "meet with the prime minister",
@@ -13320,7 +13320,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈbæŋkər/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/banker_1.jpg",
-          "image2": "../../G9/Unit11/images/banker_1.jpg",
+          "image2": "../../G9/Unit11/images/banker_2.jpg",
           "usage": "n. ",
           "collocations": [
             "investment banker",
@@ -13354,7 +13354,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/feɪm/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/fame_1.jpg",
-          "image2": "../../G9/Unit11/images/fame_1.jpg",
+          "image2": "../../G9/Unit11/images/fame_2.jpg",
           "usage": "n. ",
           "collocations": [
             "gain fame",
@@ -13388,7 +13388,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/peɪl/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/pale_1.jpg",
-          "image2": "../../G9/Unit11/images/pale_1.jpg",
+          "image2": "../../G9/Unit11/images/pale_2.jpg",
           "usage": "adj. (paler, palest)",
           "collocations": [
             "pale face",
@@ -13421,7 +13421,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kwiːn/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/queen_1.jpg",
-          "image2": "../../G9/Unit11/images/queen_1.jpg",
+          "image2": "../../G9/Unit11/images/queen_2.jpg",
           "usage": "名词 n.",
           "collocations": [
             "queen bee",
@@ -13454,7 +13454,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kɔːl ɪn/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/call_in_1.jpg",
-          "image2": "../../G9/Unit11/images/call_in_1.jpg",
+          "image2": "../../G9/Unit11/images/call_in_2.jpg",
           "usage": "v. 打电话；召集",
           "collocations": [
             "call in sick",
@@ -13487,7 +13487,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪɡˈzæmɪn/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/examine_1.jpg",
-          "image2": "../../G9/Unit11/images/examine_1.jpg",
+          "image2": "../../G9/Unit11/images/examine_2.jpg",
           "usage": "v. (examined, examined)",
           "collocations": [
             "examine carefully",
@@ -13521,7 +13521,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/nɔːr/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/nor_1.jpg",
-          "image2": "../../G9/Unit11/images/nor_1.jpg",
+          "image2": "../../G9/Unit11/images/nor_2.jpg",
           "usage": "连词 conj.",
           "collocations": [
             "neither...nor..."
@@ -13550,7 +13550,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈnaɪðər/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/neither_1.jpg",
-          "image2": "../../G9/Unit11/images/neither_1.jpg",
+          "image2": "../../G9/Unit11/images/neither_2.jpg",
           "usage": "adv. / det. / pron. / conj.",
           "collocations": [
             "neither...nor..."
@@ -13581,7 +13581,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpæləs/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/palace_1.jpg",
-          "image2": "../../G9/Unit11/images/palace_1.jpg",
+          "image2": "../../G9/Unit11/images/palace_2.jpg",
           "usage": "名词 n.",
           "collocations": [
             "royal palace",
@@ -13616,7 +13616,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/welθ/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/wealth_1.jpg",
-          "image2": "../../G9/Unit11/images/wealth_1.jpg",
+          "image2": "../../G9/Unit11/images/wealth_2.jpg",
           "usage": "n. (wealthy adj.)",
           "collocations": [
             "great wealth",
@@ -13650,7 +13650,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/tuː stɑːrt wɪθ/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/to_start_with_1.jpg",
-          "image2": "../../G9/Unit11/images/to_start_with_1.jpg",
+          "image2": "../../G9/Unit11/images/to_start_with_2.jpg",
           "usage": "短语，表示开始或列举的第一点",
           "collocations": [
             "to begin with",
@@ -13684,7 +13684,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡreɪ/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/grey_1.jpg",
-          "image2": "../../G9/Unit11/images/grey_1.jpg",
+          "image2": "../../G9/Unit11/images/grey_2.jpg",
           "usage": "adj. (比较级 greyer, 最高级 greyest)",
           "collocations": [
             "grey hair",
@@ -13717,7 +13717,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈlemən/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/lemon_1.jpg",
-          "image2": "../../G9/Unit11/images/lemon_1.jpg",
+          "image2": "../../G9/Unit11/images/lemon_2.jpg",
           "usage": "n. (复数 lemons)",
           "collocations": [
             "lemon juice",
@@ -13751,7 +13751,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ʌnˈkʌmfətəbl/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/uncomfortable_1.jpg",
-          "image2": "../../G9/Unit11/images/uncomfortable_1.jpg",
+          "image2": "../../G9/Unit11/images/uncomfortable_2.jpg",
           "usage": "adj.",
           "collocations": [
             "feel uncomfortable",
@@ -13784,7 +13784,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/weɪt/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/weight_1.jpg",
-          "image2": "../../G9/Unit11/images/weight_1.jpg",
+          "image2": "../../G9/Unit11/images/weight_2.jpg",
           "usage": "n. / v.",
           "collocations": [
             "lose weight",
@@ -13818,7 +13818,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈʃoʊldər/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/shoulder_1.jpg",
-          "image2": "../../G9/Unit11/images/shoulder_1.jpg",
+          "image2": "../../G9/Unit11/images/shoulder_2.jpg",
           "usage": "n. (复数 shoulders)；v. (过去式 shouldered, 过去分词 shouldered)",
           "collocations": [
             "shoulder pain",
@@ -13852,7 +13852,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡoʊl/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/goal_1.jpg",
-          "image2": "../../G9/Unit11/images/goal_1.jpg",
+          "image2": "../../G9/Unit11/images/goal_2.jpg",
           "usage": "n. (复数 goals)",
           "collocations": [
             "achieve a goal",
@@ -13886,7 +13886,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/let/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/let_1.jpg",
-          "image2": "../../G9/Unit11/images/let_1.jpg",
+          "image2": "../../G9/Unit11/images/let_2.jpg",
           "usage": "v. (过去式 let, 过去分词 let)",
           "collocations": [
             "let sb do sth",
@@ -13920,7 +13920,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/koʊtʃ/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/coach_1.jpg",
-          "image2": "../../G9/Unit11/images/coach_1.jpg",
+          "image2": "../../G9/Unit11/images/coach_2.jpg",
           "usage": "n. 教练；长途汽车 v. (过去式 coached, 过去分词 coached) 训练，指导",
           "collocations": [
             "football coach",
@@ -13953,7 +13953,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kɪk/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/kick_1.jpg",
-          "image2": "../../G9/Unit11/images/kick_1.jpg",
+          "image2": "../../G9/Unit11/images/kick_2.jpg",
           "usage": "v. (kicked, kicked)",
           "collocations": [
             "kick a ball",
@@ -13985,7 +13985,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kɪk/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/kick_sb_1.jpg",
-          "image2": "../../G9/Unit11/images/kick_sb_1.jpg",
+          "image2": "../../G9/Unit11/images/kick_sb_2.jpg",
           "usage": "v. (过去式 kicked, 过去分词 kicked)",
           "collocations": [
             "kick a ball",
@@ -14018,7 +14018,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/biː hɑːrd ɒn ˈsʌmbədi/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/be_hard_on_sb_1.jpg",
-          "image2": "../../G9/Unit11/images/be_hard_on_sb_1.jpg",
+          "image2": "../../G9/Unit11/images/be_hard_on_sb_2.jpg",
           "usage": "phrase",
           "collocations": [
             "be too hard on",
@@ -14050,7 +14050,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/bɪˈsaɪdz/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/besides_1.jpg",
-          "image2": "../../G9/Unit11/images/besides_1.jpg",
+          "image2": "../../G9/Unit11/images/besides_2.jpg",
           "usage": "prep. / adv.",
           "collocations": [
             "besides that",
@@ -14083,7 +14083,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈtiːmmeɪt/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/teammate_1.jpg",
-          "image2": "../../G9/Unit11/images/teammate_1.jpg",
+          "image2": "../../G9/Unit11/images/teammate_2.jpg",
           "usage": "n. ",
           "collocations": [
             "close teammate",
@@ -14117,7 +14117,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkʌrɪdʒ/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/courage_1.jpg",
-          "image2": "../../G9/Unit11/images/courage_1.jpg",
+          "image2": "../../G9/Unit11/images/courage_2.jpg",
           "usage": "n. (不可数名词)",
           "collocations": [
             "have the courage to do sth",
@@ -14150,7 +14150,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈræðər ðæn/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/rather_than_1.jpg",
-          "image2": "../../G9/Unit11/images/rather_than_1.jpg",
+          "image2": "../../G9/Unit11/images/rather_than_2.jpg",
           "usage": "短语。表示一种选择，倾向于某事物而避免另一事物。",
           "collocations": [
             "would rather",
@@ -14182,7 +14182,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡaɪ/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/guy_1.jpg",
-          "image2": "../../G9/Unit11/images/guy_1.jpg",
+          "image2": "../../G9/Unit11/images/guy_2.jpg",
           "usage": "n. (pl. guys)",
           "collocations": [
             "some guy",
@@ -14214,7 +14214,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pʊl təˈɡɛðər/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/pull_together_1.jpg",
-          "image2": "../../G9/Unit11/images/pull_together_1.jpg",
+          "image2": "../../G9/Unit11/images/pull_together_2.jpg",
           "usage": "短语 v.",
           "collocations": [
             "pull together as a team",
@@ -14246,7 +14246,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/rɪˈliːf/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/relief_1.jpg",
-          "image2": "../../G9/Unit11/images/relief_1.jpg",
+          "image2": "../../G9/Unit11/images/relief_2.jpg",
           "usage": "n.",
           "collocations": [
             "feel relief",
@@ -14279,7 +14279,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/nɒd/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/nod_1.jpg",
-          "image2": "../../G9/Unit11/images/nod_1.jpg",
+          "image2": "../../G9/Unit11/images/nod_2.jpg",
           "usage": "v. (nodded, nodded); n.",
           "collocations": [
             "give a nod",
@@ -14312,7 +14312,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈɡriːmənt/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/agreement_1.jpg",
-          "image2": "../../G9/Unit11/images/agreement_1.jpg",
+          "image2": "../../G9/Unit11/images/agreement_2.jpg",
           "usage": "名词 n.",
           "collocations": [
             "reach an agreement",
@@ -14346,7 +14346,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/fɔːlt/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/fault_1.jpg",
-          "image2": "../../G9/Unit11/images/fault_1.jpg",
+          "image2": "../../G9/Unit11/images/fault_2.jpg",
           "usage": "n. / v.",
           "collocations": [
             "find fault with",
@@ -14379,7 +14379,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌdɪsəˈpɔɪnt/",
           "phonemes": [],
           "image": "../../G9/Unit11/images/disappoint_1.jpg",
-          "image2": "../../G9/Unit11/images/disappoint_1.jpg",
+          "image2": "../../G9/Unit11/images/disappoint_2.jpg",
           "usage": "v. (过去式 disappointed, 过去分词 disappointed); adj. disappointing; n. disappointment",
           "collocations": [
             "disappoint someone; disappoint expectations; great disappointment"
@@ -14409,8 +14409,8 @@ const TEXTBOOK_DATA = {
           "chinese": "越……越……",
           "ipa": "/ðə mɔː ðə mɔː/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit11/images/the_more_the_more_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit11/images/the_more_the_more_2.png",
+          "image": "../../G9/Unit11/images/the_more_the_more_1.jpg",
+          "image2": "../../G9/Unit11/images/the_more_the_more_2.jpg",
           "usage": "短语 conj. 越……越……（表示两个事物同时递增）",
           "collocations": [
             "the more you practice",
@@ -14444,8 +14444,8 @@ const TEXTBOOK_DATA = {
           "chinese": "既不……也不",
           "ipa": "/ˈnaɪðə nɔː/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit11/images/neither_nor_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit11/images/neither_nor_2.png",
+          "image": "../../G9/Unit11/images/neither_nor_1.jpg",
+          "image2": "../../G9/Unit11/images/neither_nor_2.jpg",
           "usage": "短语 conj. 既不……也不……（否定两者）",
           "collocations": [
             "neither A nor B",
@@ -14486,7 +14486,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌʌnɪkˈspektɪd/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/unexpected_1.jpg",
-          "image2": "../../G9/Unit12/images/unexpected_1.jpg",
+          "image2": "../../G9/Unit12/images/unexpected_2.jpg",
           "usage": "adj.",
           "collocations": [
             "unexpected result",
@@ -14519,7 +14519,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/baɪ ðə taɪm/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/by_the_time_1.jpg",
-          "image2": "../../G9/Unit12/images/by_the_time_1.jpg",
+          "image2": "../../G9/Unit12/images/by_the_time_2.jpg",
           "usage": "conj.",
           "collocations": [
             "by the time + clause"
@@ -14548,7 +14548,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈbækpæk/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/backpack_1.jpg",
-          "image2": "../../G9/Unit12/images/backpack_1.jpg",
+          "image2": "../../G9/Unit12/images/backpack_2.jpg",
           "usage": "n. (复数 backpacks)",
           "collocations": [
             "carry a backpack",
@@ -14581,7 +14581,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌoʊvərˈsliːp/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/oversleep_1.jpg",
-          "image2": "../../G9/Unit12/images/oversleep_1.jpg",
+          "image2": "../../G9/Unit12/images/oversleep_2.jpg",
           "usage": "v. (过去式 overslept, 过去分词 overslept)",
           "collocations": [
             "oversleep badly",
@@ -14613,7 +14613,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡɪv/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/give_1.jpg",
-          "image2": "../../G9/Unit12/images/give_1.jpg",
+          "image2": "../../G9/Unit12/images/give_2.jpg",
           "usage": "v. (gave, given)",
           "collocations": [
             "give a gift",
@@ -14646,7 +14646,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/sɛl aʊt/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/sell_out_1.jpg",
-          "image2": "../../G9/Unit12/images/sell_out_1.jpg",
+          "image2": "../../G9/Unit12/images/sell_out_2.jpg",
           "usage": "v. (过去式 sold out, 过去分词 sold out)",
           "collocations": [
             "sell out of (something)",
@@ -14679,7 +14679,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/dɪˈskʌvəri/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/discovery_1.jpg",
-          "image2": "../../G9/Unit12/images/discovery_1.jpg",
+          "image2": "../../G9/Unit12/images/discovery_2.jpg",
           "usage": "n. (discoveries)",
           "collocations": [
             "make a discovery",
@@ -14712,7 +14712,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈleɪdi/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/lady_1.jpg",
-          "image2": "../../G9/Unit12/images/lady_1.jpg",
+          "image2": "../../G9/Unit12/images/lady_2.jpg",
           "usage": "n. (复数 ladies)",
           "collocations": [
             "young lady",
@@ -14745,7 +14745,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkænsəl/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/cancel_1.jpg",
-          "image2": "../../G9/Unit12/images/cancel_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/cancel_2.png",
           "usage": "v. (cancelled, cancelled) to decide that an arranged event will not happen",
           "collocations": [
             "cancel a meeting",
@@ -14778,7 +14778,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈɒfɪsər/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/officer_1.jpg",
-          "image2": "../../G9/Unit12/images/officer_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/officer_2.png",
           "usage": "n. (复数 officers)",
           "collocations": [
             "police officer",
@@ -14811,7 +14811,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/bɪˈliːvəbl/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/believable_1.jpg",
-          "image2": "../../G9/Unit12/images/believable_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/believable_2.png",
           "usage": "adj.",
           "collocations": [
             "believable story",
@@ -14844,7 +14844,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌdɪsəˈpɪr/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/disappear_1.jpg",
-          "image2": "../../G9/Unit12/images/disappear_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/disappear_2.png",
           "usage": "v. (过去式 disappeared, 过去分词 disappeared)",
           "collocations": [
             "suddenly disappear",
@@ -14876,7 +14876,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪmˈbærəsɪŋ/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/embarrassing_1.jpg",
-          "image2": "../../G9/Unit12/images/embarrassing_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/embarrassing_2.png",
           "usage": "adj. causing someone to feel awkward, self-conscious, or ashamed",
           "collocations": [
             "embarrassing moment",
@@ -14909,7 +14909,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌnjuː ˈziːlənd/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/New_Zealand_1.jpg",
-          "image2": "../../G9/Unit12/images/New_Zealand_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/New_Zealand_2.png",
           "usage": "n. (专有名词)",
           "collocations": [
             "visit New Zealand",
@@ -14944,7 +14944,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈɪtəli/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/Italy_1.jpg",
-          "image2": "../../G9/Unit12/images/Italy_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/Italy_2.png",
           "usage": "n.",
           "collocations": [
             "visit Italy",
@@ -14979,7 +14979,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/mɑːrz/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/Mars_1.jpg",
-          "image2": "../../G9/Unit12/images/Mars_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/Mars_2.png",
           "usage": "n. 火星",
           "collocations": [
             "explore Mars",
@@ -15014,7 +15014,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/blɒk/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/block_1.jpg",
-          "image2": "../../G9/Unit12/images/block_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/block_2.png",
           "usage": "n. / v. (blocked, blocked)",
           "collocations": [
             "city block",
@@ -15048,7 +15048,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪn laɪn wɪθ/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/in_line_with_1.jpg",
-          "image2": "../../G9/Unit12/images/in_line_with_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/in_line_with_2.png",
           "usage": "短语",
           "collocations": [
             "be in line with",
@@ -15080,7 +15080,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈwɜːrkər/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/worker_1.jpg",
-          "image2": "../../G9/Unit12/images/worker_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/worker_2.png",
           "usage": "n. (复数 workers)",
           "collocations": [
             "factory worker",
@@ -15115,7 +15115,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ster/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/stare_1.jpg",
-          "image2": "../../G9/Unit12/images/stare_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/stare_2.png",
           "usage": "v. (过去式 stared, 过去分词 stared)",
           "collocations": [
             "stare at",
@@ -15148,7 +15148,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌdɪsbɪˈliːf/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/disbelief_1.jpg",
-          "image2": "../../G9/Unit12/images/disbelief_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/disbelief_2.png",
           "usage": "n. ",
           "collocations": [
             "utter disbelief",
@@ -15181,7 +15181,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈbʌv/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/above_1.jpg",
-          "image2": "../../G9/Unit12/images/above_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/above_2.png",
           "usage": "prep. / adv.",
           "collocations": [
             "above average",
@@ -15214,7 +15214,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ədˈvaɪz/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/advise_1.jpg",
-          "image2": "../../G9/Unit12/images/advise_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/advise_2.jpg",
           "usage": "v. (advised, advised)",
           "collocations": [
             "advise sb. to do sth.",
@@ -15246,7 +15246,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/bɜːrn/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/burn_1.jpg",
-          "image2": "../../G9/Unit12/images/burn_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/burn_2.png",
           "usage": "v. (burned/burnt, burned/burnt); n.",
           "collocations": [
             "burn down",
@@ -15280,7 +15280,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/bɜːnt/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/burnt_1.jpg",
-          "image2": "../../G9/Unit12/images/burnt_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/burnt_2.png",
           "usage": "adj. / v. (过去式 burnt/burned, 过去分词 burnt/burned)",
           "collocations": [
             "burnt offering",
@@ -15314,7 +15314,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/bɜːrnd/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/burned_1.jpg",
-          "image2": "../../G9/Unit12/images/burned_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/burned_2.png",
           "usage": "v. (burn的过去式和过去分词); adj. 烧焦的",
           "collocations": [
             "burned down",
@@ -15348,7 +15348,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈbɜːrnɪŋ/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/burning_1.jpg",
-          "image2": "../../G9/Unit12/images/burning_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/burning_2.png",
           "usage": "adj. 动词 burn 的现在分词形式",
           "collocations": [
             "burning desire",
@@ -15381,7 +15381,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈlaɪv/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/alive_1.jpg",
-          "image2": "../../G9/Unit12/images/alive_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/alive_2.png",
           "usage": "adj. ",
           "collocations": [
             "stay alive",
@@ -15414,7 +15414,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈerpɔːrt/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/airport_1.jpg",
-          "image2": "../../G9/Unit12/images/airport_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/airport_2.png",
           "usage": "名词 n.",
           "collocations": [
             "international airport",
@@ -15449,7 +15449,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/tɪl/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/till_1.jpg",
-          "image2": "../../G9/Unit12/images/till_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/till_2.png",
           "usage": "prep. / conj.",
           "collocations": [
             "till then",
@@ -15481,7 +15481,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/west/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/west_1.jpg",
-          "image2": "../../G9/Unit12/images/west_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/west_2.png",
           "usage": "n. / adj. / adv.",
           "collocations": [
             "go west",
@@ -15515,7 +15515,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ded/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/dead_1.jpg",
-          "image2": "../../G9/Unit12/images/dead_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/dead_2.png",
           "usage": "adj.",
           "collocations": [
             "dead silence",
@@ -15548,7 +15548,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kriːm/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/cream_1.jpg",
-          "image2": "../../G9/Unit12/images/cream_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/cream_2.png",
           "usage": "n. / v.",
           "collocations": [
             "ice cream",
@@ -15582,7 +15582,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈwɜːrkdeɪ/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/workday_1.jpg",
-          "image2": "../../G9/Unit12/images/workday_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/workday_2.png",
           "usage": "n. (复数 workdays)",
           "collocations": [
             "long workday",
@@ -15615,7 +15615,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ʃoʊ ʌp/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/show_up_1.jpg",
-          "image2": "../../G9/Unit12/images/show_up_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/show_up_2.png",
           "usage": "v. (showed up, shown up)",
           "collocations": [
             "show up late",
@@ -15650,7 +15650,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/biːn/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/bean_1.jpg",
-          "image2": "../../G9/Unit12/images/bean_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/bean_2.png",
           "usage": "n. (复数 beans)",
           "collocations": [
             "coffee bean",
@@ -15683,7 +15683,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmɑːrkɪt/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/market_1.jpg",
-          "image2": "../../G9/Unit12/images/market_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/market_2.png",
           "usage": "n. (markets) / v. (marketed, marketing, markets)",
           "collocations": [
             "farmers' market",
@@ -15717,7 +15717,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/fuːl/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/fool_1.jpg",
-          "image2": "../../G9/Unit12/images/fool_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/fool_2.png",
           "usage": "n. / v. (过去式 fooled, 过去分词 fooled)",
           "collocations": [
             "a fool; play the fool; fool someone into doing something"
@@ -15748,7 +15748,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkɒstjuːm/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/costume_1.jpg",
-          "image2": "../../G9/Unit12/images/costume_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/costume_2.png",
           "usage": "n. (costumes)",
           "collocations": [
             "wear a costume",
@@ -15781,7 +15781,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪmˈbærəst/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/embarrassed_1.jpg",
-          "image2": "../../G9/Unit12/images/embarrassed_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/embarrassed_2.jpg",
           "usage": "adj. ",
           "collocations": [
             "feel embarrassed",
@@ -15814,7 +15814,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkɒstjuːm ˈpɑːrti/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/costume_party_1.jpg",
-          "image2": "../../G9/Unit12/images/costume_party_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/costume_party_2.png",
           "usage": "n. (复数 costume parties)",
           "collocations": [
             "attend a costume party",
@@ -15848,7 +15848,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈnaʊns/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/announce_1.jpg",
-          "image2": "../../G9/Unit12/images/announce_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/announce_2.png",
           "usage": "v. (announced, announced)",
           "collocations": [
             "announce a decision; announce a plan; announce to the public"
@@ -15879,7 +15879,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/spəˈɡeti/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/spaghetti_1.jpg",
-          "image2": "../../G9/Unit12/images/spaghetti_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/spaghetti_2.png",
           "usage": "n. (复数 spaghettis 或 spaghetti)",
           "collocations": [
             "eat spaghetti",
@@ -15913,7 +15913,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/hoʊks/",
           "phonemes": [],
           "image": "../../G9/Unit12/images/hoax_1.jpg",
-          "image2": "../../G9/Unit12/images/hoax_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/hoax_2.png",
           "usage": "n. / v.",
           "collocations": [
             "a cruel hoax",
@@ -15945,8 +15945,8 @@ const TEXTBOOK_DATA = {
           "chinese": "捎（某人）一程",
           "ipa": "/ɡɪv ə lɪft/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/give_a_lift_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/give_a_lift_2.png",
+          "image": "../../G9/Unit12/images/give_a_lift_1.jpg",
+          "image2": "../../G9/Unit12/images/give_a_lift_2.jpg",
           "usage": "短语",
           "collocations": [
             "give someone a lift",
@@ -15980,8 +15980,8 @@ const TEXTBOOK_DATA = {
           "chinese": "老板；领导",
           "ipa": "/bɒs/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/boss_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/boss_2.png",
+          "image": "../../G9/Unit12/images/boss_1.jpg",
+          "image2": "../../G9/Unit12/images/boss_2.jpg",
           "usage": "n.",
           "collocations": [
             "my boss",
@@ -16014,8 +16014,8 @@ const TEXTBOOK_DATA = {
           "chinese": "课程",
           "ipa": "/kɔːs/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/course_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/course_2.png",
+          "image": "../../G9/Unit12/images/course_1.jpg",
+          "image2": "../../G9/Unit12/images/course_2.jpg",
           "usage": "n.",
           "collocations": [
             "take a course",
@@ -16057,7 +16057,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈliːtər/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/liter_1.jpg",
-          "image2": "../../G9/Unit13/images/liter_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/liter_2.png",
           "usage": "名词 n.",
           "collocations": [
             "liter of water",
@@ -16089,7 +16089,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ʃɪp/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/ship_1.jpg",
-          "image2": "../../G9/Unit13/images/ship_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/ship_2.png",
           "usage": "名词 n. / 动词 v. (过去式 shipped, 过去分词 shipped)",
           "collocations": [
             "cargo ship",
@@ -16123,7 +16123,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/koʊl/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/coal_1.jpg",
-          "image2": "../../G9/Unit13/images/coal_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/coal_2.png",
           "usage": "n. (pl. coals)",
           "collocations": [
             "burn coal",
@@ -16156,7 +16156,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈʌɡli/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/ugly_1.jpg",
-          "image2": "../../G9/Unit13/images/ugly_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/ugly_2.png",
           "usage": "adj. (uglier, ugliest)",
           "collocations": [
             "ugly building",
@@ -16189,7 +16189,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ədˈvæntɪdʒ/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/advantage_1.jpg",
-          "image2": "../../G9/Unit13/images/advantage_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/advantage_2.png",
           "usage": "n. (advantages)",
           "collocations": [
             "take advantage of",
@@ -16222,7 +16222,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kɒst/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/cost_1.jpg",
-          "image2": "../../G9/Unit13/images/cost_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/cost_2.png",
           "usage": "v. (过去式 cost, 过去分词 cost) 花费；n. 费用，成本",
           "collocations": [
             "cost of living",
@@ -16255,7 +16255,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈwʊdn/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/wooden_1.jpg",
-          "image2": "../../G9/Unit13/images/wooden_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/wooden_2.png",
           "usage": "adj. made of wood",
           "collocations": [
             "wooden floor",
@@ -16288,7 +16288,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈplæstɪk/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/plastic_1.jpg",
-          "image2": "../../G9/Unit13/images/plastic_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/plastic_2.png",
           "usage": "adj. 塑料的; n. 塑料",
           "collocations": [
             "plastic bag",
@@ -16322,7 +16322,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈteɪkəweɪ/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/takeaway_1.jpg",
-          "image2": "../../G9/Unit13/images/takeaway_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/takeaway_2.png",
           "usage": "n. / adj. (also takeout)",
           "collocations": [
             "order a takeaway",
@@ -16355,7 +16355,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/bɪn/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/bin_1.jpg",
-          "image2": "../../G9/Unit13/images/bin_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/bin_2.png",
           "usage": "名词 n.",
           "collocations": [
             "rubbish bin",
@@ -16390,7 +16390,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/fɪn/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/fin_1.jpg",
-          "image2": "../../G9/Unit13/images/fin_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/fin_2.png",
           "usage": "名词 n.",
           "collocations": [
             "dorsal fin",
@@ -16423,7 +16423,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkruːəl/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/cruel_1.jpg",
-          "image2": "../../G9/Unit13/images/cruel_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/cruel_2.jpg",
           "usage": "adj. crueler, cruelest; cruelly (adv.); cruelty (n.)",
           "collocations": [
             "cruel joke",
@@ -16456,7 +16456,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈhɑːrmfl/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/harmful_1.jpg",
-          "image2": "../../G9/Unit13/images/harmful_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/harmful_2.png",
           "usage": "adj. ",
           "collocations": [
             "harmful effects",
@@ -16489,7 +16489,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/biː ˈhɑːrmfəl tuː/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/be_harmful_to_1.jpg",
-          "image2": "../../G9/Unit13/images/be_harmful_to_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/be_harmful_to_2.png",
           "usage": "phrase",
           "collocations": [
             "harmful effects",
@@ -16524,7 +16524,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/æt ðə tɒp ɒv/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/at_the_top_of_1.jpg",
-          "image2": "../../G9/Unit13/images/at_the_top_of_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/at_the_top_of_2.png",
           "usage": "短语",
           "collocations": [
             "at the top of the list",
@@ -16556,7 +16556,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/tʃeɪn/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/chain_1.jpg",
-          "image2": "../../G9/Unit13/images/chain_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/chain_2.png",
           "usage": "名词 n. / 动词 v.",
           "collocations": [
             "gold chain",
@@ -16589,7 +16589,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ðə fuːd tʃeɪn/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/the_food_chain_1.jpg",
-          "image2": "../../G9/Unit13/images/the_food_chain_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/the_food_chain_2.png",
           "usage": "名词 n. (复数 the food chains)",
           "collocations": [
             "break the food chain",
@@ -16621,7 +16621,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈiːkoʊsɪstəm/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/ecosystem_1.jpg",
-          "image2": "../../G9/Unit13/images/ecosystem_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/ecosystem_2.png",
           "usage": "名词 n.",
           "collocations": [
             "fragile ecosystem",
@@ -16655,7 +16655,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈɪndəstri/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/industry_1.jpg",
-          "image2": "../../G9/Unit13/images/industry_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/industry_2.png",
           "usage": "名词 n.",
           "collocations": [
             "heavy industry",
@@ -16688,7 +16688,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/lɔː/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/law_1.jpg",
-          "image2": "../../G9/Unit13/images/law_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/law_2.png",
           "usage": "n. (复数 laws)",
           "collocations": [
             "break the law",
@@ -16722,7 +16722,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌsaɪənˈtɪfɪk/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/scientific_1.jpg",
-          "image2": "../../G9/Unit13/images/scientific_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/scientific_2.png",
           "usage": "adj.",
           "collocations": [
             "scientific research",
@@ -16755,7 +16755,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpreznt/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/present_1.jpg",
-          "image2": "../../G9/Unit13/images/present_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/present_2.png",
           "usage": "adj. / n. / v. (过去式 presented, 过去分词 presented)",
           "collocations": [
             "at present",
@@ -16790,7 +16790,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/teɪk pɑːrt ɪn/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/take_part_in_1.jpg",
-          "image2": "../../G9/Unit13/images/take_part_in_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/take_part_in_2.png",
           "usage": "v. 参加，参与 (过去式 took part in, 过去分词 taken part in)",
           "collocations": [
             "take an active part in",
@@ -16822,7 +16822,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈfɔːrd/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/afford_1.jpg",
-          "image2": "../../G9/Unit13/images/afford_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/afford_2.png",
           "usage": "v. (过去式 afforded, 过去分词 afforded)",
           "collocations": [
             "afford to do something",
@@ -16854,7 +16854,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/tɜːrn ɔːf/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/turn_off_1.jpg",
-          "image2": "../../G9/Unit13/images/turn_off_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/turn_off_2.png",
           "usage": "v. (turned off, turned off)",
           "collocations": [
             "turn off the lights",
@@ -16887,7 +16887,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌriːˈjuːzəbl/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/reusable_1.jpg",
-          "image2": "../../G9/Unit13/images/reusable_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/reusable_2.png",
           "usage": "adj.",
           "collocations": [
             "reusable bag",
@@ -16920,7 +16920,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/peɪ fɔːr/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/pay_for_1.jpg",
-          "image2": "../../G9/Unit13/images/pay_for_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/pay_for_2.png",
           "usage": "v. (paid for, paid for)",
           "collocations": [
             "pay for dinner",
@@ -16953,7 +16953,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/teɪk ˈækʃən/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/take_action_1.jpg",
-          "image2": "../../G9/Unit13/images/take_action_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/take_action_2.png",
           "usage": "v. 开始做某事以解决问题或达成目标",
           "collocations": [
             "take immediate action",
@@ -16986,7 +16986,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌtrænspərˈteɪʃn/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/transportation_1.jpg",
-          "image2": "../../G9/Unit13/images/transportation_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/transportation_2.png",
           "usage": "n. (不可数名词)",
           "collocations": [
             "public transportation",
@@ -17020,7 +17020,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌriːˈsaɪkl/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/recycle_1.jpg",
-          "image2": "../../G9/Unit13/images/recycle_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/recycle_2.png",
           "usage": "v. (recycled, recycled) to treat or process (used or waste materials) so as to make suitable for reuse",
           "collocations": [
             "recycle paper",
@@ -17053,7 +17053,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈnæpkɪn/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/napkin_1.jpg",
-          "image2": "../../G9/Unit13/images/napkin_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/napkin_2.png",
           "usage": "名词 n.",
           "collocations": [
             "paper napkin",
@@ -17087,7 +17087,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/θroʊ əˈweɪ/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/throw_away_1.jpg",
-          "image2": "../../G9/Unit13/images/throw_away_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/throw_away_2.png",
           "usage": "v. (threw away, thrown away) to get rid of something that you no longer want",
           "collocations": [
             "throw away rubbish",
@@ -17121,7 +17121,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pʊt/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/put_sth_1.jpg",
-          "image2": "../../G9/Unit13/images/put_sth_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/put_sth_2.png",
           "usage": "v. (过去式 put, 过去分词 put)",
           "collocations": [
             "put sth down",
@@ -17156,7 +17156,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pʊl/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/pull_1.jpg",
-          "image2": "../../G9/Unit13/images/pull_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/pull_2.png",
           "usage": "v. (pulled, pulled); n.",
           "collocations": [
             "pull a muscle",
@@ -17191,7 +17191,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈʌpsaɪd/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/upside_1.jpg",
-          "image2": "../../G9/Unit13/images/upside_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/upside_2.png",
           "usage": "n.",
           "collocations": [
             "the upside of",
@@ -17223,7 +17223,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡeɪt/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/gate_1.jpg",
-          "image2": "../../G9/Unit13/images/gate_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/gate_2.png",
           "usage": "n. (gates)",
           "collocations": [
             "main gate",
@@ -17260,7 +17260,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈbɒtl/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/bottle_1.jpg",
-          "image2": "../../G9/Unit13/images/bottle_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/bottle_2.png",
           "usage": "n. (bottles) / v. (bottled, bottled)",
           "collocations": [
             "water bottle",
@@ -17294,7 +17294,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈprezɪdənt/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/president_1.jpg",
-          "image2": "../../G9/Unit13/images/president_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/president_2.png",
           "usage": "名词 n.",
           "collocations": [
             "elected president",
@@ -17327,7 +17327,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌɪnspəˈreɪʃn/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/inspiration_1.jpg",
-          "image2": "../../G9/Unit13/images/inspiration_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/inspiration_2.png",
           "usage": "n. (inspirations)",
           "collocations": [
             "find inspiration",
@@ -17361,7 +17361,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈaɪərn/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/iron_1.jpg",
-          "image2": "../../G9/Unit13/images/iron_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/iron_2.png",
           "usage": "n. (pl. irons) v. (过去式 ironed, 过去分词 ironed) adj.",
           "collocations": [
             "cast iron",
@@ -17395,7 +17395,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/wɜːrk/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/work_1.jpg",
-          "image2": "../../G9/Unit13/images/work_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/work_2.png",
           "usage": "n. / v. (过去式 worked, 过去分词 worked)",
           "collocations": [
             "work hard",
@@ -17432,7 +17432,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmetl/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/metal_1.jpg",
-          "image2": "../../G9/Unit13/images/metal_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/metal_2.png",
           "usage": "n. (metals 复数)",
           "collocations": [
             "metal door",
@@ -17466,7 +17466,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/brɪŋ bæk/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/bring_back_1.jpg",
-          "image2": "../../G9/Unit13/images/bring_back_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/bring_back_2.png",
           "usage": "v. (brought back, brought back)",
           "collocations": [
             "bring back memories",
@@ -17498,7 +17498,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌkriːeɪˈtɪvəti/",
           "phonemes": [],
           "image": "../../G9/Unit13/images/creativity_1.jpg",
-          "image2": "../../G9/Unit13/images/creativity_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/creativity_2.png",
           "usage": "n. (形容词 creative, 副词 creatively)",
           "collocations": [
             "boost creativity",
@@ -17531,8 +17531,8 @@ const TEXTBOOK_DATA = {
           "chinese": "割掉；砍掉",
           "ipa": "/kʌt ɒf/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/cut_off_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/cut_off_2.png",
+          "image": "../../G9/Unit13/images/cut_off_1.jpg",
+          "image2": "../../G9/Unit13/images/cut_off_2.jpg",
           "usage": "短语",
           "collocations": [
             "cut off something",
@@ -17565,8 +17565,8 @@ const TEXTBOOK_DATA = {
           "chinese": "颠倒；倒转",
           "ipa": "/ˌʌpsaɪd ˈdaʊn/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/upside_down_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/upside_down_2.png",
+          "image": "../../G9/Unit13/images/upside_down_1.jpg",
+          "image2": "../../G9/Unit13/images/upside_down_2.jpg",
           "usage": "短语",
           "collocations": [
             "turn upside down",
@@ -17607,7 +17607,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsɜːrveɪ/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/survey_1.jpg",
-          "image2": "../../G9/Unit14/images/survey_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/survey_2.png",
           "usage": "n. / v. (过去式 surveyed, 过去分词 surveyed)",
           "collocations": [
             "conduct a survey",
@@ -17640,7 +17640,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈstændərd/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/standard_1.jpg",
-          "image2": "../../G9/Unit14/images/standard_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/standard_2.png",
           "usage": "n. pl. standards; adj. (比较级 more standard, 最高级 most standard)",
           "collocations": [
             "high standard",
@@ -17673,7 +17673,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/roʊ/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/row_1.jpg",
-          "image2": "../../G9/Unit14/images/row_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/row_2.png",
           "usage": "n. / v. (过去式 rowed, 过去分词 rowed)",
           "collocations": [
             "in a row",
@@ -17705,7 +17705,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪn ə roʊ/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/in_a_row_1.jpg",
-          "image2": "../../G9/Unit14/images/in_a_row_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/in_a_row_2.png",
           "usage": "短语。表示事物连续排列或连续发生。",
           "collocations": [
             "sit in a row",
@@ -17738,7 +17738,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkiːbɔːrd/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/keyboard_1.jpg",
-          "image2": "../../G9/Unit14/images/keyboard_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/keyboard_2.png",
           "usage": "名词 n.",
           "collocations": [
             "computer keyboard",
@@ -17772,7 +17772,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/fɜːrst əv ɔːl/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/first_of_all_1.jpg",
-          "image2": "../../G9/Unit14/images/first_of_all_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/first_of_all_2.jpg",
           "usage": "短语 adv.",
           "collocations": [
             "First of all",
@@ -17804,7 +17804,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kənˈɡrætʃuleɪt/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/congratulate_1.jpg",
-          "image2": "../../G9/Unit14/images/congratulate_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/congratulate_2.png",
           "usage": "v. (congratulated, congratulated)",
           "collocations": [
             "congratulate someone on something"
@@ -17835,7 +17835,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈθɜːrsti/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/thirsty_1.jpg",
-          "image2": "../../G9/Unit14/images/thirsty_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/thirsty_2.png",
           "usage": "adj.",
           "collocations": [
             "feel thirsty",
@@ -17868,7 +17868,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/biː ˈθɜːrsti fɔːr/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/be_thirsty_for_1.jpg",
-          "image2": "../../G9/Unit14/images/be_thirsty_for_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/be_thirsty_for_2.png",
           "usage": "短语 v. to have a strong desire for something",
           "collocations": [
             "be thirsty for knowledge",
@@ -17901,7 +17901,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈθæŋkfəl/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/thankful_1.jpg",
-          "image2": "../../G9/Unit14/images/thankful_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/thankful_2.png",
           "usage": "adj. feeling or expressing gratitude; appreciative",
           "collocations": [
             "be thankful for",
@@ -17934,7 +17934,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/biː ˈθæŋkfəl tuː ˈsʌmbɒdi/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/be_thankful_to_sb_1.jpg",
-          "image2": "../../G9/Unit14/images/be_thankful_to_sb_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/be_thankful_to_sb_2.png",
           "usage": "v. 表示对某人表示感谢的心情或行为。",
           "collocations": [
             "be deeply thankful to",
@@ -17967,7 +17967,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈlæstli/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/lastly_1.jpg",
-          "image2": "../../G9/Unit14/images/lastly_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/lastly_2.png",
           "usage": "adv.",
           "collocations": [
             "lastly but not least"
@@ -17998,7 +17998,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/tæsk/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/task_1.jpg",
-          "image2": "../../G9/Unit14/images/task_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/task_2.jpg",
           "usage": "n. a piece of work that needs to be done, especially one that is difficult or unpleasant or that must be done regularly",
           "collocations": [
             "difficult task",
@@ -18033,7 +18033,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈhed/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/ahead_1.jpg",
-          "image2": "../../G9/Unit14/images/ahead_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/ahead_2.png",
           "usage": "adv.",
           "collocations": [
             "go ahead",
@@ -18066,7 +18066,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈhed əv/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/ahead_of_1.jpg",
-          "image2": "../../G9/Unit14/images/ahead_of_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/ahead_of_2.png",
           "usage": "短语",
           "collocations": [
             "stay ahead of",
@@ -18100,7 +18100,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈlɔŋ wɪθ/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/along_with_1.jpg",
-          "image2": "../../G9/Unit14/images/along_with_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/along_with_2.png",
           "usage": "prep.",
           "collocations": [
             "go along with",
@@ -18132,7 +18132,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/rɪˈspɒnsəbl/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/responsible_1.jpg",
-          "image2": "../../G9/Unit14/images/responsible_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/responsible_2.png",
           "usage": "adj. responsibility (n.), responsibly (adv.)",
           "collocations": [
             "be responsible for",
@@ -18165,7 +18165,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/biː rɪˈspɒnsəbl fɔːr/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/be_responsible_for_1.jpg",
-          "image2": "../../G9/Unit14/images/be_responsible_for_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/be_responsible_for_2.png",
           "usage": "短语。承担责任，对某事或某人负责任。",
           "collocations": [
             "be directly responsible for",
@@ -18197,7 +18197,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsepəreɪt/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/separate_1.jpg",
-          "image2": "../../G9/Unit14/images/separate_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/separate_2.png",
           "usage": "adj. / v.",
           "collocations": [
             "separate rooms",
@@ -18230,7 +18230,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌset ˈaʊt/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/set_out_1.jpg",
-          "image2": "../../G9/Unit14/images/set_out_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/set_out_2.png",
           "usage": "v. (过去式 set out, 过去分词 set out)",
           "collocations": [
             "set out on a journey",
@@ -18262,7 +18262,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsepəreɪt frʌm/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/separate_from_1.jpg",
-          "image2": "../../G9/Unit14/images/separate_from_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/separate_from_2.png",
           "usage": "v. to keep apart or divide",
           "collocations": [
             "separate the wheat from the chaff",
@@ -18295,7 +18295,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/wɪŋ/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/wing_1.jpg",
-          "image2": "../../G9/Unit14/images/wing_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/wing_2.png",
           "usage": "n. (复数 wings)",
           "collocations": [
             "under the wing",
@@ -18327,7 +18327,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmeθəd/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/method_1.jpg",
-          "image2": "../../G9/Unit14/images/method_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/method_2.png",
           "usage": "n.",
           "collocations": [
             "effective method",
@@ -18361,7 +18361,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪnˈstrʌkʃən/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/instruction_1.jpg",
-          "image2": "../../G9/Unit14/images/instruction_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/instruction_2.jpg",
           "usage": "n. (instructions)",
           "collocations": [
             "follow instructions",
@@ -18394,7 +18394,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈdʌbl/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/double_1.jpg",
-          "image2": "../../G9/Unit14/images/double_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/double_2.png",
           "usage": "adj. / v. (doubled, doubled) / adv.",
           "collocations": [
             "double room",
@@ -18427,7 +18427,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ʃæl/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/shall_1.jpg",
-          "image2": "../../G9/Unit14/images/shall_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/shall_2.png",
           "usage": "情态动词 modal verb",
           "collocations": [
             "shall we"
@@ -18458,7 +18458,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/lʊk bæk æt/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/look_back_at_1.jpg",
-          "image2": "../../G9/Unit14/images/look_back_at_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/look_back_at_2.png",
           "usage": "v. 回顾，回首",
           "collocations": [
             "look back at memories",
@@ -18490,7 +18490,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌoʊvərˈkʌm/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/overcome_1.jpg",
-          "image2": "../../G9/Unit14/images/overcome_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/overcome_2.png",
           "usage": "v. (overcame, overcome)",
           "collocations": [
             "overcome difficulties",
@@ -18523,7 +18523,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/meɪk ə mes/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/make_a_mess_1.jpg",
-          "image2": "../../G9/Unit14/images/make_a_mess_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/make_a_mess_2.png",
           "usage": "v. 短语",
           "collocations": [
             "make a big mess",
@@ -18555,7 +18555,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈɡrædʒuət/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/graduate_1.jpg",
-          "image2": "../../G9/Unit14/images/graduate_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/graduate_2.png",
           "usage": "v. (graduated, graduated); n. graduates",
           "collocations": [
             "graduate from",
@@ -18587,7 +18587,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kiːp/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/keep_1.jpg",
-          "image2": "../../G9/Unit14/images/keep_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/keep_2.png",
           "usage": "v. (kept, kept)",
           "collocations": [
             "keep in touch",
@@ -18622,7 +18622,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkeərɪŋ/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/caring_1.jpg",
-          "image2": "../../G9/Unit14/images/caring_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/caring_2.png",
           "usage": "adj.",
           "collocations": [
             "caring attitude",
@@ -18655,7 +18655,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/aʊrz/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/ours_1.jpg",
-          "image2": "../../G9/Unit14/images/ours_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/ours_2.png",
           "usage": "pron.",
           "collocations": [
             "none"
@@ -18686,7 +18686,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsiːniər/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/senior_1.jpg",
-          "image2": "../../G9/Unit14/images/senior_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/senior_2.png",
           "usage": "adj. ",
           "collocations": [
             "senior student",
@@ -18719,7 +18719,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌsiːniər haɪ/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/senior_high_1.jpg",
-          "image2": "../../G9/Unit14/images/senior_high_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/senior_high_2.png",
           "usage": "n. 高中",
           "collocations": [
             "go to senior high school",
@@ -18752,7 +18752,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/tekst/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/text_1.jpg",
-          "image2": "../../G9/Unit14/images/text_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/text_2.png",
           "usage": "n. / v.",
           "collocations": [
             "send a text",
@@ -18787,7 +18787,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡoʊ baɪ/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/go_by_1.jpg",
-          "image2": "../../G9/Unit14/images/go_by_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/go_by_2.png",
           "usage": "v. (过去式 went by, 过去分词 gone by)",
           "collocations": [
             "as time goes by",
@@ -18820,7 +18820,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈlevl/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/level_1.jpg",
-          "image2": "../../G9/Unit14/images/level_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/level_2.png",
           "usage": "n. 水平；等级; adj. 水平的；同高的; v. (leveled, leveled) 使平坦",
           "collocations": [
             "high level",
@@ -18855,7 +18855,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/dɪˈɡriː/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/degree_1.jpg",
-          "image2": "../../G9/Unit14/images/degree_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/degree_2.png",
           "usage": "n. (degrees)",
           "collocations": [
             "to a degree",
@@ -18888,7 +18888,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmænɪdʒər/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/manager_1.jpg",
-          "image2": "../../G9/Unit14/images/manager_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/manager_2.png",
           "usage": "n.",
           "collocations": [
             "project manager",
@@ -18922,7 +18922,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/bɪˈliːv ɪn/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/believe_in_1.jpg",
-          "image2": "../../G9/Unit14/images/believe_in_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/believe_in_2.png",
           "usage": "v. 相信，信任",
           "collocations": [
             "believe in yourself",
@@ -18955,7 +18955,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈdʒentlmən/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/gentleman_1.jpg",
-          "image2": "../../G9/Unit14/images/gentleman_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/gentleman_2.png",
           "usage": "n. (复数 gentlemen)",
           "collocations": [
             "a true gentleman",
@@ -18987,7 +18987,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌɡrædʒuˈeɪʃn/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/graduation_1.jpg",
-          "image2": "../../G9/Unit14/images/graduation_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/graduation_2.png",
           "usage": "n.",
           "collocations": [
             "graduation ceremony",
@@ -19022,7 +19022,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈserəməni/",
           "phonemes": [],
           "image": "../../G9/Unit14/images/ceremony_1.jpg",
-          "image2": "../../G9/Unit14/images/ceremony_1.jpg",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/ceremony_2.png",
           "usage": "n. (复数 ceremonies)",
           "collocations": [
             "opening ceremony",
@@ -19055,8 +19055,8 @@ const TEXTBOOK_DATA = {
           "chinese": "沉住气；保持冷静",
           "ipa": "/kiːp wʌnz kuːl/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/keep_ones_cool_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/keep_ones_cool_2.png",
+          "image": "../../G9/Unit14/images/keep_ones_cool_1.jpg",
+          "image2": "../../G9/Unit14/images/keep_ones_cool_2.jpg",
           "usage": "phrase; means to stay calm in a difficult situation",
           "collocations": [
             "try to keep one's cool",
@@ -19089,8 +19089,8 @@ const TEXTBOOK_DATA = {
           "chinese": "没有一个；毫无",
           "ipa": "/nʌn/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/none_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/none_2.png",
+          "image": "../../G9/Unit14/images/none_1.jpg",
+          "image2": "../../G9/Unit14/images/none_2.jpg",
           "usage": "pronoun; not one; not any",
           "collocations": [
             "none of",

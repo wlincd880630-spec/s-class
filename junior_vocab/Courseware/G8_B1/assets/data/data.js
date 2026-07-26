@@ -23,7 +23,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈeɪnʃənt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/ancient_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/ancient_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/ancient_2.jpg",
           "usage": "adj.",
           "collocations": [
             "ancient history",
@@ -57,7 +57,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kæmp/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/camp_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/camp_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/camp_2.jpg",
           "usage": "n. / v. (过去式 camped, 过去分词 camped)",
           "collocations": [
             "go camping",
@@ -91,7 +91,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈlændskeɪp/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/landscape_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/landscape_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/landscape_2.jpg",
           "usage": "n.",
           "collocations": [
             "beautiful landscape",
@@ -125,7 +125,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/streɪndʒ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/strange_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/strange_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/strange_2.jpg",
           "usage": "adj. (副词 strangely)",
           "collocations": [
             "strange noise",
@@ -159,7 +159,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/veɪˈkeɪʃən/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/vacation_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/vacation_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/vacation_2.jpg",
           "usage": "n. (可数名词) 假期；休假",
           "collocations": [
             "summer vacation",
@@ -195,7 +195,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/fænˈtæstɪk/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/fantastic_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/fantastic_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/fantastic_2.jpg",
           "usage": "adj. 极好的；非常棒的",
           "collocations": [
             "fantastic idea",
@@ -229,7 +229,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/taʊn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/town_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/town_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/town_2.jpg",
           "usage": "n. 城镇（比 city 小，比 village 大）",
           "collocations": [
             "in town",
@@ -265,7 +265,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/breθ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/breath_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/breath_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/breath_2.jpg",
           "usage": "n. (可数名词，常用单数)",
           "collocations": [
             "take a deep breath",
@@ -298,7 +298,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/teɪk ˈsʌmbədi/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/take_sb_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/take_sb_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/take_sb_2.jpg",
           "usage": "v. (过去式 took, 过去分词 taken) 及物动词短语，后接人+地点",
           "collocations": [
             "take sb to school",
@@ -331,7 +331,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪˈspeʃəli/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/especially_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/especially_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/especially_2.jpg",
           "usage": "adv.",
           "collocations": [
             "especially when",
@@ -364,7 +364,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/stiːmd/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/steamed_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/steamed_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/steamed_2.jpg",
           "usage": "adj. (由动词 steam 的过去分词转化而来)",
           "collocations": [
             "steamed fish",
@@ -397,7 +397,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈeniweər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/anywhere_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/anywhere_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/anywhere_2.jpg",
           "usage": "副词 adv.",
           "collocations": [
             "go anywhere",
@@ -431,7 +431,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈnʌθɪŋ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/nothing_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/nothing_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/nothing_2.jpg",
           "usage": "代词 pron.",
           "collocations": [
             "nothing special",
@@ -465,7 +465,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡaɪd/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/guide_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/guide_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/guide_2.jpg",
           "usage": "名词 n. / 动词 v. (过去式 guided, 过去分词 guided)",
           "collocations": [
             "tour guide",
@@ -499,7 +499,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsiːnəri/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/scenery_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/scenery_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/scenery_2.jpg",
           "usage": "n. (不可数名词)",
           "collocations": [
             "enjoy the scenery",
@@ -532,7 +532,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/sɪlk/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/silk_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/silk_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/silk_2.jpg",
           "usage": "n. (不可数名词)",
           "collocations": [
             "silk dress",
@@ -565,7 +565,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/skɑːrf/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/scarf_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/scarf_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/scarf_2.jpg",
           "usage": "n. (可数名词，复数 scarves 或 scarfs)",
           "collocations": [
             "wear a scarf",
@@ -598,7 +598,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈredi/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/ready_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/ready_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/ready_2.jpg",
           "usage": "adj.",
           "collocations": [
             "get ready",
@@ -632,7 +632,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈredi tə duː ˈsʌmθɪŋ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/ready_to_do_sth_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/ready_to_do_sth_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/ready_to_do_sth_2.jpg",
           "usage": "adj. phrase (ready 是形容词，后接不定式)",
           "collocations": [
             "get ready to",
@@ -665,7 +665,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsʌmweər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/somewhere_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/somewhere_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/somewhere_2.jpg",
           "usage": "adv.",
           "collocations": [
             "go somewhere",
@@ -699,7 +699,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/maɪˈself/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/myself_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/myself_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/myself_2.jpg",
           "usage": "pron. (反身代词)",
           "collocations": [
             "by myself",
@@ -733,7 +733,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈnʌθɪŋ bʌt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/nothing_but_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/nothing_but_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/nothing_but_2.jpg",
           "usage": "短语 prep. 表示“除了……以外什么都没有；仅仅”。",
           "collocations": [
             "nothing but the truth",
@@ -766,7 +766,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/hoʊˈtel/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/hotel_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/hotel_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/hotel_2.jpg",
           "usage": "名词 n. (复数 hotels) 可数名词。",
           "collocations": [
             "stay at a hotel",
@@ -801,7 +801,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkʌmfərtəbl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/comfortable_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/comfortable_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/comfortable_2.jpg",
           "usage": "形容词 adj. (比较级 more comfortable, 最高级 most comfortable) 副词形式 comfortably。",
           "collocations": [
             "comfortable chair",
@@ -835,7 +835,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/bɔːrd/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/bored_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/bored_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/bored_2.jpg",
           "usage": "形容词 adj. (比较级 more bored, 最高级 most bored) 动词 bore (过去式 bored, 过去分词 bored)。",
           "collocations": [
             "get bored",
@@ -869,7 +869,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/skaɪ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/sky_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/sky_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/sky_2.jpg",
           "usage": "n. (可数名词，常用单数)",
           "collocations": [
             "blue sky",
@@ -904,7 +904,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/təˈwɔːrdz/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/towards_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/towards_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/towards_2.jpg",
           "usage": "prep.",
           "collocations": [
             "walk towards",
@@ -939,7 +939,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈreɪnboʊ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/rainbow_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/rainbow_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/rainbow_2.jpg",
           "usage": "n. (可数名词)",
           "collocations": [
             "see a rainbow",
@@ -974,7 +974,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/skwer/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/square_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/square_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/square_2.jpg",
           "usage": "n. (可数名词) / adj.",
           "collocations": [
             "in the square",
@@ -1008,7 +1008,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈdʊrɪŋ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/during_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/during_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/during_2.jpg",
           "usage": "prep.",
           "collocations": [
             "during the day",
@@ -1041,7 +1041,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈvɪktəri/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/victory_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/victory_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/victory_2.jpg",
           "usage": "n. (可数名词，常用单数)",
           "collocations": [
             "win a victory",
@@ -1075,7 +1075,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈrʌʃən/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/Russian_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/Russian_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/Russian_2.jpg",
           "usage": "adj. / n. (可数名词指人，不可数名词指语言)",
           "collocations": [
             "Russian language",
@@ -1109,7 +1109,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/faɪt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/fight_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/fight_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/fight_2.jpg",
           "usage": "v. (过去式 fought, 过去分词 fought) / n.",
           "collocations": [
             "have a fight",
@@ -1145,7 +1145,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈɡenst/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/against_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/against_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/against_2.jpg",
           "usage": "prep.",
           "collocations": [
             "against the wall",
@@ -1181,7 +1181,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/faɪt əˈɡenst ˈsʌmbədi/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/fight_against_sb_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/fight_against_sb_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/fight_against_sb_2.jpg",
           "usage": "v. phrase (fight 的过去式 fought, 过去分词 fought)",
           "collocations": [
             "fight against the enemy",
@@ -1214,7 +1214,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈɑːrtwɜːrk/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/artwork_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/artwork_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/artwork_2.jpg",
           "usage": "n. (可数或不可数)",
           "collocations": [
             "create artwork",
@@ -1249,7 +1249,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈθaʊzəndz əv/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/thousands_of_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/thousands_of_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/thousands_of_2.jpg",
           "usage": "adj. (数量短语) 修饰可数名词复数，表示数量巨大",
           "collocations": [
             "thousands of people/books/stars/flowers"
@@ -1280,7 +1280,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/tɪr/ (n.) /tɛr/ (v.)",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/tear_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/tear_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/tear_2.jpg",
           "usage": "n. (可数名词，常用复数 tears)；v. (过去式 tore, 过去分词 torn)",
           "collocations": [
             "in tears",
@@ -1316,7 +1316,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/rɪˈmaɪnd/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/remind_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/remind_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/remind_2.jpg",
           "usage": "v. (过去式 reminded, 过去分词 reminded)",
           "collocations": [
             "remind sb. of sth.",
@@ -1349,7 +1349,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/piːs/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/peace_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/peace_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/peace_2.jpg",
           "usage": "n. (不可数名词)",
           "collocations": [
             "in peace",
@@ -1384,7 +1384,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈiːzɪli/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/easily_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/easily_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/easily_2.jpg",
           "usage": "副词 adv. (比较级 more easily, 最高级 most easily)",
           "collocations": [
             "pass easily",
@@ -1418,7 +1418,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/fərˈɡet/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/forget_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/forget_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/forget_2.jpg",
           "usage": "v. (过去式 forgot, 过去分词 forgotten)",
           "collocations": [
             "forget to do",
@@ -1452,7 +1452,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/nuːn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/noon_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/noon_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/noon_2.jpg",
           "usage": "名词 n. (不可数名词，通常不加冠词)",
           "collocations": [
             "at noon",
@@ -1486,7 +1486,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/sɪk/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/sick_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/sick_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/sick_2.jpg",
           "usage": "形容词 adj. (比较级 sicker, 最高级 sickest; 也可作表语形容词)",
           "collocations": [
             "feel sick",
@@ -1520,7 +1520,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmetrəʊ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/metro_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/metro_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/metro_2.jpg",
           "usage": "n. (可数名词，常作 the metro)",
           "collocations": [
             "take the metro",
@@ -1556,7 +1556,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsteɪʃn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/station_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/station_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/station_2.jpg",
           "usage": "n. (可数名词)",
           "collocations": [
             "train station",
@@ -1593,7 +1593,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpæləs/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/palace_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/palace_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/palace_2.jpg",
           "usage": "n. (可数名词)",
           "collocations": [
             "the Summer Palace",
@@ -1629,7 +1629,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈkɔːrdiən/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/accordion_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/accordion_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/accordion_2.jpg",
           "usage": "n. (可数名词)",
           "collocations": [
             "play the accordion",
@@ -1664,7 +1664,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡet təˈɡeðər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/get_together_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/get_together_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/get_together_2.jpg",
           "usage": "动词短语 (phrasal verb) — 过去式 got together，过去分词 gotten together",
           "collocations": [
             "get together with friends",
@@ -1698,7 +1698,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪn ðə sʌn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/in_the_sun_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/in_the_sun_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/in_the_sun_2.jpg",
           "usage": "介词短语 (prepositional phrase) — 常与动词 sit, lie, read, play 等连用",
           "collocations": [
             "sit in the sun",
@@ -1733,7 +1733,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈtaʊər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/tower_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/tower_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/tower_2.jpg",
           "usage": "名词 (n.) — 可数名词，复数 towers",
           "collocations": [
             "clock tower",
@@ -1770,7 +1770,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/maɪt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/might_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/might_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/might_2.jpg",
           "usage": "情态动词 (modal v.) — 无人称和时态变化，后接动词原形",
           "collocations": [
             "might be",
@@ -1805,7 +1805,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈbʌdʒɪt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/budget_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/budget_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/budget_2.jpg",
           "usage": "n. / v. (过去式 budgeted, 过去分词 budgeted)",
           "collocations": [
             "on a budget",
@@ -1838,7 +1838,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpɑːspɔːrt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/passport_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/passport_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/passport_2.jpg",
           "usage": "n. (可数名词，复数 passports)",
           "collocations": [
             "apply for a passport",
@@ -1871,7 +1871,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/fərˈɡetfl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/forgetful_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/forgetful_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/forgetful_2.jpg",
           "usage": "adj. (副词 forgetfully)",
           "collocations": [
             "become forgetful",
@@ -1904,7 +1904,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌfɑːrəˈweɪ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/faraway_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/faraway_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/faraway_2.jpg",
           "usage": "adj. (通常放在名词前)",
           "collocations": [
             "faraway place",
@@ -1937,7 +1937,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈreɡjələr/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/regular_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/regular_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/regular_2.jpg",
           "usage": "adj. (副词 regularly)",
           "collocations": [
             "regular exercise",
@@ -1970,7 +1970,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkʌntrisaɪd/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/countryside_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/countryside_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/countryside_2.jpg",
           "usage": "n. (不可数名词，常与 the 连用)",
           "collocations": [
             "in the countryside",
@@ -2003,7 +2003,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/tɜːrn əˈraʊnd/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/turn_around_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/turn_around_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/turn_around_2.jpg",
           "usage": "v. (过去式 turned around, 过去分词 turned around)",
           "collocations": [
             "turn around quickly",
@@ -2037,7 +2037,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/sərˈpraɪzd/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/surprised_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/surprised_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/surprised_2.jpg",
           "usage": "adj. (动词 surprise 的过去分词作形容词；副词 surprisingly)",
           "collocations": [
             "be surprised at",
@@ -2070,7 +2070,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/dɪr/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/deer_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/deer_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/deer_2.jpg",
           "usage": "n. (可数名词，复数 deer 或 deers，但常用 deer)",
           "collocations": [
             "a deer in the forest",
@@ -2104,7 +2104,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈprɑːbəbli/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/probably_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/probably_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/probably_2.jpg",
           "usage": "adv.",
           "collocations": [
             "probably will",
@@ -2135,7 +2135,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/lʊk fɔːr/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/look_for_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/look_for_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/look_for_2.jpg",
           "usage": "v. (短语动词，look for + 宾语；过去式 looked for, 过去分词 looked for)",
           "collocations": [
             "look for a book",
@@ -2168,7 +2168,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡest ˈɡriːtɪŋ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/Guest-Greeting_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/Guest-Greeting_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/Guest-Greeting_2.jpg",
           "usage": "n. (复合名词，不可数；也可作形容词，如 guest-greeting service)",
           "collocations": [
             "guest-greeting service",
@@ -2199,7 +2199,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/siː əv klaʊdz/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/Sea_of_Clouds_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/Sea_of_Clouds_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/Sea_of_Clouds_2.jpg",
           "usage": "n. (名词，常作专有名词或普通名词短语)",
           "collocations": [
             "a sea of clouds",
@@ -2233,7 +2233,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/siˈætəl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/Seattle_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/Seattle_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/Seattle_2.jpg",
           "usage": "n. (专有名词，地名)",
           "collocations": [
             "fly to Seattle",
@@ -2268,7 +2268,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/red skweər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/Red_Square_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/Red_Square_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/Red_Square_2.jpg",
           "usage": "n. (专有名词，地名)",
           "collocations": [
             "visit Red Square",
@@ -2302,7 +2302,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmɒskoʊ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/Moscow_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/Moscow_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/Moscow_2.jpg",
           "usage": "n. (专有名词)",
           "collocations": [
             "Moscow city",
@@ -2335,7 +2335,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈrʌʃə/",
           "phonemes": [],
           "image": "../../G8_B1/Unit1/images/Russia_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/Russia_1.jpg",
+          "image2": "../../G8_B1/Unit1/images/Russia_2.jpg",
           "usage": "n. (专有名词)",
           "collocations": [
             "Russia country",
@@ -2375,7 +2375,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pæk/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/pack_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/pack_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/pack_2.jpg",
           "usage": "v. (过去式 packed, 过去分词 packed); n. 包，包裹",
           "collocations": [
             "pack a bag",
@@ -2410,7 +2410,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pæk ʌp/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/pack_up_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/pack_up_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/pack_up_2.jpg",
           "usage": "动词短语 (phrasal verb) (过去式 packed up, 过去分词 packed up)",
           "collocations": [
             "pack up one's things",
@@ -2443,7 +2443,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈbæθruːm/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/bathroom_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/bathroom_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/bathroom_2.jpg",
           "usage": "名词 n. (复数 bathrooms)",
           "collocations": [
             "go to the bathroom",
@@ -2478,7 +2478,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/sɔːrt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/sort_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/sort_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/sort_2.jpg",
           "usage": "动词 v. (过去式 sorted, 过去分词 sorted); 名词 n. (复数 sorts)",
           "collocations": [
             "sort out",
@@ -2512,7 +2512,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈbedruːm/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/bedroom_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/bedroom_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/bedroom_2.jpg",
           "usage": "名词 n. (复数 bedrooms)",
           "collocations": [
             "master bedroom",
@@ -2548,7 +2548,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈbælkəni/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/balcony_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/balcony_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/balcony_2.jpg",
           "usage": "n.",
           "collocations": [
             "on the balcony",
@@ -2582,7 +2582,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/hæŋ ʌp/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/hang_up_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/hang_up_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/hang_up_2.jpg",
           "usage": "v. (过去式 hung up, 过去分词 hung up)",
           "collocations": [
             "hang up clothes",
@@ -2616,7 +2616,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪnˈvaɪt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/invite_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/invite_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/invite_2.jpg",
           "usage": "v. (过去式 invited, 过去分词 invited)",
           "collocations": [
             "invite someone to",
@@ -2650,7 +2650,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈlɪvɪŋ ruːm/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/living_room_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/living_room_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/living_room_2.jpg",
           "usage": "名词 n.",
           "collocations": [
             "in the living room",
@@ -2683,7 +2683,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈraɪvəl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/arrival_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/arrival_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/arrival_2.jpg",
           "usage": "名词 n. (动词 arrive, 过去式 arrived, 过去分词 arrived)",
           "collocations": [
             "arrival time",
@@ -2719,7 +2719,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/jet/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/yet_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/yet_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/yet_2.jpg",
           "usage": "副词 adv.",
           "collocations": [
             "not yet",
@@ -2752,7 +2752,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/æd/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/add_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/add_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/add_2.jpg",
           "usage": "v. (过去式 added, 过去分词 added)",
           "collocations": [
             "add to",
@@ -2786,7 +2786,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/æd ˈsʌmθɪŋ tu ˈsʌmθɪŋ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/add_sth_to_sth_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/add_sth_to_sth_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/add_sth_to_sth_2.jpg",
           "usage": "v. phrase (过去式 added, 过去分词 added)",
           "collocations": [
             "add water to",
@@ -2819,7 +2819,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡoʊ ˈʃɒpɪŋ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/go_shopping_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/go_shopping_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/go_shopping_2.jpg",
           "usage": "v. phrase (过去式 went shopping, 过去分词 gone shopping)",
           "collocations": [
             "go window shopping",
@@ -2852,7 +2852,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈbɪskɪt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/biscuit_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/biscuit_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/biscuit_2.jpg",
           "usage": "n. (可数名词，复数 biscuits)",
           "collocations": [
             "chocolate biscuit",
@@ -2886,7 +2886,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈbɒrəʊ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/borrow_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/borrow_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/borrow_2.jpg",
           "usage": "v. (过去式 borrowed, 过去分词 borrowed)",
           "collocations": [
             "borrow sth. from sb./somewhere"
@@ -2917,7 +2917,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsevrəl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/several_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/several_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/several_2.jpg",
           "usage": "adj. / pron. (无词形变化)",
           "collocations": [
             "several times",
@@ -2951,7 +2951,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/nɒd/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/nod_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/nod_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/nod_2.jpg",
           "usage": "v. (过去式 nodded, 过去分词 nodded) / n.",
           "collocations": [
             "nod one's head",
@@ -2985,7 +2985,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈraɪtə(r)/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/writer_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/writer_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/writer_2.jpg",
           "usage": "n. (可数名词，复数 writers)",
           "collocations": [
             "a famous writer",
@@ -3018,7 +3018,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/tekst/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/text_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/text_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/text_2.jpg",
           "usage": "名词 n. / 动词 v.",
           "collocations": [
             "send a text",
@@ -3052,7 +3052,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/dɪˈskraɪb/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/describe_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/describe_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/describe_2.jpg",
           "usage": "动词 v.",
           "collocations": [
             "describe a picture",
@@ -3086,7 +3086,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/weərˈevər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/wherever_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/wherever_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/wherever_2.jpg",
           "usage": "连词 conj. / 副词 adv.",
           "collocations": [
             "wherever you go",
@@ -3119,7 +3119,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmætər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/matter_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/matter_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/matter_2.jpg",
           "usage": "名词 n. / 动词 v.",
           "collocations": [
             "no matter",
@@ -3152,7 +3152,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/noʊ ˈmætər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/no_matter_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/no_matter_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/no_matter_2.jpg",
           "usage": "conj. (连词) 引导让步状语从句，常与 what, who, when, where, how 等连用",
           "collocations": [
             "no matter what",
@@ -3183,7 +3183,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pərˈhæps/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/perhaps_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/perhaps_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/perhaps_2.jpg",
           "usage": "adv. (副词) 表示不确定或推测，常放在句首或句中",
           "collocations": [
             "perhaps not",
@@ -3214,7 +3214,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pleɪt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/plate_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/plate_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/plate_2.jpg",
           "usage": "n. (名词) 可数名词，复数形式为 plates",
           "collocations": [
             "paper plate",
@@ -3248,7 +3248,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈfreʃ.li/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/freshly_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/freshly_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/freshly_2.jpg",
           "usage": "副词 adv. (比较级 more freshly, 最高级 most freshly)",
           "collocations": [
             "freshly baked",
@@ -3282,7 +3282,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/smel/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/smell_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/smell_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/smell_2.jpg",
           "usage": "动词 v. (过去式 smelled/smelt, 过去分词 smelled/smelt); 名词 n. (可数/不可数)",
           "collocations": [
             "smell good/bad",
@@ -3317,7 +3317,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/dʒɔɪ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/joy_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/joy_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/joy_2.jpg",
           "usage": "名词 n. (可数/不可数); 形容词 joyful (高兴的), 副词 joyfully (高兴地)",
           "collocations": [
             "bring joy",
@@ -3352,7 +3352,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈpɑːrt.mənt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/apartment_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/apartment_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/apartment_2.jpg",
           "usage": "名词 n. (可数); 美式英语常用，英式英语常用 flat",
           "collocations": [
             "rent an apartment",
@@ -3387,7 +3387,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/blɒk/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/block_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/block_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/block_2.jpg",
           "usage": "n. (复数 blocks) / v. (过去式 blocked, 过去分词 blocked)",
           "collocations": [
             "a block of flats",
@@ -3423,7 +3423,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈdekəreɪt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/decorate_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/decorate_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/decorate_2.jpg",
           "usage": "v. (过去式 decorated, 过去分词 decorated)",
           "collocations": [
             "decorate the room",
@@ -3456,7 +3456,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkʌvər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/cover_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/cover_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/cover_2.jpg",
           "usage": "v. (过去式 covered, 过去分词 covered) / n. (复数 covers)",
           "collocations": [
             "cover the table",
@@ -3491,7 +3491,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpəʊstər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/poster_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/poster_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/poster_2.jpg",
           "usage": "n. (复数 posters)",
           "collocations": [
             "put up a poster",
@@ -3526,7 +3526,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsɪzərz/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/scissors_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/scissors_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/scissors_2.jpg",
           "usage": "n. (复数形式，常作复数名词)",
           "collocations": [
             "a pair of scissors",
@@ -3560,7 +3560,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡluː/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/glue_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/glue_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/glue_2.jpg",
           "usage": "n. (不可数名词) / v. (过去式 glued, 过去分词 glued)",
           "collocations": [
             "a bottle of glue",
@@ -3594,7 +3594,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpeɪpər kʌt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/paper-cut_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/paper-cut_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/paper-cut_2.jpg",
           "usage": "n. (可数名词，常作复合名词)",
           "collocations": [
             "Chinese paper-cut",
@@ -3627,7 +3627,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/plæn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/plan_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/plan_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/plan_2.jpg",
           "usage": "n. (可数名词) / v. (过去式 planned, 过去分词 planned)",
           "collocations": [
             "make a plan",
@@ -3662,7 +3662,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈtreʒər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/treasure_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/treasure_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/treasure_2.jpg",
           "usage": "n. (可数名词) / v. (过去式 treasured, 过去分词 treasured)",
           "collocations": [
             "treasure chest",
@@ -3697,7 +3697,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/hʌnt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/hunt_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/hunt_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/hunt_2.jpg",
           "usage": "v. (过去式 hunted, 过去分词 hunted) / n. (可数名词)",
           "collocations": [
             "hunt for",
@@ -3732,7 +3732,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈtreʒər hʌnt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/treasure_hunt_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/treasure_hunt_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/treasure_hunt_2.jpg",
           "usage": "n. (可数名词，常作复合名词)",
           "collocations": [
             "organize a treasure hunt",
@@ -3766,7 +3766,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/lɪft/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/lift_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/lift_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/lift_2.jpg",
           "usage": "v. (过去式 lifted, 过去分词 lifted) / n. (可数名词)",
           "collocations": [
             "lift up",
@@ -3802,7 +3802,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡɪv ˈsʌmbədi ə lɪft/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/give_sb_a_lift_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/give_sb_a_lift_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/give_sb_a_lift_2.jpg",
           "usage": "短语动词 (phrasal verb) — give sb a lift (过去式 gave, 过去分词 given)",
           "collocations": [
             "give a friend a lift",
@@ -3836,7 +3836,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ənˈtɪl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/until_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/until_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/until_2.jpg",
           "usage": "介词 prep. / 连词 conj.",
           "collocations": [
             "wait until",
@@ -3871,7 +3871,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/biː ˈkeərfəl wɪð/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/be_careful_with_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/be_careful_with_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/be_careful_with_2.jpg",
           "usage": "动词短语 (phrasal verb) — be careful with (注意：be 随主语变化，如 am/is/are/was/were)",
           "collocations": [
             "be careful with money",
@@ -3904,7 +3904,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmuːvi/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/movie_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/movie_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/movie_2.jpg",
           "usage": "n. (可数名词) 电影",
           "collocations": [
             "watch a movie",
@@ -3939,7 +3939,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ðə ˈmuːviz/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/the_movies_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/the_movies_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/the_movies_2.jpg",
           "usage": "n. (复数形式，常与the连用) 电影院；电影业",
           "collocations": [
             "go to the movies",
@@ -3972,7 +3972,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ded/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/dead_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/dead_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/dead_2.jpg",
           "usage": "adj. (形容词) 死的；无生命的；不工作的",
           "collocations": [
             "dead battery",
@@ -4006,7 +4006,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/noʊt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/note_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/note_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/note_2.jpg",
           "usage": "n. (可数名词) 笔记；便条；注释",
           "collocations": [
             "take notes",
@@ -4042,7 +4042,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/teɪk noʊts/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/take_notes_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/take_notes_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/take_notes_2.jpg",
           "usage": "动词短语 (v. phrase) (过去式 took notes, 过去分词 taken notes)",
           "collocations": [
             "take notes in class",
@@ -4075,7 +4075,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kliːn ʌp/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/clean_up_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/clean_up_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/clean_up_2.jpg",
           "usage": "动词短语 (v. phrase) (过去式 cleaned up, 过去分词 cleaned up)",
           "collocations": [
             "clean up the room",
@@ -4108,7 +4108,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kəˈmjuːnəti/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/community_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/community_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/community_2.jpg",
           "usage": "名词 n. (复数 communities)",
           "collocations": [
             "local community",
@@ -4142,7 +4142,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈrʌbɪʃ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/rubbish_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/rubbish_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/rubbish_2.jpg",
           "usage": "名词 n. (不可数)",
           "collocations": [
             "throw away rubbish",
@@ -4176,7 +4176,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈɔːl.məʊst/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/almost_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/almost_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/almost_2.jpg",
           "usage": "adv.",
           "collocations": [
             "almost finished",
@@ -4209,7 +4209,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈdʒɜː.ni/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/journey_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/journey_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/journey_2.jpg",
           "usage": "n. (复数 journeys)",
           "collocations": [
             "long journey",
@@ -4244,7 +4244,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pʊl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/pull_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/pull_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/pull_2.jpg",
           "usage": "v. (过去式 pulled, 过去分词 pulled)",
           "collocations": [
             "pull open",
@@ -4279,7 +4279,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈlʌɡ.ɪdʒ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/luggage_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/luggage_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/luggage_2.jpg",
           "usage": "n. (不可数名词)",
           "collocations": [
             "carry luggage",
@@ -4313,7 +4313,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ʃeər sʌmθɪŋ wɪð sʌmbədi/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/share_sth_with_sb_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/share_sth_with_sb_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/share_sth_with_sb_2.jpg",
           "usage": "动词短语 v. phrase (share v. 过去式 shared, 过去分词 shared)",
           "collocations": [
             "share food with friends / share ideas with classmates"
@@ -4344,7 +4344,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/fəˈmɪliər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/familiar_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/familiar_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/familiar_2.jpg",
           "usage": "形容词 adj. (副词形式 familiarly)",
           "collocations": [
             "familiar face / familiar place / familiar voice"
@@ -4375,7 +4375,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/dʒəʊk/",
           "phonemes": [],
           "image": "../../G8_B1/Unit2/images/joke_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/joke_1.jpg",
+          "image2": "../../G8_B1/Unit2/images/joke_2.jpg",
           "usage": "n. (可数名词) / v. (过去式 joked, 过去分词 joked)",
           "collocations": [
             "tell a joke",
@@ -4417,7 +4417,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kəmˈpeər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/compare_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/compare_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/compare_2.jpg",
           "usage": "v. (过去式 compared, 过去分词 compared)",
           "collocations": [
             "compare A with B",
@@ -4450,7 +4450,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ʃaɪ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/shy_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/shy_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/shy_2.jpg",
           "usage": "adj. (比较级 shyer, 最高级 shyest)",
           "collocations": [
             "feel shy",
@@ -4484,7 +4484,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈleɪzi/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/lazy_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/lazy_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/lazy_2.jpg",
           "usage": "adj. (比较级 lazier, 最高级 laziest; 副词 lazily)",
           "collocations": [
             "lazy afternoon",
@@ -4517,7 +4517,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/laʊd/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/loud_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/loud_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/loud_2.jpg",
           "usage": "adj. (比较级 louder, 最高级 loudest; 副词 loudly)",
           "collocations": [
             "loud music",
@@ -4550,7 +4550,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈreɪnfɔːl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/rainfall_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/rainfall_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/rainfall_2.jpg",
           "usage": "n. (不可数名词)",
           "collocations": [
             "heavy rainfall",
@@ -4584,7 +4584,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pɜːr/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/per_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/per_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/per_2.jpg",
           "usage": "prep. (介词)",
           "collocations": [
             "per day",
@@ -4618,7 +4618,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmɪlɪmiːtər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/millimeter_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/millimeter_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/millimeter_2.jpg",
           "usage": "n. (可数名词，复数 millimeters)",
           "collocations": [
             "one millimeter",
@@ -4652,7 +4652,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpleznt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/pleasant_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/pleasant_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/pleasant_2.jpg",
           "usage": "adj. (比较级 pleasanter / more pleasant, 最高级 pleasantest / most pleasant)",
           "collocations": [
             "pleasant weather",
@@ -4687,7 +4687,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈdɪfrəns/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/difference_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/difference_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/difference_2.jpg",
           "usage": "n. (可数名词，复数 differences)",
           "collocations": [
             "make a difference",
@@ -4722,7 +4722,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈlaɪk/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/alike_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/alike_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/alike_2.jpg",
           "usage": "adj. (只作表语，不作定语) / adv.",
           "collocations": [
             "look alike",
@@ -4756,7 +4756,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmɪrər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/mirror_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/mirror_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/mirror_2.jpg",
           "usage": "n. (可数名词，复数 mirrors) / v. (过去式 mirrored, 过去分词 mirrored)",
           "collocations": [
             "look in the mirror",
@@ -4791,7 +4791,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈɪntrəst/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/interest_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/interest_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/interest_2.jpg",
           "usage": "n. / v. (过去式 interested, 过去分词 interested)",
           "collocations": [
             "take an interest in",
@@ -4824,7 +4824,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈnɒvəl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/novel_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/novel_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/novel_2.jpg",
           "usage": "n. / adj.",
           "collocations": [
             "read a novel",
@@ -4857,7 +4857,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/sens/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/sense_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/sense_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/sense_2.jpg",
           "usage": "n. / v. (过去式 sensed, 过去分词 sensed)",
           "collocations": [
             "a sense of humor",
@@ -4890,7 +4890,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈhjuːmə(r)/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/humour_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/humour_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/humour_2.jpg",
           "usage": "n.",
           "collocations": [
             "sense of humour",
@@ -4923,7 +4923,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/θæŋks tuː/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/thanks_to_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/thanks_to_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/thanks_to_2.jpg",
           "usage": "介词短语 prep. phrase（后接名词或名词短语）",
           "collocations": [
             "thanks to your help",
@@ -4956,7 +4956,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈpɪnjən/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/opinion_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/opinion_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/opinion_2.jpg",
           "usage": "名词 n. (复数 opinions)",
           "collocations": [
             "in my opinion",
@@ -4990,7 +4990,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/meɪk ə mɪˈsteɪk/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/make_a_mistake_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/make_a_mistake_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/make_a_mistake_2.jpg",
           "usage": "动词短语 v. phrase (过去式 made a mistake, 过去分词 made a mistake)",
           "collocations": [
             "make a spelling mistake",
@@ -5023,7 +5023,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/les/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/less_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/less_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/less_2.jpg",
           "usage": "形容词 adj. (little的比较级) / 副词 adv.",
           "collocations": [
             "less time",
@@ -5058,7 +5058,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌstreɪtˈfɔːrwərd/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/straightforward_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/straightforward_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/straightforward_2.jpg",
           "usage": "adj. (比较级 more straightforward, 最高级 most straightforward)",
           "collocations": [
             "straightforward answer",
@@ -5092,7 +5092,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈɒnɪst/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/honest_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/honest_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/honest_2.jpg",
           "usage": "adj. (比较级 more honest, 最高级 most honest); 副词形式 honestly",
           "collocations": [
             "honest answer",
@@ -5126,7 +5126,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/dəˈrekt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/direct_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/direct_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/direct_2.jpg",
           "usage": "adj. (比较级 more direct, 最高级 most direct); 副词形式 directly; 动词 v. (过去式 directed, 过去分词 directed)",
           "collocations": [
             "direct flight",
@@ -5160,7 +5160,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌsɪməˈlærəti/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/similarity_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/similarity_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/similarity_2.jpg",
           "usage": "n. (可数名词，复数 similarities); 形容词形式 similar",
           "collocations": [
             "share a similarity",
@@ -5194,7 +5194,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈfrendʃɪp/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/friendship_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/friendship_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/friendship_2.jpg",
           "usage": "n. (不可数名词，但可加不定冠词 a friendship 表示一段友谊); 复数 friendships",
           "collocations": [
             "build friendship",
@@ -5228,7 +5228,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmiːtər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/metre_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/metre_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/metre_2.jpg",
           "usage": "n. (可数名词，复数 metres)",
           "collocations": [
             "square metre",
@@ -5262,7 +5262,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/prɪns/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/prince_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/prince_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/prince_2.jpg",
           "usage": "n. (可数名词，复数 princes)",
           "collocations": [
             "Prince Charming",
@@ -5295,7 +5295,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkærəktər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/character_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/character_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/character_2.jpg",
           "usage": "n. (可数名词，复数 characters)",
           "collocations": [
             "main character",
@@ -5329,7 +5329,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpɔːpər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/pauper_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/pauper_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/pauper_2.jpg",
           "usage": "n. (可数名词，复数 paupers)",
           "collocations": [
             "poor pauper",
@@ -5362,7 +5362,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪksˈtʃeɪndʒ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/exchange_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/exchange_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/exchange_2.jpg",
           "usage": "v. (过去式 exchanged, 过去分词 exchanged) / n.",
           "collocations": [
             "exchange gifts",
@@ -5397,7 +5397,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌaʊtˈɡoʊɪŋ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/outgoing_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/outgoing_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/outgoing_2.jpg",
           "usage": "adj. (比较级 more outgoing, 最高级 most outgoing)",
           "collocations": [
             "outgoing personality",
@@ -5431,7 +5431,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌhɑːrd ˈwɜːrkɪŋ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/hard-working_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/hard-working_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/hard-working_2.jpg",
           "usage": "adj. (比较级 more hard-working, 最高级 most hard-working)",
           "collocations": [
             "hard-working student",
@@ -5465,7 +5465,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pərˈfɔːrm/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/perform_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/perform_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/perform_2.jpg",
           "usage": "v. (过去式 performed, 过去分词 performed)",
           "collocations": [
             "perform a song",
@@ -5500,7 +5500,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈləʊn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/alone_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/alone_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/alone_2.jpg",
           "usage": "adj. / adv. (无词形变化)",
           "collocations": [
             "live alone",
@@ -5535,7 +5535,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/sɒlv/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/solve_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/solve_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/solve_2.jpg",
           "usage": "v. (过去式 solved, 过去分词 solved)",
           "collocations": [
             "solve a problem",
@@ -5570,7 +5570,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/fluːt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/flute_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/flute_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/flute_2.jpg",
           "usage": "n. (可数名词，复数 flutes)",
           "collocations": [
             "play the flute",
@@ -5605,7 +5605,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kənˌɡrætʃuˈleɪʃən/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/congratulation_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/congratulation_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/congratulation_2.jpg",
           "usage": "n. (常用复数形式 congratulations)",
           "collocations": [
             "congratulations on",
@@ -5640,7 +5640,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kənˌɡrætʃʊˈleɪʃənz/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/Congratulations_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/Congratulations_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/Congratulations_2.jpg",
           "usage": "n. (复数形式，常单独使用或用于短语)",
           "collocations": [
             "offer congratulations",
@@ -5673,7 +5673,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/praɪz/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/prize_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/prize_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/prize_2.jpg",
           "usage": "n. (可数名词) / v. (过去式 prized, 过去分词 prized)",
           "collocations": [
             "win a prize",
@@ -5707,7 +5707,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈtend/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/attend_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/attend_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/attend_2.jpg",
           "usage": "v. (过去式 attended, 过去分词 attended)",
           "collocations": [
             "attend school",
@@ -5742,7 +5742,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/bɪˈsaɪdz/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/besides_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/besides_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/besides_2.jpg",
           "usage": "prep. / adv.",
           "collocations": [
             "besides this",
@@ -5775,7 +5775,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/sper/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/spare_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/spare_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/spare_2.jpg",
           "usage": "adj. (无词形变化)",
           "collocations": [
             "spare time",
@@ -5809,7 +5809,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/sper taɪm/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/spare_time_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/spare_time_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/spare_time_2.jpg",
           "usage": "n. (不可数名词)",
           "collocations": [
             "in one's spare time",
@@ -5842,7 +5842,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpleʒər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/pleasure_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/pleasure_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/pleasure_2.jpg",
           "usage": "n. (可数/不可数名词)",
           "collocations": [
             "with pleasure",
@@ -5875,7 +5875,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/hæv ˈsʌmθɪŋ ɪn ˈkɑːmən/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/have_sth_in_common_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/have_sth_in_common_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/have_sth_in_common_2.jpg",
           "usage": "v. (短语动词，have 的过去式 had，过去分词 had)",
           "collocations": [
             "have a lot in common",
@@ -5908,7 +5908,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈpɪərəns/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/appearance_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/appearance_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/appearance_2.jpg",
           "usage": "n. (可数名词)",
           "collocations": [
             "physical appearance",
@@ -5942,7 +5942,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌpɜːrsəˈnæləti/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/personality_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/personality_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/personality_2.jpg",
           "usage": "n. (可数名词，通常单数)",
           "collocations": [
             "strong personality",
@@ -5976,7 +5976,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsɪriəs/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/serious_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/serious_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/serious_2.jpg",
           "usage": "adj. (比较级 more serious, 最高级 most serious)",
           "collocations": [
             "serious problem",
@@ -6009,7 +6009,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/streŋθ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/strength_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/strength_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/strength_2.jpg",
           "usage": "n. (不可数名词，可作可数名词表示“优点”)",
           "collocations": [
             "physical strength",
@@ -6043,7 +6043,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/slɪm/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/slim_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/slim_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/slim_2.jpg",
           "usage": "adj. (比较级 slimmer, 最高级 slimmest)",
           "collocations": [
             "slim chance",
@@ -6077,7 +6077,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/fækt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/fact_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/fact_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/fact_2.jpg",
           "usage": "n. (可数名词，复数 facts)",
           "collocations": [
             "in fact",
@@ -6111,7 +6111,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌpɒpjuˈleɪʃn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/population_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/population_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/population_2.jpg",
           "usage": "n. (可数名词，常与 the 连用)",
           "collocations": [
             "large population",
@@ -6145,7 +6145,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌkeɪˈem/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/km_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/km_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/km_2.jpg",
           "usage": "n. (缩写，可数，复数 km 或 kms)",
           "collocations": [
             "10 km",
@@ -6179,7 +6179,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkɪləˌmiːtər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/kilometer_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/kilometer_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/kilometer_2.jpg",
           "usage": "n. (可数名词)",
           "collocations": [
             "every kilometer",
@@ -6213,7 +6213,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈævərɪdʒ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/average_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/average_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/average_2.jpg",
           "usage": "adj. / n.",
           "collocations": [
             "average score",
@@ -6248,7 +6248,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈæksɪdənt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/accident_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/accident_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/accident_2.jpg",
           "usage": "n. (可数名词)",
           "collocations": [
             "car accident",
@@ -6282,7 +6282,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/baɪ ˈæksɪdənt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/by_accident_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/by_accident_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/by_accident_2.jpg",
           "usage": "adv. phrase (副词短语)",
           "collocations": [
             "find by accident",
@@ -6315,7 +6315,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪkˈspekt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/expect_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/expect_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/expect_2.jpg",
           "usage": "v. (过去式 expected, 过去分词 expected)",
           "collocations": [
             "expect to do sth; expect sb to do sth; as expected"
@@ -6346,7 +6346,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsɪlvər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/silver_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/silver_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/silver_2.jpg",
           "usage": "n. / adj.",
           "collocations": [
             "silver medal; silver lining; silver jewelry"
@@ -6377,7 +6377,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈlaɪnɪŋ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/lining_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/lining_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/lining_2.jpg",
           "usage": "n.",
           "collocations": [
             "silver lining; jacket lining; coat lining"
@@ -6408,7 +6408,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsɪlvər ˈlaɪnɪŋ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/silver_lining_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/silver_lining_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/silver_lining_2.jpg",
           "usage": "n. (固定短语)",
           "collocations": [
             "every cloud has a silver lining; find a silver lining"
@@ -6439,7 +6439,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌsɪtʃuˈeɪʃən/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/situation_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/situation_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/situation_2.jpg",
           "usage": "n. (可数名词) 情况，局面",
           "collocations": [
             "in a difficult situation",
@@ -6473,7 +6473,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/keər əˈbaʊt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/care_about_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/care_about_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/care_about_2.jpg",
           "usage": "v. (短语动词) 关心，在乎 (过去式 cared about, 过去分词 cared about)",
           "collocations": [
             "care about others",
@@ -6506,7 +6506,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/riːtʃ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/reach_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/reach_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/reach_2.jpg",
           "usage": "v. (过去式 reached, 过去分词 reached) 到达；够到；联系",
           "collocations": [
             "reach school",
@@ -6541,7 +6541,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/riːtʃ fɔːr/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/reach_for_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/reach_for_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/reach_for_2.jpg",
           "usage": "v. (短语动词) 伸手去拿；努力争取 (过去式 reached for, 过去分词 reached for)",
           "collocations": [
             "reach for the stars",
@@ -6574,7 +6574,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/tʌtʃ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/touch_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/touch_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/touch_2.jpg",
           "usage": "v. (过去式 touched, 过去分词 touched); n.",
           "collocations": [
             "keep in touch",
@@ -6609,7 +6609,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/lend/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/lend_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/lend_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/lend_2.jpg",
           "usage": "v. (过去式 lent, 过去分词 lent)",
           "collocations": [
             "lend a hand",
@@ -6643,7 +6643,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/vænˈkuːvər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit3/images/Vancouver_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/Vancouver_1.jpg",
+          "image2": "../../G8_B1/Unit3/images/Vancouver_2.jpg",
           "usage": "n. (专有名词)",
           "collocations": [
             "fly to Vancouver",
@@ -6684,7 +6684,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈɡʊdnəs/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/goodness_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/goodness_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/goodness_2.jpg",
           "usage": "n. (不可数名词)；也可作感叹词 interj.",
           "collocations": [
             "thank goodness (谢天谢地)",
@@ -6717,7 +6717,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/tuːl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/tool_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/tool_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/tool_2.jpg",
           "usage": "n. (可数名词，复数形式 tools)",
           "collocations": [
             "a useful tool (有用的工具)",
@@ -6751,7 +6751,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈæktʃuəli/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/actually_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/actually_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/actually_2.jpg",
           "usage": "adv. (副词，常用于句首或句中)",
           "collocations": [
             "actually think (实际上认为)",
@@ -6784,7 +6784,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ʃuːt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/shoot_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/shoot_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/shoot_2.jpg",
           "usage": "v. (过去式 shot, 过去分词 shot)",
           "collocations": [
             "shoot a basket",
@@ -6818,7 +6818,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈpɪr/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/appear_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/appear_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/appear_2.jpg",
           "usage": "v. (过去式 appeared, 过去分词 appeared)",
           "collocations": [
             "appear in",
@@ -6852,7 +6852,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/fiːl friː/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/feel_free_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/feel_free_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/feel_free_2.jpg",
           "usage": "固定短语，后接动词原形",
           "collocations": [
             "feel free to ask",
@@ -6885,7 +6885,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/lænd/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/land_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/land_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/land_2.jpg",
           "usage": "v. (过去式 landed, 过去分词 landed); n. 不可数名词",
           "collocations": [
             "land safely",
@@ -6919,7 +6919,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈæfrɪkən/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/African_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/African_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/African_2.jpg",
           "usage": "adj. / n.",
           "collocations": [
             "African culture",
@@ -6953,7 +6953,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/roʊz/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/rose_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/rose_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/rose_2.jpg",
           "usage": "n. (复数 roses)",
           "collocations": [
             "red rose",
@@ -6987,7 +6987,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpiːəni/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/peony_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/peony_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/peony_2.jpg",
           "usage": "n. (复数 peonies)",
           "collocations": [
             "peony flower",
@@ -7021,7 +7021,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈloʊtəs/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/lotus_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/lotus_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/lotus_2.jpg",
           "usage": "n. (复数 lotuses 或 lotus)",
           "collocations": [
             "lotus flower",
@@ -7055,7 +7055,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈbʌtərflaɪ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/butterfly_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/butterfly_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/butterfly_2.jpg",
           "usage": "n. (可数名词，复数 butterflies)",
           "collocations": [
             "a beautiful butterfly",
@@ -7089,7 +7089,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/wɪŋ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/wing_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/wing_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/wing_2.jpg",
           "usage": "n. (可数名词，复数 wings)",
           "collocations": [
             "left wing",
@@ -7124,7 +7124,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/frɒɡ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/frog_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/frog_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/frog_2.jpg",
           "usage": "n. (可数名词，复数 frogs)",
           "collocations": [
             "a green frog",
@@ -7158,7 +7158,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ʌp tuː/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/up_to_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/up_to_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/up_to_2.jpg",
           "usage": "prep. (介词短语)",
           "collocations": [
             "up to ten",
@@ -7193,7 +7193,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/weɪ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/weigh_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/weigh_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/weigh_2.jpg",
           "usage": "v. (过去式 weighed, 过去分词 weighed)",
           "collocations": [
             "weigh oneself",
@@ -7227,7 +7227,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌkeɪˈdʒiː/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/kg_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/kg_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/kg_2.jpg",
           "usage": "n. (缩写形式，常与数字连用)",
           "collocations": [
             "10 kg",
@@ -7260,7 +7260,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈɡɪŋkɡoʊ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/ginkgo_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/ginkgo_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/ginkgo_2.jpg",
           "usage": "n. (可数名词，复数 ginkgoes 或 ginkgos)",
           "collocations": [
             "ginkgo tree",
@@ -7294,7 +7294,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/bɪˈliːv/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/believe_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/believe_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/believe_2.jpg",
           "usage": "v. (过去式 believed, 过去分词 believed)",
           "collocations": [
             "believe in",
@@ -7328,7 +7328,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈprɒvɪns/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/province_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/province_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/province_2.jpg",
           "usage": "名词 n. (复数 provinces)",
           "collocations": [
             "in the province",
@@ -7362,7 +7362,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/teɪk ə wɔːk/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/take_a_walk_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/take_a_walk_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/take_a_walk_2.jpg",
           "usage": "动词短语 (过去式 took a walk, 过去分词 taken a walk)",
           "collocations": [
             "take a walk after dinner",
@@ -7395,7 +7395,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kəˈnekt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/connect_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/connect_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/connect_2.jpg",
           "usage": "动词 v. (过去式 connected, 过去分词 connected)",
           "collocations": [
             "connect A to B",
@@ -7429,7 +7429,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kəˈnektɪd/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/connected_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/connected_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/connected_2.jpg",
           "usage": "形容词 adj. (由动词 connect 的过去分词转化而来)",
           "collocations": [
             "be connected to",
@@ -7463,7 +7463,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/biː kəˈnektɪd wɪð/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/be_connected_with_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/be_connected_with_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/be_connected_with_2.jpg",
           "usage": "动词短语 (verb phrase)，常用于被动语态，表示事物之间的关联。",
           "collocations": [
             "be closely connected with",
@@ -7495,7 +7495,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/wɪˈðaʊt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/without_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/without_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/without_2.jpg",
           "usage": "介词 (prep.)，后接名词、代词或动名词。",
           "collocations": [
             "without doubt",
@@ -7528,7 +7528,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪˈmædʒɪn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/imagine_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/imagine_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/imagine_2.jpg",
           "usage": "动词 v. (过去式 imagined, 过去分词 imagined)，可接名词、代词、that从句或动名词。",
           "collocations": [
             "imagine doing sth.",
@@ -7560,7 +7560,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/mɒs/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/moss_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/moss_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/moss_2.jpg",
           "usage": "名词 n. (不可数名词)，指一种生长在潮湿阴暗处的绿色小型植物。",
           "collocations": [
             "green moss",
@@ -7594,7 +7594,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈred.wʊd/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/redwood_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/redwood_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/redwood_2.jpg",
           "usage": "n. (可数名词，复数 redwoods)",
           "collocations": [
             "tall redwood",
@@ -7628,7 +7628,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈtʃiː.tə/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/cheetah_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/cheetah_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/cheetah_2.jpg",
           "usage": "n. (可数名词，复数 cheetahs)",
           "collocations": [
             "fast cheetah",
@@ -7662,7 +7662,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈfoʊl.dɪŋ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/folding_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/folding_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/folding_2.jpg",
           "usage": "adj. (无比较级，常作定语)",
           "collocations": [
             "folding chair",
@@ -7696,7 +7696,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈfoʊl.dɪŋ fæn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/folding_fan_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/folding_fan_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/folding_fan_2.jpg",
           "usage": "n. (可数名词，复数 folding fans)",
           "collocations": [
             "open a folding fan",
@@ -7730,7 +7730,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌbæmˈbuː/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/bamboo_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/bamboo_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/bamboo_2.jpg",
           "usage": "n. (不可数名词，也可作可数名词表示种类)",
           "collocations": [
             "bamboo forest",
@@ -7764,7 +7764,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/jeə/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/yeah_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/yeah_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/yeah_2.jpg",
           "usage": "adv. (非正式，用于口语肯定回答或表示赞同)",
           "collocations": [
             "yeah",
@@ -7795,7 +7795,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpɒpjələ(r)/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/popular_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/popular_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/popular_2.jpg",
           "usage": "adj. (比较级 more popular, 最高级 most popular; 副词 popularly)",
           "collocations": [
             "popular with",
@@ -7829,7 +7829,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/rəʊl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/role_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/role_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/role_2.jpg",
           "usage": "n. (可数名词；复数 roles)",
           "collocations": [
             "play a role",
@@ -7863,7 +7863,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pleɪ ə roʊl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/play_a_role_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/play_a_role_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/play_a_role_2.jpg",
           "usage": "动词短语 (v. phrase) (过去式 played a role, 过去分词 played a role)",
           "collocations": [
             "play an important role",
@@ -7896,7 +7896,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/piː/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/pea_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/pea_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/pea_2.jpg",
           "usage": "名词 n. (复数 peas)",
           "collocations": [
             "green peas",
@@ -7930,7 +7930,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈklaɪmət/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/climate_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/climate_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/climate_2.jpg",
           "usage": "名词 n.",
           "collocations": [
             "climate change",
@@ -7965,7 +7965,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈoʊʃən/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/ocean_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/ocean_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/ocean_2.jpg",
           "usage": "名词 n. (复数 oceans)",
           "collocations": [
             "Pacific Ocean",
@@ -8001,7 +8001,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪkˈsept/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/except_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/except_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/except_2.jpg",
           "usage": "prep. 介词",
           "collocations": [
             "except for",
@@ -8034,7 +8034,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈtaɪni/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/tiny_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/tiny_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/tiny_2.jpg",
           "usage": "adj. (比较级 tinier, 最高级 tiniest)",
           "collocations": [
             "tiny house",
@@ -8070,7 +8070,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈlaɪvli/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/lively_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/lively_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/lively_2.jpg",
           "usage": "adj. (比较级 livelier, 最高级 liveliest; 副词形式 livelily 较少用)",
           "collocations": [
             "lively discussion",
@@ -8105,7 +8105,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ði ˈɑːrktɪk/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/the_Arctic_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/the_Arctic_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/the_Arctic_2.jpg",
           "usage": "n. (专有名词，常带定冠词 the；形容词形式 Arctic)",
           "collocations": [
             "the Arctic Ocean",
@@ -8141,7 +8141,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈhʌni/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/honey_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/honey_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/honey_2.jpg",
           "usage": "n. (不可数名词)",
           "collocations": [
             "a jar of honey",
@@ -8175,7 +8175,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌdɪsəˈpɔɪntɪd/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/disappointed_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/disappointed_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/disappointed_2.jpg",
           "usage": "adj. (形容词，常与 be/get/feel 连用)",
           "collocations": [
             "feel disappointed",
@@ -8208,7 +8208,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kəˈnekʃn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/connection_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/connection_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/connection_2.jpg",
           "usage": "n. (可数名词)",
           "collocations": [
             "have a connection",
@@ -8242,7 +8242,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌpɒlɪˈneɪʃən/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/pollination_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/pollination_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/pollination_2.jpg",
           "usage": "n. (不可数名词)",
           "collocations": [
             "cross-pollination",
@@ -8276,7 +8276,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpɒlən/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/pollen_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/pollen_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/pollen_2.jpg",
           "usage": "n. (不可数名词)",
           "collocations": [
             "pollen grains",
@@ -8310,7 +8310,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈækʃən/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/action_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/action_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/action_2.jpg",
           "usage": "n. (可数/不可数名词)",
           "collocations": [
             "take action",
@@ -8345,7 +8345,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪn fækt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/in_fact_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/in_fact_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/in_fact_2.jpg",
           "usage": "adv. phrase (副词短语，用于强调事实或纠正误解)",
           "collocations": [
             "in fact",
@@ -8377,7 +8377,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pər ˈsent/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/per_cent_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/per_cent_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/per_cent_2.jpg",
           "usage": "n. (常作单数) 百分比；每百中",
           "collocations": [
             "a large/small per cent; per cent of; 100 per cent"
@@ -8408,7 +8408,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/fɔːr ðɪs ˈriːzn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/for_this_reason_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/for_this_reason_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/for_this_reason_2.jpg",
           "usage": "adv. phrase 连接因果关系的副词短语",
           "collocations": [
             "for this reason",
@@ -8440,7 +8440,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈplænɪt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/planet_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/planet_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/planet_2.jpg",
           "usage": "n. (可数名词) 行星",
           "collocations": [
             "the planet Earth; protect the planet; on the planet"
@@ -8471,7 +8471,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪn ˈɔːrdər tuː/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/in_order_to_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/in_order_to_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/in_order_to_2.jpg",
           "usage": "prep. phrase 后接动词原形，表示目的",
           "collocations": [
             "in order to do sth.; in order to achieve; in order to get"
@@ -8502,7 +8502,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/stɔːr/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/store_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/store_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/store_2.jpg",
           "usage": "n. / v. (过去式 stored, 过去分词 stored)",
           "collocations": [
             "department store",
@@ -8537,7 +8537,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈhʌniˌkoʊm/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/honeycomb_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/honeycomb_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/honeycomb_2.jpg",
           "usage": "n.",
           "collocations": [
             "honeycomb structure",
@@ -8570,7 +8570,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kəˈmjuːnɪkeɪt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/communicate_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/communicate_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/communicate_2.jpg",
           "usage": "v. (过去式 communicated, 过去分词 communicated)",
           "collocations": [
             "communicate with",
@@ -8604,7 +8604,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pleɪ ə pɑːrt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/play_a_part_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/play_a_part_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/play_a_part_2.jpg",
           "usage": "v. phrase (过去式 played a part, 过去分词 played a part)",
           "collocations": [
             "play a part in",
@@ -8637,7 +8637,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈiːkəʊsɪstəm/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/ecosystem_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/ecosystem_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/ecosystem_2.jpg",
           "usage": "n. (可数名词)",
           "collocations": [
             "marine ecosystem",
@@ -8672,7 +8672,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/prəˈtekt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/protect_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/protect_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/protect_2.jpg",
           "usage": "v. (过去式 protected, 过去分词 protected)",
           "collocations": [
             "protect the environment",
@@ -8707,7 +8707,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪmˈpɔːrtns/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/importance_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/importance_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/importance_2.jpg",
           "usage": "n. (不可数名词)",
           "collocations": [
             "the importance of",
@@ -8741,7 +8741,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈtaɪtl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/title_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/title_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/title_2.jpg",
           "usage": "n. (可数名词)",
           "collocations": [
             "book title",
@@ -8776,7 +8776,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈhjuːmən/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/human_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/human_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/human_2.jpg",
           "usage": "adj. 人的，人类的；n. 人",
           "collocations": [
             "human being",
@@ -8810,7 +8810,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ænt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/ant_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/ant_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/ant_2.jpg",
           "usage": "n. 蚂蚁",
           "collocations": [
             "ant colony",
@@ -8844,7 +8844,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/biː həʊm tuː ˈsʌmbədi/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/be_home_to_sb_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/be_home_to_sb_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/be_home_to_sb_2.jpg",
           "usage": "短语动词，后接名词或代词",
           "collocations": [
             "be home to many species",
@@ -8876,7 +8876,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈhæpinəs/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/happiness_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/happiness_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/happiness_2.jpg",
           "usage": "n. 不可数名词",
           "collocations": [
             "true happiness",
@@ -8910,7 +8910,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌdɪsəˈpɔɪnt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/disappoint_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/disappoint_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/disappoint_2.jpg",
           "usage": "v. (过去式 disappointed, 过去分词 disappointed)",
           "collocations": [
             "disappoint someone; be disappointed with/in; disappointing result"
@@ -8941,7 +8941,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmʌʃruːm/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/mushroom_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/mushroom_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/mushroom_2.jpg",
           "usage": "n. (可数名词) / v. (过去式 mushroomed, 过去分词 mushroomed)",
           "collocations": [
             "mushroom soup; mushroom growth; mushroom cloud"
@@ -8972,7 +8972,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/tʌn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit4/images/ton_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/ton_1.jpg",
+          "image2": "../../G8_B1/Unit4/images/ton_2.jpg",
           "usage": "n. (可数名词)",
           "collocations": [
             "a ton of; tons of; metric ton; weigh a ton"
@@ -9010,7 +9010,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpepər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/pepper_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/pepper_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/pepper_2.jpg",
           "usage": "n. (可数/不可数) 胡椒粉；甜椒",
           "collocations": [
             "black pepper",
@@ -9045,7 +9045,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kʌt ʌp/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/cut_up_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/cut_up_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/cut_up_2.jpg",
           "usage": "v. (过去式 cut up, 过去分词 cut up) 切碎；剪碎",
           "collocations": [
             "cut up vegetables",
@@ -9079,7 +9079,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/mɪks/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/mix_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/mix_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/mix_2.jpg",
           "usage": "v. (过去式 mixed, 过去分词 mixed) 混合；搅拌",
           "collocations": [
             "mix together",
@@ -9114,7 +9114,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/beɪk/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/bake_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/bake_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/bake_2.jpg",
           "usage": "v. (过去式 baked, 过去分词 baked) 烘烤；烤",
           "collocations": [
             "bake cookies",
@@ -9149,7 +9149,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈʌvən/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/oven_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/oven_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/oven_2.jpg",
           "usage": "n. (可数名词，复数 ovens)",
           "collocations": [
             "preheat the oven",
@@ -9184,7 +9184,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pɔːr ˈsʌmθɪŋ ˈɪntə ˈsʌmθɪŋ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/pour_sth_into_sth_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/pour_sth_into_sth_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/pour_sth_into_sth_2.jpg",
           "usage": "v. (过去式 poured, 过去分词 poured) 及物动词短语，后接宾语和 into 介词短语",
           "collocations": [
             "pour water into",
@@ -9218,7 +9218,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈflaʊər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/flour_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/flour_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/flour_2.jpg",
           "usage": "n. (不可数名词)",
           "collocations": [
             "mix flour",
@@ -9254,7 +9254,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/bɔɪl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/boil_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/boil_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/boil_2.jpg",
           "usage": "v. (过去式 boiled, 过去分词 boiled) 可作及物或不及物动词",
           "collocations": [
             "boil water",
@@ -9290,7 +9290,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈbʌtər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/butter_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/butter_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/butter_2.jpg",
           "usage": "n. (不可数) / v. (过去式 buttered, 过去分词 buttered)",
           "collocations": [
             "butter the bread",
@@ -9324,7 +9324,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/tʃiːz/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/cheese_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/cheese_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/cheese_2.jpg",
           "usage": "n. (不可数/可数)",
           "collocations": [
             "cheese sandwich",
@@ -9358,7 +9358,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kʌt sʌmθɪŋ ɪn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/cut_sth_in_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/cut_sth_in_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/cut_sth_in_2.jpg",
           "usage": "v. (过去式 cut, 过去分词 cut) + 宾语 + in/into",
           "collocations": [
             "cut the cake in half",
@@ -9391,7 +9391,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈteɪblspuːn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/tablespoon_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/tablespoon_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/tablespoon_2.jpg",
           "usage": "n. (可数)",
           "collocations": [
             "a tablespoon of sugar",
@@ -9424,7 +9424,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/mæʃ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/mash_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/mash_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/mash_2.jpg",
           "usage": "v. (过去式 mashed, 过去分词 mashed)",
           "collocations": [
             "mash potatoes",
@@ -9458,7 +9458,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/mæʃt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/mashed_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/mashed_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/mashed_2.jpg",
           "usage": "adj. (由动词 mash 的过去分词转化而来)",
           "collocations": [
             "mashed potatoes",
@@ -9492,7 +9492,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈstɜːr fraɪ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/stir-fry_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/stir-fry_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/stir-fry_2.jpg",
           "usage": "v. (过去式 stir-fried, 过去分词 stir-fried)",
           "collocations": [
             "stir-fry vegetables",
@@ -9526,7 +9526,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/fɪl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/fill_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/fill_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/fill_2.jpg",
           "usage": "v. (过去式 filled, 过去分词 filled)",
           "collocations": [
             "fill a bottle",
@@ -9561,7 +9561,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈswiːtnəs/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/sweetness_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/sweetness_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/sweetness_2.jpg",
           "usage": "n. (不可数名词)",
           "collocations": [
             "the sweetness of...; natural sweetness; add sweetness"
@@ -9592,7 +9592,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkɒlɪdʒ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/college_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/college_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/college_2.jpg",
           "usage": "n. (可数名词)",
           "collocations": [
             "go to college; college student; college life; college entrance exam"
@@ -9623,7 +9623,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/həʊst/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/host_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/host_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/host_2.jpg",
           "usage": "n. (可数名词) / v. (及物动词)",
           "collocations": [
             "host a party; host a show; host country; host family"
@@ -9654,7 +9654,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈhəʊstəs/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/hostess_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/hostess_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/hostess_2.jpg",
           "usage": "n. (可数名词)",
           "collocations": [
             "air hostess; hostess gift; hostess at a party"
@@ -9685,7 +9685,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈresɪpi/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/recipe_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/recipe_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/recipe_2.jpg",
           "usage": "n. (可数名词，复数 recipes)",
           "collocations": [
             "follow a recipe",
@@ -9719,7 +9719,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kriːm/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/cream_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/cream_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/cream_2.jpg",
           "usage": "n. (不可数名词，但可指种类时用 creams)",
           "collocations": [
             "whipped cream",
@@ -9754,7 +9754,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/krʌst/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/crust_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/crust_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/crust_2.jpg",
           "usage": "n. (可数名词，复数 crusts)",
           "collocations": [
             "pizza crust",
@@ -9789,7 +9789,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmɪkstʃər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/mixture_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/mixture_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/mixture_2.jpg",
           "usage": "n. (可数名词，复数 mixtures)",
           "collocations": [
             "a mixture of",
@@ -9824,7 +9824,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/liːst/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/least_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/least_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/least_2.jpg",
           "usage": "adj. (little的最高级) / adv. (修饰形容词或动词，表示程度最低)",
           "collocations": [
             "at least",
@@ -9857,7 +9857,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/æt liːst/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/at_least_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/at_least_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/at_least_2.jpg",
           "usage": "adv. phrase (固定短语，用于强调最低数量或程度)",
           "collocations": [
             "at least once",
@@ -9890,7 +9890,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsiːkrɪt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/secret_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/secret_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/secret_2.jpg",
           "usage": "n. (可数名词) / adj. (形容词，修饰名词)",
           "collocations": [
             "keep a secret",
@@ -9925,7 +9925,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈkɔːrdɪŋ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/according_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/according_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/according_2.jpg",
           "usage": "adv. (常用于 according to 短语中)",
           "collocations": [
             "according to",
@@ -9957,7 +9957,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/wenˈevər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/whenever_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/whenever_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/whenever_2.jpg",
           "usage": "conj. (连词，引导时间状语从句)",
           "collocations": [
             "whenever possible",
@@ -9989,7 +9989,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈaɪtəm/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/item_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/item_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/item_2.jpg",
           "usage": "n. (可数名词，复数 items)",
           "collocations": [
             "menu item",
@@ -10022,7 +10022,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/spəˈɡeti/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/spaghetti_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/spaghetti_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/spaghetti_2.jpg",
           "usage": "n. (不可数名词)",
           "collocations": [
             "spaghetti bolognese",
@@ -10055,7 +10055,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/spuːn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/spoon_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/spoon_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/spoon_2.jpg",
           "usage": "n. (复数 spoons)",
           "collocations": [
             "a spoon of sugar",
@@ -10089,7 +10089,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/slaɪs/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/slice_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/slice_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/slice_2.jpg",
           "usage": "n. (复数 slices); v. (过去式 sliced, 过去分词 sliced)",
           "collocations": [
             "a slice of pizza",
@@ -10123,7 +10123,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkʌpəl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/couple_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/couple_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/couple_2.jpg",
           "usage": "n. (复数 couples)",
           "collocations": [
             "a couple of days",
@@ -10157,7 +10157,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈaɪlənd/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/island_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/island_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/island_2.jpg",
           "usage": "n. (复数 islands)",
           "collocations": [
             "a desert island",
@@ -10191,7 +10191,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/waɪf/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/wife_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/wife_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/wife_2.jpg",
           "usage": "n. (可数名词，复数 wives)",
           "collocations": [
             "husband and wife",
@@ -10225,7 +10225,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsepəreɪt/ (v.) /ˈsepərət/ (adj.)",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/separate_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/separate_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/separate_2.jpg",
           "usage": "v. (过去式 separated, 过去分词 separated) / adj. / adv. separately",
           "collocations": [
             "separate from",
@@ -10260,7 +10260,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/bɔːrn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/born_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/born_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/born_2.jpg",
           "usage": "v. (过去分词，常用于被动语态 be born)",
           "collocations": [
             "be born in",
@@ -10296,7 +10296,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/wʌn baɪ wʌn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/one_by_one_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/one_by_one_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/one_by_one_2.jpg",
           "usage": "adv. phrase (副词短语)",
           "collocations": [
             "check one by one",
@@ -10330,7 +10330,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/duː wɪð/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/do_with_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/do_with_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/do_with_2.jpg",
           "usage": "v. (过去式 did with, 过去分词 done with)",
           "collocations": [
             "what to do with",
@@ -10362,7 +10362,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/boʊl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/bowl_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/bowl_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/bowl_2.jpg",
           "usage": "n. (复数 bowls)",
           "collocations": [
             "a bowl of",
@@ -10396,7 +10396,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/hiːt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/heat_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/heat_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/heat_2.jpg",
           "usage": "n. / v. (过去式 heated, 过去分词 heated)",
           "collocations": [
             "heat up",
@@ -10430,7 +10430,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɔɪl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/oil_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/oil_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/oil_2.jpg",
           "usage": "n. (不可数名词，复数 oils 指不同种类)",
           "collocations": [
             "cooking oil",
@@ -10464,7 +10464,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pæn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/pan_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/pan_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/pan_2.jpg",
           "usage": "n. (可数名词) 平底锅，常用于烹饪",
           "collocations": [
             "frying pan",
@@ -10500,7 +10500,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pʊt sʌmθɪŋ bæk/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/put_sth_back_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/put_sth_back_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/put_sth_back_2.jpg",
           "usage": "v. (短语动词) 及物，必须分开或一起使用，宾语放在 back 前或后均可",
           "collocations": [
             "put the book back",
@@ -10533,7 +10533,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsɪmpl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/simple_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/simple_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/simple_2.jpg",
           "usage": "adj. (形容词) 可修饰事物或任务",
           "collocations": [
             "simple answer",
@@ -10568,7 +10568,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪnˈɡriːdiənt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/ingredient_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/ingredient_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/ingredient_2.jpg",
           "usage": "n. (可数名词) 常用于烹饪或比喻构成某事物的部分",
           "collocations": [
             "main ingredient",
@@ -10602,7 +10602,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪnˈstrʌkʃən/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/instruction_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/instruction_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/instruction_2.jpg",
           "usage": "n. (可数名词，常复数 instructions)",
           "collocations": [
             "follow instructions",
@@ -10635,7 +10635,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/stiːmd fɪʃ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/steamed_fish_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/steamed_fish_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/steamed_fish_2.jpg",
           "usage": "n. (不可数名词，常作一道菜名)",
           "collocations": [
             "order steamed fish",
@@ -10668,7 +10668,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsaʊər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/sour_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/sour_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/sour_2.jpg",
           "usage": "adj. (比较级 sourer, 最高级 sourest)",
           "collocations": [
             "sour taste",
@@ -10701,7 +10701,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/hɒt ænd ˈsaʊər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/hot_and_sour_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/hot_and_sour_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/hot_and_sour_2.jpg",
           "usage": "adj. (固定短语，常修饰 soup, noodles 等)",
           "collocations": [
             "hot and sour soup",
@@ -10734,7 +10734,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/mes/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/mess_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/mess_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/mess_2.jpg",
           "usage": "n. (可数名词，常用单数) / v. (过去式 messed, 过去分词 messed)",
           "collocations": [
             "in a mess",
@@ -10768,7 +10768,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈprɪti/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/pretty_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/pretty_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/pretty_2.jpg",
           "usage": "adj. / adv. (比较级 prettier, 最高级 prettiest)",
           "collocations": [
             "pretty good",
@@ -10802,7 +10802,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkrɪsməs/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/Christmas_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/Christmas_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/Christmas_2.jpg",
           "usage": "n. (专有名词，首字母大写)",
           "collocations": [
             "Christmas Eve",
@@ -10837,7 +10837,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpænkeɪk/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/pancake_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/pancake_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/pancake_2.jpg",
           "usage": "n. (可数名词，复数 pancakes)",
           "collocations": [
             "make pancakes",
@@ -10871,7 +10871,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/driːm/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/dream_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/dream_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/dream_2.jpg",
           "usage": "n. (可数名词，复数 dreams); v. (过去式 dreamed/dreamt, 过去分词 dreamed/dreamt)",
           "collocations": [
             "have a dream",
@@ -10905,7 +10905,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌjuːnɪˈvɜːrsəti/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/university_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/university_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/university_2.jpg",
           "usage": "n. (可数名词，复数 universities)",
           "collocations": [
             "go to university",
@@ -10939,7 +10939,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡoʊ ˈboʊtɪŋ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/go_boating_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/go_boating_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/go_boating_2.jpg",
           "usage": "动词短语 (go + v-ing 结构，用于表示休闲活动)",
           "collocations": [
             "go boating on the lake",
@@ -10972,7 +10972,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmeməri/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/memory_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/memory_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/memory_2.jpg",
           "usage": "n. (可数名词，复数 memories)",
           "collocations": [
             "have a good memory",
@@ -11005,7 +11005,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈvɪzəbl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/visible_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/visible_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/visible_2.jpg",
           "usage": "adj. (副词 visibly)",
           "collocations": [
             "clearly visible",
@@ -11039,7 +11039,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈlɒŋ wɪð ˈsʌmbədi/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/along_with_sb_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/along_with_sb_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/along_with_sb_2.jpg",
           "usage": "prepositional phrase (along with + 名词/代词)",
           "collocations": [
             "go along with",
@@ -11072,7 +11072,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpʌmpkɪn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/pumpkin_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/pumpkin_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/pumpkin_2.jpg",
           "usage": "n. (可数名词，复数 pumpkins)",
           "collocations": [
             "pumpkin pie",
@@ -11106,7 +11106,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/paɪ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/pie_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/pie_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/pie_2.jpg",
           "usage": "n. (可数名词，复数 pies)",
           "collocations": [
             "apple pie",
@@ -11140,7 +11140,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/wɔːrm ʌp/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/warm_up_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/warm_up_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/warm_up_2.jpg",
           "usage": "v. (过去式 warmed up, 过去分词 warmed up) 也可作名词 warm-up",
           "collocations": [
             "warm up before exercise",
@@ -11173,7 +11173,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsɪnəmən/",
           "phonemes": [],
           "image": "../../G8_B1/Unit5/images/cinnamon_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/cinnamon_1.jpg",
+          "image2": "../../G8_B1/Unit5/images/cinnamon_2.jpg",
           "usage": "n. (不可数名词)",
           "collocations": [
             "cinnamon roll",
@@ -11214,7 +11214,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/bɑːθ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/bath_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/bath_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/bath_2.jpg",
           "usage": "n. (可数名词，常用单数形式，如 take a bath / have a bath)",
           "collocations": [
             "take a bath",
@@ -11249,7 +11249,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/mɪs/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/miss_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/miss_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/miss_2.jpg",
           "usage": "v. (过去式 missed, 过去分词 missed)",
           "collocations": [
             "miss the bus",
@@ -11285,7 +11285,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/biː ˈtaɪərd əv/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/be_tired_of_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/be_tired_of_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/be_tired_of_2.jpg",
           "usage": "短语动词 (be tired of + n./doing)",
           "collocations": [
             "be tired of waiting",
@@ -11318,7 +11318,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈeɪbl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/able_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/able_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/able_2.jpg",
           "usage": "adj. (常用 be able to do sth.)",
           "collocations": [
             "be able to do",
@@ -11351,7 +11351,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/stɪk/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/stick_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/stick_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/stick_2.jpg",
           "usage": "v. (过去式 stuck, 过去分词 stuck) / n. (可数名词)",
           "collocations": [
             "stick to",
@@ -11387,7 +11387,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/stɪk tuː ˈsʌmθɪŋ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/stick_to_sth_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/stick_to_sth_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/stick_to_sth_2.jpg",
           "usage": "动词短语 (过去式 stuck to, 过去分词 stuck to)",
           "collocations": [
             "stick to a plan",
@@ -11420,7 +11420,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌrezəˈluːʃn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/resolution_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/resolution_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/resolution_2.jpg",
           "usage": "n. (可数名词，复数 resolutions)",
           "collocations": [
             "make a resolution",
@@ -11454,7 +11454,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/hæv/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/have_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/have_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/have_2.jpg",
           "usage": "v. (过去式 had, 过去分词 had; 第三人称单数 has)",
           "collocations": [
             "have breakfast",
@@ -11489,7 +11489,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmɪni ɡoʊl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/mini-goal_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/mini-goal_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/mini-goal_2.jpg",
           "usage": "名词 n. (可数，复数 mini-goals)",
           "collocations": [
             "set a mini-goal",
@@ -11523,7 +11523,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈtʃiːv/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/achieve_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/achieve_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/achieve_2.jpg",
           "usage": "动词 v. (过去式 achieved, 过去分词 achieved)",
           "collocations": [
             "achieve a goal",
@@ -11557,7 +11557,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈfɪzɪkəl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/physical_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/physical_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/physical_2.jpg",
           "usage": "形容词 adj. (副词形式 physically)",
           "collocations": [
             "physical health",
@@ -11591,7 +11591,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/helθ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/health_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/health_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/health_2.jpg",
           "usage": "名词 n. (不可数；形容词形式 healthy)",
           "collocations": [
             "good health",
@@ -11626,7 +11626,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈhelθɪli/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/healthily_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/healthily_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/healthily_2.jpg",
           "usage": "adv. (副词，由形容词 healthy + -ly 构成)",
           "collocations": [
             "eat healthily",
@@ -11659,7 +11659,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/teɪk ʌp/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/take_up_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/take_up_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/take_up_2.jpg",
           "usage": "v. (动词短语，过去式 took up, 过去分词 taken up)",
           "collocations": [
             "take up a hobby",
@@ -11692,7 +11692,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/fəˈtɒɡrəfi/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/photography_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/photography_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/photography_2.jpg",
           "usage": "n. (不可数名词)",
           "collocations": [
             "digital photography",
@@ -11726,7 +11726,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌself ɪmˈpruːvmənt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/self-improvement_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/self-improvement_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/self-improvement_2.jpg",
           "usage": "n. (不可数名词，由 self- + improvement 构成)",
           "collocations": [
             "self-improvement plan",
@@ -11760,7 +11760,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkɒnfɪdənt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/confident_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/confident_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/confident_2.jpg",
           "usage": "adj. (比较级 more confident, 最高级 most confident; 副词 confidently)",
           "collocations": [
             "feel confident",
@@ -11794,7 +11794,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈɔːrɡənaɪzd/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/organized_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/organized_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/organized_2.jpg",
           "usage": "adj. (organized) 形容人或事物安排有序、系统化。动词原形：organize (v.)；过去式/过去分词：organized (v.)；名词：organization (n.)",
           "collocations": [
             "well-organized; organized person; organized event"
@@ -11825,7 +11825,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈwaɪzli/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/wisely_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/wisely_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/wisely_2.jpg",
           "usage": "adv. (wisely) 修饰动词，表示以明智、有智慧的方式行事。形容词：wise (adj.)；名词：wisdom (n.)",
           "collocations": [
             "use wisely; spend wisely; choose wisely"
@@ -11856,7 +11856,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpɑːsəbl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/possible_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/possible_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/possible_2.jpg",
           "usage": "adj. (possible) 表示某事可以发生或做到。副词：possibly (adv.)；名词：possibility (n.)；反义词：impossible (adj.)",
           "collocations": [
             "as soon as possible; it is possible to; make it possible"
@@ -11887,7 +11887,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpærəɡrɑːf/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/paragraph_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/paragraph_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/paragraph_2.jpg",
           "usage": "n. (复数 paragraphs)",
           "collocations": [
             "write a paragraph",
@@ -11921,7 +11921,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌɪntrəˈdjuːs/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/introduce_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/introduce_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/introduce_2.jpg",
           "usage": "v. (过去式 introduced, 过去分词 introduced)",
           "collocations": [
             "introduce oneself",
@@ -11955,7 +11955,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmiːnɪŋ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/meaning_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/meaning_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/meaning_2.jpg",
           "usage": "n. (复数 meanings; 形容词 meaningful, 副词 meaningfully)",
           "collocations": [
             "the meaning of life",
@@ -11988,7 +11988,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/feɪl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/fail_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/fail_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/fail_2.jpg",
           "usage": "v. (过去式 failed, 过去分词 failed)",
           "collocations": [
             "fail an exam",
@@ -12022,7 +12022,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/jɔːrˈself/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/yourself_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/yourself_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/yourself_2.jpg",
           "usage": "pron.",
           "collocations": [
             "by yourself",
@@ -12057,7 +12057,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌendʒɪˈnɪr/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/engineer_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/engineer_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/engineer_2.jpg",
           "usage": "n. (复数 engineers)",
           "collocations": [
             "civil engineer",
@@ -12092,7 +12092,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈfæʃn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/fashion_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/fashion_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/fashion_2.jpg",
           "usage": "n. (可数/不可数)",
           "collocations": [
             "in fashion",
@@ -12127,7 +12127,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/dɪˈzaɪnər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/designer_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/designer_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/designer_2.jpg",
           "usage": "n. (可数)",
           "collocations": [
             "fashion designer",
@@ -12161,7 +12161,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/dəˈrektər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/director_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/director_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/director_2.jpg",
           "usage": "n. (可数)",
           "collocations": [
             "film director",
@@ -12195,7 +12195,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/mjuˈzɪʃn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/musician_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/musician_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/musician_2.jpg",
           "usage": "n. (可数)",
           "collocations": [
             "professional musician",
@@ -12229,7 +12229,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈfaɪərmən/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/fireman_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/fireman_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/fireman_2.jpg",
           "usage": "n. (可数名词，复数 firemen)",
           "collocations": [
             "brave fireman",
@@ -12263,7 +12263,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈfaɪərmən/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/firemen_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/firemen_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/firemen_2.jpg",
           "usage": "n. (fireman 的复数形式)",
           "collocations": [
             "two firemen",
@@ -12297,7 +12297,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌeɪ ˈaɪ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/AI_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/AI_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/AI_2.jpg",
           "usage": "n. (不可数名词，缩写自 Artificial Intelligence)",
           "collocations": [
             "AI technology",
@@ -12332,7 +12332,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪnˈtelɪdʒəns/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/intelligence_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/intelligence_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/intelligence_2.jpg",
           "usage": "n. (不可数名词)",
           "collocations": [
             "high intelligence",
@@ -12367,7 +12367,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈeseɪ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/essay_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/essay_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/essay_2.jpg",
           "usage": "n. (可数名词，复数 essays)",
           "collocations": [
             "write an essay",
@@ -12401,7 +12401,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈklæsɪk/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/classic_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/classic_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/classic_2.jpg",
           "usage": "adj. (无比较级) / n. (可数名词，复数 classics)",
           "collocations": [
             "classic novel",
@@ -12435,7 +12435,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kiːp ɒn ˈduːɪŋ ˈsʌmθɪŋ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/keep_on_doing_sth_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/keep_on_doing_sth_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/keep_on_doing_sth_2.jpg",
           "usage": "v. (keep on doing sth，过去式 kept on doing sth，过去分词 kept on doing sth)",
           "collocations": [
             "keep on trying",
@@ -12468,7 +12468,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/meɪk ʃʊr/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/make_sure_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/make_sure_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/make_sure_2.jpg",
           "usage": "v. (make sure，过去式 made sure，过去分词 made sure)",
           "collocations": [
             "make sure that...",
@@ -12501,7 +12501,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/traɪ wʌn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/try_one_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/try_one_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/try_one_2.jpg",
           "usage": "v. (过去式 tried, 过去分词 tried) 尝试；试",
           "collocations": [
             "try one's best",
@@ -12536,7 +12536,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈlɪtərətʃər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/literature_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/literature_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/literature_2.jpg",
           "usage": "n. 不可数名词",
           "collocations": [
             "classic literature",
@@ -12571,7 +12571,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈæθliːt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/athlete_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/athlete_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/athlete_2.jpg",
           "usage": "n. 可数名词 (复数 athletes)",
           "collocations": [
             "professional athlete",
@@ -12606,7 +12606,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/fəˈtɒɡrəfər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/photographer_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/photographer_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/photographer_2.jpg",
           "usage": "n. 可数名词 (复数 photographers)",
           "collocations": [
             "professional photographer",
@@ -12641,7 +12641,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpeɪntər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/painter_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/painter_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/painter_2.jpg",
           "usage": "n. (可数名词) 指从事绘画艺术的人或粉刷墙壁的工人",
           "collocations": [
             "a famous painter",
@@ -12675,7 +12675,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈbɪznəsmæn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/businessman_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/businessman_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/businessman_2.jpg",
           "usage": "n. (可数名词) 指从事商业活动的人，尤指男性",
           "collocations": [
             "a successful businessman",
@@ -12709,7 +12709,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈæktrəs/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/actress_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/actress_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/actress_2.jpg",
           "usage": "n. (可数名词) 指在戏剧、电影或电视中扮演角色的女性",
           "collocations": [
             "a famous actress",
@@ -12743,7 +12743,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈlɔːjər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/lawyer_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/lawyer_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/lawyer_2.jpg",
           "usage": "n. (可数名词) 指提供法律咨询或代表客户出庭的专业人士",
           "collocations": [
             "a good lawyer",
@@ -12777,7 +12777,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/lɔː/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/law_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/law_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/law_2.jpg",
           "usage": "n. (可数名词，常作单数或复数 laws)",
           "collocations": [
             "break the law",
@@ -12812,7 +12812,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈhɛd/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/ahead_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/ahead_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/ahead_2.jpg",
           "usage": "adv.",
           "collocations": [
             "go ahead",
@@ -12846,7 +12846,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pʊt aʊt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/put_out_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/put_out_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/put_out_2.jpg",
           "usage": "v. (短语动词，及物，可分开用 put sth out) (过去式 put out, 过去分词 put out)",
           "collocations": [
             "put out a fire",
@@ -12879,7 +12879,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/dɪˈzaɪn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/design_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/design_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/design_2.jpg",
           "usage": "v. (过去式 designed, 过去分词 designed) / n. (可数名词，设计图/方案)",
           "collocations": [
             "design a poster",
@@ -12914,7 +12914,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/brɪdʒ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/bridge_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/bridge_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/bridge_2.jpg",
           "usage": "n. (可数名词) 桥；v. (过去式 bridged, 过去分词 bridged) 架桥；弥合差距",
           "collocations": [
             "build a bridge",
@@ -12948,7 +12948,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈfaɪnəl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/final_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/final_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/final_2.jpg",
           "usage": "adj. 最后的；n. (可数名词) 决赛；期末考试",
           "collocations": [
             "final exam",
@@ -12982,7 +12982,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkɒnfɪdəns/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/confidence_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/confidence_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/confidence_2.jpg",
           "usage": "n. (不可数名词) 信心；自信",
           "collocations": [
             "have confidence in",
@@ -13015,7 +13015,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/drɔː tuː ə kləʊz/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/draw_to_a_close_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/draw_to_a_close_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/draw_to_a_close_2.jpg",
           "usage": "短语动词 (draw 的过去式 drew, 过去分词 drawn) 表示某事逐渐结束",
           "collocations": [
             "draw to a close",
@@ -13047,7 +13047,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/fɔːrm/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/form_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/form_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/form_2.jpg",
           "usage": "n. / v. (过去式 formed, 过去分词 formed)",
           "collocations": [
             "fill in a form",
@@ -13081,7 +13081,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/rɪˈleɪʃnʃɪp/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/relationship_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/relationship_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/relationship_2.jpg",
           "usage": "n.",
           "collocations": [
             "build a relationship",
@@ -13115,7 +13115,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpʊʃ ʌp/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/push-up_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/push-up_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/push-up_2.jpg",
           "usage": "n. (可数名词，复数 push-ups)",
           "collocations": [
             "do push-ups",
@@ -13149,7 +13149,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌenərˈdʒetɪk/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/energetic_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/energetic_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/energetic_2.jpg",
           "usage": "adj. (副词 energetically)",
           "collocations": [
             "feel energetic",
@@ -13183,7 +13183,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/læst bʌt nɒt liːst/",
           "phonemes": [],
           "image": "../../G8_B1/Unit6/images/last_but_not_least_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/last_but_not_least_1.jpg",
+          "image2": "../../G8_B1/Unit6/images/last_but_not_least_2.jpg",
           "usage": "短语 (phrase)",
           "collocations": [
             "last but not least",
@@ -13223,7 +13223,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈtræfɪk/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/traffic_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/traffic_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/traffic_2.jpg",
           "usage": "n. (不可数名词)",
           "collocations": [
             "heavy traffic",
@@ -13258,7 +13258,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/tekˈnɒlədʒi/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/technology_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/technology_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/technology_2.jpg",
           "usage": "n. (可数/不可数名词，复数 technologies)",
           "collocations": [
             "modern technology",
@@ -13292,7 +13292,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈvɪdiəʊ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/video_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/video_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/video_2.jpg",
           "usage": "n. (可数名词，复数 videos); v. (过去式 videoed, 过去分词 videoed) 录制视频",
           "collocations": [
             "watch a video",
@@ -13327,7 +13327,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈtrænspɔːrt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/transport_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/transport_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/transport_2.jpg",
           "usage": "n. (不可数) 运输；v. (过去式 transported, 过去分词 transported) 运输",
           "collocations": [
             "public transport",
@@ -13361,7 +13361,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsɪstəm/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/system_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/system_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/system_2.jpg",
           "usage": "n. (可数) 系统",
           "collocations": [
             "education system",
@@ -13395,7 +13395,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪˈfɪʃnt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/efficient_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/efficient_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/efficient_2.jpg",
           "usage": "adj. (副词 efficiently)",
           "collocations": [
             "efficient way",
@@ -13428,7 +13428,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌedʒuˈkeɪʃn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/education_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/education_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/education_2.jpg",
           "usage": "n. (不可数) 教育",
           "collocations": [
             "education system",
@@ -13462,7 +13462,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/leŋθ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/length_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/length_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/length_2.jpg",
           "usage": "n. (可数名词，常与 of 连用)",
           "collocations": [
             "the length of",
@@ -13498,7 +13498,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈtɒpɪk/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/topic_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/topic_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/topic_2.jpg",
           "usage": "n. (可数名词)",
           "collocations": [
             "main topic",
@@ -13533,7 +13533,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpɑːrtnər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/partner_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/partner_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/partner_2.jpg",
           "usage": "n. (可数名词)",
           "collocations": [
             "work partner",
@@ -13568,7 +13568,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ʃæl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/shall_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/shall_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/shall_2.jpg",
           "usage": "modal v. (情态动词，后接动词原形；过去式 should)",
           "collocations": [
             "shall we",
@@ -13599,7 +13599,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pæs/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/pass_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/pass_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/pass_2.jpg",
           "usage": "v. (过去式 passed, 过去分词 passed)",
           "collocations": [
             "pass the exam",
@@ -13634,7 +13634,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈwɪnər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/winner_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/winner_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/winner_2.jpg",
           "usage": "n. (复数 winners)",
           "collocations": [
             "the winner of the game",
@@ -13668,7 +13668,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kjʊr/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/cure_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/cure_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/cure_2.jpg",
           "usage": "v. (过去式 cured, 过去分词 cured); n. (可数名词)",
           "collocations": [
             "cure a disease",
@@ -13702,7 +13702,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkænsər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/cancer_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/cancer_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/cancer_2.jpg",
           "usage": "n. (不可数名词，常与定冠词连用)",
           "collocations": [
             "lung cancer",
@@ -13736,7 +13736,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkɒnsərt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/concert_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/concert_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/concert_2.jpg",
           "usage": "n. (可数名词)",
           "collocations": [
             "go to a concert",
@@ -13771,7 +13771,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kæʃ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/cash_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/cash_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/cash_2.jpg",
           "usage": "n. (不可数名词)",
           "collocations": [
             "pay in cash",
@@ -13806,7 +13806,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈwɒlɪt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/wallet_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/wallet_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/wallet_2.jpg",
           "usage": "n. (可数名词)",
           "collocations": [
             "leather wallet",
@@ -13841,7 +13841,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡest/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/guest_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/guest_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/guest_2.jpg",
           "usage": "n. (可数名词)",
           "collocations": [
             "house guest",
@@ -13876,7 +13876,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/tʃiːf/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/chief_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/chief_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/chief_2.jpg",
           "usage": "adj. (无词形变化) / n. (复数 chiefs)",
           "collocations": [
             "chief reason",
@@ -13910,7 +13910,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/rɪˈsɜːrtʃər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/researcher_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/researcher_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/researcher_2.jpg",
           "usage": "n. (可数名词，复数 researchers)",
           "collocations": [
             "a medical researcher",
@@ -13944,7 +13944,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/rɪˈsɜːrtʃ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/research_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/research_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/research_2.jpg",
           "usage": "n. (不可数名词) / v. (过去式 researched, 过去分词 researched)",
           "collocations": [
             "do research",
@@ -13978,7 +13978,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈfjuːtʃərɪst/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/futurist_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/futurist_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/futurist_2.jpg",
           "usage": "n. (可数名词，复数 futurists)",
           "collocations": [
             "a famous futurist",
@@ -14012,7 +14012,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/prɪˈdɪkʃən/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/prediction_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/prediction_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/prediction_2.jpg",
           "usage": "n. (可数名词，复数 predictions)",
           "collocations": [
             "make a prediction",
@@ -14045,7 +14045,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈaʊtər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/outer_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/outer_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/outer_2.jpg",
           "usage": "adj. (仅作定语，无比较级)",
           "collocations": [
             "outer space",
@@ -14078,7 +14078,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈaʊtər speɪs/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/outer_space_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/outer_space_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/outer_space_2.jpg",
           "usage": "n. (不可数名词，常与介词 in/into 连用)",
           "collocations": [
             "go into outer space",
@@ -14111,7 +14111,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/wɜːrs/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/worse_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/worse_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/worse_2.jpg",
           "usage": "adj. (bad 的比较级) / adv. (badly 的比较级)",
           "collocations": [
             "get worse",
@@ -14144,7 +14144,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/teɪk ˈoʊvər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/take_over_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/take_over_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/take_over_2.jpg",
           "usage": "v. (过去式 took over, 过去分词 taken over)",
           "collocations": [
             "take over sth",
@@ -14176,7 +14176,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsaɪ faɪ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/sci-fi_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/sci-fi_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/sci-fi_2.jpg",
           "usage": "n. / adj. (缩写，全称 science fiction)",
           "collocations": [
             "sci-fi movie",
@@ -14209,7 +14209,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈtɪkɪt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/ticket_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/ticket_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/ticket_2.jpg",
           "usage": "n. (复数 tickets)",
           "collocations": [
             "buy a ticket",
@@ -14244,7 +14244,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpɒzətɪv/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/positive_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/positive_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/positive_2.jpg",
           "usage": "adj. (比较级 more positive, 最高级 most positive); 副词形式 positively",
           "collocations": [
             "positive attitude",
@@ -14277,7 +14277,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈevriweər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/everywhere_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/everywhere_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/everywhere_2.jpg",
           "usage": "adv. (无词形变化)",
           "collocations": [
             "look everywhere",
@@ -14310,7 +14310,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/rəʊˈbɒtɪks/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/robotics_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/robotics_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/robotics_2.jpg",
           "usage": "n. (不可数名词，常作定语，如 robotics club)",
           "collocations": [
             "robotics club",
@@ -14343,7 +14343,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈɪndəstri/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/industry_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/industry_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/industry_2.jpg",
           "usage": "n. (可数/不可数，复数 industries)",
           "collocations": [
             "heavy industry",
@@ -14376,7 +14376,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsɜːrvɪs/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/service_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/service_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/service_2.jpg",
           "usage": "n. (可数/不可数) / v. (过去式 serviced, 过去分词 serviced)",
           "collocations": [
             "customer service",
@@ -14412,7 +14412,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/dɪˈzæstər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/disaster_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/disaster_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/disaster_2.jpg",
           "usage": "n. (可数)",
           "collocations": [
             "natural disaster",
@@ -14447,7 +14447,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪˈmɜːrdʒənsi/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/emergency_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/emergency_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/emergency_2.jpg",
           "usage": "n. (可数) / adj. (紧急的)",
           "collocations": [
             "emergency room",
@@ -14482,7 +14482,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌdɪsəˈpɪr/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/disappear_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/disappear_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/disappear_2.jpg",
           "usage": "v. (过去式 disappeared, 过去分词 disappeared)",
           "collocations": [
             "disappear from",
@@ -14516,7 +14516,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈtʃælɪndʒɪŋ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/challenging_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/challenging_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/challenging_2.jpg",
           "usage": "adj. (形容词) 比较级 more challenging, 最高级 most challenging",
           "collocations": [
             "challenging task",
@@ -14549,7 +14549,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpaɪlət/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/pilot_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/pilot_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/pilot_2.jpg",
           "usage": "n. (名词) 可数名词，复数 pilots",
           "collocations": [
             "airline pilot",
@@ -14582,7 +14582,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈekspɜːrt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/expert_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/expert_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/expert_2.jpg",
           "usage": "n. (名词) 可数名词，复数 experts; adj. (形容词) 熟练的，内行的",
           "collocations": [
             "expert advice",
@@ -14615,7 +14615,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/rɪˈpleɪs/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/replace_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/replace_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/replace_2.jpg",
           "usage": "v. (动词) 过去式 replaced, 过去分词 replaced, 现在分词 replacing",
           "collocations": [
             "replace A with B",
@@ -14648,7 +14648,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌkriːeɪˈtɪvəti/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/creativity_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/creativity_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/creativity_2.jpg",
           "usage": "n. (不可数名词)",
           "collocations": [
             "show creativity",
@@ -14681,7 +14681,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪˈmoʊʃənl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/emotional_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/emotional_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/emotional_2.jpg",
           "usage": "adj. (副词形式: emotionally)",
           "collocations": [
             "emotional support",
@@ -14714,7 +14714,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪnˈtelɪdʒəns/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/intelligence_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/intelligence_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/intelligence_2.jpg",
           "usage": "n. (不可数名词)",
           "collocations": [
             "high intelligence",
@@ -14747,7 +14747,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪˈmoʊʃənl ɪnˈtelɪdʒəns/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/emotional_intelligence_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/emotional_intelligence_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/emotional_intelligence_2.jpg",
           "usage": "n. (不可数名词，常缩写为 EQ)",
           "collocations": [
             "high emotional intelligence",
@@ -14780,7 +14780,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmenʃn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/mention_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/mention_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/mention_2.jpg",
           "usage": "v. (过去式 mentioned, 过去分词 mentioned)",
           "collocations": [
             "mention something to somebody; don't mention it; not to mention"
@@ -14811,7 +14811,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/rɪˈfrɪdʒəreɪtər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/refrigerator_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/refrigerator_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/refrigerator_2.jpg",
           "usage": "n. (可数名词)",
           "collocations": [
             "in the refrigerator; refrigerator door; refrigerator shelf"
@@ -14842,7 +14842,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/loʊ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/low_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/low_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/low_2.jpg",
           "usage": "adj. (比较级 lower, 最高级 lowest); adv. (比较级 lower, 最高级 lowest)",
           "collocations": [
             "low price; low voice; low energy; low score"
@@ -14873,7 +14873,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/rʌn loʊ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/run_low_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/run_low_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/run_low_2.jpg",
           "usage": "v.短语 (过去式 ran low, 过去分词 run low)",
           "collocations": [
             "run low on something; supplies run low; time runs low"
@@ -14904,7 +14904,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əkˈsept/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/accept_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/accept_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/accept_2.jpg",
           "usage": "v. (过去式 accepted, 过去分词 accepted)",
           "collocations": [
             "accept an invitation",
@@ -14938,7 +14938,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈɪnfluəns/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/influence_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/influence_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/influence_2.jpg",
           "usage": "n. / v. (过去式 influenced, 过去分词 influenced)",
           "collocations": [
             "have an influence on",
@@ -14972,7 +14972,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kriˈeɪtɪv/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/creative_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/creative_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/creative_2.jpg",
           "usage": "adj. (副词 creatively)",
           "collocations": [
             "creative idea",
@@ -15006,7 +15006,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪmˈpɒsəbl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/impossible_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/impossible_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/impossible_2.jpg",
           "usage": "adj. (名词 impossibility)",
           "collocations": [
             "impossible task",
@@ -15040,7 +15040,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkwɒləti/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/quality_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/quality_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/quality_2.jpg",
           "usage": "n. (可数/不可数) 质量，品质；adj. 优质的",
           "collocations": [
             "high quality",
@@ -15074,7 +15074,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/dɪˈveləp/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/develop_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/develop_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/develop_2.jpg",
           "usage": "v. (过去式 developed, 过去分词 developed)",
           "collocations": [
             "develop a habit",
@@ -15109,7 +15109,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈdʒɜːmən/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/German_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/German_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/German_2.jpg",
           "usage": "adj. 德国的；n. 德语（不可数）；n. 德国人（可数，复数 Germans）",
           "collocations": [
             "German language",
@@ -15144,7 +15144,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈvæljuəbl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/valuable_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/valuable_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/valuable_2.jpg",
           "usage": "adj. 有价值的；n. (pl. valuables) 贵重物品",
           "collocations": [
             "valuable advice",
@@ -15178,7 +15178,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpʌblɪk/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/public_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/public_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/public_2.jpg",
           "usage": "adj. (无词形变化); n. (不可数，常与 the 连用)",
           "collocations": [
             "public library",
@@ -15213,7 +15213,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmedɪkl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/medical_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/medical_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/medical_2.jpg",
           "usage": "adj. (无词形变化)",
           "collocations": [
             "medical care",
@@ -15248,7 +15248,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈtʃælɪndʒ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/challenge_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/challenge_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/challenge_2.jpg",
           "usage": "n. (可数名词); v. (过去式 challenged, 过去分词 challenged)",
           "collocations": [
             "face a challenge",
@@ -15282,7 +15282,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/tɑːsk/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/task_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/task_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/task_2.jpg",
           "usage": "n. (可数名词)",
           "collocations": [
             "finish a task",
@@ -15317,7 +15317,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/dɪˈpend/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/depend_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/depend_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/depend_2.jpg",
           "usage": "v. (过去式 depended, 过去分词 depended)",
           "collocations": [
             "depend on/upon"
@@ -15348,7 +15348,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/dɪˈpend ɒn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/depend_on_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/depend_on_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/depend_on_2.jpg",
           "usage": "phrasal verb (过去式 depended on, 过去分词 depended on)",
           "collocations": [
             "depend on sb/sth for sth"
@@ -15379,7 +15379,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kʌm ˈəʊvə/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/come_over_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/come_over_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/come_over_2.jpg",
           "usage": "phrasal verb (过去式 came over, 过去分词 come over)",
           "collocations": [
             "come over to + place"
@@ -15410,7 +15410,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/æz lɒŋ æz/",
           "phonemes": [],
           "image": "../../G8_B1/Unit7/images/as_long_as_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/as_long_as_1.jpg",
+          "image2": "../../G8_B1/Unit7/images/as_long_as_2.jpg",
           "usage": "conj. (连词，引导条件状语从句)",
           "collocations": [
             "as long as + 从句"
@@ -15446,7 +15446,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kəˌmjuːnɪˈkeɪʃən/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/communication_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/communication_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/communication_2.jpg",
           "usage": "n. (不可数名词)",
           "collocations": [
             "good communication",
@@ -15480,7 +15480,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/feɪs tə feɪs/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/face_to_face_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/face_to_face_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/face_to_face_2.jpg",
           "usage": "adv. / adj. (常作状语或定语)",
           "collocations": [
             "talk face to face",
@@ -15513,7 +15513,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/tekst ˈmesɪdʒ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/text_message_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/text_message_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/text_message_2.jpg",
           "usage": "n. (可数名词，复数 text messages)",
           "collocations": [
             "send a text message",
@@ -15547,7 +15547,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/saɪn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/sign_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/sign_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/sign_2.jpg",
           "usage": "n. (可数名词) / v. (过去式 signed, 过去分词 signed)",
           "collocations": [
             "traffic sign",
@@ -15582,7 +15582,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈspiːkər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/speaker_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/speaker_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/speaker_2.jpg",
           "usage": "n. (复数 speakers)",
           "collocations": [
             "guest speaker",
@@ -15616,7 +15616,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/rɪˈhɜːrsl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/rehearsal_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/rehearsal_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/rehearsal_2.jpg",
           "usage": "n. (可数名词，复数 rehearsals)",
           "collocations": [
             "dress rehearsal",
@@ -15650,7 +15650,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ʃoʊ ˈsʌmbədi əˈraʊnd/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/show_sb_around_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/show_sb_around_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/show_sb_around_2.jpg",
           "usage": "v. (短语动词，show 的过去式 showed，过去分词 shown)",
           "collocations": [
             "show a visitor around",
@@ -15682,7 +15682,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ʃoʊ ˈɪntrəst ɪn ˈsʌmθɪŋ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/show_interest_in_sth_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/show_interest_in_sth_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/show_interest_in_sth_2.jpg",
           "usage": "v. (短语动词，show 的过去式 showed，过去分词 shown；interest 为不可数名词)",
           "collocations": [
             "show great interest in",
@@ -15715,7 +15715,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈlɪs.ən.ər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/listener_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/listener_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/listener_2.jpg",
           "usage": "n. (可数名词，复数 listeners)",
           "collocations": [
             "good listener",
@@ -15748,7 +15748,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pɔɪnt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/point_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/point_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/point_2.jpg",
           "usage": "n. / v. (过去式 pointed, 过去分词 pointed)",
           "collocations": [
             "point out",
@@ -15784,7 +15784,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈʃʊr.li/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/surely_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/surely_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/surely_2.jpg",
           "usage": "adv. (副词，修饰动词或整个句子)",
           "collocations": [
             "surely will",
@@ -15817,7 +15817,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kənˈtɪn.juː/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/continue_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/continue_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/continue_2.jpg",
           "usage": "v. (过去式 continued, 过去分词 continued)",
           "collocations": [
             "continue to do",
@@ -15851,7 +15851,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌɪmpəˈlaɪt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/impolite_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/impolite_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/impolite_2.jpg",
           "usage": "adj. (比较级 more impolite, 最高级 most impolite)",
           "collocations": [
             "impolite behavior",
@@ -15883,7 +15883,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpɜːrsənl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/personal_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/personal_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/personal_2.jpg",
           "usage": "adj. (副词 personally)",
           "collocations": [
             "personal information",
@@ -15916,7 +15916,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈɑːrɡjuː wɪð ˈsʌmbədi/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/argue_with_sb_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/argue_with_sb_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/argue_with_sb_2.jpg",
           "usage": "v. (过去式 argued, 过去分词 argued)",
           "collocations": [
             "argue with sb about/over sth"
@@ -15947,7 +15947,7 @@ const TEXTBOOK_DATA = {
           "ipa": "",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/argue_with_sb_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/argue_with_sb_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/argue_with_sb_2.jpg",
           "usage": "",
           "collocations": [],
           "preposition_combos": [],
@@ -15961,7 +15961,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/muːv ɒn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/move_on_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/move_on_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/move_on_2.jpg",
           "usage": "动词短语 (phrasal verb) (过去式 moved on, 过去分词 moved on)",
           "collocations": [
             "move on to something",
@@ -15995,7 +15995,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/sɪnˈsɪər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/sincere_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/sincere_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/sincere_2.jpg",
           "usage": "形容词 adj. (副词 sincerely)",
           "collocations": [
             "sincere apology",
@@ -16030,7 +16030,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/faɪnd aʊt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/find_out_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/find_out_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/find_out_2.jpg",
           "usage": "动词短语 (phrasal verb) (过去式 found out, 过去分词 found out)",
           "collocations": [
             "find out the truth",
@@ -16064,7 +16064,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/peɪ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/pay_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/pay_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/pay_2.jpg",
           "usage": "动词 v. (过去式 paid, 过去分词 paid)",
           "collocations": [
             "pay for",
@@ -16100,7 +16100,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈtenʃn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/attention_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/attention_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/attention_2.jpg",
           "usage": "n. (不可数名词)",
           "collocations": [
             "pay attention to",
@@ -16134,7 +16134,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/peɪ əˈtenʃn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/pay_attention_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/pay_attention_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/pay_attention_2.jpg",
           "usage": "v. (短语动词，后接to)",
           "collocations": [
             "pay attention to details",
@@ -16167,7 +16167,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/biː jɔːrˈself/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/be_yourself_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/be_yourself_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/be_yourself_2.jpg",
           "usage": "v. (短语动词，常用祈使句或情态动词后)",
           "collocations": [
             "just be yourself",
@@ -16200,7 +16200,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈɒfə(r)/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/offer_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/offer_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/offer_2.jpg",
           "usage": "v. (过去式 offered, 过去分词 offered); n. (可数名词)",
           "collocations": [
             "offer help",
@@ -16235,7 +16235,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈriːznəbl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/reasonable_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/reasonable_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/reasonable_2.jpg",
           "usage": "adj. (比较级 more reasonable, 最高级 most reasonable)",
           "collocations": [
             "reasonable price",
@@ -16269,7 +16269,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsoʊʃl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/social_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/social_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/social_2.jpg",
           "usage": "adj. (无比较级)",
           "collocations": [
             "social life",
@@ -16302,7 +16302,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmiːdiəm/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/medium_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/medium_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/medium_2.jpg",
           "usage": "adj. (无比较级) / n. (复数 media 或 mediums)",
           "collocations": [
             "medium size",
@@ -16336,7 +16336,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsoʊʃl ˈmiːdiə/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/social_media_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/social_media_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/social_media_2.jpg",
           "usage": "n. (不可数，常作单数)",
           "collocations": [
             "use social media",
@@ -16370,7 +16370,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/trʌst/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/trust_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/trust_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/trust_2.jpg",
           "usage": "n. / v. (过去式 trusted, 过去分词 trusted)",
           "collocations": [
             "trust sb/sth; have trust in; build trust"
@@ -16401,7 +16401,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kiːp/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/keep_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/keep_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/keep_2.jpg",
           "usage": "v. (过去式 kept, 过去分词 kept)",
           "collocations": [
             "keep doing; keep + adj.; keep a secret; keep a record"
@@ -16432,7 +16432,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈloʊkl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/local_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/local_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/local_2.jpg",
           "usage": "adj. / n. (复数 locals)",
           "collocations": [
             "local food; local community; local news"
@@ -16463,7 +16463,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌfeɪs tə ˈfeɪs/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/face-to-face_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/face-to-face_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/face-to-face_2.jpg",
           "usage": "adv. / adj.",
           "collocations": [
             "face-to-face meeting; talk face-to-face; face-to-face communication"
@@ -16494,7 +16494,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/prəˈfesər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/professor_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/professor_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/professor_2.jpg",
           "usage": "n. (可数名词) 教授",
           "collocations": [
             "university professor",
@@ -16528,7 +16528,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/spiːtʃ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/speech_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/speech_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/speech_2.jpg",
           "usage": "n. (可数/不可数名词) 演讲；言语",
           "collocations": [
             "give a speech",
@@ -16562,7 +16562,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈɑːrɡjuː/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/argue_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/argue_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/argue_2.jpg",
           "usage": "v. (过去式 argued, 过去分词 argued) 争论",
           "collocations": [
             "argue with someone",
@@ -16595,7 +16595,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/meɪk ʌp/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/make_up_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/make_up_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/make_up_2.jpg",
           "usage": "v. (过去式 made up, 过去分词 made up) 和解；编造；组成",
           "collocations": [
             "make up with someone",
@@ -16629,7 +16629,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪn ˈpɜːrsən/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/in_person_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/in_person_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/in_person_2.jpg",
           "usage": "adv. (副词短语，修饰动词，表示亲自做某事)",
           "collocations": [
             "meet in person",
@@ -16664,7 +16664,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/prɪˈfɜːr/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/prefer_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/prefer_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/prefer_2.jpg",
           "usage": "v. (过去式 preferred, 过去分词 preferred) 常见搭配：prefer A to B / prefer doing A to doing B / prefer to do",
           "collocations": [
             "prefer tea to coffee",
@@ -16697,7 +16697,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kɑːm/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/calm_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/calm_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/calm_2.jpg",
           "usage": "adj. / v. (过去式 calmed, 过去分词 calmed) 形容词：保持冷静；动词：使……平静下来",
           "collocations": [
             "keep calm",
@@ -16731,7 +16731,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈwɜːri əˈbaʊt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/worry_about_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/worry_about_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/worry_about_2.jpg",
           "usage": "v. (短语动词) 过去式 worried about, 过去分词 worried about",
           "collocations": [
             "worry about exams",
@@ -16765,7 +16765,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪkˈspreʃn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/expression_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/expression_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/expression_2.jpg",
           "usage": "n. (可数名词) 表达；表情；措辞",
           "collocations": [
             "facial expression",
@@ -16799,7 +16799,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/tʃɑːns/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/chance_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/chance_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/chance_2.jpg",
           "usage": "n. (可数/不可数名词) 机会；可能性；偶然",
           "collocations": [
             "by chance",
@@ -16834,7 +16834,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmiːtɪŋ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/meeting_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/meeting_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/meeting_2.jpg",
           "usage": "n. (可数名词) 会议；会面；集合",
           "collocations": [
             "have a meeting",
@@ -16869,7 +16869,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈdɪfɪkəlti/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/difficulty_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/difficulty_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/difficulty_2.jpg",
           "usage": "n. (可数/不可数名词) 困难；难题；困境",
           "collocations": [
             "have difficulty (in) doing",
@@ -16904,7 +16904,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/raɪt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/right_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/right_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/right_2.jpg",
           "usage": "adj. / n. / adv. (比较级 righter, 最高级 rightest)",
           "collocations": [
             "right answer",
@@ -16939,7 +16939,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/laɪn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/line_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/line_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/line_2.jpg",
           "usage": "n. (复数 lines) / v. (过去式 lined, 过去分词 lined)",
           "collocations": [
             "wait in line",
@@ -16975,7 +16975,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/drɒp ˈsʌmbədi ə laɪn/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/drop_sb_a_line_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/drop_sb_a_line_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/drop_sb_a_line_2.jpg",
           "usage": "动词短语 (过去式 dropped, 过去分词 dropped)",
           "collocations": [
             "drop me a line",
@@ -17007,7 +17007,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈdiːteɪl/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/detail_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/detail_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/detail_2.jpg",
           "usage": "n. (复数 details) / v. (过去式 detailed, 过去分词 detailed)",
           "collocations": [
             "in detail",
@@ -17041,7 +17041,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/riːˈjuːniən/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/reunion_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/reunion_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/reunion_2.jpg",
           "usage": "n. (可数名词，常与 family 连用)",
           "collocations": [
             "family reunion",
@@ -17075,7 +17075,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsɪriəsli/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/seriously_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/seriously_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/seriously_2.jpg",
           "usage": "adv. (形容词 serious → 副词 seriously)",
           "collocations": [
             "take seriously",
@@ -17109,7 +17109,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈtreɪnɪŋ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/training_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/training_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/training_2.jpg",
           "usage": "n. (不可数名词，动词 train → 名词 training)",
           "collocations": [
             "training program",
@@ -17143,7 +17143,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈnɜːrvəs/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/nervous_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/nervous_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/nervous_2.jpg",
           "usage": "adj. (比较级 more nervous, 最高级 most nervous)",
           "collocations": [
             "feel nervous",
@@ -17176,7 +17176,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈstreɪndʒər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/stranger_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/stranger_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/stranger_2.jpg",
           "usage": "n. (可数名词，复数 strangers)",
           "collocations": [
             "a complete stranger",
@@ -17209,7 +17209,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/tɪp/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/tip_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/tip_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/tip_2.jpg",
           "usage": "n. (可数名词，复数 tips) / v. (过去式 tipped, 过去分词 tipped) 给…小费；倾倒",
           "collocations": [
             "leave a tip",
@@ -17244,7 +17244,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkerəfəli/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/carefully_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/carefully_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/carefully_2.jpg",
           "usage": "adv. (比较级 more carefully, 最高级 most carefully) 由形容词 careful + -ly 构成",
           "collocations": [
             "read carefully",
@@ -17279,7 +17279,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/sɪnˈsɪrli/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/sincerely_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/sincerely_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/sincerely_2.jpg",
           "usage": "adv.",
           "collocations": [
             "sincerely hope",
@@ -17311,7 +17311,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈoʊpənɪŋ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/opening_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/opening_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/opening_2.jpg",
           "usage": "n.",
           "collocations": [
             "grand opening",
@@ -17346,7 +17346,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkloʊzɪŋ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/closing_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/closing_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/closing_2.jpg",
           "usage": "n.",
           "collocations": [
             "closing time",
@@ -17381,7 +17381,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsentəns/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/sentence_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/sentence_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/sentence_2.jpg",
           "usage": "n.",
           "collocations": [
             "complete sentence",
@@ -17416,7 +17416,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/deɪt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/date_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/date_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/date_2.jpg",
           "usage": "n. (可数名词) / v. (过去式 dated, 过去分词 dated)",
           "collocations": [
             "set a date",
@@ -17451,7 +17451,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/klɔːz/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/clause_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/clause_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/clause_2.jpg",
           "usage": "n. (可数名词)",
           "collocations": [
             "main clause",
@@ -17486,7 +17486,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌmɪsʌndərˈstændɪŋ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/misunderstanding_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/misunderstanding_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/misunderstanding_2.jpg",
           "usage": "n. (可数名词或不可数名词) / v. misunderstand (过去式 misunderstood, 过去分词 misunderstood)",
           "collocations": [
             "clear up a misunderstanding",
@@ -17520,7 +17520,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪˈvent/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/event_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/event_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/event_2.jpg",
           "usage": "n. (可数名词)",
           "collocations": [
             "sports event",
@@ -17556,7 +17556,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/teɪk pleɪs/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/take_place_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/take_place_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/take_place_2.jpg",
           "usage": "动词短语 (过去式 took place, 过去分词 taken place)",
           "collocations": [
             "event takes place",
@@ -17589,7 +17589,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kɒst/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/cost_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/cost_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/cost_2.jpg",
           "usage": "v. (过去式 cost, 过去分词 cost) / n.",
           "collocations": [
             "cost money",
@@ -17623,7 +17623,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌɒpəˈtjuːnəti/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/opportunity_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/opportunity_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/opportunity_2.jpg",
           "usage": "n. (可数名词，复数 opportunities)",
           "collocations": [
             "have an opportunity",
@@ -17657,7 +17657,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈbenɪfɪt/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/benefit_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/benefit_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/benefit_2.jpg",
           "usage": "n. / v. (过去式 benefited, 过去分词 benefited)",
           "collocations": [
             "health benefit",
@@ -17691,7 +17691,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/rɪˈplaɪ/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/reply_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/reply_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/reply_2.jpg",
           "usage": "v. (过去式 replied, 过去分词 replied) / n.",
           "collocations": [
             "reply to a letter",
@@ -17724,7 +17724,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈɒn.ər/",
           "phonemes": [],
           "image": "../../G8_B1/Unit8/images/honour_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/honour_1.jpg",
+          "image2": "../../G8_B1/Unit8/images/honour_2.jpg",
           "usage": "n. / v. (过去式 honoured, 过去分词 honoured) / 形容词 honourable, 副词 honourably",
           "collocations": [
             "in honour of",
