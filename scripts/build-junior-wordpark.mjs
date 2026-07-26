@@ -67,7 +67,22 @@ const BOOKS = [
     grade: 9,
     semester: '全',
     short: '九年级',
-    unitTitles: {}
+    unitTitles: {
+      1: ['How can we become good learners?', '我们怎样才能成为好的学习者？'],
+      2: ['I think that mooncakes are delicious!', '我认为月饼很好吃！'],
+      3: ['Could you please tell me where the restrooms are?', '你能告诉我洗手间在哪里吗？'],
+      4: ['I used to be afraid of the dark.', '我过去害怕黑暗。'],
+      5: ['What are the shirts made of?', '这些衬衫是用什么做的？'],
+      6: ['When was it invented?', '它是什么时候发明的？'],
+      7: ['Teenagers should be allowed to choose their own clothes.', '应该允许青少年选择自己的衣服。'],
+      8: ['It must belong to Carla.', '它一定属于卡拉。'],
+      9: ['I like music that I can dance to.', '我喜欢能跟着跳舞的音乐。'],
+      10: ["You're supposed to shake hands.", '你应该握手。'],
+      11: ['Sad movies make me cry.', '悲伤的电影让我哭。'],
+      12: ['Life is full of the unexpected.', '生活充满意外。'],
+      13: ["We're trying to save the earth!", '我们正在努力拯救地球！'],
+      14: ['I remember meeting all of you in Grade 7.', '我记得在七年级遇见你们所有人。']
+    }
   }
 ];
 

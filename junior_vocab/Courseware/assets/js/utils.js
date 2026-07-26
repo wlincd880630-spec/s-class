@@ -996,13 +996,19 @@ function buildUnitSelector(selectEl, onChange) {
   return selectEl.value || TEXTBOOK_DATA.units[0]?.id;
 }
 
-function buildWordCheckboxes(container, unitId, selected = [], wordFilter = null) {
+/**
+ * @param {string[]|null|undefined} selected
+ *   - null/undefined：默认全选（旧游戏页 initGameWordSelection）
+ *   - 数组（含空数组）：仅勾选列出的 id；空数组 = 全部不选
+ */
+function buildWordCheckboxes(container, unitId, selected = null, wordFilter = null) {
   container.innerHTML = '';
   const words = wordFilter
     ? getAllWords(unitId).filter(wordFilter)
     : getAllWords(unitId);
   const wrap = document.createElement('div');
   wrap.className = 'word-tabs';
+  const selectAll = selected == null;
   words.forEach(w => {
     const label = document.createElement('label');
     label.className = 'word-tab';
@@ -1010,7 +1016,7 @@ function buildWordCheckboxes(container, unitId, selected = [], wordFilter = null
     const cb = document.createElement('input');
     cb.type = 'checkbox';
     cb.value = w.id;
-    cb.checked = selected.length === 0 || selected.includes(w.id);
+    cb.checked = selectAll || selected.includes(w.id);
     cb.style.marginRight = '6px';
     label.appendChild(cb);
     label.appendChild(document.createTextNode(w.word));
@@ -1127,7 +1133,7 @@ function updateReviewPickerUI(countEl, chipsEl) {
   }
 }
 
-/** 册别首页：初始化全局复习词勾选 */
+/** 册别首页：初始化全局复习词勾选（空选 = 未选任何词，不自动勾选） */
 function initReviewWordPickerOnIndex() {
   const unitSelect = document.getElementById('unitSelect');
   const wordCheckArea = document.getElementById('wordCheckArea');
@@ -1135,12 +1141,7 @@ function initReviewWordPickerOnIndex() {
   const chipsEl = document.getElementById('reviewWordChips');
   if (!unitSelect || !wordCheckArea) return;
 
-  let { unitId, wordIds } = loadReviewSelection();
-  if (!wordIds.length) {
-    const firstUnit = TEXTBOOK_DATA.units[0]?.id;
-    wordIds = getAllWords(firstUnit).map((w) => w.id);
-    saveReviewSelection(firstUnit, wordIds);
-  }
+  const { unitId } = loadReviewSelection();
 
   function mergeUnitSelection() {
     const currentIds = new Set(loadReviewSelection().wordIds);
@@ -1152,7 +1153,8 @@ function initReviewWordPickerOnIndex() {
 
   function refresh() {
     const sel = loadReviewSelection();
-    buildWordCheckboxes(wordCheckArea, unitSelect.value, sel.wordIds);
+    // 传入数组（可为空）：空数组表示全部不选，勿传 null（null 会默认全选）
+    buildWordCheckboxes(wordCheckArea, unitSelect.value, sel.wordIds || []);
     updateReviewPickerUI(countEl, chipsEl);
   }
 
@@ -1178,6 +1180,11 @@ function initReviewWordPickerOnIndex() {
     saveReviewSelection(unitSelect.value, merged);
     refresh();
   });
+
+  document.getElementById('btnClearAll')?.addEventListener('click', () => {
+    saveReviewSelection(unitSelect.value, []);
+    refresh();
+  });
 }
 /** 从勾选区获取已选单词（已打乱） */
 function getSelectedWords(unitId, container) {
@@ -1185,9 +1192,9 @@ function getSelectedWords(unitId, container) {
   return shuffle(getAllWords(unitId).filter((w) => ids.includes(w.id)));
 }
 
-/** 绑定单元下拉与单词勾选区 */
+/** 绑定单元下拉与单词勾选区（默认全选当前单元） */
 function initGameWordSelection(unitSelect, wordCheckArea, wordFilter = null) {
-  const refresh = () => buildWordCheckboxes(wordCheckArea, unitSelect.value, [], wordFilter);
+  const refresh = () => buildWordCheckboxes(wordCheckArea, unitSelect.value, null, wordFilter);
   buildUnitSelector(unitSelect, refresh);
   refresh();
 }
