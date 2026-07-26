@@ -24,22 +24,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/textbook_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/textbook_2.png",
-          "usage": "n.",
+          "usage": "n. 教科书；课本",
           "collocations": [
-            "textbook"
+            "open the textbook",
+            "read the textbook",
+            "textbook exercise",
+            "textbook chapter"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“textbook”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一名学生拿着彩色英语课本打开放在桌上。",
           "sentences": [
             {
-              "en": "We learned the word \"textbook\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“textbook”。",
+              "en": "We need to bring our English textbook to class every day.",
+              "zh": "我们需要每天带英语课本到课堂。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"textbook\"?",
-              "zh": "你能用“textbook”造一个句子吗？",
+              "en": "The textbook explains the grammar rules with clear examples.",
+              "zh": "这本教科书用清晰的例子解释语法规则。",
               "source": "context",
               "image": ""
             }
@@ -53,22 +58,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/conversation_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/conversation_2.png",
-          "usage": "n.",
+          "usage": "n. 交谈；谈话",
           "collocations": [
-            "conversation"
+            "have a conversation",
+            "start a conversation",
+            "carry on a conversation",
+            "in conversation"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“conversation”相关的示意图。",
+          "preposition_combos": [
+            "with",
+            "about"
+          ],
+          "image_desc_cn": "两名学生面对面坐在教室里交谈。",
           "sentences": [
             {
-              "en": "We learned the word \"conversation\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“conversation”。",
+              "en": "The teacher asked us to practice a conversation in pairs.",
+              "zh": "老师让我们两人一组练习对话。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"conversation\"?",
-              "zh": "你能用“conversation”造一个句子吗？",
+              "en": "I had a long conversation with my friend about our plans for the summer.",
+              "zh": "我和朋友就暑假计划进行了一次长谈。",
               "source": "context",
               "image": ""
             }
@@ -82,22 +93,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/aloud_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/aloud_2.png",
-          "usage": "adv.",
+          "usage": "adv. 大声地；出声地",
           "collocations": [
-            "aloud"
+            "read aloud",
+            "say sth. aloud",
+            "speak aloud",
+            "think aloud"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“aloud”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一名学生站在全班面前大声朗读一本书。",
           "sentences": [
             {
-              "en": "We learned the word \"aloud\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“aloud”。",
+              "en": "The teacher asked us to read the passage aloud.",
+              "zh": "老师让我们大声朗读这段文章。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"aloud\"?",
-              "zh": "你能用“aloud”造一个句子吗？",
+              "en": "Sometimes it helps to say your thoughts aloud to understand them better.",
+              "zh": "有时把你的想法大声说出来有助于更好地理解它们。",
               "source": "context",
               "image": ""
             }
@@ -111,22 +127,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/pronunciation_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/pronunciation_2.png",
-          "usage": "n.",
+          "usage": "n. 发音；读音",
           "collocations": [
-            "pronunciation"
+            "improve pronunciation",
+            "practice pronunciation",
+            "correct pronunciation",
+            "have good pronunciation"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“pronunciation”相关的示意图。",
+          "preposition_combos": [
+            "of",
+            "in"
+          ],
+          "image_desc_cn": "一名学生戴着耳机跟读单词练习发音。",
           "sentences": [
             {
-              "en": "We learned the word \"pronunciation\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“pronunciation”。",
+              "en": "Our English teacher often helps us with our pronunciation.",
+              "zh": "我们的英语老师经常帮助我们纠正发音。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"pronunciation\"?",
-              "zh": "你能用“pronunciation”造一个句子吗？",
+              "en": "Listening to native speakers can greatly improve your pronunciation.",
+              "zh": "听母语者说话可以大大改善你的发音。",
               "source": "context",
               "image": ""
             }
@@ -140,22 +162,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/sentence_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/sentence_2.png",
-          "usage": "n.",
+          "usage": "n. 句子",
           "collocations": [
-            "sentence"
+            "write a sentence",
+            "complete a sentence",
+            "make a sentence",
+            "sentence structure"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“sentence”相关的示意图。",
+          "preposition_combos": [
+            "in a sentence"
+          ],
+          "image_desc_cn": "一名学生在英语课上在黑板上写句子。",
           "sentences": [
             {
-              "en": "We learned the word \"sentence\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“sentence”。",
+              "en": "The teacher asked us to write a sentence using the new vocabulary.",
+              "zh": "老师让我们用新词汇造一个句子。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"sentence\"?",
-              "zh": "你能用“sentence”造一个句子吗？",
+              "en": "A well-written sentence can clearly express your idea.",
+              "zh": "一个写得很好的句子能清晰表达你的想法。",
               "source": "context",
               "image": ""
             }
@@ -169,22 +196,29 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/patient_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/patient_2.png",
-          "usage": "adj. / n.",
+          "usage": "adj. 有耐心的；n. 病人",
           "collocations": [
-            "patient"
+            "be patient with",
+            "wait patiently",
+            "patient care",
+            "patient enough"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“patient”相关的示意图。",
+          "preposition_combos": [
+            "patient with",
+            "patient about",
+            "patient towards"
+          ],
+          "image_desc_cn": "一位老师耐心地向学生讲解数学题。医生在病房里与一位老年病人交谈。",
           "sentences": [
             {
-              "en": "We learned the word \"patient\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“patient”。",
+              "en": "Our teacher is always patient with us when we ask questions.",
+              "zh": "我们问问题时，老师总是很有耐心。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"patient\"?",
-              "zh": "你能用“patient”造一个句子吗？",
+              "en": "The doctor told the patient to take the medicine three times a day.",
+              "zh": "医生告诉病人每天服药三次。",
               "source": "context",
               "image": ""
             }
@@ -198,22 +232,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/expression_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/expression_2.png",
-          "usage": "n.",
+          "usage": "n. 表达，表情；词语",
           "collocations": [
-            "expression"
+            "facial expression",
+            "way of expression",
+            "artistic expression",
+            "freedom of expression"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“expression”相关的示意图。",
+          "preposition_combos": [
+            "expression of",
+            "expression on one's face"
+          ],
+          "image_desc_cn": "两个朋友在聊天，其中一个面带幸福的表情。一位画家用鲜艳的色彩进行艺术表达。",
           "sentences": [
             {
-              "en": "We learned the word \"expression\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“expression”。",
+              "en": "Her facial expression showed that she was very surprised.",
+              "zh": "她的面部表情表明她很惊讶。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"expression\"?",
-              "zh": "你能用“expression”造一个句子吗？",
+              "en": "Writing is a good way of expression for your feelings.",
+              "zh": "写作是表达情感的好方式。",
               "source": "context",
               "image": ""
             }
@@ -227,22 +267,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/discover_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/discover_2.png",
-          "usage": "v.",
+          "usage": "v. 发现（隐藏或未知的事物）",
           "collocations": [
-            "discover"
+            "discover new things",
+            "discover the truth",
+            "discover a talent",
+            "discover a mistake"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“discover”相关的示意图。",
+          "preposition_combos": [
+            "discover about",
+            "discover by"
+          ],
+          "image_desc_cn": "学生们在岩石中发现了一块化石。一名宇航员在月球上举起一块奇特的石头。",
           "sentences": [
             {
-              "en": "We learned the word \"discover\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“discover”。",
+              "en": "I discovered that I can run faster if I breathe deeply.",
+              "zh": "我发现如果深呼吸，我能跑得更快。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"discover\"?",
-              "zh": "你能用“discover”造一个句子吗？",
+              "en": "Scientists discovered a new kind of fish in the deep ocean.",
+              "zh": "科学家在深海中发现了新品种的鱼。",
               "source": "context",
               "image": ""
             }
@@ -256,22 +302,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/secret_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/secret_2.png",
-          "usage": "n. / adj.",
+          "usage": "n. 秘密；adj. 秘密的",
           "collocations": [
-            "secret"
+            "keep a secret",
+            "secret plan",
+            "secret place",
+            "secret code"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“secret”相关的示意图。",
+          "preposition_combos": [
+            "secret about",
+            "secret from"
+          ],
+          "image_desc_cn": "两个女孩在走廊里耳语，似乎在说一个秘密。一个孩子把纸条藏进树洞里作为秘密信息。",
           "sentences": [
             {
-              "en": "We learned the word \"secret\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“secret”。",
+              "en": "Can you keep a secret? I will tell you something special.",
+              "zh": "你能保守秘密吗？我要告诉你一件特别的事。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"secret\"?",
-              "zh": "你能用“secret”造一个句子吗？",
+              "en": "They have a secret meeting place behind the old library.",
+              "zh": "他们在旧图书馆后面有一个秘密的会面地点。",
               "source": "context",
               "image": ""
             }
@@ -285,22 +337,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/fall_in_love_with_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/fall_in_love_with_2.png",
-          "usage": "短语",
+          "usage": "短语动词（常与with连用）爱上",
           "collocations": [
-            "fall in love with"
+            "fall deeply in love with",
+            "fall in love with someone",
+            "fall in love with a place",
+            "fall in love at first sight"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“fall in love with”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一个女孩对着宠物店里的小狗微笑，似乎爱上了它。一个游客在山顶张开双臂，爱上了美丽的景色。",
           "sentences": [
             {
-              "en": "We learned the word \"fall in love with\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“fall in love with”。",
+              "en": "He fell in love with the small town when he first visited it.",
+              "zh": "他第一次参观那个小镇时就爱上了它。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"fall in love with\"?",
-              "zh": "你能用“fall in love with”造一个句子吗？",
+              "en": "After reading the book, I fell in love with the main character's courage.",
+              "zh": "读完这本书后，我爱上了主角的勇气。",
               "source": "context",
               "image": ""
             }
@@ -314,22 +371,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/grammar_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/grammar_2.png",
-          "usage": "n.",
+          "usage": "n. 语法，语法学",
           "collocations": [
-            "grammar"
+            "English grammar",
+            "grammar rules",
+            "grammar exercises",
+            "grammar lesson"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“grammar”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "学生正在教室里学习语法",
           "sentences": [
             {
-              "en": "We learned the word \"grammar\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“grammar”。",
+              "en": "We have a grammar lesson every Monday.",
+              "zh": "我们每周一都有一节语法课。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"grammar\"?",
-              "zh": "你能用“grammar”造一个句子吗？",
+              "en": "Understanding grammar helps you write better sentences.",
+              "zh": "理解语法能帮你写出更好的句子。",
               "source": "context",
               "image": ""
             }
@@ -343,22 +405,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/repeat_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/repeat_2.png",
-          "usage": "v.",
+          "usage": "v. 重复；重做",
           "collocations": [
-            "repeat"
+            "repeat the word",
+            "repeat the exercise",
+            "repeat after me",
+            "repeat the question"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“repeat”相关的示意图。",
+          "preposition_combos": [
+            "repeat after",
+            "repeat to"
+          ],
+          "image_desc_cn": "学生们跟着老师重复单词",
           "sentences": [
             {
-              "en": "We learned the word \"repeat\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“repeat”。",
+              "en": "Please repeat the new words after the recording.",
+              "zh": "请跟录音重复生词。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"repeat\"?",
-              "zh": "你能用“repeat”造一个句子吗？",
+              "en": "If you don't understand, ask the teacher to repeat the question.",
+              "zh": "如果你不明白，请老师重复问题。",
               "source": "context",
               "image": ""
             }
@@ -372,22 +440,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/note_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/note_2.png",
-          "usage": "n. / v.",
+          "usage": "n. 笔记；记录 / v. 注意",
           "collocations": [
-            "note"
+            "take notes",
+            "make a note",
+            "note down",
+            "note that"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“note”相关的示意图。",
+          "preposition_combos": [
+            "note down",
+            "note about"
+          ],
+          "image_desc_cn": "一个学生正在笔记本上记笔记",
           "sentences": [
             {
-              "en": "We learned the word \"note\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“note”。",
+              "en": "I always take notes in class.",
+              "zh": "我总是在课堂上记笔记。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"note\"?",
-              "zh": "你能用“note”造一个句子吗？",
+              "en": "Please note that the library closes at 6 p.m.",
+              "zh": "请注意图书馆下午六点关门。",
               "source": "context",
               "image": ""
             }
@@ -401,22 +475,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/pal_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/pal_2.png",
-          "usage": "n.",
+          "usage": "n. 朋友；伙伴",
           "collocations": [
-            "pal"
+            "pen pal",
+            "best pal",
+            "old pal",
+            "pal around"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“pal”相关的示意图。",
+          "preposition_combos": [
+            "with (e.g.",
+            "pal with someone)"
+          ],
+          "image_desc_cn": "一个孩子正在给笔友写信",
           "sentences": [
             {
-              "en": "We learned the word \"pal\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“pal”。",
+              "en": "My pen pal from Australia sent me a letter.",
+              "zh": "我在澳大利亚的笔友给我寄了一封信。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"pal\"?",
-              "zh": "你能用“pal”造一个句子吗？",
+              "en": "He's been my pal since kindergarten.",
+              "zh": "他从幼儿园起就是我的朋友。",
               "source": "context",
               "image": ""
             }
@@ -430,22 +510,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/pattern_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/pattern_2.png",
-          "usage": "n.",
+          "usage": "n. 模式；方式",
           "collocations": [
-            "pattern"
+            "sentence pattern",
+            "weather pattern",
+            "behavior pattern",
+            "pattern of life"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“pattern”相关的示意图。",
+          "preposition_combos": [
+            "pattern of",
+            "pattern for"
+          ],
+          "image_desc_cn": "黑板上写有句型供学生抄写",
           "sentences": [
             {
-              "en": "We learned the word \"pattern\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“pattern”。",
+              "en": "We learned a new sentence pattern in English class.",
+              "zh": "我们在英语课上学了一个新的句型。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"pattern\"?",
-              "zh": "你能用“pattern”造一个句子吗？",
+              "en": "The weather pattern has changed in recent years.",
+              "zh": "近年来天气模式发生了变化。",
               "source": "context",
               "image": ""
             }
@@ -459,22 +545,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/physics_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/physics_2.png",
-          "usage": "n.",
+          "usage": "n. 物理，物理学（不可数名词）",
           "collocations": [
-            "physics"
+            "physics class",
+            "physics teacher",
+            "physics experiment",
+            "physics lab"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“physics”相关的示意图。",
+          "preposition_combos": [
+            "in physics"
+          ],
+          "image_desc_cn": "一名学生在物理实验室测量摆锤的角度。",
           "sentences": [
             {
-              "en": "We learned the word \"physics\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“physics”。",
+              "en": "We have a physics class every Tuesday morning.",
+              "zh": "我们每周二上午都有一节物理课。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"physics\"?",
-              "zh": "你能用“physics”造一个句子吗？",
+              "en": "Understanding gravity is a key part of physics.",
+              "zh": "理解引力是物理学的一个关键部分。",
               "source": "context",
               "image": ""
             }
@@ -488,22 +579,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/chemistry_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/chemistry_2.png",
-          "usage": "n.",
+          "usage": "n. 化学（不可数名词）",
           "collocations": [
-            "chemistry"
+            "chemistry lab",
+            "chemistry experiment",
+            "chemistry exam",
+            "organic chemistry"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“chemistry”相关的示意图。",
+          "preposition_combos": [
+            "in chemistry"
+          ],
+          "image_desc_cn": "两名学生在化学实验室里搅拌试管中的彩色液体。",
           "sentences": [
             {
-              "en": "We learned the word \"chemistry\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“chemistry”。",
+              "en": "I find chemistry experiments really interesting.",
+              "zh": "我觉得化学实验非常有趣。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"chemistry\"?",
-              "zh": "你能用“chemistry”造一个句子吗？",
+              "en": "She is studying chemistry because she wants to become a pharmacist.",
+              "zh": "她正在学习化学，因为她想成为一名药剂师。",
               "source": "context",
               "image": ""
             }
@@ -517,22 +613,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/partner_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/partner_2.png",
-          "usage": "n.",
+          "usage": "n. 搭档；同伴（可数名词）",
           "collocations": [
-            "partner"
+            "business partner",
+            "dance partner",
+            "partner school",
+            "work with a partner"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“partner”相关的示意图。",
+          "preposition_combos": [
+            "partner in"
+          ],
+          "image_desc_cn": "两名学生坐在桌前一起练习对话。",
           "sentences": [
             {
-              "en": "We learned the word \"partner\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“partner”。",
+              "en": "Please find a partner for today's pair work.",
+              "zh": "请找一个搭档完成今天的结对活动。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"partner\"?",
-              "zh": "你能用“partner”造一个句子吗？",
+              "en": "My science fair partner and I won first prize.",
+              "zh": "我和我的科学展搭档获得了一等奖。",
               "source": "context",
               "image": ""
             }
@@ -546,22 +647,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/pronounce_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/pronounce_2.png",
-          "usage": "v.",
+          "usage": "v. 发音；读（及物动词或不及物动词）",
           "collocations": [
-            "pronounce"
+            "pronounce correctly",
+            "pronounce a word",
+            "hard to pronounce",
+            "pronounce clearly"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“pronounce”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一名学生指着字典里的一个单词，试着念出来。",
           "sentences": [
             {
-              "en": "We learned the word \"pronounce\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“pronounce”。",
+              "en": "Can you tell me how to pronounce this word?",
+              "zh": "你能告诉我这个单词怎么发音吗？",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"pronounce\"?",
-              "zh": "你能用“pronounce”造一个句子吗？",
+              "en": "She practiced how to pronounce the 'th' sound for a long time.",
+              "zh": "她练习了很久如何发‘th’这个音。",
               "source": "context",
               "image": ""
             }
@@ -575,22 +681,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/increase_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/increase_2.png",
-          "usage": "v.",
+          "usage": "v. 增加；增长（及物或不及物动词）",
           "collocations": [
-            "increase"
+            "increase speed",
+            "increase sales",
+            "increase temperature",
+            "increase the number of"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“increase”相关的示意图。",
+          "preposition_combos": [
+            "increase by",
+            "increase from...to..."
+          ],
+          "image_desc_cn": "白板上一条上升的折线图显示考试成绩在增加。",
           "sentences": [
             {
-              "en": "We learned the word \"increase\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“increase”。",
+              "en": "We need to increase our reading speed to finish the test.",
+              "zh": "我们需要提高阅读速度才能完成测试。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"increase\"?",
-              "zh": "你能用“increase”造一个句子吗？",
+              "en": "The number of students in the club has increased this year.",
+              "zh": "今年俱乐部成员的数量增加了。",
               "source": "context",
               "image": ""
             }
@@ -604,22 +716,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/speed_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/speed_2.png",
-          "usage": "n. / v.",
+          "usage": "n. / v. 速度；加速",
           "collocations": [
-            "speed"
+            "at full speed",
+            "speed up",
+            "reduce speed",
+            "speed limit"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“speed”相关的示意图。",
+          "preposition_combos": [
+            "at",
+            "with"
+          ],
+          "image_desc_cn": "一辆红色汽车在高速公路上飞驰；速度表特写。",
           "sentences": [
             {
-              "en": "We learned the word \"speed\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“speed”。",
+              "en": "The car was running at high speed on the highway.",
+              "zh": "那辆车在高速公路上高速行驶。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"speed\"?",
-              "zh": "你能用“speed”造一个句子吗？",
+              "en": "You need to speed up your reading to finish the book on time.",
+              "zh": "你需要加快阅读速度才能按时读完这本书。",
               "source": "context",
               "image": ""
             }
@@ -633,22 +751,29 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/ability_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/ability_2.png",
-          "usage": "n.",
+          "usage": "n. 能力；才能",
           "collocations": [
-            "ability"
+            "reading ability",
+            "natural ability",
+            "ability to",
+            "have the ability"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“ability”相关的示意图。",
+          "preposition_combos": [
+            "to",
+            "for",
+            "in"
+          ],
+          "image_desc_cn": "学生在黑板上写数学公式；音乐家在舞台上弹吉他。",
           "sentences": [
             {
-              "en": "We learned the word \"ability\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“ability”。",
+              "en": "She has a great ability in math and always gets good grades.",
+              "zh": "她在数学方面能力很强，总是拿高分。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"ability\"?",
-              "zh": "你能用“ability”造一个句子吗？",
+              "en": "Practice can improve your ability to speak English fluently.",
+              "zh": "练习可以提高你流利说英语的能力。",
               "source": "context",
               "image": ""
             }
@@ -662,22 +787,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/brain_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/brain_2.png",
-          "usage": "n.",
+          "usage": "n. 大脑",
           "collocations": [
-            "brain"
+            "brain power",
+            "left brain",
+            "human brain",
+            "brain surgery"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“brain”相关的示意图。",
+          "preposition_combos": [
+            "in",
+            "of"
+          ],
+          "image_desc_cn": "详细的大脑3D模型；学生笔记本上画的大脑图案。",
           "sentences": [
             {
-              "en": "We learned the word \"brain\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“brain”。",
+              "en": "The brain is the most important organ in our body.",
+              "zh": "大脑是我们身体最重要的器官。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"brain\"?",
-              "zh": "你能用“brain”造一个句子吗？",
+              "en": "Reading books and solving puzzles can help develop your brain.",
+              "zh": "读书和解谜有助于开发大脑。",
               "source": "context",
               "image": ""
             }
@@ -691,22 +822,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/active_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/active_2.png",
-          "usage": "adj.",
+          "usage": "adj. 活跃的；积极的",
           "collocations": [
-            "active"
+            "active life",
+            "active role",
+            "active participation",
+            "physically active"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“active”相关的示意图。",
+          "preposition_combos": [
+            "in"
+          ],
+          "image_desc_cn": "孩子们在公园里踢足球；一个人在健身房锻炼。",
           "sentences": [
             {
-              "en": "We learned the word \"active\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“active”。",
+              "en": "I try to stay active by playing basketball every day.",
+              "zh": "我每天打篮球来保持活跃。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"active\"?",
-              "zh": "你能用“active”造一个句子吗？",
+              "en": "She takes an active part in community service and helps many people.",
+              "zh": "她积极参与社区服务，帮助了许多人。",
               "source": "context",
               "image": ""
             }
@@ -720,22 +856,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/attention_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/attention_2.png",
-          "usage": "n.",
+          "usage": "n. 注意；关注",
           "collocations": [
-            "attention"
+            "pay attention",
+            "draw attention",
+            "full attention",
+            "attention to detail"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“attention”相关的示意图。",
+          "preposition_combos": [
+            "to",
+            "with"
+          ],
+          "image_desc_cn": "学生课堂上专注听讲；人群在看一个广告牌。",
           "sentences": [
             {
-              "en": "We learned the word \"attention\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“attention”。",
+              "en": "Please pay attention to the teacher when she is speaking.",
+              "zh": "老师说话时请注意听。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"attention\"?",
-              "zh": "你能用“attention”造一个句子吗？",
+              "en": "The new movie has drawn a lot of attention from young people.",
+              "zh": "这部新电影吸引了很多年轻人的关注。",
               "source": "context",
               "image": ""
             }
@@ -749,22 +891,26 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/pay_attention_to_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/pay_attention_to_2.png",
-          "usage": "短语",
+          "usage": "短语，意为“注意、关注”，后接名词或动名词。",
           "collocations": [
-            "pay attention to"
+            "pay close attention to",
+            "pay attention to details",
+            "pay attention to the teacher"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“pay attention to”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "学生在课堂上认真听讲。",
           "sentences": [
             {
-              "en": "We learned the word \"pay attention to\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“pay attention to”。",
+              "en": "Please pay attention to the spelling of this word.",
+              "zh": "请注意这个单词的拼写。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"pay attention to\"?",
-              "zh": "你能用“pay attention to”造一个句子吗？",
+              "en": "You should pay attention to your health by eating well and exercising.",
+              "zh": "你应该通过合理饮食和锻炼来关注健康。",
               "source": "context",
               "image": ""
             }
@@ -778,22 +924,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/connect_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/connect_2.png",
-          "usage": "v.",
+          "usage": "v. （使）连接；与……有联系。及物动词，常接宾语。",
           "collocations": [
-            "connect"
+            "connect to",
+            "connect with",
+            "connect A to B"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“connect”相关的示意图。",
+          "preposition_combos": [
+            "connect to",
+            "connect with"
+          ],
+          "image_desc_cn": "插入USB线。",
           "sentences": [
             {
-              "en": "We learned the word \"connect\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“connect”。",
+              "en": "Can you connect this computer to the printer?",
+              "zh": "你能把这台电脑连接到打印机吗？",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"connect\"?",
-              "zh": "你能用“connect”造一个句子吗？",
+              "en": "The two cities are connected by a new railway.",
+              "zh": "这两座城市由一条新铁路连接起来。",
               "source": "context",
               "image": ""
             }
@@ -807,22 +958,25 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/connect_with_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/connect_with_2.png",
-          "usage": "短语",
+          "usage": "短语，意为“把……和……连接或联系起来”，固定搭配。",
           "collocations": [
-            "connect … with"
+            "connect A with B",
+            "be connected with"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“connect … with”相关的示意图。",
+          "preposition_combos": [
+            "connect with（本身含介词）"
+          ],
+          "image_desc_cn": "单词与图片连接的概念图。",
           "sentences": [
             {
-              "en": "We learned the word \"connect … with\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“connect … with”。",
+              "en": "In English class, we often connect words with pictures.",
+              "zh": "在英语课上，我们经常把单词和图片联系起来。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"connect … with\"?",
-              "zh": "你能用“connect … with”造一个句子吗？",
+              "en": "People usually connect roses with love.",
+              "zh": "人们通常把玫瑰和爱情联系起来。",
               "source": "context",
               "image": ""
             }
@@ -836,22 +990,26 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/overnight_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/overnight_2.png",
-          "usage": "adv.",
+          "usage": "adv. 一夜之间；在夜间。常置于句末或动词后。",
           "collocations": [
-            "overnight"
+            "stay overnight",
+            "change overnight",
+            "work overnight"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“overnight”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一夜之间被雪覆盖的城市。",
           "sentences": [
             {
-              "en": "We learned the word \"overnight\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“overnight”。",
+              "en": "The weather changed overnight from hot to cold.",
+              "zh": "天气一夜之间从热变冷了。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"overnight\"?",
-              "zh": "你能用“overnight”造一个句子吗？",
+              "en": "He became famous overnight after winning the competition.",
+              "zh": "他在赢得比赛后一夜成名。",
               "source": "context",
               "image": ""
             }
@@ -865,22 +1023,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/review_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/review_2.png",
-          "usage": "v. / n.",
+          "usage": "v./n. 复习；回顾；评论。作动词时可直接接宾语；作名词常用a review of。",
           "collocations": [
-            "review"
+            "review notes",
+            "review lessons",
+            "book review",
+            "review process"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“review”相关的示意图。",
+          "preposition_combos": [
+            "review of（名词用法）"
+          ],
+          "image_desc_cn": "学生在复习笔记。",
           "sentences": [
             {
-              "en": "We learned the word \"review\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“review”。",
+              "en": "Before the exam, we need to review all the key points.",
+              "zh": "考试前，我们需要复习所有重点。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"review\"?",
-              "zh": "你能用“review”造一个句子吗？",
+              "en": "The teacher asked us to write a book review for homework.",
+              "zh": "老师让我们写一篇书评作为作业。",
               "source": "context",
               "image": ""
             }
@@ -894,22 +1057,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/knowledge_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/knowledge_2.png",
-          "usage": "n.",
+          "usage": "n. 知识；学问（不可数名词，可用a knowledge of表示某方面的知识）",
           "collocations": [
-            "knowledge"
+            "common knowledge",
+            "gain knowledge",
+            "share knowledge",
+            "scientific knowledge"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“knowledge”相关的示意图。",
+          "preposition_combos": [
+            "knowledge of"
+          ],
+          "image_desc_cn": "一个学生在图书馆里读书以获取知识。",
           "sentences": [
             {
-              "en": "We learned the word \"knowledge\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“knowledge”。",
+              "en": "Reading books helps us gain knowledge about different cultures.",
+              "zh": "读书帮助我们获得关于不同文化的知识。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"knowledge\"?",
-              "zh": "你能用“knowledge”造一个句子吗？",
+              "en": "She has a good knowledge of English grammar.",
+              "zh": "她对英语语法有很好的了解。",
               "source": "context",
               "image": ""
             }
@@ -923,22 +1091,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/wisely_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/wisely_2.png",
-          "usage": "adv.",
+          "usage": "adv. 明智地；聪明地（修饰动词，表示行为方式）",
           "collocations": [
-            "wisely"
+            "act wisely",
+            "choose wisely",
+            "spend wisely",
+            "use wisely"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“wisely”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一个学生明智地管理他的学习时间。",
           "sentences": [
             {
-              "en": "We learned the word \"wisely\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“wisely”。",
+              "en": "You should spend your pocket money wisely.",
+              "zh": "你应该明智地花你的零花钱。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"wisely\"?",
-              "zh": "你能用“wisely”造一个句子吗？",
+              "en": "He wisely decided to study for the exam instead of playing video games.",
+              "zh": "他明智地决定为考试学习而不是玩电子游戏。",
               "source": "context",
               "image": ""
             }
@@ -959,22 +1132,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/lantern_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/lantern_2.png",
-          "usage": "n.",
+          "usage": "n. 灯笼（可数名词）",
           "collocations": [
-            "lantern"
+            "paper lantern",
+            "Chinese lantern",
+            "light a lantern",
+            "carry a lantern"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“lantern”相关的示意图。",
+          "preposition_combos": [
+            "lantern with",
+            "lantern on"
+          ],
+          "image_desc_cn": "节日庆祝中挂着的红灯笼。",
           "sentences": [
             {
-              "en": "We learned the word \"lantern\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“lantern”。",
+              "en": "During the Lantern Festival, people hang colorful lanterns outside their houses.",
+              "zh": "元宵节期间，人们在家门外挂上五颜六色的灯笼。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"lantern\"?",
-              "zh": "你能用“lantern”造一个句子吗？",
+              "en": "We took a paper lantern to light up our way in the dark.",
+              "zh": "我们带了一个纸灯笼来照亮黑暗中的路。",
               "source": "context",
               "image": ""
             }
@@ -988,22 +1167,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/stranger_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/stranger_2.png",
-          "usage": "n.",
+          "usage": "n. 陌生人（可数名词）",
           "collocations": [
-            "stranger"
+            "complete stranger",
+            "talk to a stranger",
+            "be a stranger to",
+            "trust a stranger"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“stranger”相关的示意图。",
+          "preposition_combos": [
+            "stranger to"
+          ],
+          "image_desc_cn": "一个人谨慎地向陌生人问路。",
           "sentences": [
             {
-              "en": "We learned the word \"stranger\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“stranger”。",
+              "en": "It is not safe to accept gifts from a stranger.",
+              "zh": "接受陌生人的礼物是不安全的。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"stranger\"?",
-              "zh": "你能用“stranger”造一个句子吗？",
+              "en": "When I first moved to this city, I was a stranger to everyone.",
+              "zh": "当我第一次搬到这个城市时，我对每个人都是陌生人。",
               "source": "context",
               "image": ""
             }
@@ -1017,22 +1201,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/relative_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/relative_2.png",
-          "usage": "n.",
+          "usage": "n. 亲属；亲戚（可数名词）",
           "collocations": [
-            "relative"
+            "close relative",
+            "distant relative",
+            "visit relatives",
+            "family relative"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“relative”相关的示意图。",
+          "preposition_combos": [
+            "relative of"
+          ],
+          "image_desc_cn": "亲戚们团聚庆祝的家庭聚会。",
           "sentences": [
             {
-              "en": "We learned the word \"relative\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“relative”。",
+              "en": "We always visit our relatives during the Spring Festival.",
+              "zh": "我们总是在春节期间拜访我们的亲戚。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"relative\"?",
-              "zh": "你能用“relative”造一个句子吗？",
+              "en": "She is a distant relative of mine, but we seldom meet.",
+              "zh": "她是我的远房亲戚，但我们很少见面。",
               "source": "context",
               "image": ""
             }
@@ -1046,22 +1235,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/put_on_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/put_on_2.png",
-          "usage": "短语",
+          "usage": "短语动词，意为“穿上；增加（体重）”。",
           "collocations": [
-            "put on"
+            "put on weight",
+            "put on a show",
+            "put on clothes",
+            "put on a hat"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“put on”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一个女孩在镜子前戴上围巾。",
           "sentences": [
             {
-              "en": "We learned the word \"put on\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“put on”。",
+              "en": "Please put on your coat before going outside.",
+              "zh": "请在外面之前穿上你的外套。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"put on\"?",
-              "zh": "你能用“put on”造一个句子吗？",
+              "en": "She has put on a lot of weight during the holidays.",
+              "zh": "假期里她体重增加了很多。",
               "source": "context",
               "image": ""
             }
@@ -1075,22 +1269,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/pound_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/pound_2.png",
-          "usage": "n.",
+          "usage": "n. 磅（重量单位）；英镑（货币单位）。",
           "collocations": [
-            "pound"
+            "pound coin",
+            "pound sterling",
+            "a pound of",
+            "per pound"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“pound”相关的示意图。",
+          "preposition_combos": [
+            "in pounds",
+            "per pound"
+          ],
+          "image_desc_cn": "一只手拿着一枚一英镑硬币和一张价格标签。",
           "sentences": [
             {
-              "en": "We learned the word \"pound\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“pound”。",
+              "en": "I spent ten pounds on this magazine.",
+              "zh": "我花了十英镑买这本杂志。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"pound\"?",
-              "zh": "你能用“pound”造一个句子吗？",
+              "en": "The baby weighed seven pounds at birth.",
+              "zh": "这个婴儿出生时重七磅。",
               "source": "context",
               "image": ""
             }
@@ -1104,22 +1304,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/folk_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/folk_2.png",
-          "usage": "adj.",
+          "usage": "adj. 民间的；民俗的。",
           "collocations": [
-            "folk"
+            "folk music",
+            "folk art",
+            "folk tale",
+            "folk dance"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“folk”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "人们穿着传统服装跳民间舞蹈。",
           "sentences": [
             {
-              "en": "We learned the word \"folk\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“folk”。",
+              "en": "We learned a folk song in music class today.",
+              "zh": "今天音乐课我们学了一首民歌。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"folk\"?",
-              "zh": "你能用“folk”造一个句子吗？",
+              "en": "Many folk tales have been passed down for generations.",
+              "zh": "许多民间故事已经传承了好几代。",
               "source": "context",
               "image": ""
             }
@@ -1133,22 +1338,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/goddess_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/goddess_2.png",
-          "usage": "n.",
+          "usage": "n. 女神。",
           "collocations": [
-            "goddess"
+            "love goddess",
+            "goddess of beauty",
+            "Greek goddess",
+            "moon goddess"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“goddess”相关的示意图。",
+          "preposition_combos": [
+            "of"
+          ],
+          "image_desc_cn": "一尊手持火炬的有翼女神大理石雕像。",
           "sentences": [
             {
-              "en": "We learned the word \"goddess\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“goddess”。",
+              "en": "In Greek myths, Athena is the goddess of wisdom.",
+              "zh": "在希腊神话中，雅典娜是智慧女神。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"goddess\"?",
-              "zh": "你能用“goddess”造一个句子吗？",
+              "en": "They built a temple to honor the goddess of the moon.",
+              "zh": "他们建造了一座神庙来纪念月亮女神。",
               "source": "context",
               "image": ""
             }
@@ -1162,22 +1372,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/steal_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/steal_2.png",
-          "usage": "v.",
+          "usage": "v. 偷；窃取。",
           "collocations": [
-            "steal"
+            "steal money",
+            "steal food",
+            "steal a glance",
+            "steal the show"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“steal”相关的示意图。",
+          "preposition_combos": [
+            "from"
+          ],
+          "image_desc_cn": "一个戴面具的人在人群中从背包里偷东西。",
           "sentences": [
             {
-              "en": "We learned the word \"steal\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“steal”。",
+              "en": "Someone stole my phone on the bus.",
+              "zh": "有人在公交车上偷了我的手机。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"steal\"?",
-              "zh": "你能用“steal”造一个句子吗？",
+              "en": "He tried to steal a glance at the answers during the test.",
+              "zh": "他试图在考试中偷看答案。",
               "source": "context",
               "image": ""
             }
@@ -1191,22 +1406,29 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/lay_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/lay_2.png",
-          "usage": "v.",
+          "usage": "v. 放置；产卵",
           "collocations": [
-            "lay"
+            "lay eggs",
+            "lay the table",
+            "lay a foundation",
+            "lay down"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“lay”相关的示意图。",
+          "preposition_combos": [
+            "lay on",
+            "lay in",
+            "lay out"
+          ],
+          "image_desc_cn": "农夫把鸡蛋放入篮中；学生把地图摊在课桌上。",
           "sentences": [
             {
-              "en": "We learned the word \"lay\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“lay”。",
+              "en": "The hen laid three eggs this morning.",
+              "zh": "母鸡今早下了三个蛋。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"lay\"?",
-              "zh": "你能用“lay”造一个句子吗？",
+              "en": "Please lay the map on the desk so everyone can see it.",
+              "zh": "请把地图铺在桌上，这样大家都能看到。",
               "source": "context",
               "image": ""
             }
@@ -1220,22 +1442,26 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/lay_out_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/lay_out_2.png",
-          "usage": "短语",
+          "usage": "短语动词 摆开；布置；设计",
           "collocations": [
-            "lay out"
+            "lay out clothes",
+            "lay out a garden",
+            "lay out a plan"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“lay out”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "青少年在桌上摆放文具；园丁在花坛里布置郁金香。",
           "sentences": [
             {
-              "en": "We learned the word \"lay out\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“lay out”。",
+              "en": "I will lay out my school uniform on the bed before going to sleep.",
+              "zh": "睡觉前我会把校服摆放在床上。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"lay out\"?",
-              "zh": "你能用“lay out”造一个句子吗？",
+              "en": "The designer laid out the whole park with a pond and flower beds.",
+              "zh": "设计师布置了整个公园，有水塘和花坛。",
               "source": "context",
               "image": ""
             }
@@ -1249,22 +1475,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/dessert_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/dessert_2.png",
-          "usage": "n.",
+          "usage": "n. 甜点；饭后甜食",
           "collocations": [
-            "dessert"
+            "have dessert",
+            "chocolate dessert",
+            "fruit dessert",
+            "dessert menu"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“dessert”相关的示意图。",
+          "preposition_combos": [
+            "for dessert"
+          ],
+          "image_desc_cn": "学校食堂里的一块巧克力蛋糕；家里的一碗草莓酸奶。",
           "sentences": [
             {
-              "en": "We learned the word \"dessert\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“dessert”。",
+              "en": "After lunch, we had ice cream as dessert.",
+              "zh": "午饭后，我们吃了冰淇淋作甜点。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"dessert\"?",
-              "zh": "你能用“dessert”造一个句子吗？",
+              "en": "The restaurant offers a wide variety of desserts, including cake and pudding.",
+              "zh": "这家餐厅提供多种甜点，包括蛋糕和布丁。",
               "source": "context",
               "image": ""
             }
@@ -1278,22 +1509,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/garden_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/garden_2.png",
-          "usage": "n.",
+          "usage": "n. 花园；园子",
           "collocations": [
-            "garden"
+            "flower garden",
+            "vegetable garden",
+            "garden path",
+            "garden party"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“garden”相关的示意图。",
+          "preposition_combos": [
+            "in the garden"
+          ],
+          "image_desc_cn": "学生在花园里浇花；后院花园中樱桃树下的长椅。",
           "sentences": [
             {
-              "en": "We learned the word \"garden\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“garden”。",
+              "en": "We grow tomatoes and carrots in our school garden.",
+              "zh": "我们在学校的花园里种西红柿和胡萝卜。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"garden\"?",
-              "zh": "你能用“garden”造一个句子吗？",
+              "en": "My grandmother loves to sit in the garden and read books on sunny afternoons.",
+              "zh": "我奶奶喜欢在晴朗的下午坐在花园里看书。",
               "source": "context",
               "image": ""
             }
@@ -1307,22 +1543,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/admire_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/admire_2.png",
-          "usage": "v.",
+          "usage": "v. 欣赏；仰慕",
           "collocations": [
-            "admire"
+            "admire the view",
+            "admire someone",
+            "admire a painting",
+            "admire greatly"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“admire”相关的示意图。",
+          "preposition_combos": [
+            "admire for"
+          ],
+          "image_desc_cn": "学生在画作前欣赏；女孩在阳台上仰望星空。",
           "sentences": [
             {
-              "en": "We learned the word \"admire\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“admire”。",
+              "en": "We stopped at the hilltop to admire the beautiful sunset.",
+              "zh": "我们在山顶停下来欣赏美丽的日落。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"admire\"?",
-              "zh": "你能用“admire”造一个句子吗？",
+              "en": "I really admire my math teacher because she explains things so clearly.",
+              "zh": "我真的很钦佩我的数学老师，因为她讲解得非常清楚。",
               "source": "context",
               "image": ""
             }
@@ -1336,22 +1577,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/tie_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/tie_2.png",
-          "usage": "n. / v.",
+          "usage": "n. 领带；v. 捆，束",
           "collocations": [
-            "tie"
+            "tie a knot",
+            "tie the rope",
+            "tie up",
+            "tie with"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“tie”相关的示意图。",
+          "preposition_combos": [
+            "tie to",
+            "tie around"
+          ],
+          "image_desc_cn": "一个男孩正在整理领带。",
           "sentences": [
             {
-              "en": "We learned the word \"tie\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“tie”。",
+              "en": "He wore a red tie to school.",
+              "zh": "他戴着一条红领带去上学。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"tie\"?",
-              "zh": "你能用“tie”造一个句子吗？",
+              "en": "Can you tie the garbage bag before taking it out?",
+              "zh": "你能在扔垃圾前把垃圾袋系好吗？",
               "source": "context",
               "image": ""
             }
@@ -1365,22 +1612,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/haunted_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/haunted_2.png",
-          "usage": "adj.",
+          "usage": "adj. 有鬼魂出没的",
           "collocations": [
-            "haunted"
+            "haunted house",
+            "haunted castle",
+            "haunted forest",
+            "haunted hotel"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“haunted”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "夜晚一座阴森的老房子。",
           "sentences": [
             {
-              "en": "We learned the word \"haunted\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“haunted”。",
+              "en": "They went into a haunted house on Halloween.",
+              "zh": "万圣节那天他们进了一间鬼屋。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"haunted\"?",
-              "zh": "你能用“haunted”造一个句子吗？",
+              "en": "The old hotel is said to be haunted by a ghost.",
+              "zh": "据说那家老酒店有鬼魂出没。",
               "source": "context",
               "image": ""
             }
@@ -1394,22 +1646,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/ghost_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/ghost_2.png",
-          "usage": "n.",
+          "usage": "n. 鬼，鬼魂",
           "collocations": [
-            "ghost"
+            "ghost story",
+            "see a ghost",
+            "ghost town",
+            "ghost hunter"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“ghost”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一个经典的万圣节鬼魂。",
           "sentences": [
             {
-              "en": "We learned the word \"ghost\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“ghost”。",
+              "en": "We told ghost stories around the campfire.",
+              "zh": "我们在篝火旁讲鬼故事。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"ghost\"?",
-              "zh": "你能用“ghost”造一个句子吗？",
+              "en": "Some people believe they have seen a ghost in the attic.",
+              "zh": "有些人相信他们在阁楼里见过鬼魂。",
               "source": "context",
               "image": ""
             }
@@ -1423,22 +1680,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/trick_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/trick_2.png",
-          "usage": "n.",
+          "usage": "n. 花招，把戏",
           "collocations": [
-            "trick"
+            "play a trick",
+            "magic trick",
+            "dirty trick",
+            "trick or treat"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“trick”相关的示意图。",
+          "preposition_combos": [
+            "trick on"
+          ],
+          "image_desc_cn": "魔术师正在表演戏法。",
           "sentences": [
             {
-              "en": "We learned the word \"trick\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“trick”。",
+              "en": "The kids played a trick on their teacher by hiding her chalk.",
+              "zh": "孩子们把老师的粉笔藏起来，跟她开了个玩笑。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"trick\"?",
-              "zh": "你能用“trick”造一个句子吗？",
+              "en": "He learned a cool magic trick from a book.",
+              "zh": "他从一本书里学了一个很酷的魔术。",
               "source": "context",
               "image": ""
             }
@@ -1452,22 +1714,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/treat_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/treat_2.png",
-          "usage": "n. / v.",
+          "usage": "n. 款待；v. 招待，请客",
           "collocations": [
-            "treat"
+            "treat someone to",
+            "Halloween treat",
+            "treat as",
+            "treat with"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“treat”相关的示意图。",
+          "preposition_combos": [
+            "treat to"
+          ],
+          "image_desc_cn": "一个孩子从邻居那里收到糖果。",
           "sentences": [
             {
-              "en": "We learned the word \"treat\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“treat”。",
+              "en": "My mom treats me to ice cream after I finish my homework.",
+              "zh": "我完成作业后妈妈请我吃冰淇淋。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"treat\"?",
-              "zh": "你能用“treat”造一个句子吗？",
+              "en": "On Halloween, children get treats from neighbors.",
+              "zh": "万圣节那天，孩子们从邻居那里得到款待。",
               "source": "context",
               "image": ""
             }
@@ -1481,22 +1748,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/spider_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/spider_2.png",
-          "usage": "n.",
+          "usage": "n. 蜘蛛",
           "collocations": [
-            "spider"
+            "black widow",
+            "garden spider",
+            "spider web",
+            "spider bite"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“spider”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一只蜘蛛在花园里织网。",
           "sentences": [
             {
-              "en": "We learned the word \"spider\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“spider”。",
+              "en": "I saw a spider spinning a web in the corner of the classroom.",
+              "zh": "我看到一只蜘蛛在教室的角落里织网。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"spider\"?",
-              "zh": "你能用“spider”造一个句子吗？",
+              "en": "Some people are afraid of spiders, but they actually help control insects.",
+              "zh": "有些人害怕蜘蛛，但实际上它们有助于控制昆虫。",
               "source": "context",
               "image": ""
             }
@@ -1510,22 +1782,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/Christmas_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/Christmas_2.png",
-          "usage": "n.",
+          "usage": "n. 圣诞节",
           "collocations": [
-            "Christmas"
+            "Christmas tree",
+            "Christmas Eve",
+            "Merry Christmas",
+            "Christmas present"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“Christmas”相关的示意图。",
+          "preposition_combos": [
+            "at Christmas",
+            "on Christmas Day"
+          ],
+          "image_desc_cn": "一家人装饰圣诞树。",
           "sentences": [
             {
-              "en": "We learned the word \"Christmas\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“Christmas”。",
+              "en": "We decorate the Christmas tree with colorful lights every year.",
+              "zh": "每年我们都用彩灯装饰圣诞树。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"Christmas\"?",
-              "zh": "你能用“Christmas”造一个句子吗？",
+              "en": "In many countries, families gather together for a big dinner on Christmas Day.",
+              "zh": "在许多国家，家人在圣诞节当天聚在一起吃大餐。",
               "source": "context",
               "image": ""
             }
@@ -1539,22 +1817,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/fool_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/fool_2.png",
-          "usage": "n. / v. / adj.",
+          "usage": "n./v./adj. 蠢人；愚弄；愚蠢的",
           "collocations": [
-            "fool"
+            "April Fools' Day",
+            "make a fool of",
+            "fool around",
+            "fool's gold"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“fool”相关的示意图。",
+          "preposition_combos": [
+            "fool with",
+            "fool into"
+          ],
+          "image_desc_cn": "一个打扮成小丑的人做着鬼脸。",
           "sentences": [
             {
-              "en": "We learned the word \"fool\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“fool”。",
+              "en": "Don't be such a fool! You should study harder for the exam.",
+              "zh": "别这么傻了！你应该更努力学习准备考试。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"fool\"?",
-              "zh": "你能用“fool”造一个句子吗？",
+              "en": "He tried to fool his friends with a magic trick.",
+              "zh": "他试图用一个魔术戏法愚弄他的朋友们。",
               "source": "context",
               "image": ""
             }
@@ -1568,22 +1852,29 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/lie_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/lie_2.png",
-          "usage": "v.",
+          "usage": "v. 平躺；处于",
           "collocations": [
-            "lie"
+            "lie down",
+            "lie in bed",
+            "lie on the grass",
+            "lie still"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“lie”相关的示意图。",
+          "preposition_combos": [
+            "lie on",
+            "lie in",
+            "lie under"
+          ],
+          "image_desc_cn": "一个人躺在吊床上看书。",
           "sentences": [
             {
-              "en": "We learned the word \"lie\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“lie”。",
+              "en": "After running for one hour, I need to lie down and rest.",
+              "zh": "跑步一小时后，我需要躺下休息。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"lie\"?",
-              "zh": "你能用“lie”造一个句子吗？",
+              "en": "The cat likes to lie in the sun on the windowsill.",
+              "zh": "这只猫喜欢躺在窗台上的阳光下。",
               "source": "context",
               "image": ""
             }
@@ -1597,22 +1888,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/novel_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/novel_2.png",
-          "usage": "n.",
+          "usage": "n. （长篇）小说",
           "collocations": [
-            "novel"
+            "historical novel",
+            "detective novel",
+            "romance novel",
+            "write a novel"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“novel”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一摞书，其中一本翻开显示幻想地图。",
           "sentences": [
             {
-              "en": "We learned the word \"novel\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“novel”。",
+              "en": "Our English teacher asked us to read a novel and write a book report.",
+              "zh": "我们的英语老师要求我们读一本小说并写一份读书报告。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"novel\"?",
-              "zh": "你能用“novel”造一个句子吗？",
+              "en": "J.K. Rowling's Harry Potter series is one of the most popular novels in the world.",
+              "zh": "J.K.罗琳的哈利·波特系列是世界上最受欢迎的小说之一。",
               "source": "context",
               "image": ""
             }
@@ -1626,22 +1922,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/eve_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/eve_2.png",
-          "usage": "n.",
+          "usage": "n. 前夕；前夜",
           "collocations": [
-            "eve"
+            "Christmas Eve",
+            "New Year's Eve",
+            "on the eve of",
+            "the eve of"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“eve”相关的示意图。",
+          "preposition_combos": [
+            "of"
+          ],
+          "image_desc_cn": "一个舒适的客厅，有圣诞树，一家人在圣诞前夜享用晚餐。",
           "sentences": [
             {
-              "en": "We learned the word \"eve\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“eve”。",
+              "en": "On New Year's Eve, my family watches the countdown together.",
+              "zh": "新年前夜，我家一起看倒计时。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"eve\"?",
-              "zh": "你能用“eve”造一个句子吗？",
+              "en": "The night before the final exam felt like the eve of a big battle.",
+              "zh": "期末考试前夜感觉像一场大战的前夕。",
               "source": "context",
               "image": ""
             }
@@ -1655,22 +1956,29 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/bookstore_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/bookstore_2.png",
-          "usage": "n.",
+          "usage": "n. 书店",
           "collocations": [
-            "bookstore"
+            "online bookstore",
+            "local bookstore",
+            "bookstore owner",
+            "go to the bookstore"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“bookstore”相关的示意图。",
+          "preposition_combos": [
+            "at",
+            "in",
+            "to"
+          ],
+          "image_desc_cn": "一个整洁的书店内部，木制书架，一个年轻女孩拿着书微笑。",
           "sentences": [
             {
-              "en": "We learned the word \"bookstore\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“bookstore”。",
+              "en": "I walked to the bookstore after school to buy a new novel.",
+              "zh": "放学后我走去书店买了一本新小说。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"bookstore\"?",
-              "zh": "你能用“bookstore”造一个句子吗？",
+              "en": "The bookstore on the corner has a special section for English learners.",
+              "zh": "拐角处那家书店有个专为英语学习者设置的专区。",
               "source": "context",
               "image": ""
             }
@@ -1684,22 +1992,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/dead_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/dead_2.png",
-          "usage": "adj.",
+          "usage": "adj. 死的；失去生命的；失效的",
           "collocations": [
-            "dead"
+            "dead body",
+            "dead end",
+            "dead tired",
+            "dead serious"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“dead”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一朵凋谢的玫瑰，花瓣低垂，放在木桌上。",
           "sentences": [
             {
-              "en": "We learned the word \"dead\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“dead”。",
+              "en": "The dead flowers were thrown away after the party.",
+              "zh": "派对后枯死的花被扔掉了。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"dead\"?",
-              "zh": "你能用“dead”造一个句子吗？",
+              "en": "My phone was dead, so I couldn't send you a message.",
+              "zh": "我手机没电了，所以没法给你发信息。",
               "source": "context",
               "image": ""
             }
@@ -1713,22 +2026,29 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/business_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/business_2.png",
-          "usage": "n.",
+          "usage": "n. 生意；商业；职责",
           "collocations": [
-            "business"
+            "do business",
+            "business trip",
+            "business plan",
+            "none of your business"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“business”相关的示意图。",
+          "preposition_combos": [
+            "in",
+            "on",
+            "out of"
+          ],
+          "image_desc_cn": "两位穿西装的男士在明亮的会议室里专业地握手。",
           "sentences": [
             {
-              "en": "We learned the word \"business\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“business”。",
+              "en": "My father has a small business selling handmade crafts.",
+              "zh": "我父亲经营一家小生意，卖手工制品。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"business\"?",
-              "zh": "你能用“business”造一个句子吗？",
+              "en": "Please focus on your own business and stop interfering.",
+              "zh": "请管好你自己的事，别来干涉。",
               "source": "context",
               "image": ""
             }
@@ -1742,22 +2062,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/punish_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/punish_2.png",
-          "usage": "v.",
+          "usage": "v. 处罚；惩罚",
           "collocations": [
-            "punish"
+            "punish sb for",
+            "severely punish",
+            "punish crime",
+            "punish by fine"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“punish”相关的示意图。",
+          "preposition_combos": [
+            "for",
+            "with"
+          ],
+          "image_desc_cn": "教室场景：老师严厉地看着一个学生正在黑板上抄写句子。",
           "sentences": [
             {
-              "en": "We learned the word \"punish\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“punish”。",
+              "en": "The teacher will punish the student who copied homework.",
+              "zh": "老师会惩罚抄袭作业的学生。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"punish\"?",
-              "zh": "你能用“punish”造一个句子吗？",
+              "en": "In some countries, people are punished for littering in public places.",
+              "zh": "在一些国家，在公共场所乱扔垃圾会受到处罚。",
               "source": "context",
               "image": ""
             }
@@ -1771,22 +2097,29 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/warn_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/warn_2.png",
-          "usage": "v.",
+          "usage": "动词，意为“警告；告诫”，常用于 warn sb (not) to do sth 或 warn sb about/of sth 结构。",
           "collocations": [
-            "warn"
+            "warn sb about",
+            "warn sb of",
+            "warn against",
+            "warn off"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“warn”相关的示意图。",
+          "preposition_combos": [
+            "about",
+            "of",
+            "against"
+          ],
+          "image_desc_cn": "一位老师指着告示牌警告学生。一位天气预报员在警告台风来临。",
           "sentences": [
             {
-              "en": "We learned the word \"warn\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“warn”。",
+              "en": "The teacher warned us not to run in the hallway.",
+              "zh": "老师警告我们不要在走廊里跑。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"warn\"?",
-              "zh": "你能用“warn”造一个句子吗？",
+              "en": "The weather forecast warned of a coming typhoon.",
+              "zh": "天气预报警告台风即将来临。",
               "source": "context",
               "image": ""
             }
@@ -1800,22 +2133,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/present_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/present_2.png",
-          "usage": "n. / adj.",
+          "usage": "名词（礼物；现在）或形容词（现在的；出席的）。形容词时常见于 be present at。",
           "collocations": [
-            "present"
+            "birthday present",
+            "present situation",
+            "at present",
+            "present for"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“present”相关的示意图。",
+          "preposition_combos": [
+            "for",
+            "at"
+          ],
+          "image_desc_cn": "一个女孩拿着生日礼物。一张日历突出显示今天的日期。",
           "sentences": [
             {
-              "en": "We learned the word \"present\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“present”。",
+              "en": "She received a beautiful present for her birthday.",
+              "zh": "她收到了一个漂亮的生日礼物。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"present\"?",
-              "zh": "你能用“present”造一个句子吗？",
+              "en": "We should focus on the present moment and enjoy it.",
+              "zh": "我们应该专注于当下，享受它。",
               "source": "context",
               "image": ""
             }
@@ -1829,22 +2168,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/nobody_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/nobody_2.png",
-          "usage": "pron.",
+          "usage": "代词，意为“没有人”，相当于 no one。用作主语时谓语用单数。",
           "collocations": [
-            "nobody"
+            "nobody else",
+            "nobody knows",
+            "nobody cares",
+            "nobody noticed"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“nobody”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一间空教室。一个人独自走在路上。",
           "sentences": [
             {
-              "en": "We learned the word \"nobody\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“nobody”。",
+              "en": "Nobody was in the classroom after school.",
+              "zh": "放学后教室里没有人。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"nobody\"?",
-              "zh": "你能用“nobody”造一个句子吗？",
+              "en": "Nobody can predict what will happen tomorrow.",
+              "zh": "没有人能预测明天会发生什么。",
               "source": "context",
               "image": ""
             }
@@ -1858,22 +2202,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/warmth_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/warmth_2.png",
-          "usage": "n.",
+          "usage": "不可数名词，意为“温暖；暖和”，可指温度或情感上的温暖。",
           "collocations": [
-            "warmth"
+            "body warmth",
+            "warmth of the sun",
+            "feel warmth",
+            "provide warmth"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“warmth”相关的示意图。",
+          "preposition_combos": [
+            "of",
+            "from"
+          ],
+          "image_desc_cn": "篝火给人们带来温暖。一个人裹着毯子，喝着热茶，感觉很暖和。",
           "sentences": [
             {
-              "en": "We learned the word \"warmth\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“warmth”。",
+              "en": "The warmth of the sun felt great after a cold winter.",
+              "zh": "寒冷的冬天过后，阳光的温暖真舒服。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"warmth\"?",
-              "zh": "你能用“warmth”造一个句子吗？",
+              "en": "Her kind words brought warmth to my heart.",
+              "zh": "她友好的话语让我心里感到温暖。",
               "source": "context",
               "image": ""
             }
@@ -1887,22 +2237,29 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/spread_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/spread_2.png",
-          "usage": "v. / n.",
+          "usage": "动词（传播；展开；涂）或名词（传播；蔓延）。过去式和过去分词均为 spread。",
           "collocations": [
-            "spread"
+            "spread news",
+            "spread butter",
+            "spread disease",
+            "spread out"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“spread”相关的示意图。",
+          "preposition_combos": [
+            "over",
+            "across",
+            "through"
+          ],
+          "image_desc_cn": "火焰在草地上蔓延。一只手正在在面包上涂抹花生酱。",
           "sentences": [
             {
-              "en": "We learned the word \"spread\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“spread”。",
+              "en": "The news spread quickly all over the school.",
+              "zh": "消息很快传遍了整个学校。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"spread\"?",
-              "zh": "你能用“spread”造一个句子吗？",
+              "en": "She spread jam on a piece of bread for breakfast.",
+              "zh": "她早餐时把果酱涂在一片面包上。",
               "source": "context",
               "image": ""
             }
@@ -1923,22 +2280,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/restroom_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/restroom_2.png",
-          "usage": "n.",
+          "usage": "n. 洗手间；公共厕所",
           "collocations": [
-            "restroom"
+            "public restroom",
+            "restroom break",
+            "restroom sign",
+            "use the restroom"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“restroom”相关的示意图。",
+          "preposition_combos": [
+            "in the restroom",
+            "to the restroom"
+          ],
+          "image_desc_cn": "一个学生礼貌地向保安询问拥挤商场里洗手间的位置。",
           "sentences": [
             {
-              "en": "We learned the word \"restroom\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“restroom”。",
+              "en": "Excuse me, could you tell me where the restroom is?",
+              "zh": "打扰一下，你能告诉我洗手间在哪里吗？",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"restroom\"?",
-              "zh": "你能用“restroom”造一个句子吗？",
+              "en": "The restroom at the park is clean and well-maintained.",
+              "zh": "公园里的公共厕所干净且维护得很好。",
               "source": "context",
               "image": ""
             }
@@ -1952,22 +2315,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/stamp_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/stamp_2.png",
-          "usage": "n.",
+          "usage": "n. 邮票；印章",
           "collocations": [
-            "stamp"
+            "stamp collection",
+            "stamp album",
+            "postage stamp",
+            "rubber stamp"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“stamp”相关的示意图。",
+          "preposition_combos": [
+            "on a stamp",
+            "with a stamp"
+          ],
+          "image_desc_cn": "一只手小心地将一枚邮票贴在白色信封的右上角。",
           "sentences": [
             {
-              "en": "We learned the word \"stamp\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“stamp”。",
+              "en": "I need to buy a stamp before I mail this letter.",
+              "zh": "寄这封信之前我需要买一张邮票。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"stamp\"?",
-              "zh": "你能用“stamp”造一个句子吗？",
+              "en": "My grandfather has a valuable stamp collection from different countries.",
+              "zh": "我爷爷有一个来自不同国家的珍贵邮票收藏。",
               "source": "context",
               "image": ""
             }
@@ -1981,22 +2350,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/postcard_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/postcard_2.png",
-          "usage": "n.",
+          "usage": "n. 明信片",
           "collocations": [
-            "postcard"
+            "send a postcard",
+            "write a postcard",
+            "postcard from",
+            "picture postcard"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“postcard”相关的示意图。",
+          "preposition_combos": [
+            "on a postcard",
+            "from a postcard"
+          ],
+          "image_desc_cn": "一位游客坐在埃菲尔铁塔附近的咖啡桌旁，在明信片上写着信息。",
           "sentences": [
             {
-              "en": "We learned the word \"postcard\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“postcard”。",
+              "en": "I will send you a postcard from my vacation in Paris.",
+              "zh": "我会从巴黎度假地给你寄一张明信片。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"postcard\"?",
-              "zh": "你能用“postcard”造一个句子吗？",
+              "en": "She collects postcards with beautiful scenery from around the world.",
+              "zh": "她收集世界各地风景优美的明信片。",
               "source": "context",
               "image": ""
             }
@@ -2010,22 +2385,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/pardon_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/pardon_2.png",
-          "usage": "interj. / n. / v.",
+          "usage": "interj. / n. / v. 请再说一遍；原谅",
           "collocations": [
-            "pardon"
+            "pardon me",
+            "I beg your pardon",
+            "ask for pardon",
+            "grant a pardon"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“pardon”相关的示意图。",
+          "preposition_combos": [
+            "pardon for"
+          ],
+          "image_desc_cn": "一个学生困惑地礼貌说“请再说一遍？”，老师重复问题。",
           "sentences": [
             {
-              "en": "We learned the word \"pardon\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“pardon”。",
+              "en": "Pardon? Could you say that again? I didn't hear you.",
+              "zh": "请再说一遍？你能再说一遍吗？我没听见。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"pardon\"?",
-              "zh": "你能用“pardon”造一个句子吗？",
+              "en": "He asked for pardon after accidentally stepping on her foot.",
+              "zh": "他无意中踩到她的脚后请求原谅。",
               "source": "context",
               "image": ""
             }
@@ -2039,22 +2419,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/washroom_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/washroom_2.png",
-          "usage": "n.",
+          "usage": "n. 洗手间；厕所",
           "collocations": [
-            "washroom"
+            "men's washroom",
+            "women's washroom",
+            "go to the washroom",
+            "washroom facilities"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“washroom”相关的示意图。",
+          "preposition_combos": [
+            "in the washroom",
+            "to the washroom"
+          ],
+          "image_desc_cn": "一个学生在教室里举手，礼貌地问“我可以去洗手间吗？”",
           "sentences": [
             {
-              "en": "We learned the word \"washroom\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“washroom”。",
+              "en": "May I go to the washroom, please?",
+              "zh": "请问我可以去洗手间吗？",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"washroom\"?",
-              "zh": "你能用“washroom”造一个句子吗？",
+              "en": "The washroom on the second floor is under repair.",
+              "zh": "二楼的洗手间正在维修。",
               "source": "context",
               "image": ""
             }
@@ -2070,20 +2456,26 @@ const TEXTBOOK_DATA = {
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/bathroom_2.png",
           "usage": "n.",
           "collocations": [
-            "bathroom"
+            "clean the bathroom",
+            "go to the bathroom",
+            "in the bathroom",
+            "bathroom mirror"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“bathroom”相关的示意图。",
+          "preposition_combos": [
+            "in",
+            "to"
+          ],
+          "image_desc_cn": "一个学生进入学校洗手间。",
           "sentences": [
             {
-              "en": "We learned the word \"bathroom\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“bathroom”。",
+              "en": "May I go to the bathroom during class?",
+              "zh": "上课时我能去洗手间吗？",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"bathroom\"?",
-              "zh": "你能用“bathroom”造一个句子吗？",
+              "en": "The bathroom mirror is a little foggy after a hot shower.",
+              "zh": "洗热水澡后浴室的镜子有点模糊。",
               "source": "context",
               "image": ""
             }
@@ -2099,20 +2491,25 @@ const TEXTBOOK_DATA = {
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/quick_2.png",
           "usage": "adj.",
           "collocations": [
-            "quick"
+            "a quick meal",
+            "quick response",
+            "quick decision",
+            "quick look"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“quick”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一个学生在课堂上快速举手。",
           "sentences": [
             {
-              "en": "We learned the word \"quick\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“quick”。",
+              "en": "He gave a quick answer to the teacher's question.",
+              "zh": "他很快回答了老师的问题。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"quick\"?",
-              "zh": "你能用“quick”造一个句子吗？",
+              "en": "She took a quick shower before going out.",
+              "zh": "她出门前快速冲了个澡。",
               "source": "context",
               "image": ""
             }
@@ -2128,20 +2525,27 @@ const TEXTBOOK_DATA = {
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/rush_2.png",
           "usage": "v. / n.",
           "collocations": [
-            "rush"
+            "rush hour",
+            "in a rush",
+            "rush to do sth.",
+            "not to rush"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“rush”相关的示意图。",
+          "preposition_combos": [
+            "to",
+            "into",
+            "out of"
+          ],
+          "image_desc_cn": "通勤者在火车站匆忙赶路。",
           "sentences": [
             {
-              "en": "We learned the word \"rush\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“rush”。",
+              "en": "The students rushed into the classroom when the bell rang.",
+              "zh": "铃响时学生们冲进了教室。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"rush\"?",
-              "zh": "你能用“rush”造一个句子吗？",
+              "en": "Don't rush; take your time to finish the test.",
+              "zh": "别着急，慢慢完成测验。",
               "source": "context",
               "image": ""
             }
@@ -2157,20 +2561,25 @@ const TEXTBOOK_DATA = {
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/suggest_2.png",
           "usage": "v.",
           "collocations": [
-            "suggest"
+            "suggest doing sth.",
+            "suggest that...",
+            "suggest a plan",
+            "strongly suggest"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“suggest”相关的示意图。",
+          "preposition_combos": [
+            "to"
+          ],
+          "image_desc_cn": "学生们在地图上建议一条路线。",
           "sentences": [
             {
-              "en": "We learned the word \"suggest\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“suggest”。",
+              "en": "The teacher suggested that we practice speaking English every day.",
+              "zh": "老师建议我们每天练习说英语。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"suggest\"?",
-              "zh": "你能用“suggest”造一个句子吗？",
+              "en": "My mom suggested going to the park for a picnic this weekend.",
+              "zh": "妈妈建议这个周末去公园野餐。",
               "source": "context",
               "image": ""
             }
@@ -2186,20 +2595,25 @@ const TEXTBOOK_DATA = {
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/staff_2.png",
           "usage": "n.",
           "collocations": [
-            "staff"
+            "teaching staff",
+            "office staff",
+            "staff meeting",
+            "staff member"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“staff”相关的示意图。",
+          "preposition_combos": [
+            "on"
+          ],
+          "image_desc_cn": "学校教职工在开会。",
           "sentences": [
             {
-              "en": "We learned the word \"staff\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“staff”。",
+              "en": "All the teaching staff attended the meeting.",
+              "zh": "全体教学人员都参加了会议。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"staff\"?",
-              "zh": "你能用“staff”造一个句子吗？",
+              "en": "The hotel staff were very friendly.",
+              "zh": "酒店员工非常友好。",
               "source": "context",
               "image": ""
             }
@@ -2213,22 +2627,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/grape_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/grape_2.png",
-          "usage": "n.",
+          "usage": "n. 葡萄",
           "collocations": [
-            "grape"
+            "purple grapes",
+            "fresh grapes",
+            "grape juice",
+            "grape harvest"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“grape”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一串挂在藤上的紫葡萄。",
           "sentences": [
             {
-              "en": "We learned the word \"grape\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“grape”。",
+              "en": "I bought some grapes from the school store.",
+              "zh": "我从学校商店买了一些葡萄。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"grape\"?",
-              "zh": "你能用“grape”造一个句子吗？",
+              "en": "Grapes can be made into wine or dried as raisins.",
+              "zh": "葡萄可以酿酒或晒成葡萄干。",
               "source": "context",
               "image": ""
             }
@@ -2242,22 +2661,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/central_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/central_2.png",
-          "usage": "adj.",
+          "usage": "adj. 中心的；中央的",
           "collocations": [
-            "central"
+            "central location",
+            "central idea",
+            "central park",
+            "central government"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“central”相关的示意图。",
+          "preposition_combos": [
+            "central to",
+            "in central"
+          ],
+          "image_desc_cn": "城市中心广场上的钟楼。",
           "sentences": [
             {
-              "en": "We learned the word \"central\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“central”。",
+              "en": "The central library is near our school.",
+              "zh": "中心图书馆在我们学校附近。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"central\"?",
-              "zh": "你能用“central”造一个句子吗？",
+              "en": "The central theme of the story is about friendship.",
+              "zh": "这个故事的中心主题是关于友谊。",
               "source": "context",
               "image": ""
             }
@@ -2271,22 +2696,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/mail_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/mail_2.png",
-          "usage": "v. / n.",
+          "usage": "v. & n. 邮寄；邮件",
           "collocations": [
-            "mail"
+            "send mail",
+            "check mail",
+            "mail a letter",
+            "email"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“mail”相关的示意图。",
+          "preposition_combos": [
+            "mail to",
+            "mail from"
+          ],
+          "image_desc_cn": "邮递员把信件放进邮箱。",
           "sentences": [
             {
-              "en": "We learned the word \"mail\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“mail”。",
+              "en": "I need to mail this postcard to my pen pal.",
+              "zh": "我需要把这张明信片寄给我的笔友。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"mail\"?",
-              "zh": "你能用“mail”造一个句子吗？",
+              "en": "She received a package in the mail yesterday.",
+              "zh": "她昨天收到一个邮件包裹。",
               "source": "context",
               "image": ""
             }
@@ -2300,22 +2731,29 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/east_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/east_2.png",
-          "usage": "adj. / adv. / n.",
+          "usage": "adj./adv./n. 东方的；向东；东方",
           "collocations": [
-            "east"
+            "east coast",
+            "east wind",
+            "go east",
+            "east of"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“east”相关的示意图。",
+          "preposition_combos": [
+            "in the east",
+            "to the east",
+            "from the east"
+          ],
+          "image_desc_cn": "指向东方方向的指南针。",
           "sentences": [
             {
-              "en": "We learned the word \"east\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“east”。",
+              "en": "The sun rises in the east.",
+              "zh": "太阳从东方升起。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"east\"?",
-              "zh": "你能用“east”造一个句子吗？",
+              "en": "He lives on the east side of the city.",
+              "zh": "他住在城市的东区。",
               "source": "context",
               "image": ""
             }
@@ -2329,22 +2767,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/fascinating_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/fascinating_2.png",
-          "usage": "adj.",
+          "usage": "adj. 迷人的；有吸引力的",
           "collocations": [
-            "fascinating"
+            "fascinating story",
+            "fascinating place",
+            "find something fascinating",
+            "absolutely fascinating"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“fascinating”相关的示意图。",
+          "preposition_combos": [
+            "fascinating to"
+          ],
+          "image_desc_cn": "一个孩子被魔术表演迷住。",
           "sentences": [
             {
-              "en": "We learned the word \"fascinating\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“fascinating”。",
+              "en": "The science museum is a fascinating place for students.",
+              "zh": "科学博物馆对学生来说是一个迷人的地方。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"fascinating\"?",
-              "zh": "你能用“fascinating”造一个句子吗？",
+              "en": "I found the documentary about space fascinating.",
+              "zh": "我觉得那部关于太空的纪录片很迷人。",
               "source": "context",
               "image": ""
             }
@@ -2358,22 +2801,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/convenient_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/convenient_2.png",
-          "usage": "adj.",
+          "usage": "adj. 便利的；方便的",
           "collocations": [
-            "convenient"
+            "convenient location",
+            "convenient store",
+            "convenient time",
+            "convenient way"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“convenient”相关的示意图。",
+          "preposition_combos": [
+            "for",
+            "to"
+          ],
+          "image_desc_cn": "学生在公交站用手机查公交时刻表。",
           "sentences": [
             {
-              "en": "We learned the word \"convenient\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“convenient”。",
+              "en": "It's convenient to take the subway to school because it's fast.",
+              "zh": "坐地铁上学很方便，因为很快。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"convenient\"?",
-              "zh": "你能用“convenient”造一个句子吗？",
+              "en": "The new supermarket is convenient for buying fresh vegetables every day.",
+              "zh": "新超市每天买新鲜蔬菜很方便。",
               "source": "context",
               "image": ""
             }
@@ -2387,22 +2836,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/mall_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/mall_2.png",
-          "usage": "n.",
+          "usage": "n. 商场；购物中心",
           "collocations": [
-            "mall"
+            "shopping mall",
+            "go to the mall",
+            "mall entrance",
+            "mall parking lot"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“mall”相关的示意图。",
+          "preposition_combos": [
+            "in",
+            "at"
+          ],
+          "image_desc_cn": "青少年进入一个有很多商店的购物中心。",
           "sentences": [
             {
-              "en": "We learned the word \"mall\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“mall”。",
+              "en": "My friends and I often go to the mall on weekends to hang out.",
+              "zh": "我和朋友们周末经常去商场闲逛。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"mall\"?",
-              "zh": "你能用“mall”造一个句子吗？",
+              "en": "There is a new mall near our school with a big bookstore.",
+              "zh": "我们学校附近新开了一家商场，里面有个大书店。",
               "source": "context",
               "image": ""
             }
@@ -2416,22 +2871,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/clerk_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/clerk_2.png",
-          "usage": "n.",
+          "usage": "n. 职员",
           "collocations": [
-            "clerk"
+            "bank clerk",
+            "office clerk",
+            "store clerk",
+            "sales clerk"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“clerk”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "酒店前台职员为客人办理入住。",
           "sentences": [
             {
-              "en": "We learned the word \"clerk\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“clerk”。",
+              "en": "The clerk at the bookstore helped me find the textbook I needed.",
+              "zh": "书店的职员帮我找到了需要的课本。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"clerk\"?",
-              "zh": "你能用“clerk”造一个句子吗？",
+              "en": "My aunt works as a clerk in a big company downtown.",
+              "zh": "我阿姨在市中心的一家大公司做职员。",
               "source": "context",
               "image": ""
             }
@@ -2445,22 +2905,30 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/corner_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/corner_2.png",
-          "usage": "n.",
+          "usage": "n. 拐角；角落",
           "collocations": [
-            "corner"
+            "street corner",
+            "corner of the room",
+            "around the corner",
+            "in the corner"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“corner”相关的示意图。",
+          "preposition_combos": [
+            "at",
+            "around",
+            "in",
+            "on"
+          ],
+          "image_desc_cn": "一只猫坐在砖墙的拐角处。",
           "sentences": [
             {
-              "en": "We learned the word \"corner\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“corner”。",
+              "en": "The post office is around the corner from our school.",
+              "zh": "邮局在我们学校的拐角处。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"corner\"?",
-              "zh": "你能用“corner”造一个句子吗？",
+              "en": "There is a small flower shop at the corner of the street.",
+              "zh": "街角有一家小花店。",
               "source": "context",
               "image": ""
             }
@@ -2474,22 +2942,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/polite_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/polite_2.png",
-          "usage": "adj.",
+          "usage": "adj. 有礼貌的；客气的",
           "collocations": [
-            "polite"
+            "polite behavior",
+            "polite answer",
+            "polite to sb",
+            "be polite"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“polite”相关的示意图。",
+          "preposition_combos": [
+            "to"
+          ],
+          "image_desc_cn": "一个男孩为一位老妇人扶门。",
           "sentences": [
             {
-              "en": "We learned the word \"polite\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“polite”。",
+              "en": "It's important to be polite to others in daily life.",
+              "zh": "在日常生活中对别人有礼貌很重要。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"polite\"?",
-              "zh": "你能用“polite”造一个句子吗？",
+              "en": "The polite student always says 'thank you' and 'please'.",
+              "zh": "那个有礼貌的学生总是说‘谢谢’和‘请’。",
               "source": "context",
               "image": ""
             }
@@ -2503,22 +2976,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/politely_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/politely_2.png",
-          "usage": "adv.",
+          "usage": "adv. 礼貌地；客气地",
           "collocations": [
-            "politely"
+            "ask politely",
+            "reply politely",
+            "behave politely",
+            "speak politely"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“politely”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一个学生礼貌地向老师鞠躬。",
           "sentences": [
             {
-              "en": "We learned the word \"politely\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“politely”。",
+              "en": "She always asks questions politely in class.",
+              "zh": "她在课堂上总是礼貌地提问。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"politely\"?",
-              "zh": "你能用“politely”造一个句子吗？",
+              "en": "He politely refused the invitation.",
+              "zh": "他礼貌地拒绝了邀请。",
               "source": "context",
               "image": ""
             }
@@ -2532,22 +3010,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/speaker_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/speaker_2.png",
-          "usage": "n.",
+          "usage": "n. 讲（某种语言）的人；发言者",
           "collocations": [
-            "speaker"
+            "native speaker",
+            "English speaker",
+            "guest speaker",
+            "speaker system"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“speaker”相关的示意图。",
+          "preposition_combos": [
+            "speaker of"
+          ],
+          "image_desc_cn": "舞台上发言者正在演讲。",
           "sentences": [
             {
-              "en": "We learned the word \"speaker\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“speaker”。",
+              "en": "The speaker from the UK gave a talk about British culture.",
+              "zh": "来自英国的发言者做了一个关于英国文化的演讲。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"speaker\"?",
-              "zh": "你能用“speaker”造一个句子吗？",
+              "en": "As a native speaker of Chinese, I can help you with pronunciation.",
+              "zh": "作为中文母语者，我可以帮你练习发音。",
               "source": "context",
               "image": ""
             }
@@ -2561,22 +3044,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/request_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/request_2.png",
-          "usage": "n. / v.",
+          "usage": "n./v. 要求；请求",
           "collocations": [
-            "request"
+            "make a request",
+            "request information",
+            "request a meeting",
+            "formal request"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“request”相关的示意图。",
+          "preposition_combos": [
+            "request for"
+          ],
+          "image_desc_cn": "学生向老师提出请求。",
           "sentences": [
             {
-              "en": "We learned the word \"request\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“request”。",
+              "en": "The teacher made a request for students to submit homework on time.",
+              "zh": "老师要求学生按时提交作业。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"request\"?",
-              "zh": "你能用“request”造一个句子吗？",
+              "en": "You can request a copy of the report from the office.",
+              "zh": "你可以向办公室索要一份报告副本。",
               "source": "context",
               "image": ""
             }
@@ -2590,22 +3078,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/choice_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/choice_2.png",
-          "usage": "n.",
+          "usage": "n. 选择；挑选",
           "collocations": [
-            "choice"
+            "make a choice",
+            "have a choice",
+            "difficult choice",
+            "good choice"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“choice”相关的示意图。",
+          "preposition_combos": [
+            "choice of",
+            "choice between"
+          ],
+          "image_desc_cn": "学生在两本书之间做选择。",
           "sentences": [
             {
-              "en": "We learned the word \"choice\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“choice”。",
+              "en": "You have a choice between joining the club or doing sports.",
+              "zh": "你有选择：加入俱乐部或做运动。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"choice\"?",
-              "zh": "你能用“choice”造一个句子吗？",
+              "en": "It's your choice to decide which career to follow.",
+              "zh": "选择从事哪个职业是你的决定。",
               "source": "context",
               "image": ""
             }
@@ -2619,22 +3113,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/direction_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/direction_2.png",
-          "usage": "n.",
+          "usage": "n. 方向；方位",
           "collocations": [
-            "direction"
+            "in the direction of",
+            "give directions",
+            "ask for directions",
+            "change direction"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“direction”相关的示意图。",
+          "preposition_combos": [
+            "in the direction of",
+            "from a direction"
+          ],
+          "image_desc_cn": "一个人在地图上指方向。",
           "sentences": [
             {
-              "en": "We learned the word \"direction\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“direction”。",
+              "en": "Could you tell me the direction of the library?",
+              "zh": "你能告诉我图书馆的方向吗？",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"direction\"?",
-              "zh": "你能用“direction”造一个句子吗？",
+              "en": "The wind changed direction suddenly.",
+              "zh": "风突然改变了方向。",
               "source": "context",
               "image": ""
             }
@@ -2648,22 +3148,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/correct_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/correct_2.png",
-          "usage": "adj.",
+          "usage": "adj. 正确的；恰当的",
           "collocations": [
-            "correct"
+            "correct answer",
+            "correct behavior",
+            "correct time",
+            "correct spelling"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“correct”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "课堂上学生正确回答问题。 / 一个人核对清单上的正确项。",
           "sentences": [
             {
-              "en": "We learned the word \"correct\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“correct”。",
+              "en": "The teacher asked, 'Is this the correct answer?'",
+              "zh": "老师问：‘这是正确答案吗？’",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"correct\"?",
-              "zh": "你能用“correct”造一个句子吗？",
+              "en": "Please make sure all the information is correct before you submit the form.",
+              "zh": "提交表格前，请确保所有信息都是正确的。",
               "source": "context",
               "image": ""
             }
@@ -2677,22 +3182,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/direct_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/direct_2.png",
-          "usage": "adj.",
+          "usage": "adj. 直接的；直率的",
           "collocations": [
-            "direct"
+            "direct flight",
+            "direct impact",
+            "direct contact",
+            "direct speech"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“direct”相关的示意图。",
+          "preposition_combos": [
+            "to",
+            "from"
+          ],
+          "image_desc_cn": "火车标志显示直达上海。 / 一个人直接说话。",
           "sentences": [
             {
-              "en": "We learned the word \"direct\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“direct”。",
+              "en": "Our school organized a direct flight to Beijing.",
+              "zh": "我们学校组织了一次去北京的直飞航班。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"direct\"?",
-              "zh": "你能用“direct”造一个句子吗？",
+              "en": "He gave a direct answer to the question without any hesitation.",
+              "zh": "他毫不犹豫地直接回答了问题。",
               "source": "context",
               "image": ""
             }
@@ -2706,22 +3217,30 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/whom_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/whom_2.png",
-          "usage": "pron.",
+          "usage": "pron. 谁；什么人（正式用语，常作介词宾语）",
           "collocations": [
-            "whom"
+            "to whom",
+            "with whom",
+            "for whom",
+            "by whom"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“whom”相关的示意图。",
+          "preposition_combos": [
+            "to",
+            "with",
+            "for",
+            "by"
+          ],
+          "image_desc_cn": "两个学生交流，一个在问关于谁的问题。 / 一个人正在信封上写地址。",
           "sentences": [
             {
-              "en": "We learned the word \"whom\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“whom”。",
+              "en": "The man to whom you just talked is my uncle.",
+              "zh": "你刚才和他说话的那个人是我的叔叔。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"whom\"?",
-              "zh": "你能用“whom”造一个句子吗？",
+              "en": "She is the teacher for whom we have great respect.",
+              "zh": "她是我们非常尊敬的那位老师。",
               "source": "context",
               "image": ""
             }
@@ -2735,22 +3254,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/address_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/address_2.png",
-          "usage": "n.",
+          "usage": "n. 地址；通讯处",
           "collocations": [
-            "address"
+            "home address",
+            "email address",
+            "change of address",
+            "mailing address"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“address”相关的示意图。",
+          "preposition_combos": [
+            "at",
+            "to"
+          ],
+          "image_desc_cn": "在信封上写地址。 / 带有地址的信箱。",
           "sentences": [
             {
-              "en": "We learned the word \"address\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“address”。",
+              "en": "Please write your home address on the form.",
+              "zh": "请把你的家庭地址写在表格上。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"address\"?",
-              "zh": "你能用“address”造一个句子吗？",
+              "en": "I forgot his email address, so I didn't get his reply.",
+              "zh": "我忘了他的电子邮件地址，所以没收到回复。",
               "source": "context",
               "image": ""
             }
@@ -2764,22 +3289,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/faithfully_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/faithfully_2.png",
-          "usage": "adv.",
+          "usage": "adv. 忠实地；忠诚地",
           "collocations": [
-            "faithfully"
+            "serve faithfully",
+            "follow faithfully",
+            "work faithfully",
+            "promise faithfully"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“faithfully”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一只忠实地坐在主人身边的狗。 / 一个忠实地抄写笔记的学生。",
           "sentences": [
             {
-              "en": "We learned the word \"faithfully\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“faithfully”。",
+              "en": "The dog has faithfully accompanied its owner for many years.",
+              "zh": "这只狗忠实地陪伴了主人很多年。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"faithfully\"?",
-              "zh": "你能用“faithfully”造一个句子吗？",
+              "en": "She faithfully follows all the school rules.",
+              "zh": "她忠实地遵守学校的各项规则。",
               "source": "context",
               "image": ""
             }
@@ -2800,22 +3330,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/humorous_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/humorous_2.png",
-          "usage": "adj.",
+          "usage": "adj. 有幽默感的；滑稽的",
           "collocations": [
-            "humorous"
+            "sense of humor",
+            "humorous story",
+            "humorous remark",
+            "humorous side"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“humorous”相关的示意图。",
+          "preposition_combos": [
+            "about"
+          ],
+          "image_desc_cn": "一位老师做出滑稽表情逗学生笑。",
           "sentences": [
             {
-              "en": "We learned the word \"humorous\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“humorous”。",
+              "en": "My English teacher is very humorous and always makes us laugh.",
+              "zh": "我的英语老师非常幽默，总是逗我们笑。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"humorous\"?",
-              "zh": "你能用“humorous”造一个句子吗？",
+              "en": "The book is full of humorous stories that kids love.",
+              "zh": "这本书充满了孩子们喜爱的幽默故事。",
               "source": "context",
               "image": ""
             }
@@ -2829,22 +3364,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/silent_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/silent_2.png",
-          "usage": "adj.",
+          "usage": "adj. 不说话的；沉默的",
           "collocations": [
-            "silent"
+            "silent movie",
+            "silent night",
+            "keep silent",
+            "silent treatment"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“silent”相关的示意图。",
+          "preposition_combos": [
+            "about"
+          ],
+          "image_desc_cn": "安静的图书馆里学生们在看书。",
           "sentences": [
             {
-              "en": "We learned the word \"silent\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“silent”。",
+              "en": "The students were silent when the teacher asked a difficult question.",
+              "zh": "老师问了一个难题时，学生们都沉默了。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"silent\"?",
-              "zh": "你能用“silent”造一个句子吗？",
+              "en": "The library is a silent place for studying.",
+              "zh": "图书馆是个适合学习的安静地方。",
               "source": "context",
               "image": ""
             }
@@ -2858,22 +3398,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/helpful_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/helpful_2.png",
-          "usage": "adj.",
+          "usage": "adj. 有用的；有帮助的",
           "collocations": [
-            "helpful"
+            "helpful advice",
+            "helpful information",
+            "helpful person",
+            "be helpful to"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“helpful”相关的示意图。",
+          "preposition_combos": [
+            "to"
+          ],
+          "image_desc_cn": "一个学生在课桌上帮助同学做作业。",
           "sentences": [
             {
-              "en": "We learned the word \"helpful\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“helpful”。",
+              "en": "Our classmates are very helpful; they often share their notes.",
+              "zh": "我们同学很乐于助人，他们经常分享笔记。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"helpful\"?",
-              "zh": "你能用“helpful”造一个句子吗？",
+              "en": "The map was helpful in finding the way to the museum.",
+              "zh": "这张地图对找到去博物馆的路很有帮助。",
               "source": "context",
               "image": ""
             }
@@ -2887,22 +3432,26 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/from_time_to_time_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/from_time_to_time_2.png",
-          "usage": "短语",
+          "usage": "短语 时常；有时",
           "collocations": [
-            "from time to time"
+            "visit from time to time",
+            "check from time to time",
+            "happen from time to time"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“from time to time”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一家人在森林营地搭帐篷。",
           "sentences": [
             {
-              "en": "We learned the word \"from time to time\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“from time to time”。",
+              "en": "I go to the library from time to time to borrow books.",
+              "zh": "我时不时去图书馆借书。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"from time to time\"?",
-              "zh": "你能用“from time to time”造一个句子吗？",
+              "en": "From time to time, my family goes camping in the mountains.",
+              "zh": "我们家偶尔会去山里露营。",
               "source": "context",
               "image": ""
             }
@@ -2916,22 +3465,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/score_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/score_2.png",
-          "usage": "n. / v.",
+          "usage": "n. 得分；v. 打分、得分",
           "collocations": [
-            "score"
+            "score a goal",
+            "high score",
+            "final score",
+            "score points"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“score”相关的示意图。",
+          "preposition_combos": [
+            "in",
+            "on"
+          ],
+          "image_desc_cn": "一个篮球运动员投篮得分。",
           "sentences": [
             {
-              "en": "We learned the word \"score\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“score”。",
+              "en": "He scored the winning goal in the last minute of the game.",
+              "zh": "他在比赛最后一分钟打进了制胜一球。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"score\"?",
-              "zh": "你能用“score”造一个句子吗？",
+              "en": "What was your score on the math test?",
+              "zh": "你数学考试得了多少分？",
               "source": "context",
               "image": ""
             }
@@ -2945,22 +3500,29 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/background_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/background_2.png",
-          "usage": "n.",
+          "usage": "n. 背景",
           "collocations": [
-            "background"
+            "family background",
+            "cultural background",
+            "educational background",
+            "background music"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“background”相关的示意图。",
+          "preposition_combos": [
+            "in",
+            "against",
+            "with"
+          ],
+          "image_desc_cn": "一个学生看时间线；有山在背景中的风景画。",
           "sentences": [
             {
-              "en": "We learned the word \"background\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“background”。",
+              "en": "The teacher explained the background of the story before we read it.",
+              "zh": "老师在我们读故事之前解释了背景。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"background\"?",
-              "zh": "你能用“background”造一个句子吗？",
+              "en": "People from different cultural backgrounds can be good friends.",
+              "zh": "来自不同文化背景的人可以成为好朋友。",
               "source": "context",
               "image": ""
             }
@@ -2974,22 +3536,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/interview_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/interview_2.png",
-          "usage": "v. / n.",
+          "usage": "v./n. 采访；面试；访谈",
           "collocations": [
-            "interview"
+            "job interview",
+            "conduct an interview",
+            "interview someone",
+            "give an interview"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“interview”相关的示意图。",
+          "preposition_combos": [
+            "for",
+            "with"
+          ],
+          "image_desc_cn": "办公室里的求职面试；与名人的媒体采访。",
           "sentences": [
             {
-              "en": "We learned the word \"interview\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“interview”。",
+              "en": "She was nervous before her job interview at the company.",
+              "zh": "她在那家公司面试前很紧张。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"interview\"?",
-              "zh": "你能用“interview”造一个句子吗？",
+              "en": "The reporter will interview the famous singer after the concert.",
+              "zh": "记者将在音乐会后采访这位著名歌手。",
               "source": "context",
               "image": ""
             }
@@ -3003,22 +3571,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/Asian_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/Asian_2.png",
-          "usage": "adj. / n.",
+          "usage": "adj./n. 亚洲的；亚洲人",
           "collocations": [
-            "Asian"
+            "Asian countries",
+            "Asian culture",
+            "Asian food",
+            "Asian people"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“Asian”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "亚洲地图；一盘寿司和饺子。",
           "sentences": [
             {
-              "en": "We learned the word \"Asian\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“Asian”。",
+              "en": "China is an Asian country with a long history.",
+              "zh": "中国是一个历史悠久的亚洲国家。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"Asian\"?",
-              "zh": "你能用“Asian”造一个句子吗？",
+              "en": "I really enjoy eating Asian food, like dumplings and sushi.",
+              "zh": "我非常喜欢吃亚洲食物，比如饺子和寿司。",
               "source": "context",
               "image": ""
             }
@@ -3032,22 +3605,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/deal_with_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/deal_with_2.png",
-          "usage": "短语",
+          "usage": "短语 对付；应付",
           "collocations": [
-            "deal with"
+            "deal with problems",
+            "deal with stress",
+            "deal with customers",
+            "deal with a situation"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“deal with”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "学生解数学题；处理客户投诉的人。",
           "sentences": [
             {
-              "en": "We learned the word \"deal with\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“deal with”。",
+              "en": "We need to deal with this math problem before the exam.",
+              "zh": "我们必须在考试前解决这道数学题。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"deal with\"?",
-              "zh": "你能用“deal with”造一个句子吗？",
+              "en": "She knows how to deal with difficult people in a polite way.",
+              "zh": "她知道如何礼貌地对付难缠的人。",
               "source": "context",
               "image": ""
             }
@@ -3061,22 +3639,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/dare_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/dare_2.png",
-          "usage": "v.",
+          "usage": "v. 敢于；胆敢",
           "collocations": [
-            "dare"
+            "dare to do",
+            "I dare you",
+            "how dare you",
+            "dare someone"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“dare”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "孩子站在跳板上；学生在课堂上举手。",
           "sentences": [
             {
-              "en": "We learned the word \"dare\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“dare”。",
+              "en": "He didn't dare to jump into the cold river.",
+              "zh": "他不敢跳进冰冷的河里。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"dare\"?",
-              "zh": "你能用“dare”造一个句子吗？",
+              "en": "How dare you speak to your teacher like that!",
+              "zh": "你竟敢那样对老师说话！",
               "source": "context",
               "image": ""
             }
@@ -3090,22 +3673,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/private_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/private_2.png",
-          "usage": "adj.",
+          "usage": "adj. 私人的；私密的",
           "collocations": [
-            "private"
+            "private life",
+            "private school",
+            "private conversation",
+            "private property"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“private”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一本写着‘私人’的笔记本；一个带着‘私人财产’牌的园子。",
           "sentences": [
             {
-              "en": "We learned the word \"private\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“private”。",
+              "en": "Please don't read my private diary.",
+              "zh": "请不要看我的私人日记。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"private\"?",
-              "zh": "你能用“private”造一个句子吗？",
+              "en": "He has a private garden behind his house.",
+              "zh": "他房子后面有一个私人花园。",
               "source": "context",
               "image": ""
             }
@@ -3119,22 +3707,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/guard_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/guard_2.png",
-          "usage": "n. / v.",
+          "usage": "n. 警卫； v. 守卫",
           "collocations": [
-            "guard"
+            "security guard",
+            "guard dog",
+            "guard duty",
+            "guard against"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“guard”相关的示意图。",
+          "preposition_combos": [
+            "against",
+            "from"
+          ],
+          "image_desc_cn": "一名穿制服的保安站在校门口；一只大警犬坐在围栏旁。",
           "sentences": [
             {
-              "en": "We learned the word \"guard\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“guard”。",
+              "en": "The school guard opens the gate every morning.",
+              "zh": "学校警卫每天早上打开大门。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"guard\"?",
-              "zh": "你能用“guard”造一个句子吗？",
+              "en": "Wearing a mask can guard against the flu.",
+              "zh": "戴口罩可以预防流感。",
               "source": "context",
               "image": ""
             }
@@ -3148,22 +3742,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/require_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/require_2.png",
-          "usage": "v.",
+          "usage": "v. 需要；要求",
           "collocations": [
-            "require"
+            "require sb. to do",
+            "require that",
+            "be required to"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“require”相关的示意图。",
+          "preposition_combos": [
+            "of",
+            "for"
+          ],
+          "image_desc_cn": "老师分发写着‘需穿校服’的通知；游乐园设施上的身高要求标志。",
           "sentences": [
             {
-              "en": "We learned the word \"require\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“require”。",
+              "en": "Our school requires students to wear uniforms.",
+              "zh": "我们学校要求学生穿校服。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"require\"?",
-              "zh": "你能用“require”造一个句子吗？",
+              "en": "This job requires a lot of patience.",
+              "zh": "这份工作需要很大的耐心。",
               "source": "context",
               "image": ""
             }
@@ -3177,22 +3776,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/British_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/British_2.png",
-          "usage": "adj.",
+          "usage": "adj. 英国的；英国人的",
           "collocations": [
-            "British"
+            "British people",
+            "British culture",
+            "British accent",
+            "British English"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“British”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "学生在读一本‘英式英语’教材；大本钟和英国国旗。",
           "sentences": [
             {
-              "en": "We learned the word \"British\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“British”。",
+              "en": "We learn British English in our textbook.",
+              "zh": "我们课本学的是英式英语。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"British\"?",
-              "zh": "你能用“British”造一个句子吗？",
+              "en": "She has a strong British accent when she speaks.",
+              "zh": "她说话时带有很浓的英国口音。",
               "source": "context",
               "image": ""
             }
@@ -3206,22 +3810,29 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/speech_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/speech_2.png",
-          "usage": "n.",
+          "usage": "n. 讲话；发言",
           "collocations": [
-            "speech"
+            "make a speech",
+            "give a speech",
+            "speech contest",
+            "freedom of speech"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“speech”相关的示意图。",
+          "preposition_combos": [
+            "about",
+            "on",
+            "to"
+          ],
+          "image_desc_cn": "学生站在舞台上拿着麦克风发言；演讲者站在讲台前对人群讲话。",
           "sentences": [
             {
-              "en": "We learned the word \"speech\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“speech”。",
+              "en": "He made a wonderful speech at the graduation ceremony.",
+              "zh": "他在毕业典礼上做了一次精彩的发言。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"speech\"?",
-              "zh": "你能用“speech”造一个句子吗？",
+              "en": "The president's speech on TV was very inspiring.",
+              "zh": "总统在电视上的讲话非常鼓舞人心。",
               "source": "context",
               "image": ""
             }
@@ -3235,22 +3846,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/ant_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/ant_2.png",
-          "usage": "n.",
+          "usage": "n. 蚂蚁",
           "collocations": [
-            "ant"
+            "worker ant",
+            "ant colony",
+            "ant hill",
+            "black ant"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“ant”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一只黑蚂蚁在小树枝上扛着绿色叶片。",
           "sentences": [
             {
-              "en": "We learned the word \"ant\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“ant”。",
+              "en": "I saw a line of ants carrying food back to their nest.",
+              "zh": "我看到一队蚂蚁把食物搬回巢穴。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"ant\"?",
-              "zh": "你能用“ant”造一个句子吗？",
+              "en": "The ant is one of the hardest-working insects in nature.",
+              "zh": "蚂蚁是自然界中最勤劳的昆虫之一。",
               "source": "context",
               "image": ""
             }
@@ -3264,22 +3880,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/insect_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/insect_2.png",
-          "usage": "n.",
+          "usage": "n. 昆虫",
           "collocations": [
-            "insect"
+            "insect bite",
+            "insect species",
+            "flying insect",
+            "insect repellent"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“insect”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一只绿色蚱蜢停在沾着晨露的草叶上。",
           "sentences": [
             {
-              "en": "We learned the word \"insect\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“insect”。",
+              "en": "There are many different kinds of insects in the school garden, like butterflies and bees.",
+              "zh": "学校花园里有许多不同种类的昆虫，比如蝴蝶和蜜蜂。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"insect\"?",
-              "zh": "你能用“insect”造一个句子吗？",
+              "en": "Some insects can change their color to protect themselves from enemies.",
+              "zh": "有些昆虫能改变颜色来保护自己免受敌人侵害。",
               "source": "context",
               "image": ""
             }
@@ -3293,22 +3914,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/influence_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/influence_2.png",
-          "usage": "v. / n.",
+          "usage": "v. / n. 影响",
           "collocations": [
-            "influence"
+            "have influence on",
+            "under the influence",
+            "influence decisions",
+            "positive influence"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“influence”相关的示意图。",
+          "preposition_combos": [
+            "influence on (n.)",
+            "influence by (v.)"
+          ],
+          "image_desc_cn": "学生们在图书馆里围坐一圈讨论一本书。",
           "sentences": [
             {
-              "en": "We learned the word \"influence\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“influence”。",
+              "en": "My best friend's hard work influenced me to study harder for the exam.",
+              "zh": "我最好朋友的勤奋影响了我更努力地准备考试。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"influence\"?",
-              "zh": "你能用“influence”造一个句子吗？",
+              "en": "The Internet has a great influence on how we communicate with each other.",
+              "zh": "互联网对我们如何相互交流产生了巨大的影响。",
               "source": "context",
               "image": ""
             }
@@ -3322,22 +3949,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/seldom_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/seldom_2.png",
-          "usage": "adv.",
+          "usage": "adv. 不常；很少",
           "collocations": [
-            "seldom"
+            "seldom see",
+            "seldom visit",
+            "seldom happens",
+            "seldom eat"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“seldom”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一位老妇人正在用有线座机通话，旁边的智能手机无人使用。",
           "sentences": [
             {
-              "en": "We learned the word \"seldom\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“seldom”。",
+              "en": "I seldom eat fast food because my mom always cooks healthy meals.",
+              "zh": "我很少吃快餐，因为我妈妈总是做健康的饭菜。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"seldom\"?",
-              "zh": "你能用“seldom”造一个句子吗？",
+              "en": "He seldom complains even when things get difficult.",
+              "zh": "即使事情变得困难，他也很少抱怨。",
               "source": "context",
               "image": ""
             }
@@ -3351,22 +3983,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/proud_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/proud_2.png",
-          "usage": "adj.",
+          "usage": "adj. 自豪的；骄傲的",
           "collocations": [
-            "proud"
+            "proud of",
+            "feel proud",
+            "proud moment",
+            "proud smile"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“proud”相关的示意图。",
+          "preposition_combos": [
+            "proud of sb/sth"
+          ],
+          "image_desc_cn": "足球比赛获胜后，父亲高兴地把儿子举起来。",
           "sentences": [
             {
-              "en": "We learned the word \"proud\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“proud”。",
+              "en": "My parents were proud of me when I got the first prize in the English speech contest.",
+              "zh": "当我在英语演讲比赛中获得一等奖时，我的父母为我感到自豪。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"proud\"?",
-              "zh": "你能用“proud”造一个句子吗？",
+              "en": "The old man is proud of his garden full of beautiful flowers.",
+              "zh": "这位老人为他那个开满美丽花朵的花园感到自豪。",
               "source": "context",
               "image": ""
             }
@@ -3380,22 +4017,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/be_proud_of_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/be_proud_of_2.png",
-          "usage": "短语",
+          "usage": "短语动词，意为“为……感到骄傲”，后接名词、代词或动名词。",
           "collocations": [
-            "be proud of"
+            "proud of oneself",
+            "proud of someone",
+            "proud of something",
+            "proud to be"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“be proud of”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "母亲自豪地拥抱拿着奖杯的儿子；女孩微笑着站在社区花园标识旁。",
           "sentences": [
             {
-              "en": "We learned the word \"be proud of\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“be proud of”。",
+              "en": "My parents are proud of me for getting good grades.",
+              "zh": "我的父母为我取得好成绩感到骄傲。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"be proud of\"?",
-              "zh": "你能用“be proud of”造一个句子吗？",
+              "en": "She is proud of her volunteer work in the community.",
+              "zh": "她为自己在社区的志愿工作感到自豪。",
               "source": "context",
               "image": ""
             }
@@ -3409,22 +4051,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/absent_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/absent_2.png",
-          "usage": "adj.",
+          "usage": "形容词，“缺席的，不在的”，常与介词from连用。",
           "collocations": [
-            "absent"
+            "absent from",
+            "absent mind",
+            "absent without leave",
+            "absent father"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“absent”相关的示意图。",
+          "preposition_combos": [
+            "from"
+          ],
+          "image_desc_cn": "教室里的一张空课桌；一个人眼神空洞地看着窗外，周围的人在交谈。",
           "sentences": [
             {
-              "en": "We learned the word \"absent\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“absent”。",
+              "en": "Tom was absent from class yesterday because he was sick.",
+              "zh": "汤姆昨天因为生病没来上课。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"absent\"?",
-              "zh": "你能用“absent”造一个句子吗？",
+              "en": "She looked absent‑minded during the meeting, as if thinking about something else.",
+              "zh": "会议期间她看起来心不在焉，好像在想着别的事。",
               "source": "context",
               "image": ""
             }
@@ -3438,22 +4085,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/fail_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/fail_2.png",
-          "usage": "v.",
+          "usage": "动词，“失败；未能（做到）”，可接不定式或介词in。",
           "collocations": [
-            "fail"
+            "fail to",
+            "fail in",
+            "fail an exam",
+            "fail someone"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“fail”相关的示意图。",
+          "preposition_combos": [
+            "in",
+            "to"
+          ],
+          "image_desc_cn": "一个学生难过地看着写着‘F’的试卷；徒步者在泥泞小路上折返，远处是山峰。",
           "sentences": [
             {
-              "en": "We learned the word \"fail\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“fail”。",
+              "en": "He failed the math test because he didn't study enough.",
+              "zh": "他数学考试没通过，因为他没好好学习。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"fail\"?",
-              "zh": "你能用“fail”造一个句子吗？",
+              "en": "She tried to climb the mountain but failed due to bad weather.",
+              "zh": "她试图爬那座山，但因为天气不好失败了。",
               "source": "context",
               "image": ""
             }
@@ -3467,22 +4120,29 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/examination_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/examination_2.png",
-          "usage": "n.",
+          "usage": "名词，“考试；检查”，可数名词。",
           "collocations": [
-            "examination"
+            "take an examination",
+            "final examination",
+            "physical examination",
+            "examination room"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“examination”相关的示意图。",
+          "preposition_combos": [
+            "for",
+            "in",
+            "of"
+          ],
+          "image_desc_cn": "学生在教室里考试，墙上有钟；医生在白色房间里为病人检查。",
           "sentences": [
             {
-              "en": "We learned the word \"examination\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“examination”。",
+              "en": "The final examination will cover everything we learned this term.",
+              "zh": "期末考试将涵盖我们这学期所学的一切。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"examination\"?",
-              "zh": "你能用“examination”造一个句子吗？",
+              "en": "She had a medical examination before joining the sports team.",
+              "zh": "她在加入运动队前做了体检。",
               "source": "context",
               "image": ""
             }
@@ -3496,22 +4156,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/boarding_school_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/boarding_school_2.png",
-          "usage": "n.",
+          "usage": "可数名词，“寄宿学校”，指学生食宿都在学校。",
           "collocations": [
-            "boarding school"
+            "attend boarding school",
+            "go to boarding school",
+            "send to boarding school",
+            "boarding school life"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“boarding school”相关的示意图。",
+          "preposition_combos": [
+            "at"
+          ],
+          "image_desc_cn": "一栋砖楼挂着‘阳光寄宿学校’牌子，学生拖着行李箱；宿舍里有双层床和一个学生在阅读。",
           "sentences": [
             {
-              "en": "We learned the word \"boarding school\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“boarding school”。",
+              "en": "He went to a boarding school last year and now lives on campus.",
+              "zh": "他去年去了寄宿学校，现在住在校园里。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"boarding school\"?",
-              "zh": "你能用“boarding school”造一个句子吗？",
+              "en": "Many parents choose boarding schools for their children to learn independence.",
+              "zh": "许多家长选择寄宿学校让孩子学会独立。",
               "source": "context",
               "image": ""
             }
@@ -3525,22 +4190,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/in_person_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/in_person_2.png",
-          "usage": "短语",
+          "usage": "短语，意为‘亲身；亲自’，常用于描述亲自做某事而不是通过电话、邮件等间接方式。",
           "collocations": [
-            "in person"
+            "appear in person",
+            "talk in person",
+            "meet in person",
+            "go in person"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“in person”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "学生亲自与老师讨论作业。",
           "sentences": [
             {
-              "en": "We learned the word \"in person\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“in person”。",
+              "en": "I want to meet the teacher in person to ask about my grade.",
+              "zh": "我想亲自见老师问问我的成绩。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"in person\"?",
-              "zh": "你能用“in person”造一个句子吗？",
+              "en": "You need to apply for the visa in person at the embassy.",
+              "zh": "你必须亲自去大使馆申请签证。",
               "source": "context",
               "image": ""
             }
@@ -3554,22 +4224,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/exactly_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/exactly_2.png",
-          "usage": "adv.",
+          "usage": "adv. 副词，用于强调准确性或完全认同，意为‘确切地；精确地’。",
           "collocations": [
-            "exactly"
+            "exactly the same",
+            "exactly right",
+            "know exactly",
+            "exactly at"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“exactly”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "时钟精确地指向正午12点。",
           "sentences": [
             {
-              "en": "We learned the word \"exactly\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“exactly”。",
+              "en": "The exam started at exactly 9 o'clock.",
+              "zh": "考试在9点整开始。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"exactly\"?",
-              "zh": "你能用“exactly”造一个句子吗？",
+              "en": "That's exactly what I meant when I said we should start earlier.",
+              "zh": "那就是我说我们应该早开始时的确切意思。",
               "source": "context",
               "image": ""
             }
@@ -3583,22 +4258,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/pride_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/pride_2.png",
-          "usage": "n.",
+          "usage": "n. 名词（不可数），意为‘自豪；骄傲’，常与in连用表示‘以……为傲’。",
           "collocations": [
-            "pride"
+            "take pride in",
+            "feel pride",
+            "sense of pride",
+            "great pride"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“pride”相关的示意图。",
+          "preposition_combos": [
+            "pride in",
+            "pride of"
+          ],
+          "image_desc_cn": "女孩为自己的高分自豪地微笑。",
           "sentences": [
             {
-              "en": "We learned the word \"pride\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“pride”。",
+              "en": "She takes pride in her clean room.",
+              "zh": "她为自己的整洁房间感到自豪。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"pride\"?",
-              "zh": "你能用“pride”造一个句子吗？",
+              "en": "He felt a sense of pride after winning the match for his team.",
+              "zh": "为团队赢得比赛后，他感到一种自豪感。",
               "source": "context",
               "image": ""
             }
@@ -3612,22 +4293,26 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/take_pride_in_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/take_pride_in_2.png",
-          "usage": "短语",
+          "usage": "短语动词，意为‘为……感到自豪’，后接名词或动名词。",
           "collocations": [
-            "take pride in"
+            "take pride in one's work",
+            "take pride in achievements",
+            "take pride in doing sth"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“take pride in”相关的示意图。",
+          "preposition_combos": [
+            "take pride in (后接名词/动名词)"
+          ],
+          "image_desc_cn": "学生为自己获奖的画作感到自豪。",
           "sentences": [
             {
-              "en": "We learned the word \"take pride in\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“take pride in”。",
+              "en": "We take pride in our school uniforms and always keep them clean.",
+              "zh": "我们以校服为荣，总是保持整洁。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"take pride in\"?",
-              "zh": "你能用“take pride in”造一个句子吗？",
+              "en": "He takes pride in his cooking skills and often invites friends over.",
+              "zh": "他为自己厨艺自豪，经常邀请朋友来家里吃饭。",
               "source": "context",
               "image": ""
             }
@@ -3641,22 +4326,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/grandson_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/grandson_2.png",
-          "usage": "n.",
+          "usage": "n. 可数名词，意为‘孙子；外孙’。",
           "collocations": [
-            "grandson"
+            "loving grandson",
+            "little grandson",
+            "grandson's school",
+            "proud grandfather"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“grandson”相关的示意图。",
+          "preposition_combos": [
+            "the grandson of (sb.)"
+          ],
+          "image_desc_cn": "爷爷教孙子钓鱼。",
           "sentences": [
             {
-              "en": "We learned the word \"grandson\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“grandson”。",
+              "en": "My grandfather often tells stories to my grandson when he visits.",
+              "zh": "我爷爷来的时候经常给我的儿子（孙子）讲故事。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"grandson\"?",
-              "zh": "你能用“grandson”造一个句子吗？",
+              "en": "The old man was proud of his grandson's achievement in the math contest.",
+              "zh": "老人为孙子在数学竞赛中的成就感到骄傲。",
               "source": "context",
               "image": ""
             }
@@ -3670,22 +4360,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/general_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/general_2.png",
-          "usage": "adj. / n.",
+          "usage": "adj. / n. 普遍的；常规的；总的；将军",
           "collocations": [
-            "general"
+            "general idea",
+            "general public",
+            "general knowledge",
+            "general manager"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“general”相关的示意图。",
+          "preposition_combos": [
+            "in"
+          ],
+          "image_desc_cn": "一位将军穿着军装指着地图。",
           "sentences": [
             {
-              "en": "We learned the word \"general\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“general”。",
+              "en": "The general idea of the passage is easy to understand.",
+              "zh": "这篇文章的大意很容易理解。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"general\"?",
-              "zh": "你能用“general”造一个句子吗？",
+              "en": "In general, students should review their notes regularly.",
+              "zh": "一般来说，学生应该定期复习笔记。",
               "source": "context",
               "image": ""
             }
@@ -3699,22 +4394,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/introduction_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/introduction_2.png",
-          "usage": "n.",
+          "usage": "n. 介绍",
           "collocations": [
-            "introduction"
+            "make an introduction",
+            "brief introduction",
+            "introduction to",
+            "introduction of"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“introduction”相关的示意图。",
+          "preposition_combos": [
+            "to",
+            "of"
+          ],
+          "image_desc_cn": "一个学生向同学们自我介绍。",
           "sentences": [
             {
-              "en": "We learned the word \"introduction\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“introduction”。",
+              "en": "Let me give you a brief introduction to our school.",
+              "zh": "让我向你简要介绍一下我们的学校。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"introduction\"?",
-              "zh": "你能用“introduction”造一个句子吗？",
+              "en": "The introduction of new technology has changed our lives.",
+              "zh": "新技术的引入改变了我们的生活。",
               "source": "context",
               "image": ""
             }
@@ -3735,22 +4436,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/material_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/material_2.png",
-          "usage": "n.",
+          "usage": "n. 材料；原料",
           "collocations": [
-            "material"
+            "raw material",
+            "building material",
+            "teaching material",
+            "reading material"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“material”相关的示意图。",
+          "preposition_combos": [
+            "for",
+            "of"
+          ],
+          "image_desc_cn": "工作台上的各种原材料。",
           "sentences": [
             {
-              "en": "We learned the word \"material\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“material”。",
+              "en": "We need to buy some art materials for the class project.",
+              "zh": "我们需要为课堂项目购买一些艺术材料。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"material\"?",
-              "zh": "你能用“material”造一个句子吗？",
+              "en": "Cotton is a natural material used to make clothes.",
+              "zh": "棉花是一种用于制作衣服的天然材料。",
               "source": "context",
               "image": ""
             }
@@ -3764,22 +4471,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/chopsticks_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/chopsticks_2.png",
-          "usage": "n.",
+          "usage": "n. (复数) 筷子",
           "collocations": [
-            "chopsticks"
+            "a pair of chopsticks",
+            "use chopsticks",
+            "wooden chopsticks",
+            "disposable chopsticks"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“chopsticks”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一双筷子放在一碗面条上。",
           "sentences": [
             {
-              "en": "We learned the word \"chopsticks\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“chopsticks”。",
+              "en": "We use chopsticks to eat noodles in the school dining hall.",
+              "zh": "我们在学校食堂用筷子吃面条。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"chopsticks\"?",
-              "zh": "你能用“chopsticks”造一个句子吗？",
+              "en": "In some Asian countries, people eat rice with chopsticks.",
+              "zh": "在一些亚洲国家，人们用筷子吃米饭。",
               "source": "context",
               "image": ""
             }
@@ -3793,22 +4505,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/coin_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/coin_2.png",
-          "usage": "n.",
+          "usage": "n. 硬币",
           "collocations": [
-            "coin"
+            "collect coins",
+            "gold coin",
+            "coin collection",
+            "coin purse"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“coin”相关的示意图。",
+          "preposition_combos": [
+            "in",
+            "for"
+          ],
+          "image_desc_cn": "一枚金币放在木桌上。",
           "sentences": [
             {
-              "en": "We learned the word \"coin\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“coin”。",
+              "en": "I found a coin on the playground during break.",
+              "zh": "课间我在操场上发现了一枚硬币。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"coin\"?",
-              "zh": "你能用“coin”造一个句子吗？",
+              "en": "My grandfather has a collection of old coins from different countries.",
+              "zh": "我祖父收集了来自不同国家的古币。",
               "source": "context",
               "image": ""
             }
@@ -3822,22 +4540,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/fork_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/fork_2.png",
-          "usage": "n.",
+          "usage": "n. 餐叉；叉子",
           "collocations": [
-            "fork"
+            "knife and fork",
+            "fork and spoon",
+            "plastic fork",
+            "salad fork"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“fork”相关的示意图。",
+          "preposition_combos": [
+            "eat with a fork",
+            "pick up with a fork"
+          ],
+          "image_desc_cn": "一把叉子放在餐巾上，旁边是一碗汤的特写。",
           "sentences": [
             {
-              "en": "We learned the word \"fork\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“fork”。",
+              "en": "In the school cafeteria, we use a fork to eat noodles.",
+              "zh": "在学校食堂，我们用叉子吃面条。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"fork\"?",
-              "zh": "你能用“fork”造一个句子吗？",
+              "en": "She carefully placed the fork next to the plate on the dinner table.",
+              "zh": "她小心地把叉子放在餐桌上的盘子旁边。",
               "source": "context",
               "image": ""
             }
@@ -3851,22 +4575,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/blouse_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/blouse_2.png",
-          "usage": "n.",
+          "usage": "n. （女士）短上衣；衬衫",
           "collocations": [
-            "blouse"
+            "white blouse",
+            "silk blouse",
+            "wear a blouse",
+            "button-up blouse"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“blouse”相关的示意图。",
+          "preposition_combos": [
+            "in a blouse",
+            "dressed in a blouse"
+          ],
+          "image_desc_cn": "一个穿着白色衬衫的女孩站在黑板旁。",
           "sentences": [
             {
-              "en": "We learned the word \"blouse\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“blouse”。",
+              "en": "Our school uniform requires a white blouse for girls.",
+              "zh": "我们的校服要求女生穿白色衬衫。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"blouse\"?",
-              "zh": "你能用“blouse”造一个句子吗？",
+              "en": "She wore a flowery blouse to the summer picnic.",
+              "zh": "她穿了一件花衬衫去参加夏季野餐。",
               "source": "context",
               "image": ""
             }
@@ -3880,22 +4610,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/silver_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/silver_2.png",
-          "usage": "n. / adj.",
+          "usage": "n. 银；银器；adj. 银色的",
           "collocations": [
-            "silver"
+            "silver medal",
+            "silver ring",
+            "silver hair",
+            "pure silver"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“silver”相关的示意图。",
+          "preposition_combos": [
+            "made of silver",
+            "decorated with silver"
+          ],
+          "image_desc_cn": "一个银色奖杯放在架子上，反射着光芒。",
           "sentences": [
             {
-              "en": "We learned the word \"silver\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“silver”。",
+              "en": "He won a silver medal in the school sports competition.",
+              "zh": "他在学校运动会上赢得了银牌。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"silver\"?",
-              "zh": "你能用“silver”造一个句子吗？",
+              "en": "The moonlight turned the lake into a sheet of silver.",
+              "zh": "月光把湖面变成了一片银色。",
               "source": "context",
               "image": ""
             }
@@ -3909,22 +4645,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/glass_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/glass_2.png",
-          "usage": "n.",
+          "usage": "n. 玻璃",
           "collocations": [
-            "glass"
+            "a piece of glass",
+            "glass bottle",
+            "glass window",
+            "break the glass"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“glass”相关的示意图。",
+          "preposition_combos": [
+            "made of glass",
+            "through the glass"
+          ],
+          "image_desc_cn": "一扇玻璃窗，望出去是阳光明媚的校园操场。",
           "sentences": [
             {
-              "en": "We learned the word \"glass\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“glass”。",
+              "en": "Be careful, the glass window in the classroom might break if you throw a ball.",
+              "zh": "小心，如果你扔球，教室的玻璃窗可能会碎。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"glass\"?",
-              "zh": "你能用“glass”造一个句子吗？",
+              "en": "The artist used colored glass to make a beautiful vase.",
+              "zh": "艺术家用彩色玻璃制作了一个漂亮的花瓶。",
               "source": "context",
               "image": ""
             }
@@ -3938,22 +4680,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/cotton_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/cotton_2.png",
-          "usage": "n.",
+          "usage": "n. 棉；棉花",
           "collocations": [
-            "cotton"
+            "cotton shirt",
+            "cotton field",
+            "pure cotton",
+            "cotton candy"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“cotton”相关的示意图。",
+          "preposition_combos": [
+            "made of cotton",
+            "dressed in cotton"
+          ],
+          "image_desc_cn": "一件白色棉质T恤叠放在床上的特写。",
           "sentences": [
             {
-              "en": "We learned the word \"cotton\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“cotton”。",
+              "en": "Our school uniforms are made of cotton because it is comfortable.",
+              "zh": "我们的校服是棉制的，因为穿着舒服。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"cotton\"?",
-              "zh": "你能用“cotton”造一个句子吗？",
+              "en": "Farmers grow cotton in the field and then collect the white fibers.",
+              "zh": "农民在地里种棉花，然后收集白色的纤维。",
               "source": "context",
               "image": ""
             }
@@ -3967,22 +4715,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/steel_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/steel_2.png",
-          "usage": "n.",
+          "usage": "n. 钢；钢铁",
           "collocations": [
-            "steel"
+            "steel industry",
+            "steel bridge",
+            "stainless steel",
+            "steel beam"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“steel”相关的示意图。",
+          "preposition_combos": [
+            "of",
+            "for"
+          ],
+          "image_desc_cn": "工人在焊接钢梁。",
           "sentences": [
             {
-              "en": "We learned the word \"steel\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“steel”。",
+              "en": "The bridge is made of strong steel.",
+              "zh": "这座桥是用坚固的钢建造的。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"steel\"?",
-              "zh": "你能用“steel”造一个句子吗？",
+              "en": "Steel is widely used in buildings and cars.",
+              "zh": "钢铁广泛应用于建筑和汽车中。",
               "source": "context",
               "image": ""
             }
@@ -3996,22 +4750,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/grass_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/grass_2.png",
-          "usage": "n.",
+          "usage": "n. 草；草地",
           "collocations": [
-            "grass"
+            "green grass",
+            "grass field",
+            "cut the grass",
+            "grass lawn"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“grass”相关的示意图。",
+          "preposition_combos": [
+            "on",
+            "in"
+          ],
+          "image_desc_cn": "孩子在绿色草坪上奔跑。",
           "sentences": [
             {
-              "en": "We learned the word \"grass\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“grass”。",
+              "en": "The children are playing on the grass in the park.",
+              "zh": "孩子们正在公园的草地上玩耍。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"grass\"?",
-              "zh": "你能用“grass”造一个句子吗？",
+              "en": "After the rain, the grass looks fresh and green.",
+              "zh": "雨后，草看起来清新翠绿。",
               "source": "context",
               "image": ""
             }
@@ -4025,22 +4785,29 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/leaf_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/leaf_2.png",
-          "usage": "n.",
+          "usage": "n. 叶；叶子",
           "collocations": [
-            "leaf"
+            "green leaf",
+            "autumn leaf",
+            "leaf blade",
+            "leaf vein"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“leaf”相关的示意图。",
+          "preposition_combos": [
+            "on",
+            "in",
+            "from"
+          ],
+          "image_desc_cn": "一片有水滴的绿色叶子特写。",
           "sentences": [
             {
-              "en": "We learned the word \"leaf\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“leaf”。",
+              "en": "The maple leaf turns red in autumn.",
+              "zh": "枫叶在秋天变红。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"leaf\"?",
-              "zh": "你能用“leaf”造一个句子吗？",
+              "en": "A leaf fell slowly from the tree.",
+              "zh": "一片叶子从树上缓缓落下。",
               "source": "context",
               "image": ""
             }
@@ -4054,22 +4821,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/produce_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/produce_2.png",
-          "usage": "v.",
+          "usage": "v. 生产；制造；出产",
           "collocations": [
-            "produce"
+            "produce goods",
+            "produce food",
+            "produce electricity",
+            "produce results"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“produce”相关的示意图。",
+          "preposition_combos": [
+            "for",
+            "from"
+          ],
+          "image_desc_cn": "生产汽车的工厂装配线。",
           "sentences": [
             {
-              "en": "We learned the word \"produce\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“produce”。",
+              "en": "This factory produces thousands of cars every year.",
+              "zh": "这家工厂每年生产成千上万辆汽车。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"produce\"?",
-              "zh": "你能用“produce”造一个句子吗？",
+              "en": "The farm produces fresh vegetables for the local market.",
+              "zh": "农场为当地市场生产新鲜蔬菜。",
               "source": "context",
               "image": ""
             }
@@ -4083,22 +4856,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/widely_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/widely_2.png",
-          "usage": "adv.",
+          "usage": "adv. 广泛地；普遍地",
           "collocations": [
-            "widely"
+            "widely used",
+            "widely known",
+            "widely accepted",
+            "widely spread"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“widely”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一幅标注了英语国家的地图。",
           "sentences": [
             {
-              "en": "We learned the word \"widely\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“widely”。",
+              "en": "English is widely spoken around the world.",
+              "zh": "英语在世界各地被广泛使用。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"widely\"?",
-              "zh": "你能用“widely”造一个句子吗？",
+              "en": "This medicine is widely used to treat headaches.",
+              "zh": "这种药被广泛用于治疗头痛。",
               "source": "context",
               "image": ""
             }
@@ -4112,22 +4890,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/process_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/process_2.png",
-          "usage": "v. / n.",
+          "usage": "v. 加工，处理；n. 过程，步骤",
           "collocations": [
-            "process"
+            "process data",
+            "process food",
+            "production process",
+            "learning process"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“process”相关的示意图。",
+          "preposition_combos": [
+            "process into",
+            "in the process of"
+          ],
+          "image_desc_cn": "一名工厂工人监控苹果进入榨汁机。",
           "sentences": [
             {
-              "en": "We learned the word \"process\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“process”。",
+              "en": "The factory uses machines to process fruits into juice.",
+              "zh": "工厂用机器将水果加工成果汁。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"process\"?",
-              "zh": "你能用“process”造一个句子吗？",
+              "en": "Learning a language is a slow process that requires patience.",
+              "zh": "学习语言是一个需要耐心的缓慢过程。",
               "source": "context",
               "image": ""
             }
@@ -4141,22 +4925,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/France_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/France_2.png",
-          "usage": "n.",
+          "usage": "n. 法国（国名，专有名词）",
           "collocations": [
-            "France"
+            "visit France",
+            "live in France",
+            "France's capital",
+            "France's culture"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“France”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "巴黎埃菲尔铁塔在日落时发光。",
           "sentences": [
             {
-              "en": "We learned the word \"France\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“France”。",
+              "en": "My aunt has been living in France for three years.",
+              "zh": "我姑姑在法国住了三年。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"France\"?",
-              "zh": "你能用“France”造一个句子吗？",
+              "en": "France is famous for its delicious food and beautiful art.",
+              "zh": "法国以其美味的食物和美丽的艺术而闻名。",
               "source": "context",
               "image": ""
             }
@@ -4170,22 +4959,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/no_matter_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/no_matter_2.png",
-          "usage": "短语",
+          "usage": "短语，意为“不论；无论”，常与what, who, where, when, how等连用，引导让步状语从句",
           "collocations": [
-            "no matter"
+            "no matter what",
+            "no matter where",
+            "no matter how",
+            "no matter when"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“no matter”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一名登山者攀登山峰，背后有励志标语。",
           "sentences": [
             {
-              "en": "We learned the word \"no matter\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“no matter”。",
+              "en": "No matter how hard the problem is, I will try to solve it.",
+              "zh": "无论这个问题有多难，我都会努力解决。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"no matter\"?",
-              "zh": "你能用“no matter”造一个句子吗？",
+              "en": "You can call me no matter when you need help.",
+              "zh": "无论你什么时候需要帮助，你都可以打电话给我。",
               "source": "context",
               "image": ""
             }
@@ -4199,22 +4993,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/local_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/local_2.png",
-          "usage": "adj.",
+          "usage": "adj. 当地的；本地的",
           "collocations": [
-            "local"
+            "local people",
+            "local food",
+            "local school",
+            "local government"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“local”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一个热闹的街市，出售新鲜的当地农产品。",
           "sentences": [
             {
-              "en": "We learned the word \"local\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“local”。",
+              "en": "We enjoy eating at local restaurants near our school.",
+              "zh": "我们喜欢在学校附近的本地餐馆吃饭。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"local\"?",
-              "zh": "你能用“local”造一个句子吗？",
+              "en": "The local market sells fresh fruits and vegetables every morning.",
+              "zh": "本地市场每天早上卖新鲜水果和蔬菜。",
               "source": "context",
               "image": ""
             }
@@ -4228,22 +5027,26 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/even_though_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/even_though_2.png",
-          "usage": "短语",
+          "usage": "短语，意为“虽然；即使”，引导让步状语从句，表达对比或转折",
           "collocations": [
-            "even though"
+            "even though + subject + verb",
+            "even though it is difficult",
+            "even though you try"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“even though”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一名学生撑着伞冒雨走向学校。",
           "sentences": [
             {
-              "en": "We learned the word \"even though\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“even though”。",
+              "en": "I went to school even though I felt a little sick.",
+              "zh": "虽然我感觉有点不舒服，我还是去上学了。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"even though\"?",
-              "zh": "你能用“even though”造一个句子吗？",
+              "en": "Even though the test was hard, she got a good grade.",
+              "zh": "尽管考试很难，她还是取得了好成绩。",
               "source": "context",
               "image": ""
             }
@@ -4257,22 +5060,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/brand_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/brand_2.png",
-          "usage": "n.",
+          "usage": "名词，指产品或公司的品牌、牌子。",
           "collocations": [
-            "brand"
+            "brand name",
+            "brand image",
+            "brand loyalty",
+            "brand value"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“brand”相关的示意图。",
+          "preposition_combos": [
+            "of",
+            "for"
+          ],
+          "image_desc_cn": "货架上一排品牌运动鞋。",
           "sentences": [
             {
-              "en": "We learned the word \"brand\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“brand”。",
+              "en": "I prefer this brand of sneakers because they are comfortable.",
+              "zh": "我更喜欢这个品牌的运动鞋，因为它们很舒适。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"brand\"?",
-              "zh": "你能用“brand”造一个句子吗？",
+              "en": "Many companies invest heavily to build their brand.",
+              "zh": "许多公司投入巨资来建立自己的品牌。",
               "source": "context",
               "image": ""
             }
@@ -4286,22 +5095,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/avoid_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/avoid_2.png",
-          "usage": "v.",
+          "usage": "动词，意为避免、回避，后常接名词或动名词。",
           "collocations": [
-            "avoid"
+            "avoid doing",
+            "avoid trouble",
+            "avoid conflict",
+            "avoid mistakes"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“avoid”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一个学生快速转身避开一群吸烟者。",
           "sentences": [
             {
-              "en": "We learned the word \"avoid\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“avoid”。",
+              "en": "You should avoid playing with your phone in class.",
+              "zh": "你应该避免在课堂上玩手机。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"avoid\"?",
-              "zh": "你能用“avoid”造一个句子吗？",
+              "en": "To stay healthy, avoid eating too much junk food.",
+              "zh": "为了保持健康，避免吃太多垃圾食品。",
               "source": "context",
               "image": ""
             }
@@ -4315,22 +5129,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/product_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/product_2.png",
-          "usage": "n.",
+          "usage": "名词，指产品、制品。",
           "collocations": [
-            "product"
+            "product design",
+            "product quality",
+            "product line",
+            "household products"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“product”相关的示意图。",
+          "preposition_combos": [
+            "of",
+            "for"
+          ],
+          "image_desc_cn": "超市里摆满各种产品的货架。",
           "sentences": [
             {
-              "en": "We learned the word \"product\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“product”。",
+              "en": "The company's new product became very popular soon after its launch.",
+              "zh": "这家公司的新产品一上市就变得很受欢迎。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"product\"?",
-              "zh": "你能用“product”造一个句子吗？",
+              "en": "Farm products from the countryside are fresh and healthy.",
+              "zh": "来自农村的农产品新鲜又健康。",
               "source": "context",
               "image": ""
             }
@@ -4344,22 +5164,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/handbag_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/handbag_2.png",
-          "usage": "n.",
+          "usage": "名词，指手提包、小手提包。",
           "collocations": [
-            "handbag"
+            "leather handbag",
+            "designer handbag",
+            "handbag collection",
+            "handbag strap"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“handbag”相关的示意图。",
+          "preposition_combos": [
+            "of",
+            "with"
+          ],
+          "image_desc_cn": "一位女士拿着时尚的手提包走路。",
           "sentences": [
             {
-              "en": "We learned the word \"handbag\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“handbag”。",
+              "en": "My mom bought a new handbag for the party.",
+              "zh": "我妈妈为聚会买了一个新手提包。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"handbag\"?",
-              "zh": "你能用“handbag”造一个句子吗？",
+              "en": "Her handbag is full of keys, lipstick, and a wallet.",
+              "zh": "她的手提包里装满了钥匙、口红和一个钱包。",
               "source": "context",
               "image": ""
             }
@@ -4373,22 +5199,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/mobile_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/mobile_2.png",
-          "usage": "adj.",
+          "usage": "形容词，意为可移动的、非固定的。",
           "collocations": [
-            "mobile"
+            "mobile phone",
+            "mobile app",
+            "mobile library",
+            "mobile home"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“mobile”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一个人在收银台用手机支付。",
           "sentences": [
             {
-              "en": "We learned the word \"mobile\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“mobile”。",
+              "en": "Most students have a mobile phone to stay in touch with their parents.",
+              "zh": "大多数学生都有手机来与父母保持联系。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"mobile\"?",
-              "zh": "你能用“mobile”造一个句子吗？",
+              "en": "A mobile library brings books to villages far from the city.",
+              "zh": "移动图书馆把书带到远离城市的村庄。",
               "source": "context",
               "image": ""
             }
@@ -4402,22 +5233,29 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/Germany_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/Germany_2.png",
-          "usage": "n.",
+          "usage": "n. 德国（国家名）",
           "collocations": [
-            "Germany"
+            "visit Germany",
+            "from Germany",
+            "in Germany",
+            "travel to Germany"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“Germany”相关的示意图。",
+          "preposition_combos": [
+            "in",
+            "to",
+            "from"
+          ],
+          "image_desc_cn": "一张勃兰登堡门的照片，德国著名地标，蓝天和游客。",
           "sentences": [
             {
-              "en": "We learned the word \"Germany\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“Germany”。",
+              "en": "My pen pal from Germany will visit our school next month.",
+              "zh": "我来自德国的笔友下个月将参观我们学校。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"Germany\"?",
-              "zh": "你能用“Germany”造一个句子吗？",
+              "en": "Many famous scientists in history came from Germany.",
+              "zh": "历史上许多著名科学家来自德国。",
               "source": "context",
               "image": ""
             }
@@ -4431,22 +5269,29 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/surface_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/surface_2.png",
-          "usage": "n.",
+          "usage": "n. 表面；表层",
           "collocations": [
-            "surface"
+            "on the surface",
+            "surface area",
+            "smooth surface",
+            "water surface"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“surface”相关的示意图。",
+          "preposition_combos": [
+            "on",
+            "below",
+            "above"
+          ],
+          "image_desc_cn": "一张闪亮木质桌面的特写，映出倒影。",
           "sentences": [
             {
-              "en": "We learned the word \"surface\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“surface”。",
+              "en": "The surface of the classroom desk is very smooth.",
+              "zh": "教室课桌的表面非常光滑。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"surface\"?",
-              "zh": "你能用“surface”造一个句子吗？",
+              "en": "The leaves floated on the surface of the lake.",
+              "zh": "叶子漂浮在湖面上。",
               "source": "context",
               "image": ""
             }
@@ -4460,22 +5305,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/postman_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/postman_2.png",
-          "usage": "n.",
+          "usage": "n. 邮递员（可数名词）",
           "collocations": [
-            "postman"
+            "the postman delivers",
+            "work as a postman",
+            "postman's bag",
+            "postman's uniform"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“postman”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一位穿蓝色制服的邮递员拿着一封信对居民微笑。",
           "sentences": [
             {
-              "en": "We learned the word \"postman\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“postman”。",
+              "en": "The postman brought a letter from my cousin this morning.",
+              "zh": "邮递员今天早上带来了我表弟的一封信。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"postman\"?",
-              "zh": "你能用“postman”造一个句子吗？",
+              "en": "In rainy weather, the postman still goes out to deliver mail.",
+              "zh": "下雨天，邮递员仍然出去送信。",
               "source": "context",
               "image": ""
             }
@@ -4489,22 +5339,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/cap_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/cap_2.png",
-          "usage": "n.",
+          "usage": "n. 有帽舌的帽子，如棒球帽、校帽",
           "collocations": [
-            "cap"
+            "wear a cap",
+            "baseball cap",
+            "school cap",
+            "put on a cap"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“cap”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一顶带有球队标志的棒球帽戴在少年头上的特写。",
           "sentences": [
             {
-              "en": "We learned the word \"cap\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“cap”。",
+              "en": "All students in our school wear a blue cap as part of the uniform.",
+              "zh": "我们学校的所有学生都戴蓝色帽子作为校服的一部分。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"cap\"?",
-              "zh": "你能用“cap”造一个句子吗？",
+              "en": "He wore a baseball cap to protect his eyes from the sun during the game.",
+              "zh": "比赛中他戴棒球帽保护眼睛免受阳光照射。",
               "source": "context",
               "image": ""
             }
@@ -4518,22 +5373,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/glove_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/glove_2.png",
-          "usage": "n.",
+          "usage": "n. 手套（常以复数形式 gloves 使用）",
           "collocations": [
-            "glove"
+            "wear gloves",
+            "a pair of gloves",
+            "leather gloves",
+            "winter gloves"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“glove”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一只手戴着皮革棒球手套抓住球的特写。",
           "sentences": [
             {
-              "en": "We learned the word \"glove\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“glove”。",
+              "en": "I put on my gloves before going out to play in the snow.",
+              "zh": "我戴上手套才出去到雪地里玩。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"glove\"?",
-              "zh": "你能用“glove”造一个句子吗？",
+              "en": "The baseball player catches the ball with his leather glove.",
+              "zh": "棒球选手用他的皮手套接住球。",
               "source": "context",
               "image": ""
             }
@@ -4547,22 +5407,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/international_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/international_2.png",
-          "usage": "adj.",
+          "usage": "adj. 国际的，世界性的",
           "collocations": [
-            "international"
+            "international trade",
+            "international school",
+            "international flight",
+            "international cooperation"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“international”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "不同种族的学生手拉手围着一个大地球仪。",
           "sentences": [
             {
-              "en": "We learned the word \"international\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“international”。",
+              "en": "Our school has an international festival where students share different cultures.",
+              "zh": "我们学校有一个国际节，学生分享不同的文化。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"international\"?",
-              "zh": "你能用“international”造一个句子吗？",
+              "en": "She dreams of becoming an international journalist and traveling the world.",
+              "zh": "她梦想成为一名国际记者，环游世界。",
               "source": "context",
               "image": ""
             }
@@ -4576,22 +5441,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/competitor_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/competitor_2.png",
-          "usage": "n.",
+          "usage": "n. 参赛者；竞争者",
           "collocations": [
-            "competitor"
+            "fierce competitor",
+            "main competitor",
+            "strong competitor",
+            "rival competitor"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“competitor”相关的示意图。",
+          "preposition_combos": [
+            "competitor in",
+            "competitor for"
+          ],
+          "image_desc_cn": "一群胸前别着号码的跑步者冲向终点线。",
           "sentences": [
             {
-              "en": "We learned the word \"competitor\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“competitor”。",
+              "en": "All the competitors in the speech contest practiced hard for a month.",
+              "zh": "所有演讲比赛的参赛者都刻苦练习了一个月。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"competitor\"?",
-              "zh": "你能用“competitor”造一个句子吗？",
+              "en": "Our company is a major competitor in the smartphone market.",
+              "zh": "我们公司是智能手机市场的主要竞争者。",
               "source": "context",
               "image": ""
             }
@@ -4605,22 +5476,29 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/paint_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/paint_2.png",
-          "usage": "v. / n.",
+          "usage": "v. 用颜料画；刷漆 / n. 油漆，颜料",
           "collocations": [
-            "paint"
+            "paint a picture",
+            "paint the wall",
+            "oil paint",
+            "paint brush"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“paint”相关的示意图。",
+          "preposition_combos": [
+            "paint with",
+            "paint on",
+            "paint in"
+          ],
+          "image_desc_cn": "一位画家拿着画笔，在画架上画一幅色彩斑斓的日落。",
           "sentences": [
             {
-              "en": "We learned the word \"paint\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“paint”。",
+              "en": "We are going to paint the classroom walls light blue next week.",
+              "zh": "我们下周要把教室的墙壁刷成浅蓝色。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"paint\"?",
-              "zh": "你能用“paint”造一个句子吗？",
+              "en": "She loves to paint landscapes with watercolors in her free time.",
+              "zh": "她喜欢在空闲时用水彩画风景。",
               "source": "context",
               "image": ""
             }
@@ -4634,22 +5512,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/its_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/its_2.png",
-          "usage": "pron.",
+          "usage": "pron. 它的（形容词性物主代词）",
           "collocations": [
-            "its"
+            "its color",
+            "its owner",
+            "its name",
+            "its size"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“its”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一只金毛猎犬在公园里快乐地摇着尾巴。",
           "sentences": [
             {
-              "en": "We learned the word \"its\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“its”。",
+              "en": "The cat is playing with its toy mouse under the table.",
+              "zh": "猫正在桌子下面玩它的玩具老鼠。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"its\"?",
-              "zh": "你能用“its”造一个句子吗？",
+              "en": "Every tree loses its leaves in autumn.",
+              "zh": "每棵树都在秋天落叶。",
               "source": "context",
               "image": ""
             }
@@ -4663,22 +5546,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/form_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/form_2.png",
-          "usage": "n.",
+          "usage": "n. 形式；类型；表格",
           "collocations": [
-            "form"
+            "application form",
+            "form of art",
+            "in the form of",
+            "different forms"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“form”相关的示意图。",
+          "preposition_combos": [
+            "form of"
+          ],
+          "image_desc_cn": "一只手用黑色笔填写一张白色的申请表。",
           "sentences": [
             {
-              "en": "We learned the word \"form\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“form”。",
+              "en": "Please fill in this registration form with your name and address.",
+              "zh": "请填写这张登记表，写上你的姓名和地址。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"form\"?",
-              "zh": "你能用“form”造一个句子吗？",
+              "en": "Dance is a beautiful form of exercise and expression.",
+              "zh": "舞蹈是一种美丽的运动和表达形式。",
               "source": "context",
               "image": ""
             }
@@ -4692,22 +5580,29 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/clay_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/clay_2.png",
-          "usage": "n.",
+          "usage": "n. 黏土；陶土",
           "collocations": [
-            "clay"
+            "clay pot",
+            "clay model",
+            "clay sculpture",
+            "clay soil"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“clay”相关的示意图。",
+          "preposition_combos": [
+            "of",
+            "in",
+            "with"
+          ],
+          "image_desc_cn": "在陶轮上用手塑造一个黏土碗。",
           "sentences": [
             {
-              "en": "We learned the word \"clay\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“clay”。",
+              "en": "We made a clay bowl in art class today.",
+              "zh": "今天我们美术课做了一个黏土碗。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"clay\"?",
-              "zh": "你能用“clay”造一个句子吗？",
+              "en": "The ancient people used clay to build their houses.",
+              "zh": "古人用黏土建造房屋。",
               "source": "context",
               "image": ""
             }
@@ -4721,22 +5616,29 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/balloon_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/balloon_2.png",
-          "usage": "n.",
+          "usage": "n. 气球",
           "collocations": [
-            "balloon"
+            "blow up balloons",
+            "hot air balloon",
+            "balloon animals",
+            "balloon flight"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“balloon”相关的示意图。",
+          "preposition_combos": [
+            "with",
+            "over",
+            "in"
+          ],
+          "image_desc_cn": "孩子们拿着彩色气球在操场上跑。",
           "sentences": [
             {
-              "en": "We learned the word \"balloon\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“balloon”。",
+              "en": "We blew up red balloons for the school party.",
+              "zh": "我们为学校派对吹了很多红气球。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"balloon\"?",
-              "zh": "你能用“balloon”造一个句子吗？",
+              "en": "The hot air balloon rose slowly into the sky.",
+              "zh": "热气球慢慢升上天空。",
               "source": "context",
               "image": ""
             }
@@ -4750,22 +5652,29 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/scissors_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/scissors_2.png",
-          "usage": "n.",
+          "usage": "n. 剪刀（常用复数形式）",
           "collocations": [
-            "scissors"
+            "a pair of scissors",
+            "cut with scissors",
+            "paper scissors",
+            "scissors cut"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“scissors”相关的示意图。",
+          "preposition_combos": [
+            "with",
+            "in",
+            "of"
+          ],
+          "image_desc_cn": "一只手用剪刀剪纸。",
           "sentences": [
             {
-              "en": "We learned the word \"scissors\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“scissors”。",
+              "en": "Please cut the paper with scissors in art class.",
+              "zh": "美术课上请用剪刀剪纸。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"scissors\"?",
-              "zh": "你能用“scissors”造一个句子吗？",
+              "en": "The barber uses a pair of scissors to cut hair.",
+              "zh": "理发师用一把剪刀剪头发。",
               "source": "context",
               "image": ""
             }
@@ -4779,22 +5688,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/lively_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/lively_2.png",
-          "usage": "adj.",
+          "usage": "adj. 生气勃勃的；（色彩）鲜艳的",
           "collocations": [
-            "lively"
+            "lively music",
+            "lively discussion",
+            "lively colors",
+            "lively atmosphere"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“lively”相关的示意图。",
+          "preposition_combos": [
+            "with",
+            "in"
+          ],
+          "image_desc_cn": "学生们在音乐课上欢快地跳舞。",
           "sentences": [
             {
-              "en": "We learned the word \"lively\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“lively”。",
+              "en": "The classroom is lively with students talking and laughing.",
+              "zh": "教室里充满了学生们的谈笑声，气氛很活跃。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"lively\"?",
-              "zh": "你能用“lively”造一个句子吗？",
+              "en": "She wore a dress with lively colors like red and orange.",
+              "zh": "她穿着一件色彩鲜艳的连衣裙，有红色和橙色。",
               "source": "context",
               "image": ""
             }
@@ -4808,22 +5723,29 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/fairy_tale_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/fairy_tale_2.png",
-          "usage": "n.",
+          "usage": "n. 童话故事",
           "collocations": [
-            "fairy tale"
+            "tell a fairy tale",
+            "read a fairy tale",
+            "classic fairy tale",
+            "fairy tale world"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“fairy tale”相关的示意图。",
+          "preposition_combos": [
+            "about",
+            "of",
+            "in"
+          ],
+          "image_desc_cn": "一位奶奶在床边给孙子读童话故事书。",
           "sentences": [
             {
-              "en": "We learned the word \"fairy tale\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“fairy tale”。",
+              "en": "Our teacher told us a fairy tale about a brave princess.",
+              "zh": "老师给我们讲了一个关于勇敢公主的童话故事。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"fairy tale\"?",
-              "zh": "你能用“fairy tale”造一个句子吗？",
+              "en": "The movie is based on a famous fairy tale from Europe.",
+              "zh": "这部电影改编自一个著名的欧洲童话故事。",
               "source": "context",
               "image": ""
             }
@@ -4837,22 +5759,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/heat_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/heat_2.png",
-          "usage": "n.",
+          "usage": "n. 热；高温",
           "collocations": [
-            "heat"
+            "solar heat",
+            "body heat",
+            "heat wave",
+            "intense heat"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“heat”相关的示意图。",
+          "preposition_combos": [
+            "in",
+            "of"
+          ],
+          "image_desc_cn": "灶台上的一锅沸水，蒸汽从表面升起。",
           "sentences": [
             {
-              "en": "We learned the word \"heat\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“heat”。",
+              "en": "The heat from the sun makes the room very warm.",
+              "zh": "太阳的热量使房间很暖和。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"heat\"?",
-              "zh": "你能用“heat”造一个句子吗？",
+              "en": "In summer, the heat can be unbearable in some countries.",
+              "zh": "夏天，有些国家的高温让人难以忍受。",
               "source": "context",
               "image": ""
             }
@@ -4866,22 +5794,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/polish_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/polish_2.png",
-          "usage": "v.",
+          "usage": "v. 磨光；修改；润色",
           "collocations": [
-            "polish"
+            "polish shoes",
+            "polish furniture",
+            "polish one's English",
+            "polish the article"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“polish”相关的示意图。",
+          "preposition_combos": [
+            "up",
+            "off"
+          ],
+          "image_desc_cn": "一只手拿着一把银勺，用白布擦拭。",
           "sentences": [
             {
-              "en": "We learned the word \"polish\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“polish”。",
+              "en": "I need to polish my shoes before the school ceremony.",
+              "zh": "在学校的典礼前，我需要擦亮鞋子。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"polish\"?",
-              "zh": "你能用“polish”造一个句子吗？",
+              "en": "She spent the evening polishing her essay to make it perfect.",
+              "zh": "她花了一晚上修改她的文章，使其完美。",
               "source": "context",
               "image": ""
             }
@@ -4895,22 +5829,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/complete_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/complete_2.png",
-          "usage": "v.",
+          "usage": "v. 完成",
           "collocations": [
-            "complete"
+            "complete the project",
+            "complete the task",
+            "complete a form",
+            "complete a course"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“complete”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "学生的手将最后一块拼图放入几乎完成的拼图中。",
           "sentences": [
             {
-              "en": "We learned the word \"complete\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“complete”。",
+              "en": "I need to complete my homework before dinner.",
+              "zh": "我需要在晚饭前完成作业。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"complete\"?",
-              "zh": "你能用“complete”造一个句子吗？",
+              "en": "The construction team expects to complete the bridge by next month.",
+              "zh": "施工队预计在下个月之前完成这座桥。",
               "source": "context",
               "image": ""
             }
@@ -4931,22 +5870,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/heel_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/heel_2.png",
-          "usage": "n.",
+          "usage": "n. 鞋跟；足跟",
           "collocations": [
-            "heel"
+            "high heels",
+            "shoe heel",
+            "Achilles heel",
+            "heel pain"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“heel”相关的示意图。",
+          "preposition_combos": [
+            "of",
+            "on"
+          ],
+          "image_desc_cn": "一双优雅的红色高跟鞋放在白色表面上。",
           "sentences": [
             {
-              "en": "We learned the word \"heel\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“heel”。",
+              "en": "She wore shoes with high heels to the party.",
+              "zh": "她穿着高跟鞋去参加派对。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"heel\"?",
-              "zh": "你能用“heel”造一个句子吗？",
+              "en": "The doctor examined the patient's heel for any injury.",
+              "zh": "医生检查了病人的脚后跟是否有伤。",
               "source": "context",
               "image": ""
             }
@@ -4960,22 +5905,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/electricity_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/electricity_2.png",
-          "usage": "n.",
+          "usage": "n. 电；电能",
           "collocations": [
-            "electricity"
+            "generate electricity",
+            "save electricity",
+            "electricity bill",
+            "wind electricity"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“electricity”相关的示意图。",
+          "preposition_combos": [
+            "of",
+            "from"
+          ],
+          "image_desc_cn": "蓝色天空下绿色山坡上一排旋转的白色风力涡轮机。",
           "sentences": [
             {
-              "en": "We learned the word \"electricity\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“electricity”。",
+              "en": "We should turn off lights to save electricity at school.",
+              "zh": "我们应该关灯以节约学校的用电。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"electricity\"?",
-              "zh": "你能用“electricity”造一个句子吗？",
+              "en": "The village finally got electricity last year after a long wait.",
+              "zh": "经过漫长的等待，这个村子去年终于通了电。",
               "source": "context",
               "image": ""
             }
@@ -4989,22 +5940,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/scoop_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/scoop_2.png",
-          "usage": "n.",
+          "usage": "n. 勺，铲子；v. 舀，挖",
           "collocations": [
-            "scoop"
+            "scoop of ice cream",
+            "scoop up",
+            "scoop out",
+            "scoop neck"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“scoop”相关的示意图。",
+          "preposition_combos": [
+            "scoop out",
+            "scoop up"
+          ],
+          "image_desc_cn": "一名学生在学校厨房里用金属勺子盛米饭。",
           "sentences": [
             {
-              "en": "We learned the word \"scoop\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“scoop”。",
+              "en": "Mom used a scoop to put the flour into the bowl.",
+              "zh": "妈妈用一把勺子把面粉舀进碗里。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"scoop\"?",
-              "zh": "你能用“scoop”造一个句子吗？",
+              "en": "The dog tried to scoop up the water from its bowl.",
+              "zh": "那只狗试图从碗里舀起水来。",
               "source": "context",
               "image": ""
             }
@@ -5018,22 +5975,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/style_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/style_2.png",
-          "usage": "n.",
+          "usage": "n. 风格，款式；v. 设计，造型",
           "collocations": [
-            "style"
+            "in style",
+            "personal style",
+            "style of writing",
+            "lifestyle"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“style”相关的示意图。",
+          "preposition_combos": [
+            "in style",
+            "style of"
+          ],
+          "image_desc_cn": "两名学生在学校走廊里比较不同款式的书包。",
           "sentences": [
             {
-              "en": "We learned the word \"style\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“style”。",
+              "en": "The new school uniforms have a modern style that students like.",
+              "zh": "新校服的款式很现代，学生们很喜欢。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"style\"?",
-              "zh": "你能用“style”造一个句子吗？",
+              "en": "She developed her own style of painting after years of practice.",
+              "zh": "经过多年的练习，她形成了自己独特的绘画风格。",
               "source": "context",
               "image": ""
             }
@@ -5047,22 +6010,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/project_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/project_2.png",
-          "usage": "n.",
+          "usage": "n. 项目，课题；v. 投射，规划",
           "collocations": [
-            "project"
+            "school project",
+            "project manager",
+            "project plan",
+            "group project"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“project”相关的示意图。",
+          "preposition_combos": [
+            "project on",
+            "project about"
+          ],
+          "image_desc_cn": "学生们围坐在桌子旁讨论科学项目的海报。",
           "sentences": [
             {
-              "en": "We learned the word \"project\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“project”。",
+              "en": "Our science project on recycling won the first prize.",
+              "zh": "我们关于回收利用的科学课题获得了一等奖。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"project\"?",
-              "zh": "你能用“project”造一个句子吗？",
+              "en": "The teacher asked us to present our project to the class next week.",
+              "zh": "老师要求我们下周向全班展示我们的项目。",
               "source": "context",
               "image": ""
             }
@@ -5076,22 +6045,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/pleasure_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/pleasure_2.png",
-          "usage": "n.",
+          "usage": "n. 愉快，乐事",
           "collocations": [
-            "pleasure"
+            "with pleasure",
+            "my pleasure",
+            "take pleasure in",
+            "pleasure trip"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“pleasure”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一名学生因受到老师表扬而开心地笑。",
           "sentences": [
             {
-              "en": "We learned the word \"pleasure\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“pleasure”。",
+              "en": "It is a great pleasure to have you as my desk mate this semester.",
+              "zh": "这学期有你做我的同桌真是件开心的事。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"pleasure\"?",
-              "zh": "你能用“pleasure”造一个句子吗？",
+              "en": "He takes great pleasure in reading books under the tree in the park.",
+              "zh": "他非常享受在公园的树下读书的乐趣。",
               "source": "context",
               "image": ""
             }
@@ -5105,22 +6079,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/zipper_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/zipper_2.png",
-          "usage": "n.",
+          "usage": "n. 拉链；v. 拉上拉链",
           "collocations": [
-            "zipper"
+            "zip up",
+            "zipper pull",
+            "jacket zipper",
+            "zipper repair"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“zipper”相关的示意图。",
+          "preposition_combos": [
+            "zip up",
+            "zipper on"
+          ],
+          "image_desc_cn": "一名学生费力地拉上装满书的书包拉链。",
           "sentences": [
             {
-              "en": "We learned the word \"zipper\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“zipper”。",
+              "en": "Be careful not to catch your shirt in the zipper of your backpack.",
+              "zh": "小心别让衬衫夹到背包的拉链里。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"zipper\"?",
-              "zh": "你能用“zipper”造一个句子吗？",
+              "en": "My jacket has a broken zipper, so I need to buy a new one.",
+              "zh": "我的夹克拉链坏了，所以我得买件新的。",
               "source": "context",
               "image": ""
             }
@@ -5134,22 +6114,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/daily_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/daily_2.png",
-          "usage": "adj.",
+          "usage": "adj. 每日的；日常的",
           "collocations": [
-            "daily"
+            "daily routine",
+            "daily life",
+            "daily newspaper",
+            "daily exercise"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“daily”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一个学生在明亮的教室里核对每日待办事项清单。",
           "sentences": [
             {
-              "en": "We learned the word \"daily\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“daily”。",
+              "en": "I always brush my teeth and wash my face as part of my daily routine.",
+              "zh": "作为日常习惯的一部分，我总是刷牙洗脸。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"daily\"?",
-              "zh": "你能用“daily”造一个句子吗？",
+              "en": "Reading the daily newspaper helps me stay informed about world events.",
+              "zh": "阅读日报能让我了解世界大事。",
               "source": "context",
               "image": ""
             }
@@ -5163,22 +6148,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/website_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/website_2.png",
-          "usage": "n.",
+          "usage": "n. 网站",
           "collocations": [
-            "website"
+            "official website",
+            "website design",
+            "visit a website",
+            "website address"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“website”相关的示意图。",
+          "preposition_combos": [
+            "on the website",
+            "of the website"
+          ],
+          "image_desc_cn": "一个学生看着电脑屏幕，屏幕上显示着带有日历的学校网站。",
           "sentences": [
             {
-              "en": "We learned the word \"website\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“website”。",
+              "en": "Our school has a website where we can check homework and announcements.",
+              "zh": "我们学校有一个网站，可以查看作业和通知。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"website\"?",
-              "zh": "你能用“website”造一个句子吗？",
+              "en": "He created his own website to share his travel photos with friends.",
+              "zh": "他创建了自己的网站，和朋友分享旅行照片。",
               "source": "context",
               "image": ""
             }
@@ -5192,22 +6183,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/pioneer_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/pioneer_2.png",
-          "usage": "n.",
+          "usage": "n. 先锋；先驱",
           "collocations": [
-            "pioneer"
+            "pioneer in",
+            "pioneer of",
+            "young pioneer",
+            "space pioneer"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“pioneer”相关的示意图。",
+          "preposition_combos": [
+            "pioneer in (field)",
+            "pioneer of (something)"
+          ],
+          "image_desc_cn": "一张玛丽·居里在实验室里拿着烧杯和设备的旧照片。",
           "sentences": [
             {
-              "en": "We learned the word \"pioneer\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“pioneer”。",
+              "en": "Marie Curie was a pioneer in the study of radioactivity.",
+              "zh": "玛丽·居里是放射性研究的先驱。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"pioneer\"?",
-              "zh": "你能用“pioneer”造一个句子吗？",
+              "en": "Our school's science club is a pioneer in using 3D printers for learning.",
+              "zh": "我们学校的科学俱乐部是使用3D打印机学习的先锋。",
               "source": "context",
               "image": ""
             }
@@ -5221,22 +6218,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/list_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/list_2.png",
-          "usage": "v. / n.",
+          "usage": "v. / n. 列表；列清单；名单",
           "collocations": [
-            "list"
+            "shopping list",
+            "to-do list",
+            "list of",
+            "make a list"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“list”相关的示意图。",
+          "preposition_combos": [
+            "list of",
+            "on the list"
+          ],
+          "image_desc_cn": "一个人在笔记本上用铅笔写购物清单。",
           "sentences": [
             {
-              "en": "We learned the word \"list\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“list”。",
+              "en": "Mom asked me to make a shopping list before going to the supermarket.",
+              "zh": "妈妈让我去超市前列个购物单。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"list\"?",
-              "zh": "你能用“list”造一个句子吗？",
+              "en": "The teacher listed all the homework assignments on the whiteboard.",
+              "zh": "老师把所有的作业都列在了白板上。",
               "source": "context",
               "image": ""
             }
@@ -5250,22 +6253,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/mention_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/mention_2.png",
-          "usage": "v.",
+          "usage": "v. 提到；说到",
           "collocations": [
-            "mention"
+            "mention that",
+            "mention to",
+            "mention in",
+            "as mentioned"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“mention”相关的示意图。",
+          "preposition_combos": [
+            "mention to",
+            "mention in"
+          ],
+          "image_desc_cn": "两个学生在走廊聊天，其中一个说：“顺便说一下，不要向别人提起我们的计划。”",
           "sentences": [
             {
-              "en": "We learned the word \"mention\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“mention”。",
+              "en": "Don't forget to mention your favorite book in the book report.",
+              "zh": "别忘了在读书报告中提到你最喜欢的书。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"mention\"?",
-              "zh": "你能用“mention”造一个句子吗？",
+              "en": "He mentioned that the school trip would be next Friday.",
+              "zh": "他提到学校旅行在下周五。",
               "source": "context",
               "image": ""
             }
@@ -5279,22 +6288,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/by_accident_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/by_accident_2.png",
-          "usage": "短语",
+          "usage": "短语，表示偶然发生，非故意",
           "collocations": [
-            "by accident"
+            "find by accident",
+            "discover by accident",
+            "meet by accident",
+            "happen by accident"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“by accident”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一个学生在桌子下翻找，意外发现了一枚硬币。",
           "sentences": [
             {
-              "en": "We learned the word \"by accident\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“by accident”。",
+              "en": "I found my lost pen by accident under the desk.",
+              "zh": "我无意中在桌子下找到了丢失的钢笔。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"by accident\"?",
-              "zh": "你能用“by accident”造一个句子吗？",
+              "en": "The scientist discovered the new material by accident while doing another experiment.",
+              "zh": "这位科学家在做另一个实验时偶然发现了这种新材料。",
               "source": "context",
               "image": ""
             }
@@ -5308,22 +6322,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/nearly_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/nearly_2.png",
-          "usage": "adv.",
+          "usage": "adv. 几乎，差不多",
           "collocations": [
-            "nearly"
+            "nearly finished",
+            "nearly everyone",
+            "nearly died",
+            "nearly always"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“nearly”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "时钟显示将近午夜，一家人到家了。",
           "sentences": [
             {
-              "en": "We learned the word \"nearly\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“nearly”。",
+              "en": "I nearly missed the school bus this morning.",
+              "zh": "我今天早上差点没赶上校车。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"nearly\"?",
-              "zh": "你能用“nearly”造一个句子吗？",
+              "en": "The project is nearly complete; we just need to add the final touches.",
+              "zh": "项目几乎完成了，我们只需要添加最后的修饰。",
               "source": "context",
               "image": ""
             }
@@ -5337,22 +6356,29 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/boil_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/boil_2.png",
-          "usage": "v.",
+          "usage": "v. 煮沸，烧开；激动",
           "collocations": [
-            "boil"
+            "boil water",
+            "boil eggs",
+            "boil over",
+            "boil with anger"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“boil”相关的示意图。",
+          "preposition_combos": [
+            "boil with",
+            "boil over",
+            "boil down to"
+          ],
+          "image_desc_cn": "炉子上一锅水剧烈冒泡，沸腾了。",
           "sentences": [
             {
-              "en": "We learned the word \"boil\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“boil”。",
+              "en": "Please boil some water to make tea for the guests.",
+              "zh": "请烧些水给客人泡茶。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"boil\"?",
-              "zh": "你能用“boil”造一个句子吗？",
+              "en": "He was boiling with anger when he heard the news, but he stayed calm.",
+              "zh": "他听到消息时怒火中烧，但还是保持了冷静。",
               "source": "context",
               "image": ""
             }
@@ -5366,22 +6392,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/smell_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/smell_2.png",
-          "usage": "n. / v.",
+          "usage": "n. 气味；v. 闻到，发出气味",
           "collocations": [
-            "smell"
+            "smell good",
+            "smell like",
+            "sense of smell",
+            "smell something burning"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“smell”相关的示意图。",
+          "preposition_combos": [
+            "smell of",
+            "smell like"
+          ],
+          "image_desc_cn": "一个女孩在花园里闻花香，表情平和。",
           "sentences": [
             {
-              "en": "We learned the word \"smell\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“smell”。",
+              "en": "The flowers in the garden smell wonderful in spring.",
+              "zh": "春天花园里的花闻起来很香。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"smell\"?",
-              "zh": "你能用“smell”造一个句子吗？",
+              "en": "I can smell something burning in the kitchen; maybe the toast is done.",
+              "zh": "我闻到厨房里有东西烧焦了，可能面包烤好了。",
               "source": "context",
               "image": ""
             }
@@ -5395,22 +6427,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/saint_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/saint_2.png",
-          "usage": "n.",
+          "usage": "n. 圣人，圣徒",
           "collocations": [
-            "saint"
+            "patron saint",
+            "saint's day",
+            "saint like",
+            "Saint Valentine"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“saint”相关的示意图。",
+          "preposition_combos": [
+            "saint of"
+          ],
+          "image_desc_cn": "彩色玻璃窗上画着一位带光环和鸽子的圣人。",
           "sentences": [
             {
-              "en": "We learned the word \"saint\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“saint”。",
+              "en": "Saint Patrick is the patron saint of Ireland, celebrated on March 17.",
+              "zh": "圣帕特里克是爱尔兰的主保圣人，在3月17日庆祝。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"saint\"?",
-              "zh": "你能用“saint”造一个句子吗？",
+              "en": "She is so kind and generous; her neighbors call her a saint.",
+              "zh": "她非常善良慷慨，邻居们称她为圣人。",
               "source": "context",
               "image": ""
             }
@@ -5424,22 +6461,30 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/take_place_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/take_place_2.png",
-          "usage": "短语",
+          "usage": "短语动词，意为“发生；出现”，常指有计划或安排的事件发生。",
           "collocations": [
-            "take place"
+            "take place in",
+            "take place on",
+            "take place at",
+            "take place during"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“take place”相关的示意图。",
+          "preposition_combos": [
+            "in",
+            "on",
+            "at",
+            "during"
+          ],
+          "image_desc_cn": "学校运动会的场景，学生们在跑道上赛跑。",
           "sentences": [
             {
-              "en": "We learned the word \"take place\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“take place”。",
+              "en": "The school sports meeting will take place next Friday.",
+              "zh": "校运动会将于下周五举行。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"take place\"?",
-              "zh": "你能用“take place”造一个句子吗？",
+              "en": "The story took place in a small village many years ago.",
+              "zh": "这个故事发生在多年前的一个小村庄里。",
               "source": "context",
               "image": ""
             }
@@ -5453,22 +6498,29 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/doubt_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/doubt_2.png",
-          "usage": "n. / v.",
+          "usage": "n. / v. 名词时意为“疑惑；疑问”；动词时意为“怀疑；不信任”。",
           "collocations": [
-            "doubt"
+            "have doubt",
+            "no doubt",
+            "doubt about",
+            "doubt that"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“doubt”相关的示意图。",
+          "preposition_combos": [
+            "about",
+            "of",
+            "on"
+          ],
+          "image_desc_cn": "一个困惑的学生看着黑板上复杂的数学题。",
           "sentences": [
             {
-              "en": "We learned the word \"doubt\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“doubt”。",
+              "en": "I have a doubt about the answer to this question.",
+              "zh": "我对这个问题的答案有疑惑。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"doubt\"?",
-              "zh": "你能用“doubt”造一个句子吗？",
+              "en": "There is no doubt that hard work leads to success.",
+              "zh": "毫无疑问，努力工作带来成功。",
               "source": "context",
               "image": ""
             }
@@ -5482,22 +6534,26 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/without_doubt_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/without_doubt_2.png",
-          "usage": "短语",
+          "usage": "短语副词，意为“毫无疑问；的确”，用于强调肯定语气。",
           "collocations": [
-            "without doubt"
+            "without any doubt",
+            "without doubt",
+            "without a doubt"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“without doubt”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一个自豪的学生站在领奖台上举着金牌。",
           "sentences": [
             {
-              "en": "We learned the word \"without doubt\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“without doubt”。",
+              "en": "He is without doubt the best player on our team.",
+              "zh": "他毫无疑问是我们队里最好的球员。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"without doubt\"?",
-              "zh": "你能用“without doubt”造一个句子吗？",
+              "en": "Without doubt, this is the most interesting book I've ever read.",
+              "zh": "毫无疑问，这是我读过的最有趣的书。",
               "source": "context",
               "image": ""
             }
@@ -5511,22 +6567,29 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/fridge_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/fridge_2.png",
-          "usage": "n.",
+          "usage": "n. 名词，意为“冰箱”，refrigerator的缩写。",
           "collocations": [
-            "fridge"
+            "open the fridge",
+            "fridge door",
+            "fridge magnet",
+            "put in the fridge"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“fridge”相关的示意图。",
+          "preposition_combos": [
+            "in",
+            "on",
+            "into"
+          ],
+          "image_desc_cn": "一个打开的厨房冰箱，里面整齐地摆放着食物。",
           "sentences": [
             {
-              "en": "We learned the word \"fridge\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“fridge”。",
+              "en": "There is some milk and eggs in the fridge.",
+              "zh": "冰箱里有一些牛奶和鸡蛋。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"fridge\"?",
-              "zh": "你能用“fridge”造一个句子吗？",
+              "en": "Please put these leftovers into the fridge to keep them fresh.",
+              "zh": "请把这些剩菜放进冰箱保鲜。",
               "source": "context",
               "image": ""
             }
@@ -5540,22 +6603,29 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/translate_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/translate_2.png",
-          "usage": "v.",
+          "usage": "v. 动词，意为“翻译”，常指将一种语言转换成另一种语言。",
           "collocations": [
-            "translate"
+            "translate into",
+            "translate from",
+            "translate text",
+            "translate word"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“translate”相关的示意图。",
+          "preposition_combos": [
+            "into",
+            "from",
+            "for"
+          ],
+          "image_desc_cn": "一本双语词典摊在桌子上，旁边有笔和纸。",
           "sentences": [
             {
-              "en": "We learned the word \"translate\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“translate”。",
+              "en": "Can you translate this English poem into Chinese?",
+              "zh": "你能把这首英文诗翻译成中文吗？",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"translate\"?",
-              "zh": "你能用“translate”造一个句子吗？",
+              "en": "She is translating the document from French to English.",
+              "zh": "她正在将这份文件从法语翻译成英语。",
               "source": "context",
               "image": ""
             }
@@ -5569,22 +6639,29 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/lock_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/lock_2.png",
-          "usage": "v. / n.",
+          "usage": "v. 锁上；n. 锁",
           "collocations": [
-            "lock"
+            "lock the door",
+            "lock the bike",
+            "lock away",
+            "lock in"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“lock”相关的示意图。",
+          "preposition_combos": [
+            "in",
+            "out",
+            "up"
+          ],
+          "image_desc_cn": "一只手将钥匙插入门锁。",
           "sentences": [
             {
-              "en": "We learned the word \"lock\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“lock”。",
+              "en": "Please lock the door before leaving.",
+              "zh": "离开前请锁门。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"lock\"?",
-              "zh": "你能用“lock”造一个句子吗？",
+              "en": "I forgot to lock my bike, and it was stolen.",
+              "zh": "我忘记锁自行车了，结果被偷了。",
               "source": "context",
               "image": ""
             }
@@ -5598,22 +6675,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/earthquake_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/earthquake_2.png",
-          "usage": "n.",
+          "usage": "n. 地震",
           "collocations": [
-            "earthquake"
+            "strong earthquake",
+            "earthquake victims",
+            "earthquake drill",
+            "earthquake zone"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“earthquake”相关的示意图。",
+          "preposition_combos": [
+            "in",
+            "during"
+          ],
+          "image_desc_cn": "柏油路上一条大裂缝。",
           "sentences": [
             {
-              "en": "We learned the word \"earthquake\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“earthquake”。",
+              "en": "We had an earthquake drill at school yesterday.",
+              "zh": "昨天我们在学校进行了地震演练。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"earthquake\"?",
-              "zh": "你能用“earthquake”造一个句子吗？",
+              "en": "The earthquake caused many buildings to fall.",
+              "zh": "地震导致许多建筑物倒塌。",
               "source": "context",
               "image": ""
             }
@@ -5627,22 +6710,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/sudden_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/sudden_2.png",
-          "usage": "adj.",
+          "usage": "adj. 突然的",
           "collocations": [
-            "sudden"
+            "sudden change",
+            "sudden noise",
+            "sudden stop",
+            "sudden movement"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“sudden”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一位女士被突如其来的雷声吓到。",
           "sentences": [
             {
-              "en": "We learned the word \"sudden\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“sudden”。",
+              "en": "There was a sudden rain, so we ran inside.",
+              "zh": "突然下起雨来，所以我们跑进了屋里。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"sudden\"?",
-              "zh": "你能用“sudden”造一个句子吗？",
+              "en": "His sudden decision surprised everyone.",
+              "zh": "他突如其来的决定让所有人都很惊讶。",
               "source": "context",
               "image": ""
             }
@@ -5656,22 +6744,26 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/all_of_a_sudden_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/all_of_a_sudden_2.png",
-          "usage": "短语",
+          "usage": "短语 突然；猛地",
           "collocations": [
-            "all of a sudden"
+            "appear all of a sudden",
+            "happen all of a sudden",
+            "stop all of a sudden"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“all of a sudden”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "气球突然爆裂。",
           "sentences": [
             {
-              "en": "We learned the word \"all of a sudden\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“all of a sudden”。",
+              "en": "All of a sudden, the lights went out.",
+              "zh": "突然，灯灭了。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"all of a sudden\"?",
-              "zh": "你能用“all of a sudden”造一个句子吗？",
+              "en": "All of a sudden, I heard someone calling my name.",
+              "zh": "突然，我听到有人叫我的名字。",
               "source": "context",
               "image": ""
             }
@@ -5685,22 +6777,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/biscuit_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/biscuit_2.png",
-          "usage": "n.",
+          "usage": "n. 饼干",
           "collocations": [
-            "biscuit"
+            "eat a biscuit",
+            "chocolate biscuit",
+            "butter biscuit",
+            "biscuit tin"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“biscuit”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "蓝色盘子上的一堆圆形饼干。",
           "sentences": [
             {
-              "en": "We learned the word \"biscuit\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“biscuit”。",
+              "en": "I had a biscuit with my milk this morning.",
+              "zh": "今天早上我配着牛奶吃了一块饼干。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"biscuit\"?",
-              "zh": "你能用“biscuit”造一个句子吗？",
+              "en": "She packed some biscuits in her lunchbox.",
+              "zh": "她在午餐盒里装了一些饼干。",
               "source": "context",
               "image": ""
             }
@@ -5714,22 +6811,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/cookie_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/cookie_2.png",
-          "usage": "n.",
+          "usage": "n. (可数名词) 曲奇饼干",
           "collocations": [
-            "cookie"
+            "chocolate cookie",
+            "homemade cookie",
+            "bake cookies",
+            "cookie jar"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“cookie”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一个孩子从饼干罐里拿出一块饼干。/ 烤盘上刚烤好的曲奇饼干。",
           "sentences": [
             {
-              "en": "We learned the word \"cookie\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“cookie”。",
+              "en": "Mom baked a batch of chocolate chip cookies for us after school.",
+              "zh": "妈妈放学后为我们烤了一盘巧克力曲奇。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"cookie\"?",
-              "zh": "你能用“cookie”造一个句子吗？",
+              "en": "Let's share these cookies with our friends during the break.",
+              "zh": "我们休息时把这些饼干分给朋友们吃吧。",
               "source": "context",
               "image": ""
             }
@@ -5743,22 +6845,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/instrument_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/instrument_2.png",
-          "usage": "n.",
+          "usage": "n. (可数名词) 器械；仪器；工具；乐器",
           "collocations": [
-            "instrument"
+            "musical instrument",
+            "scientific instrument",
+            "play an instrument",
+            "instrument panel"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“instrument”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "学生们在音乐课上演奏各种乐器。/ 实验室桌子上的显微镜。",
           "sentences": [
             {
-              "en": "We learned the word \"instrument\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“instrument”。",
+              "en": "In music class, each student chooses a musical instrument to learn.",
+              "zh": "在音乐课上，每个学生选择一种乐器来学习。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"instrument\"?",
-              "zh": "你能用“instrument”造一个句子吗？",
+              "en": "Scientists use precise instruments to measure temperature in experiments.",
+              "zh": "科学家在实验中使用精密仪器测量温度。",
               "source": "context",
               "image": ""
             }
@@ -5772,22 +6879,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/crispy_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/crispy_2.png",
-          "usage": "adj.",
+          "usage": "adj. 脆的；酥脆的",
           "collocations": [
-            "crispy"
+            "crispy bacon",
+            "crispy skin",
+            "crispy fried",
+            "crispy texture"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“crispy”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一盘外皮酥脆的金黄色炸鸡。/ 一片刚烤好的面包片。",
           "sentences": [
             {
-              "en": "We learned the word \"crispy\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“crispy”。",
+              "en": "The potato chips are so crispy that they make a loud crunch.",
+              "zh": "薯片非常酥脆，咬起来嘎嘣响。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"crispy\"?",
-              "zh": "你能用“crispy”造一个句子吗？",
+              "en": "In autumn, walking on crispy leaves feels like stepping on crackers.",
+              "zh": "秋天踩在酥脆的落叶上，感觉像踩在饼干上。",
               "source": "context",
               "image": ""
             }
@@ -5801,22 +6913,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/sour_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/sour_2.png",
-          "usage": "adj.",
+          "usage": "adj. 酸的；有酸味的",
           "collocations": [
-            "sour"
+            "sour taste",
+            "sour milk",
+            "sour fruit",
+            "go sour"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“sour”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一个切开的柠檬，露出多汁的内部。/ 一个人吃酸梅时皱眉的表情。",
           "sentences": [
             {
-              "en": "We learned the word \"sour\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“sour”。",
+              "en": "This lemon is too sour to eat alone, but it tastes great in lemonade.",
+              "zh": "这个柠檬太酸了不能单吃，但做柠檬水很好喝。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"sour\"?",
-              "zh": "你能用“sour”造一个句子吗？",
+              "en": "If you leave milk out too long, it will go sour.",
+              "zh": "牛奶如果放太久就会变酸。",
               "source": "context",
               "image": ""
             }
@@ -5830,22 +6947,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/by_mistake_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/by_mistake_2.png",
-          "usage": "短语",
+          "usage": "短语 (副词性) 错误地；无意中",
           "collocations": [
-            "by mistake"
+            "take by mistake",
+            "delete by mistake",
+            "pick up by mistake",
+            "send by mistake"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“by mistake”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一个学生拿错了别人的书包。/ 一个人把盐当成糖倒进咖啡里。",
           "sentences": [
             {
-              "en": "We learned the word \"by mistake\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“by mistake”。",
+              "en": "I picked up someone else's schoolbag by mistake after P.E. class.",
+              "zh": "体育课后我错拿了别人的书包。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"by mistake\"?",
-              "zh": "你能用“by mistake”造一个句子吗？",
+              "en": "He deleted an important file by mistake and couldn't find it later.",
+              "zh": "他误删了一个重要文件，后来找不到了。",
               "source": "context",
               "image": ""
             }
@@ -5859,22 +6981,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/customer_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/customer_2.png",
-          "usage": "n.",
+          "usage": "n. 顾客；客户",
           "collocations": [
-            "customer"
+            "loyal customer",
+            "regular customer",
+            "customer service",
+            "potential customer"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“customer”相关的示意图。",
+          "preposition_combos": [
+            "of",
+            "with"
+          ],
+          "image_desc_cn": "一位女顾客在精品店浏览衣服，旁边有店员。",
           "sentences": [
             {
-              "en": "We learned the word \"customer\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“customer”。",
+              "en": "The store treats every customer with kindness.",
+              "zh": "这家商店对每一位顾客都很友善。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"customer\"?",
-              "zh": "你能用“customer”造一个句子吗？",
+              "en": "As a loyal customer, you can get a special discount.",
+              "zh": "作为忠实顾客，你可以获得特别折扣。",
               "source": "context",
               "image": ""
             }
@@ -5888,22 +7016,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/Canadian_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/Canadian_2.png",
-          "usage": "adj. / n.",
+          "usage": "adj. / n. 加拿大的；加拿大人",
           "collocations": [
-            "Canadian"
+            "Canadian dollars",
+            "Canadian culture",
+            "Canadian citizens",
+            "Canadian flag"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“Canadian”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一面红白相间的加拿大国旗在蓝天中飘扬。",
           "sentences": [
             {
-              "en": "We learned the word \"Canadian\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“Canadian”。",
+              "en": "My pen pal is a Canadian student from Toronto.",
+              "zh": "我的笔友是一位来自多伦多的加拿大学生。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"Canadian\"?",
-              "zh": "你能用“Canadian”造一个句子吗？",
+              "en": "Canada has a rich Canadian culture with many traditions.",
+              "zh": "加拿大拥有丰富的加拿大文化，包含许多传统。",
               "source": "context",
               "image": ""
             }
@@ -5917,22 +7050,30 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/divide_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/divide_2.png",
-          "usage": "v.",
+          "usage": "v. 分开；分散",
           "collocations": [
-            "divide"
+            "divide equally",
+            "divide into groups",
+            "divide the work",
+            "divide among"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“divide”相关的示意图。",
+          "preposition_combos": [
+            "into",
+            "among",
+            "between",
+            "by"
+          ],
+          "image_desc_cn": "一个人用刀将巧克力蛋糕分成均匀的几块。",
           "sentences": [
             {
-              "en": "We learned the word \"divide\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“divide”。",
+              "en": "The teacher divided the class into four groups for the project.",
+              "zh": "老师把全班分成四个小组来完成这个项目。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"divide\"?",
-              "zh": "你能用“divide”造一个句子吗？",
+              "en": "They decided to divide the pizza equally among themselves.",
+              "zh": "他们决定把披萨平均分给自己。",
               "source": "context",
               "image": ""
             }
@@ -5946,22 +7087,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/divide_into_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/divide_into_2.png",
-          "usage": "短语",
+          "usage": "短语 把……分开",
           "collocations": [
-            "divide … into"
+            "divide the class into",
+            "divide the cake into",
+            "divide the work into",
+            "divide the land into"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“divide … into”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一名学生画线将笔记本页面分成两栏。",
           "sentences": [
             {
-              "en": "We learned the word \"divide … into\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“divide … into”。",
+              "en": "The teacher divided the students into small groups.",
+              "zh": "老师把学生分成小组。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"divide … into\"?",
-              "zh": "你能用“divide … into”造一个句子吗？",
+              "en": "They divided the large room into two smaller offices.",
+              "zh": "他们把这个大房间隔成两个小办公室。",
               "source": "context",
               "image": ""
             }
@@ -5975,22 +7121,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/purpose_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/purpose_2.png",
-          "usage": "n.",
+          "usage": "n. 目的；目标",
           "collocations": [
-            "purpose"
+            "main purpose",
+            "specific purpose",
+            "for the purpose of",
+            "serve a purpose"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“purpose”相关的示意图。",
+          "preposition_combos": [
+            "of",
+            "for"
+          ],
+          "image_desc_cn": "日记本页面上写着“目的：理解光合作用”整洁字迹的特写。",
           "sentences": [
             {
-              "en": "We learned the word \"purpose\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“purpose”。",
+              "en": "The purpose of this English test is to check our progress.",
+              "zh": "这次英语测试的目的是检查我们的进步。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"purpose\"?",
-              "zh": "你能用“purpose”造一个句子吗？",
+              "en": "He borrowed the money for the purpose of buying a new laptop.",
+              "zh": "他借钱是为了买一台新笔记本电脑。",
               "source": "context",
               "image": ""
             }
@@ -6004,22 +7156,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/basket_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/basket_2.png",
-          "usage": "n.",
+          "usage": "n. 篮；筐",
           "collocations": [
-            "basket"
+            "shopping basket",
+            "wastepaper basket",
+            "fruit basket",
+            "basketball hoop"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“basket”相关的示意图。",
+          "preposition_combos": [
+            "in a basket",
+            "into a basket"
+          ],
+          "image_desc_cn": "一个装满水果的柳条篮子放在野餐桌上。",
           "sentences": [
             {
-              "en": "We learned the word \"basket\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“basket”。",
+              "en": "Please put the waste paper into the basket next to the desk.",
+              "zh": "请把废纸扔到桌子旁边的废纸篓里。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"basket\"?",
-              "zh": "你能用“basket”造一个句子吗？",
+              "en": "We carried a picnic basket full of sandwiches and fruit to the park.",
+              "zh": "我们提着一个装满三明治和水果的野餐篮去公园。",
               "source": "context",
               "image": ""
             }
@@ -6033,22 +7191,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/the_Olympics_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/the_Olympics_2.png",
-          "usage": "n.",
+          "usage": "n. 奥林匹克运动会（专有名词，常加定冠词）",
           "collocations": [
-            "the Olympics"
+            "hold the Olympics",
+            "win a medal at the Olympics",
+            "participate in the Olympics",
+            "host the Olympics"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“the Olympics”相关的示意图。",
+          "preposition_combos": [
+            "in the Olympics",
+            "at the Olympics"
+          ],
+          "image_desc_cn": "奥运五环旗在体育场上空飘扬。",
           "sentences": [
             {
-              "en": "We learned the word \"the Olympics\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“the Olympics”。",
+              "en": "Our school sports meeting is like a mini Olympics, with many events.",
+              "zh": "我们学校的运动会就像一个小奥运会，有很多项目。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"the Olympics\"?",
-              "zh": "你能用“the Olympics”造一个句子吗？",
+              "en": "The Olympics bring together athletes from all over the world every four years.",
+              "zh": "奥运会每四年把全世界的运动员聚集在一起。",
               "source": "context",
               "image": ""
             }
@@ -6062,22 +7226,26 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/look_up_to_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/look_up_to_2.png",
-          "usage": "短语",
+          "usage": "phr. v. 钦佩；仰慕（通常接人作宾语）",
           "collocations": [
-            "look up to"
+            "look up to someone",
+            "look up to a role model",
+            "look up to elders"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“look up to”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一个小男孩抬头看着他的父亲，眼神充满敬佩。",
           "sentences": [
             {
-              "en": "We learned the word \"look up to\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“look up to”。",
+              "en": "I really look up to my English teacher because she always encourages us.",
+              "zh": "我非常钦佩我的英语老师，因为她总是鼓励我们。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"look up to\"?",
-              "zh": "你能用“look up to”造一个句子吗？",
+              "en": "Many young people look up to scientists and want to be like them.",
+              "zh": "很多年轻人仰慕科学家，想要成为他们那样的人。",
               "source": "context",
               "image": ""
             }
@@ -6091,22 +7259,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/hero_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/hero_2.png",
-          "usage": "n.",
+          "usage": "n. 英雄；男主角",
           "collocations": [
-            "hero"
+            "national hero",
+            "action hero",
+            "become a hero",
+            "hero worship"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“hero”相关的示意图。",
+          "preposition_combos": [
+            "to (someone)",
+            "as (a hero)"
+          ],
+          "image_desc_cn": "一个消防员从火场中救出小孩，周围的人鼓掌。",
           "sentences": [
             {
-              "en": "We learned the word \"hero\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“hero”。",
+              "en": "He became a hero after saving a child from the river.",
+              "zh": "他因为从河里救出一个孩子而成了英雄。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"hero\"?",
-              "zh": "你能用“hero”造一个句子吗？",
+              "en": "My grandfather is a hero in my heart because of his kindness.",
+              "zh": "我的祖父因为他的善良是我心中的英雄。",
               "source": "context",
               "image": ""
             }
@@ -6127,22 +7301,29 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/smoke_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/smoke_2.png",
-          "usage": "v. / n.",
+          "usage": "v. 冒烟；吸烟；n. 烟",
           "collocations": [
-            "smoke"
+            "smoke a cigarette",
+            "stop smoking",
+            "thick smoke",
+            "smoke alarm"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“smoke”相关的示意图。",
+          "preposition_combos": [
+            "from (the smoke)",
+            "in (the smoke)",
+            "through (the smoke)"
+          ],
+          "image_desc_cn": "工厂烟囱冒出滚滚浓烟，天空变得灰暗。",
           "sentences": [
             {
-              "en": "We learned the word \"smoke\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“smoke”。",
+              "en": "You are not allowed to smoke in the classroom.",
+              "zh": "教室里不允许抽烟。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"smoke\"?",
-              "zh": "你能用“smoke”造一个句子吗？",
+              "en": "Thick black smoke was rising from the factory chimney.",
+              "zh": "浓黑的烟从工厂烟囱里升起。",
               "source": "context",
               "image": ""
             }
@@ -6156,22 +7337,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/pierce_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/pierce_2.png",
-          "usage": "v.",
+          "usage": "v. 扎，刺破，穿透",
           "collocations": [
-            "pierce"
+            "pierce the sky",
+            "pierce the silence",
+            "pierce one's ears"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“pierce”相关的示意图。",
+          "preposition_combos": [
+            "through",
+            "into"
+          ],
+          "image_desc_cn": "一个年轻女孩坐在椅子上，专业人员用穿耳枪刺穿她的耳垂。",
           "sentences": [
             {
-              "en": "We learned the word \"pierce\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“pierce”。",
+              "en": "She pierced her ears to wear earrings for the party.",
+              "zh": "她为了参加派对穿了耳洞戴耳环。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"pierce\"?",
-              "zh": "你能用“pierce”造一个句子吗？",
+              "en": "The needle pierced his skin easily, drawing a drop of blood.",
+              "zh": "针轻松刺破了他的皮肤，渗出一滴血。",
               "source": "context",
               "image": ""
             }
@@ -6185,22 +7371,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/license_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/license_2.png",
-          "usage": "n.",
+          "usage": "n. 证，证件",
           "collocations": [
-            "license"
+            "driver's license",
+            "license plate",
+            "marriage license",
+            "license number"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“license”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一个开心的少年男孩向朋友们展示他新拿到的驾照。",
           "sentences": [
             {
-              "en": "We learned the word \"license\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“license”。",
+              "en": "You need a driver's license to drive a car legally.",
+              "zh": "你需要驾照才能合法开车。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"license\"?",
-              "zh": "你能用“license”造一个句子吗？",
+              "en": "She got a fishing license to fish in the lake near her home.",
+              "zh": "她办了钓鱼证，可以在家附近的湖里钓鱼。",
               "source": "context",
               "image": ""
             }
@@ -6214,22 +7405,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/safety_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/safety_2.png",
-          "usage": "n.",
+          "usage": "n. 安全，安全性",
           "collocations": [
-            "safety"
+            "safety belt",
+            "safety rules",
+            "safety first",
+            "in safety"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“safety”相关的示意图。",
+          "preposition_combos": [
+            "for safety",
+            "in safety"
+          ],
+          "image_desc_cn": "一群学生戴着安全护目镜在实验室做实验。",
           "sentences": [
             {
-              "en": "We learned the word \"safety\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“safety”。",
+              "en": "We should follow safety rules in the chemistry lab.",
+              "zh": "在化学实验室我们应该遵守安全规则。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"safety\"?",
-              "zh": "你能用“safety”造一个句子吗？",
+              "en": "The police officer ensured the children's safety on the street.",
+              "zh": "警察确保了街道上孩子们的安全。",
               "source": "context",
               "image": ""
             }
@@ -6243,22 +7440,26 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/earring_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/earring_2.png",
-          "usage": "n.",
+          "usage": "n. 耳环，耳饰",
           "collocations": [
-            "earring"
+            "gold earring",
+            "a pair of earrings",
+            "diamond earrings"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“earring”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一个十几岁的女孩一边看着镜子中的自己，一边小心翼翼地把一只银耳环戴在左耳垂上。",
           "sentences": [
             {
-              "en": "We learned the word \"earring\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“earring”。",
+              "en": "My mother gave me a pair of earrings for my birthday.",
+              "zh": "妈妈送我一对耳环作为生日礼物。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"earring\"?",
-              "zh": "你能用“earring”造一个句子吗？",
+              "en": "She lost one of her earrings on the bus and felt unhappy.",
+              "zh": "她在公交车上丢了一只耳环，很不开心。",
               "source": "context",
               "image": ""
             }
@@ -6272,22 +7473,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/cry_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/cry_2.png",
-          "usage": "v. / n.",
+          "usage": "v./n. 哭，叫喊",
           "collocations": [
-            "cry"
+            "cry out",
+            "cry for help",
+            "have a cry",
+            "cry over"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“cry”相关的示意图。",
+          "preposition_combos": [
+            "for",
+            "over"
+          ],
+          "image_desc_cn": "一个小男孩坐在地上，脸埋在手里大声哭泣。",
           "sentences": [
             {
-              "en": "We learned the word \"cry\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“cry”。",
+              "en": "The baby cried for his mother when he fell down.",
+              "zh": "宝宝摔倒后哭着找妈妈。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"cry\"?",
-              "zh": "你能用“cry”造一个句子吗？",
+              "en": "Don't cry over spilt milk.",
+              "zh": "覆水难收（不要为打翻的牛奶哭泣）。",
               "source": "context",
               "image": ""
             }
@@ -6301,22 +7508,29 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/field_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/field_2.png",
-          "usage": "n.",
+          "usage": "n. 田野；场地；领域",
           "collocations": [
-            "field"
+            "field trip",
+            "field of study",
+            "soccer field",
+            "field of view"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“field”相关的示意图。",
+          "preposition_combos": [
+            "in the field",
+            "on the field",
+            "across the field"
+          ],
+          "image_desc_cn": "一片绿草和野花覆盖的宽阔田野，天空晴朗，孩子们在玩耍。",
           "sentences": [
             {
-              "en": "We learned the word \"field\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“field”。",
+              "en": "We went to a farm and played in the field after the harvest.",
+              "zh": "收割后我们去了农场，在田野里玩耍。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"field\"?",
-              "zh": "你能用“field”造一个句子吗？",
+              "en": "She is an expert in the field of environmental science.",
+              "zh": "她是环境科学领域的专家。",
               "source": "context",
               "image": ""
             }
@@ -6330,22 +7544,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/hug_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/hug_2.png",
-          "usage": "n. / v.",
+          "usage": "n./v. 拥抱；搂抱",
           "collocations": [
-            "hug"
+            "give a hug",
+            "hug tightly",
+            "warm hug",
+            "bear hug"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“hug”相关的示意图。",
+          "preposition_combos": [
+            "hug someone",
+            "hug each other"
+          ],
+          "image_desc_cn": "一个小女孩紧紧拥抱一位老人，两人的脸上都洋溢着幸福。",
           "sentences": [
             {
-              "en": "We learned the word \"hug\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“hug”。",
+              "en": "After winning the game, the coach gave each player a big hug.",
+              "zh": "赢得比赛后，教练给了每个队员一个大大的拥抱。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"hug\"?",
-              "zh": "你能用“hug”造一个句子吗？",
+              "en": "When I was sad, my best friend hugged me and said everything would be okay.",
+              "zh": "我难过时，好朋友拥抱了我，说一切都会好起来的。",
               "source": "context",
               "image": ""
             }
@@ -6359,22 +7579,29 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/lift_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/lift_2.png",
-          "usage": "v.",
+          "usage": "v. 举起；抬高；提升",
           "collocations": [
-            "lift"
+            "lift up",
+            "lift weights",
+            "lift the box",
+            "lift one's spirits"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“lift”相关的示意图。",
+          "preposition_combos": [
+            "lift onto",
+            "lift from",
+            "lift up"
+          ],
+          "image_desc_cn": "一个年轻男子费力地把纸箱举到一个高架子上。",
           "sentences": [
             {
-              "en": "We learned the word \"lift\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“lift”。",
+              "en": "Please help me lift the desk to the second floor.",
+              "zh": "请帮我把这张桌子搬到二楼。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"lift\"?",
-              "zh": "你能用“lift”造一个句子吗？",
+              "en": "The good news lifted everyone's mood.",
+              "zh": "这个好消息提振了大家的情绪。",
               "source": "context",
               "image": ""
             }
@@ -6388,22 +7615,26 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/talk_back_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/talk_back_2.png",
-          "usage": "短语",
+          "usage": "短语动词 回嘴；顶嘴",
           "collocations": [
-            "talk back"
+            "talk back to someone",
+            "don't talk back",
+            "never talk back"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“talk back”相关的示意图。",
+          "preposition_combos": [
+            "talk back to"
+          ],
+          "image_desc_cn": "一个小孩面对大人，表情固执，嘴巴在动像是在争辩。",
           "sentences": [
             {
-              "en": "We learned the word \"talk back\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“talk back”。",
+              "en": "Mom told me not to talk back when she was explaining the rules.",
+              "zh": "妈妈解释规则时，不许我顶嘴。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"talk back\"?",
-              "zh": "你能用“talk back”造一个句子吗？",
+              "en": "In many cultures, it's considered rude for children to talk back to their elders.",
+              "zh": "在很多文化里，孩子对长辈顶嘴被认为是不礼貌的。",
               "source": "context",
               "image": ""
             }
@@ -6417,22 +7648,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/awful_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/awful_2.png",
-          "usage": "adj.",
+          "usage": "adj. 很坏的；讨厌的；极度的",
           "collocations": [
-            "awful"
+            "awful weather",
+            "awful taste",
+            "awful experience",
+            "awful mistake"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“awful”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一个青少年盯着试卷上的不及格分数，垂头丧气。",
           "sentences": [
             {
-              "en": "We learned the word \"awful\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“awful”。",
+              "en": "The cafeteria served awful food today; no one could finish it.",
+              "zh": "今天食堂的饭菜糟透了，没人能吃完。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"awful\"?",
-              "zh": "你能用“awful”造一个句子吗？",
+              "en": "I had an awful headache after studying for hours without a break.",
+              "zh": "连续学习几个小时后，我头痛得厉害。",
               "source": "context",
               "image": ""
             }
@@ -6446,22 +7682,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/teen_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/teen_2.png",
-          "usage": "n.",
+          "usage": "n. 十几岁的青少年（13-19岁）",
           "collocations": [
-            "teen"
+            "teen years",
+            "teen angst",
+            "teen drama",
+            "rebellious teen"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“teen”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "学校走廊里的青少年们和一个在长椅上看书的青少年",
           "sentences": [
             {
-              "en": "We learned the word \"teen\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“teen”。",
+              "en": "Many teens enjoy hanging out with friends after school.",
+              "zh": "很多青少年放学后喜欢和朋友出去玩。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"teen\"?",
-              "zh": "你能用“teen”造一个句子吗？",
+              "en": "As a teen, she started writing poems in a small notebook.",
+              "zh": "作为一个十几岁的青少年，她开始在一个小笔记本上写诗。",
               "source": "context",
               "image": ""
             }
@@ -6475,22 +7716,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/regret_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/regret_2.png",
-          "usage": "v.",
+          "usage": "v. 感到遗憾；懊悔",
           "collocations": [
-            "regret"
+            "regret doing",
+            "deeply regret",
+            "regret to say",
+            "regret that"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“regret”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "后悔的学生和一个表现后悔的人",
           "sentences": [
             {
-              "en": "We learned the word \"regret\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“regret”。",
+              "en": "I regret not studying harder for the math test.",
+              "zh": "我后悔没有为数学考试更努力学习。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"regret\"?",
-              "zh": "你能用“regret”造一个句子吗？",
+              "en": "She regretted buying such expensive shoes.",
+              "zh": "她后悔买了这么贵的鞋子。",
               "source": "context",
               "image": ""
             }
@@ -6504,22 +7750,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/poem_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/poem_2.png",
-          "usage": "n.",
+          "usage": "n. 诗；韵文",
           "collocations": [
-            "poem"
+            "write a poem",
+            "read a poem",
+            "love poem",
+            "famous poem"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“poem”相关的示意图。",
+          "preposition_combos": [
+            "about",
+            "by"
+          ],
+          "image_desc_cn": "写在纸上的手写诗和一个朗诵诗的学生",
           "sentences": [
             {
-              "en": "We learned the word \"poem\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“poem”。",
+              "en": "Our teacher asked us to write a poem about spring.",
+              "zh": "老师让我们写一首关于春天的诗。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"poem\"?",
-              "zh": "你能用“poem”造一个句子吗？",
+              "en": "He recited a famous poem by Li Bai at the party.",
+              "zh": "他在聚会上朗诵了一首李白的著名诗。",
               "source": "context",
               "image": ""
             }
@@ -6533,22 +7785,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/bedroom_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/bedroom_2.png",
-          "usage": "n.",
+          "usage": "n. 卧室",
           "collocations": [
-            "bedroom"
+            "master bedroom",
+            "clean the bedroom",
+            "bedroom furniture",
+            "shared bedroom"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“bedroom”相关的示意图。",
+          "preposition_combos": [
+            "in",
+            "to"
+          ],
+          "image_desc_cn": "舒适的卧室内部和在卧室里玩耍的孩子们",
           "sentences": [
             {
-              "en": "We learned the word \"bedroom\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“bedroom”。",
+              "en": "I always make my bed in the morning in my bedroom.",
+              "zh": "我每天早上在卧室整理床铺。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"bedroom\"?",
-              "zh": "你能用“bedroom”造一个句子吗？",
+              "en": "My sister and I share a bedroom with two beds.",
+              "zh": "我和姐姐共用一间有两张床的卧室。",
               "source": "context",
               "image": ""
             }
@@ -6562,22 +7820,29 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/community_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/community_2.png",
-          "usage": "n.",
+          "usage": "n. 社区；社团",
           "collocations": [
-            "community"
+            "local community",
+            "community service",
+            "community center",
+            "community members"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“community”相关的示意图。",
+          "preposition_combos": [
+            "in",
+            "within",
+            "of"
+          ],
+          "image_desc_cn": "志愿者们在社区公园植树和社区中心的人群聚集",
           "sentences": [
             {
-              "en": "We learned the word \"community\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“community”。",
+              "en": "Our school organized a community clean-up day last Saturday.",
+              "zh": "我们学校上周六组织了一次社区清洁日。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"community\"?",
-              "zh": "你能用“community”造一个句子吗？",
+              "en": "She is well-known in the local community for her volunteer work.",
+              "zh": "她因志愿工作在当地社区很有名。",
               "source": "context",
               "image": ""
             }
@@ -6591,22 +7856,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/keep_away_from_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/keep_away_from_2.png",
-          "usage": "短语",
+          "usage": "短语 verb phrase; 表示避免接近或远离",
           "collocations": [
-            "keep away from"
+            "keep away from fire",
+            "keep away from strangers",
+            "keep away from trouble",
+            "keep away from danger"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“keep away from”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "学生们在走廊里避开湿滑的地面。",
           "sentences": [
             {
-              "en": "We learned the word \"keep away from\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“keep away from”。",
+              "en": "You should keep away from the wet floor.",
+              "zh": "你应该远离湿地。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"keep away from\"?",
-              "zh": "你能用“keep away from”造一个句子吗？",
+              "en": "Keep away from bad habits to stay healthy.",
+              "zh": "远离坏习惯以保持健康。",
               "source": "context",
               "image": ""
             }
@@ -6620,22 +7890,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/chance_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/chance_2.png",
-          "usage": "n.",
+          "usage": "n. 可数名词，表示机会或可能性；常与不定冠词a连用，如a chance to do sth.",
           "collocations": [
-            "chance"
+            "have a chance",
+            "take a chance",
+            "miss a chance",
+            "get a chance"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“chance”相关的示意图。",
+          "preposition_combos": [
+            "chance of",
+            "chance for"
+          ],
+          "image_desc_cn": "一个学生积极举手回答问题。",
           "sentences": [
             {
-              "en": "We learned the word \"chance\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“chance”。",
+              "en": "I finally got a chance to speak English with a foreigner.",
+              "zh": "我终于有机会和外国人讲英语了。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"chance\"?",
-              "zh": "你能用“chance”造一个句子吗？",
+              "en": "She never misses a chance to learn something new.",
+              "zh": "她从不错过学习新东西的机会。",
               "source": "context",
               "image": ""
             }
@@ -6649,22 +7925,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/make_ones_own_decision_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/make_ones_own_decision_2.png",
-          "usage": "短语",
+          "usage": "短语 verb phrase; 意为“自己做决定”，常与情态动词连用，如should/must make one's own decision",
           "collocations": [
-            "make one's own decision"
+            "make a wise decision",
+            "make a quick decision",
+            "make a difficult decision",
+            "make a choice"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“make one's own decision”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一个女孩在镜子前坚定地选择衣服。",
           "sentences": [
             {
-              "en": "We learned the word \"make one's own decision\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“make one's own decision”。",
+              "en": "As teenagers, we should learn to make our own decisions.",
+              "zh": "作为青少年，我们应该学会自己做决定。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"make one's own decision\"?",
-              "zh": "你能用“make one's own decision”造一个句子吗？",
+              "en": "It's important to make your own decision about which career to choose.",
+              "zh": "关于选择什么职业，自己做决定很重要。",
               "source": "context",
               "image": ""
             }
@@ -6678,22 +7959,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/manage_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/manage_2.png",
-          "usage": "v.",
+          "usage": "v. 动词，意为设法做到或应付；常接不定式，如manage to do sth.",
           "collocations": [
-            "manage"
+            "manage to do",
+            "manage something",
+            "manage without",
+            "manage with"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“manage”相关的示意图。",
+          "preposition_combos": [
+            "manage without",
+            "manage with"
+          ],
+          "image_desc_cn": "一个学生在黑板上自信地解题。",
           "sentences": [
             {
-              "en": "We learned the word \"manage\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“manage”。",
+              "en": "He managed to finish his homework before dinner.",
+              "zh": "他设法在晚饭前完成了作业。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"manage\"?",
-              "zh": "你能用“manage”造一个句子吗？",
+              "en": "She can manage the difficult situation all by herself.",
+              "zh": "她可以独自应付这个困难局面。",
               "source": "context",
               "image": ""
             }
@@ -6707,22 +7994,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/society_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/society_2.png",
-          "usage": "n.",
+          "usage": "n. 名词，通常不可数，表示社会整体；也可作可数，如a modern society",
           "collocations": [
-            "society"
+            "modern society",
+            "human society",
+            "a part of society",
+            "in society"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“society”相关的示意图。",
+          "preposition_combos": [
+            "in society",
+            "of society"
+          ],
+          "image_desc_cn": "繁忙的街道上各行各业的人们进行日常活动。",
           "sentences": [
             {
-              "en": "We learned the word \"society\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“society”。",
+              "en": "We should all be responsible members of society.",
+              "zh": "我们都应该成为负责任的社会成员。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"society\"?",
-              "zh": "你能用“society”造一个句子吗？",
+              "en": "Technology has changed every aspect of society.",
+              "zh": "技术改变了社会的方方面面。",
               "source": "context",
               "image": ""
             }
@@ -6738,20 +8031,27 @@ const TEXTBOOK_DATA = {
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/unit_2.png",
           "usage": "n.",
           "collocations": [
-            "unit"
+            "a unit of",
+            "family unit",
+            "unit test",
+            "unit price"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“unit”相关的示意图。",
+          "preposition_combos": [
+            "of",
+            "in",
+            "per"
+          ],
+          "image_desc_cn": "一名学生指着英语课本目录中的第五单元；一台秤上显示一公斤重的砝码和“质量单位”标签。",
           "sentences": [
             {
-              "en": "We learned the word \"unit\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“unit”。",
+              "en": "Please turn to Unit 3 in your textbook and read the dialogue.",
+              "zh": "请翻到课本第三单元，阅读对话。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"unit\"?",
-              "zh": "你能用“unit”造一个句子吗？",
+              "en": "A kilogram is a unit of weight used in science.",
+              "zh": "千克是科学中使用的重量单位。",
               "source": "context",
               "image": ""
             }
@@ -6767,20 +8067,27 @@ const TEXTBOOK_DATA = {
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/educate_2.png",
           "usage": "v.",
           "collocations": [
-            "educate"
+            "educate children",
+            "educate the public",
+            "educate oneself",
+            "well-educated"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“educate”相关的示意图。",
+          "preposition_combos": [
+            "about",
+            "on",
+            "in"
+          ],
+          "image_desc_cn": "老师在黑板上写字，学生举手；纪录片画面是北极熊和标语“教育拯救北极”。",
           "sentences": [
             {
-              "en": "We learned the word \"educate\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“educate”。",
+              "en": "Teachers work hard to educate students in the classroom.",
+              "zh": "老师们在教室里努力教育学生。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"educate\"?",
-              "zh": "你能用“educate”造一个句子吗？",
+              "en": "We should educate ourselves about how to protect the environment.",
+              "zh": "我们应该教育自己如何保护环境。",
               "source": "context",
               "image": ""
             }
@@ -6796,20 +8103,25 @@ const TEXTBOOK_DATA = {
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/get_in_the_way_of_2.png",
           "usage": "短语",
           "collocations": [
-            "get in the way of"
+            "get in the way of progress",
+            "get in the way of learning",
+            "get in the way of dreams",
+            "get in the way of success"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“get in the way of”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一名学生在学习，课本上放着一个游戏手柄；一棵倒下的树挡住马路，旁边有“道路封闭”标志。",
           "sentences": [
             {
-              "en": "We learned the word \"get in the way of\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“get in the way of”。",
+              "en": "Don't let your phone get in the way of your homework.",
+              "zh": "别让手机妨碍你做作业。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"get in the way of\"?",
-              "zh": "你能用“get in the way of”造一个句子吗？",
+              "en": "His laziness got in the way of his goal to become a doctor.",
+              "zh": "他的懒惰阻碍了他成为医生的目标。",
               "source": "context",
               "image": ""
             }
@@ -6825,20 +8137,27 @@ const TEXTBOOK_DATA = {
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/professional_2.png",
           "usage": "adj.",
           "collocations": [
-            "professional"
+            "professional athlete",
+            "professional advice",
+            "professional skills",
+            "professional work"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“professional”相关的示意图。",
+          "preposition_combos": [
+            "in",
+            "as",
+            "for"
+          ],
+          "image_desc_cn": "一名篮球运动员在签名；一位医生用听诊器检查病人。",
           "sentences": [
             {
-              "en": "We learned the word \"professional\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“professional”。",
+              "en": "Many students dream of becoming a professional basketball player.",
+              "zh": "很多学生梦想成为职业篮球运动员。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"professional\"?",
-              "zh": "你能用“professional”造一个句子吗？",
+              "en": "You should ask a professional doctor for advice about your health.",
+              "zh": "你应该就健康问题咨询专业医生。",
               "source": "context",
               "image": ""
             }
@@ -6854,20 +8173,27 @@ const TEXTBOOK_DATA = {
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/enter_2.png",
           "usage": "v.",
           "collocations": [
-            "enter"
+            "enter the room",
+            "enter a competition",
+            "enter the data",
+            "enter college"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“enter”相关的示意图。",
+          "preposition_combos": [
+            "into",
+            "through",
+            "by"
+          ],
+          "image_desc_cn": "一名学生安静地走进教室，其他人在读书；登录画面显示“输入密码”。",
           "sentences": [
             {
-              "en": "We learned the word \"enter\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“enter”。",
+              "en": "Please enter the classroom quietly and take your seat.",
+              "zh": "请安静地进入教室并坐好。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"enter\"?",
-              "zh": "你能用“enter”造一个句子吗？",
+              "en": "She plans to enter a writing competition next month.",
+              "zh": "她计划下个月参加一个写作比赛。",
               "source": "context",
               "image": ""
             }
@@ -6881,22 +8207,29 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/support_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/support_2.png",
-          "usage": "v. / n.",
+          "usage": "动词：支持，帮助；名词：支持，帮助。",
           "collocations": [
-            "support"
+            "support sb/sth",
+            "support for",
+            "provide support",
+            "financial support"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“support”相关的示意图。",
+          "preposition_combos": [
+            "for",
+            "from",
+            "in"
+          ],
+          "image_desc_cn": "朋友们在比赛中互相支持。",
           "sentences": [
             {
-              "en": "We learned the word \"support\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“support”。",
+              "en": "My parents always support my decisions.",
+              "zh": "我父母总是支持我的决定。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"support\"?",
-              "zh": "你能用“support”造一个句子吗？",
+              "en": "The new evidence supports his argument.",
+              "zh": "新证据支持他的论点。",
               "source": "context",
               "image": ""
             }
@@ -8614,22 +9947,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/picnic_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/picnic_2.png",
-          "usage": "n.",
+          "usage": "名词，指户外用餐。",
           "collocations": [
-            "picnic"
+            "have a picnic",
+            "go for a picnic",
+            "picnic basket",
+            "picnic spot"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“picnic”相关的示意图。",
+          "preposition_combos": [
+            "at",
+            "for"
+          ],
+          "image_desc_cn": "野餐布上摆着食物。",
           "sentences": [
             {
-              "en": "We learned the word \"picnic\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“picnic”。",
+              "en": "We had a wonderful picnic by the lake last Sunday.",
+              "zh": "上星期天我们在湖边进行了一次愉快的野餐。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"picnic\"?",
-              "zh": "你能用“picnic”造一个句子吗？",
+              "en": "The family prepared sandwiches and drinks for the picnic.",
+              "zh": "这家人为野餐准备了三明治和饮料。",
               "source": "context",
               "image": ""
             }
@@ -8643,22 +9982,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/policeman_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/policeman_2.png",
-          "usage": "n.",
+          "usage": "名词，男警察（女性用policewoman或police officer）。",
           "collocations": [
-            "policeman"
+            "a policeman",
+            "call a policeman",
+            "policeman on duty",
+            "friendly policeman"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“policeman”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一名警察在指挥交通。",
           "sentences": [
             {
-              "en": "We learned the word \"policeman\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“policeman”。",
+              "en": "A policeman helped the old lady cross the street.",
+              "zh": "一位男警察帮助那位老太太过马路。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"policeman\"?",
-              "zh": "你能用“policeman”造一个句子吗？",
+              "en": "The policeman was directing traffic in the heavy rain.",
+              "zh": "那位男警察在大雨中指挥交通。",
               "source": "context",
               "image": ""
             }
@@ -10042,22 +11386,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/dialogue_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/dialogue_2.png",
-          "usage": "n.",
+          "usage": "名词，对话，对白（尤指戏剧、电影中的）。",
           "collocations": [
-            "dialogue"
+            "have a dialogue",
+            "dialogue between",
+            "open a dialogue",
+            "dialogue with"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“dialogue”相关的示意图。",
+          "preposition_combos": [
+            "between",
+            "with"
+          ],
+          "image_desc_cn": "学生们在课堂上练习对话。",
           "sentences": [
             {
-              "en": "We learned the word \"dialogue\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“dialogue”。",
+              "en": "The teacher asked us to practice the dialogue in pairs.",
+              "zh": "老师让我们两人一组练习对话。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"dialogue\"?",
-              "zh": "你能用“dialogue”造一个句子吗？",
+              "en": "The two leaders had a friendly dialogue about cooperation.",
+              "zh": "两位领导人就合作进行了友好的对话。",
               "source": "context",
               "image": ""
             }
@@ -10071,22 +11421,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/horror_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/horror_2.png",
-          "usage": "n.",
+          "usage": "名词，震惊，恐惧，恐怖。",
           "collocations": [
-            "horror"
+            "in horror",
+            "horror movie",
+            "horror story",
+            "to one's horror"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“horror”相关的示意图。",
+          "preposition_combos": [
+            "at",
+            "of"
+          ],
+          "image_desc_cn": "一个人对恐怖电影惊恐反应。",
           "sentences": [
             {
-              "en": "We learned the word \"horror\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“horror”。",
+              "en": "She watched the horror movie with her eyes wide open.",
+              "zh": "她睁大眼睛看那部恐怖电影。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"horror\"?",
-              "zh": "你能用“horror”造一个句子吗？",
+              "en": "To his horror, he saw a snake under his bed.",
+              "zh": "令他恐惧的是，他看到床下有一条蛇。",
               "source": "context",
               "image": ""
             }
@@ -10100,22 +11456,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/thriller_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/thriller_2.png",
-          "usage": "n.",
+          "usage": "n. 惊险电影/小说/戏剧；惊悚片",
           "collocations": [
-            "thriller"
+            "horror thriller",
+            "psychological thriller",
+            "crime thriller",
+            "action thriller"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“thriller”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "黑暗的房间被电视屏幕照亮，显示恐怖画面；一个人在家紧张地看惊悚片。",
           "sentences": [
             {
-              "en": "We learned the word \"thriller\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“thriller”。",
+              "en": "We watched a thriller in the English class last week, and everyone was on the edge of their seats.",
+              "zh": "上周英语课上我们看了一部惊险片，大家都紧张得坐不住了。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"thriller\"?",
-              "zh": "你能用“thriller”造一个句子吗？",
+              "en": "This author is famous for writing psychological thrillers that keep readers guessing until the end.",
+              "zh": "这位作家以写心理惊悚小说闻名，让读者一直猜到最后。",
               "source": "context",
               "image": ""
             }
@@ -10129,22 +11490,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/World_War_II_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/World_War_II_2.png",
-          "usage": "n.",
+          "usage": "n. 第二次世界大战（专有名词，常大写）",
           "collocations": [
-            "World War II"
+            "during World War II",
+            "after World War II",
+            "World War II history",
+            "World War II veterans"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“World War II”相关的示意图。",
+          "preposition_combos": [
+            "during",
+            "in"
+          ],
+          "image_desc_cn": "二战期间士兵在泥泞田野中行进，背景有坦克；一张地图显示部队调动和战场位置。",
           "sentences": [
             {
-              "en": "We learned the word \"World War II\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“World War II”。",
+              "en": "In our history class, we are learning about the causes of World War II.",
+              "zh": "在我们的历史课上，我们正在学习二战的原因。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"World War II\"?",
-              "zh": "你能用“World War II”造一个句子吗？",
+              "en": "Many movies and books are set during World War II, showing both the battles and the human stories.",
+              "zh": "许多电影和书以二战为背景，既展示战斗也展现人性故事。",
               "source": "context",
               "image": ""
             }
@@ -11454,22 +12821,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit10/images/make_feel_at_home_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit10/images/make_feel_at_home_2.png",
-          "usage": "短语",
+          "usage": "短语 v. 使（某人）感到宾至如归",
           "collocations": [
-            "make ... feel at home"
+            "make guests feel at home",
+            "make visitors feel at home",
+            "make them feel at home",
+            "make me feel at home"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“make ... feel at home”相关的示意图。",
+          "preposition_combos": [
+            "N/A（短语内含 at）"
+          ],
+          "image_desc_cn": "一家人在门口微笑欢迎客人，旁边有欢迎牌；老师帮助新生在教室里找到座位，友好引导。",
           "sentences": [
             {
-              "en": "We learned the word \"make ... feel at home\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“make ... feel at home”。",
+              "en": "Our school club made the exchange students feel at home by showing them around and having a welcome party.",
+              "zh": "我们学校社团通过带交换生参观和举办欢迎会，让他们感到宾至如归。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"make ... feel at home\"?",
-              "zh": "你能用“make ... feel at home”造一个句子吗？",
+              "en": "The host family tried everything to make me feel at home, even cooking my favorite dishes.",
+              "zh": "寄宿家庭想尽办法让我感到宾至如归，甚至做我最喜欢的菜。",
               "source": "context",
               "image": ""
             }
@@ -13039,22 +14411,28 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit11/images/the_more_the_more_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit11/images/the_more_the_more_2.png",
-          "usage": "短语",
+          "usage": "短语 conj. 越……越……（表示两个事物同时递增）",
           "collocations": [
-            "the more … the more"
+            "the more you practice",
+            "the better you get; the more I read",
+            "the more I learn; the more careful you are",
+            "the fewer mistakes you make; the more",
+            "the merrier"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“the more … the more”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一个学生更努力地学习，头顶有灵感灯泡；两个朋友分享比萨，吃得越多越开心。",
           "sentences": [
             {
-              "en": "We learned the word \"the more … the more\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“the more … the more”。",
+              "en": "The more you study English, the more confident you will become in speaking.",
+              "zh": "你越学英语，说英语就会越自信。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"the more … the more\"?",
-              "zh": "你能用“the more … the more”造一个句子吗？",
+              "en": "The more people come to the party, the more fun it will be.",
+              "zh": "来参加派对的人越多，就越好玩。",
               "source": "context",
               "image": ""
             }
@@ -13068,22 +14446,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit11/images/neither_nor_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit11/images/neither_nor_2.png",
-          "usage": "短语",
+          "usage": "短语 conj. 既不……也不……（否定两者）",
           "collocations": [
-            "neither ... nor"
+            "neither A nor B",
+            "neither here nor there",
+            "neither good nor bad",
+            "neither sing nor dance"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“neither ... nor”相关的示意图。",
+          "preposition_combos": [
+            "N/A（短语内含 nor）"
+          ],
+          "image_desc_cn": "一个孩子对盘中的苹果和香蕉都摇头拒绝；一个人用红笔划掉‘喜好’列表中的两项，只留下橙子。",
           "sentences": [
             {
-              "en": "We learned the word \"neither ... nor\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“neither ... nor”。",
+              "en": "I like neither science fiction nor fantasy novels; I prefer realistic stories.",
+              "zh": "我既不喜欢科幻小说也不喜欢奇幻小说，我更喜欢现实题材。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"neither ... nor\"?",
-              "zh": "你能用“neither ... nor”造一个句子吗？",
+              "en": "Neither my brother nor my sister enjoys playing chess, so I have to find other partners.",
+              "zh": "我哥哥和姐姐都不喜欢下棋，所以我得找别的对手。",
               "source": "context",
               "image": ""
             }
@@ -14566,20 +15949,26 @@ const TEXTBOOK_DATA = {
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/give_a_lift_2.png",
           "usage": "短语",
           "collocations": [
-            "give ... a lift"
+            "give someone a lift",
+            "ask for a lift",
+            "offer a lift",
+            "need a lift"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“give ... a lift”相关的示意图。",
+          "preposition_combos": [
+            "to",
+            "from"
+          ],
+          "image_desc_cn": "一位父亲早上顺路送儿子上学。",
           "sentences": [
             {
-              "en": "We learned the word \"give ... a lift\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“give ... a lift”。",
+              "en": "My dad gave me a lift to school this morning.",
+              "zh": "今天早上我爸爸顺便开车送我去上学。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"give ... a lift\"?",
-              "zh": "你能用“give ... a lift”造一个句子吗？",
+              "en": "Could you give me a lift to the train station?",
+              "zh": "你能顺便送我去火车站吗？",
               "source": "context",
               "image": ""
             }
@@ -14595,20 +15984,25 @@ const TEXTBOOK_DATA = {
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/boss_2.png",
           "usage": "n.",
           "collocations": [
-            "boss"
+            "my boss",
+            "the boss",
+            "company boss",
+            "work for a boss"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“boss”相关的示意图。",
+          "preposition_combos": [
+            "of"
+          ],
+          "image_desc_cn": "老板在会议室里指导团队工作。",
           "sentences": [
             {
-              "en": "We learned the word \"boss\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“boss”。",
+              "en": "The boss asked me to finish the work before Friday.",
+              "zh": "老板让我周五前完成工作。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"boss\"?",
-              "zh": "你能用“boss”造一个句子吗？",
+              "en": "I want to talk to my boss about my schedule.",
+              "zh": "我想和老板谈谈我的日程安排。",
               "source": "context",
               "image": ""
             }
@@ -14624,20 +16018,26 @@ const TEXTBOOK_DATA = {
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/course_2.png",
           "usage": "n.",
           "collocations": [
-            "course"
+            "take a course",
+            "enroll in a course",
+            "course material",
+            "course schedule"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“course”相关的示意图。",
+          "preposition_combos": [
+            "in",
+            "on"
+          ],
+          "image_desc_cn": "学生们在教室里上某门课程。",
           "sentences": [
             {
-              "en": "We learned the word \"course\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“course”。",
+              "en": "I am taking a math course this semester.",
+              "zh": "这学期我在上数学课。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"course\"?",
-              "zh": "你能用“course”造一个句子吗？",
+              "en": "The online course is very helpful for my English.",
+              "zh": "这门网课对提高我的英语很有帮助。",
               "source": "context",
               "image": ""
             }
@@ -16135,20 +17535,25 @@ const TEXTBOOK_DATA = {
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/cut_off_2.png",
           "usage": "短语",
           "collocations": [
-            "cut off"
+            "cut off something",
+            "be cut off",
+            "cut off supply",
+            "cut off connection"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“cut off”相关的示意图。",
+          "preposition_combos": [
+            "from"
+          ],
+          "image_desc_cn": "一个人用剪刀剪纸。",
           "sentences": [
             {
-              "en": "We learned the word \"cut off\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“cut off”。",
+              "en": "He cut off a piece of cake for his sister.",
+              "zh": "他切了一块蛋糕给妹妹。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"cut off\"?",
-              "zh": "你能用“cut off”造一个句子吗？",
+              "en": "The power was cut off during the storm.",
+              "zh": "暴风雨期间停电了。",
               "source": "context",
               "image": ""
             }
@@ -16164,20 +17569,25 @@ const TEXTBOOK_DATA = {
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/upside_down_2.png",
           "usage": "短语",
           "collocations": [
-            "upside down"
+            "turn upside down",
+            "hold upside down",
+            "hang upside down",
+            "flip upside down"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“upside down”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一个小孩倒立，头朝下脚朝上。",
           "sentences": [
             {
-              "en": "We learned the word \"upside down\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“upside down”。",
+              "en": "The picture is hanging upside down on the wall.",
+              "zh": "那张画挂倒了。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"upside down\"?",
-              "zh": "你能用“upside down”造一个句子吗？",
+              "en": "I turned the box upside down to find my keys.",
+              "zh": "我把箱子倒过来找钥匙。",
               "source": "context",
               "image": ""
             }
@@ -17647,22 +19057,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/keep_ones_cool_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/keep_ones_cool_2.png",
-          "usage": "短语",
+          "usage": "phrase; means to stay calm in a difficult situation",
           "collocations": [
-            "keep one's cool"
+            "try to keep one's cool",
+            "manage to keep one's cool",
+            "lose one's cool",
+            "keep one's cool under pressure"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“keep one's cool”相关的示意图。",
+          "preposition_combos": [
+            "N/A"
+          ],
+          "image_desc_cn": "一个学生在考试前平静地深呼吸；一个人在争吵时数到十。",
           "sentences": [
             {
-              "en": "We learned the word \"keep one's cool\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“keep one's cool”。",
+              "en": "During the math test, she took a deep breath to keep her cool.",
+              "zh": "数学考试时，她深吸一口气以保持冷静。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"keep one's cool\"?",
-              "zh": "你能用“keep one's cool”造一个句子吗？",
+              "en": "Even when the computer crashed, he managed to keep his cool and restart it.",
+              "zh": "即使电脑死机了，他也设法保持冷静并重新启动。",
               "source": "context",
               "image": ""
             }
@@ -17676,22 +19091,27 @@ const TEXTBOOK_DATA = {
           "phonemes": [],
           "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/none_1.png",
           "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/none_2.png",
-          "usage": "pron.",
+          "usage": "pronoun; not one; not any",
           "collocations": [
-            "none"
+            "none of",
+            "none at all",
+            "none but",
+            "none the less"
           ],
-          "preposition_combos": [],
-          "image_desc_cn": "与“none”相关的示意图。",
+          "preposition_combos": [
+            "none of"
+          ],
+          "image_desc_cn": "一个没有牛奶的空冰箱；一个没有学生的空教室。",
           "sentences": [
             {
-              "en": "We learned the word \"none\" in today's English class.",
-              "zh": "我们在今天的英语课上学习了单词“none”。",
+              "en": "None of the students knew the answer to the teacher's question.",
+              "zh": "没有一个学生知道老师问题的答案。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you make a sentence with \"none\"?",
-              "zh": "你能用“none”造一个句子吗？",
+              "en": "We looked for a parking space, but there was none available.",
+              "zh": "我们找停车位，但一个都没有。",
               "source": "context",
               "image": ""
             }
