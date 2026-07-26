@@ -19123,8 +19123,8 @@ const TEXTBOOK_DATA = {
           "chinese": "高中",
           "ipa": "/ˈsiːniə haɪ skuːl/",
           "phonemes": [],
-          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/senior_high_school_1.png",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/senior_high_school_2.png",
+          "image": "../../G9/Unit14/images/senior_high_school_1.jpg",
+          "image2": "../../G9/Unit14/images/senior_high_school_2.jpg",
           "usage": "n.",
           "collocations": [
             "senior high school student",
