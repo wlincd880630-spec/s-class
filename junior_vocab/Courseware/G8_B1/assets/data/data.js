@@ -224,39 +224,6 @@ const TEXTBOOK_DATA = {
         },
         {
           "id": "w7",
-          "word": "adj",
-          "chinese": "形容词（adj. 是 abbreviation 缩写）",
-          "ipa": "/ˈædʒɪktɪv/",
-          "phonemes": [],
-          "image": "../../G8_B1/Unit1/images/adj_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/adj_1.jpg",
-          "usage": "n. (缩写) 形容词；adj. 是 adjective 的缩写，用于词典标注词性",
-          "collocations": [
-            "adjective form",
-            "descriptive adjective",
-            "use an adjective"
-          ],
-          "preposition_combos": [
-            "无常见介词搭配"
-          ],
-          "image_desc_cn": "贴有形容词便签的白板，或词典上高亮显示 'adjective' 的页面",
-          "sentences": [
-            {
-              "en": "In the dictionary, 'beautiful' is marked as an adj.",
-              "zh": "在词典中，'beautiful' 被标注为形容词。",
-              "source": "textbook",
-              "image": ""
-            },
-            {
-              "en": "Please underline all the adj words in this short passage.",
-              "zh": "请在这篇短文中划出所有形容词。",
-              "source": "context",
-              "image": ""
-            }
-          ]
-        },
-        {
-          "id": "w8",
           "word": "town",
           "chinese": "镇；城镇",
           "ipa": "/taʊn/",
@@ -292,7 +259,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w9",
+          "id": "w8",
           "word": "breath",
           "chinese": "呼吸；一口气",
           "ipa": "/breθ/",
@@ -325,7 +292,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w10",
+          "id": "w9",
           "word": "take sb",
           "chinese": "带某人（去某处）",
           "ipa": "/teɪk ˈsʌmbədi/",
@@ -358,7 +325,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w11",
+          "id": "w10",
           "word": "especially",
           "chinese": "尤其；特别",
           "ipa": "/ɪˈspeʃəli/",
@@ -391,7 +358,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w12",
+          "id": "w11",
           "word": "steamed",
           "chinese": "蒸的；蒸熟的",
           "ipa": "/stiːmd/",
@@ -424,7 +391,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w13",
+          "id": "w12",
           "word": "anywhere",
           "chinese": "adv. 任何地方；无论何处",
           "ipa": "/ˈeniweər/",
@@ -458,7 +425,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w14",
+          "id": "w13",
           "word": "nothing",
           "chinese": "pron. 没有什么；没有东西",
           "ipa": "/ˈnʌθɪŋ/",
@@ -492,41 +459,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w15",
-          "word": "pron",
-          "chinese": "n. 代词（pronoun 的缩写）",
-          "ipa": "/prɒn/",
-          "phonemes": [],
-          "image": "../../G8_B1/Unit1/images/pron_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/pron_1.jpg",
-          "usage": "名词 n.",
-          "collocations": [
-            "subject pron",
-            "object pron",
-            "possessive pron"
-          ],
-          "preposition_combos": [
-            "pron in grammar",
-            "pron list"
-          ],
-          "image_desc_cn": "一本语法书打开到标题为‘代词’的页面，有高亮示例。",
-          "sentences": [
-            {
-              "en": "In English class, we learned the subject pron 'he'.",
-              "zh": "在英语课上，我们学习了主格代词‘he’。.",
-              "source": "textbook",
-              "image": ""
-            },
-            {
-              "en": "Please circle all the possessive prons in this sentence.",
-              "zh": "请圈出这个句子中所有物主代词。",
-              "source": "context",
-              "image": ""
-            }
-          ]
-        },
-        {
-          "id": "w16",
+          "id": "w14",
           "word": "guide",
           "chinese": "n. 指南；导游；v. 引导；带领",
           "ipa": "/ɡaɪd/",
@@ -560,7 +493,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w17",
+          "id": "w15",
           "word": "scenery",
           "chinese": "风景，景色（尤指自然风光）",
           "ipa": "/ˈsiːnəri/",
@@ -593,7 +526,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w18",
+          "id": "w16",
           "word": "silk",
           "chinese": "丝绸；丝线",
           "ipa": "/sɪlk/",
@@ -626,7 +559,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w19",
+          "id": "w17",
           "word": "scarf",
           "chinese": "围巾",
           "ipa": "/skɑːrf/",
@@ -659,7 +592,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w20",
+          "id": "w18",
           "word": "ready",
           "chinese": "准备好的；乐意的",
           "ipa": "/ˈredi/",
@@ -693,41 +626,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w21",
-          "word": "adv",
-          "chinese": "广告（名词）",
-          "ipa": "/æd/",
-          "phonemes": [],
-          "image": "../../G8_B1/Unit1/images/adv_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/adv_1.jpg",
-          "usage": "n. (可数名词，复数 advs)",
-          "collocations": [
-            "TV adv",
-            "online adv",
-            "adv campaign"
-          ],
-          "preposition_combos": [
-            "adv for",
-            "adv about"
-          ],
-          "image_desc_cn": "城市公交站台上的一张彩色广告海报，带有粗体文字和明亮图形",
-          "sentences": [
-            {
-              "en": "I saw a funny adv for a new phone on TV.",
-              "zh": "我在电视上看到一个有趣的新手机广告。",
-              "source": "textbook",
-              "image": ""
-            },
-            {
-              "en": "The school club put an adv on the notice board.",
-              "zh": "学校社团在公告栏上贴了一则广告。",
-              "source": "context",
-              "image": ""
-            }
-          ]
-        },
-        {
-          "id": "w22",
+          "id": "w19",
           "word": "ready to do sth",
           "chinese": "准备好做某事",
           "ipa": "/ˈredi tə duː ˈsʌmθɪŋ/",
@@ -760,7 +659,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w23",
+          "id": "w20",
           "word": "somewhere",
           "chinese": "在某处；到某处",
           "ipa": "/ˈsʌmweər/",
@@ -794,7 +693,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w24",
+          "id": "w21",
           "word": "myself",
           "chinese": "我自己",
           "ipa": "/maɪˈself/",
@@ -828,7 +727,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w25",
+          "id": "w22",
           "word": "nothing but",
           "chinese": "只有；仅仅",
           "ipa": "/ˈnʌθɪŋ bʌt/",
@@ -861,7 +760,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w26",
+          "id": "w23",
           "word": "hotel",
           "chinese": "酒店；旅馆",
           "ipa": "/hoʊˈtel/",
@@ -896,7 +795,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w27",
+          "id": "w24",
           "word": "comfortable",
           "chinese": "舒适的；舒服的",
           "ipa": "/ˈkʌmfərtəbl/",
@@ -930,7 +829,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w28",
+          "id": "w25",
           "word": "bored",
           "chinese": "无聊的；厌倦的",
           "ipa": "/bɔːrd/",
@@ -964,7 +863,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w29",
+          "id": "w26",
           "word": "sky",
           "chinese": "天空",
           "ipa": "/skaɪ/",
@@ -999,7 +898,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w30",
+          "id": "w27",
           "word": "towards",
           "chinese": "朝，向，接近",
           "ipa": "/təˈwɔːrdz/",
@@ -1034,42 +933,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w31",
-          "word": "prep",
-          "chinese": "准备（名词，非正式）；预备的（形容词）",
-          "ipa": "/prep/",
-          "phonemes": [],
-          "image": "../../G8_B1/Unit1/images/prep_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/prep_1.jpg",
-          "usage": "n. (非正式，preparation的缩写) / adj. (preparatory的缩写)",
-          "collocations": [
-            "prep time",
-            "prep work",
-            "do prep",
-            "exam prep"
-          ],
-          "preposition_combos": [
-            "prep for",
-            "prep before"
-          ],
-          "image_desc_cn": "为准备而摆放的物品，如书本或食材。",
-          "sentences": [
-            {
-              "en": "I need to do some prep before the math test.",
-              "zh": "数学考试前我需要做些准备。",
-              "source": "textbook",
-              "image": ""
-            },
-            {
-              "en": "The prep class helps students review key points.",
-              "zh": "预备课帮助学生复习重点。",
-              "source": "context",
-              "image": ""
-            }
-          ]
-        },
-        {
-          "id": "w32",
+          "id": "w28",
           "word": "rainbow",
           "chinese": "彩虹",
           "ipa": "/ˈreɪnboʊ/",
@@ -1104,7 +968,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w33",
+          "id": "w29",
           "word": "square",
           "chinese": "正方形；广场；平方的",
           "ipa": "/skwer/",
@@ -1138,7 +1002,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w34",
+          "id": "w30",
           "word": "during",
           "chinese": "在……期间",
           "ipa": "/ˈdʊrɪŋ/",
@@ -1171,7 +1035,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w35",
+          "id": "w31",
           "word": "victory",
           "chinese": "胜利",
           "ipa": "/ˈvɪktəri/",
@@ -1205,7 +1069,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w36",
+          "id": "w32",
           "word": "Russian",
           "chinese": "俄语的；俄罗斯的；俄罗斯人",
           "ipa": "/ˈrʌʃən/",
@@ -1239,7 +1103,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w37",
+          "id": "w33",
           "word": "fight",
           "chinese": "打架；斗争；奋斗",
           "ipa": "/faɪt/",
@@ -1275,7 +1139,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w38",
+          "id": "w34",
           "word": "against",
           "chinese": "反对；靠着；对抗",
           "ipa": "/əˈɡenst/",
@@ -1311,7 +1175,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w39",
+          "id": "w35",
           "word": "fight against sb",
           "chinese": "与某人斗争/对抗",
           "ipa": "/faɪt əˈɡenst ˈsʌmbədi/",
@@ -1344,7 +1208,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w40",
+          "id": "w36",
           "word": "artwork",
           "chinese": "艺术作品；美术品",
           "ipa": "/ˈɑːrtwɜːrk/",
@@ -1379,7 +1243,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w41",
+          "id": "w37",
           "word": "thousands of",
           "chinese": "数以千计的；成千上万的",
           "ipa": "/ˈθaʊzəndz əv/",
@@ -1410,7 +1274,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w42",
+          "id": "w38",
           "word": "tear",
           "chinese": "n. 眼泪；v. 撕破，撕裂",
           "ipa": "/tɪr/ (n.) /tɛr/ (v.)",
@@ -1446,7 +1310,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w43",
+          "id": "w39",
           "word": "remind",
           "chinese": "v. 提醒；使想起",
           "ipa": "/rɪˈmaɪnd/",
@@ -1479,7 +1343,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w44",
+          "id": "w40",
           "word": "peace",
           "chinese": "n. 和平；平静，安宁",
           "ipa": "/piːs/",
@@ -1514,7 +1378,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w45",
+          "id": "w41",
           "word": "easily",
           "chinese": "adv. 容易地；轻松地",
           "ipa": "/ˈiːzɪli/",
@@ -1548,7 +1412,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w46",
+          "id": "w42",
           "word": "forget",
           "chinese": "v. 忘记；遗忘",
           "ipa": "/fərˈɡet/",
@@ -1582,7 +1446,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w47",
+          "id": "w43",
           "word": "noon",
           "chinese": "n. 中午；正午",
           "ipa": "/nuːn/",
@@ -1616,7 +1480,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w48",
+          "id": "w44",
           "word": "sick",
           "chinese": "adj. 生病的；恶心的",
           "ipa": "/sɪk/",
@@ -1650,7 +1514,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w49",
+          "id": "w45",
           "word": "metro",
           "chinese": "地铁",
           "ipa": "/ˈmetrəʊ/",
@@ -1686,7 +1550,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w50",
+          "id": "w46",
           "word": "station",
           "chinese": "车站；站",
           "ipa": "/ˈsteɪʃn/",
@@ -1723,7 +1587,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w51",
+          "id": "w47",
           "word": "palace",
           "chinese": "宫殿；皇宫",
           "ipa": "/ˈpæləs/",
@@ -1759,7 +1623,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w52",
+          "id": "w48",
           "word": "accordion",
           "chinese": "手风琴",
           "ipa": "/əˈkɔːrdiən/",
@@ -1794,7 +1658,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w53",
+          "id": "w49",
           "word": "get together",
           "chinese": "聚会；相聚",
           "ipa": "/ɡet təˈɡeðər/",
@@ -1828,7 +1692,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w54",
+          "id": "w50",
           "word": "in the sun",
           "chinese": "在阳光下",
           "ipa": "/ɪn ðə sʌn/",
@@ -1863,7 +1727,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w55",
+          "id": "w51",
           "word": "tower",
           "chinese": "塔；高楼",
           "ipa": "/ˈtaʊər/",
@@ -1900,7 +1764,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w56",
+          "id": "w52",
           "word": "might",
           "chinese": "可能；也许",
           "ipa": "/maɪt/",
@@ -1935,7 +1799,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w57",
+          "id": "w53",
           "word": "budget",
           "chinese": "预算；为…做预算",
           "ipa": "/ˈbʌdʒɪt/",
@@ -1968,7 +1832,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w58",
+          "id": "w54",
           "word": "passport",
           "chinese": "护照",
           "ipa": "/ˈpɑːspɔːrt/",
@@ -2001,7 +1865,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w59",
+          "id": "w55",
           "word": "forgetful",
           "chinese": "健忘的；记性差的",
           "ipa": "/fərˈɡetfl/",
@@ -2034,7 +1898,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w60",
+          "id": "w56",
           "word": "faraway",
           "chinese": "遥远的；远方的",
           "ipa": "/ˌfɑːrəˈweɪ/",
@@ -2067,7 +1931,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w61",
+          "id": "w57",
           "word": "regular",
           "chinese": "adj. 有规律的；定期的；常规的",
           "ipa": "/ˈreɡjələr/",
@@ -2100,7 +1964,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w62",
+          "id": "w58",
           "word": "countryside",
           "chinese": "n. 乡村；农村地区",
           "ipa": "/ˈkʌntrisaɪd/",
@@ -2133,7 +1997,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w63",
+          "id": "w59",
           "word": "turn around",
           "chinese": "v. 转身；转向；调头",
           "ipa": "/tɜːrn əˈraʊnd/",
@@ -2167,7 +2031,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w64",
+          "id": "w60",
           "word": "surprised",
           "chinese": "adj. 感到惊讶的；吃惊的",
           "ipa": "/sərˈpraɪzd/",
@@ -2200,7 +2064,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w65",
+          "id": "w61",
           "word": "deer",
           "chinese": "鹿",
           "ipa": "/dɪr/",
@@ -2234,7 +2098,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w66",
+          "id": "w62",
           "word": "probably",
           "chinese": "很可能，大概",
           "ipa": "/ˈprɑːbəbli/",
@@ -2265,7 +2129,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w67",
+          "id": "w63",
           "word": "look for",
           "chinese": "寻找",
           "ipa": "/lʊk fɔːr/",
@@ -2298,7 +2162,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w68",
+          "id": "w64",
           "word": "Guest-Greeting",
           "chinese": "迎宾，问候客人",
           "ipa": "/ɡest ˈɡriːtɪŋ/",
@@ -2329,7 +2193,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w69",
+          "id": "w65",
           "word": "Sea of Clouds",
           "chinese": "云海",
           "ipa": "/siː əv klaʊdz/",
@@ -2363,7 +2227,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w70",
+          "id": "w66",
           "word": "Seattle",
           "chinese": "西雅图（美国城市）",
           "ipa": "/siˈætəl/",
@@ -2398,7 +2262,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w71",
+          "id": "w67",
           "word": "Red Square",
           "chinese": "红场（莫斯科著名广场）",
           "ipa": "/red skweər/",
@@ -2432,74 +2296,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w72",
-          "word": "Alexander",
-          "chinese": "亚历山大（男子名；历史人物亚历山大大帝）",
-          "ipa": "/ˌælɪɡˈzændər/",
-          "phonemes": [],
-          "image": "../../G8_B1/Unit1/images/Alexander_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/Alexander_1.jpg",
-          "usage": "n. (专有名词，人名)",
-          "collocations": [
-            "Alexander the Great",
-            "my friend Alexander",
-            "call Alexander"
-          ],
-          "preposition_combos": [
-            "with Alexander",
-            "about Alexander"
-          ],
-          "image_desc_cn": "博物馆中展示的一个年轻男子的大理石头像，代表历史人物亚历山大。",
-          "sentences": [
-            {
-              "en": "Alexander is my classmate and he is very good at math.",
-              "zh": "亚历山大是我的同学，他数学很好。",
-              "source": "textbook",
-              "image": ""
-            },
-            {
-              "en": "We learned about Alexander the Great in history class today.",
-              "zh": "我们今天在历史课上学习了亚历山大大帝。",
-              "source": "context",
-              "image": ""
-            }
-          ]
-        },
-        {
-          "id": "w73",
-          "word": "Vincent",
-          "chinese": "文森特（男子名，常指画家文森特·梵高）",
-          "ipa": "/ˈvɪnsənt/",
-          "phonemes": [],
-          "image": "../../G8_B1/Unit1/images/Vincent_1.jpg",
-          "image2": "../../G8_B1/Unit1/images/Vincent_1.jpg",
-          "usage": "n. (专有名词)",
-          "collocations": [
-            "Vincent van Gogh",
-            "Vincent's painting",
-            "artist Vincent"
-          ],
-          "preposition_combos": [
-            "a painting by Vincent; a letter from Vincent"
-          ],
-          "image_desc_cn": "一支画笔和调色板，旁边是一幅向日葵画作；一幅有漩涡笔触的星空画布。",
-          "sentences": [
-            {
-              "en": "Vincent painted many beautiful sunflowers in bright yellow colors.",
-              "zh": "文森特用明亮的黄色画了许多美丽的向日葵。",
-              "source": "textbook",
-              "image": ""
-            },
-            {
-              "en": "My art teacher showed us a book about Vincent's life.",
-              "zh": "我的美术老师给我们看了一本关于文森特生平的书。",
-              "source": "context",
-              "image": ""
-            }
-          ]
-        },
-        {
-          "id": "w74",
+          "id": "w68",
           "word": "Moscow",
           "chinese": "莫斯科（俄罗斯首都）",
           "ipa": "/ˈmɒskoʊ/",
@@ -2532,7 +2329,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w75",
+          "id": "w69",
           "word": "Russia",
           "chinese": "俄罗斯（国家名）",
           "ipa": "/ˈrʌʃə/",
@@ -2572,7 +2369,7 @@ const TEXTBOOK_DATA = {
       "title": "第 2 单元",
       "words": [
         {
-          "id": "w76",
+          "id": "w70",
           "word": "pack",
           "chinese": "打包；包装；收拾（行李）",
           "ipa": "/pæk/",
@@ -2607,7 +2404,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w77",
+          "id": "w71",
           "word": "pack up",
           "chinese": "打包；收拾（行李）",
           "ipa": "/pæk ʌp/",
@@ -2640,7 +2437,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w78",
+          "id": "w72",
           "word": "bathroom",
           "chinese": "浴室；卫生间",
           "ipa": "/ˈbæθruːm/",
@@ -2675,7 +2472,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w79",
+          "id": "w73",
           "word": "sort",
           "chinese": "整理；分类；种类",
           "ipa": "/sɔːrt/",
@@ -2709,7 +2506,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w80",
+          "id": "w74",
           "word": "bedroom",
           "chinese": "卧室",
           "ipa": "/ˈbedruːm/",
@@ -2745,7 +2542,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w81",
+          "id": "w75",
           "word": "balcony",
           "chinese": "阳台",
           "ipa": "/ˈbælkəni/",
@@ -2779,7 +2576,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w82",
+          "id": "w76",
           "word": "hang up",
           "chinese": "挂起；挂断电话",
           "ipa": "/hæŋ ʌp/",
@@ -2813,7 +2610,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w83",
+          "id": "w77",
           "word": "invite",
           "chinese": "邀请",
           "ipa": "/ɪnˈvaɪt/",
@@ -2847,7 +2644,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w84",
+          "id": "w78",
           "word": "living room",
           "chinese": "客厅",
           "ipa": "/ˈlɪvɪŋ ruːm/",
@@ -2880,7 +2677,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w85",
+          "id": "w79",
           "word": "arrival",
           "chinese": "到达；抵达",
           "ipa": "/əˈraɪvəl/",
@@ -2916,7 +2713,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w86",
+          "id": "w80",
           "word": "yet",
           "chinese": "还；已经（用于否定句和疑问句）",
           "ipa": "/jet/",
@@ -2949,40 +2746,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w87",
-          "word": "conj",
-          "chinese": "连词（连接词、短语或句子的词）",
-          "ipa": "/kənˈdʒʌŋkʃən/",
-          "phonemes": [],
-          "image": "../../G8_B1/Unit2/images/conj_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/conj_1.jpg",
-          "usage": "名词 n. (缩写 conj., 全称 conjunction)",
-          "collocations": [
-            "coordinating conj",
-            "subordinating conj",
-            "use a conj"
-          ],
-          "preposition_combos": [
-            "无常见介词搭配"
-          ],
-          "image_desc_cn": "一串回形针连接两张分开的纸",
-          "sentences": [
-            {
-              "en": "The word 'and' is a common conj that joins two ideas.",
-              "zh": "单词'and'是一个常见的连词，连接两个想法。",
-              "source": "textbook",
-              "image": ""
-            },
-            {
-              "en": "You should use a conj like 'but' to show contrast in a sentence.",
-              "zh": "你应该用像'but'这样的连词来表示句子中的对比。",
-              "source": "context",
-              "image": ""
-            }
-          ]
-        },
-        {
-          "id": "w88",
+          "id": "w81",
           "word": "add",
           "chinese": "加；增加",
           "ipa": "/æd/",
@@ -3016,7 +2780,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w89",
+          "id": "w82",
           "word": "add sth to sth",
           "chinese": "把某物加到某物中",
           "ipa": "/æd ˈsʌmθɪŋ tu ˈsʌmθɪŋ/",
@@ -3049,7 +2813,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w90",
+          "id": "w83",
           "word": "go shopping",
           "chinese": "去购物",
           "ipa": "/ɡoʊ ˈʃɒpɪŋ/",
@@ -3082,7 +2846,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w91",
+          "id": "w84",
           "word": "biscuit",
           "chinese": "饼干",
           "ipa": "/ˈbɪskɪt/",
@@ -3116,7 +2880,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w92",
+          "id": "w85",
           "word": "borrow",
           "chinese": "借入，借用",
           "ipa": "/ˈbɒrəʊ/",
@@ -3147,7 +2911,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w93",
+          "id": "w86",
           "word": "several",
           "chinese": "几个，数个（多于两个但不多）",
           "ipa": "/ˈsevrəl/",
@@ -3181,7 +2945,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w94",
+          "id": "w87",
           "word": "nod",
           "chinese": "点头（表示同意或打招呼）",
           "ipa": "/nɒd/",
@@ -3215,7 +2979,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w95",
+          "id": "w88",
           "word": "writer",
           "chinese": "作家，作者",
           "ipa": "/ˈraɪtə(r)/",
@@ -3248,7 +3012,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w96",
+          "id": "w89",
           "word": "text",
           "chinese": "n. 文本；短信；v. (过去式 texted, 过去分词 texted) 发短信",
           "ipa": "/tekst/",
@@ -3282,7 +3046,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w97",
+          "id": "w90",
           "word": "describe",
           "chinese": "v. (过去式 described, 过去分词 described) 描述，形容",
           "ipa": "/dɪˈskraɪb/",
@@ -3316,7 +3080,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w98",
+          "id": "w91",
           "word": "wherever",
           "chinese": "conj. / adv. 无论在哪里；无论到哪里",
           "ipa": "/weərˈevər/",
@@ -3349,7 +3113,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w99",
+          "id": "w92",
           "word": "matter",
           "chinese": "n. 事情，问题；v. (过去式 mattered, 过去分词 mattered) 要紧，重要",
           "ipa": "/ˈmætər/",
@@ -3382,7 +3146,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w100",
+          "id": "w93",
           "word": "no matter",
           "chinese": "无论；不管",
           "ipa": "/noʊ ˈmætər/",
@@ -3413,7 +3177,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w101",
+          "id": "w94",
           "word": "perhaps",
           "chinese": "也许；可能",
           "ipa": "/pərˈhæps/",
@@ -3444,41 +3208,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w102",
-          "word": "adv",
-          "chinese": "广告（名词）",
-          "ipa": "/æd/",
-          "phonemes": [],
-          "image": "../../G8_B1/Unit2/images/adv_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/adv_1.jpg",
-          "usage": "n. (名词) 可数名词，复数形式为 advs；是 advertisement 的缩写",
-          "collocations": [
-            "TV adv",
-            "online adv",
-            "job adv"
-          ],
-          "preposition_combos": [
-            "adv for",
-            "adv about"
-          ],
-          "image_desc_cn": "一个短视频缩略图，显示彩色汽水罐和气泡，带有星爆状‘NEW’字样",
-          "sentences": [
-            {
-              "en": "I saw an adv for a new bike in the magazine.",
-              "zh": "我在杂志上看到一则新自行车的广告。",
-              "source": "textbook",
-              "image": ""
-            },
-            {
-              "en": "The company put an adv on the website to find workers.",
-              "zh": "这家公司在网站上登广告招聘工人。",
-              "source": "context",
-              "image": ""
-            }
-          ]
-        },
-        {
-          "id": "w103",
+          "id": "w95",
           "word": "plate",
           "chinese": "盘子；碟子",
           "ipa": "/pleɪt/",
@@ -3512,7 +3242,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w104",
+          "id": "w96",
           "word": "freshly",
           "chinese": "adv. 刚刚；新鲜地；精神饱满地",
           "ipa": "/ˈfreʃ.li/",
@@ -3546,7 +3276,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w105",
+          "id": "w97",
           "word": "smell",
           "chinese": "v. 闻到；嗅；散发气味 n. 气味；嗅觉",
           "ipa": "/smel/",
@@ -3581,7 +3311,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w106",
+          "id": "w98",
           "word": "joy",
           "chinese": "n. 快乐；喜悦；乐趣",
           "ipa": "/dʒɔɪ/",
@@ -3616,7 +3346,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w107",
+          "id": "w99",
           "word": "apartment",
           "chinese": "n. 公寓套房",
           "ipa": "/əˈpɑːrt.mənt/",
@@ -3651,7 +3381,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w108",
+          "id": "w100",
           "word": "block",
           "chinese": "n. 街区；积木；障碍物 v. 阻塞；阻挡",
           "ipa": "/blɒk/",
@@ -3687,7 +3417,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w109",
+          "id": "w101",
           "word": "decorate",
           "chinese": "v. 装饰；装潢",
           "ipa": "/ˈdekəreɪt/",
@@ -3720,7 +3450,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w110",
+          "id": "w102",
           "word": "cover",
           "chinese": "v. 覆盖；包括 n. 封面；盖子",
           "ipa": "/ˈkʌvər/",
@@ -3755,7 +3485,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w111",
+          "id": "w103",
           "word": "poster",
           "chinese": "n. 海报；招贴画",
           "ipa": "/ˈpəʊstər/",
@@ -3790,7 +3520,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w112",
+          "id": "w104",
           "word": "scissors",
           "chinese": "剪刀",
           "ipa": "/ˈsɪzərz/",
@@ -3824,7 +3554,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w113",
+          "id": "w105",
           "word": "glue",
           "chinese": "胶水；粘合",
           "ipa": "/ɡluː/",
@@ -3858,7 +3588,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w114",
+          "id": "w106",
           "word": "paper-cut",
           "chinese": "剪纸（中国民间艺术）",
           "ipa": "/ˈpeɪpər kʌt/",
@@ -3891,7 +3621,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w115",
+          "id": "w107",
           "word": "plan",
           "chinese": "计划；打算",
           "ipa": "/plæn/",
@@ -3926,7 +3656,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w116",
+          "id": "w108",
           "word": "treasure",
           "chinese": "n. 宝藏，珍宝；v. 珍视，珍爱",
           "ipa": "/ˈtreʒər/",
@@ -3961,7 +3691,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w117",
+          "id": "w109",
           "word": "hunt",
           "chinese": "v. 打猎；搜寻，追捕 n. 打猎；搜索",
           "ipa": "/hʌnt/",
@@ -3996,7 +3726,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w118",
+          "id": "w110",
           "word": "treasure hunt",
           "chinese": "n. 寻宝游戏；寻宝活动",
           "ipa": "/ˈtreʒər hʌnt/",
@@ -4030,7 +3760,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w119",
+          "id": "w111",
           "word": "lift",
           "chinese": "v. 举起，抬起；n. 电梯；搭便车",
           "ipa": "/lɪft/",
@@ -4066,7 +3796,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w120",
+          "id": "w112",
           "word": "give sb a lift",
           "chinese": "让某人搭便车",
           "ipa": "/ɡɪv ˈsʌmbədi ə lɪft/",
@@ -4100,7 +3830,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w121",
+          "id": "w113",
           "word": "until",
           "chinese": "直到……为止",
           "ipa": "/ənˈtɪl/",
@@ -4135,41 +3865,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w122",
-          "word": "prep",
-          "chinese": "准备（名词，preparation 的缩写）；准备功课（动词）",
-          "ipa": "/prep/",
-          "phonemes": [],
-          "image": "../../G8_B1/Unit2/images/prep_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/prep_1.jpg",
-          "usage": "名词 n. / 动词 v. (过去式 prepped, 过去分词 prepped)",
-          "collocations": [
-            "exam prep",
-            "prep time",
-            "prep class",
-            "prep for a test"
-          ],
-          "preposition_combos": [
-            "prep for (something)"
-          ],
-          "image_desc_cn": "一张书桌上堆着教科书、笔记本、一杯咖啡和一个计时器，展示备考场景。",
-          "sentences": [
-            {
-              "en": "I have two hours of math prep every weekend.",
-              "zh": "我每个周末有两小时的数学备考时间。",
-              "source": "textbook",
-              "image": ""
-            },
-            {
-              "en": "She prepped for the English test by reading aloud.",
-              "zh": "她通过大声朗读来准备英语考试。",
-              "source": "context",
-              "image": ""
-            }
-          ]
-        },
-        {
-          "id": "w123",
+          "id": "w114",
           "word": "be careful with",
           "chinese": "小心对待（某物/某事）",
           "ipa": "/biː ˈkeərfəl wɪð/",
@@ -4202,7 +3898,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w124",
+          "id": "w115",
           "word": "movie",
           "chinese": "电影",
           "ipa": "/ˈmuːvi/",
@@ -4237,7 +3933,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w125",
+          "id": "w116",
           "word": "the movies",
           "chinese": "电影院；电影（泛指）",
           "ipa": "/ðə ˈmuːviz/",
@@ -4270,7 +3966,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w126",
+          "id": "w117",
           "word": "dead",
           "chinese": "死的；无生命的；失效的",
           "ipa": "/ded/",
@@ -4304,7 +4000,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w127",
+          "id": "w118",
           "word": "note",
           "chinese": "笔记；便条；音符",
           "ipa": "/noʊt/",
@@ -4340,7 +4036,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w128",
+          "id": "w119",
           "word": "take notes",
           "chinese": "记笔记",
           "ipa": "/teɪk noʊts/",
@@ -4373,7 +4069,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w129",
+          "id": "w120",
           "word": "clean up",
           "chinese": "打扫干净；清理",
           "ipa": "/kliːn ʌp/",
@@ -4406,7 +4102,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w130",
+          "id": "w121",
           "word": "community",
           "chinese": "社区；团体",
           "ipa": "/kəˈmjuːnəti/",
@@ -4440,7 +4136,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w131",
+          "id": "w122",
           "word": "rubbish",
           "chinese": "垃圾；废弃物",
           "ipa": "/ˈrʌbɪʃ/",
@@ -4474,7 +4170,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w132",
+          "id": "w123",
           "word": "almost",
           "chinese": "几乎，差不多",
           "ipa": "/ˈɔːl.məʊst/",
@@ -4507,7 +4203,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w133",
+          "id": "w124",
           "word": "journey",
           "chinese": "旅行，旅程",
           "ipa": "/ˈdʒɜː.ni/",
@@ -4542,7 +4238,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w134",
+          "id": "w125",
           "word": "pull",
           "chinese": "拉，拖",
           "ipa": "/pʊl/",
@@ -4577,7 +4273,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w135",
+          "id": "w126",
           "word": "luggage",
           "chinese": "行李",
           "ipa": "/ˈlʌɡ.ɪdʒ/",
@@ -4611,40 +4307,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w136",
-          "word": "ah",
-          "chinese": "啊（表示恍然大悟、惊讶或理解）",
-          "ipa": "/ɑː/",
-          "phonemes": [],
-          "image": "../../G8_B1/Unit2/images/ah_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/ah_1.jpg",
-          "usage": "感叹词 interj.",
-          "collocations": [
-            "Ah",
-            "I see! / Ah",
-            "that's it!"
-          ],
-          "preposition_combos": [
-            "无固定搭配"
-          ],
-          "image_desc_cn": "灯泡在书本上方发光，或放大镜照在植物嫩芽上。",
-          "sentences": [
-            {
-              "en": "Ah, now I understand the math problem clearly.",
-              "zh": "啊，现在我清楚地理解这道数学题了。",
-              "source": "textbook",
-              "image": ""
-            },
-            {
-              "en": "Ah, this is the book I lost last week.",
-              "zh": "啊，这就是我上周丢的那本书。",
-              "source": "context",
-              "image": ""
-            }
-          ]
-        },
-        {
-          "id": "w137",
+          "id": "w127",
           "word": "share sth with sb",
           "chinese": "与某人分享某物",
           "ipa": "/ʃeər sʌmθɪŋ wɪð sʌmbədi/",
@@ -4675,40 +4338,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w138",
-          "word": "mm",
-          "chinese": "嗯（表示满意、赞同或正在思考）",
-          "ipa": "/mː/",
-          "phonemes": [],
-          "image": "../../G8_B1/Unit2/images/mm_1.jpg",
-          "image2": "../../G8_B1/Unit2/images/mm_1.jpg",
-          "usage": "感叹词 interj.",
-          "collocations": [
-            "Mm",
-            "delicious! / Mm",
-            "I think so."
-          ],
-          "preposition_combos": [
-            "无固定搭配"
-          ],
-          "image_desc_cn": "一杯冒着热气、棉花糖融化的热巧克力，或一盘新鲜出炉的饼干。",
-          "sentences": [
-            {
-              "en": "Mm, this apple pie tastes really good.",
-              "zh": "嗯，这个苹果派味道真不错。",
-              "source": "textbook",
-              "image": ""
-            },
-            {
-              "en": "Mm, I agree with your plan for the weekend.",
-              "zh": "嗯，我同意你的周末计划。",
-              "source": "context",
-              "image": ""
-            }
-          ]
-        },
-        {
-          "id": "w139",
+          "id": "w128",
           "word": "familiar",
           "chinese": "熟悉的；常见的",
           "ipa": "/fəˈmɪliər/",
@@ -4739,7 +4369,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w140",
+          "id": "w129",
           "word": "joke",
           "chinese": "笑话；玩笑；开玩笑",
           "ipa": "/dʒəʊk/",
@@ -4781,7 +4411,7 @@ const TEXTBOOK_DATA = {
       "title": "第 3 单元",
       "words": [
         {
-          "id": "w141",
+          "id": "w130",
           "word": "compare",
           "chinese": "比较，对比",
           "ipa": "/kəmˈpeər/",
@@ -4814,7 +4444,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w142",
+          "id": "w131",
           "word": "shy",
           "chinese": "害羞的，腼腆的",
           "ipa": "/ʃaɪ/",
@@ -4848,7 +4478,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w143",
+          "id": "w132",
           "word": "lazy",
           "chinese": "懒惰的，懒散的",
           "ipa": "/ˈleɪzi/",
@@ -4881,7 +4511,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w144",
+          "id": "w133",
           "word": "loud",
           "chinese": "大声的，响亮的；吵闹的",
           "ipa": "/laʊd/",
@@ -4914,7 +4544,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w145",
+          "id": "w134",
           "word": "rainfall",
           "chinese": "降雨量",
           "ipa": "/ˈreɪnfɔːl/",
@@ -4948,7 +4578,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w146",
+          "id": "w135",
           "word": "per",
           "chinese": "每，每一",
           "ipa": "/pɜːr/",
@@ -4982,41 +4612,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w147",
-          "word": "mm",
-          "chinese": "毫米（长度单位）",
-          "ipa": "/ˌem ˈem/",
-          "phonemes": [],
-          "image": "../../G8_B1/Unit3/images/mm_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/mm_1.jpg",
-          "usage": "n. (缩写，可数名词，单复数同形)",
-          "collocations": [
-            "10 mm",
-            "a few mm",
-            "mm of rain"
-          ],
-          "preposition_combos": [
-            "mm in length",
-            "mm of (物质)"
-          ],
-          "image_desc_cn": "尺子毫米刻度的特写，铅笔尖停在5毫米处。",
-          "sentences": [
-            {
-              "en": "The pencil is 7 mm thick and 150 mm long.",
-              "zh": "这支铅笔粗7毫米，长150毫米。",
-              "source": "textbook",
-              "image": ""
-            },
-            {
-              "en": "Only 2 mm of rain fell during the whole week.",
-              "zh": "整个星期只下了2毫米的雨。",
-              "source": "context",
-              "image": ""
-            }
-          ]
-        },
-        {
-          "id": "w148",
+          "id": "w136",
           "word": "millimeter",
           "chinese": "毫米",
           "ipa": "/ˈmɪlɪmiːtər/",
@@ -5050,7 +4646,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w149",
+          "id": "w137",
           "word": "pleasant",
           "chinese": "令人愉快的，舒适的",
           "ipa": "/ˈpleznt/",
@@ -5085,7 +4681,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w150",
+          "id": "w138",
           "word": "difference",
           "chinese": "差异，不同之处",
           "ipa": "/ˈdɪfrəns/",
@@ -5120,7 +4716,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w151",
+          "id": "w139",
           "word": "alike",
           "chinese": "相似的，相同的；同样地",
           "ipa": "/əˈlaɪk/",
@@ -5154,7 +4750,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w152",
+          "id": "w140",
           "word": "mirror",
           "chinese": "镜子；反映，反射",
           "ipa": "/ˈmɪrər/",
@@ -5189,7 +4785,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w153",
+          "id": "w141",
           "word": "interest",
           "chinese": "兴趣；使感兴趣",
           "ipa": "/ˈɪntrəst/",
@@ -5222,7 +4818,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w154",
+          "id": "w142",
           "word": "novel",
           "chinese": "小说；新颖的",
           "ipa": "/ˈnɒvəl/",
@@ -5255,7 +4851,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w155",
+          "id": "w143",
           "word": "sense",
           "chinese": "感觉；意识；感官；意识到",
           "ipa": "/sens/",
@@ -5288,7 +4884,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w156",
+          "id": "w144",
           "word": "humour",
           "chinese": "幽默；幽默感",
           "ipa": "/ˈhjuːmə(r)/",
@@ -5321,7 +4917,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w157",
+          "id": "w145",
           "word": "thanks to",
           "chinese": "幸亏；由于（表示原因，常指积极结果）",
           "ipa": "/θæŋks tuː/",
@@ -5354,7 +4950,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w158",
+          "id": "w146",
           "word": "opinion",
           "chinese": "意见；看法",
           "ipa": "/əˈpɪnjən/",
@@ -5388,7 +4984,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w159",
+          "id": "w147",
           "word": "make a mistake",
           "chinese": "犯错误",
           "ipa": "/meɪk ə mɪˈsteɪk/",
@@ -5421,7 +5017,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w160",
+          "id": "w148",
           "word": "less",
           "chinese": "更少的；较少地",
           "ipa": "/les/",
@@ -5456,73 +5052,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w161",
-          "word": "adv",
-          "chinese": "副词（语法术语）",
-          "ipa": "/ædv/",
-          "phonemes": [],
-          "image": "../../G8_B1/Unit3/images/adv_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/adv_1.jpg",
-          "usage": "n. (缩写) 副词",
-          "collocations": [
-            "adv. of time",
-            "adv. of place",
-            "adv. of manner"
-          ],
-          "preposition_combos": [
-            "used as adv. in grammar"
-          ],
-          "image_desc_cn": "一个红色停车标志，上面用粗体白字写着“ADV”，立在阳光明媚的公园里的木柱上",
-          "sentences": [
-            {
-              "en": "The teacher asked us to find an adv in the sentence.",
-              "zh": "老师让我们在句子中找一个副词。",
-              "source": "textbook",
-              "image": ""
-            },
-            {
-              "en": "In 'run quickly', 'quickly' is an adv of manner.",
-              "zh": "在“run quickly”中，“quickly”是方式副词。",
-              "source": "context",
-              "image": ""
-            }
-          ]
-        },
-        {
-          "id": "w162",
-          "word": "pron",
-          "chinese": "代词（语法术语）",
-          "ipa": "/prɒn/",
-          "phonemes": [],
-          "image": "../../G8_B1/Unit3/images/pron_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/pron_1.jpg",
-          "usage": "n. (缩写) 代词",
-          "collocations": [
-            "personal pron",
-            "possessive pron",
-            "reflexive pron"
-          ],
-          "preposition_combos": [
-            "used as pron in grammar"
-          ],
-          "image_desc_cn": "一块白板，上面用蓝色记号笔写着“pron”，周围环绕着“he”、“she”、“it”等代词示例",
-          "sentences": [
-            {
-              "en": "Please replace the noun with a pron in the sentence.",
-              "zh": "请用代词替换句子中的名词。",
-              "source": "textbook",
-              "image": ""
-            },
-            {
-              "en": "The word 'they' is a personal pron for plural subjects.",
-              "zh": "单词“they”是用于复数主语的人称代词。",
-              "source": "context",
-              "image": ""
-            }
-          ]
-        },
-        {
-          "id": "w163",
+          "id": "w149",
           "word": "straightforward",
           "chinese": "简单的；易懂的；直截了当的",
           "ipa": "/ˌstreɪtˈfɔːrwərd/",
@@ -5556,40 +5086,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w164",
-          "word": "adj",
-          "chinese": "形容词（语法术语）",
-          "ipa": "/ædʒ/",
-          "phonemes": [],
-          "image": "../../G8_B1/Unit3/images/adj_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/adj_1.jpg",
-          "usage": "n. (缩写) 形容词",
-          "collocations": [
-            "descriptive adj",
-            "possessive adj",
-            "comparative adj"
-          ],
-          "preposition_combos": [
-            "used as adj in grammar"
-          ],
-          "image_desc_cn": "教室墙上的一张彩色海报，列出了“big”、“small”、“happy”等形容词，顶部有缩写“adj”",
-          "sentences": [
-            {
-              "en": "The word 'beautiful' is an adj that describes a noun.",
-              "zh": "单词“beautiful”是描述名词的形容词。",
-              "source": "textbook",
-              "image": ""
-            },
-            {
-              "en": "In the phrase 'a red apple', 'red' is an adj of color.",
-              "zh": "在短语“a red apple”中，“red”是颜色形容词。",
-              "source": "context",
-              "image": ""
-            }
-          ]
-        },
-        {
-          "id": "w165",
+          "id": "w150",
           "word": "honest",
           "chinese": "诚实的；坦率的",
           "ipa": "/ˈɒnɪst/",
@@ -5623,7 +5120,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w166",
+          "id": "w151",
           "word": "direct",
           "chinese": "直接的；径直的；坦率的",
           "ipa": "/dəˈrekt/",
@@ -5657,7 +5154,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w167",
+          "id": "w152",
           "word": "similarity",
           "chinese": "相似性；相似点",
           "ipa": "/ˌsɪməˈlærəti/",
@@ -5691,7 +5188,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w168",
+          "id": "w153",
           "word": "friendship",
           "chinese": "友谊；友情",
           "ipa": "/ˈfrendʃɪp/",
@@ -5725,7 +5222,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w169",
+          "id": "w154",
           "word": "metre",
           "chinese": "米（长度单位）",
           "ipa": "/ˈmiːtər/",
@@ -5759,7 +5256,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w170",
+          "id": "w155",
           "word": "prince",
           "chinese": "王子；亲王",
           "ipa": "/prɪns/",
@@ -5792,7 +5289,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w171",
+          "id": "w156",
           "word": "character",
           "chinese": "角色；性格；汉字",
           "ipa": "/ˈkærəktər/",
@@ -5826,7 +5323,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w172",
+          "id": "w157",
           "word": "pauper",
           "chinese": "穷人；乞丐",
           "ipa": "/ˈpɔːpər/",
@@ -5859,7 +5356,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w173",
+          "id": "w158",
           "word": "exchange",
           "chinese": "交换；交流；兑换",
           "ipa": "/ɪksˈtʃeɪndʒ/",
@@ -5894,7 +5391,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w174",
+          "id": "w159",
           "word": "outgoing",
           "chinese": "外向的；友好的；即将离职的",
           "ipa": "/ˌaʊtˈɡoʊɪŋ/",
@@ -5928,7 +5425,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w175",
+          "id": "w160",
           "word": "hard-working",
           "chinese": "勤奋的；努力工作的",
           "ipa": "/ˌhɑːrd ˈwɜːrkɪŋ/",
@@ -5962,7 +5459,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w176",
+          "id": "w161",
           "word": "perform",
           "chinese": "表演；表现；执行",
           "ipa": "/pərˈfɔːrm/",
@@ -5997,7 +5494,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w177",
+          "id": "w162",
           "word": "alone",
           "chinese": "独自的；孤独的；单独地",
           "ipa": "/əˈləʊn/",
@@ -6032,7 +5529,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w178",
+          "id": "w163",
           "word": "solve",
           "chinese": "解决；解答",
           "ipa": "/sɒlv/",
@@ -6067,7 +5564,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w179",
+          "id": "w164",
           "word": "flute",
           "chinese": "长笛",
           "ipa": "/fluːt/",
@@ -6102,7 +5599,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w180",
+          "id": "w165",
           "word": "congratulation",
           "chinese": "祝贺；恭喜",
           "ipa": "/kənˌɡrætʃuˈleɪʃən/",
@@ -6137,7 +5634,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w181",
+          "id": "w166",
           "word": "Congratulations",
           "chinese": "祝贺，恭喜（名词，常用复数形式）",
           "ipa": "/kənˌɡrætʃʊˈleɪʃənz/",
@@ -6170,7 +5667,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w182",
+          "id": "w167",
           "word": "prize",
           "chinese": "奖品，奖赏；珍视",
           "ipa": "/praɪz/",
@@ -6204,7 +5701,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w183",
+          "id": "w168",
           "word": "attend",
           "chinese": "参加，出席；上（学）",
           "ipa": "/əˈtend/",
@@ -6239,7 +5736,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w184",
+          "id": "w169",
           "word": "besides",
           "chinese": "除……之外（还）",
           "ipa": "/bɪˈsaɪdz/",
@@ -6272,7 +5769,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w185",
+          "id": "w170",
           "word": "spare",
           "chinese": "adj. 备用的；多余的；空闲的",
           "ipa": "/sper/",
@@ -6306,7 +5803,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w186",
+          "id": "w171",
           "word": "spare time",
           "chinese": "n. 空闲时间",
           "ipa": "/sper taɪm/",
@@ -6339,7 +5836,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w187",
+          "id": "w172",
           "word": "pleasure",
           "chinese": "n. 快乐；愉快；乐事",
           "ipa": "/ˈpleʒər/",
@@ -6372,7 +5869,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w188",
+          "id": "w173",
           "word": "have sth in common",
           "chinese": "有共同之处",
           "ipa": "/hæv ˈsʌmθɪŋ ɪn ˈkɑːmən/",
@@ -6405,7 +5902,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w189",
+          "id": "w174",
           "word": "appearance",
           "chinese": "外貌；外观；出现",
           "ipa": "/əˈpɪərəns/",
@@ -6439,7 +5936,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w190",
+          "id": "w175",
           "word": "personality",
           "chinese": "个性；性格",
           "ipa": "/ˌpɜːrsəˈnæləti/",
@@ -6473,7 +5970,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w191",
+          "id": "w176",
           "word": "serious",
           "chinese": "严肃的；认真的；严重的",
           "ipa": "/ˈsɪriəs/",
@@ -6506,7 +6003,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w192",
+          "id": "w177",
           "word": "strength",
           "chinese": "力量；优点；强度",
           "ipa": "/streŋθ/",
@@ -6540,7 +6037,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w193",
+          "id": "w178",
           "word": "slim",
           "chinese": "adj. 苗条的；薄的；微小的（机会等）",
           "ipa": "/slɪm/",
@@ -6574,7 +6071,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w194",
+          "id": "w179",
           "word": "fact",
           "chinese": "n. 事实；真相",
           "ipa": "/fækt/",
@@ -6608,7 +6105,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w195",
+          "id": "w180",
           "word": "population",
           "chinese": "n. 人口；种群数量",
           "ipa": "/ˌpɒpjuˈleɪʃn/",
@@ -6642,7 +6139,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w196",
+          "id": "w181",
           "word": "km",
           "chinese": "abbr. 千米，公里（kilometer 的缩写）",
           "ipa": "/ˌkeɪˈem/",
@@ -6676,7 +6173,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w197",
+          "id": "w182",
           "word": "kilometer",
           "chinese": "千米，公里",
           "ipa": "/ˈkɪləˌmiːtər/",
@@ -6710,7 +6207,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w198",
+          "id": "w183",
           "word": "average",
           "chinese": "平均的；平均数",
           "ipa": "/ˈævərɪdʒ/",
@@ -6745,7 +6242,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w199",
+          "id": "w184",
           "word": "accident",
           "chinese": "事故；意外",
           "ipa": "/ˈæksɪdənt/",
@@ -6779,7 +6276,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w200",
+          "id": "w185",
           "word": "by accident",
           "chinese": "偶然地，意外地",
           "ipa": "/baɪ ˈæksɪdənt/",
@@ -6812,7 +6309,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w201",
+          "id": "w186",
           "word": "expect",
           "chinese": "期待；预料；指望",
           "ipa": "/ɪkˈspekt/",
@@ -6843,7 +6340,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w202",
+          "id": "w187",
           "word": "silver",
           "chinese": "银；银色的",
           "ipa": "/ˈsɪlvər/",
@@ -6874,7 +6371,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w203",
+          "id": "w188",
           "word": "lining",
           "chinese": "内衬；衬里",
           "ipa": "/ˈlaɪnɪŋ/",
@@ -6905,7 +6402,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w204",
+          "id": "w189",
           "word": "silver lining",
           "chinese": "（不幸中的）一线希望",
           "ipa": "/ˈsɪlvər ˈlaɪnɪŋ/",
@@ -6936,7 +6433,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w205",
+          "id": "w190",
           "word": "situation",
           "chinese": "情况；局面；形势",
           "ipa": "/ˌsɪtʃuˈeɪʃən/",
@@ -6970,7 +6467,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w206",
+          "id": "w191",
           "word": "care about",
           "chinese": "关心；在乎；在意",
           "ipa": "/keər əˈbaʊt/",
@@ -7003,7 +6500,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w207",
+          "id": "w192",
           "word": "reach",
           "chinese": "到达；够到；联系",
           "ipa": "/riːtʃ/",
@@ -7038,7 +6535,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w208",
+          "id": "w193",
           "word": "reach for",
           "chinese": "伸手去拿；努力争取",
           "ipa": "/riːtʃ fɔːr/",
@@ -7071,7 +6568,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w209",
+          "id": "w194",
           "word": "touch",
           "chinese": "触摸；接触；感动",
           "ipa": "/tʌtʃ/",
@@ -7106,7 +6603,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w210",
+          "id": "w195",
           "word": "lend",
           "chinese": "借出；借给",
           "ipa": "/lend/",
@@ -7140,38 +6637,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w211",
-          "word": "Julie",
-          "chinese": "朱莉（女性名字）",
-          "ipa": "/ˈdʒuːli/",
-          "phonemes": [],
-          "image": "../../G8_B1/Unit3/images/Julie_1.jpg",
-          "image2": "../../G8_B1/Unit3/images/Julie_1.jpg",
-          "usage": "n. (专有名词)",
-          "collocations": [
-            "my friend Julie",
-            "Julie's book",
-            "Julie said"
-          ],
-          "preposition_combos": [],
-          "image_desc_cn": "一本粉色日记本，封面上有手写体名字“Julie”，旁边放着一杯茶。",
-          "sentences": [
-            {
-              "en": "Julie is the captain of our school volleyball team.",
-              "zh": "朱莉是我们学校排球队的队长。",
-              "source": "textbook",
-              "image": ""
-            },
-            {
-              "en": "I borrowed a novel from Julie last week.",
-              "zh": "我上周从朱莉那里借了一本小说。",
-              "source": "context",
-              "image": ""
-            }
-          ]
-        },
-        {
-          "id": "w212",
+          "id": "w196",
           "word": "Vancouver",
           "chinese": "温哥华（加拿大城市）",
           "ipa": "/vænˈkuːvər/",
@@ -7212,41 +6678,7 @@ const TEXTBOOK_DATA = {
       "title": "第 4 单元",
       "words": [
         {
-          "id": "w213",
-          "word": "adj",
-          "chinese": "形容词（语法术语）",
-          "ipa": "/ædʒ/",
-          "phonemes": [],
-          "image": "../../G8_B1/Unit4/images/adj_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/adj_1.jpg",
-          "usage": "n. (可数名词，复数形式为 adjs)",
-          "collocations": [
-            "an adj (一个形容词)",
-            "use an adj (使用形容词)",
-            "describe with an adj (用形容词描述)"
-          ],
-          "preposition_combos": [
-            "adj for (适合……的形容词)",
-            "adj of (……的形容词)"
-          ],
-          "image_desc_cn": "一块写着'ADJ'的白板，贴满形容词便签；一本语法书打开到形容词章节。",
-          "sentences": [
-            {
-              "en": "In the sentence 'a red apple', 'red' is an adj.",
-              "zh": "在句子'a red apple'中，'red'是一个形容词。",
-              "source": "textbook",
-              "image": ""
-            },
-            {
-              "en": "We often use an adj to describe a noun.",
-              "zh": "我们经常用形容词来描述名词。",
-              "source": "context",
-              "image": ""
-            }
-          ]
-        },
-        {
-          "id": "w214",
+          "id": "w197",
           "word": "goodness",
           "chinese": "善良；精华；营养（感叹词：天哪）",
           "ipa": "/ˈɡʊdnəs/",
@@ -7279,7 +6711,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w215",
+          "id": "w198",
           "word": "tool",
           "chinese": "工具；用具",
           "ipa": "/tuːl/",
@@ -7313,7 +6745,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w216",
+          "id": "w199",
           "word": "actually",
           "chinese": "实际上；事实上（用于纠正或强调）",
           "ipa": "/ˈæktʃuəli/",
@@ -7346,7 +6778,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w217",
+          "id": "w200",
           "word": "shoot",
           "chinese": "v. 投篮；拍摄（照片/视频）",
           "ipa": "/ʃuːt/",
@@ -7380,7 +6812,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w218",
+          "id": "w201",
           "word": "appear",
           "chinese": "v. 出现；似乎",
           "ipa": "/əˈpɪr/",
@@ -7414,7 +6846,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w219",
+          "id": "w202",
           "word": "feel free",
           "chinese": "phr. 随意；别客气（用于允许或邀请）",
           "ipa": "/fiːl friː/",
@@ -7447,7 +6879,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w220",
+          "id": "w203",
           "word": "land",
           "chinese": "v. 着陆；降落；n. 陆地",
           "ipa": "/lænd/",
@@ -7481,7 +6913,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w221",
+          "id": "w204",
           "word": "African",
           "chinese": "非洲的；非洲人",
           "ipa": "/ˈæfrɪkən/",
@@ -7515,7 +6947,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w222",
+          "id": "w205",
           "word": "rose",
           "chinese": "玫瑰；蔷薇",
           "ipa": "/roʊz/",
@@ -7549,7 +6981,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w223",
+          "id": "w206",
           "word": "peony",
           "chinese": "牡丹；芍药",
           "ipa": "/ˈpiːəni/",
@@ -7583,7 +7015,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w224",
+          "id": "w207",
           "word": "lotus",
           "chinese": "莲花；荷花",
           "ipa": "/ˈloʊtəs/",
@@ -7617,7 +7049,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w225",
+          "id": "w208",
           "word": "butterfly",
           "chinese": "蝴蝶",
           "ipa": "/ˈbʌtərflaɪ/",
@@ -7651,7 +7083,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w226",
+          "id": "w209",
           "word": "wing",
           "chinese": "翅膀；机翼",
           "ipa": "/wɪŋ/",
@@ -7686,7 +7118,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w227",
+          "id": "w210",
           "word": "frog",
           "chinese": "青蛙",
           "ipa": "/frɒɡ/",
@@ -7720,7 +7152,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w228",
+          "id": "w211",
           "word": "up to",
           "chinese": "多达；直到；由……决定",
           "ipa": "/ʌp tuː/",
@@ -7755,7 +7187,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w229",
+          "id": "w212",
           "word": "weigh",
           "chinese": "v. 称重；重达",
           "ipa": "/weɪ/",
@@ -7789,7 +7221,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w230",
+          "id": "w213",
           "word": "kg",
           "chinese": "n. 千克（kilogram的缩写）",
           "ipa": "/ˌkeɪˈdʒiː/",
@@ -7822,7 +7254,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w231",
+          "id": "w214",
           "word": "ginkgo",
           "chinese": "n. 银杏（树或叶）",
           "ipa": "/ˈɡɪŋkɡoʊ/",
@@ -7856,7 +7288,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w232",
+          "id": "w215",
           "word": "believe",
           "chinese": "v. 相信；认为",
           "ipa": "/bɪˈliːv/",
@@ -7890,7 +7322,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w233",
+          "id": "w216",
           "word": "province",
           "chinese": "省；省份",
           "ipa": "/ˈprɒvɪns/",
@@ -7924,7 +7356,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w234",
+          "id": "w217",
           "word": "take a walk",
           "chinese": "散步",
           "ipa": "/teɪk ə wɔːk/",
@@ -7957,7 +7389,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w235",
+          "id": "w218",
           "word": "connect",
           "chinese": "连接；联系",
           "ipa": "/kəˈnekt/",
@@ -7991,7 +7423,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w236",
+          "id": "w219",
           "word": "connected",
           "chinese": "连接的；有联系的",
           "ipa": "/kəˈnektɪd/",
@@ -8025,7 +7457,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w237",
+          "id": "w220",
           "word": "be connected with",
           "chinese": "与……有联系；与……有关联",
           "ipa": "/biː kəˈnektɪd wɪð/",
@@ -8057,7 +7489,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w238",
+          "id": "w221",
           "word": "without",
           "chinese": "没有；缺乏；不（做某事）",
           "ipa": "/wɪˈðaʊt/",
@@ -8090,7 +7522,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w239",
+          "id": "w222",
           "word": "imagine",
           "chinese": "想象；设想",
           "ipa": "/ɪˈmædʒɪn/",
@@ -8122,7 +7554,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w240",
+          "id": "w223",
           "word": "moss",
           "chinese": "苔藓；藓类植物",
           "ipa": "/mɒs/",
@@ -8156,7 +7588,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w241",
+          "id": "w224",
           "word": "redwood",
           "chinese": "红杉；红木",
           "ipa": "/ˈred.wʊd/",
@@ -8190,7 +7622,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w242",
+          "id": "w225",
           "word": "cheetah",
           "chinese": "猎豹",
           "ipa": "/ˈtʃiː.tə/",
@@ -8224,7 +7656,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w243",
+          "id": "w226",
           "word": "folding",
           "chinese": "可折叠的；折叠式的",
           "ipa": "/ˈfoʊl.dɪŋ/",
@@ -8258,7 +7690,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w244",
+          "id": "w227",
           "word": "folding fan",
           "chinese": "折扇",
           "ipa": "/ˈfoʊl.dɪŋ fæn/",
@@ -8292,7 +7724,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w245",
+          "id": "w228",
           "word": "bamboo",
           "chinese": "竹子",
           "ipa": "/ˌbæmˈbuː/",
@@ -8326,7 +7758,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w246",
+          "id": "w229",
           "word": "yeah",
           "chinese": "是的，对（口语）",
           "ipa": "/jeə/",
@@ -8357,7 +7789,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w247",
+          "id": "w230",
           "word": "popular",
           "chinese": "流行的，受欢迎的",
           "ipa": "/ˈpɒpjələ(r)/",
@@ -8391,7 +7823,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w248",
+          "id": "w231",
           "word": "role",
           "chinese": "角色，作用",
           "ipa": "/rəʊl/",
@@ -8425,7 +7857,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w249",
+          "id": "w232",
           "word": "play a role",
           "chinese": "发挥作用；扮演角色",
           "ipa": "/pleɪ ə roʊl/",
@@ -8458,7 +7890,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w250",
+          "id": "w233",
           "word": "pea",
           "chinese": "豌豆",
           "ipa": "/piː/",
@@ -8492,7 +7924,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w251",
+          "id": "w234",
           "word": "climate",
           "chinese": "气候",
           "ipa": "/ˈklaɪmət/",
@@ -8527,7 +7959,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w252",
+          "id": "w235",
           "word": "ocean",
           "chinese": "海洋",
           "ipa": "/ˈoʊʃən/",
@@ -8563,7 +7995,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w253",
+          "id": "w236",
           "word": "except",
           "chinese": "除……之外",
           "ipa": "/ɪkˈsept/",
@@ -8596,42 +8028,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w254",
-          "word": "prep",
-          "chinese": "准备；备考（名词，常指考试准备）",
-          "ipa": "/prep/",
-          "phonemes": [],
-          "image": "../../G8_B1/Unit4/images/prep_1.jpg",
-          "image2": "../../G8_B1/Unit4/images/prep_1.jpg",
-          "usage": "n. (不可数名词，常与考试名称连用，如 SAT prep, exam prep)",
-          "collocations": [
-            "exam prep",
-            "test prep",
-            "prep class",
-            "prep time"
-          ],
-          "preposition_combos": [
-            "prep for (e.g.",
-            "prep for the final exam)"
-          ],
-          "image_desc_cn": "一张放有教科书和备考计划表的书桌，或一块写满学术笔记的白板。",
-          "sentences": [
-            {
-              "en": "I need to do some prep for the math test tomorrow.",
-              "zh": "我需要为明天的数学考试做些准备。",
-              "source": "textbook",
-              "image": ""
-            },
-            {
-              "en": "Our school offers a special prep class for the English exam.",
-              "zh": "我们学校为英语考试开设了专门的备考班。",
-              "source": "context",
-              "image": ""
-            }
-          ]
-        },
-        {
-          "id": "w255",
+          "id": "w237",
           "word": "tiny",
           "chinese": "极小的；微小的",
           "ipa": "/ˈtaɪni/",
@@ -8667,7 +8064,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w256",
+          "id": "w238",
           "word": "lively",
           "chinese": "充满活力的；热闹的；生动的",
           "ipa": "/ˈlaɪvli/",
@@ -8702,7 +8099,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w257",
+          "id": "w239",
           "word": "the Arctic",
           "chinese": "北极；北极地区",
           "ipa": "/ði ˈɑːrktɪk/",
@@ -8738,7 +8135,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w258",
+          "id": "w240",
           "word": "honey",
           "chinese": "蜂蜜；亲爱的（昵称）",
           "ipa": "/ˈhʌni/",
@@ -8772,7 +8169,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w259",
+          "id": "w241",
           "word": "disappointed",
           "chinese": "失望的",
           "ipa": "/ˌdɪsəˈpɔɪntɪd/",
@@ -8805,7 +8202,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w260",
+          "id": "w242",
           "word": "connection",
           "chinese": "连接；联系；关系",
           "ipa": "/kəˈnekʃn/",
@@ -8839,7 +8236,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w261",
+          "id": "w243",
           "word": "pollination",
           "chinese": "授粉；传粉",
           "ipa": "/ˌpɒlɪˈneɪʃən/",
@@ -8873,7 +8270,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w262",
+          "id": "w244",
           "word": "pollen",
           "chinese": "花粉",
           "ipa": "/ˈpɒlən/",
@@ -8907,7 +8304,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w263",
+          "id": "w245",
           "word": "action",
           "chinese": "行动；动作；行为",
           "ipa": "/ˈækʃən/",
@@ -8942,7 +8339,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w264",
+          "id": "w246",
           "word": "in fact",
           "chinese": "事实上；实际上",
           "ipa": "/ɪn fækt/",
@@ -8974,7 +8371,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w265",
+          "id": "w247",
           "word": "per cent",
           "chinese": "百分之……",
           "ipa": "/pər ˈsent/",
@@ -9005,7 +8402,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w266",
+          "id": "w248",
           "word": "for this reason",
           "chinese": "因此；由于这个原因",
           "ipa": "/fɔːr ðɪs ˈriːzn/",
@@ -9037,7 +8434,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w267",
+          "id": "w249",
           "word": "planet",
           "chinese": "行星；地球（常加the）",
           "ipa": "/ˈplænɪt/",
@@ -9068,7 +8465,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w268",
+          "id": "w250",
           "word": "in order to",
           "chinese": "为了……（表示目的）",
           "ipa": "/ɪn ˈɔːrdər tuː/",
@@ -9099,7 +8496,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w269",
+          "id": "w251",
           "word": "store",
           "chinese": "商店；储存",
           "ipa": "/stɔːr/",
@@ -9134,7 +8531,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w270",
+          "id": "w252",
           "word": "honeycomb",
           "chinese": "蜂巢；蜂窝状物",
           "ipa": "/ˈhʌniˌkoʊm/",
@@ -9167,7 +8564,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w271",
+          "id": "w253",
           "word": "communicate",
           "chinese": "交流；沟通",
           "ipa": "/kəˈmjuːnɪkeɪt/",
@@ -9201,7 +8598,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w272",
+          "id": "w254",
           "word": "play a part",
           "chinese": "扮演角色；起作用",
           "ipa": "/pleɪ ə pɑːrt/",
@@ -9234,7 +8631,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w273",
+          "id": "w255",
           "word": "ecosystem",
           "chinese": "生态系统",
           "ipa": "/ˈiːkəʊsɪstəm/",
@@ -9269,7 +8666,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w274",
+          "id": "w256",
           "word": "protect",
           "chinese": "保护",
           "ipa": "/prəˈtekt/",
@@ -9304,7 +8701,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w275",
+          "id": "w257",
           "word": "importance",
           "chinese": "重要性",
           "ipa": "/ɪmˈpɔːrtns/",
@@ -9338,7 +8735,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w276",
+          "id": "w258",
           "word": "title",
           "chinese": "标题；头衔；冠军称号",
           "ipa": "/ˈtaɪtl/",
@@ -9373,7 +8770,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w277",
+          "id": "w259",
           "word": "human",
           "chinese": "人类；人的",
           "ipa": "/ˈhjuːmən/",
@@ -9407,7 +8804,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w278",
+          "id": "w260",
           "word": "ant",
           "chinese": "蚂蚁",
           "ipa": "/ænt/",
@@ -9441,7 +8838,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w279",
+          "id": "w261",
           "word": "be home to sb",
           "chinese": "是……的家园；为……提供栖息地",
           "ipa": "/biː həʊm tuː ˈsʌmbədi/",
@@ -9473,7 +8870,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w280",
+          "id": "w262",
           "word": "happiness",
           "chinese": "幸福；快乐",
           "ipa": "/ˈhæpinəs/",
@@ -9507,7 +8904,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w281",
+          "id": "w263",
           "word": "disappoint",
           "chinese": "使失望；使扫兴",
           "ipa": "/ˌdɪsəˈpɔɪnt/",
@@ -9538,7 +8935,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w282",
+          "id": "w264",
           "word": "mushroom",
           "chinese": "蘑菇；迅速增长",
           "ipa": "/ˈmʌʃruːm/",
@@ -9569,7 +8966,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w283",
+          "id": "w265",
           "word": "ton",
           "chinese": "吨（重量单位）；大量",
           "ipa": "/tʌn/",
@@ -9607,7 +9004,7 @@ const TEXTBOOK_DATA = {
       "title": "第 5 单元",
       "words": [
         {
-          "id": "w284",
+          "id": "w266",
           "word": "pepper",
           "chinese": "胡椒粉；甜椒；辣椒",
           "ipa": "/ˈpepər/",
@@ -9642,7 +9039,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w285",
+          "id": "w267",
           "word": "cut up",
           "chinese": "切碎；剪碎",
           "ipa": "/kʌt ʌp/",
@@ -9676,7 +9073,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w286",
+          "id": "w268",
           "word": "mix",
           "chinese": "混合；搅拌",
           "ipa": "/mɪks/",
@@ -9711,7 +9108,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w287",
+          "id": "w269",
           "word": "bake",
           "chinese": "烘烤；烤",
           "ipa": "/beɪk/",
@@ -9746,7 +9143,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w288",
+          "id": "w270",
           "word": "oven",
           "chinese": "烤箱；烤炉",
           "ipa": "/ˈʌvən/",
@@ -9781,7 +9178,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w289",
+          "id": "w271",
           "word": "pour sth into sth",
           "chinese": "把某物倒入某物中",
           "ipa": "/pɔːr ˈsʌmθɪŋ ˈɪntə ˈsʌmθɪŋ/",
@@ -9815,7 +9212,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w290",
+          "id": "w272",
           "word": "flour",
           "chinese": "面粉；粉",
           "ipa": "/ˈflaʊər/",
@@ -9851,7 +9248,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w291",
+          "id": "w273",
           "word": "boil",
           "chinese": "煮沸；沸腾；煮",
           "ipa": "/bɔɪl/",
@@ -9887,7 +9284,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w292",
+          "id": "w274",
           "word": "butter",
           "chinese": "黄油；涂黄油于",
           "ipa": "/ˈbʌtər/",
@@ -9921,7 +9318,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w293",
+          "id": "w275",
           "word": "cheese",
           "chinese": "奶酪",
           "ipa": "/tʃiːz/",
@@ -9955,7 +9352,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w294",
+          "id": "w276",
           "word": "cut sth in",
           "chinese": "把某物切成（小块/形状）",
           "ipa": "/kʌt sʌmθɪŋ ɪn/",
@@ -9988,7 +9385,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w295",
+          "id": "w277",
           "word": "tablespoon",
           "chinese": "汤匙（容量单位，约15毫升）",
           "ipa": "/ˈteɪblspuːn/",
@@ -10021,7 +9418,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w296",
+          "id": "w278",
           "word": "mash",
           "chinese": "捣碎；捣成泥状",
           "ipa": "/mæʃ/",
@@ -10055,7 +9452,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w297",
+          "id": "w279",
           "word": "mashed",
           "chinese": "捣碎的；成泥状的",
           "ipa": "/mæʃt/",
@@ -10089,7 +9486,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w298",
+          "id": "w280",
           "word": "stir-fry",
           "chinese": "炒；翻炒",
           "ipa": "/ˈstɜːr fraɪ/",
@@ -10123,7 +9520,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w299",
+          "id": "w281",
           "word": "fill",
           "chinese": "装满；填满",
           "ipa": "/fɪl/",
@@ -10158,7 +9555,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w300",
+          "id": "w282",
           "word": "sweetness",
           "chinese": "n. 甜；甜蜜；芬芳；悦耳",
           "ipa": "/ˈswiːtnəs/",
@@ -10189,7 +9586,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w301",
+          "id": "w283",
           "word": "college",
           "chinese": "n. 大学；学院",
           "ipa": "/ˈkɒlɪdʒ/",
@@ -10220,7 +9617,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w302",
+          "id": "w284",
           "word": "host",
           "chinese": "n. 主人；主持人 v. (过去式 hosted, 过去分词 hosted) 主持；主办",
           "ipa": "/həʊst/",
@@ -10251,7 +9648,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w303",
+          "id": "w285",
           "word": "hostess",
           "chinese": "n. 女主人；女主持人",
           "ipa": "/ˈhəʊstəs/",
@@ -10282,7 +9679,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w304",
+          "id": "w286",
           "word": "recipe",
           "chinese": "食谱；烹饪法；秘诀",
           "ipa": "/ˈresɪpi/",
@@ -10316,7 +9713,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w305",
+          "id": "w287",
           "word": "cream",
           "chinese": "奶油；乳脂；面霜",
           "ipa": "/kriːm/",
@@ -10351,7 +9748,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w306",
+          "id": "w288",
           "word": "crust",
           "chinese": "面包皮；馅饼皮；地壳",
           "ipa": "/krʌst/",
@@ -10386,7 +9783,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w307",
+          "id": "w289",
           "word": "mixture",
           "chinese": "混合物；混合体",
           "ipa": "/ˈmɪkstʃər/",
@@ -10421,7 +9818,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w308",
+          "id": "w290",
           "word": "least",
           "chinese": "最少的；最小的；最不重要的",
           "ipa": "/liːst/",
@@ -10454,7 +9851,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w309",
+          "id": "w291",
           "word": "at least",
           "chinese": "至少；起码（表示最低限度）",
           "ipa": "/æt liːst/",
@@ -10487,7 +9884,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w310",
+          "id": "w292",
           "word": "secret",
           "chinese": "秘密；秘诀；机密的",
           "ipa": "/ˈsiːkrɪt/",
@@ -10522,40 +9919,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w311",
-          "word": "adj",
-          "chinese": "形容词（语法术语，用于描述名词的特征）",
-          "ipa": "/ˈædʒɪktɪv/",
-          "phonemes": [],
-          "image": "../../G8_B1/Unit5/images/adj_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/adj_1.jpg",
-          "usage": "n. (缩写，指代形容词词类)",
-          "collocations": [
-            "descriptive adj",
-            "possessive adj",
-            "comparative adj"
-          ],
-          "preposition_combos": [
-            "无"
-          ],
-          "image_desc_cn": "一块白板上用彩色笔写着‘大’‘小’‘开心’‘难过’等词",
-          "sentences": [
-            {
-              "en": "In the sentence 'a red apple', 'red' is an adjective.",
-              "zh": "在‘一个红苹果’这个句子中，‘红’是形容词。",
-              "source": "textbook",
-              "image": ""
-            },
-            {
-              "en": "Please underline all the adjectives in this short passage.",
-              "zh": "请在这篇短文中划出所有形容词。",
-              "source": "context",
-              "image": ""
-            }
-          ]
-        },
-        {
-          "id": "w312",
+          "id": "w293",
           "word": "according",
           "chinese": "根据；按照",
           "ipa": "/əˈkɔːrdɪŋ/",
@@ -10587,7 +9951,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w313",
+          "id": "w294",
           "word": "whenever",
           "chinese": "无论何时；每当",
           "ipa": "/wenˈevər/",
@@ -10619,7 +9983,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w314",
+          "id": "w295",
           "word": "item",
           "chinese": "物品；项目；条款",
           "ipa": "/ˈaɪtəm/",
@@ -10652,7 +10016,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w315",
+          "id": "w296",
           "word": "spaghetti",
           "chinese": "意大利面",
           "ipa": "/spəˈɡeti/",
@@ -10685,7 +10049,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w316",
+          "id": "w297",
           "word": "spoon",
           "chinese": "n. 勺，调羹",
           "ipa": "/spuːn/",
@@ -10719,7 +10083,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w317",
+          "id": "w298",
           "word": "slice",
           "chinese": "n. 片，薄片；v. 切（片）",
           "ipa": "/slaɪs/",
@@ -10753,7 +10117,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w318",
+          "id": "w299",
           "word": "couple",
           "chinese": "n. 一对，两个；夫妇",
           "ipa": "/ˈkʌpəl/",
@@ -10787,7 +10151,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w319",
+          "id": "w300",
           "word": "island",
           "chinese": "n. 岛，岛屿",
           "ipa": "/ˈaɪlənd/",
@@ -10821,7 +10185,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w320",
+          "id": "w301",
           "word": "wife",
           "chinese": "妻子；太太",
           "ipa": "/waɪf/",
@@ -10855,7 +10219,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w321",
+          "id": "w302",
           "word": "separate",
           "chinese": "分开；分离；单独的；各自的",
           "ipa": "/ˈsepəreɪt/ (v.) /ˈsepərət/ (adj.)",
@@ -10890,7 +10254,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w322",
+          "id": "w303",
           "word": "born",
           "chinese": "出生；诞生",
           "ipa": "/bɔːrn/",
@@ -10926,7 +10290,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w323",
+          "id": "w304",
           "word": "one by one",
           "chinese": "一个接一个地；逐一地",
           "ipa": "/wʌn baɪ wʌn/",
@@ -10960,7 +10324,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w324",
+          "id": "w305",
           "word": "do with",
           "chinese": "处理；与……有关（常与 what 连用）",
           "ipa": "/duː wɪð/",
@@ -10992,7 +10356,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w325",
+          "id": "w306",
           "word": "bowl",
           "chinese": "碗；一碗的量",
           "ipa": "/boʊl/",
@@ -11026,7 +10390,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w326",
+          "id": "w307",
           "word": "heat",
           "chinese": "加热；热量；高温",
           "ipa": "/hiːt/",
@@ -11060,7 +10424,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w327",
+          "id": "w308",
           "word": "oil",
           "chinese": "油；石油；润滑油",
           "ipa": "/ɔɪl/",
@@ -11094,7 +10458,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w328",
+          "id": "w309",
           "word": "pan",
           "chinese": "平底锅；煎锅",
           "ipa": "/pæn/",
@@ -11130,7 +10494,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w329",
+          "id": "w310",
           "word": "put sth back",
           "chinese": "把某物放回原处",
           "ipa": "/pʊt sʌmθɪŋ bæk/",
@@ -11163,7 +10527,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w330",
+          "id": "w311",
           "word": "simple",
           "chinese": "简单的；朴素的；容易的",
           "ipa": "/ˈsɪmpl/",
@@ -11198,7 +10562,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w331",
+          "id": "w312",
           "word": "ingredient",
           "chinese": "成分；原料；要素",
           "ipa": "/ɪnˈɡriːdiənt/",
@@ -11232,7 +10596,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w332",
+          "id": "w313",
           "word": "instruction",
           "chinese": "指令；说明；教导",
           "ipa": "/ɪnˈstrʌkʃən/",
@@ -11265,7 +10629,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w333",
+          "id": "w314",
           "word": "steamed fish",
           "chinese": "清蒸鱼",
           "ipa": "/stiːmd fɪʃ/",
@@ -11298,7 +10662,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w334",
+          "id": "w315",
           "word": "sour",
           "chinese": "酸的；酸味的",
           "ipa": "/ˈsaʊər/",
@@ -11331,7 +10695,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w335",
+          "id": "w316",
           "word": "hot and sour",
           "chinese": "酸辣的",
           "ipa": "/hɒt ænd ˈsaʊər/",
@@ -11364,7 +10728,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w336",
+          "id": "w317",
           "word": "mess",
           "chinese": "混乱，脏乱；弄乱",
           "ipa": "/mes/",
@@ -11398,7 +10762,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w337",
+          "id": "w318",
           "word": "pretty",
           "chinese": "漂亮的，好看的；相当，颇",
           "ipa": "/ˈprɪti/",
@@ -11432,41 +10796,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w338",
-          "word": "adv",
-          "chinese": "广告（advertisement的缩写）",
-          "ipa": "/æd/",
-          "phonemes": [],
-          "image": "../../G8_B1/Unit5/images/adv_1.jpg",
-          "image2": "../../G8_B1/Unit5/images/adv_1.jpg",
-          "usage": "n. (可数名词，复数 advs 或 ads)",
-          "collocations": [
-            "TV ad",
-            "online ad",
-            "job ad"
-          ],
-          "preposition_combos": [
-            "ad for",
-            "ad about"
-          ],
-          "image_desc_cn": "‘广告’的缩写形式，出现在页面或屏幕上",
-          "sentences": [
-            {
-              "en": "I saw an ad for a new bike in the newspaper.",
-              "zh": "我在报纸上看到了一则新自行车的广告。",
-              "source": "textbook",
-              "image": ""
-            },
-            {
-              "en": "This website has too many pop-up ads every time I open it.",
-              "zh": "这个网站每次打开都有太多弹出广告。",
-              "source": "context",
-              "image": ""
-            }
-          ]
-        },
-        {
-          "id": "w339",
+          "id": "w319",
           "word": "Christmas",
           "chinese": "圣诞节",
           "ipa": "/ˈkrɪsməs/",
@@ -11501,7 +10831,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w340",
+          "id": "w320",
           "word": "pancake",
           "chinese": "薄煎饼；烙饼",
           "ipa": "/ˈpænkeɪk/",
@@ -11535,7 +10865,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w341",
+          "id": "w321",
           "word": "dream",
           "chinese": "梦想；梦",
           "ipa": "/driːm/",
@@ -11569,7 +10899,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w342",
+          "id": "w322",
           "word": "university",
           "chinese": "大学",
           "ipa": "/ˌjuːnɪˈvɜːrsəti/",
@@ -11603,7 +10933,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w343",
+          "id": "w323",
           "word": "go boating",
           "chinese": "去划船",
           "ipa": "/ɡoʊ ˈboʊtɪŋ/",
@@ -11636,7 +10966,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w344",
+          "id": "w324",
           "word": "memory",
           "chinese": "记忆；回忆",
           "ipa": "/ˈmeməri/",
@@ -11669,7 +10999,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w345",
+          "id": "w325",
           "word": "visible",
           "chinese": "看得见的；明显的",
           "ipa": "/ˈvɪzəbl/",
@@ -11703,7 +11033,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w346",
+          "id": "w326",
           "word": "along with sb",
           "chinese": "和……一起；连同",
           "ipa": "/əˈlɒŋ wɪð ˈsʌmbədi/",
@@ -11736,7 +11066,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w347",
+          "id": "w327",
           "word": "pumpkin",
           "chinese": "南瓜",
           "ipa": "/ˈpʌmpkɪn/",
@@ -11770,7 +11100,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w348",
+          "id": "w328",
           "word": "pie",
           "chinese": "馅饼；派",
           "ipa": "/paɪ/",
@@ -11804,7 +11134,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w349",
+          "id": "w329",
           "word": "warm up",
           "chinese": "热身；做准备活动",
           "ipa": "/wɔːrm ʌp/",
@@ -11837,7 +11167,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w350",
+          "id": "w330",
           "word": "cinnamon",
           "chinese": "肉桂；肉桂粉",
           "ipa": "/ˈsɪnəmən/",
@@ -11878,7 +11208,7 @@ const TEXTBOOK_DATA = {
       "title": "第 6 单元",
       "words": [
         {
-          "id": "w351",
+          "id": "w331",
           "word": "bath",
           "chinese": "洗澡；浴缸；沐浴",
           "ipa": "/bɑːθ/",
@@ -11913,7 +11243,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w352",
+          "id": "w332",
           "word": "miss",
           "chinese": "想念；错过；未击中",
           "ipa": "/mɪs/",
@@ -11949,7 +11279,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w353",
+          "id": "w333",
           "word": "be tired of",
           "chinese": "厌倦；对……感到厌烦",
           "ipa": "/biː ˈtaɪərd əv/",
@@ -11982,7 +11312,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w354",
+          "id": "w334",
           "word": "able",
           "chinese": "能够；有能力的",
           "ipa": "/ˈeɪbl/",
@@ -12015,7 +11345,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w355",
+          "id": "w335",
           "word": "stick",
           "chinese": "v. 粘贴；卡住；坚持 n. 棍子；枝条",
           "ipa": "/stɪk/",
@@ -12051,7 +11381,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w356",
+          "id": "w336",
           "word": "stick to sth",
           "chinese": "坚持（做某事）；遵守（计划、原则等）",
           "ipa": "/stɪk tuː ˈsʌmθɪŋ/",
@@ -12084,7 +11414,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w357",
+          "id": "w337",
           "word": "resolution",
           "chinese": "n. 决心；决定；决议",
           "ipa": "/ˌrezəˈluːʃn/",
@@ -12118,7 +11448,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w358",
+          "id": "w338",
           "word": "have",
           "chinese": "v. 有；拥有；吃；喝；进行（活动）",
           "ipa": "/hæv/",
@@ -12153,7 +11483,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w359",
+          "id": "w339",
           "word": "mini-goal",
           "chinese": "小目标；阶段性目标",
           "ipa": "/ˈmɪni ɡoʊl/",
@@ -12187,7 +11517,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w360",
+          "id": "w340",
           "word": "achieve",
           "chinese": "实现；达到；取得",
           "ipa": "/əˈtʃiːv/",
@@ -12221,7 +11551,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w361",
+          "id": "w341",
           "word": "physical",
           "chinese": "身体的；物理的；体力的",
           "ipa": "/ˈfɪzɪkəl/",
@@ -12255,7 +11585,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w362",
+          "id": "w342",
           "word": "health",
           "chinese": "健康；健康状况",
           "ipa": "/helθ/",
@@ -12290,7 +11620,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w363",
+          "id": "w343",
           "word": "healthily",
           "chinese": "健康地",
           "ipa": "/ˈhelθɪli/",
@@ -12323,7 +11653,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w364",
+          "id": "w344",
           "word": "take up",
           "chinese": "开始从事（某项活动或爱好）",
           "ipa": "/teɪk ʌp/",
@@ -12356,7 +11686,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w365",
+          "id": "w345",
           "word": "photography",
           "chinese": "摄影；摄影艺术",
           "ipa": "/fəˈtɒɡrəfi/",
@@ -12390,7 +11720,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w366",
+          "id": "w346",
           "word": "self-improvement",
           "chinese": "自我提升；自我完善",
           "ipa": "/ˌself ɪmˈpruːvmənt/",
@@ -12424,7 +11754,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w367",
+          "id": "w347",
           "word": "confident",
           "chinese": "自信的；有信心的",
           "ipa": "/ˈkɒnfɪdənt/",
@@ -12458,38 +11788,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w368",
-          "word": "adj",
-          "chinese": "形容词（adj.）",
-          "ipa": "/ædʒ/",
-          "phonemes": [],
-          "image": "../../G8_B1/Unit6/images/adj_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/adj_1.jpg",
-          "usage": "adj. (adjective) 形容词，用于修饰名词或代词，表示性质、特征等。",
-          "collocations": [
-            "adjective + noun; be + adjective"
-          ],
-          "preposition_combos": [
-            "无固定介词搭配"
-          ],
-          "image_desc_cn": "白板上贴满写有形容词例子的彩色便签，以及一本打开词典中高亮显示“形容词”一词的页面。",
-          "sentences": [
-            {
-              "en": "The word 'happy' is an adjective that describes a feeling.",
-              "zh": "单词“happy”是一个描述感觉的形容词。",
-              "source": "textbook",
-              "image": ""
-            },
-            {
-              "en": "In the sentence, 'a red apple', 'red' is an adjective.",
-              "zh": "在句子“a red apple”中，“red”是一个形容词。",
-              "source": "context",
-              "image": ""
-            }
-          ]
-        },
-        {
-          "id": "w369",
+          "id": "w348",
           "word": "organized",
           "chinese": "有条理的；有组织的（adj.）",
           "ipa": "/ˈɔːrɡənaɪzd/",
@@ -12520,7 +11819,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w370",
+          "id": "w349",
           "word": "wisely",
           "chinese": "明智地；聪明地（adv.）",
           "ipa": "/ˈwaɪzli/",
@@ -12551,7 +11850,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w371",
+          "id": "w350",
           "word": "possible",
           "chinese": "可能的（adj.）",
           "ipa": "/ˈpɑːsəbl/",
@@ -12582,7 +11881,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w372",
+          "id": "w351",
           "word": "paragraph",
           "chinese": "段落",
           "ipa": "/ˈpærəɡrɑːf/",
@@ -12616,7 +11915,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w373",
+          "id": "w352",
           "word": "introduce",
           "chinese": "介绍；引进",
           "ipa": "/ˌɪntrəˈdjuːs/",
@@ -12650,7 +11949,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w374",
+          "id": "w353",
           "word": "meaning",
           "chinese": "意义；含义",
           "ipa": "/ˈmiːnɪŋ/",
@@ -12683,7 +11982,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w375",
+          "id": "w354",
           "word": "fail",
           "chinese": "失败；未能做到；不及格",
           "ipa": "/feɪl/",
@@ -12717,7 +12016,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w376",
+          "id": "w355",
           "word": "yourself",
           "chinese": "你自己",
           "ipa": "/jɔːrˈself/",
@@ -12752,40 +12051,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w377",
-          "word": "pron",
-          "chinese": "代词（pronoun的缩写）",
-          "ipa": "/prɒn/",
-          "phonemes": [],
-          "image": "../../G8_B1/Unit6/images/pron_1.jpg",
-          "image2": "../../G8_B1/Unit6/images/pron_1.jpg",
-          "usage": "n. (缩写形式，全称为 pronoun)",
-          "collocations": [
-            "subject pron",
-            "object pron",
-            "possessive pron"
-          ],
-          "preposition_combos": [
-            "无常见介词搭配"
-          ],
-          "image_desc_cn": "语法书翻开到‘代词’页，有高亮示例；白板上列出人称代词列表。",
-          "sentences": [
-            {
-              "en": "In the sentence 'She likes it', 'she' is a subject pron.",
-              "zh": "在‘她喜欢它’这个句子里，‘她’是主语代词。",
-              "source": "textbook",
-              "image": ""
-            },
-            {
-              "en": "Please circle all the possessive prons in this passage.",
-              "zh": "请圈出这段文字中所有物主代词。",
-              "source": "context",
-              "image": ""
-            }
-          ]
-        },
-        {
-          "id": "w378",
+          "id": "w356",
           "word": "engineer",
           "chinese": "工程师",
           "ipa": "/ˌendʒɪˈnɪr/",
@@ -12820,7 +12086,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w379",
+          "id": "w357",
           "word": "fashion",
           "chinese": "时尚；时装",
           "ipa": "/ˈfæʃn/",
@@ -12855,7 +12121,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w380",
+          "id": "w358",
           "word": "designer",
           "chinese": "设计师",
           "ipa": "/dɪˈzaɪnər/",
@@ -12889,7 +12155,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w381",
+          "id": "w359",
           "word": "director",
           "chinese": "导演；主任",
           "ipa": "/dəˈrektər/",
@@ -12923,7 +12189,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w382",
+          "id": "w360",
           "word": "musician",
           "chinese": "音乐家",
           "ipa": "/mjuˈzɪʃn/",
@@ -12957,7 +12223,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w383",
+          "id": "w361",
           "word": "fireman",
           "chinese": "消防员（单数）",
           "ipa": "/ˈfaɪərmən/",
@@ -12991,7 +12257,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w384",
+          "id": "w362",
           "word": "firemen",
           "chinese": "消防员（复数）",
           "ipa": "/ˈfaɪərmən/",
@@ -13025,7 +12291,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w385",
+          "id": "w363",
           "word": "AI",
           "chinese": "人工智能（缩写）",
           "ipa": "/ˌeɪ ˈaɪ/",
@@ -13060,7 +12326,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w386",
+          "id": "w364",
           "word": "intelligence",
           "chinese": "智力；情报；智能",
           "ipa": "/ɪnˈtelɪdʒəns/",
@@ -13095,7 +12361,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w387",
+          "id": "w365",
           "word": "essay",
           "chinese": "n. 文章；短文；散文；论文",
           "ipa": "/ˈeseɪ/",
@@ -13129,7 +12395,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w388",
+          "id": "w366",
           "word": "classic",
           "chinese": "adj. 经典的；典型的；n. 经典作品",
           "ipa": "/ˈklæsɪk/",
@@ -13163,7 +12429,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w389",
+          "id": "w367",
           "word": "keep on doing sth",
           "chinese": "继续做某事；坚持做某事",
           "ipa": "/kiːp ɒn ˈduːɪŋ ˈsʌmθɪŋ/",
@@ -13196,7 +12462,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w390",
+          "id": "w368",
           "word": "make sure",
           "chinese": "确保；确认；查明",
           "ipa": "/meɪk ʃʊr/",
@@ -13229,7 +12495,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w391",
+          "id": "w369",
           "word": "try one",
           "chinese": "尝试一个；试一下",
           "ipa": "/traɪ wʌn/",
@@ -13264,7 +12530,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w392",
+          "id": "w370",
           "word": "literature",
           "chinese": "文学；文学作品",
           "ipa": "/ˈlɪtərətʃər/",
@@ -13299,7 +12565,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w393",
+          "id": "w371",
           "word": "athlete",
           "chinese": "运动员",
           "ipa": "/ˈæθliːt/",
@@ -13334,7 +12600,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w394",
+          "id": "w372",
           "word": "photographer",
           "chinese": "摄影师；摄影者",
           "ipa": "/fəˈtɒɡrəfər/",
@@ -13369,7 +12635,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w395",
+          "id": "w373",
           "word": "painter",
           "chinese": "画家；油漆工",
           "ipa": "/ˈpeɪntər/",
@@ -13403,7 +12669,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w396",
+          "id": "w374",
           "word": "businessman",
           "chinese": "商人；企业家",
           "ipa": "/ˈbɪznəsmæn/",
@@ -13437,7 +12703,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w397",
+          "id": "w375",
           "word": "actress",
           "chinese": "女演员",
           "ipa": "/ˈæktrəs/",
@@ -13471,7 +12737,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w398",
+          "id": "w376",
           "word": "lawyer",
           "chinese": "律师",
           "ipa": "/ˈlɔːjər/",
@@ -13505,7 +12771,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w399",
+          "id": "w377",
           "word": "law",
           "chinese": "法律；法规",
           "ipa": "/lɔː/",
@@ -13540,7 +12806,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w400",
+          "id": "w378",
           "word": "ahead",
           "chinese": "在前面；向前；提前",
           "ipa": "/əˈhɛd/",
@@ -13574,7 +12840,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w401",
+          "id": "w379",
           "word": "put out",
           "chinese": "扑灭；熄灭；关掉（灯）",
           "ipa": "/pʊt aʊt/",
@@ -13607,7 +12873,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w402",
+          "id": "w380",
           "word": "design",
           "chinese": "设计；构思",
           "ipa": "/dɪˈzaɪn/",
@@ -13642,7 +12908,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w403",
+          "id": "w381",
           "word": "bridge",
           "chinese": "桥；桥梁；沟通",
           "ipa": "/brɪdʒ/",
@@ -13676,7 +12942,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w404",
+          "id": "w382",
           "word": "final",
           "chinese": "最后的；最终的；决赛",
           "ipa": "/ˈfaɪnəl/",
@@ -13710,7 +12976,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w405",
+          "id": "w383",
           "word": "confidence",
           "chinese": "信心；自信；信任",
           "ipa": "/ˈkɒnfɪdəns/",
@@ -13743,7 +13009,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w406",
+          "id": "w384",
           "word": "draw to a close",
           "chinese": "接近尾声；即将结束",
           "ipa": "/drɔː tuː ə kləʊz/",
@@ -13775,7 +13041,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w407",
+          "id": "w385",
           "word": "form",
           "chinese": "表格；形成",
           "ipa": "/fɔːrm/",
@@ -13809,7 +13075,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w408",
+          "id": "w386",
           "word": "relationship",
           "chinese": "关系；联系",
           "ipa": "/rɪˈleɪʃnʃɪp/",
@@ -13843,7 +13109,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w409",
+          "id": "w387",
           "word": "push-up",
           "chinese": "俯卧撑",
           "ipa": "/ˈpʊʃ ʌp/",
@@ -13877,7 +13143,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w410",
+          "id": "w388",
           "word": "energetic",
           "chinese": "精力充沛的；充满活力的",
           "ipa": "/ˌenərˈdʒetɪk/",
@@ -13911,7 +13177,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w411",
+          "id": "w389",
           "word": "last but not least",
           "chinese": "最后但同样重要的",
           "ipa": "/læst bʌt nɒt liːst/",
@@ -13951,38 +13217,7 @@ const TEXTBOOK_DATA = {
       "title": "第 7 单元",
       "words": [
         {
-          "id": "w412",
-          "word": "adj",
-          "chinese": "形容词（语法术语）",
-          "ipa": "/ædʒ/",
-          "phonemes": [],
-          "image": "../../G8_B1/Unit7/images/adj_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/adj_1.jpg",
-          "usage": "n. (缩写，可数名词，复数 adjs)",
-          "collocations": [
-            "adj. + noun; linking verb + adj."
-          ],
-          "preposition_combos": [
-            "N/A"
-          ],
-          "image_desc_cn": "一块写着'ADJ'的白板和贴满形容词的便签纸，或一本词典上圈出'adj.'的页面。",
-          "sentences": [
-            {
-              "en": "In the sentence 'a red apple', 'red' is an adj.",
-              "zh": "在句子'a red apple'中，'red'是形容词。",
-              "source": "textbook",
-              "image": ""
-            },
-            {
-              "en": "Please underline all the adjs in this short passage.",
-              "zh": "请在这篇短文中划出所有形容词。",
-              "source": "context",
-              "image": ""
-            }
-          ]
-        },
-        {
-          "id": "w413",
+          "id": "w390",
           "word": "traffic",
           "chinese": "交通；车流",
           "ipa": "/ˈtræfɪk/",
@@ -14017,7 +13252,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w414",
+          "id": "w391",
           "word": "technology",
           "chinese": "技术；科技",
           "ipa": "/tekˈnɒlədʒi/",
@@ -14051,7 +13286,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w415",
+          "id": "w392",
           "word": "video",
           "chinese": "视频；录像",
           "ipa": "/ˈvɪdiəʊ/",
@@ -14086,7 +13321,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w416",
+          "id": "w393",
           "word": "transport",
           "chinese": "运输；交通工具",
           "ipa": "/ˈtrænspɔːrt/",
@@ -14120,7 +13355,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w417",
+          "id": "w394",
           "word": "system",
           "chinese": "系统；体系",
           "ipa": "/ˈsɪstəm/",
@@ -14154,7 +13389,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w418",
+          "id": "w395",
           "word": "efficient",
           "chinese": "高效的；有效率的",
           "ipa": "/ɪˈfɪʃnt/",
@@ -14187,7 +13422,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w419",
+          "id": "w396",
           "word": "education",
           "chinese": "教育",
           "ipa": "/ˌedʒuˈkeɪʃn/",
@@ -14221,7 +13456,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w420",
+          "id": "w397",
           "word": "length",
           "chinese": "长度；时间的长短",
           "ipa": "/leŋθ/",
@@ -14257,7 +13492,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w421",
+          "id": "w398",
           "word": "topic",
           "chinese": "话题；主题",
           "ipa": "/ˈtɒpɪk/",
@@ -14292,7 +13527,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w422",
+          "id": "w399",
           "word": "partner",
           "chinese": "搭档；同伴",
           "ipa": "/ˈpɑːrtnər/",
@@ -14327,7 +13562,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w423",
+          "id": "w400",
           "word": "shall",
           "chinese": "（用于提出建议或征求意见）……好吗？要不要……？",
           "ipa": "/ʃæl/",
@@ -14358,7 +13593,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w424",
+          "id": "w401",
           "word": "pass",
           "chinese": "v. 通过；传递；及格",
           "ipa": "/pæs/",
@@ -14393,7 +13628,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w425",
+          "id": "w402",
           "word": "winner",
           "chinese": "n. 获胜者",
           "ipa": "/ˈwɪnər/",
@@ -14427,7 +13662,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w426",
+          "id": "w403",
           "word": "cure",
           "chinese": "v./n. 治愈；疗法",
           "ipa": "/kjʊr/",
@@ -14461,7 +13696,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w427",
+          "id": "w404",
           "word": "cancer",
           "chinese": "n. 癌症",
           "ipa": "/ˈkænsər/",
@@ -14495,7 +13730,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w428",
+          "id": "w405",
           "word": "concert",
           "chinese": "音乐会；演奏会",
           "ipa": "/ˈkɒnsərt/",
@@ -14530,7 +13765,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w429",
+          "id": "w406",
           "word": "cash",
           "chinese": "现金；现款",
           "ipa": "/kæʃ/",
@@ -14565,7 +13800,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w430",
+          "id": "w407",
           "word": "wallet",
           "chinese": "钱包；皮夹",
           "ipa": "/ˈwɒlɪt/",
@@ -14600,7 +13835,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w431",
+          "id": "w408",
           "word": "guest",
           "chinese": "客人；宾客",
           "ipa": "/ɡest/",
@@ -14635,7 +13870,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w432",
+          "id": "w409",
           "word": "chief",
           "chinese": "主要的；最重要的；首领",
           "ipa": "/tʃiːf/",
@@ -14669,7 +13904,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w433",
+          "id": "w410",
           "word": "researcher",
           "chinese": "研究员；调查者",
           "ipa": "/rɪˈsɜːrtʃər/",
@@ -14703,7 +13938,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w434",
+          "id": "w411",
           "word": "research",
           "chinese": "研究；调查",
           "ipa": "/rɪˈsɜːrtʃ/",
@@ -14737,7 +13972,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w435",
+          "id": "w412",
           "word": "futurist",
           "chinese": "未来学家；未来主义者",
           "ipa": "/ˈfjuːtʃərɪst/",
@@ -14771,7 +14006,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w436",
+          "id": "w413",
           "word": "prediction",
           "chinese": "预测；预言",
           "ipa": "/prɪˈdɪkʃən/",
@@ -14804,7 +14039,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w437",
+          "id": "w414",
           "word": "outer",
           "chinese": "外部的；外面的",
           "ipa": "/ˈaʊtər/",
@@ -14837,7 +14072,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w438",
+          "id": "w415",
           "word": "outer space",
           "chinese": "外太空",
           "ipa": "/ˈaʊtər speɪs/",
@@ -14870,7 +14105,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w439",
+          "id": "w416",
           "word": "worse",
           "chinese": "更坏的；更差的",
           "ipa": "/wɜːrs/",
@@ -14903,40 +14138,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w440",
-          "word": "adv",
-          "chinese": "广告（名词缩写）",
-          "ipa": "/ˌeɪ diː ˈviː/",
-          "phonemes": [],
-          "image": "../../G8_B1/Unit7/images/adv_1.jpg",
-          "image2": "../../G8_B1/Unit7/images/adv_1.jpg",
-          "usage": "n. (缩写，全称 advertisement)",
-          "collocations": [
-            "an adv for sth",
-            "place an adv",
-            "see an adv"
-          ],
-          "preposition_combos": [
-            "adv for (为……的广告)"
-          ],
-          "image_desc_cn": "木桌上的一叠彩色传单，其中一张用粗体字写着“广告：加入读书俱乐部”，柔和的阳光从窗户照进来",
-          "sentences": [
-            {
-              "en": "I saw an adv for a new bike in the newspaper.",
-              "zh": "我在报纸上看到了一则新自行车的广告。",
-              "source": "textbook",
-              "image": ""
-            },
-            {
-              "en": "The school club put an adv on the notice board.",
-              "zh": "学校社团在公告栏上贴了一则广告。",
-              "source": "context",
-              "image": ""
-            }
-          ]
-        },
-        {
-          "id": "w441",
+          "id": "w417",
           "word": "take over",
           "chinese": "接管；取代",
           "ipa": "/teɪk ˈoʊvər/",
@@ -14968,7 +14170,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w442",
+          "id": "w418",
           "word": "sci-fi",
           "chinese": "科幻（名词/形容词）",
           "ipa": "/ˈsaɪ faɪ/",
@@ -15001,7 +14203,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w443",
+          "id": "w419",
           "word": "ticket",
           "chinese": "票；入场券",
           "ipa": "/ˈtɪkɪt/",
@@ -15036,7 +14238,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w444",
+          "id": "w420",
           "word": "positive",
           "chinese": "积极的；正面的；肯定的",
           "ipa": "/ˈpɒzətɪv/",
@@ -15069,7 +14271,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w445",
+          "id": "w421",
           "word": "everywhere",
           "chinese": "到处；各处",
           "ipa": "/ˈevriweər/",
@@ -15102,7 +14304,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w446",
+          "id": "w422",
           "word": "robotics",
           "chinese": "机器人学；机器人技术",
           "ipa": "/rəʊˈbɒtɪks/",
@@ -15135,7 +14337,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w447",
+          "id": "w423",
           "word": "industry",
           "chinese": "工业；行业；产业",
           "ipa": "/ˈɪndəstri/",
@@ -15168,7 +14370,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w448",
+          "id": "w424",
           "word": "service",
           "chinese": "服务；维修；服役",
           "ipa": "/ˈsɜːrvɪs/",
@@ -15204,7 +14406,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w449",
+          "id": "w425",
           "word": "disaster",
           "chinese": "灾难；灾祸；彻底的失败",
           "ipa": "/dɪˈzæstər/",
@@ -15239,7 +14441,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w450",
+          "id": "w426",
           "word": "emergency",
           "chinese": "紧急情况；突发事件",
           "ipa": "/ɪˈmɜːrdʒənsi/",
@@ -15274,7 +14476,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w451",
+          "id": "w427",
           "word": "disappear",
           "chinese": "消失；不见；失踪",
           "ipa": "/ˌdɪsəˈpɪr/",
@@ -15308,7 +14510,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w452",
+          "id": "w428",
           "word": "challenging",
           "chinese": "具有挑战性的；考验能力的",
           "ipa": "/ˈtʃælɪndʒɪŋ/",
@@ -15341,7 +14543,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w453",
+          "id": "w429",
           "word": "pilot",
           "chinese": "飞行员；驾驶员",
           "ipa": "/ˈpaɪlət/",
@@ -15374,7 +14576,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w454",
+          "id": "w430",
           "word": "expert",
           "chinese": "专家；行家",
           "ipa": "/ˈekspɜːrt/",
@@ -15407,7 +14609,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w455",
+          "id": "w431",
           "word": "replace",
           "chinese": "代替；取代；更换",
           "ipa": "/rɪˈpleɪs/",
@@ -15440,7 +14642,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w456",
+          "id": "w432",
           "word": "creativity",
           "chinese": "创造力；创造性",
           "ipa": "/ˌkriːeɪˈtɪvəti/",
@@ -15473,7 +14675,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w457",
+          "id": "w433",
           "word": "emotional",
           "chinese": "情感的；情绪化的",
           "ipa": "/ɪˈmoʊʃənl/",
@@ -15506,7 +14708,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w458",
+          "id": "w434",
           "word": "intelligence",
           "chinese": "智力；智慧；情报",
           "ipa": "/ɪnˈtelɪdʒəns/",
@@ -15539,7 +14741,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w459",
+          "id": "w435",
           "word": "emotional intelligence",
           "chinese": "情商；情绪智力",
           "ipa": "/ɪˈmoʊʃənl ɪnˈtelɪdʒəns/",
@@ -15572,7 +14774,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w460",
+          "id": "w436",
           "word": "mention",
           "chinese": "提及，说起",
           "ipa": "/ˈmenʃn/",
@@ -15603,7 +14805,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w461",
+          "id": "w437",
           "word": "refrigerator",
           "chinese": "冰箱",
           "ipa": "/rɪˈfrɪdʒəreɪtər/",
@@ -15634,7 +14836,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w462",
+          "id": "w438",
           "word": "low",
           "chinese": "低的，矮的；低落的",
           "ipa": "/loʊ/",
@@ -15665,7 +14867,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w463",
+          "id": "w439",
           "word": "run low",
           "chinese": "（供应）变得不足，快用完了",
           "ipa": "/rʌn loʊ/",
@@ -15696,7 +14898,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w464",
+          "id": "w440",
           "word": "accept",
           "chinese": "接受；承认",
           "ipa": "/əkˈsept/",
@@ -15730,7 +14932,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w465",
+          "id": "w441",
           "word": "influence",
           "chinese": "影响；作用",
           "ipa": "/ˈɪnfluəns/",
@@ -15764,7 +14966,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w466",
+          "id": "w442",
           "word": "creative",
           "chinese": "有创造力的；创新的",
           "ipa": "/kriˈeɪtɪv/",
@@ -15798,7 +15000,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w467",
+          "id": "w443",
           "word": "impossible",
           "chinese": "不可能的；做不到的",
           "ipa": "/ɪmˈpɒsəbl/",
@@ -15832,7 +15034,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w468",
+          "id": "w444",
           "word": "quality",
           "chinese": "质量；品质；优质的",
           "ipa": "/ˈkwɒləti/",
@@ -15866,7 +15068,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w469",
+          "id": "w445",
           "word": "develop",
           "chinese": "发展；培养；开发；冲洗（胶卷）",
           "ipa": "/dɪˈveləp/",
@@ -15901,7 +15103,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w470",
+          "id": "w446",
           "word": "German",
           "chinese": "德国的；德语；德国人",
           "ipa": "/ˈdʒɜːmən/",
@@ -15936,7 +15138,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w471",
+          "id": "w447",
           "word": "valuable",
           "chinese": "有价值的；宝贵的；珍贵的",
           "ipa": "/ˈvæljuəbl/",
@@ -15970,7 +15172,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w472",
+          "id": "w448",
           "word": "public",
           "chinese": "adj. 公共的，公众的；n. 公众，民众",
           "ipa": "/ˈpʌblɪk/",
@@ -16005,7 +15207,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w473",
+          "id": "w449",
           "word": "medical",
           "chinese": "adj. 医学的，医疗的",
           "ipa": "/ˈmedɪkl/",
@@ -16040,7 +15242,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w474",
+          "id": "w450",
           "word": "challenge",
           "chinese": "n. 挑战；v. 向……挑战 (过去式 challenged, 过去分词 challenged)",
           "ipa": "/ˈtʃælɪndʒ/",
@@ -16074,7 +15276,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w475",
+          "id": "w451",
           "word": "task",
           "chinese": "n. 任务，工作",
           "ipa": "/tɑːsk/",
@@ -16109,7 +15311,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w476",
+          "id": "w452",
           "word": "depend",
           "chinese": "依靠；依赖；取决于",
           "ipa": "/dɪˈpend/",
@@ -16140,7 +15342,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w477",
+          "id": "w453",
           "word": "depend on",
           "chinese": "依靠；依赖；取决于",
           "ipa": "/dɪˈpend ɒn/",
@@ -16171,7 +15373,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w478",
+          "id": "w454",
           "word": "come over",
           "chinese": "过来；来访",
           "ipa": "/kʌm ˈəʊvə/",
@@ -16202,7 +15404,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w479",
+          "id": "w455",
           "word": "as long as",
           "chinese": "只要（表示条件）",
           "ipa": "/æz lɒŋ æz/",
@@ -16238,7 +15440,7 @@ const TEXTBOOK_DATA = {
       "title": "第 8 单元",
       "words": [
         {
-          "id": "w480",
+          "id": "w456",
           "word": "communication",
           "chinese": "交流；沟通；通讯",
           "ipa": "/kəˌmjuːnɪˈkeɪʃən/",
@@ -16272,7 +15474,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w481",
+          "id": "w457",
           "word": "face to face",
           "chinese": "面对面地",
           "ipa": "/feɪs tə feɪs/",
@@ -16305,7 +15507,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w482",
+          "id": "w458",
           "word": "text message",
           "chinese": "短信；文字消息",
           "ipa": "/tekst ˈmesɪdʒ/",
@@ -16339,7 +15541,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w483",
+          "id": "w459",
           "word": "sign",
           "chinese": "标志；指示牌；迹象；手势",
           "ipa": "/saɪn/",
@@ -16374,7 +15576,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w484",
+          "id": "w460",
           "word": "speaker",
           "chinese": "n. 演讲者；扬声器",
           "ipa": "/ˈspiːkər/",
@@ -16408,7 +15610,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w485",
+          "id": "w461",
           "word": "rehearsal",
           "chinese": "n. 排练；彩排",
           "ipa": "/rɪˈhɜːrsl/",
@@ -16442,7 +15644,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w486",
+          "id": "w462",
           "word": "show sb around",
           "chinese": "v. 带领某人参观",
           "ipa": "/ʃoʊ ˈsʌmbədi əˈraʊnd/",
@@ -16474,7 +15676,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w487",
+          "id": "w463",
           "word": "show interest in sth",
           "chinese": "v. 对某事表现出兴趣",
           "ipa": "/ʃoʊ ˈɪntrəst ɪn ˈsʌmθɪŋ/",
@@ -16507,7 +15709,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w488",
+          "id": "w464",
           "word": "listener",
           "chinese": "听众；倾听者",
           "ipa": "/ˈlɪs.ən.ər/",
@@ -16540,7 +15742,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w489",
+          "id": "w465",
           "word": "point",
           "chinese": "点；要点；指向；表明",
           "ipa": "/pɔɪnt/",
@@ -16576,7 +15778,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w490",
+          "id": "w466",
           "word": "surely",
           "chinese": "肯定地；无疑地",
           "ipa": "/ˈʃʊr.li/",
@@ -16609,7 +15811,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w491",
+          "id": "w467",
           "word": "continue",
           "chinese": "继续；持续",
           "ipa": "/kənˈtɪn.juː/",
@@ -16643,7 +15845,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w492",
+          "id": "w468",
           "word": "impolite",
           "chinese": "不礼貌的",
           "ipa": "/ˌɪmpəˈlaɪt/",
@@ -16675,7 +15877,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w493",
+          "id": "w469",
           "word": "personal",
           "chinese": "个人的；私人的",
           "ipa": "/ˈpɜːrsənl/",
@@ -16708,7 +15910,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w494",
+          "id": "w470",
           "word": "argue with sb",
           "chinese": "与某人争论/争吵",
           "ipa": "/ˈɑːrɡjuː wɪð ˈsʌmbədi/",
@@ -16739,7 +15941,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w495",
+          "id": "w471",
           "word": "argue with sb",
           "chinese": "",
           "ipa": "",
@@ -16753,7 +15955,7 @@ const TEXTBOOK_DATA = {
           "sentences": []
         },
         {
-          "id": "w496",
+          "id": "w472",
           "word": "move on",
           "chinese": "继续前进；继续做别的事；放下过去",
           "ipa": "/muːv ɒn/",
@@ -16787,7 +15989,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w497",
+          "id": "w473",
           "word": "sincere",
           "chinese": "真诚的；诚挚的",
           "ipa": "/sɪnˈsɪər/",
@@ -16822,7 +16024,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w498",
+          "id": "w474",
           "word": "find out",
           "chinese": "查明；弄清；发现（真相）",
           "ipa": "/faɪnd aʊt/",
@@ -16856,7 +16058,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w499",
+          "id": "w475",
           "word": "pay",
           "chinese": "支付；付款；付出代价",
           "ipa": "/peɪ/",
@@ -16892,7 +16094,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w500",
+          "id": "w476",
           "word": "attention",
           "chinese": "n. 注意力；关注",
           "ipa": "/əˈtenʃn/",
@@ -16926,7 +16128,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w501",
+          "id": "w477",
           "word": "pay attention",
           "chinese": "v. 注意；留心",
           "ipa": "/peɪ əˈtenʃn/",
@@ -16959,7 +16161,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w502",
+          "id": "w478",
           "word": "be yourself",
           "chinese": "v. 做自己；保持本色",
           "ipa": "/biː jɔːrˈself/",
@@ -16992,7 +16194,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w503",
+          "id": "w479",
           "word": "offer",
           "chinese": "v. 提供；主动提出；n. 提议；出价",
           "ipa": "/ˈɒfə(r)/",
@@ -17027,7 +16229,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w504",
+          "id": "w480",
           "word": "reasonable",
           "chinese": "adj. 合理的；公平的；适度的",
           "ipa": "/ˈriːznəbl/",
@@ -17061,7 +16263,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w505",
+          "id": "w481",
           "word": "social",
           "chinese": "adj. 社交的；社会的",
           "ipa": "/ˈsoʊʃl/",
@@ -17094,7 +16296,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w506",
+          "id": "w482",
           "word": "medium",
           "chinese": "adj. 中等的；n. 媒介；方法",
           "ipa": "/ˈmiːdiəm/",
@@ -17128,7 +16330,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w507",
+          "id": "w483",
           "word": "social media",
           "chinese": "n. 社交媒体",
           "ipa": "/ˈsoʊʃl ˈmiːdiə/",
@@ -17162,7 +16364,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w508",
+          "id": "w484",
           "word": "trust",
           "chinese": "信任；信赖",
           "ipa": "/trʌst/",
@@ -17193,7 +16395,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w509",
+          "id": "w485",
           "word": "keep",
           "chinese": "保持；保留；继续",
           "ipa": "/kiːp/",
@@ -17224,7 +16426,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w510",
+          "id": "w486",
           "word": "local",
           "chinese": "当地的；本地的",
           "ipa": "/ˈloʊkl/",
@@ -17255,7 +16457,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w511",
+          "id": "w487",
           "word": "face-to-face",
           "chinese": "面对面地",
           "ipa": "/ˌfeɪs tə ˈfeɪs/",
@@ -17286,7 +16488,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w512",
+          "id": "w488",
           "word": "professor",
           "chinese": "教授",
           "ipa": "/prəˈfesər/",
@@ -17320,7 +16522,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w513",
+          "id": "w489",
           "word": "speech",
           "chinese": "演讲；说话的能力",
           "ipa": "/spiːtʃ/",
@@ -17354,7 +16556,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w514",
+          "id": "w490",
           "word": "argue",
           "chinese": "争论；争吵",
           "ipa": "/ˈɑːrɡjuː/",
@@ -17387,7 +16589,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w515",
+          "id": "w491",
           "word": "make up",
           "chinese": "和解；编造；组成",
           "ipa": "/meɪk ʌp/",
@@ -17421,7 +16623,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w516",
+          "id": "w492",
           "word": "in person",
           "chinese": "亲自；本人",
           "ipa": "/ɪn ˈpɜːrsən/",
@@ -17456,7 +16658,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w517",
+          "id": "w493",
           "word": "prefer",
           "chinese": "更喜欢；偏好",
           "ipa": "/prɪˈfɜːr/",
@@ -17489,7 +16691,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w518",
+          "id": "w494",
           "word": "calm",
           "chinese": "平静的；冷静的；使平静",
           "ipa": "/kɑːm/",
@@ -17523,7 +16725,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w519",
+          "id": "w495",
           "word": "worry about",
           "chinese": "担心；忧虑",
           "ipa": "/ˈwɜːri əˈbaʊt/",
@@ -17557,7 +16759,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w520",
+          "id": "w496",
           "word": "expression",
           "chinese": "表达；表情；措辞",
           "ipa": "/ɪkˈspreʃn/",
@@ -17591,7 +16793,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w521",
+          "id": "w497",
           "word": "chance",
           "chinese": "机会；可能性；偶然",
           "ipa": "/tʃɑːns/",
@@ -17626,7 +16828,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w522",
+          "id": "w498",
           "word": "meeting",
           "chinese": "会议；会面；集合",
           "ipa": "/ˈmiːtɪŋ/",
@@ -17661,7 +16863,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w523",
+          "id": "w499",
           "word": "difficulty",
           "chinese": "困难；难题；困境",
           "ipa": "/ˈdɪfɪkəlti/",
@@ -17696,7 +16898,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w524",
+          "id": "w500",
           "word": "right",
           "chinese": "正确的；右边的；权利；向右",
           "ipa": "/raɪt/",
@@ -17731,7 +16933,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w525",
+          "id": "w501",
           "word": "line",
           "chinese": "线；排；队伍；台词",
           "ipa": "/laɪn/",
@@ -17767,7 +16969,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w526",
+          "id": "w502",
           "word": "drop sb a line",
           "chinese": "给某人写信/发短信（非正式）",
           "ipa": "/drɒp ˈsʌmbədi ə laɪn/",
@@ -17799,7 +17001,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w527",
+          "id": "w503",
           "word": "detail",
           "chinese": "细节；详情",
           "ipa": "/ˈdiːteɪl/",
@@ -17833,7 +17035,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w528",
+          "id": "w504",
           "word": "reunion",
           "chinese": "n. 团圆；重聚",
           "ipa": "/riːˈjuːniən/",
@@ -17867,7 +17069,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w529",
+          "id": "w505",
           "word": "seriously",
           "chinese": "adv. 认真地；严重地",
           "ipa": "/ˈsɪriəsli/",
@@ -17901,41 +17103,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w530",
-          "word": "adv",
-          "chinese": "n. 广告（advertisement 的缩写）",
-          "ipa": "/æd/",
-          "phonemes": [],
-          "image": "../../G8_B1/Unit8/images/adv_1.jpg",
-          "image2": "../../G8_B1/Unit8/images/adv_1.jpg",
-          "usage": "n. (可数名词，口语常用缩写)",
-          "collocations": [
-            "put an adv",
-            "see an adv",
-            "job adv"
-          ],
-          "preposition_combos": [
-            "adv for",
-            "adv in"
-          ],
-          "image_desc_cn": "公告栏上一张彩色‘图书特卖’海报，四角用图钉固定；手机屏幕上弹出‘五折’横幅和购物车图标。",
-          "sentences": [
-            {
-              "en": "I saw an adv for a used bike on the school board.",
-              "zh": "我在学校公告栏上看到了一则二手自行车广告。",
-              "source": "textbook",
-              "image": ""
-            },
-            {
-              "en": "The newspaper adv helped me find a part-time job nearby.",
-              "zh": "报纸上的广告帮我找到了附近的一份兼职工作。",
-              "source": "context",
-              "image": ""
-            }
-          ]
-        },
-        {
-          "id": "w531",
+          "id": "w506",
           "word": "training",
           "chinese": "n. 训练；培训",
           "ipa": "/ˈtreɪnɪŋ/",
@@ -17969,7 +17137,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w532",
+          "id": "w507",
           "word": "nervous",
           "chinese": "紧张的；焦虑不安的",
           "ipa": "/ˈnɜːrvəs/",
@@ -18002,7 +17170,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w533",
+          "id": "w508",
           "word": "stranger",
           "chinese": "陌生人；外地人",
           "ipa": "/ˈstreɪndʒər/",
@@ -18035,7 +17203,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w534",
+          "id": "w509",
           "word": "tip",
           "chinese": "小费；提示；尖端",
           "ipa": "/tɪp/",
@@ -18070,7 +17238,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w535",
+          "id": "w510",
           "word": "carefully",
           "chinese": "小心地；仔细地",
           "ipa": "/ˈkerəfəli/",
@@ -18105,7 +17273,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w536",
+          "id": "w511",
           "word": "sincerely",
           "chinese": "真诚地；由衷地",
           "ipa": "/sɪnˈsɪrli/",
@@ -18137,7 +17305,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w537",
+          "id": "w512",
           "word": "opening",
           "chinese": "开口；开始；开幕",
           "ipa": "/ˈoʊpənɪŋ/",
@@ -18172,7 +17340,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w538",
+          "id": "w513",
           "word": "closing",
           "chinese": "关闭；结束；结尾",
           "ipa": "/ˈkloʊzɪŋ/",
@@ -18207,7 +17375,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w539",
+          "id": "w514",
           "word": "sentence",
           "chinese": "句子；判决",
           "ipa": "/ˈsentəns/",
@@ -18242,7 +17410,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w540",
+          "id": "w515",
           "word": "date",
           "chinese": "日期；约会；约会对象；枣",
           "ipa": "/deɪt/",
@@ -18277,7 +17445,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w541",
+          "id": "w516",
           "word": "clause",
           "chinese": "从句；条款",
           "ipa": "/klɔːz/",
@@ -18312,7 +17480,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w542",
+          "id": "w517",
           "word": "misunderstanding",
           "chinese": "误解；误会",
           "ipa": "/ˌmɪsʌndərˈstændɪŋ/",
@@ -18346,7 +17514,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w543",
+          "id": "w518",
           "word": "event",
           "chinese": "事件；活动；比赛项目",
           "ipa": "/ɪˈvent/",
@@ -18382,7 +17550,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w544",
+          "id": "w519",
           "word": "take place",
           "chinese": "发生；举行",
           "ipa": "/teɪk pleɪs/",
@@ -18415,7 +17583,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w545",
+          "id": "w520",
           "word": "cost",
           "chinese": "花费；成本；代价",
           "ipa": "/kɒst/",
@@ -18449,7 +17617,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w546",
+          "id": "w521",
           "word": "opportunity",
           "chinese": "机会；时机",
           "ipa": "/ˌɒpəˈtjuːnəti/",
@@ -18483,7 +17651,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w547",
+          "id": "w522",
           "word": "benefit",
           "chinese": "好处；益处；对……有益",
           "ipa": "/ˈbenɪfɪt/",
@@ -18517,7 +17685,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w548",
+          "id": "w523",
           "word": "reply",
           "chinese": "回答；回复",
           "ipa": "/rɪˈplaɪ/",
@@ -18550,7 +17718,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w549",
+          "id": "w524",
           "word": "honour",
           "chinese": "荣誉；尊敬；给……荣誉",
           "ipa": "/ˈɒn.ər/",
