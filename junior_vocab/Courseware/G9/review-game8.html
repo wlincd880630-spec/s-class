@@ -28,8 +28,9 @@
         <span>已完成 <strong id="doneCount">0</strong> / <strong id="pageSize">3</strong></span>
         <span><i class="fa-solid fa-stopwatch"></i> <strong id="gameTime">0:00</strong></span>
       </div>
+      <p class="connect-hint"><i class="fa-solid fa-hand-pointer"></i> 先点左侧图片，再点右侧对应英文单词；配对成功会自动连线</p>
       <div class="connect-wrap" id="connectWrap">
-        <svg class="connect-svg" id="linesSvg"></svg>
+        <svg class="connect-svg" id="linesSvg" aria-hidden="true"></svg>
         <div class="connect-col" id="leftCol"></div>
         <div class="connect-col" id="rightCol"></div>
       </div>
@@ -42,15 +43,29 @@
   <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/audio/audio-manifest.js?v=1"></script>
   <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/audio/local-audio.js?v=1"></script>
   <script src="../assets/js/utils.js"></script>
+
   <script>
     const CONNECT_SIZE = 3;
     let groups = [], groupIdx = 0, pageWords = [];
-    let matched = {}, selSide = null, selWord = null;
+    let matched = {}, selSide = null, selId = null;
     let statCorrect = 0, statWrong = 0, totalWords = 0;
-    let gameTimer = null, unitId = '';
+    let gameTimer = null;
 
     renderReviewWordSummary(document.getElementById('reviewWordSummary'), { minCount: 3 });
     document.getElementById('btnStart').addEventListener('click', startGame);
+    window.addEventListener('resize', () => {
+      if (Object.keys(matched).length) redrawLines();
+    });
+
+    function itemSel(id) {
+      return `.connect-item[data-id="${CSS.escape(String(id))}"]`;
+    }
+
+    function clearSelection() {
+      document.querySelectorAll('.connect-item.selected').forEach((e) => e.classList.remove('selected'));
+      selSide = null;
+      selId = null;
+    }
 
     function startGame() {
       const all = requireReviewWords({ minCount: 3 });
@@ -71,56 +86,82 @@
     function loadPage() {
       if (groupIdx >= groups.length) { finishGame(); return; }
       pageWords = shuffle(groups[groupIdx].slice());
-      matched = {}; selSide = null; selWord = null;
+      matched = {};
+      clearSelection();
       document.getElementById('pageNum').textContent = groupIdx + 1;
       document.getElementById('pageTotal').textContent = groups.length;
       document.getElementById('pageSize').textContent = pageWords.length;
       document.getElementById('doneCount').textContent = '0';
       document.getElementById('linesSvg').innerHTML = '';
       document.getElementById('feedback').classList.add('hidden');
+
       const left = document.getElementById('leftCol');
       const right = document.getElementById('rightCol');
-      left.innerHTML = ''; right.innerHTML = '';
-      pageWords.forEach(w => {
+      left.innerHTML = '';
+      right.innerHTML = '';
+
+      pageWords.forEach((w) => {
         const li = document.createElement('div');
-        li.className = 'connect-item';
-        li.dataset.word = w.word;
+        li.className = 'connect-item connect-item--img';
+        li.dataset.id = w.id;
         const img = document.createElement('img');
-        img.src = w.image; img.alt = w.word;
+        img.src = w.image;
+        img.alt = w.word;
+        img.draggable = false;
         li.appendChild(img);
-        li.addEventListener('click', () => onPick('img', w.word, li));
+        li.addEventListener('click', () => onPick('img', w.id, li));
         left.appendChild(li);
       });
-      shuffle(pageWords).forEach(w => {
+
+      shuffle(pageWords.slice()).forEach((w) => {
         const ri = document.createElement('div');
-        ri.className = 'connect-item';
-        ri.dataset.word = w.word;
+        ri.className = 'connect-item connect-item--word';
+        ri.dataset.id = w.id;
         const lbl = document.createElement('div');
         lbl.className = 'en-label';
         lbl.textContent = w.word;
         ri.appendChild(lbl);
-        ri.addEventListener('click', () => onPick('word', w.word, ri));
+        ri.addEventListener('click', () => onPick('word', w.id, ri));
         right.appendChild(ri);
       });
     }
 
-    function onPick(side, word, el) {
-      if (matched[word]) return;
+    function wordById(id) {
+      return pageWords.find((w) => w.id === id);
+    }
+
+    function onPick(side, id, el) {
+      if (matched[id]) return;
       const fb = document.getElementById('feedback');
-      if (!selSide) { selSide = side; selWord = word; el.classList.add('selected'); return; }
-      if (selSide === side) {
-        document.querySelectorAll('.connect-item.selected').forEach(e => e.classList.remove('selected'));
-        selSide = side; selWord = word; el.classList.add('selected'); return;
+
+      if (!selSide) {
+        selSide = side;
+        selId = id;
+        el.classList.add('selected');
+        return;
       }
-      if (selWord === word) {
-        statCorrect++; matched[word] = true;
-        document.querySelectorAll(`.connect-item[data-word="${word}"]`).forEach(e => {
-          e.classList.remove('selected'); e.classList.add('matched');
+
+      if (selSide === side) {
+        clearSelection();
+        selSide = side;
+        selId = id;
+        el.classList.add('selected');
+        return;
+      }
+
+      if (selId === id) {
+        const w = wordById(id);
+        statCorrect++;
+        matched[id] = true;
+        document.querySelectorAll(itemSel(id)).forEach((e) => {
+          e.classList.remove('selected');
+          e.classList.add('matched');
         });
-        drawLine(word);
-        speakText(word);
+        drawLine(id);
+        if (w) speakText(w.word);
         showFeedback(fb, '配对成功！🎉', true);
         document.getElementById('doneCount').textContent = String(Object.keys(matched).length);
+        clearSelection();
         if (Object.keys(matched).length === pageWords.length) {
           groupIdx++;
           setTimeout(loadPage, 1000);
@@ -128,25 +169,33 @@
       } else {
         statWrong++;
         showFeedback(fb, '不对，再试试！', false);
-        document.querySelectorAll('.connect-item.selected').forEach(e => e.classList.remove('selected'));
+        clearSelection();
       }
-      selSide = null; selWord = null;
     }
 
-    function drawLine(word) {
-      const items = document.querySelectorAll(`.connect-item[data-word="${word}"]`);
-      if (items.length < 2) return;
+    function drawLine(id) {
+      const leftEl = document.querySelector(`#leftCol ${itemSel(id)}`);
+      const rightEl = document.querySelector(`#rightCol ${itemSel(id)}`);
+      if (!leftEl || !rightEl) return;
       const wrap = document.getElementById('connectWrap').getBoundingClientRect();
-      const a = items[0].getBoundingClientRect();
-      const b = items[1].getBoundingClientRect();
+      const a = leftEl.getBoundingClientRect();
+      const b = rightEl.getBoundingClientRect();
       const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-      line.setAttribute('x1', a.right - wrap.left);
-      line.setAttribute('y1', a.top + a.height / 2 - wrap.top);
-      line.setAttribute('x2', b.left - wrap.left);
-      line.setAttribute('y2', b.top + b.height / 2 - wrap.top);
-      line.setAttribute('stroke', '#0984e3');
+      line.setAttribute('x1', String(a.right - wrap.left));
+      line.setAttribute('y1', String(a.top + a.height / 2 - wrap.top));
+      line.setAttribute('x2', String(b.left - wrap.left));
+      line.setAttribute('y2', String(b.top + b.height / 2 - wrap.top));
+      line.setAttribute('stroke', '#0284c7');
       line.setAttribute('stroke-width', '3');
+      line.setAttribute('stroke-linecap', 'round');
+      line.dataset.id = id;
       document.getElementById('linesSvg').appendChild(line);
+    }
+
+    function redrawLines() {
+      const svg = document.getElementById('linesSvg');
+      svg.innerHTML = '';
+      Object.keys(matched).forEach(drawLine);
     }
 
     function finishGame() {
@@ -155,11 +204,20 @@
       const donePanel = document.getElementById('donePanel');
       donePanel.classList.remove('hidden');
       showFinalGameStats(donePanel, {
-        title: '连线完成！', groups: groups.length, totalItems: totalWords,
-        itemLabel: '个配对', correct: statCorrect, wrong: statWrong, timeSec,
-        onRetry: () => { donePanel.classList.add('hidden'); document.getElementById('setupPanel').classList.remove('hidden'); }
+        title: '连线完成！',
+        groups: groups.length,
+        totalItems: totalWords,
+        itemLabel: '个配对',
+        correct: statCorrect,
+        wrong: statWrong,
+        timeSec,
+        onRetry: () => {
+          donePanel.classList.add('hidden');
+          document.getElementById('setupPanel').classList.remove('hidden');
+        }
       });
     }
   </script>
+
 </body>
 </html>
