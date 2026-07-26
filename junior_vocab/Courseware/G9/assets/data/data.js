@@ -12,12 +12,6905 @@ const TEXTBOOK_DATA = {
   },
   "units": [
     {
-      "id": "unit8",
-      "name": "Unit 8 · Unit 8",
-      "title": "第 8 单元",
+      "id": "unit1",
+      "name": "Unit 1 · How can we become good learners?",
+      "title": "我们怎样才能成为好的学习者？",
       "words": [
         {
           "id": "w1",
+          "word": "textbook",
+          "chinese": "教科书；课本",
+          "ipa": "/ˈtekstbʊk/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/textbook_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/textbook_2.png",
+          "usage": "n.",
+          "collocations": [
+            "textbook"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“textbook”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"textbook\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“textbook”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"textbook\"?",
+              "zh": "你能用“textbook”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w2",
+          "word": "conversation",
+          "chinese": "交谈；谈话",
+          "ipa": "/ˌkɒnvəˈseɪʃn/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/conversation_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/conversation_2.png",
+          "usage": "n.",
+          "collocations": [
+            "conversation"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“conversation”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"conversation\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“conversation”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"conversation\"?",
+              "zh": "你能用“conversation”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w3",
+          "word": "aloud",
+          "chinese": "大声地；出声地",
+          "ipa": "/əˈlaʊd/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/aloud_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/aloud_2.png",
+          "usage": "adv.",
+          "collocations": [
+            "aloud"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“aloud”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"aloud\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“aloud”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"aloud\"?",
+              "zh": "你能用“aloud”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w4",
+          "word": "pronunciation",
+          "chinese": "发音；读音",
+          "ipa": "/prəˌnʌnsiˈeɪʃn/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/pronunciation_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/pronunciation_2.png",
+          "usage": "n.",
+          "collocations": [
+            "pronunciation"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“pronunciation”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"pronunciation\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“pronunciation”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"pronunciation\"?",
+              "zh": "你能用“pronunciation”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w5",
+          "word": "sentence",
+          "chinese": "句子",
+          "ipa": "/ˈsentəns/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/sentence_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/sentence_2.png",
+          "usage": "n.",
+          "collocations": [
+            "sentence"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“sentence”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"sentence\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“sentence”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"sentence\"?",
+              "zh": "你能用“sentence”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w6",
+          "word": "patient",
+          "chinese": "有耐心的；病人",
+          "ipa": "/ˈpeɪʃnt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/patient_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/patient_2.png",
+          "usage": "adj. / n.",
+          "collocations": [
+            "patient"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“patient”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"patient\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“patient”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"patient\"?",
+              "zh": "你能用“patient”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w7",
+          "word": "expression",
+          "chinese": "表达（方式）；表示",
+          "ipa": "/ɪkˈspreʃn/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/expression_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/expression_2.png",
+          "usage": "n.",
+          "collocations": [
+            "expression"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“expression”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"expression\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“expression”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"expression\"?",
+              "zh": "你能用“expression”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w8",
+          "word": "discover",
+          "chinese": "发现；发觉",
+          "ipa": "/dɪˈskʌvə(r)/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/discover_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/discover_2.png",
+          "usage": "v.",
+          "collocations": [
+            "discover"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“discover”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"discover\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“discover”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"discover\"?",
+              "zh": "你能用“discover”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w9",
+          "word": "secret",
+          "chinese": "秘密；秘密的",
+          "ipa": "/ˈsiːkrət/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/secret_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/secret_2.png",
+          "usage": "n. / adj.",
+          "collocations": [
+            "secret"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“secret”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"secret\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“secret”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"secret\"?",
+              "zh": "你能用“secret”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w10",
+          "word": "fall in love with",
+          "chinese": "爱上；与……相爱",
+          "ipa": "/fɔːl ɪn lʌv wɪð/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/fall_in_love_with_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/fall_in_love_with_2.png",
+          "usage": "短语",
+          "collocations": [
+            "fall in love with"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“fall in love with”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"fall in love with\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“fall in love with”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"fall in love with\"?",
+              "zh": "你能用“fall in love with”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w11",
+          "word": "grammar",
+          "chinese": "语法",
+          "ipa": "/ˈɡræmə(r)/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/grammar_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/grammar_2.png",
+          "usage": "n.",
+          "collocations": [
+            "grammar"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“grammar”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"grammar\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“grammar”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"grammar\"?",
+              "zh": "你能用“grammar”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w12",
+          "word": "repeat",
+          "chinese": "重复；重做",
+          "ipa": "/rɪˈpiːt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/repeat_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/repeat_2.png",
+          "usage": "v.",
+          "collocations": [
+            "repeat"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“repeat”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"repeat\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“repeat”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"repeat\"?",
+              "zh": "你能用“repeat”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w13",
+          "word": "note",
+          "chinese": "笔记；记录；注意",
+          "ipa": "/nəʊt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/note_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/note_2.png",
+          "usage": "n. / v.",
+          "collocations": [
+            "note"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“note”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"note\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“note”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"note\"?",
+              "zh": "你能用“note”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w14",
+          "word": "pal",
+          "chinese": "朋友；伙伴",
+          "ipa": "/pæl/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/pal_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/pal_2.png",
+          "usage": "n.",
+          "collocations": [
+            "pal"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“pal”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"pal\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“pal”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"pal\"?",
+              "zh": "你能用“pal”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w15",
+          "word": "pattern",
+          "chinese": "模式；方式",
+          "ipa": "/ˈpætn/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/pattern_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/pattern_2.png",
+          "usage": "n.",
+          "collocations": [
+            "pattern"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“pattern”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"pattern\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“pattern”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"pattern\"?",
+              "zh": "你能用“pattern”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w16",
+          "word": "physics",
+          "chinese": "物理；物理学",
+          "ipa": "/ˈfɪzɪks/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/physics_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/physics_2.png",
+          "usage": "n.",
+          "collocations": [
+            "physics"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“physics”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"physics\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“physics”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"physics\"?",
+              "zh": "你能用“physics”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w17",
+          "word": "chemistry",
+          "chinese": "化学",
+          "ipa": "/ˈkemɪstri/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/chemistry_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/chemistry_2.png",
+          "usage": "n.",
+          "collocations": [
+            "chemistry"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“chemistry”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"chemistry\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“chemistry”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"chemistry\"?",
+              "zh": "你能用“chemistry”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w18",
+          "word": "partner",
+          "chinese": "搭档；同伴",
+          "ipa": "/ˈpɑːtnə(r)/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/partner_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/partner_2.png",
+          "usage": "n.",
+          "collocations": [
+            "partner"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“partner”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"partner\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“partner”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"partner\"?",
+              "zh": "你能用“partner”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w19",
+          "word": "pronounce",
+          "chinese": "发音",
+          "ipa": "/prəˈnaʊns/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/pronounce_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/pronounce_2.png",
+          "usage": "v.",
+          "collocations": [
+            "pronounce"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“pronounce”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"pronounce\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“pronounce”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"pronounce\"?",
+              "zh": "你能用“pronounce”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w20",
+          "word": "increase",
+          "chinese": "增加；增长",
+          "ipa": "/ɪnˈkriːs/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/increase_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/increase_2.png",
+          "usage": "v.",
+          "collocations": [
+            "increase"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“increase”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"increase\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“increase”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"increase\"?",
+              "zh": "你能用“increase”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w21",
+          "word": "speed",
+          "chinese": "速度；加速",
+          "ipa": "/spiːd/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/speed_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/speed_2.png",
+          "usage": "n. / v.",
+          "collocations": [
+            "speed"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“speed”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"speed\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“speed”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"speed\"?",
+              "zh": "你能用“speed”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w22",
+          "word": "ability",
+          "chinese": "能力；才能",
+          "ipa": "/əˈbɪləti/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/ability_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/ability_2.png",
+          "usage": "n.",
+          "collocations": [
+            "ability"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“ability”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"ability\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“ability”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"ability\"?",
+              "zh": "你能用“ability”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w23",
+          "word": "brain",
+          "chinese": "大脑",
+          "ipa": "/breɪn/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/brain_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/brain_2.png",
+          "usage": "n.",
+          "collocations": [
+            "brain"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“brain”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"brain\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“brain”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"brain\"?",
+              "zh": "你能用“brain”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w24",
+          "word": "active",
+          "chinese": "活跃的；积极的",
+          "ipa": "/ˈæktɪv/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/active_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/active_2.png",
+          "usage": "adj.",
+          "collocations": [
+            "active"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“active”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"active\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“active”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"active\"?",
+              "zh": "你能用“active”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w25",
+          "word": "attention",
+          "chinese": "注意；关注",
+          "ipa": "/əˈtenʃn/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/attention_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/attention_2.png",
+          "usage": "n.",
+          "collocations": [
+            "attention"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“attention”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"attention\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“attention”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"attention\"?",
+              "zh": "你能用“attention”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w26",
+          "word": "pay attention to",
+          "chinese": "注意；关注",
+          "ipa": "/peɪ əˈtenʃn tuː/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/pay_attention_to_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/pay_attention_to_2.png",
+          "usage": "短语",
+          "collocations": [
+            "pay attention to"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“pay attention to”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"pay attention to\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“pay attention to”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"pay attention to\"?",
+              "zh": "你能用“pay attention to”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w27",
+          "word": "connect",
+          "chinese": "（使）连接；与……有联系",
+          "ipa": "/kəˈnekt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/connect_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/connect_2.png",
+          "usage": "v.",
+          "collocations": [
+            "connect"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“connect”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"connect\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“connect”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"connect\"?",
+              "zh": "你能用“connect”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w28",
+          "word": "connect … with",
+          "chinese": "把……和……连接或联系起来",
+          "ipa": "/kəˈnekt wɪð/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/connect_with_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/connect_with_2.png",
+          "usage": "短语",
+          "collocations": [
+            "connect … with"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“connect … with”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"connect … with\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“connect … with”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"connect … with\"?",
+              "zh": "你能用“connect … with”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w29",
+          "word": "overnight",
+          "chinese": "一夜之间；在夜间",
+          "ipa": "/ˌəʊvəˈnaɪt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/overnight_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/overnight_2.png",
+          "usage": "adv.",
+          "collocations": [
+            "overnight"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“overnight”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"overnight\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“overnight”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"overnight\"?",
+              "zh": "你能用“overnight”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w30",
+          "word": "review",
+          "chinese": "回顾；复习",
+          "ipa": "/rɪˈvjuː/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/review_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/review_2.png",
+          "usage": "v. / n.",
+          "collocations": [
+            "review"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“review”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"review\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“review”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"review\"?",
+              "zh": "你能用“review”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w31",
+          "word": "knowledge",
+          "chinese": "知识；学问",
+          "ipa": "/ˈnɒlɪdʒ/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/knowledge_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/knowledge_2.png",
+          "usage": "n.",
+          "collocations": [
+            "knowledge"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“knowledge”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"knowledge\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“knowledge”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"knowledge\"?",
+              "zh": "你能用“knowledge”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w32",
+          "word": "wisely",
+          "chinese": "明智地；聪明地",
+          "ipa": "/ˈwaɪzli/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/wisely_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit1/images/wisely_2.png",
+          "usage": "adv.",
+          "collocations": [
+            "wisely"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“wisely”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"wisely\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“wisely”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"wisely\"?",
+              "zh": "你能用“wisely”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit2",
+      "name": "Unit 2 · I think that mooncakes are delicious!",
+      "title": "我认为月饼很好吃！",
+      "words": [
+        {
+          "id": "w33",
+          "word": "lantern",
+          "chinese": "灯笼",
+          "ipa": "/ˈlæntən/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/lantern_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/lantern_2.png",
+          "usage": "n.",
+          "collocations": [
+            "lantern"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“lantern”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"lantern\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“lantern”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"lantern\"?",
+              "zh": "你能用“lantern”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w34",
+          "word": "stranger",
+          "chinese": "陌生人",
+          "ipa": "/ˈstreɪndʒə(r)/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/stranger_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/stranger_2.png",
+          "usage": "n.",
+          "collocations": [
+            "stranger"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“stranger”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"stranger\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“stranger”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"stranger\"?",
+              "zh": "你能用“stranger”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w35",
+          "word": "relative",
+          "chinese": "亲属；亲戚",
+          "ipa": "/ˈrelətɪv/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/relative_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/relative_2.png",
+          "usage": "n.",
+          "collocations": [
+            "relative"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“relative”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"relative\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“relative”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"relative\"?",
+              "zh": "你能用“relative”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w36",
+          "word": "put on",
+          "chinese": "增加（体重）；发胖；穿上",
+          "ipa": "/pʊt ɒn/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/put_on_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/put_on_2.png",
+          "usage": "短语",
+          "collocations": [
+            "put on"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“put on”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"put on\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“put on”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"put on\"?",
+              "zh": "你能用“put on”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w37",
+          "word": "pound",
+          "chinese": "磅；英镑",
+          "ipa": "/paʊnd/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/pound_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/pound_2.png",
+          "usage": "n.",
+          "collocations": [
+            "pound"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“pound”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"pound\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“pound”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"pound\"?",
+              "zh": "你能用“pound”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w38",
+          "word": "folk",
+          "chinese": "民间的；民俗的",
+          "ipa": "/fəʊk/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/folk_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/folk_2.png",
+          "usage": "adj.",
+          "collocations": [
+            "folk"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“folk”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"folk\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“folk”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"folk\"?",
+              "zh": "你能用“folk”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w39",
+          "word": "goddess",
+          "chinese": "女神",
+          "ipa": "/ˈɡɒdes/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/goddess_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/goddess_2.png",
+          "usage": "n.",
+          "collocations": [
+            "goddess"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“goddess”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"goddess\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“goddess”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"goddess\"?",
+              "zh": "你能用“goddess”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w40",
+          "word": "steal",
+          "chinese": "偷；窃取",
+          "ipa": "/stiːl/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/steal_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/steal_2.png",
+          "usage": "v.",
+          "collocations": [
+            "steal"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“steal”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"steal\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“steal”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"steal\"?",
+              "zh": "你能用“steal”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w41",
+          "word": "lay",
+          "chinese": "放置；产（卵）",
+          "ipa": "/leɪ/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/lay_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/lay_2.png",
+          "usage": "v.",
+          "collocations": [
+            "lay"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“lay”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"lay\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“lay”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"lay\"?",
+              "zh": "你能用“lay”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w42",
+          "word": "lay out",
+          "chinese": "摆开；布置",
+          "ipa": "/leɪ aʊt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/lay_out_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/lay_out_2.png",
+          "usage": "短语",
+          "collocations": [
+            "lay out"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“lay out”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"lay out\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“lay out”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"lay out\"?",
+              "zh": "你能用“lay out”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w43",
+          "word": "dessert",
+          "chinese": "（饭后）甜点；甜食",
+          "ipa": "/dɪˈzɜːt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/dessert_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/dessert_2.png",
+          "usage": "n.",
+          "collocations": [
+            "dessert"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“dessert”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"dessert\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“dessert”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"dessert\"?",
+              "zh": "你能用“dessert”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w44",
+          "word": "garden",
+          "chinese": "花园；园子",
+          "ipa": "/ˈɡɑːdn/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/garden_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/garden_2.png",
+          "usage": "n.",
+          "collocations": [
+            "garden"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“garden”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"garden\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“garden”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"garden\"?",
+              "zh": "你能用“garden”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w45",
+          "word": "admire",
+          "chinese": "欣赏；仰慕",
+          "ipa": "/ədˈmaɪə(r)/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/admire_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/admire_2.png",
+          "usage": "v.",
+          "collocations": [
+            "admire"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“admire”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"admire\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“admire”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"admire\"?",
+              "zh": "你能用“admire”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w46",
+          "word": "tie",
+          "chinese": "领带；捆；束",
+          "ipa": "/taɪ/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/tie_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/tie_2.png",
+          "usage": "n. / v.",
+          "collocations": [
+            "tie"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“tie”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"tie\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“tie”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"tie\"?",
+              "zh": "你能用“tie”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w47",
+          "word": "haunted",
+          "chinese": "有鬼魂出没的",
+          "ipa": "/ˈhɔːntɪd/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/haunted_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/haunted_2.png",
+          "usage": "adj.",
+          "collocations": [
+            "haunted"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“haunted”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"haunted\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“haunted”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"haunted\"?",
+              "zh": "你能用“haunted”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w48",
+          "word": "ghost",
+          "chinese": "鬼；鬼魂",
+          "ipa": "/ɡəʊst/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/ghost_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/ghost_2.png",
+          "usage": "n.",
+          "collocations": [
+            "ghost"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“ghost”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"ghost\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“ghost”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"ghost\"?",
+              "zh": "你能用“ghost”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w49",
+          "word": "trick",
+          "chinese": "花招；把戏",
+          "ipa": "/trɪk/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/trick_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/trick_2.png",
+          "usage": "n.",
+          "collocations": [
+            "trick"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“trick”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"trick\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“trick”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"trick\"?",
+              "zh": "你能用“trick”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w50",
+          "word": "treat",
+          "chinese": "款待；招待；请客",
+          "ipa": "/triːt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/treat_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/treat_2.png",
+          "usage": "n. / v.",
+          "collocations": [
+            "treat"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“treat”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"treat\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“treat”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"treat\"?",
+              "zh": "你能用“treat”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w51",
+          "word": "spider",
+          "chinese": "蜘蛛",
+          "ipa": "/ˈspaɪdə(r)/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/spider_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/spider_2.png",
+          "usage": "n.",
+          "collocations": [
+            "spider"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“spider”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"spider\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“spider”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"spider\"?",
+              "zh": "你能用“spider”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w52",
+          "word": "Christmas",
+          "chinese": "圣诞节",
+          "ipa": "/ˈkrɪsməs/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/Christmas_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/Christmas_2.png",
+          "usage": "n.",
+          "collocations": [
+            "Christmas"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“Christmas”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"Christmas\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“Christmas”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"Christmas\"?",
+              "zh": "你能用“Christmas”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w53",
+          "word": "fool",
+          "chinese": "蠢人；愚弄；愚蠢的",
+          "ipa": "/fuːl/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/fool_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/fool_2.png",
+          "usage": "n. / v. / adj.",
+          "collocations": [
+            "fool"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“fool”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"fool\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“fool”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"fool\"?",
+              "zh": "你能用“fool”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w54",
+          "word": "lie",
+          "chinese": "平躺；处于",
+          "ipa": "/laɪ/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/lie_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/lie_2.png",
+          "usage": "v.",
+          "collocations": [
+            "lie"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“lie”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"lie\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“lie”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"lie\"?",
+              "zh": "你能用“lie”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w55",
+          "word": "novel",
+          "chinese": "（长篇）小说",
+          "ipa": "/ˈnɒvl/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/novel_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/novel_2.png",
+          "usage": "n.",
+          "collocations": [
+            "novel"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“novel”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"novel\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“novel”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"novel\"?",
+              "zh": "你能用“novel”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w56",
+          "word": "eve",
+          "chinese": "前夕；前夜",
+          "ipa": "/iːv/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/eve_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/eve_2.png",
+          "usage": "n.",
+          "collocations": [
+            "eve"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“eve”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"eve\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“eve”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"eve\"?",
+              "zh": "你能用“eve”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w57",
+          "word": "bookstore",
+          "chinese": "书店",
+          "ipa": "/ˈbʊkstɔː(r)/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/bookstore_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/bookstore_2.png",
+          "usage": "n.",
+          "collocations": [
+            "bookstore"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“bookstore”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"bookstore\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“bookstore”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"bookstore\"?",
+              "zh": "你能用“bookstore”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w58",
+          "word": "dead",
+          "chinese": "死的；失去生命的",
+          "ipa": "/ded/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/dead_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/dead_2.png",
+          "usage": "adj.",
+          "collocations": [
+            "dead"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“dead”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"dead\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“dead”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"dead\"?",
+              "zh": "你能用“dead”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w59",
+          "word": "business",
+          "chinese": "生意；商业",
+          "ipa": "/ˈbɪznəs/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/business_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/business_2.png",
+          "usage": "n.",
+          "collocations": [
+            "business"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“business”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"business\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“business”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"business\"?",
+              "zh": "你能用“business”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w60",
+          "word": "punish",
+          "chinese": "处罚；惩罚",
+          "ipa": "/ˈpʌnɪʃ/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/punish_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/punish_2.png",
+          "usage": "v.",
+          "collocations": [
+            "punish"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“punish”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"punish\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“punish”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"punish\"?",
+              "zh": "你能用“punish”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w61",
+          "word": "warn",
+          "chinese": "警告；告诫",
+          "ipa": "/wɔːn/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/warn_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/warn_2.png",
+          "usage": "v.",
+          "collocations": [
+            "warn"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“warn”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"warn\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“warn”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"warn\"?",
+              "zh": "你能用“warn”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w62",
+          "word": "present",
+          "chinese": "现在；礼物；现在的",
+          "ipa": "/ˈpreznt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/present_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/present_2.png",
+          "usage": "n. / adj.",
+          "collocations": [
+            "present"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“present”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"present\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“present”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"present\"?",
+              "zh": "你能用“present”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w63",
+          "word": "nobody",
+          "chinese": "没有人",
+          "ipa": "/ˈnəʊbədi/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/nobody_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/nobody_2.png",
+          "usage": "pron.",
+          "collocations": [
+            "nobody"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“nobody”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"nobody\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“nobody”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"nobody\"?",
+              "zh": "你能用“nobody”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w64",
+          "word": "warmth",
+          "chinese": "温暖；暖和",
+          "ipa": "/wɔːmθ/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/warmth_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/warmth_2.png",
+          "usage": "n.",
+          "collocations": [
+            "warmth"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“warmth”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"warmth\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“warmth”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"warmth\"?",
+              "zh": "你能用“warmth”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w65",
+          "word": "spread",
+          "chinese": "传播；展开；蔓延",
+          "ipa": "/spred/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/spread_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit2/images/spread_2.png",
+          "usage": "v. / n.",
+          "collocations": [
+            "spread"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“spread”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"spread\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“spread”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"spread\"?",
+              "zh": "你能用“spread”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit3",
+      "name": "Unit 3 · Could you please tell me where the restrooms are?",
+      "title": "你能告诉我洗手间在哪里吗？",
+      "words": [
+        {
+          "id": "w66",
+          "word": "restroom",
+          "chinese": "洗手间；公共厕所",
+          "ipa": "/ˈrestruːm/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/restroom_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/restroom_2.png",
+          "usage": "n.",
+          "collocations": [
+            "restroom"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“restroom”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"restroom\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“restroom”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"restroom\"?",
+              "zh": "你能用“restroom”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w67",
+          "word": "stamp",
+          "chinese": "邮票；印章",
+          "ipa": "/stæmp/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/stamp_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/stamp_2.png",
+          "usage": "n.",
+          "collocations": [
+            "stamp"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“stamp”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"stamp\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“stamp”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"stamp\"?",
+              "zh": "你能用“stamp”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w68",
+          "word": "postcard",
+          "chinese": "明信片",
+          "ipa": "/ˈpəʊstkɑːd/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/postcard_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/postcard_2.png",
+          "usage": "n.",
+          "collocations": [
+            "postcard"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“postcard”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"postcard\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“postcard”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"postcard\"?",
+              "zh": "你能用“postcard”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w69",
+          "word": "pardon",
+          "chinese": "请再说一遍；原谅",
+          "ipa": "/ˈpɑːdn/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/pardon_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/pardon_2.png",
+          "usage": "interj. / n. / v.",
+          "collocations": [
+            "pardon"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“pardon”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"pardon\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“pardon”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"pardon\"?",
+              "zh": "你能用“pardon”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w70",
+          "word": "washroom",
+          "chinese": "洗手间；厕所",
+          "ipa": "/ˈwɒʃruːm/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/washroom_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/washroom_2.png",
+          "usage": "n.",
+          "collocations": [
+            "washroom"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“washroom”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"washroom\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“washroom”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"washroom\"?",
+              "zh": "你能用“washroom”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w71",
+          "word": "bathroom",
+          "chinese": "浴室；洗手间",
+          "ipa": "/ˈbɑːθruːm/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/bathroom_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/bathroom_2.png",
+          "usage": "n.",
+          "collocations": [
+            "bathroom"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“bathroom”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"bathroom\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“bathroom”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"bathroom\"?",
+              "zh": "你能用“bathroom”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w72",
+          "word": "quick",
+          "chinese": "快的；迅速的",
+          "ipa": "/kwɪk/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/quick_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/quick_2.png",
+          "usage": "adj.",
+          "collocations": [
+            "quick"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“quick”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"quick\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“quick”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"quick\"?",
+              "zh": "你能用“quick”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w73",
+          "word": "rush",
+          "chinese": "仓促；急促",
+          "ipa": "/rʌʃ/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/rush_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/rush_2.png",
+          "usage": "v. / n.",
+          "collocations": [
+            "rush"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“rush”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"rush\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“rush”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"rush\"?",
+              "zh": "你能用“rush”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w74",
+          "word": "suggest",
+          "chinese": "建议；提议",
+          "ipa": "/səˈdʒest/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/suggest_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/suggest_2.png",
+          "usage": "v.",
+          "collocations": [
+            "suggest"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“suggest”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"suggest\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“suggest”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"suggest\"?",
+              "zh": "你能用“suggest”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w75",
+          "word": "staff",
+          "chinese": "管理人员；职工",
+          "ipa": "/stɑːf/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/staff_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/staff_2.png",
+          "usage": "n.",
+          "collocations": [
+            "staff"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“staff”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"staff\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“staff”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"staff\"?",
+              "zh": "你能用“staff”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w76",
+          "word": "grape",
+          "chinese": "葡萄",
+          "ipa": "/ɡreɪp/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/grape_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/grape_2.png",
+          "usage": "n.",
+          "collocations": [
+            "grape"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“grape”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"grape\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“grape”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"grape\"?",
+              "zh": "你能用“grape”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w77",
+          "word": "central",
+          "chinese": "中心的；中央的",
+          "ipa": "/ˈsentrəl/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/central_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/central_2.png",
+          "usage": "adj.",
+          "collocations": [
+            "central"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“central”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"central\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“central”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"central\"?",
+              "zh": "你能用“central”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w78",
+          "word": "mail",
+          "chinese": "邮寄；邮件",
+          "ipa": "/meɪl/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/mail_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/mail_2.png",
+          "usage": "v. / n.",
+          "collocations": [
+            "mail"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“mail”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"mail\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“mail”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"mail\"?",
+              "zh": "你能用“mail”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w79",
+          "word": "east",
+          "chinese": "东方的；向东；东方",
+          "ipa": "/iːst/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/east_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/east_2.png",
+          "usage": "adj. / adv. / n.",
+          "collocations": [
+            "east"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“east”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"east\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“east”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"east\"?",
+              "zh": "你能用“east”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w80",
+          "word": "fascinating",
+          "chinese": "迷人的；有吸引力的",
+          "ipa": "/ˈfæsɪneɪtɪŋ/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/fascinating_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/fascinating_2.png",
+          "usage": "adj.",
+          "collocations": [
+            "fascinating"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“fascinating”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"fascinating\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“fascinating”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"fascinating\"?",
+              "zh": "你能用“fascinating”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w81",
+          "word": "convenient",
+          "chinese": "便利的；方便的",
+          "ipa": "/kənˈviːniənt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/convenient_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/convenient_2.png",
+          "usage": "adj.",
+          "collocations": [
+            "convenient"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“convenient”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"convenient\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“convenient”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"convenient\"?",
+              "zh": "你能用“convenient”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w82",
+          "word": "mall",
+          "chinese": "商场；购物中心",
+          "ipa": "/mɔːl/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/mall_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/mall_2.png",
+          "usage": "n.",
+          "collocations": [
+            "mall"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“mall”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"mall\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“mall”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"mall\"?",
+              "zh": "你能用“mall”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w83",
+          "word": "clerk",
+          "chinese": "职员",
+          "ipa": "/klɑːk/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/clerk_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/clerk_2.png",
+          "usage": "n.",
+          "collocations": [
+            "clerk"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“clerk”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"clerk\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“clerk”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"clerk\"?",
+              "zh": "你能用“clerk”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w84",
+          "word": "corner",
+          "chinese": "拐角；角落",
+          "ipa": "/ˈkɔːnə(r)/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/corner_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/corner_2.png",
+          "usage": "n.",
+          "collocations": [
+            "corner"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“corner”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"corner\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“corner”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"corner\"?",
+              "zh": "你能用“corner”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w85",
+          "word": "polite",
+          "chinese": "有礼貌的；客气的",
+          "ipa": "/pəˈlaɪt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/polite_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/polite_2.png",
+          "usage": "adj.",
+          "collocations": [
+            "polite"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“polite”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"polite\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“polite”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"polite\"?",
+              "zh": "你能用“polite”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w86",
+          "word": "politely",
+          "chinese": "礼貌地；客气地",
+          "ipa": "/pəˈlaɪtli/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/politely_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/politely_2.png",
+          "usage": "adv.",
+          "collocations": [
+            "politely"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“politely”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"politely\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“politely”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"politely\"?",
+              "zh": "你能用“politely”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w87",
+          "word": "speaker",
+          "chinese": "讲（某种语言）的人；发言者",
+          "ipa": "/ˈspiːkə(r)/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/speaker_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/speaker_2.png",
+          "usage": "n.",
+          "collocations": [
+            "speaker"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“speaker”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"speaker\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“speaker”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"speaker\"?",
+              "zh": "你能用“speaker”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w88",
+          "word": "request",
+          "chinese": "要求；请求",
+          "ipa": "/rɪˈkwest/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/request_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/request_2.png",
+          "usage": "n. / v.",
+          "collocations": [
+            "request"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“request”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"request\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“request”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"request\"?",
+              "zh": "你能用“request”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w89",
+          "word": "choice",
+          "chinese": "选择；挑选",
+          "ipa": "/tʃɔɪs/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/choice_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/choice_2.png",
+          "usage": "n.",
+          "collocations": [
+            "choice"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“choice”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"choice\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“choice”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"choice\"?",
+              "zh": "你能用“choice”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w90",
+          "word": "direction",
+          "chinese": "方向；方位",
+          "ipa": "/dəˈrekʃn/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/direction_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/direction_2.png",
+          "usage": "n.",
+          "collocations": [
+            "direction"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“direction”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"direction\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“direction”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"direction\"?",
+              "zh": "你能用“direction”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w91",
+          "word": "correct",
+          "chinese": "正确的；恰当的",
+          "ipa": "/kəˈrekt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/correct_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/correct_2.png",
+          "usage": "adj.",
+          "collocations": [
+            "correct"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“correct”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"correct\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“correct”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"correct\"?",
+              "zh": "你能用“correct”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w92",
+          "word": "direct",
+          "chinese": "直接的；直率的",
+          "ipa": "/dəˈrekt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/direct_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/direct_2.png",
+          "usage": "adj.",
+          "collocations": [
+            "direct"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“direct”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"direct\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“direct”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"direct\"?",
+              "zh": "你能用“direct”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w93",
+          "word": "whom",
+          "chinese": "谁；什么人",
+          "ipa": "/huːm/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/whom_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/whom_2.png",
+          "usage": "pron.",
+          "collocations": [
+            "whom"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“whom”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"whom\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“whom”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"whom\"?",
+              "zh": "你能用“whom”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w94",
+          "word": "address",
+          "chinese": "地址；通讯处",
+          "ipa": "/əˈdres/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/address_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/address_2.png",
+          "usage": "n.",
+          "collocations": [
+            "address"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“address”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"address\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“address”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"address\"?",
+              "zh": "你能用“address”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w95",
+          "word": "faithfully",
+          "chinese": "忠实地；忠诚地",
+          "ipa": "/ˈfeɪθfəli/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/faithfully_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit3/images/faithfully_2.png",
+          "usage": "adv.",
+          "collocations": [
+            "faithfully"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“faithfully”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"faithfully\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“faithfully”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"faithfully\"?",
+              "zh": "你能用“faithfully”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit4",
+      "name": "Unit 4 · I used to be afraid of the dark.",
+      "title": "我过去害怕黑暗。",
+      "words": [
+        {
+          "id": "w96",
+          "word": "humorous",
+          "chinese": "有幽默感的；滑稽的",
+          "ipa": "/ˈhjuːmərəs/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/humorous_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/humorous_2.png",
+          "usage": "adj.",
+          "collocations": [
+            "humorous"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“humorous”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"humorous\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“humorous”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"humorous\"?",
+              "zh": "你能用“humorous”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w97",
+          "word": "silent",
+          "chinese": "不说话的；沉默的",
+          "ipa": "/ˈsaɪlənt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/silent_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/silent_2.png",
+          "usage": "adj.",
+          "collocations": [
+            "silent"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“silent”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"silent\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“silent”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"silent\"?",
+              "zh": "你能用“silent”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w98",
+          "word": "helpful",
+          "chinese": "有用的；有帮助的",
+          "ipa": "/ˈhelpfl/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/helpful_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/helpful_2.png",
+          "usage": "adj.",
+          "collocations": [
+            "helpful"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“helpful”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"helpful\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“helpful”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"helpful\"?",
+              "zh": "你能用“helpful”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w99",
+          "word": "from time to time",
+          "chinese": "时常；有时",
+          "ipa": "/frəm taɪm tə taɪm/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/from_time_to_time_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/from_time_to_time_2.png",
+          "usage": "短语",
+          "collocations": [
+            "from time to time"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“from time to time”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"from time to time\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“from time to time”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"from time to time\"?",
+              "zh": "你能用“from time to time”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w100",
+          "word": "score",
+          "chinese": "得分；打分",
+          "ipa": "/skɔː(r)/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/score_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/score_2.png",
+          "usage": "n. / v.",
+          "collocations": [
+            "score"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“score”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"score\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“score”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"score\"?",
+              "zh": "你能用“score”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w101",
+          "word": "background",
+          "chinese": "背景",
+          "ipa": "/ˈbækɡraʊnd/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/background_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/background_2.png",
+          "usage": "n.",
+          "collocations": [
+            "background"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“background”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"background\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“background”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"background\"?",
+              "zh": "你能用“background”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w102",
+          "word": "interview",
+          "chinese": "采访；面试；访谈",
+          "ipa": "/ˈɪntəvjuː/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/interview_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/interview_2.png",
+          "usage": "v. / n.",
+          "collocations": [
+            "interview"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“interview”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"interview\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“interview”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"interview\"?",
+              "zh": "你能用“interview”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w103",
+          "word": "Asian",
+          "chinese": "亚洲的；亚洲人",
+          "ipa": "/ˈeɪʒn/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/Asian_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/Asian_2.png",
+          "usage": "adj. / n.",
+          "collocations": [
+            "Asian"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“Asian”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"Asian\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“Asian”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"Asian\"?",
+              "zh": "你能用“Asian”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w104",
+          "word": "deal with",
+          "chinese": "对付；应付",
+          "ipa": "/diːl wɪð/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/deal_with_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/deal_with_2.png",
+          "usage": "短语",
+          "collocations": [
+            "deal with"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“deal with”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"deal with\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“deal with”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"deal with\"?",
+              "zh": "你能用“deal with”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w105",
+          "word": "dare",
+          "chinese": "敢于；胆敢",
+          "ipa": "/deə(r)/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/dare_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/dare_2.png",
+          "usage": "v.",
+          "collocations": [
+            "dare"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“dare”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"dare\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“dare”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"dare\"?",
+              "zh": "你能用“dare”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w106",
+          "word": "private",
+          "chinese": "私人的；私密的",
+          "ipa": "/ˈpraɪvət/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/private_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/private_2.png",
+          "usage": "adj.",
+          "collocations": [
+            "private"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“private”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"private\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“private”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"private\"?",
+              "zh": "你能用“private”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w107",
+          "word": "guard",
+          "chinese": "警卫；看守；守卫",
+          "ipa": "/ɡɑːd/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/guard_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/guard_2.png",
+          "usage": "n. / v.",
+          "collocations": [
+            "guard"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“guard”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"guard\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“guard”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"guard\"?",
+              "zh": "你能用“guard”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w108",
+          "word": "require",
+          "chinese": "需要；要求",
+          "ipa": "/rɪˈkwaɪə(r)/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/require_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/require_2.png",
+          "usage": "v.",
+          "collocations": [
+            "require"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“require”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"require\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“require”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"require\"?",
+              "zh": "你能用“require”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w109",
+          "word": "British",
+          "chinese": "英国的；英国人的",
+          "ipa": "/ˈbrɪtɪʃ/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/British_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/British_2.png",
+          "usage": "adj.",
+          "collocations": [
+            "British"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“British”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"British\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“British”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"British\"?",
+              "zh": "你能用“British”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w110",
+          "word": "speech",
+          "chinese": "讲话；发言",
+          "ipa": "/spiːtʃ/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/speech_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/speech_2.png",
+          "usage": "n.",
+          "collocations": [
+            "speech"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“speech”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"speech\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“speech”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"speech\"?",
+              "zh": "你能用“speech”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w111",
+          "word": "ant",
+          "chinese": "蚂蚁",
+          "ipa": "/ænt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/ant_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/ant_2.png",
+          "usage": "n.",
+          "collocations": [
+            "ant"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“ant”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"ant\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“ant”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"ant\"?",
+              "zh": "你能用“ant”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w112",
+          "word": "insect",
+          "chinese": "昆虫",
+          "ipa": "/ˈɪnsekt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/insect_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/insect_2.png",
+          "usage": "n.",
+          "collocations": [
+            "insect"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“insect”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"insect\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“insect”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"insect\"?",
+              "zh": "你能用“insect”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w113",
+          "word": "influence",
+          "chinese": "影响",
+          "ipa": "/ˈɪnfluəns/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/influence_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/influence_2.png",
+          "usage": "v. / n.",
+          "collocations": [
+            "influence"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“influence”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"influence\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“influence”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"influence\"?",
+              "zh": "你能用“influence”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w114",
+          "word": "seldom",
+          "chinese": "不常；很少",
+          "ipa": "/ˈseldəm/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/seldom_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/seldom_2.png",
+          "usage": "adv.",
+          "collocations": [
+            "seldom"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“seldom”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"seldom\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“seldom”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"seldom\"?",
+              "zh": "你能用“seldom”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w115",
+          "word": "proud",
+          "chinese": "自豪的；骄傲的",
+          "ipa": "/praʊd/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/proud_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/proud_2.png",
+          "usage": "adj.",
+          "collocations": [
+            "proud"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“proud”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"proud\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“proud”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"proud\"?",
+              "zh": "你能用“proud”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w116",
+          "word": "be proud of",
+          "chinese": "为……骄傲；感到自豪",
+          "ipa": "/bi praʊd əv/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/be_proud_of_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/be_proud_of_2.png",
+          "usage": "短语",
+          "collocations": [
+            "be proud of"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“be proud of”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"be proud of\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“be proud of”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"be proud of\"?",
+              "zh": "你能用“be proud of”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w117",
+          "word": "absent",
+          "chinese": "缺席；不在",
+          "ipa": "/ˈæbsənt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/absent_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/absent_2.png",
+          "usage": "adj.",
+          "collocations": [
+            "absent"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“absent”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"absent\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“absent”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"absent\"?",
+              "zh": "你能用“absent”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w118",
+          "word": "fail",
+          "chinese": "失败；未能（做到）",
+          "ipa": "/feɪl/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/fail_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/fail_2.png",
+          "usage": "v.",
+          "collocations": [
+            "fail"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“fail”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"fail\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“fail”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"fail\"?",
+              "zh": "你能用“fail”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w119",
+          "word": "examination",
+          "chinese": "考试；审查",
+          "ipa": "/ɪɡˌzæmɪˈneɪʃn/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/examination_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/examination_2.png",
+          "usage": "n.",
+          "collocations": [
+            "examination"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“examination”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"examination\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“examination”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"examination\"?",
+              "zh": "你能用“examination”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w120",
+          "word": "boarding school",
+          "chinese": "寄宿学校",
+          "ipa": "/ˈbɔːdɪŋ skuːl/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/boarding_school_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/boarding_school_2.png",
+          "usage": "n.",
+          "collocations": [
+            "boarding school"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“boarding school”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"boarding school\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“boarding school”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"boarding school\"?",
+              "zh": "你能用“boarding school”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w121",
+          "word": "in person",
+          "chinese": "亲身；亲自",
+          "ipa": "/ɪn ˈpɜːsn/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/in_person_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/in_person_2.png",
+          "usage": "短语",
+          "collocations": [
+            "in person"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“in person”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"in person\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“in person”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"in person\"?",
+              "zh": "你能用“in person”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w122",
+          "word": "exactly",
+          "chinese": "确切地；精确地",
+          "ipa": "/ɪɡˈzæktli/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/exactly_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/exactly_2.png",
+          "usage": "adv.",
+          "collocations": [
+            "exactly"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“exactly”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"exactly\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“exactly”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"exactly\"?",
+              "zh": "你能用“exactly”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w123",
+          "word": "pride",
+          "chinese": "自豪；骄傲",
+          "ipa": "/praɪd/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/pride_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/pride_2.png",
+          "usage": "n.",
+          "collocations": [
+            "pride"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“pride”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"pride\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“pride”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"pride\"?",
+              "zh": "你能用“pride”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w124",
+          "word": "take pride in",
+          "chinese": "为……感到自豪",
+          "ipa": "/teɪk praɪd ɪn/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/take_pride_in_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/take_pride_in_2.png",
+          "usage": "短语",
+          "collocations": [
+            "take pride in"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“take pride in”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"take pride in\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“take pride in”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"take pride in\"?",
+              "zh": "你能用“take pride in”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w125",
+          "word": "grandson",
+          "chinese": "孙子；外孙",
+          "ipa": "/ˈɡrænsʌn/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/grandson_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/grandson_2.png",
+          "usage": "n.",
+          "collocations": [
+            "grandson"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“grandson”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"grandson\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“grandson”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"grandson\"?",
+              "zh": "你能用“grandson”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w126",
+          "word": "general",
+          "chinese": "普遍的；常规的；总的；将军",
+          "ipa": "/ˈdʒenrəl/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/general_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/general_2.png",
+          "usage": "adj. / n.",
+          "collocations": [
+            "general"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“general”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"general\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“general”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"general\"?",
+              "zh": "你能用“general”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w127",
+          "word": "introduction",
+          "chinese": "介绍",
+          "ipa": "/ˌɪntrəˈdʌkʃn/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/introduction_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit4/images/introduction_2.png",
+          "usage": "n.",
+          "collocations": [
+            "introduction"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“introduction”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"introduction\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“introduction”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"introduction\"?",
+              "zh": "你能用“introduction”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit5",
+      "name": "Unit 5 · What are the shirts made of?",
+      "title": "这些衬衫是用什么做的？",
+      "words": [
+        {
+          "id": "w128",
+          "word": "material",
+          "chinese": "材料；原料",
+          "ipa": "/məˈtɪəriəl/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/material_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/material_2.png",
+          "usage": "n.",
+          "collocations": [
+            "material"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“material”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"material\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“material”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"material\"?",
+              "zh": "你能用“material”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w129",
+          "word": "chopsticks",
+          "chinese": "筷子",
+          "ipa": "/ˈtʃɒpstɪks/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/chopsticks_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/chopsticks_2.png",
+          "usage": "n.",
+          "collocations": [
+            "chopsticks"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“chopsticks”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"chopsticks\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“chopsticks”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"chopsticks\"?",
+              "zh": "你能用“chopsticks”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w130",
+          "word": "coin",
+          "chinese": "硬币",
+          "ipa": "/kɔɪn/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/coin_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/coin_2.png",
+          "usage": "n.",
+          "collocations": [
+            "coin"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“coin”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"coin\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“coin”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"coin\"?",
+              "zh": "你能用“coin”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w131",
+          "word": "fork",
+          "chinese": "餐叉；叉子",
+          "ipa": "/fɔːk/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/fork_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/fork_2.png",
+          "usage": "n.",
+          "collocations": [
+            "fork"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“fork”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"fork\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“fork”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"fork\"?",
+              "zh": "你能用“fork”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w132",
+          "word": "blouse",
+          "chinese": "（女士）短上衣；衬衫",
+          "ipa": "/blaʊz/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/blouse_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/blouse_2.png",
+          "usage": "n.",
+          "collocations": [
+            "blouse"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“blouse”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"blouse\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“blouse”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"blouse\"?",
+              "zh": "你能用“blouse”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w133",
+          "word": "silver",
+          "chinese": "银；银器；银色的",
+          "ipa": "/ˈsɪlvə(r)/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/silver_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/silver_2.png",
+          "usage": "n. / adj.",
+          "collocations": [
+            "silver"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“silver”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"silver\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“silver”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"silver\"?",
+              "zh": "你能用“silver”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w134",
+          "word": "glass",
+          "chinese": "玻璃",
+          "ipa": "/ɡlɑːs/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/glass_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/glass_2.png",
+          "usage": "n.",
+          "collocations": [
+            "glass"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“glass”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"glass\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“glass”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"glass\"?",
+              "zh": "你能用“glass”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w135",
+          "word": "cotton",
+          "chinese": "棉；棉花",
+          "ipa": "/ˈkɒtn/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/cotton_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/cotton_2.png",
+          "usage": "n.",
+          "collocations": [
+            "cotton"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“cotton”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"cotton\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“cotton”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"cotton\"?",
+              "zh": "你能用“cotton”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w136",
+          "word": "steel",
+          "chinese": "钢；钢铁",
+          "ipa": "/stiːl/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/steel_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/steel_2.png",
+          "usage": "n.",
+          "collocations": [
+            "steel"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“steel”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"steel\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“steel”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"steel\"?",
+              "zh": "你能用“steel”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w137",
+          "word": "grass",
+          "chinese": "草；草地",
+          "ipa": "/ɡrɑːs/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/grass_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/grass_2.png",
+          "usage": "n.",
+          "collocations": [
+            "grass"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“grass”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"grass\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“grass”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"grass\"?",
+              "zh": "你能用“grass”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w138",
+          "word": "leaf",
+          "chinese": "叶；叶子",
+          "ipa": "/liːf/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/leaf_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/leaf_2.png",
+          "usage": "n.",
+          "collocations": [
+            "leaf"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“leaf”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"leaf\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“leaf”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"leaf\"?",
+              "zh": "你能用“leaf”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w139",
+          "word": "produce",
+          "chinese": "生产；制造；出产",
+          "ipa": "/prəˈdjuːs/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/produce_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/produce_2.png",
+          "usage": "v.",
+          "collocations": [
+            "produce"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“produce”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"produce\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“produce”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"produce\"?",
+              "zh": "你能用“produce”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w140",
+          "word": "widely",
+          "chinese": "广泛地；普遍地",
+          "ipa": "/ˈwaɪdli/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/widely_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/widely_2.png",
+          "usage": "adv.",
+          "collocations": [
+            "widely"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“widely”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"widely\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“widely”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"widely\"?",
+              "zh": "你能用“widely”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w141",
+          "word": "process",
+          "chinese": "加工；处理",
+          "ipa": "/ˈprəʊses/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/process_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/process_2.png",
+          "usage": "v. / n.",
+          "collocations": [
+            "process"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“process”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"process\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“process”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"process\"?",
+              "zh": "你能用“process”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w142",
+          "word": "France",
+          "chinese": "法国",
+          "ipa": "/frɑːns/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/France_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/France_2.png",
+          "usage": "n.",
+          "collocations": [
+            "France"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“France”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"France\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“France”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"France\"?",
+              "zh": "你能用“France”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w143",
+          "word": "no matter",
+          "chinese": "不论；无论",
+          "ipa": "/nəʊ ˈmætə(r)/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/no_matter_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/no_matter_2.png",
+          "usage": "短语",
+          "collocations": [
+            "no matter"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“no matter”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"no matter\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“no matter”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"no matter\"?",
+              "zh": "你能用“no matter”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w144",
+          "word": "local",
+          "chinese": "当地的；本地的",
+          "ipa": "/ˈləʊkl/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/local_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/local_2.png",
+          "usage": "adj.",
+          "collocations": [
+            "local"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“local”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"local\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“local”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"local\"?",
+              "zh": "你能用“local”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w145",
+          "word": "even though",
+          "chinese": "虽然；即使",
+          "ipa": "/ˈiːvn ðəʊ/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/even_though_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/even_though_2.png",
+          "usage": "短语",
+          "collocations": [
+            "even though"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“even though”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"even though\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“even though”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"even though\"?",
+              "zh": "你能用“even though”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w146",
+          "word": "brand",
+          "chinese": "品牌；牌子",
+          "ipa": "/brænd/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/brand_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/brand_2.png",
+          "usage": "n.",
+          "collocations": [
+            "brand"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“brand”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"brand\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“brand”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"brand\"?",
+              "zh": "你能用“brand”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w147",
+          "word": "avoid",
+          "chinese": "避免；回避",
+          "ipa": "/əˈvɔɪd/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/avoid_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/avoid_2.png",
+          "usage": "v.",
+          "collocations": [
+            "avoid"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“avoid”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"avoid\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“avoid”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"avoid\"?",
+              "zh": "你能用“avoid”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w148",
+          "word": "product",
+          "chinese": "产品；制品",
+          "ipa": "/ˈprɒdʌkt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/product_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/product_2.png",
+          "usage": "n.",
+          "collocations": [
+            "product"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“product”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"product\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“product”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"product\"?",
+              "zh": "你能用“product”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w149",
+          "word": "handbag",
+          "chinese": "小手提包",
+          "ipa": "/ˈhændbæɡ/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/handbag_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/handbag_2.png",
+          "usage": "n.",
+          "collocations": [
+            "handbag"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“handbag”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"handbag\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“handbag”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"handbag\"?",
+              "zh": "你能用“handbag”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w150",
+          "word": "mobile",
+          "chinese": "可移动的；非固定的",
+          "ipa": "/ˈməʊbaɪl/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/mobile_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/mobile_2.png",
+          "usage": "adj.",
+          "collocations": [
+            "mobile"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“mobile”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"mobile\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“mobile”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"mobile\"?",
+              "zh": "你能用“mobile”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w151",
+          "word": "Germany",
+          "chinese": "德国",
+          "ipa": "/ˈdʒɜːməni/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/Germany_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/Germany_2.png",
+          "usage": "n.",
+          "collocations": [
+            "Germany"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“Germany”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"Germany\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“Germany”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"Germany\"?",
+              "zh": "你能用“Germany”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w152",
+          "word": "surface",
+          "chinese": "表面；表层",
+          "ipa": "/ˈsɜːfɪs/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/surface_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/surface_2.png",
+          "usage": "n.",
+          "collocations": [
+            "surface"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“surface”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"surface\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“surface”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"surface\"?",
+              "zh": "你能用“surface”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w153",
+          "word": "postman",
+          "chinese": "邮递员",
+          "ipa": "/ˈpəʊstmən/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/postman_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/postman_2.png",
+          "usage": "n.",
+          "collocations": [
+            "postman"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“postman”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"postman\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“postman”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"postman\"?",
+              "zh": "你能用“postman”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w154",
+          "word": "cap",
+          "chinese": "（尤指有帽舌的）帽",
+          "ipa": "/kæp/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/cap_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/cap_2.png",
+          "usage": "n.",
+          "collocations": [
+            "cap"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“cap”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"cap\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“cap”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"cap\"?",
+              "zh": "你能用“cap”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w155",
+          "word": "glove",
+          "chinese": "（分手指的）手套",
+          "ipa": "/ɡlʌv/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/glove_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/glove_2.png",
+          "usage": "n.",
+          "collocations": [
+            "glove"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“glove”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"glove\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“glove”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"glove\"?",
+              "zh": "你能用“glove”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w156",
+          "word": "international",
+          "chinese": "国际的",
+          "ipa": "/ˌɪntəˈnæʃnəl/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/international_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/international_2.png",
+          "usage": "adj.",
+          "collocations": [
+            "international"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“international”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"international\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“international”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"international\"?",
+              "zh": "你能用“international”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w157",
+          "word": "competitor",
+          "chinese": "参赛者；竞争者",
+          "ipa": "/kəmˈpetɪtə(r)/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/competitor_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/competitor_2.png",
+          "usage": "n.",
+          "collocations": [
+            "competitor"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“competitor”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"competitor\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“competitor”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"competitor\"?",
+              "zh": "你能用“competitor”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w158",
+          "word": "paint",
+          "chinese": "用颜料画；刷漆",
+          "ipa": "/peɪnt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/paint_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/paint_2.png",
+          "usage": "v. / n.",
+          "collocations": [
+            "paint"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“paint”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"paint\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“paint”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"paint\"?",
+              "zh": "你能用“paint”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w159",
+          "word": "its",
+          "chinese": "它的",
+          "ipa": "/ɪts/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/its_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/its_2.png",
+          "usage": "pron.",
+          "collocations": [
+            "its"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“its”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"its\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“its”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"its\"?",
+              "zh": "你能用“its”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w160",
+          "word": "form",
+          "chinese": "形式；类型",
+          "ipa": "/fɔːm/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/form_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/form_2.png",
+          "usage": "n.",
+          "collocations": [
+            "form"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“form”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"form\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“form”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"form\"?",
+              "zh": "你能用“form”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w161",
+          "word": "clay",
+          "chinese": "黏土；陶土",
+          "ipa": "/kleɪ/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/clay_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/clay_2.png",
+          "usage": "n.",
+          "collocations": [
+            "clay"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“clay”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"clay\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“clay”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"clay\"?",
+              "zh": "你能用“clay”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w162",
+          "word": "balloon",
+          "chinese": "气球",
+          "ipa": "/bəˈluːn/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/balloon_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/balloon_2.png",
+          "usage": "n.",
+          "collocations": [
+            "balloon"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“balloon”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"balloon\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“balloon”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"balloon\"?",
+              "zh": "你能用“balloon”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w163",
+          "word": "scissors",
+          "chinese": "剪刀",
+          "ipa": "/ˈsɪzəz/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/scissors_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/scissors_2.png",
+          "usage": "n.",
+          "collocations": [
+            "scissors"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“scissors”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"scissors\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“scissors”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"scissors\"?",
+              "zh": "你能用“scissors”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w164",
+          "word": "lively",
+          "chinese": "生气勃勃的；（色彩）鲜艳的",
+          "ipa": "/ˈlaɪvli/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/lively_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/lively_2.png",
+          "usage": "adj.",
+          "collocations": [
+            "lively"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“lively”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"lively\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“lively”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"lively\"?",
+              "zh": "你能用“lively”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w165",
+          "word": "fairy tale",
+          "chinese": "童话故事",
+          "ipa": "/ˈfeəri teɪl/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/fairy_tale_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/fairy_tale_2.png",
+          "usage": "n.",
+          "collocations": [
+            "fairy tale"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“fairy tale”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"fairy tale\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“fairy tale”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"fairy tale\"?",
+              "zh": "你能用“fairy tale”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w166",
+          "word": "heat",
+          "chinese": "热；高温",
+          "ipa": "/hiːt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/heat_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/heat_2.png",
+          "usage": "n.",
+          "collocations": [
+            "heat"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“heat”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"heat\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“heat”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"heat\"?",
+              "zh": "你能用“heat”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w167",
+          "word": "polish",
+          "chinese": "磨光；修改；润色",
+          "ipa": "/ˈpɒlɪʃ/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/polish_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/polish_2.png",
+          "usage": "v.",
+          "collocations": [
+            "polish"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“polish”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"polish\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“polish”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"polish\"?",
+              "zh": "你能用“polish”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w168",
+          "word": "complete",
+          "chinese": "完成",
+          "ipa": "/kəmˈpliːt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/complete_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit5/images/complete_2.png",
+          "usage": "v.",
+          "collocations": [
+            "complete"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“complete”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"complete\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“complete”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"complete\"?",
+              "zh": "你能用“complete”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit6",
+      "name": "Unit 6 · When was it invented?",
+      "title": "它是什么时候发明的？",
+      "words": [
+        {
+          "id": "w169",
+          "word": "heel",
+          "chinese": "鞋跟；足跟",
+          "ipa": "/hiːl/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/heel_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/heel_2.png",
+          "usage": "n.",
+          "collocations": [
+            "heel"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“heel”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"heel\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“heel”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"heel\"?",
+              "zh": "你能用“heel”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w170",
+          "word": "electricity",
+          "chinese": "电；电能",
+          "ipa": "/ɪˌlekˈtrɪsəti/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/electricity_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/electricity_2.png",
+          "usage": "n.",
+          "collocations": [
+            "electricity"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“electricity”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"electricity\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“electricity”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"electricity\"?",
+              "zh": "你能用“electricity”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w171",
+          "word": "scoop",
+          "chinese": "勺；铲子",
+          "ipa": "/skuːp/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/scoop_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/scoop_2.png",
+          "usage": "n.",
+          "collocations": [
+            "scoop"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“scoop”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"scoop\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“scoop”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"scoop\"?",
+              "zh": "你能用“scoop”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w172",
+          "word": "style",
+          "chinese": "样式；款式",
+          "ipa": "/staɪl/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/style_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/style_2.png",
+          "usage": "n.",
+          "collocations": [
+            "style"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“style”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"style\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“style”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"style\"?",
+              "zh": "你能用“style”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w173",
+          "word": "project",
+          "chinese": "项目；工程",
+          "ipa": "/ˈprɒdʒekt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/project_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/project_2.png",
+          "usage": "n.",
+          "collocations": [
+            "project"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“project”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"project\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“project”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"project\"?",
+              "zh": "你能用“project”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w174",
+          "word": "pleasure",
+          "chinese": "高兴；愉快",
+          "ipa": "/ˈpleʒə(r)/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/pleasure_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/pleasure_2.png",
+          "usage": "n.",
+          "collocations": [
+            "pleasure"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“pleasure”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"pleasure\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“pleasure”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"pleasure\"?",
+              "zh": "你能用“pleasure”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w175",
+          "word": "zipper",
+          "chinese": "拉链；拉锁",
+          "ipa": "/ˈzɪpə(r)/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/zipper_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/zipper_2.png",
+          "usage": "n.",
+          "collocations": [
+            "zipper"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“zipper”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"zipper\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“zipper”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"zipper\"?",
+              "zh": "你能用“zipper”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w176",
+          "word": "daily",
+          "chinese": "每日的；日常的",
+          "ipa": "/ˈdeɪli/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/daily_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/daily_2.png",
+          "usage": "adj.",
+          "collocations": [
+            "daily"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“daily”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"daily\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“daily”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"daily\"?",
+              "zh": "你能用“daily”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w177",
+          "word": "website",
+          "chinese": "网站",
+          "ipa": "/ˈwebsaɪt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/website_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/website_2.png",
+          "usage": "n.",
+          "collocations": [
+            "website"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“website”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"website\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“website”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"website\"?",
+              "zh": "你能用“website”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w178",
+          "word": "pioneer",
+          "chinese": "先锋；先驱",
+          "ipa": "/ˌpaɪəˈnɪə(r)/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/pioneer_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/pioneer_2.png",
+          "usage": "n.",
+          "collocations": [
+            "pioneer"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“pioneer”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"pioneer\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“pioneer”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"pioneer\"?",
+              "zh": "你能用“pioneer”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w179",
+          "word": "list",
+          "chinese": "列表；列清单；名单",
+          "ipa": "/lɪst/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/list_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/list_2.png",
+          "usage": "v. / n.",
+          "collocations": [
+            "list"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“list”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"list\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“list”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"list\"?",
+              "zh": "你能用“list”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w180",
+          "word": "mention",
+          "chinese": "提到；说到",
+          "ipa": "/ˈmenʃn/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/mention_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/mention_2.png",
+          "usage": "v.",
+          "collocations": [
+            "mention"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“mention”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"mention\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“mention”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"mention\"?",
+              "zh": "你能用“mention”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w181",
+          "word": "by accident",
+          "chinese": "偶然；意外地",
+          "ipa": "/baɪ ˈæksɪdənt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/by_accident_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/by_accident_2.png",
+          "usage": "短语",
+          "collocations": [
+            "by accident"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“by accident”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"by accident\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“by accident”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"by accident\"?",
+              "zh": "你能用“by accident”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w182",
+          "word": "nearly",
+          "chinese": "几乎；差不多",
+          "ipa": "/ˈnɪəli/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/nearly_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/nearly_2.png",
+          "usage": "adv.",
+          "collocations": [
+            "nearly"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“nearly”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"nearly\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“nearly”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"nearly\"?",
+              "zh": "你能用“nearly”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w183",
+          "word": "boil",
+          "chinese": "煮沸；烧开",
+          "ipa": "/bɔɪl/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/boil_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/boil_2.png",
+          "usage": "v.",
+          "collocations": [
+            "boil"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“boil”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"boil\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“boil”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"boil\"?",
+              "zh": "你能用“boil”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w184",
+          "word": "smell",
+          "chinese": "气味；发出气味；闻到",
+          "ipa": "/smel/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/smell_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/smell_2.png",
+          "usage": "n. / v.",
+          "collocations": [
+            "smell"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“smell”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"smell\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“smell”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"smell\"?",
+              "zh": "你能用“smell”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w185",
+          "word": "saint",
+          "chinese": "圣人；圣徒",
+          "ipa": "/seɪnt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/saint_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/saint_2.png",
+          "usage": "n.",
+          "collocations": [
+            "saint"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“saint”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"saint\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“saint”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"saint\"?",
+              "zh": "你能用“saint”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w186",
+          "word": "take place",
+          "chinese": "发生；出现",
+          "ipa": "/teɪk pleɪs/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/take_place_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/take_place_2.png",
+          "usage": "短语",
+          "collocations": [
+            "take place"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“take place”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"take place\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“take place”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"take place\"?",
+              "zh": "你能用“take place”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w187",
+          "word": "doubt",
+          "chinese": "疑惑；疑问；怀疑",
+          "ipa": "/daʊt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/doubt_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/doubt_2.png",
+          "usage": "n. / v.",
+          "collocations": [
+            "doubt"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“doubt”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"doubt\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“doubt”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"doubt\"?",
+              "zh": "你能用“doubt”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w188",
+          "word": "without doubt",
+          "chinese": "毫无疑问；的确",
+          "ipa": "/wɪˈðaʊt daʊt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/without_doubt_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/without_doubt_2.png",
+          "usage": "短语",
+          "collocations": [
+            "without doubt"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“without doubt”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"without doubt\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“without doubt”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"without doubt\"?",
+              "zh": "你能用“without doubt”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w189",
+          "word": "fridge",
+          "chinese": "冰箱",
+          "ipa": "/frɪdʒ/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/fridge_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/fridge_2.png",
+          "usage": "n.",
+          "collocations": [
+            "fridge"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“fridge”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"fridge\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“fridge”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"fridge\"?",
+              "zh": "你能用“fridge”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w190",
+          "word": "translate",
+          "chinese": "翻译",
+          "ipa": "/trænsˈleɪt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/translate_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/translate_2.png",
+          "usage": "v.",
+          "collocations": [
+            "translate"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“translate”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"translate\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“translate”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"translate\"?",
+              "zh": "你能用“translate”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w191",
+          "word": "lock",
+          "chinese": "锁上；锁住",
+          "ipa": "/lɒk/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/lock_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/lock_2.png",
+          "usage": "v. / n.",
+          "collocations": [
+            "lock"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“lock”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"lock\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“lock”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"lock\"?",
+              "zh": "你能用“lock”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w192",
+          "word": "earthquake",
+          "chinese": "地震",
+          "ipa": "/ˈɜːθkweɪk/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/earthquake_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/earthquake_2.png",
+          "usage": "n.",
+          "collocations": [
+            "earthquake"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“earthquake”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"earthquake\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“earthquake”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"earthquake\"?",
+              "zh": "你能用“earthquake”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w193",
+          "word": "sudden",
+          "chinese": "突然（的）",
+          "ipa": "/ˈsʌdn/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/sudden_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/sudden_2.png",
+          "usage": "adj.",
+          "collocations": [
+            "sudden"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“sudden”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"sudden\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“sudden”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"sudden\"?",
+              "zh": "你能用“sudden”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w194",
+          "word": "all of a sudden",
+          "chinese": "突然；猛地",
+          "ipa": "/ɔːl əv ə ˈsʌdn/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/all_of_a_sudden_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/all_of_a_sudden_2.png",
+          "usage": "短语",
+          "collocations": [
+            "all of a sudden"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“all of a sudden”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"all of a sudden\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“all of a sudden”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"all of a sudden\"?",
+              "zh": "你能用“all of a sudden”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w195",
+          "word": "biscuit",
+          "chinese": "饼干",
+          "ipa": "/ˈbɪskɪt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/biscuit_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/biscuit_2.png",
+          "usage": "n.",
+          "collocations": [
+            "biscuit"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“biscuit”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"biscuit\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“biscuit”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"biscuit\"?",
+              "zh": "你能用“biscuit”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w196",
+          "word": "cookie",
+          "chinese": "曲奇饼干",
+          "ipa": "/ˈkʊki/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/cookie_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/cookie_2.png",
+          "usage": "n.",
+          "collocations": [
+            "cookie"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“cookie”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"cookie\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“cookie”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"cookie\"?",
+              "zh": "你能用“cookie”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w197",
+          "word": "instrument",
+          "chinese": "器械；仪器；工具",
+          "ipa": "/ˈɪnstrəmənt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/instrument_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/instrument_2.png",
+          "usage": "n.",
+          "collocations": [
+            "instrument"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“instrument”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"instrument\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“instrument”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"instrument\"?",
+              "zh": "你能用“instrument”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w198",
+          "word": "crispy",
+          "chinese": "脆的；酥脆的",
+          "ipa": "/ˈkrɪspi/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/crispy_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/crispy_2.png",
+          "usage": "adj.",
+          "collocations": [
+            "crispy"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“crispy”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"crispy\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“crispy”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"crispy\"?",
+              "zh": "你能用“crispy”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w199",
+          "word": "sour",
+          "chinese": "酸的；有酸味的",
+          "ipa": "/ˈsaʊə(r)/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/sour_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/sour_2.png",
+          "usage": "adj.",
+          "collocations": [
+            "sour"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“sour”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"sour\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“sour”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"sour\"?",
+              "zh": "你能用“sour”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w200",
+          "word": "by mistake",
+          "chinese": "错误地；无意中",
+          "ipa": "/baɪ mɪˈsteɪk/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/by_mistake_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/by_mistake_2.png",
+          "usage": "短语",
+          "collocations": [
+            "by mistake"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“by mistake”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"by mistake\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“by mistake”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"by mistake\"?",
+              "zh": "你能用“by mistake”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w201",
+          "word": "customer",
+          "chinese": "顾客；客户",
+          "ipa": "/ˈkʌstəmə(r)/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/customer_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/customer_2.png",
+          "usage": "n.",
+          "collocations": [
+            "customer"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“customer”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"customer\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“customer”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"customer\"?",
+              "zh": "你能用“customer”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w202",
+          "word": "Canadian",
+          "chinese": "加拿大的；加拿大人",
+          "ipa": "/kəˈneɪdiən/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/Canadian_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/Canadian_2.png",
+          "usage": "adj. / n.",
+          "collocations": [
+            "Canadian"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“Canadian”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"Canadian\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“Canadian”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"Canadian\"?",
+              "zh": "你能用“Canadian”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w203",
+          "word": "divide",
+          "chinese": "分开；分散",
+          "ipa": "/dɪˈvaɪd/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/divide_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/divide_2.png",
+          "usage": "v.",
+          "collocations": [
+            "divide"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“divide”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"divide\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“divide”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"divide\"?",
+              "zh": "你能用“divide”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w204",
+          "word": "divide … into",
+          "chinese": "把……分开",
+          "ipa": "/dɪˈvaɪd ˈɪntə/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/divide_into_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/divide_into_2.png",
+          "usage": "短语",
+          "collocations": [
+            "divide … into"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“divide … into”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"divide … into\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“divide … into”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"divide … into\"?",
+              "zh": "你能用“divide … into”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w205",
+          "word": "purpose",
+          "chinese": "目的；目标",
+          "ipa": "/ˈpɜːpəs/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/purpose_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/purpose_2.png",
+          "usage": "n.",
+          "collocations": [
+            "purpose"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“purpose”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"purpose\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“purpose”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"purpose\"?",
+              "zh": "你能用“purpose”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w206",
+          "word": "basket",
+          "chinese": "篮；筐",
+          "ipa": "/ˈbɑːskɪt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/basket_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/basket_2.png",
+          "usage": "n.",
+          "collocations": [
+            "basket"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“basket”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"basket\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“basket”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"basket\"?",
+              "zh": "你能用“basket”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w207",
+          "word": "the Olympics",
+          "chinese": "奥林匹克运动会",
+          "ipa": "/ði əˈlɪmpɪks/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/the_Olympics_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/the_Olympics_2.png",
+          "usage": "n.",
+          "collocations": [
+            "the Olympics"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“the Olympics”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"the Olympics\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“the Olympics”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"the Olympics\"?",
+              "zh": "你能用“the Olympics”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w208",
+          "word": "look up to",
+          "chinese": "钦佩",
+          "ipa": "/lʊk ʌp tuː/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/look_up_to_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/look_up_to_2.png",
+          "usage": "短语",
+          "collocations": [
+            "look up to"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“look up to”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"look up to\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“look up to”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"look up to\"?",
+              "zh": "你能用“look up to”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w209",
+          "word": "hero",
+          "chinese": "英雄；男主角",
+          "ipa": "/ˈhɪərəʊ/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/hero_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit6/images/hero_2.png",
+          "usage": "n.",
+          "collocations": [
+            "hero"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“hero”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"hero\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“hero”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"hero\"?",
+              "zh": "你能用“hero”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit7",
+      "name": "Unit 7 · Teenagers should be allowed to choose their own clothes.",
+      "title": "应该允许青少年选择自己的衣服。",
+      "words": [
+        {
+          "id": "w210",
+          "word": "smoke",
+          "chinese": "冒烟；吸烟；烟",
+          "ipa": "/sməʊk/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/smoke_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/smoke_2.png",
+          "usage": "v. / n.",
+          "collocations": [
+            "smoke"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“smoke”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"smoke\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“smoke”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"smoke\"?",
+              "zh": "你能用“smoke”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w211",
+          "word": "pierce",
+          "chinese": "扎；刺破；穿透",
+          "ipa": "/pɪəs/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/pierce_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/pierce_2.png",
+          "usage": "v.",
+          "collocations": [
+            "pierce"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“pierce”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"pierce\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“pierce”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"pierce\"?",
+              "zh": "你能用“pierce”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w212",
+          "word": "license",
+          "chinese": "证；证件",
+          "ipa": "/ˈlaɪsns/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/license_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/license_2.png",
+          "usage": "n.",
+          "collocations": [
+            "license"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“license”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"license\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“license”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"license\"?",
+              "zh": "你能用“license”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w213",
+          "word": "safety",
+          "chinese": "安全；安全性",
+          "ipa": "/ˈseɪfti/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/safety_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/safety_2.png",
+          "usage": "n.",
+          "collocations": [
+            "safety"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“safety”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"safety\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“safety”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"safety\"?",
+              "zh": "你能用“safety”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w214",
+          "word": "earring",
+          "chinese": "耳环；耳饰",
+          "ipa": "/ˈɪərɪŋ/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/earring_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/earring_2.png",
+          "usage": "n.",
+          "collocations": [
+            "earring"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“earring”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"earring\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“earring”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"earring\"?",
+              "zh": "你能用“earring”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w215",
+          "word": "cry",
+          "chinese": "哭；叫喊",
+          "ipa": "/kraɪ/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/cry_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/cry_2.png",
+          "usage": "v. / n.",
+          "collocations": [
+            "cry"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“cry”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"cry\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“cry”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"cry\"?",
+              "zh": "你能用“cry”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w216",
+          "word": "field",
+          "chinese": "田野；场地",
+          "ipa": "/fiːld/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/field_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/field_2.png",
+          "usage": "n.",
+          "collocations": [
+            "field"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“field”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"field\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“field”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"field\"?",
+              "zh": "你能用“field”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w217",
+          "word": "hug",
+          "chinese": "拥抱；搂抱",
+          "ipa": "/hʌɡ/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/hug_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/hug_2.png",
+          "usage": "n. / v.",
+          "collocations": [
+            "hug"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“hug”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"hug\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“hug”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"hug\"?",
+              "zh": "你能用“hug”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w218",
+          "word": "lift",
+          "chinese": "举起；抬高",
+          "ipa": "/lɪft/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/lift_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/lift_2.png",
+          "usage": "v.",
+          "collocations": [
+            "lift"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“lift”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"lift\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“lift”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"lift\"?",
+              "zh": "你能用“lift”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w219",
+          "word": "talk back",
+          "chinese": "回嘴；顶嘴",
+          "ipa": "/tɔːk bæk/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/talk_back_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/talk_back_2.png",
+          "usage": "短语",
+          "collocations": [
+            "talk back"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“talk back”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"talk back\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“talk back”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"talk back\"?",
+              "zh": "你能用“talk back”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w220",
+          "word": "awful",
+          "chinese": "很坏的；讨厌的",
+          "ipa": "/ˈɔːfl/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/awful_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/awful_2.png",
+          "usage": "adj.",
+          "collocations": [
+            "awful"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“awful”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"awful\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“awful”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"awful\"?",
+              "zh": "你能用“awful”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w221",
+          "word": "teen",
+          "chinese": "十几岁（十三至十九岁）",
+          "ipa": "/tiːn/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/teen_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/teen_2.png",
+          "usage": "n.",
+          "collocations": [
+            "teen"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“teen”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"teen\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“teen”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"teen\"?",
+              "zh": "你能用“teen”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w222",
+          "word": "regret",
+          "chinese": "感到遗憾；懊悔",
+          "ipa": "/rɪˈɡret/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/regret_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/regret_2.png",
+          "usage": "v.",
+          "collocations": [
+            "regret"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“regret”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"regret\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“regret”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"regret\"?",
+              "zh": "你能用“regret”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w223",
+          "word": "poem",
+          "chinese": "诗；韵文",
+          "ipa": "/ˈpəʊɪm/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/poem_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/poem_2.png",
+          "usage": "n.",
+          "collocations": [
+            "poem"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“poem”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"poem\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“poem”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"poem\"?",
+              "zh": "你能用“poem”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w224",
+          "word": "bedroom",
+          "chinese": "卧室",
+          "ipa": "/ˈbedruːm/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/bedroom_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/bedroom_2.png",
+          "usage": "n.",
+          "collocations": [
+            "bedroom"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“bedroom”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"bedroom\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“bedroom”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"bedroom\"?",
+              "zh": "你能用“bedroom”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w225",
+          "word": "community",
+          "chinese": "社区；社团",
+          "ipa": "/kəˈmjuːnəti/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/community_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/community_2.png",
+          "usage": "n.",
+          "collocations": [
+            "community"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“community”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"community\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“community”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"community\"?",
+              "zh": "你能用“community”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w226",
+          "word": "keep away from",
+          "chinese": "避免接近；远离",
+          "ipa": "/kiːp əˈweɪ frəm/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/keep_away_from_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/keep_away_from_2.png",
+          "usage": "短语",
+          "collocations": [
+            "keep away from"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“keep away from”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"keep away from\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“keep away from”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"keep away from\"?",
+              "zh": "你能用“keep away from”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w227",
+          "word": "chance",
+          "chinese": "机会；可能性",
+          "ipa": "/tʃɑːns/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/chance_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/chance_2.png",
+          "usage": "n.",
+          "collocations": [
+            "chance"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“chance”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"chance\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“chance”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"chance\"?",
+              "zh": "你能用“chance”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w228",
+          "word": "make one's own decision",
+          "chinese": "自己做决定",
+          "ipa": "/meɪk wʌnz əʊn dɪˈsɪʒn/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/make_ones_own_decision_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/make_ones_own_decision_2.png",
+          "usage": "短语",
+          "collocations": [
+            "make one's own decision"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“make one's own decision”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"make one's own decision\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“make one's own decision”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"make one's own decision\"?",
+              "zh": "你能用“make one's own decision”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w229",
+          "word": "manage",
+          "chinese": "设法做到；应付（困难局面）",
+          "ipa": "/ˈmænɪdʒ/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/manage_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/manage_2.png",
+          "usage": "v.",
+          "collocations": [
+            "manage"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“manage”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"manage\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“manage”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"manage\"?",
+              "zh": "你能用“manage”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w230",
+          "word": "society",
+          "chinese": "社会",
+          "ipa": "/səˈsaɪəti/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/society_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/society_2.png",
+          "usage": "n.",
+          "collocations": [
+            "society"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“society”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"society\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“society”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"society\"?",
+              "zh": "你能用“society”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w231",
+          "word": "unit",
+          "chinese": "单位；单元",
+          "ipa": "/ˈjuːnɪt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/unit_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/unit_2.png",
+          "usage": "n.",
+          "collocations": [
+            "unit"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“unit”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"unit\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“unit”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"unit\"?",
+              "zh": "你能用“unit”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w232",
+          "word": "educate",
+          "chinese": "教育；教导",
+          "ipa": "/ˈedʒukeɪt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/educate_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/educate_2.png",
+          "usage": "v.",
+          "collocations": [
+            "educate"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“educate”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"educate\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“educate”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"educate\"?",
+              "zh": "你能用“educate”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w233",
+          "word": "get in the way of",
+          "chinese": "挡……的路；妨碍",
+          "ipa": "/ɡet ɪn ðə weɪ əv/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/get_in_the_way_of_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/get_in_the_way_of_2.png",
+          "usage": "短语",
+          "collocations": [
+            "get in the way of"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“get in the way of”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"get in the way of\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“get in the way of”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"get in the way of\"?",
+              "zh": "你能用“get in the way of”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w234",
+          "word": "professional",
+          "chinese": "职业的；专业的",
+          "ipa": "/prəˈfeʃənl/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/professional_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/professional_2.png",
+          "usage": "adj.",
+          "collocations": [
+            "professional"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“professional”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"professional\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“professional”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"professional\"?",
+              "zh": "你能用“professional”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w235",
+          "word": "enter",
+          "chinese": "进来；进去",
+          "ipa": "/ˈentə(r)/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/enter_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/enter_2.png",
+          "usage": "v.",
+          "collocations": [
+            "enter"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“enter”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"enter\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“enter”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"enter\"?",
+              "zh": "你能用“enter”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w236",
+          "word": "support",
+          "chinese": "支持",
+          "ipa": "/səˈpɔːt/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/support_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit7/images/support_2.png",
+          "usage": "v. / n.",
+          "collocations": [
+            "support"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“support”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"support\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“support”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"support\"?",
+              "zh": "你能用“support”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit8",
+      "name": "Unit 8 · It must belong to Carla.",
+      "title": "它一定属于卡拉。",
+      "words": [
+        {
+          "id": "w237",
           "word": "whose",
           "chinese": "谁的",
           "ipa": "/huːz/",
@@ -50,7 +6943,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w2",
+          "id": "w238",
           "word": "truck",
           "chinese": "卡车，货车",
           "ipa": "/trʌk/",
@@ -85,7 +6978,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w3",
+          "id": "w239",
           "word": "rabbit",
           "chinese": "兔子",
           "ipa": "/ˈræbɪt/",
@@ -119,7 +7012,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w4",
+          "id": "w240",
           "word": "attend",
           "chinese": "出席，参加",
           "ipa": "/əˈtend/",
@@ -153,7 +7046,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w5",
+          "id": "w241",
           "word": "valuable",
           "chinese": "有价值的，贵重的",
           "ipa": "/ˈvæljuəbl/",
@@ -186,7 +7079,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w6",
+          "id": "w242",
           "word": "pink",
           "chinese": "粉色的；粉红色",
           "ipa": "/pɪŋk/",
@@ -219,7 +7112,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w7",
+          "id": "w243",
           "word": "anybody",
           "chinese": "任何人",
           "ipa": "/ˈeniˌbɒdi/",
@@ -251,7 +7144,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w8",
+          "id": "w244",
           "word": "mystery",
           "chinese": "神秘的事物；谜",
           "ipa": "/ˈmɪstəri/",
@@ -285,7 +7178,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w9",
+          "id": "w245",
           "word": "be known as",
           "chinese": "以...著称，被称为",
           "ipa": "/biː noʊn æz/",
@@ -318,7 +7211,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w10",
+          "id": "w246",
           "word": "theory",
           "chinese": "理论，学说",
           "ipa": "/ˈθɪəri/",
@@ -352,7 +7245,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w11",
+          "id": "w247",
           "word": "familiar",
           "chinese": "熟悉的",
           "ipa": "/fəˈmɪliər/",
@@ -385,7 +7278,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w12",
+          "id": "w248",
           "word": "hidden",
           "chinese": "隐藏的，隐蔽的",
           "ipa": "/ˈhɪdn/",
@@ -418,7 +7311,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w13",
+          "id": "w249",
           "word": "power",
           "chinese": "力量；权力；电力",
           "ipa": "/ˈpaʊər/",
@@ -451,7 +7344,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w14",
+          "id": "w250",
           "word": "link",
           "chinese": "联系，连接；链接",
           "ipa": "/lɪŋk/",
@@ -485,7 +7378,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w15",
+          "id": "w251",
           "word": "parallel",
           "chinese": "平行的；类似的",
           "ipa": "/ˈpærəlel/",
@@ -518,7 +7411,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w16",
+          "id": "w252",
           "word": "universe",
           "chinese": "宇宙",
           "ipa": "/ˈjuːnɪvɜːrs/",
@@ -551,7 +7444,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w17",
+          "id": "w253",
           "word": "parallel universes",
           "chinese": "平行宇宙",
           "ipa": "/ˈpærəlel ˈjuːnɪvɜːrsɪz/",
@@ -585,7 +7478,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w18",
+          "id": "w254",
           "word": "mix-up",
           "chinese": "混乱，弄错",
           "ipa": "/ˈmɪks.ʌp/",
@@ -618,7 +7511,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w19",
+          "id": "w255",
           "word": "generally",
           "chinese": "通常，一般地",
           "ipa": "/ˈdʒenərəli/",
@@ -652,7 +7545,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w20",
+          "id": "w256",
           "word": "burial",
           "chinese": "n. 埋葬，安葬",
           "ipa": "/ˈberiəl/",
@@ -685,7 +7578,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w21",
+          "id": "w257",
           "word": "honor",
           "chinese": "n. 荣誉，光荣；v. 尊敬，给予荣誉",
           "ipa": "/ˈɑːnər/",
@@ -719,7 +7612,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w22",
+          "id": "w258",
           "word": "ancestor",
           "chinese": "祖先，祖宗",
           "ipa": "/ˈænsestər/",
@@ -752,7 +7645,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w23",
+          "id": "w259",
           "word": "victory",
           "chinese": "胜利",
           "ipa": "/ˈvɪktəri/",
@@ -785,7 +7678,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w24",
+          "id": "w260",
           "word": "enemy",
           "chinese": "敌人，仇敌",
           "ipa": "/ˈenəmi/",
@@ -818,7 +7711,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w25",
+          "id": "w261",
           "word": "period",
           "chinese": "时期；句号",
           "ipa": "/ˈpɪəriəd/",
@@ -851,7 +7744,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w26",
+          "id": "w262",
           "word": "noise",
           "chinese": "噪音，喧闹声",
           "ipa": "/nɔɪz/",
@@ -885,7 +7778,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w27",
+          "id": "w263",
           "word": "Stonehenge",
           "chinese": "巨石阵（英国史前遗迹）",
           "ipa": "/ˈstoʊnˌhɛndʒ/",
@@ -919,7 +7812,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w28",
+          "id": "w264",
           "word": "trick",
           "chinese": "n. 诡计；把戏 v. 欺骗",
           "ipa": "/trɪk/",
@@ -952,7 +7845,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w29",
+          "id": "w265",
           "word": "unsolved",
           "chinese": "未解决的，未解答的",
           "ipa": "/ʌnˈsɒlvd/",
@@ -985,7 +7878,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w30",
+          "id": "w266",
           "word": "laboratory",
           "chinese": "实验室",
           "ipa": "/ləˈbɒrətəri/",
@@ -1019,7 +7912,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w31",
+          "id": "w267",
           "word": "outdoors",
           "chinese": "户外，野外",
           "ipa": "/ˌaʊtˈdɔːrz/",
@@ -1052,7 +7945,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w32",
+          "id": "w268",
           "word": "coat",
           "chinese": "外套",
           "ipa": "/koʊt/",
@@ -1085,7 +7978,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w33",
+          "id": "w269",
           "word": "lie",
           "chinese": "v. 躺；说谎 n. 谎言",
           "ipa": "/laɪ/",
@@ -1119,7 +8012,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w34",
+          "id": "w270",
           "word": "sleepy",
           "chinese": "困倦的，想睡的",
           "ipa": "/ˈsliːpi/",
@@ -1152,7 +8045,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w35",
+          "id": "w271",
           "word": "land",
           "chinese": "n. 陆地；土地 v. (过去式 landed, 过去分词 landed) 降落",
           "ipa": "/lænd/",
@@ -1185,7 +8078,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w36",
+          "id": "w272",
           "word": "alien",
           "chinese": "外星人；外星的",
           "ipa": "/ˈeɪliən/",
@@ -1218,7 +8111,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w37",
+          "id": "w273",
           "word": "run after",
           "chinese": "追逐，追赶",
           "ipa": "/rʌn ˈæftər/",
@@ -1248,7 +8141,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w38",
+          "id": "w274",
           "word": "suit",
           "chinese": "n. (一套)衣服；西装；v. 适合",
           "ipa": "/suːt/",
@@ -1281,7 +8174,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w39",
+          "id": "w275",
           "word": "at the same time",
           "chinese": "同时",
           "ipa": "/æt ðə seɪm taɪm/",
@@ -1315,7 +8208,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w40",
+          "id": "w276",
           "word": "circle",
           "chinese": "n. 圆圈；v. 环绕",
           "ipa": "/ˈsɜːrkl/",
@@ -1349,7 +8242,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w41",
+          "id": "w277",
           "word": "Britain",
           "chinese": "英国，不列颠",
           "ipa": "ˈbrɪtn",
@@ -1382,7 +8275,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w42",
+          "id": "w278",
           "word": "receive",
           "chinese": "收到，接到",
           "ipa": "/rɪˈsiːv/",
@@ -1415,7 +8308,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w43",
+          "id": "w279",
           "word": "historian",
           "chinese": "历史学家",
           "ipa": "/hɪˈstɔːriən/",
@@ -1448,7 +8341,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w44",
+          "id": "w280",
           "word": "temple",
           "chinese": "寺庙",
           "ipa": "/ˈtempl/",
@@ -1483,7 +8376,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w45",
+          "id": "w281",
           "word": "leader",
           "chinese": "领导者，领袖",
           "ipa": "/ˈliːdər/",
@@ -1516,7 +8409,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w46",
+          "id": "w282",
           "word": "midsummer",
           "chinese": "仲夏，盛夏",
           "ipa": "/ˌmɪdˈsʌmər/",
@@ -1548,7 +8441,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w47",
+          "id": "w283",
           "word": "medical",
           "chinese": "医学的；医疗的",
           "ipa": "/ˈmedɪkl/",
@@ -1581,7 +8474,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w48",
+          "id": "w284",
           "word": "purpose",
           "chinese": "目的，意图",
           "ipa": "/ˈpɜːrpəs/",
@@ -1615,7 +8508,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w49",
+          "id": "w285",
           "word": "prevent",
           "chinese": "阻止，防止",
           "ipa": "/prɪˈvent/",
@@ -1646,7 +8539,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w50",
+          "id": "w286",
           "word": "energy",
           "chinese": "能量，精力",
           "ipa": "/ˈenərɡi/",
@@ -1680,7 +8573,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w51",
+          "id": "w287",
           "word": "position",
           "chinese": "位置；职位；姿势",
           "ipa": "/pəˈzɪʃn/",
@@ -1712,16 +8605,74 @@ const TEXTBOOK_DATA = {
               "image": ""
             }
           ]
+        },
+        {
+          "id": "w288",
+          "word": "picnic",
+          "chinese": "野餐",
+          "ipa": "/ˈpɪknɪk/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/picnic_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/picnic_2.png",
+          "usage": "n.",
+          "collocations": [
+            "picnic"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“picnic”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"picnic\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“picnic”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"picnic\"?",
+              "zh": "你能用“picnic”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w289",
+          "word": "policeman",
+          "chinese": "男警察",
+          "ipa": "/pəˈliːsmən/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/policeman_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit8/images/policeman_2.png",
+          "usage": "n.",
+          "collocations": [
+            "policeman"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“policeman”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"policeman\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“policeman”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"policeman\"?",
+              "zh": "你能用“policeman”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
         }
       ]
     },
     {
       "id": "unit9",
-      "name": "Unit 9 · Unit 9",
-      "title": "第 9 单元",
+      "name": "Unit 9 · I like music that I can dance to.",
+      "title": "我喜欢能跟着跳舞的音乐。",
       "words": [
         {
-          "id": "w52",
+          "id": "w290",
           "word": "prefer",
           "chinese": "更喜欢，偏爱",
           "ipa": "/prɪˈfɜːr/",
@@ -1752,7 +8703,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w53",
+          "id": "w291",
           "word": "lyrics",
           "chinese": "歌词",
           "ipa": "/ˈlɪrɪks/",
@@ -1786,7 +8737,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w54",
+          "id": "w292",
           "word": "Australian",
           "chinese": "澳大利亚的；澳大利亚人的",
           "ipa": "/ɒˈstreɪliən/",
@@ -1820,7 +8771,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w55",
+          "id": "w293",
           "word": "electronic",
           "chinese": "电子的",
           "ipa": "/ˌelɪkˈtrɒnɪk/",
@@ -1853,7 +8804,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w56",
+          "id": "w294",
           "word": "suppose",
           "chinese": "假设，认为",
           "ipa": "/səˈpoʊz/",
@@ -1887,7 +8838,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w57",
+          "id": "w295",
           "word": "smooth",
           "chinese": "adj. 光滑的；平稳的；顺利的 v. (smoothed, smoothed) 使平滑；使顺利",
           "ipa": "/smuːð/",
@@ -1920,7 +8871,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w58",
+          "id": "w296",
           "word": "spare",
           "chinese": "adj. 备用的；空闲的；v. 抽出；饶恕",
           "ipa": "/speər/",
@@ -1953,7 +8904,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w59",
+          "id": "w297",
           "word": "director",
           "chinese": "导演；主管",
           "ipa": "/dəˈrektər/",
@@ -1985,7 +8936,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w60",
+          "id": "w298",
           "word": "case",
           "chinese": "n. 箱子；案例；情况",
           "ipa": "/keɪs/",
@@ -2018,7 +8969,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w61",
+          "id": "w299",
           "word": "pity",
           "chinese": "n. 怜悯，同情；遗憾的事 v. 同情，怜悯",
           "ipa": "/ˈpɪti/",
@@ -2050,7 +9001,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w62",
+          "id": "w300",
           "word": "total",
           "chinese": "总计的，总数的；总数",
           "ipa": "/ˈtoʊtl/",
@@ -2083,7 +9034,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w63",
+          "id": "w301",
           "word": "in total",
           "chinese": "总共，总计",
           "ipa": "/ɪn ˈtoʊtl/",
@@ -2116,7 +9067,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w64",
+          "id": "w302",
           "word": "master",
           "chinese": "n. 大师；v. 精通",
           "ipa": "/ˈmæstər/",
@@ -2148,7 +9099,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w65",
+          "id": "w303",
           "word": "praise",
           "chinese": "v. 赞扬；表扬 n. 赞扬；称赞",
           "ipa": "/preɪz/",
@@ -2180,7 +9131,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w66",
+          "id": "w304",
           "word": "recall",
           "chinese": "回忆，记起；召回",
           "ipa": "/rɪˈkɔːl/",
@@ -2214,7 +9165,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w67",
+          "id": "w305",
           "word": "wound",
           "chinese": "n. 伤口；v. (过去式 wounded, 过去分词 wounded) 伤害",
           "ipa": "/wuːnd/",
@@ -2249,7 +9200,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w68",
+          "id": "w306",
           "word": "painful",
           "chinese": "疼痛的，引起疼痛的",
           "ipa": "/ˈpeɪnfl/",
@@ -2282,7 +9233,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w69",
+          "id": "w307",
           "word": "in that case",
           "chinese": "既然那样，如果是那样的话",
           "ipa": "/ɪn ðæt keɪs/",
@@ -2315,7 +9266,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w70",
+          "id": "w308",
           "word": "war",
           "chinese": "战争",
           "ipa": "/wɔːr/",
@@ -2350,7 +9301,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w71",
+          "id": "w309",
           "word": "stick",
           "chinese": "n. 棍，棒；v. 粘贴",
           "ipa": "/stɪk/",
@@ -2383,7 +9334,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w72",
+          "id": "w310",
           "word": "stick to",
           "chinese": "坚持，遵守",
           "ipa": "/stɪk tuː/",
@@ -2416,7 +9367,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w73",
+          "id": "w311",
           "word": "down",
           "chinese": "向下；沮丧的",
           "ipa": "/daʊn/",
@@ -2450,7 +9401,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w74",
+          "id": "w312",
           "word": "dialog",
           "chinese": "对话",
           "ipa": "/ˈdaɪəlɒɡ/",
@@ -2484,7 +9435,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w75",
+          "id": "w313",
           "word": "ending",
           "chinese": "n. 结尾，结局",
           "ipa": "/ˈendɪŋ/",
@@ -2517,7 +9468,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w76",
+          "id": "w314",
           "word": "documentary",
           "chinese": "纪录片",
           "ipa": "/ˌdɒkjuˈmentri/",
@@ -2550,7 +9501,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w77",
+          "id": "w315",
           "word": "drama",
           "chinese": "戏剧，剧本",
           "ipa": "/ˈdrɑːmə/",
@@ -2583,7 +9534,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w78",
+          "id": "w316",
           "word": "plenty",
           "chinese": "大量，充足",
           "ipa": "/ˈplenti/",
@@ -2616,7 +9567,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w79",
+          "id": "w317",
           "word": "plenty of",
           "chinese": "大量的，充足的",
           "ipa": "/ˈplenti ɒv/",
@@ -2649,7 +9600,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w80",
+          "id": "w318",
           "word": "shut",
           "chinese": "关闭；合上",
           "ipa": "/ʃʌt/",
@@ -2683,7 +9634,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w81",
+          "id": "w319",
           "word": "shut off",
           "chinese": "关闭，停止运转",
           "ipa": "/ʃʌt ɔf/",
@@ -2716,7 +9667,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w82",
+          "id": "w320",
           "word": "superhero",
           "chinese": "超级英雄",
           "ipa": "/ˈsuːpərˌhɪroʊ/",
@@ -2750,7 +9701,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w83",
+          "id": "w321",
           "word": "once in a while",
           "chinese": "偶尔，有时",
           "ipa": "/wʌns ɪn ə waɪl/",
@@ -2781,7 +9732,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w84",
+          "id": "w322",
           "word": "intelligent",
           "chinese": "聪明的，智能的",
           "ipa": "/ɪnˈtelɪdʒənt/",
@@ -2814,7 +9765,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w85",
+          "id": "w323",
           "word": "sense",
           "chinese": "感觉；意识；判断力",
           "ipa": "/sens/",
@@ -2848,7 +9799,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w86",
+          "id": "w324",
           "word": "sadness",
           "chinese": "悲伤，忧愁",
           "ipa": "/ˈsædnəs/",
@@ -2882,7 +9833,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w87",
+          "id": "w325",
           "word": "pain",
           "chinese": "疼痛；痛苦",
           "ipa": "/peɪn/",
@@ -2916,7 +9867,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w88",
+          "id": "w326",
           "word": "reflect",
           "chinese": "反映；反射；思考",
           "ipa": "/rɪˈflekt/",
@@ -2950,7 +9901,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w89",
+          "id": "w327",
           "word": "moving",
           "chinese": "adj. 移动的；令人感动的",
           "ipa": "/ˈmuːvɪŋ/",
@@ -2984,7 +9935,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w90",
+          "id": "w328",
           "word": "perform",
           "chinese": "v. 执行，表演",
           "ipa": "/pərˈfɔːrm/",
@@ -3019,7 +9970,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w91",
+          "id": "w329",
           "word": "lifetime",
           "chinese": "一生，终身",
           "ipa": "/ˈlaɪftaɪm/",
@@ -3051,7 +10002,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w92",
+          "id": "w330",
           "word": "by the end of",
           "chinese": "到...结束的时候",
           "ipa": "/baɪ ðə end ɒv/",
@@ -3082,16 +10033,132 @@ const TEXTBOOK_DATA = {
               "image": ""
             }
           ]
+        },
+        {
+          "id": "w331",
+          "word": "dialogue",
+          "chinese": "对话；对白",
+          "ipa": "/ˈdaɪəlɒɡ/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/dialogue_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/dialogue_2.png",
+          "usage": "n.",
+          "collocations": [
+            "dialogue"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“dialogue”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"dialogue\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“dialogue”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"dialogue\"?",
+              "zh": "你能用“dialogue”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w332",
+          "word": "horror",
+          "chinese": "震惊；恐惧",
+          "ipa": "/ˈhɒrə(r)/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/horror_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/horror_2.png",
+          "usage": "n.",
+          "collocations": [
+            "horror"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“horror”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"horror\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“horror”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"horror\"?",
+              "zh": "你能用“horror”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w333",
+          "word": "thriller",
+          "chinese": "惊险电影（小说、戏剧）",
+          "ipa": "/ˈθrɪlə(r)/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/thriller_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/thriller_2.png",
+          "usage": "n.",
+          "collocations": [
+            "thriller"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“thriller”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"thriller\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“thriller”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"thriller\"?",
+              "zh": "你能用“thriller”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w334",
+          "word": "World War II",
+          "chinese": "第二次世界大战",
+          "ipa": "/ˌwɜːld ˈwɔː tuː/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/World_War_II_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit9/images/World_War_II_2.png",
+          "usage": "n.",
+          "collocations": [
+            "World War II"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“World War II”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"World War II\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“World War II”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"World War II\"?",
+              "zh": "你能用“World War II”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
         }
       ]
     },
     {
       "id": "unit10",
-      "name": "Unit 10 · Unit 10",
-      "title": "第 10 单元",
+      "name": "Unit 10 · You're supposed to shake hands.",
+      "title": "你应该握手。",
       "words": [
         {
-          "id": "w93",
+          "id": "w335",
           "word": "bow",
           "chinese": "n. 弓；蝴蝶结；v. 鞠躬",
           "ipa": "/baʊ/",
@@ -3123,7 +10190,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w94",
+          "id": "w336",
           "word": "kiss",
           "chinese": "亲吻",
           "ipa": "/kɪs/",
@@ -3155,7 +10222,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w95",
+          "id": "w337",
           "word": "greet",
           "chinese": "问候，迎接",
           "ipa": "/ɡriːt/",
@@ -3187,7 +10254,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w96",
+          "id": "w338",
           "word": "relaxed",
           "chinese": "放松的，轻松的",
           "ipa": "/rɪˈlækst/",
@@ -3220,7 +10287,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w97",
+          "id": "w339",
           "word": "value",
           "chinese": "n. 价值；重要性 v. 重视；评估",
           "ipa": "/ˈvæljuː/",
@@ -3254,7 +10321,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w98",
+          "id": "w340",
           "word": "teenage",
           "chinese": "青少年的，十几岁的",
           "ipa": "/ˈtiːneɪdʒ/",
@@ -3287,7 +10354,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w99",
+          "id": "w341",
           "word": "granddaughter",
           "chinese": "孙女，外孙女",
           "ipa": "/ˈɡrændɔːtər/",
@@ -3319,7 +10386,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w100",
+          "id": "w342",
           "word": "behave",
           "chinese": "表现；行为举止",
           "ipa": "/bɪˈheɪv/",
@@ -3351,7 +10418,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w101",
+          "id": "w343",
           "word": "except",
           "chinese": "除了…之外",
           "ipa": "/ɪkˈsept/",
@@ -3383,7 +10450,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w102",
+          "id": "w344",
           "word": "elbow",
           "chinese": "n. 肘部",
           "ipa": "/ˈelboʊ/",
@@ -3417,7 +10484,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w103",
+          "id": "w345",
           "word": "gradually",
           "chinese": "逐渐地，逐步地",
           "ipa": "/ˈɡrædʒuəli/",
@@ -3450,7 +10517,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w104",
+          "id": "w346",
           "word": "advise",
           "chinese": "建议，劝告",
           "ipa": "/ədˈvaɪz/",
@@ -3482,7 +10549,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w105",
+          "id": "w347",
           "word": "get used to",
           "chinese": "习惯于，适应",
           "ipa": "/ɡet ˈjuːst tuː/",
@@ -3515,7 +10582,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w106",
+          "id": "w348",
           "word": "suggestion",
           "chinese": "建议，提议",
           "ipa": "/səˈdʒestʃən/",
@@ -3549,7 +10616,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w107",
+          "id": "w349",
           "word": "drop by",
           "chinese": "顺便拜访，顺道来访",
           "ipa": "/drɒp baɪ/",
@@ -3582,7 +10649,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w108",
+          "id": "w350",
           "word": "capital",
           "chinese": "首都；资本",
           "ipa": "/ˈkæpɪtl/",
@@ -3615,7 +10682,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w109",
+          "id": "w351",
           "word": "after all",
           "chinese": "毕竟，终究",
           "ipa": "/ˈæftər ɔl/",
@@ -3647,7 +10714,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w110",
+          "id": "w352",
           "word": "noon",
           "chinese": "中午，正午",
           "ipa": "/nuːn/",
@@ -3680,7 +10747,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w111",
+          "id": "w353",
           "word": "mad",
           "chinese": "adj. 生气的；发疯的",
           "ipa": "/mæd/",
@@ -3714,7 +10781,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w112",
+          "id": "w354",
           "word": "get mad",
           "chinese": "生气，发怒",
           "ipa": "/ɡet mæd/",
@@ -3747,7 +10814,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w113",
+          "id": "w355",
           "word": "effort",
           "chinese": "努力，尝试",
           "ipa": "/ˈefərt/",
@@ -3781,7 +10848,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w114",
+          "id": "w356",
           "word": "make an effort",
           "chinese": "努力，尽力",
           "ipa": "/meɪk ən ˈefərt/",
@@ -3814,7 +10881,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w115",
+          "id": "w357",
           "word": "passport",
           "chinese": "护照",
           "ipa": "/ˈpɑːspɔːt/",
@@ -3848,7 +10915,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w116",
+          "id": "w358",
           "word": "clean",
           "chinese": "adj. 干净的；v. 打扫",
           "ipa": "/kliːn/",
@@ -3881,7 +10948,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w117",
+          "id": "w359",
           "word": "chalk",
           "chinese": "粉笔；用粉笔写",
           "ipa": "/tʃɔːk/",
@@ -3913,7 +10980,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w118",
+          "id": "w360",
           "word": "blackboard",
           "chinese": "黑板",
           "ipa": "/ˈblækbɔːrd/",
@@ -3945,7 +11012,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w119",
+          "id": "w361",
           "word": "northern",
           "chinese": "北方的；北部的",
           "ipa": "/ˈnɔːrðərn/",
@@ -3978,7 +11045,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w120",
+          "id": "w362",
           "word": "coast",
           "chinese": "海岸；沿…岸航行",
           "ipa": "/koʊst/",
@@ -4013,7 +11080,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w121",
+          "id": "w363",
           "word": "season",
           "chinese": "季节",
           "ipa": "/ˈsiːzn/",
@@ -4046,7 +11113,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w122",
+          "id": "w364",
           "word": "knock",
           "chinese": "敲；击",
           "ipa": "/nɒk/",
@@ -4081,7 +11148,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w123",
+          "id": "w365",
           "word": "eastern",
           "chinese": "东方的；东部的",
           "ipa": "/ˈiːstərn/",
@@ -4115,7 +11182,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w124",
+          "id": "w366",
           "word": "take off",
           "chinese": "起飞；脱下（衣物等）",
           "ipa": "/teɪk ɔːf/",
@@ -4148,7 +11215,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w125",
+          "id": "w367",
           "word": "worth",
           "chinese": "adj. 值得的；有...价值的；n. 价值",
           "ipa": "/wɜːrθ/",
@@ -4181,7 +11248,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w126",
+          "id": "w368",
           "word": "manner",
           "chinese": "方式，态度；礼仪",
           "ipa": "/ˈmænər/",
@@ -4214,7 +11281,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w127",
+          "id": "w369",
           "word": "empty",
           "chinese": "空的；空虚的；清空",
           "ipa": "/ˈempti/",
@@ -4247,7 +11314,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w128",
+          "id": "w370",
           "word": "basic",
           "chinese": "基本的，基础的",
           "ipa": "/ˈbeɪsɪk/",
@@ -4280,7 +11347,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w129",
+          "id": "w371",
           "word": "exchange",
           "chinese": "交换，交流",
           "ipa": "/ɪksˈtʃeɪndʒ/",
@@ -4313,7 +11380,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w130",
+          "id": "w372",
           "word": "go out of one's way",
           "chinese": "特意，格外费心",
           "ipa": "/ɡoʊ aʊt əv wʌnz weɪ/",
@@ -4346,7 +11413,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w131",
+          "id": "w373",
           "word": "make",
           "chinese": "制作，做",
           "ipa": "/meɪk/",
@@ -4378,16 +11445,45 @@ const TEXTBOOK_DATA = {
               "image": ""
             }
           ]
+        },
+        {
+          "id": "w374",
+          "word": "make ... feel at home",
+          "chinese": "使（某人）感到宾至如归",
+          "ipa": "/meɪk fiːl æt həʊm/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit10/images/make_feel_at_home_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit10/images/make_feel_at_home_2.png",
+          "usage": "短语",
+          "collocations": [
+            "make ... feel at home"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“make ... feel at home”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"make ... feel at home\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“make ... feel at home”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"make ... feel at home\"?",
+              "zh": "你能用“make ... feel at home”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
         }
       ]
     },
     {
       "id": "unit11",
-      "name": "Unit 11 · Unit 11",
-      "title": "第 11 单元",
+      "name": "Unit 11 · Sad movies make me cry.",
+      "title": "悲伤的电影让我哭。",
       "words": [
         {
-          "id": "w132",
+          "id": "w375",
           "word": "rather",
           "chinese": "相当，宁愿",
           "ipa": "/ˈræðər/",
@@ -4419,7 +11515,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w133",
+          "id": "w376",
           "word": "would rather",
           "chinese": "宁愿，更喜欢",
           "ipa": "/wʊd ˈræðər/",
@@ -4450,7 +11546,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w134",
+          "id": "w377",
           "word": "drive",
           "chinese": "v. 驾驶；n. 驱动力",
           "ipa": "/draɪv/",
@@ -4484,7 +11580,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w135",
+          "id": "w378",
           "word": "driven",
           "chinese": "adj. 受驱使的，有动力的；v. drive 的过去分词",
           "ipa": "/ˈdrɪvən/",
@@ -4517,7 +11613,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w136",
+          "id": "w379",
           "word": "drive sb",
           "chinese": "驱使某人；逼迫某人",
           "ipa": "/draɪv/",
@@ -4551,7 +11647,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w137",
+          "id": "w380",
           "word": "the more",
           "chinese": "越…，越…",
           "ipa": "/ðə mɔːr/",
@@ -4582,7 +11678,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w138",
+          "id": "w381",
           "word": "lately",
           "chinese": "最近，近来",
           "ipa": "/ˈleɪtli/",
@@ -4614,7 +11710,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w139",
+          "id": "w382",
           "word": "be friends with sb",
           "chinese": "与某人成为朋友",
           "ipa": "/biː frendz wɪð ˈsʌmbɒdi/",
@@ -4647,7 +11743,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w140",
+          "id": "w383",
           "word": "leave out",
           "chinese": "遗漏，省略，不包括",
           "ipa": "/liːv aʊt/",
@@ -4680,7 +11776,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w141",
+          "id": "w384",
           "word": "friendship",
           "chinese": "友谊，友情",
           "ipa": "/ˈfrendʃɪp/",
@@ -4714,7 +11810,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w142",
+          "id": "w385",
           "word": "king",
           "chinese": "国王，君主",
           "ipa": "/kɪŋ/",
@@ -4747,7 +11843,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w143",
+          "id": "w386",
           "word": "prime",
           "chinese": "adj. 首要的；最佳的；n. 鼎盛时期",
           "ipa": "/praɪm/",
@@ -4780,7 +11876,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w144",
+          "id": "w387",
           "word": "minister",
           "chinese": "部长，大臣",
           "ipa": "/ˈmɪnɪstər/",
@@ -4813,7 +11909,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w145",
+          "id": "w388",
           "word": "prime minister",
           "chinese": "首相，总理",
           "ipa": "/ˌpraɪm ˈmɪnɪstər/",
@@ -4846,7 +11942,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w146",
+          "id": "w389",
           "word": "banker",
           "chinese": "银行家",
           "ipa": "/ˈbæŋkər/",
@@ -4880,7 +11976,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w147",
+          "id": "w390",
           "word": "fame",
           "chinese": "名声，名誉",
           "ipa": "/feɪm/",
@@ -4914,7 +12010,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w148",
+          "id": "w391",
           "word": "pale",
           "chinese": "苍白的；浅色的",
           "ipa": "/peɪl/",
@@ -4947,7 +12043,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w149",
+          "id": "w392",
           "word": "queen",
           "chinese": "女王；皇后",
           "ipa": "/kwiːn/",
@@ -4980,7 +12076,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w150",
+          "id": "w393",
           "word": "call in",
           "chinese": "打电话；召集",
           "ipa": "/kɔːl ɪn/",
@@ -5013,7 +12109,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w151",
+          "id": "w394",
           "word": "examine",
           "chinese": "检查，审查",
           "ipa": "/ɪɡˈzæmɪn/",
@@ -5047,7 +12143,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w152",
+          "id": "w395",
           "word": "nor",
           "chinese": "也不，也没有",
           "ipa": "/nɔːr/",
@@ -5076,7 +12172,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w153",
+          "id": "w396",
           "word": "neither",
           "chinese": "也不；两者都不",
           "ipa": "/ˈnaɪðər/",
@@ -5107,7 +12203,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w154",
+          "id": "w397",
           "word": "palace",
           "chinese": "宫殿",
           "ipa": "/ˈpæləs/",
@@ -5142,7 +12238,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w155",
+          "id": "w398",
           "word": "wealth",
           "chinese": "财富，财产",
           "ipa": "/welθ/",
@@ -5176,7 +12272,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w156",
+          "id": "w399",
           "word": "to start with",
           "chinese": "首先，起初",
           "ipa": "/tuː stɑːrt wɪθ/",
@@ -5210,7 +12306,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w157",
+          "id": "w400",
           "word": "grey",
           "chinese": "灰色的",
           "ipa": "/ɡreɪ/",
@@ -5243,7 +12339,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w158",
+          "id": "w401",
           "word": "lemon",
           "chinese": "柠檬",
           "ipa": "/ˈlemən/",
@@ -5277,7 +12373,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w159",
+          "id": "w402",
           "word": "uncomfortable",
           "chinese": "不舒服的，令人不适的",
           "ipa": "/ʌnˈkʌmfətəbl/",
@@ -5310,7 +12406,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w160",
+          "id": "w403",
           "word": "weight",
           "chinese": "重量，分量",
           "ipa": "/weɪt/",
@@ -5344,7 +12440,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w161",
+          "id": "w404",
           "word": "shoulder",
           "chinese": "n. 肩膀；路肩 v. 承担",
           "ipa": "/ˈʃoʊldər/",
@@ -5378,7 +12474,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w162",
+          "id": "w405",
           "word": "goal",
           "chinese": "目标；球门",
           "ipa": "/ɡoʊl/",
@@ -5412,7 +12508,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w163",
+          "id": "w406",
           "word": "let",
           "chinese": "允许，许可",
           "ipa": "/let/",
@@ -5446,7 +12542,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w164",
+          "id": "w407",
           "word": "coach",
           "chinese": "n. 教练；长途汽车 v. 训练，指导",
           "ipa": "/koʊtʃ/",
@@ -5479,7 +12575,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w165",
+          "id": "w408",
           "word": "kick",
           "chinese": "踢",
           "ipa": "/kɪk/",
@@ -5511,7 +12607,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w166",
+          "id": "w409",
           "word": "kick sb",
           "chinese": "踢某人",
           "ipa": "/kɪk/",
@@ -5544,7 +12640,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w167",
+          "id": "w410",
           "word": "be hard on sb",
           "chinese": "对某人严厉",
           "ipa": "/biː hɑːrd ɒn ˈsʌmbədi/",
@@ -5576,7 +12672,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w168",
+          "id": "w411",
           "word": "besides",
           "chinese": "此外，除了",
           "ipa": "/bɪˈsaɪdz/",
@@ -5609,7 +12705,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w169",
+          "id": "w412",
           "word": "teammate",
           "chinese": "队友",
           "ipa": "/ˈtiːmmeɪt/",
@@ -5643,7 +12739,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w170",
+          "id": "w413",
           "word": "courage",
           "chinese": "勇气，胆量",
           "ipa": "/ˈkʌrɪdʒ/",
@@ -5676,7 +12772,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w171",
+          "id": "w414",
           "word": "rather than",
           "chinese": "而不是，宁愿",
           "ipa": "/ˈræðər ðæn/",
@@ -5708,7 +12804,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w172",
+          "id": "w415",
           "word": "guy",
           "chinese": "家伙，人",
           "ipa": "/ɡaɪ/",
@@ -5740,7 +12836,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w173",
+          "id": "w416",
           "word": "pull together",
           "chinese": "齐心协力，团结合作",
           "ipa": "/pʊl təˈɡɛðər/",
@@ -5772,7 +12868,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w174",
+          "id": "w417",
           "word": "relief",
           "chinese": "n. 轻松，解脱",
           "ipa": "/rɪˈliːf/",
@@ -5805,7 +12901,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w175",
+          "id": "w418",
           "word": "nod",
           "chinese": "点头；（尤指）表示同意",
           "ipa": "/nɒd/",
@@ -5838,7 +12934,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w176",
+          "id": "w419",
           "word": "agreement",
           "chinese": "协议，一致",
           "ipa": "/əˈɡriːmənt/",
@@ -5872,7 +12968,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w177",
+          "id": "w420",
           "word": "fault",
           "chinese": "n. 错误；缺点；v. 挑剔",
           "ipa": "/fɔːlt/",
@@ -5905,7 +13001,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w178",
+          "id": "w421",
           "word": "disappoint",
           "chinese": "v. 使失望，使沮丧",
           "ipa": "/ˌdɪsəˈpɔɪnt/",
@@ -5934,16 +13030,74 @@ const TEXTBOOK_DATA = {
               "image": ""
             }
           ]
+        },
+        {
+          "id": "w422",
+          "word": "the more … the more",
+          "chinese": "越……越……",
+          "ipa": "/ðə mɔː ðə mɔː/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit11/images/the_more_the_more_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit11/images/the_more_the_more_2.png",
+          "usage": "短语",
+          "collocations": [
+            "the more … the more"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“the more … the more”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"the more … the more\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“the more … the more”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"the more … the more\"?",
+              "zh": "你能用“the more … the more”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w423",
+          "word": "neither ... nor",
+          "chinese": "既不……也不",
+          "ipa": "/ˈnaɪðə nɔː/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit11/images/neither_nor_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit11/images/neither_nor_2.png",
+          "usage": "短语",
+          "collocations": [
+            "neither ... nor"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“neither ... nor”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"neither ... nor\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“neither ... nor”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"neither ... nor\"?",
+              "zh": "你能用“neither ... nor”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
         }
       ]
     },
     {
       "id": "unit12",
-      "name": "Unit 12 · Unit 12",
-      "title": "第 12 单元",
+      "name": "Unit 12 · Life is full of the unexpected.",
+      "title": "生活充满意外。",
       "words": [
         {
-          "id": "w179",
+          "id": "w424",
           "word": "unexpected",
           "chinese": "adj. 意想不到的，出乎意料的",
           "ipa": "/ˌʌnɪkˈspektɪd/",
@@ -5976,7 +13130,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w180",
+          "id": "w425",
           "word": "by the time",
           "chinese": "到...的时候",
           "ipa": "/baɪ ðə taɪm/",
@@ -6005,7 +13159,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w181",
+          "id": "w426",
           "word": "backpack",
           "chinese": "背包，双肩包 n.",
           "ipa": "/ˈbækpæk/",
@@ -6038,7 +13192,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w182",
+          "id": "w427",
           "word": "oversleep",
           "chinese": "睡过头",
           "ipa": "/ˌoʊvərˈsliːp/",
@@ -6070,7 +13224,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w183",
+          "id": "w428",
           "word": "give",
           "chinese": "给，给予",
           "ipa": "/ɡɪv/",
@@ -6103,7 +13257,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w184",
+          "id": "w429",
           "word": "sell out",
           "chinese": "售罄；背叛",
           "ipa": "/sɛl aʊt/",
@@ -6136,7 +13290,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w185",
+          "id": "w430",
           "word": "discovery",
           "chinese": "发现，发现物",
           "ipa": "/dɪˈskʌvəri/",
@@ -6169,7 +13323,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w186",
+          "id": "w431",
           "word": "lady",
           "chinese": "女士，夫人",
           "ipa": "/ˈleɪdi/",
@@ -6202,7 +13356,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w187",
+          "id": "w432",
           "word": "cancel",
           "chinese": "取消",
           "ipa": "/ˈkænsəl/",
@@ -6235,7 +13389,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w188",
+          "id": "w433",
           "word": "officer",
           "chinese": "官员；警官；军官",
           "ipa": "/ˈɒfɪsər/",
@@ -6268,7 +13422,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w189",
+          "id": "w434",
           "word": "believable",
           "chinese": "可信的，令人信服的",
           "ipa": "/bɪˈliːvəbl/",
@@ -6301,7 +13455,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w190",
+          "id": "w435",
           "word": "disappear",
           "chinese": "消失，不见",
           "ipa": "/ˌdɪsəˈpɪr/",
@@ -6333,7 +13487,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w191",
+          "id": "w436",
           "word": "embarrassing",
           "chinese": "令人尴尬的，难堪的",
           "ipa": "/ɪmˈbærəsɪŋ/",
@@ -6366,7 +13520,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w192",
+          "id": "w437",
           "word": "New Zealand",
           "chinese": "新西兰",
           "ipa": "/ˌnjuː ˈziːlənd/",
@@ -6401,7 +13555,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w193",
+          "id": "w438",
           "word": "Italy",
           "chinese": "意大利（国家名）",
           "ipa": "/ˈɪtəli/",
@@ -6436,7 +13590,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w194",
+          "id": "w439",
           "word": "Mars",
           "chinese": "火星",
           "ipa": "/mɑːrz/",
@@ -6471,7 +13625,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w195",
+          "id": "w440",
           "word": "block",
           "chinese": "n. 街区；块；障碍物 v. 阻挡；阻塞",
           "ipa": "/blɒk/",
@@ -6505,7 +13659,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w196",
+          "id": "w441",
           "word": "in line with",
           "chinese": "与...一致；符合...",
           "ipa": "/ɪn laɪn wɪθ/",
@@ -6537,7 +13691,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w197",
+          "id": "w442",
           "word": "worker",
           "chinese": "工人，劳动者",
           "ipa": "/ˈwɜːrkər/",
@@ -6572,7 +13726,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w198",
+          "id": "w443",
           "word": "stare",
           "chinese": "v. 盯着看，凝视",
           "ipa": "/ster/",
@@ -6605,7 +13759,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w199",
+          "id": "w444",
           "word": "disbelief",
           "chinese": "不相信，怀疑",
           "ipa": "/ˌdɪsbɪˈliːf/",
@@ -6638,7 +13792,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w200",
+          "id": "w445",
           "word": "above",
           "chinese": "在...之上",
           "ipa": "/əˈbʌv/",
@@ -6671,7 +13825,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w201",
+          "id": "w446",
           "word": "advise",
           "chinese": "建议，劝告",
           "ipa": "/ədˈvaɪz/",
@@ -6703,7 +13857,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w202",
+          "id": "w447",
           "word": "burn",
           "chinese": "燃烧；烧伤",
           "ipa": "/bɜːrn/",
@@ -6737,7 +13891,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w203",
+          "id": "w448",
           "word": "burnt",
           "chinese": "烧焦的，烧毁的",
           "ipa": "/bɜːnt/",
@@ -6771,7 +13925,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w204",
+          "id": "w449",
           "word": "burned",
           "chinese": "烧毁；烧伤",
           "ipa": "/bɜːrnd/",
@@ -6805,7 +13959,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w205",
+          "id": "w450",
           "word": "burning",
           "chinese": "燃烧的；强烈的",
           "ipa": "/ˈbɜːrnɪŋ/",
@@ -6838,7 +13992,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w206",
+          "id": "w451",
           "word": "alive",
           "chinese": "活着的；存在的；活跃的",
           "ipa": "/əˈlaɪv/",
@@ -6871,7 +14025,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w207",
+          "id": "w452",
           "word": "airport",
           "chinese": "机场",
           "ipa": "/ˈerpɔːrt/",
@@ -6906,7 +14060,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w208",
+          "id": "w453",
           "word": "till",
           "chinese": "直到…为止",
           "ipa": "/tɪl/",
@@ -6938,7 +14092,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w209",
+          "id": "w454",
           "word": "west",
           "chinese": "西方；西",
           "ipa": "/west/",
@@ -6972,7 +14126,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w210",
+          "id": "w455",
           "word": "dead",
           "chinese": "死的；无生命的",
           "ipa": "/ded/",
@@ -7005,7 +14159,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w211",
+          "id": "w456",
           "word": "cream",
           "chinese": "奶油；乳脂",
           "ipa": "/kriːm/",
@@ -7039,7 +14193,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w212",
+          "id": "w457",
           "word": "workday",
           "chinese": "工作日",
           "ipa": "/ˈwɜːrkdeɪ/",
@@ -7072,7 +14226,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w213",
+          "id": "w458",
           "word": "show up",
           "chinese": "出现，露面；出席",
           "ipa": "/ʃoʊ ʌp/",
@@ -7107,7 +14261,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w214",
+          "id": "w459",
           "word": "bean",
           "chinese": "豆；豆荚",
           "ipa": "/biːn/",
@@ -7140,7 +14294,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w215",
+          "id": "w460",
           "word": "market",
           "chinese": "市场，集市",
           "ipa": "/ˈmɑːrkɪt/",
@@ -7174,7 +14328,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w216",
+          "id": "w461",
           "word": "fool",
           "chinese": "n. 傻瓜；v. 愚弄",
           "ipa": "/fuːl/",
@@ -7205,7 +14359,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w217",
+          "id": "w462",
           "word": "costume",
           "chinese": "服装，戏服",
           "ipa": "/ˈkɒstjuːm/",
@@ -7238,7 +14392,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w218",
+          "id": "w463",
           "word": "embarrassed",
           "chinese": "感到尴尬的，难为情的",
           "ipa": "/ɪmˈbærəst/",
@@ -7271,7 +14425,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w219",
+          "id": "w464",
           "word": "costume party",
           "chinese": "化装舞会",
           "ipa": "/ˈkɒstjuːm ˈpɑːrti/",
@@ -7305,7 +14459,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w220",
+          "id": "w465",
           "word": "announce",
           "chinese": "宣布，宣告",
           "ipa": "/əˈnaʊns/",
@@ -7336,7 +14490,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w221",
+          "id": "w466",
           "word": "spaghetti",
           "chinese": "意大利面条",
           "ipa": "/spəˈɡeti/",
@@ -7370,7 +14524,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w222",
+          "id": "w467",
           "word": "hoax",
           "chinese": "n. 骗局；恶作剧 v. 欺骗",
           "ipa": "/hoʊks/",
@@ -7401,16 +14555,103 @@ const TEXTBOOK_DATA = {
               "image": ""
             }
           ]
+        },
+        {
+          "id": "w468",
+          "word": "give ... a lift",
+          "chinese": "捎（某人）一程",
+          "ipa": "/ɡɪv ə lɪft/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/give_a_lift_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/give_a_lift_2.png",
+          "usage": "短语",
+          "collocations": [
+            "give ... a lift"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“give ... a lift”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"give ... a lift\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“give ... a lift”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"give ... a lift\"?",
+              "zh": "你能用“give ... a lift”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w469",
+          "word": "boss",
+          "chinese": "老板；领导",
+          "ipa": "/bɒs/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/boss_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/boss_2.png",
+          "usage": "n.",
+          "collocations": [
+            "boss"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“boss”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"boss\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“boss”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"boss\"?",
+              "zh": "你能用“boss”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w470",
+          "word": "course",
+          "chinese": "课程",
+          "ipa": "/kɔːs/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/course_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit12/images/course_2.png",
+          "usage": "n.",
+          "collocations": [
+            "course"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“course”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"course\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“course”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"course\"?",
+              "zh": "你能用“course”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
         }
       ]
     },
     {
       "id": "unit13",
-      "name": "Unit 13 · Unit 13",
-      "title": "第 13 单元",
+      "name": "Unit 13 · We're trying to save the earth!",
+      "title": "我们正在努力拯救地球！",
       "words": [
         {
-          "id": "w223",
+          "id": "w471",
           "word": "liter",
           "chinese": "升 (容量单位)",
           "ipa": "/ˈliːtər/",
@@ -7442,7 +14683,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w224",
+          "id": "w472",
           "word": "ship",
           "chinese": "船",
           "ipa": "/ʃɪp/",
@@ -7476,7 +14717,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w225",
+          "id": "w473",
           "word": "coal",
           "chinese": "煤；煤块",
           "ipa": "/koʊl/",
@@ -7509,7 +14750,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w226",
+          "id": "w474",
           "word": "ugly",
           "chinese": "丑陋的，难看的",
           "ipa": "/ˈʌɡli/",
@@ -7542,7 +14783,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w227",
+          "id": "w475",
           "word": "advantage",
           "chinese": "优势，优点",
           "ipa": "/ədˈvæntɪdʒ/",
@@ -7575,7 +14816,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w228",
+          "id": "w476",
           "word": "cost",
           "chinese": "花费，价格",
           "ipa": "/kɒst/",
@@ -7608,7 +14849,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w229",
+          "id": "w477",
           "word": "wooden",
           "chinese": "木制的",
           "ipa": "/ˈwʊdn/",
@@ -7641,7 +14882,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w230",
+          "id": "w478",
           "word": "plastic",
           "chinese": "塑料；塑料的",
           "ipa": "/ˈplæstɪk/",
@@ -7675,7 +14916,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w231",
+          "id": "w479",
           "word": "takeaway",
           "chinese": "外卖食物；外卖店",
           "ipa": "/ˈteɪkəweɪ/",
@@ -7708,7 +14949,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w232",
+          "id": "w480",
           "word": "bin",
           "chinese": "垃圾箱，容器",
           "ipa": "/bɪn/",
@@ -7743,7 +14984,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w233",
+          "id": "w481",
           "word": "fin",
           "chinese": "鳍",
           "ipa": "/fɪn/",
@@ -7776,7 +15017,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w234",
+          "id": "w482",
           "word": "cruel",
           "chinese": "残忍的，残酷的",
           "ipa": "/ˈkruːəl/",
@@ -7809,7 +15050,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w235",
+          "id": "w483",
           "word": "harmful",
           "chinese": "有害的，造成损害的",
           "ipa": "/ˈhɑːrmfl/",
@@ -7842,7 +15083,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w236",
+          "id": "w484",
           "word": "be harmful to",
           "chinese": "对...有害",
           "ipa": "/biː ˈhɑːrmfəl tuː/",
@@ -7877,7 +15118,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w237",
+          "id": "w485",
           "word": "at the top of",
           "chinese": "在...顶端",
           "ipa": "/æt ðə tɒp ɒv/",
@@ -7909,7 +15150,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w238",
+          "id": "w486",
           "word": "chain",
           "chinese": "链条；连锁店",
           "ipa": "/tʃeɪn/",
@@ -7942,7 +15183,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w239",
+          "id": "w487",
           "word": "the food chain",
           "chinese": "食物链",
           "ipa": "/ðə fuːd tʃeɪn/",
@@ -7974,7 +15215,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w240",
+          "id": "w488",
           "word": "ecosystem",
           "chinese": "生态系统",
           "ipa": "/ˈiːkoʊsɪstəm/",
@@ -8008,7 +15249,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w241",
+          "id": "w489",
           "word": "industry",
           "chinese": "工业；产业；勤奋",
           "ipa": "/ˈɪndəstri/",
@@ -8041,7 +15282,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w242",
+          "id": "w490",
           "word": "law",
           "chinese": "法律，法规",
           "ipa": "/lɔː/",
@@ -8075,7 +15316,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w243",
+          "id": "w491",
           "word": "scientific",
           "chinese": "科学的",
           "ipa": "/ˌsaɪənˈtɪfɪk/",
@@ -8108,7 +15349,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w244",
+          "id": "w492",
           "word": "present",
           "chinese": "adj. 现在的；出席的；n. 礼物；现在；v. 赠送；提出",
           "ipa": "/ˈpreznt/",
@@ -8143,7 +15384,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w245",
+          "id": "w493",
           "word": "take part in",
           "chinese": "参加，参与",
           "ipa": "/teɪk pɑːrt ɪn/",
@@ -8175,7 +15416,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w246",
+          "id": "w494",
           "word": "afford",
           "chinese": "负担得起",
           "ipa": "/əˈfɔːrd/",
@@ -8207,7 +15448,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w247",
+          "id": "w495",
           "word": "turn off",
           "chinese": "关掉，关闭（电器、水源等）",
           "ipa": "/tɜːrn ɔːf/",
@@ -8240,7 +15481,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w248",
+          "id": "w496",
           "word": "reusable",
           "chinese": "可重复使用的",
           "ipa": "/ˌriːˈjuːzəbl/",
@@ -8273,7 +15514,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w249",
+          "id": "w497",
           "word": "pay for",
           "chinese": "为...付款",
           "ipa": "/peɪ fɔːr/",
@@ -8306,7 +15547,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w250",
+          "id": "w498",
           "word": "take action",
           "chinese": "采取行动",
           "ipa": "/teɪk ˈækʃən/",
@@ -8339,7 +15580,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w251",
+          "id": "w499",
           "word": "transportation",
           "chinese": "运输；交通工具",
           "ipa": "/ˌtrænspərˈteɪʃn/",
@@ -8373,7 +15614,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w252",
+          "id": "w500",
           "word": "recycle",
           "chinese": "回收利用",
           "ipa": "/ˌriːˈsaɪkl/",
@@ -8406,7 +15647,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w253",
+          "id": "w501",
           "word": "napkin",
           "chinese": "餐巾，纸巾",
           "ipa": "/ˈnæpkɪn/",
@@ -8440,7 +15681,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w254",
+          "id": "w502",
           "word": "throw away",
           "chinese": "丢弃，扔掉",
           "ipa": "/θroʊ əˈweɪ/",
@@ -8474,7 +15715,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w255",
+          "id": "w503",
           "word": "put sth",
           "chinese": "放置某物",
           "ipa": "/pʊt/",
@@ -8509,7 +15750,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w256",
+          "id": "w504",
           "word": "pull",
           "chinese": "拉，拖",
           "ipa": "/pʊl/",
@@ -8544,7 +15785,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w257",
+          "id": "w505",
           "word": "upside",
           "chinese": "n. 优势；正面",
           "ipa": "/ˈʌpsaɪd/",
@@ -8576,7 +15817,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w258",
+          "id": "w506",
           "word": "gate",
           "chinese": "门；大门",
           "ipa": "/ɡeɪt/",
@@ -8613,7 +15854,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w259",
+          "id": "w507",
           "word": "bottle",
           "chinese": "瓶子",
           "ipa": "/ˈbɒtl/",
@@ -8647,7 +15888,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w260",
+          "id": "w508",
           "word": "president",
           "chinese": "总统；校长；会长",
           "ipa": "/ˈprezɪdənt/",
@@ -8680,7 +15921,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w261",
+          "id": "w509",
           "word": "inspiration",
           "chinese": "灵感",
           "ipa": "/ˌɪnspəˈreɪʃn/",
@@ -8714,7 +15955,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w262",
+          "id": "w510",
           "word": "iron",
           "chinese": "n. 铁；熨斗  v. 熨烫  adj. 铁的",
           "ipa": "/ˈaɪərn/",
@@ -8748,7 +15989,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w263",
+          "id": "w511",
           "word": "work",
           "chinese": "工作；劳动；运作",
           "ipa": "/wɜːrk/",
@@ -8785,7 +16026,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w264",
+          "id": "w512",
           "word": "metal",
           "chinese": "金属",
           "ipa": "/ˈmetl/",
@@ -8819,7 +16060,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w265",
+          "id": "w513",
           "word": "bring back",
           "chinese": "带回；使回忆起",
           "ipa": "/brɪŋ bæk/",
@@ -8851,7 +16092,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w266",
+          "id": "w514",
           "word": "creativity",
           "chinese": "创造力，创意",
           "ipa": "/ˌkriːeɪˈtɪvəti/",
@@ -8883,16 +16124,74 @@ const TEXTBOOK_DATA = {
               "image": ""
             }
           ]
+        },
+        {
+          "id": "w515",
+          "word": "cut off",
+          "chinese": "割掉；砍掉",
+          "ipa": "/kʌt ɒf/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/cut_off_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/cut_off_2.png",
+          "usage": "短语",
+          "collocations": [
+            "cut off"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“cut off”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"cut off\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“cut off”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"cut off\"?",
+              "zh": "你能用“cut off”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w516",
+          "word": "upside down",
+          "chinese": "颠倒；倒转",
+          "ipa": "/ˌʌpsaɪd ˈdaʊn/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/upside_down_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit13/images/upside_down_2.png",
+          "usage": "短语",
+          "collocations": [
+            "upside down"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“upside down”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"upside down\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“upside down”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"upside down\"?",
+              "zh": "你能用“upside down”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
         }
       ]
     },
     {
       "id": "unit14",
-      "name": "Unit 14 · Unit 14",
-      "title": "第 14 单元",
+      "name": "Unit 14 · I remember meeting all of you in Grade 7.",
+      "title": "我记得在七年级遇见你们所有人。",
       "words": [
         {
-          "id": "w267",
+          "id": "w517",
           "word": "survey",
           "chinese": "调查，调查报告",
           "ipa": "/ˈsɜːrveɪ/",
@@ -8925,7 +16224,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w268",
+          "id": "w518",
           "word": "standard",
           "chinese": "n. 标准；adj. 标准的",
           "ipa": "/ˈstændərd/",
@@ -8958,7 +16257,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w269",
+          "id": "w519",
           "word": "row",
           "chinese": "n. 行，排；v. 划船",
           "ipa": "/roʊ/",
@@ -8990,7 +16289,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w270",
+          "id": "w520",
           "word": "in a row",
           "chinese": "连续地，一排",
           "ipa": "/ɪn ə roʊ/",
@@ -9023,7 +16322,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w271",
+          "id": "w521",
           "word": "keyboard",
           "chinese": "键盘",
           "ipa": "/ˈkiːbɔːrd/",
@@ -9057,7 +16356,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w272",
+          "id": "w522",
           "word": "first of all",
           "chinese": "首先，起初",
           "ipa": "/fɜːrst əv ɔːl/",
@@ -9089,7 +16388,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w273",
+          "id": "w523",
           "word": "congratulate",
           "chinese": "祝贺，恭喜",
           "ipa": "/kənˈɡrætʃuleɪt/",
@@ -9120,7 +16419,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w274",
+          "id": "w524",
           "word": "thirsty",
           "chinese": "口渴的",
           "ipa": "/ˈθɜːrsti/",
@@ -9153,7 +16452,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w275",
+          "id": "w525",
           "word": "be thirsty for",
           "chinese": "渴望，渴望得到",
           "ipa": "/biː ˈθɜːrsti fɔːr/",
@@ -9186,7 +16485,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w276",
+          "id": "w526",
           "word": "thankful",
           "chinese": "感谢的，感激的",
           "ipa": "/ˈθæŋkfəl/",
@@ -9219,7 +16518,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w277",
+          "id": "w527",
           "word": "be thankful to sb",
           "chinese": "感谢某人",
           "ipa": "/biː ˈθæŋkfəl tuː ˈsʌmbɒdi/",
@@ -9252,7 +16551,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w278",
+          "id": "w528",
           "word": "lastly",
           "chinese": "最后，最终",
           "ipa": "/ˈlæstli/",
@@ -9283,7 +16582,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w279",
+          "id": "w529",
           "word": "task",
           "chinese": "任务，工作",
           "ipa": "/tæsk/",
@@ -9318,7 +16617,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w280",
+          "id": "w530",
           "word": "ahead",
           "chinese": "在前面；向前",
           "ipa": "/əˈhed/",
@@ -9351,7 +16650,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w281",
+          "id": "w531",
           "word": "ahead of",
           "chinese": "在...之前；领先于",
           "ipa": "/əˈhed əv/",
@@ -9385,7 +16684,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w282",
+          "id": "w532",
           "word": "along with",
           "chinese": "与...一起，连同",
           "ipa": "/əˈlɔŋ wɪθ/",
@@ -9417,7 +16716,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w283",
+          "id": "w533",
           "word": "responsible",
           "chinese": "有责任的，负责任的",
           "ipa": "/rɪˈspɒnsəbl/",
@@ -9450,7 +16749,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w284",
+          "id": "w534",
           "word": "be responsible for",
           "chinese": "对...负责",
           "ipa": "/biː rɪˈspɒnsəbl fɔːr/",
@@ -9482,7 +16781,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w285",
+          "id": "w535",
           "word": "separate",
           "chinese": "adj. 分离的；分开的；v. (separated, separated) 分开；分离",
           "ipa": "/ˈsepəreɪt/",
@@ -9515,7 +16814,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w286",
+          "id": "w536",
           "word": "set out",
           "chinese": "出发，开始旅程；开始做某事",
           "ipa": "/ˌset ˈaʊt/",
@@ -9547,7 +16846,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w287",
+          "id": "w537",
           "word": "separate from",
           "chinese": "与...分离；脱离",
           "ipa": "/ˈsepəreɪt frʌm/",
@@ -9580,7 +16879,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w288",
+          "id": "w538",
           "word": "wing",
           "chinese": "翅膀；翼",
           "ipa": "/wɪŋ/",
@@ -9612,7 +16911,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w289",
+          "id": "w539",
           "word": "method",
           "chinese": "方法，方式",
           "ipa": "/ˈmeθəd/",
@@ -9646,7 +16945,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w290",
+          "id": "w540",
           "word": "instruction",
           "chinese": "指示，说明",
           "ipa": "/ɪnˈstrʌkʃən/",
@@ -9679,7 +16978,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w291",
+          "id": "w541",
           "word": "double",
           "chinese": "两倍的；双重的",
           "ipa": "/ˈdʌbl/",
@@ -9712,7 +17011,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w292",
+          "id": "w542",
           "word": "shall",
           "chinese": "将要，会；应该（用于第一人称疑问句中，表示征求意见或建议）",
           "ipa": "/ʃæl/",
@@ -9743,7 +17042,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w293",
+          "id": "w543",
           "word": "look back at",
           "chinese": "回顾，回首",
           "ipa": "/lʊk bæk æt/",
@@ -9775,7 +17074,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w294",
+          "id": "w544",
           "word": "overcome",
           "chinese": "克服，战胜",
           "ipa": "/ˌoʊvərˈkʌm/",
@@ -9808,7 +17107,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w295",
+          "id": "w545",
           "word": "make a mess",
           "chinese": "弄乱，搞得乱七八糟",
           "ipa": "/meɪk ə mes/",
@@ -9840,7 +17139,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w296",
+          "id": "w546",
           "word": "graduate",
           "chinese": "v. 毕业；n. 毕业生",
           "ipa": "/ˈɡrædʒuət/",
@@ -9872,7 +17171,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w297",
+          "id": "w547",
           "word": "keep",
           "chinese": "保持，保存",
           "ipa": "/kiːp/",
@@ -9907,7 +17206,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w298",
+          "id": "w548",
           "word": "caring",
           "chinese": "关怀的；体贴的",
           "ipa": "/ˈkeərɪŋ/",
@@ -9940,7 +17239,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w299",
+          "id": "w549",
           "word": "ours",
           "chinese": "我们的（所有物）",
           "ipa": "/aʊrz/",
@@ -9971,7 +17270,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w300",
+          "id": "w550",
           "word": "senior",
           "chinese": "年长的；高级的；毕业班的",
           "ipa": "/ˈsiːniər/",
@@ -10004,7 +17303,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w301",
+          "id": "w551",
           "word": "senior high",
           "chinese": "高中",
           "ipa": "/ˌsiːniər haɪ/",
@@ -10037,7 +17336,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w302",
+          "id": "w552",
           "word": "text",
           "chinese": "文本，文字；短信",
           "ipa": "/tekst/",
@@ -10072,7 +17371,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w303",
+          "id": "w553",
           "word": "go by",
           "chinese": "（时间）过去，流逝",
           "ipa": "/ɡoʊ baɪ/",
@@ -10105,7 +17404,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w304",
+          "id": "w554",
           "word": "level",
           "chinese": "水平；等级；水平的；使平坦",
           "ipa": "/ˈlevl/",
@@ -10140,7 +17439,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w305",
+          "id": "w555",
           "word": "degree",
           "chinese": "程度；度数；学位",
           "ipa": "/dɪˈɡriː/",
@@ -10173,7 +17472,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w306",
+          "id": "w556",
           "word": "manager",
           "chinese": "经理",
           "ipa": "/ˈmænɪdʒər/",
@@ -10207,7 +17506,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w307",
+          "id": "w557",
           "word": "believe in",
           "chinese": "相信，信任；对...有信心",
           "ipa": "/bɪˈliːv ɪn/",
@@ -10240,7 +17539,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w308",
+          "id": "w558",
           "word": "gentleman",
           "chinese": "绅士；有风度的人",
           "ipa": "/ˈdʒentlmən/",
@@ -10272,7 +17571,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w309",
+          "id": "w559",
           "word": "graduation",
           "chinese": "毕业典礼；毕业",
           "ipa": "/ˌɡrædʒuˈeɪʃn/",
@@ -10307,7 +17606,7 @@ const TEXTBOOK_DATA = {
           ]
         },
         {
-          "id": "w310",
+          "id": "w560",
           "word": "ceremony",
           "chinese": "典礼，仪式",
           "ipa": "/ˈserəməni/",
@@ -10335,6 +17634,96 @@ const TEXTBOOK_DATA = {
             {
               "en": "The award ceremony will be held in the school hall tomorrow.",
               "zh": "颁奖典礼将于明天在学校大礼堂举行。",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w561",
+          "word": "keep one's cool",
+          "chinese": "沉住气；保持冷静",
+          "ipa": "/kiːp wʌnz kuːl/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/keep_ones_cool_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/keep_ones_cool_2.png",
+          "usage": "短语",
+          "collocations": [
+            "keep one's cool"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“keep one's cool”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"keep one's cool\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“keep one's cool”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"keep one's cool\"?",
+              "zh": "你能用“keep one's cool”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w562",
+          "word": "none",
+          "chinese": "没有一个；毫无",
+          "ipa": "/nʌn/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/none_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/none_2.png",
+          "usage": "pron.",
+          "collocations": [
+            "none"
+          ],
+          "preposition_combos": [],
+          "image_desc_cn": "与“none”相关的示意图。",
+          "sentences": [
+            {
+              "en": "We learned the word \"none\" in today's English class.",
+              "zh": "我们在今天的英语课上学习了单词“none”。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Can you make a sentence with \"none\"?",
+              "zh": "你能用“none”造一个句子吗？",
+              "source": "context",
+              "image": ""
+            }
+          ]
+        },
+        {
+          "id": "w563",
+          "word": "senior high school",
+          "chinese": "高中",
+          "ipa": "/ˈsiːniə haɪ skuːl/",
+          "phonemes": [],
+          "image": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/senior_high_school_1.png",
+          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G9/Unit14/images/senior_high_school_2.png",
+          "usage": "n.",
+          "collocations": [
+            "senior high school student",
+            "go to senior high school"
+          ],
+          "preposition_combos": [
+            "in senior high school"
+          ],
+          "image_desc_cn": "高中校园。",
+          "sentences": [
+            {
+              "en": "She will enter senior high school next year.",
+              "zh": "她明年将进入高中。",
+              "source": "textbook",
+              "image": ""
+            },
+            {
+              "en": "Our senior high school has a big library.",
+              "zh": "我们的高中有一个大图书馆。",
               "source": "context",
               "image": ""
             }
