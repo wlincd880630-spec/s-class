@@ -132,8 +132,10 @@ function resolveImage(bookFolder, unitNum, rel, word = '') {
   if (clean) candidates.push(path.join(unitDir, clean));
   if (word) {
     const slug = safeSlug(word);
-    candidates.push(path.join(unitDir, 'images', `${slug}_1.jpg`));
-    candidates.push(path.join(unitDir, 'images', `${slug}_1.png`));
+    const isSecond = /_2\.(jpe?g|png)$/i.test(clean) || /_2\./i.test(String(rel || ''));
+    const n = isSecond ? 2 : 1;
+    candidates.push(path.join(unitDir, 'images', `${slug}_${n}.jpg`));
+    candidates.push(path.join(unitDir, 'images', `${slug}_${n}.png`));
   }
   for (const local of candidates) {
     if (local && fs.existsSync(local)) {
@@ -192,7 +194,12 @@ function buildBookData(meta) {
         ipa: w.ipa || '',
         phonemes: [],
         image: resolveImage(meta.folder, unit, w.img1, w.word),
-        image2: resolveImage(meta.folder, unit, w.img2, w.word),
+        image2: resolveImage(
+          meta.folder,
+          unit,
+          w.img2 || `images/${safeSlug(w.word)}_2.jpg`,
+          w.word
+        ),
         usage: w.usage || '',
         collocations: asList(w.collocations),
         preposition_combos: asList(w.preposition_combos),
