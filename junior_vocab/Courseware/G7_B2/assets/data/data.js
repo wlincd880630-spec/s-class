@@ -9042,7 +9042,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/naɪˈroʊbi/",
           "phonemes": [],
           "image": "../../G7_B2/Unit5/images/Nairobi_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit5/images/Nairobi_2.jpg",
+          "image2": "../../G7_B2/Unit5/images/Nairobi_2.jpg",
           "usage": "n. ",
           "collocations": [
             "visit Nairobi",
@@ -9077,7 +9077,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/nuː jɔːrk/",
           "phonemes": [],
           "image": "../../G7_B2/Unit5/images/New_York_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit5/images/New_York_2.jpg",
+          "image2": "../../G7_B2/Unit5/images/New_York_2.jpg",
           "usage": "n. (专有名词)",
           "collocations": [
             "New York City",
@@ -9112,7 +9112,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkenjə/",
           "phonemes": [],
           "image": "../../G7_B2/Unit5/images/Kenya_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit5/images/Kenya_2.jpg",
+          "image2": "../../G7_B2/Unit5/images/Kenya_2.jpg",
           "usage": "n. ",
           "collocations": [
             "visit Kenya",
@@ -9147,7 +9147,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌjuː.esˈeɪ/",
           "phonemes": [],
           "image": "../../G7_B2/Unit5/images/USA_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit5/images/USA_2.jpg",
+          "image2": "../../G7_B2/Unit5/images/USA_2.jpg",
           "usage": "n. (缩写)",
           "collocations": [
             "visit the USA",
@@ -9180,7 +9180,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌsentrəl ˈpɑːrk/",
           "phonemes": [],
           "image": "../../G7_B2/Unit5/images/Central_Park_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit5/images/Central_Park_2.jpg",
+          "image2": "../../G7_B2/Unit5/images/Central_Park_2.jpg",
           "usage": "n. (专有名词)",
           "collocations": [
             "visit Central Park",
@@ -9220,7 +9220,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/klaʊd/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/cloud_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/cloud_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/cloud_2.jpg",
           "usage": "n. v. (过去式 clouded, 过去分词 clouded)",
           "collocations": [
             "cloud formation",
@@ -9254,7 +9254,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/fiːl laɪk/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/feel_like_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/feel_like_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/feel_like_2.jpg",
           "usage": "v. 想要，感觉像",
           "collocations": [
             "feel like doing something",
@@ -9286,7 +9286,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmædʒɪkl/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/magical_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/magical_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/magical_2.jpg",
           "usage": "adj. magically (adv.)",
           "collocations": [
             "magical power",
@@ -9319,7 +9319,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/rɒk/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/rock_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/rock_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/rock_2.jpg",
           "usage": "n. / v. (过去式 rocked, 过去分词 rocked)",
           "collocations": [
             "rock music",
@@ -9353,7 +9353,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/rest/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/rest_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/rest_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/rest_2.jpg",
           "usage": "n. / v. (过去式 rested, 过去分词 rested)",
           "collocations": [
             "take a rest",
@@ -9386,7 +9386,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈeriə/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/area_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/area_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/area_2.jpg",
           "usage": "n. (复数 areas)",
           "collocations": [
             "local area",
@@ -9421,7 +9421,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈrest ˌeəriə/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/rest_area_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/rest_area_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/rest_area_2.jpg",
           "usage": "名词 n. 指高速公路或长途旅行中供旅客休息的区域，通常提供停车、洗手间等设施。",
           "collocations": [
             "highway rest area",
@@ -9454,7 +9454,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/meɪk ˈprɒɡrəs/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/make_progress_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/make_progress_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/make_progress_2.jpg",
           "usage": "v. phr. (made progress, made progress)",
           "collocations": [
             "make rapid progress",
@@ -9489,7 +9489,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɔːlˈðəʊ/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/although_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/although_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/although_2.jpg",
           "usage": "连词 conj.",
           "collocations": [
             "although + clause"
@@ -9520,7 +9520,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/stɪl/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/still_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/still_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/still_2.jpg",
           "usage": "adv. adj.",
           "collocations": [
             "still water",
@@ -9553,7 +9553,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪn haɪ ˈspɪrɪts/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/in_high_spirits_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/in_high_spirits_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/in_high_spirits_2.jpg",
           "usage": "phrase",
           "collocations": [
             "be in high spirits",
@@ -9585,7 +9585,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪkˈspɪəriəns/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/experience_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/experience_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/experience_2.jpg",
           "usage": "n. / v. (过去式 experienced, 过去分词 experienced)\n词形变化：experiences (复数名词)",
           "collocations": [
             "have an experience",
@@ -9620,7 +9620,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/θruː/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/through_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/through_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/through_2.jpg",
           "usage": "prep. / adv.",
           "collocations": [
             "go through",
@@ -9654,7 +9654,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡlæd/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/glad_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/glad_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/glad_2.jpg",
           "usage": "adj.",
           "collocations": [
             "glad to see/hear; glad about"
@@ -9685,7 +9685,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/piːk/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/peak_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/peak_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/peak_2.jpg",
           "usage": "n. / v. (过去式 peaked, 过去分词 peaked)",
           "collocations": [
             "peak season",
@@ -9718,7 +9718,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡreɪ/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/grey_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/grey_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/grey_2.jpg",
           "usage": "adj.",
           "collocations": [
             "grey hair",
@@ -9751,7 +9751,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/bɪˈkɒz ɒv/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/because_of_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/because_of_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/because_of_2.jpg",
           "usage": "prep. 用于说明某事发生的原因，后接名词或代词。",
           "collocations": [
             "because of the rain",
@@ -9784,7 +9784,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/fɒɡ/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/fog_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/fog_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/fog_2.jpg",
           "usage": "n.",
           "collocations": [
             "thick fog",
@@ -9819,7 +9819,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡraʊnd/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/ground_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/ground_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/ground_2.jpg",
           "usage": "n. / v. (过去式 grounded, 过去分词 grounded)",
           "collocations": [
             "on the ground",
@@ -9853,7 +9853,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/wet/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/wet_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/wet_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/wet_2.jpg",
           "usage": "adj. / v. (过去式 wetted/wet, 过去分词 wetted/wet)",
           "collocations": [
             "wet clothes",
@@ -9886,7 +9886,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈtaɪərɪŋ/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/tiring_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/tiring_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/tiring_2.jpg",
           "usage": "adj. (比较级 more tiring, 最高级 most tiring)",
           "collocations": [
             "tiring work",
@@ -9919,7 +9919,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/siːm/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/seem_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/seem_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/seem_2.jpg",
           "usage": "v. (seemed, seemed)",
           "collocations": [
             "seem to be",
@@ -9952,7 +9952,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsʌn.laɪt/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/sunlight_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/sunlight_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/sunlight_2.jpg",
           "usage": "n. ",
           "collocations": [
             "bathe in sunlight",
@@ -9986,7 +9986,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/æt ðə tɒp/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/at_the_top_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/at_the_top_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/at_the_top_2.jpg",
           "usage": "短语，表示位置或等级的最高点",
           "collocations": [
             "at the top of the list",
@@ -10019,7 +10019,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/θɔːt/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/thought_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/thought_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/thought_2.jpg",
           "usage": "n. 想法，思考；v. (think的过去式和过去分词) 思考，认为",
           "collocations": [
             "a thought occurred to me",
@@ -10053,7 +10053,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈmaʊntən/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/mountain_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/mountain_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/mountain_2.jpg",
           "usage": "n.",
           "collocations": [
             "mountain range",
@@ -10088,7 +10088,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/æt ðə stɑːrt/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/at_the_start_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/at_the_start_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/at_the_start_2.jpg",
           "usage": "短语",
           "collocations": [
             "at the start of a game",
@@ -10120,7 +10120,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/end/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/end_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/end_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/end_2.jpg",
           "usage": "n. v. (ended, ended)",
           "collocations": [
             "at the end of",
@@ -10154,7 +10154,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/æt ðiː ɛnd/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/at_the_end_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/at_the_end_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/at_the_end_2.jpg",
           "usage": "短语",
           "collocations": [
             "at the end of the day",
@@ -10187,7 +10187,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/stɔːrm/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/storm_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/storm_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/storm_2.jpg",
           "usage": "n. / v. (过去式 stormed, 过去分词 stormed)",
           "collocations": [
             "heavy storm",
@@ -10223,7 +10223,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/reɪn ɔːr ʃaɪn/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/rain_or_shine_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/rain_or_shine_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/rain_or_shine_2.jpg",
           "usage": "idiom",
           "collocations": [
             "promise rain or shine",
@@ -10255,7 +10255,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈfekt/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/affect_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/affect_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/affect_2.jpg",
           "usage": "v. (affected, affected)",
           "collocations": [
             "affect greatly",
@@ -10288,7 +10288,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/draɪ/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/dry_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/dry_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/dry_2.jpg",
           "usage": "adj. / v. (过去式 dried, 过去分词 dried)",
           "collocations": [
             "dry air",
@@ -10323,7 +10323,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈlaɪtnɪŋ/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/lightning_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/lightning_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/lightning_2.jpg",
           "usage": "n. (复数 lightnings)",
           "collocations": [
             "lightning strike",
@@ -10356,7 +10356,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈstɔːrmi/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/stormy_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/stormy_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/stormy_2.jpg",
           "usage": "adj.",
           "collocations": [
             "stormy weather",
@@ -10390,7 +10390,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/nɔːrθ/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/north_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/north_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/north_2.jpg",
           "usage": "n. adj. adv.",
           "collocations": [
             "north wind",
@@ -10424,7 +10424,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/west/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/west_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/west_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/west_2.jpg",
           "usage": "n. / adj. / adv.",
           "collocations": [
             "go west",
@@ -10457,7 +10457,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/saʊθ/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/south_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/south_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/south_2.jpg",
           "usage": "n. / adj. / adv.",
           "collocations": [
             "south of",
@@ -10491,7 +10491,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/iːst/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/east_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/east_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/east_2.jpg",
           "usage": "n. adj. adv.",
           "collocations": [
             "go east",
@@ -10525,7 +10525,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/steɪ ɪn/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/stay_in_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/stay_in_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/stay_in_2.jpg",
           "usage": "v. (过去式 stayed in, 过去分词 stayed in)",
           "collocations": [
             "stay in bed",
@@ -10559,7 +10559,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈlʌki/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/lucky_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/lucky_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/lucky_2.jpg",
           "usage": "adj. luckily (adv.)",
           "collocations": [
             "lucky charm",
@@ -10593,7 +10593,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈlʌki juː/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/lucky_you_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/lucky_you_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/lucky_you_2.jpg",
           "usage": "短语；用于表达对他人好运的羡慕或祝贺。",
           "collocations": [
             "lucky day",
@@ -10627,7 +10627,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsʌnbeɪð/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/sunbathe_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/sunbathe_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/sunbathe_2.jpg",
           "usage": "v. (sunbathed, sunbathed)",
           "collocations": [
             "sunbathe on the beach",
@@ -10660,7 +10660,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/sʌm deɪ/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/some_day_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/some_day_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/some_day_2.jpg",
           "usage": "adv. 在将来的某个时候",
           "collocations": [
             "in some day",
@@ -10692,7 +10692,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈtemprətʃər/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/temperature_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/temperature_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/temperature_2.jpg",
           "usage": "n.",
           "collocations": [
             "high temperature",
@@ -10726,7 +10726,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsnoʊmæn/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/snowman_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/snowman_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/snowman_2.jpg",
           "usage": "n. (复数 snowmen)",
           "collocations": [
             "build a snowman",
@@ -10759,7 +10759,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsnoʊmæn/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/snowmen_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/snowmen_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/snowmen_2.jpg",
           "usage": "名词 n. (snowman 的复数形式)",
           "collocations": [
             "build snowmen",
@@ -10793,7 +10793,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈhevɪli/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/heavily_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/heavily_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/heavily_2.jpg",
           "usage": "adv.",
           "collocations": [
             "rain heavily",
@@ -10825,7 +10825,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsnoʊ.i/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/snowy_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/snowy_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/snowy_2.jpg",
           "usage": "adj.",
           "collocations": [
             "snowy day",
@@ -10859,7 +10859,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/biːtʃ ˈvɒlibɔːl/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/beach_volleyball_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/beach_volleyball_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/beach_volleyball_2.jpg",
           "usage": "n.",
           "collocations": [
             "play beach volleyball",
@@ -10892,7 +10892,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/haɪ/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/high_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/high_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/high_2.jpg",
           "usage": "adj. adv. (higher, highest)",
           "collocations": [
             "high school",
@@ -10925,7 +10925,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈfriːzɪŋ/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/freezing_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/freezing_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/freezing_2.jpg",
           "usage": "adj.",
           "collocations": [
             "freezing weather",
@@ -10958,7 +10958,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈtʊərɪst/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/tourist_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/tourist_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/tourist_2.jpg",
           "usage": "n. (复数 tourists)",
           "collocations": [
             "attract tourists",
@@ -10991,7 +10991,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/maʊnt/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/mount_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/mount_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/mount_2.jpg",
           "usage": "v. (mounted, mounted); n.",
           "collocations": [
             "mount guard",
@@ -11024,7 +11024,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pɔːr/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/pour_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/pour_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/pour_2.jpg",
           "usage": "v. (过去式 poured, 过去分词 poured)",
           "collocations": [
             "pour water",
@@ -11058,7 +11058,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/wɪnd/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/wind_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/wind_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/wind_2.jpg",
           "usage": "n.",
           "collocations": [
             "strong wind",
@@ -11092,7 +11092,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ʃaʊt/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/shout_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/shout_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/shout_2.jpg",
           "usage": "v. (过去式 shouted, 过去分词 shouted); n.",
           "collocations": [
             "shout at",
@@ -11126,7 +11126,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/rʌn ˈæftər/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/run_after_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/run_after_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/run_after_2.jpg",
           "usage": "v. (ran after, run after)",
           "collocations": [
             "run after someone",
@@ -11158,7 +11158,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/dʒɔɪn/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/join_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/join_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/join_2.jpg",
           "usage": "v. (joined, joined)",
           "collocations": [
             "join a club",
@@ -11192,7 +11192,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈstɒkhoʊm/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/Stockholm_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/Stockholm_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/Stockholm_2.jpg",
           "usage": "n. ",
           "collocations": [
             "visit Stockholm",
@@ -11226,7 +11226,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/maʊnt ˈhwɑːŋˈʃɑːn/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/Mount_Huangshan_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/Mount_Huangshan_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/Mount_Huangshan_2.jpg",
           "usage": "n. (专有名词)",
           "collocations": [
             "visit Mount Huangshan",
@@ -11259,7 +11259,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/braɪt/",
           "phonemes": [],
           "image": "../../G7_B2/Unit6/images/bright_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit6/images/bright_2.jpg",
+          "image2": "../../G7_B2/Unit6/images/bright_2.jpg",
           "usage": "adj. brighter, brightest; brightly (adv.)",
           "collocations": [
             "bright future",
@@ -11299,7 +11299,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈprɑːses/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/process_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/process_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/process_2.jpg",
           "usage": "n. 过程，步骤; v. 处理",
           "collocations": [
             "manufacturing process",
@@ -11334,7 +11334,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈθɪətər/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/theatre_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/theatre_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/theatre_2.jpg",
           "usage": "n. (复数 theatres)",
           "collocations": [
             "go to the theatre",
@@ -11368,7 +11368,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈfæktəri/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/factory_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/factory_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/factory_2.jpg",
           "usage": "名词 n. (复数 factories)",
           "collocations": [
             "work in a factory",
@@ -11403,7 +11403,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈterəbl/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/terrible_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/terrible_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/terrible_2.jpg",
           "usage": "adj. ",
           "collocations": [
             "terrible mistake",
@@ -11437,7 +11437,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈæktər/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/actor_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/actor_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/actor_2.jpg",
           "usage": "名词 n.",
           "collocations": [
             "movie actor",
@@ -11471,7 +11471,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡʌn/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/gun_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/gun_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/gun_2.jpg",
           "usage": "n. (复数 guns)",
           "collocations": [
             "toy gun",
@@ -11505,7 +11505,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/traɪ ɒn/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/try_on_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/try_on_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/try_on_2.jpg",
           "usage": "v. 尝试穿戴（衣物）以查看是否合适或喜欢",
           "collocations": [
             "try on clothes",
@@ -11538,7 +11538,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈlɔŋ/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/along_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/along_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/along_2.jpg",
           "usage": "adv. 向前；一起；顺着\nprep. 沿着",
           "collocations": [
             "come along",
@@ -11571,7 +11571,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/roʊd/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/road_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/road_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/road_2.jpg",
           "usage": "名词 n.",
           "collocations": [
             "on the road",
@@ -11604,7 +11604,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kriˈeɪt/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/create_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/create_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/create_2.jpg",
           "usage": "v. (created, created)",
           "collocations": [
             "create a website",
@@ -11638,7 +11638,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈrekərd/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/record_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/record_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/record_2.jpg",
           "usage": "v. (recorded, recorded); n.",
           "collocations": [
             "keep a record of",
@@ -11671,7 +11671,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/skɪl/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/skill_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/skill_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/skill_2.jpg",
           "usage": "n. (skills 复数)",
           "collocations": [
             "develop a skill",
@@ -11704,7 +11704,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈraɪt daʊn/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/write_down_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/write_down_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/write_down_2.jpg",
           "usage": "v. (过去式 wrote down, 过去分词 written down)",
           "collocations": [
             "write down notes",
@@ -11737,7 +11737,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪkˈsplɔːr/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/explore_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/explore_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/explore_2.jpg",
           "usage": "v. (explored, explored)",
           "collocations": [
             "explore the world",
@@ -11771,7 +11771,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/tent/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/tent_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/tent_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/tent_2.jpg",
           "usage": "名词 n.",
           "collocations": [
             "pitch a tent",
@@ -11806,7 +11806,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkjuːkʌmbər/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/cucumber_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/cucumber_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/cucumber_2.jpg",
           "usage": "名词 n.",
           "collocations": [
             "cucumber salad",
@@ -11839,7 +11839,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/streɪt/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/straight_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/straight_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/straight_2.jpg",
           "usage": "adj. / adv.",
           "collocations": [
             "go straight",
@@ -11872,7 +11872,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/fɪl/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/fill_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/fill_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/fill_2.jpg",
           "usage": "v. (filled, filled)",
           "collocations": [
             "fill in (a form); fill up (a glass)"
@@ -11903,7 +11903,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈbɑːskɪt/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/basket_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/basket_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/basket_2.jpg",
           "usage": "名词 n.",
           "collocations": [
             "picnic basket",
@@ -11938,7 +11938,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/tiːtʃ/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/teach_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/teach_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/teach_2.jpg",
           "usage": "v. (taught, taught)",
           "collocations": [
             "teach a lesson",
@@ -11973,7 +11973,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/bræntʃ/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/branch_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/branch_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/branch_2.jpg",
           "usage": "n. (复数 branches); v. (过去式 branched, 过去分词 branched)",
           "collocations": [
             "tree branch",
@@ -12007,7 +12007,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/liːf/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/leaf_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/leaf_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/leaf_2.jpg",
           "usage": "n. (复数 leaves)",
           "collocations": [
             "autumn leaf",
@@ -12041,7 +12041,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈfaɪnəli/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/finally_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/finally_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/finally_2.jpg",
           "usage": "adv.",
           "collocations": [
             "finally achieve",
@@ -12074,7 +12074,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/θɪŋk ɒv/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/think_of_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/think_of_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/think_of_2.jpg",
           "usage": "v. to consider or remember something",
           "collocations": [
             "think of a solution",
@@ -12106,7 +12106,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡreɪn/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/grain_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/grain_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/grain_2.jpg",
           "usage": "n. (复数 grains)",
           "collocations": [
             "a grain of sand",
@@ -12138,7 +12138,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/freʃ/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/fresh_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/fresh_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/fresh_2.jpg",
           "usage": "adj. ",
           "collocations": [
             "fresh air",
@@ -12171,7 +12171,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsɜːrtənli/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/certainly_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/certainly_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/certainly_2.jpg",
           "usage": "adv.",
           "collocations": [
             "certainly agree",
@@ -12204,7 +12204,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈdaɪəri/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/diary_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/diary_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/diary_2.jpg",
           "usage": "n. (复数 diaries)",
           "collocations": [
             "keep a diary",
@@ -12238,7 +12238,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈentri/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/entry_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/entry_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/entry_2.jpg",
           "usage": "n. (复数 entries)",
           "collocations": [
             "make an entry",
@@ -12271,7 +12271,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈɡriː/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/agree_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/agree_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/agree_2.jpg",
           "usage": "v. (agreed, agreed)",
           "collocations": [
             "agree with",
@@ -12306,7 +12306,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/miːt ʌp/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/meet_up_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/meet_up_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/meet_up_2.jpg",
           "usage": "v. (过去式 met up, 过去分词 met up)",
           "collocations": [
             "meet up with someone",
@@ -12338,7 +12338,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/mjuːˈziːəm/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/museum_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/museum_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/museum_2.jpg",
           "usage": "n. (复数 museums)",
           "collocations": [
             "art museum",
@@ -12373,7 +12373,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌeksɪˈbɪʃn/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/exhibition_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/exhibition_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/exhibition_2.jpg",
           "usage": "n.",
           "collocations": [
             "art exhibition",
@@ -12407,7 +12407,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/dəˈrekʃn/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/direction_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/direction_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/direction_2.jpg",
           "usage": "名词 n.",
           "collocations": [
             "in the direction of",
@@ -12442,7 +12442,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/trɪp/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/trip_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/trip_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/trip_2.jpg",
           "usage": "n. 旅行, 绊倒; v. (tripped, tripped) 绊倒, 旅行",
           "collocations": [
             "school trip",
@@ -12477,7 +12477,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈweɪstˌwɔːtər/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/wastewater_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/wastewater_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/wastewater_2.jpg",
           "usage": "名词 n.",
           "collocations": [
             "treat wastewater",
@@ -12511,7 +12511,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/plænt/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/plant_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/plant_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/plant_2.jpg",
           "usage": "n. / v. (过去式 planted, 过去分词 planted)",
           "collocations": [
             "plant trees",
@@ -12545,7 +12545,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈɪntuː/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/into_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/into_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/into_2.jpg",
           "usage": "prep. 表示方向、位置或状态的改变",
           "collocations": [
             "get into",
@@ -12580,7 +12580,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/rɪˈmuːv/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/remove_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/remove_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/remove_2.jpg",
           "usage": "v. (removed, removed)",
           "collocations": [
             "remove stains",
@@ -12613,7 +12613,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/piːs/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/piece_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/piece_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/piece_2.jpg",
           "usage": "n. (复数 pieces)",
           "collocations": [
             "a piece of cake",
@@ -12646,7 +12646,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/weɪst/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/waste_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/waste_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/waste_2.jpg",
           "usage": "v. (wasted, wasted); n. (uncountable)",
           "collocations": [
             "waste time",
@@ -12680,7 +12680,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/məˈʃiːn/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/machine_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/machine_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/machine_2.jpg",
           "usage": "名词 n.",
           "collocations": [
             "vending machine",
@@ -12714,7 +12714,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/dʒɜːrm/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/germ_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/germ_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/germ_2.jpg",
           "usage": "n. (复数 germs)",
           "collocations": [
             "spread germs",
@@ -12747,7 +12747,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/step/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/step_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/step_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/step_2.jpg",
           "usage": "n. (复数 steps)；v. (过去式 stepped, 过去分词 stepped)",
           "collocations": [
             "take a step",
@@ -12782,7 +12782,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈjuːst tuː/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/used_to_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/used_to_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/used_to_2.jpg",
           "usage": "情态动词。表示过去经常做但现在不再做的事情或过去的状态。",
           "collocations": [
             "used to do something"
@@ -12813,7 +12813,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈriːəlaɪz/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/realize_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/realize_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/realize_2.jpg",
           "usage": "v. (realized, realized)",
           "collocations": [
             "realize a dream",
@@ -12846,7 +12846,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪnˈsaɪd/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/inside_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/inside_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/inside_2.jpg",
           "usage": "prep. adv. adj. n.",
           "collocations": [
             "inside the box",
@@ -12879,7 +12879,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡoʊ ɒn ə trɪp/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/go_on_a_trip_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/go_on_a_trip_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/go_on_a_trip_2.jpg",
           "usage": "v. to take a journey; to travel for pleasure or a specific purpose",
           "collocations": [
             "go on a school trip",
@@ -12913,7 +12913,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈɡriː wɪð/",
           "phonemes": [],
           "image": "../../G7_B2/Unit7/images/agree_with_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit7/images/agree_with_2.jpg",
+          "image2": "../../G7_B2/Unit7/images/agree_with_2.jpg",
           "usage": "v. 表示与某人或某观点持有相同意见。",
           "collocations": [
             "agree with a person",
@@ -12955,7 +12955,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈkwɪkli/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/quickly_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/quickly_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/quickly_2.jpg",
           "usage": "adv.",
           "collocations": [
             "quickly learn",
@@ -12989,7 +12989,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/smaɪl/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/smile_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/smile_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/smile_2.jpg",
           "usage": "n. / v. (过去式 smiled, 过去分词 smiled)",
           "collocations": [
             "bright smile",
@@ -13023,7 +13023,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌɔːl ˈoʊvər/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/all_over_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/all_over_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/all_over_2.jpg",
           "usage": "短语 adv.",
           "collocations": [
             "all over the world",
@@ -13055,7 +13055,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈʌɡli/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/ugly_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/ugly_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/ugly_2.jpg",
           "usage": "adj. (uglier, ugliest)",
           "collocations": [
             "ugly building",
@@ -13088,7 +13088,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈdʌklɪŋ/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/duckling_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/duckling_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/duckling_2.jpg",
           "usage": "名词 n. 小鸭",
           "collocations": [
             "baby duckling",
@@ -13122,7 +13122,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/riːəl/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/real_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/real_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/real_2.jpg",
           "usage": "adj. really adv.",
           "collocations": [
             "real life",
@@ -13155,7 +13155,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/læf æt/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/laugh_at_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/laugh_at_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/laugh_at_2.jpg",
           "usage": "v. to make fun of someone or something",
           "collocations": [
             "laugh at someone's mistake",
@@ -13185,7 +13185,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡoʊ əˈweɪ/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/go_away_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/go_away_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/go_away_2.jpg",
           "usage": "v. (过去式 went away, 过去分词 gone away)",
           "collocations": [
             "tell someone to go away",
@@ -13217,7 +13217,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/sɜːrtʃ/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/search_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/search_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/search_2.jpg",
           "usage": "v. (searched, searched); n.",
           "collocations": [
             "search for",
@@ -13251,7 +13251,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/sɜːrtʃ fɔːr/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/search_for_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/search_for_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/search_for_2.jpg",
           "usage": "v. 寻找，搜索",
           "collocations": [
             "search for clues",
@@ -13284,7 +13284,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/hen/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/hen_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/hen_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/hen_2.jpg",
           "usage": "n.",
           "collocations": [
             "mother hen",
@@ -13318,7 +13318,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈhoʊpfəli/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/hopefully_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/hopefully_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/hopefully_2.jpg",
           "usage": "adv.",
           "collocations": [
             "hopefully succeed",
@@ -13351,7 +13351,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/pɜːr/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/purr_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/purr_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/purr_2.jpg",
           "usage": "v. (过去式 purred, 过去分词 purred)",
           "collocations": [
             "soft purr",
@@ -13383,7 +13383,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/leɪ/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/lay_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/lay_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/lay_2.jpg",
           "usage": "v. (过去式 laid, 过去分词 laid)",
           "collocations": [
             "lay the table",
@@ -13418,7 +13418,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/swɒn/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/swan_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/swan_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/swan_2.jpg",
           "usage": "n. (复数 swans)",
           "collocations": [
             "black swan",
@@ -13452,7 +13452,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈfeðər/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/feather_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/feather_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/feather_2.jpg",
           "usage": "n. (复数 feathers)",
           "collocations": [
             "light as a feather",
@@ -13484,7 +13484,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/tuː ˈsʌmbɒdi/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/to_sb_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/to_sb_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/to_sb_2.jpg",
           "usage": "介词短语。表示给予、告知或提及的对象。",
           "collocations": [
             "give sth to sb",
@@ -13515,7 +13515,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/saɪz/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/size_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/size_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/size_2.jpg",
           "usage": "n. 尺寸，大小; v. (sized, sized) 测量尺寸，按尺寸排列",
           "collocations": [
             "size of",
@@ -13548,7 +13548,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/bɪˈliːv/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/believe_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/believe_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/believe_2.jpg",
           "usage": "v. (过去式 believed, 过去分词 believed); n. belief",
           "collocations": [
             "believe in; hard to believe; make believe"
@@ -13579,7 +13579,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈoʊnli ɪf/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/only_if_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/only_if_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/only_if_2.jpg",
           "usage": "连词短语。表示唯一的条件。",
           "collocations": [
             "only if + clause"
@@ -13608,7 +13608,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈfɪʃərmən/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/fisherman_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/fisherman_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/fisherman_2.jpg",
           "usage": "n. (复数 fishermen)",
           "collocations": [
             "local fisherman",
@@ -13641,7 +13641,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈfɪʃərmən/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/fishermen_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/fishermen_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/fishermen_2.jpg",
           "usage": "fisherman n. (复数 fishermen)",
           "collocations": [
             "local fishermen",
@@ -13676,7 +13676,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈfɪʃɪŋ/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/fishing_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/fishing_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/fishing_2.jpg",
           "usage": "n. 钓鱼；捕鱼；adj. 钓鱼的",
           "collocations": [
             "go fishing",
@@ -13710,7 +13710,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kʌm aʊt/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/come_out_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/come_out_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/come_out_2.jpg",
           "usage": "短语动词。表示从隐藏或不为人知的状态变为可见或公开。",
           "collocations": [
             "come out of",
@@ -13743,7 +13743,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈdʒiːni/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/genie_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/genie_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/genie_2.jpg",
           "usage": "n. (复数 genies 或 genii)",
           "collocations": [
             "magic genie",
@@ -13776,7 +13776,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/daɪ/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/die_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/die_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/die_2.jpg",
           "usage": "v. (died, died)",
           "collocations": [
             "die of",
@@ -13810,7 +13810,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/meɪk ə ˈprɒmɪs/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/make_a_promise_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/make_a_promise_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/make_a_promise_2.jpg",
           "usage": "v. 做出承诺",
           "collocations": [
             "keep a promise",
@@ -13843,7 +13843,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsʌmwʌn/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/someone_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/someone_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/someone_2.jpg",
           "usage": "代词 pronoun",
           "collocations": [
             "someone else",
@@ -13879,7 +13879,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/set/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/set_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/set_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/set_2.jpg",
           "usage": "v. (过去式 set, 过去分词 set)；n.",
           "collocations": [
             "set up",
@@ -13913,7 +13913,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/rɪtʃ/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/rich_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/rich_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/rich_2.jpg",
           "usage": "adj. richer, richest",
           "collocations": [
             "rich in",
@@ -13946,7 +13946,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈpaʊərfl/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/powerful_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/powerful_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/powerful_2.jpg",
           "usage": "adj. (比较级 more powerful, 最高级 most powerful); 副词 powerfully",
           "collocations": [
             "powerful engine",
@@ -13979,7 +13979,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ʌpˈset/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/upset_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/upset_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/upset_2.jpg",
           "usage": "adj. / v. (过去式 upset, 过去分词 upset)",
           "collocations": [
             "get upset",
@@ -14011,7 +14011,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈpɒn/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/upon_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/upon_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/upon_2.jpg",
           "usage": "prep.",
           "collocations": [
             "once upon a time",
@@ -14045,7 +14045,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˌwʌns əˌpɒn ə ˈtaɪm/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/once_upon_a_time_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/once_upon_a_time_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/once_upon_a_time_2.jpg",
           "usage": "短语，用于故事的开头",
           "collocations": [
             "begin with once upon a time"
@@ -14076,7 +14076,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/baɪt/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/bite_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/bite_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/bite_2.jpg",
           "usage": "v. (过去式 bit, 过去分词 bitten)",
           "collocations": [
             "take a bite",
@@ -14109,7 +14109,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/baɪt θruː/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/bite_through_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/bite_through_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/bite_through_2.jpg",
           "usage": "v. (过去式 bit through, 过去分词 bitten through)",
           "collocations": [
             "bite through a rope",
@@ -14141,7 +14141,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/net/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/net_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/net_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/net_2.jpg",
           "usage": "n. (复数 nets); adj.",
           "collocations": [
             "fishing net",
@@ -14175,7 +14175,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈhʌntər/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/hunter_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/hunter_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/hunter_2.jpg",
           "usage": "n. (复数 hunters)",
           "collocations": [
             "animal hunter",
@@ -14207,7 +14207,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈprɒmɪs/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/promise_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/promise_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/promise_2.jpg",
           "usage": "n. 承诺，诺言; v. (promised, promised) 答应，允诺",
           "collocations": [
             "make a promise",
@@ -14242,7 +14242,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/lɔŋ əˈɡoʊ/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/long_ago_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/long_ago_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/long_ago_2.jpg",
           "usage": "adv. 很久以前",
           "collocations": [
             "many years long ago",
@@ -14274,7 +14274,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/wɔːr/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/war_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/war_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/war_2.jpg",
           "usage": "n. (wars) / v. (warred, warred)",
           "collocations": [
             "declare war",
@@ -14309,7 +14309,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈneɪbər/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/neighbour_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/neighbour_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/neighbour_2.jpg",
           "usage": "n. (美拼 neighbor)",
           "collocations": [
             "good neighbour",
@@ -14343,7 +14343,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/waɪz/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/wise_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/wise_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/wise_2.jpg",
           "usage": "adj. wiser, wisest; wisely (adv.)",
           "collocations": [
             "wise decision",
@@ -14378,7 +14378,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈempərər/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/emperor_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/emperor_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/emperor_2.jpg",
           "usage": "n. (复数 emperors)",
           "collocations": [
             "ancient emperor",
@@ -14411,7 +14411,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/laɪ/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/lie_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/lie_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/lie_2.jpg",
           "usage": "v. (过去式 lay, 过去分词 lain)；n. (复数 lies)",
           "collocations": [
             "tell a lie",
@@ -14445,7 +14445,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/prɪˈtend/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/pretend_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/pretend_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/pretend_2.jpg",
           "usage": "v. (pretended, pretended)",
           "collocations": [
             "pretend to be; pretend to do"
@@ -14476,7 +14476,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈfɪʃl/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/official_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/official_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/official_2.jpg",
           "usage": "adj. ",
           "collocations": [
             "official announcement",
@@ -14509,7 +14509,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsɪli/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/silly_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/silly_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/silly_2.jpg",
           "usage": "adj. ",
           "collocations": [
             "silly mistake",
@@ -14542,7 +14542,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/dɪˈsaɪd/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/decide_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/decide_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/decide_2.jpg",
           "usage": "v. (过去式 decided, 过去分词 decided)",
           "collocations": [
             "decide on",
@@ -14575,7 +14575,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/preɪz/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/praise_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/praise_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/praise_2.jpg",
           "usage": "v. (过去式 praised, 过去分词 praised); n.",
           "collocations": [
             "praise for",
@@ -14608,7 +14608,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/əˈfreɪd/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/afraid_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/afraid_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/afraid_2.jpg",
           "usage": "adj. ",
           "collocations": [
             "be afraid of",
@@ -14640,7 +14640,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈsʌdənli/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/suddenly_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/suddenly_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/suddenly_2.jpg",
           "usage": "adv.",
           "collocations": [
             "suddenly appear",
@@ -14673,7 +14673,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/æt fɜːrst/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/at_first_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/at_first_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/at_first_2.jpg",
           "usage": "adv. 最初，起先",
           "collocations": [
             "at first sight",
@@ -14705,7 +14705,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/truːθ/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/truth_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/truth_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/truth_2.jpg",
           "usage": "n. (复数 truths)",
           "collocations": [
             "tell the truth",
@@ -14739,7 +14739,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/tel ðə truːθ/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/tell_the_truth_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/tell_the_truth_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/tell_the_truth_2.jpg",
           "usage": "v. 说实话",
           "collocations": [
             "always tell the truth",
@@ -14771,7 +14771,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/meɪk ˈmʌni/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/make_money_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/make_money_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/make_money_2.jpg",
           "usage": "v. (made money, made money) to earn income or profit",
           "collocations": [
             "make a lot of money",
@@ -14805,7 +14805,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/truː/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/true_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/true_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/true_2.jpg",
           "usage": "adj. (truer, truest) 真实的，正确的",
           "collocations": [
             "true story",
@@ -14838,7 +14838,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/heɪt/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/hate_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/hate_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/hate_2.jpg",
           "usage": "v. (hated, hated) to dislike someone or something very much; n. hatred",
           "collocations": [
             "hate doing something",
@@ -14871,7 +14871,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɡɛt aʊt/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/get_out_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/get_out_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/get_out_2.jpg",
           "usage": "v. (过去式 got out, 过去分词 gotten out)",
           "collocations": [
             "get out of bed",
@@ -14904,7 +14904,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/kɪŋ/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/king_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/king_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/king_2.jpg",
           "usage": "n.",
           "collocations": [
             "king of the jungle",
@@ -14936,7 +14936,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈɑːrtɪst/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/artist_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/artist_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/artist_2.jpg",
           "usage": "n. (复数 artists)",
           "collocations": [
             "famous artist",
@@ -14969,7 +14969,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ˈeniwʌn/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/anyone_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/anyone_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/anyone_2.jpg",
           "usage": "代词 pronoun",
           "collocations": [
             "anyone else",
@@ -15001,7 +15001,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪnˈsted ɒv/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/instead_of_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/instead_of_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/instead_of_2.jpg",
           "usage": "prep. 短语",
           "collocations": [
             "use instead of",
@@ -15033,7 +15033,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/səkˈsiːd ɪn ˈduːɪŋ ˌsʌmθɪŋ/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/succeed_in_doing_sth_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/succeed_in_doing_sth_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/succeed_in_doing_sth_2.jpg",
           "usage": "v. to achieve something that you have been trying to do",
           "collocations": [
             "succeed in life",
@@ -15066,7 +15066,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/hɪmˈself/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/himself_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/himself_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/himself_2.jpg",
           "usage": "代词 pron. (反身代词)",
           "collocations": [
             "by himself",
@@ -15098,7 +15098,7 @@ const TEXTBOOK_DATA = {
           "ipa": "/ɪn ðə end/",
           "phonemes": [],
           "image": "../../G7_B2/Unit8/images/in_the_end_1.jpg",
-          "image2": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/junior_vocab/G7_B2/Unit8/images/in_the_end_2.jpg",
+          "image2": "../../G7_B2/Unit8/images/in_the_end_2.jpg",
           "usage": "短语，表示最终的结果或结论。",
           "collocations": [
             "in the end",
