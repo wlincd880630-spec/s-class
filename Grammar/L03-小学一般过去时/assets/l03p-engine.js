@@ -268,16 +268,33 @@
     if (btn)
       btn.addEventListener("click", function () {
         if (morph) {
+          var base = page.morphBase || "play";
+          var past = page.morphPast || "played";
+          var hi = page.morphHighlight || "ed";
+          var pastHtml = past;
+          if (hi && past.toLowerCase().endsWith(hi.toLowerCase())) {
+            pastHtml =
+              esc(past.slice(0, past.length - hi.length)) +
+              '<span style="color:#c62828">' +
+              esc(hi) +
+              "</span>";
+          } else {
+            pastHtml = esc(past);
+          }
           morph.innerHTML =
-            '<span class="l03p-token l03p-token--subj">I</span><span class="l03p-token l03p-token--verb">play</span>' +
-            '<span style="font-weight:900;color:#888;margin:0 .35rem">vs</span>' +
-            '<span class="l03p-token l03p-token--subj">He</span><span class="l03p-token l03p-token--verb l03p-token--pop">play<span style="color:#c62828">s</span></span>';
+            '<span class="l03p-token l03p-token--verb">' +
+            esc(base) +
+            "</span>" +
+            '<span style="font-weight:900;color:#888;margin:0 .35rem">→</span>' +
+            '<span class="l03p-token l03p-token--verb l03p-token--pop">' +
+            pastHtml +
+            "</span>";
         }
         if (fb) {
           fb.className = "l03p-fb is-show l03p-fb--ok";
-          fb.textContent = page.discovery || "He/She/It 后面动词要加 s！";
+          fb.textContent = page.discovery || "过去发生的动作，规则动词要加 -ed：play → played！";
         }
-        speak("I play football. He plays football.");
+        speak(page.morphSpeak || page.leftSentence + " " + page.rightSentence);
       });
   }
 

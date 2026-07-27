@@ -344,8 +344,16 @@ pages.push({
   zh: were1.zh,
 });
 
-const reg1 = first(sReg, 0);
-const reg2 = first(sReg, 1);
+/** 对比页专用：必须是 play → played，不能被语料首句冲掉 */
+const playPast =
+  sReg.find((s) => /\bplayed\b/i.test(s.en) && /\bfootball\b/i.test(s.en)) ||
+  sReg.find((s) => /\bplayed\b/i.test(s.en)) ||
+  first(sReg, 0);
+const reg1 = playPast;
+const reg2 = first(
+  sReg.filter((s) => s !== playPast),
+  0
+);
 const irr1 = first(sIrr, 0);
 const irr2 = first(sIrr, 1);
 
@@ -357,14 +365,18 @@ pages.push({
   badge: "demo",
   badgeText: "🔍 自我发现",
   lead: "点击左右卡片听句子，再点「我发现了」对比动词变化。",
-  leftImage: "l03p-past-vs-present.jpg",
+  leftImage: "l03p-playground.jpg",
   leftLabel: "I play football every day.",
-  rightImage: reg1.image,
-  rightLabel: reg1.en,
+  rightImage: playPast.image,
+  rightLabel: playPast.en,
   leftSentence: "I play football every day.",
   leftZh: "我每天踢足球。",
-  rightSentence: reg1.en,
-  rightZh: reg1.zh,
+  rightSentence: playPast.en,
+  rightZh: playPast.zh,
+  morphBase: "play",
+  morphPast: "played",
+  morphHighlight: "ed",
+  morphSpeak: "I play football every day. " + playPast.en,
   discovery: "发现了吗？过去发生的动作，规则动词要加 -ed：play → played！",
 });
 

@@ -1,6 +1,7 @@
 (function (global) {
   "use strict";
   global.L03pScenes = {
+  "Lily played football with her friends in the park yesterday.": "l03p-scene-lily-played-football-with-her-friends-in-the-par.jpg",
   "Lily sprinted in the school sports day race with her hair flying.": "l03p-scene-lily-sprinted-in-the-school-sports-day-race-with.jpg",
   "Tom stood under a yellow umbrella in the heavy rain.": "l03p-scene-tom-stood-under-a-yellow-umbrella-in-the-heavy-r.jpg",
   "Emma blew out candles on her birthday cake with a big smile.": "l03p-scene-emma-blew-out-candles-on-her-birthday-cake-with-.jpg",

@@ -8,7 +8,7 @@
     "type": "sound-first",
     "badge": "sound",
     "badgeText": "🔊 声音先行",
-    "audio": "Lily was proud after she won the sports day race yesterday. Lily sprinted in the school sports day race with her hair flying.",
+    "audio": "Lily was proud after she won the sports day race yesterday. Lily played football with her friends in the park yesterday.",
     "soundHint": "先听，不要看文字。听完再点「显示」。这些事发生在什么时候？",
     "question": "这些句子说的是现在，还是过去？",
     "image": "l03p-scene-lily-was-proud-after-she-won-the-sports-day-race.jpg",
@@ -283,14 +283,18 @@
     "badge": "demo",
     "badgeText": "🔍 自我发现",
     "lead": "点击左右卡片听句子，再点「我发现了」对比动词变化。",
-    "leftImage": "l03p-past-vs-present.jpg",
+    "leftImage": "l03p-playground.jpg",
     "leftLabel": "I play football every day.",
-    "rightImage": "l03p-scene-lily-sprinted-in-the-school-sports-day-race-with.jpg",
-    "rightLabel": "Lily sprinted in the school sports day race with her hair flying.",
+    "rightImage": "l03p-scene-lily-played-football-with-her-friends-in-the-par.jpg",
+    "rightLabel": "Lily played football with her friends in the park yesterday.",
     "leftSentence": "I play football every day.",
     "leftZh": "我每天踢足球。",
-    "rightSentence": "Lily sprinted in the school sports day race with her hair flying.",
-    "rightZh": "莉莉在校运动会赛跑中冲刺，头发飞扬",
+    "rightSentence": "Lily played football with her friends in the park yesterday.",
+    "rightZh": "莉莉昨天和朋友们在公园踢足球。",
+    "morphBase": "play",
+    "morphPast": "played",
+    "morphHighlight": "ed",
+    "morphSpeak": "I play football every day. Lily played football with her friends in the park yesterday.",
     "discovery": "发现了吗？过去发生的动作，规则动词要加 -ed：play → played！"
   },
   {
@@ -300,12 +304,12 @@
     "type": "scene",
     "badge": "action",
     "badgeText": "🏃 +ed",
-    "image": "l03p-scene-lily-sprinted-in-the-school-sports-day-race-with.jpg",
+    "image": "l03p-scene-lily-played-football-with-her-friends-in-the-par.jpg",
     "lead": "规则变化：原形 + ed",
-    "sentence": "Lily sprinted in the school sports day race with her hair flying.",
-    "zh": "莉莉在校运动会赛跑中冲刺，头发飞扬",
+    "sentence": "Lily played football with her friends in the park yesterday.",
+    "zh": "莉莉昨天和朋友们在公园踢足球。",
     "verbType": "action",
-    "source": "教材场景"
+    "source": "教材对比句 · play→played"
   },
   {
     "id": "p13",
@@ -314,10 +318,10 @@
     "type": "scene",
     "badge": "action",
     "badgeText": "🏃 +ed",
-    "image": "l03p-scene-tom-stood-under-a-yellow-umbrella-in-the-heavy-r.jpg",
+    "image": "l03p-scene-lily-sprinted-in-the-school-sports-day-race-with.jpg",
     "lead": "注意时间标志词",
-    "sentence": "Tom stood under a yellow umbrella in the heavy rain.",
-    "zh": "汤姆在大雨中站在一把黄色雨伞下",
+    "sentence": "Lily sprinted in the school sports day race with her hair flying.",
+    "zh": "莉莉在校运动会赛跑中冲刺，头发飞扬",
     "verbType": "action",
     "source": "教材场景"
   },
@@ -328,7 +332,7 @@
     "type": "spelling",
     "badge": "demo",
     "badgeText": "✏️ 规律",
-    "image": "l03p-scene-lily-sprinted-in-the-school-sports-day-race-with.jpg",
+    "image": "l03p-scene-lily-played-football-with-her-friends-in-the-par.jpg",
     "rules": [
       {
         "tab": "规则① +ed",
@@ -351,8 +355,8 @@
             "to": "wanted"
           }
         ],
-        "sample": "Lily sprinted in the school sports day race with her hair flying.",
-        "sampleZh": "莉莉在校运动会赛跑中冲刺，头发飞扬"
+        "sample": "Lily played football with her friends in the park yesterday.",
+        "sampleZh": "莉莉昨天和朋友们在公园踢足球。"
       },
       {
         "tab": "规则② +d",
@@ -371,8 +375,8 @@
             "to": "hoped"
           }
         ],
-        "sample": "Tom stood under a yellow umbrella in the heavy rain.",
-        "sampleZh": "汤姆在大雨中站在一把黄色雨伞下"
+        "sample": "Lily sprinted in the school sports day race with her hair flying.",
+        "sampleZh": "莉莉在校运动会赛跑中冲刺，头发飞扬"
       },
       {
         "tab": "规则③ y→ied",
@@ -419,7 +423,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-lily-sprinted-in-the-school-sports-day-race-with.jpg",
+    "image": "l03p-scene-lily-played-football-with-her-friends-in-the-par.jpg",
     "q": "Tom ___ his homework last night.",
     "opts": [
       "finished",
@@ -440,7 +444,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-tom-stood-under-a-yellow-umbrella-in-the-heavy-r.jpg",
+    "image": "l03p-scene-lily-sprinted-in-the-school-sports-day-race-with.jpg",
     "q": "Lily ___ to the park yesterday morning.",
     "opts": [
       "walked",
@@ -607,7 +611,7 @@
     "steps": [
       {
         "html": "<span class=\"l03p-token l03p-token--subj\">Lily</span><span class=\"l03p-token l03p-token--verb\">played</span><span class=\"l03p-token l03p-token--obj\">football</span>",
-        "speak": "Lily sprinted in the school sports day race with her hair flying."
+        "speak": "Lily played football with her friends in the park yesterday."
       },
       {
         "html": "<span class=\"l03p-token l03p-token--subj\">Lily</span><span class=\"l03p-token l03p-token--aux\">didn't</span><span class=\"l03p-token l03p-token--verb\">play</span><span class=\"l03p-token l03p-token--obj\">football</span>",
@@ -744,24 +748,22 @@
     "type": "picture-build",
     "badge": "action",
     "badgeText": "🧩 造句",
-    "image": "l03p-scene-lily-sprinted-in-the-school-sports-day-race-with.jpg",
+    "image": "l03p-scene-lily-played-football-with-her-friends-in-the-par.jpg",
     "instruction": "单词已打乱。点选填入空格，组成正确过去时句子：",
     "tokens": [
       "Lily",
-      "sprinted",
-      "in",
-      "the",
-      "school",
-      "sports",
-      "day",
-      "race",
+      "played",
+      "football",
       "with",
       "her",
-      "hair",
-      "flying"
+      "friends",
+      "in",
+      "the",
+      "park",
+      "yesterday"
     ],
-    "sentence": "Lily sprinted in the school sports day race with her hair flying.",
-    "zh": "莉莉在校运动会赛跑中冲刺，头发飞扬"
+    "sentence": "Lily played football with her friends in the park yesterday.",
+    "zh": "莉莉昨天和朋友们在公园踢足球。"
   },
   {
     "id": "p32",
@@ -962,7 +964,7 @@
     "badgeText": "📖 词汇",
     "pool": "vocabRegular",
     "lead": "规则过去式 · 可点词查 DeepSeek 词典",
-    "image": "l03p-scene-lily-sprinted-in-the-school-sports-day-race-with.jpg"
+    "image": "l03p-scene-lily-played-football-with-her-friends-in-the-par.jpg"
   },
   {
     "id": "p39",
@@ -993,6 +995,20 @@
     "type": "scene",
     "badge": "action",
     "badgeText": "🖼 例句",
+    "image": "l03p-scene-lily-sprinted-in-the-school-sports-day-race-with.jpg",
+    "lead": "DeepSeek 语料 · 教材场景",
+    "sentence": "Lily sprinted in the school sports day race with her hair flying.",
+    "zh": "莉莉在校运动会赛跑中冲刺，头发飞扬",
+    "verbType": "regular",
+    "source": "教材场景"
+  },
+  {
+    "id": "p42",
+    "section": "拓展例句",
+    "title": "拓展例句 · regular",
+    "type": "scene",
+    "badge": "action",
+    "badgeText": "🖼 例句",
     "image": "l03p-scene-tom-stood-under-a-yellow-umbrella-in-the-heavy-r.jpg",
     "lead": "DeepSeek 语料 · 教材场景",
     "sentence": "Tom stood under a yellow umbrella in the heavy rain.",
@@ -1001,7 +1017,7 @@
     "source": "教材场景"
   },
   {
-    "id": "p42",
+    "id": "p43",
     "section": "拓展例句",
     "title": "拓展例句 · regular",
     "type": "scene",
@@ -1015,7 +1031,7 @@
     "source": "教材场景"
   },
   {
-    "id": "p43",
+    "id": "p44",
     "section": "拓展例句",
     "title": "拓展例句 · regular",
     "type": "scene",
@@ -1025,20 +1041,6 @@
     "lead": "DeepSeek 语料 · 教材场景",
     "sentence": "Jack and Chen Tao watched steam rise from a hotpot in winter.",
     "zh": "杰克和陈涛在冬天看着火锅升起的蒸汽",
-    "verbType": "regular",
-    "source": "教材场景"
-  },
-  {
-    "id": "p44",
-    "section": "拓展例句",
-    "title": "拓展例句 · regular",
-    "type": "scene",
-    "badge": "action",
-    "badgeText": "🖼 例句",
-    "image": "l03p-scene-miss-li-and-mr-wang-taught-students-in-the-libra.jpg",
-    "lead": "DeepSeek 语料 · 教材场景",
-    "sentence": "Miss Li and Mr Wang taught students in the library corner.",
-    "zh": "李老师和王老师在图书馆角落教学生",
     "verbType": "regular",
     "source": "教材场景"
   },
