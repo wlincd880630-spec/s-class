@@ -654,7 +654,7 @@
     "type": "scene",
     "badge": "neg",
     "badgeText": "🚫 否定",
-    "image": "l03p-scene-teng-fei-didn-t-climb-the-tall-tree-because-he-f.jpg",
+    "image": "l03p-scene-teng-fei-did-not-climb-the-tall-tree-because-he-.jpg",
     "lead": "be 用 wasn't/weren't；实义动词用 didn't + 原形",
     "sentence": "Teng Fei didn't climb the tall tree because he felt scared.",
     "zh": "腾飞没有爬那棵高树，因为他感到害怕",
@@ -1460,7 +1460,7 @@
     "type": "listen-order",
     "badge": "sound",
     "badgeText": "🎧 听音",
-    "image": "l03p-scene-teng-fei-didn-t-climb-the-tall-tree-because-he-f.jpg",
+    "image": "l03p-scene-teng-fei-did-not-climb-the-tall-tree-because-he-.jpg",
     "audio": "Teng Fei didn't climb the tall tree because he felt scared.",
     "tokens": [
       "Teng",
