@@ -401,6 +401,63 @@ pages.push({
 pages.push(scenePage("p12", "规则动词", "规则动词例句 ①", "action", "🏃 +ed", reg1, "规则变化：原形 + ed", "action"));
 pages.push(scenePage("p13", "规则动词", "规则动词例句 ②", "action", "🏃 +ed", reg2, "注意时间标志词", "action"));
 
+const spellSamples = [
+  {
+    tab: "规则① +ed",
+    rule: "大多数规则动词直接加 ed",
+    examples: [
+      { from: "play", to: "played" },
+      { from: "watch", to: "watched" },
+      { from: "clean", to: "cleaned" },
+      { from: "want", to: "wanted" },
+    ],
+    sample: "Lily played football with her friends in the park yesterday.",
+    sampleZh: "莉莉昨天和朋友们在公园踢足球。",
+    sampleImage: playPast.image,
+    focusVerb: "played",
+  },
+  {
+    tab: "规则② +d",
+    rule: "以不发音 e 结尾，只加 d",
+    examples: [
+      { from: "live", to: "lived" },
+      { from: "like", to: "liked" },
+      { from: "hope", to: "hoped" },
+    ],
+    sample: "Emma liked the colorful lanterns at the festival last night.",
+    sampleZh: "艾玛昨晚很喜欢节日里那些彩色的灯笼。",
+    sampleImage: imgName("l03p-scene-", "Emma liked the colorful lanterns at the festival last night.", 901),
+    focusVerb: "liked",
+  },
+  {
+    tab: "规则③ y→ied",
+    rule: "辅音 + y 结尾：变 y 为 i 再加 ed",
+    examples: [
+      { from: "study", to: "studied" },
+      { from: "carry", to: "carried" },
+      { from: "try", to: "tried" },
+    ],
+    sample: "Han Lin studied English in the quiet library yesterday evening.",
+    sampleZh: "韩林昨天晚上在安静的图书馆学英语。",
+    sampleImage: imgName("l03p-scene-", "Han Lin studied English in the quiet library yesterday evening.", 902),
+    focusVerb: "studied",
+  },
+  {
+    tab: "规则④ 双写",
+    rule: "短元音 + 单辅音结尾，双写辅音再加 ed",
+    examples: [
+      { from: "stop", to: "stopped" },
+      { from: "plan", to: "planned" },
+      { from: "shop", to: "shopped" },
+    ],
+    sample: "The yellow school bus stopped in front of the gate yesterday.",
+    sampleZh: "黄色校车昨天停在校门口。",
+    sampleImage: imgName("l03p-scene-", "The yellow school bus stopped in front of the gate yesterday.", 903),
+    focusVerb: "stopped",
+  },
+];
+spellSamples.forEach((r) => useImg(r.sampleImage, r.sample, r.sample));
+
 pages.push({
   id: "p14",
   section: "规则动词",
@@ -408,50 +465,9 @@ pages.push({
   type: "spelling",
   badge: "demo",
   badgeText: "✏️ 规律",
-  image: reg1.image,
-  rules: [
-    {
-      tab: "规则① +ed",
-      rule: "大多数规则动词直接加 ed",
-      examples: [
-        { from: "play", to: "played" },
-        { from: "watch", to: "watched" },
-        { from: "clean", to: "cleaned" },
-        { from: "want", to: "wanted" },
-      ],
-      sample: reg1.en,
-      sampleZh: reg1.zh,
-    },
-    {
-      tab: "规则② +d",
-      rule: "以不发音 e 结尾，只加 d",
-      examples: [
-        { from: "live", to: "lived" },
-        { from: "like", to: "liked" },
-        { from: "hope", to: "hoped" },
-      ],
-      sample: first(sReg, 1).en,
-      sampleZh: first(sReg, 1).zh,
-    },
-    {
-      tab: "规则③ y→ied",
-      rule: "辅音 + y 结尾：变 y 为 i 再加 ed",
-      examples: [
-        { from: "study", to: "studied" },
-        { from: "carry", to: "carried" },
-        { from: "try", to: "tried" },
-      ],
-    },
-    {
-      tab: "规则④ 双写",
-      rule: "短元音 + 单辅音结尾，双写辅音再加 ed",
-      examples: [
-        { from: "stop", to: "stopped" },
-        { from: "plan", to: "planned" },
-        { from: "shop", to: "shopped" },
-      ],
-    },
-  ],
+  image: spellSamples[0].sampleImage,
+  lead: "点开每条规律，看动词变化，再读匹配的例句。",
+  rules: spellSamples,
 });
 
 pages.push({

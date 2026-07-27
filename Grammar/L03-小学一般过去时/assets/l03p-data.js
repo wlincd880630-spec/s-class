@@ -333,6 +333,7 @@
     "badge": "demo",
     "badgeText": "✏️ 规律",
     "image": "l03p-scene-lily-played-football-with-her-friends-in-the-par.jpg",
+    "lead": "点开每条规律，看动词变化，再读匹配的例句。",
     "rules": [
       {
         "tab": "规则① +ed",
@@ -356,7 +357,9 @@
           }
         ],
         "sample": "Lily played football with her friends in the park yesterday.",
-        "sampleZh": "莉莉昨天和朋友们在公园踢足球。"
+        "sampleZh": "莉莉昨天和朋友们在公园踢足球。",
+        "sampleImage": "l03p-scene-lily-played-football-with-her-friends-in-the-par.jpg",
+        "focusVerb": "played"
       },
       {
         "tab": "规则② +d",
@@ -375,8 +378,10 @@
             "to": "hoped"
           }
         ],
-        "sample": "Lily sprinted in the school sports day race with her hair flying.",
-        "sampleZh": "莉莉在校运动会赛跑中冲刺，头发飞扬"
+        "sample": "Emma liked the colorful lanterns at the festival last night.",
+        "sampleZh": "艾玛昨晚很喜欢节日里那些彩色的灯笼。",
+        "sampleImage": "l03p-scene-emma-liked-the-colorful-lanterns-at-the-festival.jpg",
+        "focusVerb": "liked"
       },
       {
         "tab": "规则③ y→ied",
@@ -394,7 +399,11 @@
             "from": "try",
             "to": "tried"
           }
-        ]
+        ],
+        "sample": "Han Lin studied English in the quiet library yesterday evening.",
+        "sampleZh": "韩林昨天晚上在安静的图书馆学英语。",
+        "sampleImage": "l03p-scene-han-lin-studied-english-in-the-quiet-library-yes.jpg",
+        "focusVerb": "studied"
       },
       {
         "tab": "规则④ 双写",
@@ -412,7 +421,11 @@
             "from": "shop",
             "to": "shopped"
           }
-        ]
+        ],
+        "sample": "The yellow school bus stopped in front of the gate yesterday.",
+        "sampleZh": "黄色校车昨天停在校门口。",
+        "sampleImage": "l03p-scene-the-yellow-school-bus-stopped-in-front-of-the-ga.jpg",
+        "focusVerb": "stopped"
       }
     ]
   },
