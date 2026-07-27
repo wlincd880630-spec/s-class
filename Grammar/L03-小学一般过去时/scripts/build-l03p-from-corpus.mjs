@@ -420,8 +420,8 @@ const spellSamples = [
     tab: "规则② +d",
     rule: "以不发音 e 结尾，只加 d",
     examples: [
-      { from: "live", to: "lived" },
       { from: "like", to: "liked" },
+      { from: "live", to: "lived" },
       { from: "hope", to: "hoped" },
     ],
     sample: "Emma liked the colorful lanterns at the festival last night.",
@@ -492,8 +492,78 @@ pages.push({
   ...(qRegular[1] || qRegular[0]),
 });
 
-pages.push(scenePage("p17", "不规则动词", "不规则 · went", "action", "⚡ 不规则", irr1, "不规则动词要整词记忆：go → went", "action"));
-pages.push(scenePage("p18", "不规则动词", "不规则 · 再练", "action", "⚡ 不规则", irr2, "看图说过去：发生了什么？", "action"));
+function baseOfPast(past) {
+  const map = {
+    went: "go",
+    stood: "stand",
+    ate: "eat",
+    ran: "run",
+    saw: "see",
+    bought: "buy",
+    wrote: "write",
+    gave: "give",
+    took: "take",
+    flew: "fly",
+    blew: "blow",
+    taught: "teach",
+    fed: "feed",
+    found: "find",
+    forgot: "forget",
+    came: "come",
+    made: "make",
+    said: "say",
+    had: "have",
+    did: "do",
+    was: "be",
+    were: "be",
+    played: "play",
+    sprinted: "sprint",
+    watched: "watch",
+    liked: "like",
+    studied: "study",
+    stopped: "stop",
+  };
+  return map[String(past || "").toLowerCase()] || "";
+}
+
+function mainPastVerb(en) {
+  const toks = wordTokens(en);
+  for (const t of toks) {
+    const low = String(t).toLowerCase();
+    if (low === "did" || low === "didn't") continue;
+    if (IRREG_PAST.has(low) || /(ed|ied)$/i.test(low) || low === "was" || low === "were") return low;
+  }
+  return (toks[1] || "past").toLowerCase();
+}
+
+const irr1Verb = mainPastVerb(irr1.en);
+const irr2Verb = mainPastVerb(irr2.en);
+const irr1Base = baseOfPast(irr1Verb) || "go";
+
+pages.push(
+  scenePage(
+    "p17",
+    "不规则动词",
+    "不规则 · " + irr1Verb,
+    "action",
+    "⚡ 不规则",
+    irr1,
+    "不规则动词要整词记忆：" + irr1Base + " → " + irr1Verb,
+    "action"
+  )
+);
+pages.push(
+  scenePage(
+    "p18",
+    "不规则动词",
+    "不规则 · " + irr2Verb,
+    "action",
+    "⚡ 不规则",
+    irr2,
+    "整词记忆：" + (baseOfPast(irr2Verb) || irr2Verb) + " → " + irr2Verb,
+    "action"
+  )
+);
 
 pages.push({
   id: "p19",
@@ -541,10 +611,39 @@ pages.push({
   pairs: matchPairs,
 });
 
-const neg1 = first(sNeg, 0);
-const neg2 = first(sNeg, 1);
-const q1 = first(sQ, 0);
-const q2 = first(sQ, 1);
+/** 否定 / 疑问动态演示：HTML、朗读、例句、配图必须同一组句子 */
+const demoPlayAff = playPast;
+const demoPlayNeg = {
+  en: "Lily didn't play football in the park yesterday.",
+  zh: "莉莉昨天没有在公园踢足球。",
+  image: playPast.image,
+  tokens: wordTokens("Lily didn't play football in the park yesterday."),
+  source: "教材对比句 · didn't",
+};
+const demoGoAff = goPast;
+const demoDidQ = {
+  en: "Did Lily go to the school library after class?",
+  zh: "莉莉下课后去学校图书馆了吗？",
+  image: goPast.image,
+  tokens: wordTokens("Did Lily go to the school library after class?"),
+  source: "教材对比句 · Did",
+};
+useImg(demoPlayNeg.image, demoPlayNeg.en, demoPlayNeg.en);
+useImg(demoDidQ.image, demoDidQ.en, demoDidQ.en);
+
+const negExtra =
+  sNeg.find((s) => /climb|umbrella|homework|kite/i.test(s.en) && !/play football/i.test(s.en)) ||
+  first(sNeg, 0);
+if (negExtra && /\bdid not\b/i.test(negExtra.en)) {
+  negExtra.en = negExtra.en.replace(/\bdid not\b/gi, "didn't");
+  negExtra.tokens = wordTokens(negExtra.en);
+}
+const qExtra =
+  sQ.find((s) => !/go to the school library/i.test(s.en)) || first(sQ, 0);
+if (qExtra && /^Did\b/i.test(qExtra.en) && !/[?？]$/.test(qExtra.en.trim())) {
+  qExtra.en = qExtra.en.replace(/[.。]?$/, "?");
+  qExtra.tokens = wordTokens(qExtra.en);
+}
 
 pages.push({
   id: "p23",
@@ -553,18 +652,35 @@ pages.push({
   type: "dynamic",
   badge: "demo",
   badgeText: "🎬 动态",
-  image: neg1.image,
+  image: demoPlayAff.image,
   lead: "否定：did not / didn't + 动词原形（不是过去式！）",
   steps: [
-    { html: '<span class="l03p-token l03p-token--subj">Lily</span><span class="l03p-token l03p-token--verb">played</span><span class="l03p-token l03p-token--obj">football</span>', speak: reg1.en },
-    { html: "<span class=\"l03p-token l03p-token--subj\">Lily</span><span class=\"l03p-token l03p-token--aux\">didn't</span><span class=\"l03p-token l03p-token--verb\">play</span><span class=\"l03p-token l03p-token--obj\">football</span>", speak: neg1.en },
+    {
+      html: '<span class="l03p-token l03p-token--subj">Lily</span><span class="l03p-token l03p-token--verb">played</span><span class="l03p-token l03p-token--obj">football</span>',
+      speak: demoPlayAff.en,
+    },
+    {
+      html: '<span class="l03p-token l03p-token--subj">Lily</span><span class="l03p-token l03p-token--aux">didn\'t</span><span class="l03p-token l03p-token--verb">play</span><span class="l03p-token l03p-token--obj">football</span>',
+      speak: demoPlayNeg.en,
+    },
   ],
-  sentence: neg1.en,
-  zh: neg1.zh,
+  sentence: demoPlayNeg.en,
+  zh: demoPlayNeg.zh,
 });
 
-pages.push(scenePage("p24", "否定句", "例句 · didn't", "neg", "🚫 否定", neg1, "didn't 后面用原形", "action"));
-pages.push(scenePage("p25", "否定句", "例句 · wasn't / didn't", "neg", "🚫 否定", neg2, "be 用 wasn't/weren't；实义动词用 didn't", "action"));
+pages.push(scenePage("p24", "否定句", "例句 · didn't", "neg", "🚫 否定", demoPlayNeg, "didn't 后面用原形 play（不是 played）", "action"));
+pages.push(
+  scenePage(
+    "p25",
+    "否定句",
+    "例句 · didn't 再练",
+    "neg",
+    "🚫 否定",
+    negExtra,
+    "be 用 wasn't/weren't；实义动词用 didn't + 原形",
+    "action"
+  )
+);
 
 pages.push({
   id: "p26",
@@ -573,7 +689,7 @@ pages.push({
   type: "quiz",
   badge: "ask",
   badgeText: "📝 测试",
-  image: neg1.image,
+  image: demoPlayNeg.image,
   ...(qNeg[0] || {}),
 });
 
@@ -584,18 +700,24 @@ pages.push({
   type: "dynamic",
   badge: "demo",
   badgeText: "🎬 动态",
-  image: q1.image,
+  image: demoGoAff.image,
   lead: "疑问：Did + 主语 + 动词原形？",
   steps: [
-    { html: '<span class="l03p-token l03p-token--subj">Tom</span><span class="l03p-token l03p-token--verb">went</span><span class="l03p-token l03p-token--obj">to the park</span>', speak: irr1.en },
-    { html: '<span class="l03p-token l03p-token--aux l03p-token--fly">Did</span><span class="l03p-token l03p-token--subj">Tom</span><span class="l03p-token l03p-token--verb">go</span><span class="l03p-token l03p-token--obj">to the park</span><span class="l03p-token">?</span>', speak: q1.en },
+    {
+      html: '<span class="l03p-token l03p-token--subj">Lily</span><span class="l03p-token l03p-token--verb">went</span><span class="l03p-token l03p-token--obj">to the library</span>',
+      speak: demoGoAff.en,
+    },
+    {
+      html: '<span class="l03p-token l03p-token--aux l03p-token--fly">Did</span><span class="l03p-token l03p-token--subj">Lily</span><span class="l03p-token l03p-token--verb">go</span><span class="l03p-token l03p-token--obj">to the library</span><span class="l03p-token">?</span>',
+      speak: demoDidQ.en,
+    },
   ],
-  sentence: q1.en,
-  zh: q1.zh,
+  sentence: demoDidQ.en,
+  zh: demoDidQ.zh,
 });
 
-pages.push(scenePage("p28", "疑问句", "例句 · Did ①", "q", "❓ 疑问", q1, "Did 后动词用原形", "q"));
-pages.push(scenePage("p29", "疑问句", "例句 · Did ②", "q", "❓ 疑问", q2, "回答：Yes, … did. / No, … didn't.", "q"));
+pages.push(scenePage("p28", "疑问句", "例句 · Did ①", "q", "❓ 疑问", demoDidQ, "Did 后动词用原形 go（不是 went）", "q"));
+pages.push(scenePage("p29", "疑问句", "例句 · Did ②", "q", "❓ 疑问", qExtra, "回答：Yes, … did. / No, … didn't.", "q"));
 
 pages.push({
   id: "p30",
@@ -604,7 +726,7 @@ pages.push({
   type: "quiz",
   badge: "ask",
   badgeText: "📝 测试",
-  image: q1.image,
+  image: demoDidQ.image,
   ...(qDid[0] || {}),
 });
 
@@ -669,11 +791,11 @@ pages.push({
   type: "listen-order",
   badge: "sound",
   badgeText: "🎧 听音",
-  image: q1.image,
-  audio: q1.en,
-  tokens: q1.tokens,
-  sentence: q1.en,
-  zh: q1.zh,
+  image: demoDidQ.image,
+  audio: demoDidQ.en,
+  tokens: demoDidQ.tokens,
+  sentence: demoDidQ.en,
+  zh: demoDidQ.zh,
 });
 
 pages.push({
@@ -683,7 +805,7 @@ pages.push({
   type: "quiz",
   badge: "ask",
   badgeText: "🏆 终极",
-  image: neg1.image,
+  image: demoPlayNeg.image,
   ...(qMix[0] || qNeg[1] || qNeg[0] || {}),
 });
 
@@ -746,19 +868,27 @@ pages.push({
   image: first(sTime).image,
 });
 
-const extraScenes = scenes.filter((s) => ![reg1, irr1, was1, were1, neg1, q1].includes(s)).slice(0, 4);
+const extraScenes = scenes
+  .filter((s) => ![reg1, irr1, was1, were1, demoPlayNeg, demoDidQ, negExtra].includes(s))
+  .filter((s) => s.focus === "regular" || s.focus === "irregular")
+  .slice(0, 4);
 while (extraScenes.length < 4) extraScenes.push(scenes[extraScenes.length % scenes.length]);
 
 extraScenes.forEach((s, i) => {
+  const verb = mainPastVerb(s.en);
   pages.push(
     scenePage(
       "p" + String(41 + i),
       "拓展例句",
-      "拓展例句 · " + (s.focus || "past"),
+      "拓展例句 · " + verb,
       s.focus === "was" || s.focus === "were" ? "state" : "action",
-      s.focus === "was" || s.focus === "were" ? "💙 be过去" : "🖼 例句",
+      s.focus === "irregular" ? "⚡ 不规则" : "🏃 规则",
       s,
-      "DeepSeek 语料 · " + (s.source || ""),
+      (s.focus === "irregular"
+        ? "不规则：" + (baseOfPast(verb) || "?") + " → " + verb
+        : "规则变化 · 注意时间标志词") +
+        " · " +
+        (s.source || ""),
       s.focus
     )
   );
@@ -924,11 +1054,11 @@ pages.push({
   type: "listen-order",
   badge: "sound",
   badgeText: "🎧 听音",
-  image: neg1.image,
-  audio: neg1.en,
-  tokens: neg1.tokens,
-  sentence: neg1.en,
-  zh: neg1.zh,
+  image: negExtra.image,
+  audio: negExtra.en,
+  tokens: negExtra.tokens,
+  sentence: negExtra.en,
+  zh: negExtra.zh,
 });
 
 pages.push({
@@ -1030,6 +1160,72 @@ const todo = [...used].map((name) => {
 });
 
 fs.writeFileSync(path.join(ASSETS, "images-todo.json"), JSON.stringify(todo, null, 2), "utf8");
+
+/** 构建时校验：标题/动态步骤中的目标词必须出现在对应例句里 */
+function assertAlign(pagesList) {
+  const problems = [];
+  for (const p of pagesList) {
+    const sent = p.sentence || p.rightSentence || "";
+    const m = String(p.title || "").match(/[·•]\s*([A-Za-z']+)$/);
+    if (m && sent && p.type === "scene") {
+      const claim = m[1].toLowerCase();
+      if (["regular", "irregular", "past"].includes(claim)) continue;
+      if (claim === "didn't") {
+        if (!/\bdidn'?t\b/i.test(sent) && !/\bdid not\b/i.test(sent)) {
+          problems.push(p.id + " title didn't but sentence lacks didn't: " + sent);
+        }
+      } else if (claim === "did") {
+        if (!/^did\b/i.test(sent.trim())) problems.push(p.id + " title Did but sentence: " + sent);
+      } else if (!new RegExp("\\b" + claim + "\\b", "i").test(sent)) {
+        problems.push(p.id + " title " + claim + " missing in: " + sent);
+      }
+    }
+    if (p.type === "dynamic" && Array.isArray(p.steps)) {
+      for (const st of p.steps) {
+        const html = String(st.html || "").replace(/<[^>]+>/g, " ");
+        const speak = String(st.speak || "");
+        const htmlWords = html.toLowerCase().match(/[a-z']+/g) || [];
+        const speakWords = new Set((speak.toLowerCase().match(/[a-z']+/g) || []));
+        // subject + key verb from html should appear in speak
+        const key = htmlWords.filter((w) => !["to", "the", "a", "an", "in", "on", "of"].includes(w));
+        const miss = key.filter((w) => !speakWords.has(w) && w !== "library" && w !== "park");
+        // allow library vs "school library" partial — check at least verb overlap
+        const verbs = key.filter((w) => /ed$|went|play|go|did|didn't|was|were|stood|ate|ran/.test(w) || w === "didn't");
+        for (const v of verbs) {
+          if (v === "library") continue;
+          if (!speakWords.has(v) && !(v === "go" && speakWords.has("go")) && !(v === "play" && speakWords.has("play"))) {
+            // soft: if html has played, speak needs played
+            if (!speak.toLowerCase().includes(v)) {
+              problems.push(p.id + " step html/speak mismatch: html~" + v + " speak=" + speak);
+            }
+          }
+        }
+      }
+      if (p.sentence && p.steps[1] && p.steps[1].speak && p.steps[1].speak !== p.sentence) {
+        problems.push(p.id + " final step speak != page sentence");
+      }
+    }
+    if (p.type === "spelling") {
+      for (const r of p.rules || []) {
+        if (r.focusVerb && r.sample && !r.sample.includes(r.focusVerb)) {
+          problems.push(p.id + " " + r.tab + " focusVerb not in sample");
+        }
+      }
+    }
+    if (p.type === "discover") {
+      if (p.morphPast && p.rightSentence && !p.rightSentence.includes(p.morphPast)) {
+        problems.push(p.id + " morphPast not in rightSentence");
+      }
+    }
+  }
+  if (problems.length) {
+    console.error("ALIGNMENT ERRORS:\n" + problems.map((x) => " - " + x).join("\n"));
+    process.exitCode = 1;
+  } else {
+    console.log("alignment: ok");
+  }
+}
+assertAlign(pages);
 
 console.log("pages:", pages.length);
 console.log("images todo:", todo.length);

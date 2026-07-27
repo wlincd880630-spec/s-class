@@ -366,12 +366,12 @@
         "rule": "以不发音 e 结尾，只加 d",
         "examples": [
           {
-            "from": "live",
-            "to": "lived"
-          },
-          {
             "from": "like",
             "to": "liked"
+          },
+          {
+            "from": "live",
+            "to": "lived"
           },
           {
             "from": "hope",
@@ -488,12 +488,12 @@
   {
     "id": "p18",
     "section": "不规则动词",
-    "title": "不规则 · 再练",
+    "title": "不规则 · stood",
     "type": "scene",
     "badge": "action",
     "badgeText": "⚡ 不规则",
     "image": "l03p-scene-tom-stood-under-a-yellow-umbrella-in-the-heavy-r.jpg",
-    "lead": "看图说过去：发生了什么？",
+    "lead": "整词记忆：stand → stood",
     "sentence": "Tom stood under a yellow umbrella in the heavy rain.",
     "zh": "汤姆在大雨中站在一把黄色雨伞下",
     "verbType": "action",
@@ -619,7 +619,7 @@
     "type": "dynamic",
     "badge": "demo",
     "badgeText": "🎬 动态",
-    "image": "l03p-scene-teng-fei-did-not-climb-the-tall-tree-because-he-.jpg",
+    "image": "l03p-scene-lily-played-football-with-her-friends-in-the-par.jpg",
     "lead": "否定：did not / didn't + 动词原形（不是过去式！）",
     "steps": [
       {
@@ -628,11 +628,11 @@
       },
       {
         "html": "<span class=\"l03p-token l03p-token--subj\">Lily</span><span class=\"l03p-token l03p-token--aux\">didn't</span><span class=\"l03p-token l03p-token--verb\">play</span><span class=\"l03p-token l03p-token--obj\">football</span>",
-        "speak": "Teng Fei did not climb the tall tree because he felt scared."
+        "speak": "Lily didn't play football in the park yesterday."
       }
     ],
-    "sentence": "Teng Fei did not climb the tall tree because he felt scared.",
-    "zh": "腾飞没有爬那棵高树，因为他感到害怕"
+    "sentence": "Lily didn't play football in the park yesterday.",
+    "zh": "莉莉昨天没有在公园踢足球。"
   },
   {
     "id": "p24",
@@ -641,24 +641,24 @@
     "type": "scene",
     "badge": "neg",
     "badgeText": "🚫 否定",
-    "image": "l03p-scene-teng-fei-did-not-climb-the-tall-tree-because-he-.jpg",
-    "lead": "didn't 后面用原形",
-    "sentence": "Teng Fei did not climb the tall tree because he felt scared.",
-    "zh": "腾飞没有爬那棵高树，因为他感到害怕",
+    "image": "l03p-scene-lily-played-football-with-her-friends-in-the-par.jpg",
+    "lead": "didn't 后面用原形 play（不是 played）",
+    "sentence": "Lily didn't play football in the park yesterday.",
+    "zh": "莉莉昨天没有在公园踢足球。",
     "verbType": "action",
-    "source": "教材场景"
+    "source": "教材对比句 · didn't"
   },
   {
     "id": "p25",
     "section": "否定句",
-    "title": "例句 · wasn't / didn't",
+    "title": "例句 · didn't 再练",
     "type": "scene",
     "badge": "neg",
     "badgeText": "🚫 否定",
-    "image": "l03p-scene-han-lin-did-not-find-his-yellow-umbrella-after-t.jpg",
-    "lead": "be 用 wasn't/weren't；实义动词用 didn't",
-    "sentence": "Han Lin did not find his yellow umbrella after the rain stopped.",
-    "zh": "雨停后，韩林没有找到他的黄色雨伞",
+    "image": "l03p-scene-teng-fei-didn-t-climb-the-tall-tree-because-he-f.jpg",
+    "lead": "be 用 wasn't/weren't；实义动词用 didn't + 原形",
+    "sentence": "Teng Fei didn't climb the tall tree because he felt scared.",
+    "zh": "腾飞没有爬那棵高树，因为他感到害怕",
     "verbType": "action",
     "source": "教材场景"
   },
@@ -669,7 +669,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-teng-fei-did-not-climb-the-tall-tree-because-he-.jpg",
+    "image": "l03p-scene-lily-played-football-with-her-friends-in-the-par.jpg",
     "q": "Lily ___ not go to school yesterday.",
     "opts": [
       "did",
@@ -690,20 +690,20 @@
     "type": "dynamic",
     "badge": "demo",
     "badgeText": "🎬 动态",
-    "image": "l03p-scene-did-linda-wash-the-paintbrushes-in-the-art-room-.jpg",
+    "image": "l03p-scene-lily-went-to-the-school-library-after-class-and-.jpg",
     "lead": "疑问：Did + 主语 + 动词原形？",
     "steps": [
       {
-        "html": "<span class=\"l03p-token l03p-token--subj\">Tom</span><span class=\"l03p-token l03p-token--verb\">went</span><span class=\"l03p-token l03p-token--obj\">to the park</span>",
+        "html": "<span class=\"l03p-token l03p-token--subj\">Lily</span><span class=\"l03p-token l03p-token--verb\">went</span><span class=\"l03p-token l03p-token--obj\">to the library</span>",
         "speak": "Lily went to the school library after class and found a funny storybook."
       },
       {
-        "html": "<span class=\"l03p-token l03p-token--aux l03p-token--fly\">Did</span><span class=\"l03p-token l03p-token--subj\">Tom</span><span class=\"l03p-token l03p-token--verb\">go</span><span class=\"l03p-token l03p-token--obj\">to the park</span><span class=\"l03p-token\">?</span>",
-        "speak": "Did Linda wash the paintbrushes in the art room after painting."
+        "html": "<span class=\"l03p-token l03p-token--aux l03p-token--fly\">Did</span><span class=\"l03p-token l03p-token--subj\">Lily</span><span class=\"l03p-token l03p-token--verb\">go</span><span class=\"l03p-token l03p-token--obj\">to the library</span><span class=\"l03p-token\">?</span>",
+        "speak": "Did Lily go to the school library after class?"
       }
     ],
-    "sentence": "Did Linda wash the paintbrushes in the art room after painting.",
-    "zh": "琳达画画后在画室里洗了画笔吗"
+    "sentence": "Did Lily go to the school library after class?",
+    "zh": "莉莉下课后去学校图书馆了吗？"
   },
   {
     "id": "p28",
@@ -712,12 +712,12 @@
     "type": "scene",
     "badge": "q",
     "badgeText": "❓ 疑问",
-    "image": "l03p-scene-did-linda-wash-the-paintbrushes-in-the-art-room-.jpg",
-    "lead": "Did 后动词用原形",
-    "sentence": "Did Linda wash the paintbrushes in the art room after painting.",
-    "zh": "琳达画画后在画室里洗了画笔吗",
+    "image": "l03p-scene-lily-went-to-the-school-library-after-class-and-.jpg",
+    "lead": "Did 后动词用原形 go（不是 went）",
+    "sentence": "Did Lily go to the school library after class?",
+    "zh": "莉莉下课后去学校图书馆了吗？",
     "verbType": "q",
-    "source": "教材场景"
+    "source": "教材对比句 · Did"
   },
   {
     "id": "p29",
@@ -726,12 +726,12 @@
     "type": "scene",
     "badge": "q",
     "badgeText": "❓ 疑问",
-    "image": "l03p-scene-did-chen-tao-score-a-goal-during-the-match-no-he.jpg",
+    "image": "l03p-scene-did-linda-wash-the-paintbrushes-in-the-art-room-.jpg",
     "lead": "回答：Yes, … did. / No, … didn't.",
-    "sentence": "Did Chen Tao score a goal during the match? No, he missed by a few inches.",
-    "zh": "陈涛在比赛中进球了吗？没有，他差了几英寸没进。",
+    "sentence": "Did Linda wash the paintbrushes in the art room after painting?",
+    "zh": "琳达画画后在画室里洗了画笔吗",
     "verbType": "q",
-    "source": "课堂互动"
+    "source": "教材场景"
   },
   {
     "id": "p30",
@@ -740,7 +740,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-did-linda-wash-the-paintbrushes-in-the-art-room-.jpg",
+    "image": "l03p-scene-lily-went-to-the-school-library-after-class-and-.jpg",
     "q": "___ Lily go to the park yesterday?",
     "opts": [
       "Did",
@@ -858,23 +858,21 @@
     "type": "listen-order",
     "badge": "sound",
     "badgeText": "🎧 听音",
-    "image": "l03p-scene-did-linda-wash-the-paintbrushes-in-the-art-room-.jpg",
-    "audio": "Did Linda wash the paintbrushes in the art room after painting.",
+    "image": "l03p-scene-lily-went-to-the-school-library-after-class-and-.jpg",
+    "audio": "Did Lily go to the school library after class?",
     "tokens": [
       "Did",
-      "Linda",
-      "wash",
+      "Lily",
+      "go",
+      "to",
       "the",
-      "paintbrushes",
-      "in",
-      "the",
-      "art",
-      "room",
+      "school",
+      "library",
       "after",
-      "painting"
+      "class"
     ],
-    "sentence": "Did Linda wash the paintbrushes in the art room after painting.",
-    "zh": "琳达画画后在画室里洗了画笔吗"
+    "sentence": "Did Lily go to the school library after class?",
+    "zh": "莉莉下课后去学校图书馆了吗？"
   },
   {
     "id": "p36",
@@ -883,7 +881,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "🏆 终极",
-    "image": "l03p-scene-teng-fei-did-not-climb-the-tall-tree-because-he-.jpg",
+    "image": "l03p-scene-lily-played-football-with-her-friends-in-the-par.jpg",
     "q": "Lily and Tom ___ to the zoo last Sunday.",
     "opts": [
       "went",
@@ -1005,12 +1003,12 @@
   {
     "id": "p41",
     "section": "拓展例句",
-    "title": "拓展例句 · regular",
+    "title": "拓展例句 · sprinted",
     "type": "scene",
     "badge": "action",
-    "badgeText": "🖼 例句",
+    "badgeText": "🏃 规则",
     "image": "l03p-scene-lily-sprinted-in-the-school-sports-day-race-with.jpg",
-    "lead": "DeepSeek 语料 · 教材场景",
+    "lead": "规则变化 · 注意时间标志词 · 教材场景",
     "sentence": "Lily sprinted in the school sports day race with her hair flying.",
     "zh": "莉莉在校运动会赛跑中冲刺，头发飞扬",
     "verbType": "regular",
@@ -1019,12 +1017,12 @@
   {
     "id": "p42",
     "section": "拓展例句",
-    "title": "拓展例句 · irregular",
+    "title": "拓展例句 · stood",
     "type": "scene",
     "badge": "action",
-    "badgeText": "🖼 例句",
+    "badgeText": "⚡ 不规则",
     "image": "l03p-scene-tom-stood-under-a-yellow-umbrella-in-the-heavy-r.jpg",
-    "lead": "DeepSeek 语料 · 教材场景 · 改标不规则",
+    "lead": "不规则：stand → stood · 教材场景 · 改标不规则",
     "sentence": "Tom stood under a yellow umbrella in the heavy rain.",
     "zh": "汤姆在大雨中站在一把黄色雨伞下",
     "verbType": "irregular",
@@ -1033,12 +1031,12 @@
   {
     "id": "p43",
     "section": "拓展例句",
-    "title": "拓展例句 · irregular",
+    "title": "拓展例句 · blew",
     "type": "scene",
     "badge": "action",
-    "badgeText": "🖼 例句",
+    "badgeText": "⚡ 不规则",
     "image": "l03p-scene-emma-blew-out-candles-on-her-birthday-cake-with-.jpg",
-    "lead": "DeepSeek 语料 · 教材场景 · 改标不规则",
+    "lead": "不规则：blow → blew · 教材场景 · 改标不规则",
     "sentence": "Emma blew out candles on her birthday cake with a big smile.",
     "zh": "艾玛带着灿烂的笑容吹灭生日蛋糕上的蜡烛",
     "verbType": "irregular",
@@ -1047,12 +1045,12 @@
   {
     "id": "p44",
     "section": "拓展例句",
-    "title": "拓展例句 · regular",
+    "title": "拓展例句 · watched",
     "type": "scene",
     "badge": "action",
-    "badgeText": "🖼 例句",
+    "badgeText": "🏃 规则",
     "image": "l03p-scene-jack-and-chen-tao-watched-steam-rise-from-a-hotp.jpg",
-    "lead": "DeepSeek 语料 · 教材场景",
+    "lead": "规则变化 · 注意时间标志词 · 教材场景",
     "sentence": "Jack and Chen Tao watched steam rise from a hotpot in winter.",
     "zh": "杰克和陈涛在冬天看着火锅升起的蒸汽",
     "verbType": "regular",
@@ -1466,13 +1464,12 @@
     "type": "listen-order",
     "badge": "sound",
     "badgeText": "🎧 听音",
-    "image": "l03p-scene-teng-fei-did-not-climb-the-tall-tree-because-he-.jpg",
-    "audio": "Teng Fei did not climb the tall tree because he felt scared.",
+    "image": "l03p-scene-teng-fei-didn-t-climb-the-tall-tree-because-he-f.jpg",
+    "audio": "Teng Fei didn't climb the tall tree because he felt scared.",
     "tokens": [
       "Teng",
       "Fei",
-      "did",
-      "not",
+      "didn't",
       "climb",
       "the",
       "tall",
@@ -1482,7 +1479,7 @@
       "felt",
       "scared"
     ],
-    "sentence": "Teng Fei did not climb the tall tree because he felt scared.",
+    "sentence": "Teng Fei didn't climb the tall tree because he felt scared.",
     "zh": "腾飞没有爬那棵高树，因为他感到害怕"
   },
   {
