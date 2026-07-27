@@ -598,12 +598,311 @@
     bindCommon(document.getElementById("spellPanels"));
   }
 
-  function renderPictureBuild(page) {
-    var chips = page.tokens
-      .map(function (t) {
-        return '<button type="button" class="l01p-chip" data-t="' + esc(t) + '">' + esc(t) + "</button>";
+  /** Fisher–Yates；尽量不与原序相同（支持字符串 / {id,text} 词牌） */
+  function shuffleDistinct(arr) {
+    var a = arr.slice();
+    if (a.length <= 1) return a;
+    var sig = function (list) {
+      return list
+        .map(function (x) {
+          if (x && typeof x === "object") return String(x.id != null ? x.id : x.text);
+          return String(x);
+        })
+        .join("\0");
+    };
+    var original = sig(arr);
+    var attempt;
+    for (attempt = 0; attempt < 16; attempt++) {
+      var i;
+      for (i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = a[i];
+        a[i] = a[j];
+        a[j] = tmp;
+      }
+      if (sig(a) !== original) return a;
+    }
+    var t = a[0];
+    a[0] = a[1];
+    a[1] = t;
+    return a;
+  }
+
+  function makeTokenDeck(tokens) {
+    return tokens.map(function (t, i) {
+      return { id: "tk" + i, text: t };
+    });
+  }
+
+  function orderSlotsHtml(n) {
+    var h = "";
+    var i;
+    for (i = 0; i < n; i++) {
+      h +=
+        '<button type="button" class="l01p-slot" data-slot="' +
+        i +
+        '" aria-label="空位 ' +
+        (i + 1) +
+        '"><span class="l01p-slot__num">' +
+        (i + 1) +
+        '</span><span class="l01p-slot__txt"></span></button>';
+    }
+    return h;
+  }
+
+  function orderBankHtml(deck) {
+    return deck
+      .map(function (tok) {
+        return (
+          '<button type="button" class="l01p-chip l01p-chip--bank" data-id="' +
+          esc(tok.id) +
+          '" data-t="' +
+          esc(tok.text) +
+          '">' +
+          esc(tok.text) +
+          "</button>"
+        );
       })
       .join("");
+  }
+
+  /**
+   * 统一「词库点选 → 填空」造句控制器
+   * - 点词库：填入下一个空位
+   * - 点已填空位：撤回该词；若已选中一词，则与目标空位交换
+   * - 错位高亮、不自动清空
+   */
+  function bindTokenOrder(cfg) {
+    var answer = cfg.answer;
+    var deck = cfg.deck;
+    var slotsEl = document.getElementById(cfg.slotsId);
+    var bankEl = document.getElementById(cfg.bankId);
+    var progEl = document.getElementById(cfg.progId);
+    var fb = document.getElementById(cfg.fbId);
+    var checkBtn = document.getElementById(cfg.checkId);
+    var undoBtn = document.getElementById(cfg.undoId);
+    var resetBtn = document.getElementById(cfg.resetId);
+    var placed = answer.map(function () {
+      return null;
+    });
+    var selectedSlot = -1;
+    var solved = false;
+    var byId = {};
+    deck.forEach(function (t) {
+      byId[t.id] = t;
+    });
+
+    function filledCount() {
+      var n = 0;
+      var i;
+      for (i = 0; i < placed.length; i++) if (placed[i]) n++;
+      return n;
+    }
+
+    function firstEmpty() {
+      var i;
+      for (i = 0; i < placed.length; i++) if (!placed[i]) return i;
+      return -1;
+    }
+
+    function clearFb() {
+      if (!fb) return;
+      fb.className = "l01p-fb";
+      fb.innerHTML = "";
+    }
+
+    function updateProg() {
+      if (!progEl) return;
+      var n = filledCount();
+      progEl.innerHTML =
+        '<span class="l01p-order-prog__fill">已填 <b>' +
+        n +
+        "</b> / " +
+        answer.length +
+        '</span><span class="l01p-order-prog__hint">' +
+        (solved
+          ? "完成！"
+          : n === 0
+            ? "点下方单词填入空格"
+            : n < answer.length
+              ? "继续填 · 点空格可撤回或交换"
+              : "点「检查」或再点空格微调") +
+        "</span>";
+      if (checkBtn) checkBtn.disabled = solved || n < answer.length;
+    }
+
+    function paint() {
+      if (!slotsEl || !bankEl) return;
+      var i;
+      for (i = 0; i < placed.length; i++) {
+        var slot = slotsEl.querySelector('[data-slot="' + i + '"]');
+        if (!slot) continue;
+        var tok = placed[i];
+        slot.classList.toggle("is-filled", !!tok);
+        slot.classList.toggle("is-pick", selectedSlot === i);
+        if (solved) {
+          slot.classList.add("is-ok");
+          slot.classList.remove("is-no");
+        } else {
+          slot.classList.remove("is-ok", "is-no");
+        }
+        var txt = slot.querySelector(".l01p-slot__txt");
+        if (txt) txt.textContent = tok ? tok.text : "";
+      }
+      bankEl.querySelectorAll(".l01p-chip--bank").forEach(function (chip) {
+        var id = chip.getAttribute("data-id");
+        var used = placed.some(function (p) {
+          return p && p.id === id;
+        });
+        chip.classList.toggle("is-used", used);
+        chip.disabled = used || solved;
+      });
+      updateProg();
+    }
+
+    function placeToken(tok) {
+      if (solved) return;
+      var idx = firstEmpty();
+      if (idx < 0) return;
+      placed[idx] = tok;
+      selectedSlot = -1;
+      clearFb();
+      paint();
+      if (filledCount() === answer.length && cfg.autoCheck) check();
+    }
+
+    function returnToken(idx) {
+      if (solved || idx < 0 || !placed[idx]) return;
+      placed[idx] = null;
+      selectedSlot = -1;
+      clearFb();
+      paint();
+    }
+
+    function swapSlots(a, b) {
+      if (solved || a < 0 || b < 0 || a === b) return;
+      var tmp = placed[a];
+      placed[a] = placed[b];
+      placed[b] = tmp;
+      selectedSlot = -1;
+      clearFb();
+      paint();
+    }
+
+    function undo() {
+      if (solved) return;
+      var i;
+      for (i = placed.length - 1; i >= 0; i--) {
+        if (placed[i]) {
+          returnToken(i);
+          return;
+        }
+      }
+    }
+
+    function reshuffle() {
+      if (solved) return;
+      placed = answer.map(function () {
+        return null;
+      });
+      selectedSlot = -1;
+      clearFb();
+      var order = shuffleDistinct(deck.map(function (t) {
+        return t.id;
+      }));
+      var frag = document.createDocumentFragment();
+      order.forEach(function (id) {
+        var chip = bankEl.querySelector('[data-id="' + id + '"]');
+        if (chip) frag.appendChild(chip);
+      });
+      bankEl.appendChild(frag);
+      paint();
+    }
+
+    function check() {
+      if (solved || filledCount() < answer.length) return;
+      var wrong = [];
+      var i;
+      for (i = 0; i < answer.length; i++) {
+        var slot = slotsEl.querySelector('[data-slot="' + i + '"]');
+        var ok = placed[i] && placed[i].text === answer[i];
+        if (slot) {
+          slot.classList.toggle("is-ok", ok);
+          slot.classList.toggle("is-no", !ok);
+        }
+        if (!ok) wrong.push(i + 1);
+      }
+      if (wrong.length === 0) {
+        solved = true;
+        selectedSlot = -1;
+        paint();
+        if (fb) {
+          fb.className = "l01p-fb is-show l01p-fb--ok";
+          fb.innerHTML =
+            '<div class="l01p-order-win">太棒了！句子拼对了 🎉</div>' +
+            sentBlock(cfg.sentence, cfg.zh) +
+            ttsRow(cfg.sentence) +
+            (cfg.revealHtml || "");
+          bindCommon(fb);
+        }
+        speak(cfg.sentence);
+        if (typeof cfg.onWin === "function") cfg.onWin();
+        return;
+      }
+      if (fb) {
+        fb.className = "l01p-fb is-show l01p-fb--no";
+        fb.innerHTML =
+          "第 <b>" +
+          wrong.join("、") +
+          "</b> 格不对。点标红的词可撤回，或点两格交换位置后再检查。";
+      }
+    }
+
+    if (bankEl) {
+      bankEl.querySelectorAll(".l01p-chip--bank").forEach(function (chip) {
+        chip.addEventListener("click", function () {
+          if (chip.classList.contains("is-used") || solved) return;
+          var tok = byId[chip.getAttribute("data-id")];
+          if (tok) placeToken(tok);
+        });
+      });
+    }
+
+    if (slotsEl) {
+      slotsEl.querySelectorAll(".l01p-slot").forEach(function (slot) {
+        slot.addEventListener("click", function () {
+          if (solved) return;
+          var idx = Number(slot.getAttribute("data-slot"));
+          if (!placed[idx]) {
+            selectedSlot = -1;
+            paint();
+            return;
+          }
+          if (selectedSlot < 0) {
+            selectedSlot = idx;
+            paint();
+            return;
+          }
+          if (selectedSlot === idx) {
+            returnToken(idx);
+            return;
+          }
+          swapSlots(selectedSlot, idx);
+        });
+      });
+    }
+
+    if (undoBtn) undoBtn.addEventListener("click", undo);
+    if (resetBtn) resetBtn.addEventListener("click", reshuffle);
+    if (checkBtn) checkBtn.addEventListener("click", check);
+
+    paint();
+    return { reshuffle: reshuffle, check: check };
+  }
+
+  function renderPictureBuild(page) {
+    var deck = shuffleDistinct(makeTokenDeck(page.tokens));
+    var n = page.tokens.length;
     return (
       header(page) +
       '<article class="l01p-card">' +
@@ -611,123 +910,143 @@
       '<div class="l01p-body-inner"><h1 class="l01p-title">' +
       esc(page.title) +
       '</h1><p class="l01p-lead">' +
-      esc(page.instruction) +
-      '</p><div class="l01p-build" id="pbBuild"></div><div style="display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.45rem" id="pbBank">' +
-      chips +
-      '</div><div class="l01p-toolbar"><button type="button" class="l01p-btn l01p-btn--ghost" id="pbReset">重来</button></div><div class="l01p-fb" id="pbFb"></div></div></article>'
+      esc(page.instruction || "看图，把乱序单词点选成正确句子。") +
+      '</p><div class="l01p-order-prog" id="pbProg"></div>' +
+      '<div class="l01p-order-label">组成句子</div>' +
+      '<div class="l01p-slots" id="pbSlots" aria-label="造句空格">' +
+      orderSlotsHtml(n) +
+      '</div><div class="l01p-order-label">单词库 <span class="l01p-order-label__sub">已打乱 · 点选填入</span></div>' +
+      '<div class="l01p-bank" id="pbBank">' +
+      orderBankHtml(deck) +
+      '</div><div class="l01p-toolbar l01p-toolbar--order">' +
+      '<button type="button" class="l01p-btn l01p-btn--ghost" id="pbUndo">撤回</button>' +
+      '<button type="button" class="l01p-btn l01p-btn--ghost" id="pbReset">打乱重来</button>' +
+      '<button type="button" class="l01p-btn" id="pbCheck" disabled>检查</button>' +
+      '</div><div class="l01p-fb" id="pbFb"></div></div></article>'
     );
   }
 
   function bindPictureBuild(page) {
-    var picked = [];
-    var build = document.getElementById("pbBuild");
-    var fb = document.getElementById("pbFb");
-
-    function reset() {
-      picked = [];
-      if (build) build.innerHTML = "";
-      if (fb) fb.className = "l01p-fb";
-      document.querySelectorAll("#pbBank .l01p-chip").forEach(function (c) {
-        c.classList.remove("is-used");
-      });
-    }
-
-    var resetBtn = document.getElementById("pbReset");
-    if (resetBtn) resetBtn.addEventListener("click", reset);
-
-    document.querySelectorAll("#pbBank .l01p-chip").forEach(function (chip) {
-      chip.addEventListener("click", function () {
-        if (chip.classList.contains("is-used")) return;
-        chip.classList.add("is-used");
-        picked.push(chip.getAttribute("data-t"));
-        var s = document.createElement("span");
-        s.className = "l01p-chip";
-        s.textContent = chip.getAttribute("data-t");
-        build.appendChild(s);
-        if (picked.length >= page.tokens.length) {
-          var ok = normSentence(picked.join(" ")) === normSentence(page.sentence);
-          fb.className = "l01p-fb is-show " + (ok ? "l01p-fb--ok" : "l01p-fb--no");
-          fb.innerHTML = ok
-            ? "正确！" + sentBlock(page.sentence, page.zh) + ttsRow(page.sentence)
-            : "顺序不对，点「重来」再试一次！";
-          if (ok) {
-            bindCommon(fb);
-            speak(page.sentence);
-          } else {
-            setTimeout(reset, 1500);
-          }
-        }
-      });
+    var deck = [];
+    document.querySelectorAll("#pbBank .l01p-chip--bank").forEach(function (chip) {
+      deck.push({ id: chip.getAttribute("data-id"), text: chip.getAttribute("data-t") });
+    });
+    bindTokenOrder({
+      answer: page.tokens,
+      deck: deck,
+      slotsId: "pbSlots",
+      bankId: "pbBank",
+      progId: "pbProg",
+      fbId: "pbFb",
+      checkId: "pbCheck",
+      undoId: "pbUndo",
+      resetId: "pbReset",
+      sentence: page.sentence,
+      zh: page.zh,
+      autoCheck: false,
     });
   }
 
   function renderListenOrder(page) {
-    var shuffled = page.tokens.slice().sort(function () {
-      return Math.random() - 0.5;
-    });
-    var items = shuffled
-      .map(function (t) {
-        return '<div class="l01p-order-item" draggable="true" data-t="' + esc(t) + '">' + esc(t) + "</div>";
-      })
-      .join("");
+    var deck = shuffleDistinct(makeTokenDeck(page.tokens));
+    var n = page.tokens.length;
     return (
       header(page) +
       '<article class="l01p-card">' +
-      hero(page, page.sentence) +
+      '<div class="l01p-listen-hero" id="loHero">' +
+      '<div class="l01p-sound-panel l01p-sound-panel--order">' +
+      '<button type="button" class="l01p-btn l01p-btn--play l01p-btn--play-lg" id="loPlay" aria-label="播放音频">🔊</button>' +
+      "<p>先听完整句子，再把下方乱序单词排成正确顺序</p>" +
+      '<button type="button" class="l01p-btn l01p-btn--ghost l01p-btn--on-blue" id="loReplay">再听一遍</button>' +
+      "</div>" +
+      '<div class="l01p-listen-reveal" id="loReveal" hidden></div>' +
+      "</div>" +
       '<div class="l01p-body-inner"><h1 class="l01p-title">' +
       esc(page.title) +
-      '</h1><div class="l01p-sound-panel" style="padding:.75rem"><button type="button" class="l01p-btn l01p-btn--play" data-speak="' +
-      esc(page.audio || page.sentence) +
-      '">🔊</button><p>先听，再拖动或点击调整顺序</p></div><div id="loList" style="display:flex;flex-direction:column;gap:.35rem">' +
-      items +
-      '</div><div class="l01p-toolbar"><button type="button" class="l01p-btn" id="loCheck">检查答案</button></div><div class="l01p-fb" id="loFb"></div></div></article>'
+      '</h1><p class="l01p-lead">操作：点单词填空 → 点已填空格可选中 → 再点另一格交换 → 点同一格撤回</p>' +
+      '<div class="l01p-order-prog" id="loProg"></div>' +
+      '<div class="l01p-order-label">听写排序</div>' +
+      '<div class="l01p-slots" id="loSlots" aria-label="排序空格">' +
+      orderSlotsHtml(n) +
+      '</div><div class="l01p-order-label">乱序词库 <span class="l01p-order-label__sub">点选填入空格</span></div>' +
+      '<div class="l01p-bank" id="loBank">' +
+      orderBankHtml(deck) +
+      '</div><div class="l01p-toolbar l01p-toolbar--order">' +
+      '<button type="button" class="l01p-btn l01p-btn--ghost" id="loUndo">撤回</button>' +
+      '<button type="button" class="l01p-btn l01p-btn--ghost" id="loReset">打乱重来</button>' +
+      '<button type="button" class="l01p-btn" id="loCheck" disabled>检查</button>' +
+      '</div><div class="l01p-fb" id="loFb"></div></div></article>'
     );
   }
 
   function bindListenOrder(page) {
-    var list = document.getElementById("loList");
-    var fb = document.getElementById("loFb");
-    var drag = null;
-    if (list) {
-      list.querySelectorAll(".l01p-order-item").forEach(function (item) {
-        item.addEventListener("dragstart", function () {
-          drag = item;
-        });
-        item.addEventListener("dragover", function (e) {
-          e.preventDefault();
-        });
-        item.addEventListener("drop", function (e) {
-          e.preventDefault();
-          if (drag && drag !== item) {
-            var nodes = Array.from(list.children);
-            var a = nodes.indexOf(drag);
-            var b = nodes.indexOf(item);
-            if (a < b) list.insertBefore(drag, item.nextSibling);
-            else list.insertBefore(drag, item);
-          }
-        });
-        item.addEventListener("click", function () {
-          if (item.nextSibling) list.insertBefore(item.nextSibling, item);
+    var audio = page.audio || page.sentence;
+    var deck = [];
+    document.querySelectorAll("#loBank .l01p-chip--bank").forEach(function (chip) {
+      deck.push({ id: chip.getAttribute("data-id"), text: chip.getAttribute("data-t") });
+    });
+
+    function playAudio(btn) {
+      return speak(audio, btn || document.getElementById("loPlay"));
+    }
+
+    var playBtn = document.getElementById("loPlay");
+    if (playBtn) {
+      playBtn.addEventListener("click", function () {
+        playBtn.classList.add("is-on");
+        playAudio(playBtn).finally(function () {
+          playBtn.classList.remove("is-on");
         });
       });
     }
-    var chk = document.getElementById("loCheck");
-    if (chk)
-      chk.addEventListener("click", function () {
-        var order = Array.from(list.querySelectorAll(".l01p-order-item")).map(function (el) {
-          return el.getAttribute("data-t");
-        });
-        var ok = order.join(" ") === page.tokens.join(" ");
-        fb.className = "l01p-fb is-show " + (ok ? "l01p-fb--ok" : "l01p-fb--no");
-        fb.innerHTML = ok
-          ? sentBlock(page.sentence, page.zh) + ttsRow(page.sentence)
-          : "还不对，再听一遍！";
-        if (ok) {
-          bindCommon(fb);
-          speak(page.sentence);
-        }
+    var replayBtn = document.getElementById("loReplay");
+    if (replayBtn) {
+      replayBtn.addEventListener("click", function () {
+        playAudio(playBtn);
       });
-    bindCommon(document);
+    }
+
+    var revealHtml = "";
+    if (page.image) {
+      revealHtml =
+        '<div class="l01p-order-reveal-img"><img src="' +
+        img(page.image) +
+        '" alt="" decoding="async" onerror="' +
+        imgOnerror(page.image) +
+        '"/></div>';
+    }
+
+    bindTokenOrder({
+      answer: page.tokens,
+      deck: deck,
+      slotsId: "loSlots",
+      bankId: "loBank",
+      progId: "loProg",
+      fbId: "loFb",
+      checkId: "loCheck",
+      undoId: "loUndo",
+      resetId: "loReset",
+      sentence: page.sentence,
+      zh: page.zh,
+      revealHtml: revealHtml,
+      autoCheck: false,
+      onWin: function () {
+        var reveal = document.getElementById("loReveal");
+        if (reveal && page.image) {
+          reveal.hidden = false;
+          reveal.innerHTML =
+            '<img src="' +
+            img(page.image) +
+            '" alt="" decoding="async" onerror="' +
+            imgOnerror(page.image) +
+            '"/>';
+        }
+      },
+    });
+
+    setTimeout(function () {
+      playAudio(playBtn);
+    }, 420);
   }
 
   function renderQuiz(page) {
