@@ -189,7 +189,7 @@
       source:"七上 U1" },
 
     { id:"p29", section:"综合练习", title:"看图造句 ①", type:"picture-build", badge:"action", badgeText:"🧩 造句",
-      image:"l01p-scene-train-leaves.png", instruction:"点击单词，组成正确句子：",
+      image:"l01p-scene-train-leaves.png", instruction:"单词已打乱。点选填入空格，组成正确句子：",
       tokens:["The","train","leaves","the","station","at","nine"], sentence:"The train leaves the station at nine.", zh:"火车九点驶离车站。" },
 
     { id:"p30", section:"综合练习", title:"听音排序 ①", type:"listen-order", badge:"sound", badgeText:"🎧 听音",
@@ -202,7 +202,7 @@
       hint:"The dining hall = 单数 → is", sentence:"The dining hall is across from the sports field.", zh:"食堂在运动场对面。", verbType:"state" },
 
     { id:"p32", section:"综合练习", title:"看图造句 ② · be", type:"picture-build", badge:"state", badgeText:"🧩 造句",
-      image:"l01p-scene-school-library-big.png", instruction:"组成 be 动词句子：",
+      image:"l01p-scene-school-library-big.png", instruction:"单词已打乱。点选填入，组成 be 动词句子：",
       tokens:["The","school","library","is","very","big"], sentence:"The school library is very big.", zh:"学校图书馆很大。" },
 
     { id:"p33", section:"综合练习", title:"听音排序 ②", type:"listen-order", badge:"sound", badgeText:"🎧 听音",
@@ -320,7 +320,7 @@
       image:"l01p-scene-emma-badminton.png", audio:"Does Emma play badminton with Jack after school?", opts:["Do Emma play badminton?","Does Emma play badminton with Jack after school?","Does Jack play football after school?"], ans:1, zh:"艾玛放学后和杰克打羽毛球吗？" },
 
     { id:"p56", section:"课堂游戏", title:"看图造句 ③", type:"picture-build", badge:"action", badgeText:"🧩 造句",
-      image:"l01p-scene-shopkeeper.png", instruction:"组成句子：",
+      image:"l01p-scene-shopkeeper.png", instruction:"单词已打乱。点选填入空格，组成正确句子：",
       tokens:["The","shopkeeper","helps","me","find","the","right","size"], sentence:"The shopkeeper helps me find the right size.", zh:"店主帮我找到合适尺码。" },
 
     { id:"p57", section:"课堂游戏", title:"听音排序 ③", type:"listen-order", badge:"sound", badgeText:"🎧 听音",
