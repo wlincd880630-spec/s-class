@@ -16,6 +16,48 @@
       .replace(/\s+/g, " ");
   }
 
+  function shuffleArray(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i];
+      a[i] = a[j];
+      a[j] = t;
+    }
+    return a;
+  }
+
+  /** 打乱词块；若结果与原文顺序相同则交换前两项，保证初始必为乱序。 */
+  function shuffleTokenItems(items) {
+    if (items.length < 2) return items.slice();
+    var shuffled = shuffleArray(items);
+    var same = true;
+    for (var i = 0; i < items.length; i++) {
+      if (shuffled[i].id !== items[i].id) {
+        same = false;
+        break;
+      }
+    }
+    if (same) {
+      var tmp = shuffled[0];
+      shuffled[0] = shuffled[1];
+      shuffled[1] = tmp;
+    }
+    return shuffled;
+  }
+
+  function tokensToItems(tokens) {
+    return (tokens || []).map(function (t, i) {
+      return { id: "t" + i, text: t };
+    });
+  }
+
+  function itemsToText(items) {
+    return items.map(function (it) {
+      return it.text;
+    });
+  }
+
   function img(name) {
     return global.L01pImg ? global.L01pImg.url(name) : name;
   }
@@ -598,136 +640,338 @@
     bindCommon(document.getElementById("spellPanels"));
   }
 
-  function renderPictureBuild(page) {
-    var chips = page.tokens
-      .map(function (t) {
-        return '<button type="button" class="l01p-chip" data-t="' + esc(t) + '">' + esc(t) + "</button>";
-      })
-      .join("");
-    return (
-      header(page) +
-      '<article class="l01p-card">' +
-      hero(page) +
-      '<div class="l01p-body-inner"><h1 class="l01p-title">' +
-      esc(page.title) +
-      '</h1><p class="l01p-lead">' +
-      esc(page.instruction) +
-      '</p><div class="l01p-build" id="pbBuild"></div><div style="display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.45rem" id="pbBank">' +
-      chips +
-      '</div><div class="l01p-toolbar"><button type="button" class="l01p-btn l01p-btn--ghost" id="pbReset">重来</button></div><div class="l01p-fb" id="pbFb"></div></div></article>'
-    );
-  }
-
-  function bindPictureBuild(page) {
-    var picked = [];
-    var build = document.getElementById("pbBuild");
-    var fb = document.getElementById("pbFb");
-
-    function reset() {
-      picked = [];
-      if (build) build.innerHTML = "";
-      if (fb) fb.className = "l01p-fb";
-      document.querySelectorAll("#pbBank .l01p-chip").forEach(function (c) {
-        c.classList.remove("is-used");
-      });
-    }
-
-    var resetBtn = document.getElementById("pbReset");
-    if (resetBtn) resetBtn.addEventListener("click", reset);
-
-    document.querySelectorAll("#pbBank .l01p-chip").forEach(function (chip) {
-      chip.addEventListener("click", function () {
-        if (chip.classList.contains("is-used")) return;
-        chip.classList.add("is-used");
-        picked.push(chip.getAttribute("data-t"));
-        var s = document.createElement("span");
-        s.className = "l01p-chip";
-        s.textContent = chip.getAttribute("data-t");
-        build.appendChild(s);
-        if (picked.length >= page.tokens.length) {
-          var ok = normSentence(picked.join(" ")) === normSentence(page.sentence);
-          fb.className = "l01p-fb is-show " + (ok ? "l01p-fb--ok" : "l01p-fb--no");
-          fb.innerHTML = ok
-            ? "正确！" + sentBlock(page.sentence, page.zh) + ttsRow(page.sentence)
-            : "顺序不对，点「重来」再试一次！";
-          if (ok) {
-            bindCommon(fb);
-            speak(page.sentence);
-          } else {
-            setTimeout(reset, 1500);
-          }
-        }
-      });
-    });
-  }
-
-  function renderListenOrder(page) {
-    var shuffled = page.tokens.slice().sort(function () {
-      return Math.random() - 0.5;
-    });
-    var items = shuffled
-      .map(function (t) {
-        return '<div class="l01p-order-item" draggable="true" data-t="' + esc(t) + '">' + esc(t) + "</div>";
-      })
-      .join("");
+  function renderOrderExercise(page, opts) {
+    var hint =
+      opts.hint ||
+      "词块已随机打乱。点词块填入空槽，或先点空槽再点词块；点已填槽可退回。电脑可拖拽。";
+    var audioPanel =
+      opts.mode === "listen"
+        ? '<div class="l01p-sound-panel l01p-order-audio">' +
+          '<button type="button" class="l01p-btn l01p-btn--play" id="ordPlay" aria-label="播放句子">🔊</button>' +
+          '<div><p class="l01p-order-audio__title">先听句子，再排序</p>' +
+          '<p class="l01p-order-audio__sub">听不清可多点几次 · 排好后再检查</p></div></div>'
+        : "";
+    var checkBtn = opts.autoCheck
+      ? ""
+      : '<button type="button" class="l01p-btn" id="ordCheck">检查答案</button>';
     return (
       header(page) +
       '<article class="l01p-card">' +
       hero(page, page.sentence) +
       '<div class="l01p-body-inner"><h1 class="l01p-title">' +
       esc(page.title) +
-      '</h1><div class="l01p-sound-panel" style="padding:.75rem"><button type="button" class="l01p-btn l01p-btn--play" data-speak="' +
-      esc(page.audio || page.sentence) +
-      '">🔊</button><p>先听，再拖动或点击调整顺序</p></div><div id="loList" style="display:flex;flex-direction:column;gap:.35rem">' +
-      items +
-      '</div><div class="l01p-toolbar"><button type="button" class="l01p-btn" id="loCheck">检查答案</button></div><div class="l01p-fb" id="loFb"></div></div></article>'
+      '</h1><p class="l01p-order-hint">' +
+      hint +
+      "</p>" +
+      audioPanel +
+      '<p class="l01p-order-label">① 按顺序填入</p>' +
+      '<div class="l01p-order-slots" id="ordSlots" aria-label="句子排序槽"></div>' +
+      '<p class="l01p-order-label">② 词块池 <span class="l01p-order-label__tag">已打乱</span></p>' +
+      '<div class="l01p-order-pool" id="ordPool" aria-label="词块池"></div>' +
+      '<div class="l01p-toolbar">' +
+      '<button type="button" class="l01p-btn l01p-btn--ghost" id="ordReset">重来</button>' +
+      checkBtn +
+      "</div>" +
+      '<div class="l01p-fb" id="ordFb"></div></div></article>'
     );
   }
 
-  function bindListenOrder(page) {
-    var list = document.getElementById("loList");
-    var fb = document.getElementById("loFb");
-    var drag = null;
-    if (list) {
-      list.querySelectorAll(".l01p-order-item").forEach(function (item) {
-        item.addEventListener("dragstart", function () {
-          drag = item;
+  function bindOrderExercise(page, opts) {
+    var correctItems = tokensToItems(page.tokens);
+    var slotsEl = document.getElementById("ordSlots");
+    var poolEl = document.getElementById("ordPool");
+    var fb = document.getElementById("ordFb");
+    var slots = [];
+    var locked = false;
+    var dragItem = null;
+    var dragFrom = null;
+    var focusSlot = -1;
+
+    function speakAudio(btn) {
+      speak(page.audio || page.sentence, btn);
+    }
+
+    function renderSlots() {
+      if (!slotsEl) return;
+      slotsEl.innerHTML = "";
+      correctItems.forEach(function (_, i) {
+        var filled = slots[i];
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className =
+          "l01p-order-slot" +
+          (filled ? " is-filled" : " is-empty") +
+          (!filled && focusSlot === i ? " is-focus" : "");
+        btn.setAttribute("data-slot", String(i));
+        btn.setAttribute("aria-label", "第 " + (i + 1) + " 位");
+        if (filled) {
+          btn.textContent = filled.text;
+          btn.setAttribute("data-id", filled.id);
+        } else {
+          btn.innerHTML = '<span class="l01p-order-slot__num">' + (i + 1) + "</span>";
+        }
+        btn.addEventListener("click", function () {
+          onSlotTap(i);
         });
-        item.addEventListener("dragover", function (e) {
+        btn.addEventListener("dragover", function (e) {
           e.preventDefault();
+          btn.classList.add("is-target");
         });
-        item.addEventListener("drop", function (e) {
+        btn.addEventListener("dragleave", function () {
+          btn.classList.remove("is-target");
+        });
+        btn.addEventListener("drop", function (e) {
           e.preventDefault();
-          if (drag && drag !== item) {
-            var nodes = Array.from(list.children);
-            var a = nodes.indexOf(drag);
-            var b = nodes.indexOf(item);
-            if (a < b) list.insertBefore(drag, item.nextSibling);
-            else list.insertBefore(drag, item);
-          }
+          btn.classList.remove("is-target");
+          onDropToSlot(i);
         });
-        item.addEventListener("click", function () {
-          if (item.nextSibling) list.insertBefore(item.nextSibling, item);
-        });
+        if (filled) {
+          btn.draggable = !locked;
+          btn.addEventListener("dragstart", function () {
+            dragItem = filled;
+            dragFrom = { type: "slot", index: i };
+          });
+          btn.addEventListener("dragend", function () {
+            dragItem = null;
+            dragFrom = null;
+          });
+        }
+        slotsEl.appendChild(btn);
       });
     }
-    var chk = document.getElementById("loCheck");
-    if (chk)
-      chk.addEventListener("click", function () {
-        var order = Array.from(list.querySelectorAll(".l01p-order-item")).map(function (el) {
-          return el.getAttribute("data-t");
-        });
-        var ok = order.join(" ") === page.tokens.join(" ");
-        fb.className = "l01p-fb is-show " + (ok ? "l01p-fb--ok" : "l01p-fb--no");
-        fb.innerHTML = ok
-          ? sentBlock(page.sentence, page.zh) + ttsRow(page.sentence)
-          : "还不对，再听一遍！";
-        if (ok) {
-          bindCommon(fb);
-          speak(page.sentence);
-        }
+
+    function createPoolChip(item) {
+      var chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "l01p-order-chip";
+      chip.textContent = item.text;
+      chip.setAttribute("data-id", item.id);
+      chip.draggable = !locked;
+      chip.addEventListener("click", function () {
+        placeFromPool(item, chip, focusSlot);
       });
+      chip.addEventListener("dragstart", function () {
+        dragItem = item;
+        dragFrom = { type: "pool", el: chip };
+      });
+      chip.addEventListener("dragend", function () {
+        dragItem = null;
+        dragFrom = null;
+      });
+      return chip;
+    }
+
+    function renderPool(items) {
+      if (!poolEl) return;
+      poolEl.innerHTML = "";
+      items.forEach(function (item) {
+        poolEl.appendChild(createPoolChip(item));
+      });
+    }
+
+    function firstEmptySlot() {
+      for (var i = 0; i < slots.length; i++) {
+        if (!slots[i]) return i;
+      }
+      return -1;
+    }
+
+    function placeFromPool(item, chipEl, slotIndex) {
+      if (locked) return;
+      var idx = typeof slotIndex === "number" && slotIndex >= 0 && !slots[slotIndex] ? slotIndex : firstEmptySlot();
+      if (idx < 0) return;
+      focusSlot = -1;
+      slots[idx] = item;
+      if (chipEl && chipEl.parentNode) chipEl.parentNode.removeChild(chipEl);
+      renderSlots();
+      maybeAutoCheck();
+    }
+
+    function returnToPool(item) {
+      if (!poolEl || !item) return;
+      poolEl.appendChild(createPoolChip(item));
+    }
+
+    function onSlotTap(index) {
+      if (locked) return;
+      var item = slots[index];
+      if (item) {
+        focusSlot = -1;
+        slots[index] = null;
+        renderSlots();
+        returnToPool(item);
+        return;
+      }
+      focusSlot = focusSlot === index ? -1 : index;
+      renderSlots();
+    }
+
+    function onDropToSlot(index) {
+      if (locked || !dragItem) return;
+      var existing = slots[index];
+      if (dragFrom && dragFrom.type === "pool") {
+        if (dragFrom.el && dragFrom.el.parentNode) {
+          dragFrom.el.parentNode.removeChild(dragFrom.el);
+        }
+        if (existing) returnToPool(existing);
+        slots[index] = dragItem;
+      } else if (dragFrom && dragFrom.type === "slot") {
+        var fromIdx = dragFrom.index;
+        if (fromIdx === index) return;
+        slots[fromIdx] = existing || null;
+        slots[index] = dragItem;
+      }
+      dragItem = null;
+      dragFrom = null;
+      renderSlots();
+      maybeAutoCheck();
+    }
+
+    function isComplete() {
+      return slots.length === correctItems.length && slots.every(Boolean);
+    }
+
+    function isCorrect() {
+      if (!isComplete()) return false;
+      for (var i = 0; i < correctItems.length; i++) {
+        if (!slots[i] || slots[i].id !== correctItems[i].id) return false;
+      }
+      return true;
+    }
+
+    function showResult(ok) {
+      if (ok) locked = true;
+      if (!fb) return;
+      fb.className = "l01p-fb is-show " + (ok ? "l01p-fb--ok" : "l01p-fb--no");
+      if (ok) {
+        fb.innerHTML =
+          (opts.successText || "正确！") +
+          sentBlock(page.sentence, page.zh) +
+          ttsRow(page.sentence);
+        bindCommon(fb);
+        speak(page.sentence);
+      } else {
+        fb.textContent = opts.failText || "顺序还不对，再听一遍或点「重来」！";
+        if (opts.autoCheck) {
+          setTimeout(function () {
+            resetBoard();
+          }, 1400);
+        }
+      }
+      if (slotsEl) {
+        slotsEl.querySelectorAll(".l01p-order-slot").forEach(function (el, i) {
+          if (!slots[i]) return;
+          el.classList.add(slots[i].id === correctItems[i].id ? "is-correct" : "is-wrong");
+        });
+      }
+    }
+
+    function checkAnswer() {
+      if (!isComplete()) {
+        if (fb) {
+          fb.className = "l01p-fb is-show l01p-fb--no";
+          fb.textContent = "请先填满所有排序槽。";
+        }
+        return;
+      }
+      showResult(isCorrect());
+    }
+
+    function maybeAutoCheck() {
+      if (opts.autoCheck && isComplete()) {
+        setTimeout(checkAnswer, 180);
+      }
+    }
+
+    function resetBoard() {
+      locked = false;
+      focusSlot = -1;
+      slots = correctItems.map(function () {
+        return null;
+      });
+      if (fb) {
+        fb.className = "l01p-fb";
+        fb.innerHTML = "";
+      }
+      renderSlots();
+      renderPool(shuffleTokenItems(correctItems));
+      if (opts.autoPlay) {
+        setTimeout(function () {
+          speakAudio();
+        }, 350);
+      }
+    }
+
+    if (poolEl) {
+      poolEl.addEventListener("dragover", function (e) {
+        e.preventDefault();
+        poolEl.classList.add("is-target");
+      });
+      poolEl.addEventListener("dragleave", function () {
+        poolEl.classList.remove("is-target");
+      });
+      poolEl.addEventListener("drop", function (e) {
+        e.preventDefault();
+        poolEl.classList.remove("is-target");
+        if (locked || !dragItem || !dragFrom || dragFrom.type !== "slot") return;
+        slots[dragFrom.index] = null;
+        returnToPool(dragItem);
+        dragItem = null;
+        dragFrom = null;
+        renderSlots();
+      });
+    }
+
+    var resetBtn = document.getElementById("ordReset");
+    if (resetBtn) resetBtn.addEventListener("click", resetBoard);
+    var checkBtn = document.getElementById("ordCheck");
+    if (checkBtn) checkBtn.addEventListener("click", checkAnswer);
+    var playBtn = document.getElementById("ordPlay");
+    if (playBtn) {
+      playBtn.addEventListener("click", function () {
+        speakAudio(playBtn);
+      });
+    }
+
+    resetBoard();
     bindCommon(document);
+  }
+
+  function renderPictureBuild(page) {
+    return renderOrderExercise(page, {
+      mode: "build",
+      hint:
+        (page.instruction || "将词块排成正确句子。") +
+        " 词块已<strong>随机打乱</strong>：点词块填入空槽，点已填槽可退回；电脑也可拖拽。",
+      autoCheck: true,
+    });
+  }
+
+  function bindPictureBuild(page) {
+    bindOrderExercise(page, {
+      mode: "build",
+      autoCheck: true,
+      successText: "造句正确！",
+      failText: "顺序不对，再试一次！",
+    });
+  }
+
+  function renderListenOrder(page) {
+    return renderOrderExercise(page, {
+      mode: "listen",
+      hint:
+        "先听完整句子，再把<strong>已打乱</strong>的词块从左到右排好。手机：点词块 → 点空槽；电脑：可拖拽。",
+      autoCheck: false,
+    });
+  }
+
+  function bindListenOrder(page) {
+    bindOrderExercise(page, {
+      mode: "listen",
+      autoCheck: false,
+      autoPlay: true,
+      failText: "还不对，再听一遍！可点 🔊 重听。",
+    });
   }
 
   function renderQuiz(page) {
