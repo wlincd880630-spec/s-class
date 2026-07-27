@@ -950,7 +950,6 @@
   function renderListenOrder(page) {
     var deck = shuffleDistinct(makeTokenDeck(page.tokens));
     var n = page.tokens.length;
-    var audio = page.audio || page.sentence;
     return (
       header(page) +
       '<article class="l01p-card">' +
