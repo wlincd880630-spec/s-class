@@ -35,7 +35,7 @@ function wordTokens(en) {
 
 function imgName(prefix, en, i) {
   const s = slugify(en) || "scene-" + i;
-  return prefix + s + ".png";
+  return prefix + s + ".jpg";
 }
 
 /** 规范化 scene：补全 word tokens + 图片名 */
@@ -130,9 +130,9 @@ scenes.forEach((s) => useImg(s.image, s.imageHint, s.en));
 [...vocabRegular, ...vocabIrregular, ...vocabTime, ...vocabBePast].forEach((v) =>
   useImg(v.image, v.imageHint, v.example)
 );
-useImg("l03p-past-vs-present.png", "Split illustration: left yesterday calendar with kids playing football in past, right every day calendar with routine present habits, crayon children book style", "past vs present");
-useImg("l03p-playground.png", "Colorful elementary school playground with kids, warm afternoon light, crayon children's book illustration", "playground");
-useImg("l03p-was-were-chart.png", "Friendly classroom chart showing I/He/She/It was and You/We/They were with cute icons, crayon style", "was were chart");
+useImg("l03p-past-vs-present.jpg", "Split illustration: left yesterday calendar with kids playing football in past, right every day calendar with routine present habits, crayon children book style", "past vs present");
+useImg("l03p-playground.jpg", "Colorful elementary school playground with kids, warm afternoon light, crayon children's book illustration", "playground");
+useImg("l03p-was-were-chart.jpg", "Friendly classroom chart showing I/He/She/It was and You/We/They were with cute icons, crayon style", "was were chart");
 
 // ---------- corpus.js ----------
 const corpusJs = `(function (global) {
@@ -246,7 +246,7 @@ pages.push({
   type: "socratic",
   badge: "ask",
   badgeText: "💭 想一想",
-  image: "l03p-past-vs-present.png",
+  image: "l03p-past-vs-present.jpg",
   question: "「" + first(sWas).en + "」说的是什么时候？",
   choices: [
     { text: "现在正在发生", correct: false, fb: "正在发生要用现在进行时。" },
@@ -279,7 +279,7 @@ pages.push({
   type: "classify",
   badge: "ask",
   badgeText: "🧺 分类",
-  image: "l03p-past-vs-present.png",
+  image: "l03p-past-vs-present.jpg",
   lead: "把句子放进正确的篮子",
   buckets: [
     { key: "past", label: "⏪ 一般过去时" },
@@ -310,7 +310,7 @@ pages.push({
   type: "be-match",
   badge: "demo",
   badgeText: "🔗 配对",
-  image: "l03p-was-were-chart.png",
+  image: "l03p-was-were-chart.jpg",
   lead: "记住：I/He/She/It → was；You/We/They → were",
   chart: [
     { subjects: "I / He / She / It / 人名 / 单数", be: "was" },
@@ -357,7 +357,7 @@ pages.push({
   badge: "demo",
   badgeText: "🔍 自我发现",
   lead: "点击左右卡片听句子，再点「我发现了」对比动词变化。",
-  leftImage: "l03p-past-vs-present.png",
+  leftImage: "l03p-past-vs-present.jpg",
   leftLabel: "I play football every day.",
   rightImage: reg1.image,
   rightLabel: reg1.en,
@@ -491,7 +491,7 @@ pages.push({
   badge: "game",
   badgeText: "🔗 配对",
   pool: "matchPairs",
-  image: "l03p-playground.png",
+  image: "l03p-playground.jpg",
   pairs: matchPairs,
 });
 
@@ -648,7 +648,7 @@ pages.push({
   type: "practice-hub",
   badge: "game",
   badgeText: "🎮 练习",
-  image: "l03p-playground.png",
+  image: "l03p-playground.jpg",
   lead: "选择一种练习模式，巩固一般过去时！语料由 DeepSeek 生成，对齐 5–6 年级 + 小升初。",
   modes: [
     { icon: "📖", title: "词汇拓展", desc: "p38-40", href: "p38.html" },
@@ -729,7 +729,7 @@ pages.push({
   type: "multi-quiz",
   badge: "ask",
   badgeText: "📝 套题",
-  image: "l03p-was-were-chart.png",
+  image: "l03p-was-were-chart.jpg",
   lead: "共 6 题 · was / were",
   questions: multiFrom(qWasWere, 6),
 });
@@ -753,7 +753,7 @@ pages.push({
   type: "multi-quiz",
   badge: "ask",
   badgeText: "📝 套题",
-  image: "l03p-playground.png",
+  image: "l03p-playground.jpg",
   lead: "共 8 题 · 小升初难度",
   questions: multiFrom(qMix, 8),
 });
@@ -829,7 +829,7 @@ pages.push({
   badge: "game",
   badgeText: "🔗 配对",
   pool: "matchPairs",
-  image: "l03p-playground.png",
+  image: "l03p-playground.jpg",
   pairs: matchPairs,
 });
 
@@ -894,7 +894,7 @@ pages.push({
   badgeText: "🎧 听音",
   pool: "listenPick",
   rounds: 5,
-  image: "l03p-playground.png",
+  image: "l03p-playground.jpg",
 });
 
 pages.push({
@@ -928,7 +928,7 @@ pages.push({
   type: "summary",
   badge: "demo",
   badgeText: "📌 小结",
-  image: "l03p-past-vs-present.png",
+  image: "l03p-past-vs-present.jpg",
   checklist: [
     "时间标志：yesterday / last… / … ago → 一般过去时",
     "be：I/He/She/It → was；You/We/They → were",

@@ -3,6 +3,150 @@
   /** DeepSeek 生成 · 小学 5–6 年级 / 小升初一般过去时语料 */
   var VOCAB_REGULAR = [
   {
+    "word": "slipped",
+    "base": "slip",
+    "phonetic": "",
+    "zh": "滑倒",
+    "example": "Lily slipped on the wet floor and dropped her ice cream.",
+    "exampleZh": "莉莉在湿滑的地板上滑倒，弄掉了她的冰淇淋。",
+    "rule": "双写+ed",
+    "image": "l03p-reg-lily-slipped-on-the-wet-floor-and-dropped-her-ic.jpg",
+    "imageHint": "一个人脚底打滑，冰淇淋飞出去",
+    "source": "DeepSeek·生动场景"
+  },
+  {
+    "word": "climbed",
+    "base": "climb",
+    "phonetic": "",
+    "zh": "爬",
+    "example": "Tom climbed the tall tree to rescue the frightened kitten.",
+    "exampleZh": "汤姆爬上高大的树去救那只受惊的小猫。",
+    "rule": "+ed",
+    "image": "l03p-reg-tom-climbed-the-tall-tree-to-rescue-the-frighten.jpg",
+    "imageHint": "一个男孩爬树，树上有小猫",
+    "source": "DeepSeek·生动场景"
+  },
+  {
+    "word": "danced",
+    "base": "dance",
+    "phonetic": "",
+    "zh": "跳舞",
+    "example": "Emma danced in the rain with her red umbrella spinning.",
+    "exampleZh": "艾玛在雨中跳舞，她的红伞旋转着。",
+    "rule": "+d",
+    "image": "l03p-reg-emma-danced-in-the-rain-with-her-red-umbrella-sp.jpg",
+    "imageHint": "女孩在雨中旋转红伞",
+    "source": "DeepSeek·生动场景"
+  },
+  {
+    "word": "packed",
+    "base": "pack",
+    "phonetic": "",
+    "zh": "收拾/打包",
+    "example": "Jack packed his heavy backpack and left for the airport.",
+    "exampleZh": "杰克收拾好沉重的背包，出发去了机场。",
+    "rule": "+ed",
+    "image": "l03p-reg-jack-packed-his-heavy-backpack-and-left-for-the-.jpg",
+    "imageHint": "男孩背包满满，走向机场",
+    "source": "DeepSeek·生动场景"
+  },
+  {
+    "word": "smiled",
+    "base": "smile",
+    "phonetic": "",
+    "zh": "微笑",
+    "example": "Chen Tao smiled proudly after winning the chess match.",
+    "exampleZh": "陈涛在赢得象棋比赛后骄傲地笑了。",
+    "rule": "+d",
+    "image": "l03p-reg-chen-tao-smiled-proudly-after-winning-the-chess-.jpg",
+    "imageHint": "男孩对着棋盘开心笑",
+    "source": "DeepSeek·生动场景"
+  },
+  {
+    "word": "carried",
+    "base": "carry",
+    "phonetic": "",
+    "zh": "携带/抱",
+    "example": "Miss Li carried a stack of books into the sunny classroom.",
+    "exampleZh": "李老师抱着一摞书走进了阳光明媚的教室。",
+    "rule": "y→ied",
+    "image": "l03p-reg-miss-li-carried-a-stack-of-books-into-the-sunny-.jpg",
+    "imageHint": "女老师抱着一摞书进教室",
+    "source": "DeepSeek·生动场景"
+  },
+  {
+    "word": "fixed",
+    "base": "fix",
+    "phonetic": "",
+    "zh": "修理",
+    "example": "Mr Wang fixed the broken bicycle chain with a rusty wrench.",
+    "exampleZh": "王先生用一把生锈的扳手修好了断掉的自行车链条。",
+    "rule": "+ed",
+    "image": "l03p-reg-mr-wang-fixed-the-broken-bicycle-chain-with-a-ru.jpg",
+    "imageHint": "男子用扳手修自行车链条",
+    "source": "DeepSeek·生动场景"
+  },
+  {
+    "word": "cried",
+    "base": "cry",
+    "phonetic": "",
+    "zh": "哭",
+    "example": "Teng Fei cried bitterly when his goldfish floated belly-up.",
+    "exampleZh": "腾飞在他的金鱼翻肚漂浮时伤心地大哭。",
+    "rule": "y→ied",
+    "image": "l03p-reg-teng-fei-cried-bitterly-when-his-goldfish-floate.jpg",
+    "imageHint": "男孩对着鱼缸流泪，金鱼翻肚",
+    "source": "DeepSeek·生动场景"
+  },
+  {
+    "word": "baked",
+    "base": "bake",
+    "phonetic": "",
+    "zh": "烤",
+    "example": "Han Lin baked a chocolate cake and burnt the frosting.",
+    "exampleZh": "韩琳烤了一个巧克力蛋糕，但把糖霜烤焦了。",
+    "rule": "+d",
+    "image": "l03p-reg-han-lin-baked-a-chocolate-cake-and-burnt-the-fro.jpg",
+    "imageHint": "女孩从烤箱拿出蛋糕，上面冒黑烟",
+    "source": "DeepSeek·生动场景"
+  },
+  {
+    "word": "wrapped",
+    "base": "wrap",
+    "phonetic": "",
+    "zh": "包/裹",
+    "example": "Linda wrapped the gift box with shiny silver paper and a bow.",
+    "exampleZh": "琳达用闪亮的银纸和蝴蝶结把礼物盒包了起来。",
+    "rule": "双写+ed",
+    "image": "l03p-reg-linda-wrapped-the-gift-box-with-shiny-silver-pap.jpg",
+    "imageHint": "女孩用银纸包礼物盒，旁边有蝴蝶结",
+    "source": "DeepSeek·生动场景"
+  },
+  {
+    "word": "laughed",
+    "base": "laugh",
+    "phonetic": "",
+    "zh": "笑",
+    "example": "The children laughed loudly as the clown juggled oranges.",
+    "exampleZh": "小丑抛接橙子时，孩子们大声笑了起来。",
+    "rule": "+ed",
+    "image": "l03p-reg-the-children-laughed-loudly-as-the-clown-juggled.jpg",
+    "imageHint": "一群孩子大笑看小丑抛橙子",
+    "source": "DeepSeek·生动场景"
+  },
+  {
+    "word": "waved",
+    "base": "wave",
+    "phonetic": "",
+    "zh": "挥手/挥动",
+    "example": "The old man waved his hat and smiled at the passing train.",
+    "exampleZh": "老人挥动帽子，对着经过的火车微笑。",
+    "rule": "+d",
+    "image": "l03p-reg-the-old-man-waved-his-hat-and-smiled-at-the-pass.jpg",
+    "imageHint": "老人挥帽对火车微笑",
+    "source": "DeepSeek·生动场景"
+  },
+  {
     "word": "played",
     "base": "play",
     "phonetic": "",
@@ -10,7 +154,7 @@
     "example": "Tom played football in the park yesterday.",
     "exampleZh": "汤姆昨天在公园踢足球了。",
     "rule": "+ed",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-reg-tom-played-football-in-the-park-yesterday.jpg",
     "imageHint": "男孩在公园踢足球",
     "source": "DeepSeek · 5–6年级"
   },
@@ -22,7 +166,7 @@
     "example": "Emma watched a cartoon at home last night.",
     "exampleZh": "艾玛昨晚在家看了一部动画片。",
     "rule": "+ed",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-reg-emma-watched-a-cartoon-at-home-last-night.jpg",
     "imageHint": "女孩坐在沙发上看电视",
     "source": "DeepSeek · 5–6年级"
   },
@@ -34,7 +178,7 @@
     "example": "Chen Tao visited the museum in Chengdu last weekend.",
     "exampleZh": "陈涛上周末参观了成都的博物馆。",
     "rule": "+ed",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-reg-chen-tao-visited-the-museum-in-chengdu-last-week.jpg",
     "imageHint": "男孩在博物馆看恐龙骨架",
     "source": "DeepSeek · 5–6年级"
   },
@@ -46,104 +190,8 @@
     "example": "Lily liked the panda very much.",
     "exampleZh": "莉莉非常喜欢那只熊猫。",
     "rule": "+d",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-reg-lily-liked-the-panda-very-much.jpg",
     "imageHint": "女孩抱着熊猫玩偶笑",
-    "source": "DeepSeek · 5–6年级"
-  },
-  {
-    "word": "used",
-    "base": "use",
-    "phonetic": "",
-    "zh": "使用",
-    "example": "Jack used a map to find the school.",
-    "exampleZh": "杰克用一张地图找到了学校。",
-    "rule": "+d",
-    "image": "l03p-playground.jpg",
-    "imageHint": "男孩手里拿着一张地图",
-    "source": "DeepSeek · 5–6年级"
-  },
-  {
-    "word": "studied",
-    "base": "study",
-    "phonetic": "",
-    "zh": "学习；研究",
-    "example": "Han Lin studied English for two hours.",
-    "exampleZh": "韩林学了两个小时英语。",
-    "rule": "y→ied",
-    "image": "l03p-playground.jpg",
-    "imageHint": "女孩在书桌前写作业",
-    "source": "DeepSeek · 5–6年级"
-  },
-  {
-    "word": "carried",
-    "base": "carry",
-    "phonetic": "",
-    "zh": "搬；提；背",
-    "example": "Miss Li carried a big bag to the classroom.",
-    "exampleZh": "李老师提着一个大包走进教室。",
-    "rule": "y→ied",
-    "image": "l03p-playground.jpg",
-    "imageHint": "女老师提着一个大包",
-    "source": "DeepSeek · 5–6年级"
-  },
-  {
-    "word": "cried",
-    "base": "cry",
-    "phonetic": "",
-    "zh": "哭；喊",
-    "example": "The baby cried because it was hungry.",
-    "exampleZh": "婴儿因为饿了而哭。",
-    "rule": "y→ied",
-    "image": "l03p-playground.jpg",
-    "imageHint": "婴儿张着嘴哭",
-    "source": "DeepSeek · 5–6年级"
-  },
-  {
-    "word": "stopped",
-    "base": "stop",
-    "phonetic": "",
-    "zh": "停止；停下",
-    "example": "The bus stopped at the school gate.",
-    "exampleZh": "公交车停在校门口。",
-    "rule": "双写+ed",
-    "image": "l03p-playground.jpg",
-    "imageHint": "公交车停在门口",
-    "source": "DeepSeek · 5–6年级"
-  },
-  {
-    "word": "planned",
-    "base": "plan",
-    "phonetic": "",
-    "zh": "计划",
-    "example": "They planned a trip to Chengdu.",
-    "exampleZh": "他们计划了一次去成都的旅行。",
-    "rule": "双写+ed",
-    "image": "l03p-playground.jpg",
-    "imageHint": "几个人围着一张地图",
-    "source": "DeepSeek · 5–6年级"
-  },
-  {
-    "word": "helped",
-    "base": "help",
-    "phonetic": "",
-    "zh": "帮助",
-    "example": "Teng Fei helped his mother clean the house.",
-    "exampleZh": "腾飞帮妈妈打扫了房子。",
-    "rule": "+ed",
-    "image": "l03p-playground.jpg",
-    "imageHint": "男孩在擦桌子",
-    "source": "DeepSeek · 5–6年级"
-  },
-  {
-    "word": "talked",
-    "base": "talk",
-    "phonetic": "",
-    "zh": "说话；谈论",
-    "example": "Linda talked about her weekend in class.",
-    "exampleZh": "琳达在课堂上谈论了她的周末。",
-    "rule": "+ed",
-    "image": "l03p-playground.jpg",
-    "imageHint": "女孩在教室里举手发言",
     "source": "DeepSeek · 5–6年级"
   }
 ];
@@ -156,7 +204,7 @@
     "example": "Tom went to the zoo with his family.",
     "exampleZh": "汤姆和家人去了动物园。",
     "rule": "",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-irr-tom-went-to-the-zoo-with-his-family.jpg",
     "imageHint": "男孩和家人走向动物园大门",
     "source": "DeepSeek · 5–6年级"
   },
@@ -168,7 +216,7 @@
     "example": "Emma had a big breakfast this morning.",
     "exampleZh": "艾玛今天早上吃了一顿丰盛的早餐。",
     "rule": "",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-irr-emma-had-a-big-breakfast-this-morning.jpg",
     "imageHint": "女孩面前摆着面包和牛奶",
     "source": "DeepSeek · 5–6年级"
   },
@@ -180,7 +228,7 @@
     "example": "Jack did his homework after school.",
     "exampleZh": "杰克放学后做了作业。",
     "rule": "",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-irr-jack-did-his-homework-after-school.jpg",
     "imageHint": "男孩在书桌前写作业",
     "source": "DeepSeek · 5–6年级"
   },
@@ -192,7 +240,7 @@
     "example": "Miss Li said, 'Good morning, class.'",
     "exampleZh": "李老师说：“同学们，早上好。”",
     "rule": "",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-irr-miss-li-said-good-morning-class.jpg",
     "imageHint": "女老师站在讲台前说话",
     "source": "DeepSeek · 5–6年级"
   },
@@ -204,7 +252,7 @@
     "example": "Chen Tao saw a panda in Chengdu.",
     "exampleZh": "陈涛在成都看见了一只熊猫。",
     "rule": "",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-irr-chen-tao-saw-a-panda-in-chengdu.jpg",
     "imageHint": "男孩在竹林里看熊猫",
     "source": "DeepSeek · 5–6年级"
   },
@@ -216,7 +264,7 @@
     "example": "Mr Wang came to the classroom early.",
     "exampleZh": "王老师很早就来到了教室。",
     "rule": "",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-irr-mr-wang-came-to-the-classroom-early.jpg",
     "imageHint": "男老师走进教室",
     "source": "DeepSeek · 5–6年级"
   },
@@ -228,7 +276,7 @@
     "example": "Lily ate an apple for a snack.",
     "exampleZh": "莉莉吃了一个苹果当零食。",
     "rule": "",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-irr-lily-ate-an-apple-for-a-snack.jpg",
     "imageHint": "女孩咬了一口苹果",
     "source": "DeepSeek · 5–6年级"
   },
@@ -240,7 +288,7 @@
     "example": "Teng Fei drank some water after running.",
     "exampleZh": "腾飞跑步后喝了一些水。",
     "rule": "",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-irr-teng-fei-drank-some-water-after-running.jpg",
     "imageHint": "男孩拿着水杯喝水",
     "source": "DeepSeek · 5–6年级"
   },
@@ -252,7 +300,7 @@
     "example": "Han Lin ran to catch the bus.",
     "exampleZh": "韩林跑着去赶公交车。",
     "rule": "",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-irr-han-lin-ran-to-catch-the-bus.jpg",
     "imageHint": "女孩在站台奔跑",
     "source": "DeepSeek · 5–6年级"
   },
@@ -264,7 +312,7 @@
     "example": "Emma sang a beautiful song at the party.",
     "exampleZh": "艾玛在聚会上唱了一首动听的歌。",
     "rule": "",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-irr-emma-sang-a-beautiful-song-at-the-party.jpg",
     "imageHint": "女孩拿着话筒唱歌",
     "source": "DeepSeek · 5–6年级"
   },
@@ -276,7 +324,7 @@
     "example": "Jack wrote a letter to his friend.",
     "exampleZh": "杰克给朋友写了一封信。",
     "rule": "",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-irr-jack-wrote-a-letter-to-his-friend.jpg",
     "imageHint": "男孩在纸上写字",
     "source": "DeepSeek · 5–6年级"
   },
@@ -288,7 +336,7 @@
     "example": "Linda took a photo of the panda.",
     "exampleZh": "琳达给熊猫拍了一张照片。",
     "rule": "",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-irr-linda-took-a-photo-of-the-panda.jpg",
     "imageHint": "女孩用相机拍熊猫",
     "source": "DeepSeek · 5–6年级"
   },
@@ -300,7 +348,7 @@
     "example": "Mr Wang gave a book to Tom.",
     "exampleZh": "王老师给了汤姆一本书。",
     "rule": "",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-irr-mr-wang-gave-a-book-to-tom.jpg",
     "imageHint": "男老师递给男孩一本书",
     "source": "DeepSeek · 5–6年级"
   },
@@ -312,7 +360,7 @@
     "example": "Chen Tao made a model plane yesterday.",
     "exampleZh": "陈涛昨天做了一个飞机模型。",
     "rule": "",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-irr-chen-tao-made-a-model-plane-yesterday.jpg",
     "imageHint": "男孩在桌前拼模型",
     "source": "DeepSeek · 5–6年级"
   }
@@ -326,7 +374,7 @@
     "example": "Lily visited her grandma yesterday.",
     "exampleZh": "莉莉昨天去看望了她的奶奶。",
     "rule": "",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-time-lily-visited-her-grandma-yesterday.jpg",
     "imageHint": "日历上昨天被圈出",
     "source": "DeepSeek · 5–6年级"
   },
@@ -338,7 +386,7 @@
     "example": "Tom watched a film last night.",
     "exampleZh": "汤姆昨晚看了一部电影。",
     "rule": "",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-time-tom-watched-a-film-last-night.jpg",
     "imageHint": "月亮和星星，电视屏幕亮着",
     "source": "DeepSeek · 5–6年级"
   },
@@ -350,7 +398,7 @@
     "example": "Emma went to Chengdu last week.",
     "exampleZh": "艾玛上周去了成都。",
     "rule": "",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-time-emma-went-to-chengdu-last-week.jpg",
     "imageHint": "日历上上周被标记",
     "source": "DeepSeek · 5–6年级"
   },
@@ -362,7 +410,7 @@
     "example": "Jack played chess last weekend.",
     "exampleZh": "杰克上周末下了国际象棋。",
     "rule": "",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-time-jack-played-chess-last-weekend.jpg",
     "imageHint": "日历上的周六、周日被圈出",
     "source": "DeepSeek · 5–6年级"
   },
@@ -374,7 +422,7 @@
     "example": "Miss Li came to school early this morning.",
     "exampleZh": "李老师今天早上很早就到校了。",
     "rule": "",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-time-miss-li-came-to-school-early-this-morning.jpg",
     "imageHint": "太阳刚升起，学校大门",
     "source": "DeepSeek · 5–6年级"
   },
@@ -386,7 +434,7 @@
     "example": "Han Lin finished her homework just now.",
     "exampleZh": "韩林刚才完成了作业。",
     "rule": "",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-time-han-lin-finished-her-homework-just-now.jpg",
     "imageHint": "时钟指向当前时刻",
     "source": "DeepSeek · 5–6年级"
   },
@@ -398,7 +446,7 @@
     "example": "Teng Fei went to the park the day before yesterday.",
     "exampleZh": "腾飞前天去了公园。",
     "rule": "",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-time-teng-fei-went-to-the-park-the-day-before-yesterd.jpg",
     "imageHint": "日历上前天被圈出",
     "source": "DeepSeek · 5–6年级"
   },
@@ -410,7 +458,7 @@
     "example": "Linda visited the museum last month.",
     "exampleZh": "琳达上个月参观了博物馆。",
     "rule": "",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-time-linda-visited-the-museum-last-month.jpg",
     "imageHint": "日历翻到上个月",
     "source": "DeepSeek · 5–6年级"
   }
@@ -424,7 +472,7 @@
     "example": "I was at home yesterday.",
     "exampleZh": "我昨天在家。",
     "rule": "",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-be-i-was-at-home-yesterday.jpg",
     "imageHint": "女孩坐在家里沙发上",
     "source": "DeepSeek · 5–6年级"
   },
@@ -436,7 +484,7 @@
     "example": "They were in the park last Sunday.",
     "exampleZh": "他们上周日在公园里。",
     "rule": "",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-be-they-were-in-the-park-last-sunday.jpg",
     "imageHint": "几个孩子在公园玩耍",
     "source": "DeepSeek · 5–6年级"
   },
@@ -448,7 +496,7 @@
     "example": "Tom wasn't at school yesterday.",
     "exampleZh": "汤姆昨天不在学校。",
     "rule": "",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-be-tom-wasn-t-at-school-yesterday.jpg",
     "imageHint": "空空的课桌椅",
     "source": "DeepSeek · 5–6年级"
   },
@@ -460,7 +508,7 @@
     "example": "We weren't late for class.",
     "exampleZh": "我们上课没有迟到。",
     "rule": "",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-be-we-weren-t-late-for-class.jpg",
     "imageHint": "教室里的钟显示8:00",
     "source": "DeepSeek · 5–6年级"
   },
@@ -472,7 +520,7 @@
     "example": "There was a cat under the chair.",
     "exampleZh": "椅子下面有一只猫。",
     "rule": "",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-be-there-was-a-cat-under-the-chair.jpg",
     "imageHint": "椅子下面蹲着一只猫",
     "source": "DeepSeek · 5–6年级"
   },
@@ -484,7 +532,7 @@
     "example": "There were many books on the desk.",
     "exampleZh": "书桌上有许多书。",
     "rule": "",
-    "image": "l03p-playground.jpg",
+    "image": "l03p-be-there-were-many-books-on-the-desk.jpg",
     "imageHint": "书桌上堆满了书",
     "source": "DeepSeek · 5–6年级"
   }
@@ -2127,154 +2175,154 @@
 ];
   var MATCH_PAIRS = [
   {
-    "en": "Lily visited the zoo yesterday.",
-    "zh": "莉莉昨天参观了动物园。"
+    "en": "Lily slipped on the wet floor and dropped her ice cream.",
+    "zh": "莉莉在湿滑的地板上滑倒，弄掉了她的冰淇淋。"
   },
   {
-    "en": "Tom played football with Jack.",
-    "zh": "汤姆和杰克踢了足球。"
+    "en": "Tom climbed the tall tree to rescue the frightened kitten.",
+    "zh": "汤姆爬上高大的树去救那只受惊的小猫。"
   },
   {
-    "en": "Emma watched a film at home.",
-    "zh": "艾玛在家看了一部电影。"
+    "en": "Emma danced in the rain with her red umbrella spinning.",
+    "zh": "艾玛在雨中跳舞，她的红伞旋转着。"
   },
   {
-    "en": "Chen Tao walked to school last Monday.",
-    "zh": "陈涛上周一走路上学。"
+    "en": "Jack packed his heavy backpack and left for the airport.",
+    "zh": "杰克收拾好沉重的背包，出发去了机场。"
   },
   {
-    "en": "Miss Li taught English in the classroom.",
-    "zh": "李老师在教室里教英语。"
+    "en": "Chen Tao smiled proudly after winning the chess match.",
+    "zh": "陈涛在赢得象棋比赛后骄傲地笑了。"
   },
   {
-    "en": "Mr Wang cooked dinner for his family.",
-    "zh": "王老师为家人做了晚餐。"
+    "en": "Miss Li carried a stack of books into the sunny classroom.",
+    "zh": "李老师抱着一摞书走进了阳光明媚的教室。"
   },
   {
-    "en": "Teng Fei climbed the hill on Saturday.",
-    "zh": "腾飞周六爬了山。"
+    "en": "Mr Wang fixed the broken bicycle chain with a rusty wrench.",
+    "zh": "王先生用一把生锈的扳手修好了断掉的自行车链条。"
   },
   {
-    "en": "Han Lin visited Chengdu with Linda.",
-    "zh": "韩林和琳达一起游览了成都。"
+    "en": "Teng Fei cried bitterly when his goldfish floated belly-up.",
+    "zh": "腾飞在他的金鱼翻肚漂浮时伤心地大哭。"
   },
   {
-    "en": "Linda bought some souvenirs in Chengdu.",
-    "zh": "琳达在成都买了一些纪念品。"
+    "en": "Han Lin baked a chocolate cake and burnt the frosting.",
+    "zh": "韩琳烤了一个巧克力蛋糕，但把糖霜烤焦了。"
   },
   {
-    "en": "The children had a picnic in the park.",
-    "zh": "孩子们在公园里野餐了。"
+    "en": "Linda wrapped the gift box with shiny silver paper and a bow.",
+    "zh": "琳达用闪亮的银纸和蝴蝶结把礼物盒包了起来。"
   },
   {
-    "en": "Jack lost his pencil case at school.",
-    "zh": "杰克在学校丢了铅笔盒。"
+    "en": "The children laughed loudly as the clown juggled oranges.",
+    "zh": "小丑抛接橙子时，孩子们大声笑了起来。"
   },
   {
-    "en": "Lily and Emma sang a song together.",
-    "zh": "莉莉和艾玛一起唱了一首歌。"
+    "en": "The old man waved his hat and smiled at the passing train.",
+    "zh": "老人挥动帽子，对着经过的火车微笑。"
   }
 ];
   var LISTEN_PICK = [
   {
-    "audio": "Lily visited the zoo yesterday.",
+    "audio": "Lily slipped on the wet floor and dropped her ice cream.",
     "opts": [
-      "Lily visited the zoo yesterday.",
-      "Lily visits the zoo yesterday.",
-      "Lily is visiting the zoo yesterday."
+      "Lily slipped on the wet floor and dropped her ice cream.",
+      "Lily slipped on the dry floor and kept her ice cream.",
+      "Lily jumped on the wet floor and dropped her candy."
     ],
     "ans": 0,
-    "zh": "莉莉昨天参观了动物园。"
+    "zh": "莉莉在湿滑的地板上滑倒，弄掉了她的冰淇淋。"
   },
   {
-    "audio": "Tom played football with Jack.",
+    "audio": "Tom climbed the tall tree to rescue the frightened kitten.",
     "opts": [
-      "Tom played football with Jack.",
-      "Tom plays football with Jack.",
-      "Tom is playing football with Jack."
+      "Tom climbed the tall tree to rescue the frightened kitten.",
+      "Tom climbed the short wall to rescue the happy puppy.",
+      "Tom climbed the tall tree to chase the noisy bird."
     ],
     "ans": 0,
-    "zh": "汤姆和杰克踢了足球。"
+    "zh": "汤姆爬上高大的树去救那只受惊的小猫。"
   },
   {
-    "audio": "Emma watched a film at home.",
+    "audio": "Emma danced in the rain with her red umbrella spinning.",
     "opts": [
-      "Emma watched a film at home.",
-      "Emma watches a film at home.",
-      "Emma is watching a film at home."
+      "Emma danced in the rain with her red umbrella spinning.",
+      "Emma danced in the sun with her blue hat flying.",
+      "Emma walked in the rain with her red umbrella closed."
     ],
     "ans": 0,
-    "zh": "艾玛在家看了一部电影。"
+    "zh": "艾玛在雨中跳舞，她的红伞旋转着。"
   },
   {
-    "audio": "Chen Tao walked to school last Monday.",
+    "audio": "Jack packed his heavy backpack and left for the airport.",
     "opts": [
-      "Chen Tao walked to school last Monday.",
-      "Chen Tao walks to school last Monday.",
-      "Chen Tao is walking to school last Monday."
+      "Jack packed his heavy backpack and left for the airport.",
+      "Jack packed his light suitcase and left for the school.",
+      "Jack dropped his heavy backpack and ran to the park."
     ],
     "ans": 0,
-    "zh": "陈涛上周一走路上学。"
+    "zh": "杰克收拾好沉重的背包，出发去了机场。"
   },
   {
-    "audio": "Miss Li taught English in the classroom.",
+    "audio": "Chen Tao smiled proudly after winning the chess match.",
     "opts": [
-      "Miss Li taught English in the classroom.",
-      "Miss Li teaches English in the classroom.",
-      "Miss Li is teaching English in the classroom."
+      "Chen Tao smiled proudly after winning the chess match.",
+      "Chen Tao cried sadly after losing the chess match.",
+      "Chen Tao laughed loudly during the chess match."
     ],
     "ans": 0,
-    "zh": "李老师在教室里教英语。"
+    "zh": "陈涛在赢得象棋比赛后骄傲地笑了。"
   },
   {
-    "audio": "Mr Wang cooked dinner for his family.",
+    "audio": "Miss Li carried a stack of books into the sunny classroom.",
     "opts": [
-      "Mr Wang cooked dinner for his family.",
-      "Mr Wang cooks dinner for his family.",
-      "Mr Wang is cooking dinner for his family."
+      "Miss Li carried a stack of books into the sunny classroom.",
+      "Miss Li carried a single book into the dark classroom.",
+      "Miss Li pushed a cart of books into the empty gym."
     ],
     "ans": 0,
-    "zh": "王老师为家人做了晚餐。"
+    "zh": "李老师抱着一摞书走进了阳光明媚的教室。"
   },
   {
-    "audio": "Teng Fei climbed the hill on Saturday.",
+    "audio": "Mr Wang fixed the broken bicycle chain with a rusty wrench.",
     "opts": [
-      "Teng Fei climbed the hill on Saturday.",
-      "Teng Fei climbs the hill on Saturday.",
-      "Teng Fei is climbing the hill on Saturday."
+      "Mr Wang fixed the broken bicycle chain with a rusty wrench.",
+      "Mr Wang broke the new bicycle chain with a shiny hammer.",
+      "Mr Wang fixed the flat bicycle tire with a pump."
     ],
     "ans": 0,
-    "zh": "腾飞周六爬了山。"
+    "zh": "王先生用一把生锈的扳手修好了断掉的自行车链条。"
   },
   {
-    "audio": "Han Lin visited Chengdu with Linda.",
+    "audio": "Teng Fei cried bitterly when his goldfish floated belly-up.",
     "opts": [
-      "Han Lin visited Chengdu with Linda.",
-      "Han Lin visits Chengdu with Linda.",
-      "Han Lin is visiting Chengdu with Linda."
+      "Teng Fei cried bitterly when his goldfish floated belly-up.",
+      "Teng Fei laughed happily when his goldfish swam fast.",
+      "Teng Fei shouted angrily when his goldfish jumped out."
     ],
     "ans": 0,
-    "zh": "韩林和琳达一起游览了成都。"
+    "zh": "腾飞在他的金鱼翻肚漂浮时伤心地大哭。"
   },
   {
-    "audio": "Linda bought some souvenirs in Chengdu.",
+    "audio": "Han Lin baked a chocolate cake and burnt the frosting.",
     "opts": [
-      "Linda bought some souvenirs in Chengdu.",
-      "Linda buys some souvenirs in Chengdu.",
-      "Linda is buying some souvenirs in Chengdu."
+      "Han Lin baked a chocolate cake and burnt the frosting.",
+      "Han Lin bought a chocolate cake and saved the frosting.",
+      "Han Lin baked a vanilla cake and burnt the candles."
     ],
     "ans": 0,
-    "zh": "琳达在成都买了一些纪念品。"
+    "zh": "韩琳烤了一个巧克力蛋糕，但把糖霜烤焦了。"
   },
   {
-    "audio": "The children had a picnic in the park.",
+    "audio": "Linda wrapped the gift box with shiny silver paper and a bow.",
     "opts": [
-      "The children had a picnic in the park.",
-      "The children have a picnic in the park.",
-      "The children are having a picnic in the park."
+      "Linda wrapped the gift box with shiny silver paper and a bow.",
+      "Linda wrapped the gift box with dull brown paper and string.",
+      "Linda opened the gift box and found shiny silver paper inside."
     ],
     "ans": 0,
-    "zh": "孩子们在公园里野餐了。"
+    "zh": "琳达用闪亮的银纸和蝴蝶结把礼物盒包了起来。"
   }
 ];
 
