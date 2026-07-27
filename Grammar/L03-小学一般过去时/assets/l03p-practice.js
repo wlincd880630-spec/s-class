@@ -17,6 +17,7 @@
     /* ── 词汇卡 ── */
     function renderVocab(page) {
       var words = page.words || [];
+      if (page.pool && global.L03pCorpus && global.L03pCorpus[page.pool]) words = global.L03pCorpus[page.pool];
       if (page.pool === "vocabDaily" && global.L03pCorpus) words = global.L03pCorpus.vocabDaily;
       if (page.pool === "vocabBe" && global.L03pCorpus) words = global.L03pCorpus.vocabBe;
       if (page.pool === "vocabTime" && global.L03pCorpus) words = global.L03pCorpus.vocabTime;

@@ -6,10 +6,16 @@
     url: function (name) {
       if (!name) return "";
       if (/^https?:\/\//i.test(name)) return name;
-      return COS + String(name).replace(/^\/+/, "");
+      // 优先本地（仓库内已含配图）；COS 作为后续托管地址
+      return "assets/img/" + String(name).replace(/^\/+/, "");
     },
     local: function (name) {
       return "assets/img/" + String(name || "").replace(/^\/+/, "");
+    },
+    cos: function (name) {
+      if (!name) return "";
+      if (/^https?:\/\//i.test(name)) return name;
+      return COS + String(name).replace(/^\/+/, "");
     },
   };
 })(typeof window !== "undefined" ? window : null);

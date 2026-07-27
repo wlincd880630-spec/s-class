@@ -11,7 +11,7 @@
     "audio": "Lily was at school yesterday. Han Lin visited the museum with his family last Sunday.",
     "soundHint": "先听，不要看文字。听完再点「显示」。这些事发生在什么时候？",
     "question": "这些句子说的是现在，还是过去？",
-    "image": "l03p-scene-lily-was-at-school-yesterday.png",
+    "image": "l03p-scene-lily-was-at-school-yesterday.jpg",
     "sentence": "Lily was at school yesterday.",
     "zh": "莉莉昨天在学校。",
     "source": "DeepSeek · 导入"
@@ -23,7 +23,7 @@
     "type": "socratic",
     "badge": "ask",
     "badgeText": "💭 想一想",
-    "image": "l03p-past-vs-present.png",
+    "image": "l03p-past-vs-present.jpg",
     "question": "「Lily was at school yesterday.」说的是什么时候？",
     "choices": [
       {
@@ -53,7 +53,7 @@
     "type": "scene",
     "badge": "demo",
     "badgeText": "🕒 时间",
-    "image": "l03p-scene-lily-was-at-school-yesterday.png",
+    "image": "l03p-scene-lily-was-at-school-yesterday.jpg",
     "lead": "看见 yesterday / last week / … ago，优先想一般过去时！",
     "sentence": "Lily was at school yesterday.",
     "zh": "莉莉昨天在学校。",
@@ -66,7 +66,7 @@
     "type": "classify",
     "badge": "ask",
     "badgeText": "🧺 分类",
-    "image": "l03p-past-vs-present.png",
+    "image": "l03p-past-vs-present.jpg",
     "lead": "把句子放进正确的篮子",
     "buckets": [
       {
@@ -136,7 +136,7 @@
     "type": "scene",
     "badge": "state",
     "badgeText": "💙 was",
-    "image": "l03p-scene-lily-was-at-school-yesterday.png",
+    "image": "l03p-scene-lily-was-at-school-yesterday.jpg",
     "lead": "I / He / She / It / 人名 / 单数 → was",
     "sentence": "Lily was at school yesterday.",
     "zh": "莉莉昨天在学校。",
@@ -150,7 +150,7 @@
     "type": "scene",
     "badge": "state",
     "badgeText": "💙 were",
-    "image": "l03p-scene-tom-and-emma-were-in-the-park-last-weekend.png",
+    "image": "l03p-scene-tom-and-emma-were-in-the-park-last-weekend.jpg",
     "lead": "You / We / They / 复数 → were",
     "sentence": "Tom and Emma were in the park last weekend.",
     "zh": "汤姆和艾玛上周末在公园里。",
@@ -164,7 +164,7 @@
     "type": "scene",
     "badge": "state",
     "badgeText": "💙 was",
-    "image": "l03p-scene-jack-was-happy-because-he-got-a-gift.png",
+    "image": "l03p-scene-jack-was-happy-because-he-got-a-gift.jpg",
     "lead": "人名 / 单数事物用 was",
     "sentence": "Jack was happy because he got a gift.",
     "zh": "杰克很开心因为他收到了礼物。",
@@ -178,7 +178,7 @@
     "type": "scene",
     "badge": "state",
     "badgeText": "💙 were",
-    "image": "l03p-scene-chen-tao-and-teng-fei-were-classmates-three-year.png",
+    "image": "l03p-scene-chen-tao-and-teng-fei-were-classmates-three-year.jpg",
     "lead": "两个人或复数用 were",
     "sentence": "Chen Tao and Teng Fei were classmates three years ago.",
     "zh": "陈涛和腾飞三年前是同班同学。",
@@ -192,7 +192,7 @@
     "type": "be-match",
     "badge": "demo",
     "badgeText": "🔗 配对",
-    "image": "l03p-was-were-chart.png",
+    "image": "l03p-was-were-chart.jpg",
     "lead": "记住：I/He/She/It → was；You/We/They → were",
     "chart": [
       {
@@ -253,7 +253,7 @@
     "type": "socratic",
     "badge": "ask",
     "badgeText": "💭 was/were",
-    "image": "l03p-scene-tom-and-emma-were-in-the-park-last-weekend.png",
+    "image": "l03p-scene-tom-and-emma-were-in-the-park-last-weekend.jpg",
     "question": "「Tom and Emma _____ in the park last weekend.」选哪个？",
     "choices": [
       {
@@ -283,9 +283,9 @@
     "badge": "demo",
     "badgeText": "🔍 自我发现",
     "lead": "点击左右卡片听句子，再点「我发现了」对比动词变化。",
-    "leftImage": "l03p-past-vs-present.png",
+    "leftImage": "l03p-past-vs-present.jpg",
     "leftLabel": "I play football every day.",
-    "rightImage": "l03p-scene-han-lin-visited-the-museum-with-his-family-last-.png",
+    "rightImage": "l03p-scene-han-lin-visited-the-museum-with-his-family-last-.jpg",
     "rightLabel": "Han Lin visited the museum with his family last Sunday.",
     "leftSentence": "I play football every day.",
     "leftZh": "我每天踢足球。",
@@ -300,7 +300,7 @@
     "type": "scene",
     "badge": "action",
     "badgeText": "🏃 +ed",
-    "image": "l03p-scene-han-lin-visited-the-museum-with-his-family-last-.png",
+    "image": "l03p-scene-han-lin-visited-the-museum-with-his-family-last-.jpg",
     "lead": "规则变化：原形 + ed",
     "sentence": "Han Lin visited the museum with his family last Sunday.",
     "zh": "韩林上周日和家人参观了博物馆。",
@@ -314,7 +314,7 @@
     "type": "scene",
     "badge": "action",
     "badgeText": "🏃 +ed",
-    "image": "l03p-scene-linda-played-the-piano-at-the-school-concert-yes.png",
+    "image": "l03p-scene-linda-played-the-piano-at-the-school-concert-yes.jpg",
     "lead": "注意时间标志词",
     "sentence": "Linda played the piano at the school concert yesterday.",
     "zh": "琳达昨天在学校音乐会上弹了钢琴。",
@@ -328,7 +328,7 @@
     "type": "spelling",
     "badge": "demo",
     "badgeText": "✏️ 规律",
-    "image": "l03p-scene-han-lin-visited-the-museum-with-his-family-last-.png",
+    "image": "l03p-scene-han-lin-visited-the-museum-with-his-family-last-.jpg",
     "rules": [
       {
         "tab": "规则① +ed",
@@ -419,7 +419,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-han-lin-visited-the-museum-with-his-family-last-.png",
+    "image": "l03p-scene-han-lin-visited-the-museum-with-his-family-last-.jpg",
     "q": "Tom ___ his homework last night.",
     "opts": [
       "finished",
@@ -440,7 +440,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-linda-played-the-piano-at-the-school-concert-yes.png",
+    "image": "l03p-scene-linda-played-the-piano-at-the-school-concert-yes.jpg",
     "q": "Lily ___ to the park yesterday morning.",
     "opts": [
       "walked",
@@ -461,7 +461,7 @@
     "type": "scene",
     "badge": "action",
     "badgeText": "⚡ 不规则",
-    "image": "l03p-scene-teng-fei-and-chen-tao-went-to-the-zoo-in-chengdu.png",
+    "image": "l03p-scene-teng-fei-and-chen-tao-went-to-the-zoo-in-chengdu.jpg",
     "lead": "不规则动词要整词记忆：go → went",
     "sentence": "Teng Fei and Chen Tao went to the zoo in Chengdu last month.",
     "zh": "腾飞和陈涛上个月去了成都的动物园。",
@@ -475,7 +475,7 @@
     "type": "scene",
     "badge": "action",
     "badgeText": "⚡ 不规则",
-    "image": "l03p-scene-lily-saw-a-giant-panda-at-the-chengdu-research-b.png",
+    "image": "l03p-scene-lily-saw-a-giant-panda-at-the-chengdu-research-b.jpg",
     "lead": "看图说过去：发生了什么？",
     "sentence": "Lily saw a giant panda at the Chengdu Research Base last year.",
     "zh": "莉莉去年在成都研究基地看到了一只大熊猫。",
@@ -491,7 +491,7 @@
     "badgeText": "📖 词汇",
     "pool": "vocabIrregular",
     "lead": "小升初高频不规则：go/see/have/eat/take/write/come/make/buy/think…",
-    "image": "l03p-scene-teng-fei-and-chen-tao-went-to-the-zoo-in-chengdu.png"
+    "image": "l03p-scene-teng-fei-and-chen-tao-went-to-the-zoo-in-chengdu.jpg"
   },
   {
     "id": "p20",
@@ -500,7 +500,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-teng-fei-and-chen-tao-went-to-the-zoo-in-chengdu.png",
+    "image": "l03p-scene-teng-fei-and-chen-tao-went-to-the-zoo-in-chengdu.jpg",
     "q": "Lily ___ a new dress yesterday.",
     "opts": [
       "bought",
@@ -521,7 +521,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-lily-saw-a-giant-panda-at-the-chengdu-research-b.png",
+    "image": "l03p-scene-lily-saw-a-giant-panda-at-the-chengdu-research-b.jpg",
     "q": "Tom ___ to the zoo last Sunday.",
     "opts": [
       "went",
@@ -543,7 +543,7 @@
     "badge": "game",
     "badgeText": "🔗 配对",
     "pool": "matchPairs",
-    "image": "l03p-playground.png",
+    "image": "l03p-playground.jpg",
     "pairs": [
       {
         "en": "Lily visited the zoo yesterday.",
@@ -602,7 +602,7 @@
     "type": "dynamic",
     "badge": "demo",
     "badgeText": "🎬 动态",
-    "image": "l03p-scene-jack-didn-t-finish-his-homework-yesterday-evenin.png",
+    "image": "l03p-scene-jack-didn-t-finish-his-homework-yesterday-evenin.jpg",
     "lead": "否定：did not / didn't + 动词原形（不是过去式！）",
     "steps": [
       {
@@ -624,7 +624,7 @@
     "type": "scene",
     "badge": "neg",
     "badgeText": "🚫 否定",
-    "image": "l03p-scene-jack-didn-t-finish-his-homework-yesterday-evenin.png",
+    "image": "l03p-scene-jack-didn-t-finish-his-homework-yesterday-evenin.jpg",
     "lead": "didn't 后面用原形",
     "sentence": "Jack didn't finish his homework yesterday evening.",
     "zh": "杰克昨天晚上没有完成作业。",
@@ -638,7 +638,7 @@
     "type": "scene",
     "badge": "neg",
     "badgeText": "🚫 否定",
-    "image": "l03p-scene-chen-tao-didn-t-go-to-the-park-last-sunday-becau.png",
+    "image": "l03p-scene-chen-tao-didn-t-go-to-the-park-last-sunday-becau.jpg",
     "lead": "be 用 wasn't/weren't；实义动词用 didn't",
     "sentence": "Chen Tao didn't go to the park last Sunday because it rained.",
     "zh": "陈涛上周日没去公园因为下雨了。",
@@ -652,7 +652,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-jack-didn-t-finish-his-homework-yesterday-evenin.png",
+    "image": "l03p-scene-jack-didn-t-finish-his-homework-yesterday-evenin.jpg",
     "q": "Lily ___ not go to school yesterday.",
     "opts": [
       "did",
@@ -673,7 +673,7 @@
     "type": "dynamic",
     "badge": "demo",
     "badgeText": "🎬 动态",
-    "image": "l03p-scene-did-tom-visit-the-chengdu-panda-base-last-year.png",
+    "image": "l03p-scene-did-tom-visit-the-chengdu-panda-base-last-year.jpg",
     "lead": "疑问：Did + 主语 + 动词原形？",
     "steps": [
       {
@@ -695,7 +695,7 @@
     "type": "scene",
     "badge": "q",
     "badgeText": "❓ 疑问",
-    "image": "l03p-scene-did-tom-visit-the-chengdu-panda-base-last-year.png",
+    "image": "l03p-scene-did-tom-visit-the-chengdu-panda-base-last-year.jpg",
     "lead": "Did 后动词用原形",
     "sentence": "Did Tom visit the Chengdu Panda Base last year?",
     "zh": "汤姆去年参观成都熊猫基地了吗？",
@@ -709,7 +709,7 @@
     "type": "scene",
     "badge": "q",
     "badgeText": "❓ 疑问",
-    "image": "l03p-scene-did-you-go-to-the-school-library-yesterday.png",
+    "image": "l03p-scene-did-you-go-to-the-school-library-yesterday.jpg",
     "lead": "回答：Yes, … did. / No, … didn't.",
     "sentence": "Did you go to the school library yesterday?",
     "zh": "你昨天去学校图书馆了吗？",
@@ -723,7 +723,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-did-tom-visit-the-chengdu-panda-base-last-year.png",
+    "image": "l03p-scene-did-tom-visit-the-chengdu-panda-base-last-year.jpg",
     "q": "___ Lily go to the park yesterday?",
     "opts": [
       "Did",
@@ -744,7 +744,7 @@
     "type": "picture-build",
     "badge": "action",
     "badgeText": "🧩 造句",
-    "image": "l03p-scene-han-lin-visited-the-museum-with-his-family-last-.png",
+    "image": "l03p-scene-han-lin-visited-the-museum-with-his-family-last-.jpg",
     "instruction": "单词已打乱。点选填入空格，组成正确过去时句子：",
     "tokens": [
       "Han",
@@ -768,7 +768,7 @@
     "type": "listen-order",
     "badge": "sound",
     "badgeText": "🎧 听音",
-    "image": "l03p-scene-teng-fei-and-chen-tao-went-to-the-zoo-in-chengdu.png",
+    "image": "l03p-scene-teng-fei-and-chen-tao-went-to-the-zoo-in-chengdu.jpg",
     "audio": "Teng Fei and Chen Tao went to the zoo in Chengdu last month.",
     "tokens": [
       "Teng",
@@ -795,7 +795,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-lily-was-at-school-yesterday.png",
+    "image": "l03p-scene-lily-was-at-school-yesterday.jpg",
     "q": "There ___ a big tree in the park before.",
     "opts": [
       "was",
@@ -816,7 +816,7 @@
     "type": "picture-build",
     "badge": "state",
     "badgeText": "🧩 造句",
-    "image": "l03p-scene-lily-was-at-school-yesterday.png",
+    "image": "l03p-scene-lily-was-at-school-yesterday.jpg",
     "instruction": "组成 was/were 句子：",
     "tokens": [
       "Lily",
@@ -835,7 +835,7 @@
     "type": "listen-order",
     "badge": "sound",
     "badgeText": "🎧 听音",
-    "image": "l03p-scene-did-tom-visit-the-chengdu-panda-base-last-year.png",
+    "image": "l03p-scene-did-tom-visit-the-chengdu-panda-base-last-year.jpg",
     "audio": "Did Tom visit the Chengdu Panda Base last year?",
     "tokens": [
       "Did",
@@ -858,7 +858,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "🏆 终极",
-    "image": "l03p-scene-jack-didn-t-finish-his-homework-yesterday-evenin.png",
+    "image": "l03p-scene-jack-didn-t-finish-his-homework-yesterday-evenin.jpg",
     "q": "Lily and Tom ___ to the zoo last Sunday.",
     "opts": [
       "went",
@@ -879,7 +879,7 @@
     "type": "practice-hub",
     "badge": "game",
     "badgeText": "🎮 练习",
-    "image": "l03p-playground.png",
+    "image": "l03p-playground.jpg",
     "lead": "选择一种练习模式，巩固一般过去时！语料由 DeepSeek 生成，对齐 5–6 年级 + 小升初。",
     "modes": [
       {
@@ -953,7 +953,7 @@
     "badgeText": "📖 词汇",
     "pool": "vocabRegular",
     "lead": "规则过去式 · 可点词查 DeepSeek 词典",
-    "image": "l03p-scene-han-lin-visited-the-museum-with-his-family-last-.png"
+    "image": "l03p-scene-han-lin-visited-the-museum-with-his-family-last-.jpg"
   },
   {
     "id": "p39",
@@ -964,7 +964,7 @@
     "badgeText": "📖 词汇",
     "pool": "vocabIrregular",
     "lead": "小升初高频不规则动词",
-    "image": "l03p-scene-teng-fei-and-chen-tao-went-to-the-zoo-in-chengdu.png"
+    "image": "l03p-scene-teng-fei-and-chen-tao-went-to-the-zoo-in-chengdu.jpg"
   },
   {
     "id": "p40",
@@ -975,7 +975,7 @@
     "badgeText": "📖 词汇",
     "pool": "vocabTime",
     "lead": "yesterday / last week / … ago",
-    "image": "l03p-scene-lily-was-at-school-yesterday.png"
+    "image": "l03p-scene-lily-was-at-school-yesterday.jpg"
   },
   {
     "id": "p41",
@@ -984,7 +984,7 @@
     "type": "scene",
     "badge": "state",
     "badgeText": "💙 be过去",
-    "image": "l03p-scene-jack-was-happy-because-he-got-a-gift.png",
+    "image": "l03p-scene-jack-was-happy-because-he-got-a-gift.jpg",
     "lead": "DeepSeek 语料 · 5GA",
     "sentence": "Jack was happy because he got a gift.",
     "zh": "杰克很开心因为他收到了礼物。",
@@ -998,7 +998,7 @@
     "type": "scene",
     "badge": "state",
     "badgeText": "💙 be过去",
-    "image": "l03p-scene-chen-tao-and-teng-fei-were-classmates-three-year.png",
+    "image": "l03p-scene-chen-tao-and-teng-fei-were-classmates-three-year.jpg",
     "lead": "DeepSeek 语料 · 6GA",
     "sentence": "Chen Tao and Teng Fei were classmates three years ago.",
     "zh": "陈涛和腾飞三年前是同班同学。",
@@ -1012,7 +1012,7 @@
     "type": "scene",
     "badge": "state",
     "badgeText": "💙 be过去",
-    "image": "l03p-scene-miss-li-was-our-english-teacher-last-year.png",
+    "image": "l03p-scene-miss-li-was-our-english-teacher-last-year.jpg",
     "lead": "DeepSeek 语料 · 5GA",
     "sentence": "Miss Li was our English teacher last year.",
     "zh": "李老师去年是我们的英语老师。",
@@ -1026,7 +1026,7 @@
     "type": "scene",
     "badge": "state",
     "badgeText": "💙 be过去",
-    "image": "l03p-scene-the-children-were-in-chengdu-last-summer.png",
+    "image": "l03p-scene-the-children-were-in-chengdu-last-summer.jpg",
     "lead": "DeepSeek 语料 · 6GA",
     "sentence": "The children were in Chengdu last summer.",
     "zh": "孩子们去年夏天在成都。",
@@ -1040,7 +1040,7 @@
     "type": "multi-quiz",
     "badge": "ask",
     "badgeText": "📝 套题",
-    "image": "l03p-was-were-chart.png",
+    "image": "l03p-was-were-chart.jpg",
     "lead": "共 6 题 · was / were",
     "questions": [
       {
@@ -1112,7 +1112,7 @@
     "type": "multi-quiz",
     "badge": "ask",
     "badgeText": "📝 套题",
-    "image": "l03p-scene-teng-fei-and-chen-tao-went-to-the-zoo-in-chengdu.png",
+    "image": "l03p-scene-teng-fei-and-chen-tao-went-to-the-zoo-in-chengdu.jpg",
     "lead": "共 6 题",
     "questions": [
       {
@@ -1184,7 +1184,7 @@
     "type": "multi-quiz",
     "badge": "ask",
     "badgeText": "📝 套题",
-    "image": "l03p-playground.png",
+    "image": "l03p-playground.jpg",
     "lead": "共 8 题 · 小升初难度",
     "questions": [
       {
@@ -1335,7 +1335,7 @@
     "badge": "game",
     "badgeText": "🔗 配对",
     "pool": "matchPairs",
-    "image": "l03p-playground.png",
+    "image": "l03p-playground.jpg",
     "pairs": [
       {
         "en": "Lily visited the zoo yesterday.",
@@ -1396,7 +1396,7 @@
     "badgeText": "🎧 听音",
     "pool": "listenPick",
     "startIndex": 0,
-    "image": "l03p-scene-lily-was-at-school-yesterday.png"
+    "image": "l03p-scene-lily-was-at-school-yesterday.jpg"
   },
   {
     "id": "p55",
@@ -1407,7 +1407,7 @@
     "badgeText": "🎧 听音",
     "pool": "listenPick",
     "startIndex": 3,
-    "image": "l03p-scene-teng-fei-and-chen-tao-went-to-the-zoo-in-chengdu.png"
+    "image": "l03p-scene-teng-fei-and-chen-tao-went-to-the-zoo-in-chengdu.jpg"
   },
   {
     "id": "p56",
@@ -1416,7 +1416,7 @@
     "type": "picture-build",
     "badge": "action",
     "badgeText": "🧩 造句",
-    "image": "l03p-scene-emma-had-a-picnic-with-her-friends-in-the-park-l.png",
+    "image": "l03p-scene-emma-had-a-picnic-with-her-friends-in-the-park-l.jpg",
     "instruction": "单词已打乱。点选填入，组成正确句子：",
     "tokens": [
       "Emma",
@@ -1442,7 +1442,7 @@
     "type": "listen-order",
     "badge": "sound",
     "badgeText": "🎧 听音",
-    "image": "l03p-scene-jack-didn-t-finish-his-homework-yesterday-evenin.png",
+    "image": "l03p-scene-jack-didn-t-finish-his-homework-yesterday-evenin.jpg",
     "audio": "Jack didn't finish his homework yesterday evening.",
     "tokens": [
       "Jack",
@@ -1465,7 +1465,7 @@
     "badgeText": "🎧 听音",
     "pool": "listenPick",
     "rounds": 5,
-    "image": "l03p-playground.png"
+    "image": "l03p-playground.jpg"
   },
   {
     "id": "p59",
@@ -1496,7 +1496,7 @@
     "type": "summary",
     "badge": "demo",
     "badgeText": "📌 小结",
-    "image": "l03p-past-vs-present.png",
+    "image": "l03p-past-vs-present.jpg",
     "checklist": [
       "时间标志：yesterday / last… / … ago → 一般过去时",
       "be：I/He/She/It → was；You/We/They → were",

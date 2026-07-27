@@ -1160,7 +1160,7 @@
       (prev
         ? '<a class="l03p-pager__prev" href="' + prev + '.html">← 上一页</a>'
         : '<a class="l03p-pager__prev is-muted" href="index.html">← 目录</a>') +
-      '<a class="l03p-pager__logo" href="../index.html"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Logo" width="96" height="34" decoding="async"/></a>' +
+      '<a class="l03p-pager__logo" href="../index.html"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.jpg" alt="Logo" width="96" height="34" decoding="async"/></a>' +
       (next
         ? '<a class="l03p-pager__next" href="' + next + '.html">下一页 →</a>'
         : '<a class="l03p-pager__next" href="index.html">目录 →</a>');

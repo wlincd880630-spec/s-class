@@ -10,7 +10,7 @@
     "example": "Tom played football in the park yesterday.",
     "exampleZh": "汤姆昨天在公园踢足球了。",
     "rule": "+ed",
-    "image": "l03p-reg-tom-played-football-in-the-park-yesterday.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "男孩在公园踢足球",
     "source": "DeepSeek · 5–6年级"
   },
@@ -22,7 +22,7 @@
     "example": "Emma watched a cartoon at home last night.",
     "exampleZh": "艾玛昨晚在家看了一部动画片。",
     "rule": "+ed",
-    "image": "l03p-reg-emma-watched-a-cartoon-at-home-last-night.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "女孩坐在沙发上看电视",
     "source": "DeepSeek · 5–6年级"
   },
@@ -34,7 +34,7 @@
     "example": "Chen Tao visited the museum in Chengdu last weekend.",
     "exampleZh": "陈涛上周末参观了成都的博物馆。",
     "rule": "+ed",
-    "image": "l03p-reg-chen-tao-visited-the-museum-in-chengdu-last-week.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "男孩在博物馆看恐龙骨架",
     "source": "DeepSeek · 5–6年级"
   },
@@ -46,7 +46,7 @@
     "example": "Lily liked the panda very much.",
     "exampleZh": "莉莉非常喜欢那只熊猫。",
     "rule": "+d",
-    "image": "l03p-reg-lily-liked-the-panda-very-much.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "女孩抱着熊猫玩偶笑",
     "source": "DeepSeek · 5–6年级"
   },
@@ -58,7 +58,7 @@
     "example": "Jack used a map to find the school.",
     "exampleZh": "杰克用一张地图找到了学校。",
     "rule": "+d",
-    "image": "l03p-reg-jack-used-a-map-to-find-the-school.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "男孩手里拿着一张地图",
     "source": "DeepSeek · 5–6年级"
   },
@@ -70,7 +70,7 @@
     "example": "Han Lin studied English for two hours.",
     "exampleZh": "韩林学了两个小时英语。",
     "rule": "y→ied",
-    "image": "l03p-reg-han-lin-studied-english-for-two-hours.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "女孩在书桌前写作业",
     "source": "DeepSeek · 5–6年级"
   },
@@ -82,7 +82,7 @@
     "example": "Miss Li carried a big bag to the classroom.",
     "exampleZh": "李老师提着一个大包走进教室。",
     "rule": "y→ied",
-    "image": "l03p-reg-miss-li-carried-a-big-bag-to-the-classroom.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "女老师提着一个大包",
     "source": "DeepSeek · 5–6年级"
   },
@@ -94,7 +94,7 @@
     "example": "The baby cried because it was hungry.",
     "exampleZh": "婴儿因为饿了而哭。",
     "rule": "y→ied",
-    "image": "l03p-reg-the-baby-cried-because-it-was-hungry.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "婴儿张着嘴哭",
     "source": "DeepSeek · 5–6年级"
   },
@@ -106,7 +106,7 @@
     "example": "The bus stopped at the school gate.",
     "exampleZh": "公交车停在校门口。",
     "rule": "双写+ed",
-    "image": "l03p-reg-the-bus-stopped-at-the-school-gate.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "公交车停在门口",
     "source": "DeepSeek · 5–6年级"
   },
@@ -118,7 +118,7 @@
     "example": "They planned a trip to Chengdu.",
     "exampleZh": "他们计划了一次去成都的旅行。",
     "rule": "双写+ed",
-    "image": "l03p-reg-they-planned-a-trip-to-chengdu.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "几个人围着一张地图",
     "source": "DeepSeek · 5–6年级"
   },
@@ -130,7 +130,7 @@
     "example": "Teng Fei helped his mother clean the house.",
     "exampleZh": "腾飞帮妈妈打扫了房子。",
     "rule": "+ed",
-    "image": "l03p-reg-teng-fei-helped-his-mother-clean-the-house.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "男孩在擦桌子",
     "source": "DeepSeek · 5–6年级"
   },
@@ -142,7 +142,7 @@
     "example": "Linda talked about her weekend in class.",
     "exampleZh": "琳达在课堂上谈论了她的周末。",
     "rule": "+ed",
-    "image": "l03p-reg-linda-talked-about-her-weekend-in-class.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "女孩在教室里举手发言",
     "source": "DeepSeek · 5–6年级"
   }
@@ -156,7 +156,7 @@
     "example": "Tom went to the zoo with his family.",
     "exampleZh": "汤姆和家人去了动物园。",
     "rule": "",
-    "image": "l03p-irr-tom-went-to-the-zoo-with-his-family.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "男孩和家人走向动物园大门",
     "source": "DeepSeek · 5–6年级"
   },
@@ -168,7 +168,7 @@
     "example": "Emma had a big breakfast this morning.",
     "exampleZh": "艾玛今天早上吃了一顿丰盛的早餐。",
     "rule": "",
-    "image": "l03p-irr-emma-had-a-big-breakfast-this-morning.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "女孩面前摆着面包和牛奶",
     "source": "DeepSeek · 5–6年级"
   },
@@ -180,7 +180,7 @@
     "example": "Jack did his homework after school.",
     "exampleZh": "杰克放学后做了作业。",
     "rule": "",
-    "image": "l03p-irr-jack-did-his-homework-after-school.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "男孩在书桌前写作业",
     "source": "DeepSeek · 5–6年级"
   },
@@ -192,7 +192,7 @@
     "example": "Miss Li said, 'Good morning, class.'",
     "exampleZh": "李老师说：“同学们，早上好。”",
     "rule": "",
-    "image": "l03p-irr-miss-li-said-good-morning-class.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "女老师站在讲台前说话",
     "source": "DeepSeek · 5–6年级"
   },
@@ -204,7 +204,7 @@
     "example": "Chen Tao saw a panda in Chengdu.",
     "exampleZh": "陈涛在成都看见了一只熊猫。",
     "rule": "",
-    "image": "l03p-irr-chen-tao-saw-a-panda-in-chengdu.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "男孩在竹林里看熊猫",
     "source": "DeepSeek · 5–6年级"
   },
@@ -216,7 +216,7 @@
     "example": "Mr Wang came to the classroom early.",
     "exampleZh": "王老师很早就来到了教室。",
     "rule": "",
-    "image": "l03p-irr-mr-wang-came-to-the-classroom-early.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "男老师走进教室",
     "source": "DeepSeek · 5–6年级"
   },
@@ -228,7 +228,7 @@
     "example": "Lily ate an apple for a snack.",
     "exampleZh": "莉莉吃了一个苹果当零食。",
     "rule": "",
-    "image": "l03p-irr-lily-ate-an-apple-for-a-snack.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "女孩咬了一口苹果",
     "source": "DeepSeek · 5–6年级"
   },
@@ -240,7 +240,7 @@
     "example": "Teng Fei drank some water after running.",
     "exampleZh": "腾飞跑步后喝了一些水。",
     "rule": "",
-    "image": "l03p-irr-teng-fei-drank-some-water-after-running.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "男孩拿着水杯喝水",
     "source": "DeepSeek · 5–6年级"
   },
@@ -252,7 +252,7 @@
     "example": "Han Lin ran to catch the bus.",
     "exampleZh": "韩林跑着去赶公交车。",
     "rule": "",
-    "image": "l03p-irr-han-lin-ran-to-catch-the-bus.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "女孩在站台奔跑",
     "source": "DeepSeek · 5–6年级"
   },
@@ -264,7 +264,7 @@
     "example": "Emma sang a beautiful song at the party.",
     "exampleZh": "艾玛在聚会上唱了一首动听的歌。",
     "rule": "",
-    "image": "l03p-irr-emma-sang-a-beautiful-song-at-the-party.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "女孩拿着话筒唱歌",
     "source": "DeepSeek · 5–6年级"
   },
@@ -276,7 +276,7 @@
     "example": "Jack wrote a letter to his friend.",
     "exampleZh": "杰克给朋友写了一封信。",
     "rule": "",
-    "image": "l03p-irr-jack-wrote-a-letter-to-his-friend.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "男孩在纸上写字",
     "source": "DeepSeek · 5–6年级"
   },
@@ -288,7 +288,7 @@
     "example": "Linda took a photo of the panda.",
     "exampleZh": "琳达给熊猫拍了一张照片。",
     "rule": "",
-    "image": "l03p-irr-linda-took-a-photo-of-the-panda.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "女孩用相机拍熊猫",
     "source": "DeepSeek · 5–6年级"
   },
@@ -300,7 +300,7 @@
     "example": "Mr Wang gave a book to Tom.",
     "exampleZh": "王老师给了汤姆一本书。",
     "rule": "",
-    "image": "l03p-irr-mr-wang-gave-a-book-to-tom.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "男老师递给男孩一本书",
     "source": "DeepSeek · 5–6年级"
   },
@@ -312,7 +312,7 @@
     "example": "Chen Tao made a model plane yesterday.",
     "exampleZh": "陈涛昨天做了一个飞机模型。",
     "rule": "",
-    "image": "l03p-irr-chen-tao-made-a-model-plane-yesterday.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "男孩在桌前拼模型",
     "source": "DeepSeek · 5–6年级"
   }
@@ -326,7 +326,7 @@
     "example": "Lily visited her grandma yesterday.",
     "exampleZh": "莉莉昨天去看望了她的奶奶。",
     "rule": "",
-    "image": "l03p-time-lily-visited-her-grandma-yesterday.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "日历上昨天被圈出",
     "source": "DeepSeek · 5–6年级"
   },
@@ -338,7 +338,7 @@
     "example": "Tom watched a film last night.",
     "exampleZh": "汤姆昨晚看了一部电影。",
     "rule": "",
-    "image": "l03p-time-tom-watched-a-film-last-night.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "月亮和星星，电视屏幕亮着",
     "source": "DeepSeek · 5–6年级"
   },
@@ -350,7 +350,7 @@
     "example": "Emma went to Chengdu last week.",
     "exampleZh": "艾玛上周去了成都。",
     "rule": "",
-    "image": "l03p-time-emma-went-to-chengdu-last-week.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "日历上上周被标记",
     "source": "DeepSeek · 5–6年级"
   },
@@ -362,7 +362,7 @@
     "example": "Jack played chess last weekend.",
     "exampleZh": "杰克上周末下了国际象棋。",
     "rule": "",
-    "image": "l03p-time-jack-played-chess-last-weekend.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "日历上的周六、周日被圈出",
     "source": "DeepSeek · 5–6年级"
   },
@@ -374,7 +374,7 @@
     "example": "Miss Li came to school early this morning.",
     "exampleZh": "李老师今天早上很早就到校了。",
     "rule": "",
-    "image": "l03p-time-miss-li-came-to-school-early-this-morning.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "太阳刚升起，学校大门",
     "source": "DeepSeek · 5–6年级"
   },
@@ -386,7 +386,7 @@
     "example": "Han Lin finished her homework just now.",
     "exampleZh": "韩林刚才完成了作业。",
     "rule": "",
-    "image": "l03p-time-han-lin-finished-her-homework-just-now.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "时钟指向当前时刻",
     "source": "DeepSeek · 5–6年级"
   },
@@ -398,7 +398,7 @@
     "example": "Teng Fei went to the park the day before yesterday.",
     "exampleZh": "腾飞前天去了公园。",
     "rule": "",
-    "image": "l03p-time-teng-fei-went-to-the-park-the-day-before-yesterd.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "日历上前天被圈出",
     "source": "DeepSeek · 5–6年级"
   },
@@ -410,7 +410,7 @@
     "example": "Linda visited the museum last month.",
     "exampleZh": "琳达上个月参观了博物馆。",
     "rule": "",
-    "image": "l03p-time-linda-visited-the-museum-last-month.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "日历翻到上个月",
     "source": "DeepSeek · 5–6年级"
   }
@@ -424,7 +424,7 @@
     "example": "I was at home yesterday.",
     "exampleZh": "我昨天在家。",
     "rule": "",
-    "image": "l03p-be-i-was-at-home-yesterday.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "女孩坐在家里沙发上",
     "source": "DeepSeek · 5–6年级"
   },
@@ -436,7 +436,7 @@
     "example": "They were in the park last Sunday.",
     "exampleZh": "他们上周日在公园里。",
     "rule": "",
-    "image": "l03p-be-they-were-in-the-park-last-sunday.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "几个孩子在公园玩耍",
     "source": "DeepSeek · 5–6年级"
   },
@@ -448,7 +448,7 @@
     "example": "Tom wasn't at school yesterday.",
     "exampleZh": "汤姆昨天不在学校。",
     "rule": "",
-    "image": "l03p-be-tom-wasn-t-at-school-yesterday.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "空空的课桌椅",
     "source": "DeepSeek · 5–6年级"
   },
@@ -460,7 +460,7 @@
     "example": "We weren't late for class.",
     "exampleZh": "我们上课没有迟到。",
     "rule": "",
-    "image": "l03p-be-we-weren-t-late-for-class.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "教室里的钟显示8:00",
     "source": "DeepSeek · 5–6年级"
   },
@@ -472,7 +472,7 @@
     "example": "There was a cat under the chair.",
     "exampleZh": "椅子下面有一只猫。",
     "rule": "",
-    "image": "l03p-be-there-was-a-cat-under-the-chair.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "椅子下面蹲着一只猫",
     "source": "DeepSeek · 5–6年级"
   },
@@ -484,7 +484,7 @@
     "example": "There were many books on the desk.",
     "exampleZh": "书桌上有许多书。",
     "rule": "",
-    "image": "l03p-be-there-were-many-books-on-the-desk.png",
+    "image": "l03p-playground.jpg",
     "imageHint": "书桌上堆满了书",
     "source": "DeepSeek · 5–6年级"
   }
