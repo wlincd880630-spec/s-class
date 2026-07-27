@@ -121,7 +121,31 @@
       <input type="search" id="courseSearch" placeholder="搜索知识点，如「完成时」「比较级」…" autocomplete="off" />
     </div>
     <p class="g-index-empty" id="emptyHint">没有匹配的课程，请换个关键词试试。</p>
-    <ol id="courseList">
+
+    <h2 class="g-index-group" id="groupPrimary">小学语法</h2>
+    <ol id="courseListPrimary" class="course-list">
+      <li data-title="一般现在时 小学版 3-5年级">
+        <a href="L01-小学一般现在时/index.html">
+          <span class="num">P1</span>
+          <span class="link-body">
+            <span class="label">一般现在时 · 小学版（3–5年级）</span>
+            <span class="desc">声音/图片先行、苏格拉底提问、动作/状态辨析、看图造句、听音排序、DeepSeek 点词。</span>
+          </span>
+        </a>
+      </li>
+      <li data-title="一般过去时 小学版 5-6年级">
+        <a href="L03-小学一般过去时/index.html">
+          <span class="num">P2</span>
+          <span class="link-body">
+            <span class="label">一般过去时 · 小学版（5–6年级 / 小升初）</span>
+            <span class="desc">was/were、规则/不规则、-ed 拼写、didn't/Did、听音排序、DeepSeek 语料与配图。</span>
+          </span>
+        </a>
+      </li>
+    </ol>
+
+    <h2 class="g-index-group g-index-group--junior" id="groupJunior">初中语法</h2>
+    <ol id="courseList" class="course-list">
       <li data-title="主谓宾与非谓语">
         <a href="L00-主谓宾与非谓语/index.html">
           <span class="num">01</span>
@@ -140,20 +164,11 @@
           </span>
         </a>
       </li>
-      <li data-title="一般现在时 小学版 3-5年级">
-        <a href="L01-小学一般现在时/index.html">
+      <li data-title="一般现在时 初中版">
+        <a href="L01/index.html">
           <span class="num">03</span>
           <span class="link-body">
-            <span class="label">一般现在时 · 小学版（3–5年级）</span>
-            <span class="desc">24页精细互动：声音/图片先行、苏格拉底提问、动作/状态辨析、看图造句、听音排序、DeepSeek点词。</span>
-          </span>
-        </a>
-      </li>
-      <li data-title="一般现在时">
-        <a href="L01/index.html">
-          <span class="num">03+</span>
-          <span class="link-body">
-            <span class="label">一般现在时 · 初中版（6年级+）</span>
+            <span class="label">一般现在时 · 初中版</span>
             <span class="desc">动作义与状态义动词；be 动词；第三人称单数；否定与疑问。</span>
           </span>
         </a>
@@ -167,11 +182,11 @@
           </span>
         </a>
       </li>
-      <li data-title="一般过去时">
+      <li data-title="一般过去时 初中版">
         <a href="L03/index.html">
           <span class="num">05</span>
           <span class="link-body">
-            <span class="label">一般过去时</span>
+            <span class="label">一般过去时 · 初中版</span>
             <span class="desc">规则与不规则动词过去式；否定与疑问；时间状语与语篇运用。</span>
           </span>
         </a>
@@ -291,7 +306,11 @@
 (function () {
   var search = document.getElementById("courseSearch");
   var emptyHint = document.getElementById("emptyHint");
-  var items = Array.prototype.slice.call(document.querySelectorAll("#courseList > li"));
+  var items = Array.prototype.slice.call(document.querySelectorAll(".course-list > li"));
+  var groupPrimary = document.getElementById("groupPrimary");
+  var groupJunior = document.getElementById("groupJunior");
+  var listPrimary = document.getElementById("courseListPrimary");
+  var listJunior = document.getElementById("courseList");
 
   function norm(s) {
     return String(s || "").toLowerCase().replace(/\s+/g, "");
@@ -300,14 +319,24 @@
   function applySearch() {
     var q = norm(search.value);
     var visible = 0;
+    var visPrimary = 0;
+    var visJunior = 0;
     items.forEach(function (li) {
       var title = norm(li.getAttribute("data-title"));
-      var desc = norm(li.querySelector(".desc").textContent);
-      var label = norm(li.querySelector(".label").textContent);
+      var descEl = li.querySelector(".desc");
+      var labelEl = li.querySelector(".label");
+      var desc = norm(descEl && descEl.textContent);
+      var label = norm(labelEl && labelEl.textContent);
       var show = !q || title.indexOf(q) >= 0 || desc.indexOf(q) >= 0 || label.indexOf(q) >= 0;
       li.classList.toggle("hidden", !show);
-      if (show) visible++;
+      if (show) {
+        visible++;
+        if (listPrimary && listPrimary.contains(li)) visPrimary++;
+        if (listJunior && listJunior.contains(li)) visJunior++;
+      }
     });
+    if (groupPrimary) groupPrimary.classList.toggle("hidden", !!q && visPrimary === 0);
+    if (groupJunior) groupJunior.classList.toggle("hidden", !!q && visJunior === 0);
     emptyHint.classList.toggle("show", visible === 0);
   }
 
