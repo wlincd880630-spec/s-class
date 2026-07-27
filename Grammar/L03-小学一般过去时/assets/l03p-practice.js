@@ -17,40 +17,220 @@
       return arr.slice().sort(function () { return Math.random() - 0.5; });
     }
 
-    /* ── 词汇卡 ── */
-    function renderVocab(page) {
+    /* ── 词汇卡：点开放大 + 例句图 + 句子排序 + 看图造句 ── */
+    function exampleTokens(en) {
+      return String(en || "")
+        .replace(/[.!?？！。]+$/g, "")
+        .replace(/[,，]/g, "")
+        .replace(/[“”"'‘’]/g, "")
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean);
+    }
+
+    function vocabWords(page) {
       var words = page.words || [];
       if (page.pool && global.L03pCorpus && global.L03pCorpus[page.pool]) words = global.L03pCorpus[page.pool];
       if (page.pool === "vocabDaily" && global.L03pCorpus) words = global.L03pCorpus.vocabDaily;
       if (page.pool === "vocabBe" && global.L03pCorpus) words = global.L03pCorpus.vocabBe;
       if (page.pool === "vocabTime" && global.L03pCorpus) words = global.L03pCorpus.vocabTime;
+      return words;
+    }
+
+    function renderVocab(page) {
+      var words = vocabWords(page);
       var cards = words
         .map(function (w, i) {
           var cardImg = (imageForSentence && imageForSentence(w.example)) || w.image;
+          var base = w.base ? '<span class="l03p-vocab-card__base">' + esc(w.base) + " → </span>" : "";
           return (
-            '<div class="l03p-vocab-card" data-i="' + i + '">' +
-            (cardImg ? '<img src="' + imgUrl(cardImg) + '" alt="" class="l03p-vocab-card__img"/>' : "") +
-            '<div class="l03p-vocab-card__word">' + esc(w.word) +
-            (w.phonetic ? ' <span class="l03p-vocab-card__ph">' + esc(w.phonetic) + "</span>" : "") +
-            "</div><div class=\"l03p-vocab-card__zh\">" + esc(w.zh) + "</div>" +
-            '<div class="l03p-vocab-card__ex en-line" lang="en">' + esc(w.example) + "</div>" +
-            '<div class="l03p-vocab-card__exzh">' + esc(w.exampleZh) + "</div>" +
-            (w.source ? '<div class="l03p-vocab-card__src">出处：' + esc(w.source) + "</div>" : "") +
-            '<button type="button" class="l03p-btn l03p-btn--ghost l03p-vocab-card__btn" data-speak="' + esc(w.example) + '">🔊</button></div>'
+            '<button type="button" class="l03p-vocab-card" data-i="' +
+            i +
+            '" aria-label="打开 ' +
+            esc(w.word) +
+            '">' +
+            (cardImg
+              ? '<img src="' +
+                d.img(cardImg) +
+                '" alt="" class="l03p-vocab-card__img" loading="lazy" onerror="' +
+                (d.imgOnerror ? d.imgOnerror(cardImg) : "") +
+                '"/>'
+              : '<div class="l03p-vocab-card__phimg">📖</div>') +
+            '<div class="l03p-vocab-card__word">' +
+            base +
+            esc(w.word) +
+            "</div>" +
+            '<div class="l03p-vocab-card__zh">' +
+            esc(w.zh) +
+            "</div>" +
+            '<div class="l03p-vocab-card__hint">点开看图 · 排序 · 造句</div>' +
+            "</button>"
           );
         })
         .join("");
       return (
         header(page) +
         '<article class="l03p-card">' +
-        (page.image ? hero(page) : "") +
-        '<div class="l03p-body-inner"><h1 class="l03p-title">' + esc(page.title) + "</h1>" +
+        '<div class="l03p-body-inner"><h1 class="l03p-title">' +
+        esc(page.title) +
+        "</h1>" +
         (page.lead ? '<p class="l03p-lead">' + esc(page.lead) + "</p>" : "") +
-        '<div class="l03p-vocab-grid">' + cards + "</div></div></article>"
+        '<div class="l03p-vocab-grid" id="vocabGrid">' +
+        cards +
+        '</div></div></article><div class="l03p-vocab-overlay" id="vocabOverlay" hidden></div>'
       );
     }
 
-    function bindVocab() {
+    function practicePanelHtml(prefix) {
+      return (
+        '<div class="l03p-order-prog" id="' +
+        prefix +
+        'Prog"></div>' +
+        '<div class="l03p-order-label">组成句子</div>' +
+        '<div class="l03p-slots" id="' +
+        prefix +
+        'Slots"></div>' +
+        '<div class="l03p-order-label">乱序词库 <span class="l03p-order-label__sub">点选填入</span></div>' +
+        '<div class="l03p-bank" id="' +
+        prefix +
+        'Bank"></div>' +
+        '<div class="l03p-toolbar">' +
+        '<button type="button" class="l03p-btn" id="' +
+        prefix +
+        'Check">检查</button>' +
+        '<button type="button" class="l03p-btn l03p-btn--ghost" id="' +
+        prefix +
+        'Undo">撤回</button>' +
+        '<button type="button" class="l03p-btn l03p-btn--ghost" id="' +
+        prefix +
+        'Reset">打乱重来</button></div>' +
+        '<div class="l03p-fb" id="' +
+        prefix +
+        'Fb"></div>'
+      );
+    }
+
+    function openVocabDetail(page, words, index) {
+      var overlay = document.getElementById("vocabOverlay");
+      if (!overlay) return;
+      var w = words[index];
+      if (!w) return;
+      var baseLine = w.base
+        ? '<div class="l03p-vocab-detail__morph"><span class="l03p-token l03p-token--verb">' +
+          esc(w.base) +
+          '</span><span class="l03p-vocab-detail__arrow">→</span><span class="l03p-token l03p-token--verb l03p-token--pop">' +
+          esc(w.word) +
+          "</span></div>"
+        : '<div class="l03p-vocab-detail__morph"><span class="l03p-token l03p-token--verb l03p-token--pop">' +
+          esc(w.word) +
+          "</span></div>";
+      var detailImg = (imageForSentence && imageForSentence(w.example)) || w.image;
+      var imgHtml = detailImg
+        ? '<div class="l03p-vocab-detail__hero"><img src="' +
+          d.img(detailImg) +
+          '" alt="" onerror="' +
+          (d.imgOnerror ? d.imgOnerror(detailImg) : "") +
+          '"/></div>'
+        : "";
+      overlay.hidden = false;
+      overlay.innerHTML =
+        '<div class="l03p-vocab-detail" role="dialog" aria-modal="true">' +
+        '<button type="button" class="l03p-vocab-detail__close" id="vocabClose" aria-label="关闭">×</button>' +
+        '<div class="l03p-vocab-detail__nav">' +
+        '<button type="button" class="l03p-btn l03p-btn--ghost" id="vocabPrev"' +
+        (index <= 0 ? " disabled" : "") +
+        ">← 上一个</button>" +
+        '<button type="button" class="l03p-btn l03p-btn--ghost" id="vocabNext"' +
+        (index >= words.length - 1 ? " disabled" : "") +
+        ">下一个 →</button></div>" +
+        imgHtml +
+        baseLine +
+        '<div class="l03p-vocab-detail__zh">' +
+        esc(w.zh) +
+        "</div>" +
+        sentBlock(w.example, w.exampleZh) +
+        ttsRow(w.example) +
+        '<div class="l03p-vocab-tabs" id="vocabTabs">' +
+        '<button type="button" class="l03p-vocab-tab is-on" data-tab="order">句子排序</button>' +
+        '<button type="button" class="l03p-vocab-tab" data-tab="build">看图造句</button></div>' +
+        '<div class="l03p-vocab-pane is-on" data-pane="order">' +
+        '<p class="l03p-lead" style="margin:.35rem 0 .45rem">把乱序单词排成正确例句。</p>' +
+        practicePanelHtml("vo") +
+        "</div>" +
+        '<div class="l03p-vocab-pane" data-pane="build">' +
+        '<p class="l03p-lead" style="margin:.35rem 0 .45rem">看情景图，用词库拼出句子。</p>' +
+        (detailImg
+          ? '<div class="l03p-vocab-build-img"><img src="' +
+            d.img(detailImg) +
+            '" alt=""/></div>'
+          : "") +
+        practicePanelHtml("vb") +
+        "</div></div>";
+
+      document.body.classList.add("l03p-vocab-open");
+      speak(w.example);
+      bindCommon(overlay);
+
+      function bindPractice(prefix) {
+        var tokens = exampleTokens(w.example);
+        var deck = d.makeTokenDeck(tokens);
+        var slotsEl = document.getElementById(prefix + "Slots");
+        var bankEl = document.getElementById(prefix + "Bank");
+        if (slotsEl) slotsEl.innerHTML = d.orderSlotsHtml(tokens.length);
+        if (bankEl) bankEl.innerHTML = d.orderBankHtml(d.shuffleDistinct(deck.slice()));
+        d.bindTokenOrder({
+          answer: tokens,
+          deck: deck,
+          slotsId: prefix + "Slots",
+          bankId: prefix + "Bank",
+          progId: prefix + "Prog",
+          fbId: prefix + "Fb",
+          checkId: prefix + "Check",
+          undoId: prefix + "Undo",
+          resetId: prefix + "Reset",
+          sentence: w.example,
+          zh: w.exampleZh,
+        });
+      }
+      bindPractice("vo");
+      bindPractice("vb");
+
+      overlay.querySelectorAll(".l03p-vocab-tab").forEach(function (tab) {
+        tab.addEventListener("click", function () {
+          var name = tab.getAttribute("data-tab");
+          overlay.querySelectorAll(".l03p-vocab-tab").forEach(function (t) {
+            t.classList.toggle("is-on", t === tab);
+          });
+          overlay.querySelectorAll(".l03p-vocab-pane").forEach(function (p) {
+            p.classList.toggle("is-on", p.getAttribute("data-pane") === name);
+          });
+        });
+      });
+
+      function close() {
+        overlay.hidden = true;
+        overlay.innerHTML = "";
+        document.body.classList.remove("l03p-vocab-open");
+      }
+      document.getElementById("vocabClose").addEventListener("click", close);
+      overlay.addEventListener("click", function (ev) {
+        if (ev.target === overlay) close();
+      });
+      document.getElementById("vocabPrev").addEventListener("click", function () {
+        if (index > 0) openVocabDetail(page, words, index - 1);
+      });
+      document.getElementById("vocabNext").addEventListener("click", function () {
+        if (index < words.length - 1) openVocabDetail(page, words, index + 1);
+      });
+    }
+
+    function bindVocab(page) {
+      var words = vocabWords(page);
+      document.querySelectorAll("#vocabGrid .l03p-vocab-card").forEach(function (card) {
+        card.addEventListener("click", function () {
+          openVocabDetail(page, words, Number(card.getAttribute("data-i")));
+        });
+      });
       bindCommon(document.getElementById("l03pApp"));
     }
 

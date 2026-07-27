@@ -1,6 +1,7 @@
 (function (global) {
   "use strict";
   global.L03pScenes = {
+  "Lily played football with her friends in the park yesterday.": "l03p-scene-lily-played-football-with-her-friends-in-the-par.jpg",
   "Lily sprinted in the school sports day race with her hair flying.": "l03p-scene-lily-sprinted-in-the-school-sports-day-race-with.jpg",
   "Tom stood under a yellow umbrella in the heavy rain.": "l03p-scene-tom-stood-under-a-yellow-umbrella-in-the-heavy-r.jpg",
   "Emma blew out candles on her birthday cake with a big smile.": "l03p-scene-emma-blew-out-candles-on-her-birthday-cake-with-.jpg",
@@ -16,9 +17,9 @@
   "Chen Tao wrote a letter to his grandmother with a blue pen.": "l03p-scene-chen-tao-wrote-a-letter-to-his-grandmother-with-.jpg",
   "Miss Li gave a big hug to the crying child in the classroom.": "l03p-scene-miss-li-gave-a-big-hug-to-the-crying-child-in-th.jpg",
   "Mr Wang took a photo of the high-speed train from the window.": "l03p-scene-mr-wang-took-a-photo-of-the-high-speed-train-fro.jpg",
-  "Teng Fei did not climb the tall tree because he felt scared.": "l03p-scene-teng-fei-did-not-climb-the-tall-tree-because-he-.jpg",
-  "Han Lin did not find his yellow umbrella after the rain stopped.": "l03p-scene-han-lin-did-not-find-his-yellow-umbrella-after-t.jpg",
-  "Did Linda wash the paintbrushes in the art room after painting.": "l03p-scene-did-linda-wash-the-paintbrushes-in-the-art-room-.jpg",
+  "Teng Fei didn't climb the tall tree because he felt scared.": "l03p-scene-teng-fei-didn-t-climb-the-tall-tree-because-he-f.jpg",
+  "Han Lin didn't find his yellow umbrella after the rain stopped.": "l03p-scene-han-lin-didn-t-find-his-yellow-umbrella-after-th.jpg",
+  "Did Linda wash the paintbrushes in the art room after painting?": "l03p-scene-did-linda-wash-the-paintbrushes-in-the-art-room-.jpg",
   "Lily and Tom flew a kite in the park when a sudden gust of wind snapped the string.": "l03p-scene-lily-and-tom-flew-a-kite-in-the-park-when-a-sudd.jpg",
   "Emma did a perfect dive into the swimming pool, splashing water high into the air.": "l03p-scene-emma-did-a-perfect-dive-into-the-swimming-pool-s.jpg",
   "Jack bought three boxes of fresh strawberries at the market, and the seller smiled warmly.": "l03p-scene-jack-bought-three-boxes-of-fresh-strawberries-at.jpg",
@@ -30,9 +31,9 @@
   "Mr Wang took a photo of a panda eating bamboo, and the panda blinked at him.": "l03p-scene-mr-wang-took-a-photo-of-a-panda-eating-bamboo-an.jpg",
   "The children acted out a short play in class, and Linda forgot her lines completely.": "l03p-scene-the-children-acted-out-a-short-play-in-class-and.jpg",
   "Emma and Jack ate all the strawberries before dinner, feeling very guilty later.": "l03p-scene-emma-and-jack-ate-all-the-strawberries-before-di.jpg",
-  "Tom did not finish his homework because his dog tore the paper into pieces.": "l03p-scene-tom-did-not-finish-his-homework-because-his-dog-.jpg",
+  "Tom didn't finish his homework because his dog tore the paper into pieces.": "l03p-scene-tom-didn-t-finish-his-homework-because-his-dog-t.jpg",
   "The kite was not flying well in the rain, so Lily ran back home sadly.": "l03p-scene-the-kite-was-not-flying-well-in-the-rain-so-lily.jpg",
-  "Did Chen Tao score a goal during the match? No, he missed by a few inches.": "l03p-scene-did-chen-tao-score-a-goal-during-the-match-no-he.jpg",
+  "Did Chen Tao score a goal during the match? No, he missed by a few inches?": "l03p-scene-did-chen-tao-score-a-goal-during-the-match-no-he.jpg",
   "Was the little lantern finished before the festival? Yes, Han Lin stayed up late.": "l03p-scene-was-the-little-lantern-finished-before-the-festi.jpg",
   "Yesterday, Miss Li bought a new chess set for her grandpa after work.": "l03p-scene-yesterday-miss-li-bought-a-new-chess-set-for-her.jpg",
   "The panda ate bamboo when Mr Wang pressed the camera button quietly.": "l03p-scene-the-panda-ate-bamboo-when-mr-wang-pressed-the-ca.jpg",
@@ -62,6 +63,9 @@
   "Han Lin baked a chocolate cake and burnt the frosting.": "l03p-scene-emma-blew-out-candles-on-her-birthday-cake-with-.jpg",
   "Linda wrapped the gift box with shiny silver paper and a bow.": "l03p-scene-jack-bought-a-red-balloon-from-the-street-vendor.jpg",
   "The children laughed loudly as the clown juggled oranges.": "l03p-scene-miss-li-and-the-students-were-excited-before-the.jpg",
-  "The old man waved his hat and smiled at the passing train.": "l03p-scene-yesterday-miss-li-bought-a-new-chess-set-for-her.jpg"
+  "The old man waved his hat and smiled at the passing train.": "l03p-scene-yesterday-miss-li-bought-a-new-chess-set-for-her.jpg",
+  "Lily went to the school library after class and found a funny storybook.": "l03p-scene-lily-went-to-the-school-library-after-class-and-.jpg",
+  "Lily didn't play football in the park yesterday.": "l03p-scene-lily-played-football-with-her-friends-in-the-par.jpg",
+  "Did Lily go to the school library after class?": "l03p-scene-lily-went-to-the-school-library-after-class-and-.jpg"
 };
 })(typeof window !== "undefined" ? window : null);
