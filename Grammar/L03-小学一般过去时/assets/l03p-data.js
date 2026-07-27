@@ -465,12 +465,12 @@
     "type": "scene",
     "badge": "action",
     "badgeText": "⚡ 不规则",
-    "image": "l03p-scene-emma-ate-a-piece-of-cake-and-then-ran-to-the-pla.jpg",
+    "image": "l03p-scene-lily-went-to-the-school-library-after-class-and-.jpg",
     "lead": "不规则动词要整词记忆：go → went",
-    "sentence": "Emma ate a piece of cake and then ran to the playground.",
-    "zh": "艾玛吃了一块蛋糕，然后跑向操场",
+    "sentence": "Lily went to the school library after class and found a funny storybook.",
+    "zh": "莉莉下课后去了学校图书馆，找到了一本有趣的故事书。",
     "verbType": "action",
-    "source": "教材场景"
+    "source": "教材对比句 · go→went"
   },
   {
     "id": "p18",
@@ -479,12 +479,12 @@
     "type": "scene",
     "badge": "action",
     "badgeText": "⚡ 不规则",
-    "image": "l03p-scene-jack-bought-a-red-balloon-from-the-street-vendor.jpg",
+    "image": "l03p-scene-tom-stood-under-a-yellow-umbrella-in-the-heavy-r.jpg",
     "lead": "看图说过去：发生了什么？",
-    "sentence": "Jack bought a red balloon from the street vendor near the park.",
-    "zh": "杰克从公园附近的小贩那里买了一个红气球",
+    "sentence": "Tom stood under a yellow umbrella in the heavy rain.",
+    "zh": "汤姆在大雨中站在一把黄色雨伞下",
     "verbType": "action",
-    "source": "教材场景"
+    "source": "教材场景 · 改标不规则"
   },
   {
     "id": "p19",
@@ -495,7 +495,7 @@
     "badgeText": "📖 词汇",
     "pool": "vocabIrregular",
     "lead": "小升初高频不规则：go/see/have/eat/take/write/come/make/buy/think…",
-    "image": "l03p-scene-emma-ate-a-piece-of-cake-and-then-ran-to-the-pla.jpg"
+    "image": "l03p-scene-lily-went-to-the-school-library-after-class-and-.jpg"
   },
   {
     "id": "p20",
@@ -504,7 +504,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-emma-ate-a-piece-of-cake-and-then-ran-to-the-pla.jpg",
+    "image": "l03p-scene-lily-went-to-the-school-library-after-class-and-.jpg",
     "q": "Lily ___ a new dress yesterday.",
     "opts": [
       "bought",
@@ -525,7 +525,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-jack-bought-a-red-balloon-from-the-street-vendor.jpg",
+    "image": "l03p-scene-tom-stood-under-a-yellow-umbrella-in-the-heavy-r.jpg",
     "q": "Tom ___ to the zoo last Sunday.",
     "opts": [
       "went",
@@ -682,7 +682,7 @@
     "steps": [
       {
         "html": "<span class=\"l03p-token l03p-token--subj\">Tom</span><span class=\"l03p-token l03p-token--verb\">went</span><span class=\"l03p-token l03p-token--obj\">to the park</span>",
-        "speak": "Emma ate a piece of cake and then ran to the playground."
+        "speak": "Lily went to the school library after class and found a funny storybook."
       },
       {
         "html": "<span class=\"l03p-token l03p-token--aux l03p-token--fly\">Did</span><span class=\"l03p-token l03p-token--subj\">Tom</span><span class=\"l03p-token l03p-token--verb\">go</span><span class=\"l03p-token l03p-token--obj\">to the park</span><span class=\"l03p-token\">?</span>",
@@ -772,24 +772,25 @@
     "type": "listen-order",
     "badge": "sound",
     "badgeText": "🎧 听音",
-    "image": "l03p-scene-emma-ate-a-piece-of-cake-and-then-ran-to-the-pla.jpg",
-    "audio": "Emma ate a piece of cake and then ran to the playground.",
+    "image": "l03p-scene-lily-went-to-the-school-library-after-class-and-.jpg",
+    "audio": "Lily went to the school library after class and found a funny storybook.",
     "tokens": [
-      "Emma",
-      "ate",
-      "a",
-      "piece",
-      "of",
-      "cake",
-      "and",
-      "then",
-      "ran",
+      "Lily",
+      "went",
       "to",
       "the",
-      "playground"
+      "school",
+      "library",
+      "after",
+      "class",
+      "and",
+      "found",
+      "a",
+      "funny",
+      "storybook"
     ],
-    "sentence": "Emma ate a piece of cake and then ran to the playground.",
-    "zh": "艾玛吃了一块蛋糕，然后跑向操场"
+    "sentence": "Lily went to the school library after class and found a funny storybook.",
+    "zh": "莉莉下课后去了学校图书馆，找到了一本有趣的故事书。"
   },
   {
     "id": "p33",
@@ -975,7 +976,7 @@
     "badgeText": "📖 词汇",
     "pool": "vocabIrregular",
     "lead": "小升初高频不规则动词",
-    "image": "l03p-scene-emma-ate-a-piece-of-cake-and-then-ran-to-the-pla.jpg"
+    "image": "l03p-scene-lily-went-to-the-school-library-after-class-and-.jpg"
   },
   {
     "id": "p40",
@@ -1005,30 +1006,30 @@
   {
     "id": "p42",
     "section": "拓展例句",
-    "title": "拓展例句 · regular",
+    "title": "拓展例句 · irregular",
     "type": "scene",
     "badge": "action",
     "badgeText": "🖼 例句",
     "image": "l03p-scene-tom-stood-under-a-yellow-umbrella-in-the-heavy-r.jpg",
-    "lead": "DeepSeek 语料 · 教材场景",
+    "lead": "DeepSeek 语料 · 教材场景 · 改标不规则",
     "sentence": "Tom stood under a yellow umbrella in the heavy rain.",
     "zh": "汤姆在大雨中站在一把黄色雨伞下",
-    "verbType": "regular",
-    "source": "教材场景"
+    "verbType": "irregular",
+    "source": "教材场景 · 改标不规则"
   },
   {
     "id": "p43",
     "section": "拓展例句",
-    "title": "拓展例句 · regular",
+    "title": "拓展例句 · irregular",
     "type": "scene",
     "badge": "action",
     "badgeText": "🖼 例句",
     "image": "l03p-scene-emma-blew-out-candles-on-her-birthday-cake-with-.jpg",
-    "lead": "DeepSeek 语料 · 教材场景",
+    "lead": "DeepSeek 语料 · 教材场景 · 改标不规则",
     "sentence": "Emma blew out candles on her birthday cake with a big smile.",
     "zh": "艾玛带着灿烂的笑容吹灭生日蛋糕上的蜡烛",
-    "verbType": "regular",
-    "source": "教材场景"
+    "verbType": "irregular",
+    "source": "教材场景 · 改标不规则"
   },
   {
     "id": "p44",
@@ -1123,7 +1124,7 @@
     "type": "multi-quiz",
     "badge": "ask",
     "badgeText": "📝 套题",
-    "image": "l03p-scene-emma-ate-a-piece-of-cake-and-then-ran-to-the-pla.jpg",
+    "image": "l03p-scene-lily-went-to-the-school-library-after-class-and-.jpg",
     "lead": "共 6 题",
     "questions": [
       {
@@ -1418,7 +1419,7 @@
     "badgeText": "🎧 听音",
     "pool": "listenPick",
     "startIndex": 3,
-    "image": "l03p-scene-emma-ate-a-piece-of-cake-and-then-ran-to-the-pla.jpg"
+    "image": "l03p-scene-lily-went-to-the-school-library-after-class-and-.jpg"
   },
   {
     "id": "p56",
@@ -1427,24 +1428,23 @@
     "type": "picture-build",
     "badge": "action",
     "badgeText": "🧩 造句",
-    "image": "l03p-scene-chen-tao-wrote-a-letter-to-his-grandmother-with-.jpg",
+    "image": "l03p-scene-miss-li-and-mr-wang-taught-students-in-the-libra.jpg",
     "instruction": "单词已打乱。点选填入，组成正确句子：",
     "tokens": [
-      "Chen",
-      "Tao",
-      "wrote",
-      "a",
-      "letter",
-      "to",
-      "his",
-      "grandmother",
-      "with",
-      "a",
-      "blue",
-      "pen"
+      "Miss",
+      "Li",
+      "and",
+      "Mr",
+      "Wang",
+      "taught",
+      "students",
+      "in",
+      "the",
+      "library",
+      "corner"
     ],
-    "sentence": "Chen Tao wrote a letter to his grandmother with a blue pen.",
-    "zh": "陈涛用蓝色钢笔给奶奶写了一封信"
+    "sentence": "Miss Li and Mr Wang taught students in the library corner.",
+    "zh": "李老师和王老师在图书馆角落教学生"
   },
   {
     "id": "p57",

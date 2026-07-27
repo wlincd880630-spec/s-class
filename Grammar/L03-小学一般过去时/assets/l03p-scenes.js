@@ -43,6 +43,7 @@
   "Tom and Emma were hungry after the long hike last Sunday.": "l03p-scene-tom-and-emma-were-hungry-after-the-long-hike-las.jpg",
   "The hotpot was delicious at the Chengdu restaurant last night.": "l03p-scene-the-hotpot-was-delicious-at-the-chengdu-restaura.jpg",
   "Chen Tao was careful when he carried the volcano model to school.": "l03p-scene-chen-tao-was-careful-when-he-carried-the-volcano.jpg",
-  "Miss Li and the students were excited before the class play began.": "l03p-scene-miss-li-and-the-students-were-excited-before-the.jpg"
+  "Miss Li and the students were excited before the class play began.": "l03p-scene-miss-li-and-the-students-were-excited-before-the.jpg",
+  "Lily went to the school library after class and found a funny storybook.": "l03p-scene-lily-went-to-the-school-library-after-class-and-.jpg"
 };
 })(typeof window !== "undefined" ? window : null);

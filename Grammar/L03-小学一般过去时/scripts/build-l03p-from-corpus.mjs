@@ -104,10 +104,21 @@ const classifyItems = (CORPUS.classifyItems || []).map((it) => ({
   zh: it.zh || "",
 }));
 
+const IRREG_PAST = new Set(
+  `was were been went saw ate ran came got gave took made said told thought bought brought caught taught fought found heard held kept left felt met put read sat stood slept spoke wrote drew drove flew grew knew threw wore won began drank sang swam fell hid chose broke woke forgot understood meant spent sent built hurt cut hit let set cost shut spread led fed bled dug hung lit lost paid sold shot stuck struck swept swung wound did had became bent bound crept dealt dreamt fled froze knelt lay laid mistook rode rang rose shook shone shrank sank slid spun sprang stole stung stank strode strung swore wept wove wrung blew`.split(
+    /\s+/
+  )
+);
+
+function hasIrregPast(en) {
+  return wordTokens(en).some((t) => IRREG_PAST.has(String(t).toLowerCase()));
+}
+
 const sWas = byFocus("was");
 const sWere = byFocus("were");
-const sReg = byFocus("regular");
-const sIrr = byFocus("irregular");
+/** 规则页只用真正规则变化句，避免 stood/blew 等混入 */
+const sReg = byFocus("regular").filter((s) => !hasIrregPast(s.en));
+const sIrr = byFocus("irregular").concat(byFocus("regular").filter((s) => hasIrregPast(s.en)));
 const sNeg = byFocus("negative");
 const sQ = byFocus("question");
 const sTime = byFocus("time");
@@ -354,8 +365,15 @@ const reg2 = first(
   sReg.filter((s) => s !== playPast),
   0
 );
-const irr1 = first(sIrr, 0);
-const irr2 = first(sIrr, 1);
+/** 不规则导入句优先 go → went */
+const goPast =
+  sIrr.find((s) => /\bwent\b/i.test(s.en)) ||
+  first(sIrr, 0);
+const irr1 = goPast;
+const irr2 = first(
+  sIrr.filter((s) => s !== goPast),
+  0
+);
 
 pages.push({
   id: "p11",
