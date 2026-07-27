@@ -419,7 +419,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-lily-sprinted-in-the-school-sports-day-race-with.jpg",
+    "image": "l03p-scene-jack-didn-t-finish-his-homework-yesterday-evenin.jpg",
     "q": "Tom ___ his homework last night.",
     "opts": [
       "finished",
@@ -440,7 +440,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-tom-stood-under-a-yellow-umbrella-in-the-heavy-r.jpg",
+    "image": "l03p-scene-tom-and-emma-were-in-the-park-last-weekend.jpg",
     "q": "Lily ___ to the park yesterday morning.",
     "opts": [
       "walked",
@@ -461,12 +461,12 @@
     "type": "scene",
     "badge": "action",
     "badgeText": "⚡ 不规则",
-    "image": "l03p-scene-emma-ate-a-piece-of-cake-and-then-ran-to-the-pla.jpg",
+    "image": "l03p-scene-teng-fei-and-chen-tao-went-to-the-zoo-in-chengdu.jpg",
     "lead": "不规则动词要整词记忆：go → went",
-    "sentence": "Emma ate a piece of cake and then ran to the playground.",
-    "zh": "艾玛吃了一块蛋糕，然后跑向操场",
+    "sentence": "Tom went to the zoo last Sunday.",
+    "zh": "汤姆上周日去了动物园。",
     "verbType": "action",
-    "source": "教材场景"
+    "source": "5GA"
   },
   {
     "id": "p18",
@@ -500,7 +500,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-emma-ate-a-piece-of-cake-and-then-ran-to-the-pla.jpg",
+    "image": "l03p-scene-jack-bought-a-red-balloon-from-the-street-vendor.jpg",
     "q": "Lily ___ a new dress yesterday.",
     "opts": [
       "bought",
@@ -521,7 +521,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-jack-bought-a-red-balloon-from-the-street-vendor.jpg",
+    "image": "l03p-scene-teng-fei-and-chen-tao-went-to-the-zoo-in-chengdu.jpg",
     "q": "Tom ___ to the zoo last Sunday.",
     "opts": [
       "went",
@@ -606,11 +606,11 @@
     "lead": "否定：did not / didn't + 动词原形（不是过去式！）",
     "steps": [
       {
-        "html": "<span class=\"l03p-token l03p-token--subj\">Lily</span><span class=\"l03p-token l03p-token--verb\">played</span><span class=\"l03p-token l03p-token--obj\">football</span>",
-        "speak": "Lily sprinted in the school sports day race with her hair flying."
+        "html": "<span class=\"l03p-token l03p-token--subj\">Teng Fei</span><span class=\"l03p-token l03p-token--verb\">climbed</span><span class=\"l03p-token l03p-token--obj\">the tall tree</span>",
+        "speak": "Teng Fei climbed the tall tree yesterday."
       },
       {
-        "html": "<span class=\"l03p-token l03p-token--subj\">Lily</span><span class=\"l03p-token l03p-token--aux\">didn't</span><span class=\"l03p-token l03p-token--verb\">play</span><span class=\"l03p-token l03p-token--obj\">football</span>",
+        "html": "<span class=\"l03p-token l03p-token--subj\">Teng Fei</span><span class=\"l03p-token l03p-token--aux\">didn't</span><span class=\"l03p-token l03p-token--verb\">climb</span><span class=\"l03p-token l03p-token--obj\">the tall tree</span>",
         "speak": "Teng Fei did not climb the tall tree because he felt scared."
       }
     ],
@@ -652,7 +652,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-teng-fei-did-not-climb-the-tall-tree-because-he-.jpg",
+    "image": "l03p-scene-lily-was-at-school-yesterday.jpg",
     "q": "Lily ___ not go to school yesterday.",
     "opts": [
       "did",
@@ -677,11 +677,11 @@
     "lead": "疑问：Did + 主语 + 动词原形？",
     "steps": [
       {
-        "html": "<span class=\"l03p-token l03p-token--subj\">Tom</span><span class=\"l03p-token l03p-token--verb\">went</span><span class=\"l03p-token l03p-token--obj\">to the park</span>",
-        "speak": "Emma ate a piece of cake and then ran to the playground."
+        "html": "<span class=\"l03p-token l03p-token--subj\">Linda</span><span class=\"l03p-token l03p-token--verb\">washed</span><span class=\"l03p-token l03p-token--obj\">the paintbrushes</span>",
+        "speak": "Linda washed the paintbrushes in the art room after painting."
       },
       {
-        "html": "<span class=\"l03p-token l03p-token--aux l03p-token--fly\">Did</span><span class=\"l03p-token l03p-token--subj\">Tom</span><span class=\"l03p-token l03p-token--verb\">go</span><span class=\"l03p-token l03p-token--obj\">to the park</span><span class=\"l03p-token\">?</span>",
+        "html": "<span class=\"l03p-token l03p-token--aux l03p-token--fly\">Did</span><span class=\"l03p-token l03p-token--subj\">Linda</span><span class=\"l03p-token l03p-token--verb\">wash</span><span class=\"l03p-token l03p-token--obj\">the paintbrushes</span><span class=\"l03p-token\">?</span>",
         "speak": "Did Linda wash the paintbrushes in the art room after painting."
       }
     ],
@@ -723,7 +723,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-did-linda-wash-the-paintbrushes-in-the-art-room-.jpg",
+    "image": "l03p-scene-tom-and-emma-were-in-the-park-last-weekend.jpg",
     "q": "___ Lily go to the park yesterday?",
     "opts": [
       "Did",
@@ -796,7 +796,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-lily-was-proud-after-she-won-the-sports-day-race.jpg",
+    "image": "l03p-scene-tom-and-emma-were-in-the-park-last-weekend.jpg",
     "q": "There ___ a big tree in the park before.",
     "opts": [
       "was",
@@ -867,7 +867,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "🏆 终极",
-    "image": "l03p-scene-teng-fei-did-not-climb-the-tall-tree-because-he-.jpg",
+    "image": "l03p-scene-teng-fei-and-chen-tao-went-to-the-zoo-in-chengdu.jpg",
     "q": "Lily and Tom ___ to the zoo last Sunday.",
     "opts": [
       "went",
@@ -1405,7 +1405,7 @@
     "badgeText": "🎧 听音",
     "pool": "listenPick",
     "startIndex": 0,
-    "image": "l03p-scene-lily-was-proud-after-she-won-the-sports-day-race.jpg"
+    "image": "l03p-scene-tom-stood-under-a-yellow-umbrella-in-the-heavy-r.jpg"
   },
   {
     "id": "p55",
@@ -1416,7 +1416,7 @@
     "badgeText": "🎧 听音",
     "pool": "listenPick",
     "startIndex": 3,
-    "image": "l03p-scene-emma-ate-a-piece-of-cake-and-then-ran-to-the-pla.jpg"
+    "image": "l03p-playground.jpg"
   },
   {
     "id": "p56",

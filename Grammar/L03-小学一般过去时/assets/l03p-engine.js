@@ -29,6 +29,39 @@
     return map[sentence] || fallback || "";
   }
 
+  /** 按例句查找配图：场景表 → 词汇卡 example → 页面 fallback */
+  function imageForSentence(sentence) {
+    if (!sentence) return "";
+    var fromScene = sceneImg(sentence, "");
+    if (fromScene) return fromScene;
+    var pools = global.L03pCorpus;
+    if (!pools) return "";
+    var lists = [pools.vocabRegular, pools.vocabIrregular, pools.vocabTime, pools.vocabBe];
+    var pi, wi, w;
+    for (pi = 0; pi < lists.length; pi++) {
+      var list = lists[pi] || [];
+      for (wi = 0; wi < list.length; wi++) {
+        w = list[wi];
+        if (w.example === sentence && w.image) return w.image;
+      }
+    }
+    return "";
+  }
+
+  var CONCEPT_IMAGES = {
+    "l03p-past-vs-present.jpg": true,
+    "l03p-was-were-chart.jpg": true,
+    "l03p-playground.jpg": true,
+  };
+
+  function resolveImage(page, sentence) {
+    var sent = sentence || page.sentence || page.audio || "";
+    var fromScene = imageForSentence(sent);
+    if (page.image && CONCEPT_IMAGES[page.image]) return page.image;
+    if (fromScene) return fromScene;
+    return page.image || "";
+  }
+
   function speak(text, btn) {
     if (global.L03pTTS) return global.L03pTTS.speak(text, btn);
     return Promise.resolve();
@@ -60,7 +93,7 @@
   }
 
   function hero(page, sentence) {
-    var im = page.image || sceneImg(sentence || page.sentence, "");
+    var im = resolveImage(page, sentence);
     if (!im) return "";
     var b = page.badge || "image";
     return (
@@ -1007,13 +1040,14 @@
       });
     }
 
+    var revealImg = resolveImage(page, page.sentence || page.audio);
     var revealHtml = "";
-    if (page.image) {
+    if (revealImg) {
       revealHtml =
         '<div class="l03p-order-reveal-img"><img src="' +
-        img(page.image) +
+        img(revealImg) +
         '" alt="" decoding="async" onerror="' +
-        imgOnerror(page.image) +
+        imgOnerror(revealImg) +
         '"/></div>';
     }
 
@@ -1033,13 +1067,13 @@
       autoCheck: false,
       onWin: function () {
         var reveal = document.getElementById("loReveal");
-        if (reveal && page.image) {
+        if (reveal && revealImg) {
           reveal.hidden = false;
           reveal.innerHTML =
             '<img src="' +
-            img(page.image) +
+            img(revealImg) +
             '" alt="" decoding="async" onerror="' +
-            imgOnerror(page.image) +
+            imgOnerror(revealImg) +
             '"/>';
         }
       },
@@ -1196,6 +1230,8 @@
       bindCommon: bindCommon,
       speak: speak,
       img: img,
+      resolveImage: resolveImage,
+      imageForSentence: imageForSentence,
     });
   }
 })(typeof window !== "undefined" ? window : null);

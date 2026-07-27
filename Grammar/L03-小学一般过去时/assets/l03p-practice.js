@@ -9,6 +9,9 @@
     var ttsRow = d.ttsRow;
     var bindCommon = d.bindCommon;
     var speak = d.speak;
+    var resolveImage = d.resolveImage;
+    var imageForSentence = d.imageForSentence;
+    var imgUrl = d.img;
 
     function shuffle(arr) {
       return arr.slice().sort(function () { return Math.random() - 0.5; });
@@ -23,9 +26,10 @@
       if (page.pool === "vocabTime" && global.L03pCorpus) words = global.L03pCorpus.vocabTime;
       var cards = words
         .map(function (w, i) {
+          var cardImg = (imageForSentence && imageForSentence(w.example)) || w.image;
           return (
             '<div class="l03p-vocab-card" data-i="' + i + '">' +
-            (w.image ? '<img src="' + d.img(w.image) + '" alt="" class="l03p-vocab-card__img"/>' : "") +
+            (cardImg ? '<img src="' + imgUrl(cardImg) + '" alt="" class="l03p-vocab-card__img"/>' : "") +
             '<div class="l03p-vocab-card__word">' + esc(w.word) +
             (w.phonetic ? ' <span class="l03p-vocab-card__ph">' + esc(w.phonetic) + "</span>" : "") +
             "</div><div class=\"l03p-vocab-card__zh\">" + esc(w.zh) + "</div>" +
@@ -420,7 +424,13 @@
     function bindListenPick(page) {
       var list = [];
       if (page.pool && global.L03pCorpus && global.L03pCorpus[page.pool]) {
-        list = shuffle(global.L03pCorpus[page.pool]);
+        list = global.L03pCorpus[page.pool].slice();
+        if (page.rounds && page.rounds > 1) {
+          list = shuffle(list);
+        } else if (page.startIndex) {
+          var si = page.startIndex % list.length;
+          list = list.slice(si).concat(list.slice(0, si));
+        }
       } else {
         list = [{ audio: page.audio, opts: page.opts, ans: page.ans, zh: page.zh, hint: page.hint }];
       }
@@ -428,6 +438,16 @@
       var round = 0;
       var score = 0;
       var current = null;
+
+      function updateHeroForCurrent() {
+        if (!current) return;
+        var heroImg = document.querySelector(".l03p-hero img");
+        if (!heroImg || !resolveImage) return;
+        var name = resolveImage(page, current.audio);
+        if (!name) return;
+        heroImg.src = imgUrl(name);
+        heroImg.setAttribute("onerror", "this.src='assets/img/" + name.replace(/'/g, "") + "'");
+      }
 
       function renderRound() {
         current = list[round % list.length];
@@ -437,6 +457,7 @@
         var roundEl = document.getElementById("lpRound");
         if (roundEl) roundEl.textContent = "第 " + (round + 1) + " / " + totalRounds + " 题 · 得分 " + score;
         if (!area) return;
+        updateHeroForCurrent();
         area.innerHTML = current.opts
           .map(function (o, i) {
             return '<button type="button" class="l03p-choice" data-i="' + i + '">' + esc(o) + "</button>";

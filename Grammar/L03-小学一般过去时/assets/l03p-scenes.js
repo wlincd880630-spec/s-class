@@ -42,6 +42,26 @@
   "Tom and Emma were hungry after the long hike last Sunday.": "l03p-scene-tom-and-emma-were-hungry-after-the-long-hike-las.jpg",
   "The hotpot was delicious at the Chengdu restaurant last night.": "l03p-scene-the-hotpot-was-delicious-at-the-chengdu-restaura.jpg",
   "Chen Tao was careful when he carried the volcano model to school.": "l03p-scene-chen-tao-was-careful-when-he-carried-the-volcano.jpg",
-  "Miss Li and the students were excited before the class play began.": "l03p-scene-miss-li-and-the-students-were-excited-before-the.jpg"
+  "Miss Li and the students were excited before the class play began.": "l03p-scene-miss-li-and-the-students-were-excited-before-the.jpg",
+  "Tom finished his homework last night.": "l03p-scene-jack-didn-t-finish-his-homework-yesterday-evenin.jpg",
+  "Lily walked to the park yesterday morning.": "l03p-scene-tom-and-emma-were-in-the-park-last-weekend.jpg",
+  "Tom went to the zoo last Sunday.": "l03p-scene-teng-fei-and-chen-tao-went-to-the-zoo-in-chengdu.jpg",
+  "Lily bought a new dress yesterday.": "l03p-scene-jack-bought-a-red-balloon-from-the-street-vendor.jpg",
+  "Lily did not go to school yesterday.": "l03p-scene-lily-was-at-school-yesterday.jpg",
+  "Did Lily go to the park yesterday?": "l03p-scene-tom-and-emma-were-in-the-park-last-weekend.jpg",
+  "There was a big tree in the park before.": "l03p-scene-tom-and-emma-were-in-the-park-last-weekend.jpg",
+  "Lily and Tom went to the zoo last Sunday.": "l03p-scene-teng-fei-and-chen-tao-went-to-the-zoo-in-chengdu.jpg",
+  "Lily slipped on the wet floor and dropped her ice cream.": "l03p-scene-tom-stood-under-a-yellow-umbrella-in-the-heavy-r.jpg",
+  "Tom climbed the tall tree to rescue the frightened kitten.": "l03p-scene-teng-fei-did-not-climb-the-tall-tree-because-he-.jpg",
+  "Emma danced in the rain with her red umbrella spinning.": "l03p-scene-tom-stood-under-a-yellow-umbrella-in-the-heavy-r.jpg",
+  "Jack packed his heavy backpack and left for the airport.": "l03p-playground.jpg",
+  "Chen Tao smiled proudly after winning the chess match.": "l03p-scene-yesterday-miss-li-bought-a-new-chess-set-for-her.jpg",
+  "Miss Li carried a stack of books into the sunny classroom.": "l03p-scene-miss-li-and-mr-wang-taught-students-in-the-libra.jpg",
+  "Mr Wang fixed the broken bicycle chain with a rusty wrench.": "l03p-playground.jpg",
+  "Teng Fei cried bitterly when his goldfish floated belly-up.": "l03p-scene-teng-fei-did-not-climb-the-tall-tree-because-he-.jpg",
+  "Han Lin baked a chocolate cake and burnt the frosting.": "l03p-scene-emma-blew-out-candles-on-her-birthday-cake-with-.jpg",
+  "Linda wrapped the gift box with shiny silver paper and a bow.": "l03p-scene-jack-bought-a-red-balloon-from-the-street-vendor.jpg",
+  "The children laughed loudly as the clown juggled oranges.": "l03p-scene-miss-li-and-the-students-were-excited-before-the.jpg",
+  "The old man waved his hat and smiled at the passing train.": "l03p-scene-yesterday-miss-li-bought-a-new-chess-set-for-her.jpg"
 };
 })(typeof window !== "undefined" ? window : null);
