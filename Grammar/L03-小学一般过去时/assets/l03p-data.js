@@ -507,8 +507,7 @@
     "badge": "vocab",
     "badgeText": "📖 词汇",
     "pool": "vocabIrregular",
-    "lead": "小升初高频不规则：go/see/have/eat/take/write/come/make/buy/think…",
-    "image": "l03p-scene-lily-went-to-the-school-library-after-class-and-.jpg"
+    "lead": "点开单词卡片：看例句配图，再做句子排序和看图造句。"
   },
   {
     "id": "p20",
@@ -975,8 +974,7 @@
     "badge": "vocab",
     "badgeText": "📖 词汇",
     "pool": "vocabRegular",
-    "lead": "规则过去式 · 可点词查 DeepSeek 词典",
-    "image": "l03p-scene-lily-played-football-with-her-friends-in-the-par.jpg"
+    "lead": "点开单词卡片：看例句配图，再做句子排序和看图造句。"
   },
   {
     "id": "p39",
@@ -986,8 +984,7 @@
     "badge": "vocab",
     "badgeText": "📖 词汇",
     "pool": "vocabIrregular",
-    "lead": "小升初高频不规则动词",
-    "image": "l03p-scene-lily-went-to-the-school-library-after-class-and-.jpg"
+    "lead": "点开单词卡片：看例句配图，再做句子排序和看图造句。"
   },
   {
     "id": "p40",
@@ -997,8 +994,7 @@
     "badge": "vocab",
     "badgeText": "📖 词汇",
     "pool": "vocabTime",
-    "lead": "yesterday / last week / … ago",
-    "image": "l03p-scene-yesterday-miss-li-bought-a-new-chess-set-for-her.jpg"
+    "lead": "点开卡片学习 yesterday / last week / … ago，并可做排序练习。"
   },
   {
     "id": "p41",

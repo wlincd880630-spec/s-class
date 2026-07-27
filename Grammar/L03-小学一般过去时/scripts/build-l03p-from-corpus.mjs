@@ -573,8 +573,7 @@ pages.push({
   badge: "vocab",
   badgeText: "📖 词汇",
   pool: "vocabIrregular",
-  lead: "小升初高频不规则：go/see/have/eat/take/write/come/make/buy/think…",
-  image: irr1.image,
+  lead: "点开单词卡片：看例句配图，再做句子排序和看图造句。",
 });
 
 pages.push({
@@ -840,8 +839,7 @@ pages.push({
   badge: "vocab",
   badgeText: "📖 词汇",
   pool: "vocabRegular",
-  lead: "规则过去式 · 可点词查 DeepSeek 词典",
-  image: reg1.image,
+  lead: "点开单词卡片：看例句配图，再做句子排序和看图造句。",
 });
 
 pages.push({
@@ -852,8 +850,7 @@ pages.push({
   badge: "vocab",
   badgeText: "📖 词汇",
   pool: "vocabIrregular",
-  lead: "小升初高频不规则动词",
-  image: irr1.image,
+  lead: "点开单词卡片：看例句配图，再做句子排序和看图造句。",
 });
 
 pages.push({
@@ -864,8 +861,7 @@ pages.push({
   badge: "vocab",
   badgeText: "📖 词汇",
   pool: "vocabTime",
-  lead: "yesterday / last week / … ago",
-  image: first(sTime).image,
+  lead: "点开卡片学习 yesterday / last week / … ago，并可做排序练习。",
 });
 
 const extraScenes = scenes

@@ -1252,6 +1252,12 @@
       bindCommon: bindCommon,
       speak: speak,
       img: img,
+      imgOnerror: imgOnerror,
+      shuffleDistinct: shuffleDistinct,
+      makeTokenDeck: makeTokenDeck,
+      orderSlotsHtml: orderSlotsHtml,
+      orderBankHtml: orderBankHtml,
+      bindTokenOrder: bindTokenOrder,
     });
   }
 })(typeof window !== "undefined" ? window : null);
