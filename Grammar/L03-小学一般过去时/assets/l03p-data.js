@@ -8,7 +8,7 @@
     "type": "sound-first",
     "badge": "sound",
     "badgeText": "🔊 声音先行",
-    "audio": "Lily was proud after she won the sports day race yesterday. Lily sprinted in the school sports day race with her hair flying.",
+    "audio": "Lily was proud after she won the sports day race yesterday. Lily played football with her friends in the park yesterday.",
     "soundHint": "先听，不要看文字。听完再点「显示」。这些事发生在什么时候？",
     "question": "这些句子说的是现在，还是过去？",
     "image": "l03p-scene-lily-was-proud-after-she-won-the-sports-day-race.jpg",
@@ -283,14 +283,18 @@
     "badge": "demo",
     "badgeText": "🔍 自我发现",
     "lead": "点击左右卡片听句子，再点「我发现了」对比动词变化。",
-    "leftImage": "l03p-past-vs-present.jpg",
+    "leftImage": "l03p-playground.jpg",
     "leftLabel": "I play football every day.",
-    "rightImage": "l03p-scene-lily-sprinted-in-the-school-sports-day-race-with.jpg",
-    "rightLabel": "Lily sprinted in the school sports day race with her hair flying.",
+    "rightImage": "l03p-scene-lily-played-football-with-her-friends-in-the-par.jpg",
+    "rightLabel": "Lily played football with her friends in the park yesterday.",
     "leftSentence": "I play football every day.",
     "leftZh": "我每天踢足球。",
-    "rightSentence": "Lily sprinted in the school sports day race with her hair flying.",
-    "rightZh": "莉莉在校运动会赛跑中冲刺，头发飞扬",
+    "rightSentence": "Lily played football with her friends in the park yesterday.",
+    "rightZh": "莉莉昨天和朋友们在公园踢足球。",
+    "morphBase": "play",
+    "morphPast": "played",
+    "morphHighlight": "ed",
+    "morphSpeak": "I play football every day. Lily played football with her friends in the park yesterday.",
     "discovery": "发现了吗？过去发生的动作，规则动词要加 -ed：play → played！"
   },
   {
@@ -300,12 +304,12 @@
     "type": "scene",
     "badge": "action",
     "badgeText": "🏃 +ed",
-    "image": "l03p-scene-lily-sprinted-in-the-school-sports-day-race-with.jpg",
+    "image": "l03p-scene-lily-played-football-with-her-friends-in-the-par.jpg",
     "lead": "规则变化：原形 + ed",
-    "sentence": "Lily sprinted in the school sports day race with her hair flying.",
-    "zh": "莉莉在校运动会赛跑中冲刺，头发飞扬",
+    "sentence": "Lily played football with her friends in the park yesterday.",
+    "zh": "莉莉昨天和朋友们在公园踢足球。",
     "verbType": "action",
-    "source": "教材场景"
+    "source": "教材对比句 · play→played"
   },
   {
     "id": "p13",
@@ -314,10 +318,10 @@
     "type": "scene",
     "badge": "action",
     "badgeText": "🏃 +ed",
-    "image": "l03p-scene-tom-stood-under-a-yellow-umbrella-in-the-heavy-r.jpg",
+    "image": "l03p-scene-lily-sprinted-in-the-school-sports-day-race-with.jpg",
     "lead": "注意时间标志词",
-    "sentence": "Tom stood under a yellow umbrella in the heavy rain.",
-    "zh": "汤姆在大雨中站在一把黄色雨伞下",
+    "sentence": "Lily sprinted in the school sports day race with her hair flying.",
+    "zh": "莉莉在校运动会赛跑中冲刺，头发飞扬",
     "verbType": "action",
     "source": "教材场景"
   },
@@ -328,7 +332,8 @@
     "type": "spelling",
     "badge": "demo",
     "badgeText": "✏️ 规律",
-    "image": "l03p-scene-lily-sprinted-in-the-school-sports-day-race-with.jpg",
+    "image": "l03p-scene-lily-played-football-with-her-friends-in-the-par.jpg",
+    "lead": "点开每条规律，看动词变化，再读匹配的例句。",
     "rules": [
       {
         "tab": "规则① +ed",
@@ -351,28 +356,32 @@
             "to": "wanted"
           }
         ],
-        "sample": "Lily sprinted in the school sports day race with her hair flying.",
-        "sampleZh": "莉莉在校运动会赛跑中冲刺，头发飞扬"
+        "sample": "Lily played football with her friends in the park yesterday.",
+        "sampleZh": "莉莉昨天和朋友们在公园踢足球。",
+        "sampleImage": "l03p-scene-lily-played-football-with-her-friends-in-the-par.jpg",
+        "focusVerb": "played"
       },
       {
         "tab": "规则② +d",
         "rule": "以不发音 e 结尾，只加 d",
         "examples": [
           {
-            "from": "live",
-            "to": "lived"
-          },
-          {
             "from": "like",
             "to": "liked"
+          },
+          {
+            "from": "live",
+            "to": "lived"
           },
           {
             "from": "hope",
             "to": "hoped"
           }
         ],
-        "sample": "Tom stood under a yellow umbrella in the heavy rain.",
-        "sampleZh": "汤姆在大雨中站在一把黄色雨伞下"
+        "sample": "Emma liked the colorful lanterns at the festival last night.",
+        "sampleZh": "艾玛昨晚很喜欢节日里那些彩色的灯笼。",
+        "sampleImage": "l03p-scene-emma-liked-the-colorful-lanterns-at-the-festival.jpg",
+        "focusVerb": "liked"
       },
       {
         "tab": "规则③ y→ied",
@@ -390,7 +399,11 @@
             "from": "try",
             "to": "tried"
           }
-        ]
+        ],
+        "sample": "Han Lin studied English in the quiet library yesterday evening.",
+        "sampleZh": "韩林昨天晚上在安静的图书馆学英语。",
+        "sampleImage": "l03p-scene-han-lin-studied-english-in-the-quiet-library-yes.jpg",
+        "focusVerb": "studied"
       },
       {
         "tab": "规则④ 双写",
@@ -408,7 +421,11 @@
             "from": "shop",
             "to": "shopped"
           }
-        ]
+        ],
+        "sample": "The yellow school bus stopped in front of the gate yesterday.",
+        "sampleZh": "黄色校车昨天停在校门口。",
+        "sampleImage": "l03p-scene-the-yellow-school-bus-stopped-in-front-of-the-ga.jpg",
+        "focusVerb": "stopped"
       }
     ]
   },
@@ -419,7 +436,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-lily-sprinted-in-the-school-sports-day-race-with.jpg",
+    "image": "l03p-scene-lily-played-football-with-her-friends-in-the-par.jpg",
     "q": "Tom ___ his homework last night.",
     "opts": [
       "finished",
@@ -440,7 +457,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-tom-stood-under-a-yellow-umbrella-in-the-heavy-r.jpg",
+    "image": "l03p-scene-lily-sprinted-in-the-school-sports-day-race-with.jpg",
     "q": "Lily ___ to the park yesterday morning.",
     "opts": [
       "walked",
@@ -461,26 +478,26 @@
     "type": "scene",
     "badge": "action",
     "badgeText": "⚡ 不规则",
-    "image": "l03p-scene-emma-ate-a-piece-of-cake-and-then-ran-to-the-pla.jpg",
+    "image": "l03p-scene-lily-went-to-the-school-library-after-class-and-.jpg",
     "lead": "不规则动词要整词记忆：go → went",
-    "sentence": "Emma ate a piece of cake and then ran to the playground.",
-    "zh": "艾玛吃了一块蛋糕，然后跑向操场",
+    "sentence": "Lily went to the school library after class and found a funny storybook.",
+    "zh": "莉莉下课后去了学校图书馆，找到了一本有趣的故事书。",
     "verbType": "action",
-    "source": "教材场景"
+    "source": "教材对比句 · go→went"
   },
   {
     "id": "p18",
     "section": "不规则动词",
-    "title": "不规则 · 再练",
+    "title": "不规则 · stood",
     "type": "scene",
     "badge": "action",
     "badgeText": "⚡ 不规则",
-    "image": "l03p-scene-jack-bought-a-red-balloon-from-the-street-vendor.jpg",
-    "lead": "看图说过去：发生了什么？",
-    "sentence": "Jack bought a red balloon from the street vendor near the park.",
-    "zh": "杰克从公园附近的小贩那里买了一个红气球",
+    "image": "l03p-scene-tom-stood-under-a-yellow-umbrella-in-the-heavy-r.jpg",
+    "lead": "整词记忆：stand → stood",
+    "sentence": "Tom stood under a yellow umbrella in the heavy rain.",
+    "zh": "汤姆在大雨中站在一把黄色雨伞下",
     "verbType": "action",
-    "source": "教材场景"
+    "source": "教材场景 · 改标不规则"
   },
   {
     "id": "p19",
@@ -490,8 +507,7 @@
     "badge": "vocab",
     "badgeText": "📖 词汇",
     "pool": "vocabIrregular",
-    "lead": "小升初高频不规则：go/see/have/eat/take/write/come/make/buy/think…",
-    "image": "l03p-scene-emma-ate-a-piece-of-cake-and-then-ran-to-the-pla.jpg"
+    "lead": "点开单词卡片：看例句配图，再做句子排序和看图造句。"
   },
   {
     "id": "p20",
@@ -500,7 +516,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-emma-ate-a-piece-of-cake-and-then-ran-to-the-pla.jpg",
+    "image": "l03p-scene-lily-went-to-the-school-library-after-class-and-.jpg",
     "q": "Lily ___ a new dress yesterday.",
     "opts": [
       "bought",
@@ -521,7 +537,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-jack-bought-a-red-balloon-from-the-street-vendor.jpg",
+    "image": "l03p-scene-tom-stood-under-a-yellow-umbrella-in-the-heavy-r.jpg",
     "q": "Tom ___ to the zoo last Sunday.",
     "opts": [
       "went",
@@ -602,20 +618,20 @@
     "type": "dynamic",
     "badge": "demo",
     "badgeText": "🎬 动态",
-    "image": "l03p-scene-teng-fei-did-not-climb-the-tall-tree-because-he-.jpg",
+    "image": "l03p-scene-lily-played-football-with-her-friends-in-the-par.jpg",
     "lead": "否定：did not / didn't + 动词原形（不是过去式！）",
     "steps": [
       {
         "html": "<span class=\"l03p-token l03p-token--subj\">Lily</span><span class=\"l03p-token l03p-token--verb\">played</span><span class=\"l03p-token l03p-token--obj\">football</span>",
-        "speak": "Lily sprinted in the school sports day race with her hair flying."
+        "speak": "Lily played football with her friends in the park yesterday."
       },
       {
         "html": "<span class=\"l03p-token l03p-token--subj\">Lily</span><span class=\"l03p-token l03p-token--aux\">didn't</span><span class=\"l03p-token l03p-token--verb\">play</span><span class=\"l03p-token l03p-token--obj\">football</span>",
-        "speak": "Teng Fei did not climb the tall tree because he felt scared."
+        "speak": "Lily didn't play football in the park yesterday."
       }
     ],
-    "sentence": "Teng Fei did not climb the tall tree because he felt scared.",
-    "zh": "腾飞没有爬那棵高树，因为他感到害怕"
+    "sentence": "Lily didn't play football in the park yesterday.",
+    "zh": "莉莉昨天没有在公园踢足球。"
   },
   {
     "id": "p24",
@@ -624,24 +640,24 @@
     "type": "scene",
     "badge": "neg",
     "badgeText": "🚫 否定",
-    "image": "l03p-scene-teng-fei-did-not-climb-the-tall-tree-because-he-.jpg",
-    "lead": "didn't 后面用原形",
-    "sentence": "Teng Fei did not climb the tall tree because he felt scared.",
-    "zh": "腾飞没有爬那棵高树，因为他感到害怕",
+    "image": "l03p-scene-lily-played-football-with-her-friends-in-the-par.jpg",
+    "lead": "didn't 后面用原形 play（不是 played）",
+    "sentence": "Lily didn't play football in the park yesterday.",
+    "zh": "莉莉昨天没有在公园踢足球。",
     "verbType": "action",
-    "source": "教材场景"
+    "source": "教材对比句 · didn't"
   },
   {
     "id": "p25",
     "section": "否定句",
-    "title": "例句 · wasn't / didn't",
+    "title": "例句 · didn't 再练",
     "type": "scene",
     "badge": "neg",
     "badgeText": "🚫 否定",
-    "image": "l03p-scene-han-lin-did-not-find-his-yellow-umbrella-after-t.jpg",
-    "lead": "be 用 wasn't/weren't；实义动词用 didn't",
-    "sentence": "Han Lin did not find his yellow umbrella after the rain stopped.",
-    "zh": "雨停后，韩林没有找到他的黄色雨伞",
+    "image": "l03p-scene-teng-fei-didn-t-climb-the-tall-tree-because-he-f.jpg",
+    "lead": "be 用 wasn't/weren't；实义动词用 didn't + 原形",
+    "sentence": "Teng Fei didn't climb the tall tree because he felt scared.",
+    "zh": "腾飞没有爬那棵高树，因为他感到害怕",
     "verbType": "action",
     "source": "教材场景"
   },
@@ -652,7 +668,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-teng-fei-did-not-climb-the-tall-tree-because-he-.jpg",
+    "image": "l03p-scene-lily-played-football-with-her-friends-in-the-par.jpg",
     "q": "Lily ___ not go to school yesterday.",
     "opts": [
       "did",
@@ -673,20 +689,20 @@
     "type": "dynamic",
     "badge": "demo",
     "badgeText": "🎬 动态",
-    "image": "l03p-scene-did-linda-wash-the-paintbrushes-in-the-art-room-.jpg",
+    "image": "l03p-scene-lily-went-to-the-school-library-after-class-and-.jpg",
     "lead": "疑问：Did + 主语 + 动词原形？",
     "steps": [
       {
-        "html": "<span class=\"l03p-token l03p-token--subj\">Tom</span><span class=\"l03p-token l03p-token--verb\">went</span><span class=\"l03p-token l03p-token--obj\">to the park</span>",
-        "speak": "Emma ate a piece of cake and then ran to the playground."
+        "html": "<span class=\"l03p-token l03p-token--subj\">Lily</span><span class=\"l03p-token l03p-token--verb\">went</span><span class=\"l03p-token l03p-token--obj\">to the library</span>",
+        "speak": "Lily went to the school library after class and found a funny storybook."
       },
       {
-        "html": "<span class=\"l03p-token l03p-token--aux l03p-token--fly\">Did</span><span class=\"l03p-token l03p-token--subj\">Tom</span><span class=\"l03p-token l03p-token--verb\">go</span><span class=\"l03p-token l03p-token--obj\">to the park</span><span class=\"l03p-token\">?</span>",
-        "speak": "Did Linda wash the paintbrushes in the art room after painting."
+        "html": "<span class=\"l03p-token l03p-token--aux l03p-token--fly\">Did</span><span class=\"l03p-token l03p-token--subj\">Lily</span><span class=\"l03p-token l03p-token--verb\">go</span><span class=\"l03p-token l03p-token--obj\">to the library</span><span class=\"l03p-token\">?</span>",
+        "speak": "Did Lily go to the school library after class?"
       }
     ],
-    "sentence": "Did Linda wash the paintbrushes in the art room after painting.",
-    "zh": "琳达画画后在画室里洗了画笔吗"
+    "sentence": "Did Lily go to the school library after class?",
+    "zh": "莉莉下课后去学校图书馆了吗？"
   },
   {
     "id": "p28",
@@ -695,12 +711,12 @@
     "type": "scene",
     "badge": "q",
     "badgeText": "❓ 疑问",
-    "image": "l03p-scene-did-linda-wash-the-paintbrushes-in-the-art-room-.jpg",
-    "lead": "Did 后动词用原形",
-    "sentence": "Did Linda wash the paintbrushes in the art room after painting.",
-    "zh": "琳达画画后在画室里洗了画笔吗",
+    "image": "l03p-scene-lily-went-to-the-school-library-after-class-and-.jpg",
+    "lead": "Did 后动词用原形 go（不是 went）",
+    "sentence": "Did Lily go to the school library after class?",
+    "zh": "莉莉下课后去学校图书馆了吗？",
     "verbType": "q",
-    "source": "教材场景"
+    "source": "教材对比句 · Did"
   },
   {
     "id": "p29",
@@ -709,12 +725,12 @@
     "type": "scene",
     "badge": "q",
     "badgeText": "❓ 疑问",
-    "image": "l03p-scene-did-chen-tao-score-a-goal-during-the-match-no-he.jpg",
+    "image": "l03p-scene-did-linda-wash-the-paintbrushes-in-the-art-room-.jpg",
     "lead": "回答：Yes, … did. / No, … didn't.",
-    "sentence": "Did Chen Tao score a goal during the match? No, he missed by a few inches.",
-    "zh": "陈涛在比赛中进球了吗？没有，他差了几英寸没进。",
+    "sentence": "Did Linda wash the paintbrushes in the art room after painting?",
+    "zh": "琳达画画后在画室里洗了画笔吗",
     "verbType": "q",
-    "source": "课堂互动"
+    "source": "教材场景"
   },
   {
     "id": "p30",
@@ -723,7 +739,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-did-linda-wash-the-paintbrushes-in-the-art-room-.jpg",
+    "image": "l03p-scene-lily-went-to-the-school-library-after-class-and-.jpg",
     "q": "___ Lily go to the park yesterday?",
     "opts": [
       "Did",
@@ -744,24 +760,22 @@
     "type": "picture-build",
     "badge": "action",
     "badgeText": "🧩 造句",
-    "image": "l03p-scene-lily-sprinted-in-the-school-sports-day-race-with.jpg",
+    "image": "l03p-scene-lily-played-football-with-her-friends-in-the-par.jpg",
     "instruction": "单词已打乱。点选填入空格，组成正确过去时句子：",
     "tokens": [
       "Lily",
-      "sprinted",
-      "in",
-      "the",
-      "school",
-      "sports",
-      "day",
-      "race",
+      "played",
+      "football",
       "with",
       "her",
-      "hair",
-      "flying"
+      "friends",
+      "in",
+      "the",
+      "park",
+      "yesterday"
     ],
-    "sentence": "Lily sprinted in the school sports day race with her hair flying.",
-    "zh": "莉莉在校运动会赛跑中冲刺，头发飞扬"
+    "sentence": "Lily played football with her friends in the park yesterday.",
+    "zh": "莉莉昨天和朋友们在公园踢足球。"
   },
   {
     "id": "p32",
@@ -770,24 +784,25 @@
     "type": "listen-order",
     "badge": "sound",
     "badgeText": "🎧 听音",
-    "image": "l03p-scene-emma-ate-a-piece-of-cake-and-then-ran-to-the-pla.jpg",
-    "audio": "Emma ate a piece of cake and then ran to the playground.",
+    "image": "l03p-scene-lily-went-to-the-school-library-after-class-and-.jpg",
+    "audio": "Lily went to the school library after class and found a funny storybook.",
     "tokens": [
-      "Emma",
-      "ate",
-      "a",
-      "piece",
-      "of",
-      "cake",
-      "and",
-      "then",
-      "ran",
+      "Lily",
+      "went",
       "to",
       "the",
-      "playground"
+      "school",
+      "library",
+      "after",
+      "class",
+      "and",
+      "found",
+      "a",
+      "funny",
+      "storybook"
     ],
-    "sentence": "Emma ate a piece of cake and then ran to the playground.",
-    "zh": "艾玛吃了一块蛋糕，然后跑向操场"
+    "sentence": "Lily went to the school library after class and found a funny storybook.",
+    "zh": "莉莉下课后去了学校图书馆，找到了一本有趣的故事书。"
   },
   {
     "id": "p33",
@@ -842,23 +857,21 @@
     "type": "listen-order",
     "badge": "sound",
     "badgeText": "🎧 听音",
-    "image": "l03p-scene-did-linda-wash-the-paintbrushes-in-the-art-room-.jpg",
-    "audio": "Did Linda wash the paintbrushes in the art room after painting.",
+    "image": "l03p-scene-lily-went-to-the-school-library-after-class-and-.jpg",
+    "audio": "Did Lily go to the school library after class?",
     "tokens": [
       "Did",
-      "Linda",
-      "wash",
+      "Lily",
+      "go",
+      "to",
       "the",
-      "paintbrushes",
-      "in",
-      "the",
-      "art",
-      "room",
+      "school",
+      "library",
       "after",
-      "painting"
+      "class"
     ],
-    "sentence": "Did Linda wash the paintbrushes in the art room after painting.",
-    "zh": "琳达画画后在画室里洗了画笔吗"
+    "sentence": "Did Lily go to the school library after class?",
+    "zh": "莉莉下课后去学校图书馆了吗？"
   },
   {
     "id": "p36",
@@ -867,7 +880,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "🏆 终极",
-    "image": "l03p-scene-teng-fei-did-not-climb-the-tall-tree-because-he-.jpg",
+    "image": "l03p-scene-lily-played-football-with-her-friends-in-the-par.jpg",
     "q": "Lily and Tom ___ to the zoo last Sunday.",
     "opts": [
       "went",
@@ -961,8 +974,7 @@
     "badge": "vocab",
     "badgeText": "📖 词汇",
     "pool": "vocabRegular",
-    "lead": "规则过去式 · 可点词查 DeepSeek 词典",
-    "image": "l03p-scene-lily-sprinted-in-the-school-sports-day-race-with.jpg"
+    "lead": "点开单词卡片：看例句配图，再做句子排序和看图造句。"
   },
   {
     "id": "p39",
@@ -972,8 +984,7 @@
     "badge": "vocab",
     "badgeText": "📖 词汇",
     "pool": "vocabIrregular",
-    "lead": "小升初高频不规则动词",
-    "image": "l03p-scene-emma-ate-a-piece-of-cake-and-then-ran-to-the-pla.jpg"
+    "lead": "点开单词卡片：看例句配图，再做句子排序和看图造句。"
   },
   {
     "id": "p40",
@@ -983,62 +994,61 @@
     "badge": "vocab",
     "badgeText": "📖 词汇",
     "pool": "vocabTime",
-    "lead": "yesterday / last week / … ago",
-    "image": "l03p-scene-yesterday-miss-li-bought-a-new-chess-set-for-her.jpg"
+    "lead": "点开卡片学习 yesterday / last week / … ago，并可做排序练习。"
   },
   {
     "id": "p41",
     "section": "拓展例句",
-    "title": "拓展例句 · regular",
+    "title": "拓展例句 · sprinted",
     "type": "scene",
     "badge": "action",
-    "badgeText": "🖼 例句",
-    "image": "l03p-scene-tom-stood-under-a-yellow-umbrella-in-the-heavy-r.jpg",
-    "lead": "DeepSeek 语料 · 教材场景",
-    "sentence": "Tom stood under a yellow umbrella in the heavy rain.",
-    "zh": "汤姆在大雨中站在一把黄色雨伞下",
+    "badgeText": "🏃 规则",
+    "image": "l03p-scene-lily-sprinted-in-the-school-sports-day-race-with.jpg",
+    "lead": "规则变化 · 注意时间标志词 · 教材场景",
+    "sentence": "Lily sprinted in the school sports day race with her hair flying.",
+    "zh": "莉莉在校运动会赛跑中冲刺，头发飞扬",
     "verbType": "regular",
     "source": "教材场景"
   },
   {
     "id": "p42",
     "section": "拓展例句",
-    "title": "拓展例句 · regular",
+    "title": "拓展例句 · stood",
     "type": "scene",
     "badge": "action",
-    "badgeText": "🖼 例句",
-    "image": "l03p-scene-emma-blew-out-candles-on-her-birthday-cake-with-.jpg",
-    "lead": "DeepSeek 语料 · 教材场景",
-    "sentence": "Emma blew out candles on her birthday cake with a big smile.",
-    "zh": "艾玛带着灿烂的笑容吹灭生日蛋糕上的蜡烛",
-    "verbType": "regular",
-    "source": "教材场景"
+    "badgeText": "⚡ 不规则",
+    "image": "l03p-scene-tom-stood-under-a-yellow-umbrella-in-the-heavy-r.jpg",
+    "lead": "不规则：stand → stood · 教材场景 · 改标不规则",
+    "sentence": "Tom stood under a yellow umbrella in the heavy rain.",
+    "zh": "汤姆在大雨中站在一把黄色雨伞下",
+    "verbType": "irregular",
+    "source": "教材场景 · 改标不规则"
   },
   {
     "id": "p43",
     "section": "拓展例句",
-    "title": "拓展例句 · regular",
+    "title": "拓展例句 · blew",
     "type": "scene",
     "badge": "action",
-    "badgeText": "🖼 例句",
-    "image": "l03p-scene-jack-and-chen-tao-watched-steam-rise-from-a-hotp.jpg",
-    "lead": "DeepSeek 语料 · 教材场景",
-    "sentence": "Jack and Chen Tao watched steam rise from a hotpot in winter.",
-    "zh": "杰克和陈涛在冬天看着火锅升起的蒸汽",
-    "verbType": "regular",
-    "source": "教材场景"
+    "badgeText": "⚡ 不规则",
+    "image": "l03p-scene-emma-blew-out-candles-on-her-birthday-cake-with-.jpg",
+    "lead": "不规则：blow → blew · 教材场景 · 改标不规则",
+    "sentence": "Emma blew out candles on her birthday cake with a big smile.",
+    "zh": "艾玛带着灿烂的笑容吹灭生日蛋糕上的蜡烛",
+    "verbType": "irregular",
+    "source": "教材场景 · 改标不规则"
   },
   {
     "id": "p44",
     "section": "拓展例句",
-    "title": "拓展例句 · regular",
+    "title": "拓展例句 · watched",
     "type": "scene",
     "badge": "action",
-    "badgeText": "🖼 例句",
-    "image": "l03p-scene-miss-li-and-mr-wang-taught-students-in-the-libra.jpg",
-    "lead": "DeepSeek 语料 · 教材场景",
-    "sentence": "Miss Li and Mr Wang taught students in the library corner.",
-    "zh": "李老师和王老师在图书馆角落教学生",
+    "badgeText": "🏃 规则",
+    "image": "l03p-scene-jack-and-chen-tao-watched-steam-rise-from-a-hotp.jpg",
+    "lead": "规则变化 · 注意时间标志词 · 教材场景",
+    "sentence": "Jack and Chen Tao watched steam rise from a hotpot in winter.",
+    "zh": "杰克和陈涛在冬天看着火锅升起的蒸汽",
     "verbType": "regular",
     "source": "教材场景"
   },
@@ -1121,7 +1131,7 @@
     "type": "multi-quiz",
     "badge": "ask",
     "badgeText": "📝 套题",
-    "image": "l03p-scene-emma-ate-a-piece-of-cake-and-then-ran-to-the-pla.jpg",
+    "image": "l03p-scene-lily-went-to-the-school-library-after-class-and-.jpg",
     "lead": "共 6 题",
     "questions": [
       {
@@ -1416,7 +1426,7 @@
     "badgeText": "🎧 听音",
     "pool": "listenPick",
     "startIndex": 3,
-    "image": "l03p-scene-emma-ate-a-piece-of-cake-and-then-ran-to-the-pla.jpg"
+    "image": "l03p-scene-lily-went-to-the-school-library-after-class-and-.jpg"
   },
   {
     "id": "p56",
@@ -1425,24 +1435,23 @@
     "type": "picture-build",
     "badge": "action",
     "badgeText": "🧩 造句",
-    "image": "l03p-scene-chen-tao-wrote-a-letter-to-his-grandmother-with-.jpg",
+    "image": "l03p-scene-miss-li-and-mr-wang-taught-students-in-the-libra.jpg",
     "instruction": "单词已打乱。点选填入，组成正确句子：",
     "tokens": [
-      "Chen",
-      "Tao",
-      "wrote",
-      "a",
-      "letter",
-      "to",
-      "his",
-      "grandmother",
-      "with",
-      "a",
-      "blue",
-      "pen"
+      "Miss",
+      "Li",
+      "and",
+      "Mr",
+      "Wang",
+      "taught",
+      "students",
+      "in",
+      "the",
+      "library",
+      "corner"
     ],
-    "sentence": "Chen Tao wrote a letter to his grandmother with a blue pen.",
-    "zh": "陈涛用蓝色钢笔给奶奶写了一封信"
+    "sentence": "Miss Li and Mr Wang taught students in the library corner.",
+    "zh": "李老师和王老师在图书馆角落教学生"
   },
   {
     "id": "p57",
@@ -1451,13 +1460,12 @@
     "type": "listen-order",
     "badge": "sound",
     "badgeText": "🎧 听音",
-    "image": "l03p-scene-teng-fei-did-not-climb-the-tall-tree-because-he-.jpg",
-    "audio": "Teng Fei did not climb the tall tree because he felt scared.",
+    "image": "l03p-scene-teng-fei-didn-t-climb-the-tall-tree-because-he-f.jpg",
+    "audio": "Teng Fei didn't climb the tall tree because he felt scared.",
     "tokens": [
       "Teng",
       "Fei",
-      "did",
-      "not",
+      "didn't",
       "climb",
       "the",
       "tall",
@@ -1467,7 +1475,7 @@
       "felt",
       "scared"
     ],
-    "sentence": "Teng Fei did not climb the tall tree because he felt scared.",
+    "sentence": "Teng Fei didn't climb the tall tree because he felt scared.",
     "zh": "腾飞没有爬那棵高树，因为他感到害怕"
   },
   {

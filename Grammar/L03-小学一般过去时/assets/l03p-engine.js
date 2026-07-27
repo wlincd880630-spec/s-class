@@ -268,16 +268,33 @@
     if (btn)
       btn.addEventListener("click", function () {
         if (morph) {
+          var base = page.morphBase || "play";
+          var past = page.morphPast || "played";
+          var hi = page.morphHighlight || "ed";
+          var pastHtml = past;
+          if (hi && past.toLowerCase().endsWith(hi.toLowerCase())) {
+            pastHtml =
+              esc(past.slice(0, past.length - hi.length)) +
+              '<span style="color:#c62828">' +
+              esc(hi) +
+              "</span>";
+          } else {
+            pastHtml = esc(past);
+          }
           morph.innerHTML =
-            '<span class="l03p-token l03p-token--subj">I</span><span class="l03p-token l03p-token--verb">play</span>' +
-            '<span style="font-weight:900;color:#888;margin:0 .35rem">vs</span>' +
-            '<span class="l03p-token l03p-token--subj">He</span><span class="l03p-token l03p-token--verb l03p-token--pop">play<span style="color:#c62828">s</span></span>';
+            '<span class="l03p-token l03p-token--verb">' +
+            esc(base) +
+            "</span>" +
+            '<span style="font-weight:900;color:#888;margin:0 .35rem">→</span>' +
+            '<span class="l03p-token l03p-token--verb l03p-token--pop">' +
+            pastHtml +
+            "</span>";
         }
         if (fb) {
           fb.className = "l03p-fb is-show l03p-fb--ok";
-          fb.textContent = page.discovery || "He/She/It 后面动词要加 s！";
+          fb.textContent = page.discovery || "过去发生的动作，规则动词要加 -ed：play → played！";
         }
-        speak("I play football. He plays football.");
+        speak(page.morphSpeak || page.leftSentence + " " + page.rightSentence);
       });
   }
 
@@ -553,19 +570,43 @@
       .map(function (r, i) {
         var rows = r.examples
           .map(function (e) {
-            return '<div class="l03p-spell-row"><span>' + esc(e.from) + '</span><span class="l03p-spell-arrow">→</span><span style="color:#c62828">' + esc(e.to) + "</span></div>";
+            var focus = r.focusVerb && e.to === r.focusVerb;
+            return (
+              '<div class="l03p-spell-row' +
+              (focus ? " is-focus" : "") +
+              '"><span>' +
+              esc(e.from) +
+              '</span><span class="l03p-spell-arrow">→</span><span style="color:#c62828;font-weight:' +
+              (focus ? "900" : "700") +
+              '">' +
+              esc(e.to) +
+              "</span></div>"
+            );
           })
           .join("");
+        var sampleHtml = "";
+        if (r.sample) {
+          sampleHtml =
+            '<div class="l03p-spell-sample" style="margin-top:.65rem;padding:.55rem .7rem;border-radius:12px;background:#fff8e8;border:1px dashed #e0a84a">' +
+            '<div style="font-size:.72rem;font-weight:800;color:#b86e00;margin-bottom:.25rem">例句 · 对应 ' +
+            esc(r.focusVerb || r.examples[0].to) +
+            "</div>" +
+            sentBlock(r.sample, r.sampleZh) +
+            ttsRow(r.sample) +
+            "</div>";
+        }
         return (
           '<div class="l03p-spell-panel' +
           (i === 0 ? " is-on" : "") +
           '" data-i="' +
           i +
+          '" data-image="' +
+          esc(r.sampleImage || page.image || "") +
           '"><p class="l03p-lead" style="font-weight:800;color:#6a1b9a">' +
           esc(r.rule) +
           "</p>" +
           rows +
-          (r.sample ? '<div style="margin-top:.5rem">' + sentBlock(r.sample, r.sampleZh) + ttsRow(r.sample) + "</div>" : "") +
+          sampleHtml +
           "</div>"
         );
       })
@@ -576,7 +617,9 @@
       (page.image ? hero(page) : "") +
       '<div class="l03p-body-inner"><h1 class="l03p-title">' +
       esc(page.title) +
-      '</h1><div class="l03p-spell-tabs" id="spellTabs">' +
+      "</h1>" +
+      (page.lead ? '<p class="l03p-lead">' + esc(page.lead) + "</p>" : "") +
+      '<div class="l03p-spell-tabs" id="spellTabs">' +
       tabs +
       '</div><div id="spellPanels">' +
       panels +
@@ -584,16 +627,29 @@
     );
   }
 
-  function bindSpelling() {
+  function bindSpelling(page) {
     document.querySelectorAll("#spellTabs .l03p-spell-tab").forEach(function (tab) {
       tab.addEventListener("click", function () {
         var i = tab.getAttribute("data-i");
         document.querySelectorAll("#spellTabs .l03p-spell-tab").forEach(function (t) {
           t.classList.toggle("is-on", t === tab);
         });
+        var onPanel = null;
         document.querySelectorAll("#spellPanels .l03p-spell-panel").forEach(function (p) {
-          p.classList.toggle("is-on", p.getAttribute("data-i") === i);
+          var on = p.getAttribute("data-i") === i;
+          p.classList.toggle("is-on", on);
+          if (on) onPanel = p;
         });
+        if (onPanel) {
+          var nextImg = onPanel.getAttribute("data-image");
+          var heroImg = document.querySelector(".l03p-hero img");
+          if (nextImg && heroImg) {
+            heroImg.src = img(nextImg);
+            heroImg.setAttribute("onerror", imgOnerror(nextImg));
+          }
+          var rule = (page.rules || [])[Number(i)] || {};
+          if (rule.sample) speak(rule.sample);
+        }
       });
     });
     bindCommon(document.getElementById("spellPanels"));
@@ -1196,6 +1252,12 @@
       bindCommon: bindCommon,
       speak: speak,
       img: img,
+      imgOnerror: imgOnerror,
+      shuffleDistinct: shuffleDistinct,
+      makeTokenDeck: makeTokenDeck,
+      orderSlotsHtml: orderSlotsHtml,
+      orderBankHtml: orderBankHtml,
+      bindTokenOrder: bindTokenOrder,
     });
   }
 })(typeof window !== "undefined" ? window : null);
