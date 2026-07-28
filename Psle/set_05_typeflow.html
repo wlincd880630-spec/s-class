@@ -860,7 +860,7 @@
       <h1 id="learnTitle">讲解与学习</h1>
       <button type="button" class="btn secondary" id="btnBackHome3">← 题型首页</button>
     </header>
-    <p class="breadcrumb">讲解页：题干与选项中可点击英文词查义；弹窗内可朗读该词。展开「解析」「知识点」「测试」查看更多。</p>
+    <p class="breadcrumb">讲解页：阅读文章、题干与选项中可点击任意英文词查义（DeepSeek）；弹窗内可 Azure 英式男声慢速朗读。展开「解析」「知识点」「测试」查看更多。</p>
     <div id="learnBody"></div>
   </div>
 
@@ -2599,8 +2599,8 @@
     try {
       const ctx = String(context || "").slice(0, 3500);
       const userContent =
-        "你是英语词典与语境分析助手。下面是一段「本题题干 + 选项」组成的语境（可能含题号、中文说明），请解释其中英文词「" + word + "」" +
-        "在此语境中的含义（中文，2～4 句，简洁准确）。若该片段不是完整词，也说明其可能对应的完整词。\n\n语境：\n" + ctx;
+        "你是英语词典与语境分析助手。下面是一段英语学习语境（可能是阅读文章、题干或选项，可能含题号、中文注释），请解释其中英文词「" + word + "」" +
+        "在此语境中的含义（中文，2～4 句，简洁准确；可附简易音标）。若该片段不是完整词，也说明其可能对应的完整词。\n\n语境：\n" + ctx;
       const txt = await deepseekChat(userContent, 512);
       document.getElementById("modalBody").textContent = txt || "（无返回）";
     } catch (e) {
@@ -2648,7 +2648,8 @@
     const safe = xmlEscapeTts(t);
     const ssml =
       "<speak version='1.0' xml:lang='en-GB'>" +
-      "<voice xml:lang='en-GB' name='en-GB-RyanNeural'>" + safe + "</voice></speak>";
+      "<voice xml:lang='en-GB' name='en-GB-RyanNeural'>" +
+      "<prosody rate='0.85'>" + safe + "</prosody></voice></speak>";
     const r = await fetch(url, {
       method: "POST",
       mode: "cors",
@@ -2696,7 +2697,7 @@
     return new Promise((resolve, reject) => {
       const u = new SpeechSynthesisUtterance(t);
       u.lang = "en-GB";
-      u.rate = 0.92;
+      u.rate = 0.85;
       const voice = pickEnglishTtsVoice();
       if (voice) u.voice = voice;
       u.onend = () => resolve();
@@ -2825,6 +2826,8 @@
     if (stemLearn) wrapEnglishWords(stemLearn);
     const optRevEl = card.querySelector(".opt-review");
     if (optRevEl) wrapEnglishWords(optRevEl);
+    const passLearn = card.querySelector(".passage");
+    if (passLearn) wrapEnglishWords(passLearn);
 
     card.querySelector(".btn-ex").addEventListener("click", () => {
       pEx.classList.toggle("open");
@@ -2963,6 +2966,8 @@
           }
           wrap.innerHTML =
             "<div class='reading-learn-passage'>" + passInner + "</div>" + "<div class='reading-learn-cards-col'></div>";
+          const passEl = wrap.querySelector(".reading-passage-text");
+          if (passEl) wrapEnglishWords(passEl);
           const col = wrap.querySelector(".reading-learn-cards-col");
           g.details.forEach((pair) => appendLearnCard(col, pair, t, true));
           root.appendChild(wrap);
@@ -2988,6 +2993,8 @@
           }
           wrapW.innerHTML =
             "<div class='reading-learn-passage'>" + passInnerW + "</div>" + "<div class='reading-learn-cards-col'></div>";
+          const passElW = wrapW.querySelector(".reading-passage-text");
+          if (passElW) wrapEnglishWords(passElW);
           const colW = wrapW.querySelector(".reading-learn-cards-col");
           g.details.forEach((pair) => appendLearnCard(colW, pair, t, true));
           root.appendChild(wrapW);
