@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>第01套 · 阅读理解｜学后复习测试</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #e8eee9; --card: #fcfdfb; --ink: #1a221e; --muted: #5a675f;
+      --accent: #245c44; --accent-2: #3d5a80; --accent-3: #8a3b16;
+      --soft: #e3f2ea; --border: #c5d2c9;
+      --ok: #1b7a3d; --ok-bg: #d8f5e0; --bad: #b42318; --bad-bg: #fde8e6;
+      --shadow: rgba(26, 34, 30, 0.06); --line: #9aab9f;
+    }
+    * { box-sizing: border-box; }
+    html { overflow-x: clip; }
+    body {
+      margin: 0; font-family: "DM Sans", system-ui, sans-serif; color: var(--ink);
+      background:
+        radial-gradient(900px 420px at 8% -8%, rgba(149,213,178,.28), transparent 55%),
+        linear-gradient(160deg, #dde6e0, var(--bg) 42%, #d5e0d9);
+      line-height: 1.55; min-height: 100vh; overflow-x: clip;
+    }
+    .wrap {
+      max-width: 880px; margin: 0 auto; width: 100%; overflow: visible;
+      padding: 1.1rem max(1.25rem, env(safe-area-inset-right)) 4.5rem max(1.25rem, env(safe-area-inset-left));
+    }
+    a.back { color: var(--accent); font-weight: 700; text-decoration: none; font-size: .9rem; }
+    .hero {
+      margin: .85rem 0 1rem; padding: 1.15rem 1.2rem 1.25rem; border-radius: 18px;
+      background: linear-gradient(135deg, rgba(36,92,68,.94), rgba(28,60,48,.96));
+      color: #f3faf6; box-shadow: 0 14px 32px rgba(26,34,30,.14);
+    }
+    .hero .eyebrow { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; opacity: .82; font-weight: 700; margin: 0 0 .35rem; }
+    .hero h1 { font-family: "Literata", Georgia, serif; font-size: clamp(1.35rem, 3.4vw, 1.85rem); margin: 0 0 .45rem; line-height: 1.25; }
+    .hero .meta { margin: 0; opacity: .88; font-size: .9rem; }
+    .hero-stats { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: .85rem; }
+    .hero-stats span {
+      background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.18);
+      border-radius: 999px; padding: .28rem .7rem; font-size: .8rem; font-weight: 700;
+    }
+    .toolbar {
+      display: flex; flex-wrap: wrap; gap: .5rem; align-items: center;
+      position: sticky; top: 0; z-index: 30; padding: .55rem 0;
+      background: rgba(232,238,233,.94); backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border); margin-bottom: 1rem;
+    }
+    .btn {
+      border: none; border-radius: 10px; padding: .5rem .95rem; font-weight: 700;
+      cursor: pointer; font-family: inherit; font-size: .86rem; text-decoration: none;
+      display: inline-flex; align-items: center;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-secondary { background: #fff; color: var(--accent); border: 1px solid var(--border); }
+    .btn-pdf { background: #1c2420; color: #fff; }
+    #scoreBox { margin-left: auto; font-weight: 700; color: var(--accent); min-height: 1.2em; font-size: .92rem; }
+    .toc { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .55rem; margin: 0 0 1.15rem; width: 100%; }
+    @media (max-width: 640px) { .toc { grid-template-columns: 1fr; } }
+    .toc a {
+      text-decoration: none; color: inherit; background: var(--card);
+      border: 1px solid var(--border); border-radius: 12px; padding: .7rem .85rem;
+      box-shadow: 0 6px 16px var(--shadow); min-width: 0; overflow-wrap: anywhere;
+    }
+    .toc a strong { display: block; color: var(--accent); font-size: .92rem; margin-bottom: .15rem; }
+    .toc a span { color: var(--muted); font-size: .8rem; }
+    .tier {
+      background: var(--card); border: 1px solid var(--border); border-radius: 18px;
+      padding: 1.2rem; margin-bottom: 1.15rem; box-shadow: 0 10px 26px var(--shadow);
+    }
+    .tier-head {
+      display: flex; flex-wrap: wrap; align-items: center; gap: .55rem;
+      padding-bottom: .75rem; margin-bottom: .85rem; border-bottom: 1px solid var(--border);
+    }
+    .tier-head h2 { font-family: "Literata", Georgia, serif; font-size: 1.18rem; margin: 0; flex: 1 1 auto; }
+    .badge { font-size: .68rem; font-weight: 700; color: #fff; border-radius: 999px; padding: .22rem .55rem; }
+    .b1 { background: var(--accent); } .b2 { background: var(--accent-2); } .b3 { background: var(--accent-3); }
+    .tier .sub { color: var(--muted); font-size: .88rem; margin: 0 0 1rem; }
+    .block {
+      margin: 1.15rem 0 0; padding: 1rem; border-radius: 14px;
+      background: linear-gradient(180deg, #f7faf7, #f3f7f4); border: 1px solid #d7e3db;
+    }
+    .block h3 { font-family: "Literata", Georgia, serif; font-size: 1.02rem; margin: 0 0 .35rem; color: var(--accent); }
+    .block .hint { margin: 0 0 .85rem; color: var(--muted); font-size: .88rem; }
+    .q { margin: .7rem 0; padding: .75rem .85rem; border-radius: 12px; background: #fff; border: 1px solid var(--border); }
+    .q.ok { background: var(--ok-bg); border-color: #a7e0b8; }
+    .q.bad { background: var(--bad-bg); border-color: #f0b4ad; }
+    .q-label { font-weight: 700; margin-bottom: .4rem; }
+    .opts { display: grid; gap: .28rem; }
+    @media (min-width: 640px) { .opts.cols-2 { grid-template-columns: 1fr 1fr; } }
+    label.opt { display: flex; gap: .45rem; align-items: flex-start; cursor: pointer; font-size: .95rem; }
+    input[type="text"], textarea, select {
+      max-width: 100%; padding: .42rem .55rem; border: 1.5px solid var(--accent);
+      border-radius: 8px; font: inherit; background: #fff;
+    }
+    textarea { width: 100%; min-height: 4.2rem; resize: vertical; }
+    select { min-width: 5.5rem; }
+    input.blank-input {
+      display: inline-block !important; vertical-align: baseline; margin: 0 .15rem;
+      min-height: 1.85rem; background: #f4faf7; border: 1.5px solid var(--accent);
+      border-radius: 6px; box-shadow: inset 0 -2px 0 rgba(36,92,68,.2);
+    }
+    input.blank-input.short { width: 7.2rem; min-width: 5.5rem; }
+    input.blank-input.mid { width: min(100%, 14rem); min-width: 8rem; }
+    input.blank-input.tiny { width: 3.2rem; min-width: 2.6rem; text-align: center; }
+    .blank-row { display: block; line-height: 1.85; margin: .35rem 0; }
+    .bank { display: flex; flex-wrap: wrap; gap: .4rem; margin: .45rem 0 .75rem; }
+    .chip {
+      background: var(--soft); border: 1px solid #b7dcc6; border-radius: 999px;
+      padding: .2rem .65rem; font-size: .82rem; font-weight: 700; color: var(--accent);
+    }
+    .match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin-bottom: .7rem; }
+    @media (max-width: 560px) { .match-grid { grid-template-columns: 1fr; } }
+    .match-col { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: .7rem .8rem; }
+    .match-col ol { margin: .35rem 0 0; padding-left: 1.2rem; }
+    .passage {
+      font-family: "Literata", Georgia, serif; background: #fff; border: 1px solid var(--border);
+      border-radius: 12px; padding: 1rem 1.05rem; line-height: 2; margin-bottom: .8rem; font-size: 1.02rem;
+    }
+    .passage .q-inline { display: inline; margin: 0; padding: 0; border: none; background: transparent; }
+    .passage input.blank-input { width: 5.2rem; min-width: 4.2rem; height: 1.7rem; padding: .15rem .35rem; }
+    .feedback { font-size: .84rem; margin-top: .4rem; color: var(--muted); display: none; }
+    .q.show-fb .feedback { display: block; }
+    .q.ok .feedback { color: var(--ok); }
+    .q.bad .feedback { color: var(--bad); }
+    .pic-frame {
+      margin: .55rem 0 .85rem; border-radius: 14px; overflow: hidden;
+      border: 1px solid var(--border); background: #fff; box-shadow: 0 8px 18px var(--shadow);
+    }
+    .pic-frame img { display: block; width: 100%; height: auto; }
+    .pic-cap { padding: .45rem .7rem; font-size: .8rem; color: var(--muted); background: #f4f8f5; border-top: 1px solid var(--border); }
+    .write-line { display: none; border-bottom: 1.5px solid var(--line); min-height: 1.6rem; margin: .35rem 0 .55rem; }
+    .paper-only { display: none !important; }
+    .pdf-cover { display: none; }
+    @media print {
+      @page { size: A4; margin: 14mm 12mm; }
+      body { background: #fff !important; color: #000; font-size: 11.5pt; }
+      .wrap { max-width: none; padding: 0; }
+      .toolbar, a.back, .toc, #scoreBox, .feedback, .btn { display: none !important; }
+      .hero { background: none !important; color: #000; box-shadow: none; border-bottom: 2px solid #000; border-radius: 0; padding: 0 0 .6rem; }
+      .hero-stats span { background: none; border: 1px solid #000; color: #000; border-radius: 0; }
+      .pdf-cover { display: block; margin-bottom: 1rem; padding-bottom: .7rem; border-bottom: 1px solid #999; }
+      .pdf-cover .row { display: flex; flex-wrap: wrap; gap: .8rem 1.4rem; margin-top: .55rem; }
+      .pdf-cover .blank { display: inline-block; min-width: 8rem; border-bottom: 1px solid #000; height: 1.1em; }
+      .tier, .block, .q { box-shadow: none; border-radius: 0; break-inside: avoid; }
+      input, textarea, select, input.blank-input { display: none !important; }
+      .write-line { display: block !important; }
+      .paper-only { display: inline !important; }
+      .screen-only { display: none !important; }
+      .pic-frame { box-shadow: none; }
+      .pic-frame img { max-height: 210px; width: auto; max-width: 100%; margin: 0 auto; }
+      .blank-mark { display: inline-block !important; min-width: 5rem; border-bottom: 1.5px solid #000; }
+      html.pdf-hide-ans .feedback { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back screen-only" href="index.html">← 复习首页</a>
+
+    <header class="hero">
+      <div class="eyebrow">阅读学后复习 · 分层迁移</div>
+      <h1>第01套 · 阅读理解复习卷</h1>
+      <p class="meta">围绕两篇阅读的核心词汇、搭配与阅读技能迁移出题（非原题照抄）</p>
+      <div class="hero-stats">
+        <span>满分 60 分</span>
+        <span>建议 30–35 分钟</span>
+        <span>初一难度</span>
+        <span>可导出纸质 PDF</span>
+      </div>
+    </header>
+
+    <div class="pdf-cover">
+      <strong>纸质作答区</strong>
+      <div class="row">
+        <span>姓名：<i class="blank"></i></span>
+        <span>班级：<i class="blank"></i></span>
+        <span>日期：<i class="blank"></i></span>
+        <span>得分：<i class="blank"></i> / 60</span>
+      </div>
+    </div>
+
+    <div class="toolbar screen-only">
+      <button type="button" class="btn btn-primary" id="btnCheck">核对答案</button>
+      <button type="button" class="btn btn-secondary" id="btnReset">清空重做</button>
+      <button type="button" class="btn btn-secondary" id="btnToggleAns">显示/隐藏解析</button>
+      <button type="button" class="btn btn-pdf" id="btnPdf">导出 PDF（纸质卷）</button>
+      <a class="btn btn-secondary" href="reading_summary.html">总结材料</a>
+      <div id="scoreBox"></div>
+    </div>
+
+    <nav class="toc screen-only">
+      <a href="#tier1"><strong>基础 · 20分</strong><span>连线 / 选词 / 词形 / 词表</span></a>
+      <a href="#tier2"><strong>提高 · 20分</strong><span>技能选择 / 短文 / 看图排序</span></a>
+      <a href="#tier3"><strong>挑战 · 20分</strong><span>微型阅读 / 看图造句</span></a>
+    </nav>
+
+    <section class="tier" id="tier1">
+      <div class="tier-head"><span class="badge b1">基础 · 20分</span><h2>词汇 · 搭配 · 词形</h2></div>
+      <p class="sub">夯实本篇核心表达：筹款、追踪、保护、保持学习与健康等。</p>
+
+      <div class="block">
+        <h3>A. 固定搭配连线（5分）</h3>
+        <div class="match-grid">
+          <div class="match-col"><strong>短语</strong>
+            <ol>
+              <li>make a difference</li>
+              <li>raise money</li>
+              <li>get in touch with</li>
+              <li>protect … from</li>
+              <li>see a doctor</li>
+            </ol>
+          </div>
+          <div class="match-col"><strong>释义</strong>
+            <ol type="a">
+              <li>筹款</li>
+              <li>看医生</li>
+              <li>与……取得联系</li>
+              <li>有所作为</li>
+              <li>保护……免受……</li>
+            </ol>
+          </div>
+        </div>
+        <div class="q" data-ans="d" data-pts="1" data-type="select"><div class="q-label">1. make a difference →</div>
+          <select><option value="">请选择</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option></select>
+          <div class="write-line"></div><div class="feedback">答案：d</div></div>
+        <div class="q" data-ans="a" data-pts="1" data-type="select"><div class="q-label">2. raise money →</div>
+          <select><option value="">请选择</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option></select>
+          <div class="write-line"></div><div class="feedback">答案：a</div></div>
+        <div class="q" data-ans="c" data-pts="1" data-type="select"><div class="q-label">3. get in touch with →</div>
+          <select><option value="">请选择</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option></select>
+          <div class="write-line"></div><div class="feedback">答案：c</div></div>
+        <div class="q" data-ans="e" data-pts="1" data-type="select"><div class="q-label">4. protect … from →</div>
+          <select><option value="">请选择</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option></select>
+          <div class="write-line"></div><div class="feedback">答案：e</div></div>
+        <div class="q" data-ans="b" data-pts="1" data-type="select"><div class="q-label">5. see a doctor →</div>
+          <select><option value="">请选择</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option></select>
+          <div class="write-line"></div><div class="feedback">答案：b</div></div>
+      </div>
+
+      <div class="block">
+        <h3>B. 选词填空（5分）</h3>
+        <div class="bank">
+          <span class="chip">track</span><span class="chip">mood</span><span class="chip">weight</span>
+          <span class="chip">bright</span><span class="chip">volunteer</span><span class="chip">become</span>
+        </div>
+        <div class="q" data-ans="track" data-pts="1" data-type="text">
+          <div class="blank-row">1. The special collars can <input class="blank-input short" type="text" /> the animals.</div>
+          <div class="write-line"></div><div class="feedback">答案：track</div></div>
+        <div class="q" data-ans="mood" data-pts="1" data-type="text">
+          <div class="blank-row">2. Happy friends may help you change your bad <input class="blank-input short" type="text" />.</div>
+          <div class="write-line"></div><div class="feedback">答案：mood</div></div>
+        <div class="q" data-ans="weight" data-pts="1" data-type="text">
+          <div class="blank-row">3. Age, <input class="blank-input short" type="text" /> and height are just numbers.</div>
+          <div class="write-line"></div><div class="feedback">答案：weight</div></div>
+        <div class="q" data-ans="bright" data-pts="1" data-type="text">
+          <div class="blank-row">4. Make friends with <input class="blank-input short" type="text" /> and happy people.</div>
+          <div class="write-line"></div><div class="feedback">答案：bright（开朗的）</div></div>
+        <div class="q" data-ans="become" data-pts="1" data-type="text">
+          <div class="blank-row">5. Learning helps you <input class="blank-input short" type="text" /> clever.</div>
+          <div class="write-line"></div><div class="feedback">答案：become</div></div>
+      </div>
+
+      <div class="block">
+        <h3>C. 词形变化（5分）</h3>
+        <div class="q" data-ans="raising" data-pts="1" data-type="text">
+          <div class="blank-row">1. He is <input class="blank-input short" type="text" /> money for animals now. (raise)</div>
+          <div class="write-line"></div><div class="feedback">答案：raising</div></div>
+        <div class="q" data-ans="volunteering" data-pts="1" data-type="text">
+          <div class="blank-row">2. She spent two summers <input class="blank-input short" type="text" /> there. (volunteer)</div>
+          <div class="write-line"></div><div class="feedback">答案：volunteering</div></div>
+        <div class="q" data-ans="learning" data-pts="1" data-type="text">
+          <div class="blank-row">3. Keep <input class="blank-input short" type="text" /> every day. (learn)</div>
+          <div class="write-line"></div><div class="feedback">答案：learning</div></div>
+        <div class="q" data-ans="happily" data-pts="1" data-type="text">
+          <div class="blank-row">4. They live <input class="blank-input short" type="text" /> with bright friends. (happy)</div>
+          <div class="write-line"></div><div class="feedback">答案：happily</div></div>
+        <div class="q" data-ans="difference" data-pts="1" data-type="text">
+          <div class="blank-row">5. Kids can also make a <input class="blank-input short" type="text" />. (different)</div>
+          <div class="write-line"></div><div class="feedback">答案：difference</div></div>
+      </div>
+
+      <div class="block">
+        <h3>D. 词汇表（5分）</h3>
+        <div class="bank">
+          <span class="chip">raise awareness</span><span class="chip">even if</span>
+          <span class="chip">so far</span><span class="chip">take an interest in</span>
+          <span class="chip">keep healthy</span>
+        </div>
+        <div class="q" data-ans="raise awareness" data-pts="1" data-type="text">
+          <div class="blank-row">1. 提高意识 → <input class="blank-input mid" type="text" /></div>
+          <div class="write-line"></div><div class="feedback">答案：raise awareness</div></div>
+        <div class="q" data-ans="even if" data-pts="1" data-type="text">
+          <div class="blank-row">2. 即使 → <input class="blank-input mid" type="text" /></div>
+          <div class="write-line"></div><div class="feedback">答案：even if</div></div>
+        <div class="q" data-ans="so far" data-pts="1" data-type="text">
+          <div class="blank-row">3. 到目前为止 → <input class="blank-input mid" type="text" /></div>
+          <div class="write-line"></div><div class="feedback">答案：so far</div></div>
+        <div class="q" data-ans="take an interest in" data-pts="1" data-type="text">
+          <div class="blank-row">4. 对……产生兴趣 → <input class="blank-input mid" type="text" /></div>
+          <div class="write-line"></div><div class="feedback">答案：take an interest in</div></div>
+        <div class="q" data-ans="keep healthy" data-pts="1" data-type="text">
+          <div class="blank-row">5. 保持健康 → <input class="blank-input mid" type="text" /></div>
+          <div class="write-line"></div><div class="feedback">答案：keep healthy</div></div>
+      </div>
+    </section>
+
+    <section class="tier" id="tier2">
+      <div class="tier-head"><span class="badge b2">提高 · 20分</span><h2>阅读技能 · 看图排序</h2></div>
+      <p class="sub">细节定位、词义猜测、主旨标题、NOT true；结合连图练顺序。</p>
+
+      <div class="block">
+        <h3>A. 阅读技能选择（8分 · 每题 2 分）</h3>
+        <div class="q" data-ans="B" data-pts="2" data-type="radio" data-name="sk1">
+          <div class="q-label">1. 细节题应先做什么？</div>
+          <div class="opts cols-2">
+            <label class="opt"><input type="radio" name="sk1" value="A" /> A. 先猜作者心情</label>
+            <label class="opt"><input type="radio" name="sk1" value="B" /> B. 提取题干关键词再定位原文</label>
+            <label class="opt"><input type="radio" name="sk1" value="C" /> C. 只读第一句</label>
+            <label class="opt"><input type="radio" name="sk1" value="D" /> D. 直接选最长选项</label>
+          </div>
+          <div class="feedback">B。关键词定位（scanning）。</div>
+        </div>
+        <div class="q" data-ans="C" data-pts="2" data-type="radio" data-name="sk2">
+          <div class="q-label">2. “The collars track the animals. This helps protect them.” 中 track 最可能是？</div>
+          <div class="opts cols-2">
+            <label class="opt"><input type="radio" name="sk2" value="A" /> A. 复制</label>
+            <label class="opt"><input type="radio" name="sk2" value="B" /> B. 停下</label>
+            <label class="opt"><input type="radio" name="sk2" value="C" /> C. 追踪</label>
+            <label class="opt"><input type="radio" name="sk2" value="D" /> D. 售卖</label>
+          </div>
+          <div class="feedback">C。上下文因果猜词。</div>
+        </div>
+        <div class="q" data-ans="A" data-pts="2" data-type="radio" data-name="sk3">
+          <div class="q-label">3. 选最佳标题时，应避免？</div>
+          <div class="opts cols-2">
+            <label class="opt"><input type="radio" name="sk3" value="A" /> A. 只概括某一细节的选项</label>
+            <label class="opt"><input type="radio" name="sk3" value="B" /> B. 能覆盖全文主旨的选项</label>
+            <label class="opt"><input type="radio" name="sk3" value="C" /> C. 与开篇主题一致的选项</label>
+            <label class="opt"><input type="radio" name="sk3" value="D" /> D. 简洁准确的选项</label>
+          </div>
+          <div class="feedback">A。避免以偏概全。</div>
+        </div>
+        <div class="q" data-ans="D" data-pts="2" data-type="radio" data-name="sk4">
+          <div class="q-label">4. Which is NOT true if the text says “If you feel bad, see a doctor”?</div>
+          <div class="opts cols-2">
+            <label class="opt"><input type="radio" name="sk4" value="A" /> A. You should see a doctor when ill.</label>
+            <label class="opt"><input type="radio" name="sk4" value="B" /> B. Health is important.</label>
+            <label class="opt"><input type="radio" name="sk4" value="C" /> C. Seeing a doctor can help.</label>
+            <label class="opt"><input type="radio" name="sk4" value="D" /> D. You shouldn’t see a doctor when you feel bad.</label>
+          </div>
+          <div class="feedback">D。与原文相反，是 NOT true。</div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3>B. 短文填空（8分 · 每空 2 分）</h3>
+        <div class="bank"><span class="chip">difference</span><span class="chip">money</span><span class="chip">learning</span><span class="chip">doctor</span></div>
+        <div class="passage">Lily wants to help stray cats. She raises <span class="q q-inline" data-ans="money" data-pts="2" data-type="text"><input class="blank-input" type="text" placeholder="(1)" /><span class="paper-only blank-mark">&nbsp;</span></span> by selling bookmarks. She also keeps <span class="q q-inline" data-ans="learning" data-pts="2" data-type="text"><input class="blank-input" type="text" placeholder="(2)" /><span class="paper-only blank-mark">&nbsp;</span></span> about animal care. If a cat doesn’t feel well, she takes it to see a <span class="q q-inline" data-ans="doctor" data-pts="2" data-type="text"><input class="blank-input" type="text" placeholder="(3)" /><span class="paper-only blank-mark">&nbsp;</span></span>. Lily believes kids can make a <span class="q q-inline" data-ans="difference" data-pts="2" data-type="text"><input class="blank-input" type="text" placeholder="(4)" /><span class="paper-only blank-mark">&nbsp;</span></span>.</div>
+      </div>
+
+      <div class="block">
+        <h3>C. 看图排列句子顺序（4分）</h3>
+        <p class="hint">按连图自上而下顺序，给句子编号 1 / 2 / 3。</p>
+        <div class="pic-frame">
+          <img src="assets/read-strip-joris-3panel.jpg" alt="三格连图：读书、筹款、做志愿" />
+          <div class="pic-cap">连图：①读关于猎豹的书 → ②卖东西筹款 → ③在保护中心做志愿</div>
+        </div>
+        <div class="q" data-ans="2" data-pts="1" data-type="text">
+          <div class="q-label">(___) He raises money by selling things.</div>
+          <input class="blank-input tiny" type="text" placeholder="?" />
+          <div class="write-line" style="max-width:4rem"></div>
+          <div class="feedback">答案：2</div>
+        </div>
+        <div class="q" data-ans="3" data-pts="1" data-type="text">
+          <div class="q-label">(___) He spends summers volunteering at the sanctuary.</div>
+          <input class="blank-input tiny" type="text" placeholder="?" />
+          <div class="write-line" style="max-width:4rem"></div>
+          <div class="feedback">答案：3</div>
+        </div>
+        <div class="q" data-ans="1" data-pts="1" data-type="text">
+          <div class="q-label">(___) He reads a book and learns cheetahs are in danger.</div>
+          <input class="blank-input tiny" type="text" placeholder="?" />
+          <div class="write-line" style="max-width:4rem"></div>
+          <div class="feedback">答案：1</div>
+        </div>
+        <div class="q" data-ans="1-2-3" data-pts="1" data-type="text" data-alt="123|1 2 3">
+          <div class="q-label">正确顺序：___ → ___ → ___</div>
+          <input class="blank-input mid" type="text" placeholder="例如：1-2-3" />
+          <div class="write-line"></div>
+          <div class="feedback">答案：1-2-3</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tier" id="tier3">
+      <div class="tier-head"><span class="badge b3">挑战 · 20分</span><h2>综合迁移 · 看图造句</h2></div>
+      <p class="sub">新语境微型阅读 + 看图写句。</p>
+
+      <div class="block">
+        <h3>A. 微型阅读（8分 · 每题 2 分）</h3>
+        <div class="passage">
+          Tom wants to stay young. He makes bright and happy friends. He keeps learning one new thing every day. He also does more exercise. When he doesn’t feel well, he goes to see the doctor.
+        </div>
+        <div class="q" data-ans="B" data-pts="2" data-type="radio" data-name="mr1">
+          <div class="q-label">1. What kind of friends does Tom make?</div>
+          <div class="opts cols-2">
+            <label class="opt"><input type="radio" name="mr1" value="A" /> A. Serious and scared.</label>
+            <label class="opt"><input type="radio" name="mr1" value="B" /> B. Bright and happy.</label>
+            <label class="opt"><input type="radio" name="mr1" value="C" /> C. Tall and strong.</label>
+            <label class="opt"><input type="radio" name="mr1" value="D" /> D. Quiet and lonely.</label>
+          </div>
+          <div class="feedback">B</div>
+        </div>
+        <div class="q" data-ans="C" data-pts="2" data-type="radio" data-name="mr2">
+          <div class="q-label">2. How does Tom become clever according to the text?</div>
+          <div class="opts cols-2">
+            <label class="opt"><input type="radio" name="mr2" value="A" /> A. By forgetting numbers.</label>
+            <label class="opt"><input type="radio" name="mr2" value="B" /> B. By sleeping more.</label>
+            <label class="opt"><input type="radio" name="mr2" value="C" /> C. By keeping learning.</label>
+            <label class="opt"><input type="radio" name="mr2" value="D" /> D. By buying books only.</label>
+          </div>
+          <div class="feedback">C</div>
+        </div>
+        <div class="q" data-ans="A" data-pts="2" data-type="radio" data-name="mr3">
+          <div class="q-label">3. Which is NOT true?</div>
+          <div class="opts cols-2">
+            <label class="opt"><input type="radio" name="mr3" value="A" /> A. Tom never exercises.</label>
+            <label class="opt"><input type="radio" name="mr3" value="B" /> B. Tom sees a doctor when he feels bad.</label>
+            <label class="opt"><input type="radio" name="mr3" value="C" /> C. Tom wants to stay young.</label>
+            <label class="opt"><input type="radio" name="mr3" value="D" /> D. Tom learns something new every day.</label>
+          </div>
+          <div class="feedback">A</div>
+        </div>
+        <div class="q" data-ans="D" data-pts="2" data-type="radio" data-name="mr4">
+          <div class="q-label">4. Best title?</div>
+          <div class="opts cols-2">
+            <label class="opt"><input type="radio" name="mr4" value="A" /> A. How to Make Money</label>
+            <label class="opt"><input type="radio" name="mr4" value="B" /> B. Tom’s Favourite Sport</label>
+            <label class="opt"><input type="radio" name="mr4" value="C" /> C. A Visit to the Doctor</label>
+            <label class="opt"><input type="radio" name="mr4" value="D" /> D. How Tom Tries to Stay Young</label>
+          </div>
+          <div class="feedback">D</div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3>B. 看图造句（12分 · 每题 4 分）</h3>
+        <p class="hint">观察图片，写一句完整、正确的英语句子。</p>
+
+        <div class="q" data-ans="happy" data-pts="4" data-type="make" data-keys="happy,bright,mood,friend,friends">
+          <div class="q-label">1.</div>
+          <div class="pic-frame">
+            <img src="assets/read-pic-happy-friends.jpg" alt="开朗快乐的朋友" />
+            <div class="pic-cap">两个朋友开心地在一起。</div>
+          </div>
+          <textarea placeholder="看图写一句完整的英语句子…"></textarea>
+          <div class="write-line"></div><div class="write-line"></div>
+          <div class="feedback">参考：The bright and happy friends are laughing together. / Happy friends can change your bad mood.</div>
+        </div>
+
+        <div class="q" data-ans="learn" data-pts="4" data-type="make" data-keys="learn,learning,study,computer,keep">
+          <div class="q-label">2.</div>
+          <div class="pic-frame">
+            <img src="assets/read-pic-keep-learning.jpg" alt="坚持学习" />
+            <div class="pic-cap">学生在电脑前学习、做笔记。</div>
+          </div>
+          <textarea placeholder="看图写一句完整的英语句子…"></textarea>
+          <div class="write-line"></div><div class="write-line"></div>
+          <div class="feedback">参考：The student keeps learning at the computer. / She is learning something new.</div>
+        </div>
+
+        <div class="q" data-ans="doctor" data-pts="4" data-type="make" data-keys="doctor,well,feel,clinic,ill,sick">
+          <div class="q-label">3.</div>
+          <div class="pic-frame">
+            <img src="assets/read-pic-see-doctor.jpg" alt="看医生" />
+            <div class="pic-cap">孩子和家长在诊所看医生。</div>
+          </div>
+          <textarea placeholder="看图写一句完整的英语句子…"></textarea>
+          <div class="write-line"></div><div class="write-line"></div>
+          <div class="feedback">参考：The child goes to see a doctor with his parent. / When you don’t feel well, see a doctor.</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+  (function () {
+    function norm(s) { return String(s || "").trim().toLowerCase().replace(/\s+/g, " "); }
+    function getVal(q) {
+      var type = q.dataset.type;
+      if (type === "select") { var sel = q.querySelector("select"); return sel ? sel.value : ""; }
+      if (type === "radio") {
+        var r = document.querySelector('input[name="' + q.dataset.name + '"]:checked');
+        return r ? r.value : "";
+      }
+      if (type === "make") { var ta = q.querySelector("textarea"); return ta ? ta.value : ""; }
+      var inp = q.querySelector('input[type="text"]');
+      return inp ? inp.value : "";
+    }
+    function checkOne(q) {
+      var type = q.dataset.type, ans = q.dataset.ans, pts = parseFloat(q.dataset.pts || "0"), val = getVal(q), ok = false;
+      if (type === "make") {
+        var keys = (q.dataset.keys || "").split(",");
+        var nv = norm(val);
+        ok = keys.some(function (k) { return k && nv.indexOf(norm(k)) >= 0; }) && nv.split(/\s+/).length >= 4;
+      } else if (type === "text") {
+        var n = norm(val); ok = n === norm(ans);
+        if (!ok && q.dataset.alt) q.dataset.alt.split("|").forEach(function (a) { if (n === norm(a)) ok = true; });
+        if (!ok && ans === "1-2-3" && n.replace(/[^123]/g, "") === "123") ok = true;
+      } else ok = norm(val) === norm(ans);
+      q.classList.remove("ok", "bad", "show-fb");
+      if (!String(val).trim()) { if (pts > 0) q.classList.add("bad", "show-fb"); return 0; }
+      if (ok) { q.classList.add("ok", "show-fb"); return pts; }
+      q.classList.add("bad", "show-fb"); return 0;
+    }
+    document.getElementById("btnCheck").addEventListener("click", function () {
+      var total = 0, got = 0;
+      document.querySelectorAll(".q[data-ans]").forEach(function (q) {
+        var pts = parseFloat(q.dataset.pts || "0");
+        if (pts > 0) total += pts;
+        got += checkOne(q);
+      });
+      document.getElementById("scoreBox").textContent = "得分：" + Math.round(got * 10) / 10 + " / " + total;
+    });
+    document.getElementById("btnReset").addEventListener("click", function () {
+      document.querySelectorAll("input[type='text'], textarea").forEach(function (i) { i.value = ""; });
+      document.querySelectorAll("select").forEach(function (s) { s.selectedIndex = 0; });
+      document.querySelectorAll("input[type='radio']").forEach(function (r) { r.checked = false; });
+      document.querySelectorAll(".q").forEach(function (q) { q.classList.remove("ok", "bad", "show-fb"); });
+      document.getElementById("scoreBox").textContent = "";
+    });
+    document.getElementById("btnToggleAns").addEventListener("click", function () {
+      document.querySelectorAll(".q[data-ans]").forEach(function (q) { q.classList.toggle("show-fb"); });
+    });
+    document.getElementById("btnPdf").addEventListener("click", function () {
+      document.documentElement.classList.add("pdf-hide-ans");
+      document.querySelectorAll(".q").forEach(function (q) { q.classList.remove("ok", "bad", "show-fb"); });
+      var old = document.title;
+      document.title = "第01套阅读理解复习卷-纸质作答";
+      window.print();
+      document.title = old;
+      setTimeout(function () { document.documentElement.classList.remove("pdf-hide-ans"); }, 300);
+    });
+  })();
+  </script>
+</body>
+</html>

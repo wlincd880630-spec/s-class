@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>第01套 · 阅读理解｜词汇词组句型总结</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #eef3f0; --card: #fbfcfa; --ink: #1c2420; --muted: #5c6860;
+      --accent: #2d6a4f; --accent-soft: #d8f3e3; --border: #c8d5cc;
+      --shadow: rgba(28, 36, 32, 0.07); --ok: #1b7a45; --bad: #a33a3a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: "DM Sans", system-ui, sans-serif; color: var(--ink);
+      background:
+        radial-gradient(800px 360px at 0% 0%, rgba(149,213,178,.35), transparent 55%),
+        linear-gradient(145deg, #e4ebe6, var(--bg) 45%, #dde8e2);
+      line-height: 1.55; min-height: 100vh;
+    }
+    .wrap { max-width: 820px; margin: 0 auto; padding: 1.25rem 1rem 4rem; }
+    a.back { color: var(--accent); font-weight: 700; text-decoration: none; font-size: .92rem; }
+    a.back:hover { text-decoration: underline; }
+    .eyebrow { font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-top: 1rem; }
+    h1 { font-family: "Literata", Georgia, serif; font-size: clamp(1.4rem, 3.5vw, 1.9rem); margin: .35rem 0 .55rem; }
+    .lead { color: var(--muted); margin: 0 0 1rem; }
+    .toolbar {
+      display: flex; flex-wrap: wrap; gap: .5rem; margin: 0 0 1.1rem;
+      position: sticky; top: 0; z-index: 10; padding: .5rem 0;
+      background: rgba(238,243,240,.92); backdrop-filter: blur(8px);
+    }
+    .btn {
+      border: none; border-radius: 10px; padding: .48rem .9rem; font-weight: 700;
+      cursor: pointer; font-family: inherit; font-size: .86rem; text-decoration: none;
+      display: inline-block;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-secondary { background: #fff; color: var(--accent); border: 1px solid var(--border); }
+    .btn-ghost { background: transparent; color: var(--muted); border: 1px dashed var(--border); }
+    .progress { margin-left: auto; font-weight: 700; color: var(--accent); align-self: center; font-size: .9rem; }
+
+    .unit {
+      background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+      padding: 1.1rem 1.15rem 1.25rem; margin-bottom: 1rem;
+      box-shadow: 0 8px 22px var(--shadow);
+    }
+    .unit-head {
+      display: flex; flex-wrap: wrap; align-items: baseline; gap: .4rem .65rem;
+      margin-bottom: .55rem;
+    }
+    .unit-num {
+      width: 1.7rem; height: 1.7rem; border-radius: 50%;
+      background: var(--accent); color: #fff; font-size: .82rem; font-weight: 700;
+      display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .unit-term {
+      font-family: "Literata", Georgia, serif; font-size: 1.2rem; font-weight: 700; color: var(--accent);
+    }
+    .unit-tag {
+      font-size: .72rem; font-weight: 700; letter-spacing: .04em;
+      padding: .18rem .45rem; border-radius: 999px;
+      background: var(--accent-soft); color: var(--accent);
+    }
+    .unit-mean { margin: 0 0 .55rem; color: var(--ink); }
+    .unit-tip { margin: 0 0 .85rem; font-size: .9rem; color: var(--muted); }
+    .ex {
+      background: #f4f8f5; border-left: 3px solid var(--accent);
+      padding: .65rem .85rem; border-radius: 0 10px 10px 0; margin-bottom: .95rem;
+    }
+    .ex-label { font-size: .72rem; font-weight: 700; color: var(--accent); letter-spacing: .05em; margin-bottom: .2rem; }
+    .ex-en { font-family: "Literata", Georgia, serif; font-size: 1.02rem; margin: 0; }
+    .ex-zh { margin: .25rem 0 0; font-size: .88rem; color: var(--muted); }
+
+    .practice {
+      border: 1px solid var(--border); border-radius: 12px; padding: .8rem .85rem;
+      margin-top: .7rem; background: #fbfcfa;
+    }
+    .practice h3 {
+      margin: 0 0 .45rem; font-size: .92rem; color: var(--accent);
+      font-family: "Literata", Georgia, serif;
+    }
+    .prompt { margin: 0 0 .55rem; font-size: .92rem; color: var(--muted); }
+    .make-input {
+      width: 100%; min-height: 2.8rem; resize: vertical;
+      border: 1px solid var(--border); border-radius: 10px;
+      padding: .55rem .7rem; font: inherit; line-height: 1.45;
+    }
+    .make-input:focus { outline: 2px solid rgba(45,106,79,.28); border-color: var(--accent); }
+    .hint {
+      display: none; margin-top: .55rem; padding: .55rem .7rem;
+      background: #eef6f1; border-radius: 8px; font-size: .9rem;
+    }
+    .hint.show { display: block; }
+    .hint strong { color: var(--accent); }
+
+    .chips {
+      display: flex; flex-wrap: wrap; gap: .4rem; margin: .35rem 0 .55rem; min-height: 2.2rem;
+    }
+    .chip {
+      border: 1px solid var(--border); background: #fff; border-radius: 999px;
+      padding: .35rem .7rem; font-weight: 600; font-size: .9rem; cursor: pointer;
+      font-family: inherit; color: var(--ink);
+    }
+    .chip:hover { border-color: var(--accent); background: #f4f8f5; }
+    .chip.used { opacity: .35; pointer-events: none; }
+    .slot-box {
+      min-height: 2.6rem; border: 1.5px dashed var(--border); border-radius: 10px;
+      padding: .4rem .5rem; display: flex; flex-wrap: wrap; gap: .35rem;
+      margin-bottom: .55rem; background: #fff;
+    }
+    .slot-box .chip { background: var(--accent-soft); border-color: #a7d4b8; }
+    .slot-empty { color: var(--muted); font-size: .88rem; align-self: center; padding: .2rem .35rem; }
+    .feedback { margin-top: .5rem; font-weight: 700; font-size: .9rem; min-height: 1.3em; }
+    .feedback.ok { color: var(--ok); }
+    .feedback.bad { color: var(--bad); }
+    .actions { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .45rem; }
+
+    @media print {
+      .toolbar, a.back, .actions, .chips { display: none !important; }
+      .unit { box-shadow: none; break-inside: avoid; }
+      .hint { display: block !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="index.html">← 复习首页</a>
+    <div class="eyebrow">阅读学后总结 · 练一练</div>
+    <h1>阅读理解 · 词汇词组句型用法总结</h1>
+    <p class="lead">不展示阅读原题答案，只记用法。每条都有例句，并请你用它<strong>造一句</strong>、再做一道<strong>句子排序</strong>。</p>
+
+    <div class="toolbar">
+      <a class="btn btn-secondary" href="../set_01_typeflow.html">返回第01套</a>
+      <a class="btn btn-primary" href="reading_review_quiz.html">去做阅读复习测试</a>
+      <button type="button" class="btn btn-ghost" onclick="window.print()">打印</button>
+      <div class="progress" id="progress">完成 0 / 0</div>
+    </div>
+
+    <div id="units"></div>
+  </div>
+
+  <script>
+  const UNITS = [
+    {
+      term: "make a difference",
+      tag: "词组",
+      mean: "有所作为；产生影响",
+      tip: "常用于励志语境。可加 to：make a difference to the world。",
+      exampleEn: "Everyone can make a difference, even if you're just a kid!",
+      exampleZh: "每个人都能有所作为，即使你只是个孩子！",
+      makePrompt: "用 make a difference 写一句：小行动也能带来改变。",
+      makeHint: "Small actions can also make a difference.",
+      scramble: ["Kids", "can", "make", "a", "difference", "too", "."],
+      answer: "Kids can make a difference too."
+    },
+    {
+      term: "raise money",
+      tag: "词组",
+      mean: "筹款",
+      tip: "raise money (for sth.)。raise 还可 raise awareness；勿与 rise 混淆。",
+      exampleEn: "Joris began raising money by selling T-shirts and juice.",
+      exampleZh: "Joris 通过卖 T 恤和果汁开始筹款。",
+      makePrompt: "用 raise money 写一句：我们为动物保护筹款。",
+      makeHint: "We raise money for wildlife protection.",
+      scramble: ["They", "raise", "money", "to", "help", "animals", "."],
+      answer: "They raise money to help animals."
+    },
+    {
+      term: "raise awareness",
+      tag: "词组",
+      mean: "提高意识；唤起关注",
+      tip: "raise awareness of/about…",
+      exampleEn: "We need to raise awareness and tell people what's happening.",
+      exampleZh: "我们需要提高意识，并告诉人们正在发生什么。",
+      makePrompt: "用 raise awareness 写一句：老师想提高学生对阅读的关注。",
+      makeHint: "The teacher wants to raise awareness of reading.",
+      scramble: ["Let's", "raise", "awareness", "of", "healthy", "food", "."],
+      answer: "Let's raise awareness of healthy food."
+    },
+    {
+      term: "get in touch with",
+      tag: "词组",
+      mean: "与……取得联系",
+      tip: "同义 contact；反义 lose touch with。",
+      exampleEn: "They got in touch with a wildlife sanctuary in Africa.",
+      exampleZh: "他们联系上了非洲的一家野生动物保护中心。",
+      makePrompt: "用 get in touch with 写一句：请尽快与你的老师联系。",
+      makeHint: "Please get in touch with your teacher soon.",
+      scramble: ["I", "will", "get", "in", "touch", "with", "you", "tomorrow", "."],
+      answer: "I will get in touch with you tomorrow."
+    },
+    {
+      term: "track",
+      tag: "词汇",
+      mean: "v. 追踪；n. 跑道/足迹/轨道",
+      tip: "阅读中常靠上下文猜词：项圈 track 动物 → 追踪。",
+      exampleEn: "The special collars track the cheetahs.",
+      exampleZh: "这些特殊项圈用来追踪猎豹。",
+      makePrompt: "用 track 写一句：警察追踪了那个人好几天。",
+      makeHint: "The police tracked the man for many days.",
+      scramble: ["The", "collars", "track", "the", "animals", "."],
+      answer: "The collars track the animals."
+    },
+    {
+      term: "protect ... from",
+      tag: "搭配",
+      mean: "保护……免受……",
+      tip: "protect sb./sth. from + n./doing：protect them from being killed。",
+      exampleEn: "This helps protect them from being killed.",
+      exampleZh: "这有助于保护它们不被杀害。",
+      makePrompt: "用 protect ... from 写一句：帽子保护我们不受阳光晒伤。",
+      makeHint: "Hats protect us from the sun.",
+      scramble: ["Trees", "protect", "us", "from", "strong", "wind", "."],
+      answer: "Trees protect us from strong wind."
+    },
+    {
+      term: "volunteer",
+      tag: "词汇",
+      mean: "志愿者；做志愿（工作）",
+      tip: "spend time volunteering；a volunteer。",
+      exampleEn: "He has spent three summers volunteering there.",
+      exampleZh: "他在那里做了三个夏天的志愿者。",
+      makePrompt: "用 volunteering 写一句：她周末在图书馆做志愿。",
+      makeHint: "She spends weekends volunteering in the library.",
+      scramble: ["He", "likes", "volunteering", "at", "the", "hospital", "."],
+      answer: "He likes volunteering at the hospital."
+    },
+    {
+      term: "even if",
+      tag: "句型",
+      mean: "即使……",
+      tip: "引导让步状语从句：even if you're just a kid。",
+      exampleEn: "Everyone can help, even if you're just a kid.",
+      exampleZh: "每个人都能帮忙，即使你只是个孩子。",
+      makePrompt: "用 even if 写一句：即使下雨我也要去。",
+      makeHint: "I will go even if it rains.",
+      scramble: ["Keep", "trying", ",", "even", "if", "it", "is", "hard", "."],
+      answer: "Keep trying, even if it is hard."
+    },
+    {
+      term: "spend + time + doing",
+      tag: "句型",
+      mean: "花时间做某事（主语是人）",
+      tip: "spend time (in) doing sth.；物作主语表示花费时间用 It takes…",
+      exampleEn: "He spent three summers volunteering in Africa.",
+      exampleZh: "他花了三个夏天在非洲做志愿。",
+      makePrompt: "用 spend ... doing 写一句：我每天花一小时读英语。",
+      makeHint: "I spend one hour reading English every day.",
+      scramble: ["She", "spends", "two", "hours", "doing", "homework", "."],
+      answer: "She spends two hours doing homework."
+    },
+    {
+      term: "weight",
+      tag: "词汇",
+      mean: "体重；重量",
+      tip: "常与 age, height 并列。lose weight / put on weight。勿写成 wait。",
+      exampleEn: "The numbers are about your age, weight and height.",
+      exampleZh: "这些数字是关于你的年龄、体重和身高。",
+      makePrompt: "用 weight 写一句：他正在努力减肥。",
+      makeHint: "He is trying to lose weight.",
+      scramble: ["Don't", "worry", "about", "your", "weight", "too", "much", "."],
+      answer: "Don't worry about your weight too much."
+    },
+    {
+      term: "bright (形容人)",
+      tag: "用法",
+      mean: "开朗的；聪明的",
+      tip: "形容人时不是“发光”。与 happy 并列时常取“开朗”。",
+      exampleEn: "People who are bright and happy should be your friends.",
+      exampleZh: "开朗快乐的人应该成为你的朋友。",
+      makePrompt: "用 bright 写一句：她是一个开朗的女孩。",
+      makeHint: "She is a bright girl.",
+      scramble: ["My", "best", "friend", "is", "bright", "and", "kind", "."],
+      answer: "My best friend is bright and kind."
+    },
+    {
+      term: "mood",
+      tag: "词汇",
+      mean: "情绪；心情",
+      tip: "change your bad mood；in a good/bad mood。",
+      exampleEn: "Their happiness may help you change your bad mood.",
+      exampleZh: "他们的快乐可能帮助你改变坏心情。",
+      makePrompt: "用 mood 写一句：音乐能改善我的心情。",
+      makeHint: "Music can change my bad mood.",
+      scramble: ["She", "is", "in", "a", "good", "mood", "today", "."],
+      answer: "She is in a good mood today."
+    },
+    {
+      term: "become",
+      tag: "词汇",
+      mean: "变成；成为（系动词）",
+      tip: "become + adj./n.：become smart / become a doctor。",
+      exampleEn: "Learning makes you become very clever.",
+      exampleZh: "学习让你变得非常聪明。",
+      makePrompt: "用 become 写一句：他想成为一名医生。",
+      makeHint: "He wants to become a doctor.",
+      scramble: ["She", "became", "happy", "after", "the", "good", "news", "."],
+      answer: "She became happy after the good news."
+    },
+    {
+      term: "keep + adj. / v-ing",
+      tag: "句型",
+      mean: "保持……；持续做……",
+      tip: "Keep healthy. / Keep learning. / Keep smiling.",
+      exampleEn: "Keep learning and keep healthy to stay young.",
+      exampleZh: "保持学习、保持健康，才能保持年轻。",
+      makePrompt: "用 Keep learning 写一句鼓励同学的话。",
+      makeHint: "Keep learning every day!",
+      scramble: ["Please", "keep", "smiling", "and", "never", "give", "up", "."],
+      answer: "Please keep smiling and never give up."
+    },
+    {
+      term: "see a doctor",
+      tag: "词组",
+      mean: "看医生",
+      tip: "don't feel well → go to see the doctor。",
+      exampleEn: "If there is something wrong, go to see the doctor.",
+      exampleZh: "如果有什么不对劲，就去看医生。",
+      makePrompt: "用 see a doctor 写一句：感觉不舒服时应该去看医生。",
+      makeHint: "When you don't feel well, you should see a doctor.",
+      scramble: ["You", "should", "see", "a", "doctor", "soon", "."],
+      answer: "You should see a doctor soon."
+    },
+    {
+      term: "take an interest in",
+      tag: "词组",
+      mean: "对……产生兴趣",
+      tip: "同义 be interested in；后接 n./doing。",
+      exampleEn: "Take an interest in the world around you.",
+      exampleZh: "对周围的世界产生兴趣。",
+      makePrompt: "用 take an interest in 写一句：他对科学很感兴趣。",
+      makeHint: "He takes an interest in science.",
+      scramble: ["She", "takes", "an", "interest", "in", "painting", "."],
+      answer: "She takes an interest in painting."
+    }
+  ];
+
+  function esc(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  function norm(s) {
+    return String(s)
+      .trim()
+      .replace(/\s+/g, " ")
+      .replace(/\s+([?.!,])/g, "$1")
+      .replace(/[?.!,]+$/g, "")
+      .toLowerCase();
+  }
+
+  const storageKey = "psle-set01-reading-summary-v1";
+  let progress = {};
+  try { progress = JSON.parse(localStorage.getItem(storageKey) || "{}"); } catch (e) {}
+
+  function saveProgress() {
+    localStorage.setItem(storageKey, JSON.stringify(progress));
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const total = UNITS.length * 2;
+    let n = 0;
+    UNITS.forEach((_, i) => {
+      if (progress[i + "-make"]) n++;
+      if (progress[i + "-order"]) n++;
+    });
+    document.getElementById("progress").textContent = "完成 " + n + " / " + total;
+  }
+
+  function render() {
+    const root = document.getElementById("units");
+    root.innerHTML = "";
+    UNITS.forEach((u, idx) => {
+      const el = document.createElement("section");
+      el.className = "unit";
+      el.dataset.idx = String(idx);
+
+      const bank = shuffle(u.scramble.map((w, i) => ({ w, i })));
+
+      el.innerHTML =
+        '<div class="unit-head">' +
+          '<span class="unit-num">' + (idx + 1) + "</span>" +
+          '<span class="unit-term">' + esc(u.term) + "</span>" +
+          '<span class="unit-tag">' + esc(u.tag) + "</span>" +
+        "</div>" +
+        '<p class="unit-mean">' + esc(u.mean) + "</p>" +
+        '<p class="unit-tip">' + esc(u.tip) + "</p>" +
+        '<div class="ex">' +
+          '<div class="ex-label">例句</div>' +
+          '<p class="ex-en">' + esc(u.exampleEn) + "</p>" +
+          '<p class="ex-zh">' + esc(u.exampleZh) + "</p>" +
+        "</div>" +
+        '<div class="practice make">' +
+          "<h3>① 造句练习</h3>" +
+          '<p class="prompt">' + esc(u.makePrompt) + "</p>" +
+          '<textarea class="make-input" rows="2" placeholder="在这里写出你的句子…"></textarea>' +
+          '<div class="actions">' +
+            '<button type="button" class="btn btn-secondary btn-show-hint">看参考句</button>' +
+            '<button type="button" class="btn btn-primary btn-save-make">我写好了</button>' +
+          "</div>" +
+          '<div class="hint"><strong>参考：</strong> ' + esc(u.makeHint) + "</div>" +
+        "</div>" +
+        '<div class="practice order">' +
+          "<h3>② 句子排序</h3>" +
+          '<p class="prompt">点击下方单词，按正确顺序排出完整句子（可再点已选词撤销）。</p>' +
+          '<div class="slot-box" data-role="slot"><span class="slot-empty">点选单词组成句子…</span></div>' +
+          '<div class="chips" data-role="bank"></div>' +
+          '<div class="actions">' +
+            '<button type="button" class="btn btn-primary btn-check-order">检查排序</button>' +
+            '<button type="button" class="btn btn-ghost btn-reset-order">重置</button>' +
+          "</div>" +
+          '<div class="feedback" data-role="fb"></div>' +
+        "</div>";
+
+      const bankEl = el.querySelector('[data-role="bank"]');
+      const slotEl = el.querySelector('[data-role="slot"]');
+      const fbEl = el.querySelector('[data-role="fb"]');
+      const makeInput = el.querySelector(".make-input");
+      const hintEl = el.querySelector(".hint");
+
+      if (progress[idx + "-make-text"]) makeInput.value = progress[idx + "-make-text"];
+
+      const selected = [];
+
+      function paintSlot() {
+        slotEl.innerHTML = "";
+        if (!selected.length) {
+          slotEl.innerHTML = '<span class="slot-empty">点选单词组成句子…</span>';
+          return;
+        }
+        selected.forEach((item, si) => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "chip";
+          b.textContent = item.w;
+          b.addEventListener("click", () => {
+            selected.splice(si, 1);
+            paintSlot();
+            paintBank();
+            fbEl.textContent = "";
+            fbEl.className = "feedback";
+          });
+          slotEl.appendChild(b);
+        });
+      }
+
+      function paintBank() {
+        bankEl.innerHTML = "";
+        bank.forEach((item) => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "chip" + (selected.includes(item) ? " used" : "");
+          b.textContent = item.w;
+          b.addEventListener("click", () => {
+            if (selected.includes(item)) return;
+            selected.push(item);
+            paintSlot();
+            paintBank();
+            fbEl.textContent = "";
+            fbEl.className = "feedback";
+          });
+          bankEl.appendChild(b);
+        });
+      }
+
+      paintBank();
+      paintSlot();
+
+      el.querySelector(".btn-show-hint").addEventListener("click", () => {
+        hintEl.classList.toggle("show");
+      });
+
+      el.querySelector(".btn-save-make").addEventListener("click", () => {
+        const v = makeInput.value.trim();
+        if (!v) {
+          alert("先写出你的句子再点「我写好了」哦。");
+          return;
+        }
+        progress[idx + "-make"] = true;
+        progress[idx + "-make-text"] = v;
+        saveProgress();
+        hintEl.classList.add("show");
+        el.querySelector(".btn-save-make").textContent = "已保存 ✓";
+      });
+
+      el.querySelector(".btn-check-order").addEventListener("click", () => {
+        const got = selected.map((x) => x.w).join(" ").replace(/\s+([?.!,])/g, "$1");
+        if (!selected.length) {
+          fbEl.textContent = "先点选单词组成句子。";
+          fbEl.className = "feedback bad";
+          return;
+        }
+        if (norm(got) === norm(u.answer)) {
+          fbEl.textContent = "排序正确！";
+          fbEl.className = "feedback ok";
+          progress[idx + "-order"] = true;
+          saveProgress();
+        } else {
+          fbEl.textContent = "还不对，再试一次。提示：回想例句语序。";
+          fbEl.className = "feedback bad";
+        }
+      });
+
+      el.querySelector(".btn-reset-order").addEventListener("click", () => {
+        selected.length = 0;
+        paintSlot();
+        paintBank();
+        fbEl.textContent = "";
+        fbEl.className = "feedback";
+      });
+
+      if (progress[idx + "-make"]) {
+        el.querySelector(".btn-save-make").textContent = "已保存 ✓";
+      }
+
+      root.appendChild(el);
+    });
+    updateProgress();
+  }
+
+  render();
+  </script>
+</body>
+</html>
