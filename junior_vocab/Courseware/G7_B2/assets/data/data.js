@@ -1774,8 +1774,8 @@ const TEXTBOOK_DATA = {
         },
         {
           "id": "w53",
-          "word": "make sb",
-          "chinese": "使某人...",
+          "word": "make somebody do something",
+          "chinese": "使某人做某事",
           "ipa": "/meɪk/",
           "phonemes": [],
           "image": "../../G7_B2/Unit2/images/make_sb_1.jpg",
