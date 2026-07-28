@@ -2961,7 +2961,7 @@
 
   function wrapEnglishWords(container) {
     if (!container || container.nodeType !== 1) return;
-    const skip = new Set(["SCRIPT", "STYLE", "TEXTAREA", "INPUT", "PRE"]);
+    const skip = new Set(["SCRIPT", "STYLE", "TEXTAREA", "INPUT", "PRE", "BUTTON"]);
     function walk(node) {
       if (node.nodeType === 1) {
         if (skip.has(node.tagName)) return;
@@ -3256,15 +3256,8 @@
     const pSoc = card.querySelector(".p-soc");
     pEx.innerHTML = marked.parse(ex, { breaks: true });
     pKn.innerHTML = marked.parse(kn, { breaks: true });
-    wrapEnglishWords(pEx);
-    wrapEnglishWords(pKn);
-
-    const stemLearn = card.querySelector(".stem");
-    if (stemLearn) wrapEnglishWords(stemLearn);
-    const optRevEl = card.querySelector(".opt-review");
-    if (optRevEl) wrapEnglishWords(optRevEl);
-    const passLearn = card.querySelector(".passage");
-    if (passLearn) wrapEnglishWords(passLearn);
+    // 整卡题目内容（题干/选项/答案/文章片段/解析/知识点）均可点击查词
+    wrapEnglishWords(card);
 
     card.querySelector(".btn-ex").addEventListener("click", () => {
       pEx.classList.toggle("open");
@@ -3350,8 +3343,8 @@
             "<div class='cloze-learn-passage'>" + formatPassageHtmlParagraphs(filled) + "</div></div></div>" +
             "<div class='reading-learn-cards-col'>" +
             "<h2 class='card' style='margin:0 0 0.75rem;padding:0.65rem 0.85rem;font-size:1rem;'>各题解析 · 选项讲解</h2></div>";
-          const passEl = wrap.querySelector(".cloze-learn-passage");
-          if (passEl) wrapEnglishWords(passEl);
+          const clozeCard = wrap.querySelector(".cloze-learn-block") || wrap.querySelector(".cloze-learn-passage");
+          if (clozeCard) wrapEnglishWords(clozeCard);
           const col = wrap.querySelector(".reading-learn-cards-col");
           g.details.forEach((pair) => appendLearnCard(col, pair, effectiveType, false));
           root.appendChild(wrap);
@@ -3382,6 +3375,7 @@
             "<div class='word-bank-box' style='font-family:Literata,Georgia,serif;font-size:1.06rem;line-height:1.65;padding:0.75rem 0.9rem;background:#f7faf7;border-radius:10px;border:1px dashed var(--border)'>" +
             esc(sp.body || ins).replace(/\n/g, "<br>") +
             "</div>";
+          wrapEnglishWords(wb);
           root.appendChild(wb);
         }
         slice.forEach((pair) => appendLearnCard(root, pair, effectiveType, false));
@@ -3416,8 +3410,8 @@
           }
           wrap.innerHTML =
             "<div class='reading-learn-passage'>" + passInner + "</div>" + "<div class='reading-learn-cards-col'></div>";
-          const passEl = wrap.querySelector(".reading-passage-text");
-          if (passEl) wrapEnglishWords(passEl);
+          const passCard = wrap.querySelector(".reading-learn-passage .card") || wrap.querySelector(".reading-passage-text");
+          if (passCard) wrapEnglishWords(passCard);
           const col = wrap.querySelector(".reading-learn-cards-col");
           g.details.forEach((pair) => appendLearnCard(col, pair, effectiveType, true));
           root.appendChild(wrap);
@@ -3446,8 +3440,8 @@
           }
           wrapW.innerHTML =
             "<div class='reading-learn-passage'>" + passInnerW + "</div>" + "<div class='reading-learn-cards-col'></div>";
-          const passElW = wrapW.querySelector(".reading-passage-text");
-          if (passElW) wrapEnglishWords(passElW);
+          const passCardW = wrapW.querySelector(".reading-learn-passage .card") || wrapW.querySelector(".reading-passage-text");
+          if (passCardW) wrapEnglishWords(passCardW);
           const colW = wrapW.querySelector(".reading-learn-cards-col");
           g.details.forEach((pair) => appendLearnCard(colW, pair, effectiveType, true));
           root.appendChild(wrapW);
