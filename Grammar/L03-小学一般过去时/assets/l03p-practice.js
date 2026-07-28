@@ -9,6 +9,9 @@
     var ttsRow = d.ttsRow;
     var bindCommon = d.bindCommon;
     var speak = d.speak;
+    var resolveImage = d.resolveImage;
+    var imageForSentence = d.imageForSentence;
+    var imgUrl = d.img;
 
     function shuffle(arr) {
       return arr.slice().sort(function () { return Math.random() - 0.5; });
@@ -38,6 +41,7 @@
       var words = vocabWords(page);
       var cards = words
         .map(function (w, i) {
+          var cardImg = (imageForSentence && imageForSentence(w.example)) || w.image;
           var base = w.base ? '<span class="l03p-vocab-card__base">' + esc(w.base) + " → </span>" : "";
           return (
             '<button type="button" class="l03p-vocab-card" data-i="' +
@@ -45,11 +49,11 @@
             '" aria-label="打开 ' +
             esc(w.word) +
             '">' +
-            (w.image
+            (cardImg
               ? '<img src="' +
-                d.img(w.image) +
+                d.img(cardImg) +
                 '" alt="" class="l03p-vocab-card__img" loading="lazy" onerror="' +
-                (d.imgOnerror ? d.imgOnerror(w.image) : "") +
+                (d.imgOnerror ? d.imgOnerror(cardImg) : "") +
                 '"/>'
               : '<div class="l03p-vocab-card__phimg">📖</div>') +
             '<div class="l03p-vocab-card__word">' +
@@ -120,11 +124,12 @@
         : '<div class="l03p-vocab-detail__morph"><span class="l03p-token l03p-token--verb l03p-token--pop">' +
           esc(w.word) +
           "</span></div>";
-      var imgHtml = w.image
+      var detailImg = (imageForSentence && imageForSentence(w.example)) || w.image;
+      var imgHtml = detailImg
         ? '<div class="l03p-vocab-detail__hero"><img src="' +
-          d.img(w.image) +
+          d.img(detailImg) +
           '" alt="" onerror="' +
-          (d.imgOnerror ? d.imgOnerror(w.image) : "") +
+          (d.imgOnerror ? d.imgOnerror(detailImg) : "") +
           '"/></div>'
         : "";
       overlay.hidden = false;
@@ -154,9 +159,9 @@
         "</div>" +
         '<div class="l03p-vocab-pane" data-pane="build">' +
         '<p class="l03p-lead" style="margin:.35rem 0 .45rem">看情景图，用词库拼出句子。</p>' +
-        (w.image
+        (detailImg
           ? '<div class="l03p-vocab-build-img"><img src="' +
-            d.img(w.image) +
+            d.img(detailImg) +
             '" alt=""/></div>'
           : "") +
         practicePanelHtml("vb") +
@@ -599,7 +604,13 @@
     function bindListenPick(page) {
       var list = [];
       if (page.pool && global.L03pCorpus && global.L03pCorpus[page.pool]) {
-        list = shuffle(global.L03pCorpus[page.pool]);
+        list = global.L03pCorpus[page.pool].slice();
+        if (page.rounds && page.rounds > 1) {
+          list = shuffle(list);
+        } else if (page.startIndex) {
+          var si = page.startIndex % list.length;
+          list = list.slice(si).concat(list.slice(0, si));
+        }
       } else {
         list = [{ audio: page.audio, opts: page.opts, ans: page.ans, zh: page.zh, hint: page.hint }];
       }
@@ -607,6 +618,16 @@
       var round = 0;
       var score = 0;
       var current = null;
+
+      function updateHeroForCurrent() {
+        if (!current) return;
+        var heroImg = document.querySelector(".l03p-hero img");
+        if (!heroImg || !resolveImage) return;
+        var name = resolveImage(page, current.audio);
+        if (!name) return;
+        heroImg.src = imgUrl(name);
+        heroImg.setAttribute("onerror", "this.src='assets/img/" + name.replace(/'/g, "") + "'");
+      }
 
       function renderRound() {
         current = list[round % list.length];
@@ -616,6 +637,7 @@
         var roundEl = document.getElementById("lpRound");
         if (roundEl) roundEl.textContent = "第 " + (round + 1) + " / " + totalRounds + " 题 · 得分 " + score;
         if (!area) return;
+        updateHeroForCurrent();
         area.innerHTML = current.opts
           .map(function (o, i) {
             return '<button type="button" class="l03p-choice" data-i="' + i + '">' + esc(o) + "</button>";

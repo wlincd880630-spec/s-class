@@ -436,7 +436,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-lily-played-football-with-her-friends-in-the-par.jpg",
+    "image": "l03p-scene-jack-didn-t-finish-his-homework-yesterday-evenin.jpg",
     "q": "Tom ___ his homework last night.",
     "opts": [
       "finished",
@@ -457,7 +457,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-lily-sprinted-in-the-school-sports-day-race-with.jpg",
+    "image": "l03p-scene-tom-and-emma-were-in-the-park-last-weekend.jpg",
     "q": "Lily ___ to the park yesterday morning.",
     "opts": [
       "walked",
@@ -516,7 +516,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-lily-went-to-the-school-library-after-class-and-.jpg",
+    "image": "l03p-scene-jack-bought-a-red-balloon-from-the-street-vendor.jpg",
     "q": "Lily ___ a new dress yesterday.",
     "opts": [
       "bought",
@@ -537,7 +537,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-tom-stood-under-a-yellow-umbrella-in-the-heavy-r.jpg",
+    "image": "l03p-scene-teng-fei-and-chen-tao-went-to-the-zoo-in-chengdu.jpg",
     "q": "Tom ___ to the zoo last Sunday.",
     "opts": [
       "went",
@@ -654,7 +654,7 @@
     "type": "scene",
     "badge": "neg",
     "badgeText": "🚫 否定",
-    "image": "l03p-scene-teng-fei-didn-t-climb-the-tall-tree-because-he-f.jpg",
+    "image": "l03p-scene-teng-fei-did-not-climb-the-tall-tree-because-he-.jpg",
     "lead": "be 用 wasn't/weren't；实义动词用 didn't + 原形",
     "sentence": "Teng Fei didn't climb the tall tree because he felt scared.",
     "zh": "腾飞没有爬那棵高树，因为他感到害怕",
@@ -668,7 +668,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-lily-played-football-with-her-friends-in-the-par.jpg",
+    "image": "l03p-scene-lily-was-at-school-yesterday.jpg",
     "q": "Lily ___ not go to school yesterday.",
     "opts": [
       "did",
@@ -739,7 +739,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-lily-went-to-the-school-library-after-class-and-.jpg",
+    "image": "l03p-scene-tom-and-emma-were-in-the-park-last-weekend.jpg",
     "q": "___ Lily go to the park yesterday?",
     "opts": [
       "Did",
@@ -811,7 +811,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-lily-was-proud-after-she-won-the-sports-day-race.jpg",
+    "image": "l03p-scene-tom-and-emma-were-in-the-park-last-weekend.jpg",
     "q": "There ___ a big tree in the park before.",
     "opts": [
       "was",
@@ -880,7 +880,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "🏆 终极",
-    "image": "l03p-scene-lily-played-football-with-her-friends-in-the-par.jpg",
+    "image": "l03p-scene-teng-fei-and-chen-tao-went-to-the-zoo-in-chengdu.jpg",
     "q": "Lily and Tom ___ to the zoo last Sunday.",
     "opts": [
       "went",
@@ -1415,7 +1415,7 @@
     "badgeText": "🎧 听音",
     "pool": "listenPick",
     "startIndex": 0,
-    "image": "l03p-scene-lily-was-proud-after-she-won-the-sports-day-race.jpg"
+    "image": "l03p-scene-tom-stood-under-a-yellow-umbrella-in-the-heavy-r.jpg"
   },
   {
     "id": "p55",
@@ -1426,7 +1426,7 @@
     "badgeText": "🎧 听音",
     "pool": "listenPick",
     "startIndex": 3,
-    "image": "l03p-scene-lily-went-to-the-school-library-after-class-and-.jpg"
+    "image": "l03p-playground.jpg"
   },
   {
     "id": "p56",
@@ -1460,7 +1460,7 @@
     "type": "listen-order",
     "badge": "sound",
     "badgeText": "🎧 听音",
-    "image": "l03p-scene-teng-fei-didn-t-climb-the-tall-tree-because-he-f.jpg",
+    "image": "l03p-scene-teng-fei-did-not-climb-the-tall-tree-because-he-.jpg",
     "audio": "Teng Fei didn't climb the tall tree because he felt scared.",
     "tokens": [
       "Teng",
