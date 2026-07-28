@@ -1,0 +1,1832 @@
+(function (global) {
+  "use strict";
+  /** DeepSeek 生成 · 小学 5–6 年级 / 小升初现在进行时语料 */
+  var VOCAB_ING = [
+  {
+    "word": "playing",
+    "base": "play",
+    "phonetic": "",
+    "zh": "玩，打（球）",
+    "example": "I am playing football now.",
+    "exampleZh": "我现在正在踢足球。",
+    "rule": "+ing",
+    "image": "l02p-ing-i-am-playing-football-now.jpg",
+    "imageHint": "一个男孩在操场上踢足球",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "running",
+    "base": "run",
+    "phonetic": "",
+    "zh": "跑",
+    "example": "Look! Tom is running now.",
+    "exampleZh": "看！汤姆现在正在跑步。",
+    "rule": "双写+ing",
+    "image": "l02p-ing-look-tom-is-running-now.jpg",
+    "imageHint": "一个男孩在跑道上快速奔跑",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "swimming",
+    "base": "swim",
+    "phonetic": "",
+    "zh": "游泳",
+    "example": "Emma is swimming in the pool.",
+    "exampleZh": "艾玛正在游泳池里游泳。",
+    "rule": "双写+ing",
+    "image": "l02p-ing-emma-is-swimming-in-the-pool.jpg",
+    "imageHint": "一个女孩在游泳池里游泳",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "writing",
+    "base": "write",
+    "phonetic": "",
+    "zh": "写",
+    "example": "Chen Tao is writing a letter.",
+    "exampleZh": "陈涛正在写一封信。",
+    "rule": "去e+ing",
+    "image": "l02p-ing-chen-tao-is-writing-a-letter.jpg",
+    "imageHint": "一个男孩在书桌前写信",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "dancing",
+    "base": "dance",
+    "phonetic": "",
+    "zh": "跳舞",
+    "example": "Linda is dancing in the classroom.",
+    "exampleZh": "琳达正在教室里跳舞。",
+    "rule": "去e+ing",
+    "image": "l02p-ing-linda-is-dancing-in-the-classroom.jpg",
+    "imageHint": "一个女孩在教室里跳舞",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "sitting",
+    "base": "sit",
+    "phonetic": "",
+    "zh": "坐",
+    "example": "Jack is sitting on the chair.",
+    "exampleZh": "杰克正坐在椅子上。",
+    "rule": "双写+ing",
+    "image": "l02p-ing-jack-is-sitting-on-the-chair.jpg",
+    "imageHint": "一个男孩坐在椅子上",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "eating",
+    "base": "eat",
+    "phonetic": "",
+    "zh": "吃",
+    "example": "Teng Fei is eating an apple.",
+    "exampleZh": "腾飞正在吃一个苹果。",
+    "rule": "+ing",
+    "image": "l02p-ing-teng-fei-is-eating-an-apple.jpg",
+    "imageHint": "一个男孩在吃苹果",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "drinking",
+    "base": "drink",
+    "phonetic": "",
+    "zh": "喝",
+    "example": "Miss Li is drinking tea.",
+    "exampleZh": "李老师正在喝茶。",
+    "rule": "+ing",
+    "image": "l02p-ing-miss-li-is-drinking-tea.jpg",
+    "imageHint": "一位女士在喝茶",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "reading",
+    "base": "read",
+    "phonetic": "",
+    "zh": "阅读",
+    "example": "Han Lin is reading a book.",
+    "exampleZh": "韩林正在读一本书。",
+    "rule": "+ing",
+    "image": "l02p-ing-han-lin-is-reading-a-book.jpg",
+    "imageHint": "一个男孩在读书",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "singing",
+    "base": "sing",
+    "phonetic": "",
+    "zh": "唱歌",
+    "example": "Lily is singing a song.",
+    "exampleZh": "莉莉正在唱一首歌。",
+    "rule": "+ing",
+    "image": "l02p-ing-lily-is-singing-a-song.jpg",
+    "imageHint": "一个女孩在唱歌",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "drawing",
+    "base": "draw",
+    "phonetic": "",
+    "zh": "画画",
+    "example": "Tom is drawing a picture.",
+    "exampleZh": "汤姆正在画一幅画。",
+    "rule": "+ing",
+    "image": "l02p-ing-tom-is-drawing-a-picture.jpg",
+    "imageHint": "一个男孩在画画",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "making",
+    "base": "make",
+    "phonetic": "",
+    "zh": "制作",
+    "example": "Emma is making a cake.",
+    "exampleZh": "艾玛正在做一个蛋糕。",
+    "rule": "去e+ing",
+    "image": "l02p-ing-emma-is-making-a-cake.jpg",
+    "imageHint": "一个女孩在厨房做蛋糕",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "lying",
+    "base": "lie",
+    "phonetic": "",
+    "zh": "躺",
+    "example": "The cat is lying on the sofa.",
+    "exampleZh": "猫正躺在沙发上。",
+    "rule": "ie→y+ing",
+    "image": "l02p-ing-the-cat-is-lying-on-the-sofa.jpg",
+    "imageHint": "一只猫躺在沙发上",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "tying",
+    "base": "tie",
+    "phonetic": "",
+    "zh": "系，绑",
+    "example": "Jack is tying his shoes.",
+    "exampleZh": "杰克正在系鞋带。",
+    "rule": "ie→y+ing",
+    "image": "l02p-ing-jack-is-tying-his-shoes.jpg",
+    "imageHint": "一个男孩在系鞋带",
+    "source": "DeepSeek · 5–6年级"
+  }
+];
+  var VOCAB_MARKERS = [
+  {
+    "word": "now",
+    "base": "",
+    "phonetic": "",
+    "zh": "现在",
+    "example": "Look! Tom is running now.",
+    "exampleZh": "看！汤姆现在正在跑步。",
+    "rule": "",
+    "image": "l02p-marker-look-tom-is-running-now.jpg",
+    "imageHint": "一个时钟指向当前时间",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "look",
+    "base": "",
+    "phonetic": "",
+    "zh": "看（用于引起注意）",
+    "example": "Look! Emma is dancing.",
+    "exampleZh": "看！艾玛正在跳舞。",
+    "rule": "",
+    "image": "l02p-marker-look-emma-is-dancing.jpg",
+    "imageHint": "一只眼睛在注视",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "listen",
+    "base": "",
+    "phonetic": "",
+    "zh": "听（用于引起注意）",
+    "example": "Listen! Lily is singing.",
+    "exampleZh": "听！莉莉正在唱歌。",
+    "rule": "",
+    "image": "l02p-marker-listen-lily-is-singing.jpg",
+    "imageHint": "一只耳朵在听声音",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "at the moment",
+    "base": "",
+    "phonetic": "",
+    "zh": "此刻",
+    "example": "At the moment, Chen Tao is writing.",
+    "exampleZh": "此刻，陈涛正在写字。",
+    "rule": "",
+    "image": "l02p-marker-at-the-moment-chen-tao-is-writing.jpg",
+    "imageHint": "一个钟表指针指向当前",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "right now",
+    "base": "",
+    "phonetic": "",
+    "zh": "立刻，现在",
+    "example": "Mr Wang is teaching right now.",
+    "exampleZh": "王老师现在正在教学。",
+    "rule": "",
+    "image": "l02p-marker-mr-wang-is-teaching-right-now.jpg",
+    "imageHint": "一个感叹号表示立即",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "today",
+    "base": "",
+    "phonetic": "",
+    "zh": "今天",
+    "example": "Today, we are having a party.",
+    "exampleZh": "今天，我们正在举办派对。",
+    "rule": "",
+    "image": "l02p-marker-today-we-are-having-a-party.jpg",
+    "imageHint": "日历上圈出今天",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "this week",
+    "base": "",
+    "phonetic": "",
+    "zh": "这周",
+    "example": "This week, Linda is visiting Chengdu.",
+    "exampleZh": "这周，琳达正在访问成都。",
+    "rule": "",
+    "image": "l02p-marker-this-week-linda-is-visiting-chengdu.jpg",
+    "imageHint": "一周的日历页",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "these days",
+    "base": "",
+    "phonetic": "",
+    "zh": "这些天",
+    "example": "These days, Han Lin is learning Chinese.",
+    "exampleZh": "这些天，韩林正在学中文。",
+    "rule": "",
+    "image": "l02p-marker-these-days-han-lin-is-learning-chinese.jpg",
+    "imageHint": "多张日历页叠放",
+    "source": "DeepSeek · 5–6年级"
+  }
+];
+  var VOCAB_STATIVE = [
+  {
+    "word": "like",
+    "base": "",
+    "phonetic": "",
+    "zh": "喜欢",
+    "example": "I like apples. (不用 I am liking)",
+    "exampleZh": "我喜欢苹果。（不用 I am liking）",
+    "rule": "",
+    "image": "l02p-stat-i-like-apples-i-am-liking.jpg",
+    "imageHint": "一颗红心",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "love",
+    "base": "",
+    "phonetic": "",
+    "zh": "爱",
+    "example": "Tom loves his dog. (不用 Tom is loving)",
+    "exampleZh": "汤姆爱他的狗。（不用 Tom is loving）",
+    "rule": "",
+    "image": "l02p-stat-tom-loves-his-dog-tom-is-loving.jpg",
+    "imageHint": "爱心符号",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "hate",
+    "base": "",
+    "phonetic": "",
+    "zh": "讨厌",
+    "example": "Emma hates spiders. (不用 Emma is hating)",
+    "exampleZh": "艾玛讨厌蜘蛛。（不用 Emma is hating）",
+    "rule": "",
+    "image": "l02p-stat-emma-hates-spiders-emma-is-hating.jpg",
+    "imageHint": "一个生气的脸",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "know",
+    "base": "",
+    "phonetic": "",
+    "zh": "知道",
+    "example": "I know the answer. (不用 I am knowing)",
+    "exampleZh": "我知道答案。（不用 I am knowing）",
+    "rule": "",
+    "image": "l02p-stat-i-know-the-answer-i-am-knowing.jpg",
+    "imageHint": "一个灯泡亮起",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "believe",
+    "base": "",
+    "phonetic": "",
+    "zh": "相信",
+    "example": "I believe you. (不用 I am believing)",
+    "exampleZh": "我相信你。（不用 I am believing）",
+    "rule": "",
+    "image": "l02p-stat-i-believe-you-i-am-believing.jpg",
+    "imageHint": "握手表示信任",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "want",
+    "base": "",
+    "phonetic": "",
+    "zh": "想要",
+    "example": "I want a new bike. (不用 I am wanting)",
+    "exampleZh": "我想要一辆新自行车。（不用 I am wanting）",
+    "rule": "",
+    "image": "l02p-stat-i-want-a-new-bike-i-am-wanting.jpg",
+    "imageHint": "一只伸出的手",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "need",
+    "base": "",
+    "phonetic": "",
+    "zh": "需要",
+    "example": "I need help. (不用 I am needing)",
+    "exampleZh": "我需要帮助。（不用 I am needing）",
+    "rule": "",
+    "image": "l02p-stat-i-need-help-i-am-needing.jpg",
+    "imageHint": "一个问号",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "understand",
+    "base": "",
+    "phonetic": "",
+    "zh": "理解",
+    "example": "I understand the lesson. (不用 I am understanding)",
+    "exampleZh": "我理解这节课。（不用 I am understanding）",
+    "rule": "",
+    "image": "l02p-stat-i-understand-the-lesson-i-am-understanding.jpg",
+    "imageHint": "大脑中亮起的区域",
+    "source": "DeepSeek · 5–6年级"
+  }
+];
+  var VOCAB_BE = [
+  {
+    "word": "am",
+    "base": "",
+    "phonetic": "",
+    "zh": "是（用于第一人称单数）",
+    "example": "I am reading a book.",
+    "exampleZh": "我正在读一本书。",
+    "rule": "",
+    "image": "l02p-be-i-am-reading-a-book.jpg",
+    "imageHint": "一个人指向自己",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "is",
+    "base": "",
+    "phonetic": "",
+    "zh": "是（用于第三人称单数）",
+    "example": "He is playing football.",
+    "exampleZh": "他正在踢足球。",
+    "rule": "",
+    "image": "l02p-be-he-is-playing-football.jpg",
+    "imageHint": "一个人指向另一个男孩",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "are",
+    "base": "",
+    "phonetic": "",
+    "zh": "是（用于第二人称及复数）",
+    "example": "They are dancing in the room.",
+    "exampleZh": "他们正在房间里跳舞。",
+    "rule": "",
+    "image": "l02p-be-they-are-dancing-in-the-room.jpg",
+    "imageHint": "指向多个人",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "being",
+    "base": "",
+    "phonetic": "",
+    "zh": "正在（用于被动或进行时，但注意状态动词）",
+    "example": "He is being silly. (表示行为)",
+    "exampleZh": "他正在犯傻。（表示行为）",
+    "rule": "",
+    "image": "l02p-be-he-is-being-silly.jpg",
+    "imageHint": "一个人做鬼脸",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "am not",
+    "base": "",
+    "phonetic": "",
+    "zh": "不是（am的否定）",
+    "example": "I am not sleeping now.",
+    "exampleZh": "我现在没有在睡觉。",
+    "rule": "",
+    "image": "l02p-be-i-am-not-sleeping-now.jpg",
+    "imageHint": "一个打叉的床",
+    "source": "DeepSeek · 5–6年级"
+  },
+  {
+    "word": "isn't",
+    "base": "",
+    "phonetic": "",
+    "zh": "不是（is的否定）",
+    "example": "She isn't eating now.",
+    "exampleZh": "她现在没有在吃东西。",
+    "rule": "",
+    "image": "l02p-be-she-isn-t-eating-now.jpg",
+    "imageHint": "一个打叉的餐盘",
+    "source": "DeepSeek · 5–6年级"
+  }
+];
+  var Q_BE_ING = [
+  {
+    "q": "My mother ___ (cook) dinner in the kitchen now.",
+    "opts": [
+      "cooks",
+      "is cooking",
+      "cooked"
+    ],
+    "ans": 1,
+    "hint": "妈妈正在厨房做晚饭。",
+    "sentence": "My mother is cooking dinner in the kitchen now.",
+    "zh": "我的妈妈现在正在厨房做晚饭。",
+    "source": "5GA"
+  },
+  {
+    "q": "Look! The boys ___ (play) football on the playground.",
+    "opts": [
+      "play",
+      "are playing",
+      "played"
+    ],
+    "ans": 1,
+    "hint": "看！男孩们正在操场上踢足球。",
+    "sentence": "Look! The boys are playing football on the playground.",
+    "zh": "看！男孩们正在操场上踢足球。",
+    "source": "5GA"
+  },
+  {
+    "q": "Listen! Someone ___ (sing) in the next room.",
+    "opts": [
+      "sings",
+      "is singing",
+      "sang"
+    ],
+    "ans": 1,
+    "hint": "听！有人在隔壁房间唱歌。",
+    "sentence": "Listen! Someone is singing in the next room.",
+    "zh": "听！有人在隔壁房间唱歌。",
+    "source": "5GA"
+  },
+  {
+    "q": "It's 8 o'clock. The students ___ (have) an English class.",
+    "opts": [
+      "have",
+      "are having",
+      "had"
+    ],
+    "ans": 1,
+    "hint": "8点了。学生们正在上英语课。",
+    "sentence": "It's 8 o'clock. The students are having an English class.",
+    "zh": "8点了。学生们正在上英语课。",
+    "source": "5GA"
+  },
+  {
+    "q": "Where is Tom? He ___ (swim) in the pool.",
+    "opts": [
+      "swims",
+      "is swimming",
+      "swam"
+    ],
+    "ans": 1,
+    "hint": "汤姆在哪里？他正在游泳池里游泳。",
+    "sentence": "Where is Tom? He is swimming in the pool.",
+    "zh": "汤姆在哪里？他正在游泳池里游泳。",
+    "source": "5GA"
+  },
+  {
+    "q": "Be quiet! The baby ___ (sleep).",
+    "opts": [
+      "sleeps",
+      "is sleeping",
+      "slept"
+    ],
+    "ans": 1,
+    "hint": "安静！宝宝正在睡觉。",
+    "sentence": "Be quiet! The baby is sleeping.",
+    "zh": "安静！宝宝正在睡觉。",
+    "source": "5GA"
+  },
+  {
+    "q": "We ___ (wait) for the bus at the bus stop now.",
+    "opts": [
+      "wait",
+      "are waiting",
+      "waited"
+    ],
+    "ans": 1,
+    "hint": "我们现在正在公交车站等车。",
+    "sentence": "We are waiting for the bus at the bus stop now.",
+    "zh": "我们现在正在公交车站等车。",
+    "source": "5GA"
+  },
+  {
+    "q": "The cat ___ (climb) the tree right now.",
+    "opts": [
+      "climbs",
+      "is climbing",
+      "climbed"
+    ],
+    "ans": 1,
+    "hint": "那只猫正在爬树。",
+    "sentence": "The cat is climbing the tree right now.",
+    "zh": "那只猫正在爬树。",
+    "source": "5GA"
+  },
+  {
+    "q": "My sister ___ (do) her homework at the moment.",
+    "opts": [
+      "does",
+      "is doing",
+      "did"
+    ],
+    "ans": 1,
+    "hint": "我妹妹此刻正在做作业。",
+    "sentence": "My sister is doing her homework at the moment.",
+    "zh": "我妹妹此刻正在做作业。",
+    "source": "5GA"
+  },
+  {
+    "q": "They ___ (make) a model plane in the classroom now.",
+    "opts": [
+      "make",
+      "are making",
+      "made"
+    ],
+    "ans": 1,
+    "hint": "他们现在正在教室里制作模型飞机。",
+    "sentence": "They are making a model plane in the classroom now.",
+    "zh": "他们现在正在教室里制作模型飞机。",
+    "source": "5GA"
+  }
+];
+  var Q_SPELLING = [
+  {
+    "q": "Look! The bird is ___ (fly) in the sky.",
+    "opts": [
+      "fly",
+      "flying",
+      "flies"
+    ],
+    "ans": 1,
+    "hint": "看！那只鸟正在天空中飞。",
+    "sentence": "Look! The bird is flying in the sky.",
+    "zh": "看！那只鸟正在天空中飞。",
+    "source": "5GA"
+  },
+  {
+    "q": "He is ___ (run) in the park now.",
+    "opts": [
+      "run",
+      "running",
+      "runs"
+    ],
+    "ans": 1,
+    "hint": "他现在正在公园里跑步。",
+    "sentence": "He is running in the park now.",
+    "zh": "他现在正在公园里跑步。",
+    "source": "5GA"
+  },
+  {
+    "q": "She is ___ (write) a letter to her friend.",
+    "opts": [
+      "write",
+      "writing",
+      "writes"
+    ],
+    "ans": 1,
+    "hint": "她正在给朋友写信。",
+    "sentence": "She is writing a letter to her friend.",
+    "zh": "她正在给朋友写信。",
+    "source": "5GA"
+  },
+  {
+    "q": "We are ___ (swim) in the sea.",
+    "opts": [
+      "swim",
+      "swimming",
+      "swims"
+    ],
+    "ans": 1,
+    "hint": "我们正在海里游泳。",
+    "sentence": "We are swimming in the sea.",
+    "zh": "我们正在海里游泳。",
+    "source": "5GA"
+  },
+  {
+    "q": "The children are ___ (dance) in the room.",
+    "opts": [
+      "dance",
+      "dancing",
+      "dances"
+    ],
+    "ans": 1,
+    "hint": "孩子们正在房间里跳舞。",
+    "sentence": "The children are dancing in the room.",
+    "zh": "孩子们正在房间里跳舞。",
+    "source": "5GA"
+  },
+  {
+    "q": "My father is ___ (read) a newspaper.",
+    "opts": [
+      "read",
+      "reading",
+      "reads"
+    ],
+    "ans": 1,
+    "hint": "我父亲正在看报纸。",
+    "sentence": "My father is reading a newspaper.",
+    "zh": "我父亲正在看报纸。",
+    "source": "5GA"
+  },
+  {
+    "q": "The dog is ___ (lie) on the floor.",
+    "opts": [
+      "lie",
+      "lying",
+      "lies"
+    ],
+    "ans": 1,
+    "hint": "那只狗正躺在地板上。",
+    "sentence": "The dog is lying on the floor.",
+    "zh": "那只狗正躺在地板上。",
+    "source": "5GA"
+  },
+  {
+    "q": "They are ___ (shop) in the supermarket.",
+    "opts": [
+      "shop",
+      "shopping",
+      "shops"
+    ],
+    "ans": 1,
+    "hint": "他们正在超市购物。",
+    "sentence": "They are shopping in the supermarket.",
+    "zh": "他们正在超市购物。",
+    "source": "5GA"
+  },
+  {
+    "q": "I am ___ (sit) on a chair now.",
+    "opts": [
+      "sit",
+      "sitting",
+      "sits"
+    ],
+    "ans": 1,
+    "hint": "我现在正坐在椅子上。",
+    "sentence": "I am sitting on a chair now.",
+    "zh": "我现在正坐在椅子上。",
+    "source": "5GA"
+  },
+  {
+    "q": "The teacher is ___ (take) photos of the students.",
+    "opts": [
+      "take",
+      "taking",
+      "takes"
+    ],
+    "ans": 1,
+    "hint": "老师正在给学生们拍照。",
+    "sentence": "The teacher is taking photos of the students.",
+    "zh": "老师正在给学生们拍照。",
+    "source": "5GA"
+  }
+];
+  var Q_NEG = [
+  {
+    "q": "He ___ (not watch) TV now. He is reading a book.",
+    "opts": [
+      "doesn't watch",
+      "isn't watching",
+      "didn't watch"
+    ],
+    "ans": 1,
+    "hint": "他现在没在看电视。他正在看书。",
+    "sentence": "He isn't watching TV now. He is reading a book.",
+    "zh": "他现在没在看电视。他正在看书。",
+    "source": "5GA"
+  },
+  {
+    "q": "We ___ (not play) games at the moment.",
+    "opts": [
+      "don't play",
+      "aren't playing",
+      "didn't play"
+    ],
+    "ans": 1,
+    "hint": "我们此刻没在玩游戏。",
+    "sentence": "We aren't playing games at the moment.",
+    "zh": "我们此刻没在玩游戏。",
+    "source": "5GA"
+  },
+  {
+    "q": "The girl ___ (not sing) in the room now.",
+    "opts": [
+      "doesn't sing",
+      "isn't singing",
+      "didn't sing"
+    ],
+    "ans": 1,
+    "hint": "那个女孩现在没在房间里唱歌。",
+    "sentence": "The girl isn't singing in the room now.",
+    "zh": "那个女孩现在没在房间里唱歌。",
+    "source": "5GA"
+  },
+  {
+    "q": "I ___ (not eat) lunch now. I am busy.",
+    "opts": [
+      "don't eat",
+      "am not eating",
+      "didn't eat"
+    ],
+    "ans": 1,
+    "hint": "我现在没在吃午饭。我很忙。",
+    "sentence": "I am not eating lunch now. I am busy.",
+    "zh": "我现在没在吃午饭。我很忙。",
+    "source": "5GA"
+  },
+  {
+    "q": "They ___ (not sleep) at this time.",
+    "opts": [
+      "don't sleep",
+      "aren't sleeping",
+      "didn't sleep"
+    ],
+    "ans": 1,
+    "hint": "他们这个时候没在睡觉。",
+    "sentence": "They aren't sleeping at this time.",
+    "zh": "他们这个时候没在睡觉。",
+    "source": "5GA"
+  },
+  {
+    "q": "My brother ___ (not do) his homework now.",
+    "opts": [
+      "doesn't do",
+      "isn't doing",
+      "didn't do"
+    ],
+    "ans": 1,
+    "hint": "我哥哥现在没在做作业。",
+    "sentence": "My brother isn't doing his homework now.",
+    "zh": "我哥哥现在没在做作业。",
+    "source": "5GA"
+  },
+  {
+    "q": "The cat ___ (not drink) milk now.",
+    "opts": [
+      "doesn't drink",
+      "isn't drinking",
+      "didn't drink"
+    ],
+    "ans": 1,
+    "hint": "那只猫现在没在喝牛奶。",
+    "sentence": "The cat isn't drinking milk now.",
+    "zh": "那只猫现在没在喝牛奶。",
+    "source": "5GA"
+  },
+  {
+    "q": "We ___ (not have) a party now.",
+    "opts": [
+      "don't have",
+      "aren't having",
+      "didn't have"
+    ],
+    "ans": 1,
+    "hint": "我们现在没在开派对。",
+    "sentence": "We aren't having a party now.",
+    "zh": "我们现在没在开派对。",
+    "source": "5GA"
+  }
+];
+  var Q_QUESTION = [
+  {
+    "q": "___ you ___ (read) a book now?",
+    "opts": [
+      "Do; read",
+      "Are; reading",
+      "Did; read"
+    ],
+    "ans": 1,
+    "hint": "你现在正在看书吗？",
+    "sentence": "Are you reading a book now?",
+    "zh": "你现在正在看书吗？",
+    "source": "5GA"
+  },
+  {
+    "q": "___ she ___ (cook) dinner at the moment?",
+    "opts": [
+      "Does; cook",
+      "Is; cooking",
+      "Did; cook"
+    ],
+    "ans": 1,
+    "hint": "她此刻正在做晚饭吗？",
+    "sentence": "Is she cooking dinner at the moment?",
+    "zh": "她此刻正在做晚饭吗？",
+    "source": "5GA"
+  },
+  {
+    "q": "___ they ___ (play) football in the park?",
+    "opts": [
+      "Do; play",
+      "Are; playing",
+      "Did; play"
+    ],
+    "ans": 1,
+    "hint": "他们正在公园里踢足球吗？",
+    "sentence": "Are they playing football in the park?",
+    "zh": "他们正在公园里踢足球吗？",
+    "source": "5GA"
+  },
+  {
+    "q": "___ he ___ (sleep) in his room now?",
+    "opts": [
+      "Does; sleep",
+      "Is; sleeping",
+      "Did; sleep"
+    ],
+    "ans": 1,
+    "hint": "他现在正在他的房间里睡觉吗？",
+    "sentence": "Is he sleeping in his room now?",
+    "zh": "他现在正在他的房间里睡觉吗？",
+    "source": "5GA"
+  },
+  {
+    "q": "___ your mother ___ (work) in the office now?",
+    "opts": [
+      "Does; work",
+      "Is; working",
+      "Did; work"
+    ],
+    "ans": 1,
+    "hint": "你妈妈现在正在办公室工作吗？",
+    "sentence": "Is your mother working in the office now?",
+    "zh": "你妈妈现在正在办公室工作吗？",
+    "source": "5GA"
+  },
+  {
+    "q": "___ the boys ___ (swim) in the river?",
+    "opts": [
+      "Do; swim",
+      "Are; swimming",
+      "Did; swim"
+    ],
+    "ans": 1,
+    "hint": "男孩们正在河里游泳吗？",
+    "sentence": "Are the boys swimming in the river?",
+    "zh": "男孩们正在河里游泳吗？",
+    "source": "5GA"
+  },
+  {
+    "q": "___ you ___ (listen) to music now?",
+    "opts": [
+      "Do; listen",
+      "Are; listening",
+      "Did; listen"
+    ],
+    "ans": 1,
+    "hint": "你现在正在听音乐吗？",
+    "sentence": "Are you listening to music now?",
+    "zh": "你现在正在听音乐吗？",
+    "source": "5GA"
+  },
+  {
+    "q": "___ the dog ___ (run) after the cat?",
+    "opts": [
+      "Does; run",
+      "Is; running",
+      "Did; run"
+    ],
+    "ans": 1,
+    "hint": "那只狗正在追猫吗？",
+    "sentence": "Is the dog running after the cat?",
+    "zh": "那只狗正在追猫吗？",
+    "source": "5GA"
+  }
+];
+  var Q_MIX = [
+  {
+    "q": "Listen! The girls ___ (sing) in the music room.",
+    "opts": [
+      "sing",
+      "are singing",
+      "sang"
+    ],
+    "ans": 1,
+    "hint": "听！女孩们正在音乐教室里唱歌。",
+    "sentence": "Listen! The girls are singing in the music room.",
+    "zh": "听！女孩们正在音乐教室里唱歌。",
+    "source": "5GA"
+  },
+  {
+    "q": "What ___ you ___ (do) now?",
+    "opts": [
+      "do; do",
+      "are; doing",
+      "did; do"
+    ],
+    "ans": 1,
+    "hint": "你现在正在做什么？",
+    "sentence": "What are you doing now?",
+    "zh": "你现在正在做什么？",
+    "source": "5GA"
+  },
+  {
+    "q": "My father ___ (not work) today. He is at home.",
+    "opts": [
+      "doesn't work",
+      "isn't working",
+      "didn't work"
+    ],
+    "ans": 1,
+    "hint": "我父亲今天没在工作。他在家。",
+    "sentence": "My father isn't working today. He is at home.",
+    "zh": "我父亲今天没在工作。他在家。",
+    "source": "5GA"
+  },
+  {
+    "q": "Look! The children ___ (climb) the hill.",
+    "opts": [
+      "climb",
+      "are climbing",
+      "climbed"
+    ],
+    "ans": 1,
+    "hint": "看！孩子们正在爬山。",
+    "sentence": "Look! The children are climbing the hill.",
+    "zh": "看！孩子们正在爬山。",
+    "source": "5GA"
+  },
+  {
+    "q": "___ Tom and Jerry ___ (watch) TV now?",
+    "opts": [
+      "Do; watch",
+      "Are; watching",
+      "Did; watch"
+    ],
+    "ans": 1,
+    "hint": "汤姆和杰瑞现在正在看电视吗？",
+    "sentence": "Are Tom and Jerry watching TV now?",
+    "zh": "汤姆和杰瑞现在正在看电视吗？",
+    "source": "5GA"
+  },
+  {
+    "q": "She ___ (write) an email to her cousin at the moment.",
+    "opts": [
+      "writes",
+      "is writing",
+      "wrote"
+    ],
+    "ans": 1,
+    "hint": "她此刻正在给她的表妹写电子邮件。",
+    "sentence": "She is writing an email to her cousin at the moment.",
+    "zh": "她此刻正在给她的表妹写电子邮件。",
+    "source": "5GA"
+  },
+  {
+    "q": "We ___ (not have) lunch now. We are having breakfast.",
+    "opts": [
+      "don't have",
+      "aren't having",
+      "didn't have"
+    ],
+    "ans": 1,
+    "hint": "我们现在没在吃午饭。我们在吃早饭。",
+    "sentence": "We aren't having lunch now. We are having breakfast.",
+    "zh": "我们现在没在吃午饭。我们在吃早饭。",
+    "source": "5GA"
+  },
+  {
+    "q": "___ the teacher ___ (talk) to the students?",
+    "opts": [
+      "Does; talk",
+      "Is; talking",
+      "Did; talk"
+    ],
+    "ans": 1,
+    "hint": "老师正在和学生们谈话吗？",
+    "sentence": "Is the teacher talking to the students?",
+    "zh": "老师正在和学生们谈话吗？",
+    "source": "5GA"
+  },
+  {
+    "q": "I ___ (make) a cake for my mother's birthday now.",
+    "opts": [
+      "make",
+      "am making",
+      "made"
+    ],
+    "ans": 1,
+    "hint": "我现在正在为我妈妈的生日做蛋糕。",
+    "sentence": "I am making a cake for my mother's birthday now.",
+    "zh": "我现在正在为我妈妈的生日做蛋糕。",
+    "source": "5GA"
+  },
+  {
+    "q": "The baby ___ (cry) because he is hungry.",
+    "opts": [
+      "cries",
+      "is crying",
+      "cried"
+    ],
+    "ans": 1,
+    "hint": "宝宝正在哭，因为他饿了。",
+    "sentence": "The baby is crying because he is hungry.",
+    "zh": "宝宝正在哭，因为他饿了。",
+    "source": "5GA"
+  },
+  {
+    "q": "Where ___ they ___ (go) now?",
+    "opts": [
+      "do; go",
+      "are; going",
+      "did; go"
+    ],
+    "ans": 1,
+    "hint": "他们现在要去哪里？",
+    "sentence": "Where are they going now?",
+    "zh": "他们现在要去哪里？",
+    "source": "5GA"
+  },
+  {
+    "q": "My brother ___ (play) computer games at this time.",
+    "opts": [
+      "plays",
+      "is playing",
+      "played"
+    ],
+    "ans": 1,
+    "hint": "我哥哥这个时候正在玩电脑游戏。",
+    "sentence": "My brother is playing computer games at this time.",
+    "zh": "我哥哥这个时候正在玩电脑游戏。",
+    "source": "5GA"
+  },
+  {
+    "q": "___ the cat ___ (sleep) on the sofa?",
+    "opts": [
+      "Does; sleep",
+      "Is; sleeping",
+      "Did; sleep"
+    ],
+    "ans": 1,
+    "hint": "那只猫正在沙发上睡觉吗？",
+    "sentence": "Is the cat sleeping on the sofa?",
+    "zh": "那只猫正在沙发上睡觉吗？",
+    "source": "5GA"
+  },
+  {
+    "q": "They ___ (not dance) in the hall now.",
+    "opts": [
+      "don't dance",
+      "aren't dancing",
+      "didn't dance"
+    ],
+    "ans": 1,
+    "hint": "他们现在没在大厅里跳舞。",
+    "sentence": "They aren't dancing in the hall now.",
+    "zh": "他们现在没在大厅里跳舞。",
+    "source": "5GA"
+  },
+  {
+    "q": "Look! The plane ___ (fly) over the clouds.",
+    "opts": [
+      "flies",
+      "is flying",
+      "flew"
+    ],
+    "ans": 1,
+    "hint": "看！那架飞机正在云层上方飞行。",
+    "sentence": "Look! The plane is flying over the clouds.",
+    "zh": "看！那架飞机正在云层上方飞行。",
+    "source": "5GA"
+  },
+  {
+    "q": "I ___ (not watch) TV. I am reading a book.",
+    "opts": [
+      "don't watch",
+      "am not watching",
+      "didn't watch"
+    ],
+    "ans": 1,
+    "hint": "我没在看电视。我在看书。",
+    "sentence": "I am not watching TV. I am reading a book.",
+    "zh": "我没在看电视。我在看书。",
+    "source": "5GA"
+  },
+  {
+    "q": "___ your sister ___ (paint) a picture now?",
+    "opts": [
+      "Does; paint",
+      "Is; painting",
+      "Did; paint"
+    ],
+    "ans": 1,
+    "hint": "你姐姐现在正在画画吗？",
+    "sentence": "Is your sister painting a picture now?",
+    "zh": "你姐姐现在正在画画吗？",
+    "source": "5GA"
+  },
+  {
+    "q": "The students ___ (have) a music class now.",
+    "opts": [
+      "have",
+      "are having",
+      "had"
+    ],
+    "ans": 1,
+    "hint": "学生们现在正在上音乐课。",
+    "sentence": "The students are having a music class now.",
+    "zh": "学生们现在正在上音乐课。",
+    "source": "5GA"
+  },
+  {
+    "q": "He ___ (not run) fast now. He is walking slowly.",
+    "opts": [
+      "doesn't run",
+      "isn't running",
+      "didn't run"
+    ],
+    "ans": 1,
+    "hint": "他现在没在快跑。他正在慢慢走。",
+    "sentence": "He isn't running fast now. He is walking slowly.",
+    "zh": "他现在没在快跑。他正在慢慢走。",
+    "source": "5GA"
+  },
+  {
+    "q": "What ___ the children ___ (do) in the garden?",
+    "opts": [
+      "do; do",
+      "are; doing",
+      "did; do"
+    ],
+    "ans": 1,
+    "hint": "孩子们正在花园里做什么？",
+    "sentence": "What are the children doing in the garden?",
+    "zh": "孩子们正在花园里做什么？",
+    "source": "5GA"
+  },
+  {
+    "q": "My mother ___ (cook) dinner in the kitchen now.",
+    "opts": [
+      "cooks",
+      "is cooking",
+      "cooked"
+    ],
+    "ans": 1,
+    "hint": "妈妈正在厨房做晚饭。",
+    "sentence": "My mother is cooking dinner in the kitchen now.",
+    "zh": "我的妈妈现在正在厨房做晚饭。",
+    "source": "5GA"
+  },
+  {
+    "q": "Look! The boys ___ (play) football on the playground.",
+    "opts": [
+      "play",
+      "are playing",
+      "played"
+    ],
+    "ans": 1,
+    "hint": "看！男孩们正在操场上踢足球。",
+    "sentence": "Look! The boys are playing football on the playground.",
+    "zh": "看！男孩们正在操场上踢足球。",
+    "source": "5GA"
+  },
+  {
+    "q": "Listen! Someone ___ (sing) in the next room.",
+    "opts": [
+      "sings",
+      "is singing",
+      "sang"
+    ],
+    "ans": 1,
+    "hint": "听！有人在隔壁房间唱歌。",
+    "sentence": "Listen! Someone is singing in the next room.",
+    "zh": "听！有人在隔壁房间唱歌。",
+    "source": "5GA"
+  },
+  {
+    "q": "It's 8 o'clock. The students ___ (have) an English class.",
+    "opts": [
+      "have",
+      "are having",
+      "had"
+    ],
+    "ans": 1,
+    "hint": "8点了。学生们正在上英语课。",
+    "sentence": "It's 8 o'clock. The students are having an English class.",
+    "zh": "8点了。学生们正在上英语课。",
+    "source": "5GA"
+  },
+  {
+    "q": "Where is Tom? He ___ (swim) in the pool.",
+    "opts": [
+      "swims",
+      "is swimming",
+      "swam"
+    ],
+    "ans": 1,
+    "hint": "汤姆在哪里？他正在游泳池里游泳。",
+    "sentence": "Where is Tom? He is swimming in the pool.",
+    "zh": "汤姆在哪里？他正在游泳池里游泳。",
+    "source": "5GA"
+  },
+  {
+    "q": "Be quiet! The baby ___ (sleep).",
+    "opts": [
+      "sleeps",
+      "is sleeping",
+      "slept"
+    ],
+    "ans": 1,
+    "hint": "安静！宝宝正在睡觉。",
+    "sentence": "Be quiet! The baby is sleeping.",
+    "zh": "安静！宝宝正在睡觉。",
+    "source": "5GA"
+  },
+  {
+    "q": "We ___ (wait) for the bus at the bus stop now.",
+    "opts": [
+      "wait",
+      "are waiting",
+      "waited"
+    ],
+    "ans": 1,
+    "hint": "我们现在正在公交车站等车。",
+    "sentence": "We are waiting for the bus at the bus stop now.",
+    "zh": "我们现在正在公交车站等车。",
+    "source": "5GA"
+  },
+  {
+    "q": "The cat ___ (climb) the tree right now.",
+    "opts": [
+      "climbs",
+      "is climbing",
+      "climbed"
+    ],
+    "ans": 1,
+    "hint": "那只猫正在爬树。",
+    "sentence": "The cat is climbing the tree right now.",
+    "zh": "那只猫正在爬树。",
+    "source": "5GA"
+  },
+  {
+    "q": "My sister ___ (do) her homework at the moment.",
+    "opts": [
+      "does",
+      "is doing",
+      "did"
+    ],
+    "ans": 1,
+    "hint": "我妹妹此刻正在做作业。",
+    "sentence": "My sister is doing her homework at the moment.",
+    "zh": "我妹妹此刻正在做作业。",
+    "source": "5GA"
+  },
+  {
+    "q": "They ___ (make) a model plane in the classroom now.",
+    "opts": [
+      "make",
+      "are making",
+      "made"
+    ],
+    "ans": 1,
+    "hint": "他们现在正在教室里制作模型飞机。",
+    "sentence": "They are making a model plane in the classroom now.",
+    "zh": "他们现在正在教室里制作模型飞机。",
+    "source": "5GA"
+  },
+  {
+    "q": "Look! The bird is ___ (fly) in the sky.",
+    "opts": [
+      "fly",
+      "flying",
+      "flies"
+    ],
+    "ans": 1,
+    "hint": "看！那只鸟正在天空中飞。",
+    "sentence": "Look! The bird is flying in the sky.",
+    "zh": "看！那只鸟正在天空中飞。",
+    "source": "5GA"
+  },
+  {
+    "q": "He is ___ (run) in the park now.",
+    "opts": [
+      "run",
+      "running",
+      "runs"
+    ],
+    "ans": 1,
+    "hint": "他现在正在公园里跑步。",
+    "sentence": "He is running in the park now.",
+    "zh": "他现在正在公园里跑步。",
+    "source": "5GA"
+  },
+  {
+    "q": "She is ___ (write) a letter to her friend.",
+    "opts": [
+      "write",
+      "writing",
+      "writes"
+    ],
+    "ans": 1,
+    "hint": "她正在给朋友写信。",
+    "sentence": "She is writing a letter to her friend.",
+    "zh": "她正在给朋友写信。",
+    "source": "5GA"
+  },
+  {
+    "q": "We are ___ (swim) in the sea.",
+    "opts": [
+      "swim",
+      "swimming",
+      "swims"
+    ],
+    "ans": 1,
+    "hint": "我们正在海里游泳。",
+    "sentence": "We are swimming in the sea.",
+    "zh": "我们正在海里游泳。",
+    "source": "5GA"
+  },
+  {
+    "q": "The children are ___ (dance) in the room.",
+    "opts": [
+      "dance",
+      "dancing",
+      "dances"
+    ],
+    "ans": 1,
+    "hint": "孩子们正在房间里跳舞。",
+    "sentence": "The children are dancing in the room.",
+    "zh": "孩子们正在房间里跳舞。",
+    "source": "5GA"
+  },
+  {
+    "q": "My father is ___ (read) a newspaper.",
+    "opts": [
+      "read",
+      "reading",
+      "reads"
+    ],
+    "ans": 1,
+    "hint": "我父亲正在看报纸。",
+    "sentence": "My father is reading a newspaper.",
+    "zh": "我父亲正在看报纸。",
+    "source": "5GA"
+  },
+  {
+    "q": "The dog is ___ (lie) on the floor.",
+    "opts": [
+      "lie",
+      "lying",
+      "lies"
+    ],
+    "ans": 1,
+    "hint": "那只狗正躺在地板上。",
+    "sentence": "The dog is lying on the floor.",
+    "zh": "那只狗正躺在地板上。",
+    "source": "5GA"
+  },
+  {
+    "q": "They are ___ (shop) in the supermarket.",
+    "opts": [
+      "shop",
+      "shopping",
+      "shops"
+    ],
+    "ans": 1,
+    "hint": "他们正在超市购物。",
+    "sentence": "They are shopping in the supermarket.",
+    "zh": "他们正在超市购物。",
+    "source": "5GA"
+  },
+  {
+    "q": "I am ___ (sit) on a chair now.",
+    "opts": [
+      "sit",
+      "sitting",
+      "sits"
+    ],
+    "ans": 1,
+    "hint": "我现在正坐在椅子上。",
+    "sentence": "I am sitting on a chair now.",
+    "zh": "我现在正坐在椅子上。",
+    "source": "5GA"
+  },
+  {
+    "q": "The teacher is ___ (take) photos of the students.",
+    "opts": [
+      "take",
+      "taking",
+      "takes"
+    ],
+    "ans": 1,
+    "hint": "老师正在给学生们拍照。",
+    "sentence": "The teacher is taking photos of the students.",
+    "zh": "老师正在给学生们拍照。",
+    "source": "5GA"
+  },
+  {
+    "q": "He ___ (not watch) TV now. He is reading a book.",
+    "opts": [
+      "doesn't watch",
+      "isn't watching",
+      "didn't watch"
+    ],
+    "ans": 1,
+    "hint": "他现在没在看电视。他正在看书。",
+    "sentence": "He isn't watching TV now. He is reading a book.",
+    "zh": "他现在没在看电视。他正在看书。",
+    "source": "5GA"
+  },
+  {
+    "q": "We ___ (not play) games at the moment.",
+    "opts": [
+      "don't play",
+      "aren't playing",
+      "didn't play"
+    ],
+    "ans": 1,
+    "hint": "我们此刻没在玩游戏。",
+    "sentence": "We aren't playing games at the moment.",
+    "zh": "我们此刻没在玩游戏。",
+    "source": "5GA"
+  },
+  {
+    "q": "The girl ___ (not sing) in the room now.",
+    "opts": [
+      "doesn't sing",
+      "isn't singing",
+      "didn't sing"
+    ],
+    "ans": 1,
+    "hint": "那个女孩现在没在房间里唱歌。",
+    "sentence": "The girl isn't singing in the room now.",
+    "zh": "那个女孩现在没在房间里唱歌。",
+    "source": "5GA"
+  },
+  {
+    "q": "I ___ (not eat) lunch now. I am busy.",
+    "opts": [
+      "don't eat",
+      "am not eating",
+      "didn't eat"
+    ],
+    "ans": 1,
+    "hint": "我现在没在吃午饭。我很忙。",
+    "sentence": "I am not eating lunch now. I am busy.",
+    "zh": "我现在没在吃午饭。我很忙。",
+    "source": "5GA"
+  },
+  {
+    "q": "They ___ (not sleep) at this time.",
+    "opts": [
+      "don't sleep",
+      "aren't sleeping",
+      "didn't sleep"
+    ],
+    "ans": 1,
+    "hint": "他们这个时候没在睡觉。",
+    "sentence": "They aren't sleeping at this time.",
+    "zh": "他们这个时候没在睡觉。",
+    "source": "5GA"
+  },
+  {
+    "q": "My brother ___ (not do) his homework now.",
+    "opts": [
+      "doesn't do",
+      "isn't doing",
+      "didn't do"
+    ],
+    "ans": 1,
+    "hint": "我哥哥现在没在做作业。",
+    "sentence": "My brother isn't doing his homework now.",
+    "zh": "我哥哥现在没在做作业。",
+    "source": "5GA"
+  },
+  {
+    "q": "The cat ___ (not drink) milk now.",
+    "opts": [
+      "doesn't drink",
+      "isn't drinking",
+      "didn't drink"
+    ],
+    "ans": 1,
+    "hint": "那只猫现在没在喝牛奶。",
+    "sentence": "The cat isn't drinking milk now.",
+    "zh": "那只猫现在没在喝牛奶。",
+    "source": "5GA"
+  },
+  {
+    "q": "We ___ (not have) a party now.",
+    "opts": [
+      "don't have",
+      "aren't having",
+      "didn't have"
+    ],
+    "ans": 1,
+    "hint": "我们现在没在开派对。",
+    "sentence": "We aren't having a party now.",
+    "zh": "我们现在没在开派对。",
+    "source": "5GA"
+  },
+  {
+    "q": "___ you ___ (read) a book now?",
+    "opts": [
+      "Do; read",
+      "Are; reading",
+      "Did; read"
+    ],
+    "ans": 1,
+    "hint": "你现在正在看书吗？",
+    "sentence": "Are you reading a book now?",
+    "zh": "你现在正在看书吗？",
+    "source": "5GA"
+  },
+  {
+    "q": "___ she ___ (cook) dinner at the moment?",
+    "opts": [
+      "Does; cook",
+      "Is; cooking",
+      "Did; cook"
+    ],
+    "ans": 1,
+    "hint": "她此刻正在做晚饭吗？",
+    "sentence": "Is she cooking dinner at the moment?",
+    "zh": "她此刻正在做晚饭吗？",
+    "source": "5GA"
+  },
+  {
+    "q": "___ they ___ (play) football in the park?",
+    "opts": [
+      "Do; play",
+      "Are; playing",
+      "Did; play"
+    ],
+    "ans": 1,
+    "hint": "他们正在公园里踢足球吗？",
+    "sentence": "Are they playing football in the park?",
+    "zh": "他们正在公园里踢足球吗？",
+    "source": "5GA"
+  },
+  {
+    "q": "___ he ___ (sleep) in his room now?",
+    "opts": [
+      "Does; sleep",
+      "Is; sleeping",
+      "Did; sleep"
+    ],
+    "ans": 1,
+    "hint": "他现在正在他的房间里睡觉吗？",
+    "sentence": "Is he sleeping in his room now?",
+    "zh": "他现在正在他的房间里睡觉吗？",
+    "source": "5GA"
+  },
+  {
+    "q": "___ your mother ___ (work) in the office now?",
+    "opts": [
+      "Does; work",
+      "Is; working",
+      "Did; work"
+    ],
+    "ans": 1,
+    "hint": "你妈妈现在正在办公室工作吗？",
+    "sentence": "Is your mother working in the office now?",
+    "zh": "你妈妈现在正在办公室工作吗？",
+    "source": "5GA"
+  },
+  {
+    "q": "___ the boys ___ (swim) in the river?",
+    "opts": [
+      "Do; swim",
+      "Are; swimming",
+      "Did; swim"
+    ],
+    "ans": 1,
+    "hint": "男孩们正在河里游泳吗？",
+    "sentence": "Are the boys swimming in the river?",
+    "zh": "男孩们正在河里游泳吗？",
+    "source": "5GA"
+  },
+  {
+    "q": "___ you ___ (listen) to music now?",
+    "opts": [
+      "Do; listen",
+      "Are; listening",
+      "Did; listen"
+    ],
+    "ans": 1,
+    "hint": "你现在正在听音乐吗？",
+    "sentence": "Are you listening to music now?",
+    "zh": "你现在正在听音乐吗？",
+    "source": "5GA"
+  },
+  {
+    "q": "___ the dog ___ (run) after the cat?",
+    "opts": [
+      "Does; run",
+      "Is; running",
+      "Did; run"
+    ],
+    "ans": 1,
+    "hint": "那只狗正在追猫吗？",
+    "sentence": "Is the dog running after the cat?",
+    "zh": "那只狗正在追猫吗？",
+    "source": "5GA"
+  }
+];
+  var MATCH_PAIRS = [
+  {
+    "id": 1,
+    "english": "I am reading a book",
+    "chinese": "我正在读一本书"
+  },
+  {
+    "id": 2,
+    "english": "She is singing a song",
+    "chinese": "她正在唱一首歌"
+  },
+  {
+    "id": 3,
+    "english": "They are playing football",
+    "chinese": "他们正在踢足球"
+  },
+  {
+    "id": 4,
+    "english": "He is eating an apple",
+    "chinese": "他正在吃一个苹果"
+  },
+  {
+    "id": 5,
+    "english": "We are watching TV",
+    "chinese": "我们正在看电视"
+  },
+  {
+    "id": 6,
+    "english": "The cat is sleeping",
+    "chinese": "猫正在睡觉"
+  },
+  {
+    "id": 7,
+    "english": "I am writing a letter",
+    "chinese": "我正在写一封信"
+  },
+  {
+    "id": 8,
+    "english": "You are running fast",
+    "chinese": "你正在跑得快"
+  },
+  {
+    "id": 9,
+    "english": "The dog is barking",
+    "chinese": "狗正在叫"
+  },
+  {
+    "id": 10,
+    "english": "She is dancing now",
+    "chinese": "她正在跳舞"
+  },
+  {
+    "id": 11,
+    "english": "He is swimming in the pool",
+    "chinese": "他正在游泳池里游泳"
+  },
+  {
+    "id": 12,
+    "english": "They are laughing loudly",
+    "chinese": "他们正在大声笑"
+  }
+];
+  var LISTEN_PICK = [
+  {
+    "id": 1,
+    "audio": "I am reading a book",
+    "options": [
+      "我正在读一本书",
+      "我读了一本书",
+      "我打算读一本书"
+    ],
+    "correct": 0
+  },
+  {
+    "id": 2,
+    "audio": "She is singing a song",
+    "options": [
+      "她唱了一首歌",
+      "她正在唱一首歌",
+      "她喜欢唱歌"
+    ],
+    "correct": 1
+  },
+  {
+    "id": 3,
+    "audio": "They are playing football",
+    "options": [
+      "他们踢足球",
+      "他们正在踢足球",
+      "他们想踢足球"
+    ],
+    "correct": 1
+  },
+  {
+    "id": 4,
+    "audio": "He is eating an apple",
+    "options": [
+      "他正在吃一个苹果",
+      "他吃了一个苹果",
+      "他喜欢吃苹果"
+    ],
+    "correct": 0
+  },
+  {
+    "id": 5,
+    "audio": "We are watching TV",
+    "options": [
+      "我们看电视",
+      "我们正在看电视",
+      "我们看了电视"
+    ],
+    "correct": 1
+  },
+  {
+    "id": 6,
+    "audio": "The cat is sleeping",
+    "options": [
+      "猫在睡觉",
+      "猫正在睡觉",
+      "猫睡了"
+    ],
+    "correct": 1
+  },
+  {
+    "id": 7,
+    "audio": "I am writing a letter",
+    "options": [
+      "我写了一封信",
+      "我正在写一封信",
+      "我打算写一封信"
+    ],
+    "correct": 1
+  },
+  {
+    "id": 8,
+    "audio": "You are running fast",
+    "options": [
+      "你跑得快",
+      "你正在跑得快",
+      "你跑了快"
+    ],
+    "correct": 1
+  },
+  {
+    "id": 9,
+    "audio": "The dog is barking",
+    "options": [
+      "狗叫了",
+      "狗正在叫",
+      "狗会叫"
+    ],
+    "correct": 1
+  },
+  {
+    "id": 10,
+    "audio": "She is dancing now",
+    "options": [
+      "她现在跳舞",
+      "她正在跳舞",
+      "她跳了舞"
+    ],
+    "correct": 1
+  }
+];
+
+  global.L02pCorpus = {
+    vocabIng: VOCAB_ING,
+    vocabMarkers: VOCAB_MARKERS,
+    vocabStative: VOCAB_STATIVE,
+    vocabBe: VOCAB_BE,
+    vocabRegular: VOCAB_ING,
+    vocabTime: VOCAB_MARKERS,
+    vocabIrregular: VOCAB_STATIVE,
+    vocabDaily: VOCAB_ING,
+    qBeIng: Q_BE_ING,
+    qSpelling: Q_SPELLING,
+    qNeg: Q_NEG,
+    qQuestion: Q_QUESTION,
+    qMix: Q_MIX,
+    matchPairs: MATCH_PAIRS,
+    listenPick: LISTEN_PICK,
+  };
+})(typeof window !== "undefined" ? window : null);
