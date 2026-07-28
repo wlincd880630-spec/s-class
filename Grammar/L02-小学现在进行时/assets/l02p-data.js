@@ -193,18 +193,18 @@
     "badge": "demo",
     "badgeText": "🔗 配对",
     "image": "l02p-am-is-are-chart.jpg",
-    "lead": "记住：I → am；He/She/It → is；You/We/They → are",
+    "lead": "看主语选 be：I → am；单数（He/She/人名/My mother）→ is；复数（We/They/My parents）→ are",
     "chart": [
       {
         "subjects": "I",
         "be": "am"
       },
       {
-        "subjects": "He / She / It / 人名 / 单数",
+        "subjects": "He / She / It / 人名 / My mother（单数）",
         "be": "is"
       },
       {
-        "subjects": "You / We / They / 复数",
+        "subjects": "You / We / They / My parents / Tom and Lily（复数）",
         "be": "are"
       },
       {
@@ -219,34 +219,46 @@
     ],
     "drill": [
       {
-        "subject": "My",
-        "ans": "is cooking",
+        "subject": "I",
+        "ans": "am",
+        "sentence": "I am reading a storybook in the library now.",
+        "zh": "我现在正在图书馆里读故事书。"
+      },
+      {
+        "subject": "My mother",
+        "ans": "is",
         "sentence": "My mother is cooking dinner in the kitchen now.",
         "zh": "我的妈妈现在正在厨房做晚饭。"
       },
       {
-        "subject": "Look!",
-        "ans": "are playing",
-        "sentence": "Look! The boys are playing football on the playground.",
-        "zh": "看！男孩们正在操场上踢足球。"
+        "subject": "My parents",
+        "ans": "are",
+        "sentence": "My parents are watching TV in the living room.",
+        "zh": "我的父母正在客厅看电视。"
       },
       {
-        "subject": "Listen!",
-        "ans": "is singing",
-        "sentence": "Listen! Someone is singing in the next room.",
-        "zh": "听！有人在隔壁房间唱歌。"
+        "subject": "Tom",
+        "ans": "is",
+        "sentence": "Tom is swimming in the pool right now.",
+        "zh": "汤姆现在正在游泳池里游泳。"
       },
       {
-        "subject": "It's",
-        "ans": "are having",
-        "sentence": "It's 8 o'clock. The students are having an English class.",
-        "zh": "8点了。学生们正在上英语课。"
+        "subject": "The boys",
+        "ans": "are",
+        "sentence": "The boys are playing football on the playground.",
+        "zh": "男孩们正在操场上踢足球。"
       },
       {
-        "subject": "Where",
-        "ans": "is swimming",
-        "sentence": "Where is Tom? He is swimming in the pool.",
-        "zh": "汤姆在哪里？他正在游泳池里游泳。"
+        "subject": "Tom and Lily",
+        "ans": "are",
+        "sentence": "Tom and Lily are dancing in the music room.",
+        "zh": "汤姆和莉莉正在音乐室里跳舞。"
+      },
+      {
+        "subject": "We",
+        "ans": "are",
+        "sentence": "We are having an English class now.",
+        "zh": "我们现在正在上英语课。"
       }
     ]
   },

@@ -328,6 +328,17 @@ pages.push(scenePage("p06", "am / is / are", "is · 第三人称单数", "state"
 pages.push(scenePage("p07", "am / is / are", "例句 · is 再练", "state", "💙 is", is2, "单数主语用 is + V-ing", "state"));
 pages.push(scenePage("p08", "am / is / are", "are · 复数", "state", "💙 are", are1, "You / We / They / 复数 → are", "state"));
 
+/** p09 配对：主语必须是完整名词短语，答案只能是 am/is/are */
+const BE_MATCH_DRILL = [
+  { subject: "I", ans: "am", sentence: "I am reading a storybook in the library now.", zh: "我现在正在图书馆里读故事书。" },
+  { subject: "My mother", ans: "is", sentence: "My mother is cooking dinner in the kitchen now.", zh: "我的妈妈现在正在厨房做晚饭。" },
+  { subject: "My parents", ans: "are", sentence: "My parents are watching TV in the living room.", zh: "我的父母正在客厅看电视。" },
+  { subject: "Tom", ans: "is", sentence: "Tom is swimming in the pool right now.", zh: "汤姆现在正在游泳池里游泳。" },
+  { subject: "The boys", ans: "are", sentence: "The boys are playing football on the playground.", zh: "男孩们正在操场上踢足球。" },
+  { subject: "Tom and Lily", ans: "are", sentence: "Tom and Lily are dancing in the music room.", zh: "汤姆和莉莉正在音乐室里跳舞。" },
+  { subject: "We", ans: "are", sentence: "We are having an English class now.", zh: "我们现在正在上英语课。" },
+];
+
 pages.push({
   id: "p09",
   section: "am / is / are",
@@ -336,20 +347,15 @@ pages.push({
   badge: "demo",
   badgeText: "🔗 配对",
   image: "l02p-am-is-are-chart.jpg",
-  lead: "记住：I → am；He/She/It → is；You/We/They → are",
+  lead: "看主语选 be：I → am；单数（He/She/人名/My mother）→ is；复数（We/They/My parents）→ are",
   chart: [
     { subjects: "I", be: "am" },
-    { subjects: "He / She / It / 人名 / 单数", be: "is" },
-    { subjects: "You / We / They / 复数", be: "are" },
+    { subjects: "He / She / It / 人名 / My mother（单数）", be: "is" },
+    { subjects: "You / We / They / My parents / Tom and Lily（复数）", be: "are" },
     { subjects: "否定", be: "isn't / aren't / am not" },
   ],
   beOpts: ["am", "is", "are"],
-  drill: pick(qBeIng, 5).map((q) => ({
-    subject: (q.sentence || q.q).split(/\s+/)[0],
-    ans: q.opts[q.ans],
-    sentence: q.sentence,
-    zh: q.zh,
-  })),
+  drill: BE_MATCH_DRILL,
 });
 
 pages.push({
