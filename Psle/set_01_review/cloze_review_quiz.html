@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>第01套完形填空 · 学后复习测试</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&family=Literata:opsz,wght@7..72,500;7..72,700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #eef3f0; --card: #fbfcfa; --ink: #1c2420; --muted: #5c6860;
+      --accent: #2d6a4f; --accent-soft: #95d5b2; --border: #c8d5cc;
+      --ok: #1b7a3d; --ok-bg: #d8f5e0; --bad: #b42318; --bad-bg: #fde8e6;
+      --tier1: #2d6a4f; --tier2: #3d5a80; --tier3: #9a3412;
+      --shadow: rgba(28, 36, 32, 0.07);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: "DM Sans", system-ui, sans-serif; color: var(--ink);
+      background: linear-gradient(145deg, #e4ebe6 0%, var(--bg) 40%, #dde8e2 100%);
+      line-height: 1.55; min-height: 100vh;
+    }
+    .wrap { max-width: 860px; margin: 0 auto; padding: 1.25rem 1rem 4rem; }
+    a.back { color: var(--accent); font-weight: 700; text-decoration: none; font-size: .92rem; }
+    a.back:hover { text-decoration: underline; }
+    header { margin: 1rem 0 1.25rem; }
+    .eyebrow { font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+    h1 { font-family: "Literata", Georgia, serif; font-size: clamp(1.45rem, 3.5vw, 1.95rem); margin: .35rem 0 .5rem; }
+    .meta { color: var(--muted); font-size: .92rem; margin: 0; }
+    .toolbar {
+      display: flex; flex-wrap: wrap; gap: .6rem; align-items: center;
+      position: sticky; top: 0; z-index: 20; padding: .65rem 0;
+      background: rgba(238, 243, 240, .92); backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border); margin-bottom: 1rem;
+    }
+    .btn {
+      border: none; border-radius: 10px; padding: .55rem 1rem; font-weight: 700;
+      cursor: pointer; font-family: inherit; font-size: .9rem;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-secondary { background: #fff; color: var(--accent); border: 1px solid var(--border); }
+    .btn:hover { filter: brightness(1.05); }
+    #scoreBox {
+      margin-left: auto; font-weight: 700; color: var(--accent);
+      min-height: 1.2em;
+    }
+    .tier {
+      background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+      padding: 1.15rem 1.2rem 1.3rem; margin-bottom: 1.15rem;
+      box-shadow: 0 8px 22px var(--shadow);
+    }
+    .tier h2 {
+      font-family: "Literata", Georgia, serif; font-size: 1.2rem; margin: 0 0 .35rem;
+      display: flex; align-items: center; gap: .55rem; flex-wrap: wrap;
+    }
+    .badge {
+      font-size: .7rem; font-weight: 700; letter-spacing: .04em; color: #fff;
+      border-radius: 999px; padding: .2rem .55rem; vertical-align: middle;
+    }
+    .b1 { background: var(--tier1); } .b2 { background: var(--tier2); } .b3 { background: var(--tier3); }
+    .tier .sub { color: var(--muted); font-size: .88rem; margin: 0 0 1rem; }
+    h3 { font-size: 1rem; margin: 1.1rem 0 .55rem; color: var(--accent); }
+    .q { margin: .85rem 0; padding: .75rem .85rem; border-radius: 12px; background: #f7faf7; border: 1px solid transparent; }
+    .q.ok { background: var(--ok-bg); border-color: #a7e0b8; }
+    .q.bad { background: var(--bad-bg); border-color: #f0b4ad; }
+    .q-label { font-weight: 700; margin-bottom: .35rem; }
+    .opts { display: grid; gap: .3rem; }
+    label.opt { display: flex; gap: .45rem; align-items: flex-start; cursor: pointer; }
+    input[type="text"] {
+      width: min(100%, 320px); padding: .4rem .55rem; border: 1px solid var(--border);
+      border-radius: 8px; font: inherit; background: #fff;
+    }
+    .blank-row { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; margin: .4rem 0; }
+    .bank {
+      display: flex; flex-wrap: wrap; gap: .4rem; margin: .5rem 0 .8rem;
+    }
+    .chip {
+      background: #e8f5ee; border: 1px solid var(--accent-soft); border-radius: 999px;
+      padding: .2rem .65rem; font-size: .85rem; font-weight: 700; color: var(--accent);
+    }
+    .match-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: .75rem;
+    }
+    @media (max-width: 560px) { .match-grid { grid-template-columns: 1fr; } }
+    .match-col { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: .7rem .8rem; }
+    .match-col li { margin: .35rem 0; }
+    .passage {
+      font-family: "Literata", Georgia, serif; background: #f7faf7; border: 1px solid var(--border);
+      border-radius: 12px; padding: 1rem 1.05rem; line-height: 1.75; margin-bottom: .8rem;
+    }
+    .feedback { font-size: .85rem; margin-top: .35rem; color: var(--muted); display: none; }
+    .q.show-fb .feedback { display: block; }
+    .q.ok .feedback { color: var(--ok); }
+    .q.bad .feedback { color: var(--bad); }
+    .hint-note { font-size: .85rem; color: var(--muted); margin-top: 1rem; }
+    @media print {
+      .toolbar, a.back { display: none !important; }
+      .tier { box-shadow: none; break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="index.html">← 复习首页</a>
+    <header>
+      <div class="eyebrow">DeepSeek · 学后复习测试</div>
+      <h1>第01套 · 完形填空｜分层复习测试</h1>
+      <p class="meta">建议用时 25–30 分钟 · 满分 50 分 · 初一难度 · 题型迁移考查（非原题照抄）</p>
+    </header>
+
+    <div class="toolbar">
+      <button type="button" class="btn btn-primary" id="btnCheck">核对答案</button>
+      <button type="button" class="btn btn-secondary" id="btnReset">清空重做</button>
+      <button type="button" class="btn btn-secondary" id="btnToggleAns">显示/隐藏解析</button>
+      <a class="btn btn-secondary" href="cloze_summary.html" style="text-decoration:none">打开总结材料</a>
+      <div id="scoreBox"></div>
+    </div>
+
+    <!-- ========== 基础 ========== -->
+    <section class="tier" id="tier1">
+      <h2><span class="badge b1">基础 · 20分</span> 识记与直接应用</h2>
+      <p class="sub">连线 · 选词 · 互译 · 改错 —— 夯实本篇核心搭配与词义</p>
+
+      <h3>A. 固定搭配连线（5分）</h3>
+      <p>在右侧下拉框中选择对应释义编号（a–e）。</p>
+      <div class="match-grid">
+        <div class="match-col">
+          <ol>
+            <li>shop for</li>
+            <li>on sale</li>
+            <li>look after</li>
+            <li>write with a pen</li>
+            <li>be afraid of</li>
+          </ol>
+        </div>
+        <div class="match-col">
+          <p><strong>释义</strong></p>
+          <ol type="a">
+            <li>削价出售</li>
+            <li>照顾</li>
+            <li>害怕</li>
+            <li>用钢笔书写</li>
+            <li>为……购物</li>
+          </ol>
+        </div>
+      </div>
+      <div class="q" data-ans="e" data-pts="1" data-type="select">
+        <div class="q-label">1. shop for →</div>
+        <select data-key="a1"><option value="">请选择</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option></select>
+        <div class="feedback">答案：e（为……购物）</div>
+      </div>
+      <div class="q" data-ans="a" data-pts="1" data-type="select">
+        <div class="q-label">2. on sale →</div>
+        <select data-key="a2"><option value="">请选择</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option></select>
+        <div class="feedback">答案：a（削价出售）</div>
+      </div>
+      <div class="q" data-ans="b" data-pts="1" data-type="select">
+        <div class="q-label">3. look after →</div>
+        <select data-key="a3"><option value="">请选择</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option></select>
+        <div class="feedback">答案：b（照顾）</div>
+      </div>
+      <div class="q" data-ans="d" data-pts="1" data-type="select">
+        <div class="q-label">4. write with a pen →</div>
+        <select data-key="a4"><option value="">请选择</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option></select>
+        <div class="feedback">答案：d（用钢笔书写）</div>
+      </div>
+      <div class="q" data-ans="c" data-pts="1" data-type="select">
+        <div class="q-label">5. be afraid of →</div>
+        <select data-key="a5"><option value="">请选择</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option></select>
+        <div class="feedback">答案：c（害怕）</div>
+      </div>
+
+      <h3>B. 选词填空（5分）</h3>
+      <div class="bank">
+        <span class="chip">for</span><span class="chip">on</span><span class="chip">size</span><span class="chip">thirsty</span>
+        <span class="chip">write</span><span class="chip">happily</span><span class="chip">looking at</span>
+        <span class="chip">choose</span><span class="chip">afraid</span><span class="chip">takes</span>
+      </div>
+      <div class="q" data-ans="thirsty" data-pts="1" data-type="text">
+        <div class="blank-row">1. After playing basketball, he feels very <input type="text" data-key="b1" />.</div>
+        <div class="feedback">答案：thirsty（口渴）</div>
+      </div>
+      <div class="q" data-ans="looking at" data-pts="1" data-type="text">
+        <div class="blank-row">2. My mother is <input type="text" data-key="b2" /> the new dress in the shop window.</div>
+        <div class="feedback">答案：looking at</div>
+      </div>
+      <div class="q" data-ans="takes" data-pts="1" data-type="text">
+        <div class="blank-row">3. It <input type="text" data-key="b3" /> her one hour to do her homework every day.</div>
+        <div class="feedback">答案：takes（It takes sb. time…）</div>
+      </div>
+      <div class="q" data-ans="choose" data-pts="1" data-type="text">
+        <div class="blank-row">4. Please <input type="text" data-key="b4" /> your favourite colour.</div>
+        <div class="feedback">答案：choose</div>
+      </div>
+      <div class="q" data-ans="write" data-pts="1" data-type="text" data-alt="Write">
+        <div class="blank-row">5. <input type="text" data-key="b5" /> a letter to your pen friend.（祈使句）</div>
+        <div class="feedback">答案：Write / write</div>
+      </div>
+
+      <h3>C. 中英短语互译（5分）</h3>
+      <div class="q" data-ans="做某事花费某人多少时间" data-pts="1" data-type="text-loose" data-keys="花费,时间">
+        <div class="q-label">1) It takes sb. time to do sth.</div>
+        <input type="text" data-key="c1" placeholder="中文意思" style="width:100%;max-width:100%" />
+        <div class="feedback">参考：做某事花费某人多少时间</div>
+      </div>
+      <div class="q" data-ans="寻找" data-pts="1" data-type="text-loose" data-keys="寻找,找">
+        <div class="q-label">2) look for</div>
+        <input type="text" data-key="c2" />
+        <div class="feedback">参考：寻找</div>
+      </div>
+      <div class="q" data-ans="待售" data-pts="1" data-type="text-loose" data-keys="待售,出售,卖">
+        <div class="q-label">3) for sale</div>
+        <input type="text" data-key="c3" />
+        <div class="feedback">参考：待售</div>
+      </div>
+      <div class="q" data-ans="on sale" data-pts="1" data-type="text">
+        <div class="q-label">4) 打折促销</div>
+        <input type="text" data-key="c4" />
+        <div class="feedback">答案：on sale</div>
+      </div>
+      <div class="q" data-ans="choose a shirt" data-pts="1" data-type="text" data-alt="choose one shirt">
+        <div class="q-label">5) 挑选一件衬衫</div>
+        <input type="text" data-key="c5" />
+        <div class="feedback">答案：choose a shirt</div>
+      </div>
+
+      <h3>D. 判断正误并改错（5分）</h3>
+      <p class="sub" style="margin-top:0">先选 T/F；若选 F，请在横线写出改正后的关键词或整句。</p>
+      <div class="q" data-ans="F" data-pts="1" data-type="tf" data-fix-keys="doing|took|spending">
+        <div class="q-label">1. I <strong>spent</strong> two hours to finish my homework yesterday.</div>
+        <label class="opt"><input type="radio" name="d1" value="T" /> T</label>
+        <label class="opt"><input type="radio" name="d1" value="F" /> F</label>
+        <div class="blank-row">改正：<input type="text" data-key="d1fix" style="width:min(100%,420px)" /></div>
+        <div class="feedback">F。spent … doing / It took me … to do</div>
+      </div>
+      <div class="q" data-ans="F" data-pts="1" data-type="tf" data-fix-keys="happily">
+        <div class="q-label">2. The children are playing <strong>happy</strong> in the park.</div>
+        <label class="opt"><input type="radio" name="d2" value="T" /> T</label>
+        <label class="opt"><input type="radio" name="d2" value="F" /> F</label>
+        <div class="blank-row">改正：<input type="text" data-key="d2fix" style="width:min(100%,420px)" /></div>
+        <div class="feedback">F。playing happily</div>
+      </div>
+      <div class="q" data-ans="T" data-pts="1" data-type="tf">
+        <div class="q-label">3. These shoes are <strong>on sale</strong> for only 50 yuan.</div>
+        <label class="opt"><input type="radio" name="d3" value="T" /> T</label>
+        <label class="opt"><input type="radio" name="d3" value="F" /> F</label>
+        <div class="feedback">T。on sale 表示打折正确。</div>
+      </div>
+      <div class="q" data-ans="F" data-pts="1" data-type="tf" data-fix-keys="look for|looking for">
+        <div class="q-label">4. Please <strong>look at</strong> your keys. I think you left them on the desk.</div>
+        <label class="opt"><input type="radio" name="d4" value="T" /> T</label>
+        <label class="opt"><input type="radio" name="d4" value="F" /> F</label>
+        <div class="blank-row">改正：<input type="text" data-key="d4fix" style="width:min(100%,420px)" /></div>
+        <div class="feedback">F。应改 look for（寻找）</div>
+      </div>
+      <div class="q" data-ans="T" data-pts="1" data-type="tf">
+        <div class="q-label">5. The book <strong>costs</strong> me 20 yuan.</div>
+        <label class="opt"><input type="radio" name="d5" value="T" /> T</label>
+        <label class="opt"><input type="radio" name="d5" value="F" /> F</label>
+        <div class="feedback">T。物作主语 + cost 正确。</div>
+      </div>
+    </section>
+
+    <!-- ========== 提高 ========== -->
+    <section class="tier" id="tier2">
+      <h2><span class="badge b2">提高 · 20分</span> 辨析与语境推理</h2>
+      <p class="sub">花费四兄弟 · look 短语 · 副词 · 新短文挖空</p>
+
+      <h3>A. 单项选择（每题 2.5 分）</h3>
+      <div class="q" data-ans="C" data-pts="2.5" data-type="radio" data-name="p1">
+        <div class="q-label">1. — How much did you ______ for the new bike? — 300 yuan.</div>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="p1" value="A" /> A. take</label>
+          <label class="opt"><input type="radio" name="p1" value="B" /> B. spend</label>
+          <label class="opt"><input type="radio" name="p1" value="C" /> C. pay</label>
+          <label class="opt"><input type="radio" name="p1" value="D" /> D. cost</label>
+        </div>
+        <div class="feedback">C。pay … for sth.</div>
+      </div>
+      <div class="q" data-ans="C" data-pts="2.5" data-type="radio" data-name="p2">
+        <div class="q-label">2. My little sister is ill. I have to ______ her at home.</div>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="p2" value="A" /> A. look at</label>
+          <label class="opt"><input type="radio" name="p2" value="B" /> B. look for</label>
+          <label class="opt"><input type="radio" name="p2" value="C" /> C. look after</label>
+          <label class="opt"><input type="radio" name="p2" value="D" /> D. look like</label>
+        </div>
+        <div class="feedback">C。look after 照顾</div>
+      </div>
+      <div class="q" data-ans="B" data-pts="2.5" data-type="radio" data-name="p3">
+        <div class="q-label">3. It ______ the workers two years to build this bridge.</div>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="p3" value="A" /> A. spent</label>
+          <label class="opt"><input type="radio" name="p3" value="B" /> B. took</label>
+          <label class="opt"><input type="radio" name="p3" value="C" /> C. paid</label>
+          <label class="opt"><input type="radio" name="p3" value="D" /> D. cost</label>
+        </div>
+        <div class="feedback">B。It took sb. time to do sth.</div>
+      </div>
+      <div class="q" data-ans="D" data-pts="2.5" data-type="radio" data-name="p4">
+        <div class="q-label">4. The teacher was unhappy because the students were talking ______ in class.</div>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="p4" value="A" /> A. happy</label>
+          <label class="opt"><input type="radio" name="p4" value="B" /> B. happily</label>
+          <label class="opt"><input type="radio" name="p4" value="C" /> C. noisy</label>
+          <label class="opt"><input type="radio" name="p4" value="D" /> D. noisily</label>
+        </div>
+        <div class="feedback">D。修饰 talking 用副词 noisily</div>
+      </div>
+
+      <h3>B. 短文填空（每空 2.5 分）</h3>
+      <div class="bank"><span class="chip">at</span><span class="chip">for</span><span class="chip">on</span><span class="chip">chooses</span><span class="chip">pay</span></div>
+      <div class="passage">
+        Mary wants to buy a gift for her friend’s birthday. She goes to a shop and looks
+        <span class="q" style="display:inline;padding:.15rem .3rem;margin:0" data-ans="at" data-pts="2.5" data-type="text"><input type="text" data-key="s1" style="width:4.5rem" /></span>
+        many things. There is a nice cup
+        <span class="q" style="display:inline;padding:.15rem .3rem;margin:0" data-ans="on" data-pts="2.5" data-type="text"><input type="text" data-key="s2" style="width:4.5rem" /></span>
+        sale. It is very cheap. She
+        <span class="q" style="display:inline;padding:.15rem .3rem;margin:0" data-ans="chooses" data-pts="2.5" data-type="text"><input type="text" data-key="s3" style="width:5.5rem" /></span>
+        the blue one. Then she goes to the cashier to
+        <span class="q" style="display:inline;padding:.15rem .3rem;margin:0" data-ans="pay" data-pts="2.5" data-type="text"><input type="text" data-key="s4" style="width:4.5rem" /></span>
+        for it.
+      </div>
+      <p class="hint-note">核对后可在本段下方查看解析：1 at（look at）· 2 on（on sale）· 3 chooses · 4 pay（pay for）</p>
+    </section>
+
+    <!-- ========== 挑战 ========== -->
+    <section class="tier" id="tier3">
+      <h2><span class="badge b3">挑战 · 10分</span> 综合迁移</h2>
+      <p class="sub">新故事微型完形：购物 + 促销 + 挑选 + 付款 + 副词</p>
+      <div class="passage">
+        Lily wants a new schoolbag. She sees many beautiful bags (1) ______ sale in a store.
+        She (2) ______ a pink one. Her mother (3) ______ for it. Then she says (4) ______,
+        “You look great with the new bag!”
+      </div>
+      <div class="q" data-ans="B" data-pts="2.5" data-type="radio" data-name="c1">
+        <div class="q-label">1.</div>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="c1" value="A" /> A. in</label>
+          <label class="opt"><input type="radio" name="c1" value="B" /> B. on</label>
+          <label class="opt"><input type="radio" name="c1" value="C" /> C. for</label>
+          <label class="opt"><input type="radio" name="c1" value="D" /> D. at</label>
+        </div>
+        <div class="feedback">B。on sale</div>
+      </div>
+      <div class="q" data-ans="C" data-pts="2.5" data-type="radio" data-name="c2">
+        <div class="q-label">2.</div>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="c2" value="A" /> A. looks</label>
+          <label class="opt"><input type="radio" name="c2" value="B" /> B. takes</label>
+          <label class="opt"><input type="radio" name="c2" value="C" /> C. chooses</label>
+          <label class="opt"><input type="radio" name="c2" value="D" /> D. pays</label>
+        </div>
+        <div class="feedback">C。chooses 挑选</div>
+      </div>
+      <div class="q" data-ans="D" data-pts="2.5" data-type="radio" data-name="c3">
+        <div class="q-label">3.</div>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="c3" value="A" /> A. spends</label>
+          <label class="opt"><input type="radio" name="c3" value="B" /> B. takes</label>
+          <label class="opt"><input type="radio" name="c3" value="C" /> C. costs</label>
+          <label class="opt"><input type="radio" name="c3" value="D" /> D. pays</label>
+        </div>
+        <div class="feedback">D。pays for</div>
+      </div>
+      <div class="q" data-ans="B" data-pts="2.5" data-type="radio" data-name="c4">
+        <div class="q-label">4.</div>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="c4" value="A" /> A. happy</label>
+          <label class="opt"><input type="radio" name="c4" value="B" /> B. happily</label>
+          <label class="opt"><input type="radio" name="c4" value="C" /> C. sad</label>
+          <label class="opt"><input type="radio" name="c4" value="D" /> D. sadly</label>
+        </div>
+        <div class="feedback">B。happily 修饰 says</div>
+      </div>
+    </section>
+
+    <p class="hint-note">完成后可前往 <a href="cloze_summary.html">总结材料</a> 对照易错清单与一周复习计划。</p>
+  </div>
+
+  <script>
+  (function () {
+    function norm(s) {
+      return String(s || "").trim().toLowerCase().replace(/\s+/g, " ");
+    }
+    function getVal(q) {
+      var type = q.dataset.type;
+      if (type === "select") {
+        var sel = q.querySelector("select");
+        return sel ? sel.value : "";
+      }
+      if (type === "radio") {
+        var name = q.dataset.name;
+        var r = document.querySelector('input[name="' + name + '"]:checked');
+        return r ? r.value : "";
+      }
+      if (type === "tf") {
+        var radios = q.querySelectorAll('input[type="radio"]');
+        var v = "";
+        radios.forEach(function (x) { if (x.checked) v = x.value; });
+        return v;
+      }
+      var inp = q.querySelector('input[type="text"]');
+      return inp ? inp.value : "";
+    }
+    function checkOne(q) {
+      var type = q.dataset.type;
+      var ans = q.dataset.ans;
+      var pts = parseFloat(q.dataset.pts || "1");
+      var val = getVal(q);
+      var ok = false;
+      if (type === "text") {
+        var n = norm(val);
+        ok = n === norm(ans);
+        if (!ok && q.dataset.alt) {
+          q.dataset.alt.split("|").forEach(function (a) {
+            if (n === norm(a)) ok = true;
+          });
+        }
+      } else if (type === "text-loose") {
+        var keys = (q.dataset.keys || "").split(",");
+        var nv = norm(val);
+        ok = keys.some(function (k) { return k && nv.indexOf(norm(k)) >= 0; });
+      } else if (type === "tf") {
+        ok = val === ans;
+        if (ok && ans === "F" && q.dataset.fixKeys) {
+          var fix = norm(q.querySelector('input[type="text"]') && q.querySelector('input[type="text"]').value);
+          var need = q.dataset.fixKeys.split("|");
+          var hasFix = need.some(function (k) { return fix.indexOf(norm(k)) >= 0; });
+          if (!hasFix && fix) {
+            /* 选对 F 但改正不完整：仍给半分 */
+            pts = pts * 0.5;
+          } else if (!hasFix) {
+            pts = pts * 0.5;
+            /* 只判对错对了一半 */
+          }
+        }
+      } else {
+        ok = norm(val) === norm(ans);
+      }
+      q.classList.remove("ok", "bad", "show-fb");
+      if (!val) {
+        q.classList.add("bad", "show-fb");
+        return 0;
+      }
+      if (ok) {
+        q.classList.add("ok", "show-fb");
+        return pts;
+      }
+      q.classList.add("bad", "show-fb");
+      return 0;
+    }
+    document.getElementById("btnCheck").addEventListener("click", function () {
+      var total = 0;
+      var got = 0;
+      document.querySelectorAll(".q[data-ans]").forEach(function (q) {
+        total += parseFloat(q.dataset.pts || "1");
+        got += checkOne(q);
+      });
+      var box = document.getElementById("scoreBox");
+      box.textContent = "得分：" + Math.round(got * 10) / 10 + " / " + total;
+    });
+    document.getElementById("btnReset").addEventListener("click", function () {
+      document.querySelectorAll("input[type='text']").forEach(function (i) { i.value = ""; });
+      document.querySelectorAll("select").forEach(function (s) { s.selectedIndex = 0; });
+      document.querySelectorAll("input[type='radio']").forEach(function (r) { r.checked = false; });
+      document.querySelectorAll(".q").forEach(function (q) {
+        q.classList.remove("ok", "bad", "show-fb");
+      });
+      document.getElementById("scoreBox").textContent = "";
+    });
+    document.getElementById("btnToggleAns").addEventListener("click", function () {
+      document.querySelectorAll(".q[data-ans]").forEach(function (q) {
+        q.classList.toggle("show-fb");
+      });
+    });
+  })();
+  </script>
+</body>
+</html>
