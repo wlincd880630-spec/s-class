@@ -348,6 +348,27 @@
     .type-card:hover { transform: translateY(-2px); box-shadow: 0 16px 44px var(--shadow); }
     .type-card h2 { margin: 0 0 0.35rem; font-size: 1.1rem; color: var(--accent); font-family: "Literata", serif; }
     .type-card .meta { font-size: 0.88rem; color: var(--muted); margin-bottom: 0.85rem; }
+    .type-card-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.45rem 0.55rem;
+    }
+    .type-card-actions a.btn-link {
+      display: inline-block;
+      font: inherit;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 10px;
+      padding: 0.45rem 0.9rem;
+      background: #fff;
+      border: 1px solid var(--border);
+      color: var(--accent);
+    }
+    .type-card-actions a.btn-link:hover {
+      border-color: var(--accent);
+      background: #f4f8f5;
+    }
     .card {
       background: var(--card); border: 1px solid var(--border); border-radius: 16px;
       padding: 1rem 1.15rem; margin-bottom: 1.1rem; box-shadow: 0 8px 28px var(--shadow);
@@ -811,11 +832,6 @@
       <button type="button" class="btn secondary" id="btnPdfFull" title="按标准纸笔试卷版式排版，打印对话框中选「另存为 PDF」">导出 PDF（整套·标准试卷版式）</button>
     </header>
     <p class="breadcrumb">先选择一种题型，完成该题型全部题目后提交，再进入讲解与苏格拉底引导。</p>
-    <p class="breadcrumb" style="margin-top:-0.35rem">
-      完形填空学后巩固：
-      <a href="set_01_review/index.html" style="color:var(--accent);font-weight:700">复习测试与总结材料</a>
-      （DeepSeek 分层出题）
-    </p>
     <div class="type-grid" id="typeGrid"></div>
   </div>
 
@@ -2562,7 +2578,13 @@
       const n = t === "cloze" ? visibleClozeQuizRows(rawRows).length : rawRows.length;
       html += "<div class='type-card'><h2>" + esc(typeLabel(t)) + "</h2>";
       html += "<div class='meta'>共 " + n + " 道题 · 计时答题后可看讲解</div>";
-      html += "<button type='button' class='btn primary btn-pick-type' data-type='" + esc(t) + "'>开始该题型</button></div>";
+      html += "<div class='type-card-actions'>";
+      html += "<button type='button' class='btn primary btn-pick-type' data-type='" + esc(t) + "'>开始该题型</button>";
+      if (t === "cloze") {
+        html += "<a class='btn-link' href='set_01_review/cloze_review_quiz.html'>复习</a>";
+        html += "<a class='btn-link' href='set_01_review/cloze_summary.html'>总结</a>";
+      }
+      html += "</div></div>";
     });
     document.getElementById("typeGrid").innerHTML = html;
     document.querySelectorAll(".btn-pick-type").forEach((b) => {
