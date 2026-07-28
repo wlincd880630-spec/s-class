@@ -24,6 +24,7 @@
       --line: #9aab9f;
     }
     * { box-sizing: border-box; }
+    html { overflow-x: clip; }
     body {
       margin: 0;
       font-family: "DM Sans", system-ui, sans-serif;
@@ -33,8 +34,15 @@
         linear-gradient(160deg, #dde6e0, var(--bg) 42%, #d5e0d9);
       line-height: 1.55;
       min-height: 100vh;
+      overflow-x: clip;
     }
-    .wrap { max-width: 880px; margin: 0 auto; padding: 1.1rem 1rem 4.5rem; }
+    .wrap {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 1.1rem max(1.25rem, env(safe-area-inset-right)) 4.5rem max(1.25rem, env(safe-area-inset-left));
+      overflow: visible;
+      width: 100%;
+    }
     a.back { color: var(--accent); font-weight: 700; text-decoration: none; font-size: .9rem; }
     a.back:hover { text-decoration: underline; }
 
@@ -84,14 +92,18 @@
     #scoreBox { margin-left: auto; font-weight: 700; color: var(--accent); min-height: 1.2em; font-size: .92rem; }
 
     .toc {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: .55rem;
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .55rem;
       margin: 0 0 1.15rem;
+      width: 100%;
+      max-width: 100%;
     }
     @media (max-width: 640px) { .toc { grid-template-columns: 1fr; } }
     .toc a {
       text-decoration: none; color: inherit; background: var(--card);
-      border: 1px solid var(--border); border-radius: 12px; padding: .7rem .8rem;
+      border: 1px solid var(--border); border-radius: 12px; padding: .7rem .85rem;
       box-shadow: 0 6px 16px var(--shadow);
+      min-width: 0;
+      overflow-wrap: anywhere;
     }
     .toc a strong { display: block; color: var(--accent); font-size: .92rem; margin-bottom: .15rem; }
     .toc a span { color: var(--muted); font-size: .8rem; }
@@ -145,14 +157,38 @@
     }
     label.opt { display: flex; gap: .45rem; align-items: flex-start; cursor: pointer; font-size: .95rem; }
     input[type="text"], textarea, select {
-      width: min(100%, 100%); max-width: 100%;
-      padding: .42rem .55rem; border: 1px solid var(--border);
+      max-width: 100%;
+      padding: .42rem .55rem; border: 1.5px solid var(--accent);
       border-radius: 8px; font: inherit; background: #fff;
     }
-    textarea { min-height: 4.2rem; resize: vertical; line-height: 1.5; }
-    input.short { width: 7.5rem; max-width: 40%; }
-    input.mid { width: min(100%, 280px); }
-    .blank-row { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; margin: .35rem 0; }
+    textarea { width: 100%; min-height: 4.2rem; resize: vertical; line-height: 1.5; }
+    select { min-width: 5.5rem; }
+    /* 句内空格：必须 inline-block，避免被 .screen-only 的 block 挤没 */
+    input.blank-input {
+      display: inline-block !important;
+      vertical-align: baseline;
+      margin: 0 .15rem;
+      min-height: 1.85rem;
+      background: #f4faf7;
+      border: 1.5px solid var(--accent);
+      border-radius: 6px;
+      box-shadow: inset 0 -2px 0 rgba(36, 92, 68, 0.2);
+    }
+    input.blank-input.short { width: 7.2rem; min-width: 5.5rem; }
+    input.blank-input.mid { width: min(100%, 14rem); min-width: 8rem; }
+    input.blank-input.tiny { width: 3.2rem; min-width: 2.6rem; text-align: center; }
+    .blank-mark {
+      display: inline-block;
+      min-width: 4.5rem;
+      border-bottom: 2px solid var(--accent);
+      margin: 0 .2rem;
+      vertical-align: baseline;
+    }
+    .blank-row {
+      display: block;
+      line-height: 1.85;
+      margin: .35rem 0;
+    }
     .bank { display: flex; flex-wrap: wrap; gap: .4rem; margin: .45rem 0 .75rem; }
     .chip {
       background: var(--soft); border: 1px solid #b7dcc6; border-radius: 999px;
@@ -169,7 +205,32 @@
     .match-col li { margin: .3rem 0; }
     .passage {
       font-family: "Literata", Georgia, serif; background: #fff; border: 1px solid var(--border);
-      border-radius: 12px; padding: 1rem 1.05rem; line-height: 1.8; margin-bottom: .8rem;
+      border-radius: 12px; padding: 1rem 1.05rem; line-height: 2; margin-bottom: .8rem;
+      font-size: 1.02rem;
+    }
+    .passage .q-inline {
+      display: inline;
+      margin: 0;
+      padding: 0;
+      border: none;
+      background: transparent;
+      border-radius: 0;
+      vertical-align: baseline;
+    }
+    .passage .q-inline.ok,
+    .passage .q-inline.bad {
+      background: transparent;
+      border: none;
+    }
+    .passage input.blank-input {
+      display: inline-block !important;
+      width: 5.2rem;
+      min-width: 4.2rem;
+      max-width: 6.5rem;
+      margin: 0 .2rem;
+      vertical-align: baseline;
+      height: 1.7rem;
+      padding: .15rem .35rem;
     }
     .feedback { font-size: .84rem; margin-top: .4rem; color: var(--muted); display: none; }
     .q.show-fb .feedback { display: block; }
@@ -203,8 +264,8 @@
       display: none; border-bottom: 1.5px solid var(--line);
       min-height: 1.6rem; margin: .35rem 0 .55rem;
     }
-    .paper-only { display: none; }
-    .screen-only { display: block; }
+    .paper-only { display: none !important; }
+    /* 勿统一设为 block，否则句内 input 会错位/看似“没有空格” */
     .foot-note { color: var(--muted); font-size: .88rem; margin-top: 1rem; }
 
     /* —— 纸质 PDF 版式 —— */
@@ -250,10 +311,39 @@
         border-radius: 0; padding: .4rem 0; break-inside: avoid;
       }
       .q.ok, .q.bad { background: #fff; border-color: #ccc; }
-      input[type="text"], textarea, select { display: none !important; }
+      /* 短文内联空：去掉方框，仅保留下划线字符 */
+      .passage .q,
+      .passage .q-inline {
+        display: inline !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+      }
+      .passage .q-inline.ok,
+      .passage .q-inline.bad {
+        background: transparent !important;
+        border: none !important;
+      }
+      input[type="text"], textarea, select, input.blank-input { display: none !important; }
       .write-line { display: block !important; }
-      .paper-only { display: block !important; }
+      .paper-only { display: inline !important; }
+      .paper-only.block { display: block !important; }
       .screen-only { display: none !important; }
+      .blank-mark { display: inline-block !important; min-width: 5rem; border-bottom: 1.5px solid #000; border-top: none; border-left: none; border-right: none; background: transparent; box-shadow: none; border-radius: 0; }
+      .passage-blank {
+        display: inline !important;
+        letter-spacing: .08em;
+        font-family: inherit;
+        border: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        padding: 0 .1em !important;
+        margin: 0 .15em !important;
+        color: #000;
+      }
       .pic-frame { box-shadow: none; break-inside: avoid; }
       .pic-frame img { max-height: 210px; width: auto; max-width: 100%; margin: 0 auto; }
       .opts label.opt input { appearance: none; width: .9em; height: .9em; border: 1px solid #000; border-radius: 50%; display: inline-block; margin-top: .15em; flex-shrink: 0; }
@@ -273,7 +363,7 @@
       <h1>第01套 · 词汇语法复习卷</h1>
       <p class="meta">围绕本篇核心用法迁移出题 · 含词性辨析、词形变化、看图排序与造句</p>
       <div class="hero-stats">
-        <span>满分 60 分</span>
+        <span>满分 84 分</span>
         <span>建议 30–35 分钟</span>
         <span>初一难度</span>
         <span>可导出纸质 PDF</span>
@@ -286,7 +376,7 @@
         <span>姓名：<i class="blank"></i></span>
         <span>班级：<i class="blank"></i></span>
         <span>日期：<i class="blank"></i></span>
-        <span>得分：<i class="blank"></i> / 60</span>
+        <span>得分：<i class="blank"></i> / 84</span>
       </div>
     </div>
 
@@ -300,15 +390,15 @@
     </div>
 
     <nav class="toc screen-only" aria-label="试卷目录">
-      <a href="#tier1"><strong>基础 · 20分</strong><span>连线 / 选词 / 词性 / 词形</span></a>
-      <a href="#tier2"><strong>提高 · 20分</strong><span>选择 / 短文 / 看图排序</span></a>
+      <a href="#tier1"><strong>基础 · 40分</strong><span>连线 / 选词 / 词性 / 词形 / 搭配 / 词表</span></a>
+      <a href="#tier2"><strong>提高 · 24分</strong><span>选择 / 短文 / 看图排序</span></a>
       <a href="#tier3"><strong>挑战 · 20分</strong><span>微型完形 / 看图造句</span></a>
     </nav>
 
     <!-- ========== 基础 ========== -->
     <section class="tier" id="tier1">
       <div class="tier-head">
-        <span class="badge b1">基础 · 20分</span>
+        <span class="badge b1">基础 · 40分</span>
         <h2>识记 · 词性 · 词形</h2>
       </div>
       <p class="sub">夯实搭配与词义，并分清形容词 / 副词与常见词形变化。</p>
@@ -338,25 +428,25 @@
         </div>
         <div class="q" data-ans="d" data-pts="1" data-type="select">
           <div class="q-label">1. shop for →</div>
-          <select data-key="a1" class="screen-only"><option value="">请选择</option><option>a</option><option>b</option><option>c</option><option>d</option></select>
+          <select data-key="a1"><option value="">请选择</option><option>a</option><option>b</option><option>c</option><option>d</option></select>
           <div class="write-line"></div>
           <div class="feedback">答案：d（为……购物）</div>
         </div>
         <div class="q" data-ans="a" data-pts="1" data-type="select">
           <div class="q-label">2. on sale →</div>
-          <select data-key="a2" class="screen-only"><option value="">请选择</option><option>a</option><option>b</option><option>c</option><option>d</option></select>
+          <select data-key="a2"><option value="">请选择</option><option>a</option><option>b</option><option>c</option><option>d</option></select>
           <div class="write-line"></div>
           <div class="feedback">答案：a（打折促销）</div>
         </div>
         <div class="q" data-ans="b" data-pts="1" data-type="select">
           <div class="q-label">3. look after →</div>
-          <select data-key="a3" class="screen-only"><option value="">请选择</option><option>a</option><option>b</option><option>c</option><option>d</option></select>
+          <select data-key="a3"><option value="">请选择</option><option>a</option><option>b</option><option>c</option><option>d</option></select>
           <div class="write-line"></div>
           <div class="feedback">答案：b（照顾）</div>
         </div>
         <div class="q" data-ans="c" data-pts="1" data-type="select">
           <div class="q-label">4. be afraid of →</div>
-          <select data-key="a4" class="screen-only"><option value="">请选择</option><option>a</option><option>b</option><option>c</option><option>d</option></select>
+          <select data-key="a4"><option value="">请选择</option><option>a</option><option>b</option><option>c</option><option>d</option></select>
           <div class="write-line"></div>
           <div class="feedback">答案：c（害怕……）</div>
         </div>
@@ -364,124 +454,275 @@
 
       <div class="block">
         <h3>B. 选词填空（4分）</h3>
+        <p class="hint">把合适的词填入绿色空格（可点选输入）。</p>
         <div class="bank">
           <span class="chip">size</span><span class="chip">thirsty</span>
           <span class="chip">looking at</span><span class="chip">takes</span>
-          <span class="chip">choose</span><span class="chip">write</span>
+          <span class="chip">spend</span><span class="chip">costs</span>
         </div>
         <div class="q" data-ans="thirsty" data-pts="1" data-type="text">
-          <div class="blank-row">1. After PE class, Tom feels very <input class="short screen-only" type="text" data-key="b1" />.</div>
+          <div class="blank-row">1. After PE class, Tom feels very <input class="blank-input short" type="text" data-key="b1" placeholder="______" aria-label="空白1" /><span class="paper-only blank-mark">&nbsp;</span>.</div>
           <div class="write-line"></div>
           <div class="feedback">答案：thirsty</div>
         </div>
         <div class="q" data-ans="looking at" data-pts="1" data-type="text">
-          <div class="blank-row">2. Mum is <input class="mid screen-only" type="text" data-key="b2" /> the new dress in the window.</div>
+          <div class="blank-row">2. Mum is <input class="blank-input mid" type="text" data-key="b2" placeholder="______" aria-label="空白2" /><span class="paper-only blank-mark">&nbsp;</span> the new dress in the window.</div>
           <div class="write-line"></div>
           <div class="feedback">答案：looking at</div>
         </div>
-        <div class="q" data-ans="takes" data-pts="1" data-type="text">
-          <div class="blank-row">3. It <input class="short screen-only" type="text" data-key="b3" /> her one hour to do homework.</div>
+        <div class="q" data-ans="spend" data-pts="1" data-type="text">
+          <div class="blank-row">3. I <input class="blank-input short" type="text" data-key="b3" placeholder="______" aria-label="空白3" /><span class="paper-only blank-mark">&nbsp;</span> one hour on English every day.（人作主语）</div>
           <div class="write-line"></div>
-          <div class="feedback">答案：takes</div>
+          <div class="feedback">答案：spend（人 + spend + 时间 + on）</div>
         </div>
-        <div class="q" data-ans="choose" data-pts="1" data-type="text">
-          <div class="blank-row">4. Please <input class="short screen-only" type="text" data-key="b4" /> your favourite colour.</div>
+        <div class="q" data-ans="costs" data-pts="1" data-type="text">
+          <div class="blank-row">4. This schoolbag <input class="blank-input short" type="text" data-key="b4" placeholder="______" aria-label="空白4" /><span class="paper-only blank-mark">&nbsp;</span> me 50 yuan.（物作主语）</div>
           <div class="write-line"></div>
-          <div class="feedback">答案：choose</div>
+          <div class="feedback">答案：costs（物 + cost）</div>
         </div>
       </div>
 
       <div class="block">
-        <h3>C. 形容词 / 副词词性辨析（6分）</h3>
-        <p class="hint">记住：形容词常修饰名词或跟在 be 后；副词常修饰动词（…ly）。</p>
+        <h3>C. 形容词 / 副词词性辨析（12分）</h3>
+        <p class="hint">形容词修饰名词或跟在 be / look 后；副词修饰动词。注意：lovely / lonely / lively 虽以 -ly 结尾，却是<strong>形容词</strong>。</p>
+
         <div class="q" data-ans="A" data-pts="1" data-type="radio" data-name="pos1">
           <div class="q-label">1. The little girl looks ______ today.</div>
           <div class="opts cols-2">
             <label class="opt"><input type="radio" name="pos1" value="A" /> A. happy</label>
             <label class="opt"><input type="radio" name="pos1" value="B" /> B. happily</label>
           </div>
-          <div class="feedback">A。look 作系动词，后接形容词 happy。</div>
+          <div class="feedback">A。look 系动词 + 形容词 happy。</div>
         </div>
         <div class="q" data-ans="B" data-pts="1" data-type="radio" data-name="pos2">
-          <div class="q-label">2. The children are playing ______ in the park.</div>
+          <div class="q-label">2. Mum says ______, “Welcome home!”</div>
           <div class="opts cols-2">
             <label class="opt"><input type="radio" name="pos2" value="A" /> A. happy</label>
             <label class="opt"><input type="radio" name="pos2" value="B" /> B. happily</label>
           </div>
-          <div class="feedback">B。修饰动词 playing 用副词 happily。</div>
+          <div class="feedback">B。修饰 says 用副词 happily。</div>
         </div>
         <div class="q" data-ans="A" data-pts="1" data-type="radio" data-name="pos3">
-          <div class="q-label">3. Bob is ______, so he buys a bottle of water.</div>
+          <div class="q-label">3. Don't be ______. I am with you.</div>
           <div class="opts cols-2">
-            <label class="opt"><input type="radio" name="pos3" value="A" /> A. thirsty</label>
-            <label class="opt"><input type="radio" name="pos3" value="B" /> B. thirstily</label>
+            <label class="opt"><input type="radio" name="pos3" value="A" /> A. afraid</label>
+            <label class="opt"><input type="radio" name="pos3" value="B" /> B. afraidly</label>
           </div>
-          <div class="feedback">A。be + 形容词 thirsty。</div>
+          <div class="feedback">A。afraid 是形容词。</div>
         </div>
-        <div class="q" data-ans="B" data-pts="1" data-type="radio" data-name="pos4">
-          <div class="q-label">4. Please speak ______ . I can't hear you.</div>
+        <div class="q" data-ans="A" data-pts="1" data-type="radio" data-name="pos4">
+          <div class="q-label">4. After shopping, Mum feels ______.</div>
           <div class="opts cols-2">
-            <label class="opt"><input type="radio" name="pos4" value="A" /> A. clear</label>
-            <label class="opt"><input type="radio" name="pos4" value="B" /> B. clearly</label>
+            <label class="opt"><input type="radio" name="pos4" value="A" /> A. tired</label>
+            <label class="opt"><input type="radio" name="pos4" value="B" /> B. tiredly</label>
           </div>
-          <div class="feedback">B。修饰 speak 用副词 clearly。</div>
+          <div class="feedback">A。feel + 形容词 tired。</div>
         </div>
-        <div class="q" data-ans="A" data-pts="1" data-type="radio" data-name="pos5">
-          <div class="q-label">5. Don't be ______. I am with you.</div>
+        <div class="q" data-ans="B" data-pts="1" data-type="radio" data-name="pos5">
+          <div class="q-label">5. She looked at her lost boy and said ______.</div>
           <div class="opts cols-2">
-            <label class="opt"><input type="radio" name="pos5" value="A" /> A. afraid</label>
-            <label class="opt"><input type="radio" name="pos5" value="B" /> B. afraidly</label>
+            <label class="opt"><input type="radio" name="pos5" value="A" /> A. sad</label>
+            <label class="opt"><input type="radio" name="pos5" value="B" /> B. sadly</label>
           </div>
-          <div class="feedback">A。afraid 是形容词；没有 afraidly 这种常用词。</div>
+          <div class="feedback">B。修饰 said 用副词 sadly。</div>
         </div>
-        <div class="q" data-ans="B" data-pts="1" data-type="radio" data-name="pos6">
-          <div class="q-label">6. Mum says ______, “Welcome home!”</div>
+        <div class="q" data-ans="A" data-pts="1" data-type="radio" data-name="pos6">
+          <div class="q-label">6. The old man feels ______ because his children are away.</div>
           <div class="opts cols-2">
-            <label class="opt"><input type="radio" name="pos6" value="A" /> A. happy</label>
-            <label class="opt"><input type="radio" name="pos6" value="B" /> B. happily</label>
+            <label class="opt"><input type="radio" name="pos6" value="A" /> A. lonely</label>
+            <label class="opt"><input type="radio" name="pos6" value="B" /> B. alone</label>
           </div>
-          <div class="feedback">B。修饰 says 用副词 happily。</div>
+          <div class="feedback">A。lonely = 感到寂寞；alone = 独自一人（不一定寂寞）。</div>
+        </div>
+        <div class="q" data-ans="A" data-pts="1" data-type="radio" data-name="pos7">
+          <div class="q-label">7. Don't be ______. Please be serious in class.</div>
+          <div class="opts cols-2">
+            <label class="opt"><input type="radio" name="pos7" value="A" /> A. silly</label>
+            <label class="opt"><input type="radio" name="pos7" value="B" /> B. sillily</label>
+          </div>
+          <div class="feedback">A。silly 是形容词。</div>
+        </div>
+        <div class="q" data-ans="A" data-pts="1" data-type="radio" data-name="pos8">
+          <div class="q-label">8. This question is very ______. I can do it.</div>
+          <div class="opts cols-2">
+            <label class="opt"><input type="radio" name="pos8" value="A" /> A. easy</label>
+            <label class="opt"><input type="radio" name="pos8" value="B" /> B. easily</label>
+          </div>
+          <div class="feedback">A。be + 形容词 easy。</div>
+        </div>
+        <div class="q" data-ans="B" data-pts="1" data-type="radio" data-name="pos9">
+          <div class="q-label">9. I can finish the work ______.</div>
+          <div class="opts cols-2">
+            <label class="opt"><input type="radio" name="pos9" value="A" /> A. easy</label>
+            <label class="opt"><input type="radio" name="pos9" value="B" /> B. easily</label>
+          </div>
+          <div class="feedback">B。修饰 finish 用副词 easily。</div>
+        </div>
+        <div class="q" data-ans="A" data-pts="1" data-type="radio" data-name="pos10">
+          <div class="q-label">10. What a ______ girl! She always helps others.</div>
+          <div class="opts cols-2">
+            <label class="opt"><input type="radio" name="pos10" value="A" /> A. lovely</label>
+            <label class="opt"><input type="radio" name="pos10" value="B" /> B. lovelyly</label>
+          </div>
+          <div class="feedback">A。lovely 是形容词（不是副词）。</div>
+        </div>
+        <div class="q" data-ans="A" data-pts="1" data-type="radio" data-name="pos11">
+          <div class="q-label">11. The ______ music makes everyone want to dance.</div>
+          <div class="opts cols-2">
+            <label class="opt"><input type="radio" name="pos11" value="A" /> A. lively</label>
+            <label class="opt"><input type="radio" name="pos11" value="B" /> B. livelily</label>
+          </div>
+          <div class="feedback">A。lively 是形容词，修饰 music。</div>
+        </div>
+        <div class="q" data-ans="B" data-pts="1" data-type="radio" data-name="pos12">
+          <div class="q-label">12. Please write the answers ______.</div>
+          <div class="opts cols-2">
+            <label class="opt"><input type="radio" name="pos12" value="A" /> A. quick</label>
+            <label class="opt"><input type="radio" name="pos12" value="B" /> B. quickly</label>
+          </div>
+          <div class="feedback">B。修饰 write 用副词 quickly。</div>
         </div>
       </div>
 
       <div class="block">
-        <h3>D. 词形变化（6分）</h3>
-        <p class="hint">按括号要求写出正确词形。</p>
+        <h3>D. 词形变化与时态（12分）</h3>
+        <p class="hint">按括号提示变形：副词、过去式、现在进行时等。</p>
+
         <div class="q" data-ans="happily" data-pts="1" data-type="text">
-          <div class="blank-row">1. She smiles ______ (happy).</div>
-          <input class="mid screen-only" type="text" data-key="w1" />
+          <div class="blank-row">1. She smiles <input class="blank-input short" type="text" data-key="w1" placeholder="______" /> (happy).</div>
           <div class="write-line"></div>
           <div class="feedback">答案：happily</div>
         </div>
+        <div class="q" data-ans="quickly" data-pts="1" data-type="text">
+          <div class="blank-row">2. Please run <input class="blank-input short" type="text" data-key="w2" placeholder="______" /> (quick).</div>
+          <div class="write-line"></div>
+          <div class="feedback">答案：quickly</div>
+        </div>
+        <div class="q" data-ans="easily" data-pts="1" data-type="text">
+          <div class="blank-row">3. He can answer the question <input class="blank-input short" type="text" data-key="w3" placeholder="______" /> (easy).</div>
+          <div class="write-line"></div>
+          <div class="feedback">答案：easily（y→i + ly）</div>
+        </div>
         <div class="q" data-ans="choosing" data-pts="1" data-type="text">
-          <div class="blank-row">2. Tom is ______ a schoolbag now. (choose)</div>
-          <input class="mid screen-only" type="text" data-key="w2" />
+          <div class="blank-row">4. Tom is <input class="blank-input short" type="text" data-key="w4" placeholder="______" /> a schoolbag now. (choose) <em style="color:var(--muted);font-size:.86rem">现在进行时</em></div>
           <div class="write-line"></div>
           <div class="feedback">答案：choosing</div>
         </div>
-        <div class="q" data-ans="writes" data-pts="1" data-type="text">
-          <div class="blank-row">3. She ______ a new rule every Sunday. (write)</div>
-          <input class="mid screen-only" type="text" data-key="w3" />
+        <div class="q" data-ans="chose" data-pts="1" data-type="text">
+          <div class="blank-row">5. Yesterday Lily <input class="blank-input short" type="text" data-key="w5" placeholder="______" /> a pink bag. (choose) <em style="color:var(--muted);font-size:.86rem">过去式</em></div>
           <div class="write-line"></div>
-          <div class="feedback">答案：writes</div>
+          <div class="feedback">答案：chose</div>
         </div>
-        <div class="q" data-ans="thirsty" data-pts="1" data-type="text">
-          <div class="blank-row">4. After the race, the boys are ______ . (thirst)</div>
-          <input class="mid screen-only" type="text" data-key="w4" />
+        <div class="q" data-ans="wrote" data-pts="1" data-type="text">
+          <div class="blank-row">6. Mum <input class="blank-input short" type="text" data-key="w6" placeholder="______" /> a rule last night. (write) <em style="color:var(--muted);font-size:.86rem">过去式</em></div>
           <div class="write-line"></div>
-          <div class="feedback">答案：thirsty</div>
+          <div class="feedback">答案：wrote</div>
         </div>
-        <div class="q" data-ans="looking" data-pts="1" data-type="text">
-          <div class="blank-row">5. He is ______ for his keys. (look)</div>
-          <input class="mid screen-only" type="text" data-key="w5" />
+        <div class="q" data-ans="shopping" data-pts="1" data-type="text">
+          <div class="blank-row">7. They are <input class="blank-input short" type="text" data-key="w7" placeholder="______" /> for clothes now. (shop) <em style="color:var(--muted);font-size:.86rem">现在进行时</em></div>
           <div class="write-line"></div>
-          <div class="feedback">答案：looking</div>
+          <div class="feedback">答案：shopping</div>
         </div>
-        <div class="q" data-ans="carefully" data-pts="1" data-type="text">
-          <div class="blank-row">6. Please look at the map ______ . (careful)</div>
-          <input class="mid screen-only" type="text" data-key="w6" />
+        <div class="q" data-ans="drink" data-pts="1" data-type="text">
+          <div class="blank-row">8. I usually <input class="blank-input short" type="text" data-key="w8" placeholder="______" /> milk in the morning. (drink) <em style="color:var(--muted);font-size:.86rem">一般现在时</em></div>
           <div class="write-line"></div>
-          <div class="feedback">答案：carefully</div>
+          <div class="feedback">答案：drink</div>
+        </div>
+        <div class="q" data-ans="drinking" data-pts="1" data-type="text">
+          <div class="blank-row">9. Look! Bob is <input class="blank-input short" type="text" data-key="w9" placeholder="______" /> cola now. (drink) <em style="color:var(--muted);font-size:.86rem">现在进行时</em></div>
+          <div class="write-line"></div>
+          <div class="feedback">答案：drinking</div>
+        </div>
+        <div class="q" data-ans="drank" data-pts="1" data-type="text">
+          <div class="blank-row">10. Yesterday the boys <input class="blank-input short" type="text" data-key="w10" placeholder="______" /> too much cola. (drink) <em style="color:var(--muted);font-size:.86rem">过去式</em></div>
+          <div class="write-line"></div>
+          <div class="feedback">答案：drank（drink → drank → drunk）</div>
+        </div>
+        <div class="q" data-ans="spends" data-pts="1" data-type="text">
+          <div class="blank-row">11. She <input class="blank-input short" type="text" data-key="w11" placeholder="______" /> a lot of time on reading. (spend)</div>
+          <div class="write-line"></div>
+          <div class="feedback">答案：spends</div>
+        </div>
+        <div class="q" data-ans="cost" data-pts="1" data-type="text">
+          <div class="blank-row">12. The shoes <input class="blank-input short" type="text" data-key="w12" placeholder="______" /> me 100 yuan yesterday. (cost) <em style="color:var(--muted);font-size:.86rem">过去式同形</em></div>
+          <div class="write-line"></div>
+          <div class="feedback">答案：cost（过去式仍是 cost）</div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3>E. 动词 + with 工具搭配（4分）</h3>
+        <p class="hint">选择正确的搭配完成句子。</p>
+        <div class="q" data-ans="B" data-pts="1" data-type="radio" data-name="with1">
+          <div class="q-label">1. Please ______ a pen.</div>
+          <div class="opts cols-2">
+            <label class="opt"><input type="radio" name="with1" value="A" /> A. write by</label>
+            <label class="opt"><input type="radio" name="with1" value="B" /> B. write with</label>
+            <label class="opt"><input type="radio" name="with1" value="C" /> C. write in</label>
+            <label class="opt"><input type="radio" name="with1" value="D" /> D. write for</label>
+          </div>
+          <div class="feedback">B。write with a pen/pencil 用钢笔/铅笔写字。</div>
+        </div>
+        <div class="q" data-ans="A" data-pts="1" data-type="radio" data-name="with2">
+          <div class="q-label">2. We ______ a knife to cut the cake.</div>
+          <div class="opts cols-2">
+            <label class="opt"><input type="radio" name="with2" value="A" /> A. cut with</label>
+            <label class="opt"><input type="radio" name="with2" value="B" /> B. cut for</label>
+            <label class="opt"><input type="radio" name="with2" value="C" /> C. cut on</label>
+            <label class="opt"><input type="radio" name="with2" value="D" /> D. cut at</label>
+          </div>
+          <div class="feedback">A。cut with a knife/scissors。</div>
+        </div>
+        <div class="q" data-ans="C" data-pts="1" data-type="radio" data-name="with3">
+          <div class="q-label">3. Chinese people often ______ chopsticks.</div>
+          <div class="opts cols-2">
+            <label class="opt"><input type="radio" name="with3" value="A" /> A. eat by</label>
+            <label class="opt"><input type="radio" name="with3" value="B" /> B. eat for</label>
+            <label class="opt"><input type="radio" name="with3" value="C" /> C. eat with</label>
+            <label class="opt"><input type="radio" name="with3" value="D" /> D. eat on</label>
+          </div>
+          <div class="feedback">C。eat with a fork/chopsticks。</div>
+        </div>
+        <div class="q" data-ans="B" data-pts="1" data-type="radio" data-name="with4">
+          <div class="q-label">4. We ______ our eyes.</div>
+          <div class="opts cols-2">
+            <label class="opt"><input type="radio" name="with4" value="A" /> A. see by</label>
+            <label class="opt"><input type="radio" name="with4" value="B" /> B. see with</label>
+            <label class="opt"><input type="radio" name="with4" value="C" /> C. see for</label>
+            <label class="opt"><input type="radio" name="with4" value="D" /> D. see on</label>
+          </div>
+          <div class="feedback">B。see with your eyes。</div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3>F. 词汇表配对（4分）</h3>
+        <p class="hint">根据中文意思写出英文（可用词表中的词）。</p>
+        <div class="bank">
+          <span class="chip">spend</span><span class="chip">cost</span>
+          <span class="chip">on sale</span><span class="chip">thirsty</span>
+          <span class="chip">afraid</span><span class="chip">easily</span>
+          <span class="chip">write with</span><span class="chip">look for</span>
+        </div>
+        <div class="q" data-ans="spend" data-pts="1" data-type="text">
+          <div class="blank-row">1. （人）花费时间/金钱 → <input class="blank-input mid" type="text" data-key="v1" placeholder="______" /></div>
+          <div class="write-line"></div>
+          <div class="feedback">答案：spend</div>
+        </div>
+        <div class="q" data-ans="cost" data-pts="1" data-type="text">
+          <div class="blank-row">2. （物）值……钱；花费 → <input class="blank-input mid" type="text" data-key="v2" placeholder="______" /></div>
+          <div class="write-line"></div>
+          <div class="feedback">答案：cost</div>
+        </div>
+        <div class="q" data-ans="on sale" data-pts="1" data-type="text">
+          <div class="blank-row">3. 打折促销 → <input class="blank-input mid" type="text" data-key="v3" placeholder="______" /></div>
+          <div class="write-line"></div>
+          <div class="feedback">答案：on sale</div>
+        </div>
+        <div class="q" data-ans="write with" data-pts="1" data-type="text" data-alt="write with a pen|write with a pencil">
+          <div class="blank-row">4. 用钢笔/铅笔写字（短语）→ <input class="blank-input mid" type="text" data-key="v4" placeholder="______" /></div>
+          <div class="write-line"></div>
+          <div class="feedback">答案：write with</div>
         </div>
       </div>
     </section>
@@ -489,13 +730,13 @@
     <!-- ========== 提高 ========== -->
     <section class="tier" id="tier2">
       <div class="tier-head">
-        <span class="badge b2">提高 · 20分</span>
+        <span class="badge b2">提高 · 24分</span>
         <h2>语境辨析 · 看图排序</h2>
       </div>
       <p class="sub">花费动词、look 短语与促销搭配；结合连图排出故事顺序。</p>
 
       <div class="block">
-        <h3>A. 单项选择（8分 · 每题 2 分）</h3>
+        <h3>A. 单项选择（12分 · 每题 2 分）</h3>
         <div class="q" data-ans="C" data-pts="2" data-type="radio" data-name="p1">
           <div class="q-label">1. — How much did you ______ for the new bike? — 300 yuan.</div>
           <div class="opts cols-2">
@@ -536,23 +777,32 @@
           </div>
           <div class="feedback">A。at half price / only 30 yuan 明确是“打折”，只能用 on sale（不是 for sale）。</div>
         </div>
+        <div class="q" data-ans="B" data-pts="2" data-type="radio" data-name="p5">
+          <div class="q-label">5. I ______ two hours doing my homework yesterday.</div>
+          <div class="opts cols-2">
+            <label class="opt"><input type="radio" name="p5" value="A" /> A. took</label>
+            <label class="opt"><input type="radio" name="p5" value="B" /> B. spent</label>
+            <label class="opt"><input type="radio" name="p5" value="C" /> C. paid</label>
+            <label class="opt"><input type="radio" name="p5" value="D" /> D. cost</label>
+          </div>
+          <div class="feedback">B。人 + spend + 时间 + doing。</div>
+        </div>
+        <div class="q" data-ans="D" data-pts="2" data-type="radio" data-name="p6">
+          <div class="q-label">6. How much does the coat ______?</div>
+          <div class="opts cols-2">
+            <label class="opt"><input type="radio" name="p6" value="A" /> A. take</label>
+            <label class="opt"><input type="radio" name="p6" value="B" /> B. spend</label>
+            <label class="opt"><input type="radio" name="p6" value="C" /> C. pay</label>
+            <label class="opt"><input type="radio" name="p6" value="D" /> D. cost</label>
+          </div>
+          <div class="feedback">D。物作主语用 cost。</div>
+        </div>
       </div>
 
       <div class="block">
         <h3>B. 短文填空（8分 · 每空 2 分）</h3>
         <div class="bank"><span class="chip">at</span><span class="chip">on</span><span class="chip">chooses</span><span class="chip">pay</span></div>
-        <div class="passage">
-          Mary wants a gift for her friend. She looks
-          <span class="q" style="display:inline;padding:.1rem .25rem;margin:0;border:none;background:transparent" data-ans="at" data-pts="2" data-type="text"><input class="short screen-only" type="text" data-key="s1" /><span class="paper-only">______</span></span>
-          many things in a shop. There is a nice cup
-          <span class="q" style="display:inline;padding:.1rem .25rem;margin:0;border:none;background:transparent" data-ans="on" data-pts="2" data-type="text"><input class="short screen-only" type="text" data-key="s2" /><span class="paper-only">______</span></span>
-          sale — <strong>50% off</strong>. She
-          <span class="q" style="display:inline;padding:.1rem .25rem;margin:0;border:none;background:transparent" data-ans="chooses" data-pts="2" data-type="text"><input class="short screen-only" type="text" data-key="s3" /><span class="paper-only">______</span></span>
-          the blue one. Then she goes to
-          <span class="q" style="display:inline;padding:.1rem .25rem;margin:0;border:none;background:transparent" data-ans="pay" data-pts="2" data-type="text"><input class="short screen-only" type="text" data-key="s4" /><span class="paper-only">______</span></span>
-          for it.
-        </div>
-        <p class="hint">提示：第 2 空有 “50% off”，只能填 on（on sale = 打折）。</p>
+        <div class="passage">Mary wants a gift for her friend. She looks <span class="q q-inline" data-ans="at" data-pts="2" data-type="text"><input class="blank-input" type="text" data-key="s1" placeholder="(1)" aria-label="第1空" /><span class="paper-only passage-blank">________</span></span> many things in a shop. There is a nice cup <span class="q q-inline" data-ans="on" data-pts="2" data-type="text"><input class="blank-input" type="text" data-key="s2" placeholder="(2)" aria-label="第2空" /><span class="paper-only passage-blank">________</span></span> sale — <strong>50% off</strong>. She <span class="q q-inline" data-ans="chooses" data-pts="2" data-type="text"><input class="blank-input" type="text" data-key="s3" placeholder="(3)" aria-label="第3空" /><span class="paper-only passage-blank">________</span></span> the blue one. Then she goes to <span class="q q-inline" data-ans="pay" data-pts="2" data-type="text"><input class="blank-input" type="text" data-key="s4" placeholder="(4)" aria-label="第4空" /><span class="paper-only passage-blank">________</span></span> for it.</div>
       </div>
 
       <div class="block">
@@ -565,26 +815,25 @@
         <div class="order-list">
           <div class="q" data-ans="2" data-pts="1" data-type="text">
             <div class="q-label">(___) One boy is thirsty and drinks cola; another is looking at shoes.</div>
-            <input class="short screen-only" type="text" data-key="ord1" placeholder="1/2/3" />
+            <input class="blank-input tiny" type="text" data-key="ord1" placeholder="?" />
             <div class="write-line" style="max-width:4rem"></div>
             <div class="feedback">答案：2（对应中间画面）</div>
           </div>
           <div class="q" data-ans="3" data-pts="1" data-type="text">
             <div class="q-label">(___) Mum writes a new family rule with a pen.</div>
-            <input class="short screen-only" type="text" data-key="ord2" placeholder="1/2/3" />
+            <input class="blank-input tiny" type="text" data-key="ord2" placeholder="?" />
             <div class="write-line" style="max-width:4rem"></div>
             <div class="feedback">答案：3（对应最下面画面）</div>
           </div>
           <div class="q" data-ans="1" data-pts="1" data-type="text">
             <div class="q-label">(___) Mum takes her three boys to shop for clothes.</div>
-            <input class="short screen-only" type="text" data-key="ord3" placeholder="1/2/3" />
+            <input class="blank-input tiny" type="text" data-key="ord3" placeholder="?" />
             <div class="write-line" style="max-width:4rem"></div>
             <div class="feedback">答案：1（对应最上面画面）</div>
           </div>
           <div class="q" data-ans="1-2-3" data-pts="1" data-type="text" data-alt="123|1 2 3|1→2→3|1-2-3">
             <div class="q-label">正确故事顺序是：___ → ___ → ___（用句子前编号或 1-2-3 表示）</div>
-            <p class="paper-only" style="margin:.2rem 0;color:#555;font-size:.9rem">提示：写出三句正确先后，如「进商场 → 喝可乐看鞋 → 写规定」或填 1-2-3。</p>
-            <input class="mid screen-only" type="text" data-key="ord4" placeholder="例如：1-2-3" />
+            <input class="blank-input mid" type="text" data-key="ord4" placeholder="例如：1-2-3" />
             <div class="write-line"></div>
             <div class="feedback">答案：1-2-3（进商场 → 喝可乐/看鞋 → 写规定）</div>
           </div>
@@ -651,74 +900,46 @@
 
       <div class="block">
         <h3>B. 看图造句（12分 · 每题 4 分）</h3>
-        <p class="hint">观察图片，用指定词语写一句完整、正确的英语句子。纸质卷写在横线上。</p>
+        <p class="hint">观察图片，写一句完整、正确的英语句子。纸质卷写在横线上。</p>
 
         <div class="q" data-ans="thirsty" data-pts="4" data-type="make" data-keys="thirsty">
-          <div class="q-label">1. 必用词：<code>thirsty</code></div>
+          <div class="q-label">1.</div>
           <div class="pic-frame">
             <img src="assets/pic-thirsty-cola.jpg" alt="男孩运动后口渴喝可乐" />
-            <div class="pic-cap">提示：男孩刚运动完，看起来很渴。</div>
+            <div class="pic-cap">男孩刚运动完，正在喝饮料。</div>
           </div>
-          <textarea class="screen-only" data-key="m1" placeholder="用 thirsty 写一句完整句子…"></textarea>
+          <textarea data-key="m1" placeholder="看图写一句完整的英语句子…"></textarea>
           <div class="write-line"></div>
           <div class="write-line"></div>
           <div class="feedback">参考：The boy is thirsty, so he drinks cola. / He feels thirsty after sports.</div>
         </div>
 
         <div class="q" data-ans="look at" data-pts="4" data-type="make" data-keys="look at,looking at">
-          <div class="q-label">2. 必用词：<code>look at</code></div>
+          <div class="q-label">2.</div>
           <div class="pic-frame">
             <img src="assets/pic-look-at-shoes.jpg" alt="男孩在橱窗前看鞋子" />
-            <div class="pic-cap">提示：男孩正在看橱窗里的鞋（不是在找丢失的东西）。</div>
+            <div class="pic-cap">男孩站在橱窗前，看着展示的鞋。</div>
           </div>
-          <textarea class="screen-only" data-key="m2" placeholder="用 look at 写一句…"></textarea>
+          <textarea data-key="m2" placeholder="看图写一句完整的英语句子…"></textarea>
           <div class="write-line"></div>
           <div class="write-line"></div>
           <div class="feedback">参考：The boy is looking at the shoes in the shop window.</div>
         </div>
 
-        <div class="pic-grid two">
-          <div class="q" data-ans="on sale" data-pts="4" data-type="make" data-keys="on sale">
-            <div class="q-label">3. 必用词：<code>on sale</code></div>
-            <div class="pic-frame">
-              <img src="assets/pic-on-sale.jpg" alt="书包货架挂着五折促销牌" />
-              <div class="pic-cap">提示：牌子写着 SALE / 50% OFF，是打折。</div>
-            </div>
-            <textarea class="screen-only" data-key="m3" placeholder="用 on sale 写一句…"></textarea>
-            <div class="write-line"></div>
-            <div class="write-line"></div>
-            <div class="feedback">参考：The schoolbags are on sale at 50% off.</div>
-          </div>
-
-          <div class="q" data-ans="choose" data-pts="0" data-type="make" data-keys="choose,chooses,choosing" data-bonus="1">
-            <div class="q-label screen-only">加分练习（可选）：<code>choose</code></div>
-            <div class="q-label paper-only">（选做加分）必用词：<code>choose</code></div>
-            <div class="pic-frame">
-              <img src="assets/pic-choose-bag.jpg" alt="女孩在挑选粉色书包" />
-              <div class="pic-cap">提示：女孩在多款书包中挑选。</div>
-            </div>
-            <textarea class="screen-only" data-key="m4" placeholder="用 choose 写一句（选做）…"></textarea>
-            <div class="write-line"></div>
-            <div class="write-line"></div>
-            <div class="feedback">参考：The girl chooses / is choosing the pink schoolbag.</div>
-          </div>
-        </div>
-
-        <div class="q" data-ans="look for" data-pts="0" data-type="make" data-keys="look for,looking for" data-bonus="1">
-          <div class="q-label">对比选做：必用词 <code>look for</code>（与 look at 区分）</div>
+        <div class="q" data-ans="on sale" data-pts="4" data-type="make" data-keys="on sale">
+          <div class="q-label">3.</div>
           <div class="pic-frame">
-            <img src="assets/pic-look-for-keys.jpg" alt="女孩在沙发下寻找钥匙" />
-            <div class="pic-cap">提示：钥匙不见了，她在寻找。</div>
+            <img src="assets/pic-on-sale.jpg" alt="书包货架挂着五折促销牌" />
+            <div class="pic-cap">货架上的书包挂着打折促销牌。</div>
           </div>
-          <textarea class="screen-only" data-key="m5" placeholder="用 look for 写一句（选做）…"></textarea>
+          <textarea data-key="m3" placeholder="看图写一句完整的英语句子…"></textarea>
           <div class="write-line"></div>
           <div class="write-line"></div>
-          <div class="feedback">参考：The girl is looking for her keys.</div>
+          <div class="feedback">参考：The schoolbags are on sale at 50% off.</div>
         </div>
       </div>
     </section>
 
-    <p class="foot-note">完成后可打开 <a href="cloze_summary.html">总结材料</a> 继续造句与句子排序练习。导出 PDF 时请在打印对话框选择「另存为 PDF」，并开启「背景图形」以便保留配图。</p>
   </div>
 
   <script>
