@@ -311,12 +311,39 @@
         border-radius: 0; padding: .4rem 0; break-inside: avoid;
       }
       .q.ok, .q.bad { background: #fff; border-color: #ccc; }
+      /* 短文内联空：去掉方框，仅保留下划线字符 */
+      .passage .q,
+      .passage .q-inline {
+        display: inline !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+      }
+      .passage .q-inline.ok,
+      .passage .q-inline.bad {
+        background: transparent !important;
+        border: none !important;
+      }
       input[type="text"], textarea, select, input.blank-input { display: none !important; }
       .write-line { display: block !important; }
       .paper-only { display: inline !important; }
       .paper-only.block { display: block !important; }
       .screen-only { display: none !important; }
-      .blank-mark { display: inline-block !important; min-width: 5rem; border-bottom: 1.5px solid #000; }
+      .blank-mark { display: inline-block !important; min-width: 5rem; border-bottom: 1.5px solid #000; border-top: none; border-left: none; border-right: none; background: transparent; box-shadow: none; border-radius: 0; }
+      .passage-blank {
+        display: inline !important;
+        letter-spacing: .08em;
+        font-family: inherit;
+        border: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        padding: 0 .1em !important;
+        margin: 0 .15em !important;
+        color: #000;
+      }
       .pic-frame { box-shadow: none; break-inside: avoid; }
       .pic-frame img { max-height: 210px; width: auto; max-width: 100%; margin: 0 auto; }
       .opts label.opt input { appearance: none; width: .9em; height: .9em; border: 1px solid #000; border-radius: 50%; display: inline-block; margin-top: .15em; flex-shrink: 0; }
@@ -775,7 +802,7 @@
       <div class="block">
         <h3>B. 短文填空（8分 · 每空 2 分）</h3>
         <div class="bank"><span class="chip">at</span><span class="chip">on</span><span class="chip">chooses</span><span class="chip">pay</span></div>
-        <div class="passage">Mary wants a gift for her friend. She looks <span class="q q-inline" data-ans="at" data-pts="2" data-type="text"><input class="blank-input" type="text" data-key="s1" placeholder="(1)" aria-label="第1空" /><span class="paper-only blank-mark">&nbsp;</span></span> many things in a shop. There is a nice cup <span class="q q-inline" data-ans="on" data-pts="2" data-type="text"><input class="blank-input" type="text" data-key="s2" placeholder="(2)" aria-label="第2空" /><span class="paper-only blank-mark">&nbsp;</span></span> sale — <strong>50% off</strong>. She <span class="q q-inline" data-ans="chooses" data-pts="2" data-type="text"><input class="blank-input" type="text" data-key="s3" placeholder="(3)" aria-label="第3空" /><span class="paper-only blank-mark">&nbsp;</span></span> the blue one. Then she goes to <span class="q q-inline" data-ans="pay" data-pts="2" data-type="text"><input class="blank-input" type="text" data-key="s4" placeholder="(4)" aria-label="第4空" /><span class="paper-only blank-mark">&nbsp;</span></span> for it.</div>
+        <div class="passage">Mary wants a gift for her friend. She looks <span class="q q-inline" data-ans="at" data-pts="2" data-type="text"><input class="blank-input" type="text" data-key="s1" placeholder="(1)" aria-label="第1空" /><span class="paper-only passage-blank">________</span></span> many things in a shop. There is a nice cup <span class="q q-inline" data-ans="on" data-pts="2" data-type="text"><input class="blank-input" type="text" data-key="s2" placeholder="(2)" aria-label="第2空" /><span class="paper-only passage-blank">________</span></span> sale — <strong>50% off</strong>. She <span class="q q-inline" data-ans="chooses" data-pts="2" data-type="text"><input class="blank-input" type="text" data-key="s3" placeholder="(3)" aria-label="第3空" /><span class="paper-only passage-blank">________</span></span> the blue one. Then she goes to <span class="q q-inline" data-ans="pay" data-pts="2" data-type="text"><input class="blank-input" type="text" data-key="s4" placeholder="(4)" aria-label="第4空" /><span class="paper-only passage-blank">________</span></span> for it.</div>
       </div>
 
       <div class="block">
@@ -806,7 +833,6 @@
           </div>
           <div class="q" data-ans="1-2-3" data-pts="1" data-type="text" data-alt="123|1 2 3|1→2→3|1-2-3">
             <div class="q-label">正确故事顺序是：___ → ___ → ___（用句子前编号或 1-2-3 表示）</div>
-            <p class="paper-only block" style="margin:.2rem 0;color:#555;font-size:.9rem">提示：写出三句正确先后，如「进商场 → 喝可乐看鞋 → 写规定」或填 1-2-3。</p>
             <input class="blank-input mid" type="text" data-key="ord4" placeholder="例如：1-2-3" />
             <div class="write-line"></div>
             <div class="feedback">答案：1-2-3（进商场 → 喝可乐/看鞋 → 写规定）</div>
