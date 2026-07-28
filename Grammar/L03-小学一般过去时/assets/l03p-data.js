@@ -436,7 +436,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-jack-didn-t-finish-his-homework-yesterday-evenin.jpg",
+    "image": "l03p-scene-tom-finished-his-homework-last-night.jpg",
     "q": "Tom ___ his homework last night.",
     "opts": [
       "finished",
@@ -640,7 +640,7 @@
     "type": "scene",
     "badge": "neg",
     "badgeText": "🚫 否定",
-    "image": "l03p-scene-lily-played-football-with-her-friends-in-the-par.jpg",
+    "image": "l03p-scene-lily-did-not-play-football-in-the-park-yester.jpg",
     "lead": "didn't 后面用原形 play（不是 played）",
     "sentence": "Lily didn't play football in the park yesterday.",
     "zh": "莉莉昨天没有在公园踢足球。",
@@ -668,7 +668,7 @@
     "type": "quiz",
     "badge": "ask",
     "badgeText": "📝 测试",
-    "image": "l03p-scene-lily-was-at-school-yesterday.jpg",
+    "image": "l03p-scene-lily-did-not-go-to-school-yesterday.jpg",
     "q": "Lily ___ not go to school yesterday.",
     "opts": [
       "did",
