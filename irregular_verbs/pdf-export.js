@@ -551,16 +551,52 @@
     });
   }
 
-  function ensureHtml2Pdf() {
-    if (global.html2pdf) return Promise.resolve();
+  function loadScriptOnce(src, ready) {
     return new Promise(function (resolve, reject) {
+      if (ready()) {
+        resolve();
+        return;
+      }
+      var existing = document.querySelector('script[data-iv-pdf-src="' + src + '"]');
+      if (existing) {
+        existing.addEventListener("load", function () {
+          if (ready()) resolve();
+          else reject(new Error("脚本已加载但全局对象不可用: " + src));
+        });
+        existing.addEventListener("error", function () {
+          reject(new Error("脚本加载失败: " + src));
+        });
+        return;
+      }
       var s = document.createElement("script");
-      s.src = "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
-      s.onload = resolve;
+      s.src = src;
+      s.async = true;
+      s.setAttribute("data-iv-pdf-src", src);
+      s.onload = function () {
+        if (ready()) resolve();
+        else reject(new Error("脚本已加载但全局对象不可用: " + src));
+      };
       s.onerror = function () {
-        reject(new Error("html2pdf 加载失败"));
+        reject(new Error("脚本加载失败: " + src));
       };
       document.head.appendChild(s);
+    });
+  }
+
+  function ensurePdfLibs() {
+    // html2pdf.bundle 不把 html2canvas / jsPDF 挂到 window，逐页导出需显式加载。
+    return loadScriptOnce(
+      "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js",
+      function () {
+        return typeof global.html2canvas === "function";
+      }
+    ).then(function () {
+      return loadScriptOnce(
+        "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js",
+        function () {
+          return !!(global.jspdf && global.jspdf.jsPDF) || typeof global.jsPDF === "function";
+        }
+      );
     });
   }
 
@@ -856,13 +892,12 @@
 
   function canvasLooksBlank(canvas) {
     try {
-      var ctx = canvas.getContext("2d");
+      var ctx = canvas.getContext("2d", { willReadFrequently: true });
       var w = canvas.width;
       var h = canvas.height;
       if (!w || !h) return true;
-      // Sample a grid of pixels; mostly white/transparent => blank
-      var stepX = Math.max(1, Math.floor(w / 12));
-      var stepY = Math.max(1, Math.floor(h / 16));
+      var stepX = Math.max(1, Math.floor(w / 10));
+      var stepY = Math.max(1, Math.floor(h / 14));
       var colored = 0;
       var samples = 0;
       for (var y = stepY; y < h; y += stepY) {
@@ -907,7 +942,7 @@
       return Promise.reject(new Error("没有可导出的词汇"));
     }
 
-    return ensureHtml2Pdf()
+    return ensurePdfLibs()
       .then(function () {
         var JsPDF = getJsPdfCtor();
         if (!JsPDF) throw new Error("jsPDF 不可用");
