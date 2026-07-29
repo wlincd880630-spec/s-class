@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#f7f3ea" />
+  <title>PDF 工坊 · Verb Atlas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&family=Noto+Sans+SC:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/verbverse.css" />
+  <link rel="stylesheet" href="assets/pdf-studio.css" />
+  <script src="../scripts/auth-check.js"></script>
+  <script src="verbs-data.js"></script>
+  <script src="pdf-examples-data.js"></script>
+  <script src="shared.js"></script>
+  <script src="azure-tts.js"></script>
+  <script src="assets/verbverse.js"></script>
+  <script src="pdf-export.js"></script>
+</head>
+<body class="pdf-studio-page">
+  <header class="site-topbar">
+    <a class="brand-lockup" href="index.html" aria-label="Verb Atlas 首页">
+      <span class="brand-mark" aria-hidden="true">VA</span>
+      <span class="brand-copy">
+        <strong lang="en">Verb Atlas</strong>
+        <span>PDF Studio</span>
+      </span>
+    </a>
+    <a class="topbar-back" href="index.html">
+      <span aria-hidden="true" id="topBackIcon"></span>
+      <span>返回首页</span>
+    </a>
+  </header>
+
+  <main class="pdf-studio-shell">
+    <section class="pdf-studio-hero" aria-labelledby="pdfHeroTitle">
+      <div>
+        <p class="eyebrow">PRINT LAB · DEEPSEEK EXAMPLES</p>
+        <h1 id="pdfHeroTitle">PDF 工坊</h1>
+        <p class="pdf-studio-lede">
+          选择词汇与难度，预览精美讲义或测试卷。每条例句均可 Azure 朗读；确认后一键导出 PDF。
+        </p>
+      </div>
+      <div class="pdf-studio-hero-stats" aria-label="数据状态">
+        <div>
+          <strong id="readyVerbCount">0</strong>
+          <span>已生成分级例句</span>
+        </div>
+        <div>
+          <strong id="selectedVerbCount">0</strong>
+          <span>本轮导出词数</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="pdf-controls" aria-labelledby="controlsTitle">
+      <div class="pdf-controls-head">
+        <div>
+          <p class="eyebrow">EXPORT SETTINGS</p>
+          <h2 id="controlsTitle">导出设置</h2>
+        </div>
+        <p id="dataStatusNote" class="pdf-status-note"></p>
+      </div>
+
+      <div class="pdf-mode-tabs" role="tablist" aria-label="导出类型">
+        <button type="button" class="pdf-mode-tab is-active" data-mode="study" role="tab" aria-selected="true">
+          <span class="pdf-mode-kicker">SHEET 01</span>
+          <strong>学习讲义</strong>
+          <span>原形 · 过去式 · 过去分词 + 例句</span>
+        </button>
+        <button type="button" class="pdf-mode-tab" data-mode="quiz" role="tab" aria-selected="false">
+          <span class="pdf-mode-kicker">SHEET 02</span>
+          <strong>测试卷</strong>
+          <span>语境填空：过去式 &amp; 过去分词</span>
+        </button>
+      </div>
+
+      <div class="pdf-level-block">
+        <div class="pdf-block-label">
+          <h3>例句难度</h3>
+          <p>DeepSeek 按小学五年级至高三递进生成，每次导出选择一档。</p>
+        </div>
+        <div class="pdf-level-grid" id="levelGrid" role="radiogroup" aria-label="选择难度"></div>
+      </div>
+
+      <div class="pdf-verb-block">
+        <div class="pdf-block-label">
+          <div>
+            <h3>被测 / 导出词汇</h3>
+            <p>默认同步首页词库选择；可在此微调。</p>
+          </div>
+          <div class="pdf-verb-actions">
+            <button type="button" class="button button-secondary" id="useHomeSelection">同步首页词库</button>
+            <button type="button" class="button button-secondary" id="selectAllPdf">全选</button>
+            <button type="button" class="button button-secondary" id="clearPdf">清空</button>
+          </div>
+        </div>
+        <label class="search-field pdf-search">
+          <span class="sr-only">搜索动词</span>
+          <span id="searchIcon" aria-hidden="true"></span>
+          <input id="pdfVerbSearch" type="search" inputmode="search" autocomplete="off" placeholder="搜索 go / went / 去……" />
+        </label>
+        <div class="pdf-verb-grid" id="pdfVerbGrid" aria-live="polite"></div>
+      </div>
+
+      <div class="pdf-export-bar">
+        <div>
+          <strong id="exportSummary">请选择词汇与难度</strong>
+          <p id="exportHint">预览区可先听例句，再导出 PDF。</p>
+        </div>
+        <div class="pdf-export-actions">
+          <button type="button" class="button button-secondary" id="refreshPreview">刷新预览</button>
+          <button type="button" class="button button-primary" id="exportPdfBtn">
+            导出 PDF
+            <span class="save-arrow" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="pdf-preview-section" aria-labelledby="previewTitle">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">LIVE PREVIEW · AZURE TTS</p>
+          <h2 id="previewTitle">排版预览</h2>
+        </div>
+        <p>每条例句旁的喇叭按钮使用 Azure 英式语音朗读（完整句，含答案）。</p>
+      </div>
+      <div class="pdf-preview-frame" id="pdfPreview" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var U = window.IrregularVerbsUtil;
+      var VV = window.VerbVerse;
+      var TTS = window.IrregularVerbsTTS;
+      var PDF = window.IrregularVerbsPdf;
+      var verbs = U.getAllVerbs();
+      var selected = new Set(U.getSelectedIds());
+      var mode = "study";
+      var levelId = "j1";
+      var query = "";
+
+      function decorateIcons() {
+        document.getElementById("topBackIcon").innerHTML = VV.icon("arrowLeft");
+        document.getElementById("searchIcon").innerHTML = VV.icon("search");
+        document.querySelectorAll(".save-arrow").forEach(function (node) {
+          node.innerHTML = VV.icon("arrowRight");
+        });
+      }
+
+      function storeReadyCount() {
+        var store = PDF.getExamplesStore();
+        if (!store || !store.byId) return 0;
+        return Object.keys(store.byId).length;
+      }
+
+      function updateStats() {
+        document.getElementById("readyVerbCount").textContent = storeReadyCount();
+        document.getElementById("selectedVerbCount").textContent = selected.size;
+        var level = PDF.LEVEL_MAP[levelId];
+        var modeLabel = mode === "quiz" ? "测试卷" : "学习讲义";
+        document.getElementById("exportSummary").textContent = selected.size
+          ? modeLabel + " · " + level.label + " · " + selected.size + " 词"
+          : "请选择词汇与难度";
+        document.getElementById("exportHint").textContent = selected.size
+          ? "例句来源：DeepSeek 分级生成；预览可朗读后导出。"
+          : "先在下方勾选要导出的动词。";
+
+        var note = document.getElementById("dataStatusNote");
+        var ready = storeReadyCount();
+        if (!ready) {
+          note.textContent = "分级例句数据尚未就绪，请等待 DeepSeek 生成完成。";
+          note.dataset.tone = "warn";
+        } else if (ready < verbs.length) {
+          note.textContent = "已生成 " + ready + "/" + verbs.length + " 词；缺失词在预览中会提示。";
+          note.dataset.tone = "warn";
+        } else {
+          note.textContent = "DeepSeek 分级例句已齐备（" + ready + " 词 × 8 档）。";
+          note.dataset.tone = "ok";
+        }
+      }
+
+      function selectedVerbs() {
+        return verbs.filter(function (verb) {
+          return selected.has(verb.id);
+        });
+      }
+
+      function filteredVerbs() {
+        return U.searchVerbs(query, "all", verbs);
+      }
+
+      function renderLevels() {
+        var grid = document.getElementById("levelGrid");
+        grid.replaceChildren();
+        PDF.LEVELS.forEach(function (level) {
+          var btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "pdf-level-chip" + (levelId === level.id ? " is-active" : "");
+          btn.setAttribute("role", "radio");
+          btn.setAttribute("aria-checked", String(levelId === level.id));
+          btn.style.setProperty("--chip-color", level.color);
+          btn.innerHTML =
+            "<strong>" +
+            level.short +
+            "</strong><span>" +
+            level.label +
+            "</span>";
+          btn.addEventListener("click", function () {
+            levelId = level.id;
+            renderLevels();
+            updateStats();
+            renderPreview();
+          });
+          grid.appendChild(btn);
+        });
+      }
+
+      function renderVerbGrid() {
+        var grid = document.getElementById("pdfVerbGrid");
+        var matches = filteredVerbs();
+        grid.replaceChildren();
+        matches.forEach(function (verb) {
+          var on = selected.has(verb.id);
+          var btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "pdf-verb-chip" + (on ? " is-selected" : "");
+          btn.setAttribute("aria-pressed", String(on));
+          var ready = !!PDF.getLevelExamples(verb.id, levelId);
+          btn.innerHTML =
+            '<span class="pdf-verb-chip-check"></span>' +
+            '<strong lang="en">' +
+            verb.base +
+            "</strong>" +
+            "<span>" +
+            verb.cn +
+            "</span>" +
+            (ready ? "" : '<em class="pdf-verb-missing">缺例句</em>');
+          btn.querySelector(".pdf-verb-chip-check").innerHTML = VV.icon("check");
+          btn.addEventListener("click", function () {
+            if (selected.has(verb.id)) selected.delete(verb.id);
+            else selected.add(verb.id);
+            U.setSelectedIds(Array.from(selected));
+            renderVerbGrid();
+            updateStats();
+            renderPreview();
+          });
+          grid.appendChild(btn);
+        });
+      }
+
+      function renderPreview() {
+        var host = document.getElementById("pdfPreview");
+        var list = selectedVerbs();
+        if (!list.length) {
+          host.innerHTML =
+            '<div class="pdf-preview-empty"><p>选择至少一个动词后，这里会显示彩色排版预览。</p></div>';
+          return;
+        }
+        host.innerHTML = PDF.buildDocumentHtml({
+          mode: mode,
+          levelId: levelId,
+          verbs: list,
+        });
+        PDF.bindSpeakButtons(host, TTS, VV);
+      }
+
+      document.querySelectorAll(".pdf-mode-tab").forEach(function (tab) {
+        tab.addEventListener("click", function () {
+          mode = tab.getAttribute("data-mode");
+          document.querySelectorAll(".pdf-mode-tab").forEach(function (node) {
+            var active = node === tab;
+            node.classList.toggle("is-active", active);
+            node.setAttribute("aria-selected", String(active));
+          });
+          updateStats();
+          renderPreview();
+        });
+      });
+
+      document.getElementById("pdfVerbSearch").addEventListener("input", function (event) {
+        query = event.target.value;
+        renderVerbGrid();
+      });
+
+      document.getElementById("useHomeSelection").addEventListener("click", function () {
+        selected = new Set(U.getSelectedIds());
+        renderVerbGrid();
+        updateStats();
+        renderPreview();
+        VV.toast("已同步首页词库选择。");
+      });
+
+      document.getElementById("selectAllPdf").addEventListener("click", function () {
+        selected = new Set(verbs.map(function (v) { return v.id; }));
+        U.setSelectedIds(Array.from(selected));
+        renderVerbGrid();
+        updateStats();
+        renderPreview();
+        VV.toast("已全选 " + verbs.length + " 个动词。");
+      });
+
+      document.getElementById("clearPdf").addEventListener("click", function () {
+        selected.clear();
+        U.setSelectedIds([]);
+        renderVerbGrid();
+        updateStats();
+        renderPreview();
+        VV.toast("已清空选择。");
+      });
+
+      document.getElementById("refreshPreview").addEventListener("click", function () {
+        renderPreview();
+        VV.toast("预览已刷新。");
+      });
+
+      document.getElementById("exportPdfBtn").addEventListener("click", function () {
+        var list = selectedVerbs();
+        if (!list.length) {
+          VV.toast("请先选择要导出的动词。", { tone: "error" });
+          return;
+        }
+        var button = this;
+        VV.setButtonBusy(button, true, { busy: "正在生成 PDF" });
+        // Ensure preview is current, then export from it
+        renderPreview();
+        var previewRoot = document.querySelector("#pdfPreview .pdf-doc");
+        if (!previewRoot) {
+          VV.setButtonBusy(button, false);
+          VV.toast("预览生成失败。", { tone: "error" });
+          return;
+        }
+        PDF.exportPdf(previewRoot, { mode: mode, levelId: levelId, verbs: list })
+          .then(function () {
+            VV.setButtonBusy(button, false, { done: "已导出" });
+            VV.toast("PDF 已开始下载。");
+          })
+          .catch(function (err) {
+            console.error(err);
+            VV.setButtonBusy(button, false);
+            VV.toast("PDF 导出失败，请重试。", { tone: "error" });
+          });
+      });
+
+      decorateIcons();
+      renderLevels();
+      renderVerbGrid();
+      updateStats();
+      renderPreview();
+    })();
+  </script>
+</body>
+</html>
