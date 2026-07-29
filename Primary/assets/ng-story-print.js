@@ -15,10 +15,15 @@
       .replace(/"/g, "&quot;");
   }
 
-  function storyImgSrc(mediaCos, index) {
+  function storyImgSrc(mediaCos, index, cfg) {
     var n = index + 1;
     var z = n < 10 ? "0" : "";
-    return mediaCos + "images/story/" + z + n + ".png";
+    if (cfg && typeof cfg.getStoryImage === "function") {
+      return cfg.getStoryImage(index, n);
+    }
+    var ext = (cfg && cfg.imageExt) || "png";
+    if (ext.charAt(0) === ".") ext = ext.slice(1);
+    return mediaCos + "images/story/" + z + n + "." + ext;
   }
 
   function polaroidHtml(src, emoji) {
@@ -64,7 +69,7 @@
   }
 
   function singlePageHtml(cfg, row, index, pageLabel) {
-    var imgSrc = storyImgSrc(cfg.mediaCos, index);
+    var imgSrc = storyImgSrc(cfg.mediaCos, index, cfg);
     return (
       '<section class="story-print-sheet">' +
       '<div class="story-print-inner">' +
@@ -86,7 +91,7 @@
     var blocks = "";
     for (var i = 0; i < rows.length; i++) {
       var idx = indices[i];
-      var imgSrc = storyImgSrc(cfg.mediaCos, idx);
+      var imgSrc = storyImgSrc(cfg.mediaCos, idx, cfg);
       blocks +=
         '<div class="story-block">' +
         '<div class="story-art-wrap">' +
