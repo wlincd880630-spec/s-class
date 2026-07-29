@@ -550,6 +550,7 @@
                         paperId: pid,
                         title: '词形填空 · 答案解析与词汇精讲',
                         subtitle: 'Word Form · Explanations & Vocabulary',
+                        theme: 'emerald',
                         passageText: getFilledPassageText(),
                         questions: questions,
                         vocabItems: vocabPack.value

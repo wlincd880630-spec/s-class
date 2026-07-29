@@ -432,6 +432,7 @@
                         paperId: pid,
                         title: '完形填空 · 答案解析与词汇精讲',
                         subtitle: 'Cloze · Explanations & Vocabulary',
+                        theme: 'indigo',
                         passageText: getFilledPassageText(),
                         questions: questions,
                         vocabItems: vocabPack.value
