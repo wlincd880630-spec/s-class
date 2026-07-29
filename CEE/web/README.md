@@ -28,6 +28,11 @@
    ```
    浏览器访问：`http://localhost:8080/web/index.html`
 3. **登录名**：页面会读取 `localStorage` 的 `authing-user` 或 `current-user` 显示姓名；若与 s-class 共用，登录后即可显示。
+4. **预生成词汇包（可选/维护用）**：解析 PDF 优先读取各卷 JSON 内的 `vocab_pack`。若需全量重新生成：
+   ```bash
+   node CEE/web/generate_vocab_packs.js --concurrency=3
+   # 强制重生成：加 --force；指定试卷：--only=09,16
+   ```
 
 ## 配置（按需修改）
 

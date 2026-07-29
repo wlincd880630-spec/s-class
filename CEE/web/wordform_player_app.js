@@ -509,6 +509,12 @@
                 if (vocabPack.value && vocabPack.value.length && CeeExplainAI.isVocabPackCurrent(vocabPack.value)) {
                     return vocabPack.value;
                 }
+                // 优先使用题库预生成的词汇包（全部试卷已批量写入）
+                const baked = paperData.value?.section_2_word_form?.vocab_pack;
+                if (CeeExplainAI.isVocabPackCurrent(baked)) {
+                    vocabPack.value = baked;
+                    return vocabPack.value;
+                }
                 vocabPackLoading.value = true;
                 vocabPackError.value = '';
                 try {
