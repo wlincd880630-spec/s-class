@@ -39,9 +39,14 @@
             const dictLoading = ref(false);
             const dictResult = ref(null);
             const dictError = ref('');
+            const dictContextSentence = ref('');
             const explainPassageRef = ref(null);
             const dictLookupLog = ref([]);
             const readTranslateLog = ref([]);
+            const vocabPack = ref([]);
+            const vocabPackLoading = ref(false);
+            const vocabPackError = ref('');
+            const explainPdfLoading = ref(false);
 
             const canSubmit = computed(() => {
                 if (!timerStarted.value) return false;
@@ -97,6 +102,41 @@
                 return word;
             }
 
+            function getFilledPassageText() {
+                const s2 = paperData.value?.section_2_word_form;
+                if (!s2?.questions?.length) return '';
+                if ((s2.passage || '').trim()) {
+                    let fullPassage = s2.passage.trim();
+                    s2.questions.forEach(q => {
+                        fullPassage = fullPassage.split('[' + q.number + ']').join((q.correct_form || '').trim());
+                    });
+                    return fullPassage;
+                }
+                const qs = s2.questions;
+                const sorted = [...qs].sort((a, b) => a.number - b.number);
+                const blankRe = /_{2,}/;
+                const paras = [];
+                let i = 0;
+                while (i < sorted.length) {
+                    const group = [sorted[i]];
+                    let mergedText = (sorted[i].sentence || '').replace(blankRe, '[' + sorted[i].number + ']');
+                    let j = i + 1;
+                    while (j < sorted.length) {
+                        const s = sorted[j].sentence || '';
+                        if (!group.some(qq => s.indexOf('[' + qq.number + ']') !== -1)) break;
+                        group.push(sorted[j]);
+                        mergedText = s.replace(blankRe, '[' + sorted[j].number + ']');
+                        j++;
+                    }
+                    sorted.slice(i, j).forEach(q => {
+                        mergedText = mergedText.split('[' + q.number + ']').join((q.correct_form || '').trim());
+                    });
+                    paras.push(mergedText);
+                    i = j;
+                }
+                return paras.join('\n\n');
+            }
+
             function onPassageClick(ev) {
                 if (stage.value !== 'explain') return;
                 const word = getWordAtClick(ev);
@@ -104,31 +144,26 @@
                 dictWord.value = word;
                 dictResult.value = null;
                 dictError.value = '';
+                dictContextSentence.value = CeeExplainAI.findContextSentence(getFilledPassageText(), word);
                 showDictModal.value = true;
                 dictLoading.value = true;
                 fetchDict(word);
             }
 
             async function fetchDict(word) {
-                const prompt = 'You are an English vocabulary assistant for Chinese high school students (Gaokao). For the word "' + word + '", provide in JSON only (no other text):\n{"definition_en": "concise English definition, high school level",\n "definition_zh": "中文释义",\n "examples": [\n   {"en": "One complete English sentence suitable for Gaokao reading or writing, using the word naturally.", "zh": "该句的中文翻译"},\n   {"en": "Second sentence, also high memorability and Gaokao-relevant.", "zh": "该句的中文翻译"}\n]}\nRequirements: Examples must be 高中难度, 具备高度使用记忆价值, 符合高考阅读或写作场景. Output only valid JSON.';
+                const passage = getFilledPassageText();
+                const ctx = dictContextSentence.value || CeeExplainAI.findContextSentence(passage, word);
+                dictContextSentence.value = ctx;
+                const prompt = CeeExplainAI.buildDictPrompt(word, passage, ctx);
                 try {
-                    const res = await fetch("https://api.deepseek.com/chat/completions", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json", "Authorization": "Bearer " + DEEPSEEK_KEY },
-                        body: JSON.stringify({ model: "deepseek-v4-flash", messages: [{ role: "user", content: prompt }] })
-                    });
-                    const data = await res.json();
-                    let raw = data.choices?.[0]?.message?.content || '';
-                    const jsonMatch = raw.match(/\{[\s\S]*\}/);
-                    if (jsonMatch) raw = jsonMatch[0];
-                    raw = raw.replace(/```json\s*|\s*```/g, '').trim();
-                    const parsed = JSON.parse(raw);
-                    dictResult.value = {
-                        definition_en: parsed.definition_en || '',
-                        definition_zh: parsed.definition_zh || '',
-                        examples: Array.isArray(parsed.examples) ? parsed.examples : []
-                    };
-                    dictLookupLog.value = [...dictLookupLog.value, { word: word, definition_zh: parsed.definition_zh || '' }];
+                    const raw = await CeeExplainAI.callDeepSeek(DEEPSEEK_KEY, prompt);
+                    const parsed = CeeExplainAI.parseJsonFromDeepSeek(raw);
+                    dictResult.value = CeeExplainAI.normalizeDictResult(parsed);
+                    dictLookupLog.value = [...dictLookupLog.value, {
+                        word: word,
+                        definition_zh: dictResult.value.definition_zh || '',
+                        context_meaning_zh: dictResult.value.context_meaning_zh || ''
+                    }];
                 } catch (e) {
                     dictError.value = '查询失败，请重试';
                     console.error(e);
@@ -152,6 +187,7 @@
                 dictWord.value = '';
                 dictResult.value = null;
                 dictError.value = '';
+                dictContextSentence.value = '';
             }
 
             async function loadPaper() {
@@ -171,6 +207,8 @@
                     currentReadIdx.value = 0;
                     dictLookupLog.value = [];
                     readTranslateLog.value = [];
+                    vocabPack.value = [];
+                    vocabPackError.value = '';
                     sessionStart.value = new Date();
                 } catch (e) {
                     console.error(e);
@@ -332,34 +370,12 @@
 
             function goReadTranslate() {
                 stage.value = 'read';
-                const s2 = paperData.value?.section_2_word_form;
-                if (!s2?.questions?.length) { readSentences.value = ['No content.']; currentReadIdx.value = 0; sttEn.value = ''; sttCn.value = ''; readEval.value = ''; return; }
-                let fullPassage = '';
-                if ((s2.passage || '').trim()) {
-                    fullPassage = s2.passage.trim();
-                    s2.questions.forEach(q => { fullPassage = fullPassage.split('[' + q.number + ']').join((q.correct_form || '').trim()); });
-                } else {
-                    const qs = s2.questions;
-                    const sorted = [...qs].sort((a, b) => a.number - b.number);
-                    const blankRe = /_{2,}/;
-                    const paras = [];
-                    let i = 0;
-                    while (i < sorted.length) {
-                        const group = [sorted[i]];
-                        let mergedText = (sorted[i].sentence || '').replace(blankRe, '[' + sorted[i].number + ']');
-                        let j = i + 1;
-                        while (j < sorted.length) {
-                            const s = sorted[j].sentence || '';
-                            if (!group.some(qq => s.indexOf('[' + qq.number + ']') !== -1)) break;
-                            group.push(sorted[j]);
-                            mergedText = s.replace(blankRe, '[' + sorted[j].number + ']');
-                            j++;
-                        }
-                        sorted.slice(i, j).forEach(q => { mergedText = mergedText.split('[' + q.number + ']').join((q.correct_form || '').trim()); });
-                        paras.push(mergedText);
-                        i = j;
-                    }
-                    fullPassage = paras.join('\n\n');
+                const fullPassage = getFilledPassageText();
+                if (!fullPassage) {
+                    readSentences.value = ['No content.'];
+                    currentReadIdx.value = 0;
+                    sttEn.value = ''; sttCn.value = ''; readEval.value = '';
+                    return;
                 }
                 readSentences.value = fullPassage.split(/(?<=[.!?])\s+/).filter(Boolean).map(s => s.trim());
                 if (!readSentences.value.length) readSentences.value = ['No sentences.'];
@@ -489,6 +505,63 @@
                 emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, templateParams).then(() => alert('报告已发送')).catch(() => alert('报告发送失败'));
             }
 
+            async function ensureVocabPack() {
+                if (vocabPack.value && vocabPack.value.length) return vocabPack.value;
+                vocabPackLoading.value = true;
+                vocabPackError.value = '';
+                try {
+                    const passage = getFilledPassageText();
+                    const prompt = CeeExplainAI.buildVocabPackPrompt(passage);
+                    const raw = await CeeExplainAI.callDeepSeek(DEEPSEEK_KEY, prompt, { temperature: 0.5 });
+                    const parsed = CeeExplainAI.parseJsonFromDeepSeek(raw);
+                    vocabPack.value = CeeExplainAI.normalizeVocabPack(parsed);
+                    if (!vocabPack.value.length) throw new Error('empty vocab pack');
+                } catch (e) {
+                    console.error(e);
+                    vocabPackError.value = '词汇包生成失败，请重试';
+                    throw e;
+                } finally {
+                    vocabPackLoading.value = false;
+                }
+                return vocabPack.value;
+            }
+
+            async function downloadExplainPdf() {
+                if (!paperData.value?.section_2_word_form || explainPdfLoading.value) return;
+                explainPdfLoading.value = true;
+                try {
+                    await ensureVocabPack();
+                    const pid = String(paperData.value.paper_id || selectedPaperId.value);
+                    const qs = paperData.value.section_2_word_form.questions || [];
+                    const questions = qs.map(function (q) {
+                        const hint = (q.given_word != null && q.given_word !== '')
+                            ? ('所给词: ' + q.given_word)
+                            : '无提示';
+                        return {
+                            number: q.number,
+                            answerText: q.correct_form || '',
+                            extraLine: hint,
+                            explanation: q.explanation || '',
+                            knowledge_points: q.knowledge_points || [],
+                            supplement: q.supplement || ''
+                        };
+                    });
+                    const html = CeeExplainAI.buildExplainPdfHtml({
+                        paperId: pid,
+                        title: '词形填空 · 答案解析与词汇精讲',
+                        subtitle: 'Word Form · Explanations & Vocabulary',
+                        passageText: getFilledPassageText(),
+                        questions: questions,
+                        vocabItems: vocabPack.value
+                    });
+                    CeeExplainAI.openPrintWindow(html);
+                } catch (e) {
+                    alert(vocabPackError.value || '导出解析 PDF 失败，请重试');
+                } finally {
+                    explainPdfLoading.value = false;
+                }
+            }
+
             function downloadPdf() {
                 if (!paperData.value?.section_2_word_form) return;
                 const pid = String(paperData.value.paper_id || selectedPaperId.value);
@@ -570,8 +643,9 @@
                 showScoreModal, scoreCorrect, scoreTotal, canSubmit, submitDoLabel,
                 wordFormPassageSegments, explainWordPassageHtml,
                 readSentences, currentReadIdx, currentReadSentence, sttEn, sttCn, isPlaying, isRecordingEn, isRecordingCn, isEvaluating, readEval,
-                showDictModal, dictWord, dictLoading, dictResult, dictError,
-                loadPaper, startTimer, setWordChoice, submitDo, closeScoreAndGoExplain, goReadTranslate, downloadPdf,
+                showDictModal, dictWord, dictLoading, dictResult, dictError, dictContextSentence,
+                vocabPack, vocabPackLoading, vocabPackError, explainPdfLoading,
+                loadPaper, startTimer, setWordChoice, submitDo, closeScoreAndGoExplain, goReadTranslate, downloadPdf, downloadExplainPdf,
                 playTTS, toggleRecord, evaluateRead, prevRead, nextRead, renderMarkdown, finishAndSendReport,
                 onPassageClick, speakText, closeDictModal,
                 formatTime, tryAdminMode, adminMode
