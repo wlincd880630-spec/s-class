@@ -565,7 +565,7 @@
   var PRINT_CSS =
     '*{box-sizing:border-box}body{margin:0;background:#fff;color:#0a1f3b;font-family:"Noto Sans SC","DM Sans",sans-serif}' +
     ".pdf-doc{--base:#155eef;--past:#d88a17;--pp:#7654d8;width:794px;margin:0 auto;background:#fff}" +
-    ".pdf-cover{position:relative;overflow:hidden;min-height:520px;padding:34px 28px 28px;background:linear-gradient(145deg,#071628 0%,#0f2f55 42%,#134e4a 78%,#1d4ed8 118%);color:#fff;page-break-after:always}" +
+    ".pdf-cover{position:relative;overflow:hidden;min-height:1040px;padding:42px 34px 36px;background:linear-gradient(145deg,#071628 0%,#0f2f55 42%,#134e4a 78%,#1d4ed8 118%);color:#fff;page-break-after:always;display:flex;flex-direction:column}" +
     ".pdf-cover-glow{position:absolute;border-radius:50%;pointer-events:none}" +
     ".pdf-cover-glow-a{top:-80px;right:-40px;width:240px;height:240px;background:rgba(56,189,248,.28)}" +
     ".pdf-cover-glow-b{bottom:-90px;left:-60px;width:260px;height:260px;background:rgba(251,191,36,.18)}" +
@@ -573,22 +573,22 @@
     ".pdf-cover-top{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;gap:10px}" +
     ".pdf-cover-badge,.pdf-cover-level-pill{display:inline-flex;border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 12px;font-family:Outfit,sans-serif;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}" +
     ".pdf-cover-level-pill{background:rgba(255,255,255,.14);letter-spacing:.04em;text-transform:none}" +
-    ".pdf-cover-kicker{position:relative;z-index:1;margin:22px 0 6px;color:#7dd3fc;font-family:Outfit,sans-serif;font-size:12px;font-weight:800;letter-spacing:.18em}" +
-    ".pdf-cover-title{position:relative;z-index:1;margin:0 0 8px;max-width:14ch;font-family:Outfit,sans-serif;font-size:42px;letter-spacing:-.05em;line-height:.95}" +
-    ".pdf-cover-sub{position:relative;z-index:1;margin:0;color:rgba(255,255,255,.86);font-size:16px}" +
-    ".pdf-cover-legend{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0}" +
+    ".pdf-cover-kicker{position:relative;z-index:1;margin:48px 0 10px;color:#7dd3fc;font-family:Outfit,sans-serif;font-size:12px;font-weight:800;letter-spacing:.18em}" +
+    ".pdf-cover-title{position:relative;z-index:1;margin:0 0 12px;max-width:14ch;font-family:Outfit,sans-serif;font-size:48px;letter-spacing:-.05em;line-height:.95}" +
+    ".pdf-cover-sub{position:relative;z-index:1;margin:0;color:rgba(255,255,255,.86);font-size:18px}" +
+    ".pdf-cover-legend{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:8px;margin:28px 0 0}" +
     ".pdf-legend-chip{display:inline-flex;border-radius:999px;padding:5px 11px;font-size:11px;font-weight:800}" +
     ".pdf-legend-base{background:#dbeafe;color:#1d4ed8}" +
     ".pdf-legend-past{background:#fde68a;color:#92400e}" +
     ".pdf-legend-pp{background:#ddd6fe;color:#5b21b6}" +
-    ".pdf-cover-meta{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:22px 0 14px}" +
+    ".pdf-cover-meta{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:36px 0 18px}" +
     ".pdf-cover-meta-4{grid-template-columns:repeat(2,1fr)}" +
-    ".pdf-meta-card{border:1px solid rgba(255,255,255,.18);border-radius:16px;background:rgba(255,255,255,.1);padding:12px}" +
+    ".pdf-meta-card{border:1px solid rgba(255,255,255,.18);border-radius:16px;background:rgba(255,255,255,.1);padding:14px}" +
     ".pdf-meta-target{background:rgba(251,191,36,.18);border-color:rgba(251,191,36,.35)}" +
     ".pdf-meta-card span{display:block;color:rgba(255,255,255,.72);font-size:11px;margin-bottom:4px;letter-spacing:.08em}" +
     ".pdf-meta-card strong{font-family:Outfit,sans-serif;font-size:16px}" +
-    ".pdf-cover-note{position:relative;z-index:1;margin:0;max-width:520px;color:rgba(255,255,255,.8);font-size:13px;line-height:1.55}" +
-    ".pdf-cover-footer{position:relative;z-index:1;display:flex;gap:8px;margin-top:22px}" +
+    ".pdf-cover-note{position:relative;z-index:1;margin:0;max-width:520px;color:rgba(255,255,255,.8);font-size:14px;line-height:1.55}" +
+    ".pdf-cover-footer{position:relative;z-index:1;display:flex;gap:8px;margin-top:auto;padding-top:40px}" +
     ".pdf-cover-footer span{border-radius:999px;padding:4px 10px;font-family:Outfit,sans-serif;font-size:11px;font-weight:800}" +
     ".pdf-cover-footer span:nth-child(1){background:#2563eb}" +
     ".pdf-cover-footer span:nth-child(2){background:#d97706}" +
@@ -653,69 +653,152 @@
     ".pdf-missing{padding:14px;color:#b45309}" +
     ".pdf-speak-btn{display:none!important}";
 
+  function waitFrames(count) {
+    return new Promise(function (resolve) {
+      function step(left) {
+        if (left <= 0) {
+          // Give layout/fonts a beat after paint
+          global.setTimeout(resolve, 80);
+          return;
+        }
+        global.requestAnimationFrame(function () {
+          step(left - 1);
+        });
+      }
+      step(count || 2);
+    });
+  }
+
+  function buildExportNode(options) {
+    var level = LEVEL_MAP[options.levelId] || LEVELS[2];
+    var sourceHtml =
+      options.verbs && options.verbs.length
+        ? buildDocumentHtml(options)
+        : options.root
+          ? options.root.outerHTML
+          : "";
+    if (!sourceHtml) throw new Error("没有可导出的内容");
+
+    var holder = document.createElement("div");
+    holder.id = "iv-pdf-export-stage";
+    holder.setAttribute("aria-hidden", "true");
+    // Keep in viewport (not off-screen). html2canvas often captures blank from
+    // left:-9999 / iframe / opacity:0 staging nodes.
+    holder.style.cssText =
+      "position:fixed;left:0;top:0;width:794px;" +
+      "z-index:2147483000;background:#ffffff;pointer-events:none;opacity:0.02;";
+
+    var style = document.createElement("style");
+    style.id = "iv-pdf-export-style";
+    style.textContent =
+      PRINT_CSS +
+      "\n#iv-pdf-export-stage{width:794px;}" +
+      "\n#iv-pdf-export-stage .pdf-speak-btn{display:none!important;}";
+
+    var wrap = document.createElement("div");
+    wrap.innerHTML = sourceHtml;
+    var docNode = wrap.firstElementChild;
+    if (!docNode) throw new Error("导出内容解析失败");
+    docNode.style.setProperty("--level-color", level.color);
+    docNode.style.width = "794px";
+    docNode.style.margin = "0";
+    docNode.style.borderRadius = "0";
+    docNode.style.boxShadow = "none";
+    docNode.querySelectorAll(".pdf-speak-btn").forEach(function (btn) {
+      btn.remove();
+    });
+
+    holder.appendChild(style);
+    holder.appendChild(docNode);
+    document.body.appendChild(holder);
+    return { holder: holder, target: docNode };
+  }
+
+  function teardownExportNode(holder) {
+    try {
+      if (holder && holder.parentNode) holder.parentNode.removeChild(holder);
+    } catch (e) {}
+  }
+
   function exportPdf(root, options) {
     options = options || {};
-    return ensureHtml2Pdf().then(function () {
-      var filename =
-        options.filename ||
-        (options.mode === "quiz"
-          ? "VerbAtlas_Quiz_" + quizFilenameSuffix(options.quizTargets) + "_"
-          : "VerbAtlas_Study_") +
-          (options.levelId || "j1") +
-          "_" +
-          todayLabel() +
-          ".pdf";
+    if (root && !options.root) options.root = root;
 
-      var level = LEVEL_MAP[options.levelId] || LEVELS[2];
-      var clone = root.cloneNode(true);
-      clone.querySelectorAll(".pdf-speak-btn").forEach(function (btn) {
-        btn.remove();
-      });
-      clone.style.setProperty("--level-color", level.color);
+    return ensureHtml2Pdf()
+      .then(function () {
+        var filename =
+          options.filename ||
+          (options.mode === "quiz"
+            ? "VerbAtlas_Quiz_" + quizFilenameSuffix(options.quizTargets) + "_"
+            : "VerbAtlas_Study_") +
+            (options.levelId || "j1") +
+            "_" +
+            todayLabel() +
+            ".pdf";
 
-      var iframe = document.createElement("iframe");
-      iframe.style.cssText = "position:fixed;left:-10000px;top:0;width:820px;height:1100px;border:0;opacity:0;pointer-events:none";
-      document.body.appendChild(iframe);
-      var doc = iframe.contentDocument;
-      doc.open();
-      doc.write(
-        "<!DOCTYPE html><html><head><meta charset='UTF-8'/><style>" +
-          PRINT_CSS +
-          "</style></head><body></body></html>"
-      );
-      doc.close();
-      doc.body.appendChild(doc.importNode(clone, true));
-      var target = doc.body.firstElementChild;
+        var stage = buildExportNode(options);
+        var holder = stage.holder;
+        var target = stage.target;
 
-      var opt = {
-        margin: [8, 8, 10, 8],
-        filename: filename,
-        image: { type: "jpeg", quality: 0.96 },
-        html2canvas: {
-          scale: 2,
-          useCORS: true,
-          backgroundColor: "#ffffff",
-          logging: false,
-          windowWidth: 820,
-        },
-        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-        pagebreak: { mode: ["css", "legacy"] },
-      };
+        // Force layout measurement before capture
+        void target.offsetHeight;
 
-      return global
-        .html2pdf()
-        .set(opt)
-        .from(target)
-        .save()
-        .then(function () {
-          iframe.remove();
-          return true;
-        })
-        .catch(function (err) {
-          iframe.remove();
-          throw err;
+        return waitFrames(3).then(function () {
+          if (!target.offsetWidth || !target.offsetHeight) {
+            teardownExportNode(holder);
+            throw new Error("导出节点尺寸为 0，无法生成 PDF");
+          }
+
+          var opt = {
+            margin: [8, 8, 10, 8],
+            filename: filename,
+            image: { type: "jpeg", quality: 0.98 },
+            html2canvas: {
+              scale: 2,
+              useCORS: true,
+              allowTaint: true,
+              backgroundColor: "#ffffff",
+              logging: false,
+              scrollX: 0,
+              scrollY: 0,
+              windowWidth: 794,
+              windowHeight: Math.max(target.scrollHeight, target.offsetHeight, 1123),
+              onclone: function (clonedDoc) {
+                var stageClone = clonedDoc.getElementById("iv-pdf-export-stage");
+                if (stageClone) {
+                  stageClone.style.opacity = "1";
+                  stageClone.style.overflow = "visible";
+                  stageClone.style.left = "0";
+                  stageClone.style.top = "0";
+                  stageClone.style.position = "static";
+                  stageClone.style.width = "794px";
+                }
+              },
+            },
+            jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+            pagebreak: { mode: ["css", "legacy"] },
+          };
+
+          return global
+            .html2pdf()
+            .set(opt)
+            .from(target)
+            .toPdf()
+            .get("pdf")
+            .then(function (pdf) {
+              // Guard against all-white / empty output
+              var pages = pdf.internal.getNumberOfPages();
+              if (!pages) throw new Error("PDF 页数为 0");
+              pdf.save(filename);
+              teardownExportNode(holder);
+              return { pages: pages, filename: filename };
+            })
+            .catch(function (err) {
+              teardownExportNode(holder);
+              throw err;
+            });
         });
-    });
+      });
   }
 
   global.IrregularVerbsPdf = {
