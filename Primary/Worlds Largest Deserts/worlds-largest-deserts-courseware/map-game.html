@@ -168,6 +168,28 @@
     .toast p { margin: 0; color: var(--muted); line-height: 1.55; }
     .toast .zh { margin-top: 6px; color: var(--forest); font-weight: 700; }
     .toast.wrong .badge { background: #9f2b1e; }
+    .toast-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .toast-speak {
+      min-height: 40px;
+      padding: 8px 14px;
+      border: 0;
+      border-radius: 999px;
+      color: #fff;
+      background: var(--clay);
+      font-weight: 900;
+      cursor: pointer;
+    }
+    .toast-speak:disabled { opacity: .6; cursor: wait; }
+    .toast-speak.secondary {
+      color: var(--forest);
+      background: #fff1d2;
+      border: 1px solid rgba(74,47,28,.15);
+    }
     .layer-btn, .hint-btn, .reset-btn {
       min-height: 38px;
       padding: 7px 12px;
@@ -249,15 +271,31 @@
 
     <footer class="journal-footer">
       <strong>S-Class Geography Lab</strong>
-      <span>坐标基于 WGS84 · 判定使用真实经纬度距离</span>
+      <span>坐标基于 WGS84 · 匹配成功后 Azure 英式男声（Ryan）慢速朗读简介</span>
     </footer>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="audio/audio-manifest.js"></script>
+  <script src="audio/local-audio.js"></script>
+  <script src="../../assets/ng-azure-tts-enhance.js"></script>
+  <script src="assets/js/utils.js"></script>
   <script src="assets/data/desert-map-data.js"></script>
   <script>
   (function () {
     "use strict";
+    if (window.NgAzureTTS && window.LocalAudio) NgAzureTTS.enhance("LocalAudio");
+    // Azure 英式男声 Ryan · 慢速（小学五年级听读）
+    if (window.NgAzureTTS && NgAzureTTS.AZURE) {
+      NgAzureTTS.AZURE.voice = "en-GB-RyanNeural";
+      NgAzureTTS.AZURE.language = "en-GB";
+      NgAzureTTS.AZURE.speechRate = "0.68";
+    }
+    if (typeof AZURE_CONFIG !== "undefined") {
+      AZURE_CONFIG.voice = "en-GB-RyanNeural";
+      AZURE_CONFIG.speechRate = "0.68";
+    }
+
     var DATA = window.DESERT_MAP_GAME;
     var deserts = DATA.deserts.slice();
     var matched = {};
@@ -267,6 +305,7 @@
     var ghost = null;
     var targetLayers = {};
     var placedMarkers = {};
+    var speaking = false;
 
     var map = L.map("desertMap", {
       worldCopyJump: true,
@@ -327,6 +366,53 @@
       }
     }
 
+    function speakIntro(text, onDone) {
+      if (!text) { if (onDone) onDone(); return; }
+      speaking = true;
+      var finish = function () {
+        speaking = false;
+        if (onDone) onDone();
+      };
+      try {
+        if (window.LocalAudio && LocalAudio.stop) LocalAudio.stop();
+      } catch (e0) {}
+      // Prefer Azure en-GB Ryan at 0.68（慢速）；slow:false 才会走已设的 speechRate
+      var opts = { rate: "0.68", slow: false, onDone: finish };
+      if (window.LocalAudio && LocalAudio.speak) {
+        Promise.resolve(LocalAudio.speak(text, opts)).then(function (ok) {
+          if (ok) return;
+          if (window.NgAzureTTS && NgAzureTTS.speak) {
+            return NgAzureTTS.speak(text, { slow: false, onDone: finish });
+          }
+          if (typeof speakText === "function") return speakText(text, finish);
+          finish();
+        }).catch(finish);
+        return;
+      }
+      if (window.NgAzureTTS && NgAzureTTS.speak) {
+        NgAzureTTS.speak(text, { slow: false, onDone: finish });
+        return;
+      }
+      if (typeof speakText === "function") {
+        speakText(text, finish);
+        return;
+      }
+      finish();
+    }
+
+    function bindToastSpeak(text) {
+      var btn = document.getElementById("btnToastSpeak");
+      if (!btn) return;
+      btn.onclick = function () {
+        btn.disabled = true;
+        btn.textContent = "🔊 朗读中…";
+        speakIntro(text, function () {
+          btn.disabled = false;
+          btn.textContent = "🔊 英式慢速朗读";
+        });
+      };
+    }
+
     function showToast(desert, ok, extra) {
       var el = document.getElementById("toast");
       el.className = "toast is-on" + (ok ? "" : " wrong");
@@ -334,8 +420,22 @@
         el.innerHTML =
           '<span class="badge">MATCHED</span>' +
           "<h4>" + esc(desert.name) + " · " + esc(desert.nameZh) + "</h4>" +
-          "<p>" + esc(desert.en) + "</p>" +
-          '<p class="zh">' + esc(desert.zh) + "</p>";
+          "<p id='toastEn'>" + esc(desert.en) + "</p>" +
+          '<p class="zh">' + esc(desert.zh) + "</p>" +
+          '<div class="toast-actions">' +
+            '<button type="button" class="toast-speak" id="btnToastSpeak">🔊 英式慢速朗读</button>' +
+            '<button type="button" class="toast-speak secondary" id="btnToastReplayName">🔊 读地名</button>' +
+          "</div>";
+        bindToastSpeak(desert.en);
+        var nameBtn = document.getElementById("btnToastReplayName");
+        if (nameBtn) {
+          nameBtn.onclick = function () {
+            nameBtn.disabled = true;
+            speakIntro(desert.name, function () { nameBtn.disabled = false; });
+          };
+        }
+        // 匹配成功后自动慢速朗读英文简介
+        speakIntro(desert.en);
       } else {
         el.innerHTML =
           '<span class="badge">TRY AGAIN</span>' +
@@ -345,8 +445,8 @@
       }
       clearTimeout(showToast._t);
       showToast._t = setTimeout(function () {
-        if (!ok) el.classList.remove("is-on");
-      }, ok ? 9000 : 2600);
+        if (!ok && !speaking) el.classList.remove("is-on");
+      }, ok ? 16000 : 2600);
     }
 
     function renderTargets() {

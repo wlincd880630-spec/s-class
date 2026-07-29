@@ -1476,6 +1476,550 @@ const DESERT_COURSE = {
         "zh": "哪个沙漠最大？南极冰盖。"
       }
     ]
+  },
+  {
+    "id": "w31",
+    "word": "scientist",
+    "chinese": "科学家",
+    "emoji": "🏜️",
+    "image": "scientist",
+    "phonemes": [
+      {
+        "symbol": "/s/",
+        "letter": "s"
+      },
+      {
+        "symbol": "/ī/",
+        "letter": "ci"
+      },
+      {
+        "symbol": "/ən/",
+        "letter": "en"
+      },
+      {
+        "symbol": "/t/",
+        "letter": "t"
+      },
+      {
+        "symbol": "/ɪ/",
+        "letter": "i"
+      },
+      {
+        "symbol": "/st/",
+        "letter": "st"
+      }
+    ],
+    "sentences": [
+      {
+        "en": "A scientist studies deserts and rain.",
+        "zh": "科学家研究沙漠和降雨。"
+      }
+    ]
+  },
+  {
+    "id": "w32",
+    "word": "centimeter",
+    "chinese": "厘米",
+    "emoji": "🏜️",
+    "image": "centimeter",
+    "phonemes": [
+      {
+        "symbol": "/s/",
+        "letter": "c"
+      },
+      {
+        "symbol": "/en/",
+        "letter": "en"
+      },
+      {
+        "symbol": "/t/",
+        "letter": "t"
+      },
+      {
+        "symbol": "/ə/",
+        "letter": "i"
+      },
+      {
+        "symbol": "/mē/",
+        "letter": "me"
+      },
+      {
+        "symbol": "/tər/",
+        "letter": "ter"
+      }
+    ],
+    "sentences": [
+      {
+        "en": "True deserts often get 25 centimeters of rain or less.",
+        "zh": "真正的沙漠一年降雨常常不超过25厘米。"
+      }
+    ]
+  },
+  {
+    "id": "w33",
+    "word": "length",
+    "chinese": "长度",
+    "emoji": "🏜️",
+    "image": "length",
+    "phonemes": [
+      {
+        "symbol": "/l/",
+        "letter": "l"
+      },
+      {
+        "symbol": "/eng/",
+        "letter": "eng"
+      },
+      {
+        "symbol": "/th/",
+        "letter": "th"
+      }
+    ],
+    "sentences": [
+      {
+        "en": "That is less than the length of a school ruler!",
+        "zh": "那比一把尺子的长度还短！"
+      }
+    ]
+  },
+  {
+    "id": "w34",
+    "word": "surprise",
+    "chinese": "惊喜；吃惊",
+    "emoji": "🏜️",
+    "image": "surprise",
+    "phonemes": [
+      {
+        "symbol": "/sər/",
+        "letter": "sur"
+      },
+      {
+        "symbol": "/pr/",
+        "letter": "pr"
+      },
+      {
+        "symbol": "/īz/",
+        "letter": "ise"
+      }
+    ],
+    "sentences": [
+      {
+        "en": "Surprise! The largest desert is not hot.",
+        "zh": "惊喜！最大的沙漠并不热。"
+      }
+    ]
+  },
+  {
+    "id": "w35",
+    "word": "Ice Sheet",
+    "chinese": "冰盖",
+    "emoji": "🏜️",
+    "image": "ice-sheet",
+    "phonemes": [
+      {
+        "symbol": "/īs/",
+        "letter": "Ice"
+      },
+      {
+        "symbol": "/—/",
+        "letter": " "
+      },
+      {
+        "symbol": "/sh/",
+        "letter": "Sh"
+      },
+      {
+        "symbol": "/ēt/",
+        "letter": "eet"
+      }
+    ],
+    "sentences": [
+      {
+        "en": "The Antarctic Ice Sheet is the largest desert on Earth.",
+        "zh": "南极冰盖是地球上最大的沙漠。"
+      }
+    ]
+  },
+  {
+    "id": "w36",
+    "word": "almost",
+    "chinese": "几乎",
+    "emoji": "🏜️",
+    "image": "almost",
+    "phonemes": [
+      {
+        "symbol": "/ôl/",
+        "letter": "al"
+      },
+      {
+        "symbol": "/mōst/",
+        "letter": "most"
+      }
+    ],
+    "sentences": [
+      {
+        "en": "The Antarctic Ice Sheet gets almost no rain.",
+        "zh": "南极冰盖几乎不下雨。"
+      }
+    ]
+  },
+  {
+    "id": "w37",
+    "word": "second",
+    "chinese": "第二",
+    "emoji": "🏜️",
+    "image": "second",
+    "phonemes": [
+      {
+        "symbol": "/s/",
+        "letter": "s"
+      },
+      {
+        "symbol": "/ek/",
+        "letter": "e"
+      },
+      {
+        "symbol": "/ənd/",
+        "letter": "cond"
+      }
+    ],
+    "sentences": [
+      {
+        "en": "The Arctic is the second largest desert.",
+        "zh": "北极是第二大沙漠。"
+      }
+    ]
+  },
+  {
+    "id": "w38",
+    "word": "icy",
+    "chinese": "结冰的；冰冷的",
+    "emoji": "🏜️",
+    "image": "icy",
+    "phonemes": [
+      {
+        "symbol": "/ī/",
+        "letter": "i"
+      },
+      {
+        "symbol": "/sē/",
+        "letter": "cy"
+      }
+    ],
+    "sentences": [
+      {
+        "en": "The Arctic is cold and icy.",
+        "zh": "北极又冷又结冰。"
+      }
+    ]
+  },
+  {
+    "id": "w39",
+    "word": "North Pole",
+    "chinese": "北极点；北极",
+    "emoji": "🏜️",
+    "image": "north-pole",
+    "phonemes": [
+      {
+        "symbol": "/nôrth/",
+        "letter": "North"
+      },
+      {
+        "symbol": "/—/",
+        "letter": " "
+      },
+      {
+        "symbol": "/pōl/",
+        "letter": "Pole"
+      }
+    ],
+    "sentences": [
+      {
+        "en": "Polar deserts sit near the North Pole and the South Pole.",
+        "zh": "极地沙漠靠近北极点和南极点。"
+      }
+    ]
+  },
+  {
+    "id": "w40",
+    "word": "South Pole",
+    "chinese": "南极点；南极",
+    "emoji": "🏜️",
+    "image": "south-pole",
+    "phonemes": [
+      {
+        "symbol": "/south/",
+        "letter": "South"
+      },
+      {
+        "symbol": "/—/",
+        "letter": " "
+      },
+      {
+        "symbol": "/pōl/",
+        "letter": "Pole"
+      }
+    ],
+    "sentences": [
+      {
+        "en": "The South Pole is in Antarctica.",
+        "zh": "南极点在南极洲。"
+      }
+    ]
+  },
+  {
+    "id": "w41",
+    "word": "cover",
+    "chinese": "覆盖",
+    "emoji": "🏜️",
+    "image": "cover",
+    "phonemes": [
+      {
+        "symbol": "/k/",
+        "letter": "c"
+      },
+      {
+        "symbol": "/uv/",
+        "letter": "o"
+      },
+      {
+        "symbol": "/ər/",
+        "letter": "ver"
+      }
+    ],
+    "sentences": [
+      {
+        "en": "The Sahara covers a vast part of northern Africa.",
+        "zh": "撒哈拉覆盖非洲北部的广阔地区。"
+      }
+    ]
+  },
+  {
+    "id": "w42",
+    "word": "southwestern",
+    "chinese": "西南的",
+    "emoji": "🏜️",
+    "image": "southwestern",
+    "phonemes": [
+      {
+        "symbol": "/south/",
+        "letter": "south"
+      },
+      {
+        "symbol": "/west/",
+        "letter": "west"
+      },
+      {
+        "symbol": "/ərn/",
+        "letter": "ern"
+      }
+    ],
+    "sentences": [
+      {
+        "en": "The Arabian Desert is in southwestern Asia.",
+        "zh": "阿拉伯沙漠在亚洲西南部。"
+      }
+    ]
+  },
+  {
+    "id": "w43",
+    "word": "northern",
+    "chinese": "北部的；北方的",
+    "emoji": "🏜️",
+    "image": "northern",
+    "phonemes": [
+      {
+        "symbol": "/nôr/",
+        "letter": "nor"
+      },
+      {
+        "symbol": "/thərn/",
+        "letter": "thern"
+      }
+    ],
+    "sentences": [
+      {
+        "en": "The Sahara is in northern Africa.",
+        "zh": "撒哈拉在非洲北部。"
+      }
+    ]
+  },
+  {
+    "id": "w44",
+    "word": "Mongolia",
+    "chinese": "蒙古",
+    "emoji": "🏜️",
+    "image": "mongolia",
+    "phonemes": [
+      {
+        "symbol": "/mong/",
+        "letter": "Mon"
+      },
+      {
+        "symbol": "/gō/",
+        "letter": "go"
+      },
+      {
+        "symbol": "/lēə/",
+        "letter": "lia"
+      }
+    ],
+    "sentences": [
+      {
+        "en": "The Gobi Desert is in Mongolia and China.",
+        "zh": "戈壁沙漠在蒙古和中国。"
+      }
+    ]
+  },
+  {
+    "id": "w45",
+    "word": "block",
+    "chinese": "挡住；阻塞",
+    "emoji": "🏜️",
+    "image": "block",
+    "phonemes": [
+      {
+        "symbol": "/b/",
+        "letter": "b"
+      },
+      {
+        "symbol": "/lok/",
+        "letter": "lock"
+      }
+    ],
+    "sentences": [
+      {
+        "en": "Tall mountains can block rain.",
+        "zh": "高山会挡住雨水。"
+      }
+    ]
+  },
+  {
+    "id": "w46",
+    "word": "huge",
+    "chinese": "巨大的",
+    "emoji": "🏜️",
+    "image": "huge",
+    "phonemes": [
+      {
+        "symbol": "/hy/",
+        "letter": "h"
+      },
+      {
+        "symbol": "/üj/",
+        "letter": "uge"
+      }
+    ],
+    "sentences": [
+      {
+        "en": "More huge deserts wait around the world.",
+        "zh": "世界各地还有更多巨大的沙漠。"
+      }
+    ]
+  },
+  {
+    "id": "w47",
+    "word": "Argentina",
+    "chinese": "阿根廷",
+    "emoji": "🏜️",
+    "image": "argentina",
+    "phonemes": [
+      {
+        "symbol": "/ar/",
+        "letter": "Ar"
+      },
+      {
+        "symbol": "/jən/",
+        "letter": "gen"
+      },
+      {
+        "symbol": "/tē/",
+        "letter": "ti"
+      },
+      {
+        "symbol": "/nə/",
+        "letter": "na"
+      }
+    ],
+    "sentences": [
+      {
+        "en": "The Patagonian Desert is in southern Argentina.",
+        "zh": "巴塔哥尼亚沙漠在阿根廷南部。"
+      }
+    ]
+  },
+  {
+    "id": "w48",
+    "word": "biome",
+    "chinese": "生物群落",
+    "emoji": "🏜️",
+    "image": "biome",
+    "phonemes": [
+      {
+        "symbol": "/bī/",
+        "letter": "bi"
+      },
+      {
+        "symbol": "/ōm/",
+        "letter": "ome"
+      }
+    ],
+    "sentences": [
+      {
+        "en": "The desert biome is the second biggest land biome after forests.",
+        "zh": "沙漠生物群落是仅次于森林的第二大陆地生物群落。"
+      }
+    ]
+  },
+  {
+    "id": "w49",
+    "word": "forest",
+    "chinese": "森林",
+    "emoji": "🏜️",
+    "image": "forest",
+    "phonemes": [
+      {
+        "symbol": "/fôr/",
+        "letter": "for"
+      },
+      {
+        "symbol": "/əst/",
+        "letter": "est"
+      }
+    ],
+    "sentences": [
+      {
+        "en": "Deserts are the second biggest land biome after forests.",
+        "zh": "沙漠是仅次于森林的第二大陆地生物群落。"
+      }
+    ]
+  },
+  {
+    "id": "w50",
+    "word": "biggest",
+    "chinese": "最大的",
+    "emoji": "🏜️",
+    "image": "biggest",
+    "phonemes": [
+      {
+        "symbol": "/b/",
+        "letter": "b"
+      },
+      {
+        "symbol": "/ig/",
+        "letter": "ig"
+      },
+      {
+        "symbol": "/əst/",
+        "letter": "gest"
+      }
+    ],
+    "sentences": [
+      {
+        "en": "Which desert is the biggest? The Antarctic Ice Sheet.",
+        "zh": "哪个沙漠最大？南极冰盖。"
+      }
+    ]
   }
 ],
 };
@@ -1488,7 +2032,7 @@ function desertImagePath(key, kind) {
 
 function getDesertWordImage(w) {
   const key = (w && (w.image || w.imageKey)) || "desert";
-  return desertImagePath(key, "words");
+  return desertImagePath(String(key).toLowerCase().replace(/ /g, "-"), "words");
 }
 
 function getDesertMeaningImage(w) {

@@ -1,6 +1,5 @@
 /**
  * World's Largest Deserts · 复习游戏词表
- * 兼容原复习游戏 API 形状（WhatAreReptilesWords 别名保留）
  */
 (function (global) {
   "use strict";
@@ -36,6 +35,26 @@
     { word: "shadow", zh: "阴影；雨影", emoji: "🏜️" },
     { word: "interior", zh: "内部", emoji: "🏜️" },
     { word: "largest", zh: "最大的", emoji: "🏜️" },
+    { word: "scientist", zh: "科学家", emoji: "🏜️" },
+    { word: "centimeter", zh: "厘米", emoji: "🏜️" },
+    { word: "length", zh: "长度", emoji: "🏜️" },
+    { word: "surprise", zh: "惊喜；吃惊", emoji: "🏜️" },
+    { word: "ice-sheet", zh: "冰盖", emoji: "🏜️" },
+    { word: "almost", zh: "几乎", emoji: "🏜️" },
+    { word: "second", zh: "第二", emoji: "🏜️" },
+    { word: "icy", zh: "结冰的；冰冷的", emoji: "🏜️" },
+    { word: "north-pole", zh: "北极点；北极", emoji: "🏜️" },
+    { word: "south-pole", zh: "南极点；南极", emoji: "🏜️" },
+    { word: "cover", zh: "覆盖", emoji: "🏜️" },
+    { word: "southwestern", zh: "西南的", emoji: "🏜️" },
+    { word: "northern", zh: "北部的；北方的", emoji: "🏜️" },
+    { word: "mongolia", zh: "蒙古", emoji: "🏜️" },
+    { word: "block", zh: "挡住；阻塞", emoji: "🏜️" },
+    { word: "huge", zh: "巨大的", emoji: "🏜️" },
+    { word: "argentina", zh: "阿根廷", emoji: "🏜️" },
+    { word: "biome", zh: "生物群落", emoji: "🏜️" },
+    { word: "forest", zh: "森林", emoji: "🏜️" },
+    { word: "biggest", zh: "最大的", emoji: "🏜️" },
   ];
   var ALL_KEYS = ALL_WORDS.map(function (w) { return w.word; });
   var WMAP = {};
@@ -44,7 +63,7 @@
     if (!keys || !keys.length) return [];
     var out = [];
     keys.forEach(function (k) {
-      var key = String(k).toLowerCase().trim();
+      var key = String(k).toLowerCase().trim().replace(/ /g, "-");
       if (WMAP[key] && out.indexOf(key) < 0) out.push(key);
     });
     return out;
@@ -91,6 +110,5 @@
     MIN_WORDS_GAME7: 3, MIN_WORDS_GAME8: 4, MIN_WORDS_GAME9: 4,
   };
   global.WorldsLargestDesertsWords = api;
-  // 兼容从爬行动物课复制的游戏脚本
   global.WhatAreReptilesWords = api;
 })(typeof window !== "undefined" ? window : this);
