@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,650;9..144,800&family=Noto+Sans+SC:wght@400;600;700;900&family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/field-journal.css?v=2">
+  <link rel="stylesheet" href="assets/css/field-journal.css?v=3">
 </head>
 <body>
   <div class="journal-shell">
@@ -171,6 +171,7 @@
   </div>
 
   <script src="assets/data/words-data.js"></script>
+  <script src="assets/js/utils.js"></script>
   <script src="assets/data/story-data.js"></script>
   <script src="audio/audio-manifest.js"></script>
   <script src="audio/local-audio.js"></script>
@@ -221,9 +222,7 @@
       var sentence = (w.sentences && w.sentences[0]) || { en: "", zh: "" };
       document.getElementById("exampleEn").textContent = sentence.en;
       document.getElementById("exampleZh").textContent = sentence.zh;
-      document.getElementById("phonemeRow").innerHTML = (w.phonemes || []).map(function (p) {
-        return '<span class="phoneme"><b>' + esc(p.letter) + '</b><br><small>' + esc(p.symbol) + '</small></span>';
-      }).join("");
+      renderPhonemeBoxes(document.getElementById("phonemeRow"), w);
       Array.prototype.forEach.call(document.querySelectorAll(".word-chip"), function (chip, i) {
         chip.classList.toggle("is-active", i === wordIndex);
       });

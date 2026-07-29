@@ -439,11 +439,11 @@ const DESERT_COURSE = {
         "letter": "e"
       },
       {
-        "symbol": "/s/",
+        "symbol": "/z/",
         "letter": "s"
       },
       {
-        "symbol": "/er/",
+        "symbol": "/ə/",
         "letter": "er"
       },
       {
@@ -466,15 +466,11 @@ const DESERT_COURSE = {
     "image": "dry",
     "phonemes": [
       {
-        "symbol": "/d/",
-        "letter": "d"
+        "symbol": "/dr/",
+        "letter": "dr"
       },
       {
-        "symbol": "/r/",
-        "letter": "r"
-      },
-      {
-        "symbol": "/y/",
+        "symbol": "/aɪ/",
         "letter": "y"
       }
     ],
@@ -497,7 +493,7 @@ const DESERT_COURSE = {
         "letter": "r"
       },
       {
-        "symbol": "/ai/",
+        "symbol": "/eɪ/",
         "letter": "ai"
       },
       {
@@ -524,7 +520,7 @@ const DESERT_COURSE = {
         "letter": "h"
       },
       {
-        "symbol": "/o/",
+        "symbol": "/ɒ/",
         "letter": "o"
       },
       {
@@ -547,11 +543,11 @@ const DESERT_COURSE = {
     "image": "cold",
     "phonemes": [
       {
-        "symbol": "/c/",
+        "symbol": "/k/",
         "letter": "c"
       },
       {
-        "symbol": "/o/",
+        "symbol": "/əʊ/",
         "letter": "o"
       },
       {
@@ -582,7 +578,7 @@ const DESERT_COURSE = {
         "letter": "p"
       },
       {
-        "symbol": "/o/",
+        "symbol": "/əʊ/",
         "letter": "o"
       },
       {
@@ -590,7 +586,7 @@ const DESERT_COURSE = {
         "letter": "l"
       },
       {
-        "symbol": "/ar/",
+        "symbol": "/ə/",
         "letter": "ar"
       }
     ],
@@ -609,16 +605,12 @@ const DESERT_COURSE = {
     "image": "ice",
     "phonemes": [
       {
-        "symbol": "/i/",
+        "symbol": "/aɪ/",
         "letter": "i"
       },
       {
-        "symbol": "/c/",
-        "letter": "c"
-      },
-      {
-        "symbol": "/e/",
-        "letter": "e"
+        "symbol": "/s/",
+        "letter": "ce"
       }
     ],
     "sentences": [
@@ -640,7 +632,7 @@ const DESERT_COURSE = {
         "letter": "s"
       },
       {
-        "symbol": "/a/",
+        "symbol": "/æ/",
         "letter": "a"
       },
       {
@@ -671,16 +663,12 @@ const DESERT_COURSE = {
         "letter": "d"
       },
       {
-        "symbol": "/u/",
+        "symbol": "/uː/",
         "letter": "u"
       },
       {
         "symbol": "/n/",
-        "letter": "n"
-      },
-      {
-        "symbol": "/e/",
-        "letter": "e"
+        "letter": "ne"
       }
     ],
     "sentences": [
@@ -698,15 +686,11 @@ const DESERT_COURSE = {
     "image": "plant",
     "phonemes": [
       {
-        "symbol": "/p/",
-        "letter": "p"
+        "symbol": "/pl/",
+        "letter": "pl"
       },
       {
-        "symbol": "/l/",
-        "letter": "l"
-      },
-      {
-        "symbol": "/a/",
+        "symbol": "/ɑː/",
         "letter": "a"
       },
       {
@@ -737,7 +721,7 @@ const DESERT_COURSE = {
         "letter": "m"
       },
       {
-        "symbol": "/ou/",
+        "symbol": "/aʊ/",
         "letter": "ou"
       },
       {
@@ -749,7 +733,7 @@ const DESERT_COURSE = {
         "letter": "t"
       },
       {
-        "symbol": "/ai/",
+        "symbol": "/ɪ/",
         "letter": "ai"
       },
       {
@@ -772,11 +756,11 @@ const DESERT_COURSE = {
     "image": "continent",
     "phonemes": [
       {
-        "symbol": "/c/",
+        "symbol": "/k/",
         "letter": "c"
       },
       {
-        "symbol": "/o/",
+        "symbol": "/ɒ/",
         "letter": "o"
       },
       {
@@ -788,7 +772,7 @@ const DESERT_COURSE = {
         "letter": "t"
       },
       {
-        "symbol": "/i/",
+        "symbol": "/ɪ/",
         "letter": "i"
       },
       {
@@ -796,16 +780,12 @@ const DESERT_COURSE = {
         "letter": "n"
       },
       {
-        "symbol": "/e/",
+        "symbol": "/ə/",
         "letter": "e"
       },
       {
-        "symbol": "/n/",
-        "letter": "n"
-      },
-      {
-        "symbol": "/t/",
-        "letter": "t"
+        "symbol": "/nt/",
+        "letter": "nt"
       }
     ],
     "sentences": [
@@ -823,23 +803,15 @@ const DESERT_COURSE = {
     "image": "antarctic",
     "phonemes": [
       {
-        "symbol": "/a/",
-        "letter": "a"
+        "symbol": "/æn/",
+        "letter": "An"
       },
       {
-        "symbol": "/n/",
-        "letter": "n"
+        "symbol": "/tɑː/",
+        "letter": "tar"
       },
       {
-        "symbol": "/t/",
-        "letter": "t"
-      },
-      {
-        "symbol": "/ar/",
-        "letter": "ar"
-      },
-      {
-        "symbol": "/c/",
+        "symbol": "/k/",
         "letter": "c"
       },
       {
@@ -847,11 +819,11 @@ const DESERT_COURSE = {
         "letter": "t"
       },
       {
-        "symbol": "/i/",
+        "symbol": "/ɪ/",
         "letter": "i"
       },
       {
-        "symbol": "/c/",
+        "symbol": "/k/",
         "letter": "c"
       }
     ],
@@ -870,11 +842,11 @@ const DESERT_COURSE = {
     "image": "arctic",
     "phonemes": [
       {
-        "symbol": "/ar/",
-        "letter": "ar"
+        "symbol": "/ɑː/",
+        "letter": "Ar"
       },
       {
-        "symbol": "/c/",
+        "symbol": "/k/",
         "letter": "c"
       },
       {
@@ -882,11 +854,11 @@ const DESERT_COURSE = {
         "letter": "t"
       },
       {
-        "symbol": "/i/",
+        "symbol": "/ɪ/",
         "letter": "i"
       },
       {
-        "symbol": "/c/",
+        "symbol": "/k/",
         "letter": "c"
       }
     ],
@@ -906,10 +878,10 @@ const DESERT_COURSE = {
     "phonemes": [
       {
         "symbol": "/s/",
-        "letter": "s"
+        "letter": "S"
       },
       {
-        "symbol": "/a/",
+        "symbol": "/ə/",
         "letter": "a"
       },
       {
@@ -917,11 +889,15 @@ const DESERT_COURSE = {
         "letter": "h"
       },
       {
-        "symbol": "/ar/",
-        "letter": "ar"
+        "symbol": "/ɑː/",
+        "letter": "a"
       },
       {
-        "symbol": "/a/",
+        "symbol": "/r/",
+        "letter": "r"
+      },
+      {
+        "symbol": "/ə/",
         "letter": "a"
       }
     ],
@@ -940,28 +916,20 @@ const DESERT_COURSE = {
     "image": "arabian",
     "phonemes": [
       {
-        "symbol": "/ar/",
-        "letter": "ar"
+        "symbol": "/ə/",
+        "letter": "A"
       },
       {
-        "symbol": "/a/",
-        "letter": "a"
+        "symbol": "/reɪ/",
+        "letter": "ra"
       },
       {
-        "symbol": "/b/",
-        "letter": "b"
+        "symbol": "/bi/",
+        "letter": "bi"
       },
       {
-        "symbol": "/i/",
-        "letter": "i"
-      },
-      {
-        "symbol": "/a/",
-        "letter": "a"
-      },
-      {
-        "symbol": "/n/",
-        "letter": "n"
+        "symbol": "/ən/",
+        "letter": "an"
       }
     ],
     "sentences": [
@@ -979,20 +947,12 @@ const DESERT_COURSE = {
     "image": "gobi",
     "phonemes": [
       {
-        "symbol": "/g/",
-        "letter": "g"
+        "symbol": "/ɡəʊ/",
+        "letter": "Go"
       },
       {
-        "symbol": "/o/",
-        "letter": "o"
-      },
-      {
-        "symbol": "/b/",
-        "letter": "b"
-      },
-      {
-        "symbol": "/i/",
-        "letter": "i"
+        "symbol": "/bi/",
+        "letter": "bi"
       }
     ],
     "sentences": [
@@ -1010,28 +970,20 @@ const DESERT_COURSE = {
     "image": "kalahari",
     "phonemes": [
       {
-        "symbol": "/k/",
-        "letter": "k"
+        "symbol": "/kæ/",
+        "letter": "Ka"
       },
       {
-        "symbol": "/al/",
-        "letter": "al"
+        "symbol": "/lə/",
+        "letter": "la"
       },
       {
-        "symbol": "/a/",
-        "letter": "a"
+        "symbol": "/hɑː/",
+        "letter": "ha"
       },
       {
-        "symbol": "/h/",
-        "letter": "h"
-      },
-      {
-        "symbol": "/ar/",
-        "letter": "ar"
-      },
-      {
-        "symbol": "/i/",
-        "letter": "i"
+        "symbol": "/ri/",
+        "letter": "ri"
       }
     ],
     "sentences": [
@@ -1049,44 +1001,24 @@ const DESERT_COURSE = {
     "image": "patagonian",
     "phonemes": [
       {
-        "symbol": "/p/",
-        "letter": "p"
+        "symbol": "/pæ/",
+        "letter": "Pa"
       },
       {
-        "symbol": "/a/",
-        "letter": "a"
+        "symbol": "/tə/",
+        "letter": "ta"
       },
       {
-        "symbol": "/t/",
-        "letter": "t"
+        "symbol": "/ɡəʊ/",
+        "letter": "go"
       },
       {
-        "symbol": "/a/",
-        "letter": "a"
+        "symbol": "/ni/",
+        "letter": "ni"
       },
       {
-        "symbol": "/g/",
-        "letter": "g"
-      },
-      {
-        "symbol": "/o/",
-        "letter": "o"
-      },
-      {
-        "symbol": "/n/",
-        "letter": "n"
-      },
-      {
-        "symbol": "/i/",
-        "letter": "i"
-      },
-      {
-        "symbol": "/a/",
-        "letter": "a"
-      },
-      {
-        "symbol": "/n/",
-        "letter": "n"
+        "symbol": "/ən/",
+        "letter": "an"
       }
     ],
     "sentences": [
@@ -1104,35 +1036,27 @@ const DESERT_COURSE = {
     "image": "australia",
     "phonemes": [
       {
-        "symbol": "/a/",
+        "symbol": "/ɒ/",
+        "letter": "au"
+      },
+      {
+        "symbol": "/str/",
+        "letter": "str"
+      },
+      {
+        "symbol": "/eɪ/",
         "letter": "a"
       },
       {
-        "symbol": "/u/",
-        "letter": "u"
-      },
-      {
-        "symbol": "/s/",
-        "letter": "s"
-      },
-      {
-        "symbol": "/t/",
-        "letter": "t"
-      },
-      {
-        "symbol": "/r/",
-        "letter": "r"
-      },
-      {
-        "symbol": "/al/",
-        "letter": "al"
+        "symbol": "/l/",
+        "letter": "l"
       },
       {
         "symbol": "/i/",
         "letter": "i"
       },
       {
-        "symbol": "/a/",
+        "symbol": "/ə/",
         "letter": "a"
       }
     ],
@@ -1152,10 +1076,10 @@ const DESERT_COURSE = {
     "phonemes": [
       {
         "symbol": "/b/",
-        "letter": "b"
+        "letter": "B"
       },
       {
-        "symbol": "/a/",
+        "symbol": "/eɪ/",
         "letter": "a"
       },
       {
@@ -1163,7 +1087,7 @@ const DESERT_COURSE = {
         "letter": "s"
       },
       {
-        "symbol": "/i/",
+        "symbol": "/ɪ/",
         "letter": "i"
       },
       {
@@ -1186,8 +1110,8 @@ const DESERT_COURSE = {
     "image": "africa",
     "phonemes": [
       {
-        "symbol": "/a/",
-        "letter": "a"
+        "symbol": "/æ/",
+        "letter": "A"
       },
       {
         "symbol": "/f/",
@@ -1198,15 +1122,15 @@ const DESERT_COURSE = {
         "letter": "r"
       },
       {
-        "symbol": "/i/",
+        "symbol": "/ɪ/",
         "letter": "i"
       },
       {
-        "symbol": "/c/",
+        "symbol": "/k/",
         "letter": "c"
       },
       {
-        "symbol": "/a/",
+        "symbol": "/ə/",
         "letter": "a"
       }
     ],
@@ -1225,20 +1149,12 @@ const DESERT_COURSE = {
     "image": "asia",
     "phonemes": [
       {
-        "symbol": "/a/",
-        "letter": "a"
+        "symbol": "/eɪ/",
+        "letter": "A"
       },
       {
-        "symbol": "/s/",
-        "letter": "s"
-      },
-      {
-        "symbol": "/i/",
-        "letter": "i"
-      },
-      {
-        "symbol": "/a/",
-        "letter": "a"
+        "symbol": "/ʒə/",
+        "letter": "sia"
       }
     ],
     "sentences": [
@@ -1256,15 +1172,11 @@ const DESERT_COURSE = {
     "image": "earth",
     "phonemes": [
       {
-        "symbol": "/ea/",
-        "letter": "ea"
+        "symbol": "/ɜː/",
+        "letter": "Ear"
       },
       {
-        "symbol": "/r/",
-        "letter": "r"
-      },
-      {
-        "symbol": "/th/",
+        "symbol": "/θ/",
         "letter": "th"
       }
     ],
@@ -1287,11 +1199,11 @@ const DESERT_COURSE = {
         "letter": "h"
       },
       {
-        "symbol": "/ar/",
+        "symbol": "/ɑː/",
         "letter": "ar"
       },
       {
-        "symbol": "/sh/",
+        "symbol": "/ʃ/",
         "letter": "sh"
       }
     ],
@@ -1314,7 +1226,7 @@ const DESERT_COURSE = {
         "letter": "v"
       },
       {
-        "symbol": "/a/",
+        "symbol": "/ɑː/",
         "letter": "a"
       },
       {
@@ -1349,16 +1261,12 @@ const DESERT_COURSE = {
         "letter": "p"
       },
       {
-        "symbol": "/ar/",
+        "symbol": "/ɑː/",
         "letter": "ar"
       },
       {
         "symbol": "/s/",
-        "letter": "s"
-      },
-      {
-        "symbol": "/e/",
-        "letter": "e"
+        "letter": "se"
       }
     ],
     "sentences": [
@@ -1376,11 +1284,11 @@ const DESERT_COURSE = {
     "image": "shadow",
     "phonemes": [
       {
-        "symbol": "/sh/",
+        "symbol": "/ʃ/",
         "letter": "sh"
       },
       {
-        "symbol": "/a/",
+        "symbol": "/æ/",
         "letter": "a"
       },
       {
@@ -1388,7 +1296,7 @@ const DESERT_COURSE = {
         "letter": "d"
       },
       {
-        "symbol": "/ow/",
+        "symbol": "/əʊ/",
         "letter": "ow"
       }
     ],
@@ -1407,27 +1315,19 @@ const DESERT_COURSE = {
     "image": "interior",
     "phonemes": [
       {
-        "symbol": "/i/",
-        "letter": "i"
+        "symbol": "/ɪn/",
+        "letter": "in"
       },
       {
-        "symbol": "/n/",
-        "letter": "n"
+        "symbol": "/tɪə/",
+        "letter": "te"
       },
       {
-        "symbol": "/t/",
-        "letter": "t"
+        "symbol": "/ri/",
+        "letter": "ri"
       },
       {
-        "symbol": "/er/",
-        "letter": "er"
-      },
-      {
-        "symbol": "/i/",
-        "letter": "i"
-      },
-      {
-        "symbol": "/or/",
+        "symbol": "/ə/",
         "letter": "or"
       }
     ],
@@ -1450,24 +1350,20 @@ const DESERT_COURSE = {
         "letter": "l"
       },
       {
-        "symbol": "/ar/",
+        "symbol": "/ɑː/",
         "letter": "ar"
       },
       {
-        "symbol": "/g/",
+        "symbol": "/dʒ/",
         "letter": "g"
       },
       {
-        "symbol": "/e/",
+        "symbol": "/ɪ/",
         "letter": "e"
       },
       {
-        "symbol": "/s/",
-        "letter": "s"
-      },
-      {
-        "symbol": "/t/",
-        "letter": "t"
+        "symbol": "/st/",
+        "letter": "st"
       }
     ],
     "sentences": [
@@ -1485,12 +1381,8 @@ const DESERT_COURSE = {
     "image": "scientist",
     "phonemes": [
       {
-        "symbol": "/s/",
-        "letter": "s"
-      },
-      {
-        "symbol": "/ī/",
-        "letter": "ci"
+        "symbol": "/saɪ/",
+        "letter": "sci"
       },
       {
         "symbol": "/ən/",
@@ -1524,27 +1416,19 @@ const DESERT_COURSE = {
     "image": "centimeter",
     "phonemes": [
       {
-        "symbol": "/s/",
-        "letter": "c"
+        "symbol": "/sen/",
+        "letter": "cen"
       },
       {
-        "symbol": "/en/",
-        "letter": "en"
+        "symbol": "/tɪ/",
+        "letter": "ti"
       },
       {
-        "symbol": "/t/",
-        "letter": "t"
-      },
-      {
-        "symbol": "/ə/",
-        "letter": "i"
-      },
-      {
-        "symbol": "/mē/",
+        "symbol": "/miː/",
         "letter": "me"
       },
       {
-        "symbol": "/tər/",
+        "symbol": "/tə/",
         "letter": "ter"
       }
     ],
@@ -1567,11 +1451,15 @@ const DESERT_COURSE = {
         "letter": "l"
       },
       {
-        "symbol": "/eng/",
-        "letter": "eng"
+        "symbol": "/e/",
+        "letter": "e"
       },
       {
-        "symbol": "/th/",
+        "symbol": "/ŋ/",
+        "letter": "ng"
+      },
+      {
+        "symbol": "/θ/",
         "letter": "th"
       }
     ],
@@ -1590,7 +1478,7 @@ const DESERT_COURSE = {
     "image": "surprise",
     "phonemes": [
       {
-        "symbol": "/sər/",
+        "symbol": "/sə/",
         "letter": "sur"
       },
       {
@@ -1598,7 +1486,7 @@ const DESERT_COURSE = {
         "letter": "pr"
       },
       {
-        "symbol": "/īz/",
+        "symbol": "/aɪz/",
         "letter": "ise"
       }
     ],
@@ -1617,7 +1505,7 @@ const DESERT_COURSE = {
     "image": "ice-sheet",
     "phonemes": [
       {
-        "symbol": "/īs/",
+        "symbol": "/aɪs/",
         "letter": "Ice"
       },
       {
@@ -1625,12 +1513,8 @@ const DESERT_COURSE = {
         "letter": " "
       },
       {
-        "symbol": "/sh/",
-        "letter": "Sh"
-      },
-      {
-        "symbol": "/ēt/",
-        "letter": "eet"
+        "symbol": "/ʃiːt/",
+        "letter": "Sheet"
       }
     ],
     "sentences": [
@@ -1648,11 +1532,11 @@ const DESERT_COURSE = {
     "image": "almost",
     "phonemes": [
       {
-        "symbol": "/ôl/",
+        "symbol": "/ɔːl/",
         "letter": "al"
       },
       {
-        "symbol": "/mōst/",
+        "symbol": "/məʊst/",
         "letter": "most"
       }
     ],
@@ -1675,12 +1559,20 @@ const DESERT_COURSE = {
         "letter": "s"
       },
       {
-        "symbol": "/ek/",
+        "symbol": "/e/",
         "letter": "e"
       },
       {
-        "symbol": "/ənd/",
-        "letter": "cond"
+        "symbol": "/k/",
+        "letter": "c"
+      },
+      {
+        "symbol": "/ə/",
+        "letter": "o"
+      },
+      {
+        "symbol": "/nd/",
+        "letter": "nd"
       }
     ],
     "sentences": [
@@ -1698,11 +1590,11 @@ const DESERT_COURSE = {
     "image": "icy",
     "phonemes": [
       {
-        "symbol": "/ī/",
+        "symbol": "/aɪ/",
         "letter": "i"
       },
       {
-        "symbol": "/sē/",
+        "symbol": "/si/",
         "letter": "cy"
       }
     ],
@@ -1721,7 +1613,7 @@ const DESERT_COURSE = {
     "image": "north-pole",
     "phonemes": [
       {
-        "symbol": "/nôrth/",
+        "symbol": "/nɔːθ/",
         "letter": "North"
       },
       {
@@ -1729,7 +1621,7 @@ const DESERT_COURSE = {
         "letter": " "
       },
       {
-        "symbol": "/pōl/",
+        "symbol": "/pəʊl/",
         "letter": "Pole"
       }
     ],
@@ -1748,7 +1640,7 @@ const DESERT_COURSE = {
     "image": "south-pole",
     "phonemes": [
       {
-        "symbol": "/south/",
+        "symbol": "/saʊθ/",
         "letter": "South"
       },
       {
@@ -1756,7 +1648,7 @@ const DESERT_COURSE = {
         "letter": " "
       },
       {
-        "symbol": "/pōl/",
+        "symbol": "/pəʊl/",
         "letter": "Pole"
       }
     ],
@@ -1779,11 +1671,11 @@ const DESERT_COURSE = {
         "letter": "c"
       },
       {
-        "symbol": "/uv/",
+        "symbol": "/ʌ/",
         "letter": "o"
       },
       {
-        "symbol": "/ər/",
+        "symbol": "/və/",
         "letter": "ver"
       }
     ],
@@ -1802,7 +1694,7 @@ const DESERT_COURSE = {
     "image": "southwestern",
     "phonemes": [
       {
-        "symbol": "/south/",
+        "symbol": "/saʊθ/",
         "letter": "south"
       },
       {
@@ -1810,7 +1702,7 @@ const DESERT_COURSE = {
         "letter": "west"
       },
       {
-        "symbol": "/ərn/",
+        "symbol": "/ən/",
         "letter": "ern"
       }
     ],
@@ -1829,11 +1721,11 @@ const DESERT_COURSE = {
     "image": "northern",
     "phonemes": [
       {
-        "symbol": "/nôr/",
+        "symbol": "/nɔː/",
         "letter": "nor"
       },
       {
-        "symbol": "/thərn/",
+        "symbol": "/ðən/",
         "letter": "thern"
       }
     ],
@@ -1852,15 +1744,15 @@ const DESERT_COURSE = {
     "image": "mongolia",
     "phonemes": [
       {
-        "symbol": "/mong/",
+        "symbol": "/mɒŋ/",
         "letter": "Mon"
       },
       {
-        "symbol": "/gō/",
+        "symbol": "/ɡəʊ/",
         "letter": "go"
       },
       {
-        "symbol": "/lēə/",
+        "symbol": "/liə/",
         "letter": "lia"
       }
     ],
@@ -1879,12 +1771,16 @@ const DESERT_COURSE = {
     "image": "block",
     "phonemes": [
       {
-        "symbol": "/b/",
-        "letter": "b"
+        "symbol": "/bl/",
+        "letter": "bl"
       },
       {
-        "symbol": "/lok/",
-        "letter": "lock"
+        "symbol": "/ɒ/",
+        "letter": "o"
+      },
+      {
+        "symbol": "/k/",
+        "letter": "ck"
       }
     ],
     "sentences": [
@@ -1902,12 +1798,16 @@ const DESERT_COURSE = {
     "image": "huge",
     "phonemes": [
       {
-        "symbol": "/hy/",
+        "symbol": "/h/",
         "letter": "h"
       },
       {
-        "symbol": "/üj/",
-        "letter": "uge"
+        "symbol": "/juː/",
+        "letter": "u"
+      },
+      {
+        "symbol": "/dʒ/",
+        "letter": "ge"
       }
     ],
     "sentences": [
@@ -1925,15 +1825,15 @@ const DESERT_COURSE = {
     "image": "argentina",
     "phonemes": [
       {
-        "symbol": "/ar/",
+        "symbol": "/ɑː/",
         "letter": "Ar"
       },
       {
-        "symbol": "/jən/",
+        "symbol": "/dʒən/",
         "letter": "gen"
       },
       {
-        "symbol": "/tē/",
+        "symbol": "/tiː/",
         "letter": "ti"
       },
       {
@@ -1956,11 +1856,11 @@ const DESERT_COURSE = {
     "image": "biome",
     "phonemes": [
       {
-        "symbol": "/bī/",
+        "symbol": "/baɪ/",
         "letter": "bi"
       },
       {
-        "symbol": "/ōm/",
+        "symbol": "/əʊm/",
         "letter": "ome"
       }
     ],
@@ -1979,11 +1879,11 @@ const DESERT_COURSE = {
     "image": "forest",
     "phonemes": [
       {
-        "symbol": "/fôr/",
+        "symbol": "/fɒr/",
         "letter": "for"
       },
       {
-        "symbol": "/əst/",
+        "symbol": "/ɪst/",
         "letter": "est"
       }
     ],
@@ -2006,12 +1906,20 @@ const DESERT_COURSE = {
         "letter": "b"
       },
       {
-        "symbol": "/ig/",
-        "letter": "ig"
+        "symbol": "/ɪ/",
+        "letter": "i"
       },
       {
-        "symbol": "/əst/",
-        "letter": "gest"
+        "symbol": "/ɡ/",
+        "letter": "gg"
+      },
+      {
+        "symbol": "/ɪ/",
+        "letter": "e"
+      },
+      {
+        "symbol": "/st/",
+        "letter": "st"
       }
     ],
     "sentences": [
