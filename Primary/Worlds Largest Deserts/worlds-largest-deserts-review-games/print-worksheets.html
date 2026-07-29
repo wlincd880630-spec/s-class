@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>纸质练习 · World's Largest Deserts?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Patrick+Hand&family=Noto+Sans+SC:wght@500;700&display=swap" rel="stylesheet" />
+  <script src="words-data.js"></script>
+  <style>
+    :root { --gold: #f5c400; --ink: #1a1a1a; --paper: #fffef8; --accent: #c4782a; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Noto Sans SC", sans-serif;
+      background: #eceff1;
+      color: var(--ink);
+      padding: 1rem;
+    }
+    .no-print { }
+    .toolbar {
+      max-width: 52rem;
+      margin: 0 auto 1rem;
+      background: #fff;
+      border-radius: 12px;
+      padding: 1rem 1.15rem;
+      border-left: 5px solid var(--gold);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    .toolbar h1 {
+      font-family: "Fredoka", sans-serif;
+      font-size: 1.25rem;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    .toolbar p { font-size: 0.88rem; color: #546e7a; line-height: 1.55; margin-bottom: 0.65rem; }
+    .toolbar .row { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; margin: 0.5rem 0; }
+    .toolbar label { font-size: 0.9rem; display: inline-flex; align-items: center; gap: 0.35rem; cursor: pointer; }
+    .btn {
+      font-family: "Fredoka", sans-serif;
+      font-weight: 700;
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      padding: 0.5rem 1.1rem;
+      background: #fff;
+      cursor: pointer;
+      font-size: 0.9rem;
+      text-decoration: none;
+      color: var(--ink);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .btn.primary { background: var(--gold); border-color: #c9a008; }
+    .btn.accent { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .chips { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.35rem; }
+    .chip { font-size: 0.78rem; padding: 0.2rem 0.5rem; border: 1px solid #cfd8dc; border-radius: 999px; background: #fafafa; }
+    #printArea {
+      max-width: 52rem;
+      margin: 0 auto;
+    }
+    .sheet {
+      background: var(--paper);
+      padding: 12mm 14mm 14mm;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+    .sheet-hdr {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 6px;
+      margin-bottom: 10px;
+    }
+    .sheet-hdr h2 {
+      font-family: "Fredoka", sans-serif;
+      font-size: 1.1rem;
+      color: var(--accent);
+    }
+    .sheet-hdr .meta { font-size: 0.78rem; color: #78909c; }
+    .name-line { font-size: 0.82rem; margin-bottom: 8px; }
+    .name-line span { display: inline-block; min-width: 8rem; border-bottom: 1px solid #90a4ae; }
+    .maze-targets {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .maze-target {
+      text-align: center;
+      border: 1px solid #cfd8dc;
+      border-radius: 8px;
+      padding: 4px;
+    }
+    .maze-target img { width: 100%; max-height: 80px; object-fit: contain; }
+    .maze-target .zh { font-size: 0.8rem; color: #546e7a; margin-top: 3px; }
+    .maze-target .num { font-family: "Fredoka", sans-serif; font-size: 0.85rem; color: var(--accent); }
+    .maze-grid {
+      display: grid;
+      gap: 3px;
+      width: min(100%, 420px);
+      margin: 0 auto;
+      border: 2px solid #37474f;
+      padding: 4px;
+      background: #37474f;
+    }
+    .maze-cell {
+      aspect-ratio: 1;
+      min-width: 0;
+      overflow: hidden;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Fredoka", sans-serif;
+      font-weight: 700;
+      font-size: 1.3rem;
+      text-transform: uppercase;
+    }
+    .answer-key .maze-cell.answer {
+      color: #8a5120;
+      background: #c8e6c9;
+      box-shadow: inset 0 0 0 2px #66bb6a;
+    }
+    .maze-hint { text-align: center; font-size: 0.75rem; color: #78909c; margin-top: 6px; }
+    .spell-item {
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px dashed #cfd8dc;
+    }
+    .spell-item:last-child { border-bottom: none; }
+    .spell-item img {
+      width: 72px;
+      height: 54px;
+      object-fit: contain;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      padding: 2px;
+    }
+    .spell-zh { font-size: 0.82rem; color: #546e7a; margin-bottom: 4px; }
+    .spell-letters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 6px;
+    }
+    .spell-letters span {
+      width: 1.65rem;
+      height: 1.65rem;
+      border: 2px solid #90caf9;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Patrick Hand", cursive;
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+    .spell-write {
+      font-size: 0.78rem;
+      color: #78909c;
+    }
+    .spell-line {
+      display: inline-block;
+      min-width: 10rem;
+      border-bottom: 2px solid #37474f;
+      margin-left: 4px;
+      height: 1.2rem;
+    }
+    .connect-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 12px 0;
+    }
+    .connect-item {
+      border: 1px solid #cfd8dc;
+      border-radius: 10px;
+      padding: 10px 12px;
+      text-align: center;
+      min-height: 130px;
+    }
+    .connect-item--img {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .connect-item--img img {
+      height: 108px;
+      width: auto;
+      max-width: 100%;
+      object-fit: contain;
+    }
+    .connect-item--word {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Fredoka", sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+    }
+    .connect-blank {
+      font-family: "Fredoka", sans-serif;
+      font-size: 1rem;
+      color: #b0bec5;
+      padding: 1rem 0;
+    }
+    .answer-key { background: #f1f8e9; }
+    .answer-key .ans { font-family: "Fredoka", sans-serif; color: var(--accent); font-weight: 700; }
+    .empty-msg { text-align: center; padding: 2rem; color: #78909c; }
+
+      @media print {
+      body { background: #fff; padding: 0; }
+      .no-print { display: none !important; }
+      .connect-item--img img {
+        height: 108px;
+        max-width: 100%;
+      }
+      .connect-item { min-height: 130px; }
+      .sheet {
+        box-shadow: none;
+        border-radius: 0;
+        margin: 0;
+        page-break-after: always;
+        break-after: page;
+      }
+      .sheet:last-child { page-break-after: auto; break-after: auto; }
+    }
+    @page {
+      size: A4 portrait;
+      margin: 10mm 12mm;
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar no-print">
+    <h1>🦎 纸质练习 · 打印 / 导出 PDF</h1>
+    <p>根据<strong>选词设置</strong>中已勾选的单词生成练习纸。导出 PDF：点「打印」→ 目标选「另存为 PDF」→ 缩放 <strong>100%</strong>、边距 <strong>无/默认</strong>。</p>
+    <div class="chips" id="wordChips"></div>
+    <div class="row">
+      <label><input type="checkbox" id="optMaze" checked /> 单词迷宫（每组 4 词 / 页）</label>
+      <label><input type="checkbox" id="optSpell" checked /> 字母排序（看图拼词）</label>
+      <label><input type="checkbox" id="optConnect" checked /> 图片单词连线</label>
+      <label><input type="checkbox" id="optAnswers" /> 含答案页（教师用）</label>
+    </div>
+    <div class="row" style="margin-top:0.75rem;">
+      <button type="button" class="btn accent" id="btnGen">📄 生成练习纸</button>
+      <button type="button" class="btn primary" id="btnPrint">🖨️ 打印 / 导出 PDF</button>
+      <a class="btn" href="index.html">← 游戏列表</a>
+      <a class="btn" href="settings.html">⚙️ 选词设置</a>
+    </div>
+  </div>
+
+  <div id="printArea">
+    <p class="empty-msg no-print" id="placeholder">请点击「生成练习纸」预览内容</p>
+  </div>
+
+  <script>
+/**
+ * 国家地理分级阅读 · 复习游戏共享工具
+ * 依赖：各书 words-data.js、azure-tts.js、audio manifest
+ * 配置：window.NG_REVIEW = { wordsApi, ttsApi, title, accent, hubUrl, gamesUrl }
+ */
+(function (global) {
+  "use strict";
+
+  var AZURE_CONFIG = {
+    subscriptionKey: "3C2ai7PPgPnOLlhb1c7gBw207PAVNfVJni6JnESsPjYPaVyFeQ9YJQQJ99CGAC3pKaRXJ3w3AAAYACOG0Zbc",
+    region: "eastasia",
+    language: "en-GB",
+    voice: "en-GB-RyanNeural",
+    speechRate: "0.90",
+  };
+
+  var speechSdkReady = null;
+  var currentSynthesizer = null;
+
+  function cfg() {
+    return global.NG_REVIEW || {};
+  }
+
+  function wordsApi() {
+    var name = cfg().wordsApi;
+    return name && global[name] ? global[name] : null;
+  }
+
+  function ttsApi() {
+    var name = cfg().ttsApi;
+    return name && global[name] ? global[name] : null;
+  }
+
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i];
+      a[i] = a[j];
+      a[j] = t;
+    }
+    return a;
+  }
+
+  function chunkGroups(arr, size) {
+    size = size || 4;
+    var out = [];
+    for (var i = 0; i < arr.length; i += size) {
+      out.push(arr.slice(i, i + size));
+    }
+    return out;
+  }
+
+  function wordImg(w) {
+    var api = wordsApi();
+    if (!api) return "";
+    var base = api.IMG_BASE || "";
+    var file = api.wordImgFile ? api.wordImgFile(w) : w.word;
+    return base + file + ".jpg";
+  }
+
+  function isMazeEligible(w) {
+    return w && w.word && w.word.indexOf(" ") < 0 && w.word.replace(/-/g, "").length >= 2;
+  }
+
+  function getSelected() {
+    var api = wordsApi();
+    return api ? api.getSelected() : [];
+  }
+
+  function loadSpeechSDK() {
+    if (global.SpeechSDK) return Promise.resolve();
+    if (speechSdkReady) return speechSdkReady;
+    speechSdkReady = new Promise(function (resolve, reject) {
+      var s = document.createElement("script");
+      s.src = "https://aka.ms/csspeech/jsbrowserpackageraw";
+      s.onload = function () {
+        resolve();
+      };
+      s.onerror = function () {
+        reject(new Error("Speech SDK 加载失败"));
+      };
+      document.head.appendChild(s);
+    });
+    return speechSdkReady;
+  }
+
+  function escapeSsml(text) {
+    return String(text)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&apos;");
+  }
+
+  function buildSpeakSsml(text, slow) {
+    var rate = slow ? "0.80" : AZURE_CONFIG.speechRate;
+    var safe = escapeSsml(text);
+    return (
+      '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="' +
+      AZURE_CONFIG.language +
+      '"><voice name="' +
+      AZURE_CONFIG.voice +
+      '"><prosody rate="' +
+      rate +
+      '">' +
+      safe +
+      "</prosody></voice></speak>"
+    );
+  }
+
+  function fallbackSpeak(text, onEnd, slow) {
+    if (!global.speechSynthesis) {
+      if (onEnd) onEnd();
+      return;
+    }
+    try {
+      global.speechSynthesis.cancel();
+    } catch (e0) {}
+    var u = new global.SpeechSynthesisUtterance(String(text));
+    u.lang = "en-GB";
+    u.rate = slow ? 0.82 : Number(AZURE_CONFIG.speechRate) || 0.9;
+    u.onend = function () {
+      if (onEnd) onEnd();
+    };
+    u.onerror = function () {
+      if (onEnd) onEnd();
+    };
+    global.speechSynthesis.speak(u);
+  }
+
+  function stopSpeak() {
+    try {
+      if (global.speechSynthesis) global.speechSynthesis.cancel();
+    } catch (e1) {}
+    if (currentSynthesizer) {
+      try {
+        currentSynthesizer.close();
+      } catch (e2) {}
+      currentSynthesizer = null;
+    }
+    var tts = ttsApi();
+    if (tts && tts.stop) tts.stop();
+  }
+
+  function speakAzure(text, onEnd, slow) {
+    return loadSpeechSDK()
+      .then(function () {
+        if (currentSynthesizer) {
+          try {
+            currentSynthesizer.close();
+          } catch (e3) {}
+          currentSynthesizer = null;
+        }
+        var sdk = global.SpeechSDK;
+        var speechCfg = sdk.SpeechConfig.fromSubscription(
+          AZURE_CONFIG.subscriptionKey,
+          AZURE_CONFIG.region
+        );
+        speechCfg.speechSynthesisVoiceName = AZURE_CONFIG.voice;
+        var audioCfg = sdk.AudioConfig.fromDefaultSpeakerOutput();
+        var synthesizer = new sdk.SpeechSynthesizer(speechCfg, audioCfg);
+        currentSynthesizer = synthesizer;
+        return new Promise(function (resolve) {
+          synthesizer.speakSsmlAsync(
+            buildSpeakSsml(text, slow),
+            function () {
+              try {
+                synthesizer.close();
+              } catch (e4) {}
+              currentSynthesizer = null;
+              if (onEnd) onEnd();
+              resolve(true);
+            },
+            function () {
+              try {
+                synthesizer.close();
+              } catch (e5) {}
+              currentSynthesizer = null;
+              fallbackSpeak(text, onEnd, slow);
+              resolve(false);
+            }
+          );
+        });
+      })
+      .catch(function () {
+        fallbackSpeak(text, onEnd, slow);
+        return false;
+      });
+  }
+
+  function speak(text, options) {
+    options = options || {};
+    if (!text) return Promise.resolve(false);
+    stopSpeak();
+    var slow = !!options.slow;
+    var onEnd = options.onEnd || options.onDone;
+    var tts = ttsApi();
+
+    function tryLocal() {
+      if (!tts || !tts.speak) return Promise.resolve(false);
+      try {
+        var result = tts.speak(text, {
+          slow: slow,
+          rate: slow ? "0.80" : AZURE_CONFIG.speechRate,
+          onDone: function () {
+            if (onEnd) onEnd();
+          },
+        });
+        if (result && typeof result.then === "function") {
+          return result.then(function (ok) {
+            return !!ok;
+          });
+        }
+        return Promise.resolve(true);
+      } catch (e6) {
+        return Promise.resolve(false);
+      }
+    }
+
+    return tryLocal().then(function (ok) {
+      if (ok) return true;
+      return speakAzure(text, onEnd, slow);
+    });
+  }
+
+  function buildMcOptions(correct, pool, count) {
+    count = count || 3;
+    var distractors = shuffle(
+      pool.filter(function (w) {
+        return w.word !== correct.word;
+      })
+    ).slice(0, count - 1);
+    return shuffle([correct].concat(distractors));
+  }
+
+  function showFeedback(el, msg, good) {
+    if (!el) return;
+    el.textContent = msg;
+    el.className = "ng-feedback " + (good ? "good" : "bad");
+  }
+
+  function hideFeedback(el) {
+    if (!el) return;
+    el.className = "ng-feedback hidden";
+  }
+
+  function formatTime(sec) {
+    var m = Math.floor(sec / 60);
+    var s = sec % 60;
+    return m + ":" + String(s).padStart(2, "0");
+  }
+
+  function GameTimer(el) {
+    this.el = el;
+    this.sec = 0;
+    this._id = null;
+  }
+
+  GameTimer.prototype.start = function () {
+    var self = this;
+    this.stop();
+    this.sec = 0;
+    if (this.el) this.el.textContent = formatTime(0);
+    this._id = setInterval(function () {
+      self.sec++;
+      if (self.el) self.el.textContent = formatTime(self.sec);
+    }, 1000);
+  };
+
+  GameTimer.prototype.stop = function () {
+    if (this._id) {
+      clearInterval(this._id);
+      this._id = null;
+    }
+    return this.sec;
+  };
+
+  function showDonePanel(el, stats) {
+    if (!el) return;
+    var accuracy =
+      stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0;
+    el.className = "ng-stage ng-done";
+    el.innerHTML =
+      "<h2>🎉 " +
+      (stats.title || "完成！") +
+      "</h2>" +
+      '<div class="stats-grid">' +
+      '<div class="stat"><div class="val">' +
+      stats.correct +
+      '</div><div class="lbl">正确</div></div>' +
+      '<div class="stat"><div class="val">' +
+      stats.wrong +
+      '</div><div class="lbl">错误</div></div>' +
+      '<div class="stat"><div class="val">' +
+      accuracy +
+      '%</div><div class="lbl">正确率</div></div>' +
+      '<div class="stat"><div class="val">' +
+      formatTime(stats.timeSec || 0) +
+      '</div><div class="lbl">用时</div></div>' +
+      "</div>" +
+      '<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:0.5rem;margin-top:1rem;">' +
+      '<button type="button" class="ng-btn primary" id="ngRetryBtn">再玩一次</button>' +
+      '<a class="ng-btn" href="' +
+      (cfg().gamesUrl || "index.html") +
+      '">返回游戏列表</a>' +
+      "</div>";
+    var retry = el.querySelector("#ngRetryBtn");
+    if (retry && stats.onRetry) {
+      retry.addEventListener("click", stats.onRetry);
+    }
+  }
+
+  function speakBtn(word) {
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "ng-btn sm";
+    btn.title = "朗读";
+    btn.textContent = "🔊";
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      speak(word);
+    });
+    return btn;
+  }
+
+  /* ── 动态宫格单词迷宫：7×7 起，按最长单词自动扩容 ── */
+  function generateMazeGrid7(words) {
+    var MAZE_SIZE = 7;
+    var DIR_SLOTS = [
+      { id: "lr", dr: 0, dc: 1, quadrant: 0 },
+      { id: "rl", dr: 0, dc: -1, quadrant: 1 },
+      { id: "tb", dr: 1, dc: 0, quadrant: 2 },
+      { id: "bt", dr: -1, dc: 0, quadrant: 3 },
+    ];
+
+    function lettersOf(word) {
+      return word.word.replace(/[\s-]/g, "").toLowerCase().split("");
+    }
+
+    function quadrantsFor(size) {
+      var midR = Math.floor(size / 2);
+      var midC = Math.floor(size / 2);
+      return [
+        { rMin: 0, rMax: midR - 1, cMin: 0, cMax: midC - 1 },
+        { rMin: 0, rMax: midR - 1, cMin: midC, cMax: size - 1 },
+        { rMin: midR, rMax: size - 1, cMin: 0, cMax: midC - 1 },
+        { rMin: midR, rMax: size - 1, cMin: midC, cMax: size - 1 },
+      ];
+    }
+
+    function fits(size, len, r, c, dir) {
+      for (var i = 0; i < len; i++) {
+        var nr = r + dir.dr * i;
+        var nc = c + dir.dc * i;
+        if (nr < 0 || nr >= size || nc < 0 || nc >= size) return false;
+      }
+      return true;
+    }
+
+    function buildCells(grid, size, letters, r, c, dir) {
+      if (!fits(size, letters.length, r, c, dir)) return null;
+      var cells = [];
+      for (var i = 0; i < letters.length; i++) {
+        var nr = r + dir.dr * i;
+        var nc = c + dir.dc * i;
+        var existing = grid[nr][nc];
+        if (existing !== "" && existing !== letters[i]) return null;
+        cells.push({ r: nr, c: nc, letter: letters[i] });
+      }
+      return cells;
+    }
+
+    function candidates(size, len, dir, quad) {
+      var cr = (quad.rMin + quad.rMax) / 2;
+      var cc = (quad.cMin + quad.cMax) / 2;
+      var list = [];
+      var r, c;
+      for (r = quad.rMin; r <= quad.rMax; r++) {
+        for (c = quad.cMin; c <= quad.cMax; c++) {
+          if (fits(size, len, r, c, dir)) {
+            list.push({ r: r, c: c, dist: Math.abs(r - cr) + Math.abs(c - cc) });
+          }
+        }
+      }
+      list.sort(function (a, b) {
+        return a.dist - b.dist;
+      });
+      var near = list.slice(0, Math.max(4, Math.ceil(list.length * 0.5)));
+      return shuffle(near.length ? near : list);
+    }
+
+    function applyCells(grid, usage, cells) {
+      cells.forEach(function (cell) {
+        grid[cell.r][cell.c] = cell.letter;
+        usage[cell.r][cell.c]++;
+      });
+    }
+
+    function revertCells(grid, usage, cells) {
+      cells.forEach(function (cell) {
+        usage[cell.r][cell.c]--;
+        if (usage[cell.r][cell.c] === 0) grid[cell.r][cell.c] = "";
+      });
+    }
+
+    function placeAll(grid, usage, size, pairs, idx, placements) {
+      if (idx >= pairs.length) return placements;
+      var pair = pairs[idx];
+      var letters = lettersOf(pair.word);
+      var dirs = pair.dir;
+      var quad = pair.quad;
+      var candList = candidates(size, letters.length, dirs, quad);
+      var ci;
+      for (ci = 0; ci < candList.length; ci++) {
+        var pos = candList[ci];
+        var cells = buildCells(grid, size, letters, pos.r, pos.c, dirs);
+        if (!cells) continue;
+        applyCells(grid, usage, cells);
+        var result = placeAll(grid, usage, size, pairs, idx + 1, placements.concat([
+          { word: pair.word, cells: cells, dir: dirs.id },
+        ]));
+        if (result) return result;
+        revertCells(grid, usage, cells);
+      }
+      return null;
+    }
+
+    function fillNoise(grid, size) {
+      var r, c;
+      for (r = 0; r < size; r++) {
+        for (c = 0; c < size; c++) {
+          if (!grid[r][c]) {
+            grid[r][c] = String.fromCharCode(97 + Math.floor(Math.random() * 26));
+          }
+        }
+      }
+    }
+
+    function tryLayout(wordList, size) {
+      var grid = Array.from({ length: size }, function () {
+        return Array.from({ length: size }, function () {
+          return "";
+        });
+      });
+      var usage = Array.from({ length: size }, function () {
+        return Array.from({ length: size }, function () {
+          return 0;
+        });
+      });
+      var quads = quadrantsFor(size);
+      var slots = shuffle(DIR_SLOTS.slice());
+      var ordered = wordList.slice().sort(function (a, b) {
+        return lettersOf(b).length - lettersOf(a).length;
+      });
+      var pairs = ordered.map(function (word, i) {
+        return { word: word, dir: slots[i], quad: quads[slots[i].quadrant] };
+      });
+      pairs = shuffle(pairs);
+      var placements = placeAll(grid, usage, size, pairs, 0, []);
+      if (!placements || placements.length !== wordList.length) return null;
+      fillNoise(grid, size);
+      return { grid: grid, placements: shuffle(placements), size: size };
+    }
+
+    var list = words.slice(0, 4);
+    if (list.length < 4) return { grid: [[]], placements: [], size: MAZE_SIZE };
+
+    /*
+     * 旧版仅尝试 7×7 / 8×8，长度超过 8 的单词必然放不下。
+     * 当前词表中 cold-blooded、exoskeleton 均为 11 个字母（忽略连字符），
+     * 因此先按最长单词计算最小宫格，再额外尝试两档空间。
+     */
+    var longest = list.reduce(function (max, word) {
+      return Math.max(max, lettersOf(word).length);
+    }, 0);
+    var baseSize = Math.max(MAZE_SIZE, longest);
+    var sizes = [baseSize, baseSize + 1, baseSize + 2];
+    var si, retry;
+    for (si = 0; si < sizes.length; si++) {
+      for (retry = 0; retry < 200; retry++) {
+        var result = tryLayout(shuffle(list.slice()), sizes[si]);
+        if (result) return result;
+      }
+    }
+
+    /*
+     * 确定性兜底：横向词放在内部行，纵向词放在最外侧两列，
+     * 路径互不相交，所以任何四个合法词都能生成，不再要求用户重试。
+     */
+    function guaranteedLayout(wordList, size) {
+      var grid = Array.from({ length: size }, function () {
+        return Array.from({ length: size }, function () { return ""; });
+      });
+      var slots = [
+        { id: "lr", dr: 0, dc: 1, r: 1, c: 1 },
+        { id: "rl", dr: 0, dc: -1, r: size - 2, c: size - 2 },
+        { id: "tb", dr: 1, dc: 0, r: 1, c: 0 },
+        { id: "bt", dr: -1, dc: 0, r: size - 2, c: size - 1 },
+      ];
+      var placements = [];
+      wordList.forEach(function (word, index) {
+        var letters = lettersOf(word);
+        var slot = slots[index];
+        var cells = letters.map(function (letter, i) {
+          var cell = {
+            r: slot.r + slot.dr * i,
+            c: slot.c + slot.dc * i,
+            letter: letter,
+          };
+          grid[cell.r][cell.c] = letter;
+          return cell;
+        });
+        placements.push({ word: word, cells: cells, dir: slot.id });
+      });
+      fillNoise(grid, size);
+      return { grid: grid, placements: shuffle(placements), size: size };
+    }
+
+    return guaranteedLayout(list, Math.max(8, longest + 2));
+  }
+
+  global.NgReview = {
+    AZURE_CONFIG: AZURE_CONFIG,
+    cfg: cfg,
+    wordsApi: wordsApi,
+    shuffle: shuffle,
+    chunkGroups: chunkGroups,
+    wordImg: wordImg,
+    isMazeEligible: isMazeEligible,
+    getSelected: getSelected,
+    speak: speak,
+    stopSpeak: stopSpeak,
+    buildMcOptions: buildMcOptions,
+    showFeedback: showFeedback,
+    hideFeedback: hideFeedback,
+    GameTimer: GameTimer,
+    showDonePanel: showDonePanel,
+    speakBtn: speakBtn,
+    generateMazeGrid7: generateMazeGrid7,
+    formatTime: formatTime,
+    boot: function (run) {
+      function start() {
+        if (typeof global.NgReview === "undefined") {
+          showBootError("游戏脚本未加载，请检查网络后刷新。");
+          return;
+        }
+        var api = wordsApi();
+        if (!api || !api.getSelected) {
+          showBootError("词表未加载，请返回游戏列表重试。");
+          return;
+        }
+        try {
+          run(global.NgReview);
+        } catch (err) {
+          console.error(err);
+          showBootError("游戏初始化失败：" + (err && err.message ? err.message : String(err)));
+        }
+      }
+      function showBootError(msg) {
+        var stage = global.document && global.document.getElementById("stage");
+        if (stage) {
+          stage.innerHTML =
+            '<p class="ng-hint">' +
+            msg +
+            '<br><a href="index.html">返回游戏列表</a> · <a href="settings.html">选词设置</a></p>';
+        }
+        var btn = global.document && global.document.getElementById("btnStart");
+        if (btn) btn.style.display = "none";
+      }
+      if (global.document.readyState === "loading") {
+        global.document.addEventListener("DOMContentLoaded", start);
+      } else {
+        start();
+      }
+    },
+    renderWordPreview: function (pool) {
+      var el = global.document && global.document.getElementById("wordPreview");
+      if (!el || !pool || !pool.length) return;
+      el.textContent =
+        "本次已选 " +
+        pool.length +
+        " 个单词：" +
+        pool
+          .map(function (w) {
+            return w.word + "（" + w.zh + "）";
+          })
+          .join(" · ");
+    },
+  };
+})(typeof window !== "undefined" ? window : this);
+
+  </script>
+  <script src="maze-generator.js?v=2"></script>
+  <script>
+  (function() {
+    "use strict";
+    var W = window.WhatAreReptilesWords;
+    function wordImg(w){return W.IMG_BASE+w.word+'.jpg';}
+    if (!W) {
+      document.getElementById("placeholder").textContent = "词表加载失败";
+      return;
+    }
+
+    var pool = NgReview.shuffle(W.getSelected().slice());
+    var host = document.getElementById("wordChips");
+    host.innerHTML = "";
+    document.getElementById("wordChips").insertAdjacentHTML("beforebegin",
+      "<p style='font-size:0.85rem;color:#546e7a;margin:0.35rem 0'>已选 " + pool.length + " 个单词</p>");
+    pool.forEach(function(w) {
+      var s = document.createElement("span");
+      s.className = "chip";
+      s.textContent = w.word;
+      host.appendChild(s);
+    });
+
+    function shuffle(arr) { return NgReview.shuffle(arr.slice()); }
+
+    function esc(s) {
+      return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+    }
+
+    function sheetHeader(title, sub) {
+      return '<div class="sheet-hdr"><h2>' + esc(title) + '</h2><div class="meta">' + esc(sub) + '</div></div>' +
+        '<div class="name-line">姓名：<span></span> &nbsp; 日期：<span></span></div>';
+    }
+
+    function padGroupToFour(group, sourcePool) {
+      var words = group.slice();
+      if (words.length >= 4) return shuffle(words.slice(0, 4));
+      var src = shuffle(sourcePool.slice());
+      while (words.length < 4) {
+        var candidates = src.filter(function(w) {
+          return !words.some(function(x) { return x.word === w.word; });
+        });
+        if (!candidates.length) candidates = src;
+        words.push(candidates[Math.floor(Math.random() * candidates.length)]);
+      }
+      return shuffle(words);
+    }
+
+    function buildMazeGroups(sourcePool) {
+      if (!sourcePool.length) return [];
+      var shuffled = shuffle(sourcePool.slice());
+      var groups = [];
+      for (var i = 0; i < shuffled.length; i += 4) {
+        groups.push(padGroupToFour(shuffled.slice(i, i + 4), sourcePool));
+      }
+      return groups;
+    }
+
+    function prepareMazeSheet(group, sourcePool) {
+      var words, maze, tries = 0;
+      do {
+        words = padGroupToFour(group, sourcePool);
+        maze = NgReview.generateMazeGrid7(words);
+        tries++;
+      } while (tries < 12 && (!maze || !maze.grid || !maze.grid[0] || !maze.grid[0].length));
+      return { words: words, maze: maze };
+    }
+
+    function renderMazeSheet(prepared, idx, total, showAns) {
+      var words = prepared.words;
+      var maze = prepared.maze;
+      var mazeSize = maze && maze.size ? maze.size : 7;
+      var answerCells = {};
+      if (showAns && maze && maze.placements) {
+        maze.placements.forEach(function (placement) {
+          placement.cells.forEach(function (cell) {
+            answerCells[cell.r + "-" + cell.c] = true;
+          });
+        });
+      }
+      var html = '<div class="sheet' + (showAns ? ' answer-key' : '') + '">';
+      html += sheetHeader("World's Largest Deserts? · 单词迷宫", "第 " + idx + " / " + total + " 组 · " + mazeSize + "×" + mazeSize);
+      html += '<div class="maze-targets">';
+      words.forEach(function(w, i) {
+        html += '<div class="maze-target"><div class="num">' + (i+1) + '</div>';
+        html += '<img src="' + esc(wordImg(w)) + '" alt="" />';
+        html += '<div class="zh">' + esc(w.zh) + '</div>';
+        if (showAns) html += '<div class="ans">' + esc(w.word) + '</div>';
+        html += '</div>';
+      });
+      html += '</div>';
+      if (maze && maze.grid && maze.grid.length && maze.grid[0] && maze.grid[0].length) {
+        var sz = maze.size || maze.grid.length;
+        var cellFont = sz >= 12 ? "0.82rem" : (sz >= 10 ? "1rem" : "1.3rem");
+        var cellGap = sz >= 10 ? "2px" : "3px";
+        html += '<div class="maze-grid" style="grid-template-columns:repeat(' + sz + ',minmax(0,1fr));gap:' + cellGap + '">';
+        maze.grid.forEach(function(row, r) {
+          row.forEach(function(ch, c) {
+            var answerClass = answerCells[r + "-" + c] ? " answer" : "";
+            html += '<div class="maze-cell' + answerClass + '" style="font-size:' + cellFont + '">' + esc((ch||"?").toUpperCase()) + '</div>';
+          });
+        });
+        html += '</div>';
+      } else {
+        html += '<p class="maze-hint" style="color:#c62828">宫格生成失败，请点击「生成练习纸」重试</p>';
+      }
+      html += '<p class="maze-hint">' + (showAns ? '答案页' : '在宫格中找出 4 个单词（横/竖直线）') + '</p>';
+      html += '</div>';
+      return html;
+    }
+
+    function renderSpellSheet(words, showAns) {
+      var html = '<div class="sheet' + (showAns ? ' answer-key' : '') + '">';
+      html += sheetHeader("World's Largest Deserts? · 字母排序", "看图 · 乱序字母 · 写出单词 · 共 " + words.length + " 题");
+      words.forEach(function(w, i) {
+        var letters = w.word.replace(/[\s-]/g, "").split("");
+        var scrambled = shuffle(letters);
+        html += '<div class="spell-item">';
+        html += '<img src="' + esc(wordImg(w)) + '" alt="" />';
+        html += '<div><div class="spell-zh">' + (i+1) + '. ' + esc(w.zh) + '</div>';
+        html += '<div class="spell-letters">';
+        scrambled.forEach(function(ch) {
+          html += '<span>' + esc(ch) + '</span>';
+        });
+        html += '</div><div class="spell-write">写出单词：';
+        if (showAns) html += '<span class="ans">' + esc(w.word) + '</span>';
+        else html += '<span class="spell-line"></span>';
+        html += '</div></div></div>';
+      });
+      html += '</div>';
+      return html;
+    }
+
+    function padGroupToThree(group, sourcePool) {
+      var words = group.slice();
+      if (words.length >= 3) return shuffle(words.slice(0, 3));
+      var src = shuffle(sourcePool.slice());
+      while (words.length < 3) {
+        words.push(src[Math.floor(Math.random() * src.length)]);
+      }
+      return shuffle(words);
+    }
+
+    function buildConnectGroups(sourcePool) {
+      var shuffled = shuffle(sourcePool.slice());
+      var groups = [];
+      for (var i = 0; i < shuffled.length; i += 3) {
+        groups.push(padGroupToThree(shuffled.slice(i, i + 3), sourcePool));
+      }
+      return groups;
+    }
+
+    function renderConnectSheet(group, idx, total, showAns) {
+      var words = shuffle(group.slice());
+      var shuffled = shuffle(words.slice());
+      var html = '<div class="sheet' + (showAns ? ' answer-key' : '') + '">';
+      html += sheetHeader("World's Largest Deserts? · 图片单词连线", "第 " + idx + " / " + total + " 页");
+      html += '<div class="connect-row"><div><strong>图片</strong></div><div><strong>单词（已打乱）</strong></div></div>';
+      for (var i = 0; i < words.length; i++) {
+        html += '<div class="connect-row">';
+        html += '<div class="connect-item connect-item--img"><img src="' + esc(wordImg(words[i])) + '" alt="" /></div>';
+        html += '<div class="connect-item connect-item--word">' + esc(shuffled[i].word) + '</div></div>';
+      }
+      if (showAns) {
+        html += '<p class="maze-hint">答案：';
+        words.forEach(function(w) { html += esc(w.word) + ' ↔ ' + esc(w.zh) + ' &nbsp; '; });
+        html += '</p>';
+      } else {
+        html += '<p class="maze-hint">用线将左侧图片与右侧对应的英文单词相连（右侧顺序已打乱）</p>';
+      }
+      html += '</div>';
+      return html;
+    }
+
+    function generate() {
+      var area = document.getElementById("printArea");
+      var optMaze = document.getElementById("optMaze").checked;
+      var optSpell = document.getElementById("optSpell").checked;
+      var optConnect = document.getElementById("optConnect").checked;
+      var optAnswers = document.getElementById("optAnswers").checked;
+      pool = NgReview.shuffle(W.getSelected().slice());
+
+      if (!pool.length) {
+        area.innerHTML = '<p class="empty-msg">请先在 <a href="settings.html">选词设置</a> 中勾选单词</p>';
+        return;
+      }
+
+      var html = "";
+      var mazeWords = pool.filter(function(w) { return w.word.indexOf(" ") < 0; });
+
+      if (optMaze) {
+        if (!mazeWords.length) {
+          html += '<div class="sheet"><p class="maze-hint">迷宫需要至少 1 个无空格单词（含空格的词不参与迷宫，可用字母排序练习）</p></div>';
+        } else {
+          var mazeGroups = buildMazeGroups(mazeWords);
+          var mazePrepared = mazeGroups.map(function(g) { return prepareMazeSheet(g, mazeWords); });
+          mazePrepared.forEach(function(p, i) {
+            html += renderMazeSheet(p, i + 1, mazePrepared.length, false);
+          });
+          if (optAnswers) {
+            mazePrepared.forEach(function(p, i) {
+              html += renderMazeSheet(p, i + 1, mazePrepared.length, true);
+            });
+          }
+        }
+      }
+
+      if (optSpell) {
+        var spellWords = shuffle(pool.slice());
+        for (var i = 0; i < spellWords.length; i += 6) {
+          html += renderSpellSheet(spellWords.slice(i, i + 6), false);
+        }
+        if (optAnswers) {
+          for (var j = 0; j < spellWords.length; j += 6) {
+            html += renderSpellSheet(spellWords.slice(j, j + 6), true);
+          }
+        }
+      }
+
+      if (optConnect) {
+        var connGroups = buildConnectGroups(pool);
+        connGroups.forEach(function(g, i) {
+          html += renderConnectSheet(g, i + 1, connGroups.length, false);
+        });
+        if (optAnswers) {
+          connGroups.forEach(function(g, i) {
+            html += renderConnectSheet(g, i + 1, connGroups.length, true);
+          });
+        }
+      }
+
+      if (!html) {
+        html = '<p class="empty-msg">请至少勾选一种练习类型</p>';
+      }
+      area.innerHTML = html;
+    }
+
+    document.getElementById("btnGen").onclick = generate;
+    document.getElementById("btnPrint").onclick = function() {
+      if (!document.querySelector("#printArea .sheet")) generate();
+      window.print();
+    };
+
+    if (pool.length) generate();
+  })();
+  </script>
+</body>
+</html>

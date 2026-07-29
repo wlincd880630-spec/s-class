@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>抄写 · World's Largest Deserts</title>
+  <link rel="stylesheet" href="assets/css/desert-course.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    @media print { .no-print { display:none!important;} body{background:#fff;} .tv-frame{box-shadow:none;width:100%;height:auto;aspect-ratio:auto;} }
+    .copy-line { display:flex; gap:0.5rem; align-items:center; margin:0.45rem 0; flex-wrap:wrap; }
+    .trace { letter-spacing:0.12em; color:#c4b5a0; border-bottom:2px solid #e0d4c2; min-width:8rem; padding:0.25rem 0.4rem; font-size:1.25rem; font-weight:700; }
+    .blank { border-bottom:2px solid #c4782a; min-width:8rem; height:1.6rem; }
+    .sheet { page-break-after: always; padding:1rem; }
+  </style>
+</head>
+<body class="tv-layout">
+  <div class="tv-frame" style="height:auto;aspect-ratio:auto;max-height:none;overflow:auto;">
+    <header class="top-bar no-print">
+      <a class="back-link" href="../index.html">课程首页</a>
+      <h1>单词抄写 · Lexile 600</h1>
+      <button class="back-link" onclick="window.print()">打印</button>
+    </header>
+    <div class="tv-inner" id="sheets"></div>
+  </div>
+  <script src="assets/data/words-data.js"></script>
+  <script>
+    const box=document.getElementById('sheets');
+    DESERT_COURSE.words.forEach((w,i)=>{
+      const d=document.createElement('div'); d.className='sheet card';
+      d.innerHTML=`<h2 style="color:var(--accent-dark)">${i+1}. ${w.word}</h2>
+        <p style="color:var(--muted)">${w.chinese}</p>
+        <img src="${getDesertWordImage(w)}" alt="" style="max-width:220px;border-radius:10px;margin:0.5rem 0;" onerror="this.style.display='none'">
+        <div class="copy-line"><span>描红</span><span class="trace">${w.word}</span><span class="trace">${w.word}</span></div>
+        <div class="copy-line"><span>书写</span><span class="blank"></span><span class="blank"></span><span class="blank"></span></div>
+        <p style="margin-top:0.75rem;font-size:0.95rem;">${(w.sentences[0]||{}).en||''}</p>`;
+      box.appendChild(d);
+    });
+  </script>
+</body>
+</html>
