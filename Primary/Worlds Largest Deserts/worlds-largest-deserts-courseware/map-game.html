@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>沙漠地理位置 · Pin the Deserts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,650;9..144,800&family=Noto+Sans+SC:wght@400;600;700;900&family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="assets/css/field-journal.css?v=2">
+  <style>
+    .map-layout {
+      display: grid;
+      grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+      gap: 16px;
+      min-height: min(72vh, 720px);
+      align-items: stretch;
+    }
+    .tag-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255, 250, 241, .88);
+      max-height: min(72vh, 720px);
+      overflow: auto;
+    }
+    .tag-panel h3 {
+      margin: 0;
+      color: var(--forest);
+      font-family: "Fraunces", serif;
+      font-size: 1.15rem;
+    }
+    .tag-hint { margin: 0; color: var(--muted); font-size: .82rem; line-height: 1.5; }
+    .tag-pool { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+    .desert-tag {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 11px 13px;
+      border: 0;
+      border-radius: 14px;
+      color: #fff;
+      background: var(--forest);
+      cursor: grab;
+      text-align: left;
+      font-weight: 900;
+      box-shadow: 0 6px 16px rgba(74, 47, 28, .16);
+      touch-action: none;
+      user-select: none;
+    }
+    .desert-tag:active { cursor: grabbing; }
+    .desert-tag small { color: rgba(255,255,255,.72); font-weight: 700; }
+    .desert-tag.is-placed {
+      opacity: .38;
+      cursor: default;
+      pointer-events: none;
+      background: #8a745c;
+    }
+    .desert-tag.is-selected {
+      outline: 3px solid var(--amber);
+      box-shadow: 0 0 0 4px rgba(234,177,61,.35), 0 6px 16px rgba(74, 47, 28, .16);
+    }
+    .map-stage {
+      position: relative;
+      overflow: hidden;
+      min-height: 420px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #dce7ef;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.5);
+    }
+    #desertMap {
+      width: 100%;
+      height: 100%;
+      min-height: min(72vh, 720px);
+      border-radius: 18px;
+    }
+    .map-toolbar {
+      position: absolute;
+      z-index: 500;
+      top: 12px;
+      left: 12px;
+      right: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      pointer-events: none;
+    }
+    .map-toolbar > * { pointer-events: auto; }
+    .score-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: var(--forest);
+      background: rgba(255, 253, 248, .94);
+      font-weight: 1000;
+      box-shadow: 0 8px 20px rgba(0,0,0,.12);
+    }
+    .ghost-chip {
+      position: fixed;
+      z-index: 10000;
+      padding: 10px 14px;
+      border-radius: 14px;
+      color: #fff;
+      background: var(--clay);
+      font-weight: 900;
+      pointer-events: none;
+      box-shadow: 0 10px 24px rgba(0,0,0,.22);
+      transform: translate(-50%, -120%);
+    }
+    .drop-ring {
+      background: rgba(234, 177, 61, .18);
+      border: 2px dashed rgba(215, 101, 73, .85);
+    }
+    .drop-ring.matched {
+      background: rgba(52, 168, 83, .16);
+      border: 2px solid rgba(52, 168, 83, .9);
+    }
+    .placed-marker {
+      background: transparent;
+      border: 0;
+    }
+    .placed-pin {
+      min-width: 96px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: #fff;
+      background: #2f7d4a;
+      text-align: center;
+      font-weight: 900;
+      font-size: .78rem;
+      box-shadow: 0 6px 14px rgba(0,0,0,.22);
+      white-space: nowrap;
+    }
+    .toast {
+      position: absolute;
+      z-index: 600;
+      left: 50%;
+      bottom: 18px;
+      width: min(520px, calc(100% - 28px));
+      transform: translateX(-50%);
+      padding: 14px 16px;
+      border-radius: 16px;
+      color: var(--ink);
+      background: rgba(255, 253, 248, .96);
+      box-shadow: 0 16px 36px rgba(0,0,0,.18);
+      display: none;
+    }
+    .toast.is-on { display: block; animation: rise .28s ease; }
+    .toast .badge {
+      display: inline-block;
+      margin-bottom: 6px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      color: #fff;
+      background: var(--clay);
+      font-size: .72rem;
+      font-weight: 1000;
+      letter-spacing: .08em;
+    }
+    .toast h4 { margin: 0 0 6px; color: var(--forest); font-family: "Fraunces", serif; font-size: 1.2rem; }
+    .toast p { margin: 0; color: var(--muted); line-height: 1.55; }
+    .toast .zh { margin-top: 6px; color: var(--forest); font-weight: 700; }
+    .toast.wrong .badge { background: #9f2b1e; }
+    .layer-btn, .hint-btn, .reset-btn {
+      min-height: 38px;
+      padding: 7px 12px;
+      border: 0;
+      border-radius: 999px;
+      color: var(--forest);
+      background: rgba(255,253,248,.94);
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(0,0,0,.1);
+    }
+    .layer-btn.is-active { color: #fff; background: var(--clay); }
+    .complete-banner {
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      color: #14532d;
+      background: #e8f6e9;
+      border: 1px solid #34a853;
+      font-weight: 900;
+      display: none;
+    }
+    .complete-banner.is-on { display: block; }
+    .leaflet-container { font: inherit; }
+    @media (max-width: 900px) {
+      .map-layout { grid-template-columns: 1fr; min-height: auto; }
+      .tag-panel { max-height: none; }
+      .tag-pool { flex-direction: row; flex-wrap: wrap; }
+      .desert-tag { width: calc(50% - 4px); }
+      #desertMap { min-height: 58vh; }
+    }
+    @media (max-width: 560px) {
+      .desert-tag { width: 100%; }
+      .map-toolbar { top: 8px; left: 8px; right: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="journal-shell">
+    <header class="journal-header">
+      <div class="brand-mark">🗺️</div>
+      <div>
+        <h1>Pin the Deserts</h1>
+        <p>沙漠地理位置拖拽 · 真坐标判定 · Lexile ~600</p>
+      </div>
+      <nav class="header-actions">
+        <a class="header-link" href="../index.html">⌂ 大本营</a>
+        <a class="header-link" href="index.html">📓 科学日志</a>
+        <a class="header-link" href="activities.html">🔭 观测站</a>
+      </nav>
+    </header>
+
+    <main class="journal-view is-active">
+      <p class="eyebrow">Field lab · Geography</p>
+      <h2 class="view-heading">把沙漠放回真实的位置</h2>
+      <p class="view-lead">底图为真实世界地图（WGS84）。拖拽左侧名称到对应地点；匹配成功后会显示五年级难度的英文简介。</p>
+
+      <div class="map-layout">
+        <aside class="tag-panel">
+          <h3>Desert tags</h3>
+          <p class="tag-hint">拖到地图上，或先点选标签再点地图放置。靠近真实位置才会判定成功。</p>
+          <div class="tag-pool" id="tagPool"></div>
+          <div class="complete-banner" id="completeBanner"></div>
+        </aside>
+
+        <section class="map-stage">
+          <div class="map-toolbar">
+            <span class="score-pill">✅ <span id="scoreText">0</span> / <span id="totalText">10</span></span>
+            <button type="button" class="layer-btn is-active" data-layer="imagery" id="btnImagery">卫星图</button>
+            <button type="button" class="layer-btn" data-layer="street" id="btnStreet">街道图</button>
+            <button type="button" class="hint-btn" id="btnHint">显示目标圈</button>
+            <button type="button" class="reset-btn" id="btnReset">重置</button>
+          </div>
+          <div id="desertMap" role="application" aria-label="World map desert placement game"></div>
+          <div class="toast" id="toast" role="status"></div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="journal-footer">
+      <strong>S-Class Geography Lab</strong>
+      <span>坐标基于 WGS84 · 判定使用真实经纬度距离</span>
+    </footer>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="assets/data/desert-map-data.js"></script>
+  <script>
+  (function () {
+    "use strict";
+    var DATA = window.DESERT_MAP_GAME;
+    var deserts = DATA.deserts.slice();
+    var matched = {};
+    var showHints = false;
+    var activeId = null;
+    var selectedId = null;
+    var ghost = null;
+    var targetLayers = {};
+    var placedMarkers = {};
+
+    var map = L.map("desertMap", {
+      worldCopyJump: true,
+      minZoom: 1,
+      maxZoom: 8,
+      zoomControl: true
+    }).setView([12, 20], 2);
+
+    var imagery = L.tileLayer(
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      {
+        attribution: "Tiles © Esri",
+        maxZoom: 19
+      }
+    );
+    var street = L.tileLayer(
+      "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+      {
+        attribution: "&copy; OpenStreetMap &copy; CARTO",
+        subdomains: "abcd",
+        maxZoom: 19
+      }
+    );
+    imagery.addTo(map);
+
+    document.getElementById("totalText").textContent = String(deserts.length);
+    document.getElementById("scoreText").textContent = "0";
+
+    function esc(s) {
+      return String(s || "").replace(/[&<>"']/g, function (c) {
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+      });
+    }
+
+    function shuffle(arr) {
+      var a = arr.slice();
+      for (var i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = a[i]; a[i] = a[j]; a[j] = t;
+      }
+      return a;
+    }
+
+    function kmDistance(a, b) {
+      return map.distance(a, b) / 1000;
+    }
+
+    function updateScore() {
+      var n = Object.keys(matched).length;
+      document.getElementById("scoreText").textContent = String(n);
+      var banner = document.getElementById("completeBanner");
+      if (n >= deserts.length) {
+        banner.classList.add("is-on");
+        banner.innerHTML = "✅ " + esc(DATA.completeEn) + "<br><small>" + esc(DATA.completeZh) + "</small>";
+      } else {
+        banner.classList.remove("is-on");
+        banner.innerHTML = "";
+      }
+    }
+
+    function showToast(desert, ok, extra) {
+      var el = document.getElementById("toast");
+      el.className = "toast is-on" + (ok ? "" : " wrong");
+      if (ok) {
+        el.innerHTML =
+          '<span class="badge">MATCHED</span>' +
+          "<h4>" + esc(desert.name) + " · " + esc(desert.nameZh) + "</h4>" +
+          "<p>" + esc(desert.en) + "</p>" +
+          '<p class="zh">' + esc(desert.zh) + "</p>";
+      } else {
+        el.innerHTML =
+          '<span class="badge">TRY AGAIN</span>' +
+          "<h4>Not quite there</h4>" +
+          "<p>" + esc(extra || "Move closer to the real location of this desert.") + "</p>" +
+          '<p class="zh">再靠近一点真实位置试试。</p>';
+      }
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(function () {
+        if (!ok) el.classList.remove("is-on");
+      }, ok ? 9000 : 2600);
+    }
+
+    function renderTargets() {
+      Object.keys(targetLayers).forEach(function (id) {
+        map.removeLayer(targetLayers[id]);
+      });
+      targetLayers = {};
+      deserts.forEach(function (d) {
+        var circle = L.circle([d.lat, d.lng], {
+          radius: d.radiusKm * 1000,
+          className: "drop-ring" + (matched[d.id] ? " matched" : ""),
+          color: matched[d.id] ? "#34a853" : "#d76549",
+          weight: showHints || matched[d.id] ? 2 : 0,
+          opacity: showHints || matched[d.id] ? 0.9 : 0,
+          fillOpacity: showHints || matched[d.id] ? (matched[d.id] ? 0.14 : 0.12) : 0,
+          interactive: false
+        });
+        // Keep precise centers even when rings hidden — used only for distance checks.
+        targetLayers[d.id] = circle;
+        if (showHints || matched[d.id]) circle.addTo(map);
+      });
+    }
+
+    function placeMarker(desert) {
+      if (placedMarkers[desert.id]) map.removeLayer(placedMarkers[desert.id]);
+      var icon = L.divIcon({
+        className: "placed-marker",
+        html: '<div class="placed-pin">' + esc(desert.name) + "</div>",
+        iconSize: [120, 28],
+        iconAnchor: [60, 14]
+      });
+      placedMarkers[desert.id] = L.marker([desert.lat, desert.lng], {
+        icon: icon,
+        interactive: false,
+        keyboard: false
+      }).addTo(map);
+    }
+
+    function renderTags() {
+      var pool = document.getElementById("tagPool");
+      var order = shuffle(deserts);
+      // Keep stable order after first render unless reset — shuffle only once
+      if (!renderTags._order) renderTags._order = order;
+      else order = renderTags._order;
+      pool.innerHTML = order.map(function (d) {
+        var placed = !!matched[d.id];
+        var sel = selectedId === d.id && !placed;
+        return (
+          '<button type="button" class="desert-tag' + (placed ? " is-placed" : "") + (sel ? " is-selected" : "") + '" data-id="' + esc(d.id) + '" draggable="' + (!placed) + '">' +
+            esc(d.name) +
+            "<small>" + esc(d.nameZh) + "</small>" +
+          "</button>"
+        );
+      }).join("");
+    }
+
+    function findDesert(id) {
+      for (var i = 0; i < deserts.length; i++) if (deserts[i].id === id) return deserts[i];
+      return null;
+    }
+
+    function tryMatch(id, latlng) {
+      var desert = findDesert(id);
+      if (!desert || matched[id]) return;
+      var dist = kmDistance(latlng, L.latLng(desert.lat, desert.lng));
+      if (dist <= desert.radiusKm) {
+        matched[id] = true;
+        placeMarker(desert);
+        renderTargets();
+        renderTags();
+        updateScore();
+        showToast(desert, true);
+        map.panTo([desert.lat, desert.lng], { animate: true });
+      } else {
+        // Soft assist: if dropped near another unmatched desert, say "wrong desert"
+        var nearest = null;
+        var nearestDist = Infinity;
+        deserts.forEach(function (d) {
+          if (matched[d.id]) return;
+          var dd = kmDistance(latlng, L.latLng(d.lat, d.lng));
+          if (dd < nearestDist) { nearestDist = dd; nearest = d; }
+        });
+        var tip = "You are about " + Math.round(dist) + " km from " + desert.name + ".";
+        if (nearest && nearest.id !== desert.id && nearestDist <= nearest.radiusKm) {
+          tip = "That spot is closer to another desert. Try again with " + desert.name + ".";
+        }
+        showToast(desert, false, tip);
+      }
+    }
+
+    function removeGhost() {
+      if (ghost && ghost.parentNode) ghost.parentNode.removeChild(ghost);
+      ghost = null;
+      activeId = null;
+      Array.prototype.forEach.call(document.querySelectorAll(".desert-tag"), function (t) {
+        t.classList.remove("is-dragging");
+      });
+    }
+
+    function startDrag(id, clientX, clientY, el) {
+      if (matched[id]) return;
+      activeId = id;
+      el.classList.add("is-dragging");
+      ghost = document.createElement("div");
+      ghost.className = "ghost-chip";
+      ghost.textContent = findDesert(id).name;
+      ghost.style.left = clientX + "px";
+      ghost.style.top = clientY + "px";
+      document.body.appendChild(ghost);
+    }
+
+    function moveDrag(clientX, clientY) {
+      if (!ghost) return;
+      ghost.style.left = clientX + "px";
+      ghost.style.top = clientY + "px";
+    }
+
+    function endDrag(clientX, clientY) {
+      if (!activeId) { removeGhost(); return; }
+      var id = activeId;
+      var mapEl = document.getElementById("desertMap");
+      var rect = mapEl.getBoundingClientRect();
+      var inside =
+        clientX >= rect.left && clientX <= rect.right &&
+        clientY >= rect.top && clientY <= rect.bottom;
+      removeGhost();
+      if (!inside) return;
+      var point = L.point(clientX - rect.left, clientY - rect.top);
+      var latlng = map.containerPointToLatLng(point);
+      tryMatch(id, latlng);
+    }
+
+    document.getElementById("tagPool").addEventListener("click", function (e) {
+      var btn = e.target.closest(".desert-tag");
+      if (!btn || matched[btn.dataset.id]) return;
+      selectedId = btn.dataset.id;
+      renderTags();
+      var d = findDesert(selectedId);
+      var el = document.getElementById("toast");
+      el.className = "toast is-on";
+      el.innerHTML =
+        '<span class="badge">SELECTED</span>' +
+        "<h4>" + esc(d.name) + "</h4>" +
+        "<p>Now tap the correct place on the map.</p>" +
+        '<p class="zh">已选中。请再点击地图上的对应位置。</p>';
+    });
+
+    map.on("click", function (e) {
+      if (!selectedId || matched[selectedId]) return;
+      var id = selectedId;
+      tryMatch(id, e.latlng);
+      if (matched[id]) selectedId = null;
+    });
+
+    document.getElementById("tagPool").addEventListener("dragstart", function (e) {
+      var btn = e.target.closest(".desert-tag");
+      if (!btn || matched[btn.dataset.id]) { e.preventDefault(); return; }
+      e.dataTransfer.setData("text/plain", btn.dataset.id);
+      e.dataTransfer.effectAllowed = "copy";
+      startDrag(btn.dataset.id, e.clientX, e.clientY, btn);
+    });
+    document.getElementById("tagPool").addEventListener("dragend", function () {
+      removeGhost();
+    });
+
+    // HTML5 drop onto map container
+    var mapEl = document.getElementById("desertMap");
+    mapEl.addEventListener("dragover", function (e) {
+      e.preventDefault();
+      if (ghost) moveDrag(e.clientX, e.clientY);
+    });
+    mapEl.addEventListener("drop", function (e) {
+      e.preventDefault();
+      var id = e.dataTransfer.getData("text/plain") || activeId;
+      removeGhost();
+      if (!id || matched[id]) return;
+      var rect = mapEl.getBoundingClientRect();
+      var point = L.point(e.clientX - rect.left, e.clientY - rect.top);
+      tryMatch(id, map.containerPointToLatLng(point));
+    });
+
+    // Pointer / touch drag (classroom tablets)
+    document.getElementById("tagPool").addEventListener("pointerdown", function (e) {
+      var btn = e.target.closest(".desert-tag");
+      if (!btn || matched[btn.dataset.id] || e.button === 2) return;
+      // Prefer native HTML5 drag on desktop mouse for accessibility; pointer path for touch
+      if (e.pointerType === "mouse") return;
+      e.preventDefault();
+      btn.setPointerCapture(e.pointerId);
+      startDrag(btn.dataset.id, e.clientX, e.clientY, btn);
+      function onMove(ev) { moveDrag(ev.clientX, ev.clientY); }
+      function onUp(ev) {
+        btn.releasePointerCapture(e.pointerId);
+        btn.removeEventListener("pointermove", onMove);
+        btn.removeEventListener("pointerup", onUp);
+        btn.removeEventListener("pointercancel", onUp);
+        endDrag(ev.clientX, ev.clientY);
+      }
+      btn.addEventListener("pointermove", onMove);
+      btn.addEventListener("pointerup", onUp);
+      btn.addEventListener("pointercancel", onUp);
+    });
+
+    document.getElementById("btnHint").onclick = function () {
+      showHints = !showHints;
+      this.textContent = showHints ? "隐藏目标圈" : "显示目标圈";
+      renderTargets();
+    };
+
+    document.getElementById("btnReset").onclick = function () {
+      matched = {};
+      selectedId = null;
+      renderTags._order = null;
+      Object.keys(placedMarkers).forEach(function (id) { map.removeLayer(placedMarkers[id]); });
+      placedMarkers = {};
+      document.getElementById("toast").classList.remove("is-on");
+      renderTags();
+      renderTargets();
+      updateScore();
+      map.setView([12, 20], 2);
+    };
+
+    document.getElementById("btnImagery").onclick = function () {
+      if (map.hasLayer(street)) map.removeLayer(street);
+      if (!map.hasLayer(imagery)) imagery.addTo(map);
+      this.classList.add("is-active");
+      document.getElementById("btnStreet").classList.remove("is-active");
+    };
+    document.getElementById("btnStreet").onclick = function () {
+      if (map.hasLayer(imagery)) map.removeLayer(imagery);
+      if (!map.hasLayer(street)) street.addTo(map);
+      this.classList.add("is-active");
+      document.getElementById("btnImagery").classList.remove("is-active");
+    };
+
+    // Invalidate size after layout
+    setTimeout(function () { map.invalidateSize(); }, 80);
+    window.addEventListener("resize", function () { map.invalidateSize(); });
+
+    renderTags();
+    renderTargets();
+    updateScore();
+  })();
+  </script>
+</body>
+</html>
