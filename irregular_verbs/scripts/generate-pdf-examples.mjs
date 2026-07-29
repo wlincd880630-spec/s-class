@@ -3,8 +3,8 @@
  * 通过 DeepSeek 为 80 个不规则动词生成 8 档难度 × 三态例句
  * 输出：irregular_verbs/pdf-examples-data.js
  *
- * 用法：node irregular_verbs/scripts/generate-pdf-examples.mjs
- * 断点续跑：自动读取已有输出并跳过已完成动词
+ * 用法：CONCURRENCY=2 node irregular_verbs/scripts/generate-pdf-examples.mjs
+ * 断点续跑：按动词+难度切片自动跳过已完成部分
  */
 import fs from "fs";
 import path from "path";
@@ -29,6 +29,13 @@ const LEVELS = [
   { id: "s1", label: "高一", desc: "抽象或社会话题，词数约 14–20，可用定语从句" },
   { id: "s2", label: "高二", desc: "议论文/说明文句式，词数约 16–22，可用被动或非谓语" },
   { id: "s3", label: "高三高考", desc: "高考难度，词数约 18–24，可用高级词汇与复杂从句" },
+];
+
+const SLICES = [
+  LEVELS.slice(0, 2),
+  LEVELS.slice(2, 4),
+  LEVELS.slice(4, 6),
+  LEVELS.slice(6, 8),
 ];
 
 function loadVerbs() {
@@ -78,6 +85,7 @@ function saveProgress(byId) {
 
 function extractJson(text) {
   const raw = String(text || "").trim();
+  if (!raw) throw new Error("empty model content");
   const fence = raw.match(/```(?:json)?\s*([\s\S]*?)```/i);
   const body = fence ? fence[1].trim() : raw;
   const start = body.indexOf("{");
@@ -106,7 +114,20 @@ function presentVariants(verb) {
     do: ["do", "does"],
     go: ["go", "goes"],
   };
-  const list = new Set([base, ...(extra[verb.id] || []), ...thirdPerson(base)]);
+  const gerund =
+    base === "be"
+      ? []
+      : /e$/.test(base) && !/(ee|ye|oe)$/.test(base)
+        ? [base.slice(0, -1) + "ing"]
+        : /([^aeiou])([aeiou])([^aeiou])$/.test(base)
+          ? [base + base.slice(-1) + "ing", base + "ing"]
+          : [base + "ing"];
+  const list = new Set([
+    base,
+    ...(extra[verb.id] || []),
+    ...thirdPerson(base),
+    ...gerund,
+  ]);
   return Array.from(list).filter(Boolean);
 }
 
@@ -137,20 +158,28 @@ function formAppears(sentence, variants) {
   });
 }
 
-function validateVerbExamples(verb, data) {
+function levelComplete(block) {
+  if (!block || typeof block !== "object") return false;
+  return ["base", "past", "pp"].every(
+    (key) => block[key] && String(block[key].en || "").trim() && String(block[key].cn || "").trim()
+  );
+}
+
+function verbComplete(entry) {
+  if (!entry || !entry.levels) return false;
+  return LEVELS.every((level) => levelComplete(entry.levels[level.id]));
+}
+
+function validateLevelSlice(verb, data, levelSlice) {
   const errors = [];
-  for (const level of LEVELS) {
+  for (const level of levelSlice) {
     const block = data[level.id];
-    if (!block) {
-      errors.push("missing level " + level.id);
+    if (!levelComplete(block)) {
+      errors.push(level.id + " incomplete");
       continue;
     }
     for (const key of ["base", "past", "pp"]) {
       const item = block[key];
-      if (!item || !item.en || !item.cn) {
-        errors.push(level.id + "." + key + " incomplete");
-        continue;
-      }
       const variants =
         key === "base"
           ? presentVariants(verb)
@@ -159,7 +188,7 @@ function validateVerbExamples(verb, data) {
             : ppVariants(verb);
       if (!formAppears(item.en, variants)) {
         errors.push(
-          level.id + "." + key + " missing form [" + variants.join("/") + "] in: " + item.en
+          level.id + "." + key + " missing [" + variants.join("/") + "] in: " + item.en
         );
       }
     }
@@ -175,36 +204,32 @@ async function callDeepSeekLevels(verb, levelSlice, attempt) {
 
   const ppNote =
     verb.id === "can"
-      ? `过去分词栏请用 "been able to / able to" 完成时或能力表达（因为 can 无独立过去分词）。`
-      : `过去分词例句必须使用现在完成时或被动语态，并包含正确形式 "${verb.pp}"。`;
+      ? `过去分词栏请用含 "been able to" 或 "able to" 的能力表达。`
+      : `过去分词例句必须为现在完成时或被动，并包含 "${verb.pp}"。`;
 
   const skeleton = keys
     .map(
       (id) =>
-        `  "${id}": {\n    "base": {"en":"...","cn":"..."},\n    "past": {"en":"...","cn":"..."},\n    "pp": {"en":"...","cn":"..."}\n  }`
+        `  "${id}": {"base":{"en":"...","cn":"..."},"past":{"en":"...","cn":"..."},"pp":{"en":"...","cn":"..."}}`
     )
     .join(",\n");
-
-  const system = `你是资深中小学英语教研员。请为不规则动词编写高使用价值的分级例句。
-只输出合法 JSON，不要 Markdown，不要解释。`;
 
   const user = `动词：${verb.base}
 过去式：${verb.past}
 过去分词：${verb.pp}
 中文含义：${verb.cn}
 
-请仅为以下难度各写 3 条例句（原形/过去式/过去分词）：
+仅为以下难度各写 3 条例句（原形/过去式/过去分词）：
 ${levelGuide}
 
-要求：
-1. 例句自然、实用，贴近中国学生校园与生活，有高度使用价值。
-2. 原形例句用一般现在时（或祈使/习惯）；允许 am/is/are、goes/does/has 等正确现在时屈折。
-3. 过去式例句用一般过去时，必须包含正确过去式（${verb.past}）。
-4. ${ppNote}
-5. 每条例句给出简洁准确中文翻译。
-6. 不要冷僻专有名词；难度内词汇合理。
+硬性要求：
+1. 原形句必须用限定现在时（可用 am/is/are、goes/does/has）；禁止只用动名词开头凑句。
+2. 过去式句必须含正确过去式（${verb.past}）。
+3. ${ppNote}
+4. 贴近中国学生校园/生活，实用高价值；中文翻译准确简洁。
+5. 只输出一个 JSON 对象，key 仅为：${keys.join(", ")}
 
-输出 JSON（只含这些 key）：
+结构：
 {
 ${skeleton}
 }`;
@@ -217,15 +242,19 @@ ${skeleton}
     },
     body: JSON.stringify({
       model: MODEL,
-      temperature: 0.5,
-      max_tokens: 3500,
+      temperature: attempt > 1 ? 0.35 : 0.5,
+      max_tokens: 2200,
+      response_format: { type: "json_object" },
       messages: [
-        { role: "system", content: system },
+        {
+          role: "system",
+          content: "你是资深中小学英语教研员。只输出合法 JSON 对象，不要解释。",
+        },
         {
           role: "user",
           content:
             attempt > 1
-              ? user + "\n\n上一次不合格。请确保每个难度都有 base/past/pp，且英文句含正确动词形式。只输出 JSON。"
+              ? user + "\n\n上次不合格。请补全每个难度的 base/past/pp，并确保目标动词形式出现在英文句中。"
               : user,
         },
       ],
@@ -239,40 +268,8 @@ ${skeleton}
   const json = await resp.json();
   const content = json.choices?.[0]?.message?.content || "";
   const finish = json.choices?.[0]?.finish_reason;
-  if (finish === "length") {
-    throw new Error("response truncated (finish_reason=length)");
-  }
+  if (finish === "length") throw new Error("truncated response");
   return extractJson(content);
-}
-
-function validateLevelSlice(verb, data, levelSlice) {
-  const errors = [];
-  for (const level of levelSlice) {
-    const block = data[level.id];
-    if (!block) {
-      errors.push("missing level " + level.id);
-      continue;
-    }
-    for (const key of ["base", "past", "pp"]) {
-      const item = block[key];
-      if (!item || !item.en || !item.cn) {
-        errors.push(level.id + "." + key + " incomplete");
-        continue;
-      }
-      const variants =
-        key === "base"
-          ? presentVariants(verb)
-          : key === "past"
-            ? pastVariants(verb)
-            : ppVariants(verb);
-      if (!formAppears(item.en, variants)) {
-        errors.push(
-          level.id + "." + key + " missing form [" + variants.join("/") + "] in: " + item.en
-        );
-      }
-    }
-  }
-  return errors;
 }
 
 function sleep(ms) {
@@ -288,60 +285,78 @@ async function generateSlice(verb, levelSlice) {
       if (!errors.length) return data;
       lastErrors = errors;
       console.warn(
-        `  ⚠ ${verb.base} [${levelSlice.map((l) => l.id).join(",")}] attempt ${attempt}:`,
+        `  ⚠ ${verb.base} [${levelSlice.map((l) => l.id).join(",")}] #${attempt}:`,
         errors.slice(0, 3).join("; ")
       );
-      await sleep(500);
+      await sleep(400);
     } catch (err) {
       lastErrors = [String(err.message || err)];
       console.warn(
-        `  ⚠ ${verb.base} [${levelSlice.map((l) => l.id).join(",")}] attempt ${attempt} error:`,
+        `  ⚠ ${verb.base} [${levelSlice.map((l) => l.id).join(",")}] #${attempt} error:`,
         lastErrors[0]
       );
-      await sleep(700 * attempt);
+      await sleep(600 * attempt);
     }
   }
   throw new Error(
-    "Failed slice for " +
+    "slice failed " +
       verb.base +
       " (" +
       levelSlice.map((l) => l.id).join(",") +
       "): " +
-      lastErrors.slice(0, 4).join("; ")
+      lastErrors.slice(0, 3).join("; ")
   );
 }
 
-async function generateForVerb(verb) {
-  const chunks = [LEVELS.slice(0, 4), LEVELS.slice(4, 8)];
-  const merged = {};
-  for (const slice of chunks) {
+function missingSlices(entry) {
+  const levels = (entry && entry.levels) || {};
+  return SLICES.filter((slice) => !slice.every((level) => levelComplete(levels[level.id])));
+}
+
+async function ensureVerb(verb, byId) {
+  if (!byId[verb.id]) {
+    byId[verb.id] = {
+      base: verb.base,
+      past: verb.past,
+      pp: verb.pp,
+      cn: verb.cn,
+      levels: {},
+    };
+  }
+  const entry = byId[verb.id];
+  entry.levels = entry.levels || {};
+  const todo = missingSlices(entry);
+  for (const slice of todo) {
     const part = await generateSlice(verb, slice);
-    Object.assign(merged, part);
-    await sleep(250);
+    Object.assign(entry.levels, part);
+    await sleep(180);
   }
-  const errors = validateVerbExamples(verb, merged);
-  if (errors.length) {
-    throw new Error("Merged validation failed: " + errors.slice(0, 4).join("; "));
+  if (!verbComplete(entry)) {
+    throw new Error("still incomplete after slices");
   }
-  return merged;
+  return entry;
 }
 
 async function main() {
   const verbs = loadVerbs();
   const byId = loadProgress();
   const concurrency = Math.max(1, Number(process.env.CONCURRENCY || 2));
-  console.log(
-    `Loaded ${verbs.length} verbs; already done: ${Object.keys(byId).length}; concurrency=${concurrency}`
+  const force = new Set(
+    String(process.env.FORCE_IDS || "")
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean)
   );
 
-  const pending = verbs.filter(
-    (verb) => !byId[verb.id] || process.env.FORCE_IDS?.split(",").includes(verb.id)
+  const pending = verbs.filter((verb) => force.has(verb.id) || !verbComplete(byId[verb.id]));
+  console.log(
+    `Loaded ${verbs.length}; complete ${verbs.length - pending.length}; pending ${pending.length}; concurrency=${concurrency}`
   );
 
   let cursor = 0;
   let saveChain = Promise.resolve();
   function saveSafe() {
-    saveChain = saveChain.then(function () {
+    saveChain = saveChain.then(() => {
       saveProgress(byId);
     });
     return saveChain;
@@ -351,37 +366,31 @@ async function main() {
     while (cursor < pending.length) {
       const index = cursor++;
       const verb = pending[index];
-      const globalIndex = verbs.findIndex((v) => v.id === verb.id) + 1;
-      console.log(`[w${workerId}] [${globalIndex}/${verbs.length}] generating ${verb.base} …`);
+      console.log(`[w${workerId}] ${index + 1}/${pending.length} ${verb.base}`);
       try {
-        const data = await generateForVerb(verb);
-        byId[verb.id] = {
-          base: verb.base,
-          past: verb.past,
-          pp: verb.pp,
-          cn: verb.cn,
-          levels: data,
-        };
+        await ensureVerb(verb, byId);
         await saveSafe();
-        console.log(`  ✓ saved ${verb.base} (${Object.keys(byId).length}/${verbs.length})`);
+        const done = verbs.filter((v) => verbComplete(byId[v.id])).length;
+        console.log(`  ✓ ${verb.base} (${done}/${verbs.length})`);
       } catch (err) {
+        await saveSafe();
         console.error(`  ✗ ${verb.base}:`, err.message || err);
       }
-      await sleep(200);
+      await sleep(150);
     }
   }
 
-  await Promise.all(
-    Array.from({ length: concurrency }, (_, i) => worker(i + 1))
-  );
+  await Promise.all(Array.from({ length: concurrency }, (_, i) => worker(i + 1)));
   await saveChain;
 
-  const missing = verbs.filter((v) => !byId[v.id]).map((v) => v.base);
+  const missing = verbs.filter((v) => !verbComplete(byId[v.id])).map((v) => v.base);
   if (missing.length) {
     console.error("Still missing:", missing.join(", "));
     process.exitCode = 1;
+  } else {
+    console.log("All 80 verbs complete.");
   }
-  console.log("Done. Output:", OUT_FILE);
+  console.log("Output:", OUT_FILE);
 }
 
 main().catch((err) => {
