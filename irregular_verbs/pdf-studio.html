@@ -423,14 +423,18 @@
           verbs: list,
           quizTargets: quizTargets,
         })
-          .then(function () {
+          .then(function (result) {
             VV.setButtonBusy(button, false, { done: "已导出" });
-            VV.toast("PDF 已开始下载。");
+            VV.toast(
+              result && result.pages
+                ? "PDF 已下载（" + result.pages + " 页）。"
+                : "PDF 已开始下载。"
+            );
           })
           .catch(function (err) {
             console.error(err);
             VV.setButtonBusy(button, false);
-            VV.toast("PDF 导出失败，请重试。", { tone: "error" });
+            VV.toast((err && err.message) || "PDF 导出失败，请重试。", { tone: "error" });
           });
       });
 
