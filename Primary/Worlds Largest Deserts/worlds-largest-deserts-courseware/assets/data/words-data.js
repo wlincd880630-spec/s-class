@@ -1935,6 +1935,7 @@ const DESERT_COURSE = {
 function desertImagePath(key, kind) {
   if (!key) key = "desert";
   if (kind === "story") return "images/story/" + key + ".jpg";
+  if (kind === "meaning") return "images/words-meaning/" + key + ".jpg";
   return "images/words/" + key + ".jpg";
 }
 
@@ -1944,7 +1945,8 @@ function getDesertWordImage(w) {
 }
 
 function getDesertMeaningImage(w) {
-  return getDesertWordImage(w);
+  const key = (w && (w.image || w.imageKey)) || "desert";
+  return desertImagePath(String(key).toLowerCase().replace(/ /g, "-"), "meaning");
 }
 
 if (typeof module !== "undefined") module.exports = { DESERT_COURSE };

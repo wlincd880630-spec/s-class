@@ -174,25 +174,80 @@ a { color: inherit; }
 
 .specimen-layout {
   display: grid;
-  grid-template-columns: minmax(260px, .9fr) minmax(360px, 1.15fr);
+  grid-template-columns: minmax(280px, 1.05fr) minmax(320px, 1fr);
   gap: clamp(18px, 3vw, 36px);
   align-items: stretch;
 }
 
+.specimen-photos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  align-items: stretch;
+  min-width: 0;
+}
+
 .specimen-photo, .story-photo {
+  position: relative;
   overflow: hidden;
-  min-height: 420px;
-  border: 10px solid #fff;
+  margin: 0;
+  min-height: 0;
+  border: 8px solid #fff;
   border-radius: 6px;
   background: #fff;
   box-shadow: 0 16px 35px rgba(74, 47, 28, .18);
-  transform: rotate(-1deg);
+  transform: rotate(-0.8deg);
+  display: flex;
+  flex-direction: column;
+}
+
+.specimen-photo--meaning { transform: rotate(0.9deg); }
+
+.photo-tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  padding: 4px 9px;
+  border-radius: 999px;
+  color: #fff;
+  background: rgba(74, 47, 28, .82);
+  font-size: .68rem;
+  font-weight: 900;
+  letter-spacing: .06em;
+}
+
+.photo-frame {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: min(38vh, 320px);
+  padding: 10px 10px 14px;
+  background:
+    linear-gradient(180deg, #f3ebe0 0%, #e8dccb 100%);
 }
 
 .specimen-photo img, .story-photo img {
   display: block;
   width: 100%;
+  height: auto;
+  max-height: min(38vh, 320px);
+  object-fit: contain;
+  object-position: center;
+  background: transparent;
+}
+
+.story-photo {
+  min-height: 420px;
+  transform: rotate(-1deg);
+}
+
+.story-photo .photo-frame,
+.story-photo img {
+  max-height: none;
   height: 100%;
+  min-height: 420px;
   object-fit: cover;
 }
 
@@ -425,7 +480,12 @@ a { color: inherit; }
 @media (max-width: 900px) {
   .journal-shell { width: 100%; min-height: 100vh; margin: 0; border: 0; border-radius: 0; }
   .specimen-layout, .story-layout { grid-template-columns: 1fr; }
-  .specimen-photo, .story-photo { min-height: min(64vw, 430px); transform: none; }
+  .specimen-photos { grid-template-columns: 1fr 1fr; }
+  .specimen-photo, .story-photo { transform: none; }
+  .photo-frame { min-height: min(34vw, 260px); }
+  .specimen-photo img { max-height: min(34vw, 260px); }
+  .story-photo { min-height: min(64vw, 430px); }
+  .story-photo img { min-height: min(64vw, 430px); }
   .science-grid, .portal-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
@@ -447,7 +507,10 @@ a { color: inherit; }
   }
   .tab-btn { flex: 1; padding: 8px 6px; font-size: .76rem; }
   .science-grid, .portal-grid { grid-template-columns: 1fr; }
-  .specimen-photo { min-height: 320px; }
+  .specimen-photo { min-height: 0; }
+  .specimen-photos { grid-template-columns: 1fr; gap: 10px; }
+  .photo-frame { min-height: 200px; }
+  .specimen-photo img { max-height: 220px; }
   .story-photo { min-height: 240px; }
   .journal-footer { display: none; }
 }

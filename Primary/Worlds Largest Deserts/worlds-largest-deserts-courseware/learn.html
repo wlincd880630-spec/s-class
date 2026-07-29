@@ -29,9 +29,17 @@
         <div id="wordTabs" class="word-tabs"></div>
       </div>
       <div class="card word-display" id="wordPanel">
-        <div class="word-media">
-          <img id="wordImg" class="word-image" src="" alt=""
-            onerror="this.onerror=null;this.src='images/words/desert.jpg'">
+        <div class="word-media word-media--duo">
+          <figure class="word-shot">
+            <figcaption>SUBJECT</figcaption>
+            <img id="wordImg" class="word-image" src="" alt=""
+              onerror="this.onerror=null;this.src='images/words/desert.jpg'">
+          </figure>
+          <figure class="word-shot">
+            <figcaption>MEANING</figcaption>
+            <img id="wordMeaningImg" class="word-image" src="" alt=""
+              onerror="this.onerror=null;this.src=document.getElementById('wordImg').src">
+          </figure>
         </div>
         <div class="word-info">
           <p class="word-big" id="wordText"></p>
@@ -79,7 +87,9 @@
       wordSelect.value = idx;
       wordTabs.querySelectorAll('.word-tab').forEach((t, i) => t.classList.toggle('active', i === idx));
       document.getElementById('wordImg').src = getDesertWordImage(w);
-      document.getElementById('wordImg').alt = w.word;
+      document.getElementById('wordImg').alt = w.word + ' subject';
+      document.getElementById('wordMeaningImg').src = getDesertMeaningImage(w);
+      document.getElementById('wordMeaningImg').alt = w.word + ' meaning · ' + w.chinese;
       document.getElementById('wordText').textContent = w.word;
       renderPhonemeBoxes(document.getElementById('phonemeBoxes'), w);
       const zhEl = document.getElementById('wordChinese');
