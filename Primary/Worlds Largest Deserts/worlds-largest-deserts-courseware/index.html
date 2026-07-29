@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,650;9..144,800&family=Noto+Sans+SC:wght@400;600;700;900&family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/field-journal.css?v=3">
+  <link rel="stylesheet" href="assets/css/field-journal.css?v=4">
 </head>
 <body>
   <div class="journal-shell">
@@ -36,11 +36,22 @@
       <section class="journal-view is-active" id="view-specimens">
         <p class="eyebrow">Chapter 01 · Observe</p>
         <h2 class="view-heading">像野外科学家一样观察</h2>
-        <p class="view-lead">每个词都用真实、达意的科学图像呈现。观察地貌，拼读词形，再用完整句子记录发现。</p>
+        <p class="view-lead">每个词用两张图一起观察：左为主体地貌，右为词义强化。两张图都尽量完整显示，帮助理解词义。</p>
         <div class="specimen-layout">
-          <figure class="specimen-photo">
-            <img id="specimenImage" src="" alt="">
-          </figure>
+          <div class="specimen-photos" aria-label="主体图与词义图">
+            <figure class="specimen-photo">
+              <span class="photo-tag">SUBJECT</span>
+              <div class="photo-frame">
+                <img id="specimenImage" src="" alt="">
+              </div>
+            </figure>
+            <figure class="specimen-photo specimen-photo--meaning">
+              <span class="photo-tag">MEANING</span>
+              <div class="photo-frame">
+                <img id="specimenMeaningImage" src="" alt="">
+              </div>
+            </figure>
+          </div>
           <article class="specimen-notes">
             <span class="specimen-index" id="specimenIndex">SPECIMEN 01 / 50</span>
             <h3 class="specimen-word" id="specimenWord">desert</h3>
@@ -209,6 +220,11 @@
       return "images/words/" + key + ".jpg";
     }
 
+    function meaningImage(word) {
+      var key = (word.image || word.imageKey || word.word || "desert").toLowerCase().replace(/ /g, "-");
+      return "images/words-meaning/" + key + ".jpg";
+    }
+
     function renderWord() {
       var w = words[wordIndex];
       document.getElementById("specimenIndex").textContent =
@@ -218,7 +234,11 @@
       var img = document.getElementById("specimenImage");
       img.src = wordImage(w);
       img.onerror = function(){ this.onerror=null; this.src="images/words/desert.jpg"; };
-      img.alt = w.word + " · " + w.chinese;
+      img.alt = w.word + " · 主体图";
+      var mImg = document.getElementById("specimenMeaningImage");
+      mImg.src = meaningImage(w);
+      mImg.onerror = function(){ this.onerror=null; this.src = wordImage(w); };
+      mImg.alt = w.word + " · 词义图 · " + w.chinese;
       var sentence = (w.sentences && w.sentences[0]) || { en: "", zh: "" };
       document.getElementById("exampleEn").textContent = sentence.en;
       document.getElementById("exampleZh").textContent = sentence.zh;
