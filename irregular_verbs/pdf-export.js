@@ -63,6 +63,10 @@
       else if (/[^aeiou]y$/i.test(base)) list.push(base.slice(0, -1) + "ies");
       else list.push(base + "s");
     }
+    if (base && verb.id !== "be") {
+      if (/e$/i.test(base) && !/(ee|ye|oe)$/i.test(base)) list.push(base.slice(0, -1) + "ing");
+      else list.push(base + "ing");
+    }
     return list.join(" / ");
   }
 
@@ -419,6 +423,56 @@
     });
   }
 
+  var PRINT_CSS =
+    '*{box-sizing:border-box}body{margin:0;background:#fff;color:#0a1f3b;font-family:"Noto Sans SC","DM Sans",sans-serif}' +
+    ".pdf-doc{width:794px;margin:0 auto;background:#fff}" +
+    ".pdf-cover{position:relative;padding:36px 28px 30px;background:linear-gradient(145deg,#0a1f3b 0%,#18314f 52%,#102a4a 100%);color:#fff;page-break-after:always}" +
+    ".pdf-cover:before{content:'';position:absolute;left:0;right:0;bottom:0;height:8px;background:var(--level-color,#155eef)}" +
+    ".pdf-cover-badge{display:inline-flex;border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 12px;font-family:Outfit,sans-serif;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}" +
+    ".pdf-cover-title{margin:22px 0 8px;font-family:Outfit,sans-serif;font-size:34px;letter-spacing:-.04em;line-height:1}" +
+    ".pdf-cover-sub{margin:0;color:rgba(255,255,255,.82);font-size:15px}" +
+    ".pdf-cover-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:26px 0 14px}" +
+    ".pdf-cover-meta>div{border:1px solid rgba(255,255,255,.18);border-radius:14px;background:rgba(255,255,255,.08);padding:12px}" +
+    ".pdf-cover-meta span{display:block;color:rgba(255,255,255,.7);font-size:11px;margin-bottom:4px}" +
+    ".pdf-cover-meta strong{font-family:Outfit,sans-serif;font-size:16px}" +
+    ".pdf-cover-note{margin:0;color:rgba(255,255,255,.78);font-size:13px}" +
+    ".pdf-cards{padding:16px 14px 18px;display:grid;gap:12px;background:#f7f3ea}" +
+    ".pdf-verb-card,.pdf-quiz-card{border:1px solid rgba(10,31,59,.12);border-radius:18px;background:#fffdf8;overflow:hidden;page-break-inside:avoid}" +
+    ".pdf-verb-head,.pdf-quiz-head{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#fff;border-bottom:1px solid rgba(10,31,59,.08);border-left:6px solid var(--level-color,#155eef)}" +
+    ".pdf-verb-index,.pdf-quiz-no{display:grid;place-items:center;width:30px;height:30px;border-radius:10px;background:var(--level-color,#155eef);color:#fff;font-family:Outfit,sans-serif;font-size:11px;font-weight:800}" +
+    ".pdf-verb-title,.pdf-quiz-title{display:grid;gap:2px;flex:1}" +
+    ".pdf-verb-title strong,.pdf-quiz-title strong{font-family:DM Sans,sans-serif;font-size:20px;letter-spacing:-.03em;line-height:1.1}" +
+    ".pdf-verb-title span,.pdf-quiz-title span{color:#647185;font-size:12px}" +
+    ".pdf-verb-level{border-radius:999px;background:var(--level-color,#155eef);color:#fff;padding:4px 10px;font-size:11px;font-weight:800}" +
+    ".pdf-tense-stack{display:grid}" +
+    ".pdf-tense-row{display:grid;grid-template-columns:110px 1fr;gap:10px;padding:12px 14px;border-top:1px solid rgba(10,31,59,.06)}" +
+    ".pdf-tense-row:first-child{border-top:0}" +
+    ".pdf-tense-form{display:grid;align-content:start;gap:4px}" +
+    ".pdf-tense-label{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#647185}" +
+    ".pdf-tense-form strong{font-family:DM Sans,sans-serif;font-size:15px}" +
+    ".pdf-tense-base .pdf-tense-form strong{color:#155eef}" +
+    ".pdf-tense-past .pdf-tense-form strong{color:#d88a17}" +
+    ".pdf-tense-pp .pdf-tense-form strong{color:#7654d8}" +
+    ".pdf-en{margin:0 0 4px;font-family:DM Sans,sans-serif;font-size:13px;line-height:1.45}" +
+    ".pdf-cn{margin:0;color:#647185;font-size:12px}" +
+    ".pdf-mark{padding:0 .15em;border-radius:.2em;font-weight:700}" +
+    ".pdf-mark-base{background:#e8efff;color:#0e46bd}" +
+    ".pdf-mark-past{background:#fff2dc;color:#9a5f0a}" +
+    ".pdf-mark-pp{background:#eee9ff;color:#5538b8}" +
+    ".pdf-quiz-body{display:grid;gap:10px;padding:12px 14px 14px}" +
+    ".pdf-quiz-item{border:1px solid rgba(10,31,59,.08);border-radius:14px;background:#fff;padding:12px 14px}" +
+    ".pdf-quiz-label{margin-bottom:6px;color:var(--level-color,#155eef);font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}" +
+    ".pdf-write-line{display:flex;align-items:flex-end;gap:8px;margin-top:10px}" +
+    ".pdf-write-line span{color:#647185;font-size:12px;white-space:nowrap}" +
+    ".pdf-write-line em{flex:1;border-bottom:1.5px dashed rgba(10,31,59,.28);height:18px;font-style:normal}" +
+    ".pdf-answers{margin:8px 14px 18px;border:1px solid rgba(10,31,59,.1);border-radius:18px;background:#fff;padding:14px 16px;page-break-before:always}" +
+    ".pdf-answers h2{margin:0 0 10px;color:var(--level-color,#155eef);font-family:Outfit,sans-serif;font-size:18px}" +
+    ".pdf-answers table{width:100%;border-collapse:collapse;font-size:12px}" +
+    ".pdf-answers th,.pdf-answers td{border-bottom:1px solid rgba(10,31,59,.08);padding:6px 4px;text-align:left}" +
+    ".pdf-answers th{color:#647185;font-size:10px;letter-spacing:.06em;text-transform:uppercase}" +
+    ".pdf-missing{padding:14px;color:#b45309}" +
+    ".pdf-speak-btn{display:none!important}";
+
   function exportPdf(root, options) {
     options = options || {};
     return ensureHtml2Pdf().then(function () {
@@ -430,25 +484,29 @@
           todayLabel() +
           ".pdf";
 
-      // Clone and strip interactive buttons for cleaner print
+      var level = LEVEL_MAP[options.levelId] || LEVELS[2];
       var clone = root.cloneNode(true);
       clone.querySelectorAll(".pdf-speak-btn").forEach(function (btn) {
         btn.remove();
       });
-      clone.style.width = "794px";
-      clone.style.padding = "0";
-      clone.style.background = "#fff";
+      clone.style.setProperty("--level-color", level.color);
 
-      var holder = document.createElement("div");
-      holder.style.position = "fixed";
-      holder.style.left = "-10000px";
-      holder.style.top = "0";
-      holder.style.width = "794px";
-      holder.appendChild(clone);
-      document.body.appendChild(holder);
+      var iframe = document.createElement("iframe");
+      iframe.style.cssText = "position:fixed;left:-10000px;top:0;width:820px;height:1100px;border:0;opacity:0;pointer-events:none";
+      document.body.appendChild(iframe);
+      var doc = iframe.contentDocument;
+      doc.open();
+      doc.write(
+        "<!DOCTYPE html><html><head><meta charset='UTF-8'/><style>" +
+          PRINT_CSS +
+          "</style></head><body></body></html>"
+      );
+      doc.close();
+      doc.body.appendChild(doc.importNode(clone, true));
+      var target = doc.body.firstElementChild;
 
       var opt = {
-        margin: [10, 10, 12, 10],
+        margin: [8, 8, 10, 8],
         filename: filename,
         image: { type: "jpeg", quality: 0.96 },
         html2canvas: {
@@ -456,6 +514,7 @@
           useCORS: true,
           backgroundColor: "#ffffff",
           logging: false,
+          windowWidth: 820,
         },
         jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
         pagebreak: { mode: ["css", "legacy"] },
@@ -464,14 +523,14 @@
       return global
         .html2pdf()
         .set(opt)
-        .from(clone)
+        .from(target)
         .save()
         .then(function () {
-          holder.remove();
+          iframe.remove();
           return true;
         })
         .catch(function (err) {
-          holder.remove();
+          iframe.remove();
           throw err;
         });
     });
