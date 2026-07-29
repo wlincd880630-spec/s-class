@@ -124,10 +124,51 @@
     );
   }
 
+  function normalizeQuizTargets(targets) {
+    var raw = targets && typeof targets === "object" ? targets : { past: true, pp: true };
+    var past = Object.prototype.hasOwnProperty.call(raw, "past") ? !!raw.past : true;
+    var pp = Object.prototype.hasOwnProperty.call(raw, "pp") ? !!raw.pp : true;
+    if (!past && !pp) {
+      past = true;
+      pp = true;
+    }
+    return { past: past, pp: pp };
+  }
+
+  function quizTargetLabel(targets, lang) {
+    var t = normalizeQuizTargets(targets);
+    if (t.past && t.pp) {
+      return lang === "en" ? "Past & Past Participle" : "过去式 · 过去分词";
+    }
+    if (t.past) return lang === "en" ? "Past Tense Only" : "仅过去式";
+    return lang === "en" ? "Past Participle Only" : "仅过去分词";
+  }
+
+  function quizFilenameSuffix(targets) {
+    var t = normalizeQuizTargets(targets);
+    if (t.past && t.pp) return "both";
+    if (t.past) return "past";
+    return "pp";
+  }
+
   function buildCoverHtml(options) {
     var level = LEVEL_MAP[options.levelId] || LEVELS[2];
-    var modeLabel = options.mode === "quiz" ? "Past & Past Participle Quiz" : "Irregular Verb Study Sheet";
-    var modeCn = options.mode === "quiz" ? "过去式 · 过去分词测试卷" : "不规则动词学习讲义";
+    var quizTargets = normalizeQuizTargets(options.quizTargets);
+    var modeLabel =
+      options.mode === "quiz"
+        ? quizTargetLabel(quizTargets, "en") + " Quiz"
+        : "Irregular Verb Study Sheet";
+    var modeCn =
+      options.mode === "quiz"
+        ? quizTargetLabel(quizTargets, "zh") + "测试卷"
+        : "不规则动词学习讲义";
+    var quizNote = "根据例句语境填写" + quizTargetLabel(quizTargets, "zh") + "；页末附参考答案。";
+    var metaExtra =
+      options.mode === "quiz"
+        ? "<div><span>测试目标</span><strong>" +
+          escapeHtml(quizTargetLabel(quizTargets, "zh")) +
+          "</strong></div>"
+        : "";
     return (
       '<section class="pdf-cover" style="--level-color:' +
       level.color +
@@ -139,20 +180,23 @@
       '<p class="pdf-cover-sub">' +
       escapeHtml(modeCn) +
       "</p>" +
-      '<div class="pdf-cover-meta">' +
+      '<div class="pdf-cover-meta' +
+      (options.mode === "quiz" ? " pdf-cover-meta-4" : "") +
+      '">' +
       "<div><span>难度</span><strong>" +
       escapeHtml(level.label) +
       "</strong></div>" +
       "<div><span>词数</span><strong>" +
       options.verbs.length +
       "</strong></div>" +
+      metaExtra +
       "<div><span>日期</span><strong>" +
       todayLabel() +
       "</strong></div>" +
       "</div>" +
       '<p class="pdf-cover-note">' +
       (options.mode === "quiz"
-        ? "根据例句语境填写过去式与过去分词；页末附参考答案。"
+        ? escapeHtml(quizNote)
         : "每词含原形、过去式、过去分词及对应难度例句；预览页可点按喇叭朗读。") +
       "</p>" +
       "</section>"
@@ -265,22 +309,65 @@
     );
   }
 
-  function buildQuizCard(verb, levelId, index) {
+  function buildQuizItem(options) {
+    var label = options.label;
+    var blank = options.blank;
+    var example = options.example;
+    var aria = options.aria;
+    return (
+      '<div class="pdf-quiz-item">' +
+      '<div class="pdf-quiz-label">' +
+      escapeHtml(label) +
+      "</div>" +
+      '<p class="pdf-en" lang="en">' +
+      escapeHtml(blank) +
+      "</p>" +
+      (example && example.cn ? '<p class="pdf-cn">' + escapeHtml(example.cn) + "</p>" : "") +
+      '<div class="pdf-write-line"><span>填写：</span><em></em></div>' +
+      (example && example.en
+        ? '<button type="button" class="pdf-speak-btn" data-speak="' +
+          escapeHtml(example.en) +
+          '" aria-label="' +
+          escapeHtml(aria) +
+          '">听完整句</button>'
+        : "") +
+      "</div>"
+    );
+  }
+
+  function buildQuizCard(verb, levelId, index, quizTargets) {
+    var targets = normalizeQuizTargets(quizTargets);
     var level = LEVEL_MAP[levelId] || LEVELS[2];
     var examples = getLevelExamples(verb.id, levelId);
     var pastEx = examples && examples.past ? examples.past : null;
     var ppEx = examples && examples.pp ? examples.pp : null;
     var pastBlank = pastEx ? blankSentence(pastEx.en, verb.past) : "（例句缺失）";
-    var ppTarget = verb.id === "can" ? "been able to" : verb.pp;
     var ppBlank = ppEx
-      ? blankSentence(ppEx.en, verb.id === "can" ? "been able to|able to".split("|")[0] : verb.pp)
+      ? blankSentence(ppEx.en, verb.id === "can" ? "been able to" : verb.pp)
       : "（例句缺失）";
 
-    // For can, blank "been able to" or "able to"
     if (verb.id === "can" && ppEx && ppEx.en) {
       ppBlank = ppEx.en
         .replace(/\bbeen able to\b/gi, "______")
         .replace(/\bable to\b/gi, "______");
+    }
+
+    var body = "";
+    if (targets.past) {
+      body += buildQuizItem({
+        label: "过去式 Past",
+        blank: pastBlank,
+        example: pastEx,
+        aria: "朗读过去式原句（含答案）",
+      });
+    }
+    if (targets.pp) {
+      body += buildQuizItem({
+        label: "过去分词 Past Participle",
+        blank: ppBlank,
+        example: ppEx,
+        aria: "朗读过去分词原句（含答案）",
+      });
     }
 
     return (
@@ -299,52 +386,35 @@
       escapeHtml(verb.cn) +
       "</span>" +
       "</div>" +
+      '<div class="pdf-verb-level">' +
+      escapeHtml(quizTargetLabel(targets, "zh")) +
+      "</div>" +
       "</header>" +
       '<div class="pdf-quiz-body">' +
-      '<div class="pdf-quiz-item">' +
-      '<div class="pdf-quiz-label">过去式 Past</div>' +
-      '<p class="pdf-en" lang="en">' +
-      escapeHtml(pastBlank) +
-      "</p>" +
-      (pastEx && pastEx.cn ? '<p class="pdf-cn">' + escapeHtml(pastEx.cn) + "</p>" : "") +
-      '<div class="pdf-write-line"><span>填写：</span><em></em></div>' +
-      (pastEx && pastEx.en
-        ? '<button type="button" class="pdf-speak-btn" data-speak="' +
-          escapeHtml(pastEx.en) +
-          '" aria-label="朗读过去式原句（含答案）">听完整句</button>'
-        : "") +
-      "</div>" +
-      '<div class="pdf-quiz-item">' +
-      '<div class="pdf-quiz-label">过去分词 Past Participle</div>' +
-      '<p class="pdf-en" lang="en">' +
-      escapeHtml(ppBlank) +
-      "</p>" +
-      (ppEx && ppEx.cn ? '<p class="pdf-cn">' + escapeHtml(ppEx.cn) + "</p>" : "") +
-      '<div class="pdf-write-line"><span>填写：</span><em></em></div>' +
-      (ppEx && ppEx.en
-        ? '<button type="button" class="pdf-speak-btn" data-speak="' +
-          escapeHtml(ppEx.en) +
-          '" aria-label="朗读过去分词原句（含答案）">听完整句</button>'
-        : "") +
-      "</div>" +
+      body +
       "</div></article>"
     );
   }
 
-  function buildAnswerKey(verbs, levelId) {
+  function buildAnswerKey(verbs, levelId, quizTargets) {
+    var targets = normalizeQuizTargets(quizTargets);
+    var head =
+      "<tr><th>#</th><th>Base</th>" +
+      (targets.past ? "<th>Past</th>" : "") +
+      (targets.pp ? "<th>PP</th>" : "") +
+      "<th>含义</th></tr>";
     var rows = verbs
       .map(function (verb, index) {
         var pp = verb.id === "can" ? "been able to" : verb.pp;
         return (
-          '<tr><td>' +
+          "<tr><td>" +
           String(index + 1).padStart(2, "0") +
           '</td><td lang="en">' +
           escapeHtml(verb.base) +
-          '</td><td lang="en">' +
-          escapeHtml(verb.past) +
-          '</td><td lang="en">' +
-          escapeHtml(pp) +
-          "</td><td>" +
+          "</td>" +
+          (targets.past ? '<td lang="en">' + escapeHtml(verb.past) + "</td>" : "") +
+          (targets.pp ? '<td lang="en">' + escapeHtml(pp) + "</td>" : "") +
+          "<td>" +
           escapeHtml(verb.cn) +
           "</td></tr>"
         );
@@ -355,8 +425,12 @@
       '<section class="pdf-answers" style="--level-color:' +
       level.color +
       '">' +
-      "<h2>参考答案 Answer Key</h2>" +
-      "<table><thead><tr><th>#</th><th>Base</th><th>Past</th><th>PP</th><th>含义</th></tr></thead><tbody>" +
+      "<h2>参考答案 Answer Key · " +
+      escapeHtml(quizTargetLabel(targets, "zh")) +
+      "</h2>" +
+      "<table><thead>" +
+      head +
+      "</thead><tbody>" +
       rows +
       "</tbody></table></section>"
     );
@@ -366,10 +440,11 @@
     var verbs = options.verbs || [];
     var levelId = options.levelId || "j1";
     var mode = options.mode || "study";
+    var quizTargets = normalizeQuizTargets(options.quizTargets);
     var cards =
       mode === "quiz"
         ? verbs.map(function (verb, i) {
-            return buildQuizCard(verb, levelId, i);
+            return buildQuizCard(verb, levelId, i, quizTargets);
           })
         : verbs.map(function (verb, i) {
             return buildStudyCard(verb, levelId, i);
@@ -378,12 +453,16 @@
     return (
       '<div class="pdf-doc" data-mode="' +
       escapeHtml(mode) +
+      '" data-quiz-targets="' +
+      (quizTargets.past ? "past" : "") +
+      (quizTargets.past && quizTargets.pp ? "+" : "") +
+      (quizTargets.pp ? "pp" : "") +
       '">' +
       buildCoverHtml(options) +
       '<div class="pdf-cards">' +
       cards.join("") +
       "</div>" +
-      (mode === "quiz" ? buildAnswerKey(verbs, levelId) : "") +
+      (mode === "quiz" ? buildAnswerKey(verbs, levelId, quizTargets) : "") +
       "</div>"
     );
   }
@@ -432,6 +511,7 @@
     ".pdf-cover-title{margin:22px 0 8px;font-family:Outfit,sans-serif;font-size:34px;letter-spacing:-.04em;line-height:1}" +
     ".pdf-cover-sub{margin:0;color:rgba(255,255,255,.82);font-size:15px}" +
     ".pdf-cover-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:26px 0 14px}" +
+    ".pdf-cover-meta-4{grid-template-columns:repeat(2,1fr)}" +
     ".pdf-cover-meta>div{border:1px solid rgba(255,255,255,.18);border-radius:14px;background:rgba(255,255,255,.08);padding:12px}" +
     ".pdf-cover-meta span{display:block;color:rgba(255,255,255,.7);font-size:11px;margin-bottom:4px}" +
     ".pdf-cover-meta strong{font-family:Outfit,sans-serif;font-size:16px}" +
@@ -478,7 +558,9 @@
     return ensureHtml2Pdf().then(function () {
       var filename =
         options.filename ||
-        (options.mode === "quiz" ? "VerbAtlas_Quiz_" : "VerbAtlas_Study_") +
+        (options.mode === "quiz"
+          ? "VerbAtlas_Quiz_" + quizFilenameSuffix(options.quizTargets) + "_"
+          : "VerbAtlas_Study_") +
           (options.levelId || "j1") +
           "_" +
           todayLabel() +
@@ -541,6 +623,8 @@
     LEVEL_MAP: LEVEL_MAP,
     getLevelExamples: getLevelExamples,
     getExamplesStore: getExamplesStore,
+    normalizeQuizTargets: normalizeQuizTargets,
+    quizTargetLabel: quizTargetLabel,
     buildDocumentHtml: buildDocumentHtml,
     bindSpeakButtons: bindSpeakButtons,
     exportPdf: exportPdf,
