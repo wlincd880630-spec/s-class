@@ -1,33 +1,37 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <title>课文打印 · World's Largest Deserts</title>
-  <link rel="stylesheet" href="assets/css/desert-course.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>科学课文 PDF · World's Largest Deserts</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=Nunito:wght@600;800&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    @media print { .no-print{display:none!important} body{background:#fff} .tv-frame{box-shadow:none;width:100%;height:auto;aspect-ratio:auto} }
-    .page { page-break-after:always; padding:1rem; }
-    .page img { width:100%; max-height:280px; object-fit:cover; border-radius:12px; }
+    :root { --forest:#4a2f1c; --clay:#d76549; --muted:#71695d; }
+    body { margin:0; background:#d9c4a8; font-family:"Nunito","Noto Sans SC",sans-serif; color:var(--forest); }
+    .bar { display:flex; gap:10px; padding:14px 18px; background:var(--forest); color:#fff; }
+    .bar a,.bar button { color:#fff; border:1px solid rgba(255,255,255,.25); background:rgba(255,255,255,.1); border-radius:999px; padding:8px 14px; text-decoration:none; font-weight:800; cursor:pointer; }
+    .page { max-width:900px; margin:16px auto; background:#fffdf8; border-radius:18px; overflow:hidden; page-break-after:always; box-shadow:0 12px 30px rgba(74,47,28,.12); }
+    .page img { width:100%; height:min(48vw,360px); object-fit:cover; display:block; }
+    .body { padding:22px; }
+    .num { color:var(--clay); font-weight:1000; letter-spacing:.12em; font-size:.78rem; }
+    h2 { margin:10px 0; font-family:"Fraunces",serif; font-size:clamp(1.4rem,3vw,2.2rem); line-height:1.3; }
+    .zh { color:var(--muted); line-height:1.65; }
+    .focus { margin-top:14px; color:var(--clay); font-weight:900; font-size:.84rem; }
+    @media print { .bar{display:none!important} body{background:#fff} .page{box-shadow:none;margin:0;border-radius:0;border-bottom:1px solid #ddd} }
   </style>
 </head>
-<body class="tv-layout">
-  <div class="tv-frame" style="height:auto;aspect-ratio:auto;max-height:none;">
-    <header class="top-bar no-print">
-      <a class="back-link" href="index.html">返回课件</a>
-      <h1>课文打印</h1>
-      <button class="back-link" onclick="print()">打印</button>
-    </header>
-    <div class="tv-inner" id="out"></div>
+<body>
+  <div class="bar">
+    <a href="index.html">← 科学日志</a>
+    <button onclick="print()">打印课文</button>
   </div>
-  <script src="assets/data/words-data.js"></script>
+  <div id="out"></div>
+  <script src="assets/data/story-data.js"></script>
   <script>
-    document.getElementById('out').innerHTML = DESERT_COURSE.story.pages.map((p,i)=>`
-      <div class="page card">
-        <h2 style="color:var(--accent-dark)">Page ${i+1}</h2>
-        <img src="${desertImagePath(p.imageKey,'story')}" onerror="this.src='images/words/desert.jpg'">
-        <p class="story-en" style="margin-top:0.75rem;font-size:1.15rem;font-weight:600;">${p.en}</p>
-        <p class="sentence-zh">${p.zh}</p>
-      </div>`).join('');
+    document.getElementById("out").innerHTML = DESERT_STORY.map(function(p,i){
+      var n = String(i+1).padStart(2,"0");
+      return '<article class="page"><img src="images/story/'+n+'.jpg" alt=""><div class="body"><div class="num">FIELD NOTE '+n+' / '+String(DESERT_STORY.length).padStart(2,"0")+'</div><h2>'+p.en+'</h2><p class="zh">'+p.zh+'</p><p class="focus">FOCUS · '+p.focus+'</p></div></article>';
+    }).join("");
   </script>
 </body>
 </html>

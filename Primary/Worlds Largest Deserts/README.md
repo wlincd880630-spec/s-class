@@ -1,40 +1,32 @@
 # World's Largest Deserts · 世界最大的沙漠
 
-面向**小学五年级**的英语科学阅读课件，语言难度约 **Lexile 600**。
+S-Class **科学考察营**课程，视觉与模块结构对齐 `What are reptiles?`。
 
-## 来源
+- 来源：[Britannica — World's largest deserts](https://www.britannica.com/topic/worlds-largest-deserts-2225895)
+- 难度：约 **Lexile 600** · 小学五年级
 
-- 事实依据：[Encyclopaedia Britannica — World's largest deserts](https://www.britannica.com/topic/worlds-largest-deserts-2225895)
-- 课文与活动文案按蓝思约 600、五年级可读性改写（DeepSeek 校验约 450–600L）
+## 模块
 
-## 模块结构（对齐爬行动物课）
-
-| 模块 | 路径 |
+| 模块 | 说明 |
 |------|------|
-| 课程入口 | `index.html` |
-| 互动课件 / 单词 / 活动 | `worlds-largest-deserts-courseware/` |
-| 复习游戏（9 款） | `worlds-largest-deserts-review-games/` |
-| 听写 / 抄写 | `worlds-largest-deserts-homework/` |
-| 全彩单词卡 | `worlds-largest-deserts-coloring/` |
+| 大本营 `index.html` | 野外考察营式入口 |
+| 野外科学日志 | 标本单词 / 科学课文 / 事实实验室 / 全彩资料 |
+| 视频观测站 | 2 段原创视频 + 测验 / 热冷分类 / 比较 |
+| 九项训练游戏 | 复习游戏 |
+| 全彩标本卡 | 一词一页打印 |
+
+## 视频
+
+`worlds-largest-deserts-courseware/videos/`
+
+```bash
+python3 Primary/scripts/build_desert_videos.py
+```
 
 ## 本地打开
-
-在仓库根目录：
 
 ```bash
 python3 -m http.server 8080
 ```
 
 打开：`http://localhost:8080/Primary/Worlds%20Largest%20Deserts/index.html`
-
-若被鉴权拦截，在控制台执行：
-
-```js
-localStorage.setItem('authing-user','TestStudent');
-localStorage.setItem('current-user','TestStudent');
-location.reload();
-```
-
-## 配图
-
-词图 / 课文图由 **Composer 2.5** 生成（写实教育插画风格），压缩为 JPG 置于 `worlds-largest-deserts-courseware/images/`。
