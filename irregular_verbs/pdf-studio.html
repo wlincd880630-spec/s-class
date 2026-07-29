@@ -76,6 +76,33 @@
         </button>
       </div>
 
+      <div class="pdf-target-block" id="quizTargetBlock" hidden>
+        <div class="pdf-block-label">
+          <div>
+            <h3>测试目标词形</h3>
+            <p>可只测过去式、只测过去分词，或两者都测；至少勾选一项。</p>
+          </div>
+        </div>
+        <div class="pdf-target-grid" role="group" aria-label="选择测试目标词形">
+          <label class="pdf-target-chip is-checked">
+            <input type="checkbox" id="targetPast" checked />
+            <span class="pdf-target-check" aria-hidden="true"></span>
+            <span class="pdf-target-copy">
+              <strong>过去式 Past</strong>
+              <span>在一般过去时语境中填写</span>
+            </span>
+          </label>
+          <label class="pdf-target-chip is-checked">
+            <input type="checkbox" id="targetPp" checked />
+            <span class="pdf-target-check" aria-hidden="true"></span>
+            <span class="pdf-target-copy">
+              <strong>过去分词 Past Participle</strong>
+              <span>在完成时 / 被动语境中填写</span>
+            </span>
+          </label>
+        </div>
+      </div>
+
       <div class="pdf-level-block">
         <div class="pdf-block-label">
           <h3>例句难度</h3>
@@ -144,6 +171,7 @@
       var mode = "study";
       var levelId = "j1";
       var query = "";
+      var quizTargets = { past: true, pp: true };
 
       function decorateIcons() {
         document.getElementById("topBackIcon").innerHTML = VV.icon("arrowLeft");
@@ -151,6 +179,28 @@
         document.querySelectorAll(".save-arrow").forEach(function (node) {
           node.innerHTML = VV.icon("arrowRight");
         });
+        document.querySelectorAll(".pdf-target-check").forEach(function (node) {
+          node.innerHTML = VV.icon("check");
+        });
+      }
+
+      function readQuizTargetsFromUi() {
+        return {
+          past: document.getElementById("targetPast").checked,
+          pp: document.getElementById("targetPp").checked,
+        };
+      }
+
+      function syncTargetChips() {
+        document.querySelectorAll(".pdf-target-chip").forEach(function (chip) {
+          var input = chip.querySelector('input[type="checkbox"]');
+          chip.classList.toggle("is-checked", !!(input && input.checked));
+        });
+      }
+
+      function syncQuizTargetVisibility() {
+        var block = document.getElementById("quizTargetBlock");
+        block.hidden = mode !== "quiz";
       }
 
       function storeReadyCount() {
@@ -164,11 +214,15 @@
         document.getElementById("selectedVerbCount").textContent = selected.size;
         var level = PDF.LEVEL_MAP[levelId];
         var modeLabel = mode === "quiz" ? "测试卷" : "学习讲义";
+        var targetBit =
+          mode === "quiz" ? " · " + PDF.quizTargetLabel(quizTargets, "zh") : "";
         document.getElementById("exportSummary").textContent = selected.size
-          ? modeLabel + " · " + level.label + " · " + selected.size + " 词"
+          ? modeLabel + targetBit + " · " + level.label + " · " + selected.size + " 词"
           : "请选择词汇与难度";
         document.getElementById("exportHint").textContent = selected.size
-          ? "例句来源：DeepSeek 分级生成；预览可朗读后导出。"
+          ? mode === "quiz"
+            ? "测试目标可勾选过去式 / 过去分词；预览可朗读后导出。"
+            : "例句来源：DeepSeek 分级生成；预览可朗读后导出。"
           : "先在下方勾选要导出的动词。";
 
         var note = document.getElementById("dataStatusNote");
@@ -266,8 +320,26 @@
           mode: mode,
           levelId: levelId,
           verbs: list,
+          quizTargets: quizTargets,
         });
         PDF.bindSpeakButtons(host, TTS, VV);
+      }
+
+      function applyQuizTargetsFromUi(showToast) {
+        var next = readQuizTargetsFromUi();
+        if (!next.past && !next.pp) {
+          // Restore previous selection; at least one target required
+          document.getElementById("targetPast").checked = quizTargets.past;
+          document.getElementById("targetPp").checked = quizTargets.pp;
+          syncTargetChips();
+          if (showToast) VV.toast("请至少勾选一个测试目标词形。", { tone: "error" });
+          return false;
+        }
+        quizTargets = next;
+        syncTargetChips();
+        updateStats();
+        renderPreview();
+        return true;
       }
 
       document.querySelectorAll(".pdf-mode-tab").forEach(function (tab) {
@@ -278,8 +350,15 @@
             node.classList.toggle("is-active", active);
             node.setAttribute("aria-selected", String(active));
           });
+          syncQuizTargetVisibility();
           updateStats();
           renderPreview();
+        });
+      });
+
+      ["targetPast", "targetPp"].forEach(function (id) {
+        document.getElementById(id).addEventListener("change", function () {
+          applyQuizTargetsFromUi(true);
         });
       });
 
@@ -325,9 +404,12 @@
           VV.toast("请先选择要导出的动词。", { tone: "error" });
           return;
         }
+        if (mode === "quiz" && !quizTargets.past && !quizTargets.pp) {
+          VV.toast("请至少勾选一个测试目标词形。", { tone: "error" });
+          return;
+        }
         var button = this;
         VV.setButtonBusy(button, true, { busy: "正在生成 PDF" });
-        // Ensure preview is current, then export from it
         renderPreview();
         var previewRoot = document.querySelector("#pdfPreview .pdf-doc");
         if (!previewRoot) {
@@ -335,7 +417,12 @@
           VV.toast("预览生成失败。", { tone: "error" });
           return;
         }
-        PDF.exportPdf(previewRoot, { mode: mode, levelId: levelId, verbs: list })
+        PDF.exportPdf(previewRoot, {
+          mode: mode,
+          levelId: levelId,
+          verbs: list,
+          quizTargets: quizTargets,
+        })
           .then(function () {
             VV.setButtonBusy(button, false, { done: "已导出" });
             VV.toast("PDF 已开始下载。");
@@ -348,6 +435,8 @@
       });
 
       decorateIcons();
+      syncTargetChips();
+      syncQuizTargetVisibility();
       renderLevels();
       renderVerbGrid();
       updateStats();
