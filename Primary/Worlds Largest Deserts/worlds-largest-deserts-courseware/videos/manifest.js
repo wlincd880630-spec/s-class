@@ -1,0 +1,138 @@
+window.DESERT_VIDEO_MANIFEST = {
+  "cosBase": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Worlds%20Largest%20Deserts/worlds-largest-deserts-courseware/videos",
+  "speechRate": "0.72",
+  "videos": [
+    {
+      "id": "01-what-is-a-desert",
+      "file": "01-what-is-a-desert.mp4",
+      "url": "videos/01-what-is-a-desert.mp4",
+      "local": "videos/01-what-is-a-desert.mp4",
+      "vtt": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Worlds%20Largest%20Deserts/worlds-largest-deserts-courseware/videos/01-what-is-a-desert.vtt",
+      "title": "What is a desert?",
+      "titleZh": "什么是沙漠？",
+      "vpid": "sclass-desert-01",
+      "cues": [
+        {
+          "start": 0.0,
+          "end": 4.51,
+          "en": "A desert is a very dry place.",
+          "zh": "沙漠是非常干燥的地方。"
+        },
+        {
+          "start": 4.51,
+          "end": 8.06,
+          "en": "It gets little rain.",
+          "zh": "雨水很少。"
+        },
+        {
+          "start": 8.06,
+          "end": 14.994,
+          "en": "Some deserts are hot. Some deserts are cold.",
+          "zh": "有些沙漠很热。有些沙漠很冷。"
+        },
+        {
+          "start": 14.994,
+          "end": 22.168,
+          "en": "True deserts often get 25 centimeters of rain or less in a year.",
+          "zh": "真正的沙漠一年降雨常常不超过25厘米。"
+        },
+        {
+          "start": 22.168,
+          "end": 27.086,
+          "en": "That is less than the length of a school ruler!",
+          "zh": "那比一把尺子还短！"
+        },
+        {
+          "start": 27.086,
+          "end": 31.932,
+          "en": "The largest desert on Earth is not hot.",
+          "zh": "地球上最大的沙漠并不热。"
+        },
+        {
+          "start": 31.932,
+          "end": 36.178,
+          "en": "It is the Antarctic Ice Sheet.",
+          "zh": "它是南极冰盖。"
+        },
+        {
+          "start": 36.178,
+          "end": 41.552,
+          "en": "Polar deserts sit near the North and South Poles.",
+          "zh": "极地沙漠靠近南北两极。"
+        }
+      ]
+    },
+    {
+      "id": "02-largest-deserts",
+      "file": "02-largest-deserts.mp4",
+      "url": "videos/02-largest-deserts.mp4",
+      "local": "videos/02-largest-deserts.mp4",
+      "vtt": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Worlds%20Largest%20Deserts/worlds-largest-deserts-courseware/videos/02-largest-deserts.vtt",
+      "title": "The largest deserts",
+      "titleZh": "世界最大的沙漠",
+      "vpid": "sclass-desert-02",
+      "cues": [
+        {
+          "start": 0.0,
+          "end": 5.974,
+          "en": "The Antarctic Ice Sheet is the largest desert on Earth.",
+          "zh": "南极冰盖是地球上最大的沙漠。"
+        },
+        {
+          "start": 5.974,
+          "end": 10.628,
+          "en": "The Arctic is the second largest desert.",
+          "zh": "北极是第二大沙漠。"
+        },
+        {
+          "start": 10.628,
+          "end": 15.522,
+          "en": "The Sahara is the largest hot desert.",
+          "zh": "撒哈拉是最大的热沙漠。"
+        },
+        {
+          "start": 15.522,
+          "end": 20.536,
+          "en": "It covers a vast part of northern Africa.",
+          "zh": "它覆盖非洲北部的广阔地区。"
+        },
+        {
+          "start": 20.536,
+          "end": 25.67,
+          "en": "The Arabian Desert is in southwestern Asia.",
+          "zh": "阿拉伯沙漠在亚洲西南部。"
+        },
+        {
+          "start": 25.67,
+          "end": 30.804,
+          "en": "The Gobi Desert is in Mongolia and China.",
+          "zh": "戈壁沙漠在蒙古和中国。"
+        },
+        {
+          "start": 30.804,
+          "end": 36.634,
+          "en": "Tall mountains can block rain and make a rain shadow.",
+          "zh": "高山会挡住雨水，形成雨影。"
+        },
+        {
+          "start": 36.634,
+          "end": 41.672,
+          "en": "More huge deserts wait around the world.",
+          "zh": "世界各地还有更多大沙漠。"
+        },
+        {
+          "start": 41.672,
+          "end": 47.574,
+          "en": "Deserts are vast, dry, and often harsh.",
+          "zh": "沙漠广阔、干燥，常常严酷。"
+        },
+        {
+          "start": 47.574,
+          "end": 54.748,
+          "en": "Next time you hear desert, think hot sand—and cold ice too!",
+          "zh": "下次听到沙漠，想想热沙子——还有冷冰！"
+        }
+      ]
+    }
+  ]
+};
