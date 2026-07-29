@@ -4,34 +4,51 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>科学课文 PDF · World's Largest Deserts</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=Nunito:wght@600;800&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/ng-story-print.css">
   <style>
-    :root { --forest:#4a2f1c; --clay:#d76549; --muted:#71695d; }
-    body { margin:0; background:#d9c4a8; font-family:"Nunito","Noto Sans SC",sans-serif; color:var(--forest); }
-    .bar { display:flex; gap:10px; padding:14px 18px; background:var(--forest); color:#fff; }
-    .bar a,.bar button { color:#fff; border:1px solid rgba(255,255,255,.25); background:rgba(255,255,255,.1); border-radius:999px; padding:8px 14px; text-decoration:none; font-weight:800; cursor:pointer; }
-    .page { max-width:900px; margin:16px auto; background:#fffdf8; border-radius:18px; overflow:hidden; page-break-after:always; box-shadow:0 12px 30px rgba(74,47,28,.12); }
-    .page img { width:100%; height:min(48vw,360px); object-fit:cover; display:block; }
-    .body { padding:22px; }
-    .num { color:var(--clay); font-weight:1000; letter-spacing:.12em; font-size:.78rem; }
-    h2 { margin:10px 0; font-family:"Fraunces",serif; font-size:clamp(1.4rem,3vw,2.2rem); line-height:1.3; }
-    .zh { color:var(--muted); line-height:1.65; }
-    .focus { margin-top:14px; color:var(--clay); font-weight:900; font-size:.84rem; }
-    @media print { .bar{display:none!important} body{background:#fff} .page{box-shadow:none;margin:0;border-radius:0;border-bottom:1px solid #ddd} }
+    :root { --accent:#c4782a; --wild:#4a2f1c; }
+    .ng-story-toolbar { border-bottom-color:#e6a936!important; }
   </style>
 </head>
-<body>
-  <div class="bar">
-    <a href="index.html">← 科学日志</a>
-    <button onclick="print()">打印课文</button>
+<body class="ng-story-print-body">
+  <div class="ng-story-toolbar no-print">
+    <h1>📓 World's Largest Deserts · 科学课文 PDF</h1>
+    <p>9 条 Britannica 改编科学记录、写实配图、完整中英对照 · Lexile ~600。</p>
+    <div class="row">
+      <label>每页句数
+        <select id="optPerPage">
+          <option value="1" selected>1 句 / 页（推荐）</option>
+          <option value="2">2 句 / 页</option>
+        </select>
+      </label>
+      <label><input type="checkbox" id="optShowZh" checked> 显示中文翻译</label>
+    </div>
+    <div class="row" style="margin-top:.75rem">
+      <button type="button" class="ng-story-btn accent" id="btnStoryPdf">📄 导出 PDF</button>
+      <button type="button" class="ng-story-btn primary" id="btnStoryPrint">🖨️ 打印 / 另存 PDF</button>
+      <button type="button" class="ng-story-btn" id="btnStoryGen">🔄 刷新预览</button>
+      <a class="ng-story-btn" href="index.html">← 返回科学日志</a>
+      <a class="ng-story-btn" href="../index.html">⌂ 大本营</a>
+    </div>
   </div>
-  <div id="out"></div>
+  <div id="storyPrintArea"></div>
   <script src="assets/data/story-data.js"></script>
+  <script src="../../assets/ng-story-print.js"></script>
   <script>
-    document.getElementById("out").innerHTML = DESERT_STORY.map(function(p,i){
-      var n = String(i+1).padStart(2,"0");
-      return '<article class="page"><img src="images/story/'+n+'.jpg" alt=""><div class="body"><div class="num">FIELD NOTE '+n+' / '+String(DESERT_STORY.length).padStart(2,"0")+'</div><h2>'+p.en+'</h2><p class="zh">'+p.zh+'</p><p class="focus">FOCUS · '+p.focus+'</p></div></article>';
-    }).join("");
+  NgStoryPrint.init({
+    title: "World's Largest Deserts",
+    subtitle: "S-Class Science · Britannica 改编 · Lexile ~600 · 野外科学日志",
+    mediaCos: "",
+    imageExt: "jpg",
+    story: window.DESERT_STORY,
+    emoji: "🏜️",
+    accent: "#c4782a",
+    wild: "#4a2f1c",
+    filename: "Worlds-Largest-Deserts-Science-Reader.pdf"
+  });
   </script>
 </body>
 </html>
