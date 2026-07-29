@@ -506,13 +506,15 @@
             }
 
             async function ensureVocabPack() {
-                if (vocabPack.value && vocabPack.value.length) return vocabPack.value;
+                if (vocabPack.value && vocabPack.value.length && CeeExplainAI.isVocabPackCurrent(vocabPack.value)) {
+                    return vocabPack.value;
+                }
                 vocabPackLoading.value = true;
                 vocabPackError.value = '';
                 try {
                     const passage = getFilledPassageText();
                     const prompt = CeeExplainAI.buildVocabPackPrompt(passage);
-                    const raw = await CeeExplainAI.callDeepSeek(DEEPSEEK_KEY, prompt, { temperature: 0.5 });
+                    const raw = await CeeExplainAI.callDeepSeek(DEEPSEEK_KEY, prompt, { temperature: 0.45 });
                     const parsed = CeeExplainAI.parseJsonFromDeepSeek(raw);
                     vocabPack.value = CeeExplainAI.normalizeVocabPack(parsed);
                     if (!vocabPack.value.length) throw new Error('empty vocab pack');
