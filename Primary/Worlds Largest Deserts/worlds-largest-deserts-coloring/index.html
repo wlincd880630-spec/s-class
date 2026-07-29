@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>全彩单词卡 · World's Largest Deserts</title>
+  <link rel="stylesheet" href="../worlds-largest-deserts-courseware/assets/css/desert-course.css" />
+  <style>
+    @media print {
+      .no-print { display:none!important; }
+      body { background:#fff; }
+      .card-page { page-break-after: always; break-after: page; box-shadow:none; border:1px solid #ddd; }
+    }
+    body { background:#1a1410; padding:1rem; }
+    .toolbar { display:flex; gap:0.75rem; flex-wrap:wrap; margin-bottom:1rem; align-items:center; }
+    .card-page {
+      max-width: 800px; margin: 0 auto 1.25rem; background:#fffdf8;
+      border-radius: 16px; padding: 1.25rem; border:1px solid rgba(196,120,42,.25);
+    }
+    .card-page img { width:100%; max-height:420px; object-fit:cover; border-radius:12px; }
+    .card-page h1 { font-family: "Source Serif 4", Georgia, serif; font-size:2.4rem; color:#8a5120; margin:0.75rem 0 0.25rem; }
+  </style>
+</head>
+<body>
+  <div class="toolbar no-print">
+    <a class="btn btn-secondary" href="../index.html">课程首页</a>
+    <button class="btn btn-primary" onclick="print()">打印全彩卡</button>
+    <span style="color:#c4b5a0;">一词一页 · A4 打印友好</span>
+  </div>
+  <div id="cards"></div>
+  <script src="../worlds-largest-deserts-courseware/assets/data/words-data.js"></script>
+  <script>
+    document.getElementById('cards').innerHTML = DESERT_COURSE.words.map((w,i)=>`
+      <article class="card-page">
+        <div style="color:#6b5a48;font-weight:700;">${i+1} / ${DESERT_COURSE.words.length}</div>
+        <img src="../worlds-largest-deserts-courseware/${getDesertWordImage(w)}" alt="${w.word}"
+          onerror="this.src='../worlds-largest-deserts-courseware/images/words/desert.jpg'">
+        <h1>${w.word}</h1>
+        <p style="font-size:1.25rem;font-weight:700;color:#8a5120;">${w.chinese}</p>
+        <p style="margin-top:0.75rem;font-size:1.05rem;">${(w.sentences[0]||{}).en||''}</p>
+        <p style="color:#6b5a48;">${(w.sentences[0]||{}).zh||''}</p>
+      </article>`).join('');
+  </script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>活动 · World's Largest Deserts</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="assets/css/desert-course.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet" />
+  <script src="audio/audio-manifest.js"></script>
+  <script src="audio/local-audio.js"></script>
+  <script src="../../assets/ng-azure-tts-enhance.js"></script>
+  <script>NgAzureTTS.enhance("LocalAudio");</script>
+  <style>
+    .tabs { display:flex; gap:0.4rem; flex-wrap:wrap; margin-bottom:0.75rem; }
+    .choice { display:block; width:100%; text-align:left; margin:0.35rem 0; padding:0.65rem 0.85rem; border-radius:12px; border:2px solid rgba(196,120,42,.25); background:#fff; cursor:pointer; font-weight:600; }
+    .choice:hover { border-color: var(--accent); }
+    .choice.correct { border-color:#2e7d32; background:#e8f5e9; }
+    .choice.wrong { border-color:#c62828; background:#ffebee; }
+    .sort-col { flex:1; min-width:140px; background:#fff; border-radius:12px; padding:0.65rem; border:2px dashed rgba(196,120,42,.35); min-height:120px; }
+    .chip { display:inline-block; margin:0.25rem; padding:0.4rem 0.7rem; border-radius:999px; background:#f7efe3; font-weight:700; cursor:grab; }
+    .feedback { margin-top:0.5rem; font-weight:700; }
+  </style>
+</head>
+<body class="tv-layout">
+  <div class="tv-frame">
+    <header class="top-bar">
+      <a class="back-link" href="../index.html"><i class="fa-solid fa-house"></i> 课程首页</a>
+      <h1><i class="fa-solid fa-gamepad"></i> 活动 · Find / Quiz / Sort</h1>
+      <a class="back-link" href="index.html">互动课件</a>
+    </header>
+    <div class="tv-inner">
+      <div class="tabs">
+        <button class="btn btn-primary" data-tab="find">Find 找沙漠</button>
+        <button class="btn btn-secondary" data-tab="quiz">Quiz 测验</button>
+        <button class="btn btn-ice" data-tab="sort">Sort 分类</button>
+      </div>
+      <div class="card" id="actPanel"></div>
+    </div>
+  </div>
+  <script src="assets/data/words-data.js"></script>
+  <script src="assets/js/utils.js"></script>
+  <script>
+    const A = DESERT_COURSE.activities;
+    let tab = 'find', fi=0, qi=0;
+    function showFind() {
+      const items=A.find.items; const it=items[fi%items.length];
+      document.getElementById('actPanel').innerHTML = `
+        <h2 style="font-family:var(--display);color:var(--accent-dark);">${A.find.title} · ${A.find.titleZh}</h2>
+        <p style="margin:0.75rem 0;font-size:1.1rem;font-weight:600;">${it.clueEn}</p>
+        <p class="sentence-zh">${it.clueZh}</p>
+        <div id="opts"></div>
+        <p class="feedback" id="fb"></p>
+        <button class="btn btn-secondary" id="next">下一题</button>`;
+      const box=document.getElementById('opts');
+      it.options.forEach(o=>{
+        const b=document.createElement('button'); b.className='choice'; b.textContent=o;
+        b.onclick=()=>{
+          const ok=o===it.answer;
+          b.classList.add(ok?'correct':'wrong');
+          document.getElementById('fb').textContent = ok ? '✓ Correct! 答对了！' : '再试试 · Try again';
+          if(ok) speakText(it.answer);
+        };
+        box.appendChild(b);
+      });
+      document.getElementById('next').onclick=()=>{fi++;showFind();};
+    }
+    function showQuiz() {
+      const items=A.quiz.items; const it=items[qi%items.length];
+      document.getElementById('actPanel').innerHTML = `
+        <h2 style="font-family:var(--display);color:var(--accent-dark);">${A.quiz.title} · ${A.quiz.titleZh}</h2>
+        <p style="margin:0.75rem 0;font-size:1.1rem;font-weight:600;">${it.qEn}</p>
+        <p class="sentence-zh">${it.qZh}</p>
+        <div id="opts"></div>
+        <p class="feedback" id="fb"></p>
+        <button class="btn btn-secondary" id="next">下一题</button>`;
+      const box=document.getElementById('opts');
+      it.choices.forEach(ch=>{
+        const b=document.createElement('button'); b.className='choice';
+        b.innerHTML=`${ch.en}<div class="sentence-zh">${ch.zh}</div>`;
+        b.onclick=()=>{
+          b.classList.add(ch.ok?'correct':'wrong');
+          document.getElementById('fb').textContent = ch.ok ? '✓ Great!' : 'Not this one.';
+          if(ch.ok) speakText(ch.en);
+        };
+        box.appendChild(b);
+      });
+      document.getElementById('next').onclick=()=>{qi++;showQuiz();};
+    }
+    function showSort() {
+      const S=A.sort;
+      const pool=[...S.hot,...S.cold].sort(()=>Math.random()-0.5);
+      document.getElementById('actPanel').innerHTML = `
+        <h2 style="font-family:var(--display);color:var(--accent-dark);">${S.title} · ${S.titleZh}</h2>
+        <p class="sentence-zh" style="margin:0.5rem 0;">${S.hintEn}<br>${S.hintZh}</p>
+        <div id="pool" style="margin:0.5rem 0;"></div>
+        <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+          <div class="sort-col" data-bin="hot" ondragover="event.preventDefault()" ondrop="dropChip(event,'hot')"><strong>🔥 Hot</strong><div class="bin"></div></div>
+          <div class="sort-col" data-bin="cold" ondragover="event.preventDefault()" ondrop="dropChip(event,'cold')"><strong>❄️ Cold / Polar</strong><div class="bin"></div></div>
+        </div>
+        <button class="btn btn-primary" id="check" style="margin-top:0.75rem;">检查 Check</button>
+        <p class="feedback" id="fb"></p>`;
+      const poolEl=document.getElementById('pool');
+      pool.forEach(name=>{
+        const s=document.createElement('span'); s.className='chip'; s.textContent=name; s.draggable=true;
+        s.ondragstart=e=>e.dataTransfer.setData('text/plain', name);
+        s.onclick=()=>{ /* tap cycle */ const hot=document.querySelector('[data-bin=hot] .bin'); const cold=document.querySelector('[data-bin=cold] .bin');
+          if(s.parentElement===poolEl) hot.appendChild(s);
+          else if(s.parentElement===hot) cold.appendChild(s);
+          else poolEl.appendChild(s);
+        };
+        poolEl.appendChild(s);
+      });
+      window.dropChip=(e,bin)=>{ e.preventDefault(); const name=e.dataTransfer.getData('text/plain');
+        const chip=[...document.querySelectorAll('.chip')].find(c=>c.textContent===name);
+        if(chip) e.currentTarget.querySelector('.bin').appendChild(chip);
+      };
+      document.getElementById('check').onclick=()=>{
+        const hotNames=[...document.querySelectorAll('[data-bin=hot] .chip')].map(x=>x.textContent);
+        const coldNames=[...document.querySelectorAll('[data-bin=cold] .chip')].map(x=>x.textContent);
+        let ok=true;
+        hotNames.forEach(n=>{ if(!S.hot.includes(n)) ok=false; });
+        coldNames.forEach(n=>{ if(!S.cold.includes(n)) ok=false; });
+        if(hotNames.length+coldNames.length < S.hot.length+S.cold.length) ok=false;
+        document.getElementById('fb').textContent = ok ? '✓ Perfect sorting!' : '还有放错的，再调整一下。';
+      };
+    }
+    function go(t){ tab=t; if(t==='find')showFind(); else if(t==='quiz')showQuiz(); else showSort();
+      document.querySelectorAll('[data-tab]').forEach(b=>b.className='btn '+(b.dataset.tab===t?'btn-primary':'btn-secondary'));
+    }
+    document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>go(b.dataset.tab));
+    go('find');
+  </script>
+</body>
+</html>
