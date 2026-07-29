@@ -165,40 +165,71 @@
     var quizNote = "根据例句语境填写" + quizTargetLabel(quizTargets, "zh") + "；页末附参考答案。";
     var metaExtra =
       options.mode === "quiz"
-        ? "<div><span>测试目标</span><strong>" +
+        ? '<div class="pdf-meta-card pdf-meta-target"><span>测试目标</span><strong>' +
           escapeHtml(quizTargetLabel(quizTargets, "zh")) +
           "</strong></div>"
         : "";
+    var legend =
+      options.mode === "quiz"
+        ? '<div class="pdf-cover-legend">' +
+          (quizTargets.past
+            ? '<span class="pdf-legend-chip pdf-legend-past">Past · 过去式</span>'
+            : "") +
+          (quizTargets.pp
+            ? '<span class="pdf-legend-chip pdf-legend-pp">PP · 过去分词</span>'
+            : "") +
+          "</div>"
+        : '<div class="pdf-cover-legend">' +
+          '<span class="pdf-legend-chip pdf-legend-base">Base · 原形</span>' +
+          '<span class="pdf-legend-chip pdf-legend-past">Past · 过去式</span>' +
+          '<span class="pdf-legend-chip pdf-legend-pp">PP · 过去分词</span>' +
+          "</div>";
+
     return (
       '<section class="pdf-cover" style="--level-color:' +
       level.color +
       '">' +
+      '<div class="pdf-cover-glow pdf-cover-glow-a" aria-hidden="true"></div>' +
+      '<div class="pdf-cover-glow pdf-cover-glow-b" aria-hidden="true"></div>' +
+      '<div class="pdf-cover-watermark" aria-hidden="true">VA</div>' +
+      '<div class="pdf-cover-top">' +
       '<div class="pdf-cover-badge">Verb Atlas · S-Class</div>' +
+      '<div class="pdf-cover-level-pill">' +
+      escapeHtml(level.label) +
+      "</div>" +
+      "</div>" +
+      '<p class="pdf-cover-kicker">' +
+      (options.mode === "quiz" ? "PRACTICE SHEET" : "STUDY ATLAS") +
+      "</p>" +
       '<h1 class="pdf-cover-title" lang="en">' +
       escapeHtml(modeLabel) +
       "</h1>" +
       '<p class="pdf-cover-sub">' +
       escapeHtml(modeCn) +
       "</p>" +
+      legend +
       '<div class="pdf-cover-meta' +
       (options.mode === "quiz" ? " pdf-cover-meta-4" : "") +
       '">' +
-      "<div><span>难度</span><strong>" +
+      '<div class="pdf-meta-card"><span>难度</span><strong>' +
       escapeHtml(level.label) +
       "</strong></div>" +
-      "<div><span>词数</span><strong>" +
+      '<div class="pdf-meta-card"><span>词数</span><strong>' +
       options.verbs.length +
       "</strong></div>" +
       metaExtra +
-      "<div><span>日期</span><strong>" +
+      '<div class="pdf-meta-card"><span>日期</span><strong>' +
       todayLabel() +
       "</strong></div>" +
       "</div>" +
       '<p class="pdf-cover-note">' +
       (options.mode === "quiz"
         ? escapeHtml(quizNote)
-        : "每词含原形、过去式、过去分词及对应难度例句；预览页可点按喇叭朗读。") +
+        : "每词含原形、过去式、过去分词及对应难度例句；彩色轨道帮助记忆三态。") +
       "</p>" +
+      '<div class="pdf-cover-footer" aria-hidden="true">' +
+      "<span>Present</span><span>Past</span><span>Perfect</span>" +
+      "</div>" +
       "</section>"
     );
   }
@@ -259,7 +290,7 @@
           '<span class="pdf-tense-label">' +
           escapeHtml(row.label) +
           "</span>" +
-          '<strong lang="en">' +
+          '<strong class="pdf-form-pill" lang="en">' +
           escapeHtml(row.form) +
           "</strong>" +
           "</div>" +
@@ -299,6 +330,11 @@
       (verb.ipa ? " · " + escapeHtml(verb.ipa) : "") +
       "</span>" +
       "</div>" +
+      '<div class="pdf-orbit-mini" aria-hidden="true">' +
+      '<span class="pdf-orbit-dot pdf-orbit-base"></span>' +
+      '<span class="pdf-orbit-dot pdf-orbit-past"></span>' +
+      '<span class="pdf-orbit-dot pdf-orbit-pp"></span>' +
+      "</div>" +
       '<div class="pdf-verb-level">' +
       escapeHtml(level.short) +
       "</div>" +
@@ -314,16 +350,20 @@
     var blank = options.blank;
     var example = options.example;
     var aria = options.aria;
+    var tone = options.tone || "past";
     return (
-      '<div class="pdf-quiz-item">' +
+      '<div class="pdf-quiz-item pdf-quiz-item-' +
+      tone +
+      '">' +
       '<div class="pdf-quiz-label">' +
+      '<span class="pdf-quiz-tone-dot" aria-hidden="true"></span>' +
       escapeHtml(label) +
       "</div>" +
       '<p class="pdf-en" lang="en">' +
       escapeHtml(blank) +
       "</p>" +
       (example && example.cn ? '<p class="pdf-cn">' + escapeHtml(example.cn) + "</p>" : "") +
-      '<div class="pdf-write-line"><span>填写：</span><em></em></div>' +
+      '<div class="pdf-write-line"><span>填写</span><em></em></div>' +
       (example && example.en
         ? '<button type="button" class="pdf-speak-btn" data-speak="' +
           escapeHtml(example.en) +
@@ -359,6 +399,7 @@
         blank: pastBlank,
         example: pastEx,
         aria: "朗读过去式原句（含答案）",
+        tone: "past",
       });
     }
     if (targets.pp) {
@@ -367,6 +408,7 @@
         blank: ppBlank,
         example: ppEx,
         aria: "朗读过去分词原句（含答案）",
+        tone: "pp",
       });
     }
 
@@ -384,6 +426,7 @@
       "</strong>" +
       "<span>" +
       escapeHtml(verb.cn) +
+      (verb.ipa ? " · " + escapeHtml(verb.ipa) : "") +
       "</span>" +
       "</div>" +
       '<div class="pdf-verb-level">' +
@@ -400,21 +443,25 @@
     var targets = normalizeQuizTargets(quizTargets);
     var head =
       "<tr><th>#</th><th>Base</th>" +
-      (targets.past ? "<th>Past</th>" : "") +
-      (targets.pp ? "<th>PP</th>" : "") +
+      (targets.past ? '<th class="th-past">Past</th>' : "") +
+      (targets.pp ? '<th class="th-pp">PP</th>' : "") +
       "<th>含义</th></tr>";
     var rows = verbs
       .map(function (verb, index) {
         var pp = verb.id === "can" ? "been able to" : verb.pp;
         return (
-          "<tr><td>" +
+          '<tr class="' +
+          (index % 2 ? "is-alt" : "") +
+          '"><td class="td-no">' +
           String(index + 1).padStart(2, "0") +
-          '</td><td lang="en">' +
+          '</td><td lang="en" class="td-base">' +
           escapeHtml(verb.base) +
           "</td>" +
-          (targets.past ? '<td lang="en">' + escapeHtml(verb.past) + "</td>" : "") +
-          (targets.pp ? '<td lang="en">' + escapeHtml(pp) + "</td>" : "") +
-          "<td>" +
+          (targets.past
+            ? '<td lang="en" class="td-past">' + escapeHtml(verb.past) + "</td>"
+            : "") +
+          (targets.pp ? '<td lang="en" class="td-pp">' + escapeHtml(pp) + "</td>" : "") +
+          '<td class="td-cn">' +
           escapeHtml(verb.cn) +
           "</td></tr>"
         );
@@ -425,14 +472,17 @@
       '<section class="pdf-answers" style="--level-color:' +
       level.color +
       '">' +
-      "<h2>参考答案 Answer Key · " +
+      '<div class="pdf-answers-banner">' +
+      "<h2>参考答案 Answer Key</h2>" +
+      '<span class="pdf-answers-tag">' +
       escapeHtml(quizTargetLabel(targets, "zh")) +
-      "</h2>" +
-      "<table><thead>" +
+      "</span>" +
+      "</div>" +
+      '<div class="pdf-answers-table-wrap"><table><thead>' +
       head +
       "</thead><tbody>" +
       rows +
-      "</tbody></table></section>"
+      "</tbody></table></div></section>"
     );
   }
 
@@ -441,6 +491,7 @@
     var levelId = options.levelId || "j1";
     var mode = options.mode || "study";
     var quizTargets = normalizeQuizTargets(options.quizTargets);
+    var level = LEVEL_MAP[levelId] || LEVELS[2];
     var cards =
       mode === "quiz"
         ? verbs.map(function (verb, i) {
@@ -457,13 +508,22 @@
       (quizTargets.past ? "past" : "") +
       (quizTargets.past && quizTargets.pp ? "+" : "") +
       (quizTargets.pp ? "pp" : "") +
+      '" style="--level-color:' +
+      level.color +
       '">' +
       buildCoverHtml(options) +
+      '<div class="pdf-sheet">' +
+      '<div class="pdf-sheet-ribbon" aria-hidden="true">' +
+      "<span>Verb Atlas</span><span>" +
+      escapeHtml(level.label) +
+      "</span><span>" +
+      (mode === "quiz" ? escapeHtml(quizTargetLabel(quizTargets, "zh")) : "Study Sheet") +
+      "</span></div>" +
       '<div class="pdf-cards">' +
       cards.join("") +
       "</div>" +
       (mode === "quiz" ? buildAnswerKey(verbs, levelId, quizTargets) : "") +
-      "</div>"
+      "</div></div>"
     );
   }
 
@@ -504,52 +564,92 @@
 
   var PRINT_CSS =
     '*{box-sizing:border-box}body{margin:0;background:#fff;color:#0a1f3b;font-family:"Noto Sans SC","DM Sans",sans-serif}' +
-    ".pdf-doc{width:794px;margin:0 auto;background:#fff}" +
-    ".pdf-cover{position:relative;padding:36px 28px 30px;background:linear-gradient(145deg,#0a1f3b 0%,#18314f 52%,#102a4a 100%);color:#fff;page-break-after:always}" +
-    ".pdf-cover:before{content:'';position:absolute;left:0;right:0;bottom:0;height:8px;background:var(--level-color,#155eef)}" +
-    ".pdf-cover-badge{display:inline-flex;border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 12px;font-family:Outfit,sans-serif;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}" +
-    ".pdf-cover-title{margin:22px 0 8px;font-family:Outfit,sans-serif;font-size:34px;letter-spacing:-.04em;line-height:1}" +
-    ".pdf-cover-sub{margin:0;color:rgba(255,255,255,.82);font-size:15px}" +
-    ".pdf-cover-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:26px 0 14px}" +
+    ".pdf-doc{--base:#155eef;--past:#d88a17;--pp:#7654d8;width:794px;margin:0 auto;background:#fff}" +
+    ".pdf-cover{position:relative;overflow:hidden;min-height:520px;padding:34px 28px 28px;background:linear-gradient(145deg,#071628 0%,#0f2f55 42%,#134e4a 78%,#1d4ed8 118%);color:#fff;page-break-after:always}" +
+    ".pdf-cover-glow{position:absolute;border-radius:50%;pointer-events:none}" +
+    ".pdf-cover-glow-a{top:-80px;right:-40px;width:240px;height:240px;background:rgba(56,189,248,.28)}" +
+    ".pdf-cover-glow-b{bottom:-90px;left:-60px;width:260px;height:260px;background:rgba(251,191,36,.18)}" +
+    ".pdf-cover-watermark{position:absolute;right:4px;bottom:28px;font-family:Outfit,sans-serif;font-size:120px;font-weight:800;letter-spacing:-.08em;line-height:.8;opacity:.08}" +
+    ".pdf-cover-top{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;gap:10px}" +
+    ".pdf-cover-badge,.pdf-cover-level-pill{display:inline-flex;border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 12px;font-family:Outfit,sans-serif;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}" +
+    ".pdf-cover-level-pill{background:rgba(255,255,255,.14);letter-spacing:.04em;text-transform:none}" +
+    ".pdf-cover-kicker{position:relative;z-index:1;margin:22px 0 6px;color:#7dd3fc;font-family:Outfit,sans-serif;font-size:12px;font-weight:800;letter-spacing:.18em}" +
+    ".pdf-cover-title{position:relative;z-index:1;margin:0 0 8px;max-width:14ch;font-family:Outfit,sans-serif;font-size:42px;letter-spacing:-.05em;line-height:.95}" +
+    ".pdf-cover-sub{position:relative;z-index:1;margin:0;color:rgba(255,255,255,.86);font-size:16px}" +
+    ".pdf-cover-legend{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0}" +
+    ".pdf-legend-chip{display:inline-flex;border-radius:999px;padding:5px 11px;font-size:11px;font-weight:800}" +
+    ".pdf-legend-base{background:#dbeafe;color:#1d4ed8}" +
+    ".pdf-legend-past{background:#fde68a;color:#92400e}" +
+    ".pdf-legend-pp{background:#ddd6fe;color:#5b21b6}" +
+    ".pdf-cover-meta{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:22px 0 14px}" +
     ".pdf-cover-meta-4{grid-template-columns:repeat(2,1fr)}" +
-    ".pdf-cover-meta>div{border:1px solid rgba(255,255,255,.18);border-radius:14px;background:rgba(255,255,255,.08);padding:12px}" +
-    ".pdf-cover-meta span{display:block;color:rgba(255,255,255,.7);font-size:11px;margin-bottom:4px}" +
-    ".pdf-cover-meta strong{font-family:Outfit,sans-serif;font-size:16px}" +
-    ".pdf-cover-note{margin:0;color:rgba(255,255,255,.78);font-size:13px}" +
-    ".pdf-cards{padding:16px 14px 18px;display:grid;gap:12px;background:#f7f3ea}" +
-    ".pdf-verb-card,.pdf-quiz-card{border:1px solid rgba(10,31,59,.12);border-radius:18px;background:#fffdf8;overflow:hidden;page-break-inside:avoid}" +
-    ".pdf-verb-head,.pdf-quiz-head{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#fff;border-bottom:1px solid rgba(10,31,59,.08);border-left:6px solid var(--level-color,#155eef)}" +
-    ".pdf-verb-index,.pdf-quiz-no{display:grid;place-items:center;width:30px;height:30px;border-radius:10px;background:var(--level-color,#155eef);color:#fff;font-family:Outfit,sans-serif;font-size:11px;font-weight:800}" +
-    ".pdf-verb-title,.pdf-quiz-title{display:grid;gap:2px;flex:1}" +
-    ".pdf-verb-title strong,.pdf-quiz-title strong{font-family:DM Sans,sans-serif;font-size:20px;letter-spacing:-.03em;line-height:1.1}" +
-    ".pdf-verb-title span,.pdf-quiz-title span{color:#647185;font-size:12px}" +
-    ".pdf-verb-level{border-radius:999px;background:var(--level-color,#155eef);color:#fff;padding:4px 10px;font-size:11px;font-weight:800}" +
+    ".pdf-meta-card{border:1px solid rgba(255,255,255,.18);border-radius:16px;background:rgba(255,255,255,.1);padding:12px}" +
+    ".pdf-meta-target{background:rgba(251,191,36,.18);border-color:rgba(251,191,36,.35)}" +
+    ".pdf-meta-card span{display:block;color:rgba(255,255,255,.72);font-size:11px;margin-bottom:4px;letter-spacing:.08em}" +
+    ".pdf-meta-card strong{font-family:Outfit,sans-serif;font-size:16px}" +
+    ".pdf-cover-note{position:relative;z-index:1;margin:0;max-width:520px;color:rgba(255,255,255,.8);font-size:13px;line-height:1.55}" +
+    ".pdf-cover-footer{position:relative;z-index:1;display:flex;gap:8px;margin-top:22px}" +
+    ".pdf-cover-footer span{border-radius:999px;padding:4px 10px;font-family:Outfit,sans-serif;font-size:11px;font-weight:800}" +
+    ".pdf-cover-footer span:nth-child(1){background:#2563eb}" +
+    ".pdf-cover-footer span:nth-child(2){background:#d97706}" +
+    ".pdf-cover-footer span:nth-child(3){background:#7c3aed}" +
+    ".pdf-sheet{background:linear-gradient(180deg,#f4f7ff 0%,#f7f3ea 48%,#f8f1e4 100%)}" +
+    ".pdf-sheet-ribbon{display:flex;justify-content:space-between;gap:8px;padding:10px 16px;background:linear-gradient(90deg,#0f2f55,#155eef 55%,#0f766e);color:#fff;font-family:Outfit,sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em}" +
+    ".pdf-cards{padding:14px 12px 18px;display:grid;gap:12px}" +
+    ".pdf-verb-card,.pdf-quiz-card{border:1px solid rgba(10,31,59,.1);border-radius:20px;background:#fffdf9;overflow:hidden;page-break-inside:avoid}" +
+    ".pdf-verb-head,.pdf-quiz-head{display:flex;align-items:center;gap:10px;padding:12px 14px;background:linear-gradient(90deg,#eff6ff,#fff 55%,#fff7ed);border-bottom:1px solid rgba(10,31,59,.07)}" +
+    ".pdf-verb-index,.pdf-quiz-no{display:grid;place-items:center;width:32px;height:32px;border-radius:12px;background:var(--level-color,#155eef);color:#fff;font-family:Outfit,sans-serif;font-size:11px;font-weight:800}" +
+    ".pdf-verb-title,.pdf-quiz-title{display:grid;gap:2px;flex:1;min-width:0}" +
+    ".pdf-verb-title strong,.pdf-quiz-title strong{font-family:Outfit,sans-serif;font-size:22px;letter-spacing:-.04em;line-height:1.05}" +
+    ".pdf-verb-title span,.pdf-quiz-title span{color:#5b6b82;font-size:12px}" +
+    ".pdf-orbit-mini{display:inline-flex;gap:4px;align-items:center}" +
+    ".pdf-orbit-dot{width:8px;height:8px;border-radius:50%}" +
+    ".pdf-orbit-base{background:#155eef}.pdf-orbit-past{background:#d88a17}.pdf-orbit-pp{background:#7654d8}" +
+    ".pdf-verb-level{border-radius:999px;background:var(--level-color,#155eef);color:#fff;padding:4px 10px;font-size:11px;font-weight:800;white-space:nowrap}" +
     ".pdf-tense-stack{display:grid}" +
-    ".pdf-tense-row{display:grid;grid-template-columns:110px 1fr;gap:10px;padding:12px 14px;border-top:1px solid rgba(10,31,59,.06)}" +
+    ".pdf-tense-row{display:grid;grid-template-columns:118px 1fr;gap:10px;padding:12px 14px;border-top:1px solid rgba(10,31,59,.05)}" +
     ".pdf-tense-row:first-child{border-top:0}" +
-    ".pdf-tense-form{display:grid;align-content:start;gap:4px}" +
-    ".pdf-tense-label{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#647185}" +
-    ".pdf-tense-form strong{font-family:DM Sans,sans-serif;font-size:15px}" +
-    ".pdf-tense-base .pdf-tense-form strong{color:#155eef}" +
-    ".pdf-tense-past .pdf-tense-form strong{color:#d88a17}" +
-    ".pdf-tense-pp .pdf-tense-form strong{color:#7654d8}" +
-    ".pdf-en{margin:0 0 4px;font-family:DM Sans,sans-serif;font-size:13px;line-height:1.45}" +
-    ".pdf-cn{margin:0;color:#647185;font-size:12px}" +
-    ".pdf-mark{padding:0 .15em;border-radius:.2em;font-weight:700}" +
-    ".pdf-mark-base{background:#e8efff;color:#0e46bd}" +
-    ".pdf-mark-past{background:#fff2dc;color:#9a5f0a}" +
-    ".pdf-mark-pp{background:#eee9ff;color:#5538b8}" +
-    ".pdf-quiz-body{display:grid;gap:10px;padding:12px 14px 14px}" +
-    ".pdf-quiz-item{border:1px solid rgba(10,31,59,.08);border-radius:14px;background:#fff;padding:12px 14px}" +
-    ".pdf-quiz-label{margin-bottom:6px;color:var(--level-color,#155eef);font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}" +
-    ".pdf-write-line{display:flex;align-items:flex-end;gap:8px;margin-top:10px}" +
-    ".pdf-write-line span{color:#647185;font-size:12px;white-space:nowrap}" +
-    ".pdf-write-line em{flex:1;border-bottom:1.5px dashed rgba(10,31,59,.28);height:18px;font-style:normal}" +
-    ".pdf-answers{margin:8px 14px 18px;border:1px solid rgba(10,31,59,.1);border-radius:18px;background:#fff;padding:14px 16px;page-break-before:always}" +
-    ".pdf-answers h2{margin:0 0 10px;color:var(--level-color,#155eef);font-family:Outfit,sans-serif;font-size:18px}" +
+    ".pdf-tense-base{background:linear-gradient(90deg,rgba(21,94,239,.08),rgba(21,94,239,.01))}" +
+    ".pdf-tense-past{background:linear-gradient(90deg,rgba(216,138,23,.1),rgba(216,138,23,.015))}" +
+    ".pdf-tense-pp{background:linear-gradient(90deg,rgba(118,84,216,.1),rgba(118,84,216,.015))}" +
+    ".pdf-tense-form{display:grid;align-content:start;gap:5px}" +
+    ".pdf-tense-label{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#5b6b82}" +
+    ".pdf-form-pill{display:inline-flex;width:fit-content;max-width:100%;border-radius:999px;padding:4px 10px;font-family:DM Sans,sans-serif;font-size:14px;font-weight:800;line-height:1.2}" +
+    ".pdf-tense-base .pdf-form-pill{background:#e8efff;color:#0e46bd}" +
+    ".pdf-tense-past .pdf-form-pill{background:#fff1d6;color:#9a5f0a}" +
+    ".pdf-tense-pp .pdf-form-pill{background:#eee9ff;color:#5538b8}" +
+    ".pdf-en{margin:0 0 4px;font-family:DM Sans,sans-serif;font-size:13px;line-height:1.48}" +
+    ".pdf-cn{margin:0;color:#5b6b82;font-size:12px}" +
+    ".pdf-mark{padding:1px 3px;border-radius:4px;font-weight:800}" +
+    ".pdf-mark-base{background:#bfdbfe;color:#1e3a8a}" +
+    ".pdf-mark-past{background:#fde68a;color:#92400e}" +
+    ".pdf-mark-pp{background:#ddd6fe;color:#5b21b6}" +
+    ".pdf-quiz-body{display:grid;gap:10px;padding:12px 14px 14px;background:linear-gradient(180deg,#fff,#f8fafc)}" +
+    ".pdf-quiz-item{border:1px solid rgba(10,31,59,.08);border-radius:16px;padding:12px 14px;border-left-width:5px}" +
+    ".pdf-quiz-item-past{border-left-color:#d88a17;background:linear-gradient(180deg,#fffbeb,#fff)}" +
+    ".pdf-quiz-item-pp{border-left-color:#7654d8;background:linear-gradient(180deg,#f5f3ff,#fff)}" +
+    ".pdf-quiz-label{display:inline-flex;align-items:center;gap:6px;margin-bottom:6px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}" +
+    ".pdf-quiz-item-past .pdf-quiz-label{color:#b45309}" +
+    ".pdf-quiz-item-pp .pdf-quiz-label{color:#6d28d9}" +
+    ".pdf-quiz-tone-dot{width:8px;height:8px;border-radius:50%;background:currentColor}" +
+    ".pdf-write-line{display:flex;align-items:flex-end;gap:8px;margin-top:10px;padding:6px 10px;border-radius:10px;background:rgba(255,255,255,.85);border:1px dashed rgba(10,31,59,.18)}" +
+    ".pdf-write-line span{color:#5b6b82;font-size:11px;font-weight:700;white-space:nowrap}" +
+    ".pdf-write-line em{flex:1;border-bottom:2px solid rgba(10,31,59,.18);height:16px;font-style:normal}" +
+    ".pdf-answers{margin:4px 12px 16px;border:1px solid rgba(10,31,59,.1);border-radius:20px;background:#fff;overflow:hidden;page-break-before:always}" +
+    ".pdf-answers-banner{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px;background:linear-gradient(90deg,#0f2f55,var(--level-color,#155eef));color:#fff}" +
+    ".pdf-answers-banner h2{margin:0;font-family:Outfit,sans-serif;font-size:18px}" +
+    ".pdf-answers-tag{border-radius:999px;background:rgba(255,255,255,.18);padding:4px 10px;font-size:11px;font-weight:800}" +
+    ".pdf-answers-table-wrap{padding:6px 10px 12px}" +
     ".pdf-answers table{width:100%;border-collapse:collapse;font-size:12px}" +
-    ".pdf-answers th,.pdf-answers td{border-bottom:1px solid rgba(10,31,59,.08);padding:6px 4px;text-align:left}" +
-    ".pdf-answers th{color:#647185;font-size:10px;letter-spacing:.06em;text-transform:uppercase}" +
+    ".pdf-answers th,.pdf-answers td{padding:7px 5px;text-align:left;border-bottom:1px solid rgba(10,31,59,.07)}" +
+    ".pdf-answers th{color:#647185;font-size:10px;letter-spacing:.08em;text-transform:uppercase}" +
+    ".pdf-answers .th-past{color:#b45309}.pdf-answers .th-pp{color:#6d28d9}" +
+    ".pdf-answers tr.is-alt td{background:#f8fafc}" +
+    ".pdf-answers .td-no{font-family:Outfit,sans-serif;font-weight:800;color:var(--level-color,#155eef)}" +
+    ".pdf-answers .td-base{font-weight:800;color:#1d4ed8}" +
+    ".pdf-answers .td-past{font-weight:700;color:#b45309}" +
+    ".pdf-answers .td-pp{font-weight:700;color:#6d28d9}" +
+    ".pdf-answers .td-cn{color:#5b6b82}" +
     ".pdf-missing{padding:14px;color:#b45309}" +
     ".pdf-speak-btn{display:none!important}";
 
