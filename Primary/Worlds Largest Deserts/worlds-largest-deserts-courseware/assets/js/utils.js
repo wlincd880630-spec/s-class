@@ -82,12 +82,25 @@ function renderPhonemeBoxes(container, w) {
     box.textContent = isSilent ? '—' : ph.symbol;
     box.dataset.ipa = ph.symbol;
     box.dataset.letter = ph.letter;
-    box.title = `音标 ${ph.symbol} · 点击显示字母 ${ph.letter}`;
-    box.addEventListener('click', () => {
-      const show = !box.classList.contains('show-letter');
-      box.textContent = show ? ph.letter : (isSilent ? '—' : ph.symbol);
-      box.classList.toggle('show-letter', show);
-    });
+    if (isSilent) {
+      box.title = '间隔';
+    } else {
+      box.title = `音标 ${ph.symbol} · 点击显示字母 ${ph.letter}`;
+      box.setAttribute('role', 'button');
+      box.setAttribute('tabindex', '0');
+      const toggle = () => {
+        const show = !box.classList.contains('show-letter');
+        box.textContent = show ? ph.letter : ph.symbol;
+        box.classList.toggle('show-letter', show);
+      };
+      box.addEventListener('click', toggle);
+      box.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggle();
+        }
+      });
+    }
     container.appendChild(box);
   });
 }
