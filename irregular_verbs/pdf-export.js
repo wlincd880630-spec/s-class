@@ -439,8 +439,9 @@
     );
   }
 
-  function buildAnswerKey(verbs, levelId, quizTargets) {
+  function buildAnswerKey(verbs, levelId, quizTargets, startIndex) {
     var targets = normalizeQuizTargets(quizTargets);
+    var offset = startIndex || 0;
     var head =
       "<tr><th>#</th><th>Base</th>" +
       (targets.past ? '<th class="th-past">Past</th>' : "") +
@@ -449,11 +450,12 @@
     var rows = verbs
       .map(function (verb, index) {
         var pp = verb.id === "can" ? "been able to" : verb.pp;
+        var n = offset + index + 1;
         return (
           '<tr class="' +
           (index % 2 ? "is-alt" : "") +
           '"><td class="td-no">' +
-          String(index + 1).padStart(2, "0") +
+          String(n).padStart(2, "0") +
           '</td><td lang="en" class="td-base">' +
           escapeHtml(verb.base) +
           "</td>" +
@@ -562,103 +564,111 @@
     });
   }
 
+  // A4 @ 96dpi — one canvas = one PDF page. No html2pdf pagebreak slicing.
+  var PAGE_W = 794;
+  var PAGE_H = 1123;
+  var CARD_GAP = 12;
+  var ANSWER_ROWS_PER_PAGE = 24;
+
   var PRINT_CSS =
-    '*{box-sizing:border-box}body{margin:0;background:#fff;color:#0a1f3b;font-family:"Noto Sans SC","DM Sans",sans-serif}' +
-    ".pdf-doc{--base:#155eef;--past:#d88a17;--pp:#7654d8;width:794px;margin:0 auto;background:#fff}" +
-    ".pdf-cover{position:relative;overflow:hidden;min-height:1040px;padding:42px 34px 36px;background:linear-gradient(145deg,#071628 0%,#0f2f55 42%,#134e4a 78%,#1d4ed8 118%);color:#fff;page-break-after:always;display:flex;flex-direction:column}" +
-    ".pdf-cover-glow{position:absolute;border-radius:50%;pointer-events:none}" +
-    ".pdf-cover-glow-a{top:-80px;right:-40px;width:240px;height:240px;background:rgba(56,189,248,.28)}" +
-    ".pdf-cover-glow-b{bottom:-90px;left:-60px;width:260px;height:260px;background:rgba(251,191,36,.18)}" +
-    ".pdf-cover-watermark{position:absolute;right:4px;bottom:28px;font-family:Outfit,sans-serif;font-size:120px;font-weight:800;letter-spacing:-.08em;line-height:.8;opacity:.08}" +
-    ".pdf-cover-top{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;gap:10px}" +
-    ".pdf-cover-badge,.pdf-cover-level-pill{display:inline-flex;border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 12px;font-family:Outfit,sans-serif;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}" +
-    ".pdf-cover-level-pill{background:rgba(255,255,255,.14);letter-spacing:.04em;text-transform:none}" +
-    ".pdf-cover-kicker{position:relative;z-index:1;margin:48px 0 10px;color:#7dd3fc;font-family:Outfit,sans-serif;font-size:12px;font-weight:800;letter-spacing:.18em}" +
-    ".pdf-cover-title{position:relative;z-index:1;margin:0 0 12px;max-width:14ch;font-family:Outfit,sans-serif;font-size:48px;letter-spacing:-.05em;line-height:.95}" +
-    ".pdf-cover-sub{position:relative;z-index:1;margin:0;color:rgba(255,255,255,.86);font-size:18px}" +
-    ".pdf-cover-legend{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:8px;margin:28px 0 0}" +
-    ".pdf-legend-chip{display:inline-flex;border-radius:999px;padding:5px 11px;font-size:11px;font-weight:800}" +
-    ".pdf-legend-base{background:#dbeafe;color:#1d4ed8}" +
-    ".pdf-legend-past{background:#fde68a;color:#92400e}" +
-    ".pdf-legend-pp{background:#ddd6fe;color:#5b21b6}" +
-    ".pdf-cover-meta{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:36px 0 18px}" +
-    ".pdf-cover-meta-4{grid-template-columns:repeat(2,1fr)}" +
-    ".pdf-meta-card{border:1px solid rgba(255,255,255,.18);border-radius:16px;background:rgba(255,255,255,.1);padding:14px}" +
-    ".pdf-meta-target{background:rgba(251,191,36,.18);border-color:rgba(251,191,36,.35)}" +
-    ".pdf-meta-card span{display:block;color:rgba(255,255,255,.72);font-size:11px;margin-bottom:4px;letter-spacing:.08em}" +
-    ".pdf-meta-card strong{font-family:Outfit,sans-serif;font-size:16px}" +
-    ".pdf-cover-note{position:relative;z-index:1;margin:0;max-width:520px;color:rgba(255,255,255,.8);font-size:14px;line-height:1.55}" +
-    ".pdf-cover-footer{position:relative;z-index:1;display:flex;gap:8px;margin-top:auto;padding-top:40px}" +
-    ".pdf-cover-footer span{border-radius:999px;padding:4px 10px;font-family:Outfit,sans-serif;font-size:11px;font-weight:800}" +
-    ".pdf-cover-footer span:nth-child(1){background:#2563eb}" +
-    ".pdf-cover-footer span:nth-child(2){background:#d97706}" +
-    ".pdf-cover-footer span:nth-child(3){background:#7c3aed}" +
-    ".pdf-sheet{background:linear-gradient(180deg,#f4f7ff 0%,#f7f3ea 48%,#f8f1e4 100%)}" +
-    ".pdf-sheet-ribbon{display:flex;justify-content:space-between;gap:8px;padding:10px 16px;background:linear-gradient(90deg,#0f2f55,#155eef 55%,#0f766e);color:#fff;font-family:Outfit,sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em}" +
-    ".pdf-cards{padding:14px 12px 18px;display:grid;gap:12px}" +
-    ".pdf-verb-card,.pdf-quiz-card{border:1px solid rgba(10,31,59,.1);border-radius:20px;background:#fffdf9;overflow:hidden;page-break-inside:avoid}" +
-    ".pdf-verb-head,.pdf-quiz-head{display:flex;align-items:center;gap:10px;padding:12px 14px;background:linear-gradient(90deg,#eff6ff,#fff 55%,#fff7ed);border-bottom:1px solid rgba(10,31,59,.07)}" +
-    ".pdf-verb-index,.pdf-quiz-no{display:grid;place-items:center;width:32px;height:32px;border-radius:12px;background:var(--level-color,#155eef);color:#fff;font-family:Outfit,sans-serif;font-size:11px;font-weight:800}" +
-    ".pdf-verb-title,.pdf-quiz-title{display:grid;gap:2px;flex:1;min-width:0}" +
-    ".pdf-verb-title strong,.pdf-quiz-title strong{font-family:Outfit,sans-serif;font-size:22px;letter-spacing:-.04em;line-height:1.05}" +
-    ".pdf-verb-title span,.pdf-quiz-title span{color:#5b6b82;font-size:12px}" +
-    ".pdf-orbit-mini{display:inline-flex;gap:4px;align-items:center}" +
-    ".pdf-orbit-dot{width:8px;height:8px;border-radius:50%}" +
-    ".pdf-orbit-base{background:#155eef}.pdf-orbit-past{background:#d88a17}.pdf-orbit-pp{background:#7654d8}" +
-    ".pdf-verb-level{border-radius:999px;background:var(--level-color,#155eef);color:#fff;padding:4px 10px;font-size:11px;font-weight:800;white-space:nowrap}" +
-    ".pdf-tense-stack{display:grid}" +
-    ".pdf-tense-row{display:grid;grid-template-columns:118px 1fr;gap:10px;padding:12px 14px;border-top:1px solid rgba(10,31,59,.05)}" +
-    ".pdf-tense-row:first-child{border-top:0}" +
-    ".pdf-tense-base{background:linear-gradient(90deg,rgba(21,94,239,.08),rgba(21,94,239,.01))}" +
-    ".pdf-tense-past{background:linear-gradient(90deg,rgba(216,138,23,.1),rgba(216,138,23,.015))}" +
-    ".pdf-tense-pp{background:linear-gradient(90deg,rgba(118,84,216,.1),rgba(118,84,216,.015))}" +
-    ".pdf-tense-form{display:grid;align-content:start;gap:5px}" +
-    ".pdf-tense-label{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#5b6b82}" +
-    ".pdf-form-pill{display:inline-flex;width:fit-content;max-width:100%;border-radius:999px;padding:4px 10px;font-family:DM Sans,sans-serif;font-size:14px;font-weight:800;line-height:1.2}" +
-    ".pdf-tense-base .pdf-form-pill{background:#e8efff;color:#0e46bd}" +
-    ".pdf-tense-past .pdf-form-pill{background:#fff1d6;color:#9a5f0a}" +
-    ".pdf-tense-pp .pdf-form-pill{background:#eee9ff;color:#5538b8}" +
-    ".pdf-en{margin:0 0 4px;font-family:DM Sans,sans-serif;font-size:13px;line-height:1.48}" +
-    ".pdf-cn{margin:0;color:#5b6b82;font-size:12px}" +
-    ".pdf-mark{padding:1px 3px;border-radius:4px;font-weight:800}" +
-    ".pdf-mark-base{background:#bfdbfe;color:#1e3a8a}" +
-    ".pdf-mark-past{background:#fde68a;color:#92400e}" +
-    ".pdf-mark-pp{background:#ddd6fe;color:#5b21b6}" +
-    ".pdf-quiz-body{display:grid;gap:10px;padding:12px 14px 14px;background:linear-gradient(180deg,#fff,#f8fafc)}" +
-    ".pdf-quiz-item{border:1px solid rgba(10,31,59,.08);border-radius:16px;padding:12px 14px;border-left-width:5px}" +
-    ".pdf-quiz-item-past{border-left-color:#d88a17;background:linear-gradient(180deg,#fffbeb,#fff)}" +
-    ".pdf-quiz-item-pp{border-left-color:#7654d8;background:linear-gradient(180deg,#f5f3ff,#fff)}" +
-    ".pdf-quiz-label{display:inline-flex;align-items:center;gap:6px;margin-bottom:6px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}" +
-    ".pdf-quiz-item-past .pdf-quiz-label{color:#b45309}" +
-    ".pdf-quiz-item-pp .pdf-quiz-label{color:#6d28d9}" +
-    ".pdf-quiz-tone-dot{width:8px;height:8px;border-radius:50%;background:currentColor}" +
-    ".pdf-write-line{display:flex;align-items:flex-end;gap:8px;margin-top:10px;padding:6px 10px;border-radius:10px;background:rgba(255,255,255,.85);border:1px dashed rgba(10,31,59,.18)}" +
-    ".pdf-write-line span{color:#5b6b82;font-size:11px;font-weight:700;white-space:nowrap}" +
-    ".pdf-write-line em{flex:1;border-bottom:2px solid rgba(10,31,59,.18);height:16px;font-style:normal}" +
-    ".pdf-answers{margin:4px 12px 16px;border:1px solid rgba(10,31,59,.1);border-radius:20px;background:#fff;overflow:hidden;page-break-before:always}" +
-    ".pdf-answers-banner{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px;background:linear-gradient(90deg,#0f2f55,var(--level-color,#155eef));color:#fff}" +
-    ".pdf-answers-banner h2{margin:0;font-family:Outfit,sans-serif;font-size:18px}" +
-    ".pdf-answers-tag{border-radius:999px;background:rgba(255,255,255,.18);padding:4px 10px;font-size:11px;font-weight:800}" +
-    ".pdf-answers-table-wrap{padding:6px 10px 12px}" +
-    ".pdf-answers table{width:100%;border-collapse:collapse;font-size:12px}" +
-    ".pdf-answers th,.pdf-answers td{padding:7px 5px;text-align:left;border-bottom:1px solid rgba(10,31,59,.07)}" +
-    ".pdf-answers th{color:#647185;font-size:10px;letter-spacing:.08em;text-transform:uppercase}" +
-    ".pdf-answers .th-past{color:#b45309}.pdf-answers .th-pp{color:#6d28d9}" +
-    ".pdf-answers tr.is-alt td{background:#f8fafc}" +
-    ".pdf-answers .td-no{font-family:Outfit,sans-serif;font-weight:800;color:var(--level-color,#155eef)}" +
-    ".pdf-answers .td-base{font-weight:800;color:#1d4ed8}" +
-    ".pdf-answers .td-past{font-weight:700;color:#b45309}" +
-    ".pdf-answers .td-pp{font-weight:700;color:#6d28d9}" +
-    ".pdf-answers .td-cn{color:#5b6b82}" +
-    ".pdf-missing{padding:14px;color:#b45309}" +
-    ".pdf-speak-btn{display:none!important}";
+    '#iv-pdf-export-stage,#iv-pdf-export-stage *{box-sizing:border-box}' +
+    '#iv-pdf-export-stage{color:#0a1f3b;font-family:"Noto Sans SC","DM Sans",sans-serif}' +
+    "#iv-pdf-export-stage .pdf-page{--base:#155eef;--past:#d88a17;--pp:#7654d8;width:794px;height:1123px;overflow:hidden;margin:0;background:#fff}" +
+    "#iv-pdf-export-stage .pdf-page-cover{background:transparent}" +
+    "#iv-pdf-export-stage .pdf-cover{position:relative;overflow:hidden;height:1123px;padding:42px 34px 36px;background:linear-gradient(145deg,#071628 0%,#0f2f55 42%,#134e4a 78%,#1d4ed8 118%);color:#fff;display:flex;flex-direction:column}" +
+    "#iv-pdf-export-stage .pdf-cover-glow{position:absolute;border-radius:50%;pointer-events:none}" +
+    "#iv-pdf-export-stage .pdf-cover-glow-a{top:-80px;right:-40px;width:240px;height:240px;background:rgba(56,189,248,.28)}" +
+    "#iv-pdf-export-stage .pdf-cover-glow-b{bottom:-90px;left:-60px;width:260px;height:260px;background:rgba(251,191,36,.18)}" +
+    "#iv-pdf-export-stage .pdf-cover-watermark{position:absolute;right:4px;bottom:28px;font-family:Outfit,sans-serif;font-size:120px;font-weight:800;letter-spacing:-.08em;line-height:.8;opacity:.08}" +
+    "#iv-pdf-export-stage .pdf-cover-top{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;gap:10px}" +
+    "#iv-pdf-export-stage .pdf-cover-badge,#iv-pdf-export-stage .pdf-cover-level-pill{display:inline-flex;border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 12px;font-family:Outfit,sans-serif;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}" +
+    "#iv-pdf-export-stage .pdf-cover-level-pill{background:rgba(255,255,255,.14);letter-spacing:.04em;text-transform:none}" +
+    "#iv-pdf-export-stage .pdf-cover-kicker{position:relative;z-index:1;margin:48px 0 10px;color:#7dd3fc;font-family:Outfit,sans-serif;font-size:12px;font-weight:800;letter-spacing:.18em}" +
+    "#iv-pdf-export-stage .pdf-cover-title{position:relative;z-index:1;margin:0 0 12px;max-width:14ch;font-family:Outfit,sans-serif;font-size:48px;letter-spacing:-.05em;line-height:.95}" +
+    "#iv-pdf-export-stage .pdf-cover-sub{position:relative;z-index:1;margin:0;color:rgba(255,255,255,.86);font-size:18px}" +
+    "#iv-pdf-export-stage .pdf-cover-legend{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:8px;margin:28px 0 0}" +
+    "#iv-pdf-export-stage .pdf-legend-chip{display:inline-flex;border-radius:999px;padding:5px 11px;font-size:11px;font-weight:800}" +
+    "#iv-pdf-export-stage .pdf-legend-base{background:#dbeafe;color:#1d4ed8}" +
+    "#iv-pdf-export-stage .pdf-legend-past{background:#fde68a;color:#92400e}" +
+    "#iv-pdf-export-stage .pdf-legend-pp{background:#ddd6fe;color:#5b21b6}" +
+    "#iv-pdf-export-stage .pdf-cover-meta{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:36px 0 18px}" +
+    "#iv-pdf-export-stage .pdf-cover-meta-4{grid-template-columns:repeat(2,1fr)}" +
+    "#iv-pdf-export-stage .pdf-meta-card{border:1px solid rgba(255,255,255,.18);border-radius:16px;background:rgba(255,255,255,.1);padding:14px}" +
+    "#iv-pdf-export-stage .pdf-meta-target{background:rgba(251,191,36,.18);border-color:rgba(251,191,36,.35)}" +
+    "#iv-pdf-export-stage .pdf-meta-card span{display:block;color:rgba(255,255,255,.72);font-size:11px;margin-bottom:4px;letter-spacing:.08em}" +
+    "#iv-pdf-export-stage .pdf-meta-card strong{font-family:Outfit,sans-serif;font-size:16px}" +
+    "#iv-pdf-export-stage .pdf-cover-note{position:relative;z-index:1;margin:0;max-width:520px;color:rgba(255,255,255,.8);font-size:14px;line-height:1.55}" +
+    "#iv-pdf-export-stage .pdf-cover-footer{position:relative;z-index:1;display:flex;gap:8px;margin-top:auto;padding-top:40px}" +
+    "#iv-pdf-export-stage .pdf-cover-footer span{border-radius:999px;padding:4px 10px;font-family:Outfit,sans-serif;font-size:11px;font-weight:800}" +
+    "#iv-pdf-export-stage .pdf-cover-footer span:nth-child(1){background:#2563eb}" +
+    "#iv-pdf-export-stage .pdf-cover-footer span:nth-child(2){background:#d97706}" +
+    "#iv-pdf-export-stage .pdf-cover-footer span:nth-child(3){background:#7c3aed}" +
+    "#iv-pdf-export-stage .pdf-sheet{height:1123px;display:flex;flex-direction:column;background:linear-gradient(180deg,#f4f7ff 0%,#f7f3ea 48%,#f8f1e4 100%)}" +
+    "#iv-pdf-export-stage .pdf-sheet-ribbon{flex:0 0 auto;display:flex;justify-content:space-between;gap:8px;padding:10px 16px;background:linear-gradient(90deg,#0f2f55,#155eef 55%,#0f766e);color:#fff;font-family:Outfit,sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em}" +
+    "#iv-pdf-export-stage .pdf-cards{flex:1 1 auto;padding:14px 12px 18px;display:grid;align-content:start;gap:12px;overflow:hidden}" +
+    "#iv-pdf-export-stage .pdf-verb-card,#iv-pdf-export-stage .pdf-quiz-card{border:1px solid rgba(10,31,59,.1);border-radius:20px;background:#fffdf9;overflow:hidden}" +
+    "#iv-pdf-export-stage .pdf-verb-head,#iv-pdf-export-stage .pdf-quiz-head{display:flex;align-items:center;gap:10px;padding:12px 14px;background:linear-gradient(90deg,#eff6ff,#fff 55%,#fff7ed);border-bottom:1px solid rgba(10,31,59,.07)}" +
+    "#iv-pdf-export-stage .pdf-verb-index,#iv-pdf-export-stage .pdf-quiz-no{display:grid;place-items:center;width:32px;height:32px;border-radius:12px;background:var(--level-color,#155eef);color:#fff;font-family:Outfit,sans-serif;font-size:11px;font-weight:800}" +
+    "#iv-pdf-export-stage .pdf-verb-title,#iv-pdf-export-stage .pdf-quiz-title{display:grid;gap:2px;flex:1;min-width:0}" +
+    "#iv-pdf-export-stage .pdf-verb-title strong,#iv-pdf-export-stage .pdf-quiz-title strong{font-family:Outfit,sans-serif;font-size:22px;letter-spacing:-.04em;line-height:1.05}" +
+    "#iv-pdf-export-stage .pdf-verb-title span,#iv-pdf-export-stage .pdf-quiz-title span{color:#5b6b82;font-size:12px}" +
+    "#iv-pdf-export-stage .pdf-orbit-mini{display:inline-flex;gap:4px;align-items:center}" +
+    "#iv-pdf-export-stage .pdf-orbit-dot{width:8px;height:8px;border-radius:50%}" +
+    "#iv-pdf-export-stage .pdf-orbit-base{background:#155eef}#iv-pdf-export-stage .pdf-orbit-past{background:#d88a17}#iv-pdf-export-stage .pdf-orbit-pp{background:#7654d8}" +
+    "#iv-pdf-export-stage .pdf-verb-level{border-radius:999px;background:var(--level-color,#155eef);color:#fff;padding:4px 10px;font-size:11px;font-weight:800;white-space:nowrap}" +
+    "#iv-pdf-export-stage .pdf-tense-stack{display:grid}" +
+    "#iv-pdf-export-stage .pdf-tense-row{display:grid;grid-template-columns:118px 1fr;gap:10px;padding:12px 14px;border-top:1px solid rgba(10,31,59,.05)}" +
+    "#iv-pdf-export-stage .pdf-tense-row:first-child{border-top:0}" +
+    "#iv-pdf-export-stage .pdf-tense-base{background:linear-gradient(90deg,rgba(21,94,239,.08),rgba(21,94,239,.01))}" +
+    "#iv-pdf-export-stage .pdf-tense-past{background:linear-gradient(90deg,rgba(216,138,23,.1),rgba(216,138,23,.015))}" +
+    "#iv-pdf-export-stage .pdf-tense-pp{background:linear-gradient(90deg,rgba(118,84,216,.1),rgba(118,84,216,.015))}" +
+    "#iv-pdf-export-stage .pdf-tense-form{display:grid;align-content:start;gap:5px}" +
+    "#iv-pdf-export-stage .pdf-tense-label{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#5b6b82}" +
+    "#iv-pdf-export-stage .pdf-form-pill{display:inline-flex;width:fit-content;max-width:100%;border-radius:999px;padding:4px 10px;font-family:DM Sans,sans-serif;font-size:14px;font-weight:800;line-height:1.2}" +
+    "#iv-pdf-export-stage .pdf-tense-base .pdf-form-pill{background:#e8efff;color:#0e46bd}" +
+    "#iv-pdf-export-stage .pdf-tense-past .pdf-form-pill{background:#fff1d6;color:#9a5f0a}" +
+    "#iv-pdf-export-stage .pdf-tense-pp .pdf-form-pill{background:#eee9ff;color:#5538b8}" +
+    "#iv-pdf-export-stage .pdf-en{margin:0 0 4px;font-family:DM Sans,sans-serif;font-size:13px;line-height:1.48}" +
+    "#iv-pdf-export-stage .pdf-cn{margin:0;color:#5b6b82;font-size:12px}" +
+    "#iv-pdf-export-stage .pdf-mark{padding:1px 3px;border-radius:4px;font-weight:800}" +
+    "#iv-pdf-export-stage .pdf-mark-base{background:#bfdbfe;color:#1e3a8a}" +
+    "#iv-pdf-export-stage .pdf-mark-past{background:#fde68a;color:#92400e}" +
+    "#iv-pdf-export-stage .pdf-mark-pp{background:#ddd6fe;color:#5b21b6}" +
+    "#iv-pdf-export-stage .pdf-quiz-body{display:grid;gap:10px;padding:12px 14px 14px;background:linear-gradient(180deg,#fff,#f8fafc)}" +
+    "#iv-pdf-export-stage .pdf-quiz-item{border:1px solid rgba(10,31,59,.08);border-radius:16px;padding:12px 14px;border-left-width:5px}" +
+    "#iv-pdf-export-stage .pdf-quiz-item-past{border-left-color:#d88a17;background:linear-gradient(180deg,#fffbeb,#fff)}" +
+    "#iv-pdf-export-stage .pdf-quiz-item-pp{border-left-color:#7654d8;background:linear-gradient(180deg,#f5f3ff,#fff)}" +
+    "#iv-pdf-export-stage .pdf-quiz-label{display:inline-flex;align-items:center;gap:6px;margin-bottom:6px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}" +
+    "#iv-pdf-export-stage .pdf-quiz-item-past .pdf-quiz-label{color:#b45309}" +
+    "#iv-pdf-export-stage .pdf-quiz-item-pp .pdf-quiz-label{color:#6d28d9}" +
+    "#iv-pdf-export-stage .pdf-quiz-tone-dot{width:8px;height:8px;border-radius:50%;background:currentColor}" +
+    "#iv-pdf-export-stage .pdf-write-line{display:flex;align-items:flex-end;gap:8px;margin-top:10px;padding:6px 10px;border-radius:10px;background:rgba(255,255,255,.85);border:1px dashed rgba(10,31,59,.18)}" +
+    "#iv-pdf-export-stage .pdf-write-line span{color:#5b6b82;font-size:11px;font-weight:700;white-space:nowrap}" +
+    "#iv-pdf-export-stage .pdf-write-line em{flex:1;border-bottom:2px solid rgba(10,31,59,.18);height:16px;font-style:normal}" +
+    "#iv-pdf-export-stage .pdf-answers{margin:0;border:1px solid rgba(10,31,59,.1);border-radius:20px;background:#fff;overflow:hidden}" +
+    "#iv-pdf-export-stage .pdf-answers-banner{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px;background:linear-gradient(90deg,#0f2f55,var(--level-color,#155eef));color:#fff}" +
+    "#iv-pdf-export-stage .pdf-answers-banner h2{margin:0;font-family:Outfit,sans-serif;font-size:18px}" +
+    "#iv-pdf-export-stage .pdf-answers-tag{border-radius:999px;background:rgba(255,255,255,.18);padding:4px 10px;font-size:11px;font-weight:800}" +
+    "#iv-pdf-export-stage .pdf-answers-table-wrap{padding:6px 10px 12px}" +
+    "#iv-pdf-export-stage .pdf-answers table{width:100%;border-collapse:collapse;font-size:12px}" +
+    "#iv-pdf-export-stage .pdf-answers th,#iv-pdf-export-stage .pdf-answers td{padding:7px 5px;text-align:left;border-bottom:1px solid rgba(10,31,59,.07)}" +
+    "#iv-pdf-export-stage .pdf-answers th{color:#647185;font-size:10px;letter-spacing:.08em;text-transform:uppercase}" +
+    "#iv-pdf-export-stage .pdf-answers .th-past{color:#b45309}#iv-pdf-export-stage .pdf-answers .th-pp{color:#6d28d9}" +
+    "#iv-pdf-export-stage .pdf-answers tr.is-alt td{background:#f8fafc}" +
+    "#iv-pdf-export-stage .pdf-answers .td-no{font-family:Outfit,sans-serif;font-weight:800;color:var(--level-color,#155eef)}" +
+    "#iv-pdf-export-stage .pdf-answers .td-base{font-weight:800;color:#1d4ed8}" +
+    "#iv-pdf-export-stage .pdf-answers .td-past{font-weight:700;color:#b45309}" +
+    "#iv-pdf-export-stage .pdf-answers .td-pp{font-weight:700;color:#6d28d9}" +
+    "#iv-pdf-export-stage .pdf-answers .td-cn{color:#5b6b82}" +
+    "#iv-pdf-export-stage .pdf-missing{padding:14px;color:#b45309}" +
+    "#iv-pdf-export-stage .pdf-speak-btn{display:none!important}" +
+    "#iv-pdf-measure-host{position:absolute;left:0;top:0;width:770px;visibility:hidden;pointer-events:none}";
 
   function waitFrames(count) {
     return new Promise(function (resolve) {
       function step(left) {
         if (left <= 0) {
-          // Give layout/fonts a beat after paint
-          global.setTimeout(resolve, 80);
+          global.setTimeout(resolve, 60);
           return;
         }
         global.requestAnimationFrame(function () {
@@ -669,63 +679,240 @@
     });
   }
 
-  function buildExportNode(options) {
-    var level = LEVEL_MAP[options.levelId] || LEVELS[2];
-    var sourceHtml =
-      options.verbs && options.verbs.length
-        ? buildDocumentHtml(options)
-        : options.root
-          ? options.root.outerHTML
-          : "";
-    if (!sourceHtml) throw new Error("没有可导出的内容");
-
-    var holder = document.createElement("div");
-    holder.id = "iv-pdf-export-stage";
-    holder.setAttribute("aria-hidden", "true");
-    // Keep in viewport (not off-screen). html2canvas often captures blank from
-    // left:-9999 / iframe / opacity:0 staging nodes.
-    holder.style.cssText =
-      "position:fixed;left:0;top:0;width:794px;" +
-      "z-index:2147483000;background:#ffffff;pointer-events:none;opacity:0.02;";
-
-    var style = document.createElement("style");
-    style.id = "iv-pdf-export-style";
-    style.textContent =
-      PRINT_CSS +
-      "\n#iv-pdf-export-stage{width:794px;}" +
-      "\n#iv-pdf-export-stage .pdf-speak-btn{display:none!important;}";
-
-    var wrap = document.createElement("div");
-    wrap.innerHTML = sourceHtml;
-    var docNode = wrap.firstElementChild;
-    if (!docNode) throw new Error("导出内容解析失败");
-    docNode.style.setProperty("--level-color", level.color);
-    docNode.style.width = "794px";
-    docNode.style.margin = "0";
-    docNode.style.borderRadius = "0";
-    docNode.style.boxShadow = "none";
-    docNode.querySelectorAll(".pdf-speak-btn").forEach(function (btn) {
-      btn.remove();
-    });
-
-    holder.appendChild(style);
-    holder.appendChild(docNode);
-    document.body.appendChild(holder);
-    return { holder: holder, target: docNode };
+  function getJsPdfCtor() {
+    if (global.jspdf && global.jspdf.jsPDF) return global.jspdf.jsPDF;
+    if (typeof global.jsPDF === "function") return global.jsPDF;
+    return null;
   }
 
-  function teardownExportNode(holder) {
+  function ensureExportStage() {
+    var holder = document.getElementById("iv-pdf-export-stage");
+    if (!holder) {
+      holder = document.createElement("div");
+      holder.id = "iv-pdf-export-stage";
+      holder.setAttribute("aria-hidden", "true");
+      document.body.appendChild(holder);
+    }
+    // Fully opaque & in-flow for html2canvas; sit behind UI so user barely notices.
+    holder.style.cssText =
+      "position:fixed;left:0;top:0;width:" +
+      PAGE_W +
+      "px;z-index:-1;background:#ffffff;pointer-events:none;opacity:1;overflow:visible;";
+
+    var style = document.getElementById("iv-pdf-export-style");
+    if (!style) {
+      style = document.createElement("style");
+      style.id = "iv-pdf-export-style";
+      document.head.appendChild(style);
+    }
+    style.textContent = PRINT_CSS;
+    return holder;
+  }
+
+  function teardownExportStage() {
+    var holder = document.getElementById("iv-pdf-export-stage");
+    if (holder) holder.innerHTML = "";
+    var style = document.getElementById("iv-pdf-export-style");
+    if (style && style.parentNode) style.parentNode.removeChild(style);
+    if (holder && holder.parentNode) holder.parentNode.removeChild(holder);
+  }
+
+  function stripSpeakButtons(root) {
+    if (!root) return;
+    root.querySelectorAll(".pdf-speak-btn").forEach(function (btn) {
+      btn.remove();
+    });
+  }
+
+  function ribbonHtml(options) {
+    var level = LEVEL_MAP[options.levelId] || LEVELS[2];
+    var quizTargets = normalizeQuizTargets(options.quizTargets);
+    var mode = options.mode || "study";
+    return (
+      '<div class="pdf-sheet-ribbon" aria-hidden="true">' +
+      "<span>Verb Atlas</span><span>" +
+      escapeHtml(level.label) +
+      "</span><span>" +
+      (mode === "quiz" ? escapeHtml(quizTargetLabel(quizTargets, "zh")) : "Study Sheet") +
+      "</span></div>"
+    );
+  }
+
+  function buildCoverPageEl(options) {
+    var level = LEVEL_MAP[options.levelId] || LEVELS[2];
+    var page = document.createElement("div");
+    page.className = "pdf-page pdf-page-cover";
+    page.style.setProperty("--level-color", level.color);
+    page.innerHTML = buildCoverHtml(options);
+    return page;
+  }
+
+  function buildSheetPageEl(options, cardsHtml) {
+    var level = LEVEL_MAP[options.levelId] || LEVELS[2];
+    var page = document.createElement("div");
+    page.className = "pdf-page pdf-page-sheet";
+    page.style.setProperty("--level-color", level.color);
+    page.innerHTML =
+      '<div class="pdf-sheet">' +
+      ribbonHtml(options) +
+      '<div class="pdf-cards">' +
+      cardsHtml +
+      "</div></div>";
+    stripSpeakButtons(page);
+    return page;
+  }
+
+  function buildAnswerPageEl(options, verbsChunk, startIndex) {
+    var level = LEVEL_MAP[options.levelId] || LEVELS[2];
+    var page = document.createElement("div");
+    page.className = "pdf-page pdf-page-sheet";
+    page.style.setProperty("--level-color", level.color);
+    page.innerHTML =
+      '<div class="pdf-sheet">' +
+      ribbonHtml(options) +
+      '<div class="pdf-cards">' +
+      buildAnswerKey(verbsChunk, options.levelId, options.quizTargets, startIndex) +
+      "</div></div>";
+    return page;
+  }
+
+  function measureCardHeights(cardHtmlList, holder) {
+    var host = document.createElement("div");
+    host.id = "iv-pdf-measure-host";
+    host.className = "pdf-cards";
+    host.style.cssText =
+      "position:absolute;left:0;top:0;width:770px;padding:0;display:grid;gap:0;visibility:hidden;";
+    holder.appendChild(host);
+
+    var heights = cardHtmlList.map(function (html) {
+      host.innerHTML = html;
+      stripSpeakButtons(host);
+      var el = host.firstElementChild;
+      return el ? el.offsetHeight : 200;
+    });
+
+    holder.removeChild(host);
+    return heights;
+  }
+
+  function packByHeight(cardHtmlList, heights, maxHeight) {
+    var pages = [];
+    var bucket = [];
+    var used = 0;
+    cardHtmlList.forEach(function (html, i) {
+      var h = heights[i] || 200;
+      var need = bucket.length ? CARD_GAP + h : h;
+      if (bucket.length && used + need > maxHeight) {
+        pages.push(bucket);
+        bucket = [];
+        used = 0;
+        need = h;
+      }
+      // Oversized single card: still place alone (may clip slightly)
+      bucket.push(html);
+      used += need;
+    });
+    if (bucket.length) pages.push(bucket);
+    return pages;
+  }
+
+  function buildExportPages(options) {
+    var verbs = options.verbs || [];
+    var levelId = options.levelId || "j1";
+    var mode = options.mode || "study";
+    var quizTargets = normalizeQuizTargets(options.quizTargets);
+    var holder = ensureExportStage();
+    holder.innerHTML = "";
+
+    var pages = [];
+    pages.push(buildCoverPageEl(options));
+
+    var cardHtmlList =
+      mode === "quiz"
+        ? verbs.map(function (verb, i) {
+            return buildQuizCard(verb, levelId, i, quizTargets);
+          })
+        : verbs.map(function (verb, i) {
+            return buildStudyCard(verb, levelId, i);
+          });
+
+    // Usable height under ribbon + padding (~34 + 14*2)
+    var maxContent = PAGE_H - 34 - 28 - 8;
+    var heights = measureCardHeights(cardHtmlList, holder);
+    var packed = packByHeight(cardHtmlList, heights, maxContent);
+    packed.forEach(function (group) {
+      pages.push(buildSheetPageEl(options, group.join("")));
+    });
+
+    if (mode === "quiz" && verbs.length) {
+      for (var i = 0; i < verbs.length; i += ANSWER_ROWS_PER_PAGE) {
+        var chunk = verbs.slice(i, i + ANSWER_ROWS_PER_PAGE);
+        pages.push(buildAnswerPageEl(options, chunk, i));
+      }
+    }
+
+    return pages;
+  }
+
+  function canvasLooksBlank(canvas) {
     try {
-      if (holder && holder.parentNode) holder.parentNode.removeChild(holder);
-    } catch (e) {}
+      var ctx = canvas.getContext("2d");
+      var w = canvas.width;
+      var h = canvas.height;
+      if (!w || !h) return true;
+      // Sample a grid of pixels; mostly white/transparent => blank
+      var stepX = Math.max(1, Math.floor(w / 12));
+      var stepY = Math.max(1, Math.floor(h / 16));
+      var colored = 0;
+      var samples = 0;
+      for (var y = stepY; y < h; y += stepY) {
+        for (var x = stepX; x < w; x += stepX) {
+          var d = ctx.getImageData(x, y, 1, 1).data;
+          samples++;
+          if (d[3] < 8) continue;
+          if (d[0] < 250 || d[1] < 250 || d[2] < 250) colored++;
+        }
+      }
+      return colored < Math.max(3, samples * 0.02);
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function capturePage(pageEl) {
+    var h2c = global.html2canvas;
+    if (!h2c) return Promise.reject(new Error("html2canvas 不可用"));
+    return h2c(pageEl, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: "#ffffff",
+      logging: false,
+      width: PAGE_W,
+      height: PAGE_H,
+      windowWidth: PAGE_W,
+      windowHeight: PAGE_H,
+      scrollX: 0,
+      scrollY: 0,
+      x: 0,
+      y: 0,
+    });
   }
 
   function exportPdf(root, options) {
     options = options || {};
     if (root && !options.root) options.root = root;
 
+    if (!(options.verbs && options.verbs.length)) {
+      return Promise.reject(new Error("没有可导出的词汇"));
+    }
+
     return ensureHtml2Pdf()
       .then(function () {
+        var JsPDF = getJsPdfCtor();
+        if (!JsPDF) throw new Error("jsPDF 不可用");
+        if (!global.html2canvas) throw new Error("html2canvas 不可用");
+
         var filename =
           options.filename ||
           (options.mode === "quiz"
@@ -736,68 +923,41 @@
             todayLabel() +
             ".pdf";
 
-        var stage = buildExportNode(options);
-        var holder = stage.holder;
-        var target = stage.target;
+        var holder = ensureExportStage();
+        var pageEls = buildExportPages(options);
+        var pdf = new JsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
 
-        // Force layout measurement before capture
-        void target.offsetHeight;
-
-        return waitFrames(3).then(function () {
-          if (!target.offsetWidth || !target.offsetHeight) {
-            teardownExportNode(holder);
-            throw new Error("导出节点尺寸为 0，无法生成 PDF");
-          }
-
-          var opt = {
-            margin: [8, 8, 10, 8],
-            filename: filename,
-            image: { type: "jpeg", quality: 0.98 },
-            html2canvas: {
-              scale: 2,
-              useCORS: true,
-              allowTaint: true,
-              backgroundColor: "#ffffff",
-              logging: false,
-              scrollX: 0,
-              scrollY: 0,
-              windowWidth: 794,
-              windowHeight: Math.max(target.scrollHeight, target.offsetHeight, 1123),
-              onclone: function (clonedDoc) {
-                var stageClone = clonedDoc.getElementById("iv-pdf-export-stage");
-                if (stageClone) {
-                  stageClone.style.opacity = "1";
-                  stageClone.style.overflow = "visible";
-                  stageClone.style.left = "0";
-                  stageClone.style.top = "0";
-                  stageClone.style.position = "static";
-                  stageClone.style.width = "794px";
+        var chain = Promise.resolve();
+        pageEls.forEach(function (pageEl, index) {
+          chain = chain.then(function () {
+            holder.innerHTML = "";
+            holder.appendChild(pageEl);
+            void pageEl.offsetHeight;
+            return waitFrames(2).then(function () {
+              return capturePage(pageEl).then(function (canvas) {
+                if (canvasLooksBlank(canvas)) {
+                  throw new Error("第 " + (index + 1) + " 页渲染为空白，请刷新后重试");
                 }
-              },
-            },
-            jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-            pagebreak: { mode: ["css", "legacy"] },
-          };
-
-          return global
-            .html2pdf()
-            .set(opt)
-            .from(target)
-            .toPdf()
-            .get("pdf")
-            .then(function (pdf) {
-              // Guard against all-white / empty output
-              var pages = pdf.internal.getNumberOfPages();
-              if (!pages) throw new Error("PDF 页数为 0");
-              pdf.save(filename);
-              teardownExportNode(holder);
-              return { pages: pages, filename: filename };
-            })
-            .catch(function (err) {
-              teardownExportNode(holder);
-              throw err;
+                var img = canvas.toDataURL("image/jpeg", 0.93);
+                if (index > 0) pdf.addPage();
+                pdf.addImage(img, "JPEG", 0, 0, 210, 297);
+              });
             });
+          });
         });
+
+        return chain
+          .then(function () {
+            var pages = pdf.internal.getNumberOfPages();
+            if (!pages) throw new Error("PDF 页数为 0");
+            pdf.save(filename);
+            teardownExportStage();
+            return { pages: pages, filename: filename };
+          })
+          .catch(function (err) {
+            teardownExportStage();
+            throw err;
+          });
       });
   }
 
