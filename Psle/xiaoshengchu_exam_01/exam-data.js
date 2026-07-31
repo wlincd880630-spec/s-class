@@ -46,19 +46,6 @@ window.EXAM_DATA = {
 
   /* ========== Part 3 cost / pay / spend / take + 价格询问 ========== */
   moneyGrammar: {
-    notes: [
-      { pattern: "sth. costs + 钱", tip: "物作主语：这件东西值多少钱。" },
-      { pattern: "sb. pays + 钱 + for + sth.", tip: "人付款：为某物付了多少钱。" },
-      { pattern: "sb. spends + 钱/时间 + on + sth.", tip: "人花费：在某物/某事上花时间或钱。" },
-      { pattern: "sb. spends + 时间 + (in) doing sth.", tip: "花时间做某事。" },
-      { pattern: "It takes (sb.) + 时间 + to do sth.", tip: "做某事需要多少时间（常用 it 作形式主语）。" }
-    ],
-    priceQs: [
-      { q: "How much does it cost?", cn: "它要花多少钱？" },
-      { q: "How much did you pay for it?", cn: "你买它花了多少钱？" },
-      { q: "What is the price?", cn: "价格是多少？" },
-      { q: "How much is it?", cn: "它多少钱？" }
-    ],
     choose: [
       {
         id: 1,
