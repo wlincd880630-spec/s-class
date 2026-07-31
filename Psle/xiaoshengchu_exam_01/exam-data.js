@@ -275,43 +275,43 @@ window.EXAM_DATA = {
         alts: ["wrote"]
       }
     ],
-    /* 状态句 be 动词填空（一般现在 / 一般过去） */
+    /* 状态句 be 动词填空（一般现在 / 一般过去；语境独立：博物馆/桥/影院/机场/海/城堡） */
     stateFill: [
       {
         id: 1,
-        prompt: "一般现在时（状态）：The mountain cabin ______ cold in winter.",
+        prompt: "一般现在时（状态）：The city museum ______ free on Mondays.",
         answer: "is",
         alts: []
       },
       {
         id: 2,
-        prompt: "一般过去时（状态）：The river ______ frozen last January.",
+        prompt: "一般过去时（状态）：The old bridge ______ dangerous after the storm.",
         answer: "was",
         alts: []
       },
       {
         id: 3,
-        prompt: "状态句否定：The lighthouse is quiet after sunset. → The lighthouse ______ quiet after sunset.",
+        prompt: "状态句否定：The cinema is open tonight. → The cinema ______ open tonight.",
         answer: "isn't",
         alts: ["is not", "isn't"]
       },
       {
         id: 4,
-        prompt: "状态句一般疑问：The village was full of visitors. → ______ the village full of visitors?",
+        prompt: "状态句一般疑问：The airport was busy yesterday morning. → ______ the airport busy yesterday morning?",
         answer: "Was",
         alts: ["was", "Was"]
       },
       {
         id: 5,
-        prompt: "状态句时态转换：The kitchen is clean now. → The kitchen ______ clean yesterday.",
+        prompt: "状态句时态转换：The sea is calm this morning. → The sea ______ calm yesterday morning.",
         answer: "was",
         alts: []
       },
       {
         id: 6,
-        prompt: "状态句特殊疑问（对划线部分提问）：The cabin is cold in winter. → ______ is the cabin cold?",
-        answer: "When",
-        alts: ["when", "When"]
+        prompt: "状态句特殊疑问（对划线部分提问）：The castle is famous for its tower. → ______ is the castle famous for?",
+        answer: "What",
+        alts: ["what", "What"]
       }
     ],
     irregular: [
