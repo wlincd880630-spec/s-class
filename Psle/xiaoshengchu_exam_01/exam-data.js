@@ -472,10 +472,6 @@ window.EXAM_DATA = {
         ],
         blanks: ["How much", "pay"]
       }
-    ],
-    writing: {
-      prompt: "写一段 40–60 词的短文：介绍你的一位新同学（classmate）。至少包含：名字、爱好（hobby）、你们一起做的一件事，并用上一般现在时。",
-      checklist: ["用一般现在时", "提到 hobby / activity", "至少 4 句", "注意第三人称单数"]
-    }
+    ]
   }
 };
