@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>精简答案 · 第十套</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #eef3f0;
+      --card: #fbfcfa;
+      --ink: #1c2420;
+      --muted: #5c6860;
+      --accent: #2d6a4f;
+      --accent-soft: #95d5b2;
+      --border: #c8d5cc;
+      --shadow: rgba(28, 36, 32, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "DM Sans", system-ui, sans-serif;
+      color: var(--ink);
+      background: linear-gradient(145deg, #e4ebe6 0%, var(--bg) 40%, #dde8e2 100%);
+      min-height: 100vh;
+    }
+    .wrap { max-width: 820px; margin: 0 auto; padding: 1rem 1rem 3rem; }
+    header.top {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1rem;
+      margin-bottom: 1rem;
+    }
+    header.top h1 {
+      margin: 0; flex: 1 1 auto; font-size: 1.25rem; font-weight: 700;
+    }
+    .sub { color: var(--muted); font-size: 0.9rem; margin: 0 0 1.1rem; }
+    .btn {
+      appearance: none; border: 1px solid var(--border); background: var(--card);
+      color: var(--ink); border-radius: 10px; padding: 0.45rem 0.85rem;
+      font: inherit; font-weight: 600; cursor: pointer; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 0.35rem;
+    }
+    .btn:hover { border-color: var(--accent); color: var(--accent); }
+    .btn.primary {
+      background: var(--accent); color: #fff; border-color: var(--accent);
+    }
+    .btn.primary:hover { filter: brightness(1.05); color: #fff; }
+    .sec {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 0.85rem 1rem 1rem; margin-bottom: 0.85rem;
+      box-shadow: 0 1px 0 var(--shadow);
+    }
+    .sec h2 {
+      margin: 0 0 0.65rem; font-size: 0.98rem; color: var(--accent);
+      line-height: 1.35;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 0.4rem 0.75rem;
+    }
+    .row {
+      display: flex; align-items: flex-start; gap: 0.5rem;
+      padding: 0.35rem 0.45rem; border-radius: 8px;
+      background: #f3f7f4;
+    }
+    .num {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-weight: 700; color: var(--accent); min-width: 2.1rem;
+      flex: 0 0 auto; line-height: 1.5;
+    }
+    .ans { flex: 1 1 auto; min-width: 0; line-height: 1.5; font-size: 0.95rem; }
+    .letter {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-weight: 700; font-size: 1.05rem; color: #14532d;
+    }
+    .opt { color: var(--muted); font-size: 0.86rem; }
+    .text { font-weight: 600; word-break: break-word; }
+    .miss { color: #b42318; }
+    details.essay { width: 100%; }
+    details.essay summary {
+      cursor: pointer; color: var(--accent); font-weight: 600; font-size: 0.88rem;
+    }
+    .essay-body {
+      margin-top: 0.4rem; white-space: pre-wrap; font-size: 0.88rem;
+      line-height: 1.55; color: var(--ink); font-weight: 500;
+    }
+    /* Password gate */
+    #gate {
+      position: fixed; inset: 0; z-index: 50;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(28, 36, 32, 0.55); backdrop-filter: blur(4px);
+      padding: 1rem;
+    }
+    #gate.hidden { display: none; }
+    #main.locked { visibility: hidden; }
+    .gate-card {
+      width: min(100%, 380px); background: var(--card);
+      border-radius: 16px; border: 1px solid var(--border);
+      padding: 1.4rem 1.35rem 1.25rem; box-shadow: 0 12px 40px rgba(0,0,0,.18);
+    }
+    .gate-card h2 { margin: 0 0 0.35rem; font-size: 1.15rem; }
+    .gate-card p { margin: 0 0 1rem; color: var(--muted); font-size: 0.9rem; }
+    .gate-card input {
+      width: 100%; padding: 0.65rem 0.75rem; border-radius: 10px;
+      border: 1px solid var(--border); font: inherit; margin-bottom: 0.75rem;
+    }
+    .gate-card input:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+    .gate-err { color: #b42318; font-size: 0.85rem; min-height: 1.2em; margin: 0 0 0.5rem; }
+    .gate-actions { display: flex; gap: 0.5rem; justify-content: flex-end; }
+    @media print {
+      #gate { display: none !important; }
+      #main.locked { visibility: visible !important; }
+      .btn { display: none; }
+      body { background: #fff; }
+    }
+  </style>
+</head>
+<body>
+  <div id="gate" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+    <div class="gate-card">
+      <h2 id="gateTitle">精简答案 · 教师查阅</h2>
+      <p>请输入密码后查看 第十套 答案速查。</p>
+      <input type="password" id="pwd" placeholder="请输入密码" autocomplete="current-password" />
+      <p class="gate-err" id="gateErr"></p>
+      <div class="gate-actions">
+        <a class="btn" href="set_13_typeflow.html">返回试卷</a>
+        <button type="button" class="btn primary" id="btnUnlock">解锁</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="main" class="wrap locked">
+    <header class="top">
+      <h1>精简答案 · 第十套</h1>
+      <a class="btn" href="set_13_typeflow.html">← 返回试卷</a>
+    </header>
+    <p class="sub">初一入学考试英语试卷 · 第13套 · 满分:80分 · 时间:60分钟</p>
+    <section class="sec"><h2>I. 单选题</h2><div class="grid"><div class="row"><span class="num">1</span><div class="ans"><span class='letter'>A</span><span class='opt'> · is grown</span></div></div><div class="row"><span class="num">2</span><div class="ans"><span class='letter'>B</span><span class='opt'> · was posted; arrived</span></div></div><div class="row"><span class="num">3</span><div class="ans"><span class='letter'>B</span><span class='opt'> · will be given</span></div></div><div class="row"><span class="num">4</span><div class="ans"><span class='letter'>C</span><span class='opt'> · Was; built</span></div></div><div class="row"><span class="num">5</span><div class="ans"><span class='letter'>A</span><span class='opt'> · trying</span></div></div><div class="row"><span class="num">6</span><div class="ans"><span class='letter'>B</span><span class='opt'> · visiting</span></div></div><div class="row"><span class="num">7</span><div class="ans"><span class='letter'>D</span><span class='opt'> · helping; study</span></div></div><div class="row"><span class="num">8</span><div class="ans"><span class='letter'>A</span><span class='opt'> · taking</span></div></div><div class="row"><span class="num">9</span><div class="ans"><span class='letter'>B</span><span class='opt'> · for; to work</span></div></div><div class="row"><span class="num">10</span><div class="ans"><span class='letter'>D</span><span class='opt'> · Both; and</span></div></div></div></section>
+<section class="sec"><h2>II. 根据首字母提示及上下文填写单词。</h2><div class="grid"><div class="row"><span class="num">1</span><div class="ans"><span class='text'>festival</span></div></div><div class="row"><span class="num">2</span><div class="ans"><span class='text'>ways</span></div></div><div class="row"><span class="num">3</span><div class="ans"><span class='text'>buy</span></div></div><div class="row"><span class="num">4</span><div class="ans"><span class='text'>teeth</span></div></div><div class="row"><span class="num">5</span><div class="ans"><span class='text'>wear</span></div></div><div class="row"><span class="num">6</span><div class="ans"><span class='text'>with</span></div></div><div class="row"><span class="num">7</span><div class="ans"><span class='text'>dressing</span></div></div><div class="row"><span class="num">8</span><div class="ans"><span class='text'>people&#x27;s</span></div></div><div class="row"><span class="num">9</span><div class="ans"><span class='text'>candy</span></div></div><div class="row"><span class="num">10</span><div class="ans"><span class='text'>fun</span></div></div></div></section>
+<section class="sec"><h2>III. 阅读理解</h2><div class="grid"><div class="row"><span class="num">1</span><div class="ans"><span class='letter'>A</span><span class='opt'> · the birthday of Jesus Christ</span></div></div><div class="row"><span class="num">2</span><div class="ans"><span class='letter'>D</span><span class='opt'> · They put their stockings at the end of their beds.</span></div></div><div class="row"><span class="num">3</span><div class="ans"><span class='letter'>D</span><span class='opt'> · Father Christmas</span></div></div><div class="row"><span class="num">4</span><div class="ans"><span class='letter'>C</span><span class='opt'> · presents</span></div></div><div class="row"><span class="num">5</span><div class="ans"><span class='letter'>D</span><span class='opt'> · Merry Christmas!</span></div></div><div class="row"><span class="num">6</span><div class="ans"><span class='letter'>B</span><span class='opt'> · five days a week</span></div></div><div class="row"><span class="num">7</span><div class="ans"><span class='letter'>A</span><span class='opt'> · mother&#x27;s Sunday</span></div></div><div class="row"><span class="num">8</span><div class="ans"><span class='letter'>D</span><span class='opt'> · cooks breakfast</span></div></div><div class="row"><span class="num">9</span><div class="ans"><span class='letter'>C</span><span class='opt'> · go to the library</span></div></div><div class="row"><span class="num">10</span><div class="ans"><span class='letter'>D</span><span class='opt'> · after finishing the housework</span></div></div></div></section>
+<section class="sec"><h2>IV. 书面表达</h2><div class="grid"><div class="row"><span class="num">4.1</span><div class="ans"><details class='essay'><summary>参考范文 / 要点</summary><div class='essay-body'>The Mid-Autumn Festival is on August 15th of the lunar calendar. It&#x27;s an important festival for family reunion. On that day, my family always has a big dinner together. After dinner, we sit in our garden, eating mooncakes and fruits. We admire the bright full moon and share interesting stories. I love spending this happy time with my family.</div></details></div></div></div></section>
+  </div>
+
+  <script>
+    (function () {
+      var KEY = "psle-answers-ok";
+      var PASS = "123888";
+      var gate = document.getElementById("gate");
+      var main = document.getElementById("main");
+      var input = document.getElementById("pwd");
+      var err = document.getElementById("gateErr");
+
+      function unlock() {
+        gate.classList.add("hidden");
+        main.classList.remove("locked");
+        try { sessionStorage.setItem(KEY, "1"); } catch (e) {}
+      }
+
+      function tryUnlock() {
+        var v = (input.value || "").trim();
+        if (v === PASS) {
+          err.textContent = "";
+          unlock();
+        } else {
+          err.textContent = "密码错误，请重试";
+          input.select();
+        }
+      }
+
+      try {
+        if (sessionStorage.getItem(KEY) === "1") unlock();
+      } catch (e) {}
+
+      document.getElementById("btnUnlock").addEventListener("click", tryUnlock);
+      input.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") tryUnlock();
+      });
+      if (!gate.classList.contains("hidden")) input.focus();
+    })();
+  </script>
+</body>
+</html>
