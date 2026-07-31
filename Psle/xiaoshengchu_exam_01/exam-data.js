@@ -123,29 +123,80 @@ window.EXAM_DATA = {
     convert: [
       {
         id: 1,
-        from: "She likes English.",
+        from: "Mr. Brown grows fresh vegetables on his farm every spring.",
         tasks: [
-          { type: "negative", answer: "She doesn't like English.", alts: ["She does not like English."] },
-          { type: "yesno", answer: "Does she like English?", alts: [] },
-          { type: "wh", answer: "What does she like?", alts: ["What subject does she like?"] }
+          {
+            type: "negative",
+            answer: "Mr. Brown doesn't grow fresh vegetables on his farm every spring.",
+            alts: ["Mr. Brown does not grow fresh vegetables on his farm every spring."]
+          },
+          {
+            type: "yesno",
+            answer: "Does Mr. Brown grow fresh vegetables on his farm every spring?",
+            alts: []
+          },
+          {
+            type: "wh",
+            answer: "Where does Mr. Brown grow fresh vegetables every spring?",
+            alts: [
+              "What does Mr. Brown grow on his farm every spring?",
+              "When does Mr. Brown grow fresh vegetables on his farm?"
+            ]
+          }
         ]
       },
       {
         id: 2,
-        from: "They are reading books now.",
+        from: "The farmers are collecting honey from the beehives near the river.",
         tasks: [
-          { type: "negative", answer: "They aren't reading books now.", alts: ["They are not reading books now.", "They're not reading books now."] },
-          { type: "yesno", answer: "Are they reading books now?", alts: [] },
-          { type: "wh", answer: "What are they doing now?", alts: ["What are they reading now?"] }
+          {
+            type: "negative",
+            answer: "The farmers aren't collecting honey from the beehives near the river.",
+            alts: [
+              "The farmers are not collecting honey from the beehives near the river.",
+              "They're not collecting honey from the beehives near the river.",
+              "The farmers're not collecting honey from the beehives near the river."
+            ]
+          },
+          {
+            type: "yesno",
+            answer: "Are the farmers collecting honey from the beehives near the river?",
+            alts: []
+          },
+          {
+            type: "wh",
+            answer: "What are the farmers collecting from the beehives near the river?",
+            alts: [
+              "Where are the farmers collecting honey?",
+              "What are the farmers doing near the river?",
+              "What are the farmers collecting?"
+            ]
+          }
         ]
       },
       {
         id: 3,
-        from: "He went to school by bike yesterday.",
+        from: "Uncle Tom built a small wooden boat for the children last summer.",
         tasks: [
-          { type: "negative", answer: "He didn't go to school by bike yesterday.", alts: ["He did not go to school by bike yesterday."] },
-          { type: "yesno", answer: "Did he go to school by bike yesterday?", alts: [] },
-          { type: "wh", answer: "How did he go to school yesterday?", alts: ["Where did he go yesterday?"] }
+          {
+            type: "negative",
+            answer: "Uncle Tom didn't build a small wooden boat for the children last summer.",
+            alts: ["Uncle Tom did not build a small wooden boat for the children last summer."]
+          },
+          {
+            type: "yesno",
+            answer: "Did Uncle Tom build a small wooden boat for the children last summer?",
+            alts: []
+          },
+          {
+            type: "wh",
+            answer: "What did Uncle Tom build for the children last summer?",
+            alts: [
+              "Who did Uncle Tom build a small wooden boat for last summer?",
+              "When did Uncle Tom build a small wooden boat for the children?",
+              "What did Uncle Tom build last summer?"
+            ]
+          }
         ]
       }
     ],
