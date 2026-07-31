@@ -840,13 +840,14 @@ textarea.ans {
       if (ok) got += 0.5;
       detail.push({ part: "IV-分类", id: q.id, ok, ans: q.label });
     });
-    // convert: action + state blocks（每小题 0.5，共约 7.5）
+    // convert：动作句 + 状态句（共 15 小题，合计 8 分）
+    const convertPts = 8 / Math.max(1, D.tenses.convert.reduce((n, b) => n + b.tasks.length, 0));
     D.tenses.convert.forEach((block) => {
       block.tasks.forEach((t) => {
-        max += 0.5;
+        max += convertPts;
         const inp = $("[name=tconv_" + block.id + "_" + t.type + "]");
         const ok = matchText(inp.value, t.answer, t.alts);
-        if (ok) got += 0.5;
+        if (ok) got += convertPts;
         markInput(inp, ok);
         detail.push({ part: "IV-转换", id: block.id + "-" + t.type, ok, ans: t.answer });
       });
@@ -860,18 +861,18 @@ textarea.ans {
       detail.push({ part: "IV-时态变", id: q.id, ok, ans: q.answer });
     });
     (D.tenses.stateFill || []).forEach((q) => {
-      max += 1;
+      max += 0.5;
       const inp = $("[name=sfill_" + q.id + "]");
       const ok = matchText(inp.value, q.answer, q.alts);
-      if (ok) got += 1;
+      if (ok) got += 0.5;
       markInput(inp, ok);
       detail.push({ part: "IV-状态填空", id: q.id, ok, ans: q.answer });
     });
     D.tenses.irregular.forEach((v) => {
-      max += 0.25;
+      max += 0.3;
       const inp = $("[name=irr_" + v.base + "]");
       const ok = matchText(inp.value, v.past, []);
-      if (ok) got += 0.25;
+      if (ok) got += 0.3;
       markInput(inp, ok);
       detail.push({ part: "IV-不规则", id: v.base, ok, ans: v.past });
     });
