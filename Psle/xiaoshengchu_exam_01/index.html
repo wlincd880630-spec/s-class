@@ -84,9 +84,12 @@ h1,h2,h3,.exam-masthead .line2 { font-family:"Literata","Noto Serif SC",serif; }
 .opt input { margin-top:4px; }
 .blank-input, .short-input, .map-input {
   border:none; border-bottom:1.5px solid var(--ink); background:transparent;
-  font:inherit; min-width:5.5em; padding:2px 4px; text-align:center;
+  font:inherit; min-width:9em; padding:2px 6px; text-align:center;
+  margin:0 2px; vertical-align:baseline;
 }
-.blank-input.wide, .short-input.wide { min-width:10em; text-align:left; }
+.blank-input.wide, .short-input.wide { min-width:14em; text-align:left; }
+.blank-input.phrase { min-width:12em; }
+.q-stem .blank-input { display:inline-block; }
 textarea.ans {
   width:100%; min-height:72px; border:1px solid var(--line-dark); border-radius:8px;
   font:inherit; padding:10px; line-height:1.7; resize:vertical; background:#fafbfd;
@@ -204,7 +207,7 @@ textarea.ans {
   .dict-card { break-inside:avoid; }
   .blank-input, .short-input, .map-input, textarea.ans { border:none !important; }
   .print-blank {
-    display:inline-block !important; min-width:18mm; border-bottom:1pt solid #000; height:5mm; vertical-align:bottom;
+    display:inline-block !important; min-width:28mm; border-bottom:1pt solid #000; height:5mm; vertical-align:bottom;
   }
   .print-lines {
     display:block !important; border-bottom:1pt solid #999; height:8mm; margin:4px 0;
@@ -364,6 +367,25 @@ textarea.ans {
   const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;" }[c]));
 
+  /** 把题干里的 ______ 替换为可填写的加长横线输入框（按出现顺序） */
+  function inlineBlankHtml(attrs) {
+    const cls = "blank-input" + (attrs.phrase ? " phrase" : "") + (attrs.wide ? " wide" : "");
+    let html = "<input class=\"" + cls + "\" name=\"" + esc(attrs.name) + "\" autocomplete=\"off\"";
+    if (attrs.answer != null) html += " data-answer=\"" + esc(attrs.answer) + "\"";
+    if (attrs.alts != null) html += " data-alts='" + esc(JSON.stringify(attrs.alts)) + "'";
+    if (attrs.accept != null) html += " data-accept='" + esc(JSON.stringify(attrs.accept)) + "'";
+    if (attrs.placeholder) html += " placeholder=\"" + esc(attrs.placeholder) + "\"";
+    html += ">";
+    return html;
+  }
+  function withInlineBlanks(text, blankAttrsList) {
+    let i = 0;
+    return esc(text).replace(/_{3,}/g, () => {
+      const attrs = blankAttrsList[i++] || { name: "blank_" + i };
+      return inlineBlankHtml(attrs);
+    });
+  }
+
   /* ---------- Azure TTS（慢速英音男声） ---------- */
   let audioEl = null;
   function xmlEscape(t) {
@@ -504,9 +526,12 @@ textarea.ans {
   D.moneyGrammar.rewrite.forEach((q) => {
     const div = document.createElement("div");
     div.className = "q-item";
-    div.innerHTML = "<div class=\"q-stem\"><span class=\"q-num\">改写 " + q.id + ".</span>" + esc(q.prompt) + "</div>" +
-      "<div>① <input class=\"blank-input\" name=\"rewrite_" + q.id + "_1\" data-accept='" + esc(JSON.stringify(q.accept.map(a => a[0]))) + "'> " +
-      "② <input class=\"blank-input\" name=\"rewrite_" + q.id + "_2\" data-accept='" + esc(JSON.stringify(q.accept.map(a => a[1]))) + "'></div>" +
+    const blanks = [
+      { name: "rewrite_" + q.id + "_1", accept: q.accept.map((a) => a[0]), phrase: true },
+      { name: "rewrite_" + q.id + "_2", accept: q.accept.map((a) => a[1]), phrase: true }
+    ];
+    div.innerHTML = "<div class=\"q-stem\"><span class=\"q-num\">改写 " + q.id + ".</span>" +
+      withInlineBlanks(q.prompt, blanks) + "</div>" +
       "<div class=\"sample-ans\">参考：" + esc(q.answer.join(" / ")) + "</div>";
     $("#moneyRewrite").appendChild(div);
   });
@@ -554,8 +579,13 @@ textarea.ans {
   D.tenses.tenseShift.forEach((q) => {
     const div = document.createElement("div");
     div.className = "q-item";
-    div.innerHTML = "<div class=\"q-stem\"><span class=\"q-num\">" + q.id + ".</span>" + esc(q.prompt) + "</div>" +
-      "<input class=\"blank-input wide\" name=\"tshift_" + q.id + "\" data-answer=\"" + esc(q.answer) + "\" data-alts='" + esc(JSON.stringify(q.alts || [])) + "'>" +
+    div.innerHTML = "<div class=\"q-stem\"><span class=\"q-num\">" + q.id + ".</span>" +
+      withInlineBlanks(q.prompt, [{
+        name: "tshift_" + q.id,
+        answer: q.answer,
+        alts: q.alts || [],
+        phrase: true
+      }]) + "</div>" +
       "<div class=\"sample-ans\">答案：" + esc(q.answer) + "</div>";
     $("#tenseShift").appendChild(div);
   });
@@ -590,8 +620,13 @@ textarea.ans {
   D.deserts.fill.forEach((q) => {
     const div = document.createElement("div");
     div.className = "q-item";
-    div.innerHTML = "<div class=\"q-stem\"><span class=\"q-num\">" + q.id + ".</span>" + esc(q.stem) + "</div>" +
-      "<input class=\"blank-input\" name=\"dfill_" + q.id + "\" data-answer=\"" + esc(q.answer) + "\" data-alts='" + esc(JSON.stringify(q.alts || [])) + "'>" +
+    div.innerHTML = "<div class=\"q-stem\"><span class=\"q-num\">" + q.id + ".</span>" +
+      withInlineBlanks(q.stem, [{
+        name: "dfill_" + q.id,
+        answer: q.answer,
+        alts: q.alts || [],
+        phrase: true
+      }]) + "</div>" +
       "<div class=\"sample-ans\">答案：" + esc(q.answer) + "</div>";
     $("#desertFill").appendChild(div);
   });
@@ -672,8 +707,12 @@ textarea.ans {
   D.extra.wordForm.forEach((q) => {
     const div = document.createElement("div");
     div.className = "q-item";
-    div.innerHTML = "<div class=\"q-stem\"><span class=\"q-num\">" + q.id + ".</span>" + esc(q.stem) + "</div>" +
-      "<input class=\"blank-input\" name=\"wf_" + q.id + "\" data-answer=\"" + esc(q.answer) + "\">" +
+    div.innerHTML = "<div class=\"q-stem\"><span class=\"q-num\">" + q.id + ".</span>" +
+      withInlineBlanks(q.stem, [{
+        name: "wf_" + q.id,
+        answer: q.answer,
+        phrase: true
+      }]) + "</div>" +
       "<div class=\"sample-ans\">答案：" + esc(q.answer) + "</div>";
     $("#wordForm").appendChild(div);
   });
@@ -683,10 +722,13 @@ textarea.ans {
     let html = "<p class=\"sec-lead\">从方框中选词填空：" + d.optionsBank.map(esc).join(" / ") + "</p>";
     let bi = 0;
     d.lines.forEach((line) => {
-      if (line.includes("______")) {
-        html += "<p>" + esc(line).replace("______", "<input class=\"blank-input\" name=\"dlg_" + d.id + "_" + (bi + 1) + "\" data-answer=\"" + esc(d.blanks[bi]) + "\">");
+      if (/_{3,}/.test(line)) {
+        html += "<p>" + withInlineBlanks(line, [{
+          name: "dlg_" + d.id + "_" + (bi + 1),
+          answer: d.blanks[bi],
+          phrase: true
+        }]) + "</p>";
         bi++;
-        html += "</p>";
       } else {
         html += "<p>" + esc(line) + "</p>";
       }
