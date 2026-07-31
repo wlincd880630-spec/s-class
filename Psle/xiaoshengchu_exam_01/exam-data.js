@@ -180,11 +180,6 @@ window.EXAM_DATA = {
       { base: "buy", past: "bought", cn: "买" },
       { base: "spend", past: "spent", cn: "花费" },
       { base: "have", past: "had", cn: "有；吃" }
-    ],
-    usageTips: [
-      { tense: "一般现在时", use: "习惯、事实、经常发生的动作；标志词：every day / always / usually" },
-      { tense: "一般过去时", use: "过去某个时间发生的动作或状态；标志词：yesterday / last week / ago" },
-      { tense: "现在进行时", use: "此刻或当前阶段正在进行的动作；标志词：now / look / listen / at the moment" }
     ]
   },
 
