@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>精简答案 · 第二套</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #eef3f0;
+      --card: #fbfcfa;
+      --ink: #1c2420;
+      --muted: #5c6860;
+      --accent: #2d6a4f;
+      --accent-soft: #95d5b2;
+      --border: #c8d5cc;
+      --shadow: rgba(28, 36, 32, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "DM Sans", system-ui, sans-serif;
+      color: var(--ink);
+      background: linear-gradient(145deg, #e4ebe6 0%, var(--bg) 40%, #dde8e2 100%);
+      min-height: 100vh;
+    }
+    .wrap { max-width: 820px; margin: 0 auto; padding: 1rem 1rem 3rem; }
+    header.top {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1rem;
+      margin-bottom: 1rem;
+    }
+    header.top h1 {
+      margin: 0; flex: 1 1 auto; font-size: 1.25rem; font-weight: 700;
+    }
+    .sub { color: var(--muted); font-size: 0.9rem; margin: 0 0 1.1rem; }
+    .btn {
+      appearance: none; border: 1px solid var(--border); background: var(--card);
+      color: var(--ink); border-radius: 10px; padding: 0.45rem 0.85rem;
+      font: inherit; font-weight: 600; cursor: pointer; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 0.35rem;
+    }
+    .btn:hover { border-color: var(--accent); color: var(--accent); }
+    .btn.primary {
+      background: var(--accent); color: #fff; border-color: var(--accent);
+    }
+    .btn.primary:hover { filter: brightness(1.05); color: #fff; }
+    .sec {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 0.85rem 1rem 1rem; margin-bottom: 0.85rem;
+      box-shadow: 0 1px 0 var(--shadow);
+    }
+    .sec h2 {
+      margin: 0 0 0.65rem; font-size: 0.98rem; color: var(--accent);
+      line-height: 1.35;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 0.4rem 0.75rem;
+    }
+    .row {
+      display: flex; align-items: flex-start; gap: 0.5rem;
+      padding: 0.35rem 0.45rem; border-radius: 8px;
+      background: #f3f7f4;
+    }
+    .num {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-weight: 700; color: var(--accent); min-width: 2.1rem;
+      flex: 0 0 auto; line-height: 1.5;
+    }
+    .ans { flex: 1 1 auto; min-width: 0; line-height: 1.5; font-size: 0.95rem; }
+    .letter {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-weight: 700; font-size: 1.05rem; color: #14532d;
+    }
+    .opt { color: var(--muted); font-size: 0.86rem; }
+    .text { font-weight: 600; word-break: break-word; }
+    .miss { color: #b42318; }
+    details.essay { width: 100%; }
+    details.essay summary {
+      cursor: pointer; color: var(--accent); font-weight: 600; font-size: 0.88rem;
+    }
+    .essay-body {
+      margin-top: 0.4rem; white-space: pre-wrap; font-size: 0.88rem;
+      line-height: 1.55; color: var(--ink); font-weight: 500;
+    }
+    /* Password gate */
+    #gate {
+      position: fixed; inset: 0; z-index: 50;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(28, 36, 32, 0.55); backdrop-filter: blur(4px);
+      padding: 1rem;
+    }
+    #gate.hidden { display: none; }
+    #main.locked { visibility: hidden; }
+    .gate-card {
+      width: min(100%, 380px); background: var(--card);
+      border-radius: 16px; border: 1px solid var(--border);
+      padding: 1.4rem 1.35rem 1.25rem; box-shadow: 0 12px 40px rgba(0,0,0,.18);
+    }
+    .gate-card h2 { margin: 0 0 0.35rem; font-size: 1.15rem; }
+    .gate-card p { margin: 0 0 1rem; color: var(--muted); font-size: 0.9rem; }
+    .gate-card input {
+      width: 100%; padding: 0.65rem 0.75rem; border-radius: 10px;
+      border: 1px solid var(--border); font: inherit; margin-bottom: 0.75rem;
+    }
+    .gate-card input:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+    .gate-err { color: #b42318; font-size: 0.85rem; min-height: 1.2em; margin: 0 0 0.5rem; }
+    .gate-actions { display: flex; gap: 0.5rem; justify-content: flex-end; }
+    @media print {
+      #gate { display: none !important; }
+      #main.locked { visibility: visible !important; }
+      .btn { display: none; }
+      body { background: #fff; }
+    }
+  </style>
+</head>
+<body>
+  <div id="gate" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+    <div class="gate-card">
+      <h2 id="gateTitle">精简答案 · 教师查阅</h2>
+      <p>请输入密码后查看 第二套 答案速查。</p>
+      <input type="password" id="pwd" placeholder="请输入密码" autocomplete="current-password" />
+      <p class="gate-err" id="gateErr"></p>
+      <div class="gate-actions">
+        <a class="btn" href="set_02_typeflow.html">返回试卷</a>
+        <button type="button" class="btn primary" id="btnUnlock">解锁</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="main" class="wrap locked">
+    <header class="top">
+      <h1>精简答案 · 第二套</h1>
+      <a class="btn" href="set_02_typeflow.html">← 返回试卷</a>
+    </header>
+    <p class="sub">初一入学考试英语试卷 · 第02套 · 满分：100分 · 时间：60分钟</p>
+    <section class="sec"><h2>I. 单项选择 (共30分)</h2><div class="grid"><div class="row"><span class="num">1</span><div class="ans"><span class='letter'>B</span><span class='opt'> · bigger than</span></div></div><div class="row"><span class="num">2</span><div class="ans"><span class='letter'>B</span><span class='opt'> · over</span></div></div><div class="row"><span class="num">3</span><div class="ans"><span class='letter'>B</span><span class='opt'> · the piano; basketball</span></div></div><div class="row"><span class="num">4</span><div class="ans"><span class='letter'>B</span><span class='opt'> · go cycling</span></div></div><div class="row"><span class="num">5</span><div class="ans"><span class='letter'>A</span><span class='opt'> · Did</span></div></div><div class="row"><span class="num">6</span><div class="ans"><span class='letter'>B</span><span class='opt'> · her</span></div></div><div class="row"><span class="num">7</span><div class="ans"><span class='letter'>B</span><span class='opt'> · happened</span></div></div><div class="row"><span class="num">8</span><div class="ans"><span class='letter'>B</span><span class='opt'> · older</span></div></div><div class="row"><span class="num">9</span><div class="ans"><span class='letter'>A</span><span class='opt'> · was; go</span></div></div><div class="row"><span class="num">10</span><div class="ans"><span class='letter'>B</span><span class='opt'> · much</span></div></div><div class="row"><span class="num">11</span><div class="ans"><span class='letter'>A</span><span class='opt'> · excited; exciting; excitedly</span></div></div><div class="row"><span class="num">12</span><div class="ans"><span class='letter'>A</span><span class='opt'> · a little</span></div></div><div class="row"><span class="num">13</span><div class="ans"><span class='letter'>C</span><span class='opt'> · Did; watch</span></div></div><div class="row"><span class="num">14</span><div class="ans"><span class='letter'>C</span><span class='opt'> · helped; get</span></div></div><div class="row"><span class="num">15</span><div class="ans"><span class='letter'>A</span><span class='opt'> · finish</span></div></div></div></section>
+<section class="sec"><h2>II. 用单词的适当形式填空 (共30分)</h2><div class="grid"><div class="row"><span class="num">16</span><div class="ans"><span class='text'>Did</span></div></div><div class="row"><span class="num">17</span><div class="ans"><span class='text'>younger</span></div></div><div class="row"><span class="num">18</span><div class="ans"><span class='text'>tall / taller</span></div></div><div class="row"><span class="num">19</span><div class="ans"><span class='text'>heavier</span></div></div><div class="row"><span class="num">20</span><div class="ans"><span class='text'>didn&#x27;t watch</span></div></div><div class="row"><span class="num">21</span><div class="ans"><span class='text'>Did / visit</span></div></div><div class="row"><span class="num">22</span><div class="ans"><span class='text'>are</span></div></div><div class="row"><span class="num">23</span><div class="ans"><span class='text'>watched</span></div></div><div class="row"><span class="num">24</span><div class="ans"><span class='text'>fishing</span></div></div><div class="row"><span class="num">25</span><div class="ans"><span class='text'>mine</span></div></div><div class="row"><span class="num">26</span><div class="ans"><span class='text'>is crossing</span></div></div><div class="row"><span class="num">27</span><div class="ans"><span class='text'>Do / read</span></div></div><div class="row"><span class="num">28</span><div class="ans"><span class='text'>caught</span></div></div><div class="row"><span class="num">29</span><div class="ans"><span class='text'>watched</span></div></div><div class="row"><span class="num">30</span><div class="ans"><span class='text'>students&#x27;</span></div></div></div></section>
+<section class="sec"><h2>III. 完成句子 (共10分)</h2><div class="grid"><div class="row"><span class="num">31</span><div class="ans"><span class='text'>park</span></div></div><div class="row"><span class="num">32</span><div class="ans"><span class='text'>needs</span></div></div><div class="row"><span class="num">33</span><div class="ans"><span class='text'>strong</span></div></div><div class="row"><span class="num">34</span><div class="ans"><span class='text'>Listen carefully</span></div></div><div class="row"><span class="num">35</span><div class="ans"><span class='text'>astronaut</span></div></div><div class="row"><span class="num">36</span><div class="ans"><span class='text'>Sometimes</span></div></div><div class="row"><span class="num">37</span><div class="ans"><span class='text'>dirty</span></div></div><div class="row"><span class="num">38</span><div class="ans"><span class='text'>yesterday</span></div></div><div class="row"><span class="num">39</span><div class="ans"><span class='text'>gift</span></div></div><div class="row"><span class="num">40</span><div class="ans"><span class='text'>watched</span></div></div></div></section>
+<section class="sec"><h2>IV. 完形填空 (共10分)</h2><div class="grid"><div class="row"><span class="num">41</span><div class="ans"><span class='letter'>A</span><span class='opt'> · fly</span></div></div><div class="row"><span class="num">42</span><div class="ans"><span class='letter'>C</span><span class='opt'> · different</span></div></div><div class="row"><span class="num">43</span><div class="ans"><span class='letter'>B</span><span class='opt'> · Birds</span></div></div><div class="row"><span class="num">44</span><div class="ans"><span class='letter'>C</span><span class='opt'> · ears</span></div></div><div class="row"><span class="num">45</span><div class="ans"><span class='letter'>B</span><span class='opt'> · sleep</span></div></div><div class="row"><span class="num">46</span><div class="ans"><span class='letter'>C</span><span class='opt'> · at night</span></div></div><div class="row"><span class="num">47</span><div class="ans"><span class='letter'>A</span><span class='opt'> · catch</span></div></div><div class="row"><span class="num">48</span><div class="ans"><span class='letter'>A</span><span class='opt'> · help</span></div></div><div class="row"><span class="num">49</span><div class="ans"><span class='letter'>B</span><span class='opt'> · wings</span></div></div><div class="row"><span class="num">50</span><div class="ans"><span class='letter'>C</span><span class='opt'> · why</span></div></div></div></section>
+<section class="sec"><h2>V. 补全对话 (共10分)</h2><div class="grid"><div class="row"><span class="num">51</span><div class="ans"><span class='letter'>E</span><span class='opt'> · It&#x27;s cold in Beijing.</span></div></div><div class="row"><span class="num">52</span><div class="ans"><span class='letter'>D</span><span class='opt'> · Do you know the weather in Guangdong?</span></div></div><div class="row"><span class="num">53</span><div class="ans"><span class='letter'>A</span><span class='opt'> · It&#x27;s too hot. The children there usually go swimming in the river.</span></div></div><div class="row"><span class="num">54</span><div class="ans"><span class='letter'>A</span><span class='opt'> · It&#x27;s too hot. The children there usually go swimming in the river.</span></div></div><div class="row"><span class="num">55</span><div class="ans"><span class='letter'>A</span><span class='opt'> · It&#x27;s too hot. The children there usually go swimming in the river.</span></div></div></div></section>
+<section class="sec"><h2>VI. 阅读理解 (共10分)</h2><div class="grid"><div class="row"><span class="num">56</span><div class="ans"><span class='letter'>C</span><span class='opt'> · very little money</span></div></div><div class="row"><span class="num">57</span><div class="ans"><span class='letter'>A</span><span class='opt'> · it was good for the landlord</span></div></div><div class="row"><span class="num">58</span><div class="ans"><span class='letter'>C</span><span class='opt'> · smoking under a tree</span></div></div><div class="row"><span class="num">59</span><div class="ans"><span class='letter'>B</span><span class='opt'> · He has a rest.</span></div></div><div class="row"><span class="num">60</span><div class="ans"><span class='letter'>C</span><span class='opt'> · clever</span></div></div></div></section>
+  </div>
+
+  <script>
+    (function () {
+      var KEY = "psle-answers-ok";
+      var PASS = "123888";
+      var gate = document.getElementById("gate");
+      var main = document.getElementById("main");
+      var input = document.getElementById("pwd");
+      var err = document.getElementById("gateErr");
+
+      function unlock() {
+        gate.classList.add("hidden");
+        main.classList.remove("locked");
+        try { sessionStorage.setItem(KEY, "1"); } catch (e) {}
+      }
+
+      function tryUnlock() {
+        var v = (input.value || "").trim();
+        if (v === PASS) {
+          err.textContent = "";
+          unlock();
+        } else {
+          err.textContent = "密码错误，请重试";
+          input.select();
+        }
+      }
+
+      try {
+        if (sessionStorage.getItem(KEY) === "1") unlock();
+      } catch (e) {}
+
+      document.getElementById("btnUnlock").addEventListener("click", tryUnlock);
+      input.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") tryUnlock();
+      });
+      if (!gate.classList.contains("hidden")) input.focus();
+    })();
+  </script>
+</body>
+</html>
