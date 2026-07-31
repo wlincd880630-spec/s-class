@@ -82,6 +82,13 @@ h1,h2,h3,.exam-masthead .line2 { font-family:"Literata","Noto Serif SC",serif; }
 .opt:hover { background:var(--accent-soft); }
 .opt:has(input:checked) { background:var(--accent-soft); font-weight:600; }
 .opt input { margin-top:4px; }
+.ask-uline {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  font-weight: 700;
+  color: var(--accent);
+}
 .blank-input, .short-input, .map-input {
   border:none; border-bottom:1.5px solid var(--ink); background:transparent;
   font:inherit; min-width:9em; padding:2px 6px; text-align:center;
@@ -281,14 +288,16 @@ textarea.ans {
 
   <!-- Part 4 -->
   <section class="part part-break" id="part4">
-    <h3>Part IV 时态综合（18 分）</h3>
+    <h3>Part IV 时态综合（22 分）</h3>
     <h4 style="margin:14px 0 8px;font-size:14px;">A. 时态分类（判断每句时态）</h4>
     <div id="tenseClassify"></div>
-    <h4 style="margin:14px 0 8px;font-size:14px;">B. 肯定句 → 否定句 / 一般疑问句 / 特殊疑问句</h4>
+    <h4 style="margin:14px 0 8px;font-size:14px;">B. 肯定句 → 否定句 / 一般疑问句 / 特殊疑问句（含动作句与状态句）</h4>
     <div id="tenseConvert"></div>
-    <h4 style="margin:14px 0 8px;font-size:14px;">C. 时态之间的转换</h4>
+    <h4 style="margin:14px 0 8px;font-size:14px;">C. 时态之间的转换（动作句）</h4>
     <div id="tenseShift"></div>
-    <h4 style="margin:14px 0 8px;font-size:14px;">D. 不规则动词过去式（写出过去式，共 10 个）</h4>
+    <h4 style="margin:14px 0 8px;font-size:14px;">D. 状态句 be 动词填空（一般现在时 / 一般过去时）</h4>
+    <div id="stateFill"></div>
+    <h4 style="margin:14px 0 8px;font-size:14px;">E. 不规则动词过去式（写出过去式，共 10 个）</h4>
     <div class="irregular-grid" id="irregularGrid"></div>
   </section>
 
@@ -317,7 +326,7 @@ textarea.ans {
 
   <!-- Part 7 -->
   <section class="part part-break" id="part7">
-    <h3>Part VII 看图造句（8 分）</h3>
+    <h3>Part VII 看图造句（6 分）</h3>
     <p class="sec-lead">观察图片，每题写 1–2 句完整英文。可用提示词，注意时态。</p>
     <div class="pic-write-grid" id="picWrite"></div>
   </section>
@@ -560,7 +569,8 @@ textarea.ans {
   D.tenses.convert.forEach((block) => {
     const box = document.createElement("div");
     box.className = "q-item";
-    box.innerHTML = "<div class=\"q-stem\"><strong>原句：</strong>" + markUnderline(block.from, block.underline) +
+    const kind = block.kindLabel ? "<div style=\"font-size:12.5px;color:var(--muted);margin-bottom:4px\">" + esc(block.kindLabel) + "</div>" : "";
+    box.innerHTML = kind + "<div class=\"q-stem\"><strong>原句：</strong>" + markUnderline(block.from, block.underline) +
       "<button type=\"button\" class=\"speak-mini no-print\" data-speak=\"" + esc(block.from) + "\">听</button></div>";
     block.tasks.forEach((t) => {
       const row = document.createElement("div");
@@ -589,6 +599,19 @@ textarea.ans {
       }]) + "</div>" +
       "<div class=\"sample-ans\">答案：" + esc(q.answer) + "</div>";
     $("#tenseShift").appendChild(div);
+  });
+  (D.tenses.stateFill || []).forEach((q) => {
+    const div = document.createElement("div");
+    div.className = "q-item";
+    div.innerHTML = "<div class=\"q-stem\"><span class=\"q-num\">" + q.id + ".</span>" +
+      withInlineBlanks(q.prompt, [{
+        name: "sfill_" + q.id,
+        answer: q.answer,
+        alts: q.alts || [],
+        phrase: true
+      }]) + "</div>" +
+      "<div class=\"sample-ans\">答案：" + esc(q.answer) + "</div>";
+    $("#stateFill").appendChild(div);
   });
   D.tenses.irregular.forEach((v, i) => {
     const d = document.createElement("div");
@@ -809,32 +832,25 @@ textarea.ans {
       markInput(a1, ok1); markInput(a2, ok2);
       detail.push({ part: "III-改", id: q.id, ok: pts === 2, ans: q.answer.join(" / "), pts });
     });
-    // tense classify 4 x 1
+    // tense classify
     D.tenses.classify.forEach((q) => {
-      max += 1;
+      max += 0.5;
       const sel = $("input[name=tclass_" + q.id + "]:checked");
       const ok = !!(sel && sel.dataset.correct === "1");
-      if (ok) got += 1;
+      if (ok) got += 0.5;
       detail.push({ part: "IV-分类", id: q.id, ok, ans: q.label });
     });
-    // convert: 3 blocks x 3 = 9, 1 each
+    // convert: action + state blocks（每小题 0.5，共约 7.5）
     D.tenses.convert.forEach((block) => {
       block.tasks.forEach((t) => {
-        max += 1;
+        max += 0.5;
         const inp = $("[name=tconv_" + block.id + "_" + t.type + "]");
         const ok = matchText(inp.value, t.answer, t.alts);
-        if (ok) got += 1;
+        if (ok) got += 0.5;
         markInput(inp, ok);
         detail.push({ part: "IV-转换", id: block.id + "-" + t.type, ok, ans: t.answer });
       });
     });
-    // tense shift 3 x 1 — but part4 total claimed 18: classify4 + convert9 + shift3 + irr10 = 26 too many
-    // Rescale: classify 4, convert 9*0? Let's use: classify4 + convert9 + shift3 + irregular 2 (0.2 each)? 
-    // Better scoring plan matching 18:
-    // classify 4, convert 6 (0.67?) — simplify: classify4 + convert9 + shift2(first2) wait
-    // Actual: classify4 + convert 9 + shift3 = 16, irregular 10*0.2=2 → 18. Or irregular 1 each but reduce convert.
-    // Use: classify4 + convert9 + shift3 + irregular10 = 26, then scale to 18: got * 18/26
-    // Cleaner: give irregular 0.2 each displayed as fraction — or just report raw and scale.
     D.tenses.tenseShift.forEach((q) => {
       max += 1;
       const inp = $("[name=tshift_" + q.id + "]");
@@ -843,11 +859,19 @@ textarea.ans {
       markInput(inp, ok);
       detail.push({ part: "IV-时态变", id: q.id, ok, ans: q.answer });
     });
+    (D.tenses.stateFill || []).forEach((q) => {
+      max += 1;
+      const inp = $("[name=sfill_" + q.id + "]");
+      const ok = matchText(inp.value, q.answer, q.alts);
+      if (ok) got += 1;
+      markInput(inp, ok);
+      detail.push({ part: "IV-状态填空", id: q.id, ok, ans: q.answer });
+    });
     D.tenses.irregular.forEach((v) => {
-      max += 0.2;
+      max += 0.25;
       const inp = $("[name=irr_" + v.base + "]");
       const ok = matchText(inp.value, v.past, []);
-      if (ok) got += 0.2;
+      if (ok) got += 0.25;
       markInput(inp, ok);
       detail.push({ part: "IV-不规则", id: v.base, ok, ans: v.past });
     });

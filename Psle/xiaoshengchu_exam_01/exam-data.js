@@ -118,11 +118,15 @@ window.EXAM_DATA = {
       { id: 1, sentence: "She plays the piano every day.", answer: "present_simple", label: "一般现在时" },
       { id: 2, sentence: "They visited the Great Wall last Sunday.", answer: "past_simple", label: "一般过去时" },
       { id: 3, sentence: "Look! The boys are playing ping-pong.", answer: "present_continuous", label: "现在进行时" },
-      { id: 4, sentence: "Water boils at 100°C.", answer: "present_simple", label: "一般现在时" }
+      { id: 4, sentence: "Water boils at 100°C.", answer: "present_simple", label: "一般现在时" },
+      { id: 5, sentence: "The mountain cabin is cold in winter.", answer: "present_simple", label: "一般现在时" },
+      { id: 6, sentence: "The river was frozen last January.", answer: "past_simple", label: "一般过去时" }
     ],
     convert: [
       {
         id: 1,
+        kind: "action",
+        kindLabel: "动作句 · 一般现在时",
         from: "Mr. Brown grows fresh vegetables on his farm every spring.",
         underline: "on his farm",
         tasks: [
@@ -140,15 +144,14 @@ window.EXAM_DATA = {
             type: "wh",
             askAbout: "对划线部分提问（地点：on his farm）",
             answer: "Where does Mr. Brown grow fresh vegetables every spring?",
-            alts: [
-              "Where does Mr. Brown grow fresh vegetables every spring?",
-              "Where does Mr Brown grow fresh vegetables every spring?"
-            ]
+            alts: []
           }
         ]
       },
       {
         id: 2,
+        kind: "action",
+        kindLabel: "动作句 · 现在进行时",
         from: "The farmers are collecting honey from the beehives near the river.",
         underline: "honey",
         tasks: [
@@ -169,14 +172,14 @@ window.EXAM_DATA = {
             type: "wh",
             askAbout: "对划线部分提问（宾语：honey）",
             answer: "What are the farmers collecting from the beehives near the river?",
-            alts: [
-              "What are the farmers collecting from the beehives near the river?"
-            ]
+            alts: []
           }
         ]
       },
       {
         id: 3,
+        kind: "action",
+        kindLabel: "动作句 · 一般过去时",
         from: "Uncle Tom built a small wooden boat for the children last summer.",
         underline: "last summer",
         tasks: [
@@ -194,6 +197,59 @@ window.EXAM_DATA = {
             type: "wh",
             askAbout: "对划线部分提问（时间：last summer）",
             answer: "When did Uncle Tom build a small wooden boat for the children?",
+            alts: []
+          }
+        ]
+      },
+      {
+        id: 4,
+        kind: "state",
+        kindLabel: "状态句 · 一般现在时（be）",
+        from: "The mountain cabin is cold in winter.",
+        underline: "in winter",
+        tasks: [
+          {
+            type: "negative",
+            answer: "The mountain cabin isn't cold in winter.",
+            alts: [
+              "The mountain cabin is not cold in winter.",
+              "The mountain cabin's not cold in winter."
+            ]
+          },
+          {
+            type: "yesno",
+            answer: "Is the mountain cabin cold in winter?",
+            alts: []
+          },
+          {
+            type: "wh",
+            askAbout: "对划线部分提问（时间：in winter）",
+            answer: "When is the mountain cabin cold?",
+            alts: []
+          }
+        ]
+      },
+      {
+        id: 5,
+        kind: "state",
+        kindLabel: "状态句 · 一般过去时（be）",
+        from: "The river was frozen last January.",
+        underline: "last January",
+        tasks: [
+          {
+            type: "negative",
+            answer: "The river wasn't frozen last January.",
+            alts: ["The river was not frozen last January."]
+          },
+          {
+            type: "yesno",
+            answer: "Was the river frozen last January?",
+            alts: []
+          },
+          {
+            type: "wh",
+            askAbout: "对划线部分提问（时间：last January）",
+            answer: "When was the river frozen?",
             alts: []
           }
         ]
@@ -217,6 +273,45 @@ window.EXAM_DATA = {
         prompt: "把现在进行时改为一般过去时：He is writing a letter. → He ______ a letter yesterday.",
         answer: "wrote",
         alts: ["wrote"]
+      }
+    ],
+    /* 状态句 be 动词填空（一般现在 / 一般过去） */
+    stateFill: [
+      {
+        id: 1,
+        prompt: "一般现在时（状态）：The mountain cabin ______ cold in winter.",
+        answer: "is",
+        alts: []
+      },
+      {
+        id: 2,
+        prompt: "一般过去时（状态）：The river ______ frozen last January.",
+        answer: "was",
+        alts: []
+      },
+      {
+        id: 3,
+        prompt: "状态句否定：The lighthouse is quiet after sunset. → The lighthouse ______ quiet after sunset.",
+        answer: "isn't",
+        alts: ["is not", "isn't"]
+      },
+      {
+        id: 4,
+        prompt: "状态句一般疑问：The village was full of visitors. → ______ the village full of visitors?",
+        answer: "Was",
+        alts: ["was", "Was"]
+      },
+      {
+        id: 5,
+        prompt: "状态句时态转换：The kitchen is clean now. → The kitchen ______ clean yesterday.",
+        answer: "was",
+        alts: []
+      },
+      {
+        id: 6,
+        prompt: "状态句特殊疑问（对划线部分提问）：The cabin is cold in winter. → ______ is the cabin cold?",
+        answer: "When",
+        alts: ["when", "When"]
       }
     ],
     irregular: [
