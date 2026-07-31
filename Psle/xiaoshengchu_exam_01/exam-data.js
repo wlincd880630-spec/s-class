@@ -470,8 +470,7 @@ window.EXAM_DATA = {
           "A: Did you ______ much money for it?",
           "B: No. It was on sale."
         ],
-        blanks: ["How much", "pay"],
-        optionsBank: ["How much", "How many", "pay", "spend", "cost", "What"]
+        blanks: ["How much", "pay"]
       }
     ],
     writing: {
