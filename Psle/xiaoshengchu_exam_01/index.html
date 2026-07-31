@@ -202,9 +202,20 @@ textarea.ans {
 .sample-ans { display:none; margin-top:6px; font-size:12.5px; color:var(--muted); background:#f8fafc; padding:8px; border-radius:6px; }
 .show-samples .sample-ans { display:block; }
 .print-blank { display:none; }
+.print-word-hints {
+  display:none;
+  font-size:13px;
+  color:#333;
+  margin:6px 0 4px;
+  line-height:1.55;
+  padding:6px 8px;
+  border:1px dashed var(--line-dark);
+  border-radius:6px;
+  background:#fafbfd;
+}
 @media print {
   .no-print, .toolbar, .nav-parts, .dict-card button, .speak-mini, .footer-actions,
-  .result-panel, .chip-bank, .desert-bank, .sample-ans { display:none !important; }
+  .result-panel, .chip-bank, .sample-ans, .notice { display:none !important; }
   body { background:#fff; }
   .wrap { max-width:none; padding:0; }
   .sheet { box-shadow:none; border:0; padding:0; border-radius:0; }
@@ -212,17 +223,52 @@ textarea.ans {
   .part-break { page-break-before:always; }
   .dict-grid { grid-template-columns:repeat(5,1fr); gap:8px; }
   .dict-card { break-inside:avoid; }
-  .blank-input, .short-input, .map-input, textarea.ans { border:none !important; }
+  /* 填空横线：打印时保留下划线，避免空白塌陷 */
+  .blank-input, .short-input, .map-input {
+    display:inline-block !important;
+    border:none !important;
+    border-bottom:1.2pt solid #000 !important;
+    background:transparent !important;
+    color:#000 !important;
+    min-width:18mm !important;
+    min-height:5.5mm !important;
+    height:5.5mm !important;
+    padding:0 2px !important;
+    margin:0 3px !important;
+    vertical-align:baseline !important;
+    box-shadow:none !important;
+    -webkit-appearance:none;
+    appearance:none;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+  .blank-input.phrase { min-width:22mm !important; }
+  .blank-input.wide, .short-input.wide {
+    min-width:70% !important;
+    width:85% !important;
+    margin-top:4px !important;
+  }
+  .map-input { min-width:28mm !important; }
+  .blank-input::placeholder,
+  .short-input::placeholder,
+  .map-input::placeholder { color:transparent !important; opacity:0 !important; }
+  textarea.ans {
+    border:1pt solid #000 !important;
+    min-height:28mm !important;
+  }
   .print-blank {
     display:inline-block !important; min-width:28mm; border-bottom:1pt solid #000; height:5mm; vertical-align:bottom;
   }
   .print-lines {
     display:block !important; border-bottom:1pt solid #999; height:8mm; margin:4px 0;
   }
+  .print-word-hints { display:block !important; }
   .chip-answer {
     min-height:28px; border:1px solid #000; background:#fff;
   }
   .chip-answer::before { content:"答："; font-size:12px; color:#666; }
+  .desert-bank { display:flex !important; flex-wrap:wrap; gap:6px; margin:8px 0 12px; }
+  .q-stem { line-height:1.85; }
 }
 @media (max-width:640px) {
   .sheet { padding:18px 14px 32px; }
@@ -258,24 +304,17 @@ textarea.ans {
     </div>
   </header>
 
-  <div class="notice">
-    <strong>注意事项</strong>
-    <ol id="noticeList"></ol>
-  </div>
-
   <ul class="nav-parts no-print" id="navParts"></ul>
 
   <!-- Part 1 -->
   <section class="part" id="part1">
     <h3>Part I 看图听写（10 分）</h3>
-    <p class="sec-lead">根据图片与录音写出单词（人教版七年级上 Unit 1–2 重点词）。点击喇叭听 <strong>Azure 英式男声慢速</strong>朗读。</p>
     <div class="dict-grid" id="dictGrid"></div>
   </section>
 
   <!-- Part 2 -->
   <section class="part part-break" id="part2">
     <h3>Part II 句子排序（10 分）</h3>
-    <p class="sec-lead">点击词块组成正确句子（例句与听写重点词不重复）。先点词库词块排入答案区，再点答案区可退回。</p>
     <div id="scrambleList"></div>
   </section>
 
@@ -440,12 +479,7 @@ textarea.ans {
     $("#timer").textContent = "用时 " + mm + ":" + ss;
   }, 1000);
 
-  /* ---------- Nav & notice ---------- */
-  D.meta.notice.forEach((n) => {
-    const li = document.createElement("li");
-    li.textContent = n;
-    $("#noticeList").appendChild(li);
-  });
+  /* ---------- Nav ---------- */
   const parts = [
     ["#part1", "I 听写"], ["#part2", "II 排序"], ["#part3", "III 花费"],
     ["#part4", "IV 时态"], ["#part5", "V 完形"], ["#part6", "VI 沙漠"],
@@ -487,9 +521,12 @@ textarea.ans {
     const wrap = document.createElement("div");
     wrap.className = "q-item scramble-box";
     wrap.dataset.answer = item.answer;
+    const shuffledWords = shuffle(item.words);
+    const hintsText = shuffledWords.join(" / ");
     wrap.innerHTML =
       "<div class=\"q-stem\"><span class=\"q-num\">" + item.id + ".</span>" + esc(item.cn) +
       "<button type=\"button\" class=\"speak-mini no-print\" data-speak=\"" + esc(item.answer) + "\">听原句</button></div>" +
+      "<div class=\"print-word-hints\"><strong>单词提示：</strong>" + esc(hintsText) + "</div>" +
       "<div class=\"chip-bank\" data-bank=\"" + item.id + "\"></div>" +
       "<div class=\"chip-answer\" data-ans=\"" + item.id + "\" data-placeholder=\"点击上方词块组成句子\"></div>" +
       "<input type=\"hidden\" name=\"scramble_" + item.id + "\" value=\"\">" +
@@ -498,7 +535,7 @@ textarea.ans {
     const bank = wrap.querySelector(".chip-bank");
     const ans = wrap.querySelector(".chip-answer");
     const hidden = wrap.querySelector("input[type=hidden]");
-    shuffle(item.words).forEach((w) => {
+    shuffledWords.forEach((w) => {
       const chip = document.createElement("button");
       chip.type = "button";
       chip.className = "chip" + (/^[.?!,]$/.test(w) ? " punct" : "");
