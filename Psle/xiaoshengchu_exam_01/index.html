@@ -223,7 +223,39 @@ textarea.ans {
   .part-break { page-break-before:always; }
   .dict-grid { grid-template-columns:repeat(5,1fr); gap:8px; }
   .dict-card { break-inside:avoid; }
-  .blank-input, .short-input, .map-input, textarea.ans { border:none !important; }
+  /* 填空横线：打印时保留下划线，避免空白塌陷 */
+  .blank-input, .short-input, .map-input {
+    display:inline-block !important;
+    border:none !important;
+    border-bottom:1.2pt solid #000 !important;
+    background:transparent !important;
+    color:#000 !important;
+    min-width:18mm !important;
+    min-height:5.5mm !important;
+    height:5.5mm !important;
+    padding:0 2px !important;
+    margin:0 3px !important;
+    vertical-align:baseline !important;
+    box-shadow:none !important;
+    -webkit-appearance:none;
+    appearance:none;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+  .blank-input.phrase { min-width:22mm !important; }
+  .blank-input.wide, .short-input.wide {
+    min-width:70% !important;
+    width:85% !important;
+    margin-top:4px !important;
+  }
+  .map-input { min-width:28mm !important; }
+  .blank-input::placeholder,
+  .short-input::placeholder,
+  .map-input::placeholder { color:transparent !important; opacity:0 !important; }
+  textarea.ans {
+    border:1pt solid #000 !important;
+    min-height:28mm !important;
+  }
   .print-blank {
     display:inline-block !important; min-width:28mm; border-bottom:1pt solid #000; height:5mm; vertical-align:bottom;
   }
@@ -236,6 +268,7 @@ textarea.ans {
   }
   .chip-answer::before { content:"答："; font-size:12px; color:#666; }
   .desert-bank { display:flex !important; flex-wrap:wrap; gap:6px; margin:8px 0 12px; }
+  .q-stem { line-height:1.85; }
 }
 @media (max-width:640px) {
   .sheet { padding:18px 14px 32px; }
