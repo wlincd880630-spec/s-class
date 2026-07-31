@@ -29,3 +29,23 @@ node Grammar/kp-shared/gen-lesson.mjs Psle/knowledge-registry/wave1/lessons/G-co
 | G-past-irregular-verbs | Grammar/KP-不规则过去式/ |
 | V-look-forward-to | primary_vocab/V01-look-forward-to/ |
 | V-on-sale-shopping | primary_vocab/V02-on-sale-shopping/ |
+
+## Wave 2 已发布（10 个知识点）
+| ID | 路径 |
+|----|------|
+| G-modals-can-should | Grammar/KP-情态动词/ |
+| G-articles-a-an-the | Grammar/L08-小学冠词/ |
+| G-countable-uncountable | Grammar/L09-可数不可数/ |
+| G-imperative | Grammar/L10-祈使句/ |
+| G-future-will | Grammar/L11-一般将来时/ |
+| G-exclamatory | Grammar/L12-感叹句/ |
+| G-too-enough | Grammar/KP-too-enough/ |
+| G-few-little | Grammar/KP-few-little/ |
+| V-too-either-also | primary_vocab/V03-too-either-also/ |
+| V-forget-remember-doing | primary_vocab/V04-forget-remember/ |
+
+## 生成 Wave 2
+```bash
+node Psle/knowledge-registry/scripts/build-wave2-lessons.mjs
+node Grammar/kp-shared/gen-lesson.mjs Psle/knowledge-registry/wave2/lessons/G-modals-can-should.json
+```
