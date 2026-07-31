@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小升初英语入学综合测试 · S-Class</title>
+<meta name="description" content="小升初英语入学综合测试：七年级 Unit1–2 听写、句子排序、cost/pay/spend/take、时态转换、完形、沙漠通识、看图造句。支持 Azure 慢速英音与 PDF 导出。">
+<script>window.MEDIA_BASE="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/";</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:#1a1f2e; --muted:#5a6478; --line:#d8dee9; --line-dark:#9aa3b5;
+  --accent:#1e4d8c; --accent-soft:#eef4fb; --ok:#0f7b4c; --bad:#b42318;
+  --paper:#fff; --bg:#e8eef6; --sand:#f3ebe0; --desert:#c4a574;
+  --shadow:0 6px 28px rgba(20,40,80,.1);
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  margin:0; color:var(--ink); background:
+    radial-gradient(1200px 500px at 10% -10%, #dce8f8 0%, transparent 55%),
+    radial-gradient(900px 400px at 100% 0%, #f0e6d6 0%, transparent 50%),
+    var(--bg);
+  font-family:"Noto Sans SC","Segoe UI",sans-serif;
+  line-height:1.65; font-size:15px;
+}
+h1,h2,h3,.exam-masthead .line2 { font-family:"Literata","Noto Serif SC",serif; }
+.toolbar {
+  position:sticky; top:0; z-index:100;
+  background:linear-gradient(100deg,#153a6b,#1e4d8c 55%,#2a6aad);
+  color:#fff; padding:.55rem 1rem; display:flex; flex-wrap:wrap; gap:.45rem; align-items:center;
+  box-shadow:0 2px 12px rgba(0,0,0,.18);
+}
+.toolbar h1 { font-size:.92rem; margin:0 .6rem 0 0; flex:1; font-weight:600; font-family:inherit; }
+.toolbar .btn, .toolbar button {
+  border:0; border-radius:8px; padding:.45rem .9rem; font:inherit; font-size:.84rem;
+  cursor:pointer; background:rgba(255,255,255,.16); color:#fff;
+}
+.toolbar .btn:hover, .toolbar button:hover { background:rgba(255,255,255,.28); }
+.toolbar .btn.primary { background:#fff; color:#153a6b; font-weight:700; }
+.toolbar .timer { font-variant-numeric:tabular-nums; opacity:.95; margin-right:.4rem; }
+.wrap { max-width:980px; margin:0 auto; padding:16px; }
+.sheet {
+  background:var(--paper); padding:28px 34px 48px; border-radius:10px;
+  box-shadow:var(--shadow); border:1px solid var(--line);
+}
+.exam-masthead {
+  text-align:center; border:2px solid var(--ink); padding:18px 14px 14px; margin-bottom:18px;
+}
+.exam-masthead .line1 { font-size:14px; font-weight:600; letter-spacing:.06em; color:var(--muted); }
+.exam-masthead .line2 { font-size:26px; font-weight:700; letter-spacing:.28em; margin:10px 0 6px; }
+.exam-masthead .line3 { font-size:13px; color:var(--muted); }
+.student-bar {
+  display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+  margin-top:14px; padding-top:12px; border-top:1px solid var(--ink); font-size:14px;
+}
+.student-bar .uline {
+  display:inline-block; min-width:110px; border-bottom:1px solid var(--ink); margin-left:6px;
+}
+.score-bar { display:flex; justify-content:center; flex-wrap:wrap; gap:14px; margin-top:8px; font-size:13px; color:var(--muted); }
+.notice {
+  background:var(--accent-soft); border-left:4px solid var(--accent);
+  padding:12px 14px; margin-bottom:18px; font-size:13px; border-radius:0 8px 8px 0;
+}
+.notice ol { margin:6px 0 0; padding-left:1.3em; }
+.part > h3 {
+  font-size:15px; font-weight:700; text-align:center; margin:26px 0 12px;
+  padding:9px 0; border-top:2px solid var(--ink); border-bottom:1px solid var(--ink);
+  letter-spacing:.04em;
+}
+.sec-lead { font-size:13.5px; color:var(--muted); margin:0 0 12px; }
+.q-item { margin:0; padding:14px 0; border-bottom:1px dashed var(--line); }
+.q-item:last-child { border-bottom:0; }
+.q-stem { margin:0 0 8px; }
+.q-num { font-weight:700; margin-right:4px; }
+.opts { display:grid; gap:4px; margin:6px 0 0 1.2em; }
+.opt {
+  display:flex; gap:8px; align-items:flex-start; padding:7px 9px; border-radius:8px; cursor:pointer;
+}
+.opt:hover { background:var(--accent-soft); }
+.opt:has(input:checked) { background:var(--accent-soft); font-weight:600; }
+.opt input { margin-top:4px; }
+.blank-input, .short-input, .map-input {
+  border:none; border-bottom:1.5px solid var(--ink); background:transparent;
+  font:inherit; min-width:5.5em; padding:2px 4px; text-align:center;
+}
+.blank-input.wide, .short-input.wide { min-width:10em; text-align:left; }
+textarea.ans {
+  width:100%; min-height:72px; border:1px solid var(--line-dark); border-radius:8px;
+  font:inherit; padding:10px; line-height:1.7; resize:vertical; background:#fafbfd;
+}
+.dict-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:14px; margin:12px 0 8px;
+}
+.dict-card {
+  border:1px solid var(--line); border-radius:10px; padding:10px; background:#fbfcfe;
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+}
+.dict-card img {
+  width:100%; aspect-ratio:1; object-fit:cover; border-radius:8px; border:1px solid var(--line);
+}
+.dict-card .dict-actions { display:flex; gap:6px; width:100%; }
+.dict-card button.speak {
+  flex:0 0 auto; border:0; border-radius:8px; background:var(--accent); color:#fff;
+  padding:.35rem .55rem; cursor:pointer; font-size:.8rem;
+}
+.dict-card .blank-input { width:100%; min-width:0; }
+.scramble-box { margin:8px 0 4px; }
+.chip-bank, .chip-answer {
+  display:flex; flex-wrap:wrap; gap:6px; min-height:42px; padding:8px;
+  border:1px dashed var(--line-dark); border-radius:8px; background:#f8fafc;
+}
+.chip-answer { border-style:solid; background:#fff; margin-top:6px; }
+.chip {
+  border:1px solid var(--line-dark); background:#fff; border-radius:999px;
+  padding:4px 10px; cursor:pointer; user-select:none; font-size:13.5px;
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.chip:hover { transform:translateY(-1px); box-shadow:0 2px 8px rgba(0,0,0,.08); }
+.chip.punct { border-radius:8px; font-weight:700; }
+.note-grid {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px; margin:10px 0 14px;
+}
+.note-card {
+  border:1px solid var(--line); border-radius:8px; padding:10px 12px; background:linear-gradient(180deg,#fff,#f7f9fc);
+  font-size:13px;
+}
+.note-card strong { display:block; color:var(--accent); margin-bottom:4px; font-family:"Literata",serif; }
+.price-list { margin:8px 0 14px; padding-left:1.2em; font-size:14px; }
+.pic-write-grid { display:grid; grid-template-columns:1fr; gap:18px; }
+@media (min-width:760px) {
+  .pic-write-grid { grid-template-columns:1fr 1fr; }
+}
+.pic-write-card {
+  border:1px solid var(--line); border-radius:10px; overflow:hidden; background:#fff;
+}
+.pic-write-card img { width:100%; aspect-ratio:3/2; object-fit:cover; display:block; }
+.pic-write-card .body { padding:12px; }
+.map-wrap {
+  border:1px solid var(--line-dark); border-radius:10px; overflow:hidden; background:var(--sand); margin:10px 0;
+}
+.map-wrap img { width:100%; display:block; }
+.map-slots { display:grid; gap:8px; margin-top:10px; }
+.map-slot-row { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+.desert-bank { display:flex; flex-wrap:wrap; gap:8px; margin:8px 0 12px; }
+.desert-chip {
+  background:#fff; border:1px solid var(--desert); color:#6b4e2e; border-radius:8px;
+  padding:6px 10px; cursor:grab; font-size:13px; user-select:none;
+}
+.desert-chip:active { cursor:grabbing; }
+.usage-table { width:100%; border-collapse:collapse; font-size:13.5px; margin:10px 0 14px; }
+.usage-table th, .usage-table td { border:1px solid var(--line-dark); padding:8px 10px; vertical-align:top; }
+.usage-table th { background:#f3f6fb; text-align:left; }
+.irregular-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:8px; margin-top:8px;
+}
+.irregular-item {
+  border:1px solid var(--line); border-radius:8px; padding:8px; background:#fafbfd; font-size:13.5px;
+}
+.irregular-item .base { font-weight:700; }
+.result-panel {
+  margin-top:22px; padding:16px 18px; border:2px solid var(--accent); border-radius:10px;
+  background:linear-gradient(180deg,#f5f9ff,#fff);
+}
+.result-panel h3 { margin:0 0 8px; text-align:left; border:0; padding:0; }
+.feedback-ok { color:var(--ok); font-size:12.5px; margin-top:4px; }
+.feedback-bad { color:var(--bad); font-size:12.5px; margin-top:4px; }
+.nav-parts {
+  display:flex; flex-wrap:wrap; gap:6px; margin:0 0 16px; padding:0; list-style:none;
+}
+.nav-parts a {
+  text-decoration:none; font-size:12.5px; color:var(--accent); border:1px solid var(--line);
+  border-radius:999px; padding:4px 10px; background:#fff;
+}
+.nav-parts a:hover { background:var(--accent-soft); }
+.cloze-passage { background:#fafbfd; border:1px solid var(--line); border-radius:8px; padding:14px 16px; margin-bottom:12px; }
+.cloze-passage p { text-indent:2em; margin:.45em 0; text-align:justify; }
+.gap { font-weight:700; color:var(--accent); }
+.speak-mini {
+  border:0; background:var(--accent-soft); color:var(--accent); border-radius:6px;
+  padding:2px 8px; cursor:pointer; font-size:12px; margin-left:6px;
+}
+.footer-actions { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:22px; }
+.footer-actions button {
+  border:0; border-radius:10px; padding:.7rem 1.3rem; font:inherit; font-weight:700; cursor:pointer;
+}
+.btn-score { background:var(--accent); color:#fff; }
+.btn-reset { background:#eef2f7; color:var(--ink); }
+.btn-print { background:#0f7b4c; color:#fff; }
+.sample-ans { display:none; margin-top:6px; font-size:12.5px; color:var(--muted); background:#f8fafc; padding:8px; border-radius:6px; }
+.show-samples .sample-ans { display:block; }
+.print-blank { display:none; }
+@media print {
+  .no-print, .toolbar, .nav-parts, .dict-card button, .speak-mini, .footer-actions,
+  .result-panel, .chip-bank, .desert-bank, .sample-ans { display:none !important; }
+  body { background:#fff; }
+  .wrap { max-width:none; padding:0; }
+  .sheet { box-shadow:none; border:0; padding:0; border-radius:0; }
+  .part { page-break-inside:avoid; }
+  .part-break { page-break-before:always; }
+  .dict-grid { grid-template-columns:repeat(5,1fr); gap:8px; }
+  .dict-card { break-inside:avoid; }
+  .blank-input, .short-input, .map-input, textarea.ans { border:none !important; }
+  .print-blank {
+    display:inline-block !important; min-width:18mm; border-bottom:1pt solid #000; height:5mm; vertical-align:bottom;
+  }
+  .print-lines {
+    display:block !important; border-bottom:1pt solid #999; height:8mm; margin:4px 0;
+  }
+  .chip-answer {
+    min-height:28px; border:1px solid #000; background:#fff;
+  }
+  .chip-answer::before { content:"答："; font-size:12px; color:#666; }
+}
+@media (max-width:640px) {
+  .sheet { padding:18px 14px 32px; }
+  .exam-masthead .line2 { font-size:20px; letter-spacing:.16em; }
+  .dict-grid { grid-template-columns:repeat(2,1fr); }
+}
+</style>
+</head>
+<body>
+<div class="toolbar no-print">
+  <h1>小升初英语入学综合测试</h1>
+  <span class="timer" id="timer">用时 00:00</span>
+  <button type="button" class="btn" id="btnShowSamples">显示参考答案</button>
+  <button type="button" class="btn" id="btnScore">交卷评分</button>
+  <button type="button" class="btn primary" id="btnPrint">打印 / 导出 PDF</button>
+</div>
+
+<div class="wrap">
+<form id="exam" class="sheet" autocomplete="off">
+  <header class="exam-masthead">
+    <div class="line1">S-Class 英语学习中心 · Primary → Junior Bridge</div>
+    <div class="line2">英&nbsp;&nbsp;语</div>
+    <div class="line3">小升初英语入学综合测试（互动卷 · 可导出标准试卷 PDF）</div>
+    <div class="student-bar">
+      <span>姓名<span class="uline wide" contenteditable="true">&nbsp;</span></span>
+      <span>班级<span class="uline" contenteditable="true">&nbsp;</span></span>
+      <span>考号<span class="uline" contenteditable="true">&nbsp;</span></span>
+    </div>
+    <div class="score-bar">
+      <span>满分：100 分</span>
+      <span>建议用时：90 分钟</span>
+      <span>得分：______</span>
+    </div>
+  </header>
+
+  <div class="notice">
+    <strong>注意事项</strong>
+    <ol id="noticeList"></ol>
+  </div>
+
+  <ul class="nav-parts no-print" id="navParts"></ul>
+
+  <!-- Part 1 -->
+  <section class="part" id="part1">
+    <h3>Part I 看图听写（10 分）</h3>
+    <p class="sec-lead">根据图片与录音写出单词（人教版七年级上 Unit 1–2 重点词）。点击喇叭听 <strong>Azure 英式男声慢速</strong>朗读。</p>
+    <div class="dict-grid" id="dictGrid"></div>
+  </section>
+
+  <!-- Part 2 -->
+  <section class="part part-break" id="part2">
+    <h3>Part II 句子排序（10 分）</h3>
+    <p class="sec-lead">点击词块组成正确句子（例句与听写重点词不重复）。先点词库词块排入答案区，再点答案区可退回。</p>
+    <div id="scrambleList"></div>
+  </section>
+
+  <!-- Part 3 -->
+  <section class="part part-break" id="part3">
+    <h3>Part III 花费与价格询问（12 分）</h3>
+    <p class="sec-lead">掌握 cost / pay for / spend on / spend doing / it takes to do 及价格询问的同意表达。</p>
+    <div class="note-grid" id="moneyNotes"></div>
+    <p class="hint"><strong>价格询问（同意表达）</strong></p>
+    <ul class="price-list" id="priceQs"></ul>
+    <div id="moneyChoose"></div>
+    <div id="moneyRewrite"></div>
+  </section>
+
+  <!-- Part 4 -->
+  <section class="part part-break" id="part4">
+    <h3>Part IV 时态综合（18 分）</h3>
+    <p class="sec-lead">一般现在时 · 一般过去时 · 现在进行时：用法分类、句式转换、时态转换与不规则过去式。</p>
+    <table class="usage-table">
+      <thead><tr><th>时态</th><th>用法与标志词</th></tr></thead>
+      <tbody id="tenseUsage"></tbody>
+    </table>
+    <h4 style="margin:14px 0 8px;font-size:14px;">A. 时态分类（判断每句时态）</h4>
+    <div id="tenseClassify"></div>
+    <h4 style="margin:14px 0 8px;font-size:14px;">B. 肯定句 → 否定句 / 一般疑问句 / 特殊疑问句</h4>
+    <div id="tenseConvert"></div>
+    <h4 style="margin:14px 0 8px;font-size:14px;">C. 时态之间的转换</h4>
+    <div id="tenseShift"></div>
+    <h4 style="margin:14px 0 8px;font-size:14px;">D. 不规则动词过去式（写出过去式，共 10 个）</h4>
+    <div class="irregular-grid" id="irregularGrid"></div>
+  </section>
+
+  <!-- Part 5 -->
+  <section class="part part-break" id="part5">
+    <h3>Part V 完形填空（10 分）</h3>
+    <p class="sec-lead" id="clozeTitle"></p>
+    <div class="cloze-passage" id="clozePassage"></div>
+    <div id="clozeItems"></div>
+  </section>
+
+  <!-- Part 6 -->
+  <section class="part part-break" id="part6">
+    <h3>Part VI 通识英语 · World's Largest Deserts（15 分）</h3>
+    <p class="sec-lead">根据沙漠科学考察营内容作答。选项具有高度迷惑性——注意“最大沙漠”≠“最大热沙漠”。</p>
+    <h4 style="margin:10px 0 8px;font-size:14px;">A. What makes a desert?</h4>
+    <div id="desertFill"></div>
+    <h4 style="margin:14px 0 8px;font-size:14px;">B. 选择题</h4>
+    <div id="desertMc"></div>
+    <h4 style="margin:14px 0 8px;font-size:14px;">C. 世界地图 · 填入知名沙漠位置</h4>
+    <p class="sec-lead" id="mapInstruction"></p>
+    <div class="desert-bank no-print" id="desertBank"></div>
+    <div class="map-wrap"><img id="desertMapImg" alt="World deserts map" /></div>
+    <div class="map-slots" id="mapSlots"></div>
+  </section>
+
+  <!-- Part 7 -->
+  <section class="part part-break" id="part7">
+    <h3>Part VII 看图造句（8 分）</h3>
+    <p class="sec-lead">观察图片，每题写 1–2 句完整英文。可用提示词，注意时态。</p>
+    <div class="pic-write-grid" id="picWrite"></div>
+  </section>
+
+  <!-- Part 8 -->
+  <section class="part part-break" id="part8">
+    <h3>Part VIII 综合加练（17 分）</h3>
+    <h4 style="margin:10px 0 8px;font-size:14px;">A. 阅读理解（6 分）</h4>
+    <div class="cloze-passage" id="readingPassage"></div>
+    <div id="readingQs"></div>
+    <h4 style="margin:14px 0 8px;font-size:14px;">B. 词形填空（4 分）</h4>
+    <div id="wordForm"></div>
+    <h4 style="margin:14px 0 8px;font-size:14px;">C. 补全对话（2 分）</h4>
+    <div id="dialogue"></div>
+    <h4 style="margin:14px 0 8px;font-size:14px;">D. 书面表达（5 分）</h4>
+    <div id="writing"></div>
+  </section>
+
+  <div class="footer-actions no-print">
+    <button type="button" class="btn-score" id="btnScore2">交卷评分</button>
+    <button type="button" class="btn-print" id="btnPrint2">打印 / 导出 PDF</button>
+    <button type="button" class="btn-reset" id="btnReset">清空重做</button>
+  </div>
+  <div class="result-panel no-print" id="resultPanel" hidden>
+    <h3>评分结果</h3>
+    <p id="resultSummary"></p>
+    <div id="resultDetail"></div>
+  </div>
+</form>
+</div>
+
+<script src="exam-data.js"></script>
+<script>
+(function () {
+  const D = window.EXAM_DATA;
+  const AZURE_KEY = "3C2ai7PPgPnOLlhb1c7gBw207PAVNfVJni6JnESsPjYPaVyFeQ9YJQQJ99CGAC3pKaRXJ3w3AAAYACOG0Zbc";
+  const AZURE_REGION = "eastasia";
+  const VOICE = "en-GB-RyanNeural";
+  const RATE = "0.85";
+
+  const $ = (s, r) => (r || document).querySelector(s);
+  const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;" }[c]));
+
+  /* ---------- Azure TTS（慢速英音男声） ---------- */
+  let audioEl = null;
+  function xmlEscape(t) {
+    return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  }
+  async function speak(text) {
+    const t = String(text || "").trim();
+    if (!t) return;
+    try {
+      const url = "https://" + AZURE_REGION + ".tts.speech.microsoft.com/cognitiveservices/v1";
+      const ssml = "<speak version='1.0' xml:lang='en-GB'><voice xml:lang='en-GB' name='" + VOICE + "'><prosody rate='" + RATE + "'>" + xmlEscape(t) + "</prosody></voice></speak>";
+      const r = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Ocp-Apim-Subscription-Key": AZURE_KEY,
+          "Content-Type": "application/ssml+xml",
+          "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3"
+        },
+        body: ssml
+      });
+      if (!r.ok) throw new Error("Azure " + r.status);
+      const buf = await r.arrayBuffer();
+      const blob = new Blob([buf], { type: "audio/mpeg" });
+      const u = URL.createObjectURL(blob);
+      if (audioEl) { audioEl.pause(); URL.revokeObjectURL(audioEl.src); }
+      audioEl = new Audio(u);
+      audioEl.onended = () => URL.revokeObjectURL(u);
+      await audioEl.play();
+    } catch (err) {
+      // fallback Web Speech API
+      if (!window.speechSynthesis) { alert("朗读失败：" + err.message); return; }
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(t);
+      u.lang = "en-GB";
+      u.rate = 0.85;
+      const voices = window.speechSynthesis.getVoices();
+      const v = voices.find(x => /en-GB/i.test(x.lang) && /male|ryan|thomas|george/i.test(x.name))
+        || voices.find(x => /en-GB/i.test(x.lang))
+        || voices.find(x => /^en/i.test(x.lang));
+      if (v) u.voice = v;
+      window.speechSynthesis.speak(u);
+    }
+  }
+
+  /* ---------- Timer ---------- */
+  const t0 = Date.now();
+  setInterval(() => {
+    const s = Math.floor((Date.now() - t0) / 1000);
+    const mm = String(Math.floor(s / 60)).padStart(2, "0");
+    const ss = String(s % 60).padStart(2, "0");
+    $("#timer").textContent = "用时 " + mm + ":" + ss;
+  }, 1000);
+
+  /* ---------- Nav & notice ---------- */
+  D.meta.notice.forEach((n) => {
+    const li = document.createElement("li");
+    li.textContent = n;
+    $("#noticeList").appendChild(li);
+  });
+  const parts = [
+    ["#part1", "I 听写"], ["#part2", "II 排序"], ["#part3", "III 花费"],
+    ["#part4", "IV 时态"], ["#part5", "V 完形"], ["#part6", "VI 沙漠"],
+    ["#part7", "VII 造句"], ["#part8", "VIII 综合"]
+  ];
+  parts.forEach(([href, label]) => {
+    const a = document.createElement("a");
+    a.href = href; a.textContent = label;
+    $("#navParts").appendChild(a);
+  });
+
+  /* ---------- Part 1 Dictation ---------- */
+  D.dictation.forEach((w) => {
+    const card = document.createElement("div");
+    card.className = "dict-card";
+    card.innerHTML =
+      "<img src=\"" + esc(w.img) + "\" alt=\"dictation " + w.id + "\" loading=\"lazy\">" +
+      "<div class=\"dict-actions\">" +
+      "<button type=\"button\" class=\"speak\" data-speak=\"" + esc(w.word) + "\" title=\"听发音\">🔊 听</button>" +
+      "<span style=\"font-size:12px;color:var(--muted)\">No." + w.id + "</span></div>" +
+      "<input class=\"blank-input\" name=\"dict_" + w.id + "\" data-answer=\"" + esc(w.word) + "\" placeholder=\"写出单词\" autocomplete=\"off\">" +
+      "<span class=\"print-blank\"></span>" +
+      "<div class=\"sample-ans\">答案：" + esc(w.word) + "（" + esc(w.cn) + "）</div>";
+    $("#dictGrid").appendChild(card);
+  });
+
+  /* ---------- Part 2 Scramble ---------- */
+  function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    // avoid accidental correct order
+    if (a.join(" ") === arr.join(" ")) return shuffle(arr);
+    return a;
+  }
+  D.scramble.forEach((item) => {
+    const wrap = document.createElement("div");
+    wrap.className = "q-item scramble-box";
+    wrap.dataset.answer = item.answer;
+    wrap.innerHTML =
+      "<div class=\"q-stem\"><span class=\"q-num\">" + item.id + ".</span>" + esc(item.cn) +
+      "<button type=\"button\" class=\"speak-mini no-print\" data-speak=\"" + esc(item.answer) + "\">听原句</button></div>" +
+      "<div class=\"chip-bank\" data-bank=\"" + item.id + "\"></div>" +
+      "<div class=\"chip-answer\" data-ans=\"" + item.id + "\" data-placeholder=\"点击上方词块组成句子\"></div>" +
+      "<input type=\"hidden\" name=\"scramble_" + item.id + "\" value=\"\">" +
+      "<div class=\"sample-ans\">答案：" + esc(item.answer) + "</div>";
+    $("#scrambleList").appendChild(wrap);
+    const bank = wrap.querySelector(".chip-bank");
+    const ans = wrap.querySelector(".chip-answer");
+    const hidden = wrap.querySelector("input[type=hidden]");
+    shuffle(item.words).forEach((w) => {
+      const chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "chip" + (/^[.?!,]$/.test(w) ? " punct" : "");
+      chip.textContent = w;
+      chip.addEventListener("click", () => {
+        if (chip.parentElement === bank) ans.appendChild(chip);
+        else bank.appendChild(chip);
+        const words = $$(".chip", ans).map((c) => c.textContent);
+        hidden.value = words.join(" ").replace(/\s+([.?!,])/g, "$1");
+      });
+      bank.appendChild(chip);
+    });
+  });
+
+  /* ---------- Part 3 Money ---------- */
+  D.moneyGrammar.notes.forEach((n) => {
+    const d = document.createElement("div");
+    d.className = "note-card";
+    d.innerHTML = "<strong>" + esc(n.pattern) + "</strong>" + esc(n.tip);
+    $("#moneyNotes").appendChild(d);
+  });
+  D.moneyGrammar.priceQs.forEach((p) => {
+    const li = document.createElement("li");
+    li.innerHTML = "<em>" + esc(p.q) + "</em> — " + esc(p.cn) +
+      " <button type=\"button\" class=\"speak-mini no-print\" data-speak=\"" + esc(p.q) + "\">听</button>";
+    $("#priceQs").appendChild(li);
+  });
+  D.moneyGrammar.choose.forEach((q) => {
+    const div = document.createElement("div");
+    div.className = "q-item";
+    div.innerHTML = "<div class=\"q-stem\"><span class=\"q-num\">" + q.id + ".</span>" + esc(q.stem) + "</div>" +
+      "<div class=\"opts\">" + q.options.map((o, i) =>
+        "<label class=\"opt\"><input type=\"radio\" name=\"money_" + q.id + "\" value=\"" + i + "\" data-correct=\"" + (i === q.answer ? "1" : "0") + "\"><span><strong>" + String.fromCharCode(65 + i) + ".</strong> " + esc(o) + "</span></label>"
+      ).join("") + "</div>" +
+      "<div class=\"sample-ans\">答案：" + String.fromCharCode(65 + q.answer) + " · " + esc(q.explain) + "</div>";
+    $("#moneyChoose").appendChild(div);
+  });
+  D.moneyGrammar.rewrite.forEach((q) => {
+    const div = document.createElement("div");
+    div.className = "q-item";
+    div.innerHTML = "<div class=\"q-stem\"><span class=\"q-num\">改写 " + q.id + ".</span>" + esc(q.prompt) + "</div>" +
+      "<div>① <input class=\"blank-input\" name=\"rewrite_" + q.id + "_1\" data-accept='" + esc(JSON.stringify(q.accept.map(a => a[0]))) + "'> " +
+      "② <input class=\"blank-input\" name=\"rewrite_" + q.id + "_2\" data-accept='" + esc(JSON.stringify(q.accept.map(a => a[1]))) + "'></div>" +
+      "<div class=\"sample-ans\">参考：" + esc(q.answer.join(" / ")) + "</div>";
+    $("#moneyRewrite").appendChild(div);
+  });
+
+  /* ---------- Part 4 Tenses ---------- */
+  D.tenses.usageTips.forEach((u) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = "<th>" + esc(u.tense) + "</th><td>" + esc(u.use) + "</td>";
+    $("#tenseUsage").appendChild(tr);
+  });
+  const tenseLabels = {
+    present_simple: "一般现在时",
+    past_simple: "一般过去时",
+    present_continuous: "现在进行时"
+  };
+  D.tenses.classify.forEach((q) => {
+    const div = document.createElement("div");
+    div.className = "q-item";
+    div.innerHTML = "<div class=\"q-stem\"><span class=\"q-num\">" + q.id + ".</span>" + esc(q.sentence) +
+      "<button type=\"button\" class=\"speak-mini no-print\" data-speak=\"" + esc(q.sentence) + "\">听</button></div>" +
+      "<div class=\"opts\">" + Object.keys(tenseLabels).map((k) =>
+        "<label class=\"opt\"><input type=\"radio\" name=\"tclass_" + q.id + "\" value=\"" + k + "\" data-correct=\"" + (k === q.answer ? "1" : "0") + "\"><span>" + tenseLabels[k] + "</span></label>"
+      ).join("") + "</div>" +
+      "<div class=\"sample-ans\">答案：" + esc(q.label) + "</div>";
+    $("#tenseClassify").appendChild(div);
+  });
+  const typeName = { negative: "否定句", yesno: "一般疑问句", wh: "特殊疑问句" };
+  D.tenses.convert.forEach((block) => {
+    const box = document.createElement("div");
+    box.className = "q-item";
+    box.innerHTML = "<div class=\"q-stem\"><strong>原句：</strong>" + esc(block.from) +
+      "<button type=\"button\" class=\"speak-mini no-print\" data-speak=\"" + esc(block.from) + "\">听</button></div>";
+    block.tasks.forEach((t, i) => {
+      const row = document.createElement("div");
+      row.style.margin = "8px 0";
+      row.innerHTML = "<div>" + typeName[t.type] + "：</div>" +
+        "<input class=\"short-input wide\" name=\"tconv_" + block.id + "_" + t.type + "\" " +
+        "data-answer=\"" + esc(t.answer) + "\" data-alts='" + esc(JSON.stringify(t.alts || [])) + "' " +
+        "placeholder=\"写出完整句子\" style=\"width:100%;text-align:left;margin-top:4px\">" +
+        "<div class=\"sample-ans\">参考：" + esc(t.answer) + "</div>";
+      box.appendChild(row);
+    });
+    $("#tenseConvert").appendChild(box);
+  });
+  D.tenses.tenseShift.forEach((q) => {
+    const div = document.createElement("div");
+    div.className = "q-item";
+    div.innerHTML = "<div class=\"q-stem\"><span class=\"q-num\">" + q.id + ".</span>" + esc(q.prompt) + "</div>" +
+      "<input class=\"blank-input wide\" name=\"tshift_" + q.id + "\" data-answer=\"" + esc(q.answer) + "\" data-alts='" + esc(JSON.stringify(q.alts || [])) + "'>" +
+      "<div class=\"sample-ans\">答案：" + esc(q.answer) + "</div>";
+    $("#tenseShift").appendChild(div);
+  });
+  D.tenses.irregular.forEach((v, i) => {
+    const d = document.createElement("div");
+    d.className = "irregular-item";
+    d.innerHTML = "<div class=\"base\">" + (i + 1) + ". " + esc(v.base) +
+      " <button type=\"button\" class=\"speak-mini no-print\" data-speak=\"" + esc(v.base + ", " + v.past) + "\">听</button></div>" +
+      "<div style=\"font-size:12px;color:var(--muted)\">" + esc(v.cn) + "</div>" +
+      "过去式：<input class=\"blank-input\" name=\"irr_" + v.base + "\" data-answer=\"" + esc(v.past) + "\" style=\"min-width:4.5em\">" +
+      "<div class=\"sample-ans\">" + esc(v.past) + "</div>";
+    $("#irregularGrid").appendChild(d);
+  });
+
+  /* ---------- Part 5 Cloze ---------- */
+  $("#clozeTitle").textContent = D.cloze.title;
+  $("#clozePassage").innerHTML = D.cloze.passage.map((p) => {
+    return "<p>" + p.replace(/_____(\d+)_____/g, "<span class=\"gap\">($1)</span>") + "</p>";
+  }).join("");
+  D.cloze.items.forEach((it) => {
+    const div = document.createElement("div");
+    div.className = "q-item";
+    div.innerHTML = "<div class=\"q-stem\"><span class=\"q-num\">" + it.n + ".</span></div>" +
+      "<div class=\"opts\">" + it.options.map((o, i) =>
+        "<label class=\"opt\"><input type=\"radio\" name=\"cloze_" + it.n + "\" value=\"" + i + "\" data-correct=\"" + (i === it.answer ? "1" : "0") + "\"><span><strong>" + String.fromCharCode(65 + i) + ".</strong> " + esc(o) + "</span></label>"
+      ).join("") + "</div>" +
+      "<div class=\"sample-ans\">答案：" + String.fromCharCode(65 + it.answer) + " · 知识点：" + esc(it.point) + "</div>";
+    $("#clozeItems").appendChild(div);
+  });
+
+  /* ---------- Part 6 Deserts ---------- */
+  D.deserts.fill.forEach((q) => {
+    const div = document.createElement("div");
+    div.className = "q-item";
+    div.innerHTML = "<div class=\"q-stem\"><span class=\"q-num\">" + q.id + ".</span>" + esc(q.stem) + "</div>" +
+      "<input class=\"blank-input\" name=\"dfill_" + q.id + "\" data-answer=\"" + esc(q.answer) + "\" data-alts='" + esc(JSON.stringify(q.alts || [])) + "'>" +
+      "<div class=\"sample-ans\">答案：" + esc(q.answer) + "</div>";
+    $("#desertFill").appendChild(div);
+  });
+  D.deserts.mc.forEach((q) => {
+    const div = document.createElement("div");
+    div.className = "q-item";
+    div.innerHTML = "<div class=\"q-stem\"><span class=\"q-num\">" + q.id + ".</span>" + esc(q.stem) + "</div>" +
+      "<div class=\"opts\">" + q.options.map((o, i) =>
+        "<label class=\"opt\"><input type=\"radio\" name=\"dmc_" + q.id + "\" value=\"" + i + "\" data-correct=\"" + (i === q.answer ? "1" : "0") + "\"><span><strong>" + String.fromCharCode(65 + i) + ".</strong> " + esc(o) + "</span></label>"
+      ).join("") + "</div>" +
+      "<div class=\"sample-ans\">答案：" + String.fromCharCode(65 + q.answer) + " · " + esc(q.explain) + "</div>";
+    $("#desertMc").appendChild(div);
+  });
+  $("#mapInstruction").textContent = D.deserts.map.instruction;
+  $("#desertMapImg").src = D.deserts.map.image;
+  // shuffle bank chips
+  const mapNames = D.deserts.map.slots.map((s) => s.name);
+  shuffle(mapNames).forEach((name) => {
+    const chip = document.createElement("span");
+    chip.className = "desert-chip";
+    chip.textContent = name;
+    chip.draggable = true;
+    chip.addEventListener("dragstart", (e) => {
+      e.dataTransfer.setData("text/plain", name);
+    });
+    chip.addEventListener("click", () => {
+      const empty = $$(".map-input").find((inp) => !inp.value);
+      if (empty) empty.value = name;
+    });
+    $("#desertBank").appendChild(chip);
+  });
+  D.deserts.map.slots.forEach((s) => {
+    const row = document.createElement("div");
+    row.className = "map-slot-row q-item";
+    row.innerHTML = "<strong>" + esc(s.code) + ".</strong> <span style=\"color:var(--muted);font-size:13px\">" + esc(s.region) + " / " + esc(s.nameZh) + "</span> " +
+      "<input class=\"map-input\" name=\"map_" + s.code + "\" data-answer=\"" + esc(s.name) + "\" placeholder=\"填入沙漠英文名\" style=\"min-width:12em\">" +
+      "<div class=\"sample-ans\">答案：" + esc(s.name) + "</div>";
+    const inp = row.querySelector("input");
+    inp.addEventListener("dragover", (e) => e.preventDefault());
+    inp.addEventListener("drop", (e) => {
+      e.preventDefault();
+      inp.value = e.dataTransfer.getData("text/plain");
+    });
+    $("#mapSlots").appendChild(row);
+  });
+
+  /* ---------- Part 7 Picture writing ---------- */
+  D.pictureWriting.forEach((p) => {
+    const card = document.createElement("div");
+    card.className = "pic-write-card";
+    card.innerHTML =
+      "<img src=\"" + esc(p.img) + "\" alt=\"picture " + p.id + "\" loading=\"lazy\">" +
+      "<div class=\"body\">" +
+      "<div class=\"q-stem\"><span class=\"q-num\">" + p.id + ".</span>" + esc(p.prompt) + "</div>" +
+      "<div style=\"font-size:12.5px;color:var(--muted);margin-bottom:6px\">提示：" + esc(p.hints.join(" / ")) + "</div>" +
+      "<textarea class=\"ans\" name=\"pic_" + p.id + "\" placeholder=\"写出完整句子\"></textarea>" +
+      "<div class=\"print-lines\"></div><div class=\"print-lines\"></div><div class=\"print-lines\"></div>" +
+      "<div class=\"sample-ans\">参考：" + esc(p.sample) +
+      " <button type=\"button\" class=\"speak-mini\" data-speak=\"" + esc(p.sample) + "\">听参考句</button></div>" +
+      "</div>";
+    $("#picWrite").appendChild(card);
+  });
+
+  /* ---------- Part 8 Extra ---------- */
+  $("#readingPassage").innerHTML = "<p class=\"article-title\" style=\"text-align:center;font-weight:700;text-indent:0\">" + esc(D.extra.reading.title) + "</p>" +
+    "<p>" + esc(D.extra.reading.passage) + "</p>" +
+    "<button type=\"button\" class=\"speak-mini no-print\" data-speak=\"" + esc(D.extra.reading.passage) + "\">朗读短文</button>";
+  D.extra.reading.questions.forEach((q) => {
+    const div = document.createElement("div");
+    div.className = "q-item";
+    div.innerHTML = "<div class=\"q-stem\"><span class=\"q-num\">" + q.id + ".</span>" + esc(q.stem) + "</div>" +
+      "<div class=\"opts\">" + q.options.map((o, i) =>
+        "<label class=\"opt\"><input type=\"radio\" name=\"read_" + q.id + "\" value=\"" + i + "\" data-correct=\"" + (i === q.answer ? "1" : "0") + "\"><span><strong>" + String.fromCharCode(65 + i) + ".</strong> " + esc(o) + "</span></label>"
+      ).join("") + "</div>" +
+      "<div class=\"sample-ans\">答案：" + String.fromCharCode(65 + q.answer) + "</div>";
+    $("#readingQs").appendChild(div);
+  });
+  D.extra.wordForm.forEach((q) => {
+    const div = document.createElement("div");
+    div.className = "q-item";
+    div.innerHTML = "<div class=\"q-stem\"><span class=\"q-num\">" + q.id + ".</span>" + esc(q.stem) + "</div>" +
+      "<input class=\"blank-input\" name=\"wf_" + q.id + "\" data-answer=\"" + esc(q.answer) + "\">" +
+      "<div class=\"sample-ans\">答案：" + esc(q.answer) + "</div>";
+    $("#wordForm").appendChild(div);
+  });
+  D.extra.dialogue.forEach((d) => {
+    const box = document.createElement("div");
+    box.className = "q-item";
+    let html = "<p class=\"sec-lead\">从方框中选词填空：" + d.optionsBank.map(esc).join(" / ") + "</p>";
+    let bi = 0;
+    d.lines.forEach((line) => {
+      if (line.includes("______")) {
+        html += "<p>" + esc(line).replace("______", "<input class=\"blank-input\" name=\"dlg_" + d.id + "_" + (bi + 1) + "\" data-answer=\"" + esc(d.blanks[bi]) + "\">");
+        bi++;
+        html += "</p>";
+      } else {
+        html += "<p>" + esc(line) + "</p>";
+      }
+    });
+    html += "<div class=\"sample-ans\">答案：" + esc(d.blanks.join(" / ")) + "</div>";
+    box.innerHTML = html;
+    $("#dialogue").appendChild(box);
+  });
+  const w = D.extra.writing;
+  $("#writing").innerHTML =
+    "<p class=\"q-stem\">" + esc(w.prompt) + "</p>" +
+    "<ul style=\"font-size:13px;color:var(--muted)\">" + w.checklist.map((c) => "<li>" + esc(c) + "</li>").join("") + "</ul>" +
+    "<textarea class=\"ans\" name=\"writing\" style=\"min-height:140px\" placeholder=\"在此写作…\"></textarea>" +
+    "<div class=\"print-lines\"></div><div class=\"print-lines\"></div><div class=\"print-lines\"></div><div class=\"print-lines\"></div><div class=\"print-lines\"></div>";
+
+  /* ---------- Speak buttons ---------- */
+  document.body.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-speak]");
+    if (btn) speak(btn.getAttribute("data-speak"));
+  });
+
+  /* ---------- Normalize & score ---------- */
+  function norm(s) {
+    return String(s || "").trim().toLowerCase()
+      .replace(/[’‘]/g, "'")
+      .replace(/[“”]/g, '"')
+      .replace(/\s+/g, " ")
+      .replace(/\s+([.?!,])/g, "$1");
+  }
+  function matchText(val, answer, alts) {
+    const n = norm(val);
+    if (!n) return false;
+    if (n === norm(answer)) return true;
+    return (alts || []).some((a) => n === norm(a));
+  }
+  function scoreExam() {
+    let got = 0, max = 0;
+    const detail = [];
+    // dictation 10 x 1
+    D.dictation.forEach((w) => {
+      max += 1;
+      const inp = $("[name=dict_" + w.id + "]");
+      const ok = matchText(inp.value, w.word, [w.word + "s"]);
+      if (ok) got += 1;
+      detail.push({ part: "I", id: w.id, ok, ans: w.word });
+      markInput(inp, ok);
+    });
+    // scramble 10 x 1
+    D.scramble.forEach((item) => {
+      max += 1;
+      const inp = $("[name=scramble_" + item.id + "]");
+      const ok = matchText(inp.value, item.answer, [item.answer.replace(/\?$/, " ?").replace(/\.$/, " .")]);
+      // also accept without final punct difference handled by norm partially
+      const ok2 = ok || norm(inp.value).replace(/[.?!,]/g, "") === norm(item.answer).replace(/[.?!,]/g, "");
+      if (ok2) got += 1;
+      detail.push({ part: "II", id: item.id, ok: ok2, ans: item.answer });
+    });
+    // money choose 6 x 1
+    D.moneyGrammar.choose.forEach((q) => {
+      max += 1;
+      const sel = $("input[name=money_" + q.id + "]:checked");
+      const ok = !!(sel && sel.dataset.correct === "1");
+      if (ok) got += 1;
+      detail.push({ part: "III-选", id: q.id, ok, ans: String.fromCharCode(65 + q.answer) });
+    });
+    // rewrite 3 x 2 = 6? We'll give 2 pts each = 6, total part3 = 12
+    D.moneyGrammar.rewrite.forEach((q) => {
+      max += 2;
+      const a1 = $("[name=rewrite_" + q.id + "_1]");
+      const a2 = $("[name=rewrite_" + q.id + "_2]");
+      let pts = 0;
+      const ok1 = q.accept.some((pair) => matchText(a1.value, pair[0], []));
+      const ok2 = q.accept.some((pair) => matchText(a2.value, pair[1], []));
+      if (ok1) pts += 1;
+      if (ok2) pts += 1;
+      got += pts;
+      markInput(a1, ok1); markInput(a2, ok2);
+      detail.push({ part: "III-改", id: q.id, ok: pts === 2, ans: q.answer.join(" / "), pts });
+    });
+    // tense classify 4 x 1
+    D.tenses.classify.forEach((q) => {
+      max += 1;
+      const sel = $("input[name=tclass_" + q.id + "]:checked");
+      const ok = !!(sel && sel.dataset.correct === "1");
+      if (ok) got += 1;
+      detail.push({ part: "IV-分类", id: q.id, ok, ans: q.label });
+    });
+    // convert: 3 blocks x 3 = 9, 1 each
+    D.tenses.convert.forEach((block) => {
+      block.tasks.forEach((t) => {
+        max += 1;
+        const inp = $("[name=tconv_" + block.id + "_" + t.type + "]");
+        const ok = matchText(inp.value, t.answer, t.alts);
+        if (ok) got += 1;
+        markInput(inp, ok);
+        detail.push({ part: "IV-转换", id: block.id + "-" + t.type, ok, ans: t.answer });
+      });
+    });
+    // tense shift 3 x 1 — but part4 total claimed 18: classify4 + convert9 + shift3 + irr10 = 26 too many
+    // Rescale: classify 4, convert 9*0? Let's use: classify4 + convert9 + shift3 + irregular 2 (0.2 each)? 
+    // Better scoring plan matching 18:
+    // classify 4, convert 6 (0.67?) — simplify: classify4 + convert9 + shift2(first2) wait
+    // Actual: classify4 + convert 9 + shift3 = 16, irregular 10*0.2=2 → 18. Or irregular 1 each but reduce convert.
+    // Use: classify4 + convert9 + shift3 + irregular10 = 26, then scale to 18: got * 18/26
+    // Cleaner: give irregular 0.2 each displayed as fraction — or just report raw and scale.
+    D.tenses.tenseShift.forEach((q) => {
+      max += 1;
+      const inp = $("[name=tshift_" + q.id + "]");
+      const ok = matchText(inp.value, q.answer, q.alts);
+      if (ok) got += 1;
+      markInput(inp, ok);
+      detail.push({ part: "IV-时态变", id: q.id, ok, ans: q.answer });
+    });
+    D.tenses.irregular.forEach((v) => {
+      max += 0.2;
+      const inp = $("[name=irr_" + v.base + "]");
+      const ok = matchText(inp.value, v.past, []);
+      if (ok) got += 0.2;
+      markInput(inp, ok);
+      detail.push({ part: "IV-不规则", id: v.base, ok, ans: v.past });
+    });
+    // cloze 10
+    D.cloze.items.forEach((it) => {
+      max += 1;
+      const sel = $("input[name=cloze_" + it.n + "]:checked");
+      const ok = !!(sel && sel.dataset.correct === "1");
+      if (ok) got += 1;
+      detail.push({ part: "V", id: it.n, ok, ans: String.fromCharCode(65 + it.answer) });
+    });
+    // desert fill 3, mc 4, map 5 = 12 — claimed 15, so fill+mc+map with weights: fill3 + mc8(2each) + map4?
+    // Use fill 3 + mc 4 + map 5 = 12, then +3 soft for completion — or fill3*1 + mc4*2 + map4 = 15 (drop one map? 5 slots)
+    // fill3 + mc 8 (2 pts) + map 4 = 15 (one map free / or 5 maps at 0.8)
+    D.deserts.fill.forEach((q) => {
+      max += 1;
+      const inp = $("[name=dfill_" + q.id + "]");
+      const ok = matchText(inp.value, q.answer, q.alts);
+      if (ok) got += 1;
+      markInput(inp, ok);
+      detail.push({ part: "VI-填", id: q.id, ok, ans: q.answer });
+    });
+    D.deserts.mc.forEach((q) => {
+      max += 2;
+      const sel = $("input[name=dmc_" + q.id + "]:checked");
+      const ok = !!(sel && sel.dataset.correct === "1");
+      if (ok) got += 2;
+      detail.push({ part: "VI-选", id: q.id, ok, ans: String.fromCharCode(65 + q.answer) });
+    });
+    D.deserts.map.slots.forEach((s) => {
+      max += 0.8;
+      const inp = $("[name=map_" + s.code + "]");
+      const ok = matchText(inp.value, s.name, [s.nameZh, s.name.replace(" Ice Sheet", "")]);
+      if (ok) got += 0.8;
+      markInput(inp, ok);
+      detail.push({ part: "VI-地图", id: s.code, ok, ans: s.name });
+    });
+    // reading 3 x 2 = 6
+    D.extra.reading.questions.forEach((q) => {
+      max += 2;
+      const sel = $("input[name=read_" + q.id + "]:checked");
+      const ok = !!(sel && sel.dataset.correct === "1");
+      if (ok) got += 2;
+      detail.push({ part: "VIII-阅", id: q.id, ok, ans: String.fromCharCode(65 + q.answer) });
+    });
+    // word form 4
+    D.extra.wordForm.forEach((q) => {
+      max += 1;
+      const inp = $("[name=wf_" + q.id + "]");
+      const ok = matchText(inp.value, q.answer, []);
+      if (ok) got += 1;
+      markInput(inp, ok);
+      detail.push({ part: "VIII-词形", id: q.id, ok, ans: q.answer });
+    });
+    // dialogue 2
+    D.extra.dialogue.forEach((d) => {
+      d.blanks.forEach((b, i) => {
+        max += 1;
+        const inp = $("[name=dlg_" + d.id + "_" + (i + 1) + "]");
+        const ok = matchText(inp.value, b, []);
+        if (ok) got += 1;
+        markInput(inp, ok);
+        detail.push({ part: "VIII-对话", id: i + 1, ok, ans: b });
+      });
+    });
+    // picture writing + writing: subjective — count non-empty as partial for display only
+    let subjNote = "看图造句（8 分）与书面表达（5 分）请对照参考答案由老师批改，未计入自动分。";
+    const autoMax = Math.round(max * 10) / 10;
+    const autoGot = Math.round(got * 10) / 10;
+    // Scale objective to 87 (100-13 subjective)? Current max should be ~87
+    // dict10+scramble10+money12+tense(4+9+3+2=18)+cloze10+desert15+read6+wf4+dlg2 = 87. Yes.
+    $("#resultPanel").hidden = false;
+    $("#resultSummary").textContent = "客观题得分：" + autoGot + " / " + autoMax + "（另有看图造句 8 分 + 写作 5 分需人工批改，卷面满分 100）。";
+    const wrong = detail.filter((d) => !d.ok);
+    $("#resultDetail").innerHTML =
+      "<p style=\"font-size:13px;color:var(--muted)\">" + esc(subjNote) + "</p>" +
+      (wrong.length
+        ? "<p><strong>需订正 " + wrong.length + " 处：</strong></p><ul style=\"font-size:13px\">" +
+          wrong.slice(0, 40).map((w) => "<li>" + esc(w.part) + " #" + esc(String(w.id)) + " → 参考：" + esc(w.ans) + "</li>").join("") +
+          (wrong.length > 40 ? "<li>…其余略</li>" : "") + "</ul>"
+        : "<p class=\"feedback-ok\">客观题全部正确，太棒了！</p>");
+    $("#resultPanel").scrollIntoView({ behavior: "smooth", block: "start" });
+    document.body.classList.add("show-samples");
+  }
+  function markInput(inp, ok) {
+    if (!inp) return;
+    inp.style.borderBottomColor = ok ? "var(--ok)" : "var(--bad)";
+  }
+
+  $("#btnScore").addEventListener("click", scoreExam);
+  $("#btnScore2").addEventListener("click", scoreExam);
+  $("#btnPrint").addEventListener("click", () => window.print());
+  $("#btnPrint2").addEventListener("click", () => window.print());
+  $("#btnShowSamples").addEventListener("click", () => {
+    document.body.classList.toggle("show-samples");
+    $("#btnShowSamples").textContent = document.body.classList.contains("show-samples") ? "隐藏参考答案" : "显示参考答案";
+  });
+  $("#btnReset").addEventListener("click", () => {
+    if (confirm("确定清空全部作答？")) {
+      $("#exam").reset();
+      $$(".chip-answer .chip").forEach((c) => {
+        const bank = c.closest(".scramble-box").querySelector(".chip-bank");
+        bank.appendChild(c);
+      });
+      $$("input[type=hidden]").forEach((h) => { h.value = ""; });
+      $$("input,textarea").forEach((el) => { el.style.borderBottomColor = ""; });
+      $("#resultPanel").hidden = true;
+      document.body.classList.remove("show-samples");
+    }
+  });
+})();
+</script>
+</body>
+</html>
