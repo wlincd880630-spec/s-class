@@ -11,7 +11,7 @@ window.EXAM_DATA = {
     notice: [
       "本卷含听力听写、语法、完形、通识与看图写话等题型，请按要求作答。",
       "听写部分请先看图，再点击喇叭听慢速英音（可重复播放）。",
-      "客观题可自动评分；看图造句与写作请对照参考答案自评或交老师批改。",
+      "客观题可自动评分；看图造句请对照参考答案自评或交老师批改。",
       "导出 PDF：点击「打印 / 导出 PDF」→ 目标选「另存为 PDF」→ 缩放 100%、边距默认或无。"
     ]
   },
@@ -275,43 +275,43 @@ window.EXAM_DATA = {
         alts: ["wrote"]
       }
     ],
-    /* 状态句 be 动词填空（一般现在 / 一般过去） */
+    /* 状态句 be 动词填空（一般现在 / 一般过去；语境独立：博物馆/桥/影院/机场/海/城堡） */
     stateFill: [
       {
         id: 1,
-        prompt: "一般现在时（状态）：The mountain cabin ______ cold in winter.",
+        prompt: "一般现在时（状态）：The city museum ______ free on Mondays.",
         answer: "is",
         alts: []
       },
       {
         id: 2,
-        prompt: "一般过去时（状态）：The river ______ frozen last January.",
+        prompt: "一般过去时（状态）：The old bridge ______ dangerous after the storm.",
         answer: "was",
         alts: []
       },
       {
         id: 3,
-        prompt: "状态句否定：The lighthouse is quiet after sunset. → The lighthouse ______ quiet after sunset.",
+        prompt: "状态句否定：The cinema is open tonight. → The cinema ______ open tonight.",
         answer: "isn't",
         alts: ["is not", "isn't"]
       },
       {
         id: 4,
-        prompt: "状态句一般疑问：The village was full of visitors. → ______ the village full of visitors?",
+        prompt: "状态句一般疑问：The airport was busy yesterday morning. → ______ the airport busy yesterday morning?",
         answer: "Was",
         alts: ["was", "Was"]
       },
       {
         id: 5,
-        prompt: "状态句时态转换：The kitchen is clean now. → The kitchen ______ clean yesterday.",
+        prompt: "状态句时态转换：The sea is calm this morning. → The sea ______ calm yesterday morning.",
         answer: "was",
         alts: []
       },
       {
         id: 6,
-        prompt: "状态句特殊疑问（对划线部分提问）：The cabin is cold in winter. → ______ is the cabin cold?",
-        answer: "When",
-        alts: ["when", "When"]
+        prompt: "状态句特殊疑问（对划线部分提问）：The castle is famous for its tower. → ______ is the castle famous for?",
+        answer: "What",
+        alts: ["what", "What"]
       }
     ],
     irregular: [
@@ -410,13 +410,14 @@ window.EXAM_DATA = {
     ],
     map: {
       image: "images/world-deserts-map.jpg",
-      instruction: "根据世界地图，将下列沙漠名称填入对应编号位置（部分地图已标注，请核对并补全答案）。",
+      instruction: "地图上已标出 A–E。选用下方沙漠英文名称，写出每个位置的 Desert（沙漠名）与 Continent（大洲名）。",
+      desertBank: ["Sahara", "Arabian", "Gobi", "Kalahari", "Antarctic Ice Sheet"],
       slots: [
-        { code: "A", name: "Sahara", nameZh: "撒哈拉", region: "Northern Africa" },
-        { code: "B", name: "Arabian", nameZh: "阿拉伯沙漠", region: "Southwestern Asia" },
-        { code: "C", name: "Gobi", nameZh: "戈壁", region: "Mongolia & China" },
-        { code: "D", name: "Kalahari", nameZh: "卡拉哈里", region: "Southwestern Africa" },
-        { code: "E", name: "Antarctic Ice Sheet", nameZh: "南极冰盖", region: "Antarctica" }
+        { code: "A", name: "Sahara", nameZh: "撒哈拉", continent: "Africa", continentAlts: ["Africa", "Northern Africa", "North Africa"] },
+        { code: "B", name: "Arabian", nameZh: "阿拉伯沙漠", continent: "Asia", continentAlts: ["Asia", "Southwestern Asia", "Southwest Asia", "Western Asia", "West Asia", "Middle East"] },
+        { code: "C", name: "Gobi", nameZh: "戈壁", continent: "Asia", continentAlts: ["Asia", "East Asia", "Eastern Asia", "Central Asia"] },
+        { code: "D", name: "Kalahari", nameZh: "卡拉哈里", continent: "Africa", continentAlts: ["Africa", "Southern Africa", "South Africa", "Southwestern Africa", "Southwest Africa"] },
+        { code: "E", name: "Antarctic Ice Sheet", nameZh: "南极冰盖", continent: "Antarctica", continentAlts: ["Antarctica", "Antarctic", "the Antarctic"] }
       ]
     }
   },
@@ -457,9 +458,8 @@ window.EXAM_DATA = {
     },
     wordForm: [
       { id: 1, stem: "The children are singing ______ (happy) at the party.", answer: "happily" },
-      { id: 2, stem: "There are many ______ (different) between the two pictures.", answer: "differences" },
-      { id: 3, stem: "My father ______ (buy) a new fishing rod last week.", answer: "bought" },
-      { id: 4, stem: "Look! Tom ______ (choose) a red schoolbag now.", answer: "is choosing" }
+      { id: 2, stem: "My father ______ (buy) a new fishing rod last week.", answer: "bought" },
+      { id: 3, stem: "Look! Tom ______ (choose) a red schoolbag now.", answer: "is choosing" }
     ],
     dialogue: [
       {
@@ -470,13 +470,8 @@ window.EXAM_DATA = {
           "A: Did you ______ much money for it?",
           "B: No. It was on sale."
         ],
-        blanks: ["How much", "pay"],
-        optionsBank: ["How much", "How many", "pay", "spend", "cost", "What"]
+        blanks: ["How much", "pay"]
       }
-    ],
-    writing: {
-      prompt: "写一段 40–60 词的短文：介绍你的一位新同学（classmate）。至少包含：名字、爱好（hobby）、你们一起做的一件事，并用上一般现在时。",
-      checklist: ["用一般现在时", "提到 hobby / activity", "至少 4 句", "注意第三人称单数"]
-    }
+    ]
   }
 };

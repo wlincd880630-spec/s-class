@@ -316,32 +316,30 @@ textarea.ans {
     <div id="desertFill"></div>
     <h4 style="margin:14px 0 8px;font-size:14px;">B. 选择题</h4>
     <div id="desertMc"></div>
-    <h4 style="margin:14px 0 8px;font-size:14px;">C. 世界地图 · 填入知名沙漠位置</h4>
+    <h4 style="margin:14px 0 8px;font-size:14px;">C. 世界地图 · 写出沙漠名称与大洲</h4>
     <p class="sec-lead" id="mapInstruction"></p>
-    <div class="desert-bank no-print" id="desertBank"></div>
-    <div class="map-wrap"><img id="desertMapImg" alt="World deserts map" /></div>
+    <div class="desert-bank" id="desertBank"></div>
+    <div class="map-wrap"><img id="desertMapImg" alt="World deserts map with A–E markers" /></div>
     <div class="map-slots" id="mapSlots"></div>
   </section>
 
   <!-- Part 7 -->
   <section class="part part-break" id="part7">
-    <h3>Part VII 看图造句（6 分）</h3>
+    <h3>Part VII 看图造句（12 分）</h3>
     <p class="sec-lead">观察图片，每题写 1–2 句完整英文。可用提示词，注意时态。</p>
     <div class="pic-write-grid" id="picWrite"></div>
   </section>
 
   <!-- Part 8 -->
   <section class="part part-break" id="part8">
-    <h3>Part VIII 综合加练（17 分）</h3>
+    <h3>Part VIII 综合加练（11 分）</h3>
     <h4 style="margin:10px 0 8px;font-size:14px;">A. 阅读理解（6 分）</h4>
     <div class="cloze-passage" id="readingPassage"></div>
     <div id="readingQs"></div>
-    <h4 style="margin:14px 0 8px;font-size:14px;">B. 词形填空（4 分）</h4>
+    <h4 style="margin:14px 0 8px;font-size:14px;">B. 词形填空（3 分）</h4>
     <div id="wordForm"></div>
     <h4 style="margin:14px 0 8px;font-size:14px;">C. 补全对话（2 分）</h4>
     <div id="dialogue"></div>
-    <h4 style="margin:14px 0 8px;font-size:14px;">D. 书面表达（5 分）</h4>
-    <div id="writing"></div>
   </section>
 
   <div class="footer-actions no-print">
@@ -665,8 +663,11 @@ textarea.ans {
   });
   $("#mapInstruction").textContent = D.deserts.map.instruction;
   $("#desertMapImg").src = D.deserts.map.image;
-  // shuffle bank chips
-  const mapNames = D.deserts.map.slots.map((s) => s.name);
+  const bankTitle = document.createElement("div");
+  bankTitle.style.cssText = "width:100%;font-size:13px;color:var(--muted);margin-bottom:4px";
+  bankTitle.textContent = "沙漠名称（选用）：";
+  $("#desertBank").appendChild(bankTitle);
+  const mapNames = (D.deserts.map.desertBank || D.deserts.map.slots.map((s) => s.name)).slice();
   shuffle(mapNames).forEach((name) => {
     const chip = document.createElement("span");
     chip.className = "desert-chip";
@@ -676,7 +677,7 @@ textarea.ans {
       e.dataTransfer.setData("text/plain", name);
     });
     chip.addEventListener("click", () => {
-      const empty = $$(".map-input").find((inp) => !inp.value);
+      const empty = $$(".map-input-desert").find((inp) => !inp.value);
       if (empty) empty.value = name;
     });
     $("#desertBank").appendChild(chip);
@@ -684,14 +685,17 @@ textarea.ans {
   D.deserts.map.slots.forEach((s) => {
     const row = document.createElement("div");
     row.className = "map-slot-row q-item";
-    row.innerHTML = "<strong>" + esc(s.code) + ".</strong> <span style=\"color:var(--muted);font-size:13px\">" + esc(s.region) + " / " + esc(s.nameZh) + "</span> " +
-      "<input class=\"map-input\" name=\"map_" + s.code + "\" data-answer=\"" + esc(s.name) + "\" placeholder=\"填入沙漠英文名\" style=\"min-width:12em\">" +
-      "<div class=\"sample-ans\">答案：" + esc(s.name) + "</div>";
-    const inp = row.querySelector("input");
-    inp.addEventListener("dragover", (e) => e.preventDefault());
-    inp.addEventListener("drop", (e) => {
-      e.preventDefault();
-      inp.value = e.dataTransfer.getData("text/plain");
+    row.innerHTML =
+      "<strong>" + esc(s.code) + ".</strong> " +
+      "<span>Desert:</span> <input class=\"map-input map-input-desert\" name=\"map_desert_" + s.code + "\" data-answer=\"" + esc(s.name) + "\" placeholder=\"沙漠英文名\" style=\"min-width:11em\"> " +
+      "<span>Continent:</span> <input class=\"map-input map-input-continent\" name=\"map_cont_" + s.code + "\" data-answer=\"" + esc(s.continent) + "\" data-alts='" + esc(JSON.stringify(s.continentAlts || [])) + "' placeholder=\"大洲英文名\" style=\"min-width:9em\">" +
+      "<div class=\"sample-ans\">答案：Desert — " + esc(s.name) + "；Continent — " + esc(s.continent) + "</div>";
+    $$("input.map-input-desert", row).forEach((inp) => {
+      inp.addEventListener("dragover", (e) => e.preventDefault());
+      inp.addEventListener("drop", (e) => {
+        e.preventDefault();
+        inp.value = e.dataTransfer.getData("text/plain");
+      });
     });
     $("#mapSlots").appendChild(row);
   });
@@ -742,7 +746,7 @@ textarea.ans {
   D.extra.dialogue.forEach((d) => {
     const box = document.createElement("div");
     box.className = "q-item";
-    let html = "<p class=\"sec-lead\">从方框中选词填空：" + d.optionsBank.map(esc).join(" / ") + "</p>";
+    let html = "";
     let bi = 0;
     d.lines.forEach((line) => {
       if (/_{3,}/.test(line)) {
@@ -760,12 +764,6 @@ textarea.ans {
     box.innerHTML = html;
     $("#dialogue").appendChild(box);
   });
-  const w = D.extra.writing;
-  $("#writing").innerHTML =
-    "<p class=\"q-stem\">" + esc(w.prompt) + "</p>" +
-    "<ul style=\"font-size:13px;color:var(--muted)\">" + w.checklist.map((c) => "<li>" + esc(c) + "</li>").join("") + "</ul>" +
-    "<textarea class=\"ans\" name=\"writing\" style=\"min-height:140px\" placeholder=\"在此写作…\"></textarea>" +
-    "<div class=\"print-lines\"></div><div class=\"print-lines\"></div><div class=\"print-lines\"></div><div class=\"print-lines\"></div><div class=\"print-lines\"></div>";
 
   /* ---------- Speak buttons ---------- */
   document.body.addEventListener("click", (e) => {
@@ -903,11 +901,18 @@ textarea.ans {
     });
     D.deserts.map.slots.forEach((s) => {
       max += 0.8;
-      const inp = $("[name=map_" + s.code + "]");
-      const ok = matchText(inp.value, s.name, [s.nameZh, s.name.replace(" Ice Sheet", "")]);
-      if (ok) got += 0.8;
-      markInput(inp, ok);
-      detail.push({ part: "VI-地图", id: s.code, ok, ans: s.name });
+      const dInp = $("[name=map_desert_" + s.code + "]");
+      const cInp = $("[name=map_cont_" + s.code + "]");
+      const okD = matchText(dInp && dInp.value, s.name, [s.nameZh, s.name.replace(" Ice Sheet", ""), "Antarctic"]);
+      const okC = matchText(cInp && cInp.value, s.continent, s.continentAlts || []);
+      // 沙漠与大洲各半：合计仍约 0.8/题 → 5 题共 4 分（与原先地图分值一致）
+      let pts = 0;
+      if (okD) pts += 0.4;
+      if (okC) pts += 0.4;
+      got += pts;
+      markInput(dInp, okD);
+      markInput(cInp, okC);
+      detail.push({ part: "VI-地图", id: s.code, ok: okD && okC, ans: s.name + " / " + s.continent });
     });
     // reading 3 x 2 = 6
     D.extra.reading.questions.forEach((q) => {
@@ -938,11 +943,11 @@ textarea.ans {
       });
     });
     // picture writing + writing: subjective — count non-empty as partial for display only
-    let subjNote = "看图造句（6 分）与书面表达（5 分）请对照参考答案由老师批改，未计入自动分。";
+    let subjNote = "看图造句（12 分）请对照参考答案由老师批改，未计入自动分。";
     const autoMax = Math.round(max * 10) / 10;
     const autoGot = Math.round(got * 10) / 10;
     $("#resultPanel").hidden = false;
-    $("#resultSummary").textContent = "客观题得分：" + autoGot + " / " + autoMax + "（另有看图造句 6 分 + 写作 5 分需人工批改，卷面满分 100）。";
+    $("#resultSummary").textContent = "客观题得分：" + autoGot + " / " + autoMax + "（另有看图造句 12 分需人工批改，卷面满分 100）。";
     const wrong = detail.filter((d) => !d.ok);
     $("#resultDetail").innerHTML =
       "<p style=\"font-size:13px;color:var(--muted)\">" + esc(subjNote) + "</p>" +
