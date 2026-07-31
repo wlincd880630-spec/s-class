@@ -124,6 +124,38 @@
         </div>
     </section>
 
+    <!-- 临时活动：顺序抽取 · 2026-07-31 16:00（北京时间）后自动隐藏并从仓库删除 -->
+    <section class="temp-lottery-banner" id="temp-lottery-banner" hidden>
+        <div class="wrap">
+            <a class="temp-lottery-link" href="temp-order-lottery.html">
+                <span class="temp-lottery-badge"><i class="fas fa-dice"></i> 今日临时</span>
+                <div class="temp-lottery-text">
+                    <strong>课堂顺序抽取</strong>
+                    <span>滚动抽号 · 抽中即作废 · 今日 16:00 后自动下线</span>
+                </div>
+                <span class="temp-lottery-cta">立即抽取 <i class="fas fa-arrow-right"></i></span>
+            </a>
+        </div>
+    </section>
+    <script>
+    (function () {
+        var expireAt = new Date('2026-07-31T16:00:00+08:00').getTime();
+        var banner = document.getElementById('temp-lottery-banner');
+        if (!banner) return;
+        function sync() {
+            if (Date.now() >= expireAt) {
+                banner.hidden = true;
+                banner.setAttribute('aria-hidden', 'true');
+            } else {
+                banner.hidden = false;
+                banner.removeAttribute('aria-hidden');
+            }
+        }
+        sync();
+        setInterval(sync, 30000);
+    })();
+    </script>
+
     <section class="exam-spotlight" id="exam-2026">
         <div class="wrap">
             <div class="exam-spotlight-grid">
