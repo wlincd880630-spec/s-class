@@ -328,25 +328,26 @@ window.EXAM_DATA = {
     ]
   },
 
-  /* ========== Part 5 完形（语言知识点对齐 set_01） ========== */
+  /* ========== Part 5 完形（原创短文，融入七上 Unit1–2 词汇与花费句型） ========== */
   cloze: {
-    title: "Shopping Day",
+    title: "A Weekend Hiking Club",
     passage: [
-      "It's the day before school starts. Mum takes her three little boys, Jim, Bob and Tom, shopping _____1_____ clothes and school things. There are so many people in the shopping centre. “Stay with me,” Mum says. But it doesn't _____2_____ a long time for her kids to go here and there.",
-      "Jim would like a new shirt, but he doesn't know his _____3_____, so he asks for help. While his mother is trying to ask for a small shirt, Bob goes away. He is _____4_____ and runs to buy three bottles of cola, because they are _____5_____ sale. While Bob is _____6_____ a pair of shoes, Mum can't find Tom. He sees his classmate Jack _____7_____ so he goes to talk with him. While Tom is _____8_____ a schoolbag from different colours, Mum can't find Jim and Bob, either. They drink too much cola and go to the bathroom.",
-      "It's seven when they get home. Mum is really _____9_____. She gets a pen and then _____10_____ one rule on the list of “Family Rules” — Shop with one boy each time."
+      "Last Saturday, Lucy joined a hiking club near the hills. She wanted to _____1_____ new friends and get to know more about outdoor life. Each trip _____2_____ only twenty yuan, so it was not expensive for her family.",
+      "It _____3_____ the members about two hours to walk to the top of the hill. On the way, Lucy _____4_____ a warm hat under a tree and gave it back to a boy. The boy smiled and said, “Thank you! My twin sister made it for me.”",
+      "At noon, everyone sat _____5_____ and shared lunch. Lucy's classmate Ben played a short song on his violin. Some children were _____6_____ chess under a big tree. Others were talking _____7_____ about their hobbies.",
+      "Lucy _____8_____ three hours on the trip, but she didn't feel tired. “This activity is really _____9_____ from my usual weekends,” she said. “I hope I can come here every month and _____10_____ fun with you all.”"
     ],
     items: [
-      { n: 1, options: ["for", "and", "so", "or"], answer: 0, point: "shop for = 为买……而购物" },
-      { n: 2, options: ["cost", "take", "pay", "spend"], answer: 1, point: "It takes ... to do；否定 doesn't take" },
-      { n: 3, options: ["size", "colour", "favorite", "price"], answer: 0, point: "不知道衣服尺码 size" },
-      { n: 4, options: ["hungry", "thirsty", "angry", "sad"], answer: 1, point: "买可乐 → 口渴 thirsty" },
-      { n: 5, options: ["for", "in", "on", "at"], answer: 2, point: "on sale = 打折" },
-      { n: 6, options: ["looking at", "looking for", "looking after", "looking into"], answer: 0, point: "look at = 看眼前的东西" },
-      { n: 7, options: ["sadly", "quickly", "happily", "easily"], answer: 2, point: "happy → happily（副词）" },
-      { n: 8, options: ["taking", "choosing", "showing", "finding"], answer: 1, point: "choose A from B = 挑选" },
-      { n: 9, options: ["silly", "lonely", "tired", "afraid"], answer: 3, point: "走散后妈妈担心 afraid（后怕）" },
-      { n: 10, options: ["collects", "gets", "says", "writes"], answer: 3, point: "拿笔写下 write" }
+      { n: 1, options: ["make", "take", "pay", "spend"], answer: 0, point: "make friends = 交朋友" },
+      { n: 2, options: ["costs", "pays", "spends", "takes"], answer: 0, point: "物作主语用 cost" },
+      { n: 3, options: ["took", "spent", "paid", "cost"], answer: 0, point: "It took sb. + 时间 + to do" },
+      { n: 4, options: ["looked for", "looked at", "found", "chose"], answer: 2, point: "捡到/发现用 found；look for 强调寻找过程" },
+      { n: 5, options: ["together", "different", "really", "both"], answer: 0, point: "sit together = 坐在一起" },
+      { n: 6, options: ["playing", "play", "played", "to play"], answer: 0, point: "were playing：过去进行时" },
+      { n: 7, options: ["happily", "happy", "happiness", "happier"], answer: 0, point: "副词 happily 修饰 talking" },
+      { n: 8, options: ["spent", "took", "paid", "cost"], answer: 0, point: "sb. spend + 时间 + on sth." },
+      { n: 9, options: ["different", "same", "full", "funny"], answer: 0, point: "be different from = 与……不同" },
+      { n: 10, options: ["have", "has", "having", "had"], answer: 0, point: "have fun = 玩得开心；与 can 连用用原形" }
     ]
   },
 
