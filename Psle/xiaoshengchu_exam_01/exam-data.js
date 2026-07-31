@@ -458,9 +458,8 @@ window.EXAM_DATA = {
     },
     wordForm: [
       { id: 1, stem: "The children are singing ______ (happy) at the party.", answer: "happily" },
-      { id: 2, stem: "There are many ______ (different) between the two pictures.", answer: "differences" },
-      { id: 3, stem: "My father ______ (buy) a new fishing rod last week.", answer: "bought" },
-      { id: 4, stem: "Look! Tom ______ (choose) a red schoolbag now.", answer: "is choosing" }
+      { id: 2, stem: "My father ______ (buy) a new fishing rod last week.", answer: "bought" },
+      { id: 3, stem: "Look! Tom ______ (choose) a red schoolbag now.", answer: "is choosing" }
     ],
     dialogue: [
       {
