@@ -1,0 +1,234 @@
+(function (global) {
+  "use strict";
+  var PAGES = [
+  {
+    "id": "p01",
+    "section": "导入",
+    "title": "听一听 · 盼望见到你",
+    "type": "sound-first",
+    "badge": "sound",
+    "badgeText": "🔊 声音先行",
+    "audio": "I look forward to seeing you soon.",
+    "soundHint": "这是写信结尾常听到的句子，什么意思？",
+    "question": "说话的人在表达「盼望」还是「回顾」？",
+    "sentence": "I look forward to seeing you soon.",
+    "zh": "我盼望很快见到你。",
+    "image": "v01-see-you.jpg",
+    "source": "小升初 · 固定搭配"
+  },
+  {
+    "id": "p02",
+    "section": "思考",
+    "title": "苏格拉底 · to 后面接什么？",
+    "type": "socratic",
+    "badge": "ask",
+    "badgeText": "💭 想一想",
+    "image": "v01-see-you.jpg",
+    "question": "为什么 say「to seeing」而不是「to see」？",
+    "choices": [
+      {
+        "text": "to see 也可以，随便用",
+        "correct": false,
+        "fb": "look forward to 是固定搭配，to 是介词，后面接 doing。"
+      },
+      {
+        "text": "to 这里是介词，后面用动名词 -ing",
+        "correct": true,
+        "fb": "对了！look forward to doing = 盼望做某事。"
+      },
+      {
+        "text": "seeing 是现在进行时",
+        "correct": false,
+        "fb": "这里是动名词，不是进行时。"
+      }
+    ],
+    "sentence": "I look forward to seeing you soon.",
+    "zh": "我盼望很快见到你。"
+  },
+  {
+    "id": "p03",
+    "section": "发现",
+    "title": "对比 · 正确 vs 错误",
+    "type": "discover",
+    "lead": "看看哪个句子是地道表达。",
+    "leftImage": "v01-wrong.jpg",
+    "rightImage": "v01-right.jpg",
+    "leftLabel": "❌ look forward to see",
+    "rightLabel": "✓ look forward to seeing",
+    "leftSentence": "I look forward to see you.",
+    "leftZh": "（错误）",
+    "rightSentence": "I look forward to seeing you soon.",
+    "rightZh": "我盼望很快见到你。",
+    "morphBase": "see",
+    "morphPast": "seeing",
+    "morphHighlight": "ing",
+    "discovery": "look forward to + doing（动名词），永不接 to do！"
+  },
+  {
+    "id": "p04",
+    "section": "游戏",
+    "title": "分类篮 · 正确还是错误？",
+    "type": "classify",
+    "badge": "demo",
+    "badgeText": "🧺 分类",
+    "image": "v01-classify.jpg",
+    "lead": "哪些句子用了正确的 look forward to doing？",
+    "buckets": [
+      {
+        "key": "ok",
+        "label": "✓ 正确"
+      },
+      {
+        "key": "no",
+        "label": "✗ 错误"
+      }
+    ],
+    "items": [
+      {
+        "text": "I look forward to meeting you.",
+        "bucket": "ok"
+      },
+      {
+        "text": "I look forward to meet you.",
+        "bucket": "no",
+        "hint": "to 后要用 meeting，不是 meet。"
+      },
+      {
+        "text": "She looks forward to visiting Chengdu.",
+        "bucket": "ok"
+      },
+      {
+        "text": "He looks forward to go home.",
+        "bucket": "no",
+        "hint": "应该是 going home。"
+      },
+      {
+        "text": "We are looking forward to the trip.",
+        "bucket": "ok"
+      },
+      {
+        "text": "They look forward to play games.",
+        "bucket": "no",
+        "hint": "应该是 playing games。"
+      }
+    ]
+  },
+  {
+    "id": "p05",
+    "section": "精讲",
+    "title": "搭配卡 · 三种时态",
+    "type": "spelling",
+    "image": "v01-tense-chart.jpg",
+    "lead": "look forward to 可用于一般现在、现在进行、一般过去。",
+    "rules": [
+      {
+        "tab": "一般现在",
+        "rule": "look(s) forward to + doing / 名词",
+        "focusVerb": "looks forward to",
+        "examples": [
+          {
+            "from": "see",
+            "to": "seeing"
+          },
+          {
+            "from": "meet",
+            "to": "meeting"
+          },
+          {
+            "from": "visit",
+            "to": "visiting"
+          }
+        ],
+        "sample": "She looks forward to meeting her cousin.",
+        "sampleZh": "她盼望见到表弟/表妹。"
+      },
+      {
+        "tab": "现在进行",
+        "rule": "be looking forward to + doing / 名词（更生动）",
+        "focusVerb": "looking forward to",
+        "examples": [
+          {
+            "from": "hear",
+            "to": "hearing"
+          },
+          {
+            "from": "learn",
+            "to": "learning"
+          }
+        ],
+        "sample": "I am looking forward to hearing from you.",
+        "sampleZh": "我盼望收到你的来信。"
+      }
+    ]
+  },
+  {
+    "id": "p06",
+    "section": "闯关",
+    "title": "限时快选 · 固定搭配",
+    "type": "quiz",
+    "badge": "q",
+    "badgeText": "⏱ 快选",
+    "image": "v01-visit-chengdu.jpg",
+    "q": "We look forward to _____ Chengdu this summer.",
+    "opts": [
+      "visit",
+      "visiting",
+      "visited"
+    ],
+    "ans": 1,
+    "hint": "look forward to + doing。",
+    "sentence": "They looked forward to visiting Chengdu.",
+    "zh": "他们盼望游览成都。"
+  },
+  {
+    "id": "p07",
+    "section": "游戏",
+    "title": "听音排序 · 邮件句",
+    "type": "listen-order",
+    "badge": "sound",
+    "badgeText": "🔀 排序",
+    "image": "v01-see-you.jpg",
+    "audio": "I look forward to seeing you soon.",
+    "tokens": [
+      "I",
+      "look",
+      "forward",
+      "to",
+      "seeing",
+      "you",
+      "soon"
+    ],
+    "sentence": "I look forward to seeing you soon.",
+    "zh": "我盼望很快见到你。"
+  },
+  {
+    "id": "p08",
+    "section": "总结",
+    "title": "写作模板 · 邮件结尾",
+    "type": "summary",
+    "badge": "demo",
+    "badgeText": "📝 写作",
+    "image": "v01-email.jpg",
+    "checklist": [
+      "结构：look forward to + doing / 名词",
+      "邮件结尾：I look forward to hearing from you.",
+      "口语：I'm looking forward to the weekend!",
+      "易错：× look forward to see → ✓ look forward to seeing"
+    ],
+    "chant": "Look forward to — then -ing you use! Meeting, visiting — never infinitive!",
+    "chantSpeak": "Look forward to, then ing you use! Meeting, visiting, never infinitive!"
+  }
+];
+  global.KpData = {
+    pages: PAGES,
+    total: PAGES.length,
+    indexOf: function (id) {
+      for (var i = 0; i < PAGES.length; i++) if (PAGES[i].id === id) return i;
+      return -1;
+    },
+    byId: function (id) {
+      var i = this.indexOf(id);
+      return i >= 0 ? PAGES[i] : null;
+    },
+  };
+})(typeof window !== "undefined" ? window : null);
