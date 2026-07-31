@@ -124,6 +124,7 @@ window.EXAM_DATA = {
       {
         id: 1,
         from: "Mr. Brown grows fresh vegetables on his farm every spring.",
+        underline: "on his farm",
         tasks: [
           {
             type: "negative",
@@ -137,10 +138,11 @@ window.EXAM_DATA = {
           },
           {
             type: "wh",
+            askAbout: "对划线部分提问（地点：on his farm）",
             answer: "Where does Mr. Brown grow fresh vegetables every spring?",
             alts: [
-              "What does Mr. Brown grow on his farm every spring?",
-              "When does Mr. Brown grow fresh vegetables on his farm?"
+              "Where does Mr. Brown grow fresh vegetables every spring?",
+              "Where does Mr Brown grow fresh vegetables every spring?"
             ]
           }
         ]
@@ -148,14 +150,14 @@ window.EXAM_DATA = {
       {
         id: 2,
         from: "The farmers are collecting honey from the beehives near the river.",
+        underline: "honey",
         tasks: [
           {
             type: "negative",
             answer: "The farmers aren't collecting honey from the beehives near the river.",
             alts: [
               "The farmers are not collecting honey from the beehives near the river.",
-              "They're not collecting honey from the beehives near the river.",
-              "The farmers're not collecting honey from the beehives near the river."
+              "They're not collecting honey from the beehives near the river."
             ]
           },
           {
@@ -165,11 +167,10 @@ window.EXAM_DATA = {
           },
           {
             type: "wh",
+            askAbout: "对划线部分提问（宾语：honey）",
             answer: "What are the farmers collecting from the beehives near the river?",
             alts: [
-              "Where are the farmers collecting honey?",
-              "What are the farmers doing near the river?",
-              "What are the farmers collecting?"
+              "What are the farmers collecting from the beehives near the river?"
             ]
           }
         ]
@@ -177,6 +178,7 @@ window.EXAM_DATA = {
       {
         id: 3,
         from: "Uncle Tom built a small wooden boat for the children last summer.",
+        underline: "last summer",
         tasks: [
           {
             type: "negative",
@@ -190,12 +192,9 @@ window.EXAM_DATA = {
           },
           {
             type: "wh",
-            answer: "What did Uncle Tom build for the children last summer?",
-            alts: [
-              "Who did Uncle Tom build a small wooden boat for last summer?",
-              "When did Uncle Tom build a small wooden boat for the children?",
-              "What did Uncle Tom build last summer?"
-            ]
+            askAbout: "对划线部分提问（时间：last summer）",
+            answer: "When did Uncle Tom build a small wooden boat for the children?",
+            alts: []
           }
         ]
       }

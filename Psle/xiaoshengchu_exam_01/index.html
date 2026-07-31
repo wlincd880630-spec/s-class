@@ -532,11 +532,6 @@ textarea.ans {
   });
 
   /* ---------- Part 4 Tenses ---------- */
-  D.tenses.usageTips.forEach((u) => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = "<th>" + esc(u.tense) + "</th><td>" + esc(u.use) + "</td>";
-    $("#tenseUsage").appendChild(tr);
-  });
   const tenseLabels = {
     present_simple: "一般现在时",
     past_simple: "一般过去时",
@@ -554,15 +549,26 @@ textarea.ans {
     $("#tenseClassify").appendChild(div);
   });
   const typeName = { negative: "否定句", yesno: "一般疑问句", wh: "特殊疑问句" };
+  function markUnderline(sentence, part) {
+    const s = esc(sentence);
+    if (!part) return s;
+    const p = esc(part);
+    const i = s.indexOf(p);
+    if (i < 0) return s;
+    return s.slice(0, i) + "<u class=\"ask-uline\">" + p + "</u>" + s.slice(i + p.length);
+  }
   D.tenses.convert.forEach((block) => {
     const box = document.createElement("div");
     box.className = "q-item";
-    box.innerHTML = "<div class=\"q-stem\"><strong>原句：</strong>" + esc(block.from) +
+    box.innerHTML = "<div class=\"q-stem\"><strong>原句：</strong>" + markUnderline(block.from, block.underline) +
       "<button type=\"button\" class=\"speak-mini no-print\" data-speak=\"" + esc(block.from) + "\">听</button></div>";
-    block.tasks.forEach((t, i) => {
+    block.tasks.forEach((t) => {
       const row = document.createElement("div");
       row.style.margin = "8px 0";
-      row.innerHTML = "<div>" + typeName[t.type] + "：</div>" +
+      const label = t.type === "wh" && t.askAbout
+        ? ("特殊疑问句（" + esc(t.askAbout) + "）")
+        : typeName[t.type];
+      row.innerHTML = "<div>" + label + "：</div>" +
         "<input class=\"short-input wide\" name=\"tconv_" + block.id + "_" + t.type + "\" " +
         "data-answer=\"" + esc(t.answer) + "\" data-alts='" + esc(JSON.stringify(t.alts || [])) + "' " +
         "placeholder=\"写出完整句子\" style=\"width:100%;text-align:left;margin-top:4px\">" +
