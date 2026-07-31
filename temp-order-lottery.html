@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>顺序抽取 · S-Class</title>
+    <meta name="robots" content="noindex,nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700;800&family=Orbitron:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --ink: #0a1628;
+            --ink-mid: #132238;
+            --teal: #0d9488;
+            --teal-bright: #14b8a6;
+            --gold: #d4a853;
+            --gold-bright: #f0c75e;
+            --surface: #f4f7fb;
+            --text: #0f172a;
+            --muted: #64748b;
+            --danger: #e11d48;
+            --ok: #059669;
+            --r: 18px;
+            --r-lg: 28px;
+            --font: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+            --display: "Orbitron", "Noto Sans SC", sans-serif;
+            --ease: cubic-bezier(0.22, 1, 0.36, 1);
+            --slot-h: 140px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+        html, body { margin: 0; min-height: 100%; }
+        body {
+            font-family: var(--font);
+            color: var(--text);
+            background:
+                radial-gradient(ellipse 90% 60% at 10% -10%, rgba(20,184,166,.22), transparent 55%),
+                radial-gradient(ellipse 70% 50% at 100% 0%, rgba(212,168,83,.18), transparent 50%),
+                radial-gradient(ellipse 60% 40% at 50% 100%, rgba(13,148,136,.1), transparent 55%),
+                linear-gradient(165deg, #e8eef6 0%, #f4f7fb 45%, #eef5f3 100%);
+            min-height: 100dvh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .page {
+            max-width: 720px;
+            margin: 0 auto;
+            padding:
+                max(24px, env(safe-area-inset-top))
+                max(20px, env(safe-area-inset-right))
+                max(32px, env(safe-area-inset-bottom))
+                max(20px, env(safe-area-inset-left));
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+        .brand {
+            font-weight: 800;
+            font-size: 1.05rem;
+            color: var(--ink);
+            text-decoration: none;
+            letter-spacing: .02em;
+        }
+        .brand span { color: var(--teal); }
+        .expire-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: rgba(225, 29, 72, .08);
+            color: var(--danger);
+            font-size: .78rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .hero-block {
+            text-align: center;
+            margin-bottom: 28px;
+            animation: rise .7s var(--ease) both;
+        }
+        .hero-block .eyebrow {
+            display: inline-block;
+            font-size: .78rem;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--teal);
+            margin-bottom: 10px;
+        }
+        .hero-block h1 {
+            margin: 0 0 10px;
+            font-size: clamp(1.7rem, 5vw, 2.35rem);
+            font-weight: 800;
+            color: var(--ink);
+            letter-spacing: -.02em;
+            line-height: 1.2;
+        }
+        .hero-block p {
+            margin: 0 auto;
+            max-width: 28em;
+            color: var(--muted);
+            font-size: .95rem;
+            line-height: 1.65;
+        }
+
+        .panel {
+            background: rgba(255,255,255,.88);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(15,23,42,.06);
+            border-radius: var(--r-lg);
+            box-shadow:
+                0 4px 24px rgba(10,22,40,.04),
+                0 24px 64px rgba(10,22,40,.08);
+            padding: 28px 24px 32px;
+            animation: rise .8s var(--ease) .08s both;
+        }
+
+        /* ── Setup ── */
+        #view-setup .setup-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            align-items: flex-end;
+            justify-content: center;
+            margin-top: 8px;
+        }
+        .field { display: flex; flex-direction: column; gap: 8px; min-width: 160px; }
+        .field label {
+            font-size: .82rem;
+            font-weight: 600;
+            color: var(--muted);
+        }
+        .field input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid rgba(15,23,42,.12);
+            border-radius: 14px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            font-family: var(--font);
+            color: var(--ink);
+            background: #fff;
+            outline: none;
+            transition: border-color .2s, box-shadow .2s;
+        }
+        .field input:focus {
+            border-color: var(--teal-bright);
+            box-shadow: 0 0 0 4px rgba(20,184,166,.18);
+        }
+        .btn {
+            appearance: none;
+            border: none;
+            cursor: pointer;
+            font-family: var(--font);
+            font-weight: 700;
+            border-radius: 14px;
+            padding: 14px 28px;
+            font-size: 1rem;
+            transition: transform .2s var(--ease), box-shadow .2s, background .2s, opacity .2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .btn:active:not(:disabled) { transform: scale(.97); }
+        .btn:disabled { opacity: .45; cursor: not-allowed; }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--teal) 0%, var(--teal-bright) 100%);
+            color: #fff;
+            box-shadow: 0 10px 28px rgba(13,148,136,.35);
+        }
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 36px rgba(13,148,136,.42);
+        }
+        .btn-ghost {
+            background: rgba(15,23,42,.04);
+            color: var(--ink-mid);
+        }
+        .btn-ghost:hover:not(:disabled) { background: rgba(15,23,42,.08); }
+        .btn-danger {
+            background: rgba(225,29,72,.08);
+            color: var(--danger);
+        }
+        .btn-lg {
+            min-width: 200px;
+            padding: 18px 36px;
+            font-size: 1.15rem;
+            border-radius: 16px;
+        }
+
+        .hint {
+            margin: 18px 0 0;
+            text-align: center;
+            font-size: .85rem;
+            color: var(--muted);
+            line-height: 1.55;
+        }
+
+        /* ── Draw view ── */
+        .status-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 22px;
+        }
+        .stat {
+            padding: 10px 16px;
+            border-radius: 12px;
+            background: rgba(13,148,136,.08);
+            font-size: .85rem;
+            font-weight: 600;
+            color: var(--teal-dim, #0f766e);
+        }
+        .stat strong {
+            font-family: var(--display);
+            font-size: 1.05rem;
+            margin-left: 4px;
+            color: var(--ink);
+        }
+
+        .reel-stage {
+            position: relative;
+            margin: 0 auto 28px;
+            max-width: 280px;
+            height: var(--slot-h);
+            border-radius: 24px;
+            background: linear-gradient(180deg, #0a1628 0%, #132238 50%, #0a1628 100%);
+            box-shadow:
+                inset 0 0 0 2px rgba(212,168,83,.35),
+                0 20px 50px rgba(10,22,40,.35),
+                0 0 0 8px rgba(255,255,255,.5);
+            overflow: hidden;
+        }
+        .reel-stage::before,
+        .reel-stage::after {
+            content: "";
+            position: absolute;
+            left: 0; right: 0;
+            height: 36%;
+            z-index: 3;
+            pointer-events: none;
+        }
+        .reel-stage::before {
+            top: 0;
+            background: linear-gradient(180deg, rgba(10,22,40,.92), transparent);
+        }
+        .reel-stage::after {
+            bottom: 0;
+            background: linear-gradient(0deg, rgba(10,22,40,.92), transparent);
+        }
+        .reel-window {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .reel-marker {
+            position: absolute;
+            left: 10px; right: 10px;
+            top: 50%;
+            height: 72px;
+            transform: translateY(-50%);
+            border-radius: 14px;
+            border: 2px solid rgba(212,168,83,.55);
+            box-shadow: 0 0 24px rgba(212,168,83,.2);
+            z-index: 2;
+            pointer-events: none;
+        }
+        .reel {
+            position: absolute;
+            left: 0; right: 0;
+            top: 50%;
+            will-change: transform;
+        }
+        .reel-item {
+            height: var(--slot-h);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--display);
+            font-size: clamp(3.2rem, 14vw, 4.6rem);
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: .04em;
+            text-shadow: 0 4px 24px rgba(20,184,166,.45);
+        }
+        .reel-item.gold {
+            color: var(--gold-bright);
+            text-shadow: 0 4px 28px rgba(212,168,83,.55);
+        }
+
+        .result-flash {
+            text-align: center;
+            min-height: 52px;
+            margin-bottom: 18px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--ink);
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity .4s var(--ease), transform .4s var(--ease);
+        }
+        .result-flash.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .result-flash .num {
+            font-family: var(--display);
+            color: var(--teal);
+            font-size: 1.4em;
+            margin: 0 4px;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 28px;
+        }
+
+        .pool-title {
+            text-align: center;
+            font-size: .8rem;
+            font-weight: 700;
+            letter-spacing: .08em;
+            color: var(--muted);
+            margin: 0 0 12px;
+            text-transform: uppercase;
+        }
+        .pool {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        .chip {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--display);
+            font-weight: 700;
+            font-size: 1.05rem;
+            transition: transform .25s var(--ease), opacity .3s, background .3s, color .3s;
+        }
+        .chip.available {
+            background: rgba(13,148,136,.12);
+            color: var(--teal);
+            border: 1.5px solid rgba(13,148,136,.25);
+        }
+        .chip.used {
+            background: rgba(15,23,42,.05);
+            color: var(--muted);
+            text-decoration: line-through;
+            opacity: .45;
+            transform: scale(.92);
+        }
+        .chip.just-drawn {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-bright) 100%);
+            color: var(--ink);
+            border: none;
+            transform: scale(1.08);
+            box-shadow: 0 8px 24px rgba(212,168,83,.4);
+            animation: pop .5s var(--ease);
+        }
+
+        .history {
+            margin-top: 28px;
+            padding-top: 22px;
+            border-top: 1px solid rgba(15,23,42,.08);
+        }
+        .history h3 {
+            margin: 0 0 12px;
+            font-size: .9rem;
+            font-weight: 700;
+            color: var(--muted);
+            text-align: center;
+        }
+        .history-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .history-list li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            border-radius: 12px;
+            background: rgba(15,23,42,.03);
+            font-size: .9rem;
+            animation: rise .4s var(--ease) both;
+        }
+        .history-list .ord {
+            font-family: var(--display);
+            font-weight: 700;
+            color: var(--teal);
+            font-size: 1.1rem;
+        }
+        .history-list .meta { color: var(--muted); font-size: .8rem; }
+
+        /* ── Done / Expired ── */
+        .center-msg {
+            text-align: center;
+            padding: 20px 8px;
+        }
+        .center-msg .icon {
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            background: rgba(13,148,136,.12);
+            color: var(--teal);
+        }
+        .center-msg.expired .icon {
+            background: rgba(225,29,72,.1);
+            color: var(--danger);
+        }
+        .center-msg h2 {
+            margin: 0 0 10px;
+            font-size: 1.45rem;
+            color: var(--ink);
+        }
+        .center-msg p {
+            margin: 0 0 22px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .hidden { display: none !important; }
+
+        @keyframes rise {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pop {
+            0% { transform: scale(.8); }
+            60% { transform: scale(1.14); }
+            100% { transform: scale(1.08); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-3px); }
+            40% { transform: translateX(3px); }
+            60% { transform: translateX(-2px); }
+            80% { transform: translateX(2px); }
+        }
+        .reel-stage.spinning { animation: shake .12s linear infinite; }
+
+        @media (max-width: 480px) {
+            .panel { padding: 22px 16px 26px; }
+            .btn-lg { width: 100%; }
+            .chip { width: 42px; height: 42px; font-size: .95rem; }
+            :root { --slot-h: 120px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 临时活动页：2026-07-31 16:00（北京时间）后自动失效并应从仓库删除 -->
+    <div class="page" id="app">
+        <div class="topbar">
+            <a class="brand" href="index.html">S-<span>Class</span></a>
+            <span class="expire-chip" id="expire-chip"><i class="fas fa-clock"></i> 今日 16:00 后自动失效</span>
+        </div>
+
+        <div class="hero-block">
+            <span class="eyebrow">Classroom · Lottery</span>
+            <h1>顺序抽取</h1>
+            <p>设定人数后，每位同学依次点击开始；滚动停住后的序号即为其出场顺序，已抽中的号码自动作废。</p>
+        </div>
+
+        <!-- 过期 -->
+        <div class="panel hidden" id="view-expired">
+            <div class="center-msg expired">
+                <div class="icon"><i class="fas fa-hourglass-end"></i></div>
+                <h2>活动已结束</h2>
+                <p>本临时抽取页已于今日 16:00（北京时间）自动失效，即将从站点移除。</p>
+                <a class="btn btn-primary" href="index.html">返回首页</a>
+            </div>
+        </div>
+
+        <!-- 设置 -->
+        <div class="panel" id="view-setup">
+            <div class="setup-row">
+                <div class="field">
+                    <label for="total-input">一共几位同学？</label>
+                    <input id="total-input" type="number" min="2" max="50" value="6" inputmode="numeric">
+                </div>
+                <button type="button" class="btn btn-primary" id="btn-start-session">
+                    开始抽取 <i class="fas fa-play"></i>
+                </button>
+            </div>
+            <p class="hint">例如排 6 个人 → 输入 6，将生成 1～6 共六个顺序号，抽中即作废。</p>
+        </div>
+
+        <!-- 抽取中 -->
+        <div class="panel hidden" id="view-draw">
+            <div class="status-bar">
+                <div class="stat">总人数 <strong id="stat-total">6</strong></div>
+                <div class="stat">剩余 <strong id="stat-left">6</strong></div>
+                <div class="stat">已抽 <strong id="stat-drawn">0</strong></div>
+            </div>
+
+            <div class="reel-stage" id="reel-stage" aria-live="polite">
+                <div class="reel-marker" aria-hidden="true"></div>
+                <div class="reel-window">
+                    <div class="reel" id="reel"></div>
+                </div>
+            </div>
+
+            <div class="result-flash" id="result-flash"></div>
+
+            <div class="actions">
+                <button type="button" class="btn btn-primary btn-lg" id="btn-draw">
+                    <i class="fas fa-dice"></i> 开始抽取
+                </button>
+                <button type="button" class="btn btn-ghost" id="btn-reset" title="清空并重新设置">
+                    <i class="fas fa-rotate-left"></i> 重置
+                </button>
+            </div>
+
+            <p class="pool-title">号码池</p>
+            <div class="pool" id="pool"></div>
+
+            <div class="history hidden" id="history-wrap">
+                <h3>抽取记录</h3>
+                <ol class="history-list" id="history-list"></ol>
+            </div>
+        </div>
+
+        <!-- 全部完成 -->
+        <div class="panel hidden" id="view-done">
+            <div class="center-msg">
+                <div class="icon"><i class="fas fa-check"></i></div>
+                <h2>全部抽完啦</h2>
+                <p>所有顺序号均已分配。可查看下方记录，或重置再来一轮。</p>
+                <div class="actions" style="margin-bottom:0">
+                    <button type="button" class="btn btn-primary" id="btn-again">再来一轮</button>
+                    <a class="btn btn-ghost" href="index.html">返回首页</a>
+                </div>
+            </div>
+            <div class="history" id="done-history-wrap" style="margin-top:24px">
+                <h3>最终顺序</h3>
+                <ol class="history-list" id="done-history-list"></ol>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    (function () {
+        'use strict';
+
+        /** 北京时间 2026-07-31 16:00 后自动失效 */
+        var EXPIRE_AT = new Date('2026-07-31T16:00:00+08:00');
+        var STORAGE_KEY = 'sclass-temp-order-lottery-20260731';
+        var SLOT_H = 0;
+
+        var state = {
+            total: 0,
+            available: [],
+            history: [],
+            spinning: false
+        };
+
+        var els = {
+            expired: document.getElementById('view-expired'),
+            setup: document.getElementById('view-setup'),
+            draw: document.getElementById('view-draw'),
+            done: document.getElementById('view-done'),
+            totalInput: document.getElementById('total-input'),
+            btnStart: document.getElementById('btn-start-session'),
+            btnDraw: document.getElementById('btn-draw'),
+            btnReset: document.getElementById('btn-reset'),
+            btnAgain: document.getElementById('btn-again'),
+            reel: document.getElementById('reel'),
+            reelStage: document.getElementById('reel-stage'),
+            resultFlash: document.getElementById('result-flash'),
+            pool: document.getElementById('pool'),
+            historyWrap: document.getElementById('history-wrap'),
+            historyList: document.getElementById('history-list'),
+            doneHistoryList: document.getElementById('done-history-list'),
+            statTotal: document.getElementById('stat-total'),
+            statLeft: document.getElementById('stat-left'),
+            statDrawn: document.getElementById('stat-drawn'),
+            expireChip: document.getElementById('expire-chip')
+        };
+
+        function isExpired() {
+            return Date.now() >= EXPIRE_AT.getTime();
+        }
+
+        function showOnly(view) {
+            els.expired.classList.toggle('hidden', view !== 'expired');
+            els.setup.classList.toggle('hidden', view !== 'setup');
+            els.draw.classList.toggle('hidden', view !== 'draw');
+            els.done.classList.toggle('hidden', view !== 'done');
+        }
+
+        function save() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                    total: state.total,
+                    available: state.available,
+                    history: state.history
+                }));
+            } catch (e) { /* ignore */ }
+        }
+
+        function load() {
+            try {
+                var raw = localStorage.getItem(STORAGE_KEY);
+                if (!raw) return false;
+                var data = JSON.parse(raw);
+                if (!data || !data.total) return false;
+                state.total = data.total;
+                state.available = data.available || [];
+                state.history = data.history || [];
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        function clearSave() {
+            try { localStorage.removeItem(STORAGE_KEY); } catch (e) { /* ignore */ }
+        }
+
+        function getSlotH() {
+            return parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--slot-h')) || 140;
+        }
+
+        function renderReel(items, highlightIndex) {
+            var html = '';
+            for (var i = 0; i < items.length; i++) {
+                html += '<div class="reel-item' + (i === highlightIndex ? ' gold' : '') + '">' + items[i] + '</div>';
+            }
+            els.reel.innerHTML = html;
+            els.reel.style.transition = 'none';
+            els.reel.style.transform = 'translateY(0)';
+        }
+
+        function renderPool() {
+            var usedSet = {};
+            state.history.forEach(function (h) { usedSet[h.number] = true; });
+            var last = state.history.length ? state.history[state.history.length - 1].number : null;
+            var html = '';
+            for (var n = 1; n <= state.total; n++) {
+                var cls = 'chip ';
+                if (usedSet[n]) {
+                    cls += (n === last ? 'just-drawn' : 'used');
+                } else {
+                    cls += 'available';
+                }
+                html += '<div class="' + cls + '" data-n="' + n + '">' + n + '</div>';
+            }
+            els.pool.innerHTML = html;
+        }
+
+        function renderStats() {
+            els.statTotal.textContent = String(state.total);
+            els.statLeft.textContent = String(state.available.length);
+            els.statDrawn.textContent = String(state.history.length);
+        }
+
+        function renderHistory() {
+            if (!state.history.length) {
+                els.historyWrap.classList.add('hidden');
+                return;
+            }
+            els.historyWrap.classList.remove('hidden');
+            var html = '';
+            for (var i = 0; i < state.history.length; i++) {
+                var h = state.history[i];
+                html += '<li><span>第 ' + (i + 1) + ' 位同学</span><span class="ord">顺序 ' + h.number + '</span><span class="meta">' + h.time + '</span></li>';
+            }
+            els.historyList.innerHTML = html;
+        }
+
+        function renderDoneHistory() {
+            var html = '';
+            for (var i = 0; i < state.history.length; i++) {
+                var h = state.history[i];
+                html += '<li><span>第 ' + (i + 1) + ' 位抽取</span><span class="ord">出场顺序 ' + h.number + '</span><span class="meta">' + h.time + '</span></li>';
+            }
+            els.doneHistoryList.innerHTML = html;
+        }
+
+        function refreshDrawUI() {
+            renderStats();
+            renderPool();
+            renderHistory();
+            // idle reel preview: show first available or last drawn
+            var preview = state.available.length
+                ? state.available.slice().sort(function (a, b) { return a - b; })
+                : [state.history.length ? state.history[state.history.length - 1].number : '?'];
+            var mid = preview[Math.floor(preview.length / 2)] || preview[0];
+            renderReel([mid], 0);
+            els.reel.style.transform = 'translateY(0)';
+            els.btnDraw.disabled = state.spinning || !state.available.length;
+            els.btnDraw.innerHTML = state.available.length
+                ? '<i class="fas fa-dice"></i> 开始抽取'
+                : '<i class="fas fa-check"></i> 已抽完';
+        }
+
+        function startSession(total) {
+            total = Math.floor(Number(total));
+            if (!total || total < 2 || total > 50) {
+                els.totalInput.focus();
+                els.totalInput.style.borderColor = 'var(--danger)';
+                setTimeout(function () { els.totalInput.style.borderColor = ''; }, 1200);
+                return;
+            }
+            state.total = total;
+            state.available = [];
+            for (var i = 1; i <= total; i++) state.available.push(i);
+            state.history = [];
+            state.spinning = false;
+            save();
+            showOnly('draw');
+            els.resultFlash.classList.remove('show');
+            els.resultFlash.textContent = '';
+            refreshDrawUI();
+        }
+
+        function formatTime(d) {
+            var hh = String(d.getHours()).padStart(2, '0');
+            var mm = String(d.getMinutes()).padStart(2, '0');
+            var ss = String(d.getSeconds()).padStart(2, '0');
+            return hh + ':' + mm + ':' + ss;
+        }
+
+        function pickWinner(pool) {
+            return pool[Math.floor(Math.random() * pool.length)];
+        }
+
+        function spin() {
+            if (state.spinning || !state.available.length) return;
+            state.spinning = true;
+            els.btnDraw.disabled = true;
+            els.resultFlash.classList.remove('show');
+            els.reelStage.classList.add('spinning');
+
+            var pool = state.available.slice();
+            var winner = pickWinner(pool);
+            var strip = [];
+            var loops = 7;
+            var i, j, k, tmp, shuffled;
+            for (i = 0; i < loops; i++) {
+                shuffled = pool.slice();
+                for (j = shuffled.length - 1; j > 0; j--) {
+                    k = Math.floor(Math.random() * (j + 1));
+                    tmp = shuffled[j]; shuffled[j] = shuffled[k]; shuffled[k] = tmp;
+                }
+                for (j = 0; j < shuffled.length; j++) strip.push(shuffled[j]);
+            }
+            strip.push(winner);
+            var winnerIndex = strip.length - 1;
+            for (i = 0; i < 2; i++) {
+                strip.push(pool[i % pool.length]);
+            }
+
+            SLOT_H = getSlotH();
+            renderReel(strip, -1);
+            // force reflow
+            void els.reel.offsetHeight;
+
+            var targetY = -(winnerIndex * SLOT_H);
+            var duration = 3200 + Math.floor(Math.random() * 900);
+            els.reel.style.transition = 'transform ' + duration + 'ms cubic-bezier(0.12, 0.75, 0.18, 1)';
+            els.reel.style.transform = 'translateY(' + targetY + 'px)';
+
+            setTimeout(function () {
+                els.reelStage.classList.remove('spinning');
+                // highlight winner cell
+                var cells = els.reel.querySelectorAll('.reel-item');
+                if (cells[winnerIndex]) cells[winnerIndex].classList.add('gold');
+
+                // remove from pool
+                var idx = state.available.indexOf(winner);
+                if (idx >= 0) state.available.splice(idx, 1);
+                state.history.push({ number: winner, time: formatTime(new Date()) });
+                save();
+
+                els.resultFlash.innerHTML = '抽中顺序 <span class="num">' + winner + '</span> 号！该号码已作废';
+                els.resultFlash.classList.add('show');
+
+                state.spinning = false;
+                refreshDrawUI();
+
+                if (!state.available.length) {
+                    setTimeout(function () {
+                        renderDoneHistory();
+                        showOnly('done');
+                    }, 900);
+                }
+            }, duration + 80);
+        }
+
+        function resetAll() {
+            if (state.spinning) return;
+            if (state.history.length && !confirm('确定重置？当前抽取记录将清空。')) return;
+            clearSave();
+            state.total = 0;
+            state.available = [];
+            state.history = [];
+            showOnly('setup');
+        }
+
+        function tickExpireChip() {
+            if (isExpired()) return;
+            var left = EXPIRE_AT.getTime() - Date.now();
+            var h = Math.floor(left / 3600000);
+            var m = Math.floor((left % 3600000) / 60000);
+            els.expireChip.innerHTML = '<i class="fas fa-clock"></i> ' +
+                (h > 0 ? h + ' 小时 ' : '') + m + ' 分钟后自动失效';
+        }
+
+        function init() {
+            if (isExpired()) {
+                clearSave();
+                showOnly('expired');
+                els.expireChip.innerHTML = '<i class="fas fa-ban"></i> 已过期';
+                return;
+            }
+
+            tickExpireChip();
+            setInterval(function () {
+                if (isExpired()) {
+                    clearSave();
+                    showOnly('expired');
+                    els.expireChip.innerHTML = '<i class="fas fa-ban"></i> 已过期';
+                    return;
+                }
+                tickExpireChip();
+            }, 30000);
+
+            if (load() && state.total > 0) {
+                if (!state.available.length && state.history.length) {
+                    showOnly('done');
+                    renderDoneHistory();
+                } else {
+                    showOnly('draw');
+                    refreshDrawUI();
+                }
+            } else {
+                showOnly('setup');
+            }
+
+            els.btnStart.addEventListener('click', function () {
+                startSession(els.totalInput.value);
+            });
+            els.totalInput.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') startSession(els.totalInput.value);
+            });
+            els.btnDraw.addEventListener('click', spin);
+            els.btnReset.addEventListener('click', resetAll);
+            els.btnAgain.addEventListener('click', function () {
+                clearSave();
+                showOnly('setup');
+            });
+        }
+
+        init();
+    })();
+    </script>
+</body>
+</html>
