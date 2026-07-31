@@ -118,34 +118,140 @@ window.EXAM_DATA = {
       { id: 1, sentence: "She plays the piano every day.", answer: "present_simple", label: "一般现在时" },
       { id: 2, sentence: "They visited the Great Wall last Sunday.", answer: "past_simple", label: "一般过去时" },
       { id: 3, sentence: "Look! The boys are playing ping-pong.", answer: "present_continuous", label: "现在进行时" },
-      { id: 4, sentence: "Water boils at 100°C.", answer: "present_simple", label: "一般现在时" }
+      { id: 4, sentence: "Water boils at 100°C.", answer: "present_simple", label: "一般现在时" },
+      { id: 5, sentence: "The mountain cabin is cold in winter.", answer: "present_simple", label: "一般现在时" },
+      { id: 6, sentence: "The river was frozen last January.", answer: "past_simple", label: "一般过去时" }
     ],
     convert: [
       {
         id: 1,
-        from: "She likes English.",
+        kind: "action",
+        kindLabel: "动作句 · 一般现在时",
+        from: "Mr. Brown grows fresh vegetables on his farm every spring.",
+        underline: "on his farm",
         tasks: [
-          { type: "negative", answer: "She doesn't like English.", alts: ["She does not like English."] },
-          { type: "yesno", answer: "Does she like English?", alts: [] },
-          { type: "wh", answer: "What does she like?", alts: ["What subject does she like?"] }
+          {
+            type: "negative",
+            answer: "Mr. Brown doesn't grow fresh vegetables on his farm every spring.",
+            alts: ["Mr. Brown does not grow fresh vegetables on his farm every spring."]
+          },
+          {
+            type: "yesno",
+            answer: "Does Mr. Brown grow fresh vegetables on his farm every spring?",
+            alts: []
+          },
+          {
+            type: "wh",
+            askAbout: "对划线部分提问（地点：on his farm）",
+            answer: "Where does Mr. Brown grow fresh vegetables every spring?",
+            alts: []
+          }
         ]
       },
       {
         id: 2,
-        from: "They are reading books now.",
+        kind: "action",
+        kindLabel: "动作句 · 现在进行时",
+        from: "The farmers are collecting honey from the beehives near the river.",
+        underline: "honey",
         tasks: [
-          { type: "negative", answer: "They aren't reading books now.", alts: ["They are not reading books now.", "They're not reading books now."] },
-          { type: "yesno", answer: "Are they reading books now?", alts: [] },
-          { type: "wh", answer: "What are they doing now?", alts: ["What are they reading now?"] }
+          {
+            type: "negative",
+            answer: "The farmers aren't collecting honey from the beehives near the river.",
+            alts: [
+              "The farmers are not collecting honey from the beehives near the river.",
+              "They're not collecting honey from the beehives near the river."
+            ]
+          },
+          {
+            type: "yesno",
+            answer: "Are the farmers collecting honey from the beehives near the river?",
+            alts: []
+          },
+          {
+            type: "wh",
+            askAbout: "对划线部分提问（宾语：honey）",
+            answer: "What are the farmers collecting from the beehives near the river?",
+            alts: []
+          }
         ]
       },
       {
         id: 3,
-        from: "He went to school by bike yesterday.",
+        kind: "action",
+        kindLabel: "动作句 · 一般过去时",
+        from: "Uncle Tom built a small wooden boat for the children last summer.",
+        underline: "last summer",
         tasks: [
-          { type: "negative", answer: "He didn't go to school by bike yesterday.", alts: ["He did not go to school by bike yesterday."] },
-          { type: "yesno", answer: "Did he go to school by bike yesterday?", alts: [] },
-          { type: "wh", answer: "How did he go to school yesterday?", alts: ["Where did he go yesterday?"] }
+          {
+            type: "negative",
+            answer: "Uncle Tom didn't build a small wooden boat for the children last summer.",
+            alts: ["Uncle Tom did not build a small wooden boat for the children last summer."]
+          },
+          {
+            type: "yesno",
+            answer: "Did Uncle Tom build a small wooden boat for the children last summer?",
+            alts: []
+          },
+          {
+            type: "wh",
+            askAbout: "对划线部分提问（时间：last summer）",
+            answer: "When did Uncle Tom build a small wooden boat for the children?",
+            alts: []
+          }
+        ]
+      },
+      {
+        id: 4,
+        kind: "state",
+        kindLabel: "状态句 · 一般现在时（be）",
+        from: "The mountain cabin is cold in winter.",
+        underline: "in winter",
+        tasks: [
+          {
+            type: "negative",
+            answer: "The mountain cabin isn't cold in winter.",
+            alts: [
+              "The mountain cabin is not cold in winter.",
+              "The mountain cabin's not cold in winter."
+            ]
+          },
+          {
+            type: "yesno",
+            answer: "Is the mountain cabin cold in winter?",
+            alts: []
+          },
+          {
+            type: "wh",
+            askAbout: "对划线部分提问（时间：in winter）",
+            answer: "When is the mountain cabin cold?",
+            alts: []
+          }
+        ]
+      },
+      {
+        id: 5,
+        kind: "state",
+        kindLabel: "状态句 · 一般过去时（be）",
+        from: "The river was frozen last January.",
+        underline: "last January",
+        tasks: [
+          {
+            type: "negative",
+            answer: "The river wasn't frozen last January.",
+            alts: ["The river was not frozen last January."]
+          },
+          {
+            type: "yesno",
+            answer: "Was the river frozen last January?",
+            alts: []
+          },
+          {
+            type: "wh",
+            askAbout: "对划线部分提问（时间：last January）",
+            answer: "When was the river frozen?",
+            alts: []
+          }
         ]
       }
     ],
@@ -169,6 +275,45 @@ window.EXAM_DATA = {
         alts: ["wrote"]
       }
     ],
+    /* 状态句 be 动词填空（一般现在 / 一般过去） */
+    stateFill: [
+      {
+        id: 1,
+        prompt: "一般现在时（状态）：The mountain cabin ______ cold in winter.",
+        answer: "is",
+        alts: []
+      },
+      {
+        id: 2,
+        prompt: "一般过去时（状态）：The river ______ frozen last January.",
+        answer: "was",
+        alts: []
+      },
+      {
+        id: 3,
+        prompt: "状态句否定：The lighthouse is quiet after sunset. → The lighthouse ______ quiet after sunset.",
+        answer: "isn't",
+        alts: ["is not", "isn't"]
+      },
+      {
+        id: 4,
+        prompt: "状态句一般疑问：The village was full of visitors. → ______ the village full of visitors?",
+        answer: "Was",
+        alts: ["was", "Was"]
+      },
+      {
+        id: 5,
+        prompt: "状态句时态转换：The kitchen is clean now. → The kitchen ______ clean yesterday.",
+        answer: "was",
+        alts: []
+      },
+      {
+        id: 6,
+        prompt: "状态句特殊疑问（对划线部分提问）：The cabin is cold in winter. → ______ is the cabin cold?",
+        answer: "When",
+        alts: ["when", "When"]
+      }
+    ],
     irregular: [
       { base: "go", past: "went", cn: "去" },
       { base: "see", past: "saw", cn: "看见" },
@@ -180,33 +325,29 @@ window.EXAM_DATA = {
       { base: "buy", past: "bought", cn: "买" },
       { base: "spend", past: "spent", cn: "花费" },
       { base: "have", past: "had", cn: "有；吃" }
-    ],
-    usageTips: [
-      { tense: "一般现在时", use: "习惯、事实、经常发生的动作；标志词：every day / always / usually" },
-      { tense: "一般过去时", use: "过去某个时间发生的动作或状态；标志词：yesterday / last week / ago" },
-      { tense: "现在进行时", use: "此刻或当前阶段正在进行的动作；标志词：now / look / listen / at the moment" }
     ]
   },
 
-  /* ========== Part 5 完形（语言知识点对齐 set_01） ========== */
+  /* ========== Part 5 完形（原创短文，融入七上 Unit1–2 词汇与花费句型） ========== */
   cloze: {
-    title: "Shopping Day（语言知识点：shop for / it takes / size / thirsty / on sale / look at / happily / choose / tired / write）",
+    title: "A Weekend Hiking Club",
     passage: [
-      "It's the day before school starts. Mum takes her three little boys, Jim, Bob and Tom, shopping _____1_____ clothes and school things. There are so many people in the shopping centre. “Stay with me,” Mum says. But it doesn't _____2_____ a long time for her kids to go here and there.",
-      "Jim would like a new shirt, but he doesn't know his _____3_____, so he asks for help. While his mother is trying to ask for a small shirt, Bob goes away. He is _____4_____ and runs to buy three bottles of cola, because they are _____5_____ sale. While Bob is _____6_____ a pair of shoes, Mum can't find Tom. He sees his classmate Jack _____7_____ so he goes to talk with him. While Tom is _____8_____ a schoolbag from different colours, Mum can't find Jim and Bob, either. They drink too much cola and go to the bathroom.",
-      "It's seven when they get home. Mum is really _____9_____. She gets a pen and then _____10_____ one rule on the list of “Family Rules” — Shop with one boy each time."
+      "Last Saturday, Lucy joined a hiking club near the hills. She wanted to _____1_____ new friends and get to know more about outdoor life. Each trip _____2_____ only twenty yuan, so it was not expensive for her family.",
+      "It _____3_____ the members about two hours to walk to the top of the hill. On the way, Lucy _____4_____ a warm hat under a tree and gave it back to a boy. The boy smiled and said, “Thank you! My twin sister made it for me.”",
+      "At noon, everyone sat _____5_____ and shared lunch. Lucy's classmate Ben played a short song on his violin. Some children were _____6_____ chess under a big tree. Others were talking _____7_____ about their hobbies.",
+      "Lucy _____8_____ three hours on the trip, but she didn't feel tired. “This activity is really _____9_____ from my usual weekends,” she said. “I hope I can come here every month and _____10_____ fun with you all.”"
     ],
     items: [
-      { n: 1, options: ["for", "and", "so", "or"], answer: 0, point: "shop for = 为买……而购物" },
-      { n: 2, options: ["cost", "take", "pay", "spend"], answer: 1, point: "It takes ... to do；否定 doesn't take" },
-      { n: 3, options: ["size", "colour", "favorite", "price"], answer: 0, point: "不知道衣服尺码 size" },
-      { n: 4, options: ["hungry", "thirsty", "angry", "sad"], answer: 1, point: "买可乐 → 口渴 thirsty" },
-      { n: 5, options: ["for", "in", "on", "at"], answer: 2, point: "on sale = 打折" },
-      { n: 6, options: ["looking at", "looking for", "looking after", "looking into"], answer: 0, point: "look at = 看眼前的东西" },
-      { n: 7, options: ["sadly", "quickly", "happily", "easily"], answer: 2, point: "happy → happily（副词）" },
-      { n: 8, options: ["taking", "choosing", "showing", "finding"], answer: 1, point: "choose A from B = 挑选" },
-      { n: 9, options: ["silly", "lonely", "tired", "afraid"], answer: 3, point: "走散后妈妈担心 afraid（后怕）" },
-      { n: 10, options: ["collects", "gets", "says", "writes"], answer: 3, point: "拿笔写下 write" }
+      { n: 1, options: ["make", "take", "pay", "spend"], answer: 0, point: "make friends = 交朋友" },
+      { n: 2, options: ["costs", "pays", "spends", "takes"], answer: 0, point: "物作主语用 cost" },
+      { n: 3, options: ["took", "spent", "paid", "cost"], answer: 0, point: "It took sb. + 时间 + to do" },
+      { n: 4, options: ["looked for", "looked at", "found", "chose"], answer: 2, point: "捡到/发现用 found；look for 强调寻找过程" },
+      { n: 5, options: ["together", "different", "really", "both"], answer: 0, point: "sit together = 坐在一起" },
+      { n: 6, options: ["playing", "play", "played", "to play"], answer: 0, point: "were playing：过去进行时" },
+      { n: 7, options: ["happily", "happy", "happiness", "happier"], answer: 0, point: "副词 happily 修饰 talking" },
+      { n: 8, options: ["spent", "took", "paid", "cost"], answer: 0, point: "sb. spend + 时间 + on sth." },
+      { n: 9, options: ["different", "same", "full", "funny"], answer: 0, point: "be different from = 与……不同" },
+      { n: 10, options: ["have", "has", "having", "had"], answer: 0, point: "have fun = 玩得开心；与 can 连用用原形" }
     ]
   },
 
