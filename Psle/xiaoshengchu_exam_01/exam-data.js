@@ -330,7 +330,7 @@ window.EXAM_DATA = {
 
   /* ========== Part 5 完形（语言知识点对齐 set_01） ========== */
   cloze: {
-    title: "Shopping Day（语言知识点：shop for / it takes / size / thirsty / on sale / look at / happily / choose / tired / write）",
+    title: "Shopping Day",
     passage: [
       "It's the day before school starts. Mum takes her three little boys, Jim, Bob and Tom, shopping _____1_____ clothes and school things. There are so many people in the shopping centre. “Stay with me,” Mum says. But it doesn't _____2_____ a long time for her kids to go here and there.",
       "Jim would like a new shirt, but he doesn't know his _____3_____, so he asks for help. While his mother is trying to ask for a small shirt, Bob goes away. He is _____4_____ and runs to buy three bottles of cola, because they are _____5_____ sale. While Bob is _____6_____ a pair of shoes, Mum can't find Tom. He sees his classmate Jack _____7_____ so he goes to talk with him. While Tom is _____8_____ a schoolbag from different colours, Mum can't find Jim and Bob, either. They drink too much cola and go to the bathroom.",
