@@ -410,13 +410,14 @@ window.EXAM_DATA = {
     ],
     map: {
       image: "images/world-deserts-map.jpg",
-      instruction: "根据世界地图，将下列沙漠名称填入对应编号位置（部分地图已标注，请核对并补全答案）。",
+      instruction: "地图上已标出 A–E。选用下方沙漠英文名称，写出每个位置的 Desert（沙漠名）与 Continent（大洲名）。",
+      desertBank: ["Sahara", "Arabian", "Gobi", "Kalahari", "Antarctic Ice Sheet"],
       slots: [
-        { code: "A", name: "Sahara", nameZh: "撒哈拉", region: "Northern Africa" },
-        { code: "B", name: "Arabian", nameZh: "阿拉伯沙漠", region: "Southwestern Asia" },
-        { code: "C", name: "Gobi", nameZh: "戈壁", region: "Mongolia & China" },
-        { code: "D", name: "Kalahari", nameZh: "卡拉哈里", region: "Southwestern Africa" },
-        { code: "E", name: "Antarctic Ice Sheet", nameZh: "南极冰盖", region: "Antarctica" }
+        { code: "A", name: "Sahara", nameZh: "撒哈拉", continent: "Africa", continentAlts: ["Africa", "Northern Africa", "North Africa"] },
+        { code: "B", name: "Arabian", nameZh: "阿拉伯沙漠", continent: "Asia", continentAlts: ["Asia", "Southwestern Asia", "Southwest Asia", "Western Asia", "West Asia", "Middle East"] },
+        { code: "C", name: "Gobi", nameZh: "戈壁", continent: "Asia", continentAlts: ["Asia", "East Asia", "Eastern Asia", "Central Asia"] },
+        { code: "D", name: "Kalahari", nameZh: "卡拉哈里", continent: "Africa", continentAlts: ["Africa", "Southern Africa", "South Africa", "Southwestern Africa", "Southwest Africa"] },
+        { code: "E", name: "Antarctic Ice Sheet", nameZh: "南极冰盖", continent: "Antarctica", continentAlts: ["Antarctica", "Antarctic", "the Antarctic"] }
       ]
     }
   },
