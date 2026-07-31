@@ -202,6 +202,7 @@ textarea.ans {
 .sample-ans { display:none; margin-top:6px; font-size:12.5px; color:var(--muted); background:#f8fafc; padding:8px; border-radius:6px; }
 .show-samples .sample-ans { display:block; }
 .print-blank { display:none; }
+.print-uline { display:none; }
 .print-word-hints {
   display:none;
   font-size:13px;
@@ -216,59 +217,128 @@ textarea.ans {
 @media print {
   .no-print, .toolbar, .nav-parts, .dict-card button, .speak-mini, .footer-actions,
   .result-panel, .chip-bank, .sample-ans, .notice { display:none !important; }
-  body { background:#fff; }
+  body { background:#fff; color:#000; }
   .wrap { max-width:none; padding:0; }
   .sheet { box-shadow:none; border:0; padding:0; border-radius:0; }
-  .part { page-break-inside:avoid; }
+  .part { page-break-inside:auto; }
   .part-break { page-break-before:always; }
   .dict-grid { grid-template-columns:repeat(5,1fr); gap:8px; }
   .dict-card { break-inside:avoid; }
-  /* 填空横线：打印时保留下划线，避免空白塌陷 */
-  .blank-input, .short-input, .map-input {
+  .q-stem { line-height:2; }
+
+  /* 关键：打印时隐藏表单输入，改用真实下划线 span（浏览器常不打印 input 边框） */
+  input.blank-input,
+  input.short-input,
+  input.map-input {
+    display:none !important;
+  }
+  .print-uline {
     display:inline-block !important;
     border:none !important;
-    border-bottom:1.2pt solid #000 !important;
+    border-bottom:1.35pt solid #000 !important;
+    min-width:22mm;
+    height:6mm;
+    line-height:6mm;
+    margin:0 4px;
+    padding:0;
+    vertical-align:baseline;
     background:transparent !important;
-    color:#000 !important;
-    min-width:18mm !important;
-    min-height:5.5mm !important;
-    height:5.5mm !important;
-    padding:0 2px !important;
-    margin:0 3px !important;
-    vertical-align:baseline !important;
-    box-shadow:none !important;
-    -webkit-appearance:none;
-    appearance:none;
-    -webkit-print-color-adjust:exact;
-    print-color-adjust:exact;
+    box-sizing:border-box;
   }
-  .blank-input.phrase { min-width:22mm !important; }
-  .blank-input.wide, .short-input.wide {
-    min-width:70% !important;
-    width:85% !important;
-    margin-top:4px !important;
+  .print-uline.sm { min-width:16mm; }
+  .print-uline.phrase { min-width:26mm; }
+  .print-uline.map { min-width:32mm; }
+  .print-uline.wide,
+  .print-uline.full {
+    display:block !important;
+    width:100%;
+    min-width:100%;
+    height:8mm;
+    margin:6px 0 10px;
   }
-  .map-input { min-width:28mm !important; }
-  .blank-input::placeholder,
-  .short-input::placeholder,
-  .map-input::placeholder { color:transparent !important; opacity:0 !important; }
-  textarea.ans {
-    border:1pt solid #000 !important;
-    min-height:28mm !important;
-  }
+  textarea.ans { display:none !important; }
   .print-blank {
-    display:inline-block !important; min-width:28mm; border-bottom:1pt solid #000; height:5mm; vertical-align:bottom;
+    display:inline-block !important;
+    min-width:28mm;
+    border-bottom:1.35pt solid #000 !important;
+    height:6mm;
+    vertical-align:bottom;
   }
   .print-lines {
-    display:block !important; border-bottom:1pt solid #999; height:8mm; margin:4px 0;
+    display:block !important;
+    border:none !important;
+    border-bottom:1.2pt solid #000 !important;
+    height:9mm;
+    margin:3px 0;
   }
-  .print-word-hints { display:block !important; }
+  .print-word-hints {
+    display:block !important;
+    border:1px solid #999 !important;
+    background:#fff !important;
+  }
   .chip-answer {
-    min-height:28px; border:1px solid #000; background:#fff;
+    min-height:10mm;
+    border:none !important;
+    border-bottom:1.35pt solid #000 !important;
+    background:#fff !important;
+    border-radius:0 !important;
+    margin-top:6px;
   }
-  .chip-answer::before { content:"答："; font-size:12px; color:#666; }
+  .chip-answer::before { content:"答："; font-size:12px; color:#333; }
   .desert-bank { display:flex !important; flex-wrap:wrap; gap:6px; margin:8px 0 12px; }
-  .q-stem { line-height:1.85; }
+
+  /* 图片必须出现在 PDF：强制显示并限制高度，避免整页被挤掉 */
+  img {
+    display:block !important;
+    max-width:100% !important;
+    -webkit-print-color-adjust:exact !important;
+    print-color-adjust:exact !important;
+  }
+  .dict-card img {
+    width:100% !important;
+    height:auto !important;
+    max-height:32mm !important;
+    object-fit:contain !important;
+    border:0.6pt solid #999 !important;
+  }
+  .pic-write-grid {
+    display:grid !important;
+    grid-template-columns:1fr 1fr !important;
+    gap:10px !important;
+  }
+  .pic-write-card {
+    break-inside:avoid;
+    page-break-inside:avoid;
+    border:1pt solid #000 !important;
+    border-radius:0 !important;
+    overflow:visible !important;
+    background:#fff !important;
+  }
+  .pic-write-card img {
+    width:100% !important;
+    height:auto !important;
+    max-height:58mm !important;
+    aspect-ratio:auto !important;
+    object-fit:contain !important;
+    object-position:center !important;
+    background:#fff !important;
+    border-bottom:0.6pt solid #999 !important;
+  }
+  .pic-write-card .body { padding:8px !important; }
+  .map-wrap {
+    break-inside:avoid;
+    page-break-inside:avoid;
+    border:1pt solid #000 !important;
+  }
+  .map-wrap img {
+    width:100% !important;
+    height:auto !important;
+    max-height:95mm !important;
+    object-fit:contain !important;
+  }
+  /* 大段内容允许跨页，避免整 part 被浏览器直接跳过 */
+  .part { page-break-inside:auto; }
+  .q-item, .dict-card { break-inside:avoid; page-break-inside:avoid; }
 }
 @media (max-width:640px) {
   .sheet { padding:18px 14px 32px; }
@@ -407,8 +477,15 @@ textarea.ans {
   const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;" }[c]));
 
-  /** 把题干里的 ______ 替换为可填写的加长横线输入框（按出现顺序） */
+  /** 把题干里的 ______ 替换为可填写输入框 + 打印专用下划线 */
   function inlineBlankHtml(attrs) {
+    let sizeCls = "";
+    if (attrs.wide) sizeCls += " wide";
+    else {
+      if (attrs.phrase) sizeCls += " phrase";
+      if (attrs.map) sizeCls += " map";
+      if (attrs.sm) sizeCls += " sm";
+    }
     const cls = "blank-input" + (attrs.phrase ? " phrase" : "") + (attrs.wide ? " wide" : "");
     let html = "<input class=\"" + cls + "\" name=\"" + esc(attrs.name) + "\" autocomplete=\"off\"";
     if (attrs.answer != null) html += " data-answer=\"" + esc(attrs.answer) + "\"";
@@ -416,6 +493,7 @@ textarea.ans {
     if (attrs.accept != null) html += " data-accept='" + esc(JSON.stringify(attrs.accept)) + "'";
     if (attrs.placeholder) html += " placeholder=\"" + esc(attrs.placeholder) + "\"";
     html += ">";
+    html += "<span class=\"print-uline" + sizeCls + "\" aria-hidden=\"true\"></span>";
     return html;
   }
   function withInlineBlanks(text, blankAttrsList) {
@@ -424,6 +502,14 @@ textarea.ans {
       const attrs = blankAttrsList[i++] || { name: "blank_" + i };
       return inlineBlankHtml(attrs);
     });
+  }
+  function shortLineHtml(attrs) {
+    let html = "<input class=\"short-input wide\" name=\"" + esc(attrs.name) + "\" ";
+    if (attrs.answer != null) html += "data-answer=\"" + esc(attrs.answer) + "\" ";
+    if (attrs.alts != null) html += "data-alts='" + esc(JSON.stringify(attrs.alts || [])) + "' ";
+    html += "placeholder=\"" + esc(attrs.placeholder || "写出完整句子") + "\" style=\"width:100%;text-align:left;margin-top:4px\">";
+    html += "<span class=\"print-uline full\" aria-hidden=\"true\"></span>";
+    return html;
   }
 
   /* ---------- Azure TTS（慢速英音男声） ---------- */
@@ -496,7 +582,7 @@ textarea.ans {
     const card = document.createElement("div");
     card.className = "dict-card";
     card.innerHTML =
-      "<img src=\"" + esc(w.img) + "\" alt=\"dictation " + w.id + "\" loading=\"lazy\">" +
+      "<img src=\"" + esc(w.img) + "\" alt=\"dictation " + w.id + "\" loading=\"eager\" decoding=\"sync\">" +
       "<div class=\"dict-actions\">" +
       "<button type=\"button\" class=\"speak\" data-speak=\"" + esc(w.word) + "\" title=\"听发音\">🔊 听</button>" +
       "<span style=\"font-size:12px;color:var(--muted)\">No." + w.id + "</span></div>" +
@@ -613,9 +699,11 @@ textarea.ans {
         ? ("特殊疑问句（" + esc(t.askAbout) + "）")
         : typeName[t.type];
       row.innerHTML = "<div>" + label + "：</div>" +
-        "<input class=\"short-input wide\" name=\"tconv_" + block.id + "_" + t.type + "\" " +
-        "data-answer=\"" + esc(t.answer) + "\" data-alts='" + esc(JSON.stringify(t.alts || [])) + "' " +
-        "placeholder=\"写出完整句子\" style=\"width:100%;text-align:left;margin-top:4px\">" +
+        shortLineHtml({
+          name: "tconv_" + block.id + "_" + t.type,
+          answer: t.answer,
+          alts: t.alts || []
+        }) +
         "<div class=\"sample-ans\">参考：" + esc(t.answer) + "</div>";
       box.appendChild(row);
     });
@@ -653,7 +741,7 @@ textarea.ans {
     d.innerHTML = "<div class=\"base\">" + (i + 1) + ". " + esc(v.base) +
       " <button type=\"button\" class=\"speak-mini no-print\" data-speak=\"" + esc(v.base + ", " + v.past) + "\">听</button></div>" +
       "<div style=\"font-size:12px;color:var(--muted)\">" + esc(v.cn) + "</div>" +
-      "过去式：<input class=\"blank-input\" name=\"irr_" + v.base + "\" data-answer=\"" + esc(v.past) + "\" style=\"min-width:4.5em\">" +
+      "过去式：" + inlineBlankHtml({ name: "irr_" + v.base, answer: v.past, sm: true }) +
       "<div class=\"sample-ans\">" + esc(v.past) + "</div>";
     $("#irregularGrid").appendChild(d);
   });
@@ -724,9 +812,20 @@ textarea.ans {
     row.className = "map-slot-row q-item";
     row.innerHTML =
       "<strong>" + esc(s.code) + ".</strong> " +
-      "<span>Desert:</span> <input class=\"map-input map-input-desert\" name=\"map_desert_" + s.code + "\" data-answer=\"" + esc(s.name) + "\" placeholder=\"沙漠英文名\" style=\"min-width:11em\"> " +
-      "<span>Continent:</span> <input class=\"map-input map-input-continent\" name=\"map_cont_" + s.code + "\" data-answer=\"" + esc(s.continent) + "\" data-alts='" + esc(JSON.stringify(s.continentAlts || [])) + "' placeholder=\"大洲英文名\" style=\"min-width:9em\">" +
+      "<span>Desert:</span> " + inlineBlankHtml({ name: "map_desert_" + s.code, answer: s.name, phrase: true, map: true }) + " " +
+      "<span>Continent:</span> " + inlineBlankHtml({
+        name: "map_cont_" + s.code,
+        answer: s.continent,
+        alts: s.continentAlts || [],
+        phrase: true,
+        map: true
+      }) +
       "<div class=\"sample-ans\">答案：Desert — " + esc(s.name) + "；Continent — " + esc(s.continent) + "</div>";
+    // restore map-input classes for drag-drop targeting
+    const desertInp = row.querySelector("[name=map_desert_" + s.code + "]");
+    const contInp = row.querySelector("[name=map_cont_" + s.code + "]");
+    if (desertInp) desertInp.classList.add("map-input", "map-input-desert");
+    if (contInp) contInp.classList.add("map-input", "map-input-continent");
     $$("input.map-input-desert", row).forEach((inp) => {
       inp.addEventListener("dragover", (e) => e.preventDefault());
       inp.addEventListener("drop", (e) => {
@@ -742,7 +841,7 @@ textarea.ans {
     const card = document.createElement("div");
     card.className = "pic-write-card";
     card.innerHTML =
-      "<img src=\"" + esc(p.img) + "\" alt=\"picture " + p.id + "\" loading=\"lazy\">" +
+      "<img class=\"pic-exam-img\" src=\"" + esc(p.img) + "\" alt=\"picture " + p.id + "\" loading=\"eager\" decoding=\"sync\">" +
       "<div class=\"body\">" +
       "<div class=\"q-stem\"><span class=\"q-num\">" + p.id + ".</span>" + esc(p.prompt) + "</div>" +
       "<div style=\"font-size:12.5px;color:var(--muted);margin-bottom:6px\">提示：" + esc(p.hints.join(" / ")) + "</div>" +
@@ -1003,8 +1102,32 @@ textarea.ans {
 
   $("#btnScore").addEventListener("click", scoreExam);
   $("#btnScore2").addEventListener("click", scoreExam);
-  $("#btnPrint").addEventListener("click", () => window.print());
-  $("#btnPrint2").addEventListener("click", () => window.print());
+  async function ensureImagesReady() {
+    const imgs = $$("img");
+    await Promise.all(imgs.map((img) => {
+      try { img.loading = "eager"; } catch (e) {}
+      if (img.complete && img.naturalWidth > 0) return Promise.resolve();
+      return new Promise((resolve) => {
+        const done = () => resolve();
+        img.addEventListener("load", done, { once: true });
+        img.addEventListener("error", done, { once: true });
+        // 触发重新拉取，避免 lazy 未入视口时打印空白
+        const src = img.getAttribute("src");
+        if (src) img.src = src;
+        setTimeout(done, 4000);
+      });
+    }));
+  }
+  async function printExam() {
+    document.body.classList.add("printing");
+    await ensureImagesReady();
+    // 给布局一帧时间
+    await new Promise((r) => requestAnimationFrame(() => setTimeout(r, 50)));
+    window.print();
+    setTimeout(() => document.body.classList.remove("printing"), 500);
+  }
+  $("#btnPrint").addEventListener("click", () => { printExam(); });
+  $("#btnPrint2").addEventListener("click", () => { printExam(); });
   $("#btnShowSamples").addEventListener("click", () => {
     document.body.classList.toggle("show-samples");
     $("#btnShowSamples").textContent = document.body.classList.contains("show-samples") ? "隐藏参考答案" : "显示参考答案";
