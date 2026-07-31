@@ -220,7 +220,7 @@ textarea.ans {
   body { background:#fff; color:#000; }
   .wrap { max-width:none; padding:0; }
   .sheet { box-shadow:none; border:0; padding:0; border-radius:0; }
-  .part { page-break-inside:avoid; }
+  .part { page-break-inside:auto; }
   .part-break { page-break-before:always; }
   .dict-grid { grid-template-columns:repeat(5,1fr); gap:8px; }
   .dict-card { break-inside:avoid; }
@@ -286,6 +286,59 @@ textarea.ans {
   }
   .chip-answer::before { content:"答："; font-size:12px; color:#333; }
   .desert-bank { display:flex !important; flex-wrap:wrap; gap:6px; margin:8px 0 12px; }
+
+  /* 图片必须出现在 PDF：强制显示并限制高度，避免整页被挤掉 */
+  img {
+    display:block !important;
+    max-width:100% !important;
+    -webkit-print-color-adjust:exact !important;
+    print-color-adjust:exact !important;
+  }
+  .dict-card img {
+    width:100% !important;
+    height:auto !important;
+    max-height:32mm !important;
+    object-fit:contain !important;
+    border:0.6pt solid #999 !important;
+  }
+  .pic-write-grid {
+    display:grid !important;
+    grid-template-columns:1fr 1fr !important;
+    gap:10px !important;
+  }
+  .pic-write-card {
+    break-inside:avoid;
+    page-break-inside:avoid;
+    border:1pt solid #000 !important;
+    border-radius:0 !important;
+    overflow:visible !important;
+    background:#fff !important;
+  }
+  .pic-write-card img {
+    width:100% !important;
+    height:auto !important;
+    max-height:58mm !important;
+    aspect-ratio:auto !important;
+    object-fit:contain !important;
+    object-position:center !important;
+    background:#fff !important;
+    border-bottom:0.6pt solid #999 !important;
+  }
+  .pic-write-card .body { padding:8px !important; }
+  .map-wrap {
+    break-inside:avoid;
+    page-break-inside:avoid;
+    border:1pt solid #000 !important;
+  }
+  .map-wrap img {
+    width:100% !important;
+    height:auto !important;
+    max-height:95mm !important;
+    object-fit:contain !important;
+  }
+  /* 大段内容允许跨页，避免整 part 被浏览器直接跳过 */
+  .part { page-break-inside:auto; }
+  .q-item, .dict-card { break-inside:avoid; page-break-inside:avoid; }
 }
 @media (max-width:640px) {
   .sheet { padding:18px 14px 32px; }
@@ -529,7 +582,7 @@ textarea.ans {
     const card = document.createElement("div");
     card.className = "dict-card";
     card.innerHTML =
-      "<img src=\"" + esc(w.img) + "\" alt=\"dictation " + w.id + "\" loading=\"lazy\">" +
+      "<img src=\"" + esc(w.img) + "\" alt=\"dictation " + w.id + "\" loading=\"eager\" decoding=\"sync\">" +
       "<div class=\"dict-actions\">" +
       "<button type=\"button\" class=\"speak\" data-speak=\"" + esc(w.word) + "\" title=\"听发音\">🔊 听</button>" +
       "<span style=\"font-size:12px;color:var(--muted)\">No." + w.id + "</span></div>" +
@@ -788,7 +841,7 @@ textarea.ans {
     const card = document.createElement("div");
     card.className = "pic-write-card";
     card.innerHTML =
-      "<img src=\"" + esc(p.img) + "\" alt=\"picture " + p.id + "\" loading=\"lazy\">" +
+      "<img class=\"pic-exam-img\" src=\"" + esc(p.img) + "\" alt=\"picture " + p.id + "\" loading=\"eager\" decoding=\"sync\">" +
       "<div class=\"body\">" +
       "<div class=\"q-stem\"><span class=\"q-num\">" + p.id + ".</span>" + esc(p.prompt) + "</div>" +
       "<div style=\"font-size:12.5px;color:var(--muted);margin-bottom:6px\">提示：" + esc(p.hints.join(" / ")) + "</div>" +
@@ -1049,8 +1102,32 @@ textarea.ans {
 
   $("#btnScore").addEventListener("click", scoreExam);
   $("#btnScore2").addEventListener("click", scoreExam);
-  $("#btnPrint").addEventListener("click", () => window.print());
-  $("#btnPrint2").addEventListener("click", () => window.print());
+  async function ensureImagesReady() {
+    const imgs = $$("img");
+    await Promise.all(imgs.map((img) => {
+      try { img.loading = "eager"; } catch (e) {}
+      if (img.complete && img.naturalWidth > 0) return Promise.resolve();
+      return new Promise((resolve) => {
+        const done = () => resolve();
+        img.addEventListener("load", done, { once: true });
+        img.addEventListener("error", done, { once: true });
+        // 触发重新拉取，避免 lazy 未入视口时打印空白
+        const src = img.getAttribute("src");
+        if (src) img.src = src;
+        setTimeout(done, 4000);
+      });
+    }));
+  }
+  async function printExam() {
+    document.body.classList.add("printing");
+    await ensureImagesReady();
+    // 给布局一帧时间
+    await new Promise((r) => requestAnimationFrame(() => setTimeout(r, 50)));
+    window.print();
+    setTimeout(() => document.body.classList.remove("printing"), 500);
+  }
+  $("#btnPrint").addEventListener("click", () => { printExam(); });
+  $("#btnPrint2").addEventListener("click", () => { printExam(); });
   $("#btnShowSamples").addEventListener("click", () => {
     document.body.classList.toggle("show-samples");
     $("#btnShowSamples").textContent = document.body.classList.contains("show-samples") ? "隐藏参考答案" : "显示参考答案";
