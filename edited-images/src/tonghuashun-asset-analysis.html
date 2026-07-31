@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=390, initial-scale=1" />
+<title>同花顺-资产分析</title>
+<style>
+  @font-face {
+    font-family: 'AppSans';
+    src: local('Droid Sans Fallback'), local('WenQuanYi Micro Hei'), local('Noto Sans CJK SC');
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #111;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    font-family: 'AppSans', 'Droid Sans Fallback', 'WenQuanYi Micro Hei', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .phone {
+    width: 390px;
+    background: #fff;
+    overflow: hidden;
+    position: relative;
+  }
+  .status {
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #111;
+    background: #e62828;
+    color: #fff;
+  }
+  .status .right { display: flex; gap: 6px; align-items: center; font-size: 11px; font-weight: 500; }
+  .header {
+    background: #e62828;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .header .back {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    border-left: 2.5px solid #fff;
+    border-bottom: 2.5px solid #fff;
+    transform: translateY(-50%) rotate(45deg);
+  }
+  .tabs {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 4px 0;
+    border-bottom: 1px solid #f0f0f0;
+    background: #fff;
+  }
+  .tab {
+    font-size: 14px;
+    color: #666;
+    padding: 6px 2px 10px;
+    position: relative;
+  }
+  .tab.active {
+    color: #e62828;
+    font-weight: 600;
+  }
+  .tab.active::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 22px;
+    height: 3px;
+    background: #e62828;
+    border-radius: 2px;
+  }
+  .chart-wrap {
+    padding: 12px 10px 4px 4px;
+    position: relative;
+  }
+  .y-labels {
+    position: absolute;
+    left: 8px;
+    top: 18px;
+    bottom: 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #999;
+    z-index: 2;
+  }
+  canvas {
+    width: 100%;
+    height: 210px;
+    display: block;
+  }
+  .x-labels {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 28px 0 48px;
+    font-size: 11px;
+    color: #999;
+    margin-top: -4px;
+  }
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    margin: 8px 0 6px;
+    font-size: 12px;
+    color: #333;
+  }
+  .legend span { display: flex; align-items: center; gap: 6px; }
+  .legend i { width: 16px; height: 3px; display: inline-block; border-radius: 1px; }
+  .legend .me i { background: #e62828; }
+  .legend .sse i { background: #3b82f6; }
+
+  .controls {
+    padding: 8px 12px 4px;
+    font-size: 12px;
+    color: #666;
+    border-top: 1px solid #f5f5f5;
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .label { color: #999; min-width: 52px; }
+  .chip {
+    border: 1px solid #f3b4b4;
+    background: #fff5f5;
+    color: #e62828;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+  }
+  .chk {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    color: #666;
+  }
+  .chk .box {
+    width: 12px; height: 12px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    display: inline-block;
+  }
+  .radio {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .radio .dot {
+    width: 12px; height: 12px;
+    border: 1px solid #e62828;
+    border-radius: 50%;
+    position: relative;
+  }
+  .radio .dot.on::after {
+    content: '';
+    position: absolute;
+    left: 2px; top: 2px;
+    width: 6px; height: 6px;
+    background: #e62828;
+    border-radius: 50%;
+  }
+  .radio .dot.off { border-color: #ccc; }
+  .info {
+    width: 12px; height: 12px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    font-size: 9px;
+    color: #aaa;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+
+  .summary {
+    text-align: center;
+    padding: 18px 10px 8px;
+  }
+  .summary .title {
+    font-size: 15px;
+    color: #222;
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .summary .big {
+    font-size: 56px;
+    font-weight: 700;
+    color: #e62828;
+    letter-spacing: 0.5px;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .breakdown {
+    padding: 8px 16px 24px;
+  }
+  .item {
+    display: grid;
+    grid-template-columns: 52px 64px 1fr;
+    align-items: center;
+    gap: 8px;
+    margin: 10px 0;
+    font-size: 14px;
+  }
+  .item .name { color: #333; }
+  .item .val { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .item .val.red { color: #e62828; }
+  .item .val.blue { color: #3b82f6; }
+  .bar-track {
+    height: 10px;
+    position: relative;
+    background: transparent;
+  }
+  .bar-track::after {
+    content: '';
+    position: absolute;
+    right: 0; top: -8px; bottom: -8px;
+    width: 1px;
+    border-left: 1px dashed #ddd;
+  }
+  .bar {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 10px;
+    border-radius: 1px;
+  }
+  .bar.red { background: #e62828; }
+  .bar.blue { background: #3b82f6; }
+</style>
+</head>
+<body>
+  <div class="phone" id="phone">
+    <div class="status">
+      <span>16:42</span>
+      <span class="right"><span>VPN</span><span>5GA</span><span>25%</span></span>
+    </div>
+    <div class="header">
+      <div class="back"></div>
+      同花顺-资产分析
+    </div>
+    <div class="tabs">
+      <div class="tab">当日</div>
+      <div class="tab active">本月</div>
+      <div class="tab">近三月</div>
+      <div class="tab">今年</div>
+      <div class="tab">全部</div>
+      <div class="tab">自定义</div>
+    </div>
+    <div class="chart-wrap">
+      <div class="y-labels">
+        <span>20.0%</span>
+        <span>10.0%</span>
+        <span>0.0%</span>
+        <span>-10.0%</span>
+      </div>
+      <canvas id="chart" width="760" height="420"></canvas>
+      <div class="x-labels">
+        <span>07-06</span><span>07-13</span><span>07-20</span><span>07-27</span>
+      </div>
+      <div class="legend">
+        <span class="me"><i></i>我</span>
+        <span class="sse"><i></i>上证</span>
+      </div>
+    </div>
+
+    <div class="controls">
+      <div class="row">
+        <span class="label">收益分析</span>
+        <span class="chip">收益率</span>
+        <span class="chk"><span class="box"></span>盈亏金额</span>
+        <span class="chk"><span class="box"></span>总资产</span>
+        <span class="chk"><span class="box"></span>仓位分析 <span class="info">i</span></span>
+      </div>
+      <div class="row">
+        <span class="label">标签分析</span>
+        <span class="radio"><span class="dot on"></span>长线 <span class="info">i</span></span>
+        <span class="radio"><span class="dot off"></span>短线 <span class="info">i</span></span>
+      </div>
+    </div>
+
+    <div class="summary">
+      <div class="title">本月跑赢上证指数</div>
+      <div class="big">3.43%</div>
+    </div>
+
+    <div class="breakdown">
+      <div class="item">
+        <span class="name">我:</span>
+        <span class="val red">-2.97%</span>
+        <div class="bar-track"><div class="bar red" style="width:12%"></div></div>
+      </div>
+      <div class="item">
+        <span class="name">上证:</span>
+        <span class="val blue">-6.40%</span>
+        <div class="bar-track"><div class="bar blue" style="width:26%"></div></div>
+      </div>
+      <div class="item">
+        <span class="name">深证:</span>
+        <span class="val blue">-16.21%</span>
+        <div class="bar-track"><div class="bar blue" style="width:66%"></div></div>
+      </div>
+      <div class="item">
+        <span class="name">创业板:</span>
+        <span class="val blue">-23.00%</span>
+        <div class="bar-track"><div class="bar blue" style="width:94%"></div></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+const canvas = document.getElementById('chart');
+const ctx = canvas.getContext('2d');
+const W = canvas.width, H = canvas.height;
+const padL = 90, padR = 30, padT = 20, padB = 30;
+const yMax = 20, yMin = -10;
+
+function yToPx(v) {
+  return padT + (yMax - v) / (yMax - yMin) * (H - padT - padB);
+}
+function xToPx(t) { // t in [0,1]
+  return padL + t * (W - padL - padR);
+}
+
+// grid
+ctx.strokeStyle = '#eee';
+ctx.lineWidth = 1;
+[20, 10, 0, -10].forEach(v => {
+  const y = yToPx(v);
+  ctx.beginPath();
+  if (v === 0) {
+    ctx.setLineDash([6, 6]);
+    ctx.strokeStyle = '#ccc';
+  } else {
+    ctx.setLineDash([]);
+    ctx.strokeStyle = '#f0f0f0';
+  }
+  ctx.moveTo(padL, y);
+  ctx.lineTo(W - padR, y);
+  ctx.stroke();
+});
+ctx.setLineDash([]);
+
+// Original shape scaled: personal returns shifted by -18pp (15.03 -> -2.97)
+// Approximate weekly path for "我" ending at -2.97
+// Scaled from original volatile path (peak~11%, dip~0, end 15.03) by -18pp → end -2.97
+const me = [
+  [0.00, 0.0],
+  [0.06, 1.8],
+  [0.12, -0.5],
+  [0.18, 3.2],
+  [0.24, -1.0],
+  [0.30, 2.5],
+  [0.36, -3.2],
+  [0.42, -4.5],
+  [0.48, -3.8],
+  [0.55, -2.2],
+  [0.62, -1.6],
+  [0.70, -2.8],
+  [0.78, -1.9],
+  [0.86, -2.4],
+  [0.93, -2.6],
+  [1.00, -2.97],
+];
+const sse = [
+  [0.00, 0.0],
+  [0.10, -0.6],
+  [0.20, -1.5],
+  [0.30, -2.3],
+  [0.40, -3.4],
+  [0.50, -4.1],
+  [0.60, -4.7],
+  [0.70, -5.3],
+  [0.80, -5.7],
+  [0.90, -6.1],
+  [1.00, -6.40],
+];
+
+function drawLine(pts, color, width) {
+  ctx.beginPath();
+  ctx.strokeStyle = color;
+  ctx.lineWidth = width;
+  ctx.lineJoin = 'round';
+  ctx.lineCap = 'round';
+  pts.forEach((p, i) => {
+    const x = xToPx(p[0]), y = yToPx(p[1]);
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+}
+
+drawLine(sse, '#3b82f6', 3.5);
+drawLine(me, '#e62828', 3.5);
+</script>
+</body>
+</html>
