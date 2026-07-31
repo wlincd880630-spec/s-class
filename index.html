@@ -67,11 +67,13 @@
                 <a href="#stage-senior" onclick="enterLearningMode('stage-senior'); return false;">高中</a>
                 <a href="#stage-abroad" onclick="enterLearningMode('stage-abroad'); return false;">留学</a>
                 <a href="#stage-extra" onclick="enterLearningMode('stage-extra'); return false;">拓展</a>
+                <a href="temp-order-draw.html" class="nav-order-draw" id="nav-order-draw">顺序抽取</a>
                 <a href="#contact">联系</a>
             </nav>
             <div class="nav-overlay" id="nav-overlay" hidden aria-hidden="true"></div>
             <div class="nav-right">
                 <span id="welcome-name" class="welcome-name"></span>
+                <a href="temp-order-draw.html" class="btn-nav btn-nav-order-draw" id="btn-order-draw">顺序抽取</a>
                 <a href="#" id="btn-logout" class="welcome-logout" style="display:none;">退出</a>
                 <button type="button" class="btn-nav" id="btn-enter-learning" onclick="enterLearningMode()">进入学习</button>
                 <button type="button" class="btn-nav btn-nav-ghost" id="btn-back-home" style="display:none;" onclick="exitLearningMode()">返回首页</button>
@@ -100,6 +102,9 @@
                     <button type="button" class="btn-hero-primary" onclick="enterLearningMode()">
                         开始学习 <i class="fas fa-arrow-right"></i>
                     </button>
+                    <a class="btn-hero-order-draw" id="hero-order-draw" href="temp-order-draw.html">
+                        <i class="fas fa-dice"></i> 上台顺序抽取
+                    </a>
                     <a class="btn-hero-ghost" href="#platform-pillars" onclick="return !document.documentElement.classList.contains('learning-mode');">
                         了解教学法 <i class="fas fa-chevron-down"></i>
                     </a>
@@ -124,37 +129,26 @@
         </div>
     </section>
 
-    <!-- 临时活动：顺序抽取 · 2026-07-31 16:00（北京时间）后自动隐藏并从仓库删除 -->
-    <section class="temp-lottery-banner" id="temp-lottery-banner" hidden>
+    <!-- TEMP: 顺序抽取入口，2026-07-31 16:00 CST 后自动隐藏 -->
+    <section class="exam-spotlight temp-order-draw-banner" id="temp-order-draw-banner">
         <div class="wrap">
-            <a class="temp-lottery-link" href="temp-order-lottery.html">
-                <span class="temp-lottery-badge"><i class="fas fa-dice"></i> 今日临时</span>
-                <div class="temp-lottery-text">
-                    <strong>课堂顺序抽取</strong>
-                    <span>滚动抽号 · 抽中即作废 · 今日 16:00 后自动下线</span>
+            <article class="exam-spotlight-card exam-spotlight-card--order-draw" style="max-width:720px;margin:0 auto;">
+                <span class="exam-spotlight-new" aria-label="今日活动">今日</span>
+                <div class="exam-spotlight-content">
+                    <span class="exam-spotlight-tag"><i class="fas fa-dice"></i> 课堂工具</span>
+                    <h2>上台顺序抽取</h2>
+                    <p style="margin:0 0 18px;color:rgba(255,255,255,.72);font-size:.95rem;">设置人数后轮流点击，滚动随机出顺序，已抽号码作废。今日 16:00 后自动关闭。</p>
+                    <a class="exam-spotlight-cta" href="temp-order-draw.html">
+                        进入顺序抽取 <i class="fas fa-arrow-right"></i>
+                    </a>
                 </div>
-                <span class="temp-lottery-cta">立即抽取 <i class="fas fa-arrow-right"></i></span>
-            </a>
+                <div class="exam-spotlight-visual" aria-hidden="true">
+                    <div class="exam-spotlight-year" style="font-size:clamp(2rem,4vw,2.6rem);">1 → N</div>
+                    <div class="exam-spotlight-paper">随机 · 不重复</div>
+                </div>
+            </article>
         </div>
     </section>
-    <script>
-    (function () {
-        var expireAt = new Date('2026-07-31T16:00:00+08:00').getTime();
-        var banner = document.getElementById('temp-lottery-banner');
-        if (!banner) return;
-        function sync() {
-            if (Date.now() >= expireAt) {
-                banner.hidden = true;
-                banner.setAttribute('aria-hidden', 'true');
-            } else {
-                banner.hidden = false;
-                banner.removeAttribute('aria-hidden');
-            }
-        }
-        sync();
-        setInterval(sync, 30000);
-    })();
-    </script>
 
     <section class="exam-spotlight" id="exam-2026">
         <div class="wrap">
@@ -391,6 +385,7 @@
                 <button type="button" class="btn-back-hub" onclick="exitLearningMode()">
                     <i class="fas fa-arrow-left"></i> 返回首页
                 </button>
+                <a href="temp-order-draw.html" class="btn-order-draw-hub" id="hub-order-draw"><i class="fas fa-dice"></i> 上台顺序抽取</a>
                 <span class="learning-toolbar-label">资源目录 · 全部课件链接</span>
             </div>
             <div class="catalog-head">
@@ -2333,6 +2328,16 @@
             }
         }
 
+    </script>
+    <script>
+        (function () {
+            var expireAt = new Date('2026-07-31T16:00:00+08:00').getTime();
+            if (Date.now() < expireAt) return;
+            ['temp-order-draw-banner', 'nav-order-draw', 'btn-order-draw', 'hero-order-draw', 'hub-order-draw'].forEach(function (id) {
+                var el = document.getElementById(id);
+                if (el) el.style.display = 'none';
+            });
+        })();
     </script>
     <script src="scripts/s-class-home-carousel.js"></script>
     <script async data-explicit-opt-in="true" data-cookie-opt-in="true" data-deployment-id="dpl_HEHXQ2hN79LByEnSyGEqdxqbWW6H" src="https://vercel.live/_next-live/feedback/feedback.js"></script>
