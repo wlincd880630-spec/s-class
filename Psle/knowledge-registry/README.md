@@ -49,3 +49,24 @@ node Grammar/kp-shared/gen-lesson.mjs Psle/knowledge-registry/wave1/lessons/G-co
 node Psle/knowledge-registry/scripts/build-wave2-lessons.mjs
 node Grammar/kp-shared/gen-lesson.mjs Psle/knowledge-registry/wave2/lessons/G-modals-can-should.json
 ```
+
+## Wave 3 已发布（10 个知识点）
+| ID | 路径 |
+|----|------|
+| G-present-continuous-psle | Grammar/KP-现在进行时小升初/ |
+| G-present-perfect | Grammar/KP-现在完成时/ |
+| G-passive-voice | Grammar/KP-被动语态/ |
+| G-object-clause | Grammar/KP-宾语从句/ |
+| G-like-doing | Grammar/KP-like-doing/ |
+| G-pronouns-object | Grammar/KP-宾格代词/ |
+| G-some-any-no | Grammar/KP-some-any-no/ |
+| V-family-words | primary_vocab/V05-family-words/ |
+| V-antonyms | primary_vocab/V06-antonyms/ |
+| V-make-let-help | primary_vocab/V07-make-let-help/ |
+
+## 生成 Wave 3
+```bash
+node Psle/knowledge-registry/scripts/build-wave3-lessons.mjs
+for f in Psle/knowledge-registry/wave3/lessons/*.json; do node Grammar/kp-shared/gen-lesson.mjs "$f"; done
+node Psle/knowledge-registry/scripts/build-wave3-registry.mjs
+```

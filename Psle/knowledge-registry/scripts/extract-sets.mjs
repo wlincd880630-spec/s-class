@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * 从 Psle/set_*_typeflow.html 提取考点候选（Wave 1 + Wave 2 规则）
+ * 从 Psle/set_*_typeflow.html 提取考点候选（Wave 1 + Wave 2 + Wave 3 规则）
  */
 import fs from "fs";
 import path from "path";
@@ -30,6 +30,17 @@ const TAG_RULES = [
   { re: /a few\b|a little\b|\bfew\b|\blittle\b/i, id: "G-few-little", type: "grammar", title: "a few / a little / few / little" },
   { re: /too\b.*句末|either\b|also\b|neither\b/i, id: "V-too-either-also", type: "vocab", title: "too / either / also / neither" },
   { re: /forget to|forget doing|remember to|remember doing/i, id: "V-forget-remember-doing", type: "vocab", title: "forget/remember + to do/doing" },
+  // Wave 3
+  { re: /现在进行时|is\s+\w+ing|are\s+\w+ing|am\s+\w+ing|at the moment|Look!.*ing/i, id: "G-present-continuous-psle", type: "grammar", title: "现在进行时 · 小升初补页" },
+  { re: /现在完成|have\s+\w+ed|has\s+\w+ed|have\s+been|has\s+been|so far|already|yet\b/i, id: "G-present-perfect", type: "grammar", title: "现在完成时 · 入门" },
+  { re: /被动|was\s+\w+ed|were\s+\w+ed|is\s+made|are\s+made|be\s+\w+ed/i, id: "G-passive-voice", type: "grammar", title: "被动语态 · 入门" },
+  { re: /宾语从句|think\s+that|said\s+that|know\s+that|wonder\s+if|do you think/i, id: "G-object-clause", type: "grammar", title: "宾语从句 · 陈述语序" },
+  { re: /like\s+\w+ing|enjoy\s+\w+ing|finish\s+\w+ing|动名词/i, id: "G-like-doing", type: "grammar", title: "like / enjoy / finish + doing" },
+  { re: /宾格|give\s+(me|him|her|us|them)|tell\s+(me|him|her|us|them)|help\s+(me|him|her|us|them)/i, id: "G-pronouns-object", type: "grammar", title: "宾格代词 me / him / them" },
+  { re: /\bsome\b.*\bany\b|\bany\b.*\bsome\b|some\s+or\s+any|no\s+\w+\s+left/i, id: "G-some-any-no", type: "grammar", title: "some / any / no" },
+  { re: /cousin|nephew|niece|aunt'?s|uncle'?s|grandfather|grandmother|家庭成员/i, id: "V-family-words", type: "vocab", title: "家庭成员词汇" },
+  { re: /反义词|opposite|short.*long|hot.*cold|happy.*sad/i, id: "V-antonyms", type: "vocab", title: "反义词填空" },
+  { re: /make\s+\w+\s+\w+|let\s+\w+\s+\w+|help\s+\w+\s+(do|to)/i, id: "V-make-let-help", type: "vocab", title: "make / let / help sb do" },
 ];
 
 function stripHtml(s) {
