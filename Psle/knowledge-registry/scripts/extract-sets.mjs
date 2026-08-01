@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * 从 Psle/set_*_typeflow.html 提取考点候选（Wave 1 + Wave 2 + Wave 3 规则）
+ * 从 Psle/set_*_typeflow.html 提取考点候选（Wave 1–4 规则）
  */
 import fs from "fs";
 import path from "path";
@@ -41,6 +41,17 @@ const TAG_RULES = [
   { re: /cousin|nephew|niece|aunt'?s|uncle'?s|grandfather|grandmother|家庭成员/i, id: "V-family-words", type: "vocab", title: "家庭成员词汇" },
   { re: /反义词|opposite|short.*long|hot.*cold|happy.*sad/i, id: "V-antonyms", type: "vocab", title: "反义词填空" },
   { re: /make\s+\w+\s+\w+|let\s+\w+\s+\w+|help\s+\w+\s+(do|to)/i, id: "V-make-let-help", type: "vocab", title: "make / let / help sb do" },
+  // Wave 4
+  { re: /介词|preposition|in the morning|on Monday|at home|in the sun|look at|listen to/i, id: "G-prepositions", type: "grammar", title: "介词 in / on / at" },
+  { re: /how often|how long|how many|how much|how old|疑问词|特殊疑问/i, id: "G-question-words", type: "grammar", title: "特殊疑问词 How/What/Where" },
+  { re: /because\b|,\s*so\b|连词.*because|both.*and|either.*or/i, id: "G-conjunctions", type: "grammar", title: "连词 because / so / but" },
+  { re: /所有格|possessive|\bmine\b|\byours\b|\bhers\b|\bours\b|\btheirs\b/i, id: "G-possessive", type: "grammar", title: "物主代词 my/mine · your/yours" },
+  { re: /as\s+\w+\s+as|同级比较|not as\b/i, id: "G-as-as", type: "grammar", title: "同级比较 as…as" },
+  { re: /always\b|usually\b|often\b|sometimes\b|never\b|频度副词/i, id: "G-adverbs-frequency", type: "grammar", title: "频度副词 always/usually/often" },
+  { re: /stop to|stop doing|try to|try doing/i, id: "G-stop-try-doing", type: "grammar", title: "stop / try + to do / doing" },
+  { re: /ask for|look after|look for|take care of|固定搭配|短语动词/i, id: "V-ask-phrases", type: "vocab", title: "ask for / look after / look for" },
+  { re: /同义词|synonym|意思相同|意思相近/i, id: "V-synonyms", type: "vocab", title: "同义词替换 · 意思相同" },
+  { re: /feel\s+\w+|excited|worried|nervous|proud|情绪|感受/i, id: "V-feelings", type: "vocab", title: "情绪形容词 · feel/excited/worried" },
 ];
 
 function stripHtml(s) {

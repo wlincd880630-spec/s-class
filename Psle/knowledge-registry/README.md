@@ -70,3 +70,24 @@ node Psle/knowledge-registry/scripts/build-wave3-lessons.mjs
 for f in Psle/knowledge-registry/wave3/lessons/*.json; do node Grammar/kp-shared/gen-lesson.mjs "$f"; done
 node Psle/knowledge-registry/scripts/build-wave3-registry.mjs
 ```
+
+## Wave 4 已发布（10 个知识点）
+| ID | 路径 |
+|----|------|
+| G-prepositions | Grammar/KP-介词小升初/ |
+| G-question-words | Grammar/KP-特殊疑问词/ |
+| G-conjunctions | Grammar/KP-连词/ |
+| G-possessive | Grammar/KP-物主代词/ |
+| G-as-as | Grammar/KP-同级比较as/ |
+| G-adverbs-frequency | Grammar/KP-频度副词/ |
+| G-stop-try-doing | Grammar/KP-stop-try-doing/ |
+| V-ask-phrases | primary_vocab/V08-ask-phrases/ |
+| V-synonyms | primary_vocab/V09-synonyms/ |
+| V-feelings | primary_vocab/V10-feelings/ |
+
+## 生成 Wave 4
+```bash
+node Psle/knowledge-registry/scripts/build-wave4-lessons.mjs
+for f in Psle/knowledge-registry/wave4/lessons/*.json; do node Grammar/kp-shared/gen-lesson.mjs "$f"; done
+node Psle/knowledge-registry/scripts/build-wave4-registry.mjs
+```
