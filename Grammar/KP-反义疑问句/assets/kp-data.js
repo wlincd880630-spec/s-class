@@ -1,0 +1,218 @@
+(function (global) {
+  "use strict";
+  var PAGES = [
+  {
+    "id": "p01",
+    "section": "导入",
+    "title": "听一听 · 场景导入",
+    "type": "sound-first",
+    "badge": "sound",
+    "badgeText": "🔊 声音先行",
+    "audio": "Let's play basketball, shall we?",
+    "soundHint": "先听，不要看文字。",
+    "question": "这句话在考什么？",
+    "sentence": "Let's play basketball, shall we?",
+    "zh": "我们打篮球吧，好吗？",
+    "image": "w5-tag-hero.jpg",
+    "source": "PSLE · 真题变式"
+  },
+  {
+    "id": "p02",
+    "section": "思考",
+    "title": "苏格拉底 · 考点在哪？",
+    "type": "socratic",
+    "badge": "ask",
+    "badgeText": "💭 想一想",
+    "image": "w5-tag-hero.jpg",
+    "question": "Let's 开头的反义疑问句用什么？",
+    "choices": [
+      {
+        "text": "shall we（固定搭配）",
+        "correct": true,
+        "fb": "对了！Let's…, shall we?"
+      },
+      {
+        "text": "will you",
+        "correct": false,
+        "fb": "Let's 不用 will you。"
+      },
+      {
+        "text": "don't we",
+        "correct": false,
+        "fb": "Let's 是建议，用 shall we。"
+      }
+    ],
+    "sentence": "Let's play basketball, shall we?",
+    "zh": "我们打篮球吧，好吗？"
+  },
+  {
+    "id": "p03",
+    "section": "发现",
+    "title": "规则发现",
+    "type": "discover",
+    "leftImage": "w5-tag-lets.jpg",
+    "rightImage": "w5-tag-normal.jpg",
+    "leftLabel": "Let's…, shall we?",
+    "rightLabel": "He is tall, isn't he?",
+    "leftSentence": "Let's go swimming, shall we?",
+    "leftZh": "我们去游泳吧，好吗？",
+    "rightSentence": "She likes music, doesn't she?",
+    "rightZh": "她喜欢音乐，不是吗？",
+    "morphBase": "Let's",
+    "morphPast": "shall we",
+    "morphHighlight": "",
+    "discovery": "Let's 用 shall we；陈述句反义问：前肯后否，前否后肯，主语用代词。"
+  },
+  {
+    "id": "p04",
+    "section": "游戏",
+    "title": "分类篮",
+    "type": "classify",
+    "badge": "demo",
+    "badgeText": "🧺 分类",
+    "image": "w5-tag-hero.jpg",
+    "buckets": [
+      {
+        "key": "lets",
+        "label": "Let's + shall we"
+      },
+      {
+        "key": "stmt",
+        "label": "陈述句反义问"
+      }
+    ],
+    "items": [
+      {
+        "text": "Let's start, shall we?",
+        "bucket": "lets"
+      },
+      {
+        "text": "You are ready, aren't you?",
+        "bucket": "stmt"
+      },
+      {
+        "text": "Let's have lunch, shall we?",
+        "bucket": "lets"
+      },
+      {
+        "text": "He can't swim, can he?",
+        "bucket": "stmt"
+      },
+      {
+        "text": "Let's try again, shall we?",
+        "bucket": "lets"
+      },
+      {
+        "text": "They went home, didn't they?",
+        "bucket": "stmt"
+      }
+    ]
+  },
+  {
+    "id": "p05",
+    "section": "精讲",
+    "title": "规则卡",
+    "type": "spelling",
+    "image": "w5-tag-hero.jpg",
+    "lead": "反义疑问句两大类型。",
+    "rules": [
+      {
+        "tab": "Let's",
+        "rule": "Let's + 动词原形, shall we?",
+        "focusVerb": "shall",
+        "examples": [
+          {
+            "from": "Let's play",
+            "to": "shall we?"
+          }
+        ],
+        "sample": "Let's play basketball, shall we?",
+        "sampleZh": "我们打篮球吧，好吗？"
+      },
+      {
+        "tab": "陈述句",
+        "rule": "前肯后否，前否后肯；动词/be/助动词与前面一致",
+        "focusVerb": "isn't",
+        "examples": [
+          {
+            "from": "He is tall",
+            "to": "isn't he?"
+          },
+          {
+            "from": "She doesn't like",
+            "to": "does she?"
+          }
+        ],
+        "sample": "She likes music, doesn't she?",
+        "sampleZh": "她喜欢音乐，不是吗？"
+      }
+    ]
+  },
+  {
+    "id": "p06",
+    "section": "闯关",
+    "title": "限时快选 · PSLE 真题",
+    "type": "quiz",
+    "badge": "q",
+    "badgeText": "⏱ 快选",
+    "image": "w5-tag-hero.jpg",
+    "q": "Let's go to the park, _____?",
+    "opts": [
+      "will you",
+      "shall we",
+      "do we"
+    ],
+    "ans": 1,
+    "hint": "Let's 固定用 shall we。",
+    "sentence": "Let's play basketball, shall we?",
+    "zh": "我们打篮球吧，好吗？"
+  },
+  {
+    "id": "p07",
+    "section": "游戏",
+    "title": "听音排序 · 造句",
+    "type": "listen-order",
+    "badge": "sound",
+    "badgeText": "🔀 排序",
+    "image": "w5-tag-hero.jpg",
+    "audio": "Let's play basketball, shall we?",
+    "tokens": [
+      "Let's",
+      "play",
+      "basketball",
+      "shall",
+      "we"
+    ],
+    "sentence": "Let's play basketball, shall we?",
+    "zh": "我们打篮球吧，好吗？"
+  },
+  {
+    "id": "p08",
+    "section": "总结",
+    "title": "写作句框 · 口诀",
+    "type": "summary",
+    "badge": "demo",
+    "badgeText": "📝 写作",
+    "image": "writing.jpg",
+    "checklist": [
+      "Let's…, shall we?",
+      "前肯后否；前否后肯",
+      "反义部分主语用代词"
+    ],
+    "chant": "Let's plus verb — shall we say? Affirmative first, then the other way!",
+    "chantSpeak": "Let's plus verb, shall we say? Affirmative first, then the other way!"
+  }
+];
+  global.KpData = {
+    pages: PAGES,
+    total: PAGES.length,
+    indexOf: function (id) {
+      for (var i = 0; i < PAGES.length; i++) if (PAGES[i].id === id) return i;
+      return -1;
+    },
+    byId: function (id) {
+      var i = this.indexOf(id);
+      return i >= 0 ? PAGES[i] : null;
+    },
+  };
+})(typeof window !== "undefined" ? window : null);
