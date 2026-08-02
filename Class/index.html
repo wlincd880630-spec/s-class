@@ -862,6 +862,141 @@
       100% { box-shadow: 0 8px 24px rgba(11, 31, 42, 0.05); transform: scale(1); }
     }
 
+    /* —— Session / 课堂纪要 —— */
+    .session-layout {
+      display: grid;
+      grid-template-columns: 1.35fr 0.85fr;
+      gap: 16px;
+    }
+    @media (max-width: 960px) {
+      .session-layout { grid-template-columns: 1fr; }
+    }
+    .session-main {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      min-height: 520px;
+    }
+    .session-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+    .session-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(100, 116, 139, 0.1);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--muted);
+    }
+    .session-status .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #94a3b8;
+    }
+    .session-status.live {
+      background: rgba(13, 148, 136, 0.12);
+      color: var(--teal-deep);
+    }
+    .session-status.live .dot {
+      background: var(--teal-bright);
+      box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.25);
+      animation: pulse-orb 1.4s ease-in-out infinite;
+    }
+    .session-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .session-interim {
+      min-height: 1.4em;
+      color: var(--ink-soft);
+      font-size: 1.05rem;
+      line-height: 1.55;
+    }
+    .session-transcript {
+      max-height: 320px;
+      overflow: auto;
+      padding: 14px;
+      border-radius: 14px;
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      font-size: 0.92rem;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .session-transcript .name-hit {
+      background: linear-gradient(180deg, rgba(20,184,166,0.22), rgba(20,184,166,0.08));
+      color: var(--teal-deep);
+      font-weight: 800;
+      padding: 0 3px;
+      border-radius: 4px;
+    }
+    .name-hit-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .name-hit-chip {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: rgba(13, 148, 136, 0.06);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+    .name-hit-chip.has {
+      background: rgba(13, 148, 136, 0.14);
+      color: var(--teal-deep);
+    }
+    .name-hit-chip span:last-child {
+      font-family: var(--display);
+      font-weight: 800;
+    }
+    .session-side {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .session-events {
+      max-height: 220px;
+      overflow: auto;
+      font-size: 0.84rem;
+      line-height: 1.55;
+      color: var(--ink-soft);
+    }
+    .session-events div {
+      padding: 6px 0;
+      border-bottom: 1px dashed var(--line);
+    }
+    .report-box {
+      margin-top: 16px;
+      padding: 22px;
+    }
+    .report-md {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .report-md h2, .report-md h3 {
+      font-family: var(--cn-display);
+      letter-spacing: 0.04em;
+      margin: 1.1em 0 0.45em;
+    }
+
     /* —— Timer —— */
     .timer-layout {
       display: grid;
@@ -1182,10 +1317,13 @@
       <div class="hero-main">
         <div class="hero-kicker"><i class="fas fa-sparkles"></i> New Class 2026</div>
         <h1 class="hero-title">我们的班级</h1>
-        <p class="hero-sub">随机点名 · 语音叫名 · 小锤子惩罚 · 花束表扬 · 倒计时 · 卡通形象</p>
+        <p class="hero-sub">随机点名 · 课堂听写纠名 · 小锤子 / 花束 · 课后自动纪要</p>
         <div class="hero-ctas">
           <button class="btn btn-primary" type="button" id="hero-pick">
             <i class="fas fa-dice"></i> 开始点名
+          </button>
+          <button class="btn btn-ghost" type="button" id="hero-session">
+            <i class="fas fa-microphone-lines"></i> 课堂纪要
           </button>
           <button class="btn btn-ghost" type="button" id="hero-timer">
             <i class="fas fa-hourglass-half"></i> 倒计时
@@ -1221,6 +1359,7 @@
     <nav class="tabs" role="tablist" aria-label="功能切换">
       <button class="tab active" data-view="pick" type="button"><i class="fas fa-bullseye"></i> 随机点名</button>
       <button class="tab" data-view="roster" type="button"><i class="fas fa-star"></i> 积分管理</button>
+      <button class="tab" data-view="session" type="button"><i class="fas fa-microphone-lines"></i> 课堂纪要</button>
       <button class="tab" data-view="timer" type="button"><i class="fas fa-clock"></i> 倒计时</button>
       <button class="tab" data-view="avatars" type="button"><i class="fas fa-palette"></i> 选形象</button>
     </nav>
@@ -1297,6 +1436,63 @@
             <span class="empty-hint">还没有人收到花束表扬</span>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- 课堂纪要：听写 + 姓名强关联 + DeepSeek 总结 -->
+    <section class="view" id="view-session">
+      <div class="session-layout">
+        <div class="panel session-main">
+          <div class="session-head">
+            <div>
+              <h2 style="margin:0 0 6px;font-family:var(--display);font-size:1.2rem;">课堂听写 · 姓名强绑定</h2>
+              <p style="margin:0;color:var(--muted);font-size:0.88rem;line-height:1.5;">
+                上课时保持本页打开。识别器已注入 15 个标准姓名；转写落盘前会强制纠成标准汉字（如「徐梓萱」→「徐梓媗」）。
+              </p>
+            </div>
+            <div class="session-status" id="session-status">
+              <span class="dot"></span>
+              <span id="session-status-text">未开始</span>
+              <strong id="session-elapsed">00:00:00</strong>
+            </div>
+          </div>
+          <div class="session-actions">
+            <button class="btn btn-solid" type="button" id="btn-session-start"><i class="fas fa-microphone"></i> 开始上课</button>
+            <button class="btn btn-coral btn-sm" type="button" id="btn-session-stop" disabled><i class="fas fa-stop"></i> 结束听写</button>
+            <button class="btn btn-gold btn-sm" type="button" id="btn-session-report" disabled><i class="fas fa-wand-magic-sparkles"></i> 生成课后纪要</button>
+            <button class="btn btn-sm" type="button" id="btn-session-clear" style="background:#fff;border:1px solid var(--line);color:var(--muted)"><i class="fas fa-trash"></i> 清空本课</button>
+          </div>
+          <div class="session-live panel" style="box-shadow:none;margin:0;padding:14px;background:rgba(13,148,136,0.05)">
+            <div style="font-size:0.78rem;font-weight:700;color:var(--muted);margin-bottom:6px">正在听…（已纠名预览）</div>
+            <div class="session-interim" id="session-interim">等待麦克风…</div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin:14px 0 8px">
+              <strong style="font-size:0.92rem">转写稿（标准姓名）</strong>
+              <span style="font-size:0.78rem;color:var(--muted)" id="session-seg-count">0 段</span>
+            </div>
+            <div class="session-transcript" id="session-transcript"><span class="empty-hint">开始上课后，这里会滚动出现已纠名的课堂转写。</span></div>
+          </div>
+        </div>
+        <div class="session-side">
+          <div class="panel" style="padding:16px">
+            <h3 style="margin:0 0 10px;font-size:0.95rem"><i class="fas fa-user-check" style="color:var(--teal)"></i> 姓名命中（音→标准字）</h3>
+            <div class="name-hit-grid" id="name-hit-grid"></div>
+          </div>
+          <div class="panel" style="padding:16px">
+            <h3 style="margin:0 0 10px;font-size:0.95rem"><i class="fas fa-list" style="color:var(--gold)"></i> 本课工具事件</h3>
+            <div class="session-events" id="session-events"><span class="empty-hint">点名 / 小锤子 / 花束会自动记入</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="panel report-box" id="report-box" hidden>
+        <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px">
+          <h3 style="margin:0;font-family:var(--cn-display);letter-spacing:0.04em">课后纪要</h3>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-sm btn-solid" type="button" id="btn-copy-report"><i class="fas fa-copy"></i> 复制</button>
+          </div>
+        </div>
+        <div class="report-md" id="report-md"></div>
       </div>
     </section>
 
@@ -1403,6 +1599,7 @@
   </div>
 
   <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
+  <script src="classroom-session.js"></script>
   <script>
 (function () {
   "use strict";
@@ -1785,6 +1982,9 @@
     if (state.speakOn) {
       speakZh(student.name);
     }
+    if (window.ClassSession) {
+      ClassSession.logEvent("点名", student.name, "随机点到");
+    }
   }
 
   function startPick() {
@@ -1881,6 +2081,7 @@
     saveState();
     showFx("whip", s, s.name + " 被小锤子点到 · −" + WHIP_PENALTY);
     if (state.speakOn) speakZh(s.name + "，要注意啦");
+    if (window.ClassSession) ClassSession.logEvent("小锤子", s.name, "−" + WHIP_PENALTY);
     refreshAll();
     var card = document.querySelector('.student-card[data-id="' + id + '"]');
     if (card) {
@@ -1898,6 +2099,7 @@
     saveState();
     showFx("bouquet", s, s.name + " 收到花束 · +" + BOUQUET_BONUS + " · 小红花 +1");
     if (state.speakOn) speakZh(s.name + "，太棒了");
+    if (window.ClassSession) ClassSession.logEvent("花束", s.name, "+" + BOUQUET_BONUS + " / 小红花+1");
     refreshAll();
     var card = document.querySelector('.student-card[data-id="' + id + '"]');
     if (card) {
@@ -2051,6 +2253,9 @@
   document.getElementById("hero-timer").addEventListener("click", function () {
     switchView("timer");
   });
+  document.getElementById("hero-session").addEventListener("click", function () {
+    switchView("session");
+  });
 
   document.getElementById("btn-pick").addEventListener("click", startPick);
   document.getElementById("btn-pick-again").addEventListener("click", startPick);
@@ -2191,6 +2396,168 @@
       document.exitFullscreen().catch(function () {});
     }
   });
+
+  /* —— 课堂纪要 UI —— */
+  var sessionClock = null;
+
+  function escapeHtml(str) {
+    return String(str || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function highlightNames(text) {
+    var html = escapeHtml(text);
+    DEFAULT_STUDENTS.forEach(function (name) {
+      html = html.split(name).join('<span class="name-hit">' + name + "</span>");
+    });
+    return html;
+  }
+
+  function simpleMarkdown(md) {
+    var lines = String(md || "").split("\n");
+    return lines.map(function (line) {
+      if (/^##\s+/.test(line)) return "<h2>" + highlightNames(line.replace(/^##\s+/, "")) + "</h2>";
+      if (/^###\s+/.test(line)) return "<h3>" + highlightNames(line.replace(/^###\s+/, "")) + "</h3>";
+      if (/^[-*]\s+/.test(line)) return "<div>• " + highlightNames(line.replace(/^[-*]\s+/, "")) + "</div>";
+      if (!line.trim()) return "<br>";
+      return "<div>" + highlightNames(line) + "</div>";
+    }).join("");
+  }
+
+  function renderSessionUI(snap) {
+    if (!snap) snap = window.ClassSession ? ClassSession.getSnapshot() : null;
+    if (!snap) return;
+
+    var status = document.getElementById("session-status");
+    var statusText = document.getElementById("session-status-text");
+    status.classList.toggle("live", !!snap.running);
+    statusText.textContent = snap.running ? "听写中" : (snap.segments.length ? "已暂停/结束" : "未开始");
+    document.getElementById("session-elapsed").textContent = snap.elapsed;
+    document.getElementById("session-interim").textContent = snap.interim || (snap.running ? "…" : "等待麦克风…");
+    document.getElementById("session-seg-count").textContent = snap.segments.length + " 段";
+
+    var box = document.getElementById("session-transcript");
+    if (!snap.segments.length) {
+      box.innerHTML = '<span class="empty-hint">开始上课后，这里会滚动出现已纠名的课堂转写。</span>';
+    } else {
+      box.innerHTML = snap.segments.map(function (seg) {
+        return highlightNames(seg.text);
+      }).join("");
+      box.scrollTop = box.scrollHeight;
+    }
+
+    var hits = snap.nameHits || {};
+    document.getElementById("name-hit-grid").innerHTML = DEFAULT_STUDENTS.map(function (name) {
+      var n = hits[name] || 0;
+      return '<div class="name-hit-chip' + (n ? " has" : "") + '"><span>' + name + "</span><span>×" + n + "</span></div>";
+    }).join("");
+
+    var evBox = document.getElementById("session-events");
+    if (!snap.events.length) {
+      evBox.innerHTML = '<span class="empty-hint">点名 / 小锤子 / 花束会自动记入</span>';
+    } else {
+      evBox.innerHTML = snap.events.slice().reverse().slice(0, 40).map(function (e) {
+        return "<div><strong>" + escapeHtml(e.type) + "</strong> " +
+          (e.student ? '<span class="name-hit">' + escapeHtml(e.student) + "</span> " : "") +
+          escapeHtml(e.detail || "") + "</div>";
+      }).join("");
+    }
+
+    document.getElementById("btn-session-start").disabled = !!snap.running;
+    document.getElementById("btn-session-stop").disabled = !snap.running;
+    document.getElementById("btn-session-report").disabled = !(snap.segments.length || snap.events.length);
+  }
+
+  function tickSessionClock() {
+    if (!window.ClassSession) return;
+    var snap = ClassSession.getSnapshot();
+    if (snap.running) {
+      document.getElementById("session-elapsed").textContent = snap.elapsed;
+    }
+  }
+
+  document.getElementById("btn-session-start").addEventListener("click", function () {
+    if (!window.ClassSession) {
+      toast("课堂纪要模块未加载");
+      return;
+    }
+    switchView("session");
+    toast("请允许麦克风权限…");
+    ClassSession.start({
+      roster: DEFAULT_STUDENTS.slice(),
+      onUpdate: renderSessionUI
+    }).then(function () {
+      toast("已开始听写 · 姓名强绑定已开启");
+      clearInterval(sessionClock);
+      sessionClock = setInterval(tickSessionClock, 1000);
+      renderSessionUI();
+    }).catch(function (err) {
+      console.error(err);
+      toast("无法启动听写：" + (err && err.message ? err.message : "请检查麦克风"));
+      renderSessionUI();
+    });
+  });
+
+  document.getElementById("btn-session-stop").addEventListener("click", function () {
+    if (!window.ClassSession) return;
+    ClassSession.stop();
+    clearInterval(sessionClock);
+    toast("听写已结束，可生成课后纪要");
+    renderSessionUI();
+  });
+
+  document.getElementById("btn-session-clear").addEventListener("click", function () {
+    if (!window.ClassSession) return;
+    if (!confirm("清空本课转写与事件？不可恢复。")) return;
+    ClassSession.clear();
+    clearInterval(sessionClock);
+    document.getElementById("report-box").hidden = true;
+    document.getElementById("report-md").innerHTML = "";
+    renderSessionUI();
+    toast("本课记录已清空");
+  });
+
+  document.getElementById("btn-session-report").addEventListener("click", function () {
+    if (!window.ClassSession) return;
+    var btn = document.getElementById("btn-session-report");
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 生成中…';
+    if (ClassSession.getSnapshot().running) ClassSession.stop();
+    toast("DeepSeek 正在写课后纪要…");
+    ClassSession.generateReport(state.students.map(function (s) {
+      return { name: s.name, points: s.points, whips: s.whips || 0, flowers: s.flowers || 0 };
+    })).then(function (report) {
+      document.getElementById("report-box").hidden = false;
+      document.getElementById("report-md").innerHTML = simpleMarkdown(report.markdown);
+      document.getElementById("report-box").scrollIntoView({ behavior: "smooth", block: "start" });
+      toast("纪要已生成 · 用时约课堂结束后几分钟内完成");
+      renderSessionUI();
+    }).catch(function (err) {
+      console.error(err);
+      toast("生成失败：" + (err && err.message ? err.message : "请稍后重试"));
+    }).finally(function () {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-wand-magic-sparkles"></i> 生成课后纪要';
+    });
+  });
+
+  document.getElementById("btn-copy-report").addEventListener("click", function () {
+    var text = document.getElementById("report-md").innerText || "";
+    if (!text.trim()) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { toast("已复制到剪贴板"); });
+    } else {
+      toast("请手动选择复制");
+    }
+  });
+
+  if (window.ClassSession) {
+    ClassSession.setOnUpdate(renderSessionUI);
+    renderSessionUI();
+  }
 
   // warm voices
   if (window.speechSynthesis) {
