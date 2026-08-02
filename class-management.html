@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>班级管理 | S-Class</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
+  <script src="scripts/pet-passage-speech.js"></script>
+  <style>
+    :root {
+      --ink: #0a1628;
+      --teal: #14b8a6;
+      --teal-dim: #0d9488;
+      --teal-soft: rgba(20, 184, 166, 0.12);
+      --gold: #f59e0b;
+      --gold-soft: rgba(245, 158, 11, 0.16);
+      --rose: #f43f5e;
+      --rose-soft: rgba(244, 63, 94, 0.12);
+      --purple: #8b5cf6;
+      --purple-soft: rgba(139, 92, 246, 0.12);
+      --surface: #f4f7fb;
+      --white: #ffffff;
+      --muted: #64748b;
+      --font: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --shadow: 0 16px 48px rgba(10, 22, 40, 0.08);
+      --radius: 20px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font);
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 0%, rgba(20, 184, 166, 0.14), transparent 55%),
+        radial-gradient(ellipse 60% 50% at 90% 100%, rgba(139, 92, 246, 0.1), transparent 50%),
+        radial-gradient(ellipse 50% 40% at 50% 50%, rgba(245, 158, 11, 0.06), transparent 60%),
+        var(--surface);
+    }
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px 16px 60px;
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--teal-dim);
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 500;
+    }
+
+    .back-link:hover { color: var(--teal); }
+
+    .class-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--teal-soft), var(--purple-soft));
+      color: var(--teal-dim);
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      margin: 0 0 6px;
+      font-size: clamp(1.5rem, 5vw, 2.2rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .hero h1 i { color: var(--teal); margin-right: 8px; }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .tab-bar {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 4px;
+      margin-bottom: 20px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 16px;
+      border: 1px solid rgba(15, 23, 42, 0.06);
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .tab-bar::-webkit-scrollbar { display: none; }
+
+    .tab-btn {
+      flex: 1;
+      min-width: max-content;
+      padding: 12px 16px;
+      border: none;
+      border-radius: 12px;
+      background: transparent;
+      font: inherit;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.25s var(--ease);
+      white-space: nowrap;
+    }
+
+    .tab-btn i { margin-right: 6px; }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, var(--teal), var(--teal-dim));
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(20, 184, 166, 0.35);
+    }
+
+    .tab-btn:not(.active):hover {
+      background: rgba(15, 23, 42, 0.05);
+      color: var(--ink);
+    }
+
+    .panel {
+      display: none;
+      animation: fade-up 0.35s var(--ease);
+    }
+
+    .panel.active { display: block; }
+
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(15, 23, 42, 0.06);
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 18px;
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    .card-title i { color: var(--teal); }
+
+    /* ── Student grid ── */
+    .student-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 14px;
+    }
+
+    .student-card {
+      position: relative;
+      text-align: center;
+      padding: 16px 12px 14px;
+      border-radius: 18px;
+      background: var(--surface);
+      border: 2px solid transparent;
+      transition: transform 0.2s var(--ease), box-shadow 0.2s, border-color 0.2s;
+      cursor: default;
+    }
+
+    .student-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(10, 22, 40, 0.1);
+      border-color: rgba(20, 184, 166, 0.25);
+    }
+
+    .student-card.called {
+      border-color: var(--gold);
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(20, 184, 166, 0.08));
+      animation: pulse-glow 1.5s ease infinite;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.3); }
+      50% { box-shadow: 0 0 0 8px rgba(245, 158, 11, 0); }
+    }
+
+    .avatar-wrap {
+      position: relative;
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 10px;
+    }
+
+    .avatar-img {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #fff;
+      box-shadow: 0 6px 20px rgba(10, 22, 40, 0.12);
+      background: linear-gradient(135deg, var(--teal-soft), var(--purple-soft));
+    }
+
+    .avatar-edit {
+      position: absolute;
+      right: -2px;
+      bottom: -2px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      background: var(--teal);
+      color: #fff;
+      font-size: 0.7rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s;
+    }
+
+    .avatar-edit:hover { transform: scale(1.1); }
+
+    .student-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .points-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .pts-btn {
+      width: 28px;
+      height: 28px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pts-btn:active { transform: scale(0.9); }
+
+    .pts-btn.minus {
+      background: var(--rose-soft);
+      color: var(--rose);
+    }
+
+    .pts-btn.plus {
+      background: var(--teal-soft);
+      color: var(--teal-dim);
+    }
+
+    .pts-value {
+      min-width: 36px;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--teal-dim);
+    }
+
+    .pts-value.negative { color: var(--rose); }
+
+    /* ── Random call ── */
+    .call-stage {
+      text-align: center;
+      padding: 32px 20px;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .call-avatar {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid #fff;
+      box-shadow: 0 20px 60px rgba(10, 22, 40, 0.18);
+      margin-bottom: 20px;
+      transition: transform 0.3s var(--ease);
+    }
+
+    .call-avatar.spinning {
+      animation: avatar-spin 0.15s linear infinite;
+    }
+
+    @keyframes avatar-spin {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(0.95); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
+
+    .call-name {
+      font-size: clamp(2rem, 8vw, 3rem);
+      font-weight: 800;
+      margin: 0 0 8px;
+      background: linear-gradient(135deg, var(--teal-dim), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .call-hint {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-bottom: 24px;
+    }
+
+    .call-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 24px;
+      border: none;
+      border-radius: 14px;
+      font: inherit;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s var(--ease), box-shadow 0.2s;
+    }
+
+    .btn:active:not(:disabled) { transform: scale(0.97); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--teal), var(--teal-dim));
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(20, 184, 166, 0.35);
+      min-width: 180px;
+      border-radius: 999px;
+      padding: 16px 32px;
+      font-size: 1.1rem;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      box-shadow: 0 12px 32px rgba(20, 184, 166, 0.45);
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold), #d97706);
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(245, 158, 11, 0.35);
+    }
+
+    .btn-ghost {
+      background: rgba(15, 23, 42, 0.06);
+      color: var(--ink);
+    }
+
+    .btn-sm {
+      padding: 8px 14px;
+      font-size: 0.85rem;
+      border-radius: 10px;
+    }
+
+    .call-history {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(15, 23, 42, 0.08);
+    }
+
+    .call-history-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .call-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .call-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--surface);
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .call-chip img {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .call-options {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .call-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .call-option input { accent-color: var(--teal); }
+
+    /* ── Leaderboard ── */
+    .leader-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .leader-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      margin-bottom: 8px;
+      background: var(--surface);
+      transition: transform 0.2s;
+    }
+
+    .leader-item:hover { transform: translateX(4px); }
+
+    .leader-item.rank-1 {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.05));
+      border: 1px solid rgba(245, 158, 11, 0.25);
+    }
+
+    .leader-item.rank-2 {
+      background: linear-gradient(135deg, rgba(148, 163, 184, 0.15), rgba(148, 163, 184, 0.05));
+    }
+
+    .leader-item.rank-3 {
+      background: linear-gradient(135deg, rgba(180, 83, 9, 0.12), rgba(180, 83, 9, 0.04));
+    }
+
+    .leader-rank {
+      width: 32px;
+      font-size: 1.2rem;
+      font-weight: 800;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .leader-item.rank-1 .leader-rank { color: var(--gold); font-size: 1.4rem; }
+    .leader-item.rank-2 .leader-rank { color: #94a3b8; }
+    .leader-item.rank-3 .leader-rank { color: #b45309; }
+
+    .leader-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #fff;
+      box-shadow: 0 4px 12px rgba(10, 22, 40, 0.1);
+    }
+
+    .leader-info { flex: 1; min-width: 0; }
+
+    .leader-name {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .leader-pts {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--teal-dim);
+    }
+
+    .leader-pts.negative { color: var(--rose); }
+
+    /* ── Tools ── */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .timer-display {
+      font-size: clamp(3rem, 12vw, 5rem);
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      text-align: center;
+      margin: 16px 0;
+      color: var(--ink);
+      letter-spacing: 0.05em;
+    }
+
+    .timer-display.warning { color: var(--gold); }
+    .timer-display.danger { color: var(--rose); animation: timer-pulse 0.8s ease infinite; }
+
+    @keyframes timer-pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    .timer-presets {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .timer-presets .btn-sm.active {
+      background: var(--teal);
+      color: #fff;
+    }
+
+    .timer-controls {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .group-result {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .group-card {
+      padding: 16px;
+      border-radius: 14px;
+      background: var(--surface);
+      border-left: 4px solid var(--teal);
+    }
+
+    .group-card:nth-child(2) { border-left-color: var(--gold); }
+    .group-card:nth-child(3) { border-left-color: var(--purple); }
+    .group-card:nth-child(4) { border-left-color: var(--rose); }
+
+    .group-title {
+      font-weight: 700;
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+    }
+
+    .group-members {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .group-member {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px 4px 4px;
+      border-radius: 999px;
+      background: var(--white);
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .group-member img {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .tool-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .tool-row label {
+      font-weight: 600;
+      font-size: 0.9rem;
+      min-width: 60px;
+    }
+
+    .tool-row select, .tool-row input {
+      flex: 1;
+      min-width: 100px;
+      padding: 10px 14px;
+      border: 2px solid rgba(15, 23, 42, 0.1);
+      border-radius: 12px;
+      font: inherit;
+      font-size: 0.95rem;
+    }
+
+    .tool-row select:focus, .tool-row input:focus {
+      outline: none;
+      border-color: var(--teal);
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .stat-box {
+      text-align: center;
+      padding: 16px 12px;
+      border-radius: 16px;
+      background: var(--white);
+      box-shadow: 0 4px 16px rgba(10, 22, 40, 0.06);
+    }
+
+    .stat-box strong {
+      display: block;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--teal-dim);
+      line-height: 1.2;
+    }
+
+    .stat-box span {
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 22, 40, 0.5);
+      backdrop-filter: blur(6px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.show { display: flex; }
+
+    .modal {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 28px 24px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 24px 80px rgba(10, 22, 40, 0.2);
+      animation: modal-in 0.35s var(--ease);
+    }
+
+    @keyframes modal-in {
+      from { opacity: 0; transform: scale(0.92) translateY(20px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    .modal h3 {
+      margin: 0 0 6px;
+      font-size: 1.2rem;
+      text-align: center;
+    }
+
+    .modal-sub {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+    }
+
+    .avatar-pick-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .avatar-pick {
+      position: relative;
+      text-align: center;
+      padding: 12px;
+      border-radius: 16px;
+      border: 3px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s var(--ease);
+      background: var(--surface);
+    }
+
+    .avatar-pick:hover {
+      border-color: rgba(20, 184, 166, 0.3);
+      transform: scale(1.03);
+    }
+
+    .avatar-pick.selected {
+      border-color: var(--teal);
+      background: var(--teal-soft);
+      box-shadow: 0 8px 24px rgba(20, 184, 166, 0.2);
+    }
+
+    .avatar-pick img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #fff;
+      box-shadow: 0 6px 20px rgba(10, 22, 40, 0.1);
+    }
+
+    .avatar-pick-label {
+      margin-top: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .confetti {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 300;
+      overflow: hidden;
+    }
+
+    .confetti span {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      animation: confetti-fall 1.2s ease-out forwards;
+    }
+
+    @keyframes confetti-fall {
+      0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+      100% { opacity: 0; transform: translateY(100vh) rotate(720deg); }
+    }
+
+    .toolbar-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    @media (max-width: 600px) {
+      .student-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+      .stats-row { grid-template-columns: 1fr; }
+      .call-avatar { width: 110px; height: 110px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="top-bar">
+      <a class="back-link" href="index.html"><i class="fas fa-arrow-left"></i> 返回首页</a>
+      <span class="class-badge"><i class="fas fa-users"></i> 新班级 · 15 人</span>
+    </div>
+
+    <div class="hero">
+      <h1><i class="fas fa-chalkboard-teacher"></i> 班级管理中心</h1>
+      <p>随机点名 · 积分奖惩 · 课堂计时 · 智能分组</p>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-box">
+        <strong id="stat-students">15</strong>
+        <span>学生人数</span>
+      </div>
+      <div class="stat-box">
+        <strong id="stat-total-pts">0</strong>
+        <span>班级总积分</span>
+      </div>
+      <div class="stat-box">
+        <strong id="stat-called">0</strong>
+        <span>今日点名</span>
+      </div>
+    </div>
+
+    <nav class="tab-bar" role="tablist">
+      <button class="tab-btn active" data-tab="roster" role="tab"><i class="fas fa-id-card"></i> 花名册</button>
+      <button class="tab-btn" data-tab="call" role="tab"><i class="fas fa-bullhorn"></i> 随机点名</button>
+      <button class="tab-btn" data-tab="points" role="tab"><i class="fas fa-trophy"></i> 积分排行</button>
+      <button class="tab-btn" data-tab="tools" role="tab"><i class="fas fa-toolbox"></i> 课堂工具</button>
+    </nav>
+
+    <!-- 花名册 -->
+    <section class="panel active" id="panel-roster" role="tabpanel">
+      <div class="toolbar-actions">
+        <button class="btn btn-ghost btn-sm" id="btn-reset-pts"><i class="fas fa-undo"></i> 重置积分</button>
+        <button class="btn btn-ghost btn-sm" id="btn-batch-plus"><i class="fas fa-plus-circle"></i> 全班 +1</button>
+      </div>
+      <div class="card">
+        <h2 class="card-title"><i class="fas fa-users"></i> 学生花名册</h2>
+        <div class="student-grid" id="student-grid"></div>
+      </div>
+    </section>
+
+    <!-- 随机点名 -->
+    <section class="panel" id="panel-call" role="tabpanel">
+      <div class="card">
+        <h2 class="card-title"><i class="fas fa-bullhorn"></i> 随机点名</h2>
+        <div class="call-options">
+          <label class="call-option">
+            <input type="checkbox" id="opt-speak" checked> 朗读姓名
+          </label>
+          <label class="call-option">
+            <input type="checkbox" id="opt-no-repeat" checked> 不重复点名
+          </label>
+        </div>
+        <div class="call-stage" id="call-stage">
+          <img class="call-avatar" id="call-avatar" src="class-management/avatars/avatar-01.png" alt="">
+          <p class="call-name" id="call-name">准备好了吗？</p>
+          <p class="call-hint" id="call-hint">点击按钮，随机抽取一位同学</p>
+          <div class="call-actions">
+            <button class="btn btn-primary" id="btn-call"><i class="fas fa-hand-pointer"></i> 开始点名</button>
+            <button class="btn btn-ghost" id="btn-reset-call"><i class="fas fa-redo"></i> 重置</button>
+          </div>
+        </div>
+        <div class="call-history" id="call-history-wrap" style="display:none;">
+          <div class="call-history-title"><i class="fas fa-history"></i> 已点名记录</div>
+          <div class="call-chips" id="call-chips"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 积分排行 -->
+    <section class="panel" id="panel-points" role="tabpanel">
+      <div class="card">
+        <h2 class="card-title"><i class="fas fa-trophy"></i> 积分排行榜</h2>
+        <ul class="leader-list" id="leader-list"></ul>
+      </div>
+    </section>
+
+    <!-- 课堂工具 -->
+    <section class="panel" id="panel-tools" role="tabpanel">
+      <div class="tools-grid">
+        <div class="card">
+          <h2 class="card-title"><i class="fas fa-hourglass-half"></i> 课堂倒计时</h2>
+          <div class="timer-presets">
+            <button class="btn btn-ghost btn-sm timer-preset" data-secs="60">1 分钟</button>
+            <button class="btn btn-ghost btn-sm timer-preset" data-secs="180">3 分钟</button>
+            <button class="btn btn-ghost btn-sm timer-preset" data-secs="300">5 分钟</button>
+            <button class="btn btn-ghost btn-sm timer-preset" data-secs="600">10 分钟</button>
+          </div>
+          <div class="tool-row">
+            <label>自定义</label>
+            <input type="number" id="timer-custom" min="1" max="3600" value="120" placeholder="秒">
+          </div>
+          <div class="timer-display" id="timer-display">02:00</div>
+          <div class="timer-controls">
+            <button class="btn btn-primary btn-sm" id="btn-timer-start"><i class="fas fa-play"></i> 开始</button>
+            <button class="btn btn-ghost btn-sm" id="btn-timer-pause"><i class="fas fa-pause"></i> 暂停</button>
+            <button class="btn btn-ghost btn-sm" id="btn-timer-reset"><i class="fas fa-redo"></i> 重置</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title"><i class="fas fa-people-group"></i> 随机分组</h2>
+          <div class="tool-row">
+            <label>组数</label>
+            <select id="group-count">
+              <option value="2">2 组</option>
+              <option value="3" selected>3 组</option>
+              <option value="4">4 组</option>
+            </select>
+          </div>
+          <button class="btn btn-gold" id="btn-group" style="width:100%;"><i class="fas fa-shuffle"></i> 随机分组</button>
+          <div class="group-result" id="group-result"></div>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title"><i class="fas fa-star"></i> 快捷奖惩</h2>
+          <p style="margin:0 0 14px;color:var(--muted);font-size:0.9rem;">选中学生后快速加减分（在花名册中点击学生卡片选中）</p>
+          <div class="tool-row">
+            <button class="btn btn-ghost btn-sm quick-pts" data-delta="1">+1</button>
+            <button class="btn btn-ghost btn-sm quick-pts" data-delta="2">+2</button>
+            <button class="btn btn-ghost btn-sm quick-pts" data-delta="5">+5</button>
+            <button class="btn btn-ghost btn-sm quick-pts" data-delta="-1">-1</button>
+            <button class="btn btn-ghost btn-sm quick-pts" data-delta="-2">-2</button>
+          </div>
+          <p id="selected-student" style="margin:12px 0 0;font-weight:600;color:var(--teal-dim);">当前选中：无</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- 头像选择弹窗 -->
+  <div class="modal-overlay" id="avatar-modal">
+    <div class="modal">
+      <h3 id="modal-student-name">选择头像</h3>
+      <p class="modal-sub">挑选你喜欢的卡通形象吧！</p>
+      <div class="avatar-pick-grid" id="avatar-pick-grid"></div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost btn-sm" id="btn-modal-cancel">取消</button>
+        <button class="btn btn-primary btn-sm" id="btn-modal-save"><i class="fas fa-check"></i> 确定</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var STORAGE_KEY = 'sclass-class-mgmt-v1';
+
+      var DEFAULT_STUDENTS = [
+        { id: 's01', name: '邓斯茹', avatarOptions: ['avatar-01.png', 'avatar-02.png'], avatar: 'avatar-01.png', points: 0 },
+        { id: 's02', name: '朱希曈', avatarOptions: ['avatar-03.png', 'avatar-04.png'], avatar: 'avatar-03.png', points: 0 },
+        { id: 's03', name: '雷峻仁', avatarOptions: ['avatar-05.png', 'avatar-06.png'], avatar: 'avatar-05.png', points: 0 },
+        { id: 's04', name: '王思淼', avatarOptions: ['avatar-07.png', 'avatar-08.png'], avatar: 'avatar-07.png', points: 0 },
+        { id: 's05', name: '严江艺', avatarOptions: ['avatar-09.png', 'avatar-10.png'], avatar: 'avatar-09.png', points: 0 },
+        { id: 's06', name: '王雅萱', avatarOptions: ['avatar-11.png', 'avatar-12.png'], avatar: 'avatar-11.png', points: 0 },
+        { id: 's07', name: '孙悦博', avatarOptions: ['avatar-13.png', 'avatar-14.png'], avatar: 'avatar-13.png', points: 0 },
+        { id: 's08', name: '徐梓媗', avatarOptions: ['avatar-15.png', 'avatar-16.png'], avatar: 'avatar-15.png', points: 0 },
+        { id: 's09', name: '谢淑媛', avatarOptions: ['avatar-17.png', 'avatar-18.png'], avatar: 'avatar-17.png', points: 0 },
+        { id: 's10', name: '李雨馨', avatarOptions: ['avatar-19.png', 'avatar-20.png'], avatar: 'avatar-19.png', points: 0 },
+        { id: 's11', name: '宋芊彤', avatarOptions: ['avatar-21.png', 'avatar-22.png'], avatar: 'avatar-21.png', points: 0 },
+        { id: 's12', name: '高梓轩', avatarOptions: ['avatar-23.png', 'avatar-24.png'], avatar: 'avatar-23.png', points: 0 },
+        { id: 's13', name: '袁梓瑞', avatarOptions: ['avatar-25.png', 'avatar-26.png'], avatar: 'avatar-25.png', points: 0 },
+        { id: 's14', name: '黎小菲', avatarOptions: ['avatar-27.png', 'avatar-28.png'], avatar: 'avatar-27.png', points: 0 },
+        { id: 's15', name: '谢林翰', avatarOptions: ['avatar-29.png', 'avatar-30.png'], avatar: 'avatar-29.png', points: 0 }
+      ];
+
+      var AVATAR_BASE = 'class-management/avatars/';
+
+      var state = loadState();
+      var selectedId = null;
+      var calledIds = [];
+      var callCount = 0;
+      var calling = false;
+      var modalStudentId = null;
+      var modalPick = null;
+
+      // Timer state
+      var timerSecs = 120;
+      var timerRemaining = 120;
+      var timerInterval = null;
+      var timerRunning = false;
+
+      function loadState() {
+        try {
+          var raw = localStorage.getItem(STORAGE_KEY);
+          if (raw) {
+            var parsed = JSON.parse(raw);
+            if (parsed.students && parsed.students.length) return parsed;
+          }
+        } catch (e) {}
+        return { students: JSON.parse(JSON.stringify(DEFAULT_STUDENTS)), callCount: 0 };
+      }
+
+      function saveState() {
+        state.callCount = callCount;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      }
+
+      function avatarUrl(file) {
+        return AVATAR_BASE + file;
+      }
+
+      function getStudent(id) {
+        return state.students.find(function (s) { return s.id === id; });
+      }
+
+      function speakName(name) {
+        if (!document.getElementById('opt-speak').checked) return;
+        if (window.azureSpeak) {
+          window.azureSpeak(name, { voice: 'zh-CN-XiaoxiaoNeural' });
+        } else if (window.speechSynthesis) {
+          var u = new SpeechSynthesisUtterance(name);
+          u.lang = 'zh-CN';
+          u.rate = 0.9;
+          speechSynthesis.speak(u);
+        }
+      }
+
+      function fireConfetti() {
+        var wrap = document.createElement('div');
+        wrap.className = 'confetti';
+        var colors = ['#14b8a6', '#f59e0b', '#8b5cf6', '#f43f5e', '#5eead4'];
+        for (var i = 0; i < 40; i++) {
+          var s = document.createElement('span');
+          s.style.left = Math.random() * 100 + '%';
+          s.style.top = '-10px';
+          s.style.background = colors[i % colors.length];
+          s.style.animationDelay = (Math.random() * 0.4) + 's';
+          wrap.appendChild(s);
+        }
+        document.body.appendChild(wrap);
+        setTimeout(function () { wrap.remove(); }, 2000);
+      }
+
+      function updateStats() {
+        var total = state.students.reduce(function (sum, s) { return sum + s.points; }, 0);
+        document.getElementById('stat-students').textContent = state.students.length;
+        document.getElementById('stat-total-pts').textContent = total;
+        document.getElementById('stat-called').textContent = callCount;
+      }
+
+      function renderRoster() {
+        var grid = document.getElementById('student-grid');
+        grid.innerHTML = '';
+        state.students.forEach(function (s) {
+          var card = document.createElement('div');
+          card.className = 'student-card' + (selectedId === s.id ? ' called' : '');
+          card.dataset.id = s.id;
+          card.innerHTML =
+            '<div class="avatar-wrap">' +
+              '<img class="avatar-img" src="' + avatarUrl(s.avatar) + '" alt="' + s.name + '">' +
+              '<button class="avatar-edit" data-id="' + s.id + '" title="换头像"><i class="fas fa-pen"></i></button>' +
+            '</div>' +
+            '<div class="student-name">' + s.name + '</div>' +
+            '<div class="points-row">' +
+              '<button class="pts-btn minus" data-id="' + s.id + '" data-delta="-1">−</button>' +
+              '<span class="pts-value' + (s.points < 0 ? ' negative' : '') + '">' + s.points + '</span>' +
+              '<button class="pts-btn plus" data-id="' + s.id + '" data-delta="1">+</button>' +
+            '</div>';
+          grid.appendChild(card);
+        });
+
+        grid.querySelectorAll('.avatar-edit').forEach(function (btn) {
+          btn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            openAvatarModal(btn.dataset.id);
+          });
+        });
+
+        grid.querySelectorAll('.pts-btn').forEach(function (btn) {
+          btn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            adjustPoints(btn.dataset.id, Number(btn.dataset.delta));
+          });
+        });
+
+        grid.querySelectorAll('.student-card').forEach(function (card) {
+          card.addEventListener('click', function () {
+            selectedId = card.dataset.id;
+            document.getElementById('selected-student').textContent = '当前选中：' + getStudent(selectedId).name;
+            renderRoster();
+          });
+        });
+      }
+
+      function renderLeaderboard() {
+        var list = document.getElementById('leader-list');
+        var sorted = state.students.slice().sort(function (a, b) { return b.points - a.points; });
+        list.innerHTML = '';
+        sorted.forEach(function (s, i) {
+          var rank = i + 1;
+          var li = document.createElement('li');
+          li.className = 'leader-item' + (rank <= 3 ? ' rank-' + rank : '');
+          var medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : rank;
+          li.innerHTML =
+            '<span class="leader-rank">' + medal + '</span>' +
+            '<img class="leader-avatar" src="' + avatarUrl(s.avatar) + '" alt="">' +
+            '<div class="leader-info"><div class="leader-name">' + s.name + '</div></div>' +
+            '<span class="leader-pts' + (s.points < 0 ? ' negative' : '') + '">' + s.points + '</span>';
+          list.appendChild(li);
+        });
+      }
+
+      function adjustPoints(id, delta) {
+        var s = getStudent(id);
+        if (!s) return;
+        s.points += delta;
+        saveState();
+        renderRoster();
+        renderLeaderboard();
+        updateStats();
+      }
+
+      function openAvatarModal(id) {
+        var s = getStudent(id);
+        if (!s) return;
+        modalStudentId = id;
+        modalPick = s.avatar;
+        document.getElementById('modal-student-name').textContent = s.name + ' · 选择头像';
+        var grid = document.getElementById('avatar-pick-grid');
+        grid.innerHTML = '';
+        s.avatarOptions.forEach(function (file, idx) {
+          var pick = document.createElement('div');
+          pick.className = 'avatar-pick' + (file === s.avatar ? ' selected' : '');
+          pick.dataset.file = file;
+          pick.innerHTML =
+            '<img src="' + avatarUrl(file) + '" alt="头像' + (idx + 1) + '">' +
+            '<div class="avatar-pick-label">形象 ' + (idx + 1) + '</div>';
+          pick.addEventListener('click', function () {
+            grid.querySelectorAll('.avatar-pick').forEach(function (p) { p.classList.remove('selected'); });
+            pick.classList.add('selected');
+            modalPick = file;
+          });
+          grid.appendChild(pick);
+        });
+        document.getElementById('avatar-modal').classList.add('show');
+      }
+
+      function closeAvatarModal() {
+        document.getElementById('avatar-modal').classList.remove('show');
+        modalStudentId = null;
+        modalPick = null;
+      }
+
+      function randomCall() {
+        if (calling) return;
+        var noRepeat = document.getElementById('opt-no-repeat').checked;
+        var pool = noRepeat
+          ? state.students.filter(function (s) { return calledIds.indexOf(s.id) === -1; })
+          : state.students.slice();
+
+        if (!pool.length) {
+          document.getElementById('call-hint').textContent = '所有人都已点过名了，请重置后再试';
+          return;
+        }
+
+        calling = true;
+        document.getElementById('btn-call').disabled = true;
+        var avatarEl = document.getElementById('call-avatar');
+        var nameEl = document.getElementById('call-name');
+        var hintEl = document.getElementById('call-hint');
+        avatarEl.classList.add('spinning');
+        nameEl.textContent = '...';
+        hintEl.textContent = '正在抽取...';
+
+        var spins = 0;
+        var maxSpins = 18 + Math.floor(Math.random() * 10);
+        var finalStudent = pool[Math.floor(Math.random() * pool.length)];
+
+        var spinInterval = setInterval(function () {
+          var temp = state.students[Math.floor(Math.random() * state.students.length)];
+          avatarEl.src = avatarUrl(temp.avatar);
+          nameEl.textContent = temp.name;
+          spins++;
+          if (spins >= maxSpins) {
+            clearInterval(spinInterval);
+            avatarEl.classList.remove('spinning');
+            avatarEl.src = avatarUrl(finalStudent.avatar);
+            nameEl.textContent = finalStudent.name;
+            hintEl.textContent = '请 ' + finalStudent.name + ' 回答问题！';
+            speakName(finalStudent.name);
+            fireConfetti();
+
+            if (noRepeat) calledIds.push(finalStudent.id);
+            callCount++;
+            saveState();
+            updateStats();
+            renderCallHistory();
+            calling = false;
+            document.getElementById('btn-call').disabled = false;
+          }
+        }, 100);
+      }
+
+      function renderCallHistory() {
+        var wrap = document.getElementById('call-history-wrap');
+        var chips = document.getElementById('call-chips');
+        if (!calledIds.length) {
+          wrap.style.display = 'none';
+          return;
+        }
+        wrap.style.display = 'block';
+        chips.innerHTML = '';
+        calledIds.forEach(function (id) {
+          var s = getStudent(id);
+          if (!s) return;
+          var chip = document.createElement('span');
+          chip.className = 'call-chip';
+          chip.innerHTML = '<img src="' + avatarUrl(s.avatar) + '" alt="">' + s.name;
+          chips.appendChild(chip);
+        });
+      }
+
+      function formatTime(secs) {
+        var m = Math.floor(secs / 60);
+        var s = secs % 60;
+        return (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+      }
+
+      function updateTimerDisplay() {
+        var el = document.getElementById('timer-display');
+        el.textContent = formatTime(timerRemaining);
+        el.classList.remove('warning', 'danger');
+        if (timerRemaining <= 10 && timerRemaining > 0) el.classList.add('danger');
+        else if (timerRemaining <= 30) el.classList.add('warning');
+      }
+
+      function startTimer() {
+        if (timerRunning) return;
+        timerRunning = true;
+        timerInterval = setInterval(function () {
+          timerRemaining--;
+          updateTimerDisplay();
+          if (timerRemaining <= 0) {
+            clearInterval(timerInterval);
+            timerRunning = false;
+            timerRemaining = 0;
+            updateTimerDisplay();
+            speakName('时间到');
+            fireConfetti();
+          }
+        }, 1000);
+      }
+
+      function pauseTimer() {
+        timerRunning = false;
+        if (timerInterval) clearInterval(timerInterval);
+      }
+
+      function resetTimer() {
+        pauseTimer();
+        timerRemaining = timerSecs;
+        updateTimerDisplay();
+      }
+
+      function setTimerSecs(secs) {
+        pauseTimer();
+        timerSecs = secs;
+        timerRemaining = secs;
+        updateTimerDisplay();
+      }
+
+      function randomGroup() {
+        var count = Number(document.getElementById('group-count').value);
+        var shuffled = state.students.slice();
+        for (var i = shuffled.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var tmp = shuffled[i];
+          shuffled[i] = shuffled[j];
+          shuffled[j] = tmp;
+        }
+        var groups = [];
+        for (var g = 0; g < count; g++) groups.push([]);
+        shuffled.forEach(function (s, idx) {
+          groups[idx % count].push(s);
+        });
+
+        var container = document.getElementById('group-result');
+        container.innerHTML = '';
+        var labels = ['第一组', '第二组', '第三组', '第四组'];
+        groups.forEach(function (members, gi) {
+          var card = document.createElement('div');
+          card.className = 'group-card';
+          var memberHtml = members.map(function (s) {
+            return '<span class="group-member"><img src="' + avatarUrl(s.avatar) + '" alt="">' + s.name + '</span>';
+          }).join('');
+          card.innerHTML = '<div class="group-title">' + labels[gi] + '（' + members.length + ' 人）</div><div class="group-members">' + memberHtml + '</div>';
+          container.appendChild(card);
+        });
+        fireConfetti();
+      }
+
+      // Tab switching
+      document.querySelectorAll('.tab-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          document.querySelectorAll('.tab-btn').forEach(function (b) { b.classList.remove('active'); });
+          document.querySelectorAll('.panel').forEach(function (p) { p.classList.remove('active'); });
+          btn.classList.add('active');
+          document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+        });
+      });
+
+      document.getElementById('btn-call').addEventListener('click', randomCall);
+      document.getElementById('btn-reset-call').addEventListener('click', function () {
+        calledIds = [];
+        callCount = 0;
+        saveState();
+        updateStats();
+        renderCallHistory();
+        document.getElementById('call-name').textContent = '准备好了吗？';
+        document.getElementById('call-hint').textContent = '点击按钮，随机抽取一位同学';
+        document.getElementById('call-avatar').src = avatarUrl(state.students[0].avatar);
+      });
+
+      document.getElementById('btn-reset-pts').addEventListener('click', function () {
+        if (!confirm('确定要重置所有学生的积分吗？')) return;
+        state.students.forEach(function (s) { s.points = 0; });
+        saveState();
+        renderRoster();
+        renderLeaderboard();
+        updateStats();
+      });
+
+      document.getElementById('btn-batch-plus').addEventListener('click', function () {
+        state.students.forEach(function (s) { s.points += 1; });
+        saveState();
+        renderRoster();
+        renderLeaderboard();
+        updateStats();
+        fireConfetti();
+      });
+
+      document.querySelectorAll('.quick-pts').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          if (!selectedId) { alert('请先在花名册中点击选中一位学生'); return; }
+          adjustPoints(selectedId, Number(btn.dataset.delta));
+        });
+      });
+
+      document.getElementById('btn-modal-cancel').addEventListener('click', closeAvatarModal);
+      document.getElementById('btn-modal-save').addEventListener('click', function () {
+        if (modalStudentId && modalPick) {
+          getStudent(modalStudentId).avatar = modalPick;
+          saveState();
+          renderRoster();
+          renderLeaderboard();
+        }
+        closeAvatarModal();
+      });
+
+      document.getElementById('avatar-modal').addEventListener('click', function (e) {
+        if (e.target === this) closeAvatarModal();
+      });
+
+      document.querySelectorAll('.timer-preset').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          document.querySelectorAll('.timer-preset').forEach(function (b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          setTimerSecs(Number(btn.dataset.secs));
+        });
+      });
+
+      document.getElementById('btn-timer-start').addEventListener('click', startTimer);
+      document.getElementById('btn-timer-pause').addEventListener('click', pauseTimer);
+      document.getElementById('btn-timer-reset').addEventListener('click', resetTimer);
+      document.getElementById('timer-custom').addEventListener('change', function () {
+        var v = Math.max(1, Math.min(3600, Number(this.value) || 120));
+        this.value = v;
+        document.querySelectorAll('.timer-preset').forEach(function (b) { b.classList.remove('active'); });
+        setTimerSecs(v);
+      });
+
+      document.getElementById('btn-group').addEventListener('click', randomGroup);
+
+      callCount = state.callCount || 0;
+      renderRoster();
+      renderLeaderboard();
+      updateStats();
+      updateTimerDisplay();
+    })();
+  </script>
+</body>
+</html>
