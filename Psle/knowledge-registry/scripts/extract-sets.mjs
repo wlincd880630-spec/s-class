@@ -52,6 +52,17 @@ const TAG_RULES = [
   { re: /ask for|look after|look for|take care of|固定搭配|短语动词/i, id: "V-ask-phrases", type: "vocab", title: "ask for / look after / look for" },
   { re: /同义词|synonym|意思相同|意思相近/i, id: "V-synonyms", type: "vocab", title: "同义词替换 · 意思相同" },
   { re: /feel\s+\w+|excited|worried|nervous|proud|情绪|感受/i, id: "V-feelings", type: "vocab", title: "情绪形容词 · feel/excited/worried" },
+  // Wave 5
+  { re: /变复数|libraries|babies|potatoes|boxes|规则复数|辅音.*y.*ies/i, id: "G-plural-rules", type: "grammar", title: "名词规则复数 · libraries/babies" },
+  { re: /反义疑问|tag question|shall we|won't you|isn't it|don't they|will you/i, id: "G-question-tags", type: "grammar", title: "反义疑问句 · Let's/shall we" },
+  { re: /定语从句|relative clause|who lives|which is|that helps|who is\b/i, id: "G-relative-clause", type: "grammar", title: "定语从句 · who/which/that 入门" },
+  { re: /both\s+\w+.*and|either\s+\w+.*or|neither\s+\w+.*nor/i, id: "G-both-either-neither", type: "grammar", title: "both…and / either…or" },
+  { re: /反身代词|myself|yourself|himself|herself|ourselves|themselves/i, id: "G-reflexive-pronouns", type: "grammar", title: "反身代词 myself/yourself" },
+  { re: /so\s+\w+\s+that|such a\b|such\s+\w+\s+that/i, id: "G-so-such", type: "grammar", title: "so…that / such…that" },
+  { re: /want to|need doing|need to|would like to/i, id: "G-want-need-doing", type: "grammar", title: "want to / need doing" },
+  { re: /词性转换|word formation|carefully|careless|happiness|后缀|前缀/i, id: "V-word-formation", type: "vocab", title: "词性转换 careful/carefully" },
+  { re: /library|playground|classroom|music room|art room|teachers' office|学校场所/i, id: "V-school-places", type: "vocab", title: "学校场所词汇 library/playground" },
+  { re: /weather|season|spring|summer|autumn|winter|sunny|rainy|天气|季节/i, id: "V-weather-seasons", type: "vocab", title: "天气与季节 sunny/winter" },
 ];
 
 function stripHtml(s) {
