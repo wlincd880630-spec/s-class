@@ -112,3 +112,20 @@ node Psle/knowledge-registry/scripts/build-wave5-lessons.mjs
 for f in Psle/knowledge-registry/wave5/lessons/*.json; do node Grammar/kp-shared/gen-lesson.mjs "$f"; done
 node Psle/knowledge-registry/scripts/build-wave5-registry.mjs
 ```
+
+## 配图（Wave 1–5 全部课件）
+
+12 岁学生风格：明亮、半写实卡通、动感构图（Pollinations flux + 重点课 Composer 精修 hero）。
+
+```bash
+# 查看缺失
+python3 Grammar/kp-shared/scripts/generate-kp-images.py audit
+
+# 批量生成到各课 assets/img/（本地预览自动走本地图）
+python3 Grammar/kp-shared/scripts/generate-kp-images.py generate
+
+# 上传腾讯云 COS（需 .cos-config.json）
+python3 Grammar/kp-shared/scripts/generate-kp-images.py upload
+```
+
+`*.jpg` 在 `.gitignore` 中，图片存本地或 COS，不进入 git。`localhost` 访问时 `kp-engine` 优先加载 `assets/img/`。

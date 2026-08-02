@@ -17,7 +17,13 @@
   }
 
   function img(name) {
-    return global.KpImg ? global.KpImg.url(name) : name;
+    if (!name) return "";
+    if (global.KpImg) {
+      var host = typeof location !== "undefined" && location.hostname ? location.hostname : "";
+      if (host === "localhost" || host === "127.0.0.1") return global.KpImg.local(name);
+      return global.KpImg.url(name);
+    }
+    return name;
   }
 
   function imgOnerror(name) {
