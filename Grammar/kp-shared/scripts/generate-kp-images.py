@@ -31,11 +31,17 @@ ROOT = Path(__file__).resolve().parents[3]
 REGISTRY = ROOT / "Psle" / "knowledge-registry"
 PROGRESS_FILE = ROOT / "Grammar" / "kp-shared" / ".kp-image-progress.json"
 
+EXCLUDE_FOLDERS = {
+    "Grammar/KP-三单小升初",
+    "Grammar/KP-现在进行时小升初",
+    "Grammar/KP-不规则过去式",
+}
+
 STYLE = (
-    "Vibrant modern illustration for 12-year-old students, semi-realistic friendly cartoon style, "
-    "bright saturated colors, dynamic composition, expressive faces, clean uncluttered background, "
-    "cool and engaging like popular webtoon or Pixar-lite, educational scene, "
-    "no text, no letters, no words, no captions, no watermarks, no logos. Scene: "
+    "Premium children's educational illustration, polished Pixar-inspired 3D cartoon style, "
+    "soft cinematic lighting, rich color palette, adorable expressive characters aged 11-12, "
+    "clean composition with clear focal point, warm inviting mood, highly detailed but uncluttered, "
+    "professional storybook quality, NO text, NO letters, NO words, NO captions, NO watermarks. Scene: "
 )
 
 WRITING_PROMPT = (
@@ -130,11 +136,15 @@ def build_prompt(lesson: dict, filename: str) -> str:
     return STYLE + hint
 
 
-def collect_tasks(waves: list[int] | None) -> list[dict]:
+def collect_tasks(waves: list[int] | None, grammar_only: bool = False) -> list[dict]:
     tasks: dict[tuple[str, str], dict] = {}
     for lesson in load_lessons(waves):
         folder = lesson.get("folder", "").rstrip("/")
         if not folder:
+            continue
+        if folder in EXCLUDE_FOLDERS:
+            continue
+        if grammar_only and not folder.startswith("Grammar/KP-"):
             continue
         imgs: set[str] = set()
 
