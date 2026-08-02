@@ -510,7 +510,7 @@
     .roster-actions { display: flex; flex-wrap: wrap; gap: 8px; }
     .student-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
       gap: 14px;
     }
     .student-card {
@@ -586,6 +586,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       gap: 6px;
+      margin-bottom: 8px;
     }
     .point-btns button {
       border: none;
@@ -601,6 +602,265 @@
     .point-btns .minus { background: rgba(232, 93, 76, 0.12); color: var(--coral); }
     .point-btns .plus1 { background: rgba(13, 148, 136, 0.12); color: var(--teal-deep); }
     .point-btns .plus5 { background: rgba(232, 163, 23, 0.16); color: #9a6700; }
+
+    .fx-btns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+    .fx-btns button {
+      border: none;
+      border-radius: 12px;
+      padding: 9px 6px;
+      font-weight: 700;
+      font-family: var(--font);
+      font-size: 0.78rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: transform 0.15s, box-shadow 0.2s;
+    }
+    .fx-btns button:active { transform: scale(0.94); }
+    .fx-btns .whip {
+      background: linear-gradient(145deg, #ffe4e0, #ffd0c8);
+      color: #b42318;
+    }
+    .fx-btns .bouquet {
+      background: linear-gradient(145deg, #ffe8f0, #ffd6e7);
+      color: #be185d;
+    }
+    .fx-btns button img {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+    .badge-row {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 0 0 10px;
+      min-height: 22px;
+    }
+    .mini-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--muted);
+    }
+    .mini-badge img {
+      width: 16px;
+      height: 16px;
+      object-fit: contain;
+    }
+    .mini-badge strong { color: var(--ink-soft); font-family: var(--display); }
+
+    .student-card.shaking {
+      animation: card-shake 0.55s ease;
+    }
+    .student-card.blooming {
+      animation: card-bloom 0.7s var(--ease);
+    }
+
+    .board-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 18px;
+    }
+    @media (max-width: 720px) {
+      .board-grid { grid-template-columns: 1fr; }
+    }
+    .board {
+      padding: 18px 18px 14px;
+    }
+    .board h3 {
+      margin: 0 0 12px;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .board h3 img {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+    }
+    .board-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 48px;
+    }
+    .board-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: rgba(13, 148, 136, 0.05);
+    }
+    .board.whip-board .board-row { background: rgba(232, 93, 76, 0.06); }
+    .board.flower-board .board-row { background: rgba(236, 72, 153, 0.06); }
+    .board-row img.av {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .board-row .nm {
+      flex: 1;
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+    .board-row .cnt {
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: 1.05rem;
+    }
+    .board.whip-board .cnt { color: var(--coral); }
+    .board.flower-board .cnt { color: #db2777; }
+    .board .empty-hint { padding: 8px 2px; }
+
+    /* —— FX overlays —— */
+    .fx-stage {
+      position: fixed;
+      inset: 0;
+      z-index: 120;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      background: rgba(11, 31, 42, 0.28);
+    }
+    .fx-stage.show {
+      display: flex;
+      pointer-events: auto;
+      animation: fade-in 0.2s ease;
+    }
+    .fx-card {
+      position: relative;
+      width: min(420px, 88vw);
+      background: #fff;
+      border-radius: 28px;
+      padding: 28px 24px 24px;
+      text-align: center;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.28);
+      animation: modal-up 0.35s var(--ease);
+    }
+    .fx-card h3 {
+      margin: 12px 0 6px;
+      font-family: var(--cn-display);
+      font-size: 1.8rem;
+      letter-spacing: 0.06em;
+    }
+    .fx-card p {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .fx-mascot-wrap {
+      position: relative;
+      width: 180px;
+      height: 180px;
+      margin: 0 auto;
+    }
+    .fx-mascot {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .fx-hammer {
+      position: absolute;
+      width: 110px;
+      height: 110px;
+      right: -18px;
+      top: -8px;
+      object-fit: contain;
+      transform-origin: 20% 80%;
+      opacity: 0;
+    }
+    .fx-stage.whip-mode .fx-hammer {
+      animation: hammer-swing 1.1s var(--ease) 0.15s both;
+    }
+    .fx-stage.whip-mode .fx-mascot {
+      animation: mascot-bounce 1.1s var(--ease) both;
+    }
+    .fx-bouquet {
+      width: 170px;
+      height: 170px;
+      object-fit: contain;
+      margin: 0 auto;
+      display: block;
+      opacity: 0;
+    }
+    .fx-stage.bouquet-mode .fx-bouquet {
+      animation: bouquet-pop 1.15s var(--ease) both;
+    }
+    .fx-sparkles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      border-radius: 28px;
+    }
+    .fx-sparkles span {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #f472b6;
+      opacity: 0;
+    }
+    .fx-stage.bouquet-mode .fx-sparkles span {
+      animation: sparkle-up 1.1s ease forwards;
+    }
+    .fx-stage.whip-mode .fx-sparkles span {
+      background: #fb7185;
+      animation: sparkle-up 1.1s ease forwards;
+    }
+
+    @keyframes hammer-swing {
+      0% { opacity: 0; transform: rotate(-50deg) scale(0.7); }
+      20% { opacity: 1; transform: rotate(-35deg) scale(1); }
+      45% { transform: rotate(25deg) scale(1.05); }
+      60% { transform: rotate(-10deg) scale(1); }
+      80%, 100% { opacity: 1; transform: rotate(0deg) scale(1); }
+    }
+    @keyframes mascot-bounce {
+      0%, 35% { transform: translateY(0) rotate(0); }
+      48% { transform: translateY(6px) rotate(-4deg) scale(0.96); }
+      62% { transform: translateY(-4px) rotate(3deg); }
+      100% { transform: translateY(0) rotate(0); }
+    }
+    @keyframes bouquet-pop {
+      0% { opacity: 0; transform: translateY(40px) scale(0.4) rotate(-12deg); }
+      45% { opacity: 1; transform: translateY(-8px) scale(1.08) rotate(4deg); }
+      70% { transform: translateY(0) scale(0.98) rotate(-2deg); }
+      100% { opacity: 1; transform: translateY(0) scale(1) rotate(0); }
+    }
+    @keyframes sparkle-up {
+      0% { opacity: 0; transform: translateY(20px) scale(0.4); }
+      30% { opacity: 1; }
+      100% { opacity: 0; transform: translateY(-80px) scale(1.2); }
+    }
+    @keyframes card-shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-8px) rotate(-1deg); }
+      40% { transform: translateX(8px) rotate(1deg); }
+      60% { transform: translateX(-5px); }
+      80% { transform: translateX(5px); }
+    }
+    @keyframes card-bloom {
+      0% { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.45); }
+      50% { box-shadow: 0 0 0 12px rgba(236, 72, 153, 0); transform: scale(1.03); }
+      100% { box-shadow: 0 8px 24px rgba(11, 31, 42, 0.05); transform: scale(1); }
+    }
 
     /* —— Timer —— */
     .timer-layout {
@@ -922,7 +1182,7 @@
       <div class="hero-main">
         <div class="hero-kicker"><i class="fas fa-sparkles"></i> New Class 2026</div>
         <h1 class="hero-title">我们的班级</h1>
-        <p class="hero-sub">随机点名 · 语音叫名 · 积分激励 · 课堂倒计时 · 卡通形象自选</p>
+        <p class="hero-sub">随机点名 · 语音叫名 · 小锤子惩罚 · 花束表扬 · 倒计时 · 卡通形象</p>
         <div class="hero-ctas">
           <button class="btn btn-primary" type="button" id="hero-pick">
             <i class="fas fa-dice"></i> 开始点名
@@ -1015,13 +1275,29 @@
     <!-- 积分管理 -->
     <section class="view" id="view-roster">
       <div class="roster-toolbar">
-        <h2><i class="fas fa-trophy" style="color:var(--gold)"></i> 积分榜 · 点击头像可换形象</h2>
+        <h2><i class="fas fa-trophy" style="color:var(--gold)"></i> 积分榜 · 小锤子惩罚 / 花束表扬</h2>
         <div class="roster-actions">
-          <button class="btn btn-solid btn-sm" type="button" id="btn-sort-points"><i class="fas fa-arrow-down-wide-short"></i> 按积分排序</button>
-          <button class="btn btn-sm" type="button" id="btn-sort-name" style="background:#fff;border:1px solid var(--line);color:var(--ink-soft)"><i class="fas fa-font"></i> 按姓名</button>
+          <button class="btn btn-solid btn-sm" type="button" id="btn-sort-points"><i class="fas fa-arrow-down-wide-short"></i> 按积分</button>
+          <button class="btn btn-sm" type="button" id="btn-sort-flowers" style="background:#fff;border:1px solid var(--line);color:#be185d"><i class="fas fa-spa"></i> 小红花</button>
+          <button class="btn btn-sm" type="button" id="btn-sort-whips" style="background:#fff;border:1px solid var(--line);color:var(--coral)"><i class="fas fa-gavel"></i> 被锤</button>
+          <button class="btn btn-sm" type="button" id="btn-sort-name" style="background:#fff;border:1px solid var(--line);color:var(--ink-soft)"><i class="fas fa-font"></i> 姓名</button>
         </div>
       </div>
       <div class="student-grid" id="student-grid"></div>
+      <div class="board-grid">
+        <div class="panel board whip-board">
+          <h3><img src="fx/hammer.jpg" alt=""> 小鞭子名单 · 谁被锤了</h3>
+          <div class="board-list" id="whip-board-list">
+            <span class="empty-hint">还没有人被小锤子点到</span>
+          </div>
+        </div>
+        <div class="panel board flower-board">
+          <h3><img src="fx/red-flower.jpg" alt=""> 小红花榜 · 谁被表扬最多</h3>
+          <div class="board-list" id="flower-board-list">
+            <span class="empty-hint">还没有人收到花束表扬</span>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- 倒计时 -->
@@ -1112,12 +1388,28 @@
   <div class="flash-overlay" id="flash-overlay" aria-hidden="true"></div>
   <div class="toast" id="toast" role="status"></div>
 
+  <!-- 惩罚 / 表扬动画层 -->
+  <div class="fx-stage" id="fx-stage" aria-hidden="true">
+    <div class="fx-card">
+      <div class="fx-sparkles" id="fx-sparkles" aria-hidden="true"></div>
+      <div class="fx-mascot-wrap" id="fx-whip-visual">
+        <img class="fx-mascot" src="fx/hammer-mascot.jpg" alt="小锤子同学">
+        <img class="fx-hammer" src="fx/hammer.jpg" alt="小锤子">
+      </div>
+      <img class="fx-bouquet" id="fx-bouquet-visual" src="fx/bouquet.jpg" alt="表扬花束" hidden>
+      <h3 id="fx-title">小锤子来啦</h3>
+      <p id="fx-sub">自动扣分中…</p>
+    </div>
+  </div>
+
   <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
   <script>
 (function () {
   "use strict";
 
-  var STORAGE_KEY = "sclass-classroom-v1";
+  var STORAGE_KEY = "sclass-classroom-v2";
+  var WHIP_PENALTY = 2;   // 小锤子惩罚自动扣分
+  var BOUQUET_BONUS = 5;  // 花束表扬加分
   var AVATAR_LABELS = [
     "小狐狸","熊猫","兔子","猫咪","小狗","猫头鹰","小熊","小鹿","老虎","企鹅",
     "考拉","松鼠","刺猬","浣熊","狮子","大象","独角兽","小龙","青蛙","小鸭",
@@ -1168,6 +1460,8 @@
           id: "s" + (i + 1),
           name: name,
           points: 0,
+          whips: 0,
+          flowers: 0,
           avatarId: AVATARS[i % AVATARS.length].id
         };
       }),
@@ -1177,14 +1471,29 @@
     };
   }
 
+  function normalizeStudent(s, i) {
+    return {
+      id: s.id || ("s" + (i + 1)),
+      name: s.name || DEFAULT_STUDENTS[i] || ("同学" + (i + 1)),
+      points: Math.max(0, Number(s.points) || 0),
+      whips: Math.max(0, Number(s.whips) || 0),
+      flowers: Math.max(0, Number(s.flowers) || 0),
+      avatarId: s.avatarId || AVATARS[i % AVATARS.length].id
+    };
+  }
+
   function loadState() {
     try {
-      var raw = localStorage.getItem(STORAGE_KEY);
+      var raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem("sclass-classroom-v1");
       if (!raw) return defaultState();
       var parsed = JSON.parse(raw);
       if (!parsed || !Array.isArray(parsed.students) || parsed.students.length !== DEFAULT_STUDENTS.length) {
         return defaultState();
       }
+      parsed.students = parsed.students.map(normalizeStudent);
+      if (typeof parsed.noRepeat !== "boolean") parsed.noRepeat = true;
+      if (typeof parsed.speakOn !== "boolean") parsed.speakOn = true;
+      if (!Array.isArray(parsed.history)) parsed.history = [];
       return parsed;
     } catch (e) {
       return defaultState();
@@ -1330,6 +1639,10 @@
     var list = state.students.slice();
     if (sortMode === "points") {
       list.sort(function (a, b) { return b.points - a.points || a.name.localeCompare(b.name, "zh"); });
+    } else if (sortMode === "flowers") {
+      list.sort(function (a, b) { return b.flowers - a.flowers || b.points - a.points || a.name.localeCompare(b.name, "zh"); });
+    } else if (sortMode === "whips") {
+      list.sort(function (a, b) { return b.whips - a.whips || a.name.localeCompare(b.name, "zh"); });
     } else {
       list.sort(function (a, b) { return a.name.localeCompare(b.name, "zh"); });
     }
@@ -1345,14 +1658,52 @@
           "</button>" +
           '<h3 class="name">' + s.name + "</h3>" +
           '<div class="points">' + s.points + "</div>" +
+          '<div class="badge-row">' +
+            '<span class="mini-badge" title="被小锤子次数"><img src="fx/hammer.jpg" alt="">×<strong>' + (s.whips || 0) + "</strong></span>" +
+            '<span class="mini-badge" title="小红花次数"><img src="fx/red-flower.jpg" alt="">×<strong>' + (s.flowers || 0) + "</strong></span>" +
+          "</div>" +
           '<div class="point-btns">' +
             '<button type="button" class="minus" data-action="pts" data-delta="-1">−1</button>' +
             '<button type="button" class="plus1" data-action="pts" data-delta="1">+1</button>' +
             '<button type="button" class="plus5" data-action="pts" data-delta="5">+5</button>' +
           "</div>" +
+          '<div class="fx-btns">' +
+            '<button type="button" class="whip" data-action="whip" title="小锤子惩罚，自动扣 ' + WHIP_PENALTY + ' 分">' +
+              '<img src="fx/hammer.jpg" alt=""> 小锤子' +
+            "</button>" +
+            '<button type="button" class="bouquet" data-action="bouquet" title="花束表扬，+ ' + BOUQUET_BONUS + ' 分">' +
+              '<img src="fx/bouquet.jpg" alt=""> 送花束' +
+            "</button>" +
+          "</div>" +
         "</article>"
       );
     }).join("");
+  }
+
+  function renderBoards() {
+    function fill(listId, key, emptyText) {
+      var el = document.getElementById(listId);
+      var ranked = state.students
+        .filter(function (s) { return (s[key] || 0) > 0; })
+        .sort(function (a, b) { return b[key] - a[key] || a.name.localeCompare(b.name, "zh"); });
+      if (!ranked.length) {
+        el.innerHTML = '<span class="empty-hint">' + emptyText + "</span>";
+        return;
+      }
+      el.innerHTML = ranked.map(function (s, i) {
+        var av = avatarById(s.avatarId);
+        return (
+          '<div class="board-row">' +
+            '<span style="font-family:var(--display);font-weight:800;color:var(--muted);width:22px">#' + (i + 1) + "</span>" +
+            '<img class="av" src="' + av.src + '" alt="">' +
+            '<span class="nm">' + s.name + "</span>" +
+            '<span class="cnt">×' + s[key] + "</span>" +
+          "</div>"
+        );
+      }).join("");
+    }
+    fill("whip-board-list", "whips", "还没有人被小锤子点到");
+    fill("flower-board-list", "flowers", "还没有人收到花束表扬");
   }
 
   function renderAvatarGalleries() {
@@ -1382,6 +1733,7 @@
     updateStats();
     renderHistory();
     renderRoster();
+    renderBoards();
     renderAvatarGalleries();
     document.getElementById("opt-no-repeat").checked = !!state.noRepeat;
     document.getElementById("opt-speak").checked = !!state.speakOn;
@@ -1470,6 +1822,89 @@
     s.points = Math.max(0, (s.points || 0) + delta);
     saveState();
     refreshAll();
+  }
+
+  var fxBusy = false;
+  var fxTimer = null;
+
+  function fillSparkles() {
+    var box = document.getElementById("fx-sparkles");
+    var html = "";
+    for (var i = 0; i < 12; i++) {
+      var left = 8 + Math.random() * 84;
+      var delay = (Math.random() * 0.45).toFixed(2);
+      var size = 6 + Math.floor(Math.random() * 8);
+      html += '<span style="left:' + left + "%;bottom:" + (10 + Math.random() * 30) +
+        "%;width:" + size + "px;height:" + size + "px;animation-delay:" + delay + 's"></span>';
+    }
+    box.innerHTML = html;
+  }
+
+  function showFx(mode, student, doneMsg) {
+    if (fxBusy) return;
+    fxBusy = true;
+    var stage = document.getElementById("fx-stage");
+    var whipVis = document.getElementById("fx-whip-visual");
+    var bouquetVis = document.getElementById("fx-bouquet-visual");
+    stage.classList.remove("whip-mode", "bouquet-mode", "show");
+    void stage.offsetWidth;
+    fillSparkles();
+    if (mode === "whip") {
+      whipVis.hidden = false;
+      bouquetVis.hidden = true;
+      stage.classList.add("whip-mode");
+      document.getElementById("fx-title").textContent = student.name;
+      document.getElementById("fx-sub").textContent = "小锤子敲一下 · 自动 −" + WHIP_PENALTY + " 分";
+    } else {
+      whipVis.hidden = true;
+      bouquetVis.hidden = false;
+      stage.classList.add("bouquet-mode");
+      document.getElementById("fx-title").textContent = student.name;
+      document.getElementById("fx-sub").textContent = "送上花束表扬 · +" + BOUQUET_BONUS + " 分 · 小红花 +1";
+    }
+    stage.classList.add("show");
+    stage.setAttribute("aria-hidden", "false");
+    clearTimeout(fxTimer);
+    fxTimer = setTimeout(function () {
+      stage.classList.remove("show", "whip-mode", "bouquet-mode");
+      stage.setAttribute("aria-hidden", "true");
+      fxBusy = false;
+      if (doneMsg) toast(doneMsg);
+    }, 2000);
+  }
+
+  function applyWhip(id) {
+    var s = studentById(id);
+    if (!s || fxBusy) return;
+    s.whips = (s.whips || 0) + 1;
+    s.points = Math.max(0, (s.points || 0) - WHIP_PENALTY);
+    saveState();
+    showFx("whip", s, s.name + " 被小锤子点到 · −" + WHIP_PENALTY);
+    if (state.speakOn) speakZh(s.name + "，要注意啦");
+    refreshAll();
+    var card = document.querySelector('.student-card[data-id="' + id + '"]');
+    if (card) {
+      card.classList.remove("shaking");
+      void card.offsetWidth;
+      card.classList.add("shaking");
+    }
+  }
+
+  function applyBouquet(id) {
+    var s = studentById(id);
+    if (!s || fxBusy) return;
+    s.flowers = (s.flowers || 0) + 1;
+    s.points = (s.points || 0) + BOUQUET_BONUS;
+    saveState();
+    showFx("bouquet", s, s.name + " 收到花束 · +" + BOUQUET_BONUS + " · 小红花 +1");
+    if (state.speakOn) speakZh(s.name + "，太棒了");
+    refreshAll();
+    var card = document.querySelector('.student-card[data-id="' + id + '"]');
+    if (card) {
+      card.classList.remove("blooming");
+      void card.offsetWidth;
+      card.classList.add("blooming");
+    }
   }
 
   /* —— Avatar select —— */
@@ -1644,15 +2079,28 @@
     var card = btn.closest(".student-card");
     if (!card) return;
     var id = card.getAttribute("data-id");
-    if (btn.getAttribute("data-action") === "pts") {
+    var action = btn.getAttribute("data-action");
+    if (action === "pts") {
       changePoints(id, Number(btn.getAttribute("data-delta")));
-    } else if (btn.getAttribute("data-action") === "avatar") {
+    } else if (action === "avatar") {
       openAvatarModal(id);
+    } else if (action === "whip") {
+      applyWhip(id);
+    } else if (action === "bouquet") {
+      applyBouquet(id);
     }
   });
 
   document.getElementById("btn-sort-points").addEventListener("click", function () {
     sortMode = "points";
+    renderRoster();
+  });
+  document.getElementById("btn-sort-flowers").addEventListener("click", function () {
+    sortMode = "flowers";
+    renderRoster();
+  });
+  document.getElementById("btn-sort-whips").addEventListener("click", function () {
+    sortMode = "whips";
     renderRoster();
   });
   document.getElementById("btn-sort-name").addEventListener("click", function () {
@@ -1661,11 +2109,23 @@
   });
 
   document.getElementById("btn-reset-points").addEventListener("click", function () {
-    if (!confirm("确定将全班积分清零？")) return;
-    state.students.forEach(function (s) { s.points = 0; });
+    if (!confirm("确定将全班积分、小锤子次数和小红花全部清零？")) return;
+    state.students.forEach(function (s) {
+      s.points = 0;
+      s.whips = 0;
+      s.flowers = 0;
+    });
     saveState();
     refreshAll();
-    toast("积分已清零");
+    toast("积分与奖惩记录已清零");
+  });
+
+  document.getElementById("fx-stage").addEventListener("click", function () {
+    if (!fxBusy) return;
+    clearTimeout(fxTimer);
+    this.classList.remove("show", "whip-mode", "bouquet-mode");
+    this.setAttribute("aria-hidden", "true");
+    fxBusy = false;
   });
 
   document.getElementById("avatar-modal-close").addEventListener("click", closeAvatarModal);
