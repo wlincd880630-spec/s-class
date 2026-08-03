@@ -16,12 +16,15 @@
       .replace(/\s+/g, " ");
   }
 
+  var IMG_CACHE_VER = "20250803";
+
   function img(name) {
     if (!name) return "";
     if (global.KpImg) {
       var host = typeof location !== "undefined" && location.hostname ? location.hostname : "";
       if (host === "localhost" || host === "127.0.0.1") return global.KpImg.local(name);
-      return global.KpImg.url(name);
+      var url = global.KpImg.url(name);
+      return url + (url.indexOf("?") >= 0 ? "&" : "?") + "v=" + IMG_CACHE_VER;
     }
     return name;
   }
