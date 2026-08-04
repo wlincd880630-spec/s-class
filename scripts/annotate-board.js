@@ -32,7 +32,8 @@
     current: null
   };
 
-  var root, canvas, ctx, boardEl, fab, toolbar;
+  var root, canvas, ctx, boardEl, fab, toolbar, hintEl;
+  var hintTimer = null;
   var dpr = Math.max(1, window.devicePixelRatio || 1);
 
   function ready(fn) {
@@ -70,8 +71,8 @@
       '#sclass-annotate-toolbar .sclass-ann-sep{width:1px;height:24px;background:rgba(255,255,255,.2);margin:0 2px;}',
       '#sclass-annotate-toolbar .sclass-ann-swatch{width:36px;min-width:36px;padding:0;border-radius:50%;border:2px solid rgba(255,255,255,.35);}',
       '#sclass-annotate-toolbar .sclass-ann-swatch.is-on{border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.35);}',
-      '#sclass-annotate-hint{pointer-events:none;position:fixed;left:50%;bottom:88px;transform:translateX(-50%);z-index:2147483003;display:none;padding:8px 14px;border-radius:999px;background:rgba(15,23,42,.78);color:#fff;font-size:13px;white-space:nowrap;}',
-      '#sclass-annotate-root.is-drawing #sclass-annotate-hint{display:block;}',
+      '#sclass-annotate-hint{pointer-events:none;position:fixed;left:50%;bottom:88px;transform:translateX(-50%);z-index:2147483003;display:none;padding:8px 14px;border-radius:999px;background:rgba(15,23,42,.78);color:#fff;font-size:13px;white-space:nowrap;opacity:0;transition:opacity .25s ease;}',
+      '#sclass-annotate-root.is-drawing #sclass-annotate-hint.is-show{display:block;opacity:1;}',
       '@media (max-width:720px){',
       '#sclass-annotate-toolbar{top:auto;bottom:88px;left:12px;right:12px;transform:none;max-width:none;justify-content:flex-start;}',
       '#sclass-annotate-hint{bottom:auto;top:12px;}',
@@ -107,7 +108,7 @@
       title: '开启书写标注',
       'aria-label': '开启书写标注'
     }, '书写');
-    var hint = el('div', { id: 'sclass-annotate-hint' }, '手指或触控笔可直接在屏幕上标注');
+    hintEl = el('div', { id: 'sclass-annotate-hint' }, '手指或触控笔可直接在屏幕上标注');
 
     // Colors
     var colorGroup = el('div', { className: 'sclass-ann-group' });
@@ -155,7 +156,7 @@
     root.appendChild(boardEl);
     root.appendChild(canvas);
     root.appendChild(toolbar);
-    root.appendChild(hint);
+    root.appendChild(hintEl);
     document.body.appendChild(root);
     // FAB stays outside root so it remains clickable when root pointer-events change
     document.body.appendChild(fab);
@@ -261,6 +262,16 @@
     if (e) e.preventDefault();
   }
 
+  function showHintBriefly() {
+    if (!hintEl) return;
+    hintEl.classList.add('is-show');
+    if (hintTimer) clearTimeout(hintTimer);
+    hintTimer = setTimeout(function () {
+      hintEl.classList.remove('is-show');
+      hintTimer = null;
+    }, 2800);
+  }
+
   function setActive(on) {
     state.active = !!on;
     if (on) {
@@ -270,6 +281,7 @@
       fab.title = '退出书写';
       fab.setAttribute('aria-label', '退出书写');
       resizeCanvas();
+      showHintBriefly();
     } else {
       root.classList.remove('is-drawing');
       fab.classList.remove('is-active');
@@ -278,8 +290,12 @@
       fab.setAttribute('aria-label', '开启书写标注');
       state.drawing = false;
       state.current = null;
-      // Keep strokes when exiting so teacher can re-enter; clear only on explicit clear/exit board flow.
-      // On full exit of writing, clear annotations to avoid blocking UI later.
+      if (hintTimer) {
+        clearTimeout(hintTimer);
+        hintTimer = null;
+      }
+      if (hintEl) hintEl.classList.remove('is-show');
+      // 退出书写时清空笔迹，避免透明画布残留影响后续操作
       state.strokes = [];
       state.redoStack = [];
       setWhiteboard(false);
