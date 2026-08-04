@@ -508,6 +508,37 @@
       font-weight: 800;
     }
     .roster-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .voice-points-bar {
+      margin: 0 0 14px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(232, 93, 76, 0.1), rgba(13, 148, 136, 0.1));
+      border: 1px solid rgba(232, 93, 76, 0.25);
+    }
+    .voice-points-live {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-size: 0.95rem;
+    }
+    .voice-points-live .vp-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--coral);
+      box-shadow: 0 0 0 4px rgba(232, 93, 76, 0.2);
+      animation: pulse-orb 1.2s ease-in-out infinite;
+    }
+    .voice-points-hint {
+      margin-top: 8px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    #btn-voice-points[aria-pressed="true"] {
+      background: linear-gradient(145deg, #f07162, var(--coral));
+      color: #fff;
+    }
     .student-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -1415,13 +1446,24 @@
     <!-- 积分管理 -->
     <section class="view" id="view-roster">
       <div class="roster-toolbar">
-        <h2><i class="fas fa-trophy" style="color:var(--gold)"></i> 积分榜 · 小锤子惩罚 / 花束表扬</h2>
+        <h2><i class="fas fa-trophy" style="color:var(--gold)"></i> 积分榜 · 语音口令加分</h2>
         <div class="roster-actions">
+          <button class="btn btn-coral btn-sm" type="button" id="btn-voice-points" aria-pressed="false">
+            <i class="fas fa-microphone"></i> 开启语音加分
+          </button>
           <button class="btn btn-solid btn-sm" type="button" id="btn-sort-points"><i class="fas fa-arrow-down-wide-short"></i> 按积分</button>
           <button class="btn btn-sm" type="button" id="btn-sort-flowers" style="background:#fff;border:1px solid var(--line);color:#be185d"><i class="fas fa-spa"></i> 小红花</button>
           <button class="btn btn-sm" type="button" id="btn-sort-whips" style="background:#fff;border:1px solid var(--line);color:var(--coral)"><i class="fas fa-gavel"></i> 被锤</button>
           <button class="btn btn-sm" type="button" id="btn-sort-name" style="background:#fff;border:1px solid var(--line);color:var(--ink-soft)"><i class="fas fa-font"></i> 姓名</button>
         </div>
+      </div>
+      <div class="voice-points-bar" id="voice-points-bar" hidden>
+        <div class="voice-points-live">
+          <span class="vp-dot" aria-hidden="true"></span>
+          <strong>语音加分听写中</strong>
+          <span id="voice-points-heard">请说：某某加一分</span>
+        </div>
+        <div class="voice-points-hint">示例：「刁维凡加一分」「张弛加五分」「漆岢鑫减一分」· 说完稍停顿即可自动加分</div>
       </div>
       <div class="student-grid" id="student-grid"></div>
       <div class="board-grid">
@@ -1696,15 +1738,35 @@
       toast("未找到学生：" + cmd.student);
       return;
     }
+    // 语音加分时切到积分页，方便看到分数变化
+    try { switchView("roster"); } catch (e0) {}
     if (cmd.action === "points") {
       changePoints(s.id, cmd.delta);
-      toast(s.name + (cmd.delta >= 0 ? " +" : " ") + cmd.delta + "（语音）");
-      if (state.speakOn) speakZh(s.name + (cmd.delta >= 0 ? "加" + cmd.delta + "分" : "扣" + Math.abs(cmd.delta) + "分"));
+      toast("🎤 " + s.name + (cmd.delta >= 0 ? " +" : " ") + cmd.delta);
+      var heard = document.getElementById("voice-points-heard");
+      if (heard) {
+        heard.textContent = "已执行：" + s.name + (cmd.delta >= 0 ? " +" : " ") + cmd.delta;
+      }
+      if (state.speakOn) {
+        speakZh(s.name + (cmd.delta >= 0 ? "加" + cmd.delta + "分" : "扣" + Math.abs(cmd.delta) + "分"));
+      }
     } else if (cmd.action === "whip") {
       applyWhip(s.id);
     } else if (cmd.action === "bouquet") {
       applyBouquet(s.id);
     }
+    var card = document.querySelector('.student-card[data-id="' + s.id + '"]');
+    if (card) {
+      card.classList.remove("blooming", "shaking");
+      void card.offsetWidth;
+      card.classList.add(cmd.action === "whip" ? "shaking" : "blooming");
+      try { card.scrollIntoView({ behavior: "smooth", block: "nearest" }); } catch (e1) {}
+    }
+  }
+
+  // 一进班级页就挂好语音口令回调（积分页 / 课堂纪要共用）
+  if (window.ClassSession) {
+    ClassSession.setOnVoiceCommand(applyVoiceCommand);
   }
 
   var state = loadState();
@@ -2572,17 +2634,84 @@
       roster: DEFAULT_STUDENTS.slice(),
       aliases: ACTIVE_CLASS.aliases,
       sessionKey: ACTIVE_CLASS.sessionKey,
-      onUpdate: renderSessionUI,
+      onUpdate: function (snap) {
+        renderSessionUI(snap);
+        updateVoicePointsChrome(snap);
+      },
       onVoiceCommand: applyVoiceCommand
     }).then(function () {
       toast("已开始听写 · 可语音说「姓名加一分」");
       clearInterval(sessionClock);
       sessionClock = setInterval(tickSessionClock, 1000);
       renderSessionUI();
+      syncVoicePointsButton(true);
     }).catch(function (err) {
       console.error(err);
       toast("无法启动听写：" + (err && err.message ? err.message : "请检查麦克风"));
       renderSessionUI();
+      syncVoicePointsButton(false);
+    });
+  });
+
+  function syncVoicePointsButton(on) {
+    var btn = document.getElementById("btn-voice-points");
+    var bar = document.getElementById("voice-points-bar");
+    if (!btn || !bar) return;
+    btn.setAttribute("aria-pressed", on ? "true" : "false");
+    btn.innerHTML = on
+      ? '<i class="fas fa-microphone-slash"></i> 关闭语音加分'
+      : '<i class="fas fa-microphone"></i> 开启语音加分';
+    bar.hidden = !on;
+  }
+
+  function updateVoicePointsChrome(snap) {
+    var heard = document.getElementById("voice-points-heard");
+    if (!heard || !snap) return;
+    if (snap.interimCommands && snap.interimCommands.length) {
+      var c = snap.interimCommands[0];
+      heard.textContent = "识别中：" + c.student + (c.action === "points" ? ((c.delta >= 0 ? " +" : " ") + c.delta) : (" · " + c.action));
+    } else if (snap.interim) {
+      heard.textContent = "听到：" + snap.interim;
+    } else if (snap.running) {
+      heard.textContent = "请说：某某加一分";
+    }
+  }
+
+  document.getElementById("btn-voice-points").addEventListener("click", function () {
+    if (!window.ClassSession) {
+      toast("语音模块未加载");
+      return;
+    }
+    var snap = ClassSession.getSnapshot();
+    if (snap.running) {
+      ClassSession.stop();
+      clearInterval(sessionClock);
+      syncVoicePointsButton(false);
+      renderSessionUI();
+      toast("语音加分已关闭");
+      return;
+    }
+    switchView("roster");
+    toast("请允许麦克风 · 说「姓名加一分」即可");
+    ClassSession.setOnVoiceCommand(applyVoiceCommand);
+    ClassSession.start({
+      roster: DEFAULT_STUDENTS.slice(),
+      aliases: ACTIVE_CLASS.aliases,
+      sessionKey: ACTIVE_CLASS.sessionKey,
+      onUpdate: function (s) {
+        renderSessionUI(s);
+        updateVoicePointsChrome(s);
+      },
+      onVoiceCommand: applyVoiceCommand
+    }).then(function () {
+      syncVoicePointsButton(true);
+      clearInterval(sessionClock);
+      sessionClock = setInterval(tickSessionClock, 1000);
+      toast("语音加分已开启");
+    }).catch(function (err) {
+      console.error(err);
+      syncVoicePointsButton(false);
+      toast("无法开麦：" + (err && err.message ? err.message : "请检查麦克风权限"));
     });
   });
 
@@ -2590,6 +2719,7 @@
     if (!window.ClassSession) return;
     ClassSession.stop();
     clearInterval(sessionClock);
+    syncVoicePointsButton(false);
     toast("听写已结束，可生成课后纪要");
     renderSessionUI();
   });
