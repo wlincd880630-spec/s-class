@@ -38,6 +38,7 @@
     segments: [],   // {t, text, raw, names[], commands[]}
     events: [],     // {t, type, student, detail}
     interim: "",
+    interimCommands: [],
     recognizer: null,
     restartTimer: null,
     onUpdate: null,
@@ -223,6 +224,7 @@
       startedAt: state.startedAt,
       elapsed: elapsedLabel(),
       interim: state.interim,
+      interimCommands: state.interimCommands || [],
       segments: state.segments.slice(),
       events: state.events.slice(),
       fullText: state.segments.map(function (s) { return s.text; }).join(""),
@@ -246,10 +248,24 @@
 
   function parseNumToken(tok) {
     if (!tok) return 1;
-    if (/^\d+$/.test(tok)) return Math.max(1, parseInt(tok, 10));
-    if (CN_NUM[tok] != null) return CN_NUM[tok] || 1;
-    if (tok === "十") return 10;
+    tok = String(tok).replace(/[０-９]/g, function (d) {
+      return String.fromCharCode(d.charCodeAt(0) - 65248);
+    });
+    if (/^\d+$/.test(tok)) return Math.max(1, Math.min(20, parseInt(tok, 10)));
+    if (CN_NUM[tok] != null) return Math.max(1, CN_NUM[tok] || 1);
     return 1;
+  }
+
+  /** 压平语音转写，去掉空格/标点，统一全角数字与加减号 */
+  function normalizeSpeechText(text) {
+    return String(text || "")
+      .replace(/[０-９]/g, function (d) {
+        return String.fromCharCode(d.charCodeAt(0) - 65248);
+      })
+      .replace(/[＋﹢]/g, "+")
+      .replace(/[－﹣—–]/g, "-")
+      .replace(/[\s\u00A0\u3000]+/g, "")
+      .replace(/[，,。！？!?、；;：:\.·•…~～"'“”‘’（）()【】\[\]<>《》]/g, "");
   }
 
   /**
@@ -257,7 +273,7 @@
    * 「刁维凡加一分」「给张弛加五分」「漆岢鑫减一分」「侯婉鑫小锤子」「罗逸花束」
    */
   function parseVoiceCommands(text) {
-    var src = String(text || "");
+    var src = normalizeSpeechText(correctNames(String(text || "")).text);
     var cmds = [];
     if (!src || !state.roster.length) return cmds;
 
@@ -274,29 +290,39 @@
       });
     }
 
-    // 给NAME加N分 / NAME加N分 / NAME加上N分
+    var m;
+    var num = "([一二两三四五六七八九十\\d]+)";
+
+    // NAME加N分 / 给NAME加N分 / NAME加上N分 / NAME+N分
     var reAdd = new RegExp(
-      "(?:给)?(" + nameAlt + ")(?:同学)?(?:加|＋|\\+|加上|奖励)\\s*([一二两三四五六七八九十\\d]+)\\s*分",
+      "(?:给)?(" + nameAlt + ")(?:同学)?(?:加|加上|奖励|\\+)\\s*" + num + "分?",
       "g"
     );
-    var m;
     while ((m = reAdd.exec(src))) {
       pushCmd(m[1], "points", parseNumToken(m[2]), m[0]);
     }
 
-    // NAME加分（默认 +1）
-    var reAddPlain = new RegExp("(" + nameAlt + ")(?:同学)?加分", "g");
+    // 加N分给NAME
+    var reAddRev = new RegExp(
+      "(?:加|加上|奖励|\\+)\\s*" + num + "分?(?:给|到)(" + nameAlt + ")(?:同学)?",
+      "g"
+    );
+    while ((m = reAddRev.exec(src))) {
+      pushCmd(m[2], "points", parseNumToken(m[1]), m[0]);
+    }
+
+    // NAME加分（默认 +1）；避免与「加一分」重复
+    var reAddPlain = new RegExp("(?:给)?(" + nameAlt + ")(?:同学)?加分", "g");
     while ((m = reAddPlain.exec(src))) {
-      // 避免与「加一分」重复：若已被上面匹配覆盖则跳过邻近
       var already = cmds.some(function (c) {
-        return c.student === m[1] && c.action === "points" && c.raw.indexOf(m[0]) !== -1;
+        return c.student === m[1] && c.action === "points" && c.delta > 0;
       });
       if (!already) pushCmd(m[1], "points", 1, m[0]);
     }
 
     // NAME减/扣 N 分
     var reSub = new RegExp(
-      "(?:给)?(" + nameAlt + ")(?:同学)?(?:减|扣|－|-)\\s*([一二两三四五六七八九十\\d]+)\\s*分",
+      "(?:给)?(" + nameAlt + ")(?:同学)?(?:减|扣|-)\\s*" + num + "分?",
       "g"
     );
     while ((m = reSub.exec(src))) {
@@ -304,21 +330,24 @@
     }
     var reSubPlain = new RegExp("(" + nameAlt + ")(?:同学)?(?:扣分|减分)", "g");
     while ((m = reSubPlain.exec(src))) {
-      pushCmd(m[1], "points", -1, m[0]);
+      var alreadySub = cmds.some(function (c) {
+        return c.student === m[1] && c.action === "points" && c.delta < 0;
+      });
+      if (!alreadySub) pushCmd(m[1], "points", -1, m[0]);
     }
 
     // 小锤子 / 花束
-    var reWhip = new RegExp("(" + nameAlt + ")(?:同学)?[^。！？]{0,6}(?:小锤子|锤子|惩罚)", "g");
+    var reWhip = new RegExp("(" + nameAlt + ")(?:同学)?(?:的)?(?:小)?(?:锤子|鞭子|惩罚)", "g");
     while ((m = reWhip.exec(src))) pushCmd(m[1], "whip", 0, m[0]);
-    var reWhip2 = new RegExp("(?:小锤子|锤子)[^。！？]{0,4}(" + nameAlt + ")", "g");
+    var reWhip2 = new RegExp("(?:小)?(?:锤子|鞭子)(" + nameAlt + ")", "g");
     while ((m = reWhip2.exec(src))) pushCmd(m[1], "whip", 0, m[0]);
 
-    var reFlower = new RegExp("(" + nameAlt + ")(?:同学)?[^。！？]{0,6}(?:花束|送花|小红花|表扬)", "g");
+    var reFlower = new RegExp("(" + nameAlt + ")(?:同学)?(?:的)?(?:花束|送花|小红花|表扬|红花)", "g");
     while ((m = reFlower.exec(src))) pushCmd(m[1], "bouquet", 0, m[0]);
-    var reFlower2 = new RegExp("(?:花束|送花|小红花)[^。！？]{0,4}(" + nameAlt + ")", "g");
+    var reFlower2 = new RegExp("(?:花束|送花|小红花|红花)(?:给)?(" + nameAlt + ")", "g");
     while ((m = reFlower2.exec(src))) pushCmd(m[1], "bouquet", 0, m[0]);
 
-    // 去重（同学生同动作同 delta 只留一条）
+    // 去重
     var seen = {};
     return cmds.filter(function (c) {
       var k = c.student + "|" + c.action + "|" + c.delta;
@@ -328,9 +357,14 @@
     });
   }
 
+  var recentCmdKeys = {};
   function emitVoiceCommands(commands) {
     if (!commands || !commands.length) return;
+    var now = Date.now();
     commands.forEach(function (cmd) {
+      var k = cmd.student + "|" + cmd.action + "|" + cmd.delta;
+      if (recentCmdKeys[k] && now - recentCmdKeys[k] < 2500) return; // 防抖：2.5 秒内同口令不重复执行
+      recentCmdKeys[k] = now;
       logEvent("语音口令", cmd.student, cmd.raw + (cmd.action === "points" ? (" → " + (cmd.delta > 0 ? "+" : "") + cmd.delta) : ""));
       if (typeof state.onVoiceCommand === "function") {
         try { state.onVoiceCommand(cmd); } catch (e) { console.warn(e); }
@@ -435,6 +469,16 @@
             "5000"
           );
         } catch (e0) {}
+        // 缩短句末静音，口令「加一分」更快出最终结果
+        try {
+          cfg.setProperty("Speech_SegmentationSilenceTimeoutMs", "400");
+        } catch (e1) {}
+        try {
+          cfg.setProperty(
+            SpeechSDK.PropertyId.Speech_SegmentationSilenceTimeoutMs,
+            "400"
+          );
+        } catch (e2) {}
 
         var audio = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
         var recognizer = new SpeechSDK.SpeechRecognizer(cfg, audio);
@@ -445,6 +489,7 @@
           if (e.result && e.result.text) {
             var mid = correctNames(e.result.text);
             state.interim = mid.text;
+            state.interimCommands = parseVoiceCommands(mid.text);
             notify();
           }
         };
