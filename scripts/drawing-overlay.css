@@ -1,0 +1,190 @@
+/* S-Class 触屏教学标注 / 白板 — 全屏书写层 */
+:root {
+  --sclass-draw-fab-size: 52px;
+  --sclass-draw-toolbar-h: 56px;
+  --sclass-draw-accent: #e53935;
+  --sclass-draw-accent-dark: #c62828;
+}
+
+/* ── 入口按钮（两个 FAB） ── */
+.sclass-draw-fabs {
+  position: fixed;
+  right: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 99970;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.sclass-draw-fabs.is-hidden {
+  display: none;
+}
+
+.sclass-draw-fab {
+  pointer-events: auto;
+  width: var(--sclass-draw-fab-size);
+  height: var(--sclass-draw-fab-size);
+  border: none;
+  border-radius: 50%;
+  background: var(--sclass-draw-accent);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.1;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  transition: transform 0.15s, background 0.15s;
+}
+
+.sclass-draw-fab:hover,
+.sclass-draw-fab:focus-visible {
+  background: var(--sclass-draw-accent-dark);
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.sclass-draw-fab:active {
+  transform: scale(0.94);
+}
+
+.sclass-draw-fab--whiteboard {
+  background: #455a64;
+}
+
+.sclass-draw-fab--whiteboard:hover,
+.sclass-draw-fab--whiteboard:focus-visible {
+  background: #37474f;
+}
+
+/* ── 全屏书写层 ── */
+.sclass-draw-root {
+  position: fixed;
+  inset: 0;
+  z-index: 99980;
+  display: none;
+  touch-action: none;
+}
+
+.sclass-draw-root.is-active {
+  display: block;
+}
+
+.sclass-draw-root.is-annotate {
+  pointer-events: none;
+}
+
+.sclass-draw-root.is-annotate .sclass-draw-canvas {
+  pointer-events: auto;
+}
+
+.sclass-draw-whiteboard-bg {
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  display: none;
+}
+
+.sclass-draw-root.is-whiteboard .sclass-draw-whiteboard-bg {
+  display: block;
+}
+
+.sclass-draw-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+/* ── 工具栏 ── */
+.sclass-draw-toolbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99990;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+  background: rgba(33, 33, 33, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  pointer-events: auto;
+}
+
+.sclass-draw-root.is-active .sclass-draw-toolbar {
+  display: flex;
+}
+
+.sclass-draw-toolbar button {
+  min-width: 64px;
+  min-height: 44px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  transition: background 0.12s;
+}
+
+.sclass-draw-toolbar button:hover,
+.sclass-draw-toolbar button:focus-visible {
+  background: rgba(255, 255, 255, 0.26);
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 1px;
+}
+
+.sclass-draw-toolbar button:active {
+  background: rgba(255, 255, 255, 0.36);
+}
+
+.sclass-draw-toolbar button.is-primary {
+  background: var(--sclass-draw-accent);
+}
+
+.sclass-draw-toolbar button.is-primary:hover,
+.sclass-draw-toolbar button.is-primary:focus-visible {
+  background: var(--sclass-draw-accent-dark);
+}
+
+.sclass-draw-toolbar button.is-exit {
+  background: #546e7a;
+}
+
+.sclass-draw-toolbar button.is-exit:hover,
+.sclass-draw-toolbar button.is-exit:focus-visible {
+  background: #455a64;
+}
+
+.sclass-draw-toolbar .sclass-draw-sep {
+  width: 1px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.25);
+  margin: 0 2px;
+}
+
+/* 书写时禁止页面滚动 */
+html.sclass-draw-active,
+html.sclass-draw-active body {
+  overflow: hidden !important;
+}
