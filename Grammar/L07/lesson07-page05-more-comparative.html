@@ -82,6 +82,41 @@
       color: #fff8e1;
       font-weight: 600;
     }
+    .practice-sub-nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px;
+      margin: 0 0 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .practice-sub-nav__btn {
+      font-family: inherit;
+      font-size: clamp(0.72rem, 1.8vw, 0.84rem);
+      padding: 6px 12px;
+      min-height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      border: 2px solid rgba(105, 240, 174, 0.35);
+      background: rgba(30, 40, 58, 0.7);
+      color: #eceff1;
+      cursor: pointer;
+      touch-action: manipulation;
+      transition: border-color 0.2s, background 0.2s, color 0.2s;
+    }
+    .practice-sub-nav__btn:hover {
+      border-color: rgba(105, 240, 174, 0.55);
+      color: #fff;
+    }
+    .practice-sub-nav__btn.is-active {
+      border-color: var(--mint);
+      background: rgba(105, 240, 174, 0.12);
+      color: #e8fff0;
+      font-weight: 600;
+    }
     header.top h1 {
       margin: 0;
       font-family: "Bebas Neue", "ZCOOL KuaiLe", sans-serif;
@@ -978,15 +1013,13 @@
     return "more " + L.adj;
   });
 
-  var practiceSnapshot = { mode: "lesson" };
+  var practiceSnapshot = { mode: "lesson", lessonPhase: "adj" };
 
   var mode = "warm";
   var warmSi = 0;
   var warmQi = 0;
   var lessonI = 0;
   var lessonPhase = "adj";
-  /** 15 组词汇「听音拼槽」全部完成后，才允许进入看图造句 */
-  var lessonAdjAllDone = false;
   var dragState = null;
   var docMoveRef = null;
   var docUpRef = null;
@@ -1004,7 +1037,46 @@
     });
     if (mode === "lesson" || mode === "sort" || mode === "done") {
       practiceSnapshot.mode = mode;
+      if (mode === "lesson") practiceSnapshot.lessonPhase = lessonPhase;
     }
+  }
+
+  function goPracticeSub(sub) {
+    clearDragListeners();
+    if (sub === "adj") {
+      mode = "lesson";
+      lessonPhase = "adj";
+    } else if (sub === "sent") {
+      mode = "lesson";
+      lessonPhase = "sent";
+    } else if (sub === "sort") {
+      mode = "sort";
+    }
+    practiceSnapshot.mode = mode;
+    if (mode === "lesson") practiceSnapshot.lessonPhase = lessonPhase;
+    render();
+  }
+
+  function appendPracticeSubNav(root, active) {
+    var sub = document.createElement("nav");
+    sub.className = "practice-sub-nav";
+    sub.setAttribute("aria-label", "演练子环节切换");
+    [
+      { id: "adj", label: "词汇演练" },
+      { id: "sent", label: "看图造句" },
+      { id: "sort", label: "分类挑战" }
+    ].forEach(function (item) {
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "practice-sub-nav__btn" + (active === item.id ? " is-active" : "");
+      btn.textContent = item.label;
+      btn.addEventListener("click", function () {
+        if (active === item.id) return;
+        goPracticeSub(item.id);
+      });
+      sub.appendChild(btn);
+    });
+    root.appendChild(sub);
   }
 
   function initSectionNav() {
@@ -1022,6 +1094,7 @@
         mode = "teach";
       } else if (sec === "practice") {
         mode = practiceSnapshot.mode;
+        if (mode === "lesson") lessonPhase = practiceSnapshot.lessonPhase || "adj";
       }
       render();
     });
@@ -1172,12 +1245,10 @@
     } else if (mode === "teach") {
       el.textContent = "新知 · more + 形容词";
     } else if (mode === "lesson") {
-      if (!lessonAdjAllDone) {
-        el.textContent =
-          "词汇演练 " + (lessonI + 1) + "/15 · 听音拼槽（须完成全部 15 题后再进入看图）";
+      if (lessonPhase === "adj") {
+        el.textContent = "词汇演练 " + (lessonI + 1) + "/15 · 听音拼槽";
       } else {
-        el.textContent =
-          "看图造句 " + (lessonI + 1) + "/15 · " + LESSONS[lessonI].listen;
+        el.textContent = "看图造句 " + (lessonI + 1) + "/15 · " + LESSONS[lessonI].listen;
       }
     } else if (mode === "sort") {
       el.textContent = "终极分类 · -er 规则 vs more +";
@@ -1412,20 +1483,41 @@
     linkGuided.textContent = "进入三句情景造句引导（配图 + 分步提问）→";
     root.appendChild(linkGuided);
 
-    var b = document.createElement("button");
-    b.type = "button";
-    b.className = "primary";
-    b.textContent = "进入 15 组 more + 演练";
-    b.style.marginTop = "14px";
-    b.style.width = "100%";
-    b.addEventListener("click", function () {
+    var row = document.createElement("div");
+    row.className = "btn-row";
+    row.style.marginTop = "14px";
+    row.style.gap = "10px";
+
+    var bAdj = document.createElement("button");
+    bAdj.type = "button";
+    bAdj.className = "primary";
+    bAdj.style.flex = "1";
+    bAdj.textContent = "进入词汇演练（15 组听音拼槽）";
+    bAdj.addEventListener("click", function () {
       mode = "lesson";
       lessonI = 0;
       lessonPhase = "adj";
-      lessonAdjAllDone = false;
+      practiceSnapshot.mode = mode;
+      practiceSnapshot.lessonPhase = lessonPhase;
       render();
     });
-    root.appendChild(b);
+    row.appendChild(bAdj);
+
+    var bSent = document.createElement("button");
+    bSent.type = "button";
+    bSent.className = "primary";
+    bSent.style.flex = "1";
+    bSent.textContent = "进入看图造句";
+    bSent.addEventListener("click", function () {
+      mode = "lesson";
+      lessonI = 0;
+      lessonPhase = "sent";
+      practiceSnapshot.mode = mode;
+      practiceSnapshot.lessonPhase = lessonPhase;
+      render();
+    });
+    row.appendChild(bSent);
+    root.appendChild(row);
   }
 
   function clearDragListeners() {
@@ -1529,18 +1621,17 @@
   }
 
   function renderLesson(root) {
-    if (lessonPhase === "sent" && !lessonAdjAllDone) {
-      lessonPhase = "adj";
-    }
     var L = LESSONS[lessonI];
     root.classList.toggle("panel--lesson-sent", lessonPhase === "sent");
 
+    appendPracticeSubNav(root, lessonPhase);
+
     var h = document.createElement("h2");
     h.textContent =
-      (!lessonAdjAllDone ? "词汇 " : "看图 ") +
+      (lessonPhase === "adj" ? "词汇 " : "看图 ") +
       (lessonI + 1) +
       "/15 · " +
-      (!lessonAdjAllDone ? "听音拼槽 · " + L.listen : L.listen);
+      (lessonPhase === "adj" ? "听音拼槽 · " + L.listen : L.listen);
     root.appendChild(h);
 
     if (lessonPhase === "adj") {
@@ -1548,7 +1639,7 @@
       p.style.fontSize = "0.86rem";
       p.style.textAlign = "center";
       p.textContent =
-        "步骤 1（共 15 题）：听发音 → 把正确形容词拖进「more +」后面的方框。须顺序完成全部 15 题词汇后，才会进入看图造句。";
+        "听发音 → 把正确形容词拖进「more +」后面的方框。可随时点上方「看图造句」进入造句环节。";
       root.appendChild(p);
 
       var listenRow = document.createElement("div");
@@ -1592,9 +1683,7 @@
       btnNext.type = "button";
       btnNext.className = "primary";
       btnNext.textContent =
-        lessonI < LESSONS.length - 1
-          ? "提交 · 下一题听音拼槽"
-          : "提交 · 完成全部词汇并进入看图造句";
+        lessonI < LESSONS.length - 1 ? "提交 · 下一题听音拼槽" : "提交 · 完成全部词汇";
       btnNext.style.marginTop = "12px";
       btnNext.style.width = "100%";
       btnNext.addEventListener("click", function () {
@@ -1612,10 +1701,7 @@
           lessonPhase = "adj";
           showToast("✓ 正确 · 下一题听音拼槽", true);
         } else {
-          lessonAdjAllDone = true;
-          lessonI = 0;
-          lessonPhase = "sent";
-          showToast("15 组词汇已完成 · 进入看图造句环节", true);
+          showToast("✓ 全部 15 题词汇已完成", true);
         }
         render();
       });
@@ -1628,7 +1714,7 @@
       var p2 = document.createElement("p");
       p2.className = "lesson-sent-intro";
       p2.textContent =
-        "步骤 2：已完成全部 15 题听音拼槽。请看图 → 右侧排序槽拖成正确的比较级句子（可用上一场景/下一场景或下拉在 15 个情景中切换）。";
+        "看图 → 右侧排序槽拖成正确的比较级句子（可用上一场景/下一场景或下拉在 15 个情景中切换）。";
 
       var layout = document.createElement("div");
       layout.className = "lesson-sent-layout";
@@ -1645,10 +1731,6 @@
       colSlots.className = "lesson-sent-col lesson-sent-col--slots";
 
       function goSentScenario(idx) {
-        if (!lessonAdjAllDone) {
-          showToast("请先完成全部 15 题听音拼槽。", false);
-          return;
-        }
         clearDragListeners();
         var n = LESSONS.length;
         lessonI = ((idx % n) + n) % n;
@@ -1775,6 +1857,8 @@
   }
 
   function renderSort(root) {
+    appendPracticeSubNav(root, "sort");
+
     var h = document.createElement("h2");
     h.textContent = "终极分类 · 规则对比";
     root.appendChild(h);
