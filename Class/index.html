@@ -1294,11 +1294,11 @@
   <div class="bg-grid" aria-hidden="true"></div>
   <div class="page">
     <header class="topbar">
-      <a class="brand" href="../index.html">
+      <a class="brand" href="./index.html">
         <div class="brand-mark">SC</div>
         <div class="brand-text">
-          <strong>S-Class · 班级管理</strong>
-          <span>Classroom Tools</span>
+          <strong>S-Class · <span id="brand-class-name">班级管理</span></strong>
+          <span>切换班级 / Classroom Tools</span>
         </div>
       </a>
       <div class="top-actions">
@@ -1316,9 +1316,9 @@
 
     <section class="hero">
       <div class="hero-main">
-        <div class="hero-kicker"><i class="fas fa-sparkles"></i> New Class 2026</div>
-        <h1 class="hero-title">我们的班级</h1>
-        <p class="hero-sub">随机点名 · 课堂听写纠名 · 小锤子 / 花束 · 课后自动纪要</p>
+        <div class="hero-kicker"><i class="fas fa-sparkles"></i> <span id="hero-class-tag">New Class 2026</span></div>
+        <h1 class="hero-title" id="hero-class-title">我们的班级</h1>
+        <p class="hero-sub">随机点名 · 语音口令加分 · 小锤子 / 花束 · 课堂纪要</p>
         <div class="hero-ctas">
           <button class="btn btn-primary" type="button" id="hero-pick">
             <i class="fas fa-dice"></i> 开始点名
@@ -1448,7 +1448,7 @@
             <div>
               <h2 style="margin:0 0 6px;font-family:var(--display);font-size:1.2rem;">课堂听写 · 姓名强绑定</h2>
               <p style="margin:0;color:var(--muted);font-size:0.88rem;line-height:1.5;">
-                上课时保持本页打开。识别器已注入 15 个标准姓名；转写落盘前会强制纠成标准汉字（如「徐梓萱」→「徐梓媗」）。
+                上课时保持本页打开。说「姓名+加一分」会<strong>自动加分</strong>（例：刁维凡加一分）。识别器已注入本班标准姓名并强制纠名。
               </p>
             </div>
             <div class="session-status" id="session-status">
@@ -1600,12 +1600,46 @@
   </div>
 
   <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
+  <script src="classes-data.js"></script>
   <script src="classroom-session.js"></script>
   <script>
 (function () {
   "use strict";
 
-  var STORAGE_KEY = "sclass-classroom-v2";
+  /* —— 双班入口：无 ?class= 时显示选择页 —— */
+  var ACTIVE_CLASS = (window.ClassData && ClassData.resolveFromQuery()) || null;
+  if (!ACTIVE_CLASS) {
+    document.title = "选择班级 · S-Class";
+    document.body.innerHTML =
+      '<div class="bg-grid" aria-hidden="true"></div>' +
+      '<div style="position:relative;z-index:1;max-width:880px;margin:0 auto;padding:40px 20px 60px;font-family:Noto Sans SC,sans-serif;color:#0b1f2a">' +
+        '<a href="../index.html" style="color:#0f766e;text-decoration:none;font-weight:600">← 返回首页</a>' +
+        '<h1 style="font-family:ZCOOL KuaiLe,sans-serif;font-size:clamp(2rem,5vw,2.8rem);margin:24px 0 8px;letter-spacing:.06em">班级管理</h1>' +
+        '<p style="color:#5b7380;margin:0 0 28px">两个班级功能相同：点名 · 积分 · 小锤子/花束 · 课堂纪要 · <strong>语音口令加分</strong></p>' +
+        '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px">' +
+          ClassData.list().map(function (c) {
+            return (
+              '<a href="?class=' + c.id + '" style="display:block;padding:28px 24px;border-radius:22px;text-decoration:none;color:inherit;' +
+              'background:linear-gradient(145deg,rgba(255,255,255,.9),rgba(238,246,244,.95));border:1px solid rgba(15,118,110,.16);box-shadow:0 16px 40px rgba(11,31,42,.08)">' +
+                '<div style="font-size:.78rem;font-weight:800;color:#0d9488;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px">CLASS ' + c.id.toUpperCase() + '</div>' +
+                '<div style="font-family:ZCOOL KuaiLe,sans-serif;font-size:2rem;margin-bottom:8px">' + c.name + '</div>' +
+                '<div style="color:#5b7380;font-size:.92rem;line-height:1.5;margin-bottom:14px">' + c.subtitle + '</div>' +
+                '<div style="font-weight:800;color:#0f766e">进入课堂工具 →</div>' +
+              "</a>"
+            );
+          }).join("") +
+        "</div>" +
+        '<p style="margin-top:28px;color:#5b7380;font-size:.85rem">语音示例：打开「课堂纪要」开始上课后，说「刁维凡加一分」「张弛加五分」即可自动加分。</p>' +
+      "</div>";
+    // load fonts for hub
+    var link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Noto+Sans+SC:wght@400;600;700;800&display=swap";
+    document.head.appendChild(link);
+    return;
+  }
+
+  var STORAGE_KEY = ACTIVE_CLASS.storageKey;
   var WHIP_PENALTY = 2;   // 小锤子惩罚自动扣分
   var BOUQUET_BONUS = 5;  // 花束表扬加分
   var AVATAR_LABELS = [
@@ -1623,17 +1657,55 @@
     return { id: "avatar-" + n + "-" + slug, src: "avatars/avatar-" + n + "-" + slug + ".jpg", label: AVATAR_LABELS[i] };
   });
 
-  var DEFAULT_STUDENTS = [
-    "邓斯茹","朱希曈","雷峻仁","王思淼","严江艺",
-    "王雅萱","孙悦博","徐梓媗","谢淑媛","李雨馨",
-    "宋芊彤","高梓轩","袁梓瑞","黎小菲","谢林翰"
-  ];
+  var DEFAULT_STUDENTS = ACTIVE_CLASS.students.slice();
+  document.title = ACTIVE_CLASS.name + " · 班级管理 · S-Class";
+
+  // 配置课堂纪要模块（花名册 + 别名 + 语音口令）
+  if (window.ClassSession) {
+    ClassSession.configure({
+      roster: DEFAULT_STUDENTS.slice(),
+      aliases: ACTIVE_CLASS.aliases,
+      sessionKey: ACTIVE_CLASS.sessionKey
+    });
+  }
 
   var AZURE = {
     key: "3C2ai7PPgPnOLlhb1c7gBw207PAVNfVJni6JnESsPjYPaVyFeQ9YJQQJ99CGAC3pKaRXJ3w3AAAYACOG0Zbc",
     region: "eastasia",
     voice: "zh-CN-XiaoxiaoNeural"
   };
+
+  // 页面标题/品牌随班级更新
+  (function paintClassChrome() {
+    var brand = document.getElementById("brand-class-name");
+    if (brand) brand.textContent = ACTIVE_CLASS.name;
+    var tag = document.getElementById("hero-class-tag");
+    if (tag) tag.textContent = ACTIVE_CLASS.id.toUpperCase() + " · " + ACTIVE_CLASS.name;
+    var title = document.getElementById("hero-class-title");
+    if (title) title.textContent = ACTIVE_CLASS.name;
+  })();
+
+  function findStudentByName(name) {
+    return state.students.find(function (s) { return s.name === name; }) || null;
+  }
+
+  function applyVoiceCommand(cmd) {
+    if (!cmd || !cmd.student) return;
+    var s = findStudentByName(cmd.student);
+    if (!s) {
+      toast("未找到学生：" + cmd.student);
+      return;
+    }
+    if (cmd.action === "points") {
+      changePoints(s.id, cmd.delta);
+      toast(s.name + (cmd.delta >= 0 ? " +" : " ") + cmd.delta + "（语音）");
+      if (state.speakOn) speakZh(s.name + (cmd.delta >= 0 ? "加" + cmd.delta + "分" : "扣" + Math.abs(cmd.delta) + "分"));
+    } else if (cmd.action === "whip") {
+      applyWhip(s.id);
+    } else if (cmd.action === "bouquet") {
+      applyBouquet(s.id);
+    }
+  }
 
   var state = loadState();
   var currentPick = null;
@@ -1682,12 +1754,21 @@
 
   function loadState() {
     try {
-      var raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem("sclass-classroom-v1");
+      var raw = localStorage.getItem(STORAGE_KEY);
+      // 一班兼容旧版单班存储键
+      if (!raw && ACTIVE_CLASS.id === "c1") {
+        raw = localStorage.getItem("sclass-classroom-v2") || localStorage.getItem("sclass-classroom-v1");
+      }
       if (!raw) return defaultState();
       var parsed = JSON.parse(raw);
       if (!parsed || !Array.isArray(parsed.students) || parsed.students.length !== DEFAULT_STUDENTS.length) {
         return defaultState();
       }
+      // 姓名以当前花名册为准（防止旧数据串班）
+      var sameRoster = parsed.students.every(function (s, i) {
+        return s && s.name === DEFAULT_STUDENTS[i];
+      });
+      if (!sameRoster) return defaultState();
       parsed.students = parsed.students.map(normalizeStudent);
       if (typeof parsed.noRepeat !== "boolean") parsed.noRepeat = true;
       if (typeof parsed.speakOn !== "boolean") parsed.speakOn = true;
@@ -2489,9 +2570,12 @@
     toast("请允许麦克风权限…");
     ClassSession.start({
       roster: DEFAULT_STUDENTS.slice(),
-      onUpdate: renderSessionUI
+      aliases: ACTIVE_CLASS.aliases,
+      sessionKey: ACTIVE_CLASS.sessionKey,
+      onUpdate: renderSessionUI,
+      onVoiceCommand: applyVoiceCommand
     }).then(function () {
-      toast("已开始听写 · 姓名强绑定已开启");
+      toast("已开始听写 · 可语音说「姓名加一分」");
       clearInterval(sessionClock);
       sessionClock = setInterval(tickSessionClock, 1000);
       renderSessionUI();
