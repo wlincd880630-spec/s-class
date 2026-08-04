@@ -23,54 +23,59 @@
   var SESSION_STORE = "sclass-class-session-v1";
   var RESTART_MS = 4 * 60 * 1000; // Azure 浏览器会话定期重连，撑满两小时课
 
-  /** 标准姓名 → 常见误听/误写（含生僻字） */
-  var NAME_ALIASES = {
-    "邓斯茹": ["邓思茹", "邓斯如", "邓斯儒", "邓司茹", "邓斯乳", "邓丝茹"],
-    "朱希曈": ["朱希同", "朱希童", "朱希彤", "朱西曈", "朱希通", "朱希瞳", "朱希铜", "朱习曈", "朱希僮"],
-    "雷峻仁": ["雷俊仁", "雷峻人", "雷骏仁", "雷俊人", "雷君仁", "雷浚仁"],
-    "王思淼": ["王思渺", "王思秒", "王思妙", "王思淼", "王司淼", "王思淼淼", "王思邈"],
-    "严江艺": ["严江意", "严江毅", "严讲艺", "颜江艺", "严将艺", "严江义"],
-    "王雅萱": ["王雅宣", "王雅暄", "王雅旋", "王雅瑄", "王亚萱", "王雅喧"],
-    "孙悦博": ["孙月博", "孙悦伯", "孙悦波", "孙悦薄", "孙跃博", "孙悦勃"],
-    "徐梓媗": ["徐梓萱", "徐梓暄", "徐梓宣", "徐子萱", "徐梓煊", "徐梓璇", "徐梓喧", "徐梓媗"],
-    "谢淑媛": ["谢淑园", "谢淑元", "谢淑缘", "谢书媛", "谢淑远", "谢淑媛媛"],
-    "李雨馨": ["李雨欣", "李雨心", "李雨鑫", "李玉馨", "李雨辛", "李语馨"],
-    "宋芊彤": ["宋千彤", "宋芊同", "宋芊童", "宋纤彤", "宋茜彤", "宋芊佟", "宋千童"],
-    "高梓轩": ["高子轩", "高梓宣", "高梓暄", "高梓萱", "高梓轩轩", "高紫轩"],
-    "袁梓瑞": ["袁子瑞", "袁梓睿", "袁梓锐", "袁梓蕊", "袁梓瑞瑞", "袁紫瑞"],
-    "黎小菲": ["黎小飞", "黎小非", "李小菲", "黎小霏", "黎晓菲", "黎小啡"],
-    "谢林翰": ["谢林含", "谢林寒", "谢林韩", "谢临翰", "谢林涵", "谢林汗"]
-  };
+  /** 标准姓名 → 常见误听/误写（含生僻字）；可由 configure() 按班级覆盖 */
+  var NAME_ALIASES = {};
+  var ALIAS_PAIRS = [];
 
-  var PINYIN = {
-    "邓斯茹": "dengsiru",
-    "朱希曈": "zhuxitong",
-    "雷峻仁": "leijunren",
-    "王思淼": "wangsimiao",
-    "严江艺": "yanjiangyi",
-    "王雅萱": "wangyaxuan",
-    "孙悦博": "sunyuebo",
-    "徐梓媗": "xuzixuan",
-    "谢淑媛": "xieshuyuan",
-    "李雨馨": "liyuxin",
-    "宋芊彤": "songqiantong",
-    "高梓轩": "gaozixuan",
-    "袁梓瑞": "yuanzirui",
-    "黎小菲": "lixiaofei",
-    "谢林翰": "xielinhan"
+  var CN_NUM = {
+    "零": 0, "一": 1, "二": 2, "两": 2, "三": 3, "四": 4,
+    "五": 5, "六": 6, "七": 7, "八": 8, "九": 9, "十": 10
   };
 
   var state = {
     running: false,
     startedAt: null,
-    segments: [],   // {t, text, raw, names[]}
+    segments: [],   // {t, text, raw, names[], commands[]}
     events: [],     // {t, type, student, detail}
     interim: "",
     recognizer: null,
     restartTimer: null,
     onUpdate: null,
-    roster: Object.keys(NAME_ALIASES)
+    onVoiceCommand: null,
+    roster: []
   };
+
+  function rebuildAliasPairs() {
+    var pairs = [];
+    Object.keys(NAME_ALIASES).forEach(function (canon) {
+      pairs.push({ from: canon, to: canon });
+      (NAME_ALIASES[canon] || []).forEach(function (alias) {
+        if (alias && alias !== canon) pairs.push({ from: alias, to: canon });
+      });
+    });
+    pairs.sort(function (a, b) { return b.from.length - a.from.length; });
+    ALIAS_PAIRS = pairs;
+  }
+
+  /** 配置当前班级花名册 / 别名 / 存储键 / 语音口令回调 */
+  function configure(options) {
+    options = options || {};
+    if (options.roster && options.roster.length) {
+      state.roster = options.roster.slice();
+    }
+    if (options.aliases && typeof options.aliases === "object") {
+      NAME_ALIASES = options.aliases;
+      // 确保花名册姓名也在别名表里
+      state.roster.forEach(function (n) {
+        if (!NAME_ALIASES[n]) NAME_ALIASES[n] = [];
+      });
+      rebuildAliasPairs();
+    }
+    if (options.sessionKey) SESSION_STORE = options.sessionKey;
+    if (typeof options.onUpdate === "function") state.onUpdate = options.onUpdate;
+    if (typeof options.onVoiceCommand === "function") state.onVoiceCommand = options.onVoiceCommand;
+    loadPersisted();
+  }
 
   function nowIso() {
     return new Date().toISOString();
@@ -92,18 +97,11 @@
 
   /** 最长别名优先替换，保证输出标准姓名汉字 */
   function buildAliasRegex() {
-    var pairs = [];
-    Object.keys(NAME_ALIASES).forEach(function (canon) {
-      pairs.push({ from: canon, to: canon });
-      (NAME_ALIASES[canon] || []).forEach(function (alias) {
-        if (alias && alias !== canon) pairs.push({ from: alias, to: canon });
-      });
-    });
-    pairs.sort(function (a, b) { return b.from.length - a.from.length; });
-    return pairs;
+    return ALIAS_PAIRS;
   }
 
-  var ALIAS_PAIRS = buildAliasRegex();
+  // kept for compatibility — pairs rebuilt in configure()
+  rebuildAliasPairs();
 
   function levenshtein(a, b) {
     a = String(a); b = String(b);
@@ -246,18 +244,115 @@
     return map;
   }
 
+  function parseNumToken(tok) {
+    if (!tok) return 1;
+    if (/^\d+$/.test(tok)) return Math.max(1, parseInt(tok, 10));
+    if (CN_NUM[tok] != null) return CN_NUM[tok] || 1;
+    if (tok === "十") return 10;
+    return 1;
+  }
+
+  /**
+   * 从已纠名文本中解析语音口令：
+   * 「刁维凡加一分」「给张弛加五分」「漆岢鑫减一分」「侯婉鑫小锤子」「罗逸花束」
+   */
+  function parseVoiceCommands(text) {
+    var src = String(text || "");
+    var cmds = [];
+    if (!src || !state.roster.length) return cmds;
+
+    var names = state.roster.slice().sort(function (a, b) { return b.length - a.length; });
+    var nameAlt = names.map(escapeRegExp).join("|");
+    if (!nameAlt) return cmds;
+
+    function pushCmd(student, action, delta, raw) {
+      cmds.push({
+        student: student,
+        action: action, // points | whip | bouquet
+        delta: delta || 0,
+        raw: raw
+      });
+    }
+
+    // 给NAME加N分 / NAME加N分 / NAME加上N分
+    var reAdd = new RegExp(
+      "(?:给)?(" + nameAlt + ")(?:同学)?(?:加|＋|\\+|加上|奖励)\\s*([一二两三四五六七八九十\\d]+)\\s*分",
+      "g"
+    );
+    var m;
+    while ((m = reAdd.exec(src))) {
+      pushCmd(m[1], "points", parseNumToken(m[2]), m[0]);
+    }
+
+    // NAME加分（默认 +1）
+    var reAddPlain = new RegExp("(" + nameAlt + ")(?:同学)?加分", "g");
+    while ((m = reAddPlain.exec(src))) {
+      // 避免与「加一分」重复：若已被上面匹配覆盖则跳过邻近
+      var already = cmds.some(function (c) {
+        return c.student === m[1] && c.action === "points" && c.raw.indexOf(m[0]) !== -1;
+      });
+      if (!already) pushCmd(m[1], "points", 1, m[0]);
+    }
+
+    // NAME减/扣 N 分
+    var reSub = new RegExp(
+      "(?:给)?(" + nameAlt + ")(?:同学)?(?:减|扣|－|-)\\s*([一二两三四五六七八九十\\d]+)\\s*分",
+      "g"
+    );
+    while ((m = reSub.exec(src))) {
+      pushCmd(m[1], "points", -parseNumToken(m[2]), m[0]);
+    }
+    var reSubPlain = new RegExp("(" + nameAlt + ")(?:同学)?(?:扣分|减分)", "g");
+    while ((m = reSubPlain.exec(src))) {
+      pushCmd(m[1], "points", -1, m[0]);
+    }
+
+    // 小锤子 / 花束
+    var reWhip = new RegExp("(" + nameAlt + ")(?:同学)?[^。！？]{0,6}(?:小锤子|锤子|惩罚)", "g");
+    while ((m = reWhip.exec(src))) pushCmd(m[1], "whip", 0, m[0]);
+    var reWhip2 = new RegExp("(?:小锤子|锤子)[^。！？]{0,4}(" + nameAlt + ")", "g");
+    while ((m = reWhip2.exec(src))) pushCmd(m[1], "whip", 0, m[0]);
+
+    var reFlower = new RegExp("(" + nameAlt + ")(?:同学)?[^。！？]{0,6}(?:花束|送花|小红花|表扬)", "g");
+    while ((m = reFlower.exec(src))) pushCmd(m[1], "bouquet", 0, m[0]);
+    var reFlower2 = new RegExp("(?:花束|送花|小红花)[^。！？]{0,4}(" + nameAlt + ")", "g");
+    while ((m = reFlower2.exec(src))) pushCmd(m[1], "bouquet", 0, m[0]);
+
+    // 去重（同学生同动作同 delta 只留一条）
+    var seen = {};
+    return cmds.filter(function (c) {
+      var k = c.student + "|" + c.action + "|" + c.delta;
+      if (seen[k]) return false;
+      seen[k] = true;
+      return true;
+    });
+  }
+
+  function emitVoiceCommands(commands) {
+    if (!commands || !commands.length) return;
+    commands.forEach(function (cmd) {
+      logEvent("语音口令", cmd.student, cmd.raw + (cmd.action === "points" ? (" → " + (cmd.delta > 0 ? "+" : "") + cmd.delta) : ""));
+      if (typeof state.onVoiceCommand === "function") {
+        try { state.onVoiceCommand(cmd); } catch (e) { console.warn(e); }
+      }
+    });
+  }
+
   function pushSegment(rawText) {
     var corrected = correctNames(rawText);
     if (!corrected.text.trim()) return;
+    var commands = parseVoiceCommands(corrected.text);
     state.segments.push({
       t: nowIso(),
       raw: rawText,
       text: corrected.text,
       names: corrected.names,
-      fixes: corrected.fixes
+      fixes: corrected.fixes,
+      commands: commands
     });
     state.interim = "";
     notify();
+    emitVoiceCommands(commands);
   }
 
   function logEvent(type, student, detail) {
@@ -310,8 +405,15 @@
       // 课堂常用触发语，帮助抓点评句
       [
         "请", "回答", "很好", "注意", "加分", "扣分", "小锤子", "花束",
-        "表扬", "批评", "举手", "安静", "分组", "今天", "知识点"
+        "表扬", "批评", "举手", "安静", "分组", "今天", "知识点",
+        "加一分", "加两分", "加五分", "减一分", "扣一分", "送花", "小红花"
       ].forEach(function (p) { phraseList.addPhrase(p); });
+      // 完整口令例句（提升「姓名+加分」连读召回）
+      state.roster.forEach(function (name) {
+        ["加一分", "加两分", "加五分", "减一分", "扣一分", "加分", "小锤子", "花束"].forEach(function (tail) {
+          phraseList.addPhrase(name + tail);
+        });
+      });
     } catch (e) {
       console.warn("PhraseListGrammar failed", e);
     }
@@ -397,10 +499,11 @@
 
   function start(options) {
     options = options || {};
-    if (options.roster && options.roster.length) {
-      state.roster = options.roster.slice();
+    if (options.roster || options.aliases || options.sessionKey || options.onVoiceCommand || options.onUpdate) {
+      configure(options);
     }
     if (typeof options.onUpdate === "function") state.onUpdate = options.onUpdate;
+    if (typeof options.onVoiceCommand === "function") state.onVoiceCommand = options.onVoiceCommand;
 
     if (state.running) return Promise.resolve(getSnapshot());
 
@@ -529,33 +632,32 @@
 
   // 自测纠名（控制台可调 ClassSession.selfTestNames()）
   function selfTestNames() {
-    var samples = [
-      "请邓思茹回答",
-      "朱希同你来说",
-      "徐梓萱加分",
-      "表扬李雨欣",
-      "谢林含要注意",
-      "宋千彤很好",
-      "高子轩举手了"
-    ];
+    var samples = state.roster.slice(0, 3).map(function (n) { return n + "加一分"; });
+    if (!samples.length) {
+      samples = ["调微凡加一分", "漆可鑫减一分", "张驰加五分"];
+    }
     return samples.map(function (s) {
       var r = correctNames(s);
-      return { raw: s, text: r.text, names: r.names, fixes: r.fixes };
+      return { raw: s, text: r.text, names: r.names, fixes: r.fixes, commands: parseVoiceCommands(r.text) };
     });
   }
 
-  loadPersisted();
+  // 默认不自动 load；等页面 configure 后再 load
+  // loadPersisted();
 
   global.ClassSession = {
+    configure: configure,
     start: start,
     stop: stop,
     clear: clearSession,
     logEvent: logEvent,
     correctNames: correctNames,
+    parseVoiceCommands: parseVoiceCommands,
     generateReport: generateReport,
     getSnapshot: getSnapshot,
     selfTestNames: selfTestNames,
     roster: function () { return state.roster.slice(); },
-    setOnUpdate: function (fn) { state.onUpdate = fn; }
+    setOnUpdate: function (fn) { state.onUpdate = fn; },
+    setOnVoiceCommand: function (fn) { state.onVoiceCommand = fn; }
   };
 })(window);
