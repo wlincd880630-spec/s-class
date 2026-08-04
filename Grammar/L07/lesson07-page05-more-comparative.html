@@ -773,10 +773,12 @@
     <div id="progress"></div>
   </header>
 
-  <nav id="section-nav" class="section-nav" aria-label="本页三大环节切换">
+  <nav id="section-nav" class="section-nav" aria-label="本页环节切换">
     <button type="button" class="section-nav__btn" data-section="warm">情景问答</button>
     <button type="button" class="section-nav__btn" data-section="teach">新知讲解</button>
-    <button type="button" class="section-nav__btn" data-section="practice">词汇·看图·分类</button>
+    <button type="button" class="section-nav__btn" data-section="vocab">词汇演练</button>
+    <button type="button" class="section-nav__btn" data-section="sent">看图造句</button>
+    <button type="button" class="section-nav__btn" data-section="sort">分类挑战</button>
   </nav>
 
   <main class="shell">
@@ -978,15 +980,11 @@
     return "more " + L.adj;
   });
 
-  var practiceSnapshot = { mode: "lesson" };
-
   var mode = "warm";
   var warmSi = 0;
   var warmQi = 0;
   var lessonI = 0;
   var lessonPhase = "adj";
-  /** 15 组词汇「听音拼槽」全部完成后，才允许进入看图造句 */
-  var lessonAdjAllDone = false;
   var dragState = null;
   var docMoveRef = null;
   var docUpRef = null;
@@ -997,14 +995,14 @@
   function updateSectionNav() {
     var nav = document.getElementById("section-nav");
     if (!nav) return;
-    var active =
-      mode === "warm" ? "warm" : mode === "teach" ? "teach" : "practice";
+    var active = "warm";
+    if (mode === "teach") active = "teach";
+    else if (mode === "sort") active = "sort";
+    else if (mode === "lesson" && lessonPhase === "sent") active = "sent";
+    else if (mode === "lesson") active = "vocab";
     nav.querySelectorAll(".section-nav__btn[data-section]").forEach(function (btn) {
       btn.classList.toggle("is-active", btn.getAttribute("data-section") === active);
     });
-    if (mode === "lesson" || mode === "sort" || mode === "done") {
-      practiceSnapshot.mode = mode;
-    }
   }
 
   function initSectionNav() {
@@ -1020,8 +1018,14 @@
         mode = "warm";
       } else if (sec === "teach") {
         mode = "teach";
-      } else if (sec === "practice") {
-        mode = practiceSnapshot.mode;
+      } else if (sec === "vocab") {
+        mode = "lesson";
+        lessonPhase = "adj";
+      } else if (sec === "sent") {
+        mode = "lesson";
+        lessonPhase = "sent";
+      } else if (sec === "sort") {
+        mode = "sort";
       }
       render();
     });
@@ -1172,12 +1176,12 @@
     } else if (mode === "teach") {
       el.textContent = "新知 · more + 形容词";
     } else if (mode === "lesson") {
-      if (!lessonAdjAllDone) {
-        el.textContent =
-          "词汇演练 " + (lessonI + 1) + "/15 · 听音拼槽（须完成全部 15 题后再进入看图）";
-      } else {
+      if (lessonPhase === "sent") {
         el.textContent =
           "看图造句 " + (lessonI + 1) + "/15 · " + LESSONS[lessonI].listen;
+      } else {
+        el.textContent =
+          "词汇演练 " + (lessonI + 1) + "/15 · 听音拼槽";
       }
     } else if (mode === "sort") {
       el.textContent = "终极分类 · -er 规则 vs more +";
@@ -1422,7 +1426,6 @@
       mode = "lesson";
       lessonI = 0;
       lessonPhase = "adj";
-      lessonAdjAllDone = false;
       render();
     });
     root.appendChild(b);
@@ -1529,18 +1532,15 @@
   }
 
   function renderLesson(root) {
-    if (lessonPhase === "sent" && !lessonAdjAllDone) {
-      lessonPhase = "adj";
-    }
     var L = LESSONS[lessonI];
     root.classList.toggle("panel--lesson-sent", lessonPhase === "sent");
 
     var h = document.createElement("h2");
     h.textContent =
-      (!lessonAdjAllDone ? "词汇 " : "看图 ") +
+      (lessonPhase === "adj" ? "词汇 " : "看图 ") +
       (lessonI + 1) +
       "/15 · " +
-      (!lessonAdjAllDone ? "听音拼槽 · " + L.listen : L.listen);
+      (lessonPhase === "adj" ? "听音拼槽 · " + L.listen : L.listen);
     root.appendChild(h);
 
     if (lessonPhase === "adj") {
@@ -1548,7 +1548,7 @@
       p.style.fontSize = "0.86rem";
       p.style.textAlign = "center";
       p.textContent =
-        "步骤 1（共 15 题）：听发音 → 把正确形容词拖进「more +」后面的方框。须顺序完成全部 15 题词汇后，才会进入看图造句。";
+        "听发音 → 把正确形容词拖进「more +」后面的方框。也可随时点顶部「看图造句」进入情景排序练习。";
       root.appendChild(p);
 
       var listenRow = document.createElement("div");
@@ -1594,7 +1594,7 @@
       btnNext.textContent =
         lessonI < LESSONS.length - 1
           ? "提交 · 下一题听音拼槽"
-          : "提交 · 完成全部词汇并进入看图造句";
+          : "提交 · 完成本组词汇";
       btnNext.style.marginTop = "12px";
       btnNext.style.width = "100%";
       btnNext.addEventListener("click", function () {
@@ -1612,10 +1612,7 @@
           lessonPhase = "adj";
           showToast("✓ 正确 · 下一题听音拼槽", true);
         } else {
-          lessonAdjAllDone = true;
-          lessonI = 0;
-          lessonPhase = "sent";
-          showToast("15 组词汇已完成 · 进入看图造句环节", true);
+          showToast("✓ 正确 · 15 组词汇全部完成", true);
         }
         render();
       });
@@ -1628,7 +1625,7 @@
       var p2 = document.createElement("p");
       p2.className = "lesson-sent-intro";
       p2.textContent =
-        "步骤 2：已完成全部 15 题听音拼槽。请看图 → 右侧排序槽拖成正确的比较级句子（可用上一场景/下一场景或下拉在 15 个情景中切换）。";
+        "请看图 → 右侧排序槽拖成正确的比较级句子（可用上一场景/下一场景或下拉在 15 个情景中切换）。";
 
       var layout = document.createElement("div");
       layout.className = "lesson-sent-layout";
@@ -1645,10 +1642,6 @@
       colSlots.className = "lesson-sent-col lesson-sent-col--slots";
 
       function goSentScenario(idx) {
-        if (!lessonAdjAllDone) {
-          showToast("请先完成全部 15 题听音拼槽。", false);
-          return;
-        }
         clearDragListeners();
         var n = LESSONS.length;
         lessonI = ((idx % n) + n) % n;
