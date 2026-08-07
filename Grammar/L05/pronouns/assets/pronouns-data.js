@@ -1,4 +1,4 @@
-/* L05 Pronouns · DeepSeek corpus + curated forms */
+/* L05 Pronouns · DeepSeek corpus + curated forms + per-sentence art */
 (function(g){
 'use strict';
 g.L05PronounsData={
@@ -70,19 +70,22 @@ g.L05PronounsData={
           "title": "作主语",
           "desc": "放在动词前，说明「谁做这件事」。",
           "en": "I love English.",
-          "zh": "我喜欢英语。"
+          "zh": "我喜欢英语。",
+          "image": "ex/use-subject-0.jpg"
         },
         {
           "title": "Be 动词后表语（指人）",
           "desc": "口语中介绍身份时常用主格。",
           "en": "It is I. / It's me.（口语更常用 me）",
-          "zh": "是我。"
+          "zh": "是我。",
+          "image": "ex/use-subject-1.jpg"
         },
         {
           "title": "并列主语",
           "desc": "两人并列作主语都用主格：He and I。",
           "en": "He and I are in Class 3.",
-          "zh": "他和我在三班。"
+          "zh": "他和我在三班。",
+          "image": "ex/use-subject-2.jpg"
         }
       ]
     },
@@ -128,19 +131,22 @@ g.L05PronounsData={
           "title": "动词后作宾语",
           "desc": "动作的承受者用宾格。",
           "en": "Miss Li helped me.",
-          "zh": "李老师帮助了我。"
+          "zh": "李老师帮助了我。",
+          "image": "ex/use-object-0.jpg"
         },
         {
           "title": "介词后作宾语",
           "desc": "for / to / with / between 后用宾格。",
           "en": "This gift is for her.",
-          "zh": "这份礼物是给她的。"
+          "zh": "这份礼物是给她的。",
+          "image": "ex/use-object-1.jpg"
         },
         {
           "title": "双宾语",
           "desc": "give / tell / show / send 后的人用宾格。",
           "en": "Please tell us the truth.",
-          "zh": "请告诉我们真相。"
+          "zh": "请告诉我们真相。",
+          "image": "ex/use-object-2.jpg"
         }
       ]
     },
@@ -186,19 +192,22 @@ g.L05PronounsData={
           "title": "修饰名词",
           "desc": "后面必须再接名词，不能单独用。",
           "en": "This is my book.",
-          "zh": "这是我的书。"
+          "zh": "这是我的书。",
+          "image": "ex/use-possAdj-0.jpg"
         },
         {
           "title": "与名词所有格分工",
           "desc": "人名用 's：Tom's bag；代词用 my/his。",
           "en": "Her desk is near the window.",
-          "zh": "她的课桌靠近窗户。"
+          "zh": "她的课桌靠近窗户。",
+          "image": "ex/use-possAdj-1.jpg"
         },
         {
           "title": "易混 its / it's",
           "desc": "its=它的；it's=it is。",
           "en": "The dog wagged its tail.",
-          "zh": "狗摇了摇它的尾巴。"
+          "zh": "狗摇了摇它的尾巴。",
+          "image": "ex/use-possAdj-2.jpg"
         }
       ]
     },
@@ -244,19 +253,22 @@ g.L05PronounsData={
           "title": "单独使用",
           "desc": "后面不再接名词，相当于 my + 名词。",
           "en": "This pen is mine.",
-          "zh": "这支笔是我的。"
+          "zh": "这支笔是我的。",
+          "image": "ex/use-possPron-0.jpg"
         },
         {
           "title": "回答 Whose",
           "desc": "Whose bag is this? — It's hers.",
           "en": "Whose bag is this? It's hers.",
-          "zh": "这是谁的包？是她的。"
+          "zh": "这是谁的包？是她的。",
+          "image": "ex/use-possPron-1.jpg"
         },
         {
           "title": "对比形物 vs 名物",
           "desc": "空格后有名词→my；无名词→mine。",
           "en": "Your book is new. Mine is old.",
-          "zh": "你的书是新的。我的是旧的。"
+          "zh": "你的书是新的。我的是旧的。",
+          "image": "ex/use-possPron-2.jpg"
         }
       ]
     },
@@ -265,8 +277,8 @@ g.L05PronounsData={
       "nameZh": "反身代词",
       "nameEn": "Reflexive Pronouns",
       "short": "指回主语",
-"color": "#0f766e",
-    "image": "pronouns-reflexive.jpg",
+      "color": "#0f766e",
+      "image": "pronouns-reflexive.jpg",
       "forms": [
         {
           "form": "myself",
@@ -306,25 +318,29 @@ g.L05PronounsData={
           "title": "动作回到主语自身",
           "desc": "主语既是发出者又是承受者。",
           "en": "He hurt himself.",
-          "zh": "他伤到了自己。"
+          "zh": "他伤到了自己。",
+          "image": "ex/use-reflexive-0.jpg"
         },
         {
           "title": "强调亲自做",
           "desc": "常译作「亲自 / 自己」。",
           "en": "I made the cake myself.",
-          "zh": "我亲自做了蛋糕。"
+          "zh": "我亲自做了蛋糕。",
+          "image": "ex/use-reflexive-1.jpg"
         },
         {
           "title": "固定搭配",
           "desc": "enjoy oneself / help yourself / by oneself。",
           "en": "Help yourselves to some fruit.",
-          "zh": "请随便吃些水果。"
+          "zh": "请随便吃些水果。",
+          "image": "ex/use-reflexive-2.jpg"
         },
         {
           "title": "单复数一致",
           "desc": "you→yourself/yourselves；they→themselves（不是 theirselves）。",
           "en": "They enjoyed themselves at the party.",
-          "zh": "他们在聚会上玩得很开心。"
+          "zh": "他们在聚会上玩得很开心。",
+          "image": "ex/use-reflexive-3.jpg"
         }
       ]
     }
@@ -336,25 +352,29 @@ g.L05PronounsData={
           "en": "I am a student.",
           "zh": "我是一名学生。",
           "tip": "主语用主格",
-          "focus": "I"
+          "focus": "I",
+          "image": "ex/ex-subject-g7-0.jpg"
         },
         {
           "en": "You are my friend.",
           "zh": "你是我的朋友。",
           "tip": "主语用主格",
-          "focus": "You"
+          "focus": "You",
+          "image": "ex/ex-subject-g7-1.jpg"
         },
         {
           "en": "She likes apples.",
           "zh": "她喜欢苹果。",
           "tip": "主语用主格",
-          "focus": "She"
+          "focus": "She",
+          "image": "ex/ex-subject-g7-2.jpg"
         },
         {
           "en": "We have a new teacher.",
           "zh": "我们有一位新老师。",
           "tip": "主语用主格",
-          "focus": "We"
+          "focus": "We",
+          "image": "ex/ex-subject-g7-3.jpg"
         }
       ],
       "g8": [
@@ -362,25 +382,29 @@ g.L05PronounsData={
           "en": "He plays basketball after school.",
           "zh": "他放学后打篮球。",
           "tip": "主语用主格",
-          "focus": "He"
+          "focus": "He",
+          "image": "ex/ex-subject-g8-0.jpg"
         },
         {
           "en": "They are going to the park.",
           "zh": "他们要去公园。",
           "tip": "主语用主格",
-          "focus": "They"
+          "focus": "They",
+          "image": "ex/ex-subject-g8-1.jpg"
         },
         {
           "en": "It is a sunny day.",
           "zh": "今天是晴天。",
           "tip": "主语用主格",
-          "focus": "It"
+          "focus": "It",
+          "image": "ex/ex-subject-g8-2.jpg"
         },
         {
           "en": "You and I are good friends.",
           "zh": "你我是好朋友。",
           "tip": "并列主语用主格",
-          "focus": "I"
+          "focus": "I",
+          "image": "ex/ex-subject-g8-3.jpg"
         }
       ],
       "g9": [
@@ -388,25 +412,29 @@ g.L05PronounsData={
           "en": "She and I often study together.",
           "zh": "她和我经常一起学习。",
           "tip": "并列主语用主格，避免用me",
-          "focus": "I"
+          "focus": "I",
+          "image": "ex/ex-subject-g9-0.jpg"
         },
         {
           "en": "We all like our English teacher.",
           "zh": "我们都喜欢我们的英语老师。",
           "tip": "主语用主格",
-          "focus": "We"
+          "focus": "We",
+          "image": "ex/ex-subject-g9-1.jpg"
         },
         {
           "en": "They are the winners of the game.",
           "zh": "他们是比赛的获胜者。",
           "tip": "主语用主格",
-          "focus": "They"
+          "focus": "They",
+          "image": "ex/ex-subject-g9-2.jpg"
         },
         {
           "en": "He doesn't know the answer.",
           "zh": "他不知道答案。",
           "tip": "主语用主格",
-          "focus": "He"
+          "focus": "He",
+          "image": "ex/ex-subject-g9-3.jpg"
         }
       ]
     },
@@ -416,25 +444,29 @@ g.L05PronounsData={
           "en": "Please help me.",
           "zh": "请帮助我。",
           "tip": "动词后用宾格",
-          "focus": "me"
+          "focus": "me",
+          "image": "ex/ex-object-g7-0.jpg"
         },
         {
           "en": "I like you.",
           "zh": "我喜欢你。",
           "tip": "动词后用宾格",
-          "focus": "you"
+          "focus": "you",
+          "image": "ex/ex-object-g7-1.jpg"
         },
         {
           "en": "She sees him every day.",
           "zh": "她每天看见他。",
           "tip": "动词后用宾格",
-          "focus": "him"
+          "focus": "him",
+          "image": "ex/ex-object-g7-2.jpg"
         },
         {
           "en": "We love them.",
           "zh": "我们爱他们。",
           "tip": "动词后用宾格",
-          "focus": "them"
+          "focus": "them",
+          "image": "ex/ex-object-g7-3.jpg"
         }
       ],
       "g8": [
@@ -442,25 +474,29 @@ g.L05PronounsData={
           "en": "Can you help us with our homework?",
           "zh": "你能帮助我们做作业吗？",
           "tip": "介词后用宾格",
-          "focus": "us"
+          "focus": "us",
+          "image": "ex/ex-object-g8-0.jpg"
         },
         {
           "en": "I will call her later.",
           "zh": "我稍后给她打电话。",
           "tip": "动词后用宾格",
-          "focus": "her"
+          "focus": "her",
+          "image": "ex/ex-object-g8-1.jpg"
         },
         {
           "en": "Please give it to me.",
           "zh": "请把它给我。",
           "tip": "介词后用宾格",
-          "focus": "me"
+          "focus": "me",
+          "image": "ex/ex-object-g8-2.jpg"
         },
         {
           "en": "They invited us to the party.",
           "zh": "他们邀请我们参加聚会。",
           "tip": "动词后用宾格",
-          "focus": "us"
+          "focus": "us",
+          "image": "ex/ex-object-g8-3.jpg"
         }
       ],
       "g9": [
@@ -468,25 +504,29 @@ g.L05PronounsData={
           "en": "Between you and me, he is wrong.",
           "zh": "在你我之间，他错了。",
           "tip": "介词后用宾格，不用I",
-          "focus": "me"
+          "focus": "me",
+          "image": "ex/ex-object-g9-0.jpg"
         },
         {
           "en": "She taught us English last year.",
           "zh": "她去年教我们英语。",
           "tip": "动词后用宾格",
-          "focus": "us"
+          "focus": "us",
+          "image": "ex/ex-object-g9-1.jpg"
         },
         {
           "en": "I saw him at the library.",
           "zh": "我在图书馆看见了他。",
           "tip": "动词后用宾格",
-          "focus": "him"
+          "focus": "him",
+          "image": "ex/ex-object-g9-2.jpg"
         },
         {
           "en": "Please tell them the good news.",
           "zh": "请告诉他们这个好消息。",
           "tip": "动词后用宾格",
-          "focus": "them"
+          "focus": "them",
+          "image": "ex/ex-object-g9-3.jpg"
         }
       ]
     },
@@ -496,25 +536,29 @@ g.L05PronounsData={
           "en": "This is my book.",
           "zh": "这是我的书。",
           "tip": "形容词性物主代词后接名词",
-          "focus": "my"
+          "focus": "my",
+          "image": "ex/ex-possAdj-g7-0.jpg"
         },
         {
           "en": "Your bag is nice.",
           "zh": "你的包很漂亮。",
           "tip": "形容词性物主代词后接名词",
-          "focus": "your"
+          "focus": "your",
+          "image": "ex/ex-possAdj-g7-1.jpg"
         },
         {
           "en": "Her name is Lily.",
           "zh": "她的名字是莉莉。",
           "tip": "形容词性物主代词后接名词",
-          "focus": "her"
+          "focus": "her",
+          "image": "ex/ex-possAdj-g7-2.jpg"
         },
         {
           "en": "Our school is big.",
           "zh": "我们的学校很大。",
           "tip": "形容词性物主代词后接名词",
-          "focus": "our"
+          "focus": "our",
+          "image": "ex/ex-possAdj-g7-3.jpg"
         }
       ],
       "g8": [
@@ -522,25 +566,29 @@ g.L05PronounsData={
           "en": "His father is a doctor.",
           "zh": "他的爸爸是医生。",
           "tip": "形容词性物主代词后接名词",
-          "focus": "his"
+          "focus": "his",
+          "image": "ex/ex-possAdj-g8-0.jpg"
         },
         {
           "en": "Its tail is long.",
           "zh": "它的尾巴很长。",
           "tip": "形容词性物主代词后接名词",
-          "focus": "its"
+          "focus": "its",
+          "image": "ex/ex-possAdj-g8-1.jpg"
         },
         {
           "en": "Their house is near the park.",
           "zh": "他们的房子在公园附近。",
           "tip": "形容词性物主代词后接名词",
-          "focus": "their"
+          "focus": "their",
+          "image": "ex/ex-possAdj-g8-2.jpg"
         },
         {
           "en": "My mother cooks dinner.",
           "zh": "我妈妈做晚饭。",
           "tip": "形容词性物主代词后接名词",
-          "focus": "my"
+          "focus": "my",
+          "image": "ex/ex-possAdj-g8-3.jpg"
         }
       ],
       "g9": [
@@ -548,25 +596,29 @@ g.L05PronounsData={
           "en": "Your idea sounds great.",
           "zh": "你的主意听起来很棒。",
           "tip": "形容词性物主代词后接名词",
-          "focus": "your"
+          "focus": "your",
+          "image": "ex/ex-possAdj-g9-0.jpg"
         },
         {
           "en": "Her brother is in my class.",
           "zh": "她的哥哥在我的班级。",
           "tip": "形容词性物主代词后接名词",
-          "focus": "her"
+          "focus": "her",
+          "image": "ex/ex-possAdj-g9-1.jpg"
         },
         {
           "en": "Our teacher is very kind.",
           "zh": "我们的老师非常和蔼。",
           "tip": "形容词性物主代词后接名词",
-          "focus": "our"
+          "focus": "our",
+          "image": "ex/ex-possAdj-g9-2.jpg"
         },
         {
           "en": "Their parents are busy.",
           "zh": "他们的父母很忙。",
           "tip": "形容词性物主代词后接名词",
-          "focus": "their"
+          "focus": "their",
+          "image": "ex/ex-possAdj-g9-3.jpg"
         }
       ]
     },
@@ -576,25 +628,29 @@ g.L05PronounsData={
           "en": "The book is mine.",
           "zh": "这本书是我的。",
           "tip": "名词性物主代词独立使用",
-          "focus": "mine"
+          "focus": "mine",
+          "image": "ex/ex-possPron-g7-0.jpg"
         },
         {
           "en": "Is this yours?",
           "zh": "这是你的吗？",
           "tip": "名词性物主代词独立使用",
-          "focus": "yours"
+          "focus": "yours",
+          "image": "ex/ex-possPron-g7-1.jpg"
         },
         {
           "en": "The pen is hers.",
           "zh": "这支笔是她的。",
           "tip": "名词性物主代词独立使用",
-          "focus": "hers"
+          "focus": "hers",
+          "image": "ex/ex-possPron-g7-2.jpg"
         },
         {
           "en": "The classroom is ours.",
           "zh": "这间教室是我们的。",
           "tip": "名词性物主代词独立使用",
-          "focus": "ours"
+          "focus": "ours",
+          "image": "ex/ex-possPron-g7-3.jpg"
         }
       ],
       "g8": [
@@ -602,25 +658,29 @@ g.L05PronounsData={
           "en": "This seat is his.",
           "zh": "这个座位是他的。",
           "tip": "名词性物主代词独立使用",
-          "focus": "his"
+          "focus": "his",
+          "image": "ex/ex-possPron-g8-0.jpg"
         },
         {
           "en": "The cat is theirs.",
           "zh": "这只猫是他们的。",
           "tip": "名词性物主代词独立使用",
-          "focus": "theirs"
+          "focus": "theirs",
+          "image": "ex/ex-possPron-g8-1.jpg"
         },
         {
           "en": "My bag is red, and yours is blue.",
           "zh": "我的包是红色的，你的是蓝色的。",
           "tip": "避免重复名词",
-          "focus": "yours"
+          "focus": "yours",
+          "image": "ex/ex-possPron-g8-2.jpg"
         },
         {
           "en": "Our school is bigger than theirs.",
           "zh": "我们的学校比他们的大。",
           "tip": "名词性物主代词独立使用",
-          "focus": "theirs"
+          "focus": "theirs",
+          "image": "ex/ex-possPron-g8-3.jpg"
         }
       ],
       "g9": [
@@ -628,25 +688,29 @@ g.L05PronounsData={
           "en": "This is not my umbrella; it's hers.",
           "zh": "这不是我的伞，是她的。",
           "tip": "区分my和mine",
-          "focus": "hers"
+          "focus": "hers",
+          "image": "ex/ex-possPron-g9-0.jpg"
         },
         {
           "en": "Your phone is new, but mine is old.",
           "zh": "你的手机是新的，但我的旧了。",
           "tip": "名词性物主代词独立使用",
-          "focus": "mine"
+          "focus": "mine",
+          "image": "ex/ex-possPron-g9-1.jpg"
         },
         {
           "en": "Their house is bigger than ours.",
           "zh": "他们的房子比我们的大。",
           "tip": "名词性物主代词独立使用",
-          "focus": "ours"
+          "focus": "ours",
+          "image": "ex/ex-possPron-g9-2.jpg"
         },
         {
           "en": "The choice is yours.",
           "zh": "选择权是你的。",
           "tip": "名词性物主代词独立使用",
-          "focus": "yours"
+          "focus": "yours",
+          "image": "ex/ex-possPron-g9-3.jpg"
         }
       ]
     },
@@ -656,25 +720,29 @@ g.L05PronounsData={
           "en": "I can do it myself.",
           "zh": "我自己能做。",
           "tip": "反身代词强调自己",
-          "focus": "myself"
+          "focus": "myself",
+          "image": "ex/ex-reflexive-g7-0.jpg"
         },
         {
           "en": "She made the cake herself.",
           "zh": "她自己做蛋糕。",
           "tip": "反身代词强调自己",
-          "focus": "herself"
+          "focus": "herself",
+          "image": "ex/ex-reflexive-g7-1.jpg"
         },
         {
           "en": "He hurt himself.",
           "zh": "他伤了自己。",
           "tip": "反身代词作宾语",
-          "focus": "himself"
+          "focus": "himself",
+          "image": "ex/ex-reflexive-g7-2.jpg"
         },
         {
           "en": "We enjoyed ourselves at the party.",
           "zh": "我们在聚会上玩得很开心。",
           "tip": "反身代词与enjoy搭配",
-          "focus": "ourselves"
+          "focus": "ourselves",
+          "image": "ex/ex-reflexive-g7-3.jpg"
         }
       ],
       "g8": [
@@ -682,25 +750,29 @@ g.L05PronounsData={
           "en": "You should believe in yourself.",
           "zh": "你应该相信自己。",
           "tip": "反身代词作介词宾语",
-          "focus": "yourself"
+          "focus": "yourself",
+          "image": "ex/ex-reflexive-g8-0.jpg"
         },
         {
           "en": "They built the house themselves.",
           "zh": "他们自己建了房子。",
           "tip": "反身代词强调主语",
-          "focus": "themselves"
+          "focus": "themselves",
+          "image": "ex/ex-reflexive-g8-1.jpg"
         },
         {
           "en": "I taught myself English.",
           "zh": "我自学英语。",
           "tip": "反身代词作动词宾语",
-          "focus": "myself"
+          "focus": "myself",
+          "image": "ex/ex-reflexive-g8-2.jpg"
         },
         {
           "en": "She looked at herself in the mirror.",
           "zh": "她看着镜子里的自己。",
           "tip": "反身代词作介词宾语",
-          "focus": "herself"
+          "focus": "herself",
+          "image": "ex/ex-reflexive-g8-3.jpg"
         }
       ],
       "g9": [
@@ -708,25 +780,29 @@ g.L05PronounsData={
           "en": "He introduced himself to the class.",
           "zh": "他向全班介绍了自己。",
           "tip": "反身代词作动词宾语",
-          "focus": "himself"
+          "focus": "himself",
+          "image": "ex/ex-reflexive-g9-0.jpg"
         },
         {
           "en": "We should help ourselves first.",
           "zh": "我们应该先帮助自己。",
           "tip": "反身代词作动词宾语",
-          "focus": "ourselves"
+          "focus": "ourselves",
+          "image": "ex/ex-reflexive-g9-1.jpg"
         },
         {
           "en": "She is proud of herself.",
           "zh": "她为自己感到骄傲。",
           "tip": "反身代词作介词宾语",
-          "focus": "herself"
+          "focus": "herself",
+          "image": "ex/ex-reflexive-g9-2.jpg"
         },
         {
           "en": "They enjoyed themselves at the beach.",
           "zh": "他们在海滩玩得很开心。",
           "tip": "反身代词与enjoy搭配",
-          "focus": "themselves"
+          "focus": "themselves",
+          "image": "ex/ex-reflexive-g9-3.jpg"
         }
       ]
     }
@@ -1033,37 +1109,43 @@ g.L05PronounsData={
         "en": "This is my book.",
         "zh": "这是我的书。",
         "focus": "possessive adjective 'my'",
-        "type": "listen-and-repeat"
+        "type": "listen-and-repeat",
+        "image": "ex/im-g7-0.jpg"
       },
       {
         "en": "They are our friends.",
         "zh": "他们是我们的朋友。",
         "focus": "possessive adjective 'our'",
-        "type": "listen-and-repeat"
+        "type": "listen-and-repeat",
+        "image": "ex/im-g7-1.jpg"
       },
       {
         "en": "The cat is hers.",
         "zh": "这只猫是她的。",
         "focus": "possessive pronoun 'hers'",
-        "type": "listen-and-repeat"
+        "type": "listen-and-repeat",
+        "image": "ex/im-g7-2.jpg"
       },
       {
         "en": "I like him.",
         "zh": "我喜欢他。",
         "focus": "object pronoun 'him'",
-        "type": "listen-and-repeat"
+        "type": "listen-and-repeat",
+        "image": "ex/im-g7-3.jpg"
       },
       {
         "en": "We saw them yesterday.",
         "zh": "我们昨天看到他们了。",
         "focus": "object pronoun 'them'",
-        "type": "listen-and-repeat"
+        "type": "listen-and-repeat",
+        "image": "ex/im-g7-4.jpg"
       },
       {
         "en": "She is a teacher.",
         "zh": "她是一位老师。",
         "focus": "subject pronoun 'she'",
-        "type": "listen-and-repeat"
+        "type": "listen-and-repeat",
+        "image": "ex/im-g7-5.jpg"
       }
     ],
     "g8": [
@@ -1071,37 +1153,43 @@ g.L05PronounsData={
         "en": "Whose pen is this? It's mine.",
         "zh": "这是谁的钢笔？是我的。",
         "focus": "possessive pronoun 'mine'",
-        "type": "listen-and-repeat"
+        "type": "listen-and-repeat",
+        "image": "ex/im-g8-0.jpg"
       },
       {
         "en": "He gave her a gift.",
         "zh": "他给了她一份礼物。",
         "focus": "object pronoun 'her'",
-        "type": "listen-and-repeat"
+        "type": "listen-and-repeat",
+        "image": "ex/im-g8-1.jpg"
       },
       {
         "en": "We are going to the park.",
         "zh": "我们正要去公园。",
         "focus": "subject pronoun 'we'",
-        "type": "listen-and-repeat"
+        "type": "listen-and-repeat",
+        "image": "ex/im-g8-2.jpg"
       },
       {
         "en": "These are their bags.",
         "zh": "这些是他们的包。",
         "focus": "possessive adjective 'their'",
-        "type": "listen-and-repeat"
+        "type": "listen-and-repeat",
+        "image": "ex/im-g8-3.jpg"
       },
       {
         "en": "The dog wagged its tail.",
         "zh": "狗摇了摇它的尾巴。",
         "focus": "possessive adjective 'its'",
-        "type": "listen-and-repeat"
+        "type": "listen-and-repeat",
+        "image": "ex/im-g8-4.jpg"
       },
       {
         "en": "Can you help us?",
         "zh": "你能帮助我们吗？",
         "focus": "object pronoun 'us'",
-        "type": "listen-and-repeat"
+        "type": "listen-and-repeat",
+        "image": "ex/im-g8-5.jpg"
       }
     ],
     "g9": [
@@ -1109,37 +1197,43 @@ g.L05PronounsData={
         "en": "The book on the desk is yours.",
         "zh": "桌子上的书是你的。",
         "focus": "possessive pronoun 'yours'",
-        "type": "listen-and-repeat"
+        "type": "listen-and-repeat",
+        "image": "ex/im-g9-0.jpg"
       },
       {
         "en": "They themselves built the house.",
         "zh": "他们自己建造了这所房子。",
         "focus": "reflexive pronoun 'themselves'",
-        "type": "listen-and-repeat"
+        "type": "listen-and-repeat",
+        "image": "ex/im-g9-1.jpg"
       },
       {
         "en": "She made a cake for herself.",
         "zh": "她为自己做了一个蛋糕。",
         "focus": "reflexive pronoun 'herself'",
-        "type": "listen-and-repeat"
+        "type": "listen-and-repeat",
+        "image": "ex/im-g9-2.jpg"
       },
       {
         "en": "We should be proud of ourselves.",
         "zh": "我们应该为自己感到骄傲。",
         "focus": "reflexive pronoun 'ourselves'",
-        "type": "listen-and-repeat"
+        "type": "listen-and-repeat",
+        "image": "ex/im-g9-3.jpg"
       },
       {
         "en": "He introduced me to his parents.",
         "zh": "他把我介绍给他的父母。",
         "focus": "object pronoun 'me'",
-        "type": "listen-and-repeat"
+        "type": "listen-and-repeat",
+        "image": "ex/im-g9-4.jpg"
       },
       {
         "en": "That is her idea, not his.",
         "zh": "那是她的主意，不是他的。",
         "focus": "possessive pronoun 'his'",
-        "type": "listen-and-repeat"
+        "type": "listen-and-repeat",
+        "image": "ex/im-g9-5.jpg"
       }
     ]
   },

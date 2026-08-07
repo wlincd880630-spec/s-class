@@ -364,6 +364,9 @@
           "</h4><p>" +
           esc(u.desc) +
           "</p>" +
+          (u.image
+            ? '<img class="pr-usage-img" src="' + IMG + esc(u.image) + '" alt="" loading="lazy" />'
+            : "") +
           revealHtml(u.en, u.zh) +
           '<div class="pr-actions"><button type="button" class="pr-tts" data-speak="' +
           esc(u.en) +
@@ -378,6 +381,14 @@
           '<article class="pr-ex-item" data-ex="' +
           i +
           '">' +
+          '<div class="pr-ex-visual">' +
+          (ex.image
+            ? '<div class="pr-ex-visual__img"><img src="' +
+              IMG +
+              esc(ex.image) +
+              '" alt="" loading="lazy" /></div>'
+            : "") +
+          '<div class="pr-ex-visual__body">' +
           '<div class="meta"><span class="tag">' +
           esc(ex.focus || "") +
           '</span><button type="button" class="pr-tts" data-speak="' +
@@ -385,7 +396,7 @@
           '" data-need-reveal="1">🔊 语音先行</button></div>' +
           revealHtml(ex.en, ex.zh) +
           (ex.tip ? '<p class="tip">' + esc(ex.tip) + "</p>" : "") +
-          "</article>"
+          "</div></div></article>"
         );
       })
       .join("");
@@ -502,6 +513,12 @@
       pool.length +
       "</span></div>" +
       '<section class="pr-card">' +
+      (item.image
+        ? '<div class="pr-imitate-hero"><img src="' +
+          IMG +
+          esc(item.image) +
+          '" alt="" /></div>'
+        : "") +
       '<div class="pr-audio-first">' +
       '<button type="button" class="big-play" id="imPlay" aria-label="播放">🔊</button>' +
       '<p class="hint">先听完整句子，再点击下方显示中英文，跟读模仿。</p>' +
@@ -710,24 +727,46 @@
     var head =
       "<tr>" +
       T.headers
-        .map(function (h) {
-          return "<th>" + esc(h) + "</th>";
+        .map(function (h, hi) {
+          if (hi === 0) return "<th>" + esc(h) + "</th>";
+            return (
+            '<th class="pr-th-hideable pr-hideable" data-col="' +
+            hi +
+            '" title="点击显示/隐藏本列标题">' +
+            '<span class="pr-cell-mask">···</span>' +
+            '<span class="pr-cell-val" hidden>' +
+            esc(h) +
+            "</span></th>"
+          );
         })
         .join("") +
       "</tr>";
     var body = T.rows
-      .map(function (row) {
+      .map(function (row, ri) {
         return (
           "<tr>" +
           row
             .map(function (cell, i) {
-              if (i === 0) return "<td>" + esc(cell) + "</td>";
+              var speak = cell.replace(/（[^）]*）/g, "").trim();
+              if (i === 0) {
+                return (
+                  '<td class="pr-row-label pr-hideable" data-row="' +
+                  ri +
+                  '" title="点击显示/隐藏人称">' +
+                  '<span class="pr-cell-mask">···</span>' +
+                  '<span class="pr-cell-val" hidden>' +
+                  esc(cell) +
+                  "</span></td>"
+                );
+              }
               return (
-                '<td class="speak" data-speak="' +
-                esc(cell.replace(/（[^）]*）/g, "").trim()) +
-                '" title="点击朗读">' +
+                '<td class="pr-hideable speak" data-speak="' +
+                esc(speak) +
+                '" title="点击显示；已显示时再点朗读">' +
+                '<span class="pr-cell-mask">?</span>' +
+                '<span class="pr-cell-val" lang="en" hidden>' +
                 esc(cell) +
-                "</td>"
+                "</span></td>"
               );
             })
             .join("") +
@@ -740,25 +779,92 @@
       '<div class="pr-view-hd">' +
       '<button type="button" class="ghost" data-go="home">← 目录</button>' +
       "<h2>五种代词总表</h2>" +
-      '<span class="chip">点击格子朗读</span></div>' +
+      '<span class="chip">点击逐格揭开</span></div>' +
       '<section class="pr-card">' +
-      '<div class="pr-table-wrap"><table class="pr-table"><thead>' +
+      '<div class="pr-actions" style="margin-top:0;margin-bottom:.65rem">' +
+      '<button type="button" class="pr-btn amber" id="tblShowAll">一键显示全部</button>' +
+      '<button type="button" class="pr-btn ghost" id="tblHideAll">一键隐藏全部</button>' +
+      '<button type="button" class="pr-btn ghost" id="tblRevealNext">揭开下一格</button>' +
+      "</div>" +
+      '<p class="pr-label" style="margin-bottom:.35rem">默认全部隐藏 · 点格子揭开（再点收回）· Shift+点击已显示格子可朗读</p>' +
+      '<div class="pr-table-wrap"><table class="pr-table pr-table-reveal" id="pronounTable"><thead>' +
       head +
       "</thead><tbody>" +
       body +
       "</tbody></table></div>" +
-      '<div class="pr-memory">📌 口诀：' +
+      '<div class="pr-memory pr-hideable is-hidden" id="memBlock" title="点击显示口诀">' +
+      '<span class="pr-cell-mask">📌 点击显示口诀</span>' +
+      '<span class="pr-cell-val" hidden>📌 口诀：' +
       esc(T.memory) +
-      "</div>" +
+      "</span></div>" +
       '<div class="pr-actions"><button type="button" class="pr-tts" id="memSpeak">🔊 朗读口诀（英文提示）</button></div>' +
       "</section>";
 
-    $$(".speak", host).forEach(function (td) {
-      td.addEventListener("click", function () {
-        azureSpeak(td.getAttribute("data-speak"));
+    function setCellOpen(el, open) {
+      if (!el) return;
+      var mask = el.querySelector(".pr-cell-mask");
+      var val = el.querySelector(".pr-cell-val");
+      if (open) {
+        el.classList.add("is-open");
+        el.classList.remove("is-hidden");
+        if (mask) mask.hidden = true;
+        if (val) val.hidden = false;
+      } else {
+        el.classList.remove("is-open");
+        el.classList.add("is-hidden");
+        if (mask) mask.hidden = false;
+        if (val) val.hidden = true;
+      }
+    }
+
+    function allCells() {
+      return $$(".pr-hideable", host);
+    }
+
+    function setAll(open) {
+      allCells().forEach(function (el) {
+        setCellOpen(el, open);
+      });
+    }
+
+    allCells().forEach(function (el) {
+      setCellOpen(el, false);
+      el.addEventListener("click", function (ev) {
+        var open = el.classList.contains("is-open");
+        if (!open) {
+          setCellOpen(el, true);
+          if (el.getAttribute("data-speak")) {
+            azureSpeak(el.getAttribute("data-speak"));
+          }
+          return;
+        }
+        // 已显示：再点收回；Shift+点击只朗读
+        if (el.getAttribute("data-speak") && ev && ev.shiftKey) {
+          azureSpeak(el.getAttribute("data-speak"));
+          return;
+        }
+        setCellOpen(el, false);
       });
     });
+
+    $("#tblShowAll", host).addEventListener("click", function () {
+      setAll(true);
+    });
+    $("#tblHideAll", host).addEventListener("click", function () {
+      setAll(false);
+    });
+    $("#tblRevealNext", host).addEventListener("click", function () {
+      var next = allCells().find(function (el) {
+        return !el.classList.contains("is-open");
+      });
+      if (next) {
+        setCellOpen(next, true);
+        if (next.getAttribute("data-speak")) azureSpeak(next.getAttribute("data-speak"));
+      }
+    });
+
     $("#memSpeak", host).addEventListener("click", function () {
+      setCellOpen($("#memBlock", host), true);
       speakClick(
         this,
         "Subject for subject. Object after verb. Possessive adjective before noun. Possessive pronoun stands alone. Reflexive returns to the subject."
