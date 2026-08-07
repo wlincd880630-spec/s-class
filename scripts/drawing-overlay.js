@@ -220,9 +220,18 @@
     btnHint.classList.toggle("is-primary", hintPanelOpen);
   }
 
-  function setTextHint(text) {
-    hintText = String(text || "").replace(/\s+/g, " ").trim();
-    hintTokens = tokenizeHint(hintText);
+  function setTextHint(textOrTokens) {
+    if (Array.isArray(textOrTokens)) {
+      hintTokens = textOrTokens
+        .map(function (t) {
+          return String(t || "").trim();
+        })
+        .filter(Boolean);
+      hintText = hintTokens.join(" ").replace(/\s+\./g, ".");
+    } else {
+      hintText = String(textOrTokens || "").replace(/\s+/g, " ").trim();
+      hintTokens = tokenizeHint(hintText);
+    }
     hintRevealed = hintTokens.map(function () {
       return false;
     });

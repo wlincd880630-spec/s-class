@@ -1838,20 +1838,22 @@
     return pool.filter(Boolean);
   }
 
-  function resetPageHint() {
-    pageHintUnlocked = false;
-    var toks = tokenizeSentence(lessonSentence(LESSONS[lessonI]));
-    pageHintRevealed = toks.map(function () { return false; });
+  function hintTokensFor(L) {
+    return (L.chunks || []).map(function (t) {
+      return String(t || "").trim();
+    }).filter(Boolean);
   }
 
-  function tokenizeSentence(s) {
-    return String(s || "").replace(/\s+/g, " ").trim().split(" ").filter(Boolean);
+  function resetPageHint() {
+    pageHintUnlocked = false;
+    var toks = hintTokensFor(LESSONS[lessonI]);
+    pageHintRevealed = toks.map(function () { return false; });
   }
 
   function syncDrawHint() {
     var api = window.SClassDrawingOverlay;
     if (!api || typeof api.setTextHint !== "function") return;
-    api.setTextHint(lessonSentence(LESSONS[lessonI]));
+    api.setTextHint(hintTokensFor(LESSONS[lessonI]));
   }
 
   function openWhiteboardWithHint(autoOpenHint) {
@@ -1983,7 +1985,7 @@
     title.textContent = "文字提示 · 隐藏句 → 点句显示词槽 → 点词揭开";
     wrap.appendChild(title);
 
-    var toks = tokenizeSentence(lessonSentence(L));
+    var toks = hintTokensFor(L);
     if (!pageHintRevealed.length || pageHintRevealed.length !== toks.length) {
       pageHintRevealed = toks.map(function () { return false; });
     }
