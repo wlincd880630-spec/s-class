@@ -38,7 +38,7 @@ async function main() {
   const { cos, Bucket } = loadCos();
   const files = fs
     .readdirSync(IMG_DIR)
-    .filter((f) => f.startsWith("l07-p05-") && f.endsWith(".png"));
+    .filter((f) => /^l07-p05-.+\.png$/.test(f));
   console.log(`上传 ${files.length} 张 → ${COS_PREFIX}`);
   let ok = 0;
   for (const name of files.sort()) {

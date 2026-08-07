@@ -762,32 +762,44 @@
       }
     }
 
-    /* 十五练 · 五场景 */
-    .lab-scene-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
+    /* 十五练 · 双场景配图 + 口语测试 */
+    .scene-guide {
       margin: 0 0 10px;
-      flex-shrink: 0;
+      font-size: clamp(0.82rem, 1.7vw, 0.95rem);
+      line-height: 1.5;
+      opacity: 0.92;
     }
-    .lab-scene-bar__btn {
-      font-family: inherit;
-      font-size: clamp(0.68rem, 1.6vw, 0.78rem);
-      padding: 7px 10px;
-      min-height: 40px;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 213, 79, 0.28);
+    .scene-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+      gap: 14px;
+      flex: 1;
+      min-height: 0;
+      align-content: start;
+    }
+    .scene-card {
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
       background: rgba(0, 0, 0, 0.28);
-      color: #cfd8dc;
-      cursor: pointer;
-      touch-action: manipulation;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
-    .lab-scene-bar__btn.is-active {
-      border-color: var(--gold);
-      background: rgba(255, 213, 79, 0.16);
-      color: #fff8e1;
+    .scene-card__tag {
+      font-size: 0.78rem;
+      color: var(--gold);
       font-weight: 600;
     }
+    .scene-card__img {
+      margin-bottom: 0;
+      max-height: min(36vh, 280px);
+    }
+    .scene-card__img img {
+      max-height: min(36vh, 280px);
+    }
+    .scene-card__sent { min-height: 3.5rem; }
+    .scene-card__actions { margin-top: auto; justify-content: flex-start; }
     .lab-adj-bar {
       display: flex;
       flex-wrap: wrap;
@@ -806,30 +818,14 @@
       padding: 8px 10px;
       font-size: 0.88rem;
     }
-    .lab-guide {
-      margin: 0 0 10px;
-      font-size: clamp(0.82rem, 1.7vw, 0.95rem);
-      line-height: 1.5;
-      opacity: 0.92;
-    }
-    .lab-stage {
-      flex: 1;
-      min-height: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
     .lab-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-top: auto;
+      margin-top: 12px;
       flex-shrink: 0;
     }
-    .lab-actions .primary,
-    .lab-actions button {
-      flex: 1 1 140px;
-    }
+    .lab-actions .primary, .lab-actions button { flex: 1 1 140px; }
     .lab-actions button:not(.primary) {
       font-family: inherit;
       font-size: 0.92rem;
@@ -841,122 +837,44 @@
       cursor: pointer;
       touch-action: manipulation;
     }
-    .lab-hint-tools button:not(.primary) {
+    .oral-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .oral-meta__word {
+      font-family: "Bebas Neue", "ZCOOL KuaiLe", sans-serif;
+      font-size: clamp(1.1rem, 3vw, 1.45rem);
+      color: var(--mint);
+      letter-spacing: 0.04em;
+    }
+    .oral-meta__hint { font-size: 0.82rem; opacity: 0.85; }
+    .oral-stage__img { max-height: min(48vh, 420px); margin-bottom: 10px; }
+    .oral-prompt {
+      text-align: center;
+      font-size: clamp(0.95rem, 2vw, 1.08rem);
+      color: #fff8e1;
+      margin: 0 0 10px;
+    }
+    .oral-answer { margin-bottom: 12px; }
+    .oral-actions { justify-content: center; }
+    .oral-actions button:not(.speak):not(.primary) {
       font-family: inherit;
-      font-size: 0.88rem;
-      min-height: 40px;
-      padding: 8px 12px;
-      border-radius: 10px;
+      min-height: 44px;
+      padding: 8px 14px;
+      border-radius: 12px;
       border: 2px solid rgba(255, 255, 255, 0.22);
       background: rgba(30, 40, 58, 0.9);
       color: #eceff1;
       cursor: pointer;
-      touch-action: manipulation;
     }
-    .lab-speak-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 10px;
-    }
-    .lab-speak-grid button {
-      min-height: 56px;
-      border-radius: 12px;
-      border: 2px solid rgba(105, 240, 174, 0.35);
-      background: rgba(105, 240, 174, 0.1);
-      color: #e8f5e9;
-      font-size: clamp(0.86rem, 1.8vw, 1rem);
-      font-weight: 600;
-      cursor: pointer;
-      touch-action: manipulation;
-      padding: 10px 12px;
-    }
-    .lab-speak-grid button:hover,
-    .lab-speak-grid button:focus-visible {
-      border-color: var(--mint);
-      background: rgba(105, 240, 174, 0.2);
-      outline: none;
-    }
-    .lab-hint-panel {
-      border-radius: 12px;
-      border: 2px dashed rgba(255, 213, 79, 0.4);
-      background: rgba(0, 0, 0, 0.32);
-      padding: 12px;
-    }
-    .lab-hint-panel__title {
-      font-size: 0.78rem;
-      color: var(--gold);
-      margin: 0 0 8px;
-    }
-    .lab-hint-unlock {
-      display: block;
-      width: 100%;
-      border: none;
-      background: transparent;
-      color: inherit;
-      cursor: pointer;
-      padding: 14px 8px;
-      min-height: 64px;
-      position: relative;
-      touch-action: manipulation;
-    }
-    .lab-hint-unlock__label {
-      position: relative;
-      z-index: 1;
-      font-weight: 700;
-      color: var(--gold);
-    }
-    .lab-hint-unlock__blur {
-      display: block;
-      margin-top: 6px;
-      filter: blur(12px);
-      opacity: 0.2;
-      user-select: none;
-      pointer-events: none;
-      font-size: 1.05rem;
-    }
-    .lab-hint-words {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: center;
-    }
-    .lab-hint-word {
-      border: 2px solid rgba(255, 213, 79, 0.35);
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.06);
-      color: #fff8e1;
-      min-height: 42px;
-      padding: 6px 12px;
-      font-size: clamp(0.95rem, 2vw, 1.12rem);
-      font-weight: 700;
-      cursor: pointer;
-      touch-action: manipulation;
-    }
-    .lab-hint-word.is-shown {
-      border-color: rgba(105, 240, 174, 0.55);
-      background: rgba(105, 240, 174, 0.16);
-      color: #b9f6ca;
-      cursor: default;
-    }
-    .lab-hint-word-mask { opacity: 0.55; letter-spacing: 0.06em; }
-    .lab-hint-tools {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 10px;
-    }
-    .lab-draw-card {
-      border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(0, 0, 0, 0.28);
-      padding: 14px;
+    .oral-stat {
       text-align: center;
-    }
-    .lab-draw-card p { margin: 0 0 12px; opacity: 0.9; font-size: 0.9rem; }
-    .ask-variants-note {
-      margin: 0;
-      font-size: 0.78rem;
-      color: #90a4ae;
+      font-size: 0.84rem;
+      color: var(--gold);
+      margin-top: 8px;
     }
   </style>
   <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
@@ -966,7 +884,7 @@
 <body class="has-lesson-pager">
   <header class="top">
     <h1>MORE + ADJECTIVE LAB · 比较级实验室</h1>
-    <p>情景问答 → 新知 more + → 十五练五场景（绘画 · 随机提问 · 图片 · 语音 · 再绘画）→ 分类挑战</p>
+    <p>情景问答 → 新知 more + → 十五练（每词 2 张情景图 + 比较级句）→ 口语随机测试 → 看图造句 → 分类挑战</p>
     <div id="progress"></div>
   </header>
 
@@ -974,6 +892,7 @@
     <button type="button" class="section-nav__btn" data-section="warm">情景问答</button>
     <button type="button" class="section-nav__btn" data-section="teach">新知讲解</button>
     <button type="button" class="section-nav__btn" data-section="vocab">十五练</button>
+    <button type="button" class="section-nav__btn" data-section="oral">口语测试</button>
     <button type="button" class="section-nav__btn" data-section="sent">看图造句</button>
     <button type="button" class="section-nav__btn" data-section="sort">分类挑战</button>
   </nav>
@@ -1003,6 +922,7 @@
 <script src="../shared/lesson-local-audio.js" defer></script>
   <script src="../shared/lesson-speak-local-only.js"></script>
   <script src="assets/lesson-tts-l07-local.js"></script>
+  <script src="lesson07-page05-scenes-data.js"></script>
   <script>
 (function () {
   "use strict";
@@ -1010,7 +930,7 @@
   /** 配图：腾讯云 COS（Grammar/L07/assets/page05-more-comp/）— 卡通3D 左右对比 v3 */
   var BASE =
     "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L07/assets/page05-more-comp/";
-  var IMG_VER = "?v=3d20260808";
+  var IMG_VER = "?v=3d20260810";
 
   function cosImg(file) {
     var host = window.location.hostname || "";
@@ -1073,196 +993,51 @@
     }
   ];
 
-  var LESSONS = [
-    {
-      adj: "beautiful",
-      listen: "more beautiful",
-      distractors: ["beautifull", "beautyful"],
-      img: cosImg("l07-p05-ex01-beautiful.png"),
-      chunks: ["The garden on the left", "is", "more", "beautiful", "than", "the garden on the right", "."],
-      ask: "Which is more beautiful, the garden on the left or the garden on the right?",
-      askMore: [
-        "Which garden is more beautiful?",
-        "Is the garden on the left more beautiful than the garden on the right?"
-      ]
-    },
-    {
-      adj: "expensive",
-      listen: "more expensive",
-      distractors: ["expensiv", "expensiver"],
-      img: cosImg("l07-p05-ex02-expensive.png"),
-      chunks: ["This phone", "is", "more", "expensive", "than", "that one", "."],
-      ask: "Which is more expensive, this phone or that one?",
-      askMore: [
-        "Which phone is more expensive?",
-        "Is this phone more expensive than that one?"
-      ]
-    },
-    {
-      adj: "important",
-      listen: "more important",
-      distractors: ["importanter", "importent"],
-      img: cosImg("l07-p05-ex03-important.png"),
-      chunks: ["Health", "is", "more", "important", "than", "money", "."],
-      ask: "Which is more important, health or money?",
-      askMore: [
-        "Is health more important than money?",
-        "What is more important than money?"
-      ]
-    },
-    {
-      adj: "interesting",
-      listen: "more interesting",
-      distractors: ["interestinger", "interestring"],
-      img: cosImg("l07-p05-ex04-interesting.png"),
-      chunks: ["This book", "is", "more", "interesting", "than", "that magazine", "."],
-      ask: "Which is more interesting, this book or that magazine?",
-      askMore: [
-        "Which book is more interesting?",
-        "Is this book more interesting than that magazine?"
-      ]
-    },
-    {
-      adj: "popular",
-      listen: "more popular",
-      distractors: ["popularer", "populer"],
-      img: cosImg("l07-p05-ex05-popular.png"),
-      chunks: ["Basketball", "is", "more", "popular", "than", "chess", "here", "."],
-      ask: "Which is more popular here, basketball or chess?",
-      askMore: [
-        "Is basketball more popular than chess here?",
-        "Which sport is more popular here?"
-      ]
-    },
-    {
-      adj: "careful",
-      listen: "more careful",
-      distractors: ["carefuller", "carefull"],
-      img: cosImg("l07-p05-ex06-careful.png"),
-      chunks: ["A good driver", "is", "more", "careful", "than", "a beginner", "."],
-      ask: "Who is more careful, a good driver or a beginner?",
-      askMore: [
-        "Is a good driver more careful than a beginner?",
-        "Who is more careful on the road?"
-      ]
-    },
-    {
-      adj: "helpful",
-      listen: "more helpful",
-      distractors: ["helpfuller", "helpfull"],
-      img: cosImg("l07-p05-ex07-helpful.png"),
-      chunks: ["The new app", "is", "more", "helpful", "than", "the old one", "."],
-      ask: "Which is more helpful, the new app or the old one?",
-      askMore: [
-        "Is the new app more helpful than the old one?",
-        "Which app is more helpful?"
-      ]
-    },
-    {
-      adj: "difficult",
-      listen: "more difficult",
-      distractors: ["difficulter", "difficuilt"],
-      img: cosImg("l07-p05-ex08-difficult.png"),
-      chunks: ["Math", "is", "more", "difficult", "than", "art", "for me", "."],
-      ask: "Which is more difficult for me, math or art?",
-      askMore: [
-        "Is math more difficult than art for you?",
-        "Which subject is more difficult?"
-      ]
-    },
-    {
-      adj: "delicious",
-      listen: "more delicious",
-      distractors: ["deliciousest", "deliciouss"],
-      img: cosImg("l07-p05-ex09-delicious.png"),
-      chunks: ["Mom's soup", "is", "more", "delicious", "than", "take-out food", "."],
-      ask: "Which is more delicious, mom's soup or take-out food?",
-      askMore: [
-        "Is mom's soup more delicious than take-out food?",
-        "Which food is more delicious?"
-      ]
-    },
-    {
-      adj: "famous",
-      listen: "more famous",
-      distractors: ["famousest", "famouse"],
-      img: cosImg("l07-p05-ex10-famous.png"),
-      chunks: ["Chengdu", "is", "more", "famous", "for pandas", "than many small towns", "."],
-      ask: "Is Chengdu more famous for pandas than many small towns?",
-      askMore: [
-        "What is Chengdu more famous for?",
-        "Which city is more famous for pandas?"
-      ]
-    },
-    {
-      adj: "comfortable",
-      listen: "more comfortable",
-      distractors: ["comfortabler", "comfortabl"],
-      img: cosImg("l07-p05-ex11-comfortable.png"),
-      chunks: ["This sofa", "is", "more", "comfortable", "than", "the wooden stool", "."],
-      ask: "Which is more comfortable, this sofa or the wooden stool?",
-      askMore: [
-        "Is this sofa more comfortable than the wooden stool?",
-        "Which seat is more comfortable?"
-      ]
-    },
-    {
-      adj: "dangerous",
-      listen: "more dangerous",
-      distractors: ["dangerousest", "dangerouse"],
-      img: cosImg("l07-p05-ex12-dangerous.png"),
-      chunks: ["Night driving", "is", "more", "dangerous", "than", "daytime driving", "."],
-      ask: "Which is more dangerous, night driving or daytime driving?",
-      askMore: [
-        "Is night driving more dangerous than daytime driving?",
-        "When is driving more dangerous?"
-      ]
-    },
-    {
-      adj: "colorful",
-      listen: "more colorful",
-      distractors: ["colorfuller", "colorfull"],
-      img: cosImg("l07-p05-ex13-colorful.png"),
-      chunks: ["Autumn leaves", "are", "more", "colorful", "than", "winter trees", "."],
-      ask: "Which are more colorful, autumn leaves or winter trees?",
-      askMore: [
-        "Are autumn leaves more colorful than winter trees?",
-        "Which season looks more colorful?"
-      ]
-    },
-    {
-      adj: "peaceful",
-      listen: "more peaceful",
-      distractors: ["peacefuller", "peacefull"],
-      img: cosImg("l07-p05-ex14-peaceful.png"),
-      chunks: ["The countryside", "is", "more", "peaceful", "than", "downtown", "."],
-      ask: "Which is more peaceful, the countryside or downtown?",
-      askMore: [
-        "Is the countryside more peaceful than downtown?",
-        "Where is it more peaceful?"
-      ]
-    },
-    {
-      adj: "powerful",
-      listen: "more powerful",
-      distractors: ["powerfuller", "powerfull"],
-      img: cosImg("l07-p05-ex15-powerful.png"),
-      chunks: ["Rocket A", "is", "more", "powerful", "than", "Rocket B", "."],
-      ask: "Which is more powerful, Rocket A or Rocket B?",
-      askMore: [
-        "Is Rocket A more powerful than Rocket B?",
-        "Which rocket is more powerful?"
-      ]
-    }
-  ];
+  var LESSONS = [];
 
-  var LAB_SCENES = [
-    { id: "draw1", label: "① 绘画" },
-    { id: "ask", label: "② 随机提问" },
-    { id: "picture", label: "③ 图片" },
-    { id: "speech", label: "④ 语音" },
-    { id: "draw2", label: "⑤ 再绘画" }
-  ];
+  function bindLessons() {
+    var raw = window.L07_P05_LESSONS || [];
+    LESSONS = raw.map(function (L) {
+      var scenes = (L.scenes || []).map(function (sc) {
+        return {
+          file: sc.file,
+          img: cosImg(sc.file),
+          sentence: sc.sentence,
+          chunks: sc.chunks || []
+        };
+      });
+      var first = scenes[0] || {};
+      return {
+        adj: L.adj,
+        listen: L.listen,
+        distractors: L.distractors || [],
+        scenes: scenes,
+        img: first.img || "",
+        chunks: first.chunks || []
+      };
+    });
+  }
+  bindLessons();
+
+  function getScene(L, sceneI) {
+    if (!L || !L.scenes || !L.scenes.length) return null;
+    var i = ((sceneI % L.scenes.length) + L.scenes.length) % L.scenes.length;
+    return L.scenes[i];
+  }
+
+  function sceneSentence(sc) {
+    return sc && sc.sentence ? String(sc.sentence) : "";
+  }
+
+  function allScenePool() {
+    var pool = [];
+    LESSONS.forEach(function (L, li) {
+      (L.scenes || []).forEach(function (sc, si) {
+        pool.push({ li: li, si: si, L: L, sc: sc });
+      });
+    });
+    return pool;
+  }
 
   var SORT_ER = ["taller", "shorter", "faster", "slower", "bigger", "smaller", "hotter", "colder", "thinner", "heavier", "lighter", "cheaper"];
   var SORT_MORE = LESSONS.map(function (L) {
@@ -1273,11 +1048,12 @@
   var warmSi = 0;
   var warmQi = 0;
   var lessonI = 0;
-  var lessonPhase = "lab"; /* lab | adj | sent — lab = 五场景；adj/sent 保留旧入口兼容 */
-  var labScene = 0; /* 0..4 */
-  var askPick = 0;
-  var pageHintUnlocked = false;
-  var pageHintRevealed = [];
+  var lessonPhase = "scenes"; /* scenes | sent */
+  var sceneI = 0;
+  var oralPick = null;
+  var oralRevealed = false;
+  var oralScore = 0;
+  var oralTotal = 0;
   var dragState = null;
   var docMoveRef = null;
   var docUpRef = null;
@@ -1291,6 +1067,7 @@
     var active = "warm";
     if (mode === "teach") active = "teach";
     else if (mode === "sort") active = "sort";
+    else if (mode === "oral") active = "oral";
     else if (mode === "lesson" && lessonPhase === "sent") active = "sent";
     else if (mode === "lesson") active = "vocab";
     nav.querySelectorAll(".section-nav__btn[data-section]").forEach(function (btn) {
@@ -1313,10 +1090,11 @@
         mode = "teach";
       } else if (sec === "vocab") {
         mode = "lesson";
-        lessonPhase = "lab";
-        labScene = 0;
-        resetPageHint();
-        syncDrawHint();
+        lessonPhase = "scenes";
+        sceneI = 0;
+      } else if (sec === "oral") {
+        mode = "oral";
+        pickRandomOral();
       } else if (sec === "sent") {
         mode = "lesson";
         lessonPhase = "sent";
@@ -1473,20 +1251,16 @@
       el.textContent = "新知 · more + 形容词";
     } else if (mode === "lesson") {
       if (lessonPhase === "sent") {
+        var scN = getScene(LESSONS[lessonI], sceneI);
         el.textContent =
-          "看图造句 " + (lessonI + 1) + "/15 · " + LESSONS[lessonI].listen;
-      } else if (lessonPhase === "adj") {
-        el.textContent =
-          "词汇演练 " + (lessonI + 1) + "/15 · 听音拼槽";
+          "看图造句 " + (lessonI + 1) + "/15 · 场景" + (sceneI + 1) + "/2 · " + LESSONS[lessonI].listen;
       } else {
         el.textContent =
-          "十五练 " +
-          (lessonI + 1) +
-          "/15 · " +
-          LESSONS[lessonI].listen +
-          " · " +
-          LAB_SCENES[labScene].label;
+          "十五练 " + (lessonI + 1) + "/15 · " + LESSONS[lessonI].listen + " · 2 张情景图";
       }
+    } else if (mode === "oral") {
+      el.textContent =
+        "口语测试 · 已练 " + oralTotal + " 题" + (oralTotal ? " · 自评正确 " + oralScore : "");
     } else if (mode === "sort") {
       el.textContent = "终极分类 · -er 规则 vs more +";
     } else {
@@ -1503,6 +1277,7 @@
     if (mode === "warm") renderWarm(root);
     else if (mode === "teach") renderTeach(root);
     else if (mode === "lesson") renderLesson(root);
+    else if (mode === "oral") renderOral(root);
     else if (mode === "sort") renderSort(root);
     else renderDone(root);
     updateSectionNav();
@@ -1729,10 +1504,8 @@
     b.addEventListener("click", function () {
       mode = "lesson";
       lessonI = 0;
-      lessonPhase = "lab";
-      labScene = 0;
-      resetPageHint();
-      syncDrawHint();
+      lessonPhase = "scenes";
+      sceneI = 0;
       render();
     });
     root.appendChild(b);
@@ -1838,85 +1611,115 @@
     return best;
   }
 
-  function lessonSentence(L) {
-    return L.chunks.join(" ").replace(/\s+\./g, ".");
-  }
-
-  function askPool(L) {
-    var pool = [L.ask].concat(L.askMore || []);
-    return pool.filter(Boolean);
-  }
-
-  function hintTokensFor(L) {
-    return (L.chunks || []).map(function (t) {
-      return String(t || "").trim();
-    }).filter(Boolean);
-  }
-
-  function resetPageHint() {
-    pageHintUnlocked = false;
-    var toks = hintTokensFor(LESSONS[lessonI]);
-    pageHintRevealed = toks.map(function () { return false; });
-  }
-
-  function syncDrawHint() {
-    var api = window.SClassDrawingOverlay;
-    if (!api || typeof api.setTextHint !== "function") return;
-    api.setTextHint(hintTokensFor(LESSONS[lessonI]));
-  }
-
-  function openWhiteboardWithHint(autoOpenHint) {
-    syncDrawHint();
-    var api = window.SClassDrawingOverlay;
-    if (!api || typeof api.enterWhiteboard !== "function") {
-      showToast("白板组件未加载，请刷新页面。", false);
+  function pickRandomOral() {
+    var pool = allScenePool();
+    if (!pool.length) {
+      oralPick = null;
+      oralRevealed = false;
       return;
     }
-    api.enterWhiteboard();
-    if (autoOpenHint !== false && typeof api.openHint === "function") {
-      api.openHint();
-    }
+    oralPick = pool[Math.floor(Math.random() * pool.length)];
+    oralRevealed = false;
   }
 
-  function goLabScene(idx) {
-    labScene = Math.max(0, Math.min(LAB_SCENES.length - 1, idx));
-    if (labScene === 0 || labScene === 4) resetPageHint();
-    if (labScene === 1) {
-      var pool = askPool(LESSONS[lessonI]);
-      askPick = Math.floor(Math.random() * pool.length);
+  function buildSceneCard(L, sc, si, opts) {
+    opts = opts || {};
+    var card = document.createElement("article");
+    card.className = "scene-card";
+
+    var tag = document.createElement("div");
+    tag.className = "scene-card__tag";
+    tag.textContent = "场景 " + (si + 1) + " · " + L.listen;
+    card.appendChild(tag);
+
+    var wrap = document.createElement("div");
+    wrap.className = "scene-img-wrap scene-card__img";
+    var img = document.createElement("img");
+    img.src = sc.img;
+    img.alt = L.listen + " 情景 " + (si + 1);
+    img.loading = "lazy";
+    wrap.appendChild(img);
+    card.appendChild(wrap);
+
+    var sent = sceneSentence(sc);
+    var qWrap = document.createElement("div");
+    qWrap.className = "warm-q-wrap scene-card__sent" + (opts.revealed ? " is-revealed" : "");
+    qWrap.setAttribute("role", "button");
+    qWrap.setAttribute("tabindex", "0");
+    qWrap.setAttribute("aria-label", "点击显示比较级句子");
+
+    var qEl = document.createElement("p");
+    qEl.className = "warm-q";
+    qEl.innerHTML = questionWithHighlight(sent, L.listen);
+    qWrap.appendChild(qEl);
+
+    if (!opts.revealed) {
+      function reveal() {
+        qWrap.classList.add("is-revealed");
+      }
+      qWrap.addEventListener("click", function () {
+        if (!qWrap.classList.contains("is-revealed")) reveal();
+      });
+      qWrap.addEventListener("keydown", function (ev) {
+        if (qWrap.classList.contains("is-revealed")) return;
+        if (ev.key === "Enter" || ev.key === " ") {
+          ev.preventDefault();
+          reveal();
+        }
+      });
     }
-    syncDrawHint();
-    render();
+
+    card.appendChild(qWrap);
+
+    var row = document.createElement("div");
+    row.className = "btn-row scene-card__actions";
+    var btnListen = document.createElement("button");
+    btnListen.type = "button";
+    btnListen.className = "speak";
+    btnListen.textContent = "🔊";
+    btnListen.setAttribute("aria-label", "朗读句子");
+    btnListen.addEventListener("click", function (ev) {
+      ev.stopPropagation();
+      speakPlainAzure(sent);
+    });
+    row.appendChild(btnListen);
+
+    if (opts.showSentBtn) {
+      var btnSent = document.createElement("button");
+      btnSent.type = "button";
+      btnSent.className = "primary";
+      btnSent.textContent = "拖词造句";
+      btnSent.addEventListener("click", function () {
+        lessonI = LESSONS.indexOf(L);
+        sceneI = si;
+        lessonPhase = "sent";
+        mode = "lesson";
+        render();
+      });
+      row.appendChild(btnSent);
+    }
+    card.appendChild(row);
+    return card;
   }
 
-  function advanceLab() {
-    if (labScene < LAB_SCENES.length - 1) {
-      goLabScene(labScene + 1);
-      return;
-    }
-    if (lessonI < LESSONS.length - 1) {
-      lessonI++;
-      labScene = 0;
-      resetPageHint();
-      syncDrawHint();
-      showToast("下一词 · " + LESSONS[lessonI].listen, true);
-      render();
-      return;
-    }
-    mode = "sort";
-    showToast("十五练完成 · 进入分类挑战", true);
-    render();
-  }
+  function renderScenePractice(root) {
+    var L = LESSONS[lessonI];
+    root.className = "panel panel--scenes";
 
-  function appendLabChrome(root, L) {
     var h = document.createElement("h2");
     h.textContent = "十五练 " + (lessonI + 1) + "/15 · " + L.listen;
     root.appendChild(h);
 
+    var guide = document.createElement("p");
+    guide.className = "scene-guide";
+    guide.textContent =
+      "每个形容词配有 2 张卡通 3D 左右对比情景图。先看图 → 点击遮罩显示比较级句子 → 听朗读 → 可进入拖词造句。";
+    root.appendChild(guide);
+
     var adjBar = document.createElement("div");
     adjBar.className = "lab-adj-bar";
     var sel = document.createElement("select");
-    sel.setAttribute("aria-label", "选择形容词情景");
+    sel.setAttribute("aria-label", "选择形容词");
     LESSONS.forEach(function (item, i) {
       var opt = document.createElement("option");
       opt.value = String(i);
@@ -1928,314 +1731,218 @@
       var v = parseInt(sel.value, 10);
       if (Number.isNaN(v) || v === lessonI) return;
       lessonI = v;
-      labScene = 0;
-      resetPageHint();
-      syncDrawHint();
+      sceneI = 0;
       render();
     });
     adjBar.appendChild(sel);
+
+    var btnOral = document.createElement("button");
+    btnOral.type = "button";
+    btnOral.className = "primary";
+    btnOral.textContent = "去口语测试 →";
+    btnOral.addEventListener("click", function () {
+      mode = "oral";
+      pickRandomOral();
+      render();
+    });
+    adjBar.appendChild(btnOral);
     root.appendChild(adjBar);
 
-    var sceneBar = document.createElement("div");
-    sceneBar.className = "lab-scene-bar";
-    sceneBar.setAttribute("role", "tablist");
-    LAB_SCENES.forEach(function (sc, i) {
-      var b = document.createElement("button");
-      b.type = "button";
-      b.className = "lab-scene-bar__btn" + (i === labScene ? " is-active" : "");
-      b.textContent = sc.label;
-      b.addEventListener("click", function () {
-        goLabScene(i);
-      });
-      sceneBar.appendChild(b);
+    var grid = document.createElement("div");
+    grid.className = "scene-grid";
+    (L.scenes || []).forEach(function (sc, si) {
+      grid.appendChild(buildSceneCard(L, sc, si, { showSentBtn: true }));
     });
-    root.appendChild(sceneBar);
-  }
+    root.appendChild(grid);
 
-  function appendLabNav(parent) {
-    var actions = document.createElement("div");
-    actions.className = "lab-actions";
+    var nav = document.createElement("div");
+    nav.className = "lab-actions";
     var prev = document.createElement("button");
     prev.type = "button";
-    prev.textContent = labScene === 0 ? "上一词" : "上一场景";
+    prev.textContent = "← 上一词";
+    prev.disabled = lessonI <= 0;
     prev.addEventListener("click", function () {
-      if (labScene > 0) {
-        goLabScene(labScene - 1);
-        return;
-      }
       if (lessonI > 0) {
         lessonI--;
-        labScene = LAB_SCENES.length - 1;
-        resetPageHint();
-        syncDrawHint();
         render();
       }
     });
     var next = document.createElement("button");
     next.type = "button";
     next.className = "primary";
-    next.textContent =
-      labScene < LAB_SCENES.length - 1
-        ? "下一场景 →"
-        : lessonI < LESSONS.length - 1
-          ? "下一词 · 从绘画开始 →"
-          : "完成 · 分类挑战 →";
-    next.addEventListener("click", advanceLab);
-    actions.appendChild(prev);
-    actions.appendChild(next);
-    parent.appendChild(actions);
-  }
-
-  function buildPageHintPanel(L) {
-    var wrap = document.createElement("div");
-    wrap.className = "lab-hint-panel";
-    var title = document.createElement("p");
-    title.className = "lab-hint-panel__title";
-    title.textContent = "文字提示 · 隐藏句 → 点句显示词槽 → 点词揭开";
-    wrap.appendChild(title);
-
-    var toks = hintTokensFor(L);
-    if (!pageHintRevealed.length || pageHintRevealed.length !== toks.length) {
-      pageHintRevealed = toks.map(function () { return false; });
-    }
-
-    if (!pageHintUnlocked) {
-      var unlock = document.createElement("button");
-      unlock.type = "button";
-      unlock.className = "lab-hint-unlock";
-      unlock.innerHTML =
-        '<span class="lab-hint-unlock__label">点击显示句子 · Click to show the sentence</span>' +
-        '<span class="lab-hint-unlock__blur">' +
-        escapeHtml(lessonSentence(L)) +
-        "</span>";
-      unlock.addEventListener("click", function () {
-        pageHintUnlocked = true;
+    next.textContent = lessonI < LESSONS.length - 1 ? "下一词 →" : "完成 · 口语测试 →";
+    next.addEventListener("click", function () {
+      if (lessonI < LESSONS.length - 1) {
+        lessonI++;
         render();
-      });
-      wrap.appendChild(unlock);
-      return wrap;
-    }
-
-    var words = document.createElement("div");
-    words.className = "lab-hint-words";
-    toks.forEach(function (tok, i) {
-      var btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "lab-hint-word" + (pageHintRevealed[i] ? " is-shown" : "");
-      btn.innerHTML = pageHintRevealed[i]
-        ? '<span>' + escapeHtml(tok) + "</span>"
-        : '<span class="lab-hint-word-mask">····</span>';
-      btn.addEventListener("click", function () {
-        if (pageHintRevealed[i]) return;
-        pageHintRevealed[i] = true;
+      } else {
+        mode = "oral";
+        pickRandomOral();
         render();
-      });
-      words.appendChild(btn);
-    });
-    wrap.appendChild(words);
-
-    var tools = document.createElement("div");
-    tools.className = "lab-hint-tools";
-    var all = document.createElement("button");
-    all.type = "button";
-    all.className = "primary";
-    all.textContent = "显示整句";
-    all.addEventListener("click", function () {
-      pageHintRevealed = toks.map(function () { return true; });
-      render();
-    });
-    var hide = document.createElement("button");
-    hide.type = "button";
-    hide.textContent = "重新隐藏";
-    hide.addEventListener("click", function () {
-      resetPageHint();
-      render();
-    });
-    tools.appendChild(all);
-    tools.appendChild(hide);
-    wrap.appendChild(tools);
-    return wrap;
-  }
-
-  function renderLabDraw(stage, L, isSecond) {
-    var guide = document.createElement("p");
-    guide.className = "lab-guide";
-    guide.textContent = isSecond
-      ? "场景⑤：学生上白板画/写比较句；可开文字提示（先点显示句子，再点词揭开）。"
-      : "场景①：教师先在白板上画左右对比情景，引导学生观察差异；可开文字提示辅助。";
-    stage.appendChild(guide);
-
-    var card = document.createElement("div");
-    card.className = "lab-draw-card";
-    card.innerHTML =
-      "<p>点击下方打开全屏白板。书写时点工具栏「提示」可显示隐藏句，点句 → 点词逐个揭开。</p>";
-    var openBtn = document.createElement("button");
-    openBtn.type = "button";
-    openBtn.className = "primary";
-    openBtn.style.width = "100%";
-    openBtn.textContent = isSecond ? "打开白板 · 学生再绘画" : "打开白板 · 教师绘画";
-    openBtn.addEventListener("click", function () {
-      openWhiteboardWithHint(true);
-    });
-    card.appendChild(openBtn);
-    stage.appendChild(card);
-    stage.appendChild(buildPageHintPanel(L));
-  }
-
-  function renderLabAsk(stage, L) {
-    var guide = document.createElement("p");
-    guide.className = "lab-guide";
-    guide.textContent =
-      "场景②：随机提问。点题干显示问题，请学生口头回答 Who / Which + more + 形容词。";
-    stage.appendChild(guide);
-
-    var pool = askPool(L);
-    if (askPick < 0 || askPick >= pool.length) askPick = 0;
-    var qText = pool[askPick];
-
-    var qEl = document.createElement("p");
-    qEl.className = "warm-q";
-    qEl.innerHTML = questionWithHighlight(qText, L.listen);
-
-    var qWrap = document.createElement("div");
-    qWrap.className = "warm-q-wrap";
-    qWrap.setAttribute("role", "button");
-    qWrap.setAttribute("tabindex", "0");
-    qWrap.setAttribute("aria-label", "点击显示英文问题");
-    qWrap.appendChild(qEl);
-    function revealQ() {
-      qWrap.classList.add("is-revealed");
-    }
-    qWrap.addEventListener("click", function () {
-      if (!qWrap.classList.contains("is-revealed")) revealQ();
-    });
-    stage.appendChild(qWrap);
-
-    var row = document.createElement("div");
-    row.className = "btn-row";
-    var listen = document.createElement("button");
-    listen.type = "button";
-    listen.className = "speak";
-    listen.textContent = "🔊";
-    listen.setAttribute("aria-label", "朗读问题");
-    listen.addEventListener("click", function () {
-      speakPlainAzure(qText);
-    });
-    var shuffleBtn = document.createElement("button");
-    shuffleBtn.type = "button";
-    shuffleBtn.className = "primary";
-    shuffleBtn.textContent = "换一题 · 随机提问";
-    shuffleBtn.addEventListener("click", function () {
-      if (pool.length < 2) {
-        showToast("本词只有一题，可请学生互相再问一句。", false);
-        return;
       }
-      var next = askPick;
-      while (next === askPick) next = Math.floor(Math.random() * pool.length);
-      askPick = next;
-      render();
     });
-    row.appendChild(listen);
-    row.appendChild(shuffleBtn);
-    stage.appendChild(row);
-
-    var note = document.createElement("p");
-    note.className = "ask-variants-note";
-    note.textContent = "本题池 " + pool.length + " 句 · 当前第 " + (askPick + 1) + " 句";
-    stage.appendChild(note);
+    nav.appendChild(prev);
+    nav.appendChild(next);
+    root.appendChild(nav);
   }
 
-  function renderLabPicture(stage, L) {
+  function renderOral(root) {
+    root.className = "panel panel--oral";
+    if (!oralPick) pickRandomOral();
+    if (!oralPick) {
+      root.innerHTML = "<h2>口语测试</h2><p>暂无情景数据。</p>";
+      return;
+    }
+
+    var L = oralPick.L;
+    var sc = oralPick.sc;
+    var sent = sceneSentence(sc);
+
+    var h = document.createElement("h2");
+    h.textContent = "口语测试 · 随机抽图造句";
+    root.appendChild(h);
+
     var guide = document.createElement("p");
-    guide.className = "lab-guide";
-    guide.textContent = "场景③：展示对比配图，观察左右差异，为造句做准备。";
-    stage.appendChild(guide);
+    guide.className = "scene-guide";
+    guide.textContent =
+      "系统随机抽取「单词 + 情景图」。请学生看图说出完整比较级句子，再点「显示答案」或「听示范」核对。";
+    root.appendChild(guide);
+
+    var meta = document.createElement("div");
+    meta.className = "oral-meta";
+    meta.innerHTML =
+      '<span class="oral-meta__word">' +
+      escapeHtml(L.listen) +
+      "</span>" +
+      '<span class="oral-meta__hint">词 ' +
+      (oralPick.li + 1) +
+      "/15 · 场景 " +
+      (oralPick.si + 1) +
+      "/2</span>";
+    root.appendChild(meta);
 
     var wrap = document.createElement("div");
-    wrap.className = "scene-img-wrap";
+    wrap.className = "scene-img-wrap oral-stage__img";
     var img = document.createElement("img");
-    img.src = L.img;
-    img.alt = L.listen + " 情景图";
+    img.src = sc.img;
+    img.alt = L.listen + " 随机口语测试";
     wrap.appendChild(img);
-    stage.appendChild(wrap);
+    root.appendChild(wrap);
+
+    var prompt = document.createElement("p");
+    prompt.className = "oral-prompt";
+    prompt.textContent = "👄 请看图，用 more + " + L.adj + " 说出一整句比较级句子。";
+    root.appendChild(prompt);
+
+    var ansWrap = document.createElement("div");
+    ansWrap.className = "warm-q-wrap oral-answer" + (oralRevealed ? " is-revealed" : "");
+    ansWrap.setAttribute("role", "button");
+    ansWrap.setAttribute("tabindex", "0");
+    var ans = document.createElement("p");
+    ans.className = "warm-q";
+    ans.innerHTML = questionWithHighlight(sent, L.listen);
+    ansWrap.appendChild(ans);
+    if (!oralRevealed) {
+      ansWrap.addEventListener("click", function () {
+        oralRevealed = true;
+        render();
+      });
+      ansWrap.addEventListener("keydown", function (ev) {
+        if (oralRevealed) return;
+        if (ev.key === "Enter" || ev.key === " ") {
+          ev.preventDefault();
+          oralRevealed = true;
+          render();
+        }
+      });
+    }
+    root.appendChild(ansWrap);
 
     var row = document.createElement("div");
-    row.className = "btn-row";
-    var toSent = document.createElement("button");
-    toSent.type = "button";
-    toSent.className = "primary";
-    toSent.textContent = "进入看图造句（拖词排序）";
-    toSent.addEventListener("click", function () {
-      lessonPhase = "sent";
+    row.className = "btn-row oral-actions";
+
+    var btnReveal = document.createElement("button");
+    btnReveal.type = "button";
+    btnReveal.className = "primary";
+    btnReveal.textContent = oralRevealed ? "已显示答案" : "显示答案";
+    btnReveal.addEventListener("click", function () {
+      oralRevealed = true;
       render();
     });
-    row.appendChild(toSent);
-    stage.appendChild(row);
-  }
+    row.appendChild(btnReveal);
 
-  function renderLabSpeech(stage, L) {
-    var guide = document.createElement("p");
-    guide.className = "lab-guide";
-    guide.textContent = "场景④：展示语音按钮。先听词 → more + 形容词 → 问句 → 完整比较句。";
-    stage.appendChild(guide);
-
-    var grid = document.createElement("div");
-    grid.className = "lab-speak-grid";
-    var items = [
-      { label: "听形容词 · " + L.adj, text: L.adj },
-      { label: "听比较级 · " + L.listen, text: L.listen },
-      { label: "听问句", text: L.ask },
-      { label: "听完整句", text: lessonSentence(L) }
-    ];
-    items.forEach(function (it) {
-      var b = document.createElement("button");
-      b.type = "button";
-      b.textContent = it.label;
-      b.addEventListener("click", function () {
-        speakPlainAzure(it.text);
-      });
-      grid.appendChild(b);
+    var btnListen = document.createElement("button");
+    btnListen.type = "button";
+    btnListen.className = "speak";
+    btnListen.textContent = "🔊 听示范";
+    btnListen.addEventListener("click", function () {
+      speakPlainAzure(sent);
     });
-    stage.appendChild(grid);
-  }
+    row.appendChild(btnListen);
 
-  function renderLab(root) {
-    var L = LESSONS[lessonI];
-    root.className = "panel panel--lab";
-    appendLabChrome(root, L);
-    syncDrawHint();
+    var btnOk = document.createElement("button");
+    btnOk.type = "button";
+    btnOk.textContent = "✓ 说对了";
+    btnOk.addEventListener("click", function () {
+      oralTotal++;
+      oralScore++;
+      showToast("很棒！", true);
+      pickRandomOral();
+      render();
+    });
+    row.appendChild(btnOk);
 
-    var stage = document.createElement("div");
-    stage.className = "lab-stage";
-    var sid = LAB_SCENES[labScene].id;
-    if (sid === "draw1") renderLabDraw(stage, L, false);
-    else if (sid === "ask") renderLabAsk(stage, L);
-    else if (sid === "picture") renderLabPicture(stage, L);
-    else if (sid === "speech") renderLabSpeech(stage, L);
-    else renderLabDraw(stage, L, true);
+    var btnTry = document.createElement("button");
+    btnTry.type = "button";
+    btnTry.textContent = "再想想";
+    btnTry.addEventListener("click", function () {
+      oralTotal++;
+      showToast("再看图，再试一次或听示范。", false);
+      oralRevealed = true;
+      render();
+    });
+    row.appendChild(btnTry);
 
-    appendLabNav(stage);
-    root.appendChild(stage);
+    var btnNext = document.createElement("button");
+    btnNext.type = "button";
+    btnNext.className = "primary";
+    btnNext.textContent = "🎲 下一题";
+    btnNext.addEventListener("click", function () {
+      oralTotal++;
+      pickRandomOral();
+      render();
+    });
+    row.appendChild(btnNext);
+    root.appendChild(row);
+
+    if (oralTotal > 0) {
+      var stat = document.createElement("p");
+      stat.className = "oral-stat";
+      stat.textContent =
+        "本轮已练 " + oralTotal + " 题 · 自评正确 " + oralScore + " 题";
+      root.appendChild(stat);
+    }
   }
 
   function renderLesson(root) {
     var L = LESSONS[lessonI];
+    var sc = getScene(L, sceneI) || { img: L.img, chunks: L.chunks, sentence: "" };
     root.classList.toggle("panel--lesson-sent", lessonPhase === "sent");
 
-    if (lessonPhase === "lab" || lessonPhase === "adj") {
-      if (lessonPhase === "adj") lessonPhase = "lab";
-      renderLab(root);
+    if (lessonPhase === "scenes") {
+      renderScenePractice(root);
       return;
     }
 
     var h = document.createElement("h2");
-    h.textContent = "看图 " + (lessonI + 1) + "/15 · " + L.listen;
+    h.textContent =
+      "看图造句 " + (lessonI + 1) + "/15 · 场景 " + (sceneI + 1) + "/2 · " + L.listen;
     root.appendChild(h);
 
     var p2 = document.createElement("p");
     p2.className = "lesson-sent-intro";
-    p2.textContent =
-      "请看图 → 右侧排序槽拖成正确的比较级句子（可用上一场景/下一场景或下拉在 15 个情景中切换）。也可返回「十五练」走完整五场景。";
+    p2.textContent = "请看图 → 拖词排成正确的比较级句子。";
+    root.appendChild(p2);
 
     var layout = document.createElement("div");
     layout.className = "lesson-sent-layout";
@@ -2244,7 +1951,7 @@
     colImg.className = "lesson-sent-col lesson-sent-col--img";
     var img = document.createElement("img");
     img.className = "lesson-img lesson-img--stage";
-    img.src = L.img;
+    img.src = sc.img;
     img.alt = "情景图";
     colImg.appendChild(img);
 
@@ -2255,6 +1962,7 @@
       clearDragListeners();
       var n = LESSONS.length;
       lessonI = ((idx % n) + n) % n;
+      sceneI = 0;
       lessonPhase = "sent";
       render();
     }
@@ -2265,14 +1973,14 @@
     var btnPrevSc = document.createElement("button");
     btnPrevSc.type = "button";
     btnPrevSc.className = "scenario-nav-btn";
-    btnPrevSc.textContent = "← 上一场景";
+    btnPrevSc.textContent = "← 上一词";
     btnPrevSc.addEventListener("click", function () {
       goSentScenario(lessonI - 1);
     });
 
     var selSc = document.createElement("select");
     selSc.className = "scenario-jump-select";
-    selSc.setAttribute("aria-label", "在15个看图造句场景中切换");
+    selSc.setAttribute("aria-label", "选择形容词");
     for (var si = 0; si < LESSONS.length; si++) {
       var opt = document.createElement("option");
       opt.value = String(si);
@@ -2286,38 +1994,57 @@
       goSentScenario(v);
     });
 
+    var selScene = document.createElement("select");
+    selScene.className = "scenario-jump-select";
+    selScene.setAttribute("aria-label", "选择场景");
+    (L.scenes || []).forEach(function (s, i) {
+      var o2 = document.createElement("option");
+      o2.value = String(i);
+      o2.textContent = "场景 " + (i + 1);
+      if (i === sceneI) o2.selected = true;
+      selScene.appendChild(o2);
+    });
+    selScene.addEventListener("change", function () {
+      var v = parseInt(selScene.value, 10);
+      if (Number.isNaN(v) || v === sceneI) return;
+      sceneI = v;
+      render();
+    });
+
     var btnNextSc = document.createElement("button");
     btnNextSc.type = "button";
     btnNextSc.className = "scenario-nav-btn";
-    btnNextSc.textContent = "下一场景 →";
+    btnNextSc.textContent = "下一词 →";
     btnNextSc.addEventListener("click", function () {
       goSentScenario(lessonI + 1);
     });
 
-    var btnLab = document.createElement("button");
-    btnLab.type = "button";
-    btnLab.className = "scenario-nav-btn";
-    btnLab.textContent = "回十五练";
-    btnLab.addEventListener("click", function () {
-      lessonPhase = "lab";
-      labScene = 2;
+    var btnBack = document.createElement("button");
+    btnBack.type = "button";
+    btnBack.className = "scenario-nav-btn";
+    btnBack.textContent = "回十五练";
+    btnBack.addEventListener("click", function () {
+      lessonPhase = "scenes";
       render();
     });
 
     scenarioBar.appendChild(btnPrevSc);
     scenarioBar.appendChild(selSc);
+    scenarioBar.appendChild(selScene);
     scenarioBar.appendChild(btnNextSc);
-    scenarioBar.appendChild(btnLab);
+    scenarioBar.appendChild(btnBack);
     colSlots.appendChild(scenarioBar);
+
+    var chunks = sc.chunks || L.chunks || [];
 
     var listen2 = document.createElement("div");
     listen2.className = "btn-row";
     var b2 = document.createElement("button");
     b2.type = "button";
     b2.className = "primary";
-    b2.textContent = "再听一遍示范朗读";
+    b2.textContent = "听示范句";
     b2.addEventListener("click", function () {
-      speakPlainAzure(L.chunks.join(" "), "en-GB-RyanNeural", "friendly");
+      speakPlainAzure(sceneSentence(sc) || chunks.join(" "));
     });
     listen2.appendChild(b2);
     colSlots.appendChild(listen2);
@@ -2325,7 +2052,7 @@
     var slotsWrap = document.createElement("div");
     slotsWrap.className = "sent-slots lesson-sent-slots";
     sentSlots = [];
-    L.chunks.forEach(function () {
+    chunks.forEach(function () {
       var s = document.createElement("div");
       s.className = "sent-slot";
       slotsWrap.appendChild(s);
@@ -2335,7 +2062,7 @@
 
     var bank2 = document.createElement("div");
     bank2.className = "bank lesson-sent-bank";
-    shuffle(L.chunks).forEach(function (tok) {
+    shuffle(chunks).forEach(function (tok) {
       var c = document.createElement("div");
       c.className = "drag-chip";
       c.textContent = tok;
@@ -2357,18 +2084,23 @@
       var ok = true;
       for (var i = 0; i < sentSlots.length; i++) {
         var ch = sentSlots[i].querySelector(".drag-chip");
-        if (!ch || ch.dataset.text !== L.chunks[i]) ok = false;
+        if (!ch || ch.dataset.text !== chunks[i]) ok = false;
       }
       if (!ok) {
         showToast("顺序不对：注意比较级结构 + than。", false);
         return;
       }
       showToast("Great!", true);
-      speakPlainAzure(L.chunks.join(" "), "en-GB-RyanNeural", "cheerful").finally(function () {
+      speakPlainAzure(chunks.join(" "), "en-GB-RyanNeural", "cheerful").finally(function () {
         window.setTimeout(function () {
-          lessonI++;
+          if (sceneI < (L.scenes || []).length - 1) {
+            sceneI++;
+          } else {
+            lessonI++;
+            sceneI = 0;
+          }
           lessonPhase = "sent";
-          if (lessonI >= LESSONS.length) mode = "sort";
+          if (lessonI >= LESSONS.length) mode = "oral";
           render();
         }, 400);
       });
@@ -2378,11 +2110,9 @@
 
     layout.appendChild(colImg);
     layout.appendChild(colSlots);
-
-    root.appendChild(p2);
     root.appendChild(layout);
 
-    speakPlainAzure(L.chunks.join(" "), "en-GB-RyanNeural", "friendly");
+    speakPlainAzure(sceneSentence(sc) || chunks.join(" "), "en-GB-RyanNeural", "friendly");
   }
 
   function renderSort(root) {
@@ -2470,7 +2200,7 @@
 
   function renderDone(root) {
     root.innerHTML =
-      "<h2>\u2728 本页完成</h2><p class=\"teach-note\">你已练习：<strong>Who / Which 情景问答</strong>、<strong>more + 形容词</strong> 十五练五场景（绘画 · 随机提问 · 图片 · 语音 · 再绘画）、<strong>worth more than</strong> 特殊比较，以及 <strong>-er</strong> 与 <strong>more</strong> 混合分类。</p>";
+      "<h2>\u2728 本页完成</h2><p class=\"teach-note\">你已练习：<strong>Who / Which 情景问答</strong>、<strong>more + 形容词</strong> 十五练双场景配图、口语随机测试、<strong>worth more than</strong> 特殊比较，以及 <strong>-er</strong> 与 <strong>more</strong> 混合分类。</p>";
     var b = document.createElement("button");
     b.type = "button";
     b.className = "primary";
