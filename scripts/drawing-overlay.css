@@ -183,6 +183,166 @@
   margin: 0 2px;
 }
 
+/* ── 文字提示（隐藏句 → 点词揭开） ── */
+.sclass-draw-hint {
+  position: fixed;
+  left: 50%;
+  top: max(12px, env(safe-area-inset-top, 0px));
+  transform: translateX(-50%);
+  z-index: 99985;
+  width: min(920px, calc(100vw - 24px));
+  max-height: min(48vh, 320px);
+  overflow: auto;
+  pointer-events: auto;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 2px solid rgba(229, 57, 53, 0.35);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+  padding: 10px 12px 12px;
+  color: #1a237e;
+  font-family: system-ui, "Segoe UI", "Microsoft YaHei", sans-serif;
+}
+
+.sclass-draw-root.is-annotate .sclass-draw-hint {
+  background: rgba(18, 24, 38, 0.92);
+  color: #eceff1;
+  border-color: rgba(255, 213, 79, 0.45);
+}
+
+.sclass-draw-hint__unlock {
+  display: block;
+  width: 100%;
+  border: 2px dashed rgba(229, 57, 53, 0.45);
+  border-radius: 10px;
+  background: rgba(229, 57, 53, 0.06);
+  padding: 16px 12px;
+  cursor: pointer;
+  position: relative;
+  min-height: 64px;
+  touch-action: manipulation;
+}
+
+.sclass-draw-root.is-annotate .sclass-draw-hint__unlock {
+  border-color: rgba(255, 213, 79, 0.4);
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.sclass-draw-hint__unlock-label {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #c62828;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.sclass-draw-root.is-annotate .sclass-draw-hint__unlock-label {
+  color: #ffd54f;
+}
+
+.sclass-draw-hint__unlock-preview {
+  display: block;
+  margin-top: 6px;
+  font-size: 1.05rem;
+  line-height: 1.45;
+  filter: blur(11px);
+  opacity: 0.22;
+  user-select: none;
+  pointer-events: none;
+  text-align: center;
+}
+
+.sclass-draw-hint__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.sclass-draw-hint__title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  opacity: 0.85;
+  margin-right: auto;
+}
+
+.sclass-draw-hint__all,
+.sclass-draw-hint__reset {
+  border: none;
+  border-radius: 8px;
+  min-height: 36px;
+  padding: 6px 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+  background: #e53935;
+  color: #fff;
+}
+
+.sclass-draw-hint__reset {
+  background: #607d8b;
+}
+
+.sclass-draw-hint__words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.sclass-draw-hint__word {
+  border: 2px solid rgba(26, 35, 126, 0.22);
+  border-radius: 10px;
+  background: #f5f7ff;
+  min-height: 42px;
+  padding: 6px 12px;
+  font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+  font-weight: 700;
+  color: #1a237e;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background 0.15s, border-color 0.15s, transform 0.12s;
+}
+
+.sclass-draw-root.is-annotate .sclass-draw-hint__word {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 213, 79, 0.35);
+  color: #fff8e1;
+}
+
+.sclass-draw-hint__word:not(.is-shown):hover,
+.sclass-draw-hint__word:not(.is-shown):focus-visible {
+  border-color: #e53935;
+  outline: none;
+}
+
+.sclass-draw-hint__word.is-shown {
+  cursor: default;
+  background: #e8f5e9;
+  border-color: #66bb6a;
+  color: #1b5e20;
+}
+
+.sclass-draw-root.is-annotate .sclass-draw-hint__word.is-shown {
+  background: rgba(105, 240, 174, 0.18);
+  border-color: rgba(105, 240, 174, 0.55);
+  color: #b9f6ca;
+}
+
+.sclass-draw-hint__word-mask {
+  letter-spacing: 0.08em;
+  opacity: 0.55;
+  font-weight: 600;
+}
+
+.sclass-draw-hint__word-text {
+  font-family: "Patrick Hand", "Segoe UI", cursive, sans-serif;
+}
+
 /* 书写时禁止页面滚动 */
 html.sclass-draw-active,
 html.sclass-draw-active body {
