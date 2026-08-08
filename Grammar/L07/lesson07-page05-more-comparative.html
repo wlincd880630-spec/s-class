@@ -37,9 +37,12 @@
       flex-direction: column;
       -webkit-tap-highlight-color: rgba(255, 213, 79, 0.15);
       overflow-x: clip;
+      /* 本页内容区尽量铺满：收紧底栏占位 */
+      --grammar-pager-gap: 2rem;
+      padding-bottom: calc(2rem + 40px + env(safe-area-inset-bottom, 0px)) !important;
     }
     header.top {
-      padding: max(10px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) 10px max(14px, env(safe-area-inset-left));
+      padding: max(6px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) 6px max(10px, env(safe-area-inset-left));
       text-align: center;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       background: rgba(0, 0, 0, 0.35);
@@ -49,8 +52,8 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 8px;
-      padding: 8px max(12px, env(safe-area-inset-right)) 10px max(12px, env(safe-area-inset-left));
+      gap: 6px;
+      padding: 6px max(10px, env(safe-area-inset-right)) 6px max(10px, env(safe-area-inset-left));
       background: rgba(0, 0, 0, 0.28);
       border-bottom: 1px solid rgba(255, 255, 255, 0.06);
       flex-shrink: 0;
@@ -58,9 +61,9 @@
     }
     #section-nav .section-nav__btn {
       font-family: inherit;
-      font-size: clamp(0.76rem, 1.9vw, 0.88rem);
-      padding: 8px 14px;
-      min-height: 44px;
+      font-size: clamp(0.72rem, 1.7vw, 0.84rem);
+      padding: 6px 12px;
+      min-height: 40px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -86,29 +89,32 @@
       margin: 0;
       font-family: "Bebas Neue", "ZCOOL KuaiLe", sans-serif;
       letter-spacing: 0.06em;
-      font-size: clamp(1.05rem, 3.5vw, 1.55rem);
+      font-size: clamp(0.98rem, 2.8vw, 1.35rem);
       color: #fff;
     }
     header.top p {
-      margin: 4px 0 0;
-      font-size: clamp(0.68rem, 1.8vw, 0.82rem);
-      opacity: 0.88;
+      margin: 2px 0 0;
+      font-size: clamp(0.62rem, 1.5vw, 0.76rem);
+      opacity: 0.82;
+      line-height: 1.35;
+    }
+    @media (max-height: 720px) {
+      header.top p { display: none; }
     }
     #progress {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       color: var(--gold);
-      margin-top: 6px;
+      margin-top: 3px;
     }
     main.shell {
-      --shell-chrome-y: 228px;
-      --shell-pad-x: 16px;
+      --shell-pad-x: 10px;
       flex: 1 1 auto;
-      width: min(calc(100vw - var(--shell-pad-x)), calc((100dvh - var(--shell-chrome-y)) * 16 / 9));
-      max-width: calc(100vw - var(--shell-pad-x));
-      max-height: calc(100dvh - var(--shell-chrome-y));
-      aspect-ratio: 16 / 9;
-      margin: 6px auto calc(72px + var(--lesson-pager-gap, 2.35rem) + env(safe-area-inset-bottom, 0px));
-      padding: 10px max(12px, env(safe-area-inset-right)) 12px max(12px, env(safe-area-inset-left));
+      width: calc(100vw - var(--shell-pad-x));
+      max-width: none;
+      max-height: none;
+      aspect-ratio: unset;
+      margin: 4px auto calc(58px + env(safe-area-inset-bottom, 0px));
+      padding: 6px max(8px, env(safe-area-inset-right)) 8px max(8px, env(safe-area-inset-left));
       min-height: 0;
       overflow-x: hidden;
       overflow-y: auto;
@@ -117,11 +123,8 @@
     }
     @media (max-width: 520px) {
       main.shell {
-        width: calc(100vw - 12px);
-        max-height: none;
-        aspect-ratio: unset;
-        min-height: min(70dvh, 520px);
-        margin-bottom: calc(68px + var(--lesson-pager-gap, 2.35rem) + env(safe-area-inset-bottom, 0px));
+        width: calc(100vw - 8px);
+        margin-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
       }
     }
     /* 主卡片内图文缩放（约为先前 1.5 的 70% → 1.05） */
@@ -134,11 +137,11 @@
     }
     .panel {
       background: var(--card);
-      border-radius: 16px;
+      border-radius: 14px;
       border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 14px;
+      padding: 10px 12px;
       margin-bottom: 0;
-      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.32);
       flex: 1;
       min-height: 0;
       overflow: auto;
@@ -146,8 +149,8 @@
       flex-direction: column;
     }
     .panel h2 {
-      margin: 0 0 10px;
-      font-size: 1rem;
+      margin: 0 0 6px;
+      font-size: 0.95rem;
       color: var(--gold);
       flex-shrink: 0;
     }
@@ -156,18 +159,20 @@
       border-radius: 12px;
       overflow: hidden;
       border: 3px solid rgba(255, 213, 79, 0.25);
-      margin-bottom: 12px;
+      margin-bottom: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      max-height: min(52vh, 460px);
+      max-height: min(58vh, 560px);
+      flex: 1 1 auto;
+      min-height: 0;
       background: rgba(0, 0, 0, 0.25);
     }
     .scene-img-wrap img {
       width: auto;
       height: auto;
       max-width: 100%;
-      max-height: min(52vh, 460px);
+      max-height: min(58vh, 560px);
       display: block;
       vertical-align: middle;
       object-fit: contain;
@@ -493,7 +498,7 @@
       width: 100%;
       max-width: 100%;
       height: auto;
-      max-height: min(48vh, calc((100dvh - var(--shell-chrome-y, 168px)) * 0.58));
+      max-height: min(56vh, 520px);
       margin: 0;
       min-height: 0;
       object-fit: contain;
@@ -631,23 +636,24 @@
       bottom: var(--lesson-pager-gap, 2.35rem);
       left: 0;
       right: 0;
-      padding: 10px max(12px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+      padding: 4px max(10px, env(safe-area-inset-right)) 4px max(10px, env(safe-area-inset-left));
       background: rgba(0, 0, 0, 0.55);
       border-top: 1px solid rgba(255, 255, 255, 0.08);
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
+      align-items: center;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 4px;
       z-index: 40;
+      min-height: 0;
     }
     #nav-foot a {
       color: var(--gold);
-      font-size: 0.78rem;
+      font-size: 0.72rem;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      min-height: 44px;
+      min-height: 36px;
       touch-action: manipulation;
     }
     #debug-strip {
@@ -764,48 +770,53 @@
 
     /* 十五练 · 双场景配图 + 口语测试 */
     .scene-guide {
-      margin: 0 0 10px;
-      font-size: clamp(0.82rem, 1.7vw, 0.95rem);
-      line-height: 1.5;
-      opacity: 0.92;
+      margin: 0 0 6px;
+      font-size: clamp(0.78rem, 1.5vw, 0.9rem);
+      line-height: 1.4;
+      opacity: 0.9;
+    }
+    @media (max-height: 720px) {
+      .scene-guide { display: none; }
     }
     .scene-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+      gap: 10px;
       flex: 1;
       min-height: 0;
-      align-content: start;
+      align-content: stretch;
     }
     .scene-card {
-      border-radius: 14px;
+      border-radius: 12px;
       border: 1px solid rgba(255, 255, 255, 0.1);
       background: rgba(0, 0, 0, 0.28);
-      padding: 10px;
+      padding: 8px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
+      min-height: 0;
     }
     .scene-card__tag {
-      font-size: 0.78rem;
+      font-size: 0.74rem;
       color: var(--gold);
       font-weight: 600;
     }
     .scene-card__img {
       margin-bottom: 0;
-      max-height: min(36vh, 280px);
+      max-height: min(42vh, 360px);
+      flex: 1 1 auto;
     }
     .scene-card__img img {
-      max-height: min(36vh, 280px);
+      max-height: min(42vh, 360px);
     }
-    .scene-card__sent { min-height: 3.5rem; }
+    .scene-card__sent { min-height: 2.8rem; }
     .scene-card__actions { margin-top: auto; justify-content: flex-start; }
     .lab-adj-bar {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       gap: 8px;
-      margin-bottom: 10px;
+      margin-bottom: 6px;
       flex-shrink: 0;
     }
     .lab-adj-bar select {
@@ -837,44 +848,64 @@
       cursor: pointer;
       touch-action: manipulation;
     }
+    .panel--oral .scene-guide { margin-bottom: 4px; }
     .oral-meta {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
+      gap: 8px;
+      margin-bottom: 6px;
+      flex-shrink: 0;
     }
     .oral-meta__word {
       font-family: "Bebas Neue", "ZCOOL KuaiLe", sans-serif;
-      font-size: clamp(1.1rem, 3vw, 1.45rem);
+      font-size: clamp(1.05rem, 2.6vw, 1.35rem);
       color: var(--mint);
       letter-spacing: 0.04em;
     }
-    .oral-meta__hint { font-size: 0.82rem; opacity: 0.85; }
-    .oral-stage__img { max-height: min(48vh, 420px); margin-bottom: 10px; }
+    .oral-meta__hint { font-size: 0.78rem; opacity: 0.85; }
+    .oral-stage__img {
+      max-height: min(56vh, 580px);
+      margin-bottom: 6px;
+      flex: 1 1 auto;
+    }
+    .oral-stage__img img {
+      max-height: min(56vh, 580px);
+    }
     .oral-prompt {
       text-align: center;
-      font-size: clamp(0.95rem, 2vw, 1.08rem);
+      font-size: clamp(0.9rem, 1.8vw, 1.02rem);
       color: #fff8e1;
-      margin: 0 0 10px;
+      margin: 0 0 6px;
+      flex-shrink: 0;
     }
-    .oral-answer { margin-bottom: 12px; }
-    .oral-actions { justify-content: center; }
+    .oral-answer { margin-bottom: 8px; flex-shrink: 0; }
+    .oral-actions { justify-content: center; margin-top: 6px; flex-shrink: 0; }
     .oral-actions button:not(.speak):not(.primary) {
       font-family: inherit;
-      min-height: 44px;
-      padding: 8px 14px;
+      min-height: 42px;
+      padding: 7px 12px;
       border-radius: 12px;
       border: 2px solid rgba(255, 255, 255, 0.22);
       background: rgba(30, 40, 58, 0.9);
       color: #eceff1;
       cursor: pointer;
     }
+    .oral-actions button.speak {
+      width: 48px;
+      height: 48px;
+      min-width: 48px;
+      min-height: 48px;
+      padding: 0;
+      font-size: 22px;
+      line-height: 1;
+    }
     .oral-stat {
       text-align: center;
-      font-size: 0.84rem;
+      font-size: 0.8rem;
       color: var(--gold);
-      margin-top: 8px;
+      margin-top: 6px;
+      flex-shrink: 0;
     }
   </style>
   <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
@@ -1821,7 +1852,7 @@
     var guide = document.createElement("p");
     guide.className = "scene-guide";
     guide.textContent =
-      "系统随机抽取「单词 + 情景图」。请学生看图说出完整比较级句子，再点「显示答案」或「听示范」核对。";
+      "系统随机抽取「单词 + 情景图」。请学生看图说出完整比较级句子，再点「显示答案」或喇叭按钮核对。";
     root.appendChild(guide);
 
     var meta = document.createElement("div");
@@ -1890,7 +1921,9 @@
     var btnListen = document.createElement("button");
     btnListen.type = "button";
     btnListen.className = "speak";
-    btnListen.textContent = "🔊 听示范";
+    btnListen.textContent = "🔊";
+    btnListen.setAttribute("aria-label", "听示范");
+    btnListen.title = "听示范";
     btnListen.addEventListener("click", function () {
       speakPlainAzure(sent);
     });
