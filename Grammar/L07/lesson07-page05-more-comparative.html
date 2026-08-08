@@ -914,7 +914,7 @@
     window.__L07_LOCAL_TTS_BASE__ =
       "assets/tts-mp3/l07-google-mp3/";
   </script>
-  <script src="assets/tts-mp3/l07-google-mp3/manifest.embed.js?v=worth20260716"></script>
+  <script src="assets/tts-mp3/l07-google-mp3/manifest.embed.js?v=p05scenes20260808"></script>
   <script src="assets/tts-mp3/l07-google-mp3/manifest-worth-patch.embed.js"></script>
   <script src="../shared/play-local-mp3.js"></script>
     <script src="../shared/lesson-tts-azure-config.js"></script>
@@ -1191,36 +1191,52 @@
     var start = window.unlockAudio ? window.unlockAudio() : Promise.resolve();
     return start
       .then(function () {
-        if (typeof window.playLessonL07LocalTts !== "function") {
-          showToast("未加载 lesson-tts-l07-local.js", false);
-          return false;
+        if (typeof window.playLessonL07LocalTts === "function") {
+          return window.playLessonL07LocalTts(cleanText);
         }
-        return window.playLessonL07LocalTts(cleanText);
+        return false;
       })
       .then(function (ok) {
-        setDebug("");
-        if (!ok) {
-          var r = String(window.__L07_TTS_FAIL_REASON__ || "");
-          if (r === "map_miss") {
-            showToast(
-              "朗读句未在本地清单中匹配，请运行 tools/generate-l07-google-tts.mjs 或更新 manifest.embed.js",
-              false
-            );
-          } else if (r === "manifest") {
-            showToast(
-              "无法加载朗读清单：请确认已部署 assets/tts-mp3/l07-google-mp3/manifest.embed.js，且 manifest 脚本在本页先于 lesson-tts-l07-local.js；若清单在 COS，站点 CSP 可能禁止跨域 script。",
-              false
-            );
-          } else if (r === "audio" || r === "play_rejected") {
-            showToast(
-              "清单已匹配但无法播放 MP3：请确认腾讯云 COS 路径 Grammar/L07/assets/tts-mp3/l07-google-mp3/ 下存在对应文件",
-              false
-            );
-          } else if (r !== "empty") {
-            showToast("朗读失败", false);
-          }
+        if (ok) {
+          setDebug("");
+          return true;
         }
-        return !!ok;
+        // 本地清单未命中时回退 Azure 在线朗读（新场景句尚未入库时仍可用）
+        if (typeof window.playLessonAzureTtsPlain === "function") {
+          return window.playLessonAzureTtsPlain(cleanText).then(function (azureOk) {
+            setDebug("");
+            if (azureOk) return true;
+            var r = String(window.__L07_TTS_FAIL_REASON__ || "");
+            if (r === "map_miss") {
+              showToast("本地与 Azure 朗读均不可用，请检查网络或更新 manifest", false);
+            } else if (r === "audio" || r === "play_rejected") {
+              showToast("朗读音频播放失败", false);
+            } else {
+              showToast("朗读失败", false);
+            }
+            return false;
+          });
+        }
+        var r = String(window.__L07_TTS_FAIL_REASON__ || "");
+        if (r === "map_miss") {
+          showToast(
+            "朗读句未在本地清单中匹配，请运行 scripts/sync-page05-scenes-tts-azure.mjs",
+            false
+          );
+        } else if (r === "manifest") {
+          showToast(
+            "无法加载朗读清单：请确认已部署 assets/tts-mp3/l07-google-mp3/manifest.embed.js",
+            false
+          );
+        } else if (r === "audio" || r === "play_rejected") {
+          showToast(
+            "清单已匹配但无法播放 MP3：请确认腾讯云 COS 下存在对应文件",
+            false
+          );
+        } else if (r !== "empty") {
+          showToast("朗读失败", false);
+        }
+        return false;
       })
       .catch(function (err) {
         var msg = err && err.message ? err.message : String(err || "");
