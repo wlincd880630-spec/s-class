@@ -209,12 +209,12 @@
     return (
       '<div class="pr-reveal-row">' +
       '<button type="button" class="pr-reveal en" data-role="en" aria-label="点击显示英文">' +
-      '<span class="hint-txt">点击显示英文</span>' +
+      '<span class="hint-txt">显示英文</span>' +
       '<span class="val" lang="en">' +
       esc(en) +
       "</span></button>" +
       '<button type="button" class="pr-reveal zh" data-role="zh" aria-label="点击显示中文">' +
-      '<span class="hint-txt">点击显示中文</span>' +
+      '<span class="hint-txt">显示中文</span>' +
       '<span class="val">' +
       esc(zh) +
       "</span></button>" +
@@ -258,34 +258,40 @@
     if (!host) return;
     var lv = levelMeta();
     var stages = [
-      { id: "teach", num: "01", title: "教师讲解 · 演示", desc: "五类代词用法 + 语音先行例句" },
+      { id: "teach", num: "01", title: "教师讲解 · 演示", desc: "五类代词用法，语音先行例句" },
       { id: "imitate", num: "02", title: "学生模仿", desc: "先听后跟读，点击揭开中英文" },
       { id: "practice", num: "03", title: "练习 · 竞赛", desc: "限时快选，挑战正确率" },
       { id: "comp", num: "04", title: "综合练习", desc: "五类代词混合闯关" },
-      { id: "table", num: "05", title: "五种代词总表", desc: "一表通吃，点击朗读" },
+      { id: "table", num: "05", title: "五种代词总表", desc: "一表通吃，点击揭开朗读" },
     ];
     host.innerHTML =
       '<div class="pr-hero">' +
       '<img src="' +
       IMG +
       esc(DATA.meta.hero) +
-      '" alt="五种代词" />' +
+      '" alt="" />' +
       '<div class="pr-hero__veil">' +
+      '<p class="pr-brand">Steven\'s Class</p>' +
       "<h1>" +
       esc(DATA.meta.title) +
       "</h1>" +
       "<p>" +
       esc(DATA.meta.subtitle) +
-      " · 当前：" +
+      " · 当前 " +
       esc(lv.label) +
       "</p>" +
-      "</div></div>" +
-      '<section class="pr-card">' +
-      '<p class="pr-label">选择难度 · 只显示对应内容</p>' +
+      '<div class="pr-hero__cta">' +
+      '<button type="button" class="pr-btn" id="startTeach">开始讲解</button>' +
+      '<button type="button" class="pr-btn ghost" id="startTable" style="color:#fff;background:rgba(255,255,255,.18);box-shadow:inset 0 0 0 1px rgba(255,255,255,.35)">看总表</button>' +
+      "</div></div></div>" +
+      '<section class="pr-section">' +
+      '<h2 class="pr-section__title">选择难度</h2>' +
+      '<p class="pr-section__lead">只显示对应年级的例句与练习</p>' +
       '<div class="pr-level" id="levelPick"></div>' +
       "</section>" +
-      '<section class="pr-card">' +
-      '<p class="pr-label">课堂环节</p>' +
+      '<section class="pr-section">' +
+      '<h2 class="pr-section__title">课堂路径</h2>' +
+      '<p class="pr-section__lead">按顺序走完一遍，或直接跳到需要的环节</p>' +
       '<div class="pr-stages" id="stagePick"></div>' +
       "</section>";
 
@@ -316,12 +322,17 @@
         esc(s.title) +
         "</strong><span>" +
         esc(s.desc) +
-        "</span></span>";
+        '</span></span><span class="arrow" aria-hidden="true">→</span>';
       b.addEventListener("click", function () {
         setView(s.id);
       });
       sp.appendChild(b);
     });
+
+    var st = $("#startTeach", host);
+    if (st) st.addEventListener("click", function () { setView("teach"); });
+    var tb = $("#startTable", host);
+    if (tb) tb.addEventListener("click", function () { setView("table"); });
   }
 
   function renderTeach() {
@@ -357,20 +368,26 @@
       .join("");
 
     var usages = t.usages
-      .map(function (u) {
+      .map(function (u, ui) {
         return (
-          '<div class="pr-usage"><h4>' +
+          '<article class="pr-usage">' +
+          '<div class="pr-usage__head"><span class="pr-usage__idx">' +
+          String(ui + 1).padStart(2, "0") +
+          "</span><h4>" +
           esc(u.title) +
-          "</h4><p>" +
+          "</h4></div>" +
+          "<p>" +
           esc(u.desc) +
           "</p>" +
           (u.image
             ? '<img class="pr-usage-img" src="' + IMG + esc(u.image) + '" alt="" loading="lazy" />'
             : "") +
-          revealHtml(u.en, u.zh) +
-          '<div class="pr-actions"><button type="button" class="pr-tts" data-speak="' +
+          '<div class="pr-actions" style="margin-top:0;margin-bottom:.55rem">' +
+          '<button type="button" class="pr-tts" data-speak="' +
           esc(u.en) +
-          '">🔊 先听示范</button></div></div>'
+          '">先听示范</button></div>' +
+          revealHtml(u.en, u.zh) +
+          "</article>"
         );
       })
       .join("");
@@ -393,7 +410,7 @@
           esc(ex.focus || "") +
           '</span><button type="button" class="pr-tts" data-speak="' +
           esc(ex.en) +
-          '" data-need-reveal="1">🔊 语音先行</button></div>' +
+          '">语音先行</button></div>' +
           revealHtml(ex.en, ex.zh) +
           (ex.tip ? '<p class="tip">' + esc(ex.tip) + "</p>" : "") +
           "</div></div></article>"
@@ -404,41 +421,41 @@
     host.innerHTML =
       '<div class="pr-view-hd">' +
       '<button type="button" class="ghost" data-go="home">← 目录</button>' +
-      "<h2>教师讲解 · 演示</h2>" +
+      "<h2>教师讲解</h2>" +
       '<span class="chip">' +
       esc(levelMeta().label) +
       "</span></div>" +
       '<div class="pr-type-tabs">' +
       tabs +
       "</div>" +
-      '<div class="pr-scene">' +
-      '<div class="pr-scene__img"><img src="' +
+      '<div class="pr-scene-banner">' +
+      '<img src="' +
       IMG +
       esc(t.image) +
       '" alt="' +
       esc(t.nameZh) +
-      '" /></div>' +
-      '<div class="pr-card" style="margin:0">' +
-      '<p class="pr-label">' +
+      '" />' +
+      '<div class="pr-scene-banner__meta"><div class="en">' +
       esc(t.nameEn) +
-      "</p>" +
-      "<h3 style=\"margin:0 0 .35rem;font-size:1.2rem;font-weight:900\">" +
+      "</div><h3>" +
       esc(t.nameZh) +
       " · " +
       esc(t.short) +
-      "</h3>" +
+      "</h3></div></div>" +
       '<div class="pr-forms">' +
       forms +
       "</div>" +
       usages +
-      "</div></div>" +
-      '<section class="pr-card"><p class="pr-label">分层例句 · ' +
+      '<hr class="pr-divider" />' +
+      '<section class="pr-section">' +
+      '<h2 class="pr-section__title">分层例句 · ' +
       esc(levelMeta().label) +
-      "（先听，再点开文字）</p>" +
+      "</h2>" +
+      '<p class="pr-section__lead">先听语音，再点击揭开中英文</p>' +
       '<div class="pr-ex-list">' +
       exHtml +
       "</div>" +
-      '<p class="pr-ds">语料来源 DeepSeek · <button type="button" id="dsMore">再生成一句</button></p>' +
+      '<p class="pr-ds">语料 · DeepSeek · <button type="button" id="dsMore">再生成一句</button></p>' +
       '<div id="dsSlot"></div></section>';
 
     bindReveals(host);
@@ -469,12 +486,14 @@
             var art = document.createElement("article");
             art.className = "pr-ex-item";
             art.innerHTML =
+              '<div class="pr-ex-visual__body" style="padding:.5rem 0">' +
               '<div class="meta"><span class="tag">DeepSeek</span>' +
               '<button type="button" class="pr-tts" data-speak="' +
               esc(item.en) +
-              '">🔊 语音先行</button></div>' +
+              '">语音先行</button></div>' +
               revealHtml(item.en, item.zh) +
-              (item.tip ? '<p class="tip">' + esc(item.tip) + "</p>" : "");
+              (item.tip ? '<p class="tip">' + esc(item.tip) + "</p>" : "") +
+              "</div>";
             slot.appendChild(art);
             bindReveals(art);
             $$("[data-speak]", art).forEach(function (bb) {
@@ -499,7 +518,6 @@
     var pool = imitatePool();
     if (state.imitateIdx >= pool.length) state.imitateIdx = 0;
     var item = pool[state.imitateIdx] || { en: "", zh: "", focus: "", type: "" };
-    var heard = false;
 
     host.innerHTML =
       '<div class="pr-view-hd">' +
@@ -512,31 +530,31 @@
       "/" +
       pool.length +
       "</span></div>" +
-      '<section class="pr-card">' +
+      '<div class="pr-imitate-stage">' +
       (item.image
         ? '<div class="pr-imitate-hero"><img src="' +
           IMG +
           esc(item.image) +
           '" alt="" /></div>'
         : "") +
+      "</div>" +
       '<div class="pr-audio-first">' +
-      '<button type="button" class="big-play" id="imPlay" aria-label="播放">🔊</button>' +
-      '<p class="hint">先听完整句子，再点击下方显示中英文，跟读模仿。</p>' +
-      '<p class="hint" style="color:var(--sky)">焦点：' +
+      '<button type="button" class="big-play" id="imPlay" aria-label="播放">▶</button>' +
+      '<p class="hint">先听完整句子，再揭开文字跟读</p>' +
+      '<div class="pr-focus-pill">焦点 · ' +
       esc(item.focus || item.type || "") +
-      "</p></div>" +
-      '<div id="imReveal" style="opacity:.35;pointer-events:none">' +
+      "</div></div>" +
+      '<div id="imReveal" style="opacity:.35;pointer-events:none;margin-top:.85rem">' +
       revealHtml(item.en, item.zh) +
       "</div>" +
-      '<div class="pr-actions" style="justify-content:center">' +
+      '<div class="pr-actions" style="justify-content:center;margin-top:1rem">' +
       '<button type="button" class="pr-btn ghost" id="imPrev">上一句</button>' +
       '<button type="button" class="pr-btn" id="imAgain">再听一遍</button>' +
       '<button type="button" class="pr-btn amber" id="imNext">下一句</button>' +
-      "</div></section>";
+      "</div>";
 
     bindReveals(host);
     function unlock() {
-      heard = true;
       var box = $("#imReveal", host);
       box.style.opacity = "1";
       box.style.pointerEvents = "auto";
@@ -565,7 +583,7 @@
     if (state[idxKey] >= pool.length) state[idxKey] = 0;
     var q = pool[state[idxKey]];
     if (!q) {
-      host.innerHTML = '<div class="pr-card"><p>暂无题目</p></div>';
+      host.innerHTML = '<div class="pr-panel"><p>暂无题目</p></div>';
       return;
     }
     var opts = (q.options || [])
@@ -597,7 +615,7 @@
           esc(DATA.meta.raceImg) +
           '" alt="" /><div><strong>限时竞赛</strong><div class="pr-timer" id="raceClock">--</div></div></div>'
         : "") +
-      '<section class="pr-card">' +
+      '<section class="pr-panel">' +
       '<div class="pr-quiz-hd"><span class="pr-score">得分 ' +
       state[scoreKey] +
       " / " +
@@ -624,7 +642,7 @@
       '<button type="button" class="pr-btn" id="qNext">下一题</button>' +
       '<button type="button" class="pr-tts" data-speak="' +
       esc(q.q.replace(/_+/g, "blank")) +
-      '">🔊 听题</button>' +
+      '">听题</button>' +
       "</div></section>";
 
     state[answeredKey] = false;
@@ -779,25 +797,25 @@
       '<div class="pr-view-hd">' +
       '<button type="button" class="ghost" data-go="home">← 目录</button>' +
       "<h2>五种代词总表</h2>" +
-      '<span class="chip">点击逐格揭开</span></div>' +
-      '<section class="pr-card">' +
-      '<div class="pr-actions" style="margin-top:0;margin-bottom:.65rem">' +
-      '<button type="button" class="pr-btn amber" id="tblShowAll">一键显示全部</button>' +
-      '<button type="button" class="pr-btn ghost" id="tblHideAll">一键隐藏全部</button>' +
+      '<span class="chip">逐格揭开</span></div>' +
+      '<section class="pr-section">' +
+      '<p class="pr-section__lead">默认隐藏 · 点格子揭开（再点收回）· Shift+点击已显示格朗读</p>' +
+      '<div class="pr-actions" style="margin-top:0;margin-bottom:.85rem">' +
+      '<button type="button" class="pr-btn amber" id="tblShowAll">全部显示</button>' +
+      '<button type="button" class="pr-btn ghost" id="tblHideAll">全部隐藏</button>' +
       '<button type="button" class="pr-btn ghost" id="tblRevealNext">揭开下一格</button>' +
       "</div>" +
-      '<p class="pr-label" style="margin-bottom:.35rem">默认全部隐藏 · 点格子揭开（再点收回）· Shift+点击已显示格子可朗读</p>' +
       '<div class="pr-table-wrap"><table class="pr-table pr-table-reveal" id="pronounTable"><thead>' +
       head +
       "</thead><tbody>" +
       body +
       "</tbody></table></div>" +
       '<div class="pr-memory pr-hideable is-hidden" id="memBlock" title="点击显示口诀">' +
-      '<span class="pr-cell-mask">📌 点击显示口诀</span>' +
-      '<span class="pr-cell-val" hidden>📌 口诀：' +
+      '<span class="pr-cell-mask">点击显示口诀</span>' +
+      '<span class="pr-cell-val" hidden>口诀：' +
       esc(T.memory) +
       "</span></div>" +
-      '<div class="pr-actions"><button type="button" class="pr-tts" id="memSpeak">🔊 朗读口诀（英文提示）</button></div>' +
+      '<div class="pr-actions"><button type="button" class="pr-tts" id="memSpeak">朗读口诀</button></div>' +
       "</section>";
 
     function setCellOpen(el, open) {
