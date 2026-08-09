@@ -820,18 +820,30 @@
 
     function setCellOpen(el, open) {
       if (!el) return;
-      var mask = el.querySelector(".pr-cell-mask");
-      var val = el.querySelector(".pr-cell-val");
+      var mask = el.querySelector(":scope > .pr-cell-mask") || el.querySelector(".pr-cell-mask");
+      var val = el.querySelector(":scope > .pr-cell-val") || el.querySelector(".pr-cell-val");
       if (open) {
         el.classList.add("is-open");
         el.classList.remove("is-hidden");
-        if (mask) mask.hidden = true;
-        if (val) val.hidden = false;
+        if (mask) {
+          mask.hidden = true;
+          mask.setAttribute("aria-hidden", "true");
+        }
+        if (val) {
+          val.hidden = false;
+          val.removeAttribute("aria-hidden");
+        }
       } else {
         el.classList.remove("is-open");
         el.classList.add("is-hidden");
-        if (mask) mask.hidden = false;
-        if (val) val.hidden = true;
+        if (mask) {
+          mask.hidden = false;
+          mask.removeAttribute("aria-hidden");
+        }
+        if (val) {
+          val.hidden = true;
+          val.setAttribute("aria-hidden", "true");
+        }
       }
     }
 
