@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>单词抄写作业 · How many people have been to the Moon?</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/copy-homework.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Noto+Sans+SC:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="audio/audio-manifest.js"></script>
+  <script src="audio/local-audio.js"></script>
+  <script src="../../assets/ng-azure-tts-enhance.js"></script>
+  <script>NgAzureTTS.enhance("LocalAudio");</script>
+  <link rel="stylesheet" href="../../../scripts/drawing-overlay.css?v=1" />
+</head>
+<body class="copy-page">
+  <div class="container">
+    <div class="top-bar no-print">
+      <a class="course-logo" href="index.html" title="Steven's Class English Studio">
+        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/3GB/assets/images/logo.png" alt="Steven's Class English Studio">
+      </a>
+      <a class="back-link" href="index.html"><i class="fa-solid fa-house"></i> 返回课件</a>
+      <h1 class="page-title"><i class="fa-solid fa-pen-fancy"></i> 单词抄写作业</h1>
+    </div>
+
+    <div class="card no-print">
+      <div class="control-row">
+        <label for="unitSelect"><i class="fa-solid fa-book"></i> 选择单元：</label>
+        <select id="unitSelect"></select>
+      </div>
+      <div class="copy-legend">
+        <span><i class="dot trace"></i> 描红 ×3（浅蓝底字）</span>
+        <span><i class="dot write"></i> 独立书写 ×3（空白四线格）</span>
+      </div>
+      <p class="trace-hint" style="margin-top:8px;">
+        本页为<strong>纸质作业单</strong>：打印或导出 PDF 后，学生在纸上书写。屏幕可预览、点 🔊 听发音，并查看 <strong>Soundbox</strong> 音形对应。
+        导出 PDF 时请将缩放设为 <strong>100%</strong>、浏览器页边距设为 <strong>无</strong>（勿用「默认」）；上边距 1.2cm、左右与下边距 15mm 由页面自动留出。
+      </p>
+      <div class="copy-toolbar">
+        <button type="button" class="btn btn-primary btn-sm" id="btnPrint">
+          <i class="fa-solid fa-print"></i> 打印 / 导出 PDF
+        </button>
+      </div>
+    </div>
+
+    <div class="card copy-card" id="workbookCard">
+      <div class="copy-workbook" id="copyWorkbook"></div>
+    </div>
+  </div>
+
+  <script src="assets/data/words-data.js"></script>
+  <script src="assets/js/utils.js"></script>
+  <script>
+    const unitSelect = document.getElementById('unitSelect');
+    const copyWorkbook = document.getElementById('copyWorkbook');
+    const TOTAL = MOON_COURSE.words.length;
+
+    const COPY_UNITS = [
+      { id: 'u1', name: 'Unit 1', title: '登月基础（1–12）', start: 0, end: 12 },
+      { id: 'u2', name: 'Unit 2', title: '任务与人物（13–24）', start: 12, end: 24 },
+      { id: 'u3', name: 'Unit 3', title: '数字与拓展（25–' + TOTAL + '）', start: 24, end: TOTAL },
+      { id: 'all', name: '全部', title: TOTAL + ' 词完整抄写', start: 0, end: TOTAL },
+    ];
+
+    function getUnitById(id) {
+      return COPY_UNITS.find(u => u.id === id) || COPY_UNITS[0];
+    }
+
+    function renderUnit(unit) {
+      copyWorkbook.innerHTML = '';
+      if (!unit) return;
+
+      const header = document.createElement('div');
+      header.className = 'copy-unit-header';
+      header.innerHTML = `<h2>How many people have been to the Moon? · ${unit.title} · 单词抄写作业</h2>`;
+      copyWorkbook.appendChild(header);
+
+      MOON_COURSE.words.slice(unit.start, unit.end).forEach(w => {
+        buildCopySheet(w, copyWorkbook, { interactivePhoneme: false });
+      });
+    }
+
+    COPY_UNITS.forEach(u => {
+      const opt = document.createElement('option');
+      opt.value = u.id;
+      opt.textContent = u.title;
+      unitSelect.appendChild(opt);
+    });
+
+    unitSelect.addEventListener('change', () => {
+      renderUnit(getUnitById(unitSelect.value));
+    });
+
+    function startPrint() {
+      document.body.classList.add('copy-print-body');
+      window.print();
+    }
+
+    document.getElementById('btnPrint').addEventListener('click', startPrint);
+    window.addEventListener('beforeprint', () => document.body.classList.add('copy-print-body'));
+    window.addEventListener('afterprint', () => document.body.classList.remove('copy-print-body'));
+
+    // 抄写页也用英式男声稍慢语速，便于跟读
+    if (typeof AZURE_CONFIG !== 'undefined') {
+      AZURE_CONFIG.voice = 'en-GB-RyanNeural';
+      AZURE_CONFIG.speechRate = '0.80';
+    }
+    if (window.NgAzureTTS && NgAzureTTS.AZURE) {
+      NgAzureTTS.AZURE.voice = 'en-GB-RyanNeural';
+      NgAzureTTS.AZURE.speechRate = '0.80';
+    }
+
+    renderUnit(COPY_UNITS[0]);
+  </script>
+  <script src="../../../scripts/drawing-overlay.js?v=1" defer></script>
+</body>
+</html>

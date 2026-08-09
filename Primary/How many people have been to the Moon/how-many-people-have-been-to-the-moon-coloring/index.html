@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>全彩标本卡 · How many people have been to the Moon?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=Nunito:wght@600;800&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --forest:#12263f; --clay:#d76549; --amber:#eab13d; --paper:#f5eee2; --muted:#71695d; }
+    body { margin:0; background:linear-gradient(145deg,#d6c7ad,#e8dfd1); font-family:"Nunito","Noto Sans SC",sans-serif; color:var(--forest); }
+    .bar { display:flex; gap:10px; flex-wrap:wrap; align-items:center; padding:14px 18px; background:var(--forest); color:#fff; }
+    .bar a, .bar button { color:#fff; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25); border-radius:999px; padding:8px 14px; text-decoration:none; font-weight:800; cursor:pointer; }
+    .card { max-width:960px; margin:18px auto; background:#fffdf8; border-radius:22px; overflow:hidden; box-shadow:0 16px 40px rgba(74,47,28,.12); page-break-after:always; }
+    .visuals { display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:12px; background:#e9e0d2; }
+    .visuals figure { margin:0; display:flex; flex-direction:column; gap:6px; min-width:0; background:#fff; border-radius:14px; padding:8px; }
+    .visuals figcaption { text-align:center; font-size:.72rem; font-weight:900; letter-spacing:.06em; color:var(--muted); }
+    .visuals img { width:100%; height:min(36vw,280px); object-fit:contain; object-position:center; display:block; background:#f3ebe0; border-radius:10px; }
+    .card .body { padding:22px 24px 28px; }
+    .card h1 { margin:0; font-family:"Fraunces",serif; font-size:clamp(2rem,5vw,3.4rem); }
+    .zh { color:var(--clay); font-weight:900; font-size:1.2rem; margin:8px 0 14px; }
+    .phonemes { display:flex; flex-wrap:wrap; gap:6px; margin:10px 0 16px; }
+    .phonemes span { min-width:42px; padding:6px 8px; border-radius:10px; background:#fff1d2; text-align:center; font-weight:900; font-size:.82rem; }
+    .note { border-left:5px solid var(--amber); padding:10px 14px; background:#fff8e8; border-radius:0 12px 12px 0; }
+    .note small { display:block; color:var(--muted); margin-top:4px; }
+    @media (max-width:640px){ .visuals{grid-template-columns:1fr} .visuals img{height:min(52vw,240px)} }
+    @media print { .bar{display:none!important} body{background:#fff} .card{box-shadow:none;border:1px solid #ddd;margin:0;border-radius:0} .visuals img{height:70mm} }
+  </style>
+  <link rel="stylesheet" href="../../../scripts/drawing-overlay.css?v=1" />
+</head>
+<body>
+  <div class="bar">
+    <a href="../index.html">⌂ 大本营</a>
+    <button onclick="print()">打印全彩标本卡</button>
+    <span style="margin-left:auto;opacity:.75;font-size:.82rem;">一词一页 · 主体图 + 词义图 · A4</span>
+  </div>
+  <div id="cards"></div>
+  <script src="../how-many-people-have-been-to-the-moon-courseware/assets/data/words-data.js"></script>
+  <script>
+    document.getElementById("cards").innerHTML = MOON_COURSE.words.map(function(w,i){
+      var key = String(w.image || w.word || "moon").toLowerCase().replace(/ /g, "-");
+      var s = (w.sentences && w.sentences[0]) || {en:"",zh:""};
+      var ph = (w.phonemes||[]).map(function(p){return "<span><b>"+p.letter+"</b><br><small>"+p.symbol+"</small></span>";}).join("");
+      var base = "../how-many-people-have-been-to-the-moon-courseware/images/";
+      return '<article class="card">'+
+        '<div class="visuals">'+
+          '<figure><figcaption>SUBJECT</figcaption><img src="'+base+'words/'+key+'.jpg" onerror="this.src=\''+base+'words/moon.jpg\'" alt="'+w.word+' 主体"></figure>'+
+          '<figure><figcaption>MEANING</figcaption><img src="'+base+'words-meaning/'+key+'.jpg" onerror="this.src=\''+base+'words/'+key+'.jpg\'" alt="'+w.word+' 词义"></figure>'+
+        '</div>'+
+        '<div class="body"><div style="color:var(--muted);font-weight:900;">SPECIMEN '+String(i+1).padStart(2,"0")+' / '+MOON_COURSE.words.length+'</div><h1>'+w.word+'</h1><div class="zh">'+w.chinese+'</div><div class="phonemes">'+ph+'</div><div class="note">'+s.en+'<small>'+s.zh+'</small></div></div></article>';
+    }).join("");
+  </script>
+  <script src="../../../scripts/drawing-overlay.js?v=1" defer></script>
+</body>
+</html>
