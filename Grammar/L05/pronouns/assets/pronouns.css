@@ -829,7 +829,31 @@ body { padding-bottom: calc(var(--nav-h) + var(--safe-b) + 12px); }
   letter-spacing: 0.08em;
   color: #8aa0a4;
 }
-.pr-table-reveal .pr-cell-val { font-weight: 800; }
+.pr-table-reveal .pr-cell-val {
+  display: none;
+  font-weight: 800;
+}
+/* 打开时只显示内容，隐藏 ? / ··· 遮罩（不能被 display:inline-block 盖住 hidden） */
+.pr-table-reveal .is-open > .pr-cell-mask,
+.pr-table-reveal .pr-hideable.is-open > .pr-cell-mask,
+.pr-table-reveal .pr-th-hideable.is-open > .pr-cell-mask,
+.pr-memory.is-open > .pr-cell-mask {
+  display: none !important;
+}
+.pr-table-reveal .is-open > .pr-cell-val,
+.pr-table-reveal .pr-hideable.is-open > .pr-cell-val,
+.pr-table-reveal .pr-th-hideable.is-open > .pr-cell-val,
+.pr-memory.is-open > .pr-cell-val {
+  display: block !important;
+}
+.pr-table-reveal .is-hidden > .pr-cell-val,
+.pr-memory.is-hidden > .pr-cell-val {
+  display: none !important;
+}
+.pr-table-reveal .is-hidden > .pr-cell-mask,
+.pr-memory.is-hidden > .pr-cell-mask {
+  display: inline-block !important;
+}
 .pr-table-reveal th.pr-th-hideable.is-open {
   background: rgba(15, 143, 134, 0.18) !important;
 }
@@ -848,6 +872,10 @@ body { padding-bottom: calc(var(--nav-h) + var(--safe-b) + 12px); }
   background: rgba(15, 42, 46, 0.06);
   color: var(--muted);
   border-style: none;
+}
+.pr-memory.is-open {
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--ink);
 }
 .pr-memory .pr-cell-mask { font-weight: 800; }
 
