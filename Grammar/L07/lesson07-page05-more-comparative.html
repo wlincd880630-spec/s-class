@@ -14,10 +14,10 @@
       --gold: #ffd54f;
       --mint: #69f0ae;
       --ink: #e8ecf3;
-      /* 教室后排：句子/拖拽词至少约 3× 原先字号（100% 显示） */
-      --class-sentence: clamp(4rem, 8vmin, 5.8rem);
-      --class-chip: clamp(4.2rem, 8.5vmin, 6.2rem);
-      --class-prompt: clamp(3.6rem, 7vmin, 5rem);
+      /* 教室投影：相对上一版再缩小一半 */
+      --class-sentence: clamp(2rem, 4vmin, 2.9rem);
+      --class-chip: clamp(2.1rem, 4.25vmin, 3.1rem);
+      --class-prompt: clamp(1.8rem, 3.5vmin, 2.5rem);
     }
     * { box-sizing: border-box; }
     html {
@@ -131,7 +131,7 @@
         margin-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
       }
     }
-    /* 教室投影：不缩小主区，字号由 --class-* 放大约 3 倍 */
+    /* 教室投影：不缩小主区，字号由 --class-* 控制 */
     #view-root.panel {
       zoom: 1;
     }
@@ -281,8 +281,8 @@
     .warm-q-wrap {
       position: relative;
       border-radius: 12px;
-      padding: 16px 18px;
-      min-height: 6.5rem;
+      padding: 12px 14px;
+      min-height: 4rem;
       border: 2px dashed rgba(255, 213, 79, 0.4);
       background: rgba(0, 0, 0, 0.32);
       cursor: pointer;
@@ -314,10 +314,10 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      font-size: clamp(1.8rem, 4vmin, 2.4rem);
+      font-size: clamp(0.9rem, 2vmin, 1.2rem);
       color: var(--gold);
       line-height: 1.35;
-      padding: 14px 16px;
+      padding: 12px 14px;
       background: rgba(14, 20, 32, 0.62);
       border-radius: 10px;
       pointer-events: none;
@@ -387,20 +387,20 @@
       font-family: "Patrick Hand", cursive;
       font-size: var(--class-chip);
       color: var(--gold);
-      padding: 14px 20px;
+      padding: 10px 16px;
       border-radius: 10px;
       background: rgba(255, 213, 79, 0.12);
       border: 2px solid rgba(255, 213, 79, 0.35);
     }
     .adj-slot {
-      min-width: 220px;
-      min-height: 88px;
-      border-radius: 12px;
+      min-width: 160px;
+      min-height: 56px;
+      border-radius: 10px;
       border: 2px dashed rgba(105, 240, 174, 0.45);
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 10px;
+      padding: 6px;
       background: rgba(20, 28, 40, 0.8);
     }
     .adj-slot.filled { border-style: solid; border-color: var(--mint); }
@@ -408,17 +408,17 @@
     .bank {
       display: flex;
       flex-wrap: wrap;
-      gap: 14px;
+      gap: 10px;
       justify-content: center;
-      padding: 14px;
-      min-height: 96px;
+      padding: 12px;
+      min-height: 64px;
       background: rgba(0, 0, 0, 0.28);
       border-radius: 12px;
     }
     .drag-chip {
       font-family: "Patrick Hand", cursive;
-      padding: 16px 22px;
-      border-radius: 14px;
+      padding: 12px 18px;
+      border-radius: 12px;
       background: linear-gradient(165deg, #3949ab, #283593);
       color: #e8eaf6;
       cursor: grab;
@@ -440,23 +440,23 @@
     .sent-slots {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 8px;
       justify-content: center;
-      padding: 14px;
+      padding: 12px;
       border-radius: 12px;
       border: 2px dashed rgba(144, 202, 249, 0.35);
       background: rgba(0, 0, 0, 0.25);
       margin: 12px 0;
     }
     .sent-slot {
-      min-height: 92px;
-      min-width: 110px;
-      border-radius: 12px;
+      min-height: 56px;
+      min-width: 72px;
+      border-radius: 10px;
       border: 2px dashed rgba(144, 202, 249, 0.28);
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 8px 12px;
+      padding: 4px 8px;
       flex: 0 1 auto;
     }
     .sent-slot.filled { border-style: solid; border-color: rgba(129, 199, 132, 0.85); }
@@ -512,7 +512,7 @@
       width: 100%;
       max-width: 100%;
       height: auto;
-      max-height: min(40vh, 380px);
+      max-height: min(48vh, 450px);
       margin: 0;
       min-height: 0;
       object-fit: contain;
@@ -534,7 +534,7 @@
     }
     .lesson-sent-slots {
       flex: 1 1 auto;
-      min-height: 120px;
+      min-height: 72px;
       align-content: flex-start;
       justify-content: flex-start;
       align-items: flex-start;
@@ -542,13 +542,13 @@
     }
     .lesson-sent-bank {
       flex: 0 1 auto;
-      max-height: min(48%, 320px);
+      max-height: min(42%, 200px);
       overflow-y: auto;
       justify-content: flex-start;
     }
     @media (max-width: 760px) {
       .lesson-sent-bank {
-        max-height: 240px;
+        max-height: 160px;
       }
     }
     .lesson-sent-actions {
@@ -710,7 +710,7 @@
       margin: 8px 0;
       padding: 10px 12px;
       border-radius: 10px;
-      font-size: clamp(2.8rem, 5.5vmin, 3.8rem);
+      font-size: clamp(1.4rem, 2.75vmin, 1.9rem);
       line-height: 1.35;
       font-weight: 700;
     }
@@ -818,14 +818,14 @@
     }
     .scene-card__img {
       margin-bottom: 0;
-      max-height: min(28vh, 260px);
+      max-height: min(36vh, 320px);
       flex: 0 1 auto;
     }
     .scene-card__img img {
-      max-height: min(28vh, 260px);
+      max-height: min(36vh, 320px);
     }
     .scene-card__sent {
-      min-height: 7rem;
+      min-height: 4rem;
     }
     .scene-card__sent .warm-q {
       font-size: var(--class-sentence);
@@ -879,18 +879,18 @@
     }
     .oral-meta__word {
       font-family: "Bebas Neue", "ZCOOL KuaiLe", sans-serif;
-      font-size: clamp(2.4rem, 5vmin, 3.2rem);
+      font-size: clamp(1.2rem, 2.5vmin, 1.6rem);
       color: var(--mint);
       letter-spacing: 0.04em;
     }
-    .oral-meta__hint { font-size: clamp(1.2rem, 2.4vmin, 1.6rem); opacity: 0.85; }
+    .oral-meta__hint { font-size: clamp(0.78rem, 1.2vmin, 0.9rem); opacity: 0.85; }
     .oral-stage__img {
-      max-height: min(24vh, 240px);
+      max-height: min(32vh, 300px);
       margin-bottom: 6px;
       flex: 0 1 auto;
     }
     .oral-stage__img img {
-      max-height: min(24vh, 240px);
+      max-height: min(32vh, 300px);
     }
     .oral-prompt {
       text-align: center;
