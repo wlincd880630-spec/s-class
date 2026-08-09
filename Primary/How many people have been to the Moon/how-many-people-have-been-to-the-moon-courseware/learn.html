@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>单词学习 · How many people have been to the Moon?</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/moon-course.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+  <script src="audio/audio-manifest.js"></script>
+  <script src="audio/local-audio.js"></script>
+  <script src="../../assets/ng-azure-tts-enhance.js"></script>
+  <script>NgAzureTTS.enhance("LocalAudio");</script>
+  <link rel="stylesheet" href="../../../scripts/drawing-overlay.css?v=1" />
+</head>
+<body class="tv-layout">
+  <div class="tv-frame">
+    <header class="top-bar">
+      <a class="back-link" href="../index.html"><i class="fa-solid fa-house"></i> 课程首页</a>
+      <h1><i class="fa-solid fa-book-open"></i> 单词学习 · 有多少人去过月球 · Lexile 600</h1>
+      <a class="back-link" href="index.html">互动课件</a>
+    </header>
+    <div class="tv-inner">
+      <div class="card no-print">
+        <div class="control-row">
+          <label for="wordSelect"><i class="fa-solid fa-list"></i> 选择单词：</label>
+          <select id="wordSelect"></select>
+          <span id="wordCounter" style="font-size:0.85rem;color:var(--muted);font-weight:600;"></span>
+        </div>
+        <div id="wordTabs" class="word-tabs"></div>
+      </div>
+      <div class="card word-display" id="wordPanel">
+        <div class="word-media word-media--duo">
+          <figure class="word-shot">
+            <figcaption>SUBJECT</figcaption>
+            <img id="wordImg" class="word-image" src="" alt=""
+              onerror="this.onerror=null;this.src='images/words/moon.jpg'">
+          </figure>
+          <figure class="word-shot">
+            <figcaption>MEANING</figcaption>
+            <img id="wordMeaningImg" class="word-image" src="" alt=""
+              onerror="this.onerror=null;this.src=document.getElementById('wordImg').src">
+          </figure>
+        </div>
+        <div class="word-info">
+          <p class="word-big" id="wordText"></p>
+          <div id="phonemeBoxes" class="phoneme-boxes"></div>
+          <div class="action-row" style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+            <button class="btn btn-primary" id="btnSpeak"><i class="fa-solid fa-volume-high"></i> 朗读</button>
+            <button class="btn btn-secondary" id="btnSlow"><i class="fa-solid fa-turtle"></i> 慢速</button>
+          </div>
+          <div class="chinese-hidden" id="chineseHint">👆 点击显示中文意思</div>
+          <p id="wordChinese" class="sentence-zh" style="display:none;font-size:1.15rem;font-weight:700;color:var(--accent-dark);"></p>
+        </div>
+      </div>
+      <div class="card">
+        <h3 style="margin-bottom:0.5rem;font-size:1rem;color:var(--accent-dark);"><i class="fa-solid fa-comment-dots"></i> 例句</h3>
+        <div id="sentences"></div>
+      </div>
+      <div class="nav-word-row no-print">
+        <button class="btn btn-secondary" id="btnPrev"><i class="fa-solid fa-chevron-left"></i> 上一个</button>
+        <button class="btn btn-primary" id="btnNext">下一个 <i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+    </div>
+  </div>
+  <script src="assets/data/words-data.js"></script>
+  <script src="assets/js/utils.js"></script>
+  <script>
+    const words = MOON_COURSE.words;
+    let currentIdx = 0;
+    const wordSelect = document.getElementById('wordSelect');
+    const wordTabs = document.getElementById('wordTabs');
+    words.forEach((w, i) => {
+      const opt = document.createElement('option');
+      opt.value = i; opt.textContent = `${i + 1}. ${w.word} · ${w.chinese}`;
+      wordSelect.appendChild(opt);
+      const tab = document.createElement('button');
+      tab.type = 'button';
+      tab.className = 'word-tab' + (i === 0 ? ' active' : '');
+      tab.textContent = w.word;
+      tab.addEventListener('click', () => switchWord(i));
+      wordTabs.appendChild(tab);
+    });
+    function switchWord(idx) {
+      currentIdx = idx;
+      const w = words[idx];
+      document.getElementById('wordCounter').textContent = `第 ${idx + 1} / ${words.length} 词`;
+      wordSelect.value = idx;
+      wordTabs.querySelectorAll('.word-tab').forEach((t, i) => t.classList.toggle('active', i === idx));
+      document.getElementById('wordImg').src = getMoonWordImage(w);
+      document.getElementById('wordImg').alt = w.word + ' subject';
+      document.getElementById('wordMeaningImg').src = getMoonMeaningImage(w);
+      document.getElementById('wordMeaningImg').alt = w.word + ' meaning · ' + w.chinese;
+      document.getElementById('wordText').textContent = w.word;
+      renderPhonemeBoxes(document.getElementById('phonemeBoxes'), w);
+      const zhEl = document.getElementById('wordChinese');
+      const hint = document.getElementById('chineseHint');
+      zhEl.style.display = 'none'; zhEl.textContent = w.chinese;
+      hint.style.display = 'block';
+      hint.onclick = () => { hint.style.display = 'none'; zhEl.style.display = 'block'; };
+      const sentBox = document.getElementById('sentences');
+      sentBox.innerHTML = '';
+      (w.sentences || []).forEach(s => {
+        const div = document.createElement('div');
+        div.className = 'sentence-item';
+        div.innerHTML = `<span class="sentence-en">${s.en}</span>
+          <button class="speak-mini" type="button" aria-label="朗读"><i class="fa-solid fa-volume-high"></i></button>
+          <div class="sentence-zh">${s.zh || ''}</div>`;
+        div.querySelector('button').onclick = () => speakText(s.en);
+        sentBox.appendChild(div);
+      });
+    }
+    wordSelect.onchange = () => switchWord(+wordSelect.value);
+    document.getElementById('btnPrev').onclick = () => switchWord((currentIdx - 1 + words.length) % words.length);
+    document.getElementById('btnNext').onclick = () => switchWord((currentIdx + 1) % words.length);
+    document.getElementById('btnSpeak').onclick = () => speakText(words[currentIdx].word);
+    document.getElementById('btnSlow').onclick = () => {
+      const t = words[currentIdx].word;
+      if (window.LocalAudio) LocalAudio.speak(t, { rate: '0.7' });
+      else speakText(t);
+    };
+    switchWord(0);
+  </script>
+  <script src="../../../scripts/drawing-overlay.js?v=1" defer></script>
+</body>
+</html>
