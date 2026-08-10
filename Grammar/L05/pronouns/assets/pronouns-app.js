@@ -263,6 +263,7 @@
       { id: "practice", num: "03", title: "练习 · 竞赛", desc: "限时快选，挑战正确率" },
       { id: "comp", num: "04", title: "综合练习", desc: "五类代词混合闯关" },
       { id: "table", num: "05", title: "五种代词总表", desc: "一表通吃，点击揭开朗读" },
+      { id: "testpdf", num: "06", title: "纸质测试 · PDF", desc: "对照表 + 30 填空，打印/下载", href: "test-pdf.html" },
     ];
     host.innerHTML =
       '<div class="pr-hero">' +
@@ -283,6 +284,7 @@
       '<div class="pr-hero__cta">' +
       '<button type="button" class="pr-btn" id="startTeach">开始讲解</button>' +
       '<button type="button" class="pr-btn ghost" id="startTable" style="color:#fff;background:rgba(255,255,255,.18);box-shadow:inset 0 0 0 1px rgba(255,255,255,.35)">看总表</button>' +
+      '<a class="pr-btn amber" href="test-pdf.html" style="text-decoration:none;display:inline-flex;align-items:center">纸质测试 PDF</a>' +
       "</div></div></div>" +
       '<section class="pr-section">' +
       '<h2 class="pr-section__title">选择难度</h2>' +
@@ -324,6 +326,10 @@
         esc(s.desc) +
         '</span></span><span class="arrow" aria-hidden="true">→</span>';
       b.addEventListener("click", function () {
+        if (s.href) {
+          location.href = s.href;
+          return;
+        }
         setView(s.id);
       });
       sp.appendChild(b);
