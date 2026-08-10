@@ -354,13 +354,13 @@
       filter: sepia(0.4) saturate(0.85) contrast(1.05);
     }
     .photo-stack.is-past-view .img-now {
-      opacity: 0;
-      pointer-events: none;
+      opacity: 0 !important;
+      pointer-events: none !important;
       z-index: 1;
     }
     .photo-stack.is-past-view .img-past {
-      opacity: 1;
-      pointer-events: auto;
+      opacity: 1 !important;
+      pointer-events: auto !important;
       z-index: 2;
     }
     .img-fallback {
@@ -1409,8 +1409,8 @@ html body > nav.lesson-pager {
           <div class="screen-wrap">
             <div class="screen-inner" id="screenInner">
               <div class="photo-stack" id="photoStack" title="点击图片可放大查看">
-                <img class="img-now" id="imgNowEl" alt="Usually — 平时" decoding="async" />
-                <img class="img-past" id="imgPastEl" alt="Yesterday — 过去" decoding="async" />
+                <img class="img-now" id="imgNowEl" alt="Usually — 平时" decoding="async" data-no-lightbox="1" />
+                <img class="img-past" id="imgPastEl" alt="Yesterday — 过去" decoding="async" data-no-lightbox="1" />
                 <div class="img-fallback" id="imgFallback" aria-hidden="true">📖</div>
               </div>
               <div class="photo-actions" id="photoActions">
@@ -2524,6 +2524,51 @@ window.L03AudioManifest = {
       return "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L03/assets/img/";
     }
 
+    function syncPhotoViewMode() {
+      if (!photoStack || !imgNowEl || !imgPastEl) return;
+      if (isPast) {
+        photoStack.classList.add("is-past-view");
+        imgNowEl.style.pointerEvents = "none";
+        imgPastEl.style.pointerEvents = "auto";
+      } else {
+        photoStack.classList.remove("is-past-view");
+        imgNowEl.style.pointerEvents = "auto";
+        imgPastEl.style.pointerEvents = "none";
+      }
+    }
+
+    function openActivePhotoLightbox() {
+      if (imgFail) return;
+      var img = isPast ? imgPastEl : imgNowEl;
+      if (!img) return;
+      var src = img.currentSrc || img.src;
+      if (!src) return;
+      if (typeof window.openLessonImageLightbox === "function") {
+        img.removeAttribute("data-no-lightbox");
+        try {
+          window.openLessonImageLightbox(img);
+        } finally {
+          img.setAttribute("data-no-lightbox", "1");
+        }
+        return;
+      }
+      // fallback：直接构建简易放大层
+      var lb = document.getElementById("lesson-img-lightbox");
+      if (!lb) return;
+      var big = lb.querySelector(".lesson-img-lightbox-img");
+      var capEl = lb.querySelector(".lesson-img-lightbox-caption");
+      if (big) {
+        big.src = src;
+        big.alt = img.alt || "";
+      }
+      if (capEl) {
+        capEl.textContent = img.alt || "";
+        capEl.hidden = !img.alt;
+      }
+      lb.hidden = false;
+      document.body.style.overflow = "hidden";
+    }
+
     function setupImagesForCurrent() {
       imgFail = false;
       imgFallback.classList.remove("is-on");
@@ -2544,10 +2589,10 @@ window.L03AudioManifest = {
       imgPastEl.onerror = onErr;
       imgNowEl.src = basePath + current.imgNow;
       imgPastEl.src = basePath + current.imgPast;
-      photoStack.classList.remove("is-past-view");
       anime.remove([imgNowEl, imgPastEl]);
       imgNowEl.style.opacity = "1";
       imgPastEl.style.opacity = "0";
+      syncPhotoViewMode();
     }
 
 
@@ -2560,6 +2605,7 @@ window.L03AudioManifest = {
 
     function runPhotoCrossfade(cb) {
       anime.remove([imgNowEl, imgPastEl]);
+      syncPhotoViewMode();
       if (imgFail) {
         imgFallback.style.filter = "sepia(0.5)";
         if (cb) cb();
@@ -2577,7 +2623,7 @@ window.L03AudioManifest = {
         duration: 550,
         easing: "easeInOutQuad",
         complete: function () {
-          photoStack.classList.add("is-past-view");
+          syncPhotoViewMode();
           if (cb) cb();
         }
       });
@@ -2774,6 +2820,7 @@ window.L03AudioManifest = {
       if (busy || isPast || !discoveryRevealed) return;
       setBusy(true);
       isPast = true;
+      syncPhotoViewMode();
       stopSpeak();
       runPhotoCrossfade(function () {
         playLowHum();
@@ -2786,6 +2833,7 @@ window.L03AudioManifest = {
       if (busy) return;
       stopSpeak();
       isPast = false;
+      syncPhotoViewMode();
       screenInner.classList.remove("is-past");
       anime.remove(stampEd);
       stampEd.style.opacity = "0";
@@ -2793,7 +2841,6 @@ window.L03AudioManifest = {
       particleLayer.innerHTML = "";
       verbHero.innerHTML = "";
       verbHero.textContent = current.base;
-      photoStack.classList.remove("is-past-view");
       if (!imgFail) {
         anime.remove([imgNowEl, imgPastEl]);
         imgNowEl.style.opacity = "1";
@@ -2810,6 +2857,7 @@ window.L03AudioManifest = {
       current = item;
       isPast = false;
       discoveryRevealed = false;
+      syncPhotoViewMode();
       screenInner.classList.remove("is-past");
       anime.remove(stampEd);
       stampEd.style.opacity = "0";
@@ -2894,6 +2942,15 @@ window.L03AudioManifest = {
     btnYesterday.addEventListener("click", function () {
       transitionToPast();
     });
+
+    if (photoStack) {
+      photoStack.addEventListener("click", function (e) {
+        if (busy) return;
+        e.preventDefault();
+        e.stopPropagation();
+        openActivePhotoLightbox();
+      });
+    }
 
     btnRevealSentence.addEventListener("click", function () {
       if (busy || isPast) return;
