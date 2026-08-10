@@ -12,7 +12,7 @@
   var AZURE_SPEECH_KEY = "3C2ai7PPgPnOLlhb1c7gBw207PAVNfVJni6JnESsPjYPaVyFeQ9YJQQJ99CGAC3pKaRXJ3w3AAAYACOG0Zbc";
   var AZURE_SPEECH_REGION = "eastasia";
   var AZURE_VOICE = "en-GB-RyanNeural";
-  var AZURE_RATE = "-10%";
+  var AZURE_RATE = "-30%";
   var audioCache = new Map();
   var currentAudio = null;
   var ttsBusy = false;
@@ -53,13 +53,14 @@
     return a.play();
   }
 
-  function playAzureTTS(text) {
+  function playAzureTTS(text, rateOverride) {
     var raw = String(text || "").replace(/\s+/g, " ").trim();
     if (!raw) return Promise.reject(new Error("无朗读文本"));
     var cfg = azureConfig();
     if (!cfg.key) return Promise.reject(new Error("未配置 Azure 语音密钥"));
+    var rate = rateOverride || AZURE_RATE;
 
-    var cacheKey = AZURE_VOICE + "|" + AZURE_RATE + "|" + raw;
+    var cacheKey = AZURE_VOICE + "|" + rate + "|" + raw;
     if (audioCache.has(cacheKey)) return playBlobUrl(audioCache.get(cacheKey));
 
     var ssml =
@@ -68,7 +69,7 @@
       '<voice name="' +
       AZURE_VOICE +
       '"><prosody rate="' +
-      AZURE_RATE +
+      rate +
       '">' +
       escapeSsml(raw) +
       "</prosody></voice></speak>";
@@ -530,21 +531,39 @@
     return { word: m[1], suffix: m[2] || "" };
   }
 
-  function wrapWordSpan(word, enLine) {
-    var sp = document.createElement("span");
-    sp.className = "gh-word";
-    sp.setAttribute("data-w", word);
-    sp.setAttribute("title", "点击查词");
-    sp.textContent = word;
-    sp.addEventListener("click", function (e) {
+  function bindWordClick(el, word, enLine) {
+    if (!el || el.dataset.ghWordBound === "1") return;
+    el.dataset.ghWordBound = "1";
+    el.classList.add("gh-word");
+    el.setAttribute("data-w", word);
+    el.setAttribute("title", "点击发音并查词");
+    el.addEventListener("click", function (e) {
       e.preventDefault();
       e.stopPropagation();
-      document.querySelectorAll(".gh-word.active").forEach(function (el) {
-        el.classList.remove("active");
+      document.querySelectorAll(".gh-word.active").forEach(function (node) {
+        node.classList.remove("active");
       });
-      lookupWord(word, enLine, sp);
+      playAzureTTS(word).catch(function () {});
+      lookupWord(word, enLine, el);
     });
+  }
+
+  function wrapWordSpan(word, enLine) {
+    var sp = document.createElement("span");
+    sp.textContent = word;
+    bindWordClick(sp, word, enLine);
     return sp;
+  }
+
+  /** 规则动词 stem+ed 拆分高亮：整词作为一次点读/查词，避免拆成 encourag / ed */
+  function wrapCompoundVerbHighlights(enLine) {
+    enLine.querySelectorAll(".hl-past-verb, .hl-base").forEach(function (el) {
+      if (el.dataset.ghWordBound === "1") return;
+      var word = String(el.textContent || "").replace(/\s+/g, "");
+      var parsed = parseWordToken(word);
+      if (!parsed || parsed.suffix) return;
+      bindWordClick(el, parsed.word, enLine);
+    });
   }
 
   function isLookupLine(el) {
@@ -560,6 +579,7 @@
     return [
       ".en-line",
       ".ex-en",
+      ".screen-line",
       "span.en",
       "span.en-xl[lang='en']",
       "td.en[lang='en']",
@@ -572,6 +592,7 @@
   function wrapOneEnLine(enLine) {
     if (!isLookupLine(enLine)) return;
     enLine.dataset.ghWordsWrapped = "1";
+    wrapCompoundVerbHighlights(enLine);
 
     var skip = new Set(["SCRIPT", "STYLE", "BUTTON", "INPUT", "TEXTAREA", "SELECT", "OPTION"]);
     var walker = document.createTreeWalker(enLine, NodeFilter.SHOW_TEXT, {
@@ -582,7 +603,9 @@
         if (p.classList && (p.classList.contains("gh-word") || p.classList.contains("ipa"))) {
           return NodeFilter.FILTER_REJECT;
         }
-        if (p.closest && p.closest(".tts-chip, button")) return NodeFilter.FILTER_REJECT;
+        if (p.closest && p.closest(".gh-word, .hl-past-verb, .tts-chip, button, .sentence-play-btn")) {
+          return NodeFilter.FILTER_REJECT;
+        }
         if (skip.has(p.tagName)) return NodeFilter.FILTER_REJECT;
         return NodeFilter.FILTER_ACCEPT;
       },
@@ -643,8 +666,20 @@
 
   window.initHandoutLookup = initHandoutLookup;
   window.refreshHandoutLookup = function (root) {
-    wrapEnLines(root || document);
+    var host = root || document;
+    if (host && host.nodeType === 1 && host.matches && host.matches(lookupLineSelector())) {
+      delete host.dataset.ghWordsWrapped;
+      wrapOneEnLine(host);
+      return;
+    }
+    if (host && host.querySelectorAll) {
+      host.querySelectorAll(lookupLineSelector()).forEach(function (el) {
+        delete el.dataset.ghWordsWrapped;
+      });
+    }
+    wrapEnLines(host);
   };
+  window.playHandoutAzureTTS = playAzureTTS;
 
   function boot() {
     if (!document.body.classList.contains("grammar-handout-page")) return;
