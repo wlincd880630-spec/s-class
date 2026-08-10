@@ -50,7 +50,7 @@
     }
     body.is-busy .side-lobby,
     body.is-busy .yesterday-btn,
-    body.is-busy .recite-bar {
+    body.is-busy .sentence-play-btn {
       pointer-events: none;
       opacity: 0.55;
     }
@@ -367,11 +367,14 @@
     .screen-line {
       position: relative;
       z-index: 5;
-      font-size: clamp(1.76rem, 4.8vw, 2.1rem);
-      line-height: 1.55;
+      flex: 1 1 auto;
+      font-size: clamp(3.5rem, 9.6vw, 4.2rem);
+      line-height: 1.45;
       color: #333;
-      margin: 0 0 0.45rem;
-      min-height: 6.2em;
+      margin: 0;
+      min-height: 4.2em;
+      font-weight: 700;
+      letter-spacing: 0.01em;
     }
     .screen-line.is-phased-out {
       visibility: hidden;
@@ -380,13 +383,51 @@
       margin: 0;
       overflow: hidden;
     }
-    .screen-line.is-tts-replay {
-      cursor: pointer;
+    .sentence-row {
+      position: relative;
+      z-index: 5;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.55rem;
+      margin: 0 0 0.45rem;
+      width: 100%;
     }
-    .screen-line.is-tts-replay:hover {
-      outline: 2px dashed rgba(74, 144, 217, 0.55);
-      outline-offset: 2px;
-      border-radius: 6px;
+    .sentence-row.is-phased-out {
+      margin: 0;
+      min-height: 0;
+    }
+    .sentence-play-btn {
+      flex: 0 0 auto;
+      margin-top: 0.2rem;
+      width: 2.6rem;
+      height: 2.6rem;
+      border-radius: 999px;
+      border: 3px solid #1565c0;
+      background: linear-gradient(180deg, #e3f2fd, #90caf9);
+      color: #0d47a1;
+      font-size: 1.25rem;
+      line-height: 1;
+      cursor: pointer;
+      box-shadow: 0 3px 0 rgba(13, 71, 161, 0.25);
+      padding: 0;
+    }
+    .sentence-play-btn:hover {
+      filter: brightness(1.05);
+    }
+    .sentence-play-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      filter: none;
+    }
+    .sentence-play-btn[hidden] {
+      display: none !important;
+    }
+    .sentence-play-btn.is-playing {
+      animation: playPulse 0.9s ease-in-out infinite;
+    }
+    @keyframes playPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
     }
     .yesterday-btn.is-locked {
       position: relative;
@@ -514,31 +555,16 @@
       cursor: pointer;
       box-shadow: 0 3px 0 rgba(0,0,0,0.12);
     }
-    .recite-bar {
-      margin-top: 0.55rem;
-      padding: 0.5rem 0.55rem;
-      border-radius: 14px;
-      border: 2px dashed rgba(74, 144, 217, 0.4);
-      background: rgba(255,255,255,0.75);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-      justify-content: center;
-      align-items: center;
-    }
-    .recite-bar button {
-      font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
-      font-size: 0.78rem;
-      font-weight: 800;
-      padding: 0.38rem 0.65rem;
-      border-radius: 999px;
-      border: 2px solid #5d4037;
-      background: #fff;
+    .recite-bar { display: none !important; }
+    .screen-line .gh-word {
       cursor: pointer;
+      border-radius: 4px;
+      transition: background 0.12s ease;
     }
-    .recite-bar button.is-on {
-      background: #e8f5e9;
-      border-color: var(--habit-green);
+    .screen-line .gh-word:hover,
+    .screen-line .gh-word.active {
+      background: rgba(20, 184, 166, 0.2);
+      box-shadow: inset 0 -3px 0 rgba(13, 148, 136, 0.4);
     }
     .gold-key-panel {
       max-width: min(300px, 88vw);
@@ -915,6 +941,15 @@ body :is(.book, .shell, .app, .wrap, .page-wrap, .desk, main.sheet) :is(
 ) {
   font-family: var(--lesson-font-en);
   font-size: var(--lesson-fs-example);
+}
+
+/* L03 P05 课堂例句：再放大一倍，后排可读；压过上方 [lang=en] / .en-line 统一字号 */
+html body .book .screen-line.en-line,
+html body .book #screenSentence.screen-line {
+  font-family: var(--lesson-font-en) !important;
+  font-size: clamp(3.5rem, 9.6vw, 4.2rem) !important;
+  font-weight: 700;
+  line-height: 1.45;
 }
 
 /* 标题层级（主舞台内） */
@@ -1336,6 +1371,8 @@ html body > nav.lesson-pager {
 </style>
   <link rel="stylesheet" href="assets/grammar-lesson-pager.css" />
   <link rel="stylesheet" href="../shared/grammar-logo.css" />
+  <link rel="stylesheet" href="../shared/grammar-handout-lookup.css" />
+  <script src="../shared/grammar-handout-lookup.js"></script>
   <link rel="stylesheet" href="../../scripts/drawing-overlay.css?v=1" />
 </head>
 <body class="has-lesson-pager">
@@ -1370,7 +1407,10 @@ html body > nav.lesson-pager {
                 <button type="button" class="reveal-sentence-btn" id="btnRevealSentence">💬 显示「平时」金句</button>
                 <span class="photo-zoom-hint">🖼️ 点击图片放大</span>
               </div>
-              <p class="screen-line" id="screenSentence"></p>
+              <div class="sentence-row" id="sentenceRow">
+                <p class="screen-line en-line" id="screenSentence" lang="en"></p>
+                <button type="button" class="sentence-play-btn" id="btnPlaySentence" hidden title="慢速朗读例句（英音男声）" aria-label="播放例句">🔊</button>
+              </div>
               <div class="verb-hero-wrap" id="verbHeroWrap">
                 <div class="particle-layer" id="particleLayer"></div>
                 <div class="stamp-ed" id="stampEd">ed</div>
@@ -1382,10 +1422,6 @@ html body > nav.lesson-pager {
         <div class="time-actions">
           <button type="button" class="now-btn" id="btnNow">☀️ Now（平时）</button>
           <button type="button" class="yesterday-btn" id="btnYesterday">🕰️ Yesterday（过去）</button>
-        </div>
-        <div class="recite-bar" id="reciteBar">
-          <button type="button" id="btnLoop" aria-pressed="false">🔂 循环朗读</button>
-          <button type="button" id="btnSlow" aria-pressed="false">🐢 慢速跟读</button>
         </div>
       </main>
     </div>
@@ -1736,6 +1772,10 @@ window.L03AudioManifest = {
           state.missing[line] = true;
           console.warn("[L03 Audio Missing]", line);
         }
+        if (typeof window.playHandoutAzureTTS === "function") {
+          window.playHandoutAzureTTS(line, opts.rate || "-35%").then(function () { resolve(); }, function () { resolve(); });
+          return;
+        }
         if (typeof window.playLessonAzureTtsPlain === "function") {
           window.playLessonAzureTtsPlain(line).then(function () { resolve(); });
           return;
@@ -1749,6 +1789,14 @@ window.L03AudioManifest = {
       var playbackRate = mapRateToPlayback(opts.rate, opts.slow);
 
       function finishAzure() {
+        if (typeof window.playHandoutAzureTTS === "function") {
+          window.playHandoutAzureTTS(line, opts.rate || "-35%").then(function () {
+            resolve();
+          }, function () {
+            resolve();
+          });
+          return;
+        }
         if (typeof window.playLessonAzureTtsPlain === "function") {
           window.playLessonAzureTtsPlain(line).then(function () {
             resolve();
@@ -2209,8 +2257,8 @@ window.L03AudioManifest = {
     var panelIrr = document.getElementById("panelIrr");
     var btnNow = document.getElementById("btnNow");
     var btnYesterday = document.getElementById("btnYesterday");
-    var btnLoop = document.getElementById("btnLoop");
-    var btnSlow = document.getElementById("btnSlow");
+    var btnPlaySentence = document.getElementById("btnPlaySentence");
+    var sentenceRow = document.getElementById("sentenceRow");
     var goldKey = document.getElementById("goldKey");
     var goldSrc = document.getElementById("goldSrc");
     var goldNote = document.getElementById("goldNote");
@@ -2227,9 +2275,9 @@ window.L03AudioManifest = {
     var busy = false;
     var discoveryRevealed = false;
     var imgFail = false;
-    var loopOn = false;
-    var slowOn = false;
     var speakToken = 0;
+    var lookupReady = false;
+    var SLOW_RATE = "-35%";
 
     function escapeHtml(s) {
       return String(s)
@@ -2328,6 +2376,41 @@ window.L03AudioManifest = {
     function stopSpeak() {
       speakToken++;
       if (window.L03AzureTTS) window.L03AzureTTS.stop();
+      if (btnPlaySentence) btnPlaySentence.classList.remove("is-playing");
+    }
+
+    function ensureLookupReady() {
+      if (lookupReady) return;
+      if (typeof window.initHandoutLookup === "function") {
+        window.initHandoutLookup({ root: ".print-main", hint: false });
+        lookupReady = true;
+      }
+    }
+
+    function applySentenceLookup() {
+      ensureLookupReady();
+      if (!screenSentence || typeof window.refreshHandoutLookup !== "function") return;
+      delete screenSentence.dataset.ghWordsWrapped;
+      screenSentence.querySelectorAll("[data-gh-word-bound]").forEach(function (el) {
+        delete el.dataset.ghWordBound;
+      });
+      window.refreshHandoutLookup(screenSentence);
+    }
+
+    function currentSentenceText() {
+      if (isPast) return current.pastSentence;
+      return current.baseSentence;
+    }
+
+    function updatePlayButton() {
+      if (!btnPlaySentence || !sentenceRow) return;
+      var show =
+        (discoveryRevealed || isPast) &&
+        !screenSentence.classList.contains("is-phased-out") &&
+        !!(currentSentenceText() || "").trim();
+      btnPlaySentence.hidden = !show;
+      btnPlaySentence.disabled = !!busy || !show;
+      sentenceRow.classList.toggle("is-phased-out", !discoveryRevealed && !isPast);
     }
 
     function speakLine(text, token) {
@@ -2340,28 +2423,33 @@ window.L03AudioManifest = {
           resolve();
           return;
         }
-        var rate = slowOn ? "-35%" : "-8%";
+        if (btnPlaySentence) btnPlaySentence.classList.add("is-playing");
         window.L03AzureTTS
-          .speak(text, { rate: rate })
+          .speak(text, { rate: SLOW_RATE, slow: true })
           .then(function () {
-            if (token !== speakToken) {
-              resolve();
-              return;
+            if (btnPlaySentence && token === speakToken) {
+              btnPlaySentence.classList.remove("is-playing");
             }
-            if (loopOn && isPast) {
-              window.setTimeout(function () {
-                if (token !== speakToken) {
-                  resolve();
-                  return;
-                }
-                speakLine(text, token).then(resolve);
-              }, 280);
-            } else {
-              resolve();
-            }
+            resolve();
           })
-          .catch(resolve);
+          .catch(function () {
+            if (btnPlaySentence) btnPlaySentence.classList.remove("is-playing");
+            resolve();
+          });
       });
+    }
+
+    function playCurrentSentence() {
+      var line = currentSentenceText();
+      if (!line || busy) return;
+      if (!discoveryRevealed && !isPast) return;
+      if (!window.L03AzureTTS || !window.L03AzureTTS.isReady()) {
+        showToast("语音尚未就绪，请稍后重试");
+        return;
+      }
+      stopSpeak();
+      speakToken++;
+      speakLine(line, speakToken);
     }
 
     function showToast(msg) {
@@ -2396,17 +2484,21 @@ window.L03AudioManifest = {
       if (photoActions) photoActions.hidden = !!isPast;
       if (btnRevealSentence) {
         btnRevealSentence.disabled = !!busy;
-        if (isPast) return;
+        if (isPast) {
+          updatePlayButton();
+          return;
+        }
         if (!discoveryRevealed) {
+          btnRevealSentence.hidden = false;
           btnRevealSentence.textContent = "💬 显示「平时」金句";
           btnRevealSentence.classList.remove("is-done");
-          btnRevealSentence.setAttribute("aria-label", "显示平时例句并朗读，解锁 Yesterday 按钮");
+          btnRevealSentence.setAttribute("aria-label", "显示平时例句（不自动朗读）");
         } else {
-          btnRevealSentence.textContent = "🔊 重听「平时」金句";
+          btnRevealSentence.hidden = true;
           btnRevealSentence.classList.add("is-done");
-          btnRevealSentence.setAttribute("aria-label", "重新朗读平时例句");
         }
       }
+      updatePlayButton();
     }
 
     function resolveP05ImageBase() {
@@ -2454,11 +2546,6 @@ window.L03AudioManifest = {
       discoveryRevealed = true;
       applyDiscoveryUI();
       refreshScreen();
-      if (window.L03AzureTTS && window.L03AzureTTS.isReady()) {
-        stopSpeak();
-        speakToken++;
-        speakLine(current.baseSentence, speakToken);
-      }
     }
 
     function runPhotoCrossfade(cb) {
@@ -2486,20 +2573,6 @@ window.L03AudioManifest = {
       });
     }
 
-    function speakPastProgressive(text, token) {
-      if (!window.L03AzureTTS || !window.L03AzureTTS.isReady()) return;
-      var rates = ["-35%", "-18%", "-8%"];
-      var step = 0;
-      function speakOne() {
-        if (token !== speakToken || step >= rates.length) return;
-        var rate = rates[step++];
-        window.L03AzureTTS.speak(text, { rate: rate }).then(function () {
-          window.setTimeout(speakOne, 280);
-        });
-      }
-      speakOne();
-    }
-
     function updateGoldKey() {
       if (isPast) {
         goldKey.hidden = false;
@@ -2516,11 +2589,11 @@ window.L03AudioManifest = {
       screenInner.classList.toggle("is-past", isPast);
       if (!discoveryRevealed && !isPast) {
         screenSentence.innerHTML = "";
-        screenSentence.classList.remove("is-tts-replay");
-        screenSentence.removeAttribute("title");
+        delete screenSentence.dataset.ghWordsWrapped;
         verbHero.textContent = current.base;
         verbHero.classList.remove("is-irregular-past");
         updateGoldKey();
+        updatePlayButton();
         return;
       }
       if (isPast) {
@@ -2532,20 +2605,17 @@ window.L03AudioManifest = {
         verbHero.textContent = current.base;
         verbHero.classList.remove("is-irregular-past");
       }
-      var replayReady =
-        discoveryRevealed &&
-        window.L03AzureTTS &&
-        window.L03AzureTTS.isReady() &&
-        !screenSentence.classList.contains("is-phased-out");
-      screenSentence.classList.toggle("is-tts-replay", replayReady);
-      screenSentence.setAttribute("title", replayReady ? "点击例句可重听朗读" : "");
+      applySentenceLookup();
       updateGoldKey();
+      updatePlayButton();
     }
 
     function setPastSentenceOnly() {
       screenInner.classList.add("is-past");
       screenSentence.innerHTML = highlightPast(current.pastSentence, current);
+      applySentenceLookup();
       updateGoldKey();
+      updatePlayButton();
     }
 
     function runStampAnimation(cb) {
@@ -2664,9 +2734,7 @@ window.L03AudioManifest = {
       screenSentence.classList.remove("is-phased-out");
       verbHero.textContent = current.past;
       verbHero.classList.toggle("is-irregular-past", current.category === "irregular");
-      speakToken++;
-      var tok = speakToken;
-      speakPastProgressive(current.pastSentence, tok);
+      applySentenceLookup();
       applyDiscoveryUI();
       setBusy(false);
     }
@@ -2707,9 +2775,6 @@ window.L03AudioManifest = {
     function transitionToPresent() {
       if (busy) return;
       stopSpeak();
-      loopOn = false;
-      btnLoop.classList.remove("is-on");
-      btnLoop.setAttribute("aria-pressed", "false");
       isPast = false;
       screenInner.classList.remove("is-past");
       anime.remove(stampEd);
@@ -2732,9 +2797,6 @@ window.L03AudioManifest = {
 
     function selectAction(item) {
       stopSpeak();
-      loopOn = false;
-      btnLoop.classList.remove("is-on");
-      btnLoop.setAttribute("aria-pressed", "false");
       current = item;
       isPast = false;
       discoveryRevealed = false;
@@ -2827,56 +2889,21 @@ window.L03AudioManifest = {
       if (busy || isPast) return;
       if (!discoveryRevealed) {
         revealDiscovery();
-        return;
-      }
-      if (window.L03AzureTTS && window.L03AzureTTS.isReady()) {
-        stopSpeak();
-        speakToken++;
-        speakLine(current.baseSentence, speakToken);
       }
     });
 
-    screenSentence.addEventListener("click", function (ev) {
-      if (!screenSentence.classList.contains("is-tts-replay")) return;
-      ev.stopPropagation();
-      if (!window.L03AzureTTS || !window.L03AzureTTS.isReady()) return;
-      stopSpeak();
-      speakToken++;
-      var line = isPast ? current.pastSentence : current.baseSentence;
-      speakLine(line, speakToken);
-    });
-
-    btnLoop.addEventListener("click", function () {
-      if (!isPast) {
-        showToast("请先按 Yesterday 进入过去时，再循环朗读金句。");
-        return;
-      }
-      loopOn = !loopOn;
-      btnLoop.classList.toggle("is-on", loopOn);
-      btnLoop.setAttribute("aria-pressed", loopOn ? "true" : "false");
-      if (loopOn) {
-        stopSpeak();
-        speakToken++;
-        speakLine(current.pastSentence, speakToken);
-      } else {
-        stopSpeak();
-      }
-    });
-
-    btnSlow.addEventListener("click", function () {
-      slowOn = !slowOn;
-      btnSlow.classList.toggle("is-on", slowOn);
-      btnSlow.setAttribute("aria-pressed", slowOn ? "true" : "false");
-      if (isPast) {
-        stopSpeak();
-        speakToken++;
-        speakLine(current.pastSentence, speakToken);
-      }
-    });
+    if (btnPlaySentence) {
+      btnPlaySentence.addEventListener("click", function (ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        playCurrentSentence();
+      });
+    }
 
     buildDeck();
     selectAction(flatList[0]);
     openPanel("reg");
+    window.setTimeout(ensureLookupReady, 0);
   })();
   </script>
   <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
