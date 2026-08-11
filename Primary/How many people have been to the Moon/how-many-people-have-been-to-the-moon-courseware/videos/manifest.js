@@ -1,0 +1,105 @@
+window.MOON_VIDEO_MANIFEST = {
+  "cosBase": "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/How%20many%20people%20have%20been%20to%20the%20Moon/how-many-people-have-been-to-the-moon-courseware/videos",
+  "speechRate": "0.72",
+  "source": {
+    "youtubeId": "fObYUyyE4Ak",
+    "youtubeUrl": "https://www.youtube.com/watch?v=fObYUyyE4Ak",
+    "channel": "Learn Bright",
+    "title": "Apollo Space Missions for Kids"
+  },
+  "videos": [
+    {
+      "id": "01-apollo-space-missions",
+      "file": "01-apollo-space-missions.mp4",
+      "url": "videos/01-apollo-space-missions.mp4",
+      "local": "videos/01-apollo-space-missions.mp4",
+      "vtt": "videos/01-apollo-space-missions.vtt",
+      "title": "Apollo space missions",
+      "titleZh": "阿波罗登月任务",
+      "vpid": "sclass-moon-apollo-01",
+      "youtubeId": "fObYUyyE4Ak",
+      "youtubeUrl": "https://www.youtube.com/watch?v=fObYUyyE4Ak",
+      "source": "Learn Bright · Apollo Space Missions for Kids",
+      "cues": [
+        {
+          "start": 0.0,
+          "end": 5.278,
+          "en": "The Apollo space missions sent people to the Moon.",
+          "zh": "阿波罗任务把人送到了月球。"
+        },
+        {
+          "start": 5.278,
+          "end": 12.812,
+          "en": "NASA ran these flights in the 1960s and early 1970s.",
+          "zh": "NASA在1960年代和1970年代初执行这些飞行。"
+        },
+        {
+          "start": 12.812,
+          "end": 17.082,
+          "en": "They were part of the space race.",
+          "zh": "它们是太空竞赛的一部分。"
+        },
+        {
+          "start": 17.082,
+          "end": 23.032,
+          "en": "Apollo 7 was the first successful Apollo flight.",
+          "zh": "阿波罗7号是第一次成功的阿波罗飞行。"
+        },
+        {
+          "start": 23.032,
+          "end": 29.03,
+          "en": "It tested the ship in Earth orbit in 1968.",
+          "zh": "它在1968年在地球轨道上测试飞船。"
+        },
+        {
+          "start": 29.03,
+          "end": 35.028,
+          "en": "Apollo 11 made history in 1969.",
+          "zh": "阿波罗11号在1969年创造了历史。"
+        },
+        {
+          "start": 35.028,
+          "end": 40.81,
+          "en": "Neil Armstrong and Buzz Aldrin walked on the Moon.",
+          "zh": "尼尔·阿姆斯特朗和巴兹·奥尔德林在月球上行走。"
+        },
+        {
+          "start": 40.81,
+          "end": 46.592,
+          "en": "Armstrong said it was one giant leap for mankind.",
+          "zh": "阿姆斯特朗说，这对人类是一次巨大飞跃。"
+        },
+        {
+          "start": 46.592,
+          "end": 51.966,
+          "en": "Apollo 13 had a big problem in space.",
+          "zh": "阿波罗13号在太空中出了大问题。"
+        },
+        {
+          "start": 51.966,
+          "end": 59.932,
+          "en": "The crew came home safely. People call it a successful failure.",
+          "zh": "机组安全回家。人们称它为成功的失败。"
+        },
+        {
+          "start": 59.932,
+          "end": 66.074,
+          "en": "Apollo 17 was the last mission to land on the Moon.",
+          "zh": "阿波罗17号是最后一次登月任务。"
+        },
+        {
+          "start": 66.074,
+          "end": 71.712,
+          "en": "Twelve people walked on the Moon in the Apollo years.",
+          "zh": "阿波罗年代共有12人走过月球。"
+        },
+        {
+          "start": 71.712,
+          "end": 77.854,
+          "en": "Today, NASA plans for people to travel there again.",
+          "zh": "今天，NASA计划让人们再次前往月球。"
+        }
+      ]
+    }
+  ]
+};

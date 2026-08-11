@@ -7,7 +7,24 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=Nunito:wght@600;800&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/field-journal.css?v=6">
   <style>
-    .lab-grid { display:grid; grid-template-columns:1.1fr .9fr; gap:18px; }
+    .station-grid { display:grid; grid-template-columns:1.35fr .9fr; gap:16px; align-items:start; }
+    .video-card { overflow:hidden; border-radius:20px; background:#0b1220; box-shadow:0 18px 45px rgba(18,38,63,.22); }
+    .video-card video, .video-card iframe { display:block; width:100%; aspect-ratio:16/9; background:#070b14; border:0; }
+    .video-meta { padding:14px 16px; color:#fff; }
+    .video-meta h3 { margin:0; font-family:"Fraunces",serif; font-size:1.25rem; }
+    .video-meta p { margin:6px 0 0; color:rgba(255,255,255,.7); font-size:.82rem; line-height:1.5; }
+    .video-list { display:grid; gap:10px; }
+    .video-select { display:grid; grid-template-columns:96px 1fr; gap:10px; padding:10px; border:1px solid var(--line); border-radius:14px; background:#fff; cursor:pointer; text-align:left; }
+    .video-select img { width:96px; height:64px; border-radius:10px; object-fit:cover; background:#12263f; }
+    .video-select b { display:block; color:var(--forest); }
+    .video-select small { color:var(--muted); }
+    .video-select.is-active { border:2px solid var(--clay); background:#fff6f1; }
+    .cue-panel { margin-top:12px; max-height:280px; overflow:auto; padding:10px; border-radius:14px; background:rgba(255,255,255,.72); border:1px solid var(--line); }
+    .cue { display:block; width:100%; text-align:left; margin:0 0 8px; padding:10px 12px; border:1px solid transparent; border-radius:12px; background:#fff; cursor:pointer; }
+    .cue b { display:block; color:var(--forest); font-size:.92rem; }
+    .cue small { color:var(--muted); }
+    .cue.is-active { border-color:var(--amber); background:#fff8e8; }
+    .lab-grid { display:grid; grid-template-columns:1.1fr .9fr; gap:18px; margin-top:18px; }
     .lab-panel { padding:18px; border-radius:18px; background:rgba(255,255,255,.72); border:1px solid var(--line); }
     .lab-panel h3 { margin:0 0 10px; font-family:"Fraunces",serif; color:var(--forest); }
     .timeline { display:flex; flex-direction:column; gap:10px; }
@@ -17,7 +34,8 @@
     .quiz button.ok { background:#e7f6ea; border-color:#34a853; }
     .quiz button.bad { background:#fdecea; border-color:#d93025; }
     .stat { font-size:clamp(2rem,4vw,3.2rem); font-family:"Fraunces",serif; color:var(--forest); font-weight:900; }
-    @media(max-width:820px){ .lab-grid{grid-template-columns:1fr;} }
+    .yt-link { display:inline-flex; margin-top:8px; color:#eab13d; font-weight:900; text-decoration:none; }
+    @media(max-width:900px){ .station-grid,.lab-grid{grid-template-columns:1fr;} .cue-panel{max-height:200px;} }
   </style>
 </head>
 <body>
@@ -26,7 +44,7 @@
       <div class="brand-mark">🧪</div>
       <div>
         <h1>事实观测站</h1>
-        <p>How many people have been to the Moon? · Lexile ~450</p>
+        <p>How many people have been to the Moon? · Lexile ~450 · 中英字幕视频</p>
       </div>
       <nav class="header-actions">
         <a class="header-link" href="../index.html">⌂ 大本营</a>
@@ -35,17 +53,33 @@
     </header>
     <main class="journal-main">
       <section class="journal-view is-active" style="display:flex;flex-direction:column;">
-        <p class="eyebrow">Lab · Evidence</p>
-        <h2 class="view-heading">核对登月关键数字</h2>
-        <p class="view-lead">来源：Encyclopaedia Britannica 与 NASA。先看时间线，再做小测验。</p>
+        <p class="eyebrow">Lab · Video & Evidence</p>
+        <h2 class="view-heading">先看阿波罗视频，再核对关键数字</h2>
+        <p class="view-lead">教学片根据 Learn Bright《Apollo Space Missions for Kids》改编（蓝思约 450），慢速英音 + 中英字幕。可跳转原片参考。</p>
+
+        <section class="station-grid">
+          <article class="video-card">
+            <video id="stationVideo" controls playsinline preload="metadata"></video>
+            <div class="video-meta">
+              <h3 id="videoTitle">阿波罗登月任务</h3>
+              <p id="videoDesc">Apollo 7 → 11 → 13 → 17 · 12 人走过月球</p>
+              <a class="yt-link" id="ytLink" href="https://www.youtube.com/watch?v=fObYUyyE4Ak" target="_blank" rel="noopener">▶ Learn Bright 原片（YouTube）</a>
+            </div>
+          </article>
+          <aside>
+            <div class="video-list" id="videoList"></div>
+            <div class="cue-panel" id="cuePanel" aria-label="可点击中英字幕文稿"></div>
+          </aside>
+        </section>
+
         <div class="lab-grid">
           <div class="lab-panel">
             <h3>Apollo 时间线（简）</h3>
             <div class="timeline">
-              <div class="t-item"><b>1968</b><span>Apollo 8 机组绕月飞行，看见地球升起。</span></div>
+              <div class="t-item"><b>1968</b><span>Apollo 7 / 8：测试飞船，并开始绕月飞行。</span></div>
               <div class="t-item"><b>1969</b><span>Apollo 11：Armstrong 与 Aldrin 走在月球上；Collins 在轨道。</span></div>
-              <div class="t-item"><b>1969–72</b><span>更多 Apollo 任务。共 12 人留下脚印。</span></div>
-              <div class="t-item"><b>今天</b><span>NASA 计划让人们再次前往月球。</span></div>
+              <div class="t-item"><b>1970</b><span>Apollo 13：出故障后安全返回，被称为成功的失败。</span></div>
+              <div class="t-item"><b>1972</b><span>Apollo 17：最后一次登月。共 12 人留下脚印。</span></div>
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;">
               <div style="padding:14px;border-radius:14px;background:#12263f;color:#fff;text-align:center;"><div class="stat" style="color:#eab13d;">24</div>人到达月球</div>
@@ -65,13 +99,83 @@
       </section>
     </main>
   </div>
+  <script src="videos/manifest.js"></script>
   <script>
   (function(){
+    var fallback = [{
+      file:"01-apollo-space-missions.mp4",
+      title:"Apollo space missions",
+      titleZh:"阿波罗登月任务",
+      url:"videos/01-apollo-space-missions.mp4",
+      vtt:"videos/01-apollo-space-missions.vtt",
+      youtubeUrl:"https://www.youtube.com/watch?v=fObYUyyE4Ak",
+      cues:[]
+    }];
+    var videos = (window.MOON_VIDEO_MANIFEST && MOON_VIDEO_MANIFEST.videos) || fallback;
+    var video = document.getElementById("stationVideo");
+    var current = 0;
+    var thumbs = ["images/words/apollo.jpg","images/words/moon.jpg"];
+
+    function selectVideo(index){
+      current = index;
+      var item = videos[index];
+      video.innerHTML = "";
+      var source = document.createElement("source");
+      source.src = item.url || ("videos/" + item.file);
+      source.type = "video/mp4";
+      video.appendChild(source);
+      var track = document.createElement("track");
+      track.kind = "subtitles";
+      track.label = "中英字幕";
+      track.srclang = "zh";
+      track.src = item.vtt || ("videos/" + String(item.file||"").replace(/\.mp4$/i,".vtt"));
+      track.default = true;
+      video.appendChild(track);
+      video.load();
+      document.getElementById("videoTitle").textContent = (item.titleZh || "") + " · " + item.title;
+      document.getElementById("videoDesc").textContent = item.source || "S-Class 教学片 · 中英字幕 · Lexile ~450";
+      var yt = document.getElementById("ytLink");
+      yt.href = item.youtubeUrl || "https://www.youtube.com/watch?v=fObYUyyE4Ak";
+      var cues = item.cues || [];
+      document.getElementById("cuePanel").innerHTML = cues.length
+        ? cues.map(function(c,i){
+            return '<button class="cue" data-cue="'+i+'"><b>'+c.en+'</b><small>'+c.zh+'</small></button>';
+          }).join("")
+        : '<p style="margin:0;color:#71695d;font-size:.86rem;">播放器已加载中英字幕轨。也可点击右侧文稿跳转（若已生成 cues）。</p>';
+      Array.prototype.forEach.call(document.querySelectorAll(".video-select"), function(b,i){
+        b.classList.toggle("is-active", i===index);
+      });
+    }
+
+    document.getElementById("videoList").innerHTML = videos.map(function(v,i){
+      return '<button class="video-select'+(i===0?' is-active':'')+'" data-video="'+i+'">'
+        + '<img src="'+(thumbs[i]||thumbs[0])+'" alt="">'
+        + '<span><b>'+(v.titleZh||v.title)+'</b><small>'+v.title+'</small></span></button>';
+    }).join("");
+    document.getElementById("videoList").onclick = function(e){
+      var b = e.target.closest("[data-video]");
+      if (b) selectVideo(Number(b.dataset.video));
+    };
+    document.getElementById("cuePanel").onclick = function(e){
+      var b = e.target.closest("[data-cue]");
+      if (!b) return;
+      var cue = videos[current].cues[Number(b.dataset.cue)];
+      if (cue) { video.currentTime = cue.start; video.play(); }
+    };
+    video.addEventListener("timeupdate", function(){
+      var cues = videos[current].cues || [];
+      Array.prototype.forEach.call(document.querySelectorAll(".cue"), function(b,i){
+        b.classList.toggle("is-active", cues[i] && video.currentTime >= cues[i].start && video.currentTime < cues[i].end);
+      });
+    });
+    selectVideo(0);
+
     var qs = [
       {q:'How many people walked on the Moon?', opts:['10','12','24'], ok:1},
       {q:'How many Apollo people went to the Moon?', opts:['12','24','50'], ok:1},
       {q:'Who walked first?', opts:['Buzz Aldrin','Neil Armstrong','Michael Collins'], ok:1},
-      {q:'Who stayed in the ship on Apollo 11?', opts:['Neil Armstrong','Buzz Aldrin','Michael Collins'], ok:2}
+      {q:'Who stayed in the ship on Apollo 11?', opts:['Neil Armstrong','Buzz Aldrin','Michael Collins'], ok:2},
+      {q:'Which mission is called a successful failure?', opts:['Apollo 11','Apollo 13','Apollo 17'], ok:1}
     ];
     var i=0;
     function render(){
