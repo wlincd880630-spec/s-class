@@ -163,9 +163,11 @@
         return (
           '<span class="blank-num">(' +
           n +
-          ')</span><span class="blank hint-blank"><span class="hint-tag">' +
+          ")</span>" +
+          blankLine(5.5) +
+          ' <span class="proto">(' +
           esc(hint) +
-          "</span></span>"
+          ")</span>"
         );
       }
     );
@@ -291,9 +293,8 @@
       ".opts { display: flex; flex-wrap: wrap; gap: 6px 12px; margin-top: 6px; }",
       ".opt { display: inline-flex; align-items: center; gap: 5px; font-size: 9.5pt; }",
       ".bubble { width: 16px; height: 16px; border-radius: 50%; border: 1.6px solid #1565c0; color: #1565c0; font-size: 8pt; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; }",
-      ".blank { display: inline-block; min-height: 1.1em; border-bottom: 1.6px solid #5d4037; margin: 0 3px; vertical-align: baseline; }",
-      ".hint-blank { position: relative; min-width: 5.5em; padding-bottom: 1px; }",
-      ".hint-tag { position: absolute; left: 50%; top: -11px; transform: translateX(-50%); font-size: 7pt; color: #e65100; font-weight: 700; white-space: nowrap; background: #fff8e1; padding: 0 3px; border-radius: 4px; border: 1px solid #ffcc80; }",
+      ".blank { display: inline-block; min-height: 1.1em; border-bottom: 1.6px solid #5d4037; margin: 0 2px; vertical-align: baseline; }",
+      ".proto { color: #e65100; font-weight: 700; font-size: 0.92em; white-space: nowrap; }",
       ".write-lines { margin-top: 6px; }",
       ".write-line { height: 18px; border-bottom: 1.4px dashed #b39ddb; margin-bottom: 4px; }",
       ".passage-card { border-radius: 12px; border: 2px solid #ffb74d; background: linear-gradient(180deg,#fff8e1,#fffdf7); padding: 12px 12px 10px; }",
@@ -327,7 +328,7 @@
       ".af3 .ans-chip { color: #6a1b9a; }",
       ".af4 .ans-chip { color: #e65100; }",
       ".exp { color: #546e7a; font-size: 8.2pt; }",
-      "@media print { body { background: #fff !important; } .cover, .floor-head, .q-item, .passage-card, .answer-floor, .answers-banner, .cover-stats li, .meta-box, .ans-chip, .q-num, .ans-n, .bubble, .hint-tag { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; } }",
+      "@media print { body { background: #fff !important; } .cover, .floor-head, .q-item, .passage-card, .answer-floor, .answers-banner, .cover-stats li, .meta-box, .ans-chip, .q-num, .ans-n, .bubble, .proto { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; } }",
     ].join("\n");
   }
 
