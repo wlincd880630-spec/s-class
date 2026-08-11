@@ -79,10 +79,11 @@
   }
 
   function blankLine(widthEm) {
+    var w = widthEm || 6;
     return (
       '<span class="blank" style="min-width:' +
-      (widthEm || 6) +
-      'em"></span>'
+      w +
+      'em">&nbsp;</span>'
     );
   }
 
