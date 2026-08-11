@@ -88,7 +88,9 @@
   }
   var api = {
     ALL: ALL_WORDS, ALL_KEYS: ALL_KEYS, WMAP: WMAP, STORAGE_KEY: STORAGE_KEY,
-    IMG_BASE: "../how-many-people-have-been-to-the-moon-courseware/images/words/",
+    // 看图选词 / 配对 / 连线等：统一用标本页「词义图」(第二章意思表达图)
+    IMG_BASE: "../how-many-people-have-been-to-the-moon-courseware/images/words-meaning/",
+    SUBJECT_IMG_BASE: "../how-many-people-have-been-to-the-moon-courseware/images/words/",
     getSelected: getSelected, getSelectedKeys: getSelectedKeys,
     saveKeys: saveKeys, chunkForMemory: chunkForMemory, shuffle: shuffle,
     MIN_WORDS_GAME1: 2, MIN_WORDS_GAME2: 2, MIN_WORDS_GAME3: 1,
