@@ -55,6 +55,9 @@
 
   function stopAudio() {
     try {
+      if (global.speechSynthesis) global.speechSynthesis.cancel();
+    } catch (e) {}
+    try {
       if (_audio) { _audio.pause(); _audio = null; }
       if (_blobUrl && (!_fullPlayer || _blobUrl !== _fullPlayer.url)) {
         URL.revokeObjectURL(_blobUrl);
@@ -274,6 +277,7 @@
     const raw = String(text || '').trim();
     if (!raw) return null;
     const cfg = getConfig();
+    if (!cfg.azureKey) throw new Error('TTS failed: missing Azure key');
     const speed = rate === 'slow' ? '-25%' : rate === 'fast' ? '+15%' : '+0%';
     const ssml = `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-GB"><voice name="en-GB-RyanNeural"><prosody rate="${speed}">${xmlEscape(raw)}</prosody></voice></speak>`;
     const res = await fetch(`https://${cfg.azureRegion}.tts.speech.microsoft.com/cognitiveservices/v1`, {
@@ -285,8 +289,13 @@
       },
       body: ssml
     });
-    if (!res.ok) throw new Error('TTS failed');
-    return res.blob();
+    if (!res.ok) {
+      const detail = await res.text().catch(() => '');
+      throw new Error('TTS failed HTTP ' + res.status + (detail ? ': ' + detail.slice(0, 160) : ''));
+    }
+    const blob = await res.blob();
+    if (!blob || blob.size < 32) throw new Error('TTS failed: empty audio');
+    return blob;
   }
 
   function playAudioBlob(blob) {
@@ -300,28 +309,96 @@
     });
   }
 
+  function cancelBrowserSpeech() {
+    try {
+      if (global.speechSynthesis) global.speechSynthesis.cancel();
+    } catch (e) {}
+  }
+
+  function speakWithBrowser(text, rate) {
+    return new Promise((resolve, reject) => {
+      if (!global.speechSynthesis || typeof global.SpeechSynthesisUtterance !== 'function') {
+        reject(new Error('browser TTS unavailable'));
+        return;
+      }
+      const raw = String(text || '').trim();
+      if (!raw) {
+        resolve(false);
+        return;
+      }
+      cancelBrowserSpeech();
+      const u = new SpeechSynthesisUtterance(raw);
+      u.lang = 'en-GB';
+      u.rate = rate === 'slow' ? 0.75 : rate === 'fast' ? 1.1 : 0.9;
+      const pickVoice = () => {
+        const voices = global.speechSynthesis.getVoices() || [];
+        return voices.find(v => /en-GB/i.test(v.lang))
+          || voices.find(v => /^en(-|_)/i.test(v.lang) || /^en$/i.test(v.lang));
+      };
+      const applyAndSpeak = () => {
+        const en = pickVoice();
+        if (en) u.voice = en;
+        u.onend = () => resolve(true);
+        u.onerror = () => reject(new Error('browser TTS failed'));
+        global.speechSynthesis.speak(u);
+      };
+      // Chrome may load voices asynchronously
+      const existing = global.speechSynthesis.getVoices();
+      if (existing && existing.length) {
+        applyAndSpeak();
+      } else {
+        let done = false;
+        const timer = setTimeout(() => {
+          if (done) return;
+          done = true;
+          applyAndSpeak();
+        }, 250);
+        global.speechSynthesis.addEventListener('voiceschanged', () => {
+          if (done) return;
+          done = true;
+          clearTimeout(timer);
+          applyAndSpeak();
+        }, { once: true });
+      }
+    });
+  }
+
   async function speakText(text, rate) {
     stopFullSpeak();
+    cancelBrowserSpeech();
     try {
       const blob = await fetchTtsBlob(text, rate);
       if (!blob) return false;
       await playAudioBlob(blob);
       return true;
     } catch (e) {
-      showToast('语音播放失败，请检查 Azure 配置');
-      return false;
+      console.warn('Azure TTS failed, falling back to browser TTS', e);
+      try {
+        await speakWithBrowser(text, rate);
+        return true;
+      } catch (e2) {
+        showToast('语音播放失败，请检查 Azure 配置');
+        return false;
+      }
     }
   }
 
   async function speakFullText(text, rate) {
+    cancelBrowserSpeech();
     try {
       await prepareFullSpeakAudio(text, rate);
       return playFullSpeak();
     } catch (e) {
-      if (e.message !== 'cancelled' && e.message !== 'empty') {
+      if (e.message === 'cancelled' || e.message === 'empty') return false;
+      console.warn('Azure full TTS failed, falling back to browser TTS', e);
+      try {
+        await speakWithBrowser(text, rate);
+        showToast('Azure 不可用，已用浏览器语音朗读');
+        return true;
+      } catch (e2) {
         showToast('全文朗读失败，请检查 Azure 配置');
+        return false;
       }
-      return false;
     }
   }
 
@@ -1502,7 +1579,7 @@ ${azureLine}
 
   global.Courseware = {
     getConfig, saveConfig, initConfig,
-    speakText, stopAudio, speakFullText, stopFullSpeak, isFullSpeaking, isFullSpeakReady,
+    speakText, speakWithBrowser, stopAudio, speakFullText, stopFullSpeak, isFullSpeaking, isFullSpeakReady,
     prepareFullSpeakAudio, playFullSpeak, pauseFullSpeak, toggleFullSpeakPlay,
     skipFullSpeak, seekFullSpeak, getFullSpeakState, downloadFullSpeakMp3, bindFullSpeakPlayer,
     callDeepSeek, lookupWord, analyzeSelection, translateSelection, analyzeSentence, formatAiMarkdown,
