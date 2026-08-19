@@ -2,7 +2,7 @@
  * What are reptiles? · Azure TTS + 音素盒子 + 抄写
  */
 const AZURE_CONFIG = {
-  subscriptionKey: '8d055d682fcd4af98a51828e04542cd4',
+  subscriptionKey: '9wqQjcwatmfHXVoMv9nO6I2teZBS6LSZL6ROW85tO6fL4ahKjsIaJQQJ99CHACqBBLyXJ3w3AAAYACOGvelV',
   region: 'southeastasia',
   voice: 'en-GB-RyanNeural',
   speechRate: '0.90'

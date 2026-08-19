@@ -76,7 +76,7 @@ function readAzureKeyFromConfig() {
     const rm = raw.match(/AZURE_REGION\s*=\s*"([^"]+)"/);
     return {
       key: km ? km[1] : "",
-      region: rm ? rm[1] : "eastasia",
+      region: rm ? rm[1] : "southeastasia",
     };
   } catch {
     return { key: "", region: "southeastasia" };

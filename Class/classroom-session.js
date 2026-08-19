@@ -10,7 +10,7 @@
   "use strict";
 
   var AZURE = {
-    key: "8d055d682fcd4af98a51828e04542cd4",
+    key: "9wqQjcwatmfHXVoMv9nO6I2teZBS6LSZL6ROW85tO6fL4ahKjsIaJQQJ99CHACqBBLyXJ3w3AAAYACOGvelV",
     region: "southeastasia"
   };
 

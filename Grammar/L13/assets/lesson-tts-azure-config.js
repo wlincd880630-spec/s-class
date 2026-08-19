@@ -8,7 +8,7 @@
 
   var AZURE_REGION = "southeastasia";
   var AZURE_KEY =
-    "8d055d682fcd4af98a51828e04542cd4";
+    "9wqQjcwatmfHXVoMv9nO6I2teZBS6LSZL6ROW85tO6fL4ahKjsIaJQQJ99CHACqBBLyXJ3w3AAAYACOGvelV";
 
   if (!global.__AZURE_SPEECH_REGION__) {
     global.__AZURE_SPEECH_REGION__ = String(AZURE_REGION || "southeastasia").trim() || "southeastasia";

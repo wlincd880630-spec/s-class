@@ -34,9 +34,9 @@ COS_BASE = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Prima
 
 AZURE_KEY = os.environ.get(
     "AZURE_SPEECH_KEY",
-    "8d055d682fcd4af98a51828e04542cd4",
+    "9wqQjcwatmfHXVoMv9nO6I2teZBS6LSZL6ROW85tO6fL4ahKjsIaJQQJ99CHACqBBLyXJ3w3AAAYACOGvelV",
 )
-AZURE_REGION = os.environ.get("AZURE_SPEECH_REGION", "eastasia")
+AZURE_REGION = os.environ.get("AZURE_SPEECH_REGION", "southeastasia")
 AZURE_VOICE = "en-GB-RyanNeural"
 # 小学四年级：放慢语速
 AZURE_SPEECH_RATE = os.environ.get("REPTILE_VIDEO_SPEECH_RATE", "0.68")

@@ -9,7 +9,7 @@
   var DEEPSEEK_ENDPOINT = "https://api.deepseek.com/v1/chat/completions";
   var DICT_API_BASE = "https://api.dictionaryapi.dev/api/v2/entries/en/";
   var TRANSLATE_API = "https://api.mymemory.translated.net/get";
-  var AZURE_SPEECH_KEY = "8d055d682fcd4af98a51828e04542cd4";
+  var AZURE_SPEECH_KEY = "9wqQjcwatmfHXVoMv9nO6I2teZBS6LSZL6ROW85tO6fL4ahKjsIaJQQJ99CHACqBBLyXJ3w3AAAYACOGvelV";
   var AZURE_SPEECH_REGION = "southeastasia";
   var AZURE_VOICE = "en-GB-RyanNeural";
   var AZURE_RATE = "-30%";

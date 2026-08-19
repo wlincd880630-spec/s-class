@@ -6,8 +6,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 G7 = ROOT / "junior_vocab" / "G7_B1"
 
-OLD_KEY = "8d055d682fcd4af98a51828e04542cd4"
-NEW_KEY = "8d055d682fcd4af98a51828e04542cd4"
+OLD_KEY = "9wqQjcwatmfHXVoMv9nO6I2teZBS6LSZL6ROW85tO6fL4ahKjsIaJQQJ99CHACqBBLyXJ3w3AAAYACOGvelV"
+NEW_KEY = "9wqQjcwatmfHXVoMv9nO6I2teZBS6LSZL6ROW85tO6fL4ahKjsIaJQQJ99CHACqBBLyXJ3w3AAAYACOGvelV"
 
 OLD_INIT = """async function initSpeech() {
   try {
@@ -66,7 +66,7 @@ def patch_file(fp: Path) -> bool:
     text = fp.read_text(encoding="utf-8")
     orig = text
     text = text.replace(f'const AZURE_KEY    = "{OLD_KEY}";', f'const AZURE_KEY    = "{NEW_KEY}";')
-    text = text.replace('const AZURE_REGION = "eastus2";', 'const AZURE_REGION = "southeastasia";')
+    text = text.replace('const AZURE_REGION = "southeastasia";', 'const AZURE_REGION = "southeastasia";')
     text = text.replace(OLD_INIT, NEW_INIT)
     text = text.replace(OLD_REC_ERR, NEW_REC_ERR)
     text = text.replace(OLD_TRANS_ERR, NEW_TRANS_ERR)

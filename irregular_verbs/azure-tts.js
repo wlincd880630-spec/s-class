@@ -6,7 +6,7 @@
   "use strict";
 
   var AZURE = {
-    subscriptionKey: "8d055d682fcd4af98a51828e04542cd4",
+    subscriptionKey: "9wqQjcwatmfHXVoMv9nO6I2teZBS6LSZL6ROW85tO6fL4ahKjsIaJQQJ99CHACqBBLyXJ3w3AAAYACOGvelV",
     region: "southeastasia",
     language: "en-GB",
     voice: "en-GB-RyanNeural",
