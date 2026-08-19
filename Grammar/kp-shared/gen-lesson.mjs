@@ -36,8 +36,10 @@ function pageHtml(lesson, pageId, prev, next) {
   <script src="assets/kp-corpus.js"></script>
   <script src="${gram}/shared/grammar-handout-lookup.js"></script>
   <script src="assets/kp-data.js"></script>
+  <script src="${rel}/kp-practice.js"></script>
   <script src="${rel}/kp-engine.js"></script>
   <script src="${rel}/kp-boot.js"></script>
+  <link rel="stylesheet" href="${lesson.overlayCss || "../../scripts/drawing-overlay.css?v=1"}" />
 </head>
 <body class="kp-body" data-kp-id="${pageId}">
   <div id="kpApp" class="kp-stage" aria-live="polite"></div>
@@ -46,6 +48,7 @@ function pageHtml(lesson, pageId, prev, next) {
     <a class="kp-pager__logo" href="${gram}/index.html"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Logo" width="96" height="34" decoding="async"/></a>
     <a class="kp-pager__next${next ? "" : " is-muted"}" href="${next ? next + ".html" : "index.html"}">${next ? "下一页 →" : "目录 →"}</a>
   </nav>
+  <script src="${lesson.overlayJs || "../../scripts/drawing-overlay.js?v=1"}" defer></script>
 </body>
 </html>`;
 }
@@ -102,12 +105,13 @@ function indexHtml(lesson) {
   <main class="kp-index">
     <p style="text-align:center;margin:0 0 .65rem"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/logo2.png" alt="Steven's Class" width="160" height="48" decoding="async" style="opacity:.95"/></p>
     <div class="kp-index-hero"><img src="${lesson.heroImage}" alt="" onerror="this.style.display='none'"/></div>
-    <h1>${lesson.title} <span class="badge">${lesson.badge || "Wave 1 · 小升初真题"}</span></h1>
+    <h1>${lesson.title} <span class="badge">${lesson.badge || "小学语法"}</span></h1>
     <p class="intro">${lesson.intro}</p>
-    <div class="kp-psle"><strong>📌 真题溯源：</strong>${lesson.psleNote}</div>
+    ${lesson.psleNote ? `<div class="kp-psle"><strong>📌 真题溯源：</strong>${lesson.psleNote}</div>` : ""}
+    ${lesson.juniorNote ? `<div class="kp-psle"><strong>🔗 知识树：</strong>${lesson.juniorNote}</div>` : ""}
     <div class="kp-features">${features}</div>
     ${list}
-    <p class="back"><a href="${lesson.backLink || "../index.html"}">← 返回目录</a></p>
+    <p class="back"><a href="${lesson.backLink || "../index.html"}">← 课程总目录</a>${lesson.juniorHref ? ` · <a href="${lesson.juniorHref}">${lesson.juniorLabel || "初中对应课 →"}</a>` : ""}</p>
   </main>
 </body>
 </html>`;
@@ -118,6 +122,7 @@ function buildDataJs(lesson) {
   "use strict";
   var PAGES = ${escJson(lesson.pages)};
   global.KpData = {
+    courseTitle: ${JSON.stringify(lesson.title || "")},
     pages: PAGES,
     total: PAGES.length,
     indexOf: function (id) {
@@ -193,4 +198,8 @@ function main() {
   console.log("Generated", outDir, "(" + ids.length + " pages)");
 }
 
-main();
+export { ROOT, pageHtml, indexHtml, buildDataJs };
+
+const isDirect =
+  process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+if (isDirect) main();
