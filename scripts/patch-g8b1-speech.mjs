@@ -12,8 +12,8 @@ import { fileURLToPath } from "url";
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const G8_B1 = path.join(ROOT, "junior_vocab", "G8_B1");
 
-const OLD_KEY = "8d055d682fcd4af98a51828e04542cd4";
-const NEW_KEY = "8d055d682fcd4af98a51828e04542cd4";
+const OLD_KEY = "9wqQjcwatmfHXVoMv9nO6I2teZBS6LSZL6ROW85tO6fL4ahKjsIaJQQJ99CHACqBBLyXJ3w3AAAYACOGvelV";
+const NEW_KEY = "9wqQjcwatmfHXVoMv9nO6I2teZBS6LSZL6ROW85tO6fL4ahKjsIaJQQJ99CHACqBBLyXJ3w3AAAYACOGvelV";
 
 const OLD_INIT = `async function initSpeech() {
   try {

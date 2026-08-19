@@ -157,7 +157,7 @@
       var region =
         (typeof window !== "undefined" && window.__AZURE_SPEECH_REGION__) ||
         (typeof window !== "undefined" && window.__AZURE_TTS_REGION__) ||
-        "eastasia";
+        "southeastasia";
       if (!key) {
         console.warn("[LessonSpeak] 无本地 MP3 且未配置 Azure 密钥:", String(text).slice(0, 80));
         resolve();

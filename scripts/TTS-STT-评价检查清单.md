@@ -14,7 +14,7 @@
 
 **密钥约定**（可被 `window` 覆盖）：
 
-- PET 词汇课：页面内 `AZURE_KEY`、`AZURE_REGION`（如 eastasia）。
+- PET 词汇课：页面内 `AZURE_KEY`、`AZURE_REGION`（southeastasia）。
 - PET passage：`pet-passage-speech.js` 内默认 Azure 密钥，或 `window.PET_AZURE_KEY`、`window.PET_AZURE_REGION`；评价用 `window.PET_DEEPSEEK_KEY` 或页面内 `DEEPSEEK_KEY`。
 
 ---

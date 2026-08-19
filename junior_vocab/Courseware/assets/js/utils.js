@@ -3,7 +3,7 @@
  * Azure 语音、本地存储、计时、随机、词卡配图兜底等
  */
 const AZURE_CONFIG = {
-  subscriptionKey: '8d055d682fcd4af98a51828e04542cd4',
+  subscriptionKey: '9wqQjcwatmfHXVoMv9nO6I2teZBS6LSZL6ROW85tO6fL4ahKjsIaJQQJ99CHACqBBLyXJ3w3AAAYACOGvelV',
   region: 'southeastasia',
   language: 'en-GB',
   voice: 'en-GB-RyanNeural',
