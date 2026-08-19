@@ -392,32 +392,6 @@
     });
   }
 
-  function splitOnlineTtsChunks(text, maxLen) {
-    const limit = maxLen || 180;
-    const raw = String(text || '').trim();
-    if (!raw) return [];
-    if (raw.length <= limit) return [raw];
-    const parts = raw.match(/[^.!?]+[.!?]+|[^.!?]+$/g)?.map(s => s.trim()).filter(Boolean) || [raw];
-    const chunks = [];
-    let buf = '';
-    for (const p of parts) {
-      if (p.length > limit) {
-        if (buf) { chunks.push(buf); buf = ''; }
-        for (let i = 0; i < p.length; i += limit) chunks.push(p.slice(i, i + limit));
-        continue;
-      }
-      const next = buf ? buf + ' ' + p : p;
-      if (next.length > limit && buf) {
-        chunks.push(buf);
-        buf = p;
-      } else {
-        buf = next;
-      }
-    }
-    if (buf) chunks.push(buf);
-    return chunks;
-  }
-
   function playUrlAudio(url) {
     return new Promise((resolve, reject) => {
       stopAudio();
@@ -438,36 +412,16 @@
     if (!raw) return false;
     const isShortWord = /^[A-Za-z][A-Za-z'-]{0,40}$/.test(raw);
     if (isShortWord) {
-      const youdao = 'https://dict.youdao.com/dictvoice?audio=' + encodeURIComponent(raw) + '&type=2';
-      try {
-        await playUrlAudio(youdao);
-        return true;
-      } catch (e) {
-        console.warn('Youdao TTS failed, trying Baidu TTS', e);
-      }
+      await playUrlAudio('https://dict.youdao.com/dictvoice?audio=' + encodeURIComponent(raw) + '&type=2');
+      return true;
     }
-    // Baidu Fanyi TTS works for short phrases/sentences in the browser (Google often 404s)
-    const spd = rate === 'slow' ? 3 : rate === 'fast' ? 5 : 4;
-    const chunks = splitOnlineTtsChunks(raw, 80);
-    let lastErr = null;
-    for (const chunk of chunks) {
-      const url = 'https://fanyi.baidu.com/gettts?lan=en&spd=' + spd +
-        '&source=web&text=' + encodeURIComponent(chunk);
-      try {
-        await playUrlAudio(url);
-      } catch (e) {
-        lastErr = e;
-        console.warn('Baidu TTS chunk failed, trying Youdao word split', e);
-        const words = chunk.match(/[A-Za-z']+/g) || [];
-        if (!words.length) throw e;
-        for (const w of words) {
-          await playUrlAudio('https://dict.youdao.com/dictvoice?audio=' + encodeURIComponent(w) + '&type=2');
-          await new Promise(r => setTimeout(r, 60));
-        }
-      }
-      if (rate === 'slow' && chunks.length > 1) {
-        await new Promise(r => setTimeout(r, 120));
-      }
+    // Phrase/sentence: Youdao only accepts single tokens in-browser, so speak word-by-word.
+    const words = raw.match(/[A-Za-z']+/g) || [];
+    if (!words.length) throw new Error('online TTS: no speakable words');
+    const gap = rate === 'slow' ? 140 : rate === 'fast' ? 40 : 80;
+    for (const w of words) {
+      await playUrlAudio('https://dict.youdao.com/dictvoice?audio=' + encodeURIComponent(w) + '&type=2');
+      await new Promise(r => setTimeout(r, gap));
     }
     return true;
   }
