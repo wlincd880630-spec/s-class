@@ -421,10 +421,13 @@
   function playUrlAudio(url) {
     return new Promise((resolve, reject) => {
       stopAudio();
-      const audio = new Audio(url);
+      const audio = new Audio();
+      // Google Translate TTS often 404s when Referer is a third-party origin
+      try { audio.referrerPolicy = 'no-referrer'; } catch (e) {}
       _audio = audio;
       audio.onended = () => resolve(true);
       audio.onerror = () => reject(new Error('online TTS play failed'));
+      audio.src = url;
       const p = audio.play();
       if (p && typeof p.catch === 'function') p.catch(reject);
     });
@@ -444,11 +447,13 @@
         console.warn('Youdao TTS failed, trying Google TTS', e);
       }
     }
-    const tl = 'en-GB';
+    const tl = 'en';
     const chunks = splitOnlineTtsChunks(raw, 180);
     for (const chunk of chunks) {
       const url = 'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=' +
-        encodeURIComponent(tl) + '&q=' + encodeURIComponent(chunk);
+        encodeURIComponent(tl) +
+        '&total=1&idx=0&textlen=' + encodeURIComponent(String(chunk.length)) +
+        '&q=' + encodeURIComponent(chunk);
       await playUrlAudio(url);
       // slow rate: brief pause between chunks
       if (rate === 'slow' && chunks.length > 1) {
