@@ -2,8 +2,8 @@ import glob
 import os
 import urllib.request
 
-KEY = "3C2ai7PPgPnOLlhb1c7gBw207PAVNfVJni6JnESsPjYPaVyFeQ9YJQQJ99CGAC3pKaRXJ3w3AAAYACOG0Zbc"
-REGION = "eastasia"
+KEY = "8d055d682fcd4af98a51828e04542cd4"
+REGION = "southeastasia"
 
 url = f"https://{REGION}.tts.speech.microsoft.com/cognitiveservices/v1"
 ssml = (

@@ -147,7 +147,7 @@ function patchManifestHtml(html, additions, cosBase) {
 
 async function main() {
   const key = String(process.env.AZURE_SPEECH_KEY || process.env.SPEECH_KEY || "").trim();
-  const region = String(process.env.AZURE_SPEECH_REGION || "eastasia").trim();
+  const region = String(process.env.AZURE_SPEECH_REGION || "southeastasia").trim();
   let html = fs.readFileSync(HTML_PATH, "utf8");
   const manifest = extractManifest(html);
   const wanted = collectPage04Phrases(html);

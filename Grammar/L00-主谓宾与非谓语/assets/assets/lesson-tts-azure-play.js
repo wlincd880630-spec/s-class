@@ -58,7 +58,7 @@
 
   function playAzureNetwork(raw) {
     var key = String(global.__AZURE_SPEECH_KEY__ || "").trim();
-    var region = String(global.__AZURE_SPEECH_REGION__ || "eastus2").trim();
+    var region = String(global.__AZURE_SPEECH_REGION__ || "southeastasia").trim();
     var customUrl = String(global.__AZURE_SPEECH_TTS_URL__ || "").trim();
     var url =
       customUrl ||

@@ -4,7 +4,7 @@
  *
  * 环境变量：
  *   AZURE_SPEECH_KEY / SPEECH_KEY
- *   AZURE_SPEECH_REGION（默认 eastasia）
+ *   AZURE_SPEECH_REGION（默认 southeastasia）
  *
  * 用法（在 Grammar/L07 目录）：
  *   node scripts/sync-worth-tts-azure.mjs
@@ -141,7 +141,7 @@ async function main() {
   const dryRun = process.argv.includes("--dry-run");
   const uploadCos = process.argv.includes("--upload-cos");
   const key = String(process.env.AZURE_SPEECH_KEY || process.env.SPEECH_KEY || "").trim();
-  const region = String(process.env.AZURE_SPEECH_REGION || "eastasia").trim();
+  const region = String(process.env.AZURE_SPEECH_REGION || "southeastasia").trim();
 
   if (!dryRun && !key) {
     console.error("请设置 AZURE_SPEECH_KEY");

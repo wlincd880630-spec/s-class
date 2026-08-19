@@ -7,7 +7,7 @@ import { fileURLToPath } from "url";
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "L10");
 const OUT_DIR = path.join(ROOT, "assets", "tts-mp3");
 const key = process.env.AZURE_SPEECH_KEY || process.env.SPEECH_KEY;
-const region = process.env.AZURE_SPEECH_REGION || "eastasia";
+const region = process.env.AZURE_SPEECH_REGION || "southeastasia";
 
 function sha20(t) {
   return crypto.createHash("sha1").update(String(t), "utf8").digest("hex").slice(0, 20);

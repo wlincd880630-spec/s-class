@@ -41,7 +41,7 @@ node Grammar/scripts/build-l15-classroom-handout.mjs
 
 ```powershell
 $env:AZURE_SPEECH_KEY="你的密钥"
-$env:AZURE_SPEECH_REGION="eastasia"
+$env:AZURE_SPEECH_REGION="southeastasia"
 node Grammar/scripts/download-l15-tts-azure.mjs
 ```
 

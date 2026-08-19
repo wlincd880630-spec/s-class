@@ -43,7 +43,7 @@ const MEDIA_BASE = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-cla
   function initAzureTTS() {
     if (window.sdk && window.SpeechConfig) return;
     const key = localStorage.getItem('azure_tts_key') || '';
-    const region = localStorage.getItem('azure_tts_region') || 'eastasia';
+    const region = localStorage.getItem('azure_tts_region') || 'southeastasia';
     if (!key) return null;
     try {
       const config = window.SpeechConfig.fromSubscription(key, region);

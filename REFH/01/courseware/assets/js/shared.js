@@ -8,22 +8,38 @@
   const ARTICLE_PAGE_URL = COURSEWARE_WEB_BASE + 'part2-reading.html';
 
   const DEFAULT_CONFIG = {
-    azureKey: '3C2ai7PPgPnOLlhb1c7gBw207PAVNfVJni6JnESsPjYPaVyFeQ9YJQQJ99CGAC3pKaRXJ3w3AAAYACOG0Zbc',
-    azureRegion: 'eastasia',
+    azureKey: '8d055d682fcd4af98a51828e04542cd4',
+    azureRegion: 'southeastasia',
     deepseekKey: 'sk-daa16008e81843deba6fefe9dce51465'
   };
 
   let _audio = null;
   let _blobUrl = null;
 
+  const LEGACY_AZURE_KEYS = new Set([
+    '3C2ai7PPgPnOLlhb1c7gBw207PAVNfVJni6JnESsPjYPaVyFeQ9YJQQJ99CGAC3pKaRXJ3w3AAAYACOG0Zbc',
+    'C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu',
+    'C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdExx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu',
+    '43gMKIlSRVGT9PnAFgWkdXyogwXfudT33O2Zk6QtfTKuY1nm01BdJQQJ99BLACHYHv6XJ3w3AAAYACOGts5S',
+    'DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9'
+  ]);
+
   function getConfig() {
     let stored = {};
     try {
       stored = JSON.parse(localStorage.getItem(CONFIG_KEY) || '{}');
     } catch (e) {}
+    const storedKey = String(stored.azureKey || '').trim();
+    const azureKey = (storedKey && !LEGACY_AZURE_KEYS.has(storedKey))
+      ? storedKey
+      : DEFAULT_CONFIG.azureKey;
+    const storedRegion = String(stored.azureRegion || '').trim();
+    const azureRegion = (storedRegion && storedRegion !== 'eastasia' && storedRegion !== 'eastus2')
+      ? storedRegion
+      : DEFAULT_CONFIG.azureRegion;
     return {
-      azureKey: stored.azureKey || DEFAULT_CONFIG.azureKey,
-      azureRegion: stored.azureRegion || DEFAULT_CONFIG.azureRegion,
+      azureKey,
+      azureRegion,
       deepseekKey: stored.deepseekKey || DEFAULT_CONFIG.deepseekKey
     };
   }

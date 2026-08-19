@@ -23,7 +23,7 @@ const WORDS = [
   "shouted",
 ];
 const key = String(process.env.AZURE_SPEECH_KEY || "").trim();
-const region = String(process.env.AZURE_SPEECH_REGION || "eastasia").trim();
+const region = String(process.env.AZURE_SPEECH_REGION || "southeastasia").trim();
 const voice = "en-GB-RyanNeural";
 
 if (!key) {

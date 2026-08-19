@@ -21,7 +21,7 @@ function loadAzure() {
   const c = fs.readFileSync(fp, "utf8");
   const km = c.match(/var\s+AZURE_KEY\s*=\s*"([^"]+)"/);
   const rm = c.match(/var\s+AZURE_REGION\s*=\s*"([^"]+)"/);
-  return { key: km?.[1]?.trim() || "", region: rm?.[1]?.trim() || "eastasia" };
+  return { key: km?.[1]?.trim() || "", region: rm?.[1]?.trim() || "southeastasia" };
 }
 
 async function azureSynth(text, key, region, outFile) {
