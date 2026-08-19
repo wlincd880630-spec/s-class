@@ -86,7 +86,9 @@ function patchContent(text) {
 
   rep("AZURE_REGION = \"eastasia\"", `AZURE_REGION = "${NEW_REGION}"`);
   rep("AZURE_REGION = 'eastasia'", `AZURE_REGION = '${NEW_REGION}'`);
-  rep('AZURE_SPEECH_REGION = "eastasia"', `AZURE_SPEECH_REGION = "${NEW_REGION}"`);
+    rep('AZURE_SPEECH_REGION: "eastasia"', `AZURE_SPEECH_REGION: "${NEW_REGION}"`);
+  rep("AZURE_SPEECH_REGION: 'eastasia'", `AZURE_SPEECH_REGION: '${NEW_REGION}'`);
+  rep('AZURE_SPEECH_REGION = "eastasia", `AZURE_SPEECH_REGION = "${NEW_REGION}"`);
   rep("AZURE_SPEECH_REGION = 'eastasia'", `AZURE_SPEECH_REGION = '${NEW_REGION}'`);
   rep('AZURE_SPEECH_REGION = "eastus2"', `AZURE_SPEECH_REGION = "${NEW_REGION}"`);
   rep("AZURE_SPEECH_REGION = 'eastus2'", `AZURE_SPEECH_REGION = '${NEW_REGION}'`);
