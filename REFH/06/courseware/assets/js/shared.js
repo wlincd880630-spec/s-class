@@ -315,6 +315,14 @@
     } catch (e) {}
   }
 
+  function browserHasVoices() {
+    try {
+      return !!(global.speechSynthesis && (global.speechSynthesis.getVoices() || []).length);
+    } catch (e) {
+      return false;
+    }
+  }
+
   function speakWithBrowser(text, rate) {
     return new Promise((resolve, reject) => {
       if (!global.speechSynthesis || typeof global.SpeechSynthesisUtterance !== 'function') {
@@ -335,14 +343,35 @@
         return voices.find(v => /en-GB/i.test(v.lang))
           || voices.find(v => /^en(-|_)/i.test(v.lang) || /^en$/i.test(v.lang));
       };
+      let settled = false;
+      const finish = (ok, err) => {
+        if (settled) return;
+        settled = true;
+        if (ok) resolve(true);
+        else reject(err || new Error('browser TTS failed'));
+      };
       const applyAndSpeak = () => {
+        if (!browserHasVoices()) {
+          finish(false, new Error('browser TTS has no voices'));
+          return;
+        }
         const en = pickVoice();
         if (en) u.voice = en;
-        u.onend = () => resolve(true);
-        u.onerror = () => reject(new Error('browser TTS failed'));
-        global.speechSynthesis.speak(u);
+        u.onend = () => finish(true);
+        u.onerror = (ev) => {
+          const code = ev && ev.error ? String(ev.error) : '';
+          if (code === 'interrupted' || code === 'canceled') {
+            finish(false, new Error('browser TTS ' + code));
+            return;
+          }
+          finish(false, new Error('browser TTS failed: ' + (code || 'unknown')));
+        };
+        try {
+          global.speechSynthesis.speak(u);
+        } catch (err) {
+          finish(false, err);
+        }
       };
-      // Chrome may load voices asynchronously
       const existing = global.speechSynthesis.getVoices();
       if (existing && existing.length) {
         applyAndSpeak();
@@ -352,7 +381,7 @@
           if (done) return;
           done = true;
           applyAndSpeak();
-        }, 250);
+        }, 400);
         global.speechSynthesis.addEventListener('voiceschanged', () => {
           if (done) return;
           done = true;
@@ -361,6 +390,83 @@
         }, { once: true });
       }
     });
+  }
+
+  function splitOnlineTtsChunks(text, maxLen) {
+    const limit = maxLen || 180;
+    const raw = String(text || '').trim();
+    if (!raw) return [];
+    if (raw.length <= limit) return [raw];
+    const parts = raw.match(/[^.!?]+[.!?]+|[^.!?]+$/g)?.map(s => s.trim()).filter(Boolean) || [raw];
+    const chunks = [];
+    let buf = '';
+    for (const p of parts) {
+      if (p.length > limit) {
+        if (buf) { chunks.push(buf); buf = ''; }
+        for (let i = 0; i < p.length; i += limit) chunks.push(p.slice(i, i + limit));
+        continue;
+      }
+      const next = buf ? buf + ' ' + p : p;
+      if (next.length > limit && buf) {
+        chunks.push(buf);
+        buf = p;
+      } else {
+        buf = next;
+      }
+    }
+    if (buf) chunks.push(buf);
+    return chunks;
+  }
+
+  function playUrlAudio(url) {
+    return new Promise((resolve, reject) => {
+      stopAudio();
+      const audio = new Audio(url);
+      _audio = audio;
+      audio.onended = () => resolve(true);
+      audio.onerror = () => reject(new Error('online TTS play failed'));
+      const p = audio.play();
+      if (p && typeof p.catch === 'function') p.catch(reject);
+    });
+  }
+
+  async function speakWithOnlineTts(text, rate) {
+    const raw = String(text || '').trim();
+    if (!raw) return false;
+    // Prefer Youdao for short single tokens; Google Translate TTS for phrases/sentences
+    const isShortWord = /^[A-Za-z][A-Za-z'-]{0,40}$/.test(raw);
+    if (isShortWord) {
+      const youdao = 'https://dict.youdao.com/dictvoice?audio=' + encodeURIComponent(raw) + '&type=2';
+      try {
+        await playUrlAudio(youdao);
+        return true;
+      } catch (e) {
+        console.warn('Youdao TTS failed, trying Google TTS', e);
+      }
+    }
+    const tl = 'en-GB';
+    const chunks = splitOnlineTtsChunks(raw, 180);
+    for (const chunk of chunks) {
+      const url = 'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=' +
+        encodeURIComponent(tl) + '&q=' + encodeURIComponent(chunk);
+      await playUrlAudio(url);
+      // slow rate: brief pause between chunks
+      if (rate === 'slow' && chunks.length > 1) {
+        await new Promise(r => setTimeout(r, 180));
+      }
+    }
+    return true;
+  }
+
+  async function speakWithFallback(text, rate) {
+    try {
+      await speakWithBrowser(text, rate);
+      return true;
+    } catch (e) {
+      console.warn('Browser TTS unavailable, trying online TTS', e);
+      await speakWithOnlineTts(text, rate);
+      return true;
+    }
   }
 
   async function speakText(text, rate) {
@@ -372,11 +478,12 @@
       await playAudioBlob(blob);
       return true;
     } catch (e) {
-      console.warn('Azure TTS failed, falling back to browser TTS', e);
+      console.warn('Azure TTS failed, falling back', e);
       try {
-        await speakWithBrowser(text, rate);
+        await speakWithFallback(text, rate);
         return true;
       } catch (e2) {
+        console.warn('All TTS fallbacks failed', e2);
         showToast('语音播放失败，请检查 Azure 配置');
         return false;
       }
@@ -390,10 +497,10 @@
       return playFullSpeak();
     } catch (e) {
       if (e.message === 'cancelled' || e.message === 'empty') return false;
-      console.warn('Azure full TTS failed, falling back to browser TTS', e);
+      console.warn('Azure full TTS failed, falling back', e);
       try {
-        await speakWithBrowser(text, rate);
-        showToast('Azure 不可用，已用浏览器语音朗读');
+        await speakWithFallback(text, rate);
+        showToast('Azure 不可用，已用备用语音朗读');
         return true;
       } catch (e2) {
         showToast('全文朗读失败，请检查 Azure 配置');
@@ -1579,7 +1686,7 @@ ${azureLine}
 
   global.Courseware = {
     getConfig, saveConfig, initConfig,
-    speakText, speakWithBrowser, stopAudio, speakFullText, stopFullSpeak, isFullSpeaking, isFullSpeakReady,
+    speakText, speakWithBrowser, speakWithFallback, stopAudio, speakFullText, stopFullSpeak, isFullSpeaking, isFullSpeakReady,
     prepareFullSpeakAudio, playFullSpeak, pauseFullSpeak, toggleFullSpeakPlay,
     skipFullSpeak, seekFullSpeak, getFullSpeakState, downloadFullSpeakMp3, bindFullSpeakPlayer,
     callDeepSeek, lookupWord, analyzeSelection, translateSelection, analyzeSentence, formatAiMarkdown,
