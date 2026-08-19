@@ -436,7 +436,6 @@
   async function speakWithOnlineTts(text, rate) {
     const raw = String(text || '').trim();
     if (!raw) return false;
-    // Prefer Youdao for short single tokens; Google Translate TTS for phrases/sentences
     const isShortWord = /^[A-Za-z][A-Za-z'-]{0,40}$/.test(raw);
     if (isShortWord) {
       const youdao = 'https://dict.youdao.com/dictvoice?audio=' + encodeURIComponent(raw) + '&type=2';
@@ -444,20 +443,30 @@
         await playUrlAudio(youdao);
         return true;
       } catch (e) {
-        console.warn('Youdao TTS failed, trying Google TTS', e);
+        console.warn('Youdao TTS failed, trying Baidu TTS', e);
       }
     }
-    const tl = 'en';
-    const chunks = splitOnlineTtsChunks(raw, 180);
+    // Baidu Fanyi TTS works for short phrases/sentences in the browser (Google often 404s)
+    const spd = rate === 'slow' ? 3 : rate === 'fast' ? 5 : 4;
+    const chunks = splitOnlineTtsChunks(raw, 80);
+    let lastErr = null;
     for (const chunk of chunks) {
-      const url = 'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=' +
-        encodeURIComponent(tl) +
-        '&total=1&idx=0&textlen=' + encodeURIComponent(String(chunk.length)) +
-        '&q=' + encodeURIComponent(chunk);
-      await playUrlAudio(url);
-      // slow rate: brief pause between chunks
+      const url = 'https://fanyi.baidu.com/gettts?lan=en&spd=' + spd +
+        '&source=web&text=' + encodeURIComponent(chunk);
+      try {
+        await playUrlAudio(url);
+      } catch (e) {
+        lastErr = e;
+        console.warn('Baidu TTS chunk failed, trying Youdao word split', e);
+        const words = chunk.match(/[A-Za-z']+/g) || [];
+        if (!words.length) throw e;
+        for (const w of words) {
+          await playUrlAudio('https://dict.youdao.com/dictvoice?audio=' + encodeURIComponent(w) + '&type=2');
+          await new Promise(r => setTimeout(r, 60));
+        }
+      }
       if (rate === 'slow' && chunks.length > 1) {
-        await new Promise(r => setTimeout(r, 180));
+        await new Promise(r => setTimeout(r, 120));
       }
     }
     return true;
