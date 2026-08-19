@@ -1915,7 +1915,17 @@
             tryKey();
           })
           .catch(function (err) {
-            onFail(err || new Error("无法使用麦克风，请在浏览器地址栏允许麦克风权限后重试。"));
+            var msg = (err && err.message) || "";
+            var name = (err && err.name) || "";
+            if (name === "NotAllowedError" || /permission|denied/i.test(msg)) {
+              onFail(new Error("麦克风权限被拒绝。请点击地址栏锁图标，允许本站使用麦克风后重试。"));
+            } else if (name === "NotFoundError" || /device not found|no.*microphone/i.test(msg)) {
+              onFail(new Error("未检测到麦克风设备。请接入麦克风后重试，或换一台有麦克风的电脑/平板。"));
+            } else if (name === "NotReadableError") {
+              onFail(new Error("麦克风被其他程序占用。请关闭其他占用麦克风的应用后重试。"));
+            } else {
+              onFail(new Error("无法使用麦克风：" + (msg || "请允许麦克风权限后重试。")));
+            }
           });
       }
 
