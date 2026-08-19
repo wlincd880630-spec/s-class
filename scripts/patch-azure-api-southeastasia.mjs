@@ -3,7 +3,7 @@
  * 全站 Azure Speech API → southeastasia 新密钥
  * 用法: node scripts/patch-azure-api-southeastasia.mjs [--dry-run]
  *
- * 注意：REFH/*/shared.js 中的 LEGACY_AZURE_KEYS 会保留旧密钥，
+ * 注意：REFH/.../shared.js 中的 LEGACY_AZURE_KEYS 会保留旧密钥，
  * 用于覆盖 localStorage 里的过期配置。
  */
 import fs from "fs";
