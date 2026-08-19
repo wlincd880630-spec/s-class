@@ -18,7 +18,7 @@
   },
   {
     "id": "p02",
-    "section": "思考",
+    "section": "导入",
     "title": "苏格拉底 · 考点在哪？",
     "type": "socratic",
     "badge": "ask",
@@ -46,7 +46,40 @@
     "zh": "我喜欢在图书馆看书。"
   },
   {
-    "id": "p03",
+    "section": "构成",
+    "title": "构成公式",
+    "type": "formula",
+    "badge": "demo",
+    "badgeText": "📐 公式",
+    "image": "w3-like-hero.jpg",
+    "lead": "有些动词后面接 doing（动名词）作宾语。",
+    "formula": "enjoy / finish / practise + doing",
+    "parts": [
+      {
+        "mark": "doing",
+        "label": "动名词宾语",
+        "example": "enjoy reading"
+      },
+      {
+        "mark": "to do",
+        "label": "另一些动词",
+        "example": "want to read"
+      }
+    ],
+    "samples": [
+      {
+        "sentence": "I enjoy reading books in the library.",
+        "zh": "我喜欢在图书馆读书。"
+      },
+      {
+        "sentence": "Tom likes playing basketball.",
+        "zh": "汤姆喜欢打篮球。"
+      }
+    ],
+    "id": "p03"
+  },
+  {
+    "id": "p04",
     "section": "发现",
     "title": "规则发现",
     "type": "discover",
@@ -64,8 +97,70 @@
     "discovery": "enjoy/like/finish/mind + doing（动名词）。"
   },
   {
-    "id": "p04",
-    "section": "游戏",
+    "section": "精讲",
+    "title": "例句 · enjoy doing",
+    "type": "scene",
+    "badge": "image",
+    "badgeText": "🖼 例句",
+    "image": "w3-like-hero.jpg",
+    "lead": "enjoy 后面不能加 to do。",
+    "sentence": "I enjoy reading books in the library.",
+    "zh": "我喜欢在图书馆读书。",
+    "source": "课堂精讲 · 对齐初中",
+    "id": "p05"
+  },
+  {
+    "section": "精讲",
+    "title": "例句 · finish doing",
+    "type": "scene",
+    "badge": "image",
+    "badgeText": "🖼 例句",
+    "image": "w3-like-hero.jpg",
+    "lead": "finish 后接 doing。",
+    "sentence": "She finished doing her homework at nine.",
+    "zh": "她九点做完了作业。",
+    "source": "课堂精讲 · 对齐初中",
+    "id": "p06"
+  },
+  {
+    "id": "p07",
+    "section": "精讲",
+    "title": "规则卡",
+    "type": "spelling",
+    "image": "w3-like-hero.jpg",
+    "lead": "常见动词 + doing。",
+    "rules": [
+      {
+        "tab": "like/enjoy",
+        "rule": "like/enjoy/love + doing 喜欢做",
+        "focusVerb": "reading",
+        "examples": [
+          {
+            "from": "read",
+            "to": "enjoy reading"
+          }
+        ],
+        "sample": "I enjoy reading books in the library.",
+        "sampleZh": "我喜欢在图书馆看书。"
+      },
+      {
+        "tab": "finish/mind",
+        "rule": "finish/mind/practise + doing",
+        "focusVerb": "finishing",
+        "examples": [
+          {
+            "from": "finish",
+            "to": "finish doing"
+          }
+        ],
+        "sample": "Have you finished doing your homework?",
+        "sampleZh": "你做完作业了吗？"
+      }
+    ]
+  },
+  {
+    "id": "p08",
+    "section": "辨析",
     "title": "分类篮",
     "type": "classify",
     "badge": "demo",
@@ -109,44 +204,103 @@
     ]
   },
   {
-    "id": "p05",
-    "section": "精讲",
-    "title": "规则卡",
-    "type": "spelling",
+    "section": "辨析",
+    "title": "易错点 · 苏格拉底",
+    "type": "socratic",
+    "badge": "ask",
+    "badgeText": "💭 易错",
     "image": "w3-like-hero.jpg",
-    "lead": "常见动词 + doing。",
-    "rules": [
+    "question": "「She enjoys to play football.」应改成？",
+    "choices": [
       {
-        "tab": "like/enjoy",
-        "rule": "like/enjoy/love + doing 喜欢做",
-        "focusVerb": "reading",
-        "examples": [
-          {
-            "from": "read",
-            "to": "enjoy reading"
-          }
-        ],
-        "sample": "I enjoy reading books in the library.",
-        "sampleZh": "我喜欢在图书馆看书。"
+        "text": "enjoys playing",
+        "correct": true,
+        "fb": "enjoy + doing。"
       },
       {
-        "tab": "finish/mind",
-        "rule": "finish/mind/practise + doing",
-        "focusVerb": "finishing",
-        "examples": [
-          {
-            "from": "finish",
-            "to": "finish doing"
-          }
-        ],
-        "sample": "Have you finished doing your homework?",
-        "sampleZh": "你做完作业了吗？"
+        "text": "enjoy play",
+        "correct": false,
+        "fb": "缺 -ing，且三单 enjoys。"
+      },
+      {
+        "text": "enjoys play",
+        "correct": false,
+        "fb": "要 playing。"
       }
-    ]
+    ],
+    "sentence": "She enjoys playing football.",
+    "zh": "她喜欢踢足球。",
+    "id": "p09"
   },
   {
-    "id": "p06",
-    "section": "闯关",
+    "section": "转换",
+    "title": "句型转换",
+    "type": "transform",
+    "badge": "demo",
+    "badgeText": "🔄 转换",
+    "image": "w3-like-hero.jpg",
+    "lead": "把 to do 改成 enjoy 句型。",
+    "items": [
+      {
+        "from": "I want to read this book.",
+        "fromZh": "我想读这本书。",
+        "steps": [
+          {
+            "label": "如果是 enjoy，怎么说？",
+            "opts": [
+              "I enjoy reading this book.",
+              "I enjoy to read this book.",
+              "I enjoy read this book."
+            ],
+            "ans": 0,
+            "hint": "enjoy + reading。",
+            "sentence": "I enjoy reading this book.",
+            "zh": "我喜欢读这本书。"
+          }
+        ]
+      }
+    ],
+    "id": "p10"
+  },
+  {
+    "section": "操练",
+    "title": "看图造句",
+    "type": "picture-build",
+    "badge": "action",
+    "badgeText": "🧩 造句",
+    "image": "w3-like-hero.jpg",
+    "instruction": "对照初中造句操练：点选乱序单词组成正确句子。",
+    "tokens": [
+      "Tom",
+      "likes",
+      "playing",
+      "basketball"
+    ],
+    "sentence": "Tom likes playing basketball.",
+    "zh": "汤姆喜欢打篮球。",
+    "id": "p11"
+  },
+  {
+    "id": "p12",
+    "section": "操练",
+    "title": "听音排序 · 造句",
+    "type": "listen-order",
+    "badge": "sound",
+    "badgeText": "🔀 排序",
+    "image": "w3-like-hero.jpg",
+    "audio": "Tom likes playing basketball.",
+    "tokens": [
+      "Tom",
+      "likes",
+      "playing",
+      "basketball"
+    ],
+    "sentence": "Tom likes playing basketball.",
+    "zh": "汤姆喜欢打篮球。"
+  },
+  {
+    "id": "p13",
+    "section": "检测",
     "title": "限时快选 · PSLE 真题",
     "type": "quiz",
     "badge": "q",
@@ -164,41 +318,325 @@
     "zh": "我喜欢在图书馆看书。"
   },
   {
-    "id": "p07",
-    "section": "游戏",
-    "title": "听音排序 · 造句",
-    "type": "listen-order",
-    "badge": "sound",
-    "badgeText": "🔀 排序",
+    "section": "检测",
+    "title": "综合测试",
+    "type": "multi-quiz",
+    "badge": "q",
+    "badgeText": "📝 综测",
     "image": "w3-like-hero.jpg",
-    "audio": "Tom likes playing basketball.",
-    "tokens": [
-      "Tom",
-      "likes",
-      "playing",
-      "basketball"
+    "lead": "对齐初中综合测试：全部做完再交卷。",
+    "questions": [
+      {
+        "q": "She enjoys _____ football after school.",
+        "opts": [
+          "play",
+          "playing",
+          "to play"
+        ],
+        "ans": 1,
+        "hint": "enjoy + doing。",
+        "sentence": "I enjoy reading books in the library.",
+        "zh": "我喜欢在图书馆看书。"
+      },
+      {
+        "q": "He finished _____ the room.",
+        "opts": [
+          "clean",
+          "cleaning",
+          "to clean"
+        ],
+        "ans": 1,
+        "hint": "finish + doing。",
+        "sentence": "He finished cleaning the room.",
+        "zh": "他打扫完房间了。"
+      },
+      {
+        "q": "They practise _____ the piano every day.",
+        "opts": [
+          "play",
+          "playing",
+          "to play"
+        ],
+        "ans": 1,
+        "hint": "practise + doing。",
+        "sentence": "They practise playing the piano every day.",
+        "zh": "他们每天练习弹钢琴。"
+      },
+      {
+        "q": "I hope _____ you soon.",
+        "opts": [
+          "seeing",
+          "see",
+          "to see"
+        ],
+        "ans": 2,
+        "hint": "hope + to do。",
+        "sentence": "I hope to see you soon.",
+        "zh": "我希望很快见到你。"
+      },
+      {
+        "q": "Would you mind _____ the window?",
+        "opts": [
+          "open",
+          "opening",
+          "to open"
+        ],
+        "ans": 1,
+        "hint": "mind + doing。",
+        "sentence": "Would you mind opening the window?",
+        "zh": "你介意开窗吗？"
+      },
+      {
+        "q": "She likes _____ but today she would like _____ TV.",
+        "opts": [
+          "reading; to watch",
+          "to read; watching",
+          "read; watch"
+        ],
+        "ans": 0,
+        "hint": "like doing 爱好；would like to do 想要。",
+        "sentence": "She likes reading but today she would like to watch TV.",
+        "zh": "她喜欢阅读，但今天想看电视。"
+      }
     ],
-    "sentence": "Tom likes playing basketball.",
-    "zh": "汤姆喜欢打篮球。"
+    "id": "p14"
   },
   {
-    "id": "p08",
-    "section": "总结",
-    "title": "写作句框 · 口诀",
+    "section": "检测",
+    "title": "限时挑战 60 秒",
+    "type": "timed-quiz",
+    "badge": "timed",
+    "badgeText": "⏱ 限时",
+    "lead": "对照初中课堂竞赛：60 秒内尽量多答对。",
+    "seconds": 60,
+    "perQuestion": 12,
+    "pass": 4,
+    "questions": [
+      {
+        "q": "She enjoys _____ football after school.",
+        "opts": [
+          "play",
+          "playing",
+          "to play"
+        ],
+        "ans": 1,
+        "hint": "enjoy + doing。",
+        "sentence": "I enjoy reading books in the library.",
+        "zh": "我喜欢在图书馆看书。"
+      },
+      {
+        "q": "He finished _____ the room.",
+        "opts": [
+          "clean",
+          "cleaning",
+          "to clean"
+        ],
+        "ans": 1,
+        "hint": "finish + doing。",
+        "sentence": "He finished cleaning the room.",
+        "zh": "他打扫完房间了。"
+      },
+      {
+        "q": "They practise _____ the piano every day.",
+        "opts": [
+          "play",
+          "playing",
+          "to play"
+        ],
+        "ans": 1,
+        "hint": "practise + doing。",
+        "sentence": "They practise playing the piano every day.",
+        "zh": "他们每天练习弹钢琴。"
+      },
+      {
+        "q": "I hope _____ you soon.",
+        "opts": [
+          "seeing",
+          "see",
+          "to see"
+        ],
+        "ans": 2,
+        "hint": "hope + to do。",
+        "sentence": "I hope to see you soon.",
+        "zh": "我希望很快见到你。"
+      },
+      {
+        "q": "Would you mind _____ the window?",
+        "opts": [
+          "open",
+          "opening",
+          "to open"
+        ],
+        "ans": 1,
+        "hint": "mind + doing。",
+        "sentence": "Would you mind opening the window?",
+        "zh": "你介意开窗吗？"
+      },
+      {
+        "q": "She likes _____ but today she would like _____ TV.",
+        "opts": [
+          "reading; to watch",
+          "to read; watching",
+          "read; watch"
+        ],
+        "ans": 0,
+        "hint": "like doing 爱好；would like to do 想要。",
+        "sentence": "She likes reading but today she would like to watch TV.",
+        "zh": "她喜欢阅读，但今天想看电视。"
+      }
+    ],
+    "id": "p15"
+  },
+  {
+    "section": "检测",
+    "title": "连对闯关",
+    "type": "streak-quiz",
+    "badge": "game",
+    "badgeText": "🔥 连对",
+    "lead": "连续答对 5 题通关，答错连击清零。",
+    "target": 5,
+    "questions": [
+      {
+        "q": "She enjoys _____ football after school.",
+        "opts": [
+          "play",
+          "playing",
+          "to play"
+        ],
+        "ans": 1,
+        "hint": "enjoy + doing。",
+        "sentence": "I enjoy reading books in the library.",
+        "zh": "我喜欢在图书馆看书。"
+      },
+      {
+        "q": "He finished _____ the room.",
+        "opts": [
+          "clean",
+          "cleaning",
+          "to clean"
+        ],
+        "ans": 1,
+        "hint": "finish + doing。",
+        "sentence": "He finished cleaning the room.",
+        "zh": "他打扫完房间了。"
+      },
+      {
+        "q": "They practise _____ the piano every day.",
+        "opts": [
+          "play",
+          "playing",
+          "to play"
+        ],
+        "ans": 1,
+        "hint": "practise + doing。",
+        "sentence": "They practise playing the piano every day.",
+        "zh": "他们每天练习弹钢琴。"
+      },
+      {
+        "q": "I hope _____ you soon.",
+        "opts": [
+          "seeing",
+          "see",
+          "to see"
+        ],
+        "ans": 2,
+        "hint": "hope + to do。",
+        "sentence": "I hope to see you soon.",
+        "zh": "我希望很快见到你。"
+      },
+      {
+        "q": "Would you mind _____ the window?",
+        "opts": [
+          "open",
+          "opening",
+          "to open"
+        ],
+        "ans": 1,
+        "hint": "mind + doing。",
+        "sentence": "Would you mind opening the window?",
+        "zh": "你介意开窗吗？"
+      },
+      {
+        "q": "She likes _____ but today she would like _____ TV.",
+        "opts": [
+          "reading; to watch",
+          "to read; watching",
+          "read; watch"
+        ],
+        "ans": 0,
+        "hint": "like doing 爱好；would like to do 想要。",
+        "sentence": "She likes reading but today she would like to watch TV.",
+        "zh": "她喜欢阅读，但今天想看电视。"
+      }
+    ],
+    "id": "p16"
+  },
+  {
+    "section": "游戏",
+    "title": "英中配对",
+    "type": "match-pairs",
+    "badge": "game",
+    "badgeText": "🔗 配对",
+    "image": "w3-like-hero.jpg",
+    "pairs": [
+      {
+        "en": "enjoy reading",
+        "zh": "喜欢阅读"
+      },
+      {
+        "en": "finish doing",
+        "zh": "做完"
+      },
+      {
+        "en": "practise playing",
+        "zh": "练习弹/打"
+      },
+      {
+        "en": "want to do",
+        "zh": "想要做（对比）"
+      }
+    ],
+    "id": "p17"
+  },
+  {
+    "section": "听音",
+    "title": "听音快选",
+    "type": "listen-pick",
+    "badge": "sound",
+    "badgeText": "🎧 听音",
+    "image": "w3-like-hero.jpg",
+    "audio": "Tom likes playing basketball.",
+    "opts": [
+      "Tom likes playing basketball.",
+      "I enjoy to reading books in the library.",
+      "I enjoy read books in the library."
+    ],
+    "ans": 0,
+    "hint": "先听完整句，再选文字。",
+    "sentence": "Tom likes playing basketball.",
+    "zh": "汤姆喜欢打篮球。",
+    "id": "p18"
+  },
+  {
+    "section": "小结",
+    "title": "本讲小结",
     "type": "summary",
     "badge": "demo",
-    "badgeText": "📝 写作",
+    "badgeText": "📌 小结",
     "image": "writing.jpg",
     "checklist": [
       "enjoy/like/finish + doing",
       "want/decide/hope + to do（对比）",
-      "写作：I enjoy reading; I want to read more."
+      "写作：I enjoy reading; I want to read more.",
+      "mind / keep / practise / finish / enjoy 后接 doing。"
     ],
     "chant": "Enjoy and like — add -ing! Want to do — infinitive ring!",
-    "chantSpeak": "Enjoy and like, add ing! Want to do, infinitive ring!"
+    "chantSpeak": "Enjoy and like, add ing! Want to do, infinitive ring!",
+    "id": "p19"
   }
 ];
   global.KpData = {
+    courseTitle: "like / enjoy / finish + doing",
     pages: PAGES,
     total: PAGES.length,
     indexOf: function (id) {
