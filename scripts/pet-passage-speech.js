@@ -5,8 +5,8 @@
 (function () {
     'use strict';
 
-    var AZURE_KEY = window.PET_AZURE_KEY || "3C2ai7PPgPnOLlhb1c7gBw207PAVNfVJni6JnESsPjYPaVyFeQ9YJQQJ99CGAC3pKaRXJ3w3AAAYACOG0Zbc";
-    var AZURE_REGION = window.PET_AZURE_REGION || "eastasia";
+    var AZURE_KEY = window.PET_AZURE_KEY || "8d055d682fcd4af98a51828e04542cd4";
+    var AZURE_REGION = window.PET_AZURE_REGION || "southeastasia";
 
     function azureSpeak(text, opts) {
         opts = opts || {};

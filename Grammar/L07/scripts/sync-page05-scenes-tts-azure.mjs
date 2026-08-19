@@ -4,7 +4,7 @@
  *
  * 环境变量：
  *   AZURE_SPEECH_KEY / SPEECH_KEY（也可用 shared/lesson-tts-azure-config.js 中的 key）
- *   AZURE_SPEECH_REGION（默认 eastasia）
+ *   AZURE_SPEECH_REGION（默认 southeastasia）
  *
  * 用法：
  *   node Grammar/L07/scripts/sync-page05-scenes-tts-azure.mjs
@@ -79,7 +79,7 @@ function readAzureKeyFromConfig() {
       region: rm ? rm[1] : "eastasia",
     };
   } catch {
-    return { key: "", region: "eastasia" };
+    return { key: "", region: "southeastasia" };
   }
 }
 
@@ -183,7 +183,7 @@ async function main() {
     process.env.AZURE_SPEECH_KEY || process.env.SPEECH_KEY || fromCfg.key || ""
   ).trim();
   const region = String(
-    process.env.AZURE_SPEECH_REGION || fromCfg.region || "eastasia"
+    process.env.AZURE_SPEECH_REGION || fromCfg.region || "southeastasia"
   ).trim();
 
   if (!dryRun && !key) {

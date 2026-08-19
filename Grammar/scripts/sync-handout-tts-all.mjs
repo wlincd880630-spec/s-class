@@ -273,7 +273,7 @@ console.log("\n讲义 TTS 待检查 MP3:", jobs.size);
 let need = 0;
 let got = 0;
 const key = String(process.env.AZURE_SPEECH_KEY || process.env.SPEECH_KEY || "").trim();
-const region = String(process.env.AZURE_SPEECH_REGION || "eastasia").trim();
+const region = String(process.env.AZURE_SPEECH_REGION || "southeastasia").trim();
 
 for (const job of jobs.values()) {
   const out = path.join(ROOT, job.lesson, "assets", "tts-mp3", job.fileName);

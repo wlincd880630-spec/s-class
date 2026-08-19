@@ -2,8 +2,8 @@
  * 通用工具：Azure 语音、本地存储、计时、随机等
  */
 const AZURE_CONFIG = {
-  subscriptionKey: '3C2ai7PPgPnOLlhb1c7gBw207PAVNfVJni6JnESsPjYPaVyFeQ9YJQQJ99CGAC3pKaRXJ3w3AAAYACOG0Zbc',
-  region: 'eastasia',
+  subscriptionKey: '8d055d682fcd4af98a51828e04542cd4',
+  region: 'southeastasia',
   language: 'en-GB',
   voice: 'en-GB-RyanNeural',
   speechRate: '0.90'

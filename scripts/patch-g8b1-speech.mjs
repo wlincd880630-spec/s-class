@@ -12,8 +12,8 @@ import { fileURLToPath } from "url";
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const G8_B1 = path.join(ROOT, "junior_vocab", "G8_B1");
 
-const OLD_KEY = "43gMKIlSRVGT9PnAFgWkdXyogwXfudT33O2Zk6QtfTKuY1nm01BdJQQJ99BLACHYHv6XJ3w3AAAYACOGts5S";
-const NEW_KEY = "3C2ai7PPgPnOLlhb1c7gBw207PAVNfVJni6JnESsPjYPaVyFeQ9YJQQJ99CGAC3pKaRXJ3w3AAAYACOG0Zbc";
+const OLD_KEY = "8d055d682fcd4af98a51828e04542cd4";
+const NEW_KEY = "8d055d682fcd4af98a51828e04542cd4";
 
 const OLD_INIT = `async function initSpeech() {
   try {
@@ -149,7 +149,7 @@ function patchFile(fp) {
   let s = fs.readFileSync(fp, "utf8");
   const orig = s;
   s = s.replace(new RegExp(`const AZURE_KEY\\s*=\\s*"${OLD_KEY.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}";`), `const AZURE_KEY    = "${NEW_KEY}";`);
-  s = s.replace(/const AZURE_REGION\s*=\s*"eastus2";/, 'const AZURE_REGION = "eastasia";');
+  s = s.replace(/const AZURE_REGION\s*=\s*"eastus2";/, 'const AZURE_REGION = "southeastasia";');
   if (!s.includes("SpeakerAudioDestination")) {
     s = s.replace(
       /async function initSpeech\(\)\s*\{[\s\S]*?\n\}/,

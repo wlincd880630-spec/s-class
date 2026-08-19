@@ -3,7 +3,7 @@
  * 扫描全部 *tts-manifest.js，为缺失的 assets/tts-mp3/*.mp3 调用 Azure 合成。
  *
  *   set AZURE_SPEECH_KEY=你的密钥
- *   set AZURE_SPEECH_REGION=eastasia
+ *   set AZURE_SPEECH_REGION=southeastasia
  *   node scripts/download-missing-from-manifests.mjs
  */
 import fs from "fs";
@@ -87,7 +87,7 @@ function loadAzureFromRepoConfig() {
 const fromCfg = loadAzureFromRepoConfig();
 const key = String(process.env.AZURE_SPEECH_KEY || process.env.SPEECH_KEY || fromCfg.key || "").trim();
 const region = String(
-  process.env.AZURE_SPEECH_REGION || process.env.SPEECH_REGION || fromCfg.region || "eastasia"
+  process.env.AZURE_SPEECH_REGION || process.env.SPEECH_REGION || fromCfg.region || "southeastasia"
 ).trim();
 if (!key) {
   console.error("请设置 AZURE_SPEECH_KEY 或配置 L03/assets/lesson-tts-azure-config.js");

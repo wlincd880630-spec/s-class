@@ -19,7 +19,7 @@ COS_BASE = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Prima
 
 AZURE_KEY = os.environ.get(
     "AZURE_SPEECH_KEY",
-    "3C2ai7PPgPnOLlhb1c7gBw207PAVNfVJni6JnESsPjYPaVyFeQ9YJQQJ99CGAC3pKaRXJ3w3AAAYACOG0Zbc",
+    "8d055d682fcd4af98a51828e04542cd4",
 )
 AZURE_REGION = os.environ.get("AZURE_SPEECH_REGION", "eastasia")
 AZURE_VOICE = "en-GB-RyanNeural"

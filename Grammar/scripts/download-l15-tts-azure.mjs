@@ -13,7 +13,7 @@ const force = process.argv.includes("--force");
 const delayMs = Number(process.env.TTS_DELAY_MS || "120");
 
 const key = process.env.AZURE_SPEECH_KEY;
-const region = process.env.AZURE_SPEECH_REGION || "eastasia";
+const region = process.env.AZURE_SPEECH_REGION || "southeastasia";
 if (!key && !dryRun) {
   console.error("Set AZURE_SPEECH_KEY and optionally AZURE_SPEECH_REGION");
   process.exit(1);

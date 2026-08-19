@@ -8,22 +8,38 @@
   const ARTICLE_PAGE_URL = COURSEWARE_WEB_BASE + 'part2-reading.html';
 
   const DEFAULT_CONFIG = {
-    azureKey: '3C2ai7PPgPnOLlhb1c7gBw207PAVNfVJni6JnESsPjYPaVyFeQ9YJQQJ99CGAC3pKaRXJ3w3AAAYACOG0Zbc',
-    azureRegion: 'eastasia',
+    azureKey: '8d055d682fcd4af98a51828e04542cd4',
+    azureRegion: 'southeastasia',
     deepseekKey: 'sk-daa16008e81843deba6fefe9dce51465'
   };
 
   let _audio = null;
   let _blobUrl = null;
 
+  const LEGACY_AZURE_KEYS = new Set([
+    '3C2ai7PPgPnOLlhb1c7gBw207PAVNfVJni6JnESsPjYPaVyFeQ9YJQQJ99CGAC3pKaRXJ3w3AAAYACOG0Zbc',
+    'C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu',
+    'C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdExx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu',
+    '43gMKIlSRVGT9PnAFgWkdXyogwXfudT33O2Zk6QtfTKuY1nm01BdJQQJ99BLACHYHv6XJ3w3AAAYACOGts5S',
+    'DKRXk8ueSfo5NdIOMqFRTCAfpeGDezJ3Snf5K8gGgtyqxiWdugLzJQQJ99BLACHYHv6XJ3w3AAAYACOGUYP9'
+  ]);
+
   function getConfig() {
     let stored = {};
     try {
       stored = JSON.parse(localStorage.getItem(CONFIG_KEY) || '{}');
     } catch (e) {}
+    const storedKey = String(stored.azureKey || '').trim();
+    const azureKey = (storedKey && !LEGACY_AZURE_KEYS.has(storedKey))
+      ? storedKey
+      : DEFAULT_CONFIG.azureKey;
+    const storedRegion = String(stored.azureRegion || '').trim();
+    const azureRegion = (storedRegion && storedRegion !== 'eastasia' && storedRegion !== 'eastus2')
+      ? storedRegion
+      : DEFAULT_CONFIG.azureRegion;
     return {
-      azureKey: stored.azureKey || DEFAULT_CONFIG.azureKey,
-      azureRegion: stored.azureRegion || DEFAULT_CONFIG.azureRegion,
+      azureKey,
+      azureRegion,
       deepseekKey: stored.deepseekKey || DEFAULT_CONFIG.deepseekKey
     };
   }
@@ -54,6 +70,9 @@
   }
 
   function stopAudio() {
+    try {
+      if (global.speechSynthesis) global.speechSynthesis.cancel();
+    } catch (e) {}
     try {
       if (_audio) { _audio.pause(); _audio = null; }
       if (_blobUrl && (!_fullPlayer || _blobUrl !== _fullPlayer.url)) {
@@ -274,6 +293,7 @@
     const raw = String(text || '').trim();
     if (!raw) return null;
     const cfg = getConfig();
+    if (!cfg.azureKey) throw new Error('TTS failed: missing Azure key');
     const speed = rate === 'slow' ? '-25%' : rate === 'fast' ? '+15%' : '+0%';
     const ssml = `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-GB"><voice name="en-GB-RyanNeural"><prosody rate="${speed}">${xmlEscape(raw)}</prosody></voice></speak>`;
     const res = await fetch(`https://${cfg.azureRegion}.tts.speech.microsoft.com/cognitiveservices/v1`, {
@@ -285,8 +305,13 @@
       },
       body: ssml
     });
-    if (!res.ok) throw new Error('TTS failed');
-    return res.blob();
+    if (!res.ok) {
+      const detail = await res.text().catch(() => '');
+      throw new Error('TTS failed HTTP ' + res.status + (detail ? ': ' + detail.slice(0, 160) : ''));
+    }
+    const blob = await res.blob();
+    if (!blob || blob.size < 32) throw new Error('TTS failed: empty audio');
+    return blob;
   }
 
   function playAudioBlob(blob) {
@@ -300,28 +325,171 @@
     });
   }
 
+  function cancelBrowserSpeech() {
+    try {
+      if (global.speechSynthesis) global.speechSynthesis.cancel();
+    } catch (e) {}
+  }
+
+  function browserHasVoices() {
+    try {
+      return !!(global.speechSynthesis && (global.speechSynthesis.getVoices() || []).length);
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function speakWithBrowser(text, rate) {
+    return new Promise((resolve, reject) => {
+      if (!global.speechSynthesis || typeof global.SpeechSynthesisUtterance !== 'function') {
+        reject(new Error('browser TTS unavailable'));
+        return;
+      }
+      const raw = String(text || '').trim();
+      if (!raw) {
+        resolve(false);
+        return;
+      }
+      cancelBrowserSpeech();
+      const u = new SpeechSynthesisUtterance(raw);
+      u.lang = 'en-GB';
+      u.rate = rate === 'slow' ? 0.75 : rate === 'fast' ? 1.1 : 0.9;
+      const pickVoice = () => {
+        const voices = global.speechSynthesis.getVoices() || [];
+        return voices.find(v => /en-GB/i.test(v.lang))
+          || voices.find(v => /^en(-|_)/i.test(v.lang) || /^en$/i.test(v.lang));
+      };
+      let settled = false;
+      const finish = (ok, err) => {
+        if (settled) return;
+        settled = true;
+        if (ok) resolve(true);
+        else reject(err || new Error('browser TTS failed'));
+      };
+      const applyAndSpeak = () => {
+        if (!browserHasVoices()) {
+          finish(false, new Error('browser TTS has no voices'));
+          return;
+        }
+        const en = pickVoice();
+        if (en) u.voice = en;
+        u.onend = () => finish(true);
+        u.onerror = (ev) => {
+          const code = ev && ev.error ? String(ev.error) : '';
+          if (code === 'interrupted' || code === 'canceled') {
+            finish(false, new Error('browser TTS ' + code));
+            return;
+          }
+          finish(false, new Error('browser TTS failed: ' + (code || 'unknown')));
+        };
+        try {
+          global.speechSynthesis.speak(u);
+        } catch (err) {
+          finish(false, err);
+        }
+      };
+      const existing = global.speechSynthesis.getVoices();
+      if (existing && existing.length) {
+        applyAndSpeak();
+      } else {
+        let done = false;
+        const timer = setTimeout(() => {
+          if (done) return;
+          done = true;
+          applyAndSpeak();
+        }, 400);
+        global.speechSynthesis.addEventListener('voiceschanged', () => {
+          if (done) return;
+          done = true;
+          clearTimeout(timer);
+          applyAndSpeak();
+        }, { once: true });
+      }
+    });
+  }
+
+  function playUrlAudio(url) {
+    return new Promise((resolve, reject) => {
+      stopAudio();
+      const audio = new Audio();
+      // Google Translate TTS often 404s when Referer is a third-party origin
+      try { audio.referrerPolicy = 'no-referrer'; } catch (e) {}
+      _audio = audio;
+      audio.onended = () => resolve(true);
+      audio.onerror = () => reject(new Error('online TTS play failed'));
+      audio.src = url;
+      const p = audio.play();
+      if (p && typeof p.catch === 'function') p.catch(reject);
+    });
+  }
+
+  async function speakWithOnlineTts(text, rate) {
+    const raw = String(text || '').trim();
+    if (!raw) return false;
+    const isShortWord = /^[A-Za-z][A-Za-z'-]{0,40}$/.test(raw);
+    if (isShortWord) {
+      await playUrlAudio('https://dict.youdao.com/dictvoice?audio=' + encodeURIComponent(raw) + '&type=2');
+      return true;
+    }
+    // Phrase/sentence: Youdao only accepts single tokens in-browser, so speak word-by-word.
+    const words = raw.match(/[A-Za-z']+/g) || [];
+    if (!words.length) throw new Error('online TTS: no speakable words');
+    const gap = rate === 'slow' ? 140 : rate === 'fast' ? 40 : 80;
+    for (const w of words) {
+      await playUrlAudio('https://dict.youdao.com/dictvoice?audio=' + encodeURIComponent(w) + '&type=2');
+      await new Promise(r => setTimeout(r, gap));
+    }
+    return true;
+  }
+
+  async function speakWithFallback(text, rate) {
+    try {
+      await speakWithBrowser(text, rate);
+      return true;
+    } catch (e) {
+      console.warn('Browser TTS unavailable, trying online TTS', e);
+      await speakWithOnlineTts(text, rate);
+      return true;
+    }
+  }
+
   async function speakText(text, rate) {
     stopFullSpeak();
+    cancelBrowserSpeech();
     try {
       const blob = await fetchTtsBlob(text, rate);
       if (!blob) return false;
       await playAudioBlob(blob);
       return true;
     } catch (e) {
-      showToast('语音播放失败，请检查 Azure 配置');
-      return false;
+      console.warn('Azure TTS failed, falling back', e);
+      try {
+        await speakWithFallback(text, rate);
+        return true;
+      } catch (e2) {
+        console.warn('All TTS fallbacks failed', e2);
+        showToast('语音播放失败，请检查 Azure 配置');
+        return false;
+      }
     }
   }
 
   async function speakFullText(text, rate) {
+    cancelBrowserSpeech();
     try {
       await prepareFullSpeakAudio(text, rate);
       return playFullSpeak();
     } catch (e) {
-      if (e.message !== 'cancelled' && e.message !== 'empty') {
+      if (e.message === 'cancelled' || e.message === 'empty') return false;
+      console.warn('Azure full TTS failed, falling back', e);
+      try {
+        await speakWithFallback(text, rate);
+        showToast('Azure 不可用，已用备用语音朗读');
+        return true;
+      } catch (e2) {
         showToast('全文朗读失败，请检查 Azure 配置');
+        return false;
       }
-      return false;
     }
   }
 
@@ -1502,7 +1670,7 @@ ${azureLine}
 
   global.Courseware = {
     getConfig, saveConfig, initConfig,
-    speakText, stopAudio, speakFullText, stopFullSpeak, isFullSpeaking, isFullSpeakReady,
+    speakText, speakWithBrowser, speakWithFallback, stopAudio, speakFullText, stopFullSpeak, isFullSpeaking, isFullSpeakReady,
     prepareFullSpeakAudio, playFullSpeak, pauseFullSpeak, toggleFullSpeakPlay,
     skipFullSpeak, seekFullSpeak, getFullSpeakState, downloadFullSpeakMp3, bindFullSpeakPlayer,
     callDeepSeek, lookupWord, analyzeSelection, translateSelection, analyzeSentence, formatAiMarkdown,

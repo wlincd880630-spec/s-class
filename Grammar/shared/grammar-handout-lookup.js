@@ -9,8 +9,8 @@
   var DEEPSEEK_ENDPOINT = "https://api.deepseek.com/v1/chat/completions";
   var DICT_API_BASE = "https://api.dictionaryapi.dev/api/v2/entries/en/";
   var TRANSLATE_API = "https://api.mymemory.translated.net/get";
-  var AZURE_SPEECH_KEY = "3C2ai7PPgPnOLlhb1c7gBw207PAVNfVJni6JnESsPjYPaVyFeQ9YJQQJ99CGAC3pKaRXJ3w3AAAYACOG0Zbc";
-  var AZURE_SPEECH_REGION = "eastasia";
+  var AZURE_SPEECH_KEY = "8d055d682fcd4af98a51828e04542cd4";
+  var AZURE_SPEECH_REGION = "southeastasia";
   var AZURE_VOICE = "en-GB-RyanNeural";
   var AZURE_RATE = "-30%";
   var audioCache = new Map();

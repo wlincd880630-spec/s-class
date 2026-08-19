@@ -88,7 +88,7 @@
       return global.KpTTS.speak(text);
     }
     var key = String(global.__AZURE_SPEECH_KEY__ || "").trim();
-    var region = String(global.__AZURE_SPEECH_REGION__ || "eastasia").trim();
+    var region = String(global.__AZURE_SPEECH_REGION__ || "southeastasia").trim();
     var safe = String(text || "")
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")

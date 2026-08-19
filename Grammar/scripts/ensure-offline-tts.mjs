@@ -305,7 +305,7 @@ function unique(arr) {
 
 async function main() {
   const key = String(process.env.AZURE_SPEECH_KEY || process.env.SPEECH_KEY || "").trim();
-  const region = String(process.env.AZURE_SPEECH_REGION || "eastasia").trim();
+  const region = String(process.env.AZURE_SPEECH_REGION || "southeastasia").trim();
   const skipDownload = process.argv.includes("--skip-download");
 
   const files = walk(ROOT).filter((f) => !f.includes(`${path.sep}scripts${path.sep}`));

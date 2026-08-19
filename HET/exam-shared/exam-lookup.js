@@ -7,8 +7,8 @@
   const DEEPSEEK_API_KEY = "sk-daa16008e81843deba6fefe9dce51465";
   const DEEPSEEK_ENDPOINT = "https://api.deepseek.com/v1/chat/completions";
   const AZURE_SPEECH_KEY =
-    "3C2ai7PPgPnOLlhb1c7gBw207PAVNfVJni6JnESsPjYPaVyFeQ9YJQQJ99CGAC3pKaRXJ3w3AAAYACOG0Zbc";
-  const AZURE_SPEECH_REGION = "eastasia";
+    "8d055d682fcd4af98a51828e04542cd4";
+  const AZURE_SPEECH_REGION = "southeastasia";
   const AZURE_TTS_VOICE = "en-GB-RyanNeural";
   const AZURE_TTS_PROSODY_RATE = "-12%";
 

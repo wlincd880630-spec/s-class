@@ -2,7 +2,7 @@
 /**
  * 外研版 School_textbook：Azure TTS 批量下载 + manifest + HTML/COS 补丁
  *
- * 环境变量：AZURE_SPEECH_KEY、AZURE_SPEECH_REGION（默认 eastasia）
+ * 环境变量：AZURE_SPEECH_KEY、AZURE_SPEECH_REGION（默认 southeastasia）
  *
  * 用法：
  *   node scripts/sync-school-textbook-tts.mjs              # 下载缺失 mp3 + 写 manifest + patch HTML
@@ -34,7 +34,7 @@ const uploadCos = process.argv.includes("--upload-cos");
 const force = process.argv.includes("--force");
 
 const key = String(process.env.AZURE_SPEECH_KEY || process.env.SPEECH_KEY || "").trim();
-const region = String(process.env.AZURE_SPEECH_REGION || "eastasia").trim();
+const region = String(process.env.AZURE_SPEECH_REGION || "southeastasia").trim();
 
 function norm(s) {
   return String(s || "")

@@ -6,12 +6,12 @@
  *
  * PowerShell:
  *   $env:AZURE_SPEECH_KEY="你的密钥"
- *   $env:AZURE_SPEECH_REGION="eastasia"
+ *   $env:AZURE_SPEECH_REGION="southeastasia"
  *   node scripts/download-l12p6-tts.mjs
  *
  * cmd.exe:
  *   set AZURE_SPEECH_KEY=你的密钥
- *   set AZURE_SPEECH_REGION=eastasia
+ *   set AZURE_SPEECH_REGION=southeastasia
  *   node scripts\download-l12p6-tts.mjs
  *
  * 需要 Node 18+（内置 fetch）。
@@ -24,7 +24,7 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const key = process.env.AZURE_SPEECH_KEY;
-const region = process.env.AZURE_SPEECH_REGION || "eastasia";
+const region = process.env.AZURE_SPEECH_REGION || "southeastasia";
 const voice = process.env.AZURE_SPEECH_VOICE || "en-GB-RyanNeural";
 
 /** 与 lesson12-page06-unit-wrap.html 听力稿保持一致 */
