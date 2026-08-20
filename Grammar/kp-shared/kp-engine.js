@@ -1189,6 +1189,156 @@
     });
   }
 
+  function renderFormula(page) {
+    var parts = (page.parts || [])
+      .map(function (p) {
+        return (
+          '<div class="kp-formula__part"><span class="kp-formula__mark">' +
+          esc(p.mark) +
+          '</span><strong>' +
+          esc(p.label) +
+          "</strong><em>" +
+          esc(p.example || "") +
+          "</em></div>"
+        );
+      })
+      .join("");
+    var samples = (page.samples || [])
+      .map(function (s) {
+        return (
+          '<div class="kp-formula__sample">' +
+          sentBlock(s.sentence, s.zh) +
+          ttsRow(s.sentence) +
+          "</div>"
+        );
+      })
+      .join("");
+    return (
+      header(page) +
+      '<article class="kp-card">' +
+      hero(page) +
+      '<div class="kp-body-inner"><h1 class="kp-title">' +
+      esc(page.title) +
+      "</h1>" +
+      (page.lead ? '<p class="kp-lead">' + esc(page.lead) + "</p>" : "") +
+      '<div class="kp-formula"><div class="kp-formula__eq">' +
+      esc(page.formula || "") +
+      '</div><div class="kp-formula__parts">' +
+      parts +
+      "</div></div>" +
+      samples +
+      "</div></article>"
+    );
+  }
+
+  function renderTransform(page) {
+    return (
+      header(page) +
+      '<article class="kp-card">' +
+      hero(page) +
+      '<div class="kp-body-inner"><h1 class="kp-title">' +
+      esc(page.title) +
+      "</h1>" +
+      (page.lead ? '<p class="kp-lead">' + esc(page.lead) + "</p>" : "") +
+      '<div class="kp-tf-progress" id="tfProg"></div>' +
+      '<div id="tfArea"></div>' +
+      '<div class="kp-fb" id="tfFb"></div></div></article>'
+    );
+  }
+
+  function bindTransform(page) {
+    var items = page.items || [];
+    var ii = 0;
+    var si = 0;
+    var area = document.getElementById("tfArea");
+    var fb = document.getElementById("tfFb");
+    var prog = document.getElementById("tfProg");
+
+    function totalSteps() {
+      var n = 0;
+      items.forEach(function (it) {
+        n += (it.steps || []).length;
+      });
+      return n;
+    }
+
+    function stepIndex() {
+      var n = 0;
+      var a, b;
+      for (a = 0; a < ii; a++) n += (items[a].steps || []).length;
+      return n + si + 1;
+    }
+
+    function show() {
+      var item = items[ii];
+      if (!item || !area) return;
+      var step = (item.steps || [])[si];
+      if (!step) return;
+      if (prog) {
+        prog.textContent = "第 " + stepIndex() + " / " + totalSteps() + " 步";
+      }
+      if (fb) {
+        fb.className = "kp-fb";
+        fb.innerHTML = "";
+      }
+      var opts = (step.opts || [])
+        .map(function (o, i) {
+          return '<button type="button" class="kp-choice" data-i="' + i + '">' + esc(o) + "</button>";
+        })
+        .join("");
+      area.innerHTML =
+        '<p class="kp-tf-from">原句</p>' +
+        sentBlock(item.from, item.fromZh) +
+        ttsRow(item.from) +
+        '<p class="kp-ask">' +
+        esc(step.label) +
+        '</p><div class="kp-choices" id="tfCh">' +
+        opts +
+        "</div>";
+      bindCommon(area);
+      area.querySelectorAll("#tfCh .kp-choice").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          if (btn.disabled) return;
+          var i = Number(btn.getAttribute("data-i"));
+          var ok = i === step.ans;
+          area.querySelectorAll("#tfCh .kp-choice").forEach(function (b, j) {
+            b.disabled = true;
+            if (j === step.ans) b.classList.add("is-ok");
+            else if (j === i) b.classList.add("is-no");
+          });
+          if (fb) {
+            fb.className = "kp-fb is-show " + (ok ? "kp-fb--ok" : "kp-fb--no");
+            fb.innerHTML = ok
+              ? "太棒了！✓" + sentBlock(step.sentence || step.opts[step.ans], step.zh)
+              : esc(step.hint || "再想一想。");
+            if (ok) bindCommon(fb);
+          }
+          if (ok && (step.sentence || step.opts[step.ans])) speak(step.sentence || step.opts[step.ans]);
+          setTimeout(function () {
+            if (!ok) {
+              show();
+              return;
+            }
+            si++;
+            if (si >= (item.steps || []).length) {
+              si = 0;
+              ii++;
+            }
+            if (ii >= items.length) {
+              if (fb) {
+                fb.className = "kp-fb is-show kp-fb--ok";
+                fb.textContent = "句型转换全部完成！🎉";
+              }
+              return;
+            }
+            show();
+          }, ok ? 900 : 1400);
+        });
+      });
+    }
+    show();
+  }
+
   function renderSummary(page) {
     var list = (page.checklist || [])
       .map(function (t) {
@@ -1220,6 +1370,8 @@
     classify: renderClassify,
     dynamic: renderDynamic,
     spelling: renderSpelling,
+    formula: renderFormula,
+    transform: renderTransform,
     "picture-build": renderPictureBuild,
     "listen-order": renderListenOrder,
     quiz: renderQuiz,
@@ -1239,6 +1391,8 @@
     classify: bindClassify,
     dynamic: bindDynamic,
     spelling: bindSpelling,
+    formula: bindScenePage,
+    transform: bindTransform,
     "picture-build": bindPictureBuild,
     "listen-order": bindListenOrder,
     quiz: bindQuiz,
@@ -1266,7 +1420,7 @@
     var page = global.KpData.byId(pageId);
     var app = document.getElementById("kpApp");
     if (!page || !app) return;
-    document.title = "L03P · " + page.title;
+    document.title = (global.KpData.courseTitle || "小学语法") + " · " + page.title;
     var fn = RENDER[page.type];
     app.innerHTML = fn ? fn(page) : "<p>未知类型</p>";
     var b = BIND[page.type];
