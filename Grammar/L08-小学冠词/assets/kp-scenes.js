@@ -15,7 +15,7 @@
   "This is a useful book.": "kp3d-library.png",
   "I want to buy a piano for my sister.": "kp3d-piano.png",
   "The bus is coming.": "kp3d-bus.png",
-  "We had a dinner at home.": "kp3d-dinner.png",
+  "Mom cooked a big dinner at home.": "kp3d-dinner.png",
   "The panda is eating bamboo.": "kp3d-panda.png",
   "He is a one-year-old boy.": "kp3d-playground.png",
   "I have an idea.": "kp3d-classroom.png",

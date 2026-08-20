@@ -101,7 +101,7 @@
       "image": "kp3d-bus.png"
     },
     {
-      "en": "We had a dinner at home.",
+      "en": "Mom cooked a big dinner at home.",
       "zh": "我们在家吃了一顿晚饭。",
       "tag": "daily_use",
       "scene": "dinner",
@@ -377,16 +377,16 @@
       "zh": "她是一个欧洲女孩。"
     },
     {
-      "q": "We had _____ dinner at home.",
+      "q": "Mom cooked _____ big dinner at home.",
       "opts": [
         "a",
         "an",
         "the"
       ],
       "ans": 0,
-      "hint": "dinner 以辅音音素开头",
-      "sentence": "We had a dinner at home.",
-      "zh": "我们在家吃了一顿晚饭。"
+      "hint": "big dinner 是泛指的一顿晚饭，辅音音素用 a。",
+      "sentence": "Mom cooked a big dinner at home.",
+      "zh": "妈妈在家做了一顿丰盛的晚饭。"
     },
     {
       "q": "I want to buy _____ piano.",
