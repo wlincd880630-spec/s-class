@@ -128,7 +128,33 @@
     "id": "p06"
   },
   {
-    "id": "p07",
+    "section": "精讲",
+    "title": "同级比较 as...as 的否定句",
+    "type": "scene",
+    "badge": "image",
+    "badgeText": "🖼 例句",
+    "image": "kp3d-library.png",
+    "lead": "表示不如，用 not as + 原级 + as。",
+    "sentence": "This book is not as interesting as that one.",
+    "zh": "这本书不如那本有趣。",
+    "source": "课堂精讲 · 对齐初中",
+    "id": "p07"
+  },
+  {
+    "section": "精讲",
+    "title": "同级比较 as...as 的写作运用",
+    "type": "scene",
+    "badge": "image",
+    "badgeText": "🖼 例句",
+    "image": "kp3d-classroom.png",
+    "lead": "写比喻或比较时，用 as...as 让句子更生动。",
+    "sentence": "Her smile is as warm as the sun.",
+    "zh": "她的微笑像太阳一样温暖。",
+    "source": "课堂精讲 · 对齐初中",
+    "id": "p08"
+  },
+  {
+    "id": "p09",
     "section": "精讲",
     "title": "规则卡",
     "type": "spelling",
@@ -164,7 +190,7 @@
     ]
   },
   {
-    "id": "p08",
+    "id": "p10",
     "section": "辨析",
     "title": "分类篮",
     "type": "classify",
@@ -235,7 +261,7 @@
     ],
     "sentence": "He is as tall as me.",
     "zh": "他和我一样高。",
-    "id": "p09"
+    "id": "p11"
   },
   {
     "section": "转换",
@@ -263,9 +289,117 @@
             "zh": "汤姆不如杰克高。"
           }
         ]
+      },
+      {
+        "from": "He is as taller as me.",
+        "fromZh": "他和我一样高。",
+        "steps": [
+          {
+            "label": "改成正确的同级比较",
+            "opts": [
+              "He is as tall as me.",
+              "He is as taller as I.",
+              "He is so tall as me."
+            ],
+            "ans": 0,
+            "hint": "as 后用原级，不加 er",
+            "sentence": "He is as tall as me.",
+            "zh": "他和我一样高。"
+          }
+        ]
+      },
+      {
+        "from": "This book is as more interesting as that one.",
+        "fromZh": "这本书和那本一样有趣。",
+        "steps": [
+          {
+            "label": "改成正确的同级比较",
+            "opts": [
+              "This book is as interesting as that one.",
+              "This book is as more interesting as that one.",
+              "This book is as interesting than that one."
+            ],
+            "ans": 0,
+            "hint": "as...as 中间用原级，不加 more",
+            "sentence": "This book is as interesting as that one.",
+            "zh": "这本书和那本一样有趣。"
+          }
+        ]
+      },
+      {
+        "from": "She runs as faster as her brother.",
+        "fromZh": "她跑得和她哥哥一样快。",
+        "steps": [
+          {
+            "label": "改成正确的同级比较",
+            "opts": [
+              "She runs as fast as her brother.",
+              "She runs as faster as her brother.",
+              "She runs as fast than her brother."
+            ],
+            "ans": 0,
+            "hint": "as 后用副词原级",
+            "sentence": "She runs as fast as her brother.",
+            "zh": "她跑得和她哥哥一样快。"
+          }
+        ]
+      },
+      {
+        "from": "The panda is as fat than the bear.",
+        "fromZh": "熊猫和熊一样胖。",
+        "steps": [
+          {
+            "label": "改成正确的同级比较",
+            "opts": [
+              "The panda is as fat as the bear.",
+              "The panda is as fat than the bear.",
+              "The panda is fatter as the bear."
+            ],
+            "ans": 0,
+            "hint": "同级比较用 as...as，不用 than",
+            "sentence": "The panda is as fat as the bear.",
+            "zh": "熊猫和熊一样胖。"
+          }
+        ]
+      },
+      {
+        "from": "My bag is not so heavy as yours.",
+        "fromZh": "我的书包不如你的重。",
+        "steps": [
+          {
+            "label": "改成更常见的否定同级比较",
+            "opts": [
+              "My bag is not as heavy as yours.",
+              "My bag is not so heavy than yours.",
+              "My bag is as heavy as yours."
+            ],
+            "ans": 0,
+            "hint": "否定常用 not as...as",
+            "sentence": "My bag is not as heavy as yours.",
+            "zh": "我的书包不如你的重。"
+          }
+        ]
+      },
+      {
+        "from": "He is as tall like his father.",
+        "fromZh": "他和他爸爸一样高。",
+        "steps": [
+          {
+            "label": "改成正确的同级比较",
+            "opts": [
+              "He is as tall as his father.",
+              "He is as tall like his father.",
+              "He is so tall as his father."
+            ],
+            "ans": 0,
+            "hint": "as...as 固定搭配，不用 like",
+            "sentence": "He is as tall as his father.",
+            "zh": "他和他爸爸一样高。"
+          }
+        ]
       }
     ],
-    "id": "p10"
+    "id": "p12"
   },
   {
     "section": "操练",
@@ -273,23 +407,116 @@
     "type": "picture-build",
     "badge": "action",
     "badgeText": "🧩 造句",
-    "image": "w4-asas-hero.jpg",
-    "instruction": "对照初中造句操练：点选乱序单词组成正确句子。",
+    "image": "kp3d-panda.png",
+    "instruction": "连续多句：点选乱序单词组成正确句子。",
     "tokens": [
-      "Tom",
+      "The",
+      "panda",
       "is",
       "as",
-      "tall",
+      "cute",
       "as",
-      "his",
-      "brother"
+      "the",
+      "bear"
     ],
-    "sentence": "Tom is as tall as his brother.",
-    "zh": "汤姆和他哥哥一样高。",
-    "id": "p11"
+    "sentence": "The panda is as cute as the bear.",
+    "zh": "熊猫和熊一样可爱。",
+    "items": [
+      {
+        "tokens": [
+          "The",
+          "panda",
+          "is",
+          "as",
+          "cute",
+          "as",
+          "the",
+          "bear"
+        ],
+        "sentence": "The panda is as cute as the bear.",
+        "zh": "熊猫和熊一样可爱。",
+        "image": "kp3d-panda.png"
+      },
+      {
+        "tokens": [
+          "My",
+          "bag",
+          "is",
+          "as",
+          "heavy",
+          "as",
+          "yours"
+        ],
+        "sentence": "My bag is as heavy as yours.",
+        "zh": "我的书包和你的一样重。",
+        "image": "kp3d-classroom.png"
+      },
+      {
+        "tokens": [
+          "This",
+          "apple",
+          "is",
+          "as",
+          "sweet",
+          "as",
+          "that",
+          "one"
+        ],
+        "sentence": "This apple is as sweet as that one.",
+        "zh": "这个苹果和那个一样甜。",
+        "image": "kp3d-apple.png"
+      },
+      {
+        "tokens": [
+          "The",
+          "bus",
+          "is",
+          "as",
+          "crowded",
+          "as",
+          "the",
+          "subway"
+        ],
+        "sentence": "The bus is as crowded as the subway.",
+        "zh": "公交车和地铁一样拥挤。",
+        "image": "kp3d-bus.png"
+      },
+      {
+        "tokens": [
+          "She",
+          "sings",
+          "as",
+          "well",
+          "as",
+          "her",
+          "sister"
+        ],
+        "sentence": "She sings as well as her sister.",
+        "zh": "她唱歌和她姐姐一样好。",
+        "image": "kp3d-piano.png"
+      },
+      {
+        "tokens": [
+          "The",
+          "red",
+          "dress",
+          "is",
+          "as",
+          "pretty",
+          "as",
+          "the",
+          "blue",
+          "one"
+        ],
+        "sentence": "The red dress is as pretty as the blue one.",
+        "zh": "红裙子和蓝裙子一样漂亮。",
+        "image": "kp3d-shop.png"
+      }
+    ],
+    "id": "p13"
   },
   {
-    "id": "p12",
+    "id": "p14",
     "section": "操练",
     "title": "听音排序 · 造句",
     "type": "listen-order",
@@ -310,7 +537,7 @@
     "zh": "汤姆和他哥哥一样高。"
   },
   {
-    "id": "p13",
+    "id": "p15",
     "section": "检测",
     "title": "限时快选 · PSLE 真题",
     "type": "quiz",
@@ -334,7 +561,7 @@
     "badge": "q",
     "badgeText": "📝 综测",
     "image": "w4-asas-hero.jpg",
-    "lead": "对齐初中综合测试：全部做完再交卷。",
+    "lead": "对齐初中综合测试：本卷 16 题，全部做完再交卷。",
     "questions": [
       {
         "q": "My brother is _____ me.",
@@ -406,20 +633,141 @@
         "hint": "as soon as possible。",
         "sentence": "Please come as soon as possible.",
         "zh": "请尽快来。"
+      },
+      {
+        "q": "This apple is _____ sweet as that one.",
+        "opts": [
+          "as",
+          "so",
+          "more"
+        ],
+        "ans": 0,
+        "hint": "as...as 中间用原级",
+        "sentence": "This apple is as sweet as that one.",
+        "zh": "这个苹果和那个一样甜。"
+      },
+      {
+        "q": "My dog is as _____ as your cat.",
+        "opts": [
+          "cute",
+          "cuter",
+          "cutes"
+        ],
+        "ans": 0,
+        "hint": "as 后用原级",
+        "sentence": "My dog is as cute as your cat.",
+        "zh": "我的狗和你的猫一样可爱。"
+      },
+      {
+        "q": "The bus is not _____ fast as the bike.",
+        "opts": [
+          "as",
+          "so",
+          "very"
+        ],
+        "ans": 0,
+        "hint": "否定也用 as...as",
+        "sentence": "The bus is not as fast as the bike.",
+        "zh": "公交车不如自行车快。"
+      },
+      {
+        "q": "She is as _____ as her mother.",
+        "opts": [
+          "tall",
+          "taller",
+          "tallest"
+        ],
+        "ans": 0,
+        "hint": "as 后不加 er",
+        "sentence": "She is as tall as her mother.",
+        "zh": "她和她妈妈一样高。"
+      },
+      {
+        "q": "This book is as _____ as that one.",
+        "opts": [
+          "interesting",
+          "more interesting",
+          "most interesting"
+        ],
+        "ans": 0,
+        "hint": "长词也用原级",
+        "sentence": "This book is as interesting as that one.",
+        "zh": "这本书和那本一样有趣。"
+      },
+      {
+        "q": "The panda is as _____ as the bear.",
+        "opts": [
+          "fat",
+          "fatter",
+          "fattest"
+        ],
+        "ans": 0,
+        "hint": "as...as 中间原级",
+        "sentence": "The panda is as fat as the bear.",
+        "zh": "熊猫和熊一样胖。"
+      },
+      {
+        "q": "My room is as _____ as yours.",
+        "opts": [
+          "clean",
+          "cleaner",
+          "cleaning"
+        ],
+        "ans": 0,
+        "hint": "as 后用原级",
+        "sentence": "My room is as clean as yours.",
+        "zh": "我的房间和你的一样干净。"
+      },
+      {
+        "q": "He runs as _____ as his friend.",
+        "opts": [
+          "fast",
+          "faster",
+          "fastest"
+        ],
+        "ans": 0,
+        "hint": "副词也用原级",
+        "sentence": "He runs as fast as his friend.",
+        "zh": "他跑得和他朋友一样快。"
+      },
+      {
+        "q": "The soup is as _____ as the tea.",
+        "opts": [
+          "hot",
+          "hotter",
+          "hottest"
+        ],
+        "ans": 0,
+        "hint": "as 后不加 er",
+        "sentence": "The soup is as hot as the tea.",
+        "zh": "汤和茶一样烫。"
+      },
+      {
+        "q": "This ruler is as _____ as that pencil.",
+        "opts": [
+          "long",
+          "longer",
+          "longest"
+        ],
+        "ans": 0,
+        "hint": "as...as 中间原级",
+        "sentence": "This ruler is as long as that pencil.",
+        "zh": "这把尺子和那支铅笔一样长。"
       }
     ],
-    "id": "p14"
+    "id": "p16"
   },
   {
     "section": "检测",
-    "title": "限时挑战 60 秒",
+    "title": "限时挑战 90 秒",
     "type": "timed-quiz",
     "badge": "timed",
     "badgeText": "⏱ 限时",
-    "lead": "对照初中课堂竞赛：60 秒内尽量多答对。",
-    "seconds": 60,
+    "lead": "题库已扩充：90 秒内尽量多答对。",
+    "seconds": 90,
     "perQuestion": 12,
-    "pass": 4,
+    "pass": 8,
+    "pool": "questions",
     "questions": [
       {
         "q": "My brother is _____ me.",
@@ -491,9 +839,345 @@
         "hint": "as soon as possible。",
         "sentence": "Please come as soon as possible.",
         "zh": "请尽快来。"
+      },
+      {
+        "q": "This apple is _____ sweet as that one.",
+        "opts": [
+          "as",
+          "so",
+          "more"
+        ],
+        "ans": 0,
+        "hint": "as...as 中间用原级",
+        "sentence": "This apple is as sweet as that one.",
+        "zh": "这个苹果和那个一样甜。"
+      },
+      {
+        "q": "My dog is as _____ as your cat.",
+        "opts": [
+          "cute",
+          "cuter",
+          "cutes"
+        ],
+        "ans": 0,
+        "hint": "as 后用原级",
+        "sentence": "My dog is as cute as your cat.",
+        "zh": "我的狗和你的猫一样可爱。"
+      },
+      {
+        "q": "The bus is not _____ fast as the bike.",
+        "opts": [
+          "as",
+          "so",
+          "very"
+        ],
+        "ans": 0,
+        "hint": "否定也用 as...as",
+        "sentence": "The bus is not as fast as the bike.",
+        "zh": "公交车不如自行车快。"
+      },
+      {
+        "q": "She is as _____ as her mother.",
+        "opts": [
+          "tall",
+          "taller",
+          "tallest"
+        ],
+        "ans": 0,
+        "hint": "as 后不加 er",
+        "sentence": "She is as tall as her mother.",
+        "zh": "她和她妈妈一样高。"
+      },
+      {
+        "q": "This book is as _____ as that one.",
+        "opts": [
+          "interesting",
+          "more interesting",
+          "most interesting"
+        ],
+        "ans": 0,
+        "hint": "长词也用原级",
+        "sentence": "This book is as interesting as that one.",
+        "zh": "这本书和那本一样有趣。"
+      },
+      {
+        "q": "The panda is as _____ as the bear.",
+        "opts": [
+          "fat",
+          "fatter",
+          "fattest"
+        ],
+        "ans": 0,
+        "hint": "as...as 中间原级",
+        "sentence": "The panda is as fat as the bear.",
+        "zh": "熊猫和熊一样胖。"
+      },
+      {
+        "q": "My room is as _____ as yours.",
+        "opts": [
+          "clean",
+          "cleaner",
+          "cleaning"
+        ],
+        "ans": 0,
+        "hint": "as 后用原级",
+        "sentence": "My room is as clean as yours.",
+        "zh": "我的房间和你的一样干净。"
+      },
+      {
+        "q": "He runs as _____ as his friend.",
+        "opts": [
+          "fast",
+          "faster",
+          "fastest"
+        ],
+        "ans": 0,
+        "hint": "副词也用原级",
+        "sentence": "He runs as fast as his friend.",
+        "zh": "他跑得和他朋友一样快。"
+      },
+      {
+        "q": "The soup is as _____ as the tea.",
+        "opts": [
+          "hot",
+          "hotter",
+          "hottest"
+        ],
+        "ans": 0,
+        "hint": "as 后不加 er",
+        "sentence": "The soup is as hot as the tea.",
+        "zh": "汤和茶一样烫。"
+      },
+      {
+        "q": "This ruler is as _____ as that pencil.",
+        "opts": [
+          "long",
+          "longer",
+          "longest"
+        ],
+        "ans": 0,
+        "hint": "as...as 中间原级",
+        "sentence": "This ruler is as long as that pencil.",
+        "zh": "这把尺子和那支铅笔一样长。"
+      },
+      {
+        "q": "The cat is as _____ as the dog.",
+        "opts": [
+          "lazy",
+          "lazier",
+          "laziest"
+        ],
+        "ans": 0,
+        "hint": "as 后用原级",
+        "sentence": "The cat is as lazy as the dog.",
+        "zh": "猫和狗一样懒。"
+      },
+      {
+        "q": "My bike is as _____ as his car.",
+        "opts": [
+          "fast",
+          "faster",
+          "fastest"
+        ],
+        "ans": 0,
+        "hint": "as...as 中间原级",
+        "sentence": "My bike is as fast as his car.",
+        "zh": "我的自行车和他的汽车一样快。"
+      },
+      {
+        "q": "Her hair is as _____ as mine.",
+        "opts": [
+          "black",
+          "blacker",
+          "blackest"
+        ],
+        "ans": 0,
+        "hint": "as 后不加 er",
+        "sentence": "Her hair is as black as mine.",
+        "zh": "她的头发和我的一样黑。"
+      },
+      {
+        "q": "The movie is as _____ as the cartoon.",
+        "opts": [
+          "funny",
+          "funnier",
+          "funniest"
+        ],
+        "ans": 0,
+        "hint": "as...as 中间原级",
+        "sentence": "The movie is as funny as the cartoon.",
+        "zh": "这部电影和卡通片一样有趣。"
+      },
+      {
+        "q": "This problem is as _____ as that one.",
+        "opts": [
+          "easy",
+          "easier",
+          "easiest"
+        ],
+        "ans": 0,
+        "hint": "as 后用原级",
+        "sentence": "This problem is as easy as that one.",
+        "zh": "这道题和那道一样简单。"
+      },
+      {
+        "q": "The red dress is as _____ as the blue one.",
+        "opts": [
+          "pretty",
+          "prettier",
+          "prettiest"
+        ],
+        "ans": 0,
+        "hint": "as...as 中间原级",
+        "sentence": "The red dress is as pretty as the blue one.",
+        "zh": "红裙子和蓝裙子一样漂亮。"
+      },
+      {
+        "q": "My grandpa is as _____ as a horse.",
+        "opts": [
+          "strong",
+          "stronger",
+          "strongest"
+        ],
+        "ans": 0,
+        "hint": "as 后不加 er",
+        "sentence": "My grandpa is as strong as a horse.",
+        "zh": "我爷爷壮得像匹马。"
+      },
+      {
+        "q": "She sings as _____ as her sister.",
+        "opts": [
+          "well",
+          "good",
+          "better"
+        ],
+        "ans": 0,
+        "hint": "副词 well 的原级",
+        "sentence": "She sings as well as her sister.",
+        "zh": "她唱歌和她姐姐一样好。"
+      },
+      {
+        "q": "This room is as _____ as that one.",
+        "opts": [
+          "clean",
+          "cleaner",
+          "cleaning"
+        ],
+        "ans": 0,
+        "hint": "as...as 中间原级",
+        "sentence": "This room is as clean as that one.",
+        "zh": "这个房间和那个一样干净。"
+      },
+      {
+        "q": "The bus is as _____ as the subway.",
+        "opts": [
+          "crowded",
+          "more crowded",
+          "most crowded"
+        ],
+        "ans": 0,
+        "hint": "长词也用原级",
+        "sentence": "The bus is as crowded as the subway.",
+        "zh": "公交车和地铁一样拥挤。"
+      },
+      {
+        "q": "The moon is as _____ as a lamp.",
+        "opts": [
+          "bright",
+          "brighter",
+          "brightest"
+        ],
+        "ans": 0,
+        "hint": "as 后用原级",
+        "sentence": "The moon is as bright as a lamp.",
+        "zh": "月亮像灯一样亮。"
+      },
+      {
+        "q": "Her smile is as _____ as the sun.",
+        "opts": [
+          "warm",
+          "warmer",
+          "warmest"
+        ],
+        "ans": 0,
+        "hint": "as...as 中间原级",
+        "sentence": "Her smile is as warm as the sun.",
+        "zh": "她的微笑像太阳一样温暖。"
+      },
+      {
+        "q": "The river is as _____ as a mirror.",
+        "opts": [
+          "clear",
+          "clearer",
+          "clearest"
+        ],
+        "ans": 0,
+        "hint": "as 后不加 er",
+        "sentence": "The river is as clear as a mirror.",
+        "zh": "河水像镜子一样清澈。"
+      },
+      {
+        "q": "He is as _____ as a lion.",
+        "opts": [
+          "brave",
+          "braver",
+          "bravest"
+        ],
+        "ans": 0,
+        "hint": "as...as 中间原级",
+        "sentence": "He is as brave as a lion.",
+        "zh": "他像狮子一样勇敢。"
+      },
+      {
+        "q": "The tree is as _____ as a building.",
+        "opts": [
+          "tall",
+          "taller",
+          "tallest"
+        ],
+        "ans": 0,
+        "hint": "as 后用原级",
+        "sentence": "The tree is as tall as a building.",
+        "zh": "这棵树像楼一样高。"
+      },
+      {
+        "q": "I am as _____ as a bird.",
+        "opts": [
+          "happy",
+          "happier",
+          "happiest"
+        ],
+        "ans": 0,
+        "hint": "as...as 中间原级",
+        "sentence": "I am as happy as a bird.",
+        "zh": "我快乐得像只小鸟。"
+      },
+      {
+        "q": "This apple is not as _____ as that one.",
+        "opts": [
+          "sweet",
+          "sweeter",
+          "sweetest"
+        ],
+        "ans": 0,
+        "hint": "否定也用 as...as",
+        "sentence": "This apple is not as sweet as that one.",
+        "zh": "这个苹果不如那个甜。"
+      },
+      {
+        "q": "The dog is as _____ as the cat.",
+        "opts": [
+          "fat",
+          "fatter",
+          "fattest"
+        ],
+        "ans": 0,
+        "hint": "as 后不加 er",
+        "sentence": "The dog is as fat as the cat.",
+        "zh": "狗和猫一样胖。"
       }
     ],
-    "id": "p15"
+    "id": "p17"
   },
   {
     "section": "检测",
@@ -501,8 +1185,9 @@
     "type": "streak-quiz",
     "badge": "game",
     "badgeText": "🔥 连对",
-    "lead": "连续答对 5 题通关，答错连击清零。",
-    "target": 5,
+    "lead": "连续答对 8 题通关，答错连击清零。题库已加厚。",
+    "target": 8,
+    "pool": "questions",
     "questions": [
       {
         "q": "My brother is _____ me.",
@@ -574,9 +1259,345 @@
         "hint": "as soon as possible。",
         "sentence": "Please come as soon as possible.",
         "zh": "请尽快来。"
+      },
+      {
+        "q": "This apple is _____ sweet as that one.",
+        "opts": [
+          "as",
+          "so",
+          "more"
+        ],
+        "ans": 0,
+        "hint": "as...as 中间用原级",
+        "sentence": "This apple is as sweet as that one.",
+        "zh": "这个苹果和那个一样甜。"
+      },
+      {
+        "q": "My dog is as _____ as your cat.",
+        "opts": [
+          "cute",
+          "cuter",
+          "cutes"
+        ],
+        "ans": 0,
+        "hint": "as 后用原级",
+        "sentence": "My dog is as cute as your cat.",
+        "zh": "我的狗和你的猫一样可爱。"
+      },
+      {
+        "q": "The bus is not _____ fast as the bike.",
+        "opts": [
+          "as",
+          "so",
+          "very"
+        ],
+        "ans": 0,
+        "hint": "否定也用 as...as",
+        "sentence": "The bus is not as fast as the bike.",
+        "zh": "公交车不如自行车快。"
+      },
+      {
+        "q": "She is as _____ as her mother.",
+        "opts": [
+          "tall",
+          "taller",
+          "tallest"
+        ],
+        "ans": 0,
+        "hint": "as 后不加 er",
+        "sentence": "She is as tall as her mother.",
+        "zh": "她和她妈妈一样高。"
+      },
+      {
+        "q": "This book is as _____ as that one.",
+        "opts": [
+          "interesting",
+          "more interesting",
+          "most interesting"
+        ],
+        "ans": 0,
+        "hint": "长词也用原级",
+        "sentence": "This book is as interesting as that one.",
+        "zh": "这本书和那本一样有趣。"
+      },
+      {
+        "q": "The panda is as _____ as the bear.",
+        "opts": [
+          "fat",
+          "fatter",
+          "fattest"
+        ],
+        "ans": 0,
+        "hint": "as...as 中间原级",
+        "sentence": "The panda is as fat as the bear.",
+        "zh": "熊猫和熊一样胖。"
+      },
+      {
+        "q": "My room is as _____ as yours.",
+        "opts": [
+          "clean",
+          "cleaner",
+          "cleaning"
+        ],
+        "ans": 0,
+        "hint": "as 后用原级",
+        "sentence": "My room is as clean as yours.",
+        "zh": "我的房间和你的一样干净。"
+      },
+      {
+        "q": "He runs as _____ as his friend.",
+        "opts": [
+          "fast",
+          "faster",
+          "fastest"
+        ],
+        "ans": 0,
+        "hint": "副词也用原级",
+        "sentence": "He runs as fast as his friend.",
+        "zh": "他跑得和他朋友一样快。"
+      },
+      {
+        "q": "The soup is as _____ as the tea.",
+        "opts": [
+          "hot",
+          "hotter",
+          "hottest"
+        ],
+        "ans": 0,
+        "hint": "as 后不加 er",
+        "sentence": "The soup is as hot as the tea.",
+        "zh": "汤和茶一样烫。"
+      },
+      {
+        "q": "This ruler is as _____ as that pencil.",
+        "opts": [
+          "long",
+          "longer",
+          "longest"
+        ],
+        "ans": 0,
+        "hint": "as...as 中间原级",
+        "sentence": "This ruler is as long as that pencil.",
+        "zh": "这把尺子和那支铅笔一样长。"
+      },
+      {
+        "q": "The cat is as _____ as the dog.",
+        "opts": [
+          "lazy",
+          "lazier",
+          "laziest"
+        ],
+        "ans": 0,
+        "hint": "as 后用原级",
+        "sentence": "The cat is as lazy as the dog.",
+        "zh": "猫和狗一样懒。"
+      },
+      {
+        "q": "My bike is as _____ as his car.",
+        "opts": [
+          "fast",
+          "faster",
+          "fastest"
+        ],
+        "ans": 0,
+        "hint": "as...as 中间原级",
+        "sentence": "My bike is as fast as his car.",
+        "zh": "我的自行车和他的汽车一样快。"
+      },
+      {
+        "q": "Her hair is as _____ as mine.",
+        "opts": [
+          "black",
+          "blacker",
+          "blackest"
+        ],
+        "ans": 0,
+        "hint": "as 后不加 er",
+        "sentence": "Her hair is as black as mine.",
+        "zh": "她的头发和我的一样黑。"
+      },
+      {
+        "q": "The movie is as _____ as the cartoon.",
+        "opts": [
+          "funny",
+          "funnier",
+          "funniest"
+        ],
+        "ans": 0,
+        "hint": "as...as 中间原级",
+        "sentence": "The movie is as funny as the cartoon.",
+        "zh": "这部电影和卡通片一样有趣。"
+      },
+      {
+        "q": "This problem is as _____ as that one.",
+        "opts": [
+          "easy",
+          "easier",
+          "easiest"
+        ],
+        "ans": 0,
+        "hint": "as 后用原级",
+        "sentence": "This problem is as easy as that one.",
+        "zh": "这道题和那道一样简单。"
+      },
+      {
+        "q": "The red dress is as _____ as the blue one.",
+        "opts": [
+          "pretty",
+          "prettier",
+          "prettiest"
+        ],
+        "ans": 0,
+        "hint": "as...as 中间原级",
+        "sentence": "The red dress is as pretty as the blue one.",
+        "zh": "红裙子和蓝裙子一样漂亮。"
+      },
+      {
+        "q": "My grandpa is as _____ as a horse.",
+        "opts": [
+          "strong",
+          "stronger",
+          "strongest"
+        ],
+        "ans": 0,
+        "hint": "as 后不加 er",
+        "sentence": "My grandpa is as strong as a horse.",
+        "zh": "我爷爷壮得像匹马。"
+      },
+      {
+        "q": "She sings as _____ as her sister.",
+        "opts": [
+          "well",
+          "good",
+          "better"
+        ],
+        "ans": 0,
+        "hint": "副词 well 的原级",
+        "sentence": "She sings as well as her sister.",
+        "zh": "她唱歌和她姐姐一样好。"
+      },
+      {
+        "q": "This room is as _____ as that one.",
+        "opts": [
+          "clean",
+          "cleaner",
+          "cleaning"
+        ],
+        "ans": 0,
+        "hint": "as...as 中间原级",
+        "sentence": "This room is as clean as that one.",
+        "zh": "这个房间和那个一样干净。"
+      },
+      {
+        "q": "The bus is as _____ as the subway.",
+        "opts": [
+          "crowded",
+          "more crowded",
+          "most crowded"
+        ],
+        "ans": 0,
+        "hint": "长词也用原级",
+        "sentence": "The bus is as crowded as the subway.",
+        "zh": "公交车和地铁一样拥挤。"
+      },
+      {
+        "q": "The moon is as _____ as a lamp.",
+        "opts": [
+          "bright",
+          "brighter",
+          "brightest"
+        ],
+        "ans": 0,
+        "hint": "as 后用原级",
+        "sentence": "The moon is as bright as a lamp.",
+        "zh": "月亮像灯一样亮。"
+      },
+      {
+        "q": "Her smile is as _____ as the sun.",
+        "opts": [
+          "warm",
+          "warmer",
+          "warmest"
+        ],
+        "ans": 0,
+        "hint": "as...as 中间原级",
+        "sentence": "Her smile is as warm as the sun.",
+        "zh": "她的微笑像太阳一样温暖。"
+      },
+      {
+        "q": "The river is as _____ as a mirror.",
+        "opts": [
+          "clear",
+          "clearer",
+          "clearest"
+        ],
+        "ans": 0,
+        "hint": "as 后不加 er",
+        "sentence": "The river is as clear as a mirror.",
+        "zh": "河水像镜子一样清澈。"
+      },
+      {
+        "q": "He is as _____ as a lion.",
+        "opts": [
+          "brave",
+          "braver",
+          "bravest"
+        ],
+        "ans": 0,
+        "hint": "as...as 中间原级",
+        "sentence": "He is as brave as a lion.",
+        "zh": "他像狮子一样勇敢。"
+      },
+      {
+        "q": "The tree is as _____ as a building.",
+        "opts": [
+          "tall",
+          "taller",
+          "tallest"
+        ],
+        "ans": 0,
+        "hint": "as 后用原级",
+        "sentence": "The tree is as tall as a building.",
+        "zh": "这棵树像楼一样高。"
+      },
+      {
+        "q": "I am as _____ as a bird.",
+        "opts": [
+          "happy",
+          "happier",
+          "happiest"
+        ],
+        "ans": 0,
+        "hint": "as...as 中间原级",
+        "sentence": "I am as happy as a bird.",
+        "zh": "我快乐得像只小鸟。"
+      },
+      {
+        "q": "This apple is not as _____ as that one.",
+        "opts": [
+          "sweet",
+          "sweeter",
+          "sweetest"
+        ],
+        "ans": 0,
+        "hint": "否定也用 as...as",
+        "sentence": "This apple is not as sweet as that one.",
+        "zh": "这个苹果不如那个甜。"
+      },
+      {
+        "q": "The dog is as _____ as the cat.",
+        "opts": [
+          "fat",
+          "fatter",
+          "fattest"
+        ],
+        "ans": 0,
+        "hint": "as 后不加 er",
+        "sentence": "The dog is as fat as the cat.",
+        "zh": "狗和猫一样胖。"
       }
     ],
-    "id": "p16"
+    "id": "p18"
   },
   {
     "section": "游戏",
@@ -585,6 +1606,7 @@
     "badge": "game",
     "badgeText": "🔗 配对",
     "image": "w4-asas-hero.jpg",
+    "pool": "matchPairs",
     "pairs": [
       {
         "en": "as tall as",
@@ -601,9 +1623,45 @@
       {
         "en": "as many as",
         "zh": "和……一样多"
+      },
+      {
+        "en": "as fast as",
+        "zh": "和……一样快"
+      },
+      {
+        "en": "as cute as",
+        "zh": "和……一样可爱"
+      },
+      {
+        "en": "as heavy as",
+        "zh": "和……一样重"
+      },
+      {
+        "en": "as long as",
+        "zh": "和……一样长"
+      },
+      {
+        "en": "as hot as",
+        "zh": "和……一样烫"
+      },
+      {
+        "en": "as sweet as",
+        "zh": "和……一样甜"
+      },
+      {
+        "en": "as clean as",
+        "zh": "和……一样干净"
+      },
+      {
+        "en": "as funny as",
+        "zh": "和……一样有趣"
+      },
+      {
+        "en": "as bright as",
+        "zh": "和……一样亮"
       }
     ],
-    "id": "p17"
+    "id": "p19"
   },
   {
     "section": "听音",
@@ -612,17 +1670,523 @@
     "badge": "sound",
     "badgeText": "🎧 听音",
     "image": "w4-asas-hero.jpg",
-    "audio": "Tom is as tall as his brother.",
+    "audio": "The panda is as cute as the bear.",
     "opts": [
-      "Tom is as tall as his brother.",
-      "Tom is as taller as his brother.",
-      "Tom is taller as his brother."
+      "The panda is as cute as the bear.",
+      "The panda is cuter than the bear.",
+      "The panda is as cute than the bear."
     ],
     "ans": 0,
-    "hint": "先听完整句，再选文字。",
-    "sentence": "Tom is as tall as his brother.",
-    "zh": "汤姆和他哥哥一样高。",
-    "id": "p18"
+    "hint": "as...as 中间原级",
+    "sentence": "The panda is as cute as the bear.",
+    "zh": "熊猫和熊一样可爱。",
+    "questions": [
+      {
+        "audio": "The panda is as cute as the bear.",
+        "opts": [
+          "The panda is as cute as the bear.",
+          "The panda is cuter than the bear.",
+          "The panda is as cute than the bear."
+        ],
+        "ans": 0,
+        "hint": "as...as 中间原级",
+        "zh": "熊猫和熊一样可爱。",
+        "sentence": "The panda is as cute as the bear."
+      },
+      {
+        "audio": "My bike is as fast as his car.",
+        "opts": [
+          "My bike is as fast as his car.",
+          "My bike is faster as his car.",
+          "My bike is as fast than his car."
+        ],
+        "ans": 0,
+        "hint": "as 后用原级",
+        "zh": "我的自行车和他的汽车一样快。",
+        "sentence": "My bike is as fast as his car."
+      },
+      {
+        "audio": "This book is not as interesting as that one.",
+        "opts": [
+          "This book is not as interesting as that one.",
+          "This book is not as interesting than that one.",
+          "This book is as interesting as that one."
+        ],
+        "ans": 0,
+        "hint": "否定也用 as...as",
+        "zh": "这本书不如那本有趣。",
+        "sentence": "This book is not as interesting as that one."
+      },
+      {
+        "audio": "She is as tall as her mother.",
+        "opts": [
+          "She is as tall as her mother.",
+          "She is as taller as her mother.",
+          "She is as tall than her mother."
+        ],
+        "ans": 0,
+        "hint": "as 后不加 er",
+        "zh": "她和她妈妈一样高。",
+        "sentence": "She is as tall as her mother."
+      },
+      {
+        "audio": "The soup is as hot as the tea.",
+        "opts": [
+          "The soup is as hot as the tea.",
+          "The soup is hotter as the tea.",
+          "The soup is as hot than the tea."
+        ],
+        "ans": 0,
+        "hint": "as...as 中间原级",
+        "zh": "汤和茶一样烫。",
+        "sentence": "The soup is as hot as the tea."
+      },
+      {
+        "audio": "He runs as fast as a rabbit.",
+        "opts": [
+          "He runs as fast as a rabbit.",
+          "He runs faster as a rabbit.",
+          "He runs as fast than a rabbit."
+        ],
+        "ans": 0,
+        "hint": "as 后用副词原级",
+        "zh": "他跑得和兔子一样快。",
+        "sentence": "He runs as fast as a rabbit."
+      },
+      {
+        "audio": "The moon is as bright as a lamp.",
+        "opts": [
+          "The moon is as bright as a lamp.",
+          "The moon is brighter as a lamp.",
+          "The moon is as bright than a lamp."
+        ],
+        "ans": 0,
+        "hint": "as...as 中间原级",
+        "zh": "月亮像灯一样亮。",
+        "sentence": "The moon is as bright as a lamp."
+      },
+      {
+        "audio": "My room is as clean as yours.",
+        "opts": [
+          "My room is as clean as yours.",
+          "My room is cleaner as yours.",
+          "My room is as clean than yours."
+        ],
+        "ans": 0,
+        "hint": "as 后用原级",
+        "zh": "我的房间和你的一样干净。",
+        "sentence": "My room is as clean as yours."
+      }
+    ],
+    "id": "p20"
+  },
+  {
+    "section": "语料库",
+    "title": "语料库 · 例句精读",
+    "type": "corpus",
+    "badge": "demo",
+    "badgeText": "📚 语料",
+    "image": "w4-asas-hero.jpg",
+    "lead": "日常 / 考点 / 写作分类例句，点喇叭跟读，点蓝色单词可查词典。",
+    "examples": [
+      {
+        "en": "Tom is as tall as his brother.",
+        "zh": "汤姆和他哥哥一样高。",
+        "tag": "daily_use",
+        "scene": "classroom",
+        "image": "kp3d-classroom.png"
+      },
+      {
+        "en": "This book is not as interesting as that one.",
+        "zh": "这本书不如那本有趣。",
+        "tag": "exam_use",
+        "scene": "library",
+        "image": "kp3d-library.png"
+      },
+      {
+        "en": "My bag is as heavy as yours.",
+        "zh": "我的书包和你的一样重。",
+        "tag": "daily_use",
+        "scene": "classroom",
+        "image": "kp3d-classroom.png"
+      },
+      {
+        "en": "The panda is as cute as the bear.",
+        "zh": "熊猫和熊一样可爱。",
+        "tag": "daily_use",
+        "scene": "panda",
+        "image": "kp3d-panda.png"
+      },
+      {
+        "en": "This ruler is as long as that pencil.",
+        "zh": "这把尺子和那支铅笔一样长。",
+        "tag": "daily_use",
+        "scene": "classroom",
+        "image": "kp3d-classroom.png"
+      },
+      {
+        "en": "My bike is as fast as his car.",
+        "zh": "我的自行车和他的汽车一样快。",
+        "tag": "daily_use",
+        "scene": "playground",
+        "image": "kp3d-playground.png"
+      },
+      {
+        "en": "The soup is as hot as the tea.",
+        "zh": "汤和茶一样烫。",
+        "tag": "daily_use",
+        "scene": "dinner",
+        "image": "kp3d-dinner.png"
+      },
+      {
+        "en": "Her hair is as black as mine.",
+        "zh": "她的头发和我的一样黑。",
+        "tag": "daily_use",
+        "scene": "classroom",
+        "image": "kp3d-classroom.png"
+      },
+      {
+        "en": "This apple is as sweet as that one.",
+        "zh": "这个苹果和那个一样甜。",
+        "tag": "daily_use",
+        "scene": "apple",
+        "image": "kp3d-apple.png"
+      },
+      {
+        "en": "The bus is as crowded as the subway.",
+        "zh": "公交车和地铁一样拥挤。",
+        "tag": "daily_use",
+        "scene": "bus",
+        "image": "kp3d-bus.png"
+      },
+      {
+        "en": "She sings as well as her sister.",
+        "zh": "她唱歌和她姐姐一样好。",
+        "tag": "exam_use",
+        "scene": "piano",
+        "image": "kp3d-piano.png"
+      },
+      {
+        "en": "He runs as fast as a rabbit.",
+        "zh": "他跑得和兔子一样快。",
+        "tag": "exam_use",
+        "scene": "playground",
+        "image": "kp3d-playground.png"
+      },
+      {
+        "en": "This room is as clean as that one.",
+        "zh": "这个房间和那个一样干净。",
+        "tag": "exam_use",
+        "scene": "classroom",
+        "image": "kp3d-classroom.png"
+      },
+      {
+        "en": "The movie is as funny as the cartoon.",
+        "zh": "这部电影和卡通片一样有趣。",
+        "tag": "exam_use",
+        "scene": "library",
+        "image": "kp3d-library.png"
+      },
+      {
+        "en": "My grandpa is as strong as a horse.",
+        "zh": "我爷爷壮得像匹马。",
+        "tag": "exam_use",
+        "scene": "doctor",
+        "image": "kp3d-doctor.png"
+      },
+      {
+        "en": "The red dress is as pretty as the blue one.",
+        "zh": "红裙子和蓝裙子一样漂亮。",
+        "tag": "exam_use",
+        "scene": "shop",
+        "image": "kp3d-shop.png"
+      },
+      {
+        "en": "This problem is as easy as that one.",
+        "zh": "这道题和那道一样简单。",
+        "tag": "exam_use",
+        "scene": "classroom",
+        "image": "kp3d-classroom.png"
+      },
+      {
+        "en": "The cat is as lazy as the dog.",
+        "zh": "猫和狗一样懒。",
+        "tag": "exam_use",
+        "scene": "cat",
+        "image": "kp3d-cat.png"
+      },
+      {
+        "en": "I am as happy as a bird.",
+        "zh": "我快乐得像只小鸟。",
+        "tag": "writing_use",
+        "scene": "playground",
+        "image": "kp3d-playground.png"
+      },
+      {
+        "en": "The moon is as bright as a lamp.",
+        "zh": "月亮像灯一样亮。",
+        "tag": "writing_use",
+        "scene": "moon",
+        "image": "kp3d-moon.png"
+      },
+      {
+        "en": "Her smile is as warm as the sun.",
+        "zh": "她的微笑像太阳一样温暖。",
+        "tag": "writing_use",
+        "scene": "classroom",
+        "image": "kp3d-classroom.png"
+      },
+      {
+        "en": "The river is as clear as a mirror.",
+        "zh": "河水像镜子一样清澈。",
+        "tag": "writing_use",
+        "scene": "playground",
+        "image": "kp3d-playground.png"
+      },
+      {
+        "en": "He is as brave as a lion.",
+        "zh": "他像狮子一样勇敢。",
+        "tag": "writing_use",
+        "scene": "playground",
+        "image": "kp3d-playground.png"
+      },
+      {
+        "en": "The tree is as tall as a building.",
+        "zh": "这棵树像楼一样高。",
+        "tag": "writing_use",
+        "scene": "playground",
+        "image": "kp3d-playground.png"
+      }
+    ],
+    "id": "p21"
+  },
+  {
+    "section": "加练",
+    "title": "加练卷 · 再练二十题",
+    "type": "multi-quiz",
+    "badge": "q",
+    "badgeText": "📝 加练",
+    "image": "w4-asas-hero.jpg",
+    "lead": "换一批题目再练，做熟为止。",
+    "questions": [
+      {
+        "q": "The cat is as _____ as the dog.",
+        "opts": [
+          "lazy",
+          "lazier",
+          "laziest"
+        ],
+        "ans": 0,
+        "hint": "as 后用原级",
+        "sentence": "The cat is as lazy as the dog.",
+        "zh": "猫和狗一样懒。"
+      },
+      {
+        "q": "My bike is as _____ as his car.",
+        "opts": [
+          "fast",
+          "faster",
+          "fastest"
+        ],
+        "ans": 0,
+        "hint": "as...as 中间原级",
+        "sentence": "My bike is as fast as his car.",
+        "zh": "我的自行车和他的汽车一样快。"
+      },
+      {
+        "q": "Her hair is as _____ as mine.",
+        "opts": [
+          "black",
+          "blacker",
+          "blackest"
+        ],
+        "ans": 0,
+        "hint": "as 后不加 er",
+        "sentence": "Her hair is as black as mine.",
+        "zh": "她的头发和我的一样黑。"
+      },
+      {
+        "q": "The movie is as _____ as the cartoon.",
+        "opts": [
+          "funny",
+          "funnier",
+          "funniest"
+        ],
+        "ans": 0,
+        "hint": "as...as 中间原级",
+        "sentence": "The movie is as funny as the cartoon.",
+        "zh": "这部电影和卡通片一样有趣。"
+      },
+      {
+        "q": "This problem is as _____ as that one.",
+        "opts": [
+          "easy",
+          "easier",
+          "easiest"
+        ],
+        "ans": 0,
+        "hint": "as 后用原级",
+        "sentence": "This problem is as easy as that one.",
+        "zh": "这道题和那道一样简单。"
+      },
+      {
+        "q": "The red dress is as _____ as the blue one.",
+        "opts": [
+          "pretty",
+          "prettier",
+          "prettiest"
+        ],
+        "ans": 0,
+        "hint": "as...as 中间原级",
+        "sentence": "The red dress is as pretty as the blue one.",
+        "zh": "红裙子和蓝裙子一样漂亮。"
+      },
+      {
+        "q": "My grandpa is as _____ as a horse.",
+        "opts": [
+          "strong",
+          "stronger",
+          "strongest"
+        ],
+        "ans": 0,
+        "hint": "as 后不加 er",
+        "sentence": "My grandpa is as strong as a horse.",
+        "zh": "我爷爷壮得像匹马。"
+      },
+      {
+        "q": "She sings as _____ as her sister.",
+        "opts": [
+          "well",
+          "good",
+          "better"
+        ],
+        "ans": 0,
+        "hint": "副词 well 的原级",
+        "sentence": "She sings as well as her sister.",
+        "zh": "她唱歌和她姐姐一样好。"
+      },
+      {
+        "q": "This room is as _____ as that one.",
+        "opts": [
+          "clean",
+          "cleaner",
+          "cleaning"
+        ],
+        "ans": 0,
+        "hint": "as...as 中间原级",
+        "sentence": "This room is as clean as that one.",
+        "zh": "这个房间和那个一样干净。"
+      },
+      {
+        "q": "The bus is as _____ as the subway.",
+        "opts": [
+          "crowded",
+          "more crowded",
+          "most crowded"
+        ],
+        "ans": 0,
+        "hint": "长词也用原级",
+        "sentence": "The bus is as crowded as the subway.",
+        "zh": "公交车和地铁一样拥挤。"
+      },
+      {
+        "q": "The moon is as _____ as a lamp.",
+        "opts": [
+          "bright",
+          "brighter",
+          "brightest"
+        ],
+        "ans": 0,
+        "hint": "as 后用原级",
+        "sentence": "The moon is as bright as a lamp.",
+        "zh": "月亮像灯一样亮。"
+      },
+      {
+        "q": "Her smile is as _____ as the sun.",
+        "opts": [
+          "warm",
+          "warmer",
+          "warmest"
+        ],
+        "ans": 0,
+        "hint": "as...as 中间原级",
+        "sentence": "Her smile is as warm as the sun.",
+        "zh": "她的微笑像太阳一样温暖。"
+      },
+      {
+        "q": "The river is as _____ as a mirror.",
+        "opts": [
+          "clear",
+          "clearer",
+          "clearest"
+        ],
+        "ans": 0,
+        "hint": "as 后不加 er",
+        "sentence": "The river is as clear as a mirror.",
+        "zh": "河水像镜子一样清澈。"
+      },
+      {
+        "q": "He is as _____ as a lion.",
+        "opts": [
+          "brave",
+          "braver",
+          "bravest"
+        ],
+        "ans": 0,
+        "hint": "as...as 中间原级",
+        "sentence": "He is as brave as a lion.",
+        "zh": "他像狮子一样勇敢。"
+      },
+      {
+        "q": "The tree is as _____ as a building.",
+        "opts": [
+          "tall",
+          "taller",
+          "tallest"
+        ],
+        "ans": 0,
+        "hint": "as 后用原级",
+        "sentence": "The tree is as tall as a building.",
+        "zh": "这棵树像楼一样高。"
+      },
+      {
+        "q": "I am as _____ as a bird.",
+        "opts": [
+          "happy",
+          "happier",
+          "happiest"
+        ],
+        "ans": 0,
+        "hint": "as...as 中间原级",
+        "sentence": "I am as happy as a bird.",
+        "zh": "我快乐得像只小鸟。"
+      },
+      {
+        "q": "This apple is not as _____ as that one.",
+        "opts": [
+          "sweet",
+          "sweeter",
+          "sweetest"
+        ],
+        "ans": 0,
+        "hint": "否定也用 as...as",
+        "sentence": "This apple is not as sweet as that one.",
+        "zh": "这个苹果不如那个甜。"
+      },
+      {
+        "q": "The dog is as _____ as the cat.",
+        "opts": [
+          "fat",
+          "fatter",
+          "fattest"
+        ],
+        "ans": 0,
+        "hint": "as 后不加 er",
+        "sentence": "The dog is as fat as the cat.",
+        "zh": "狗和猫一样胖。"
+      }
+    ],
+    "id": "p22"
   },
   {
     "section": "小结",
@@ -639,7 +2203,7 @@
     ],
     "chant": "As plus原级 plus as — same degree! Not as…as — less, you see!",
     "chantSpeak": "As plus原级 plus as, same degree! Not as as, less, you see!",
-    "id": "p19"
+    "id": "p23"
   }
 ];
   global.KpData = {

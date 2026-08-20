@@ -5,42 +5,809 @@
     {
       "en": "I enjoy reading books in the library.",
       "zh": "我喜欢在图书馆看书。",
-      "tag": "exam_use"
+      "tag": "daily_use",
+      "scene": "library",
+      "image": "kp3d-library.png"
     },
     {
       "en": "Tom likes playing basketball.",
       "zh": "汤姆喜欢打篮球。",
-      "tag": "daily_use"
+      "tag": "daily_use",
+      "scene": "basketball",
+      "image": "kp3d-basketball.png"
     },
     {
-      "en": "Have you finished doing your homework?",
-      "zh": "你做完作业了吗？",
-      "tag": "daily_use"
+      "en": "We finish cleaning the classroom at four.",
+      "zh": "我们四点打扫完教室。",
+      "tag": "daily_use",
+      "scene": "classroom",
+      "image": "kp3d-classroom.png"
     },
     {
-      "en": "She doesn't mind walking to school.",
-      "zh": "她不介意走路上学。",
-      "tag": "writing_use"
+      "en": "She practices playing the piano every day.",
+      "zh": "她每天练习弹钢琴。",
+      "tag": "daily_use",
+      "scene": "piano",
+      "image": "kp3d-piano.png"
     },
     {
-      "en": "We love singing English songs.",
-      "zh": "我们喜欢唱英文歌。",
-      "tag": "writing_use"
+      "en": "My dad enjoys cooking dinner on weekends.",
+      "zh": "我爸爸周末喜欢做饭。",
+      "tag": "daily_use",
+      "scene": "dinner",
+      "image": "kp3d-dinner.png"
     },
     {
-      "en": "He practises speaking English every day.",
-      "zh": "他每天练习说英语。",
-      "tag": "writing_use"
+      "en": "I like eating hot pot in Chengdu.",
+      "zh": "我喜欢在成都吃火锅。",
+      "tag": "daily_use",
+      "scene": "dinner",
+      "image": "kp3d-dinner.png"
     },
     {
-      "en": "Do you like swimming?",
-      "zh": "你喜欢游泳吗？",
-      "tag": "daily_use"
+      "en": "He finishes doing his homework before dinner.",
+      "zh": "他在晚饭前做完作业。",
+      "tag": "daily_use",
+      "scene": "dinner",
+      "image": "kp3d-dinner.png"
     },
     {
-      "en": "They finished cleaning the room.",
-      "zh": "他们打扫完房间了。",
-      "tag": "exam_use"
+      "en": "The students enjoy playing games on the playground.",
+      "zh": "学生们喜欢在操场上玩游戏。",
+      "tag": "daily_use",
+      "scene": "playground",
+      "image": "kp3d-playground.png"
+    },
+    {
+      "en": "She enjoys drawing pictures of pandas.",
+      "zh": "她喜欢画熊猫。",
+      "tag": "exam_use",
+      "scene": "panda",
+      "image": "kp3d-panda.png"
+    },
+    {
+      "en": "They finish watching TV at nine.",
+      "zh": "他们九点看完电视。",
+      "tag": "exam_use",
+      "scene": "window",
+      "image": "kp3d-window.png"
+    },
+    {
+      "en": "He likes swimming in summer.",
+      "zh": "他喜欢在夏天游泳。",
+      "tag": "exam_use",
+      "scene": "library",
+      "image": "kp3d-library.png"
+    },
+    {
+      "en": "I enjoy listening to music on the bus.",
+      "zh": "我喜欢在公交车上听音乐。",
+      "tag": "exam_use",
+      "scene": "bus",
+      "image": "kp3d-bus.png"
+    },
+    {
+      "en": "She practices singing in the classroom.",
+      "zh": "她在教室里练习唱歌。",
+      "tag": "exam_use",
+      "scene": "classroom",
+      "image": "kp3d-classroom.png"
+    },
+    {
+      "en": "We enjoy walking in the park.",
+      "zh": "我们喜欢在公园散步。",
+      "tag": "exam_use",
+      "scene": "playground",
+      "image": "kp3d-playground.png"
+    },
+    {
+      "en": "He finishes reading a book every week.",
+      "zh": "他每周读完一本书。",
+      "tag": "exam_use",
+      "scene": "library",
+      "image": "kp3d-library.png"
+    },
+    {
+      "en": "They like playing football after school.",
+      "zh": "他们放学后喜欢踢足球。",
+      "tag": "exam_use",
+      "scene": "playground",
+      "image": "kp3d-playground.png"
+    },
+    {
+      "en": "I enjoy helping my mother cook.",
+      "zh": "我喜欢帮妈妈做饭。",
+      "tag": "writing_use",
+      "scene": "dinner",
+      "image": "kp3d-dinner.png"
+    },
+    {
+      "en": "She likes collecting stamps.",
+      "zh": "她喜欢集邮。",
+      "tag": "writing_use",
+      "scene": "shop",
+      "image": "kp3d-shop.png"
+    },
+    {
+      "en": "We finish planting trees in spring.",
+      "zh": "我们在春天种完树。",
+      "tag": "writing_use",
+      "scene": "playground",
+      "image": "kp3d-playground.png"
+    },
+    {
+      "en": "He enjoys riding a bike to school.",
+      "zh": "他喜欢骑自行车上学。",
+      "tag": "writing_use",
+      "scene": "bus",
+      "image": "kp3d-bus.png"
+    },
+    {
+      "en": "They practice speaking English every morning.",
+      "zh": "他们每天早上练习说英语。",
+      "tag": "writing_use",
+      "scene": "classroom",
+      "image": "kp3d-classroom.png"
+    },
+    {
+      "en": "I like watching pandas at the zoo.",
+      "zh": "我喜欢在动物园看熊猫。",
+      "tag": "writing_use",
+      "scene": "panda",
+      "image": "kp3d-panda.png"
+    },
+    {
+      "en": "She enjoys shopping with her friends.",
+      "zh": "她喜欢和朋友一起购物。",
+      "tag": "writing_use",
+      "scene": "shop",
+      "image": "kp3d-shop.png"
+    },
+    {
+      "en": "We finish making a kite on Sunday.",
+      "zh": "我们星期天做完了一个风筝。",
+      "tag": "writing_use",
+      "scene": "playground",
+      "image": "kp3d-playground.png"
+    }
+  ],
+  "questions": [
+    {
+      "q": "He finished _____ the room.",
+      "opts": [
+        "clean",
+        "cleaning",
+        "to clean"
+      ],
+      "ans": 1,
+      "hint": "finish + doing。",
+      "sentence": "He finished cleaning the room.",
+      "zh": "他打扫完房间了。"
+    },
+    {
+      "q": "They practise _____ the piano every day.",
+      "opts": [
+        "play",
+        "playing",
+        "to play"
+      ],
+      "ans": 1,
+      "hint": "practise + doing。",
+      "sentence": "They practise playing the piano every day.",
+      "zh": "他们每天练习弹钢琴。"
+    },
+    {
+      "q": "I hope _____ you soon.",
+      "opts": [
+        "seeing",
+        "see",
+        "to see"
+      ],
+      "ans": 2,
+      "hint": "hope + to do。",
+      "sentence": "I hope to see you soon.",
+      "zh": "我希望很快见到你。"
+    },
+    {
+      "q": "Would you mind _____ the window?",
+      "opts": [
+        "open",
+        "opening",
+        "to open"
+      ],
+      "ans": 1,
+      "hint": "mind + doing。",
+      "sentence": "Would you mind opening the window?",
+      "zh": "你介意开窗吗？"
+    },
+    {
+      "q": "She likes _____ but today she would like _____ TV.",
+      "opts": [
+        "reading; to watch",
+        "to read; watching",
+        "read; watch"
+      ],
+      "ans": 0,
+      "hint": "like doing 爱好；would like to do 想要。",
+      "sentence": "She likes reading but today she would like to watch TV.",
+      "zh": "她喜欢阅读，但今天想看电视。"
+    },
+    {
+      "q": "I enjoy _____ books in the library.",
+      "opts": [
+        "read",
+        "reading",
+        "to read"
+      ],
+      "ans": 1,
+      "hint": "enjoy 后接 doing",
+      "sentence": "I enjoy reading books in the library.",
+      "zh": "我喜欢在图书馆看书。"
+    },
+    {
+      "q": "Tom likes _____ basketball.",
+      "opts": [
+        "playing",
+        "play",
+        "plays"
+      ],
+      "ans": 0,
+      "hint": "like 后接 doing",
+      "sentence": "Tom likes playing basketball.",
+      "zh": "汤姆喜欢打篮球。"
+    },
+    {
+      "q": "We finish _____ the classroom at four.",
+      "opts": [
+        "clean",
+        "cleaning",
+        "cleans"
+      ],
+      "ans": 1,
+      "hint": "finish 后接 doing",
+      "sentence": "We finish cleaning the classroom at four.",
+      "zh": "我们四点打扫完教室。"
+    },
+    {
+      "q": "She practices _____ the piano every day.",
+      "opts": [
+        "play",
+        "playing",
+        "plays"
+      ],
+      "ans": 1,
+      "hint": "practise 后接 doing",
+      "sentence": "She practices playing the piano every day.",
+      "zh": "她每天练习弹钢琴。"
+    },
+    {
+      "q": "My dad enjoys _____ dinner on weekends.",
+      "opts": [
+        "cooking",
+        "cook",
+        "cooks"
+      ],
+      "ans": 0,
+      "hint": "enjoy 后接 doing",
+      "sentence": "My dad enjoys cooking dinner on weekends.",
+      "zh": "我爸爸周末喜欢做饭。"
+    },
+    {
+      "q": "I like _____ hot pot in Chengdu.",
+      "opts": [
+        "eating",
+        "eat",
+        "ate"
+      ],
+      "ans": 0,
+      "hint": "like 后接 doing",
+      "sentence": "I like eating hot pot in Chengdu.",
+      "zh": "我喜欢在成都吃火锅。"
+    },
+    {
+      "q": "He finishes _____ his homework before dinner.",
+      "opts": [
+        "do",
+        "doing",
+        "does"
+      ],
+      "ans": 1,
+      "hint": "finish 后接 doing",
+      "sentence": "He finishes doing his homework before dinner.",
+      "zh": "他在晚饭前做完作业。"
+    },
+    {
+      "q": "The students enjoy _____ games on the playground.",
+      "opts": [
+        "playing",
+        "play",
+        "played"
+      ],
+      "ans": 0,
+      "hint": "enjoy 后接 doing",
+      "sentence": "The students enjoy playing games on the playground.",
+      "zh": "学生们喜欢在操场上玩游戏。"
+    },
+    {
+      "q": "She enjoys _____ pictures of pandas.",
+      "opts": [
+        "drawing",
+        "draw",
+        "draws"
+      ],
+      "ans": 0,
+      "hint": "enjoy 后接 doing",
+      "sentence": "She enjoys drawing pictures of pandas.",
+      "zh": "她喜欢画熊猫。"
+    },
+    {
+      "q": "They finish _____ TV at nine.",
+      "opts": [
+        "watching",
+        "watch",
+        "watches"
+      ],
+      "ans": 0,
+      "hint": "finish 后接 doing",
+      "sentence": "They finish watching TV at nine.",
+      "zh": "他们九点看完电视。"
+    },
+    {
+      "q": "He likes _____ in summer.",
+      "opts": [
+        "swimming",
+        "swim",
+        "swims"
+      ],
+      "ans": 0,
+      "hint": "like 后接 doing",
+      "sentence": "He likes swimming in summer.",
+      "zh": "他喜欢在夏天游泳。"
+    },
+    {
+      "q": "I enjoy _____ to music on the bus.",
+      "opts": [
+        "listening",
+        "listen",
+        "listens"
+      ],
+      "ans": 0,
+      "hint": "enjoy 后接 doing",
+      "sentence": "I enjoy listening to music on the bus.",
+      "zh": "我喜欢在公交车上听音乐。"
+    },
+    {
+      "q": "She practices _____ in the classroom.",
+      "opts": [
+        "singing",
+        "sing",
+        "sings"
+      ],
+      "ans": 0,
+      "hint": "practise 后接 doing",
+      "sentence": "She practices singing in the classroom.",
+      "zh": "她在教室里练习唱歌。"
+    },
+    {
+      "q": "We enjoy _____ in the park.",
+      "opts": [
+        "walking",
+        "walk",
+        "walks"
+      ],
+      "ans": 0,
+      "hint": "enjoy 后接 doing",
+      "sentence": "We enjoy walking in the park.",
+      "zh": "我们喜欢在公园散步。"
+    },
+    {
+      "q": "He finishes _____ a book every week.",
+      "opts": [
+        "reading",
+        "read",
+        "reads"
+      ],
+      "ans": 0,
+      "hint": "finish 后接 doing",
+      "sentence": "He finishes reading a book every week.",
+      "zh": "他每周读完一本书。"
+    },
+    {
+      "q": "They like _____ football after school.",
+      "opts": [
+        "playing",
+        "play",
+        "plays"
+      ],
+      "ans": 0,
+      "hint": "like 后接 doing",
+      "sentence": "They like playing football after school.",
+      "zh": "他们放学后喜欢踢足球。"
+    },
+    {
+      "q": "I enjoy _____ my mother cook.",
+      "opts": [
+        "helping",
+        "help",
+        "helps"
+      ],
+      "ans": 0,
+      "hint": "enjoy 后接 doing",
+      "sentence": "I enjoy helping my mother cook.",
+      "zh": "我喜欢帮妈妈做饭。"
+    },
+    {
+      "q": "She likes _____ stamps.",
+      "opts": [
+        "collecting",
+        "collect",
+        "collects"
+      ],
+      "ans": 0,
+      "hint": "like 后接 doing",
+      "sentence": "She likes collecting stamps.",
+      "zh": "她喜欢集邮。"
+    },
+    {
+      "q": "We finish _____ trees in spring.",
+      "opts": [
+        "planting",
+        "plant",
+        "plants"
+      ],
+      "ans": 0,
+      "hint": "finish 后接 doing",
+      "sentence": "We finish planting trees in spring.",
+      "zh": "我们在春天种完树。"
+    },
+    {
+      "q": "He enjoys _____ a bike to school.",
+      "opts": [
+        "riding",
+        "ride",
+        "rides"
+      ],
+      "ans": 0,
+      "hint": "enjoy 后接 doing",
+      "sentence": "He enjoys riding a bike to school.",
+      "zh": "他喜欢骑自行车上学。"
+    },
+    {
+      "q": "They practice _____ English every morning.",
+      "opts": [
+        "speaking",
+        "speak",
+        "speaks"
+      ],
+      "ans": 0,
+      "hint": "practise 后接 doing",
+      "sentence": "They practice speaking English every morning.",
+      "zh": "他们每天早上练习说英语。"
+    },
+    {
+      "q": "I like _____ pandas at the zoo.",
+      "opts": [
+        "watching",
+        "watch",
+        "watches"
+      ],
+      "ans": 0,
+      "hint": "like 后接 doing",
+      "sentence": "I like watching pandas at the zoo.",
+      "zh": "我喜欢在动物园看熊猫。"
+    },
+    {
+      "q": "She enjoys _____ with her friends.",
+      "opts": [
+        "shopping",
+        "shop",
+        "shops"
+      ],
+      "ans": 0,
+      "hint": "enjoy 后接 doing",
+      "sentence": "She enjoys shopping with her friends.",
+      "zh": "她喜欢和朋友一起购物。"
+    },
+    {
+      "q": "We finish _____ a kite on Sunday.",
+      "opts": [
+        "making",
+        "make",
+        "makes"
+      ],
+      "ans": 0,
+      "hint": "finish 后接 doing",
+      "sentence": "We finish making a kite on Sunday.",
+      "zh": "我们星期天做完了一个风筝。"
+    },
+    {
+      "q": "He enjoys _____ the piano.",
+      "opts": [
+        "playing",
+        "play",
+        "plays"
+      ],
+      "ans": 0,
+      "hint": "enjoy 后接 doing",
+      "sentence": "He enjoys playing the piano.",
+      "zh": "他喜欢弹钢琴。"
+    },
+    {
+      "q": "She likes _____ to school by bus.",
+      "opts": [
+        "going",
+        "go",
+        "goes"
+      ],
+      "ans": 0,
+      "hint": "like 后接 doing",
+      "sentence": "She likes going to school by bus.",
+      "zh": "她喜欢坐公交车上学。"
+    },
+    {
+      "q": "They finish _____ the dishes after dinner.",
+      "opts": [
+        "washing",
+        "wash",
+        "washes"
+      ],
+      "ans": 0,
+      "hint": "finish 后接 doing",
+      "sentence": "They finish washing the dishes after dinner.",
+      "zh": "他们晚饭后洗完碗。"
+    },
+    {
+      "q": "I practice _____ English every day.",
+      "opts": [
+        "reading",
+        "read",
+        "reads"
+      ],
+      "ans": 0,
+      "hint": "practise 后接 doing",
+      "sentence": "I practice reading English every day.",
+      "zh": "我每天练习读英语。"
+    }
+  ],
+  "matchPairs": [
+    {
+      "en": "enjoy reading",
+      "zh": "喜欢阅读"
+    },
+    {
+      "en": "finish doing",
+      "zh": "做完"
+    },
+    {
+      "en": "practise playing",
+      "zh": "练习弹/打"
+    },
+    {
+      "en": "want to do",
+      "zh": "想要做（对比）"
+    },
+    {
+      "en": "like playing basketball",
+      "zh": "喜欢打篮球"
+    },
+    {
+      "en": "finish cleaning",
+      "zh": "打扫完"
+    },
+    {
+      "en": "practise singing",
+      "zh": "练习唱歌"
+    },
+    {
+      "en": "enjoy drawing",
+      "zh": "喜欢画画"
+    },
+    {
+      "en": "like swimming",
+      "zh": "喜欢游泳"
+    },
+    {
+      "en": "finish homework",
+      "zh": "完成作业"
+    },
+    {
+      "en": "practice speaking English",
+      "zh": "练习说英语"
+    },
+    {
+      "en": "enjoy walking",
+      "zh": "喜欢散步"
+    },
+    {
+      "en": "like watching pandas",
+      "zh": "喜欢看熊猫"
+    }
+  ],
+  "listenPick": [
+    {
+      "audio": "I enjoy reading books in the library.",
+      "opts": [
+        "I enjoy reading books in the library.",
+        "I enjoy to read books in the library.",
+        "I enjoy read books in the library."
+      ],
+      "ans": 0,
+      "hint": "enjoy 后接 doing",
+      "zh": "我喜欢在图书馆看书。",
+      "sentence": "I enjoy reading books in the library."
+    },
+    {
+      "audio": "Tom likes playing basketball.",
+      "opts": [
+        "Tom likes playing basketball.",
+        "Tom likes play basketball.",
+        "Tom likes to playing basketball."
+      ],
+      "ans": 0,
+      "hint": "like 后接 doing",
+      "zh": "汤姆喜欢打篮球。",
+      "sentence": "Tom likes playing basketball."
+    },
+    {
+      "audio": "She practices playing the piano.",
+      "opts": [
+        "She practices playing the piano.",
+        "She practices to play the piano.",
+        "She practices play the piano."
+      ],
+      "ans": 0,
+      "hint": "practise 后接 doing",
+      "zh": "她练习弹钢琴。",
+      "sentence": "She practices playing the piano."
+    },
+    {
+      "audio": "We finish cleaning the classroom.",
+      "opts": [
+        "We finish cleaning the classroom.",
+        "We finish to clean the classroom.",
+        "We finish clean the classroom."
+      ],
+      "ans": 0,
+      "hint": "finish 后接 doing",
+      "zh": "我们打扫完教室。",
+      "sentence": "We finish cleaning the classroom."
+    },
+    {
+      "audio": "He enjoys drawing pandas.",
+      "opts": [
+        "He enjoys drawing pandas.",
+        "He enjoys to draw pandas.",
+        "He enjoys draw pandas."
+      ],
+      "ans": 0,
+      "hint": "enjoy 后接 doing",
+      "zh": "他喜欢画熊猫。",
+      "sentence": "He enjoys drawing pandas."
+    },
+    {
+      "audio": "She likes swimming in summer.",
+      "opts": [
+        "She likes swimming in summer.",
+        "She likes swim in summer.",
+        "She likes to swimming in summer."
+      ],
+      "ans": 0,
+      "hint": "like 后接 doing",
+      "zh": "她喜欢在夏天游泳。",
+      "sentence": "She likes swimming in summer."
+    },
+    {
+      "audio": "They finish watching TV at nine.",
+      "opts": [
+        "They finish watching TV at nine.",
+        "They finish to watch TV at nine.",
+        "They finish watch TV at nine."
+      ],
+      "ans": 0,
+      "hint": "finish 后接 doing",
+      "zh": "他们九点看完电视。",
+      "sentence": "They finish watching TV at nine."
+    },
+    {
+      "audio": "I enjoy eating hot pot.",
+      "opts": [
+        "I enjoy eating hot pot.",
+        "I enjoy to eat hot pot.",
+        "I enjoy eat hot pot."
+      ],
+      "ans": 0,
+      "hint": "enjoy 后接 doing",
+      "zh": "我喜欢吃火锅。",
+      "sentence": "I enjoy eating hot pot."
+    }
+  ],
+  "builds": [
+    {
+      "sentence": "I enjoy reading books in the library.",
+      "zh": "我喜欢在图书馆看书。",
+      "tokens": [
+        "I",
+        "enjoy",
+        "reading",
+        "books",
+        "in",
+        "the",
+        "library"
+      ],
+      "scene": "library",
+      "image": "kp3d-library.png"
+    },
+    {
+      "sentence": "Tom likes playing basketball.",
+      "zh": "汤姆喜欢打篮球。",
+      "tokens": [
+        "Tom",
+        "likes",
+        "playing",
+        "basketball"
+      ],
+      "scene": "basketball",
+      "image": "kp3d-basketball.png"
+    },
+    {
+      "sentence": "She practices playing the piano every day.",
+      "zh": "她每天练习弹钢琴。",
+      "tokens": [
+        "She",
+        "practices",
+        "playing",
+        "the",
+        "piano",
+        "every",
+        "day"
+      ],
+      "scene": "piano",
+      "image": "kp3d-piano.png"
+    },
+    {
+      "sentence": "We finish cleaning the classroom at four.",
+      "zh": "我们四点打扫完教室。",
+      "tokens": [
+        "We",
+        "finish",
+        "cleaning",
+        "the",
+        "classroom",
+        "at",
+        "four"
+      ],
+      "scene": "classroom",
+      "image": "kp3d-classroom.png"
+    },
+    {
+      "sentence": "He enjoys riding a bike to school.",
+      "zh": "他喜欢骑自行车上学。",
+      "tokens": [
+        "He",
+        "enjoys",
+        "riding",
+        "a",
+        "bike",
+        "to",
+        "school"
+      ],
+      "scene": "bus",
+      "image": "kp3d-bus.png"
+    },
+    {
+      "sentence": "They like eating hot pot in Chengdu.",
+      "zh": "他们喜欢在成都吃火锅。",
+      "tokens": [
+        "They",
+        "like",
+        "eating",
+        "hot",
+        "pot",
+        "in",
+        "Chengdu"
+      ],
+      "scene": "dinner",
+      "image": "kp3d-dinner.png"
     }
   ]
 };

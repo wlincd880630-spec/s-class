@@ -1,6 +1,35 @@
 (function (global) {
   "use strict";
   global.KpScenes = {
-  "I stayed at home because it was raining.": "w4-conj-hero.jpg"
+  "I stayed at home because it was raining.": "kp3d-umbrella.png",
+  "It was raining, so I stayed at home.": "kp3d-umbrella.png",
+  "I like pandas because they are cute.": "kp3d-panda.png",
+  "The panda is cute, so everyone loves it.": "kp3d-panda.png",
+  "I want to go out, but it is raining.": "kp3d-umbrella.png",
+  "I was hungry, so I ate an apple.": "kp3d-apple.png",
+  "I ate the apple because I was hungry.": "kp3d-apple.png",
+  "She is short, but she can play basketball well.": "kp3d-basketball.png",
+  "He studied hard, so he passed the exam.": "kp3d-classroom.png",
+  "I didn't go to school because I was sick.": "kp3d-doctor.png",
+  "The bus was late, so I was late for school.": "kp3d-bus.png",
+  "I like English, but I don't like math.": "kp3d-classroom.png",
+  "She is my friend, but she is not in my class.": "kp3d-classroom.png",
+  "The cat is sleeping because it is tired.": "kp3d-cat.png",
+  "I forgot my umbrella, so I got wet.": "kp3d-umbrella.png",
+  "He is tall, but he can't reach the apple.": "kp3d-apple.png",
+  "I practice the piano every day because I want to be a pianist.": "kp3d-piano.png",
+  "I love music, so I join the piano club.": "kp3d-piano.png",
+  "I wanted to read, but the library was closed.": "kp3d-library.png",
+  "The library is quiet, so I like to study there.": "kp3d-library.png",
+  "We went to the playground because the weather was nice.": "kp3d-playground.png",
+  "It was sunny, so we played on the playground.": "kp3d-playground.png",
+  "I like hotpot, but my friend doesn't.": "kp3d-dinner.png",
+  "We had dinner at home because it was cold outside.": "kp3d-dinner.png",
+  "It was raining, so I took an umbrella.": "kp3d-umbrella.png",
+  "I wanted to play basketball, but it was too hot.": "kp3d-basketball.png",
+  "I was hungry, so I bought a sandwich at the shop.": "kp3d-shop.png",
+  "I like the piano because it sounds beautiful.": "kp3d-piano.png",
+  "The cat is small, but it is very brave.": "kp3d-cat.png",
+  "I wanted to play outside, but it was raining.": "kp3d-playground.png"
 };
 })(typeof window !== "undefined" ? window : null);

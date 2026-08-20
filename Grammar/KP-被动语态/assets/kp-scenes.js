@@ -1,6 +1,36 @@
 (function (global) {
   "use strict";
   global.KpScenes = {
-  "English is spoken in many countries.": "w3-pass-hero.jpg"
+  "English is spoken in many countries.": "kp3d-classroom.png",
+  "The classroom is cleaned every afternoon.": "kp3d-classroom.png",
+  "The panda is loved by people all over the world.": "kp3d-panda.png",
+  "The bus is stopped at the red light.": "kp3d-bus.png",
+  "The dinner is cooked by my mother every evening.": "kp3d-dinner.png",
+  "The umbrella is put near the door.": "kp3d-umbrella.png",
+  "The apple is eaten by the little boy.": "kp3d-apple.png",
+  "The library is opened at nine o'clock.": "kp3d-library.png",
+  "The window was broken by the strong wind yesterday.": "kp3d-window.png",
+  "The basketball game was watched by many students.": "kp3d-basketball.png",
+  "The doctor was called in the middle of the night.": "kp3d-doctor.png",
+  "The piano was played by Lily at the party.": "kp3d-piano.png",
+  "The cat was found under the chair.": "kp3d-cat.png",
+  "The moon was seen from the window last night.": "kp3d-moon.png",
+  "The playground was cleaned by the students after school.": "kp3d-playground.png",
+  "The shop was closed at six yesterday.": "kp3d-shop.png",
+  "The taller boy is chosen to carry the flag.": "kp3d-taller.png",
+  "The story is told by the teacher every Monday.": "kp3d-classroom.png",
+  "The homework is finished by the students before dinner.": "kp3d-dinner.png",
+  "The books are returned to the library every Friday.": "kp3d-library.png",
+  "The new words are written on the blackboard.": "kp3d-classroom.png",
+  "The hot pot is enjoyed by many people in Chengdu.": "kp3d-dinner.png",
+  "The bus ticket is bought at the station.": "kp3d-bus.png",
+  "The picture is drawn by the little girl on the wall.": "kp3d-playground.png",
+  "The classroom is cleaned every day.": "kp3d-classroom.png",
+  "The panda is loved by people.": "kp3d-panda.png",
+  "The window was broken yesterday.": "kp3d-window.png",
+  "The dinner is cooked by my mother.": "kp3d-dinner.png",
+  "The bus is stopped at the station.": "kp3d-bus.png",
+  "The apple is eaten by the boy.": "kp3d-apple.png",
+  "The window was broken by the wind yesterday.": "kp3d-window.png"
 };
 })(typeof window !== "undefined" ? window : null);

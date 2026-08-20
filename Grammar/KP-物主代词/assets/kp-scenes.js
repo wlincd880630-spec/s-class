@@ -1,6 +1,37 @@
 (function (global) {
   "use strict";
   global.KpScenes = {
-  "This book is mine. Yours is on the desk.": "w4-poss-hero.jpg"
+  "This book is mine.": "kp3d-library.png",
+  "Yours is on the desk.": "kp3d-classroom.png",
+  "This pen isn't mine. It's hers.": "kp3d-classroom.png",
+  "My bag is heavy, but yours is light.": "kp3d-bus.png",
+  "Our classroom is big. Theirs is small.": "kp3d-classroom.png",
+  "I like my bike. Do you like yours?": "kp3d-playground.png",
+  "Her cat is white. Mine is black.": "kp3d-cat.png",
+  "This is my lunch. Where is yours?": "kp3d-dinner.png",
+  "My name is Tom. What's yours?": "kp3d-classroom.png",
+  "This is your seat. Mine is next to it.": "kp3d-classroom.png",
+  "Is this his pencil? No, it's hers.": "kp3d-classroom.png",
+  "Our teacher is kind. Theirs is strict.": "kp3d-classroom.png",
+  "My shoes are new, but his are old.": "kp3d-shop.png",
+  "This is our school. That is theirs.": "kp3d-playground.png",
+  "My mom is a doctor. His is a nurse.": "kp3d-doctor.png",
+  "Your answer is right. Hers is wrong.": "kp3d-classroom.png",
+  "My room is tidy. Yours is messy.": "kp3d-window.png",
+  "I have my umbrella. She has hers.": "kp3d-umbrella.png",
+  "This is my favorite book. That is yours.": "kp3d-library.png",
+  "Our team won. Theirs lost.": "kp3d-basketball.png",
+  "My grandpa has a dog. Its name is Lucky.": "kp3d-cat.png",
+  "This is my piano. That one is hers.": "kp3d-piano.png",
+  "I like my school. Do you like yours?": "kp3d-classroom.png",
+  "My apple is red. Yours is green.": "kp3d-apple.png",
+  "Your pen is on the desk.": "kp3d-classroom.png",
+  "My cat is black.": "kp3d-cat.png",
+  "Our classroom is big.": "kp3d-classroom.png",
+  "I like your bike.": "kp3d-playground.png",
+  "Her bag is red.": "kp3d-shop.png",
+  "This is my book. That book is mine.": "kp3d-library.png",
+  "Your pen is red. Mine is blue.": "kp3d-classroom.png",
+  "Her cat is cute. His is lazy.": "kp3d-cat.png"
 };
 })(typeof window !== "undefined" ? window : null);

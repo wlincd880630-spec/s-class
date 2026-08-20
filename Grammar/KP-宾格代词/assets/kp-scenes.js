@@ -1,6 +1,41 @@
 (function (global) {
   "use strict";
   global.KpScenes = {
-  "Miss Li gave us an interesting lesson.": "w3-obj-hero.jpg"
+  "Please tell her the good news.": "kp3d-classroom.png",
+  "Miss Li gave us an interesting lesson.": "kp3d-classroom.png",
+  "My mom always helps me with my homework.": "kp3d-dinner.png",
+  "The teacher is talking to him about the test.": "kp3d-classroom.png",
+  "We saw them at the playground after school.": "kp3d-playground.png",
+  "Can you call her later? She is busy now.": "kp3d-bus.png",
+  "The little girl is looking at us and smiling.": "kp3d-shop.png",
+  "My grandfather tells me stories every night.": "kp3d-dinner.png",
+  "The panda is eating bamboo. Please don't feed it.": "kp3d-panda.png",
+  "I bought a nice gift for her in the shop.": "kp3d-shop.png",
+  "They are waiting for us at the bus stop.": "kp3d-bus.png",
+  "The doctor gave me some medicine for the cold.": "kp3d-doctor.png",
+  "Please remind me to bring the umbrella tomorrow.": "kp3d-umbrella.png",
+  "The teacher asked him to answer the question.": "kp3d-classroom.png",
+  "My parents will take us to see the pandas.": "kp3d-panda.png",
+  "She often helps her classmates with their English.": "kp3d-classroom.png",
+  "We should listen to them carefully.": "kp3d-classroom.png",
+  "The old man is talking to me about his cat.": "kp3d-cat.png",
+  "Can you give him a hand? He is moving the box.": "kp3d-playground.png",
+  "The librarian told us to be quiet in the library.": "kp3d-library.png",
+  "My sister is teaching me to play the piano.": "kp3d-piano.png",
+  "The football coach is training them every day.": "kp3d-basketball.png",
+  "I will send you a message when I arrive.": "kp3d-bus.png",
+  "She invited us to her birthday party.": "kp3d-dinner.png",
+  "The teacher praised him for his hard work.": "kp3d-classroom.png",
+  "My father often reads stories to me at bedtime.": "kp3d-dinner.png",
+  "The students are helping the old lady carry her bags.": "kp3d-shop.png",
+  "The coach asked us to practice basketball after school.": "kp3d-basketball.png",
+  "I hope to see you at the library tomorrow.": "kp3d-library.png",
+  "The little boy is waving at us from the window.": "kp3d-window.png",
+  "Please give me the book.": "kp3d-classroom.png",
+  "The teacher is talking to him about the lesson.": "kp3d-classroom.png",
+  "My mother loves me very much.": "kp3d-dinner.png",
+  "The students are waiting for us at the school gate.": "kp3d-playground.png",
+  "I saw them in the library yesterday.": "kp3d-library.png",
+  "Between you and me, this is a secret.": "kp3d-dinner.png"
 };
 })(typeof window !== "undefined" ? window : null);

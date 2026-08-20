@@ -1,6 +1,37 @@
 (function (global) {
   "use strict";
   global.KpScenes = {
-  "The children enjoyed themselves at the party.": "w5-refl-hero.jpg"
+  "I can finish it by myself.": "kp3d-classroom.png",
+  "You should believe in yourself.": "kp3d-playground.png",
+  "She made the cake herself.": "kp3d-dinner.png",
+  "He taught himself to swim.": "kp3d-basketball.png",
+  "We enjoyed ourselves at the party.": "kp3d-playground.png",
+  "They built the house themselves.": "kp3d-shop.png",
+  "I hurt myself when I fell.": "kp3d-playground.png",
+  "You two should help yourselves to some food.": "kp3d-dinner.png",
+  "She looked at herself in the mirror.": "kp3d-window.png",
+  "The cat cleaned itself.": "kp3d-cat.png",
+  "I taught myself English.": "kp3d-library.png",
+  "He introduced himself to the class.": "kp3d-classroom.png",
+  "We can do it ourselves.": "kp3d-classroom.png",
+  "They enjoyed themselves at the zoo.": "kp3d-panda.png",
+  "You should take care of yourself.": "kp3d-doctor.png",
+  "She bought herself a new dress.": "kp3d-shop.png",
+  "I made myself a sandwich.": "kp3d-dinner.png",
+  "He cooked dinner for himself.": "kp3d-dinner.png",
+  "They taught themselves to play the piano.": "kp3d-piano.png",
+  "We should be proud of ourselves.": "kp3d-classroom.png",
+  "She dressed herself quickly.": "kp3d-window.png",
+  "I found myself lost in the city.": "kp3d-bus.png",
+  "He blamed himself for the mistake.": "kp3d-classroom.png",
+  "They made themselves comfortable.": "kp3d-library.png",
+  "He taught himself to play the piano.": "kp3d-piano.png",
+  "She bought herself a new umbrella.": "kp3d-shop.png",
+  "They enjoyed themselves at the panda base.": "kp3d-panda.png",
+  "We should take care of ourselves.": "kp3d-doctor.png",
+  "You can finish the book by yourself.": "kp3d-library.png",
+  "I made myself a cup of tea. You should try it yourself.": "kp3d-dinner.png",
+  "He taught himself to swim, and she taught herself to dance.": "kp3d-playground.png",
+  "We enjoyed ourselves at the panda base, and they enjoyed themselves at the park.": "kp3d-panda.png"
 };
 })(typeof window !== "undefined" ? window : null);
