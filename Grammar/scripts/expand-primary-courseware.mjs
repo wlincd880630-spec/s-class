@@ -8,7 +8,7 @@ import path from "path";
 import vm from "vm";
 import { fileURLToPath } from "url";
 import { SPECS } from "./primary-junior-expand-spec.mjs";
-import { ROOT, pageHtml, indexHtml, buildDataJs } from "../kp-shared/gen-lesson.mjs";
+import { ROOT, pageHtml, indexHtml, buildDataJs, buildCorpusJs, buildScenesJs } from "../kp-shared/gen-lesson.mjs";
 
 const GRAMMAR = path.join(ROOT, "Grammar");
 
@@ -45,6 +45,7 @@ const GENERATED_TYPES = new Set([
   "streak-quiz",
   "match-pairs",
   "listen-pick",
+  "corpus",
 ]);
 
 function seedPages(pages) {
@@ -75,6 +76,64 @@ function uniqueList(items) {
     out.push(t);
   }
   return out;
+}
+
+function loadPack(folder) {
+  const file = path.join(path.dirname(fileURLToPath(import.meta.url)), "primary-corpus-packs", folder + ".json");
+  if (!fs.existsSync(file)) return null;
+  return JSON.parse(fs.readFileSync(file, "utf8"));
+}
+
+function mergeSpec(spec, pack) {
+  if (!pack) return spec;
+  const extraQs = [...(spec.extraQs || [])];
+  const seenQ = new Set(extraQs.map((q) => q.q));
+  (pack.questions || []).forEach((q) => {
+    if (q.q && !seenQ.has(q.q)) {
+      seenQ.add(q.q);
+      extraQs.push(q);
+    }
+  });
+  const transformItems = [...(spec.transform?.items || [])];
+  (pack.transforms || []).forEach((t) => {
+    transformItems.push({
+      from: t.from,
+      fromZh: t.fromZh,
+      steps: [
+        {
+          label: t.label || "改写句子",
+          opts: t.opts,
+          ans: t.ans,
+          hint: t.hint,
+          sentence: t.sentence,
+          zh: t.zh,
+        },
+      ],
+    });
+  });
+  const pairs = [...(spec.pairs || [])];
+  const seenP = new Set(pairs.map((p) => p.en));
+  (pack.pairs || []).forEach((p) => {
+    if (p.en && !seenP.has(p.en)) {
+      seenP.add(p.en);
+      pairs.push(p);
+    }
+  });
+  const scenes = [...(spec.scenes || [])];
+  (pack.scenes || []).slice(0, 3).forEach((s) => {
+    if (!scenes.some((x) => x.sentence === s.sentence)) scenes.push(s);
+  });
+  return {
+    ...spec,
+    extraQs,
+    scenes,
+    pairs,
+    pack,
+    transform: { ...(spec.transform || {}), items: transformItems },
+    builds: pack.builds || [],
+    listenQs: pack.listen || [],
+    examples: pack.examples || [],
+  };
 }
 
 function rebuild(oldPages, spec) {
@@ -153,25 +212,41 @@ function rebuild(oldPages, spec) {
 
   const buildSent = spec.build?.sentence || listen?.sentence;
   const buildTokens = spec.build?.tokens || listen?.tokens;
+  const buildItems = (spec.builds && spec.builds.length
+    ? spec.builds
+    : [{ tokens: buildTokens, sentence: buildSent, zh: spec.build?.zh || listen?.zh, image: img }]
+  ).map((b) => ({
+    tokens: b.tokens || String(b.sentence || "").replace(/[.!?。！？]+$/g, "").trim().split(/\s+/),
+    sentence: b.sentence,
+    zh: b.zh,
+    image: b.image || img,
+  }));
   pages.push({
     section: "操练",
     title: "看图造句",
     type: "picture-build",
     badge: "action",
     badgeText: "🧩 造句",
-    image: img,
-    instruction: spec.build?.instruction || "对照初中造句操练：点选乱序单词组成正确句子。",
-    tokens: buildTokens,
-    sentence: buildSent,
-    zh: spec.build?.zh || listen?.zh,
+    image: buildItems[0]?.image || img,
+    instruction: spec.build?.instruction || "连续多句：点选乱序单词组成正确句子。",
+    tokens: buildItems[0]?.tokens || buildTokens,
+    sentence: buildItems[0]?.sentence || buildSent,
+    zh: buildItems[0]?.zh || spec.build?.zh || listen?.zh,
+    items: buildItems,
   });
 
   if (listen) pages.push({ ...listen, section: "操练" });
   if (quiz) pages.push({ ...quiz, section: "检测" });
 
   const allQs = [];
+  const seenQ = new Set();
+  function pushQ(q) {
+    if (!q?.q || seenQ.has(q.q)) return;
+    seenQ.add(q.q);
+    allQs.push(q);
+  }
   if (quiz) {
-    allQs.push({
+    pushQ({
       q: quiz.q,
       opts: quiz.opts,
       ans: quiz.ans,
@@ -180,7 +255,10 @@ function rebuild(oldPages, spec) {
       zh: quiz.zh,
     });
   }
-  (spec.extraQs || []).forEach((q) => allQs.push(q));
+  (spec.extraQs || []).forEach(pushQ);
+
+  const quizA = allQs.slice(0, 16);
+  const quizB = allQs.length > 16 ? allQs.slice(16, 36) : allQs;
 
   pages.push({
     section: "检测",
@@ -189,19 +267,20 @@ function rebuild(oldPages, spec) {
     badge: "q",
     badgeText: "📝 综测",
     image: img,
-    lead: "对齐初中综合测试：全部做完再交卷。",
-    questions: allQs,
+    lead: "对齐初中综合测试：本卷 " + quizA.length + " 题，全部做完再交卷。",
+    questions: quizA,
   });
   pages.push({
     section: "检测",
-    title: "限时挑战 60 秒",
+    title: "限时挑战 90 秒",
     type: "timed-quiz",
     badge: "timed",
     badgeText: "⏱ 限时",
-    lead: "对照初中课堂竞赛：60 秒内尽量多答对。",
-    seconds: 60,
+    lead: "题库已扩充：90 秒内尽量多答对。",
+    seconds: 90,
     perQuestion: 12,
-    pass: 4,
+    pass: 8,
+    pool: "questions",
     questions: allQs,
   });
   pages.push({
@@ -210,8 +289,9 @@ function rebuild(oldPages, spec) {
     type: "streak-quiz",
     badge: "game",
     badgeText: "🔥 连对",
-    lead: "连续答对 5 题通关，答错连击清零。",
-    target: 5,
+    lead: "连续答对 8 题通关，答错连击清零。题库已加厚。",
+    target: 8,
+    pool: "questions",
     questions: allQs,
   });
   pages.push({
@@ -221,11 +301,15 @@ function rebuild(oldPages, spec) {
     badge: "game",
     badgeText: "🔗 配对",
     image: img,
+    pool: "matchPairs",
     pairs: spec.pairs,
   });
 
   const audio = spec.listenPick?.audio || listen?.audio || listen?.sentence;
   const opts = spec.listenPick?.opts || [audio, ...(spec.distractors || [])];
+  const listenQs = spec.listenQs?.length
+    ? spec.listenQs
+    : [{ audio, opts, ans: spec.listenPick?.ans ?? 0, hint: spec.listenPick?.hint || "先听完整句，再选文字。", sentence: audio, zh: spec.listenPick?.zh || listen?.zh }];
   pages.push({
     section: "听音",
     title: "听音快选",
@@ -233,12 +317,35 @@ function rebuild(oldPages, spec) {
     badge: "sound",
     badgeText: "🎧 听音",
     image: img,
-    audio,
-    opts,
-    ans: spec.listenPick?.ans ?? 0,
-    hint: spec.listenPick?.hint || "先听完整句，再选文字。",
-    sentence: audio,
-    zh: spec.listenPick?.zh || listen?.zh,
+    audio: listenQs[0]?.audio || audio,
+    opts: listenQs[0]?.opts || opts,
+    ans: listenQs[0]?.ans ?? 0,
+    hint: listenQs[0]?.hint,
+    sentence: listenQs[0]?.sentence || audio,
+    zh: listenQs[0]?.zh || listen?.zh,
+    questions: listenQs,
+  });
+
+  pages.push({
+    section: "语料库",
+    title: "语料库 · 例句精读",
+    type: "corpus",
+    badge: "demo",
+    badgeText: "📚 语料",
+    image: img,
+    lead: "日常 / 考点 / 写作分类例句，点喇叭跟读，点蓝色单词可查词典。",
+    examples: spec.examples || [],
+  });
+
+  pages.push({
+    section: "加练",
+    title: "加练卷 · 再练二十题",
+    type: "multi-quiz",
+    badge: "q",
+    badgeText: "📝 加练",
+    image: img,
+    lead: "换一批题目再练，做熟为止。",
+    questions: quizB,
   });
 
   const checklist = uniqueList([...(sum?.checklist || []), ...(spec.extraChecklist || [])]);
@@ -265,13 +372,25 @@ function writeCourse(folder, spec, pages) {
   const assets = path.join(outDir, "assets");
   const cos = loadCosBase(folder);
   const hero = spec.image || pages[0]?.image || "";
+  const nEx = (spec.examples || []).length;
+  const nQ = (spec.extraQs || []).length;
   const lesson = {
     folder: "Grammar/" + folder,
     code: spec.pNum || folder,
     title: spec.title,
     badge: spec.badge,
-    intro: spec.intro,
-    features: spec.features,
+    intro:
+      pages.length +
+      " 页互动课件：导入 → 公式 → 精讲 → 转换 → 综测 → 语料库。本课 " +
+      nEx +
+      " 条例句、" +
+      nQ +
+      " 道练习题。",
+    features: uniqueList([
+      ...(spec.features || []),
+      "📚 语料库 " + Math.max(nEx, 8) + " 句",
+      "📝 练习 " + Math.max(nQ, 8) + " 题",
+    ]),
     psleNote: spec.psleNote,
     juniorNote: spec.juniorNote,
     juniorHref: spec.juniorHref,
@@ -279,9 +398,29 @@ function writeCourse(folder, spec, pages) {
     heroImage: /^https?:/i.test(hero) ? hero : cos + hero,
     backLink: "../index.html",
     pages,
+    corpus: {
+      examples: spec.examples || [],
+      questions: spec.extraQs || [],
+      matchPairs: spec.pairs || [],
+      listenPick: spec.listenQs || [],
+      builds: spec.builds || [],
+    },
   };
 
+  const sceneMap = {};
+  (spec.examples || []).forEach((ex) => {
+    if (ex.en && (ex.image || ex.scene)) sceneMap[ex.en] = ex.image || "kp3d-" + ex.scene + ".png";
+  });
+  (spec.builds || []).forEach((b) => {
+    if (b.sentence && (b.image || b.scene)) sceneMap[b.sentence] = b.image || "kp3d-" + b.scene + ".png";
+  });
+  (spec.scenes || []).forEach((s) => {
+    if (s.sentence && (s.image || s.scene)) sceneMap[s.sentence] = s.image || "kp3d-" + s.scene + ".png";
+  });
+
   fs.writeFileSync(path.join(assets, "kp-data.js"), buildDataJs(lesson));
+  fs.writeFileSync(path.join(assets, "kp-corpus.js"), buildCorpusJs(lesson));
+  fs.writeFileSync(path.join(assets, "kp-scenes.js"), buildScenesJs({ sceneMap }));
   fs.writeFileSync(path.join(outDir, "index.html"), indexHtml(lesson));
 
   const ids = pages.map((p) => p.id);
@@ -301,11 +440,11 @@ function writeCourse(folder, spec, pages) {
 const folders = Object.keys(SPECS);
 let totalPages = 0;
 for (const folder of folders) {
-  const spec = SPECS[folder];
+  const spec = mergeSpec(SPECS[folder], loadPack(folder));
   const data = loadKpData(folder);
   const pages = rebuild(seedPages(data.pages), spec);
   const n = writeCourse(folder, spec, pages);
   totalPages += n;
-  console.log(folder, data.pages.length, "→", n);
+  console.log(folder, data.pages.length, "→", n, "ex", (spec.examples || []).length, "q", (spec.extraQs || []).length);
 }
 console.log("Done:", folders.length, "courses,", totalPages, "pages");
