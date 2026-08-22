@@ -88,6 +88,10 @@
       });
       host.appendChild(b);
     });
+    var on = host.querySelector(".word-jump-chip.is-on");
+    if (on && on.scrollIntoView) {
+      try { on.scrollIntoView({ block: "nearest", inline: "nearest" }); } catch (e) { on.scrollIntoView(); }
+    }
   }
 
   function clearHost(el) {
