@@ -17,6 +17,9 @@
     function poolOf(page) {
       if (page.questions && page.questions.length) return page.questions;
       if (page.pool && global.KpCorpus && global.KpCorpus[page.pool]) return global.KpCorpus[page.pool];
+      if (global.KpCorpus && global.KpCorpus.questions && global.KpCorpus.questions.length) {
+        return global.KpCorpus.questions;
+      }
       return [];
     }
 
@@ -410,7 +413,12 @@
     }
 
     function renderListenPick(page) {
-      var opts = (page.opts || [])
+      var qs = page.questions && page.questions.length ? page.questions : null;
+      if (!qs && global.KpCorpus && global.KpCorpus.listenPick && global.KpCorpus.listenPick.length) {
+        qs = global.KpCorpus.listenPick;
+      }
+      var first = qs ? qs[0] : page;
+      var opts = (first.opts || page.opts || [])
         .map(function (o, i) {
           return '<button type="button" class="kp-choice" data-i="' + i + '">' + esc(o) + "</button>";
         })
@@ -418,44 +426,91 @@
       return (
         header(page) +
         '<article class="kp-card">' +
-        hero(page, page.audio) +
+        hero(page, first.audio || page.audio) +
         '<div class="kp-body-inner"><h1 class="kp-title">' +
         esc(page.title) +
-        '</h1><div class="kp-sound-panel"><button type="button" class="kp-btn kp-btn--play" id="lpPlay">🔊</button><p>听句子，选正确答案</p></div>' +
+        '</h1><p class="kp-lead" id="lpProg"></p><div class="kp-sound-panel"><button type="button" class="kp-btn kp-btn--play" id="lpPlay">🔊</button><p>听句子，选正确答案</p></div>' +
         '<div class="kp-choices" id="lpCh">' +
         opts +
-        '</div><div class="kp-fb" id="lpFb"></div></div></article>'
+        '</div><div class="kp-toolbar"><button type="button" class="kp-btn" id="lpNext" hidden>下一题 →</button></div><div class="kp-fb" id="lpFb"></div></div></article>'
       );
     }
 
     function bindListenPick(page) {
-      var play = document.getElementById("lpPlay");
-      if (play) {
-        play.addEventListener("click", function () {
-          speak(page.audio || page.sentence, play);
-        });
-        setTimeout(function () {
-          speak(page.audio || page.sentence, play);
-        }, 320);
+      var qs = page.questions && page.questions.length ? page.questions.slice() : null;
+      if (!qs && global.KpCorpus && global.KpCorpus.listenPick && global.KpCorpus.listenPick.length) {
+        qs = global.KpCorpus.listenPick.slice();
       }
+      if (!qs || !qs.length) {
+        qs = [{ audio: page.audio || page.sentence, opts: page.opts, ans: page.ans, hint: page.hint, sentence: page.sentence, zh: page.zh }];
+      }
+      var qi = 0;
+      var nextBtn = document.getElementById("lpNext");
+      var ch = document.getElementById("lpCh");
       var fb = document.getElementById("lpFb");
-      document.querySelectorAll("#lpCh .kp-choice").forEach(function (btn) {
-        btn.addEventListener("click", function () {
-          if (btn.disabled) return;
-          var i = Number(btn.getAttribute("data-i"));
-          var ok = i === page.ans;
-          document.querySelectorAll("#lpCh .kp-choice").forEach(function (b, j) {
-            b.disabled = true;
-            if (j === page.ans) b.classList.add("is-ok");
-            else if (j === i) b.classList.add("is-no");
+      var prog = document.getElementById("lpProg");
+
+      function current() {
+        return qs[qi] || qs[0];
+      }
+
+      function paint() {
+        var q = current();
+        if (prog) prog.textContent = "第 " + (qi + 1) + " / " + qs.length + " 题";
+        if (fb) {
+          fb.className = "kp-fb";
+          fb.innerHTML = "";
+        }
+        if (nextBtn) nextBtn.hidden = true;
+        if (ch) {
+          ch.innerHTML = (q.opts || [])
+            .map(function (o, i) {
+              return '<button type="button" class="kp-choice" data-i="' + i + '">' + esc(o) + "</button>";
+            })
+            .join("");
+        }
+        wire();
+        speak(q.audio || q.sentence);
+      }
+
+      function wire() {
+        var q = current();
+        var play = document.getElementById("lpPlay");
+        if (play) {
+          play.onclick = function () {
+            speak(q.audio || q.sentence, play);
+          };
+        }
+        document.querySelectorAll("#lpCh .kp-choice").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            if (btn.disabled) return;
+            var i = Number(btn.getAttribute("data-i"));
+            var ok = i === q.ans;
+            document.querySelectorAll("#lpCh .kp-choice").forEach(function (b, j) {
+              b.disabled = true;
+              if (j === q.ans) b.classList.add("is-ok");
+              else if (j === i) b.classList.add("is-no");
+            });
+            if (fb) {
+              fb.className = "kp-fb is-show " + (ok ? "kp-fb--ok" : "kp-fb--no");
+              fb.textContent = ok ? "听对了！✓" : q.hint || page.hint || "再听一遍。";
+            }
+            if (ok) speak(q.audio || q.sentence);
+            if (nextBtn && qi < qs.length - 1) nextBtn.hidden = false;
+            else if (ok && qi >= qs.length - 1 && fb) fb.textContent = "全部听完了！🎉";
           });
-          if (fb) {
-            fb.className = "kp-fb is-show " + (ok ? "kp-fb--ok" : "kp-fb--no");
-            fb.textContent = ok ? "听对了！✓" : page.hint || "再听一遍。";
-          }
-          if (ok) speak(page.audio || page.sentence);
         });
-      });
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener("click", function () {
+          if (qi < qs.length - 1) {
+            qi++;
+            paint();
+          }
+        });
+      }
+      paint();
     }
 
     RENDER["timed-quiz"] = renderTimedQuiz;

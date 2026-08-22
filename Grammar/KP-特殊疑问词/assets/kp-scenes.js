@@ -1,6 +1,36 @@
 (function (global) {
   "use strict";
   global.KpScenes = {
-  "How often do you go to the library? Twice a week.": "w4-qw-hero.jpg"
+  "How often do you go to the library?": "kp3d-library.png",
+  "How long does it take to get to school?": "kp3d-bus.png",
+  "How many books do you read every month?": "kp3d-library.png",
+  "How often does your family eat hotpot?": "kp3d-dinner.png",
+  "How long is the movie?": "kp3d-piano.png",
+  "How many pandas are there in the zoo?": "kp3d-panda.png",
+  "How often do you play basketball?": "kp3d-basketball.png",
+  "How long do you stay at the playground?": "kp3d-playground.png",
+  "How many apples do you want?": "kp3d-apple.png",
+  "How often do you see the doctor?": "kp3d-doctor.png",
+  "How long is the bus ride?": "kp3d-bus.png",
+  "How many windows are there in your classroom?": "kp3d-window.png",
+  "How often does it rain in Chengdu?": "kp3d-umbrella.png",
+  "How long do you practice the piano?": "kp3d-piano.png",
+  "How many cats does your aunt have?": "kp3d-cat.png",
+  "How often do you clean the classroom?": "kp3d-classroom.png",
+  "How long does the homework take?": "kp3d-classroom.png",
+  "How many friends do you have at school?": "kp3d-playground.png",
+  "How often do you visit the museum?": "kp3d-bus.png",
+  "How long is the summer holiday?": "kp3d-moon.png",
+  "How many eggs do we need for the cake?": "kp3d-dinner.png",
+  "How often do you water the plants?": "kp3d-window.png",
+  "How long does the train to Beijing take?": "kp3d-bus.png",
+  "How many stars can you see tonight?": "kp3d-moon.png",
+  "How often do you go to the shop?": "kp3d-shop.png",
+  "How long does it take to get to the playground?": "kp3d-playground.png",
+  "How often do you eat hotpot?": "kp3d-dinner.png",
+  "How long is the bus ride to school?": "kp3d-bus.png",
+  "How often do you go to the library? — Twice a week.": "kp3d-library.png",
+  "How long does it take to get to school? — About twenty minutes.": "kp3d-bus.png",
+  "How many pandas are there in the zoo? — There are three.": "kp3d-panda.png"
 };
 })(typeof window !== "undefined" ? window : null);

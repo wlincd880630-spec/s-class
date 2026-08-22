@@ -1,6 +1,36 @@
 (function (global) {
   "use strict";
   global.KpScenes = {
-  "Let's play basketball, shall we?": "w5-tag-hero.jpg"
+  "Let's play basketball, shall we?": "kp3d-basketball.png",
+  "Let's go to the library, shall we?": "kp3d-library.png",
+  "Let's eat hotpot, shall we?": "kp3d-dinner.png",
+  "Let's watch the panda, shall we?": "kp3d-panda.png",
+  "Let's take the bus, shall we?": "kp3d-bus.png",
+  "Let's clean the classroom, shall we?": "kp3d-classroom.png",
+  "Let's open the window, shall we?": "kp3d-window.png",
+  "Let's play the piano, shall we?": "kp3d-piano.png",
+  "She likes English, doesn't she?": "kp3d-classroom.png",
+  "He is a doctor, isn't he?": "kp3d-doctor.png",
+  "They are playing on the playground, aren't they?": "kp3d-playground.png",
+  "You have an umbrella, don't you?": "kp3d-umbrella.png",
+  "The cat is sleeping, isn't it?": "kp3d-cat.png",
+  "We can see the moon, can't we?": "kp3d-moon.png",
+  "The apple is red, isn't it?": "kp3d-apple.png",
+  "Tom is taller than Mike, isn't he?": "kp3d-taller.png",
+  "Let's go shopping, shall we?": "kp3d-shop.png",
+  "Let's have dinner together, shall we?": "kp3d-dinner.png",
+  "Let's visit the museum, shall we?": "kp3d-library.png",
+  "Let's draw a picture, shall we?": "kp3d-classroom.png",
+  "Let's read a book, shall we?": "kp3d-library.png",
+  "Let's ride a bike, shall we?": "kp3d-playground.png",
+  "Let's buy some fruit, shall we?": "kp3d-shop.png",
+  "Let's practice English, shall we?": "kp3d-classroom.png",
+  "Let's go to the park, shall we?": "kp3d-playground.png",
+  "She is a teacher, isn't she?": "kp3d-classroom.png",
+  "They are eating dinner, aren't they?": "kp3d-dinner.png",
+  "You can play the piano, can't you?": "kp3d-piano.png",
+  "The panda is in the zoo, isn't it?": "kp3d-panda.png",
+  "Let's buy some apples, shall we?": "kp3d-shop.png",
+  "She doesn't like cats, does she?": "kp3d-cat.png"
 };
 })(typeof window !== "undefined" ? window : null);

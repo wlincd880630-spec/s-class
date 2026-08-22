@@ -1,6 +1,14 @@
 (function (global) {
   "use strict";
 
+  function mix(a, b) {
+    var o = {};
+    var k;
+    for (k in a) if (Object.prototype.hasOwnProperty.call(a, k)) o[k] = a[k];
+    for (k in b) if (b && Object.prototype.hasOwnProperty.call(b, k)) o[k] = b[k];
+    return o;
+  }
+
   function esc(s) {
     return String(s || "")
       .replace(/&/g, "&amp;")
@@ -16,8 +24,14 @@
       .replace(/\s+/g, " ");
   }
 
+  function isSharedImg(name) {
+    return /^kp3d-/.test(String(name || ""));
+  }
+
   function img(name) {
     if (!name) return "";
+    if (/^https?:\/\//i.test(name)) return name;
+    if (isSharedImg(name)) return "../kp-shared/img/" + String(name).replace(/^.*\//, "");
     if (global.KpImg) {
       var host = typeof location !== "undefined" && location.hostname ? location.hostname : "";
       if (host === "localhost" || host === "127.0.0.1") return global.KpImg.local(name);
@@ -27,6 +41,7 @@
   }
 
   function imgOnerror(name) {
+    if (isSharedImg(name)) return "this.style.display='none'";
     return global.KpImg ? "this.src='" + esc(global.KpImg.local(name)) + "'" : "";
   }
 
@@ -35,13 +50,27 @@
     return map[sentence] || fallback || "";
   }
 
-  /** 按例句查找配图：场景表 → 词汇卡 example → 页面 fallback */
+  function sceneFile(scene) {
+    if (!scene) return "";
+    if (isSharedImg(scene) || /\.(png|jpg|jpeg|webp)$/i.test(scene)) return scene;
+    return "kp3d-" + scene + ".png";
+  }
+
+  /** 按例句查找配图：场景表 → 语料库例句 → 词汇卡 */
   function imageForSentence(sentence) {
     if (!sentence) return "";
     var fromScene = sceneImg(sentence, "");
     if (fromScene) return fromScene;
     var pools = global.KpCorpus;
     if (!pools) return "";
+    var ei, ex;
+    var examples = pools.examples || [];
+    for (ei = 0; ei < examples.length; ei++) {
+      ex = examples[ei];
+      if (ex && (ex.en === sentence || ex.sentence === sentence) && (ex.image || ex.scene)) {
+        return ex.image || sceneFile(ex.scene);
+      }
+    }
     var lists = [pools.vocabRegular, pools.vocabIrregular, pools.vocabTime, pools.vocabBe];
     var pi, wi, w;
     for (pi = 0; pi < lists.length; pi++) {
@@ -996,17 +1025,28 @@
     return { reshuffle: reshuffle, check: check };
   }
 
+  function pictureItems(page) {
+    if (page.items && page.items.length) return page.items;
+    if (global.KpCorpus && global.KpCorpus.builds && global.KpCorpus.builds.length) return global.KpCorpus.builds;
+    return [{ tokens: page.tokens, sentence: page.sentence, zh: page.zh, image: page.image }];
+  }
+
   function renderPictureBuild(page) {
-    var deck = shuffleDistinct(makeTokenDeck(page.tokens));
-    var n = page.tokens.length;
+    var items = pictureItems(page);
+    var first = items[0] || page;
+    var tokens = first.tokens || page.tokens || [];
+    var deck = shuffleDistinct(makeTokenDeck(tokens));
+    var n = tokens.length;
     return (
       header(page) +
       '<article class="kp-card">' +
-      hero(page) +
+      '<div id="pbHero">' +
+      hero(mix(page, { image: first.image || page.image }), first.sentence || page.sentence) +
+      "</div>" +
       '<div class="kp-body-inner"><h1 class="kp-title">' +
       esc(page.title) +
       '</h1><p class="kp-lead">' +
-      esc(page.instruction || "看图，把乱序单词点选成正确句子。") +
+      esc(page.instruction || "看图，把乱序单词点选成正确句子。可连续练习多句。") +
       '</p><div class="kp-order-prog" id="pbProg"></div>' +
       '<div class="kp-order-label">组成句子</div>' +
       '<div class="kp-slots" id="pbSlots" aria-label="造句空格">' +
@@ -1018,29 +1058,64 @@
       '<button type="button" class="kp-btn kp-btn--ghost" id="pbUndo">撤回</button>' +
       '<button type="button" class="kp-btn kp-btn--ghost" id="pbReset">打乱重来</button>' +
       '<button type="button" class="kp-btn" id="pbCheck" disabled>检查</button>' +
+      '<button type="button" class="kp-btn" id="pbNext" hidden>下一句 →</button>' +
       '</div><div class="kp-fb" id="pbFb"></div></div></article>'
     );
   }
 
   function bindPictureBuild(page) {
-    var deck = [];
-    document.querySelectorAll("#pbBank .kp-chip--bank").forEach(function (chip) {
-      deck.push({ id: chip.getAttribute("data-id"), text: chip.getAttribute("data-t") });
-    });
-    bindTokenOrder({
-      answer: page.tokens,
-      deck: deck,
-      slotsId: "pbSlots",
-      bankId: "pbBank",
-      progId: "pbProg",
-      fbId: "pbFb",
-      checkId: "pbCheck",
-      undoId: "pbUndo",
-      resetId: "pbReset",
-      sentence: page.sentence,
-      zh: page.zh,
-      autoCheck: false,
-    });
+    var items = pictureItems(page);
+    var ii = 0;
+    var nextBtn = document.getElementById("pbNext");
+
+    function load(i) {
+      var it = items[i] || items[0];
+      var tokens = it.tokens || String(it.sentence || "").replace(/[.!?。！？]+$/g, "").trim().split(/\s+/);
+      var deck = shuffleDistinct(makeTokenDeck(tokens));
+      var slots = document.getElementById("pbSlots");
+      var bank = document.getElementById("pbBank");
+      var prog = document.getElementById("pbProg");
+      var fb = document.getElementById("pbFb");
+      var heroBox = document.getElementById("pbHero");
+      if (heroBox) {
+        heroBox.innerHTML = hero(mix(page, { image: it.image || page.image }), it.sentence);
+      }
+      if (slots) slots.innerHTML = orderSlotsHtml(tokens.length);
+      if (bank) bank.innerHTML = orderBankHtml(deck);
+      if (fb) {
+        fb.className = "kp-fb";
+        fb.innerHTML = "";
+      }
+      if (prog) prog.textContent = "第 " + (i + 1) + " / " + items.length + " 句";
+      if (nextBtn) nextBtn.hidden = true;
+      bindTokenOrder({
+        answer: tokens,
+        deck: deck,
+        slotsId: "pbSlots",
+        bankId: "pbBank",
+        progId: "pbProg",
+        fbId: "pbFb",
+        checkId: "pbCheck",
+        undoId: "pbUndo",
+        resetId: "pbReset",
+        sentence: it.sentence,
+        zh: it.zh,
+        autoCheck: false,
+        onWin: function () {
+          if (nextBtn && i < items.length - 1) nextBtn.hidden = false;
+        },
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener("click", function () {
+        if (ii < items.length - 1) {
+          ii++;
+          load(ii);
+        }
+      });
+    }
+    load(0);
   }
 
   function renderListenOrder(page) {
@@ -1339,7 +1414,87 @@
     show();
   }
 
+  function tagLabel(tag) {
+    if (tag === "exam_use") return "考点";
+    if (tag === "writing_use") return "写作";
+    return "日常";
+  }
+
+  function renderCorpus(page) {
+    var examples = (page.examples && page.examples.length ? page.examples : null) ||
+      (global.KpCorpus && global.KpCorpus.examples) ||
+      [];
+    var cards = examples
+      .map(function (ex, i) {
+        var sent = ex.en || ex.sentence || "";
+        var im = ex.image || sceneFile(ex.scene) || imageForSentence(sent) || page.image;
+        var imgHtml = im
+          ? '<img class="kp-ex__img" src="' + img(im) + '" alt="" decoding="async" onerror="' + imgOnerror(im) + '" />'
+          : "";
+        return (
+          '<article class="kp-ex" data-tag="' +
+          esc(ex.tag || "daily_use") +
+          '">' +
+          imgHtml +
+          '<div class="kp-ex__body"><span class="kp-ex__tag">' +
+          esc(tagLabel(ex.tag)) +
+          "</span>" +
+          sentBlock(sent, ex.zh) +
+          ttsRow(sent) +
+          "</div></article>"
+        );
+      })
+      .join("");
+    return (
+      header(page) +
+      '<article class="kp-card"><div class="kp-body-inner"><h1 class="kp-title">' +
+      esc(page.title || "语料库") +
+      '</h1><p class="kp-lead">' +
+      esc(page.lead || "多读、多听、多说。点标签筛选，点喇叭跟读。共 " + examples.length + " 条例句。") +
+      '</p><div class="kp-ex-filters" id="exFilters">' +
+      '<button type="button" class="kp-filter is-on" data-tag="all">全部 ' +
+      examples.length +
+      '</button>' +
+      '<button type="button" class="kp-filter" data-tag="daily_use">日常</button>' +
+      '<button type="button" class="kp-filter" data-tag="exam_use">考点</button>' +
+      '<button type="button" class="kp-filter" data-tag="writing_use">写作</button>' +
+      '</div><div class="kp-ex-list" id="exList">' +
+      cards +
+      "</div></div></article>"
+    );
+  }
+
+  function bindCorpus() {
+    var filters = document.getElementById("exFilters");
+    var list = document.getElementById("exList");
+    if (!filters || !list) return;
+    bindCommon(document.getElementById("kpApp"));
+    filters.querySelectorAll("[data-tag]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var tag = btn.getAttribute("data-tag");
+        filters.querySelectorAll("[data-tag]").forEach(function (b) {
+          b.classList.toggle("is-on", b === btn);
+        });
+        list.querySelectorAll(".kp-ex").forEach(function (card) {
+          card.hidden = tag !== "all" && card.getAttribute("data-tag") !== tag;
+        });
+      });
+    });
+  }
+
   function renderSummary(page) {
+    var examples = (global.KpCorpus && global.KpCorpus.examples) || [];
+    var preview = examples
+      .slice(0, 6)
+      .map(function (ex) {
+        return (
+          '<div class="kp-ex kp-ex--mini">' +
+          sentBlock(ex.en || ex.sentence, ex.zh) +
+          ttsRow(ex.en || ex.sentence) +
+          "</div>"
+        );
+      })
+      .join("");
     var list = (page.checklist || [])
       .map(function (t) {
         return "<li>" + esc(t) + "</li>";
@@ -1357,7 +1512,15 @@
       esc(page.chant) +
       '</div><div class="kp-toolbar"><button type="button" class="kp-btn" data-speak="' +
       esc(page.chantSpeak || "I play football. She plays football. I am happy.") +
-      '">🔊 听口诀</button><a class="kp-btn kp-btn--ghost" href="index.html">目录</a></div></div></article>'
+      '">🔊 听口诀</button><a class="kp-btn kp-btn--ghost" href="index.html">目录</a></div>' +
+      (preview
+        ? '<h2 class="kp-sub">语料库精选（' +
+          examples.length +
+          " 条）</h2><div class=\"kp-ex-list\">" +
+          preview +
+          "</div>"
+        : "") +
+      "</div></article>"
     );
   }
 
@@ -1372,6 +1535,7 @@
     spelling: renderSpelling,
     formula: renderFormula,
     transform: renderTransform,
+    corpus: renderCorpus,
     "picture-build": renderPictureBuild,
     "listen-order": renderListenOrder,
     quiz: renderQuiz,
@@ -1393,6 +1557,7 @@
     spelling: bindSpelling,
     formula: bindScenePage,
     transform: bindTransform,
+    corpus: bindCorpus,
     "picture-build": bindPictureBuild,
     "listen-order": bindListenOrder,
     quiz: bindQuiz,

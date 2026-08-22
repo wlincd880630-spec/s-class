@@ -1,9 +1,35 @@
 (function (global) {
   "use strict";
   global.KpScenes = {
-  "There are two libraries in our school.": "l06-libraries.jpg",
-  "Three children are playing in the park.": "l06-children-park.jpg",
-  "My feet are tired after the long walk.": "l06-feet-tired.jpg",
-  "The mice ran into the hole.": "l06-mice-hole.jpg"
+  "There are two libraries in our school.": "kp3d-library.png",
+  "Three children played in the park.": "kp3d-playground.png",
+  "My mom bought two boxes of milk at the shop.": "kp3d-shop.png",
+  "We saw five geese by the lake.": "kp3d-playground.png",
+  "The mice ran under the bed.": "kp3d-cat.png",
+  "There are many sheep on the farm.": "kp3d-panda.png",
+  "Two men are fixing the bus.": "kp3d-bus.png",
+  "The women are cooking dinner in the kitchen.": "kp3d-dinner.png",
+  "My teeth hurt when I eat ice cream.": "kp3d-dinner.png",
+  "The children are reading in the library.": "kp3d-library.png",
+  "There are three fish in the tank.": "kp3d-cat.png",
+  "The geese are flying south for winter.": "kp3d-window.png",
+  "My feet are cold in winter.": "kp3d-umbrella.png",
+  "The mice ate the cheese in the kitchen.": "kp3d-dinner.png",
+  "We have two children in our family.": "kp3d-classroom.png",
+  "The men are playing basketball on the playground.": "kp3d-basketball.png",
+  "I see many sheep on the hill.": "kp3d-panda.png",
+  "The women are planting trees in the park.": "kp3d-playground.png",
+  "My teeth are white and clean.": "kp3d-doctor.png",
+  "The children are singing in the classroom.": "kp3d-classroom.png",
+  "There are many fish in the river.": "kp3d-panda.png",
+  "The geese are swimming in the pond.": "kp3d-playground.png",
+  "My feet are bigger than yours.": "kp3d-taller.png",
+  "The mice are hiding in the box.": "kp3d-cat.png",
+  "There are many children in the playground.": "kp3d-playground.png",
+  "The women are cooking dinner.": "kp3d-dinner.png",
+  "I brush my teeth every morning.": "kp3d-doctor.png",
+  "The children are playing in the park.": "kp3d-playground.png",
+  "My feet are cold and my teeth hurt.": "kp3d-doctor.png",
+  "There are many sheep and fish on the farm.": "kp3d-panda.png"
 };
 })(typeof window !== "undefined" ? window : null);

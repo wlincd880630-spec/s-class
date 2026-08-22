@@ -5,42 +5,807 @@
     {
       "en": "How much water do you drink every day?",
       "zh": "你每天喝多少水？",
-      "tag": "exam_use"
+      "tag": "daily_use",
+      "scene": "dinner",
+      "image": "kp3d-dinner.png"
     },
     {
-      "en": "How many students are there in your class?",
-      "zh": "你们班有多少学生？",
-      "tag": "daily_use"
+      "en": "I don't have much homework today.",
+      "zh": "我今天作业不多。",
+      "tag": "daily_use",
+      "scene": "classroom",
+      "image": "kp3d-classroom.png"
     },
     {
-      "en": "There isn't much milk in the fridge.",
-      "zh": "冰箱里牛奶不多了。",
-      "tag": "exam_use"
+      "en": "There are many books in the library.",
+      "zh": "图书馆里有很多书。",
+      "tag": "daily_use",
+      "scene": "library",
+      "image": "kp3d-library.png"
     },
     {
-      "en": "I ate a few biscuits.",
-      "zh": "我吃了几块饼干。",
-      "tag": "daily_use"
+      "en": "I have a few friends in my class.",
+      "zh": "我在班上有几个朋友。",
+      "tag": "daily_use",
+      "scene": "classroom",
+      "image": "kp3d-classroom.png"
     },
     {
-      "en": "She has too much homework.",
-      "zh": "她作业太多了。",
-      "tag": "writing_use"
+      "en": "She drinks a little milk every morning.",
+      "zh": "她每天早上喝一点牛奶。",
+      "tag": "daily_use",
+      "scene": "dinner",
+      "image": "kp3d-dinner.png"
     },
     {
-      "en": "We need two bottles of water.",
-      "zh": "我们需要两瓶水。",
-      "tag": "writing_use"
+      "en": "We need many eggs for the cake.",
+      "zh": "我们需要很多鸡蛋来做蛋糕。",
+      "tag": "daily_use",
+      "scene": "shop",
+      "image": "kp3d-shop.png"
+    },
+    {
+      "en": "He has a little money in his pocket.",
+      "zh": "他口袋里有一点钱。",
+      "tag": "daily_use",
+      "scene": "shop",
+      "image": "kp3d-shop.png"
+    },
+    {
+      "en": "How many pandas are there in the zoo?",
+      "zh": "动物园里有多少只熊猫？",
+      "tag": "daily_use",
+      "scene": "panda",
+      "image": "kp3d-panda.png"
+    },
+    {
+      "en": "I have much time to play after school.",
+      "zh": "放学后我有很多时间玩。",
+      "tag": "exam_use",
+      "scene": "playground",
+      "image": "kp3d-playground.png"
+    },
+    {
+      "en": "There are a few apples on the table.",
+      "zh": "桌子上有几个苹果。",
+      "tag": "exam_use",
+      "scene": "apple",
+      "image": "kp3d-apple.png"
+    },
+    {
+      "en": "She doesn't have much rice for lunch.",
+      "zh": "她午餐没有很多米饭。",
+      "tag": "exam_use",
+      "scene": "dinner",
+      "image": "kp3d-dinner.png"
+    },
+    {
+      "en": "We saw many stars in the sky last night.",
+      "zh": "昨晚我们看到了很多星星。",
+      "tag": "exam_use",
+      "scene": "moon",
+      "image": "kp3d-moon.png"
+    },
+    {
+      "en": "Can I have a little juice, please?",
+      "zh": "请给我一点果汁好吗？",
+      "tag": "exam_use",
+      "scene": "dinner",
+      "image": "kp3d-dinner.png"
+    },
+    {
+      "en": "There is much bread on the plate.",
+      "zh": "盘子里有很多面包。",
+      "tag": "exam_use",
+      "scene": "dinner",
+      "image": "kp3d-dinner.png"
+    },
+    {
+      "en": "He has a few toys in his room.",
+      "zh": "他房间里有几个玩具。",
+      "tag": "exam_use",
+      "scene": "classroom",
+      "image": "kp3d-classroom.png"
+    },
+    {
+      "en": "How much cheese do you want?",
+      "zh": "你想要多少奶酪？",
+      "tag": "exam_use",
+      "scene": "shop",
+      "image": "kp3d-shop.png"
+    },
+    {
+      "en": "I bought many vegetables at the market.",
+      "zh": "我在市场买了很多蔬菜。",
+      "tag": "writing_use",
+      "scene": "shop",
+      "image": "kp3d-shop.png"
+    },
+    {
+      "en": "There is a little water in the bottle.",
+      "zh": "瓶子里有一点水。",
+      "tag": "writing_use",
+      "scene": "dinner",
+      "image": "kp3d-dinner.png"
+    },
+    {
+      "en": "We have a few minutes before class.",
+      "zh": "上课前我们还有几分钟。",
+      "tag": "writing_use",
+      "scene": "classroom",
+      "image": "kp3d-classroom.png"
+    },
+    {
+      "en": "The teacher gave us much advice.",
+      "zh": "老师给了我们很多建议。",
+      "tag": "writing_use",
+      "scene": "classroom",
+      "image": "kp3d-classroom.png"
+    },
+    {
+      "en": "She has a few good friends.",
+      "zh": "她有几个好朋友。",
+      "tag": "writing_use",
+      "scene": "playground",
+      "image": "kp3d-playground.png"
+    },
+    {
+      "en": "I need much flour to make bread.",
+      "zh": "我需要很多面粉来做面包。",
+      "tag": "writing_use",
+      "scene": "dinner",
+      "image": "kp3d-dinner.png"
     },
     {
       "en": "There are many trees in the park.",
-      "zh": "公园里有许多树。",
-      "tag": "writing_use"
+      "zh": "公园里有很多树。",
+      "tag": "writing_use",
+      "scene": "playground",
+      "image": "kp3d-playground.png"
     },
     {
-      "en": "Would you like some tea?",
-      "zh": "你想喝点茶吗？",
-      "tag": "daily_use"
+      "en": "He drinks much coffee every day.",
+      "zh": "他每天喝很多咖啡。",
+      "tag": "writing_use",
+      "scene": "dinner",
+      "image": "kp3d-dinner.png"
+    }
+  ],
+  "questions": [
+    {
+      "q": "There isn't _____ milk in the fridge.",
+      "opts": [
+        "many",
+        "much",
+        "few"
+      ],
+      "ans": 1,
+      "hint": "milk 不可数 → much。",
+      "sentence": "There isn't much milk in the fridge.",
+      "zh": "冰箱里牛奶不多。"
+    },
+    {
+      "q": "How _____ books do you have?",
+      "opts": [
+        "much",
+        "many",
+        "little"
+      ],
+      "ans": 1,
+      "hint": "books 可数 → many。",
+      "sentence": "How many books do you have?",
+      "zh": "你有多少本书？"
+    },
+    {
+      "q": "I'd like _____ bread, please.",
+      "opts": [
+        "a",
+        "an",
+        "some"
+      ],
+      "ans": 2,
+      "hint": "bread 不可数，用 some。",
+      "sentence": "I'd like some bread, please.",
+      "zh": "请给我一些面包。"
+    },
+    {
+      "q": "There are _____ students in the hall.",
+      "opts": [
+        "much",
+        "a little",
+        "many"
+      ],
+      "ans": 2,
+      "hint": "students 可数复数 → many。",
+      "sentence": "There are many students in the hall.",
+      "zh": "大厅里有许多学生。"
+    },
+    {
+      "q": "Please give me _____ of water.",
+      "opts": [
+        "a bottle",
+        "many",
+        "few"
+      ],
+      "ans": 0,
+      "hint": "计量短语 a bottle of water。",
+      "sentence": "Please give me a bottle of water.",
+      "zh": "请给我一瓶水。"
+    },
+    {
+      "q": "How _____ apples do you have?",
+      "opts": [
+        "much",
+        "many",
+        "a little"
+      ],
+      "ans": 1,
+      "hint": "apples 是可数名词复数，用 many。",
+      "sentence": "How many apples do you have?",
+      "zh": "你有多少个苹果？"
+    },
+    {
+      "q": "There isn't _____ milk in the glass.",
+      "opts": [
+        "many",
+        "much",
+        "a few"
+      ],
+      "ans": 1,
+      "hint": "milk 是不可数名词，用 much。",
+      "sentence": "There isn't much milk in the glass.",
+      "zh": "杯子里没有多少牛奶。"
+    },
+    {
+      "q": "I have _____ homework today.",
+      "opts": [
+        "many",
+        "much",
+        "a few"
+      ],
+      "ans": 1,
+      "hint": "homework 不可数，用 much。",
+      "sentence": "I have much homework today.",
+      "zh": "我今天有很多作业。"
+    },
+    {
+      "q": "She has _____ friends in Chengdu.",
+      "opts": [
+        "much",
+        "a little",
+        "a few"
+      ],
+      "ans": 2,
+      "hint": "friends 可数，用 a few。",
+      "sentence": "She has a few friends in Chengdu.",
+      "zh": "她在成都有几个朋友。"
+    },
+    {
+      "q": "We need _____ eggs for the cake.",
+      "opts": [
+        "much",
+        "a little",
+        "many"
+      ],
+      "ans": 2,
+      "hint": "eggs 可数复数，用 many。",
+      "sentence": "We need many eggs for the cake.",
+      "zh": "我们需要很多鸡蛋来做蛋糕。"
+    },
+    {
+      "q": "There is _____ water in the bottle.",
+      "opts": [
+        "a few",
+        "a little",
+        "many"
+      ],
+      "ans": 1,
+      "hint": "water 不可数，用 a little。",
+      "sentence": "There is a little water in the bottle.",
+      "zh": "瓶子里有一点水。"
+    },
+    {
+      "q": "How _____ money do you have?",
+      "opts": [
+        "many",
+        "much",
+        "a few"
+      ],
+      "ans": 1,
+      "hint": "money 不可数，用 much。",
+      "sentence": "How much money do you have?",
+      "zh": "你有多少钱？"
+    },
+    {
+      "q": "There are _____ pandas in the zoo.",
+      "opts": [
+        "much",
+        "a little",
+        "many"
+      ],
+      "ans": 2,
+      "hint": "pandas 可数，用 many。",
+      "sentence": "There are many pandas in the zoo.",
+      "zh": "动物园里有很多熊猫。"
+    },
+    {
+      "q": "I have _____ time to play.",
+      "opts": [
+        "many",
+        "a few",
+        "much"
+      ],
+      "ans": 2,
+      "hint": "time 不可数，用 much。",
+      "sentence": "I have much time to play.",
+      "zh": "我有很多时间玩。"
+    },
+    {
+      "q": "She drinks _____ coffee every morning.",
+      "opts": [
+        "a few",
+        "a little",
+        "many"
+      ],
+      "ans": 1,
+      "hint": "coffee 不可数，用 a little。",
+      "sentence": "She drinks a little coffee every morning.",
+      "zh": "她每天早上喝一点咖啡。"
+    },
+    {
+      "q": "There are _____ books on the shelf.",
+      "opts": [
+        "much",
+        "many",
+        "a little"
+      ],
+      "ans": 1,
+      "hint": "books 可数，用 many。",
+      "sentence": "There are many books on the shelf.",
+      "zh": "书架上有许多书。"
+    },
+    {
+      "q": "I don't have _____ homework today.",
+      "opts": [
+        "many",
+        "much",
+        "a few"
+      ],
+      "ans": 1,
+      "hint": "homework 不可数，用 much。",
+      "sentence": "I don't have much homework today.",
+      "zh": "我今天作业不多。"
+    },
+    {
+      "q": "He has _____ money in his wallet.",
+      "opts": [
+        "a few",
+        "many",
+        "a little"
+      ],
+      "ans": 2,
+      "hint": "money 不可数，用 a little。",
+      "sentence": "He has a little money in his wallet.",
+      "zh": "他钱包里有一点钱。"
+    },
+    {
+      "q": "We saw _____ stars in the sky.",
+      "opts": [
+        "much",
+        "many",
+        "a little"
+      ],
+      "ans": 1,
+      "hint": "stars 可数，用 many。",
+      "sentence": "We saw many stars in the sky.",
+      "zh": "我们看到了很多星星。"
+    },
+    {
+      "q": "Can I have _____ juice, please?",
+      "opts": [
+        "a few",
+        "many",
+        "a little"
+      ],
+      "ans": 2,
+      "hint": "juice 不可数，用 a little。",
+      "sentence": "Can I have a little juice, please?",
+      "zh": "请给我一点果汁好吗？"
+    },
+    {
+      "q": "There is _____ bread on the table.",
+      "opts": [
+        "much",
+        "many",
+        "a few"
+      ],
+      "ans": 0,
+      "hint": "bread 不可数，用 much。",
+      "sentence": "There is much bread on the table.",
+      "zh": "桌子上有很多面包。"
+    },
+    {
+      "q": "How _____ carrots do you need?",
+      "opts": [
+        "much",
+        "many",
+        "a little"
+      ],
+      "ans": 1,
+      "hint": "carrots 可数，用 many。",
+      "sentence": "How many carrots do you need?",
+      "zh": "你需要多少胡萝卜？"
+    },
+    {
+      "q": "She has _____ rice in her bowl.",
+      "opts": [
+        "a few",
+        "many",
+        "a little"
+      ],
+      "ans": 2,
+      "hint": "rice 不可数，用 a little。",
+      "sentence": "She has a little rice in her bowl.",
+      "zh": "她碗里有一点米饭。"
+    },
+    {
+      "q": "There aren't _____ tomatoes in the fridge.",
+      "opts": [
+        "much",
+        "many",
+        "a little"
+      ],
+      "ans": 1,
+      "hint": "tomatoes 可数，用 many。",
+      "sentence": "There aren't many tomatoes in the fridge.",
+      "zh": "冰箱里没有很多西红柿。"
+    },
+    {
+      "q": "I have _____ questions to ask.",
+      "opts": [
+        "a little",
+        "much",
+        "a few"
+      ],
+      "ans": 2,
+      "hint": "questions 可数，用 a few。",
+      "sentence": "I have a few questions to ask.",
+      "zh": "我有几个问题要问。"
+    },
+    {
+      "q": "He drinks _____ water every day.",
+      "opts": [
+        "many",
+        "much",
+        "a few"
+      ],
+      "ans": 1,
+      "hint": "water 不可数，用 much。",
+      "sentence": "He drinks much water every day.",
+      "zh": "他每天喝很多水。"
+    },
+    {
+      "q": "There are _____ chairs in the room.",
+      "opts": [
+        "much",
+        "a little",
+        "many"
+      ],
+      "ans": 2,
+      "hint": "chairs 可数，用 many。",
+      "sentence": "There are many chairs in the room.",
+      "zh": "房间里有很多椅子。"
+    },
+    {
+      "q": "I have _____ sugar in my tea.",
+      "opts": [
+        "a few",
+        "a little",
+        "many"
+      ],
+      "ans": 1,
+      "hint": "sugar 不可数，用 a little。",
+      "sentence": "I have a little sugar in my tea.",
+      "zh": "我的茶里有一点糖。"
+    },
+    {
+      "q": "How _____ oranges are there on the table?",
+      "opts": [
+        "much",
+        "many",
+        "a little"
+      ],
+      "ans": 1,
+      "hint": "oranges 可数，用 many。",
+      "sentence": "How many oranges are there on the table?",
+      "zh": "桌子上有多少个橙子？"
+    },
+    {
+      "q": "We don't have _____ milk at home.",
+      "opts": [
+        "many",
+        "much",
+        "a few"
+      ],
+      "ans": 1,
+      "hint": "milk 不可数，用 much。",
+      "sentence": "We don't have much milk at home.",
+      "zh": "我们家里没有很多牛奶。"
+    },
+    {
+      "q": "She has _____ pencils in her pencil case.",
+      "opts": [
+        "a little",
+        "much",
+        "a few"
+      ],
+      "ans": 2,
+      "hint": "pencils 可数，用 a few。",
+      "sentence": "She has a few pencils in her pencil case.",
+      "zh": "她的铅笔盒里有几支铅笔。"
+    },
+    {
+      "q": "There is _____ cheese on the pizza.",
+      "opts": [
+        "many",
+        "a few",
+        "a little"
+      ],
+      "ans": 2,
+      "hint": "cheese 不可数，用 a little。",
+      "sentence": "There is a little cheese on the pizza.",
+      "zh": "披萨上有一点奶酪。"
+    },
+    {
+      "q": "I need _____ butter for the bread.",
+      "opts": [
+        "a few",
+        "a little",
+        "many"
+      ],
+      "ans": 1,
+      "hint": "butter 不可数，用 a little。",
+      "sentence": "I need a little butter for the bread.",
+      "zh": "我需要一点黄油来配面包。"
+    }
+  ],
+  "matchPairs": [
+    {
+      "en": "many books",
+      "zh": "许多书（可数）"
+    },
+    {
+      "en": "much water",
+      "zh": "许多水（不可数）"
+    },
+    {
+      "en": "a cup of tea",
+      "zh": "一杯茶"
+    },
+    {
+      "en": "How much…?",
+      "zh": "多少（不可数）"
+    },
+    {
+      "en": "a few friends",
+      "zh": "几个朋友"
+    },
+    {
+      "en": "a little milk",
+      "zh": "一点牛奶"
+    },
+    {
+      "en": "much homework",
+      "zh": "很多作业"
+    },
+    {
+      "en": "many pandas",
+      "zh": "很多熊猫"
+    },
+    {
+      "en": "a little time",
+      "zh": "一点时间"
+    },
+    {
+      "en": "a few eggs",
+      "zh": "几个鸡蛋"
+    },
+    {
+      "en": "much money",
+      "zh": "很多钱"
+    },
+    {
+      "en": "many stars",
+      "zh": "很多星星"
+    }
+  ],
+  "listenPick": [
+    {
+      "audio": "I have a few friends.",
+      "opts": [
+        "I have a few friends.",
+        "I have a little friends.",
+        "I have much friends."
+      ],
+      "ans": 0,
+      "hint": "friends 可数，用 a few。",
+      "zh": "我有几个朋友。",
+      "sentence": "I have a few friends."
+    },
+    {
+      "audio": "She drinks much water.",
+      "opts": [
+        "She drinks much water.",
+        "She drinks many water.",
+        "She drinks a few water."
+      ],
+      "ans": 0,
+      "hint": "water 不可数，用 much。",
+      "zh": "她喝很多水。",
+      "sentence": "She drinks much water."
+    },
+    {
+      "audio": "There is a little milk in the cup.",
+      "opts": [
+        "There is a little milk in the cup.",
+        "There is a few milk in the cup.",
+        "There are a little milk in the cup."
+      ],
+      "ans": 0,
+      "hint": "milk 不可数，用 a little。",
+      "zh": "杯子里有一点牛奶。",
+      "sentence": "There is a little milk in the cup."
+    },
+    {
+      "audio": "How many books do you have?",
+      "opts": [
+        "How many books do you have?",
+        "How much books do you have?",
+        "How many book do you have?"
+      ],
+      "ans": 0,
+      "hint": "books 可数复数，用 many。",
+      "zh": "你有多少本书？",
+      "sentence": "How many books do you have?"
+    },
+    {
+      "audio": "I don't have much homework.",
+      "opts": [
+        "I don't have much homework.",
+        "I don't have many homework.",
+        "I don't have many homeworks."
+      ],
+      "ans": 0,
+      "hint": "homework 不可数，用 much。",
+      "zh": "我作业不多。",
+      "sentence": "I don't have much homework."
+    },
+    {
+      "audio": "There are many pandas in the zoo.",
+      "opts": [
+        "There are many pandas in the zoo.",
+        "There are much pandas in the zoo.",
+        "There is many pandas in the zoo."
+      ],
+      "ans": 0,
+      "hint": "pandas 可数复数，用 many。",
+      "zh": "动物园里有很多熊猫。",
+      "sentence": "There are many pandas in the zoo."
+    },
+    {
+      "audio": "She has a little money.",
+      "opts": [
+        "She has a little money.",
+        "She has a few money.",
+        "She has many money."
+      ],
+      "ans": 0,
+      "hint": "money 不可数，用 a little。",
+      "zh": "她有一点钱。",
+      "sentence": "She has a little money."
+    },
+    {
+      "audio": "We need a few eggs.",
+      "opts": [
+        "We need a few eggs.",
+        "We need a little eggs.",
+        "We need much eggs."
+      ],
+      "ans": 0,
+      "hint": "eggs 可数复数，用 a few。",
+      "zh": "我们需要几个鸡蛋。",
+      "sentence": "We need a few eggs."
+    }
+  ],
+  "builds": [
+    {
+      "sentence": "How many apples do you have?",
+      "zh": "你有多少个苹果？",
+      "tokens": [
+        "How",
+        "many",
+        "apples",
+        "do",
+        "you",
+        "have"
+      ],
+      "scene": "apple",
+      "image": "kp3d-apple.png"
+    },
+    {
+      "sentence": "There is a little water in the bottle.",
+      "zh": "瓶子里有一点水。",
+      "tokens": [
+        "There",
+        "is",
+        "a",
+        "little",
+        "water",
+        "in",
+        "the",
+        "bottle"
+      ],
+      "scene": "dinner",
+      "image": "kp3d-dinner.png"
+    },
+    {
+      "sentence": "I have a few friends in Chengdu.",
+      "zh": "我在成都有几个朋友。",
+      "tokens": [
+        "I",
+        "have",
+        "a",
+        "few",
+        "friends",
+        "in",
+        "Chengdu"
+      ],
+      "scene": "playground",
+      "image": "kp3d-playground.png"
+    },
+    {
+      "sentence": "She doesn't have much homework today.",
+      "zh": "她今天作业不多。",
+      "tokens": [
+        "She",
+        "doesn't",
+        "have",
+        "much",
+        "homework",
+        "today"
+      ],
+      "scene": "classroom",
+      "image": "kp3d-classroom.png"
+    },
+    {
+      "sentence": "We need many eggs for the cake.",
+      "zh": "我们需要很多鸡蛋来做蛋糕。",
+      "tokens": [
+        "We",
+        "need",
+        "many",
+        "eggs",
+        "for",
+        "the",
+        "cake"
+      ],
+      "scene": "shop",
+      "image": "kp3d-shop.png"
+    },
+    {
+      "sentence": "There are many pandas in the zoo.",
+      "zh": "动物园里有很多熊猫。",
+      "tokens": [
+        "There",
+        "are",
+        "many",
+        "pandas",
+        "in",
+        "the",
+        "zoo"
+      ],
+      "scene": "panda",
+      "image": "kp3d-panda.png"
     }
   ]
 };

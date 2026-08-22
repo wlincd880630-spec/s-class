@@ -5,42 +5,806 @@
     {
       "en": "There are two libraries in our school.",
       "zh": "我们学校有两个图书馆。",
-      "tag": "exam_use"
+      "tag": "daily_use",
+      "scene": "library",
+      "image": "kp3d-library.png"
     },
     {
-      "en": "The babies are sleeping quietly.",
-      "zh": "婴儿们安静地睡着。",
-      "tag": "daily_use"
+      "en": "The babies are sleeping.",
+      "zh": "宝宝们在睡觉。",
+      "tag": "daily_use",
+      "scene": "classroom",
+      "image": "kp3d-classroom.png"
     },
     {
-      "en": "She put three boxes on the desk.",
-      "zh": "她把三个盒子放在桌上。",
-      "tag": "writing_use"
+      "en": "I see three buses at the stop.",
+      "zh": "我在车站看到三辆公交车。",
+      "tag": "daily_use",
+      "scene": "bus",
+      "image": "kp3d-bus.png"
     },
     {
-      "en": "How many buses do you take every day?",
-      "zh": "你每天坐几路公交？",
-      "tag": "exam_use"
+      "en": "We eat apples after lunch.",
+      "zh": "我们午饭后吃苹果。",
+      "tag": "daily_use",
+      "scene": "apple",
+      "image": "kp3d-apple.png"
     },
     {
-      "en": "The boys are playing football.",
-      "zh": "男孩们在踢足球。",
-      "tag": "daily_use"
+      "en": "The pandas eat bamboo in Chengdu.",
+      "zh": "熊猫在成都吃竹子。",
+      "tag": "daily_use",
+      "scene": "panda",
+      "image": "kp3d-panda.png"
     },
     {
-      "en": "We visited three cities last summer.",
-      "zh": "去年夏天我们去了三座城市。",
-      "tag": "writing_use"
+      "en": "My sisters like to play in the playground.",
+      "zh": "我的姐妹们喜欢在操场玩。",
+      "tag": "daily_use",
+      "scene": "playground",
+      "image": "kp3d-playground.png"
     },
     {
-      "en": "There are many stories in this book.",
-      "zh": "这本书里有很多故事。",
-      "tag": "writing_use"
+      "en": "There are many boxes in the classroom.",
+      "zh": "教室里有很多盒子。",
+      "tag": "daily_use",
+      "scene": "classroom",
+      "image": "kp3d-classroom.png"
     },
     {
-      "en": "The dishes are in the kitchen.",
-      "zh": "碗碟在厨房里。",
-      "tag": "daily_use"
+      "en": "The boys have umbrellas for the rain.",
+      "zh": "男孩们有雨伞来挡雨。",
+      "tag": "daily_use",
+      "scene": "umbrella",
+      "image": "kp3d-umbrella.png"
+    },
+    {
+      "en": "The teachers check our homework.",
+      "zh": "老师们检查我们的作业。",
+      "tag": "exam_use",
+      "scene": "classroom",
+      "image": "kp3d-classroom.png"
+    },
+    {
+      "en": "The dishes are on the table.",
+      "zh": "盘子放在桌子上。",
+      "tag": "exam_use",
+      "scene": "dinner",
+      "image": "kp3d-dinner.png"
+    },
+    {
+      "en": "The foxes live in the forest.",
+      "zh": "狐狸住在森林里。",
+      "tag": "exam_use",
+      "scene": "panda",
+      "image": "kp3d-panda.png"
+    },
+    {
+      "en": "The buses run every hour.",
+      "zh": "公交车每小时一班。",
+      "tag": "exam_use",
+      "scene": "bus",
+      "image": "kp3d-bus.png"
+    },
+    {
+      "en": "The watches are on the desk.",
+      "zh": "手表在桌子上。",
+      "tag": "exam_use",
+      "scene": "classroom",
+      "image": "kp3d-classroom.png"
+    },
+    {
+      "en": "The cherries are sweet.",
+      "zh": "樱桃很甜。",
+      "tag": "exam_use",
+      "scene": "apple",
+      "image": "kp3d-apple.png"
+    },
+    {
+      "en": "The doctors work in the hospital.",
+      "zh": "医生们在医院工作。",
+      "tag": "exam_use",
+      "scene": "doctor",
+      "image": "kp3d-doctor.png"
+    },
+    {
+      "en": "The windows are open.",
+      "zh": "窗户开着。",
+      "tag": "exam_use",
+      "scene": "window",
+      "image": "kp3d-window.png"
+    },
+    {
+      "en": "We write stories in English class.",
+      "zh": "我们在英语课上写故事。",
+      "tag": "writing_use",
+      "scene": "classroom",
+      "image": "kp3d-classroom.png"
+    },
+    {
+      "en": "The cities have many parks.",
+      "zh": "城市里有很多公园。",
+      "tag": "writing_use",
+      "scene": "playground",
+      "image": "kp3d-playground.png"
+    },
+    {
+      "en": "The puppies run in the yard.",
+      "zh": "小狗们在院子里跑。",
+      "tag": "writing_use",
+      "scene": "playground",
+      "image": "kp3d-playground.png"
+    },
+    {
+      "en": "The boxes are full of books.",
+      "zh": "盒子里装满了书。",
+      "tag": "writing_use",
+      "scene": "library",
+      "image": "kp3d-library.png"
+    },
+    {
+      "en": "The ladies talk about the weather.",
+      "zh": "女士们谈论天气。",
+      "tag": "writing_use",
+      "scene": "dinner",
+      "image": "kp3d-dinner.png"
+    },
+    {
+      "en": "The buses take us to school.",
+      "zh": "公交车送我们去学校。",
+      "tag": "writing_use",
+      "scene": "bus",
+      "image": "kp3d-bus.png"
+    },
+    {
+      "en": "The pianos sound beautiful.",
+      "zh": "钢琴的声音很好听。",
+      "tag": "writing_use",
+      "scene": "piano",
+      "image": "kp3d-piano.png"
+    },
+    {
+      "en": "The flowers grow in spring.",
+      "zh": "花在春天生长。",
+      "tag": "writing_use",
+      "scene": "playground",
+      "image": "kp3d-playground.png"
+    }
+  ],
+  "questions": [
+    {
+      "q": "She has three _____. (watch)",
+      "opts": [
+        "watchs",
+        "watches",
+        "watch"
+      ],
+      "ans": 1,
+      "hint": "ch + es。",
+      "sentence": "She has three watches.",
+      "zh": "她有三块手表。"
+    },
+    {
+      "q": "There are two _____ on the table. (tomato)",
+      "opts": [
+        "tomatos",
+        "tomatoes",
+        "tomato"
+      ],
+      "ans": 1,
+      "hint": "tomato + es。",
+      "sentence": "There are two tomatoes on the table.",
+      "zh": "桌上有两个番茄。"
+    },
+    {
+      "q": "The _____ are crying. (baby)",
+      "opts": [
+        "babys",
+        "babies",
+        "babyes"
+      ],
+      "ans": 1,
+      "hint": "baby → babies。",
+      "sentence": "The babies are crying.",
+      "zh": "婴儿们在哭。"
+    },
+    {
+      "q": "I need two _____. (knife)",
+      "opts": [
+        "knifes",
+        "knives",
+        "knive"
+      ],
+      "ans": 1,
+      "hint": "f/fe → ves。",
+      "sentence": "I need two knives.",
+      "zh": "我需要两把刀。"
+    },
+    {
+      "q": "He bought some _____. (photo)",
+      "opts": [
+        "photoes",
+        "photos",
+        "photo"
+      ],
+      "ans": 1,
+      "hint": "photo 只加 s。",
+      "sentence": "He bought some photos.",
+      "zh": "他买了一些照片。"
+    },
+    {
+      "q": "There are two _____ in our school.",
+      "opts": [
+        "librarys",
+        "libraries",
+        "libraryes"
+      ],
+      "ans": 1,
+      "hint": "辅音+y变ies",
+      "sentence": "There are two libraries in our school.",
+      "zh": "我们学校有两个图书馆。"
+    },
+    {
+      "q": "The _____ are sleeping.",
+      "opts": [
+        "babys",
+        "babies",
+        "babyes"
+      ],
+      "ans": 1,
+      "hint": "辅音+y变ies",
+      "sentence": "The babies are sleeping.",
+      "zh": "宝宝们在睡觉。"
+    },
+    {
+      "q": "I see three _____ at the stop.",
+      "opts": [
+        "buses",
+        "buss",
+        "buses"
+      ],
+      "ans": 0,
+      "hint": "s结尾加es",
+      "sentence": "I see three buses at the stop.",
+      "zh": "我在车站看到三辆公交车。"
+    },
+    {
+      "q": "We eat _____ after lunch.",
+      "opts": [
+        "apples",
+        "applees",
+        "appls"
+      ],
+      "ans": 0,
+      "hint": "一般加s",
+      "sentence": "We eat apples after lunch.",
+      "zh": "我们午饭后吃苹果。"
+    },
+    {
+      "q": "The _____ eat bamboo in Chengdu.",
+      "opts": [
+        "pandas",
+        "pandass",
+        "pandies"
+      ],
+      "ans": 0,
+      "hint": "一般加s",
+      "sentence": "The pandas eat bamboo in Chengdu.",
+      "zh": "熊猫在成都吃竹子。"
+    },
+    {
+      "q": "My _____ like to play in the playground.",
+      "opts": [
+        "sisters",
+        "sisteres",
+        "sisties"
+      ],
+      "ans": 0,
+      "hint": "一般加s",
+      "sentence": "My sisters like to play in the playground.",
+      "zh": "我的姐妹们喜欢在操场玩。"
+    },
+    {
+      "q": "There are many _____ in the classroom.",
+      "opts": [
+        "boxs",
+        "boxes",
+        "boxies"
+      ],
+      "ans": 1,
+      "hint": "x结尾加es",
+      "sentence": "There are many boxes in the classroom.",
+      "zh": "教室里有很多盒子。"
+    },
+    {
+      "q": "The _____ have umbrellas for the rain.",
+      "opts": [
+        "boys",
+        "boies",
+        "boyes"
+      ],
+      "ans": 0,
+      "hint": "一般加s",
+      "sentence": "The boys have umbrellas for the rain.",
+      "zh": "男孩们有雨伞来挡雨。"
+    },
+    {
+      "q": "The _____ check our homework.",
+      "opts": [
+        "teachers",
+        "teacheres",
+        "teachies"
+      ],
+      "ans": 0,
+      "hint": "一般加s",
+      "sentence": "The teachers check our homework.",
+      "zh": "老师们检查我们的作业。"
+    },
+    {
+      "q": "The _____ are on the table.",
+      "opts": [
+        "dishes",
+        "dishs",
+        "dishies"
+      ],
+      "ans": 0,
+      "hint": "sh结尾加es",
+      "sentence": "The dishes are on the table.",
+      "zh": "盘子放在桌子上。"
+    },
+    {
+      "q": "The _____ live in the forest.",
+      "opts": [
+        "foxes",
+        "foxs",
+        "foxies"
+      ],
+      "ans": 0,
+      "hint": "x结尾加es",
+      "sentence": "The foxes live in the forest.",
+      "zh": "狐狸住在森林里。"
+    },
+    {
+      "q": "The _____ run every hour.",
+      "opts": [
+        "buses",
+        "buss",
+        "buses"
+      ],
+      "ans": 0,
+      "hint": "s结尾加es",
+      "sentence": "The buses run every hour.",
+      "zh": "公交车每小时一班。"
+    },
+    {
+      "q": "The _____ are on the desk.",
+      "opts": [
+        "watches",
+        "watchs",
+        "watchies"
+      ],
+      "ans": 0,
+      "hint": "ch结尾加es",
+      "sentence": "The watches are on the desk.",
+      "zh": "手表在桌子上。"
+    },
+    {
+      "q": "The _____ are sweet.",
+      "opts": [
+        "cherries",
+        "cherrys",
+        "cherryes"
+      ],
+      "ans": 0,
+      "hint": "辅音+y变ies",
+      "sentence": "The cherries are sweet.",
+      "zh": "樱桃很甜。"
+    },
+    {
+      "q": "The _____ work in the hospital.",
+      "opts": [
+        "doctors",
+        "doctores",
+        "docties"
+      ],
+      "ans": 0,
+      "hint": "一般加s",
+      "sentence": "The doctors work in the hospital.",
+      "zh": "医生们在医院工作。"
+    },
+    {
+      "q": "The _____ are open.",
+      "opts": [
+        "windows",
+        "windowes",
+        "windies"
+      ],
+      "ans": 0,
+      "hint": "一般加s",
+      "sentence": "The windows are open.",
+      "zh": "窗户开着。"
+    },
+    {
+      "q": "We write _____ in English class.",
+      "opts": [
+        "stories",
+        "storys",
+        "storyes"
+      ],
+      "ans": 0,
+      "hint": "辅音+y变ies",
+      "sentence": "We write stories in English class.",
+      "zh": "我们在英语课上写故事。"
+    },
+    {
+      "q": "The _____ have many parks.",
+      "opts": [
+        "cities",
+        "citys",
+        "cityes"
+      ],
+      "ans": 0,
+      "hint": "辅音+y变ies",
+      "sentence": "The cities have many parks.",
+      "zh": "城市里有很多公园。"
+    },
+    {
+      "q": "The _____ run in the yard.",
+      "opts": [
+        "puppies",
+        "puppys",
+        "puppyes"
+      ],
+      "ans": 0,
+      "hint": "辅音+y变ies",
+      "sentence": "The puppies run in the yard.",
+      "zh": "小狗们在院子里跑。"
+    },
+    {
+      "q": "The _____ are full of books.",
+      "opts": [
+        "boxes",
+        "boxs",
+        "boxies"
+      ],
+      "ans": 0,
+      "hint": "x结尾加es",
+      "sentence": "The boxes are full of books.",
+      "zh": "盒子里装满了书。"
+    },
+    {
+      "q": "The _____ talk about the weather.",
+      "opts": [
+        "ladies",
+        "ladys",
+        "ladyes"
+      ],
+      "ans": 0,
+      "hint": "辅音+y变ies",
+      "sentence": "The ladies talk about the weather.",
+      "zh": "女士们谈论天气。"
+    },
+    {
+      "q": "The _____ take us to school.",
+      "opts": [
+        "buses",
+        "buss",
+        "buses"
+      ],
+      "ans": 0,
+      "hint": "s结尾加es",
+      "sentence": "The buses take us to school.",
+      "zh": "公交车送我们去学校。"
+    },
+    {
+      "q": "The _____ sound beautiful.",
+      "opts": [
+        "pianos",
+        "pianoes",
+        "pianies"
+      ],
+      "ans": 0,
+      "hint": "一般加s",
+      "sentence": "The pianos sound beautiful.",
+      "zh": "钢琴的声音很好听。"
+    },
+    {
+      "q": "The _____ grow in spring.",
+      "opts": [
+        "flowers",
+        "floweres",
+        "flowies"
+      ],
+      "ans": 0,
+      "hint": "一般加s",
+      "sentence": "The flowers grow in spring.",
+      "zh": "花在春天生长。"
+    },
+    {
+      "q": "I have two _____ in my bag.",
+      "opts": [
+        "pencils",
+        "penciles",
+        "pencils"
+      ],
+      "ans": 0,
+      "hint": "一般加s",
+      "sentence": "I have two pencils in my bag.",
+      "zh": "我书包里有两支铅笔。"
+    },
+    {
+      "q": "The _____ are playing basketball.",
+      "opts": [
+        "children",
+        "childs",
+        "childrens"
+      ],
+      "ans": 0,
+      "hint": "不规则复数，但这里用children",
+      "sentence": "The children are playing basketball.",
+      "zh": "孩子们在打篮球。"
+    },
+    {
+      "q": "The _____ are in the library.",
+      "opts": [
+        "books",
+        "bookes",
+        "bookies"
+      ],
+      "ans": 0,
+      "hint": "一般加s",
+      "sentence": "The books are in the library.",
+      "zh": "书在图书馆里。"
+    },
+    {
+      "q": "The _____ are on the wall.",
+      "opts": [
+        "maps",
+        "mapes",
+        "mapies"
+      ],
+      "ans": 0,
+      "hint": "一般加s",
+      "sentence": "The maps are on the wall.",
+      "zh": "地图在墙上。"
+    }
+  ],
+  "matchPairs": [
+    {
+      "en": "books",
+      "zh": "书（+s）"
+    },
+    {
+      "en": "boxes",
+      "zh": "箱子（+es）"
+    },
+    {
+      "en": "libraries",
+      "zh": "图书馆（ies）"
+    },
+    {
+      "en": "knives",
+      "zh": "刀（ves）"
+    },
+    {
+      "en": "two libraries",
+      "zh": "两个图书馆"
+    },
+    {
+      "en": "three buses",
+      "zh": "三辆公交车"
+    },
+    {
+      "en": "five boxes",
+      "zh": "五个盒子"
+    },
+    {
+      "en": "the babies",
+      "zh": "宝宝们"
+    },
+    {
+      "en": "the dishes",
+      "zh": "盘子们"
+    },
+    {
+      "en": "the watches",
+      "zh": "手表们"
+    },
+    {
+      "en": "the cherries",
+      "zh": "樱桃们"
+    },
+    {
+      "en": "the stories",
+      "zh": "故事们"
+    },
+    {
+      "en": "the cities",
+      "zh": "城市们"
+    },
+    {
+      "en": "the pianos",
+      "zh": "钢琴们"
+    }
+  ],
+  "listenPick": [
+    {
+      "audio": "There are two libraries in our school.",
+      "opts": [
+        "There are two libraries in our school.",
+        "There are two librarys in our school.",
+        "There are two libraryes in our school."
+      ],
+      "ans": 0,
+      "hint": "听清楚libraries",
+      "zh": "我们学校有两个图书馆。",
+      "sentence": "There are two libraries in our school."
+    },
+    {
+      "audio": "The babies are sleeping.",
+      "opts": [
+        "The babies are sleeping.",
+        "The babys are sleeping.",
+        "The babyes are sleeping."
+      ],
+      "ans": 0,
+      "hint": "听清楚babies",
+      "zh": "宝宝们在睡觉。",
+      "sentence": "The babies are sleeping."
+    },
+    {
+      "audio": "I see three buses at the stop.",
+      "opts": [
+        "I see three buses at the stop.",
+        "I see three buss at the stop.",
+        "I see three bus at the stop."
+      ],
+      "ans": 0,
+      "hint": "听清楚buses",
+      "zh": "我在车站看到三辆公交车。",
+      "sentence": "I see three buses at the stop."
+    },
+    {
+      "audio": "The boxes are full of books.",
+      "opts": [
+        "The boxes are full of books.",
+        "The boxs are full of books.",
+        "The boxies are full of books."
+      ],
+      "ans": 0,
+      "hint": "听清楚boxes",
+      "zh": "盒子里装满了书。",
+      "sentence": "The boxes are full of books."
+    },
+    {
+      "audio": "The cherries are sweet.",
+      "opts": [
+        "The cherries are sweet.",
+        "The cherrys are sweet.",
+        "The cherryes are sweet."
+      ],
+      "ans": 0,
+      "hint": "听清楚cherries",
+      "zh": "樱桃很甜。",
+      "sentence": "The cherries are sweet."
+    },
+    {
+      "audio": "The dishes are on the table.",
+      "opts": [
+        "The dishes are on the table.",
+        "The dishs are on the table.",
+        "The dishies are on the table."
+      ],
+      "ans": 0,
+      "hint": "听清楚dishes",
+      "zh": "盘子放在桌子上。",
+      "sentence": "The dishes are on the table."
+    },
+    {
+      "audio": "The watches are on the desk.",
+      "opts": [
+        "The watches are on the desk.",
+        "The watchs are on the desk.",
+        "The watchies are on the desk."
+      ],
+      "ans": 0,
+      "hint": "听清楚watches",
+      "zh": "手表在桌子上。",
+      "sentence": "The watches are on the desk."
+    },
+    {
+      "audio": "The pianos sound beautiful.",
+      "opts": [
+        "The pianos sound beautiful.",
+        "The pianoes sound beautiful.",
+        "The pianies sound beautiful."
+      ],
+      "ans": 0,
+      "hint": "听清楚pianos",
+      "zh": "钢琴的声音很好听。",
+      "sentence": "The pianos sound beautiful."
+    }
+  ],
+  "builds": [
+    {
+      "sentence": "There are two libraries in our school.",
+      "zh": "我们学校有两个图书馆。",
+      "tokens": [
+        "There",
+        "are",
+        "two",
+        "libraries",
+        "in",
+        "our",
+        "school"
+      ],
+      "scene": "library",
+      "image": "kp3d-library.png"
+    },
+    {
+      "sentence": "The babies are sleeping.",
+      "zh": "宝宝们在睡觉。",
+      "tokens": [
+        "The",
+        "babies",
+        "are",
+        "sleeping"
+      ],
+      "scene": "classroom",
+      "image": "kp3d-classroom.png"
+    },
+    {
+      "sentence": "I see three buses at the stop.",
+      "zh": "我在车站看到三辆公交车。",
+      "tokens": [
+        "I",
+        "see",
+        "three",
+        "buses",
+        "at",
+        "the",
+        "stop"
+      ],
+      "scene": "bus",
+      "image": "kp3d-bus.png"
+    },
+    {
+      "sentence": "The boxes are full of books.",
+      "zh": "盒子里装满了书。",
+      "tokens": [
+        "The",
+        "boxes",
+        "are",
+        "full",
+        "of",
+        "books"
+      ],
+      "scene": "library",
+      "image": "kp3d-library.png"
+    },
+    {
+      "sentence": "The cherries are sweet.",
+      "zh": "樱桃很甜。",
+      "tokens": [
+        "The",
+        "cherries",
+        "are",
+        "sweet"
+      ],
+      "scene": "apple",
+      "image": "kp3d-apple.png"
+    },
+    {
+      "sentence": "The pianos sound beautiful.",
+      "zh": "钢琴的声音很好听。",
+      "tokens": [
+        "The",
+        "pianos",
+        "sound",
+        "beautiful"
+      ],
+      "scene": "piano",
+      "image": "kp3d-piano.png"
     }
   ]
 };

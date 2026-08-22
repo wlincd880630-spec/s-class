@@ -1,6 +1,37 @@
 (function (global) {
   "use strict";
   global.KpScenes = {
-  "There are a few apples on the table.": "l15-few-hero.jpg"
+  "There are a few apples on the table.": "kp3d-apple.png",
+  "There is little water left. We need to buy more.": "kp3d-shop.png",
+  "I have a few good friends in my class.": "kp3d-classroom.png",
+  "She has little time to play games today.": "kp3d-playground.png",
+  "There are few students in the library now.": "kp3d-library.png",
+  "He drinks a little milk every morning.": "kp3d-dinner.png",
+  "We have a few pandas in Chengdu Zoo.": "kp3d-panda.png",
+  "There is little rain in winter here.": "kp3d-umbrella.png",
+  "Can I have a little juice, please?": "kp3d-dinner.png",
+  "There are few buses after nine o'clock.": "kp3d-bus.png",
+  "I have little money, so I can't buy the toy.": "kp3d-shop.png",
+  "There are a few flowers in the garden.": "kp3d-playground.png",
+  "The cat has a little fish for lunch.": "kp3d-cat.png",
+  "Few people know the answer to this question.": "kp3d-classroom.png",
+  "There is a little sugar in the coffee.": "kp3d-dinner.png",
+  "We have few classes on Friday afternoon.": "kp3d-classroom.png",
+  "I need a few minutes to finish my homework.": "kp3d-library.png",
+  "There is little noise in the reading room.": "kp3d-library.png",
+  "She has a little trouble with her English.": "kp3d-classroom.png",
+  "Few children like to eat hot pot in summer.": "kp3d-dinner.png",
+  "I have a few questions about the homework.": "kp3d-classroom.png",
+  "There is little space in my schoolbag.": "kp3d-classroom.png",
+  "The doctor has a little time before the next patient.": "kp3d-doctor.png",
+  "We saw a few stars in the sky last night.": "kp3d-moon.png",
+  "I have a little milk every morning.": "kp3d-dinner.png",
+  "There are few students in the library.": "kp3d-library.png",
+  "She has little time to watch TV.": "kp3d-playground.png",
+  "We have a few pandas in the zoo.": "kp3d-panda.png",
+  "There is little water in the bottle.": "kp3d-shop.png",
+  "There are a few apples on the table, but few oranges.": "kp3d-apple.png",
+  "There is a little water in the cup, but little juice.": "kp3d-dinner.png",
+  "I have a few friends and a little time, so I am happy.": "kp3d-playground.png"
 };
 })(typeof window !== "undefined" ? window : null);

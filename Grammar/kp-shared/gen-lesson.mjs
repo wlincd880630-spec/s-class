@@ -198,7 +198,7 @@ function main() {
   console.log("Generated", outDir, "(" + ids.length + " pages)");
 }
 
-export { ROOT, pageHtml, indexHtml, buildDataJs };
+export { ROOT, pageHtml, indexHtml, buildDataJs, buildCorpusJs, buildScenesJs };
 
 const isDirect =
   process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);

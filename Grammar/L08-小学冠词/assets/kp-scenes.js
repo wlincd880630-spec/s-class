@@ -1,6 +1,36 @@
 (function (global) {
   "use strict";
   global.KpScenes = {
-  "I saw a cat. The cat was very cute.": "l09-articles-hero.jpg"
+  "I saw a cat. The cat was very cute.": "kp3d-cat.png",
+  "My father is an honest man.": "kp3d-dinner.png",
+  "She is a university student.": "kp3d-classroom.png",
+  "There is an apple on the table.": "kp3d-apple.png",
+  "The moon is bright tonight.": "kp3d-moon.png",
+  "I have a basketball. The basketball is new.": "kp3d-basketball.png",
+  "He is an English teacher.": "kp3d-classroom.png",
+  "We saw an elephant in the zoo.": "kp3d-playground.png",
+  "The sun rises in the east.": "kp3d-window.png",
+  "She has an umbrella because it is rainy.": "kp3d-umbrella.png",
+  "The doctor is very kind.": "kp3d-doctor.png",
+  "This is a useful book.": "kp3d-library.png",
+  "I want to buy a piano for my sister.": "kp3d-piano.png",
+  "The bus is coming.": "kp3d-bus.png",
+  "Mom cooked a big dinner at home.": "kp3d-dinner.png",
+  "The panda is eating bamboo.": "kp3d-panda.png",
+  "He is a one-year-old boy.": "kp3d-playground.png",
+  "I have an idea.": "kp3d-classroom.png",
+  "The Great Wall is famous.": "kp3d-window.png",
+  "She is an honest girl.": "kp3d-classroom.png",
+  "He bought a new car. The car is red.": "kp3d-shop.png",
+  "I see a bird in the tree.": "kp3d-playground.png",
+  "The earth is round.": "kp3d-moon.png",
+  "She is a European girl.": "kp3d-classroom.png",
+  "I have an apple.": "kp3d-apple.png",
+  "She is a teacher.": "kp3d-classroom.png",
+  "The sun is hot.": "kp3d-window.png",
+  "He is an honest boy.": "kp3d-classroom.png",
+  "I saw a panda in the zoo.": "kp3d-panda.png",
+  "I have a cat. She has an apple.": "kp3d-cat.png",
+  "The sun is bright. The cat I saw is black.": "kp3d-moon.png"
 };
 })(typeof window !== "undefined" ? window : null);

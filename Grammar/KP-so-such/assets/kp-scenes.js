@@ -1,6 +1,38 @@
 (function (global) {
   "use strict";
   global.KpScenes = {
-  "It was so hot that we stayed inside.": "w5-sosuch-hero.jpg"
+  "The box was so heavy that I could not lift it.": "kp3d-classroom.png",
+  "It was such a heavy box that I could not lift it.": "kp3d-classroom.png",
+  "The movie was so boring that I fell asleep.": "kp3d-library.png",
+  "It was such a boring movie that I fell asleep.": "kp3d-library.png",
+  "The soup was so salty that we could not drink it.": "kp3d-dinner.png",
+  "It was such a salty soup that we could not drink it.": "kp3d-dinner.png",
+  "The panda is so cute that everyone loves it.": "kp3d-panda.png",
+  "It is such a cute panda that everyone loves it.": "kp3d-panda.png",
+  "He ran so fast that he won the race.": "kp3d-playground.png",
+  "It was such a fast run that he won the race.": "kp3d-playground.png",
+  "The book was so interesting that I read it twice.": "kp3d-library.png",
+  "It was such an interesting book that I read it twice.": "kp3d-library.png",
+  "The weather was so nice that we went to the park.": "kp3d-playground.png",
+  "It was such nice weather that we went to the park.": "kp3d-playground.png",
+  "The bus was so crowded that we had to stand.": "kp3d-bus.png",
+  "It was such a crowded bus that we had to stand.": "kp3d-bus.png",
+  "The question was so difficult that nobody could answer it.": "kp3d-classroom.png",
+  "It was such a difficult question that nobody could answer it.": "kp3d-classroom.png",
+  "The music was so loud that I could not hear my friend.": "kp3d-piano.png",
+  "It was such loud music that I could not hear my friend.": "kp3d-piano.png",
+  "The apple was so sweet that I ate it all.": "kp3d-apple.png",
+  "It was such a sweet apple that I ate it all.": "kp3d-apple.png",
+  "The rain was so heavy that we took an umbrella.": "kp3d-umbrella.png",
+  "It was such heavy rain that we took an umbrella.": "kp3d-umbrella.png",
+  "The panda was so cute that everyone took photos.": "kp3d-panda.png",
+  "It was such a cute panda that everyone took photos.": "kp3d-panda.png",
+  "The library was so quiet that I could study well.": "kp3d-library.png",
+  "It was such a quiet library that I could study well.": "kp3d-library.png",
+  "The basketball game was so exciting that we cheered loudly.": "kp3d-basketball.png",
+  "It was such an exciting basketball game that we cheered loudly.": "kp3d-basketball.png",
+  "The panda was so cute that everyone loved it.": "kp3d-panda.png",
+  "It was such a cute panda that everyone loved it.": "kp3d-panda.png",
+  "The music was so loud that I could not hear. It was such loud music that I could not hear.": "kp3d-piano.png"
 };
 })(typeof window !== "undefined" ? window : null);
