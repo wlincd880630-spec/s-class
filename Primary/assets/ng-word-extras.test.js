@@ -32,6 +32,25 @@ var map = sayData.window.NG_WORD_SAY;
 assert(map["play-kitty"].Play.en.indexOf("play") >= 0, "say kitty play");
 assert(Object.keys(map["dive-dolphin"]).length === 43, "dolphin 43");
 
+assert(typeof X.sortOf === "function", "sortOf exported");
+var longSay = X.sayOf({ key: "Long" }, map["dive-dolphin"]);
+var longSort = X.sortOf({ key: "Long" }, map["dive-dolphin"]);
+assert(longSay.en === "This dolphin has a long beak.", "say keeps picture sentence");
+assert(longSort.en === "The bus is long.", "sort uses off-theme sentence");
+assert(X.normalize(longSay.en) !== X.normalize(longSort.en), "Long say/sort differ");
+
+Object.keys(map).forEach(function (book) {
+  Object.keys(map[book]).forEach(function (key) {
+    var w = { key: key };
+    var say = X.sayOf(w, map[book]);
+    var sort = X.sortOf(w, map[book]);
+    assert(!!say.en && !!sort.en, book + " " + key + " has both sentences");
+    assert(X.normalize(say.en) !== X.normalize(sort.en), book + " " + key + " say/sort differ");
+    assert(X.hasTargetWord(say.en, key), book + " " + key + " say has target");
+    assert(X.hasTargetWord(sort.en, key), book + " " + key + " sort has target");
+  });
+});
+
 if (fails) {
   console.error(fails + " failed");
   process.exit(1);

@@ -1,8 +1,8 @@
 /**
  * 国家地理分级阅读 · 学单词增强
  * - 单词列表快跳
+ * - 听音排序（可与课题不一致的另一句）
  * - 看图造句
- * - 看图排序造句
  */
 (function (global) {
   "use strict";
@@ -21,6 +21,19 @@
     if (hit && hit.en) return { en: hit.en, zh: hit.zh || "" };
     if (w && w.say && w.say.en) return { en: w.say.en, zh: w.say.zh || "" };
     return { en: (w && w.ex) || "", zh: (w && w.zh) || "" };
+  }
+
+  function sortOf(w, sayMap) {
+    var hit = sayMap && w && sayMap[w.key];
+    if (hit && hit.sort && hit.sort.en) return { en: hit.sort.en, zh: hit.sort.zh || "" };
+    if (w && w.sort && w.sort.en) return { en: w.sort.en, zh: w.sort.zh || "" };
+    var say = sayOf(w, sayMap);
+    var key = (w && w.key) || "";
+    if (key && say.en) {
+      var fallback = { en: "I can say " + key + ".", zh: "我会说 " + ((w && w.zh) || key) + "。" };
+      if (normalize(fallback.en) !== normalize(say.en)) return fallback;
+    }
+    return say;
   }
 
   function normalize(s) {
@@ -207,7 +220,7 @@
     box.className = "w-sort-box";
     var hint = document.createElement("p");
     hint.className = "w-sort-hint";
-    hint.textContent = "点下面的词，按顺序排成一句。点句子里的词可以收回。";
+    hint.textContent = "先听句子，再点词按顺序排好。点句子里的词可以收回。";
     var line = document.createElement("div");
     line.className = "w-sort-line";
     line.setAttribute("aria-label", "已排句子");
@@ -262,7 +275,7 @@
 
     var bReset = btn("重排");
     var bCheck = btn("检查", true);
-    var bHear = btn("听参考");
+    var bHear = btn("再听句子");
     if (actionsHost) {
       actionsHost.appendChild(bReset);
       actionsHost.appendChild(bCheck);
@@ -293,12 +306,14 @@
       }
     });
     paint();
+    if (api.autoPlay && api.speak) api.speak(say.en, { slow: true });
   }
 
   global.NGWordExtras = {
     slug: slug,
     sentenceSrc: sentenceSrc,
     sayOf: sayOf,
+    sortOf: sortOf,
     tokenize: tokenize,
     normalize: normalize,
     hasTargetWord: hasTargetWord,
