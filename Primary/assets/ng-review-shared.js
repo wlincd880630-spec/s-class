@@ -7,7 +7,7 @@
   "use strict";
 
   var AZURE_CONFIG = {
-    subscriptionKey: "9wqQjcwatmfHXVoMv9nO6I2teZBS6LSZL6ROW85tO6fL4ahKjsIaJQQJ99CHACqBBLyXJ3w3AAAYACOGvelV",
+    subscriptionKey: "4SJbskufsk2tiu5jq1kzlJwTDw2eVPYd8e7HvDhb3lX6ZmItWOnxJQQJ99CHACqBBLyXJ3w3AAAYACOGxnpO",
     region: "southeastasia",
     language: "en-GB",
     voice: "en-GB-RyanNeural",

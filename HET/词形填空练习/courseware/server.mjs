@@ -17,7 +17,7 @@ const PORT = Number(process.env.PORT) || 3456;
 
 const AZURE_KEY =
   process.env.AZURE_SPEECH_KEY ||
-  "9wqQjcwatmfHXVoMv9nO6I2teZBS6LSZL6ROW85tO6fL4ahKjsIaJQQJ99CHACqBBLyXJ3w3AAAYACOGvelV";
+  "4SJbskufsk2tiu5jq1kzlJwTDw2eVPYd8e7HvDhb3lX6ZmItWOnxJQQJ99CHACqBBLyXJ3w3AAAYACOGxnpO";
 const REGION = process.env.AZURE_SPEECH_REGION || "southeastasia";
 const TTS_URL = `https://${REGION}.tts.speech.microsoft.com/cognitiveservices/v1`;
 

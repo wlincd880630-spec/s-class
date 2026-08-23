@@ -15,11 +15,12 @@ const ROOT = path.resolve(__dirname, "..");
 const dryRun = process.argv.includes("--dry-run");
 
 const NEW_KEY =
-  "9wqQjcwatmfHXVoMv9nO6I2teZBS6LSZL6ROW85tO6fL4ahKjsIaJQQJ99CHACqBBLyXJ3w3AAAYACOGvelV";
+  "4SJbskufsk2tiu5jq1kzlJwTDw2eVPYd8e7HvDhb3lX6ZmItWOnxJQQJ99CHACqBBLyXJ3w3AAAYACOGxnpO";
 const NEW_REGION = "southeastasia";
 
 /** 历史密钥（含上一版 southeastasia 密钥）一律替换为 NEW_KEY */
 const OLD_KEYS = [
+  "9wqQjcwatmfHXVoMv9nO6I2teZBS6LSZL6ROW85tO6fL4ahKjsIaJQQJ99CHACqBBLyXJ3w3AAAYACOGvelV",
   "8d055d682fcd4af98a51828e04542cd4",
   "3C2ai7PPgPnOLlhb1c7gBw207PAVNfVJni6JnESsPjYPaVyFeQ9YJQQJ99CGAC3pKaRXJ3w3AAAYACOG0Zbc",
   "C42UQWeDcluYanbo17WrtUnPhk0vkZy2uQHPTCGDzY6CdEXx99NzJQQJ99BIACqBBLyXJ3w3AAAYACOGjkyu",
