@@ -2,7 +2,7 @@ import glob
 import os
 import urllib.request
 
-KEY = "9wqQjcwatmfHXVoMv9nO6I2teZBS6LSZL6ROW85tO6fL4ahKjsIaJQQJ99CHACqBBLyXJ3w3AAAYACOGvelV"
+KEY = "4SJbskufsk2tiu5jq1kzlJwTDw2eVPYd8e7HvDhb3lX6ZmItWOnxJQQJ99CHACqBBLyXJ3w3AAAYACOGxnpO"
 REGION = "southeastasia"
 
 url = f"https://{REGION}.tts.speech.microsoft.com/cognitiveservices/v1"
