@@ -39,6 +39,9 @@
       lesson.rule +
       "</p>";
     var sel = $("lessonJump");
+    if ($("aidsLink")) {
+      $("aidsLink").href = "print-aids.html?id=" + lesson.id + "&type=pack";
+    }
     sel.innerHTML = PHONICS_LESSONS.map(function (item) {
       return (
         "<option value=\"" +
