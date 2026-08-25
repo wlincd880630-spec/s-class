@@ -1,4 +1,4 @@
-(function () {
+(function (global) {
   "use strict";
 
   var GAMES = [
@@ -438,4 +438,4 @@
     if (document.body.getAttribute("data-page") === "games-lobby") renderLobby();
     if (document.body.getAttribute("data-page") === "games-play") initPlay();
   });
-})();
+})(typeof window !== "undefined" ? window : this);
