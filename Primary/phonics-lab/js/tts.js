@@ -1,8 +1,9 @@
 /**
  * Phonics Lab TTS
  * 单词：Azure Neural 整词朗读
- * 单音素：SSML <phoneme alphabet="ipa|sapi"> 隔离发音
- *         可拉长音辅以 stretch 回退；爆破音短促截断
+ * 单音素：SSML <phoneme alphabet="ipa|ups|sapi"> 隔离发音
+ *         内文用中点，避免引擎忽略 ph 后把 thhh / 字母名读出来
+ *         全失败再读例词，绝不回退 stretch
  * 拼读：音素序列 + 整词
  * 失败时回退 Web Speech API
  */
@@ -61,7 +62,7 @@
   }
 
   function browserSpeak(text, rate) {
-    if (!global.speechSynthesis) return Promise.resolve(false);
+    if (!text || !global.speechSynthesis) return Promise.resolve(false);
     return new Promise(function (resolve) {
       try {
         global.speechSynthesis.cancel();
@@ -150,21 +151,26 @@
     return speakSsml(wrapSpeak(inner, AZURE.voice), text);
   }
 
-  function phonemeInner(ph, useSapi) {
-    var alphabet = useSapi ? "sapi" : "ipa";
-    var code = useSapi ? ph.azureSapi : ph.azureIpa;
-    var visible = ph.holdable ? ph.stretch || ph.graphemes[0] : ph.graphemes[0];
-    var pause = ph.holdable ? "280ms" : "120ms";
+  function phonemeSsmlBody(ph, alphabet) {
+    var code =
+      alphabet === "ups"
+        ? ph.azureUps
+        : alphabet === "sapi"
+        ? ph.azureSapi
+        : ph.azureIsolate || ph.azureIpa;
+    if (!code) return "";
+    var pause = ph.holdable ? "300ms" : "80ms";
+    var rate = ph.holdable ? "-18%" : "-30%";
     return (
-      '<mstts:silence type="Leading-exact" value="80ms"/>' +
-      '<prosody rate="-15%" volume="+20%">' +
+      '<mstts:silence type="Leading-exact" value="50ms"/>' +
+      '<prosody rate="' +
+      rate +
+      '" volume="+20%">' +
       '<phoneme alphabet="' +
       alphabet +
       '" ph="' +
       escapeSsml(code) +
-      '">' +
-      escapeSsml(visible) +
-      "</phoneme>" +
+      '">·</phoneme>' +
       "</prosody>" +
       '<break time="' +
       pause +
@@ -177,12 +183,31 @@
     stop();
     var ph = global.PHONEMES && global.PHONEMES[id];
     if (!ph) return speakWord(id);
-    var inner = phonemeInner(ph, !!options.sapi);
-    var ssml = wrapSpeak(inner, AZURE.phonemeVoice);
-    return speakSsml(ssml, ph.stretch || ph.graphemes[0]).then(function (ok) {
-      if (ok || options.sapi) return ok;
-      var retry = wrapSpeak(phonemeInner(ph, true), AZURE.phonemeVoice);
-      return speakSsml(retry, ph.stretch || ph.graphemes[0]);
+    var alphabets = options.sapi
+      ? ["sapi", "ipa"]
+      : options.ups
+      ? ["ups", "ipa"]
+      : ["ipa", "ups", "sapi"];
+    function tryAt(i) {
+      if (i >= alphabets.length) {
+        return speakWord(ph.keyword);
+      }
+      var body = phonemeSsmlBody(ph, alphabets[i]);
+      if (!body) return tryAt(i + 1);
+      return speakSsml(wrapSpeak(body, AZURE.phonemeVoice), "").then(function (ok) {
+        if (ok) return true;
+        return tryAt(i + 1);
+      });
+    }
+    return tryAt(0);
+  }
+
+  function speakPhonemeThenWord(id) {
+    return speakPhoneme(id).then(function () {
+      return wait(260);
+    }).then(function () {
+      var ph = global.PHONEMES && global.PHONEMES[id];
+      return speakWord(ph ? ph.keyword : id, { slow: true });
     });
   }
 
@@ -223,6 +248,7 @@
     stop: stop,
     speakWord: speakWord,
     speakPhoneme: speakPhoneme,
+    speakPhonemeThenWord: speakPhonemeThenWord,
     speakBlend: speakBlend,
     speakLetterName: speakLetterName
   };
