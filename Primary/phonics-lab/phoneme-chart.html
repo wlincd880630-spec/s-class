@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>音素表 · IPA</title>
+  <script src="../../scripts/auth-check.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:wght@600;800&family=Noto+Sans+SC:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/lab.css" />
+</head>
+<body class="lab">
+  <div class="wrap">
+    <div class="topbar">
+      <a class="brand" href="index.html">
+        <img src="assets/img/mascot.jpg" alt="" />
+        <div>
+          <strong>音素实验室</strong>
+          <span>点按播放单独音素 · 同步国际音标</span>
+        </div>
+      </a>
+      <nav class="nav-pills">
+        <a class="pill" href="index.html">课程</a>
+        <a class="pill active" href="phoneme-chart.html">音素 IPA</a>
+        <a class="pill" href="games.html">游戏</a>
+      </nav>
+    </div>
+    <section class="hero" style="grid-template-columns:1fr">
+      <div>
+        <div class="kicker">Azure Speech · IPA phoneme SSML</div>
+        <h1>单独音素怎么发音？</h1>
+        <p class="lede">Azure 神经语音<strong>可以</strong>用 SSML 的 <code>&lt;phoneme alphabet="ipa"&gt;</code> 尝试读出单个音素，可拉长的摩擦音/鼻音效果较好；爆破音（p t k）有时会带上轻微的 schwa。本页会先走 IPA，失败再试 SAPI，并始终显示国际音标。教学上仍建议：纯音 → 例词 → 再切回纯音。</p>
+      </div>
+    </section>
+    <div class="mode-tabs" id="filters"></div>
+    <div class="grid-auto" id="chart"></div>
+    <div class="card" id="detail" style="margin-top:1rem;display:none"></div>
+  </div>
+  <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
+  <script src="data/phonemes.js"></script>
+  <script src="data/words.js"></script>
+  <script src="data/curriculum.js"></script>
+  <script src="js/tts.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    (function () {
+      var filter = "all";
+      var types = ["all", "consonant", "vowel", "digraph", "vowel-team", "r-controlled", "diphthong", "rule"];
+      var labels = { all: "全部", consonant: "辅音", vowel: "元音", digraph: "Digraph", "vowel-team": "元音组合", "r-controlled": "Bossy R", diphthong: "双元音", rule: "拼读规则" };
+      function render() {
+        document.getElementById("filters").innerHTML = types.map(function (t) {
+          return "<button class=\"mode-tab" + (t === filter ? " active" : "") + "\" data-f=\"" + t + "\" type=\"button\">" + labels[t] + "</button>";
+        }).join("");
+        document.querySelectorAll("[data-f]").forEach(function (b) {
+          b.onclick = function () { filter = b.getAttribute("data-f"); render(); };
+        });
+        var list = PHONEME_LIST.filter(function (p) { return filter === "all" || p.type === filter; });
+        document.getElementById("chart").innerHTML = list.map(function (p) {
+          return "<button class=\"card\" type=\"button\" data-id=\"" + p.id + "\">" +
+            "<img class=\"pic\" src=\"" + Lab.img(p.img) + "\" alt=\"" + p.keywordZh + "\">" +
+            "<h3>" + p.graphemes[0] + " <span class=\"ipa\">" + p.ipaDisplay + "</span></h3>" +
+            "<p class=\"muted\">" + p.keyword + " · " + p.keywordZh + "</p></button>";
+        }).join("");
+        document.querySelectorAll("[data-id]").forEach(function (card) {
+          card.onclick = function () {
+            var p = PHONEMES[card.getAttribute("data-id")];
+            var box = document.getElementById("detail");
+            box.style.display = "block";
+            box.innerHTML = "<div class=\"sound-card\"><img class=\"pic\" src=\"" + Lab.img(p.img) + "\" alt=\"\">" +
+              "<div><div class=\"grapheme-xl\">" + p.graphemes.join(" / ") + "</div>" +
+              "<div class=\"ipa-xl\">" + p.ipaDisplay + "</div>" +
+              "<p>" + p.tip + "</p>" +
+              "<p class=\"muted\">Azure IPA: " + p.azureIpa + " · SAPI: " + p.azureSapi + " · " + (p.holdable ? "可拉长" : "需截断") + "</p>" +
+              "<div class=\"btn-row\">" +
+              "<button class=\"btn teal\" id=\"p1\" type=\"button\">▶ 单独音素 (IPA)</button>" +
+              "<button class=\"btn ghost\" id=\"p2\" type=\"button\">SAPI 再试</button>" +
+              "<button class=\"btn sun\" id=\"p3\" type=\"button\">例词 " + p.keyword + "</button></div></div></div>";
+            document.getElementById("p1").onclick = function () { PhonicsTTS.speakPhoneme(p.id); };
+            document.getElementById("p2").onclick = function () { PhonicsTTS.speakPhoneme(p.id, { sapi: true }); };
+            document.getElementById("p3").onclick = function () { PhonicsTTS.speakWord(p.keyword); };
+            box.scrollIntoView({ behavior: "smooth", block: "nearest" });
+          };
+        });
+      }
+      render();
+    })();
+  </script>
+</body>
+</html>

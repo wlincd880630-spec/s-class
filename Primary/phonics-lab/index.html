@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>单词拼读实验室 · 60 小时音素课程</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:wght@600;800&family=Noto+Sans+SC:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/lab.css" />
+</head>
+<body class="lab">
+  <div class="wrap">
+    <div class="topbar">
+      <a class="brand" href="../phonics/index.html">
+        <img src="assets/img/mascot.jpg" alt="拼读小狐" />
+        <div>
+          <strong>单词拼读实验室</strong>
+          <span>国家地理分级阅读 · 启蒙字母与语音</span>
+        </div>
+      </a>
+      <nav class="nav-pills">
+        <a class="pill active" href="index.html">课程总览</a>
+        <a class="pill" href="phoneme-chart.html">音素 IPA</a>
+        <a class="pill" href="games.html">复习游戏</a>
+        <a class="pill" href="print.html">PDF 练习</a>
+      </nav>
+    </div>
+
+    <section class="hero">
+      <div>
+        <div class="kicker">Systematic Synthetic Phonics · 60 hours</div>
+        <h1>从 0 开始的单词拼读<br />与音素识别课程</h1>
+        <p class="lede">声音先行、图片先行、教师展示 → 学生模仿 → 小组测试 → 独立练习。44+ 音素同步国际音标，Azure 尝试单独音素发音，词汇配 3D 卡通图。</p>
+        <div class="stats">
+          <div class="stat">6 个阶段 · <b>30 课 / 60 课时</b></div>
+          <div class="stat">9 种游戏 · <b>三层难度</b></div>
+          <div class="stat">奇形词 · <b>Heart Words</b></div>
+          <div class="stat">纸质练习 · <b>彩色 PDF</b></div>
+        </div>
+        <div class="btn-row">
+          <a class="btn coral" href="course.html?id=L01">开始第 1 课</a>
+          <a class="btn teal" href="phoneme-chart.html">打开音素表</a>
+          <a class="btn sun" href="games.html">去玩游戏</a>
+        </div>
+      </div>
+      <div class="hero-art">
+        <img src="assets/img/hero.jpg" alt="拼读课堂" />
+      </div>
+    </section>
+
+    <h2 class="section-title">六步 60 小时路线</h2>
+    <div class="grid-3" id="stages"></div>
+
+    <h2 class="section-title" style="margin-top:1.6rem">全部 30 课</h2>
+    <div class="grid-auto" id="lessons"></div>
+
+    <footer class="muted" style="text-align:center;margin-top:2rem">
+      启蒙语音原有 CVC / Magic E 课件仍在
+      <a href="../phonics/index.html">启蒙语音目录</a>
+      · 本实验室为独立拼读课程
+    </footer>
+  </div>
+  <script src="data/phonemes.js"></script>
+  <script src="data/words.js"></script>
+  <script src="data/curriculum.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    (function () {
+      var done = Lab.loadProgress().lessons || {};
+      document.getElementById("stages").innerHTML = PHONICS_STAGES.map(function (s) {
+        var n = PHONICS_LESSONS.filter(function (l) { return l.stage === s.id; }).length;
+        var c = PHONICS_LESSONS.filter(function (l) { return l.stage === s.id && done[l.id]; }).length;
+        return "<a class=\"card stage-card\" style=\"--stage:" + s.color + "\" href=\"course.html?id=L" + String((s.id - 1) * 5 + 1).padStart(2, "0") + "\">" +
+          "<span class=\"badge\">Hours " + s.hours + "</span>" +
+          "<h3>" + s.title + "</h3><p class=\"muted\">" + s.titleEn + "</p>" +
+          "<p>" + s.blurb + "</p>" +
+          "<div class=\"progress-bar\"><span style=\"width:" + Math.round(c / n * 100) + "%\"></span></div>" +
+          "<p class=\"muted\" style=\"margin-top:0.35rem\">" + c + " / " + n + " 课完成</p></a>";
+      }).join("");
+      document.getElementById("lessons").innerHTML = PHONICS_LESSONS.map(function (l) {
+        var ok = !!done[l.id];
+        return "<a class=\"card\" href=\"course.html?id=" + l.id + "\">" +
+          "<span class=\"badge\">" + l.id + " · " + l.hours + "h</span>" +
+          (ok ? " <span class=\"badge\" style=\"background:#d8f3dc;color:#1b4332\">已学</span>" : "") +
+          "<h3>" + l.title + "</h3>" +
+          "<p class=\"muted\">" + l.titleEn + " · " + l.ruleName + "</p>" +
+          "<p class=\"ipa\">" + Lab.phonemeObjs(l.phonemes).map(function (p) { return p.ipaDisplay; }).join("  ") + "</p></a>";
+      }).join("");
+    })();
+  </script>
+</body>
+</html>
