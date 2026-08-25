@@ -20,6 +20,8 @@
     var id = Lab.qs("id", "L01");
     lesson = PHONICS_LESSON_MAP[id] || PHONICS_LESSONS[0];
     method = Lab.qs("method", "sound") === "picture" ? "picture" : "sound";
+    var c = Lab.qs("content", "word");
+    if (["word", "sentence", "passage", "talk"].indexOf(c) !== -1) content = c;
     renderChrome();
     bind();
     render();
@@ -489,7 +491,9 @@
       "</div>" +
       "<p class=\"muted\" style=\"margin-top:0.8rem\">" +
       script +
-      " 例：I → I am → I am a → I am a student.</p>";
+      " 本句：" +
+      Pyramid.chainLabel(item.en) +
+      "</p>";
     Pyramid.bind($("stage"), item.en);
     $("playFull").onclick = function () {
       Lab.playWord(item.en);
@@ -515,31 +519,33 @@
       " <span class=\"muted\">" +
       p.titleZh +
       "</span></h3>" +
-      "<p class=\"muted\">先逐句爬金字塔，再连读全文。当前第 " +
+      "<p class=\"muted\">先把短文当一篇小文章连起来读，点其中一句再爬金字塔。当前第 " +
       (si + 1) +
       " / " +
       p.sentences.length +
       " 句。</p>" +
-      "<ol id=\"passList\" style=\"margin:0.5rem 0 0 1.1rem\"></ol>" +
+      (p.zh ? "<p class=\"muted\">" + p.zh + "</p>" : "") +
       "</div></div>" +
+      "<div class=\"passage-article\" id=\"passArticle\"></div>" +
+      "<h3 class=\"section-title\">本句金字塔</h3>" +
       Pyramid.html(current, { zh: "" }) +
       "<div class=\"btn-row\" style=\"justify-content:center\">" +
       "<button class=\"btn coral\" data-pyramid-play type=\"button\">本句金字塔</button>" +
       "<button class=\"btn teal\" id=\"playPass\" type=\"button\">全文金字塔</button>" +
       "<button class=\"btn ghost\" id=\"playPassFlat\" type=\"button\">全文连读</button>" +
       "</div>";
-    var ol = $("passList");
+    var article = $("passArticle");
     p.sentences.forEach(function (s, i) {
-      var li = document.createElement("li");
-      li.style.cursor = "pointer";
-      li.style.fontWeight = i === si ? "800" : "600";
-      li.style.color = i === si ? "#fb5607" : "";
-      li.textContent = s;
-      li.onclick = function () {
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "pass-sent" + (i === si ? " on" : "");
+      btn.textContent = s;
+      btn.onclick = function () {
         currentItemIndex = i;
         render();
       };
-      ol.appendChild(li);
+      article.appendChild(btn);
+      article.appendChild(document.createTextNode(" "));
     });
     Pyramid.bind($("stage"), current);
     $("playPass").onclick = function () {
@@ -558,8 +564,10 @@
     var linesHtml = talk.lines
       .map(function (ln, i) {
         return (
-          "<div class=\"talk-line" +
+          "<button type=\"button\" class=\"talk-line" +
           (i === li ? " active" : "") +
+          "\" data-talk-i=\"" +
+          i +
           "\"><div class=\"role-badge" +
           (ln.role === "B" ? " b" : "") +
           "\">" +
@@ -568,7 +576,7 @@
           ln.en +
           "</strong><p class=\"muted\">" +
           ln.zh +
-          "</p></div></div>"
+          "</p></div></button>"
         );
       })
       .join("");
@@ -587,7 +595,9 @@
       "<h3>" +
       talk.title +
       "</h3>" +
-      "<p class=\"muted\">A / B 对答。每一句都用金字塔朗读，再进入角色扮演。</p>" +
+      "<p class=\"muted\">情景功能：" +
+      (talk.goals || "日常对答") +
+      " · A / B 角色扮演。点一句，用金字塔读完再对答。</p>" +
       "</div></div>" +
       linesHtml +
       "<h3 class=\"section-title\">当前句金字塔</h3>" +
@@ -600,6 +610,12 @@
       "</div>" +
       "<p class=\"muted\" style=\"margin-top:0.7rem\">小组：A 队读角色 A，B 队读角色 B。独立练习：两角都读，再默写一句。</p>";
     Pyramid.bind($("stage"), line.en);
+    $("stage").querySelectorAll("[data-talk-i]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        currentItemIndex = parseInt(el.getAttribute("data-talk-i"), 10);
+        render();
+      });
+    });
     $("playTalk").onclick = function () {
       var chain = Promise.resolve();
       talk.lines.forEach(function (ln) {

@@ -50,6 +50,18 @@
       </div>
     </section>
 
+    <section class="card" style="margin:1.2rem 0">
+      <p class="kicker">金字塔朗读示例</p>
+      <h2 class="section-title" style="margin-top:0.2rem">I → I am → I am a → I am a student</h2>
+      <p class="muted">句子和短文都按词一层一层往上加，不跳过 a / the / am。点每一层可以听。日常交流同样先爬金字塔再对答。</p>
+      <div id="demoPyramid"></div>
+      <div class="btn-row" style="justify-content:center;margin-top:0.4rem">
+        <a class="btn coral" href="course.html?id=L28&content=sentence">打开 L28 句子金字塔</a>
+        <a class="btn teal" href="course.html?id=L28&content=passage">短文金字塔</a>
+        <a class="btn sun" href="course.html?id=L28&content=talk">日常交流</a>
+      </div>
+    </section>
+
     <h2 class="section-title">六步 60 小时路线</h2>
     <div class="grid-3" id="stages"></div>
 
@@ -65,9 +77,23 @@
   <script src="data/phonemes.js"></script>
   <script src="data/words.js"></script>
   <script src="data/curriculum.js"></script>
+  <script src="data/texts.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/pyramid.js"></script>
   <script>
     (function () {
+      var demo = document.getElementById("demoPyramid");
+      demo.innerHTML = Pyramid.html("I am a student.", { zh: "我是一名学生。" });
+      demo.querySelectorAll("[data-layer]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var list = phonicsPyramid("I am a student.");
+          var i = parseInt(btn.getAttribute("data-layer"), 10);
+          demo.querySelectorAll("[data-layer]").forEach(function (el) {
+            el.classList.toggle("active", el.getAttribute("data-layer") === String(i));
+          });
+          if (window.PhonicsTTS) PhonicsTTS.speakWord(list[i].text);
+        });
+      });
       var done = Lab.loadProgress().lessons || {};
       document.getElementById("stages").innerHTML = PHONICS_STAGES.map(function (s) {
         var n = PHONICS_LESSONS.filter(function (l) { return l.stage === s.id; }).length;
@@ -86,6 +112,7 @@
           (ok ? " <span class=\"badge\" style=\"background:#d8f3dc;color:#1b4332\">已学</span>" : "") +
           "<h3>" + l.title + "</h3>" +
           "<p class=\"muted\">" + l.titleEn + " · " + l.ruleName + "</p>" +
+          "<p class=\"muted\">句子 / 短文 / 日常交流 · 金字塔朗读</p>" +
           "<p class=\"ipa\">" + Lab.phonemeObjs(l.phonemes).map(function (p) { return p.ipaDisplay; }).join("  ") + "</p></a>";
       }).join("");
     })();

@@ -249,7 +249,8 @@
       header("短文金字塔 · " + text.passage.title, lesson) +
         "<p style=\"font-size:13px\">" +
         text.passage.titleZh +
-        " · 每句先爬金字塔，再连读。</p>" +
+        (text.passage.zh ? " · " + text.passage.zh : "") +
+        " · 每句先爬金字塔，再把短文连成一篇朗读。</p>" +
         "<img src=\"" +
         Lab.img(text.passage.img) +
         "\" style=\"width:120px;height:90px;object-fit:cover;border-radius:12px;margin:6px 0\" alt=\"\">" +
@@ -276,6 +277,7 @@
       header("日常交流 · " + text.talk.title, lesson) +
         "<p style=\"font-size:13px\">情景：" +
         text.talk.scene +
+        (text.talk.goals ? " · 功能：" + text.talk.goals : "") +
         " · 一人当 A，一人当 B。每句金字塔朗读后再对答。</p>" +
         text.talk.lines
           .map(function (ln) {

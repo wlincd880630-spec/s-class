@@ -1,5 +1,6 @@
 /**
  * 金字塔朗读：I → I am → I am a → I am a student.
+ * 每一层都是上一层整句再加一个词，功能词（a / the / am）不跳过。
  */
 (function (global) {
   "use strict";
@@ -10,34 +11,79 @@
     });
   }
 
+  function escapeHtml(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
   function layers(sentence) {
     return global.phonicsPyramid ? global.phonicsPyramid(sentence) : [];
+  }
+
+  function chainLabel(sentence) {
+    return layers(sentence)
+      .map(function (ly) {
+        return ly.text.replace(/[.!?]+$/, "");
+      })
+      .join("  →  ");
+  }
+
+  function layerInner(ly) {
+    var text = String(ly.text || "");
+    var punct = "";
+    var m = text.match(/([.,!?]+)$/);
+    if (m) {
+      punct = m[1];
+      text = text.slice(0, -punct.length);
+    }
+    var parts = text.split(/\s+/).filter(Boolean);
+    var last = parts.pop() || "";
+    var old = parts.join(" ");
+    return (
+      (old ? '<span class="old">' + escapeHtml(old) + " </span>" : "") +
+      '<span class="new">' +
+      escapeHtml(last) +
+      "</span>" +
+      (punct ? '<span class="old">' + escapeHtml(punct) + "</span>" : "")
+    );
   }
 
   function html(sentence, opts) {
     opts = opts || {};
     var list = layers(sentence);
-    var zh = opts.zh ? "<p class=\"muted\" style=\"text-align:center;margin-top:0.4rem\">" + opts.zh + "</p>" : "";
+    var n = Math.max(list.length, 1);
+    var zh = opts.zh
+      ? '<p class="muted" style="text-align:center;margin-top:0.45rem">' + escapeHtml(opts.zh) + "</p>"
+      : "";
+    var caption =
+      '<p class="pyramid-chain">' + escapeHtml(chainLabel(sentence) || String(sentence || "")) + "</p>";
+    var rows = list
+      .map(function (ly, i) {
+        var pct = list.length === 1 ? 52 : 38 + Math.round((i / (n - 1)) * 58);
+        return (
+          '<button class="pyramid-layer" type="button" data-layer="' +
+          i +
+          '" data-text="' +
+          escapeHtml(ly.text) +
+          '" style="--py-w:' +
+          pct +
+          '%"><span class="py-idx">' +
+          (i + 1) +
+          '</span><span class="py-text">' +
+          layerInner(ly) +
+          "</span></button>"
+        );
+      })
+      .join("");
     return (
-      "<div class=\"pyramid\" data-sentence=\"" +
-      String(sentence).replace(/"/g, "&quot;") +
-      "\">" +
-      list
-        .map(function (ly, i) {
-          var before = ly.text.slice(0, ly.text.length - String(ly.newWord).length - (i === list.length - 1 && /[.!?]$/.test(ly.text) ? 1 : 0));
-          return (
-            "<button class=\"pyramid-layer\" type=\"button\" data-layer=\"" +
-            i +
-            "\"><span class=\"old\">" +
-            (i === 0 ? "" : list[i - 1].text.replace(/[.!?]$/, "") + " ") +
-            "</span><span class=\"new\">" +
-            ly.newWord +
-            "</span>" +
-            (i === list.length - 1 && /[.!?]$/.test(ly.text) ? "<span class=\"old\">" + ly.text.slice(-1) + "</span>" : "") +
-            "</button>"
-          );
-        })
-        .join("") +
+      '<div class="pyramid" data-sentence="' +
+      escapeHtml(sentence) +
+      '">' +
+      caption +
+      rows +
       "</div>" +
       zh
     );
@@ -110,6 +156,7 @@
     bind: bind,
     highlight: highlight,
     playAll: playAll,
-    playPassage: playPassage
+    playPassage: playPassage,
+    chainLabel: chainLabel
   };
 })(typeof window !== "undefined" ? window : this);
