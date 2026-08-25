@@ -10,7 +10,8 @@
     { id: "match", title: "字母组合对对碰", desc: "grapheme 对 IPA", icon: "🔗" },
     { id: "maze", title: "迷宫拼词", desc: "按拼写顺序点亮字母路", icon: "🌀" },
     { id: "clap", title: "拍音节奏", desc: "跟着节拍点出每一个音", icon: "👏" },
-    { id: "spin", title: "转盘快问", desc: "随机题型综合复习", icon: "🎡" }
+    { id: "spin", title: "转盘快问", desc: "随机题型综合复习", icon: "🎡" },
+    { id: "pyramid", title: "金字塔爬楼", desc: "一层一层加上一个词，练句子", icon: "🔺" }
   ];
 
   var state = {
@@ -92,7 +93,8 @@
       match: gameMatch,
       maze: gameMaze,
       clap: gameClap,
-      spin: gameSpin
+      spin: gameSpin,
+      pyramid: gamePyramid
     }[state.game];
     if (fn) fn();
   }
@@ -386,11 +388,62 @@
     };
   }
 
+  function gamePyramid() {
+    var sents = [];
+    PHONICS_LESSONS.forEach(function (l) {
+      if (l.stage > state.stage) return;
+      phonicsText(l.id).sentences.forEach(function (s) {
+        if (phonicsPyramid(s.en).length >= 3) sents.push(s.en);
+      });
+    });
+    if (!sents.length) sents = ["I am a student."];
+    var sentence = Lab.pick(sents, 1)[0];
+    var lys = phonicsPyramid(sentence);
+    var step = Math.max(1, Math.min(lys.length - 1, 1 + (state.round % (lys.length - 1))));
+    var shown = lys[step - 1].text.replace(/[.!?]$/, "");
+    var answer = lys[step].newWord.replace(/[.!?]$/, "");
+    var bag = [];
+    sents.forEach(function (s) {
+      phonicsPyramid(s).forEach(function (ly) {
+        var w = ly.newWord.replace(/[.!?]$/, "");
+        if (w && w !== answer && bag.indexOf(w) === -1) bag.push(w);
+      });
+    });
+    var choices = Lab.shuffle([answer].concat(Lab.pick(bag, 3))).slice(0, 4);
+    state.target = { word: lys[step].text };
+    $("prompt").textContent = "金字塔下一层要加哪个词？现在已经有：" + shown;
+    $("board").innerHTML =
+      "<div class=\"pyramid\">" +
+      lys
+        .slice(0, step)
+        .map(function (ly) {
+          return "<div class=\"pyramid-layer\">" + ly.text + "</div>";
+        })
+        .join("") +
+      "<div class=\"pyramid-layer active\">" +
+      shown +
+      " + ?</div></div>" +
+      "<div class=\"btn-row\" style=\"justify-content:center\" id=\"pyChoices\"></div>";
+    Lab.playWord(lys[step - 1].text);
+    choices.forEach(function (w) {
+      var b = document.createElement("button");
+      b.className = "btn ghost";
+      b.textContent = w;
+      b.onclick = function () {
+        if (w === answer) {
+          Lab.playWord(lys[step].text);
+          win();
+        } else if (!lose()) Lab.playWord(lys[step - 1].text);
+      };
+      $("pyChoices").appendChild(b);
+    });
+  }
+
   function gameSpin() {
-    var kinds = ["pop", "pic", "blend", "segment"];
+    var kinds = ["pop", "pic", "blend", "segment", "pyramid"];
     var pick = Lab.pick(kinds, 1)[0];
     $("prompt").textContent = "转盘抽到：" + GAMES.filter(function (g) { return g.id === pick; })[0].title;
-    var fn = { pop: gamePop, pic: gamePic, blend: gameBlend, segment: gameSegment }[pick];
+    var fn = { pop: gamePop, pic: gamePic, blend: gameBlend, segment: gameSegment, pyramid: gamePyramid }[pick];
     fn();
   }
 

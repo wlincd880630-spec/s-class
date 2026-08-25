@@ -216,6 +216,91 @@
         "<div style=\"height:90px;border:2px dashed #7b2cbf;border-radius:12px;background:#faf4ff\"></div>"
     );
 
+    var text = phonicsText(lesson.id);
+    html += sheet(
+      header("句子金字塔朗读", lesson) +
+        "<p style=\"font-size:13px;margin-bottom:8px\">从第一个词往上加，新词用红笔描。例：I → I am → I am a → I am a student.</p>" +
+        text.sentences
+          .map(function (s) {
+            var lys = phonicsPyramid(s.en);
+            return (
+              "<div style=\"margin:10px 0 14px;padding:10px;border:2px solid #ffe08a;border-radius:14px;background:#fffdf4\">" +
+              "<div style=\"display:flex;gap:8px;align-items:center;margin-bottom:6px\"><img src=\"" +
+              Lab.img(s.img) +
+              "\" style=\"width:48px;height:48px;object-fit:cover;border-radius:10px\" alt=\"\"><strong>" +
+              s.zh +
+              "</strong></div>" +
+              lys
+                .map(function (ly) {
+                  return (
+                    "<div class=\"strip\">" +
+                    ly.text +
+                    " <span style=\"float:right;min-width:40%;border-bottom:2px solid #1b2430;height:18px\"></span></div>"
+                  );
+                })
+                .join("") +
+              "</div>"
+            );
+          })
+          .join("")
+    );
+
+    html += sheet(
+      header("短文金字塔 · " + text.passage.title, lesson) +
+        "<p style=\"font-size:13px\">" +
+        text.passage.titleZh +
+        " · 每句先爬金字塔，再连读。</p>" +
+        "<img src=\"" +
+        Lab.img(text.passage.img) +
+        "\" style=\"width:120px;height:90px;object-fit:cover;border-radius:12px;margin:6px 0\" alt=\"\">" +
+        text.passage.sentences
+          .map(function (s, i) {
+            return (
+              "<div style=\"margin:8px 0\"><strong style=\"color:#2a9d8f\">" +
+              (i + 1) +
+              ".</strong> " +
+              phonicsPyramid(s)
+                .map(function (ly) {
+                  return "<div class=\"strip\">" + ly.text + "</div>";
+                })
+                .join("") +
+              "</div>"
+            );
+          })
+          .join("") +
+        "<p style=\"margin-top:10px;font-size:13px\">全文再抄一遍：</p>" +
+        "<div style=\"height:70px;border:2px dashed #2a9d8f;border-radius:12px\"></div>"
+    );
+
+    html += sheet(
+      header("日常交流 · " + text.talk.title, lesson) +
+        "<p style=\"font-size:13px\">情景：" +
+        text.talk.scene +
+        " · 一人当 A，一人当 B。每句金字塔朗读后再对答。</p>" +
+        text.talk.lines
+          .map(function (ln) {
+            return (
+              "<div style=\"display:grid;grid-template-columns:48px 1fr;gap:8px;margin:8px 0\">" +
+              "<div style=\"background:" +
+              (ln.role === "A" ? "#2a9d8f" : "#7b2cbf") +
+              ";color:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:800\">" +
+              ln.role +
+              "</div><div><strong>" +
+              ln.en +
+              "</strong><div style=\"font-size:12px;color:#6b7788\">" +
+              ln.zh +
+              "</div>" +
+              phonicsPyramid(ln.en)
+                .map(function (ly) {
+                  return "<div class=\"strip\">" + ly.text + "</div>";
+                })
+                .join("") +
+              "</div></div>"
+            );
+          })
+          .join("")
+    );
+
     $("printArea").innerHTML = html;
   }
 

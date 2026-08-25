@@ -4,8 +4,10 @@
   var lesson;
   var mode = "iDo";
   var method = "sound";
+  var content = "word";
   var revealed = false;
   var currentWordIndex = 0;
+  var currentItemIndex = 0;
   var groupScore = { a: 0, b: 0 };
   var groupTurn = "a";
   var quizItem = null;
@@ -63,6 +65,14 @@
         render();
       });
     });
+    document.querySelectorAll("[data-content]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        content = btn.getAttribute("data-content");
+        revealed = false;
+        currentItemIndex = 0;
+        render();
+      });
+    });
     document.querySelectorAll("[data-method]").forEach(function (btn) {
       btn.addEventListener("click", function () {
         method = btn.getAttribute("data-method");
@@ -71,22 +81,35 @@
       });
     });
     $("prevWord").addEventListener("click", function () {
-      var words = Lab.wordObjs(lesson.words);
-      currentWordIndex = (currentWordIndex + words.length - 1) % words.length;
-      revealed = false;
-      render();
+      stepItem(-1);
     });
     $("nextWord").addEventListener("click", function () {
-      var words = Lab.wordObjs(lesson.words);
-      currentWordIndex = (currentWordIndex + 1) % words.length;
-      revealed = false;
-      render();
+      stepItem(1);
     });
     $("markDone").addEventListener("click", function () {
       Lab.markLesson(lesson.id, { mode: mode });
       Lab.toast("本课已记入进度");
       $("progressHint").textContent = "已完成 " + Lab.completedCount() + " / 30 课";
     });
+  }
+
+  function itemCount() {
+    var t = phonicsText(lesson.id);
+    if (content === "sentence") return t.sentences.length;
+    if (content === "passage") return t.passage.sentences.length;
+    if (content === "talk") return t.talk.lines.length;
+    return Lab.wordObjs(lesson.words).length;
+  }
+
+  function stepItem(dir) {
+    var n = itemCount() || 1;
+    if (content === "word") {
+      currentWordIndex = (currentWordIndex + dir + n) % n;
+    } else {
+      currentItemIndex = (currentItemIndex + dir + n) % n;
+    }
+    revealed = false;
+    render();
   }
 
   function render() {
@@ -96,7 +119,13 @@
     document.querySelectorAll("[data-method]").forEach(function (b) {
       b.classList.toggle("active", b.getAttribute("data-method") === method);
     });
+    document.querySelectorAll("[data-content]").forEach(function (b) {
+      b.classList.toggle("active", b.getAttribute("data-content") === content);
+    });
     $("progressHint").textContent = "已完成 " + Lab.completedCount() + " / 30 课";
+    if (content === "sentence") return renderSentence();
+    if (content === "passage") return renderPassage();
+    if (content === "talk") return renderTalk();
     if (mode === "iDo") renderIDo();
     else if (mode === "weDo") renderWeDo();
     else if (mode === "group") renderGroup();
@@ -417,6 +446,184 @@
         Lab.playWord(btn.getAttribute("data-sight"));
       });
     });
+  }
+
+  function modeLabel() {
+    return {
+      iDo: "教师展示 · 金字塔范读",
+      weDo: "学生模仿 · 一层一层跟读",
+      group: "小组测试 · 接下一层",
+      independent: "独立练习 · 自己爬金字塔"
+    }[mode];
+  }
+
+  function renderSentence() {
+    var t = phonicsText(lesson.id);
+    var item = t.sentences[currentItemIndex % t.sentences.length];
+    var script =
+      mode === "iDo"
+        ? "教师先听完整句，再从第一个词开始往上加：只点亮新词。学生看金字塔长高。"
+        : mode === "weDo"
+        ? "教师读一层，全班立刻跟读同一层。不要跳层。"
+        : mode === "group"
+        ? "A 队读奇数层，B 队读偶数层，最后齐读整句。"
+        : "自己点每一层，听完再抄在练习纸上。";
+    $("stage").innerHTML =
+      "<p class=\"kicker\">" +
+      modeLabel() +
+      " · 句子 " +
+      (currentItemIndex + 1) +
+      "/" +
+      t.sentences.length +
+      "</p>" +
+      "<div style=\"text-align:center\"><img class=\"pic md\" style=\"margin:0 auto 0.6rem\" src=\"" +
+      Lab.img(item.img) +
+      "\" alt=\"\"></div>" +
+      Pyramid.html(item.en, { zh: item.zh }) +
+      "<div class=\"btn-row\" style=\"justify-content:center\">" +
+      "<button class=\"btn coral\" data-pyramid-play type=\"button\">▶ 金字塔朗读</button>" +
+      "<button class=\"btn teal\" id=\"playFull\" type=\"button\">整句</button>" +
+      "<a class=\"btn sun\" href=\"print.html?id=" +
+      lesson.id +
+      "&sheet=pyramid\">金字塔练习纸</a>" +
+      "</div>" +
+      "<p class=\"muted\" style=\"margin-top:0.8rem\">" +
+      script +
+      " 例：I → I am → I am a → I am a student.</p>";
+    Pyramid.bind($("stage"), item.en);
+    $("playFull").onclick = function () {
+      Lab.playWord(item.en);
+    };
+  }
+
+  function renderPassage() {
+    var t = phonicsText(lesson.id);
+    var p = t.passage;
+    var si = currentItemIndex % p.sentences.length;
+    var current = p.sentences[si];
+    $("stage").innerHTML =
+      "<p class=\"kicker\">" +
+      modeLabel() +
+      " · 短文《" +
+      p.title +
+      "》</p>" +
+      "<div class=\"sound-card\"><img class=\"pic\" src=\"" +
+      Lab.img(p.img) +
+      "\" alt=\"\"><div>" +
+      "<h3>" +
+      p.title +
+      " <span class=\"muted\">" +
+      p.titleZh +
+      "</span></h3>" +
+      "<p class=\"muted\">先逐句爬金字塔，再连读全文。当前第 " +
+      (si + 1) +
+      " / " +
+      p.sentences.length +
+      " 句。</p>" +
+      "<ol id=\"passList\" style=\"margin:0.5rem 0 0 1.1rem\"></ol>" +
+      "</div></div>" +
+      Pyramid.html(current, { zh: "" }) +
+      "<div class=\"btn-row\" style=\"justify-content:center\">" +
+      "<button class=\"btn coral\" data-pyramid-play type=\"button\">本句金字塔</button>" +
+      "<button class=\"btn teal\" id=\"playPass\" type=\"button\">全文金字塔</button>" +
+      "<button class=\"btn ghost\" id=\"playPassFlat\" type=\"button\">全文连读</button>" +
+      "</div>";
+    var ol = $("passList");
+    p.sentences.forEach(function (s, i) {
+      var li = document.createElement("li");
+      li.style.cursor = "pointer";
+      li.style.fontWeight = i === si ? "800" : "600";
+      li.style.color = i === si ? "#fb5607" : "";
+      li.textContent = s;
+      li.onclick = function () {
+        currentItemIndex = i;
+        render();
+      };
+      ol.appendChild(li);
+    });
+    Pyramid.bind($("stage"), current);
+    $("playPass").onclick = function () {
+      Pyramid.playPassage(p.sentences);
+    };
+    $("playPassFlat").onclick = function () {
+      Lab.playWord(p.sentences.join(" "));
+    };
+  }
+
+  function renderTalk() {
+    var t = phonicsText(lesson.id);
+    var talk = t.talk;
+    var li = currentItemIndex % talk.lines.length;
+    var line = talk.lines[li];
+    var linesHtml = talk.lines
+      .map(function (ln, i) {
+        return (
+          "<div class=\"talk-line" +
+          (i === li ? " active" : "") +
+          "\"><div class=\"role-badge" +
+          (ln.role === "B" ? " b" : "") +
+          "\">" +
+          ln.role +
+          "</div><div><strong>" +
+          ln.en +
+          "</strong><p class=\"muted\">" +
+          ln.zh +
+          "</p></div></div>"
+        );
+      })
+      .join("");
+    $("stage").innerHTML =
+      "<p class=\"kicker\">" +
+      modeLabel() +
+      " · 日常交流 · " +
+      talk.scene +
+      "</p>" +
+      "<div class=\"sound-card\"><img class=\"pic\" src=\"" +
+      Lab.img(talk.img) +
+      "\" alt=\"\"><div>" +
+      "<span class=\"badge\">" +
+      talk.titleEn +
+      "</span>" +
+      "<h3>" +
+      talk.title +
+      "</h3>" +
+      "<p class=\"muted\">A / B 对答。每一句都用金字塔朗读，再进入角色扮演。</p>" +
+      "</div></div>" +
+      linesHtml +
+      "<h3 class=\"section-title\">当前句金字塔</h3>" +
+      Pyramid.html(line.en, { zh: line.zh + " · 角色 " + line.role }) +
+      "<div class=\"btn-row\" style=\"justify-content:center\">" +
+      "<button class=\"btn coral\" data-pyramid-play type=\"button\">本句金字塔</button>" +
+      "<button class=\"btn teal\" id=\"playTalk\" type=\"button\">整段对答</button>" +
+      "<button class=\"btn sun\" id=\"playA\" type=\"button\">只听 A</button>" +
+      "<button class=\"btn ghost\" id=\"playB\" type=\"button\">只听 B</button>" +
+      "</div>" +
+      "<p class=\"muted\" style=\"margin-top:0.7rem\">小组：A 队读角色 A，B 队读角色 B。独立练习：两角都读，再默写一句。</p>";
+    Pyramid.bind($("stage"), line.en);
+    $("playTalk").onclick = function () {
+      var chain = Promise.resolve();
+      talk.lines.forEach(function (ln) {
+        chain = chain.then(function () {
+          return Pyramid.playAll(Pyramid.layers(ln.en));
+        });
+      });
+    };
+    $("playA").onclick = function () {
+      Lab.playWord(
+        talk.lines
+          .filter(function (x) { return x.role === "A"; })
+          .map(function (x) { return x.en; })
+          .join(" ")
+      );
+    };
+    $("playB").onclick = function () {
+      Lab.playWord(
+        talk.lines
+          .filter(function (x) { return x.role === "B"; })
+          .map(function (x) { return x.en; })
+          .join(" ")
+      );
+    };
   }
 
   document.addEventListener("DOMContentLoaded", init);
