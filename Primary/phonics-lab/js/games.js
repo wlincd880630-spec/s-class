@@ -129,7 +129,7 @@
     var answer = words[0];
     words = Lab.shuffle(words);
     state.target = answer;
-    $("prompt").textContent = "声音先行：先听单词，再选对的图（图上先不出现单词）";
+    $("prompt").textContent = "声音先行：先听单词，再选对的图（不显示英文）。音标 " + answer.ipa;
     $("board").innerHTML = "<div class=\"choice-grid\" id=\"pics\"></div>";
     words.forEach(function (w) {
       var b = document.createElement("button");
