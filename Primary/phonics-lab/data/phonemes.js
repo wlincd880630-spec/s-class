@@ -22,7 +22,7 @@
     { id: "c", ipa: "k", ipaDisplay: "/k/", type: "consonant", manner: "stop", voiced: false, holdable: false, graphemes: ["c", "k", "ck", "q"], keyword: "cat", keywordZh: "小猫", img: "cat", azureIpa: "k", azureSapi: "k", stretch: "k", tip: "硬 c：后面是 a/o/u 时读 /k/。截断，不要读成「克」。", stage: 2 },
     { id: "k", ipa: "k", ipaDisplay: "/k/", type: "consonant", manner: "stop", voiced: false, holdable: false, graphemes: ["k", "c", "ck"], keyword: "kite", keywordZh: "风筝", img: "kite", azureIpa: "k", azureSapi: "k", stretch: "k", tip: "与硬 c 同音 /k/。词首常用 k（kite、kid）。", stage: 2 },
     { id: "ck", ipa: "k", ipaDisplay: "/k/", type: "consonant", manner: "stop", voiced: false, holdable: false, graphemes: ["ck"], keyword: "duck", keywordZh: "小鸭", img: "duck", azureIpa: "k", azureSapi: "k", stretch: "k", tip: "短元音后面的 /k/ 常写成 ck：duck、sock、back。", stage: 2 },
-    { id: "e", ipa: "e", ipaDisplay: "/e/", type: "vowel", manner: "short", voiced: true, holdable: true, graphemes: ["e"], keyword: "egg", keywordZh: "鸡蛋", img: "egg", azureIpa: "e", azureSapi: "eh", stretch: "e", tip: "嘴巴半开、短促，像 egg、bed，不是字母名 /iː/。", stage: 2 },
+    { id: "e", ipa: "e", ipaDisplay: "/e/", type: "vowel", manner: "short", voiced: true, holdable: true, graphemes: ["e"], keyword: "egg", keywordZh: "鸡蛋", img: "egg", azureIpa: "ɛ", azureSapi: "eh", stretch: "e", tip: "嘴巴半开、短促，像 egg、bed，不是字母名 /iː/。", stage: 2 },
     { id: "u", ipa: "ʌ", ipaDisplay: "/ʌ/", type: "vowel", manner: "short", voiced: true, holdable: true, graphemes: ["u"], keyword: "umbrella", keywordZh: "雨伞", img: "umbrella", azureIpa: "ʌ", azureSapi: "ah", stretch: "uh", tip: "嘴巴自然松开，短促的 uh，像 sun、cup。", stage: 2 },
     { id: "r", ipa: "r", ipaDisplay: "/r/", type: "consonant", manner: "approximant", voiced: true, holdable: true, graphemes: ["r", "rr", "wr"], keyword: "rabbit", keywordZh: "兔子", img: "rabbit", azureIpa: "ɹ", azureSapi: "r", stretch: "rrr", tip: "舌尖上卷但不碰牙龈，不要打中文颤音。", stage: 2 },
     { id: "h", ipa: "h", ipaDisplay: "/h/", type: "consonant", manner: "fricative", voiced: false, holdable: true, graphemes: ["h"], keyword: "hat", keywordZh: "帽子", img: "hat", azureIpa: "h", azureSapi: "h", stretch: "hhh", tip: "轻轻呵气，像哈气到镜子上，不要加元音。", stage: 2 },
@@ -40,8 +40,8 @@
     /* —— 辅音音组 / Digraphs —— */
     { id: "sh", ipa: "ʃ", ipaDisplay: "/ʃ/", type: "digraph", manner: "fricative", voiced: false, holdable: true, graphemes: ["sh", "ti", "ci"], keyword: "ship", keywordZh: "小船", img: "ship", azureIpa: "ʃ", azureSapi: "sh", stretch: "shhh", tip: "嘴唇微圆，像请别人安静 shhh。两个字母一个音。", stage: 3 },
     { id: "ch", ipa: "tʃ", ipaDisplay: "/tʃ/", type: "digraph", manner: "affricate", voiced: true, holdable: false, graphemes: ["ch", "tch"], keyword: "chick", keywordZh: "小鸡", img: "chick", azureIpa: "tʃ", azureSapi: "ch", stretch: "ch", tip: "像火车声的起音 ch，短促爆破。", stage: 3 },
-    { id: "th", ipa: "θ", ipaDisplay: "/θ/", type: "digraph", manner: "fricative", voiced: false, holdable: true, graphemes: ["th"], keyword: "thumb", keywordZh: "拇指", img: "thumb", azureIpa: "θ", azureSapi: "th", stretch: "thhh", tip: "舌尖轻轻咬在上下齿之间，送气，清音：thumb、think。", stage: 3 },
-    { id: "thv", ipa: "ð", ipaDisplay: "/ð/", type: "digraph", manner: "fricative", voiced: true, holdable: true, graphemes: ["th"], keyword: "feather", keywordZh: "羽毛", img: "feather", azureIpa: "ð", azureSapi: "dh", stretch: "thh", tip: "口型同 /θ/，声带振动：this、that、feather。", stage: 3 },
+    { id: "th", ipa: "θ", ipaDisplay: "/θ/", type: "digraph", manner: "fricative", voiced: false, holdable: true, graphemes: ["th"], label: "th 清", keyword: "thumb", keywordZh: "拇指", img: "thumb", azureIpa: "θ", azureSapi: "th", stretch: "thhh", tip: "清辅音：舌尖轻咬上下齿之间，只送气不振动声带。thumb、think、thin、three。", stage: 3 },
+    { id: "thv", ipa: "ð", ipaDisplay: "/ð/", type: "digraph", manner: "fricative", voiced: true, holdable: true, graphemes: ["th"], label: "th 浊", keyword: "this", keywordZh: "这个", img: "feather", azureIpa: "ð", azureSapi: "dh", stretch: "thh", tip: "浊辅音：口型同清 th，但声带要振动。this、that、the、they、feather。", stage: 3 },
     { id: "wh", ipa: "w", ipaDisplay: "/w/", type: "digraph", manner: "approximant", voiced: true, holdable: false, graphemes: ["wh"], keyword: "whale", keywordZh: "鲸鱼", img: "whale", azureIpa: "w", azureSapi: "w", stretch: "w", tip: "现代英语 wh 多读 /w/：whale、when、white。", stage: 3 },
     { id: "ng", ipa: "ŋ", ipaDisplay: "/ŋ/", type: "digraph", manner: "nasal", voiced: true, holdable: true, graphemes: ["ng"], keyword: "ring", keywordZh: "戒指", img: "ring", azureIpa: "ŋ", azureSapi: "ng", stretch: "ng", tip: "舌根抵软腭，鼻音，像唱完歌的尾音。不要读成「ng-g」。", stage: 3 },
     { id: "nk", ipa: "ŋk", ipaDisplay: "/ŋk/", type: "cluster", manner: "cluster", voiced: false, holdable: false, graphemes: ["nk"], keyword: "pink", keywordZh: "粉色", img: "pig", azureIpa: "ŋk", azureSapi: "ng k", stretch: "nk", tip: "ring 的鼻音后面再加 /k/：pink、sink、bank。", stage: 3 },
@@ -60,7 +60,7 @@
     { id: "ea", ipa: "iː", ipaDisplay: "/iː/", type: "vowel-team", manner: "team", voiced: true, holdable: true, graphemes: ["ea", "ee"], keyword: "leaf", keywordZh: "叶子", img: "leaf", azureIpa: "iː", azureSapi: "iy", stretch: "eee", tip: "ea 常读 /iː/：leaf、sea；少数读 /e/：bread。", stage: 4 },
     { id: "igh", ipa: "aɪ", ipaDisplay: "/aɪ/", type: "vowel-team", manner: "team", voiced: true, holdable: true, graphemes: ["igh", "ie", "i_e"], keyword: "night", keywordZh: "夜晚", img: "night", azureIpa: "aɪ", azureSapi: "ay", stretch: "eye", tip: "三个字母一个音 /aɪ/：night、light、high。", stage: 4 },
     { id: "oa", ipa: "əʊ", ipaDisplay: "/əʊ/", type: "vowel-team", manner: "team", voiced: true, holdable: true, graphemes: ["oa", "ow", "o_e"], keyword: "boat", keywordZh: "小船", img: "boat", azureIpa: "əʊ", azureSapi: "ow", stretch: "oh", tip: "oa 多在词中：boat、road、coat。", stage: 4 },
-    { id: "ow", ipa: "əʊ", ipaDisplay: "/əʊ/", type: "vowel-team", manner: "team", voiced: true, holdable: true, graphemes: ["ow", "oa"], keyword: "snow", keywordZh: "雪", img: "cloud", azureIpa: "əʊ", azureSapi: "ow", stretch: "oh", tip: "ow 可读 /əʊ/（snow）或 /aʊ/（cow），看单词家族。", stage: 4 },
+    { id: "ow", ipa: "əʊ", ipaDisplay: "/əʊ/", type: "vowel-team", manner: "team", voiced: true, holdable: true, graphemes: ["ow", "oa"], label: "ow 长o", keyword: "snow", keywordZh: "雪", img: "cloud", azureIpa: "əʊ", azureSapi: "ow", stretch: "oh", tip: "ow 可读 /əʊ/（snow）或 /aʊ/（cow），看单词家族。", stage: 4 },
     { id: "ue", ipa: "uː", ipaDisplay: "/uː/", type: "vowel-team", manner: "team", voiced: true, holdable: true, graphemes: ["ue", "ew", "u_e"], keyword: "glue", keywordZh: "胶水", img: "glue", azureIpa: "uː", azureSapi: "uw", stretch: "ooo", tip: "ue / ew 常读 /uː/ 或 /juː/：glue、blue、new。", stage: 4 },
 
     /* —— R-controlled —— */
@@ -71,10 +71,10 @@
     { id: "ur", ipa: "ɜː", ipaDisplay: "/ɜː/", type: "r-controlled", manner: "bossy-r", voiced: true, holdable: true, graphemes: ["ur", "er", "ir"], keyword: "fur", keywordZh: "毛皮", img: "rabbit", azureIpa: "ɜː", azureSapi: "er", stretch: "ur", tip: "与 er、ir 同一家族。", stage: 5 },
 
     /* —— 双元音与 oo —— */
-    { id: "oo", ipa: "uː", ipaDisplay: "/uː/", type: "vowel-team", manner: "long-oo", voiced: true, holdable: true, graphemes: ["oo", "ue", "ew"], keyword: "moon", keywordZh: "月亮", img: "moon", azureIpa: "uː", azureSapi: "uw", stretch: "ooo", tip: "长 oo：moon、food、room，嘴唇收圆拉长。", stage: 5 },
-    { id: "oo_s", ipa: "ʊ", ipaDisplay: "/ʊ/", type: "vowel-team", manner: "short-oo", voiced: true, holdable: true, graphemes: ["oo", "u"], keyword: "book", keywordZh: "书", img: "book", azureIpa: "ʊ", azureSapi: "uh", stretch: "u", tip: "短 oo：book、look、good，圆唇但短。", stage: 5 },
+    { id: "oo", ipa: "uː", ipaDisplay: "/uː/", type: "vowel-team", manner: "long-oo", voiced: true, holdable: true, graphemes: ["oo", "ue", "ew"], label: "oo 长", keyword: "moon", keywordZh: "月亮", img: "moon", azureIpa: "uː", azureSapi: "uw", stretch: "ooo", tip: "长 oo：moon、food、room，嘴唇收圆拉长。", stage: 5 },
+    { id: "oo_s", ipa: "ʊ", ipaDisplay: "/ʊ/", type: "vowel-team", manner: "short-oo", voiced: true, holdable: true, graphemes: ["oo", "u"], label: "oo 短", keyword: "book", keywordZh: "书", img: "book", azureIpa: "ʊ", azureSapi: "uh", stretch: "u", tip: "短 oo：book、look、good，圆唇但短。", stage: 5 },
     { id: "ou", ipa: "aʊ", ipaDisplay: "/aʊ/", type: "diphthong", manner: "glide", voiced: true, holdable: true, graphemes: ["ou", "ow"], keyword: "cloud", keywordZh: "云", img: "cloud", azureIpa: "aʊ", azureSapi: "aw", stretch: "ow", tip: "嘴从大开滑到圆唇：cloud、house、out。", stage: 5 },
-    { id: "ow_d", ipa: "aʊ", ipaDisplay: "/aʊ/", type: "diphthong", manner: "glide", voiced: true, holdable: true, graphemes: ["ow", "ou"], keyword: "cow", keywordZh: "奶牛", img: "cloud", azureIpa: "aʊ", azureSapi: "aw", stretch: "ow", tip: "ow 的另一读音 /aʊ/：cow、now、how。", stage: 5 },
+    { id: "ow_d", ipa: "aʊ", ipaDisplay: "/aʊ/", type: "diphthong", manner: "glide", voiced: true, holdable: true, graphemes: ["ow", "ou"], label: "ow 双元音", keyword: "cow", keywordZh: "奶牛", img: "cloud", azureIpa: "aʊ", azureSapi: "aw", stretch: "ow", tip: "ow 的另一读音 /aʊ/：cow、now、how。", stage: 5 },
     { id: "oi", ipa: "ɔɪ", ipaDisplay: "/ɔɪ/", type: "diphthong", manner: "glide", voiced: true, holdable: true, graphemes: ["oi", "oy"], keyword: "coin", keywordZh: "硬币", img: "coin", azureIpa: "ɔɪ", azureSapi: "oy", stretch: "oy", tip: "oi 多在词中：coin、boil、point。", stage: 5 },
     { id: "oy", ipa: "ɔɪ", ipaDisplay: "/ɔɪ/", type: "diphthong", manner: "glide", voiced: true, holdable: true, graphemes: ["oy", "oi"], keyword: "boy", keywordZh: "男孩", img: "boy", azureIpa: "ɔɪ", azureSapi: "oy", stretch: "oy", tip: "oy 多在词尾：boy、toy、enjoy。", stage: 5 },
     { id: "au", ipa: "ɔː", ipaDisplay: "/ɔː/", type: "vowel-team", manner: "team", voiced: true, holdable: true, graphemes: ["au", "aw"], keyword: "sauce", keywordZh: "酱汁", img: "jam", azureIpa: "ɔː", azureSapi: "ao", stretch: "aw", tip: "au 多在词中：sauce、August。", stage: 5 },
@@ -82,13 +82,49 @@
 
     /* —— 进阶规则 —— */
     { id: "ph", ipa: "f", ipaDisplay: "/f/", type: "digraph", manner: "fricative", voiced: false, holdable: true, graphemes: ["ph", "f"], keyword: "photo", keywordZh: "照片", img: "photo", azureIpa: "f", azureSapi: "f", stretch: "fff", tip: "希腊词源：ph 读 /f/：photo、phone、elephant。", stage: 5 },
-    { id: "soft_c", ipa: "s", ipaDisplay: "/s/", type: "rule", manner: "fricative", voiced: false, holdable: true, graphemes: ["c"], keyword: "ice", keywordZh: "冰块", img: "ice", azureIpa: "s", azureSapi: "s", stretch: "sss", tip: "c 在 e/i/y 前读 /s/：ice、city、cycle。", stage: 5 },
-    { id: "soft_g", ipa: "dʒ", ipaDisplay: "/dʒ/", type: "rule", manner: "affricate", voiced: true, holdable: false, graphemes: ["g"], keyword: "giant", keywordZh: "巨人", img: "goat", azureIpa: "dʒ", azureSapi: "jh", stretch: "j", tip: "g 在 e/i/y 前常读 /dʒ/：giant、gem、giraffe。", stage: 5 },
-    { id: "schwa", ipa: "ə", ipaDisplay: "/ə/", type: "vowel", manner: "reduced", voiced: true, holdable: true, graphemes: ["a", "e", "o", "u"], keyword: "sofa", keywordZh: "沙发", img: "bed", azureIpa: "ə", azureSapi: "ax", stretch: "uh", tip: "非重读的含混元音，英语里最常见：a、the、sofa。", stage: 6 }
+    { id: "tch", ipa: "tʃ", ipaDisplay: "/tʃ/", type: "digraph", manner: "affricate", voiced: false, holdable: false, graphemes: ["tch", "ch"], label: "tch", keyword: "chick", keywordZh: "小鸡", img: "chick", azureIpa: "tʃ", azureSapi: "ch", stretch: "ch", tip: "短元音后面的 /tʃ/ 常写成 tch：catch、witch、match。与 ch 同音。", stage: 3 },
+    { id: "dge", ipa: "dʒ", ipaDisplay: "/dʒ/", type: "digraph", manner: "affricate", voiced: true, holdable: false, graphemes: ["dge", "ge", "j"], label: "dge", keyword: "jam", keywordZh: "果酱", img: "jam", azureIpa: "dʒ", azureSapi: "jh", stretch: "j", tip: "短元音后面的 /dʒ/ 常写成 dge：bridge、badge、edge。", stage: 5 },
+    { id: "zh", ipa: "ʒ", ipaDisplay: "/ʒ/", type: "consonant", manner: "fricative", voiced: true, holdable: true, graphemes: ["s", "si", "g"], label: "zh", keyword: "television", keywordZh: "电视", img: "photo", azureIpa: "ʒ", azureSapi: "zh", stretch: "zzz", tip: "像 sh 但声带振动：television、measure、vision、beige。英语里较少见，常被漏掉。", stage: 6 },
+    { id: "air", ipa: "ɛə", ipaDisplay: "/eə/", type: "vowel-team", manner: "centering", voiced: true, holdable: true, graphemes: ["air", "are", "ear"], label: "air", keyword: "hair", keywordZh: "头发", img: "hat", azureIpa: "ɛə", azureSapi: "eh r", stretch: "air", tip: "中元音滑向 schwa：hair、fair、care、bear。", stage: 5 },
+    { id: "ear", ipa: "ɪə", ipaDisplay: "/ɪə/", type: "vowel-team", manner: "centering", voiced: true, holdable: true, graphemes: ["ear", "eer", "ere"], label: "ear", keyword: "hear", keywordZh: "听见", img: "nest", azureIpa: "ɪə", azureSapi: "ih r", stretch: "ear", tip: "从 /ɪ/ 滑向 schwa：hear、near、deer、here。", stage: 5 },
+    { id: "ore", ipa: "ɔː", ipaDisplay: "/ɔː/", type: "r-controlled", manner: "bossy-r", voiced: true, holdable: true, graphemes: ["ore", "oar", "or"], label: "ore", keyword: "fork", keywordZh: "叉子", img: "fork", azureIpa: "ɔː", azureSapi: "ao r", stretch: "or", tip: "与 or 同家族：more、shore、boar。", stage: 5 },
+    { id: "ew", ipa: "juː", ipaDisplay: "/juː/", type: "vowel-team", manner: "team", voiced: true, holdable: true, graphemes: ["ew", "ue", "u_e"], keyword: "glue", keywordZh: "胶水", img: "glue", azureIpa: "juː", azureSapi: "y uw", stretch: "you", tip: "ew 常读 /juː/ 或 /uː/：new、few、blew。", stage: 4 },
+    { id: "ie", ipa: "aɪ", ipaDisplay: "/aɪ/", type: "vowel-team", manner: "team", voiced: true, holdable: true, graphemes: ["ie", "igh", "i_e"], keyword: "kite", keywordZh: "风筝", img: "kite", azureIpa: "aɪ", azureSapi: "ay", stretch: "eye", tip: "ie 常读 /aɪ/：pie、tie、lie；有时读 /iː/：field。", stage: 4 },
+    { id: "ey", ipa: "eɪ", ipaDisplay: "/eɪ/", type: "vowel-team", manner: "team", voiced: true, holdable: true, graphemes: ["ey", "ay", "ai"], keyword: "play", keywordZh: "玩", img: "ball", azureIpa: "eɪ", azureSapi: "ey", stretch: "ay", tip: "ey 可读 /eɪ/（they、grey）或 /iː/（key）。", stage: 4 },
+    { id: "y_ai", ipa: "aɪ", ipaDisplay: "/aɪ/", type: "vowel", manner: "open", voiced: true, holdable: true, graphemes: ["y", "igh", "i_e"], label: "y=/aɪ/", keyword: "kite", keywordZh: "风筝", img: "kite", azureIpa: "aɪ", azureSapi: "ay", stretch: "eye", tip: "词尾开音节 y 常读 /aɪ/：my、sky、fly、try。", stage: 4 },
+    { id: "y_ee", ipa: "iː", ipaDisplay: "/iː/", type: "vowel", manner: "happy", voiced: true, holdable: true, graphemes: ["y", "ey", "ee"], label: "y=/i/", keyword: "happy", keywordZh: "开心", img: "sun", azureIpa: "iː", azureSapi: "iy", stretch: "eee", tip: "非重读词尾 y 常读 /i/：happy、funny、family。", stage: 6 },
+    { id: "a_ah", ipa: "ɑː", ipaDisplay: "/ɑː/", type: "vowel", manner: "broad", voiced: true, holdable: true, graphemes: ["a", "ar"], label: "a=/ɑː/", keyword: "car", keywordZh: "小汽车", img: "car", azureIpa: "ɑː", azureSapi: "aa", stretch: "ah", tip: "英式 bath/father 的宽 a：father、bath、car（无 r 色彩时接近 /ɑː/）。", stage: 6 },
+    { id: "le", ipa: "əl", ipaDisplay: "/əl/", type: "rule", manner: "syllabic", voiced: true, holdable: true, graphemes: ["le", "el"], label: "le", keyword: "apple", keywordZh: "苹果", img: "apple", azureIpa: "əl", azureSapi: "ax l", stretch: "ul", tip: "词尾 le 常成音节 /əl/：apple、table、little。", stage: 6 },
+    { id: "tion", ipa: "ʃən", ipaDisplay: "/ʃən/", type: "rule", manner: "suffix", voiced: true, holdable: true, graphemes: ["tion", "sion"], label: "tion", keyword: "action", keywordZh: "行动", img: "photo", azureIpa: "ʃən", azureSapi: "sh ax n", stretch: "shun", tip: "tion 常读 /ʃən/：action、station、nation。", stage: 6 },
+    { id: "kn", ipa: "n", ipaDisplay: "/n/", type: "rule", manner: "silent", voiced: true, holdable: true, graphemes: ["kn", "n"], label: "kn", keyword: "nest", keywordZh: "鸟巢", img: "nest", azureIpa: "n", azureSapi: "n", stretch: "nnn", tip: "词首 kn 的 k 不发音：knee、know、knock。", stage: 5 },
+    { id: "wr", ipa: "r", ipaDisplay: "/r/", type: "rule", manner: "silent", voiced: true, holdable: true, graphemes: ["wr", "r"], label: "wr", keyword: "rabbit", keywordZh: "兔子", img: "rabbit", azureIpa: "ɹ", azureSapi: "r", stretch: "rrr", tip: "词首 wr 的 w 不发音：write、wrong、wrap。", stage: 5 },
+    { id: "mb", ipa: "m", ipaDisplay: "/m/", type: "rule", manner: "silent", voiced: true, holdable: true, graphemes: ["mb", "m"], label: "mb", keyword: "moon", keywordZh: "月亮", img: "goat", azureIpa: "m", azureSapi: "m", stretch: "mmm", tip: "词尾 mb 的 b 不发音：lamb、thumb、climb。", stage: 5 },
+    { id: "soft_c", ipa: "s", ipaDisplay: "/s/", type: "rule", manner: "fricative", voiced: false, holdable: true, graphemes: ["c"], label: "软 c", keyword: "ice", keywordZh: "冰块", img: "ice", azureIpa: "s", azureSapi: "s", stretch: "sss", tip: "c 在 e/i/y 前读 /s/：ice、city、cycle。", stage: 5 },
+    { id: "soft_g", ipa: "dʒ", ipaDisplay: "/dʒ/", type: "rule", manner: "affricate", voiced: true, holdable: false, graphemes: ["g"], label: "软 g", keyword: "giant", keywordZh: "巨人", img: "goat", azureIpa: "dʒ", azureSapi: "jh", stretch: "j", tip: "g 在 e/i/y 前常读 /dʒ/：giant、gem、giraffe。", stage: 5 },
+    { id: "schwa", ipa: "ə", ipaDisplay: "/ə/", type: "vowel", manner: "reduced", voiced: true, holdable: true, graphemes: ["a", "e", "o", "u"], label: "schwa", keyword: "sofa", keywordZh: "沙发", img: "bed", azureIpa: "ə", azureSapi: "ax", stretch: "uh", tip: "非重读的含混元音，英语里最常见：a、the、sofa。", stage: 6 }
   ];
+
+  var UPS = {
+    s: "S", a: "AE", t: "T", p: "P", i: "IH", n: "N", m: "M", d: "D",
+    g: "G", o: "Q", c: "K", k: "K", ck: "K", e: "EH", u: "AH", r: "R",
+    h: "H", b: "B", f: "F", l: "L", j: "JH", v: "V", w: "W", y: "J", z: "Z",
+    qu: "K W", sh: "SH", ch: "CH", th: "TH", thv: "DH", wh: "W", ng: "NG",
+    nk: "NG K", ph: "F", zh: "ZH", tch: "CH", dge: "JH", x: "K S",
+    a_e: "EI", i_e: "AI", o_e: "OW", u_e: "Y UW", e_e: "IY",
+    ai: "EI", ay: "EI", ee: "IY", ea: "IY", igh: "AI", oa: "OW", ow: "OW",
+    ue: "UW", ar: "AA", or: "AO", er: "ER", ir: "ER", ur: "ER",
+    oo: "UW", oo_s: "UH", ou: "AU", ow_d: "AU", oi: "OY", oy: "OY",
+    au: "AO", aw: "AO", schwa: "AX", air: "EH AX", ear: "IH AX", ore: "AO",
+    ew: "Y UW", ie: "AI", ey: "EI", y_ai: "AI", y_ee: "IY", a_ah: "AA",
+    le: "AX L", tion: "SH AX N", kn: "N", wr: "R", mb: "M",
+    soft_c: "S", soft_g: "JH"
+  };
 
   var map = {};
   list.forEach(function (p) {
+    p.label = p.label || p.graphemes[0];
+    p.azureIsolate = p.azureIsolate || (p.holdable ? p.azureIpa + "ːː" : p.azureIpa);
+    p.azureUps = p.azureUps || UPS[p.id] || "";
     p.src = IMG + p.img + ".jpg";
     map[p.id] = p;
   });

@@ -144,7 +144,7 @@
           "<button class=\"phoneme-chip\" type=\"button\" data-ph=\"" +
           p.id +
           "\"><span class=\"grapheme\">" +
-          p.graphemes[0] +
+          (p.label || p.graphemes[0]) +
           "</span><div class=\"ipa\">" +
           p.ipaDisplay +
           "</div><small>" +
@@ -187,7 +187,12 @@
   function attachPhonemeClicks(root) {
     root.querySelectorAll("[data-ph]").forEach(function (btn) {
       btn.addEventListener("click", function () {
-        Lab.playPhoneme(btn.getAttribute("data-ph"));
+        var id = btn.getAttribute("data-ph");
+        if (btn.classList.contains("phoneme-chip") && window.PhonicsTTS && PhonicsTTS.speakPhonemeThenWord) {
+          PhonicsTTS.speakPhonemeThenWord(id);
+        } else {
+          Lab.playPhoneme(id);
+        }
         btn.classList.add("active");
         setTimeout(function () {
           btn.classList.remove("active");

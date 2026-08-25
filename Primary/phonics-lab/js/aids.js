@@ -72,7 +72,7 @@
       p.keywordZh +
       "\" style=\"width:100%;height:72px;object-fit:cover;border-radius:10px\">" +
       "<div class=\"big\">" +
-      (big || p.graphemes[0]) +
+      (big || p.label || p.graphemes[0]) +
       "</div>" +
       "<div class=\"ipa\">" +
       p.ipaDisplay +
@@ -182,7 +182,7 @@
             "<div class=\"cut-grid\">" +
             part
               .map(function (p) {
-                return card(p, p.graphemes[0], "<div style=\"font-size:11px;margin-top:4px\">" + p.type + "</div>");
+                return card(p, p.label || p.graphemes[0], "<div style=\"font-size:11px;margin-top:4px\">" + p.type + "</div>");
               })
               .join("") +
             "</div>"
@@ -377,7 +377,7 @@
 
   function tile(label, ipa, kind) {
     return (
-      "<div class=\"tile " +
+      "<div class=\"ph-tile " +
       (kind || "cons") +
       "\"><strong>" +
       label +
@@ -412,7 +412,7 @@
     var combo = [];
     PHONEME_LIST.forEach(function (p) {
       if (["digraph", "vowel-team", "r-controlled", "diphthong", "cluster", "rule"].indexOf(p.type) !== -1 || p.manner === "magic-e" || p.id === "ck") {
-        combo.push(tile(p.graphemes[0], p.ipaDisplay, p.type === "vowel-team" || p.manner === "magic-e" || p.type === "diphthong" ? "vowel" : "digraph"));
+        combo.push(tile(p.label || p.graphemes[0], p.ipaDisplay, p.type === "vowel-team" || p.manner === "magic-e" || p.type === "diphthong" ? "vowel" : "digraph"));
       }
     });
     BLENDS.forEach(function (b) {
@@ -435,7 +435,7 @@
     var blocks = [];
     pics.forEach(function (p) {
       var kind = isVowelPhoneme(p) ? "vowel" : p.type === "digraph" || p.type === "cluster" ? "digraph" : "cons";
-      for (var i = 0; i < 4; i++) blocks.push(tile(p.graphemes[0], p.ipaDisplay, kind));
+      for (var i = 0; i < 4; i++) blocks.push(tile(p.label || p.graphemes[0], p.ipaDisplay, kind));
     });
     return sheet(
       "本课音素块 · " + lesson.id,

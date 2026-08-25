@@ -105,6 +105,12 @@
   function playPhoneme(id) {
     if (global.PhonicsTTS) return global.PhonicsTTS.speakPhoneme(id);
   }
+  function playPhonemeThenWord(id) {
+    if (global.PhonicsTTS && global.PhonicsTTS.speakPhonemeThenWord) {
+      return global.PhonicsTTS.speakPhonemeThenWord(id);
+    }
+    return playPhoneme(id);
+  }
   function playWord(text) {
     if (global.PhonicsTTS) return global.PhonicsTTS.speakWord(text);
   }
@@ -127,6 +133,7 @@
     phonemeObjs: phonemeObjs,
     sightObjs: sightObjs,
     playPhoneme: playPhoneme,
+    playPhonemeThenWord: playPhonemeThenWord,
     playWord: playWord,
     playBlend: playBlend
   };
