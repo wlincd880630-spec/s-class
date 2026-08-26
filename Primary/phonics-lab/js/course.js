@@ -8,9 +8,19 @@
   var revealed = false;
   var currentWordIndex = 0;
   var currentItemIndex = 0;
+  var packIndex = 0;
+  var activity = "A";
+  var storyPage = 0;
   var groupScore = { a: 0, b: 0 };
   var groupTurn = "a";
   var quizItem = null;
+  var ACTIVITIES = [
+    { id: "A", label: "A 听读" },
+    { id: "B", label: "B 指读" },
+    { id: "C", label: "C 描红" },
+    { id: "D", label: "D 听辨" },
+    { id: "E", label: "E 歌谣" }
+  ];
 
   function $(id) {
     return document.getElementById(id);
@@ -20,8 +30,9 @@
     var id = Lab.qs("id", "L01");
     lesson = PHONICS_LESSON_MAP[id] || PHONICS_LESSONS[0];
     method = Lab.qs("method", "sound") === "picture" ? "picture" : "sound";
-    var c = Lab.qs("content", "word");
-    if (["word", "sentence", "passage", "talk"].indexOf(c) !== -1) content = c;
+    var c = Lab.qs("content", lesson.letterUnit ? "letter" : "word");
+    if (["letter", "word", "story", "sentence", "passage", "talk"].indexOf(c) !== -1) content = c;
+    if ((content === "letter" || content === "story") && !phonicsLetterUnit(lesson.id)) content = "word";
     renderChrome();
     bind();
     render();
@@ -55,6 +66,10 @@
         "</option>"
       );
     }).join("");
+    var hasUnit = !!phonicsLetterUnit(lesson.id);
+    document.querySelectorAll("[data-content='letter'], [data-content='story']").forEach(function (el) {
+      el.style.display = hasUnit ? "" : "none";
+    });
   }
 
   function bind() {
@@ -100,21 +115,36 @@
 
   function itemCount() {
     var t = phonicsText(lesson.id);
+    var unit = phonicsLetterUnit(lesson.id);
     if (content === "sentence") return t.sentences.length;
     if (content === "passage") return t.passage.sentences.length;
     if (content === "talk") return t.talk.lines.length;
+    if (content === "story") return unit && unit.story ? unit.story.pages.length : 1;
+    if (content === "letter") return unit ? unit.packs.length * ACTIVITIES.length : 1;
     return Lab.wordObjs(lesson.words).length;
   }
 
   function stepItem(dir) {
     var n = itemCount() || 1;
-    if (content === "word") {
+    if (content === "letter") {
+      var i = packIndex * ACTIVITIES.length + activityIndex() + dir;
+      i = (i + n) % n;
+      packIndex = Math.floor(i / ACTIVITIES.length);
+      activity = ACTIVITIES[i % ACTIVITIES.length].id;
+    } else if (content === "story") {
+      storyPage = (storyPage + dir + n) % n;
+    } else if (content === "word") {
       currentWordIndex = (currentWordIndex + dir + n) % n;
     } else {
       currentItemIndex = (currentItemIndex + dir + n) % n;
     }
     revealed = false;
     render();
+  }
+
+  function activityIndex() {
+    for (var i = 0; i < ACTIVITIES.length; i++) if (ACTIVITIES[i].id === activity) return i;
+    return 0;
   }
 
   function render() {
@@ -128,6 +158,9 @@
       b.classList.toggle("active", b.getAttribute("data-content") === content);
     });
     $("progressHint").textContent = "已完成 " + Lab.completedCount() + " / 30 课";
+    renderLetterNav();
+    if (content === "letter") return renderLetterPage();
+    if (content === "story") return renderStory();
     if (content === "sentence") return renderSentence();
     if (content === "passage") return renderPassage();
     if (content === "talk") return renderTalk();
@@ -135,6 +168,488 @@
     else if (mode === "weDo") renderWeDo();
     else if (mode === "group") renderGroup();
     else renderIndependent();
+  }
+
+  function currentPack() {
+    var unit = phonicsLetterUnit(lesson.id);
+    if (!unit) return null;
+    return unit.packs[packIndex] || unit.packs[0];
+  }
+
+  function renderLetterNav() {
+    var unit = phonicsLetterUnit(lesson.id);
+    var letterTabs = $("letterTabs");
+    var activityTabs = $("activityTabs");
+    if (!letterTabs || !activityTabs) return;
+    var show = content === "letter" && unit;
+    letterTabs.hidden = !show;
+    activityTabs.hidden = !show;
+    if (!show) return;
+    letterTabs.innerHTML = unit.packs
+      .map(function (p, i) {
+        return (
+          "<button class=\"mode-tab" +
+          (i === packIndex ? " active" : "") +
+          "\" type=\"button\" data-pack=\"" +
+          i +
+          "\">" +
+          p.letters +
+          "</button>"
+        );
+      })
+      .join("");
+    activityTabs.innerHTML = ACTIVITIES.map(function (a) {
+      return (
+        "<button class=\"mode-tab" +
+        (a.id === activity ? " active" : "") +
+        "\" type=\"button\" data-act=\"" +
+        a.id +
+        "\">" +
+        a.label +
+        "</button>"
+      );
+    }).join("");
+    letterTabs.querySelectorAll("[data-pack]").forEach(function (btn) {
+      btn.onclick = function () {
+        packIndex = parseInt(btn.getAttribute("data-pack"), 10);
+        revealed = false;
+        render();
+      };
+    });
+    activityTabs.querySelectorAll("[data-act]").forEach(function (btn) {
+      btn.onclick = function () {
+        activity = btn.getAttribute("data-act");
+        revealed = false;
+        render();
+      };
+    });
+  }
+
+  function letterBanner(pack, section) {
+    var unit = phonicsLetterUnit(lesson.id);
+    return (
+      "<div class=\"opw-banner\">" +
+      "<span class=\"opw-unit\">" +
+      unit.unit +
+      " · " +
+      unit.letters +
+      "</span>" +
+      "<strong>" +
+      pack.letters +
+      "</strong>" +
+      "<span class=\"ipa\">" +
+      pack.sound +
+      "</span>" +
+      "<span class=\"muted\">" +
+      section +
+      "</span></div>"
+    );
+  }
+
+  function wordCard(id, n) {
+    var w = phonicsGetWord(id);
+    if (!w) return "";
+    return (
+      "<button class=\"vocab-card\" type=\"button\" data-vocab=\"" +
+      w.word +
+      "\">" +
+      (n ? "<span class=\"vocab-num\">" + n + "</span>" : "") +
+      "<img class=\"pic\" src=\"" +
+      Lab.img(w.img) +
+      "\" alt=\"" +
+      w.zh +
+      "\">" +
+      "<h3>" +
+      w.word +
+      "</h3>" +
+      "<p class=\"muted\">" +
+      w.zh +
+      " · " +
+      w.ipa +
+      "</p></button>"
+    );
+  }
+
+  function bindVocabClicks(root) {
+    root.querySelectorAll("[data-vocab]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        Lab.playWord(btn.getAttribute("data-vocab"));
+        btn.classList.add("active");
+        setTimeout(function () {
+          btn.classList.remove("active");
+        }, 450);
+      });
+    });
+  }
+
+  function renderLetterPage() {
+    var pack = currentPack();
+    if (!pack) {
+      $("stage").innerHTML = "<p class=\"muted\">本课还没有字母页。</p>";
+      return;
+    }
+    if (activity === "B") return renderLetterB(pack);
+    if (activity === "C") return renderLetterC(pack);
+    if (activity === "D") return renderLetterD(pack);
+    if (activity === "E") return renderLetterE(pack);
+    return renderLetterA(pack);
+  }
+
+  function renderLetterA(pack) {
+    var hidePic = method === "sound" && !revealed;
+    var hideLetter = method === "picture" && !revealed;
+    $("stage").innerHTML =
+      letterBanner(pack, "A Listen and repeat.") +
+      "<div class=\"sound-card\">" +
+      "<img class=\"pic" +
+      (hidePic ? " hidden-pic" : "") +
+      "\" src=\"" +
+      Lab.img(pack.img) +
+      "\" alt=\"" +
+      pack.mnemonicZh +
+      "\">" +
+      "<div>" +
+      (hideLetter
+        ? "<p class=\"ipa-xl\">?</p><p class=\"muted\">先看图听口诀，再揭示字母。</p>"
+        : "<div class=\"grapheme-xl\">" +
+          pack.letters +
+          "</div><div class=\"ipa-xl\">" +
+          pack.sound +
+          "</div>") +
+      "<p class=\"lede\" style=\"margin-top:0.4rem\"><strong>" +
+      pack.mnemonic +
+      "</strong> · " +
+      pack.mnemonicZh +
+      "</p>" +
+      "<p class=\"muted\">" +
+      pack.tip +
+      "</p>" +
+      "<div class=\"btn-row\">" +
+      "<button class=\"btn teal\" id=\"btnPh\" type=\"button\">▶ 字母音</button>" +
+      "<button class=\"btn sun\" id=\"btnMn\" type=\"button\">口诀 " +
+      pack.mnemonic +
+      "</button>" +
+      "<button class=\"btn ghost\" id=\"btnName\" type=\"button\">字母名 " +
+      pack.letters[0] +
+      "</button>" +
+      "<button class=\"btn coral\" id=\"btnReveal\" type=\"button\">揭示</button>" +
+      "</div></div></div>" +
+      "<p class=\"muted\" style=\"margin-top:0.8rem\">教材 Section A：先听口诀，再看大字母卡。本课三个字母：" +
+      phonicsLetterUnit(lesson.id).letters +
+      "。</p>";
+    $("btnPh").onclick = function () {
+      Lab.playPhoneme(pack.id);
+    };
+    $("btnMn").onclick = function () {
+      Lab.playWord(pack.mnemonic);
+    };
+    $("btnName").onclick = function () {
+      Lab.playWord(pack.letters[0]);
+    };
+    $("btnReveal").onclick = function () {
+      revealed = true;
+      render();
+    };
+  }
+
+  function renderLetterB(pack) {
+    $("stage").innerHTML =
+      letterBanner(pack, "B Listen, point, and repeat.") +
+      "<p class=\"lede\">点图听单词。每个字母 4 个首音词，先不要求把整词拼出来。</p>" +
+      "<div class=\"vocab-grid\">" +
+      pack.words
+        .map(function (id, i) {
+          return wordCard(id, i + 1);
+        })
+        .join("") +
+      "</div>" +
+      "<div class=\"btn-row\" style=\"margin-top:0.8rem\">" +
+      "<button class=\"btn teal\" id=\"btnAll\" type=\"button\">▶ 四个词连听</button>" +
+      "<button class=\"btn sun\" id=\"btnPh\" type=\"button\">再听字母音 " +
+      pack.sound +
+      "</button></div>";
+    bindVocabClicks($("stage"));
+    $("btnPh").onclick = function () {
+      Lab.playPhoneme(pack.id);
+    };
+    $("btnAll").onclick = function () {
+      var chain = Promise.resolve();
+      pack.words.forEach(function (id) {
+        chain = chain.then(function () {
+          return Lab.playWord(id);
+        }).then(function () {
+          return new Promise(function (res) {
+            setTimeout(res, 700);
+          });
+        });
+      });
+    };
+  }
+
+  function renderLetterC(pack) {
+    $("stage").innerHTML =
+      letterBanner(pack, "C Trace, write, and say.") +
+      "<p class=\"lede\">用手指或鼠标沿虚线描大写和小写。描的时候说出字母音 " +
+      pack.sound +
+      "。</p>" +
+      "<div class=\"trace-wrap\">" +
+      "<div class=\"trace-board\" data-letter=\"" +
+      pack.letters[0] +
+      "\"><span class=\"ghost-letter\">" +
+      pack.letters[0] +
+      "</span><canvas></canvas></div>" +
+      "<div class=\"trace-board\" data-letter=\"" +
+      pack.letters[1] +
+      "\"><span class=\"ghost-letter\">" +
+      pack.letters[1] +
+      "</span><canvas></canvas></div>" +
+      "</div>" +
+      "<div class=\"btn-row\">" +
+      "<button class=\"btn teal\" id=\"btnSay\" type=\"button\">▶ 边描边说</button>" +
+      "<button class=\"btn ghost\" id=\"btnClear\" type=\"button\">清除笔迹</button>" +
+      "<a class=\"btn sun\" href=\"print.html?id=" +
+      lesson.id +
+      "&sheet=trace\">四线格练习纸</a></div>";
+    $("btnSay").onclick = function () {
+      Lab.playPhoneme(pack.id);
+    };
+    bindTraceBoards($("stage"));
+    $("btnClear").onclick = function () {
+      $("stage").querySelectorAll(".trace-board canvas").forEach(function (c) {
+        var ctx = c.getContext("2d");
+        ctx.clearRect(0, 0, c.width, c.height);
+      });
+    };
+  }
+
+  function bindTraceBoards(root) {
+    root.querySelectorAll(".trace-board").forEach(function (board) {
+      var canvas = board.querySelector("canvas");
+      function size() {
+        var r = board.getBoundingClientRect();
+        canvas.width = Math.max(120, r.width);
+        canvas.height = Math.max(120, r.height);
+      }
+      size();
+      var ctx = canvas.getContext("2d");
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.strokeStyle = "#fb5607";
+      ctx.lineWidth = 8;
+      var drawing = false;
+      function pos(ev) {
+        var r = canvas.getBoundingClientRect();
+        var t = ev.touches ? ev.touches[0] : ev;
+        return { x: t.clientX - r.left, y: t.clientY - r.top };
+      }
+      function start(ev) {
+        ev.preventDefault();
+        drawing = true;
+        var p = pos(ev);
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+      }
+      function move(ev) {
+        if (!drawing) return;
+        ev.preventDefault();
+        var p = pos(ev);
+        ctx.lineTo(p.x, p.y);
+        ctx.stroke();
+      }
+      function end() {
+        drawing = false;
+      }
+      canvas.addEventListener("mousedown", start);
+      canvas.addEventListener("mousemove", move);
+      window.addEventListener("mouseup", end);
+      canvas.addEventListener("touchstart", start, { passive: false });
+      canvas.addEventListener("touchmove", move, { passive: false });
+      canvas.addEventListener("touchend", end);
+    });
+  }
+
+  function renderLetterD(pack) {
+    $("stage").innerHTML =
+      letterBanner(pack, "D Listen. Then write " + pack.letters + " or cross it out.") +
+      "<p class=\"lede\">听到这个字母的音就点「写 " +
+      pack.letters +
+      "」，不是就打 ×。和教材里苹果盘上的听辨一样。</p>" +
+      "<div class=\"mark-tray\" id=\"markTray\"></div>" +
+      "<div class=\"btn-row\" style=\"margin-top:0.8rem\">" +
+      "<button class=\"btn teal\" id=\"btnPlay\" type=\"button\">▶ 再听</button>" +
+      "<button class=\"btn sun\" id=\"btnYes\" type=\"button\">写 " +
+      pack.letters +
+      "</button>" +
+      "<button class=\"btn coral\" id=\"btnNo\" type=\"button\">× 打叉</button></div>" +
+      "<p class=\"muted\" id=\"markHint\"></p>";
+    var items = (pack.mark || []).slice();
+    var i = 0;
+    var tray = $("markTray");
+    items.forEach(function (item, idx) {
+      var w = phonicsGetWord(item.word);
+      var el = document.createElement("button");
+      el.className = "mark-apple";
+      el.type = "button";
+      el.innerHTML =
+        "<img src=\"" +
+        Lab.img(w ? w.img : pack.img) +
+        "\" alt=\"\">" +
+        "<span class=\"mark-slot\">" +
+        (idx + 1) +
+        "</span>";
+      tray.appendChild(el);
+    });
+    function paint() {
+      tray.querySelectorAll(".mark-apple").forEach(function (el, idx) {
+        el.classList.toggle("current", idx === i);
+      });
+      var cur = items[i];
+      $("markHint").textContent =
+        "第 " + (i + 1) + " / " + items.length + " 题 · 先听再判断是不是 " + pack.sound;
+      if (cur) Lab.playWord(cur.word);
+    }
+    function answer(yes) {
+      var cur = items[i];
+      if (!cur) return;
+      var good = yes === cur.hit;
+      var el = tray.children[i];
+      el.classList.add(good ? "good" : "bad");
+      el.querySelector(".mark-slot").textContent = cur.hit ? pack.letters : "×";
+      if (good) Lab.toast("对了");
+      else Lab.toast("再听");
+      if (good) {
+        i += 1;
+        if (i >= items.length) {
+          Lab.toast("听辨完成");
+          $("markHint").textContent = "6 题完成。可以换下一个字母，或去 E 歌谣。";
+          return;
+        }
+        setTimeout(paint, 550);
+      } else {
+        setTimeout(function () {
+          Lab.playWord(cur.word);
+        }, 400);
+      }
+    }
+    $("btnPlay").onclick = function () {
+      if (items[i]) Lab.playWord(items[i].word);
+    };
+    $("btnYes").onclick = function () {
+      answer(true);
+    };
+    $("btnNo").onclick = function () {
+      answer(false);
+    };
+    paint();
+  }
+
+  function renderLetterE(pack) {
+    $("stage").innerHTML =
+      letterBanner(pack, "E Listen and chant.") +
+      "<p class=\"lede\">按箭头顺序唱：听 → 指 → 跟读。Aa 的顺序与教材第 5 页相同：ant → apple → alligator → ax。</p>" +
+      "<div class=\"chant-track\" id=\"chantTrack\">" +
+      pack.chant
+        .map(function (id, i) {
+          return wordCard(id, i + 1);
+        })
+        .join("") +
+      "</div>" +
+      "<div class=\"btn-row\" style=\"margin-top:0.8rem\">" +
+      "<button class=\"btn coral\" id=\"btnChant\" type=\"button\">▶ 播放歌谣</button>" +
+      "<button class=\"btn teal\" id=\"btnSlow\" type=\"button\">慢速一句一句</button></div>";
+    bindVocabClicks($("stage"));
+    function run(gap) {
+      var cards = $("chantTrack").querySelectorAll(".vocab-card");
+      var chain = Promise.resolve();
+      pack.chant.forEach(function (id, i) {
+        chain = chain.then(function () {
+          cards.forEach(function (c) {
+            c.classList.toggle("active", c.getAttribute("data-vocab") === id);
+          });
+          return Lab.playWord(id);
+        }).then(function () {
+          return new Promise(function (res) {
+            setTimeout(res, gap);
+          });
+        });
+      });
+      return chain.then(function () {
+        cards.forEach(function (c) {
+          c.classList.remove("active");
+        });
+      });
+    }
+    $("btnChant").onclick = function () {
+      run(380);
+    };
+    $("btnSlow").onclick = function () {
+      run(900);
+    };
+  }
+
+  function renderStory() {
+    var unit = phonicsLetterUnit(lesson.id);
+    if (!unit || !unit.story) {
+      $("stage").innerHTML = "<p class=\"muted\">本课还没有故事页。</p>";
+      return;
+    }
+    var st = unit.story;
+    var page = st.pages[storyPage % st.pages.length];
+    $("stage").innerHTML =
+      "<p class=\"kicker\">" +
+      unit.unit +
+      " Story · " +
+      (storyPage + 1) +
+      "/" +
+      st.pages.length +
+      "</p>" +
+      "<h2 class=\"section-title\" style=\"margin-top:0.2rem\">" +
+      st.title +
+      " <span class=\"muted\">" +
+      st.titleZh +
+      "</span></h2>" +
+      "<div class=\"sound-card\"><img class=\"pic\" src=\"" +
+      Lab.img(page.img) +
+      "\" alt=\"\">" +
+      "<div><div class=\"grapheme-xl\" style=\"font-size:clamp(1.8rem,6vw,3.2rem)\">" +
+      page.en +
+      "</div><p>" +
+      page.zh +
+      "</p>" +
+      "<div class=\"btn-row\"><button class=\"btn teal\" id=\"btnStory\" type=\"button\">▶ 听这一页</button>" +
+      "<button class=\"btn sun\" id=\"btnAllStory\" type=\"button\">全文连听</button></div>" +
+      "</div></div>" +
+      "<div class=\"story-dots\">" +
+      st.pages
+        .map(function (_, i) {
+          return "<button type=\"button\" class=\"story-dot" + (i === storyPage ? " active" : "") + "\" data-pg=\"" + i + "\"></button>";
+        })
+        .join("") +
+      "</div>";
+    $("btnStory").onclick = function () {
+      Lab.playWord(page.speak || page.en);
+    };
+    $("btnAllStory").onclick = function () {
+      var chain = Promise.resolve();
+      st.pages.forEach(function (p) {
+        chain = chain.then(function () {
+          return Lab.playWord(p.speak || p.en);
+        }).then(function () {
+          return new Promise(function (res) {
+            setTimeout(res, 500);
+          });
+        });
+      });
+    };
+    $("stage").querySelectorAll("[data-pg]").forEach(function (b) {
+      b.onclick = function () {
+        storyPage = parseInt(b.getAttribute("data-pg"), 10);
+        render();
+      };
+    });
+    setTimeout(function () {
+      Lab.playWord(page.speak || page.en);
+    }, 350);
   }
 
   function phonemeRow() {
@@ -416,13 +931,32 @@
       "<ul class=\"muted\">" +
       lesson.independent.map(function (s) { return "<li>" + s + "</li>"; }).join("") +
       "</ul>" +
+      (lesson.vocab
+        ? "<h3 class=\"section-title\" style=\"margin-top:1rem\">12 个首音词 · 听图练习</h3><div class=\"vocab-grid\" id=\"vocabGrid\"></div>"
+        : "") +
       "<div class=\"btn-row\">" +
       "<a class=\"btn sun\" href=\"print.html?id=" +
       lesson.id +
       "\">导出彩色 PDF 练习</a>" +
-      "<a class=\"btn teal\" href=\"play.html?game=blend&stage=" +
-      lesson.stage +
-      "\">进入对应游戏</a>" +
+      (lesson.vocab
+        ? "<a class=\"btn teal\" href=\"play.html?game=point&lesson=" +
+          lesson.id +
+          "&stage=" +
+          lesson.stage +
+          "\">听音指图</a>" +
+          "<a class=\"btn coral\" href=\"play.html?game=mark&lesson=" +
+          lesson.id +
+          "&stage=" +
+          lesson.stage +
+          "\">听辨打叉</a>" +
+          "<a class=\"btn ghost\" href=\"play.html?game=chant&lesson=" +
+          lesson.id +
+          "&stage=" +
+          lesson.stage +
+          "\">歌谣点读</a>"
+        : "<a class=\"btn teal\" href=\"play.html?game=blend&stage=" +
+          lesson.stage +
+          "\">进入对应游戏</a>") +
       "</div>" +
       sightBlock();
     var grid = $("selfGrid");
@@ -450,6 +984,31 @@
       };
       grid.appendChild(card);
     });
+    var vg = $("vocabGrid");
+    if (vg) {
+      vg.innerHTML = Lab.wordObjs(lesson.vocab)
+        .map(function (w, i) {
+          return (
+            "<button class=\"vocab-card\" type=\"button\" data-vocab=\"" +
+            w.word +
+            "\"><span class=\"vocab-num\">" +
+            (i + 1) +
+            "</span><img class=\"pic\" src=\"" +
+            Lab.img(w.img) +
+            "\" alt=\"\"><h3>" +
+            w.word +
+            "</h3><p class=\"muted\">" +
+            w.zh +
+            "</p></button>"
+          );
+        })
+        .join("");
+      vg.querySelectorAll("[data-vocab]").forEach(function (btn) {
+        btn.onclick = function () {
+          Lab.playWord(btn.getAttribute("data-vocab"));
+        };
+      });
+    }
     attachPhonemeClicks($("stage"));
     $("stage").querySelectorAll("[data-sight]").forEach(function (btn) {
       btn.addEventListener("click", function () {

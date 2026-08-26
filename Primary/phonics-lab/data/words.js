@@ -21,10 +21,19 @@
   }
 
   var words = [
-    /* L01 SAT */
+    /* L01 SAT · 可解码拼读 */
     w("at", "在", "/æt/", ["a", "t"], ["a", "t"], "apple", 1, ["cvc", "blend"]),
     w("sat", "坐过", "/sæt/", ["s", "a", "t"], ["s", "a", "t"], "sun", 1, ["cvc"]),
     w("as", "作为", "/æz/", ["a", "z"], ["a", "s"], "apple", 1, ["cvc"]),
+    /* L01 SAT · Oxford 式首音词（先听图，不要求整词解码） */
+    w("apple", "苹果", "/æpl/", ["a"], ["a"], "apple", 1, ["initial", "vocab"]),
+    w("ax", "斧头", "/æks/", ["a"], ["a"], "kite", 1, ["initial", "vocab"]),
+    w("alligator", "鳄鱼", "/ælɪɡeɪtə/", ["a"], ["a"], "goat", 1, ["initial", "vocab"]),
+    w("sofa", "沙发", "/səʊfə/", ["s"], ["s"], "bed", 1, ["initial", "vocab"]),
+    w("sandwich", "三明治", "/sænwɪtʃ/", ["s"], ["s"], "jam", 1, ["initial", "vocab"]),
+    w("ten", "十", "/ten/", ["t"], ["t"], "coin", 1, ["initial", "vocab"]),
+    w("tiger", "老虎", "/taɪɡə/", ["t"], ["t"], "cat", 1, ["initial", "vocab"]),
+    w("table", "桌子", "/teɪbl/", ["t"], ["t"], "house", 1, ["initial", "vocab"]),
     /* L02 PIN */
     w("pin", "别针", "/pɪn/", ["p", "i", "n"], ["p", "i", "n"], "pan", 1, ["cvc"]),
     w("pan", "平底锅", "/pæn/", ["p", "a", "n"], ["p", "a", "n"], "pan", 1, ["cvc"]),

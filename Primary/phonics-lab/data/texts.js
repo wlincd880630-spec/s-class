@@ -17,13 +17,20 @@
 
   var TEXTS = {
     L01: pack(
-      [S("I sat.", "我坐下了。", "sun"), S("Sit.", "请坐。", "sun"), S("As I sat.", "当我坐下时。", "sun")],
-      { title: "I Sat", titleZh: "我坐下了", img: "sun",
-        zh: "请坐。我坐下了。我又坐下了。",
-        sentences: ["Sit.", "I sat.", "Sit.", "I sat.", "As I sat."] },
+      [
+        S("Sun.", "太阳。", "sun"),
+        S("Ant.", "蚂蚁。", "insect"),
+        S("Apple.", "苹果。", "apple"),
+        S("I sat.", "我坐下了。", "sun"),
+        S("Sit.", "请坐。", "sun"),
+        S("As I sat.", "当我坐下时。", "sun")
+      ],
+      { title: "The Ant and the Apple", titleZh: "蚂蚁和苹果", img: "apple",
+        zh: "太阳。蚂蚁。生气的苹果。水龙头滴答。我坐下了。",
+        sentences: ["Sun.", "Ant.", "Angry apple.", "Tap, tap, tap.", "I sat."] },
       { title: "请进，请坐", titleEn: "Come in and sit", scene: "走进教室", img: "sun",
-        goals: "问好 · 请坐 · 回应",
-        lines: [L("A", "Hi.", "你好。"), L("B", "Hi.", "你好。"), L("A", "Sit.", "请坐。"), L("B", "I sat.", "我坐下了。"), L("A", "Sit.", "请坐。"), L("B", "I sat.", "我坐下了。")] }
+        goals: "问好 · 请坐 · 指图说词",
+        lines: [L("A", "Hi.", "你好。"), L("B", "Hi.", "你好。"), L("A", "Sit.", "请坐。"), L("B", "I sat.", "我坐下了。"), L("A", "Apple.", "苹果。"), L("B", "Ant.", "蚂蚁。")] }
     ),
     L02: pack(
       [S("I sit.", "我坐下。", "sun"), S("I tap.", "我轻拍。", "tap"), S("Pat the pan.", "拍一拍锅。", "pan"), S("I sip.", "我抿一口。", "sun")],

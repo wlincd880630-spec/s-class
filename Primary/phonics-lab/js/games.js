@@ -2,6 +2,9 @@
   "use strict";
 
   var GAMES = [
+    { id: "point", title: "听音指图", desc: "Listen, point, and repeat：先听再点对的图", icon: "👆" },
+    { id: "mark", title: "听辨打叉", desc: "听到首音就写字母，不是就打 ×", icon: "🍎" },
+    { id: "chant", title: "歌谣点读", desc: "按顺序点四个词，跟着 chant", icon: "🎵" },
     { id: "pop", title: "音素泡泡", desc: "听到音素，点破正确字母泡泡", icon: "🫧" },
     { id: "pic", title: "听音选图", desc: "声音先行：先听词，再选 3D 图", icon: "🖼️" },
     { id: "blend", title: "拼读积木", desc: "按顺序点字母，滑读成词", icon: "🧱" },
@@ -29,12 +32,22 @@
   }
 
   function poolWords() {
+    var lid = Lab.qs("lesson");
+    if (lid && global.phonicsLetterVocabIds) {
+      var vocab = Lab.wordObjs(phonicsLetterVocabIds(lid));
+      if (vocab.length >= 4) return vocab;
+    }
     var max = state.stage;
     if (state.diff === "easy") max = Math.min(2, state.stage);
     if (state.diff === "hard") max = Math.max(state.stage, 4);
     var list = phonicsWordsUpTo(max);
     if (list.length < 4) list = PHONICS_WORDS.slice();
     return list;
+  }
+
+  function currentUnit() {
+    var lid = Lab.qs("lesson", "L01");
+    return global.phonicsLetterUnit ? phonicsLetterUnit(lid) : null;
   }
 
   function poolPhonemes() {
@@ -85,6 +98,9 @@
   function runGame() {
     hud();
     var fn = {
+      point: gamePoint,
+      mark: gameMark,
+      chant: gameChant,
       pop: gamePop,
       pic: gamePic,
       blend: gameBlend,
@@ -97,6 +113,110 @@
       pyramid: gamePyramid
     }[state.game];
     if (fn) fn();
+  }
+
+  function gamePoint() {
+    var unit = currentUnit();
+    var pack = unit ? Lab.pick(unit.packs, 1)[0] : null;
+    var words = pack ? Lab.wordObjs(pack.words) : Lab.pick(poolWords(), 4);
+    if (words.length < 2) words = Lab.pick(poolWords(), 4);
+    var answer = Lab.pick(words, 1)[0];
+    state.target = answer;
+    $("prompt").textContent =
+      "Listen, point, and repeat" +
+      (pack ? " · " + pack.letters + " " + pack.sound : "") +
+      " · 先听再点图";
+    $("board").innerHTML = "<div class=\"vocab-grid\" id=\"pts\"></div>";
+    Lab.shuffle(words.slice()).forEach(function (w, i) {
+      var b = document.createElement("button");
+      b.className = "vocab-card";
+      b.innerHTML =
+        "<span class=\"vocab-num\">" +
+        (i + 1) +
+        "</span><img class=\"pic\" src=\"" +
+        Lab.img(w.img) +
+        "\" alt=\"\"><h3>?</h3>";
+      b.onclick = function () {
+        if (w.word === answer.word) {
+          b.querySelector("h3").textContent = w.word;
+          b.classList.add("active");
+          Lab.playWord(w.word);
+          win();
+        } else if (!lose()) Lab.playWord(answer.word);
+      };
+      $("pts").appendChild(b);
+    });
+    Lab.playWord(answer.word);
+  }
+
+  function gameMark() {
+    var unit = currentUnit();
+    var pack = unit ? Lab.pick(unit.packs, 1)[0] : null;
+    var items = pack && pack.mark ? pack.mark : [];
+    var item = items.length ? Lab.pick(items, 1)[0] : { word: Lab.pick(poolWords(), 1)[0].word, hit: true };
+    var w = phonicsGetWord(item.word) || { word: item.word, img: "mascot", zh: "" };
+    state.target = w;
+    $("prompt").textContent =
+      "听到 " +
+      (pack ? pack.letters + " " + pack.sound : "目标音") +
+      " 就写字母，不是就打 ×";
+    $("board").innerHTML =
+      "<div style=\"text-align:center\"><img class=\"pic md\" style=\"margin:0 auto 0.8rem\" src=\"" +
+      Lab.img(w.img) +
+      "\" alt=\"\">" +
+      "<p class=\"muted\">先听，不要看单词。</p>" +
+      "<div class=\"btn-row\" style=\"justify-content:center\">" +
+      "<button class=\"btn sun\" id=\"yesM\" type=\"button\">写 " +
+      (pack ? pack.letters : "Aa") +
+      "</button>" +
+      "<button class=\"btn coral\" id=\"noM\" type=\"button\">× 打叉</button></div></div>";
+    Lab.playWord(item.word);
+    function judge(yes) {
+      if (yes === item.hit) {
+        Lab.toast("对了");
+        win();
+      } else if (!lose()) Lab.playWord(item.word);
+    }
+    $("yesM").onclick = function () {
+      judge(true);
+    };
+    $("noM").onclick = function () {
+      judge(false);
+    };
+  }
+
+  function gameChant() {
+    var unit = currentUnit();
+    var pack = unit ? Lab.pick(unit.packs, 1)[0] : null;
+    var order = pack ? pack.chant.slice() : Lab.pick(poolWords(), 4).map(function (w) { return w.word; });
+    var step = 0;
+    state.target = phonicsGetWord(order[0]) || { word: order[0] };
+    $("prompt").textContent = "歌谣点读 · 按 1-2-3-4 的顺序点" + (pack ? " · " + pack.mnemonic : "");
+    $("board").innerHTML = "<div class=\"chant-track\" id=\"ch\"></div>";
+    order.forEach(function (id, i) {
+      var w = phonicsGetWord(id);
+      var b = document.createElement("button");
+      b.className = "vocab-card";
+      b.setAttribute("data-i", String(i));
+      b.innerHTML =
+        "<span class=\"vocab-num\">" +
+        (i + 1) +
+        "</span><img class=\"pic\" src=\"" +
+        Lab.img(w ? w.img : "mascot") +
+        "\" alt=\"\"><h3>" +
+        (w ? w.word : id) +
+        "</h3>";
+      b.onclick = function () {
+        if (i === step) {
+          Lab.playWord(id);
+          b.classList.add("active");
+          step += 1;
+          if (step >= order.length) win();
+        } else if (!lose()) Lab.playWord(order[step]);
+      };
+      $("ch").appendChild(b);
+    });
+    Lab.playWord(order[0]);
   }
 
   function gamePop() {
@@ -440,10 +560,10 @@
   }
 
   function gameSpin() {
-    var kinds = ["pop", "pic", "blend", "segment", "pyramid"];
+    var kinds = ["point", "mark", "chant", "pop", "pic", "blend", "segment", "pyramid"];
     var pick = Lab.pick(kinds, 1)[0];
     $("prompt").textContent = "转盘抽到：" + GAMES.filter(function (g) { return g.id === pick; })[0].title;
-    var fn = { pop: gamePop, pic: gamePic, blend: gameBlend, segment: gameSegment, pyramid: gamePyramid }[pick];
+    var fn = { point: gamePoint, mark: gameMark, chant: gameChant, pop: gamePop, pic: gamePic, blend: gameBlend, segment: gameSegment, pyramid: gamePyramid }[pick];
     fn();
   }
 
@@ -457,6 +577,8 @@
         (Lab.qs("stage") || "1") +
         "&diff=" +
         (Lab.qs("diff") || "easy") +
+        "&lesson=" +
+        (Lab.qs("lesson") || "L01") +
         "\"><div style=\"font-size:1.8rem\">" +
         g.icon +
         "</div><h3>" +

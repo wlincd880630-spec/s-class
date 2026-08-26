@@ -75,32 +75,35 @@
       stage: 1,
       hours: "1–2",
       title: "第一次拼读：s · a · t",
-      titleEn: "First blend: s a t",
+      titleEn: "First blend: s a t · Oxford-style letter pages",
       phonemes: ["s", "a", "t"],
-      rule: "看见字母先想它的音，不读字母名。两个或三个音可以「滑」成一个词：/s/ + /æ/ + /t/ → sat。",
-      ruleName: "连续拼读（blending）",
+      rule: "每个字母先学「口诀 + 4 个首音词」（Oxford Phonics World 1 的密度），再把已经会的音滑读成词：/s/ + /æ/ + /t/ → sat。看见字母先想它的音，不读字母名。",
+      ruleName: "首音词 → 连续拼读",
       words: ["at", "sat", "as"],
+      vocab: ["sun", "sock", "sofa", "sandwich", "apple", "ax", "ant", "alligator", "tap", "ten", "tiger", "table"],
       sight: ["I", "a"],
+      letterUnit: "L01",
       iDo: [
-        "教师只发音、不出示字母（声音先行），学生闭眼模仿口型。",
-        "出示 3D 关键词图：太阳 / 苹果 / 水龙头，再揭示字母。",
-        "教师用手指滑过音素卡片，示范把 /s/ /æ/ /t/ 连成 sat。"
+        "每个字母走教材流程：A 听读口诀（singing sun / angry apple / ticking tap）→ B 指读 4 个词。",
+        "Aa 四个词与 Oxford Phonics World 1 Unit 1 相同：apple, ax, ant, alligator。",
+        "三个字母都见过以后，再示范把 /s/ /æ/ /t/ 滑成 sat。"
       ],
       weDo: [
-        "全班齐声拉长可延长音 /s/、/æ/，截断 /t/。",
-        "教师指卡，学生轻声跟读，再大声跟读。",
-        "一起拼 at、sat，教师做放慢 → 正常语速。"
+        "全班跟读口诀，再 Listen, point, and repeat 四个图。",
+        "拉长 /s/ /æ/，截断 /t/。",
+        "一起拼 at、sat，慢拼 → 正常语速。"
       ],
       group: [
-        "两人一组：一人指卡一人拼读，交换。",
-        "听音举卡：教师发 /s/ 或 /t/，小组举起对应字母。",
-        "最快正确拼出 sat 的小组得星。"
+        "听辨打叉：听到首音就写字母，不是就打 ×（教材 Section D）。",
+        "歌谣接龙：按 chant 顺序点图。",
+        "听音选图（12 个首音词）。"
       ],
       independent: [
-        "独立听三个音素，在纸上圈出对应字母。",
-        "看图写 sat / at（四线格）。",
-        "奇形词 I、a 描红并读给自己听。"
-      ]
+        "描红 Ss / Aa / Tt（四线格）。",
+        "看图指读 12 个首音词，再拼 at / sat / as。",
+        "奇形词 I、a 描红。"
+      ],
+      games: ["point", "mark", "chant", "pop", "pic", "blend"]
     }),
     lesson({
       id: "L02",

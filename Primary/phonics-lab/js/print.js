@@ -67,6 +67,91 @@
         "</div>"
     );
 
+    var unit = phonicsLetterUnit(lesson.id);
+    if (unit) {
+      unit.packs.forEach(function (p) {
+        var vocab = Lab.wordObjs(p.words);
+        html += sheet(
+          header(p.letters + " · Listen, point, and repeat", lesson) +
+            "<p style=\"font-size:13px;margin-bottom:8px\">口诀 <strong>" +
+            p.mnemonic +
+            "</strong> · " +
+            p.mnemonicZh +
+            " · 每个字母 4 个首音词，先听图再指。</p>" +
+            "<div style=\"display:grid;grid-template-columns:1fr 1fr;gap:10px\">" +
+            vocab
+              .map(function (w, i) {
+                return (
+                  "<div style=\"border:2px solid #2a9d8f;border-radius:14px;padding:8px;text-align:center\">" +
+                  "<div style=\"width:24px;height:24px;border-radius:50%;background:#2a9d8f;color:#fff;margin:0 auto 6px;font-weight:800\">" +
+                  (i + 1) +
+                  "</div>" +
+                  "<img src=\"" +
+                  Lab.img(w.img) +
+                  "\" style=\"width:100%;height:90px;object-fit:cover;border-radius:10px\" alt=\"\">" +
+                  "<div style=\"font-size:20px;font-weight:800\">" +
+                  w.word +
+                  "</div>" +
+                  "<div style=\"font-size:12px;color:#6b7788\">" +
+                  w.zh +
+                  " " +
+                  w.ipa +
+                  "</div></div>"
+                );
+              })
+              .join("") +
+            "</div>"
+        );
+        html += sheet(
+          header(p.letters + " · Trace, write, and say", lesson) +
+            "<p style=\"font-size:13px\">四线格描红，边写边说 " +
+            p.sound +
+            "。</p>" +
+            ["uppercase", "lowercase"]
+              .map(function (kind) {
+                var ch = kind === "uppercase" ? p.letters[0] : p.letters[1];
+                return (
+                  "<div style=\"margin:10px 0\"><strong>" +
+                  ch +
+                  "</strong>" +
+                  "<div style=\"height:64px;border-top:2px solid #90caf9;border-bottom:2px solid #90caf9;background:linear-gradient(transparent 30px,#ef9a9a 30px,#ef9a9a 32px,transparent 32px);font-size:48px;color:#ddd;font-family:Fredoka,sans-serif;line-height:64px;letter-spacing:18px\">" +
+                  ch +
+                  " " +
+                  ch +
+                  " " +
+                  ch +
+                  "　　　</div></div>"
+                );
+              })
+              .join("")
+        );
+        html += sheet(
+          header(p.letters + " · Listen. Write or cross out", lesson) +
+            "<p style=\"font-size:13px\">听到 " +
+            p.sound +
+            " 写 " +
+            p.letters +
+            "，不是就打 ×。</p>" +
+            "<div style=\"display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:#3d7ea6;padding:10px;border-radius:16px\">" +
+            (p.mark || [])
+              .map(function (m, i) {
+                var w = phonicsGetWord(m.word);
+                return (
+                  "<div style=\"background:#fff;border-radius:12px;padding:6px;text-align:center\">" +
+                  "<img src=\"" +
+                  Lab.img(w ? w.img : p.img) +
+                  "\" style=\"width:100%;height:70px;object-fit:cover;border-radius:8px\" alt=\"\">" +
+                  "<div style=\"height:28px;border:1px dashed #1b2430;margin-top:6px;font-size:11px;color:#9aa\">" +
+                  (i + 1) +
+                  "</div></div>"
+                );
+              })
+              .join("") +
+            "</div>"
+        );
+      });
+    }
+
     html += sheet(
       header("看图拼写", lesson) +
         words
