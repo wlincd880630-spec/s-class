@@ -931,9 +931,6 @@
       "<ul class=\"muted\">" +
       lesson.independent.map(function (s) { return "<li>" + s + "</li>"; }).join("") +
       "</ul>" +
-      (lesson.vocab
-        ? "<h3 class=\"section-title\" style=\"margin-top:1rem\">12 个首音词 · 听图练习</h3><div class=\"vocab-grid\" id=\"vocabGrid\"></div>"
-        : "") +
       "<div class=\"btn-row\">" +
       "<a class=\"btn sun\" href=\"print.html?id=" +
       lesson.id +
@@ -958,6 +955,9 @@
           lesson.stage +
           "\">进入对应游戏</a>") +
       "</div>" +
+      (lesson.vocab
+        ? "<h3 class=\"section-title\" style=\"margin-top:1rem\">12 个首音词 · 听图练习</h3><div class=\"vocab-grid\" id=\"vocabGrid\"></div>"
+        : "") +
       sightBlock();
     var grid = $("selfGrid");
     words.forEach(function (w) {
