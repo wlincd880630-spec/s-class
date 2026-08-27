@@ -111,6 +111,14 @@
     }
     return playPhoneme(id);
   }
+
+  function letterUnit(lessonId) {
+    return global.phonicsLetterUnit ? global.phonicsLetterUnit(lessonId) : null;
+  }
+
+  function vocabObjs(ids) {
+    return wordObjs(ids);
+  }
   function playWord(text) {
     if (global.PhonicsTTS) return global.PhonicsTTS.speakWord(text);
   }
@@ -134,6 +142,8 @@
     sightObjs: sightObjs,
     playPhoneme: playPhoneme,
     playPhonemeThenWord: playPhonemeThenWord,
+    letterUnit: letterUnit,
+    vocabObjs: vocabObjs,
     playWord: playWord,
     playBlend: playBlend
   };
