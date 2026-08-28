@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,600;0,8..60,700;1,8..60,600&display=swap" rel="stylesheet" />
   <script src="audio/audio-manifest.js"></script>
   <script src="audio/local-audio.js"></script>
-  <script src="../../assets/ng-azure-tts-enhance.js"></script>
+  <script src="../../assets/ng-azure-tts-enhance.js?v=2"></script>
   <script>NgAzureTTS.enhance("LocalAudio");</script>
   <style>
     :root {
@@ -913,7 +913,7 @@
               <button type="button" class="btn primary" id="sHearLine" title="朗读当前英文句">▶ 听本句</button>
               <button type="button" class="btn" id="sLoop">▶ 循环本句</button>
               <button type="button" class="btn" id="sPyramid" aria-pressed="false" title="用金字塔逐词显示本句，点每一层朗读">🔺 金字塔</button>
-              <button type="button" class="btn" id="sPyramidPlay" hidden title="从第一个词开始，一层一层往上朗读">▶ 逐层朗读</button>
+              <button type="button" class="btn" id="sPyramidPlay" hidden title="慢速逐层朗读：上一层结束后再读下一层">▶ 逐层朗读</button>
               <span class="sub" id="sLoopState">已停</span>
             </div>
           </div>
@@ -2064,9 +2064,39 @@
     window.__storySlow = true;
     window.__storyPyramidOn = false;
     function stopStoryLoop() { storyLoop = false; loopToken++; document.getElementById("sLoopState").textContent = "已停"; stopStoryNarration(); }
-    function stopPyramidPlay() { pyramidPlayToken++; }
+    function stopPyramidPlay() {
+      pyramidPlayToken++;
+      if (window.NgAzureTTS && NgAzureTTS.stopPlayback) NgAzureTTS.stopPlayback();
+      var playBtn = document.getElementById("sPyramidPlay");
+      if (playBtn && window.__storyPyramidOn) playBtn.textContent = "▶ 逐层朗读";
+    }
     function storySpeakOpts() {
       return { rate: window.__storySlow ? 0.8 : 1.0, slow: !!window.__storySlow };
+    }
+    function pyramidSlowOpts() {
+      return { rate: 0.8, slow: true };
+    }
+    function estimatedSlowMs(text) {
+      var n = String(text || "").trim().split(/\s+/).filter(Boolean).length;
+      return Math.max(1100, n * 720 + 480);
+    }
+    function waitMs(ms) {
+      return new Promise(function (resolve) { setTimeout(resolve, ms); });
+    }
+    /** 逐层朗读专用：固定慢速，等上一层整段播完再返回。 */
+    function speakPyramidSequenceLayer(text) {
+      stopStoryLoop();
+      var started = Date.now();
+      var play = (window.NgAzureTTS && NgAzureTTS.speakPlayback)
+        ? NgAzureTTS.speakPlayback(text, pyramidSlowOpts())
+        : speakText(text, pyramidSlowOpts());
+      return play.then(function (ok) {
+        if (ok) return true;
+        return speakText(text, pyramidSlowOpts()).then(function () {
+          var left = estimatedSlowMs(text) - (Date.now() - started);
+          if (left > 40) return waitMs(left);
+        });
+      });
     }
     function escapeStoryHtml(s) {
       return String(s)
@@ -2161,6 +2191,8 @@
         renderStorySlide();
       }
       stopStoryLoop();
+      window.__storySlow = true;
+      syncLoopToggleUi();
       var list = storyPyramidLayers(row.en);
       var my = ++pyramidPlayToken;
       var root = document.getElementById("storySlide");
@@ -2176,9 +2208,9 @@
         highlightPyramidLayer(root, i);
         var text = list[i].text;
         i += 1;
-        return speakPyramidLayer(text).then(function () {
+        return speakPyramidSequenceLayer(text).then(function () {
           if (my !== pyramidPlayToken) return;
-          return new Promise(function (res) { setTimeout(res, 280); }).then(step);
+          return waitMs(420).then(step);
         });
       }
       return step().then(function () {
