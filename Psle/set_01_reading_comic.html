@@ -179,6 +179,17 @@
     body.show-all-zh .zh-ghost { display: none; }
     body.show-all-zh .zh-text { display: block; }
     body.is-printing .sent-zh { display: none !important; }
+    body.is-printing .note-hint,
+    body.is-printing .note-box h3 {
+      display: none !important;
+    }
+    body.is-printing .note-input::placeholder,
+    body.is-printing .note-input::-webkit-input-placeholder {
+      color: transparent !important;
+      opacity: 0 !important;
+      -webkit-text-fill-color: transparent !important;
+      font-size: 0 !important;
+    }
     .wlink, .plink {
       cursor: pointer; border-radius: 4px; padding: 0 0.06em;
       border-bottom: 1.5px dotted rgba(36,28,20,0.28);
@@ -304,7 +315,13 @@
         min-height: 32mm; font-size: 11pt;
         color: #241c14;
       }
-      .note-input::placeholder { color: transparent !important; opacity: 0 !important; }
+      .note-input::placeholder,
+      .note-input::-webkit-input-placeholder {
+        color: transparent !important;
+        opacity: 0 !important;
+        -webkit-text-fill-color: transparent !important;
+        font-size: 0 !important;
+      }
       .print-footer {
         display: flex !important; justify-content: space-between;
         font-size: 8.5pt; color: #6d5e4e; margin-top: 3mm;
@@ -825,9 +842,9 @@
         });
         html += "</div>";
         const saved = localStorage.getItem(noteKey(panel.id)) || "";
-        html += '<div class="note-box"><h3>Notes</h3>';
-        html += '<p class="note-hint no-print">可写关键词或词组。导出 PDF 时这里是空白横线。</p>';
-        html += '<textarea class="note-input" data-note="' + panel.id + '" placeholder="">' + esc(saved) + "</textarea></div>";
+        html += '<div class="note-box"><h3 class="no-print">Notes</h3>';
+        html += '<p class="note-hint no-print">点这里写关键词或词组</p>';
+        html += '<textarea class="note-input" data-note="' + panel.id + '">' + esc(saved) + "</textarea></div>";
         html += '<div class="print-footer"><span>' + esc(pass.title) + " · " + esc(panel.kicker) + "</span><span>S-Class 漫画笔记册</span></div>";
         html += "</article>";
       });
@@ -1143,6 +1160,9 @@
 
   window.addEventListener("beforeprint", () => {
     document.body.classList.add("is-printing");
+    document.querySelectorAll(".note-input").forEach((el) => {
+      el.removeAttribute("placeholder");
+    });
   });
   window.addEventListener("afterprint", () => {
     document.body.classList.remove("is-printing");
