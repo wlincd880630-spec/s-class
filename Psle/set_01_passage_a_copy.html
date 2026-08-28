@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>第01套 Passage A · 四线格描红抄写</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500;9..40,700&family=Patrick+Hand&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #f6efe2;
+      --ink: #241c14;
+      --muted: #6d5e4e;
+      --gold: #c4782a;
+      --line: #e4d5c0;
+      --blue: #42a5f5;
+      --grid-h: 31mm;
+      --trace-font: 2.58rem;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body {
+      font-family: "DM Sans", system-ui, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(900px 420px at 8% -8%, rgba(196, 120, 42, 0.18), transparent 55%),
+        linear-gradient(180deg, #f3e7d2, var(--paper) 28%, #efe4d1);
+      min-height: 100vh;
+    }
+    a { color: inherit; }
+    .topbar {
+      position: sticky; top: 0; z-index: 20;
+      display: flex; flex-wrap: wrap; gap: 0.55rem; align-items: center;
+      justify-content: space-between;
+      padding: 0.7rem 1.1rem;
+      background: rgba(255, 250, 242, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    .brand .kicker { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); font-weight: 700; }
+    .brand strong { font-size: 1.05rem; }
+    .top-actions { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .btn {
+      appearance: none; border: 1px solid var(--line); background: #fff;
+      color: var(--ink); border-radius: 999px; padding: 0.42rem 0.9rem;
+      font: inherit; font-weight: 700; font-size: 0.88rem; cursor: pointer;
+      text-decoration: none; display: inline-flex; align-items: center;
+    }
+    .btn:hover { border-color: var(--ink); }
+    .btn.gold { background: #fff6e8; color: #8a4b12; border-color: #e0b56a; }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 1.1rem 1rem 4rem; }
+    .hero {
+      background: #fffaf2; border: 1px solid var(--line); border-radius: 22px;
+      padding: 1.15rem 1.2rem 1rem; margin-bottom: 1rem;
+    }
+    .hero h1 { font-size: clamp(1.35rem, 3.5vw, 1.85rem); margin: 0 0 0.4rem; }
+    .hero p { margin: 0; color: var(--muted); line-height: 1.55; }
+    .legend {
+      display: flex; flex-wrap: wrap; gap: 0.7rem 1.1rem; margin-top: 0.75rem;
+      font-size: 0.82rem; color: var(--muted); font-weight: 700;
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; vertical-align: -1px; }
+    .dot.trace { background: rgba(144, 202, 249, 0.95); }
+    .dot.write { background: #fff; border: 2px solid var(--blue); }
+
+    .workbook {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 1.2cm 12mm 12mm;
+    }
+    .print-head {
+      text-align: center; margin-bottom: 12px;
+    }
+    .print-head h2 { margin: 0 0 0.35rem; font-size: 1.12rem; }
+    .print-meta {
+      display: flex; gap: 1.2rem; justify-content: center;
+      font-size: 0.92rem; color: var(--muted);
+    }
+    .print-meta span { border-bottom: 1px solid #cbb89a; min-width: 8rem; padding-bottom: 2px; }
+
+    .copy-sheet {
+      margin: 0 0 11mm;
+      padding-bottom: 7mm;
+      border-bottom: 1px dashed #d7c4a6;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .copy-sheet:last-child { border-bottom: 0; margin-bottom: 0; }
+    .copy-word-head {
+      display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.45rem 0.7rem;
+      margin-bottom: 7px;
+    }
+    .copy-num {
+      width: 1.55rem; height: 1.55rem; border-radius: 50%;
+      display: inline-grid; place-items: center;
+      background: #a65b16; color: #fff8ee; font-size: 0.82rem; font-weight: 800;
+    }
+    .copy-word { font-weight: 800; font-size: 1.05rem; }
+    .copy-zh { color: var(--muted); font-size: 0.88rem; font-weight: 600; }
+
+    .copy-rows { display: flex; flex-direction: column; gap: 7px; }
+    .copy-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 7px;
+    }
+    .copy-cell {
+      position: relative;
+      border: 2px solid var(--blue);
+      border-radius: 10px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .copy-line-grid {
+      position: relative;
+      height: var(--grid-h);
+      width: 100%;
+    }
+    .copy-line-grid .dl-line {
+      position: absolute; left: 0; right: 0; height: 0;
+      margin: 0; padding: 0; border: none; display: block;
+    }
+    /* 四线：顶线 / 中虚线 / 草地基线 / 底线（与小学英语练习本比例一致） */
+    .copy-line-grid .dl-top { top: 25%; border-top: 1.5px solid #90CAF9; }
+    .copy-line-grid .dl-mid { top: 41.5%; border-top: 1.5px dashed rgba(33, 150, 243, 0.32); }
+    .copy-line-grid .dl-grass { top: 58%; border-top: 2.5px solid #90CAF9; }
+    .copy-line-grid .dl-base { top: 75%; border-top: 1.5px solid #EF9A9A; }
+
+    .copy-trace-text {
+      position: absolute;
+      left: 50%;
+      top: 58%;
+      transform: translate(-50%, calc(1.1mm - 100%));
+      font-family: "Patrick Hand", "Comic Sans MS", cursive;
+      font-weight: 700;
+      font-size: var(--trace-font);
+      color: rgba(144, 202, 249, 0.58);
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 0;
+      line-height: 1;
+      letter-spacing: 0.01em;
+    }
+    .copy-cell-tag {
+      position: absolute; top: 3px; left: 5px;
+      font-size: 0.64rem; font-weight: 800;
+      padding: 1px 6px; border-radius: 999px;
+      pointer-events: none; z-index: 1;
+    }
+    .copy-cell--trace .copy-cell-tag { background: rgba(144, 202, 249, 0.38); color: #1565c0; }
+    .copy-cell--write .copy-cell-tag { background: #f1f2f6; color: var(--muted); }
+
+    @media (max-width: 640px) {
+      .copy-row { grid-template-columns: 1fr; }
+      .workbook { padding: 0.8rem; }
+    }
+
+    @page { size: A4 portrait; margin: 12mm 12mm 12mm; }
+    @media print {
+      body { background: #fff !important; }
+      .topbar, .hero, .no-print, .copy-cell-tag { display: none !important; }
+      .wrap { max-width: none; padding: 0; }
+      .workbook { border: 0; border-radius: 0; padding: 0; }
+      .copy-row { grid-template-columns: repeat(3, 1fr) !important; }
+      .copy-trace-text {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar no-print">
+    <div class="brand">
+      <div class="kicker">S-Class · PSLE Set 01</div>
+      <strong>Passage A 四线格描红抄写</strong>
+    </div>
+    <div class="top-actions">
+      <a class="btn" href="set_01_reading_comic.html">← 漫画版</a>
+      <a class="btn" href="set_01_typeflow.html">题型页</a>
+      <button type="button" class="btn gold" id="btnPdf">打印 / 导出 PDF</button>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <section class="hero no-print">
+      <h1>从 Passage A 选出 15 个原形词 / 词组</h1>
+      <p>每个词或词组占两行四线格，每行抄写 3 次：第一行描红 3 次，第二行空白抄写 3 次。描红字坐在草地上，升部顶到第一线，降部落到第四线。</p>
+      <div class="legend">
+        <span><i class="dot trace"></i>描红 ×3</span>
+        <span><i class="dot write"></i>独立书写 ×3</span>
+      </div>
+    </section>
+
+    <div class="workbook" id="workbook"></div>
+  </div>
+
+  <script>
+    const ITEMS = [
+      { en: "cheetah", zh: "猎豹" },
+      { en: "upset", zh: "难过；不安" },
+      { en: "in great danger", zh: "处境危险" },
+      { en: "get in touch with", zh: "联系" },
+      { en: "wildlife sanctuary", zh: "野生动物保护中心" },
+      { en: "raise money", zh: "筹款" },
+      { en: "sell", zh: "卖" },
+      { en: "yard sale", zh: "庭院旧货甩卖" },
+      { en: "skating party", zh: "滑冰派对" },
+      { en: "collar", zh: "项圈" },
+      { en: "track", zh: "追踪" },
+      { en: "protect", zh: "保护" },
+      { en: "volunteer", zh: "做志愿者" },
+      { en: "raise awareness", zh: "提高意识" },
+      { en: "make a difference", zh: "有所作为" }
+    ];
+
+    const PATTERN = [
+      ["trace", "trace", "trace"],
+      ["write", "write", "write"]
+    ];
+
+    function esc(s) {
+      return String(s == null ? "" : s)
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    function remFor(text) {
+      const n = String(text).length;
+      if (n <= 7) return 2.58;
+      if (n <= 10) return 2.12;
+      if (n <= 13) return 1.72;
+      if (n <= 16) return 1.42;
+      return 1.18;
+    }
+
+    function cellHtml(mode, word) {
+      const tag = mode === "trace" ? "描红" : "抄写";
+      const guide = mode === "trace"
+        ? '<span class="copy-trace-text" style="font-size:' + remFor(word) + 'rem">' + esc(word) + "</span>"
+        : "";
+      return (
+        '<div class="copy-cell copy-cell--' + mode + '">' +
+          '<span class="copy-cell-tag no-print">' + tag + "</span>" +
+          '<div class="copy-line-grid">' +
+            guide +
+            '<i class="dl-line dl-top"></i><i class="dl-line dl-mid"></i>' +
+            '<i class="dl-line dl-grass"></i><i class="dl-line dl-base"></i>' +
+          "</div>" +
+        "</div>"
+      );
+    }
+
+    function render() {
+      const name = localStorage.getItem("authing-user") || localStorage.getItem("current-user") || "";
+      let html = '<div class="print-head"><h2>Passage A · Joris and the Cheetahs · 四线格描红抄写</h2>';
+      html += '<div class="print-meta"><span>姓名：' + esc(name) + '</span><span>班级 / 日期：</span></div></div>';
+      ITEMS.forEach((item, i) => {
+        html += '<article class="copy-sheet">';
+        html += '<div class="copy-word-head">';
+        html += '<span class="copy-num">' + (i + 1) + "</span>";
+        html += '<span class="copy-word">' + esc(item.en) + "</span>";
+        html += '<span class="copy-zh">' + esc(item.zh) + "</span></div>";
+        html += '<div class="copy-rows">';
+        PATTERN.forEach((row) => {
+          html += '<div class="copy-row">';
+          row.forEach((mode) => { html += cellHtml(mode, item.en); });
+          html += "</div>";
+        });
+        html += "</div></article>";
+      });
+      document.getElementById("workbook").innerHTML = html;
+      fitTraceText();
+    }
+
+    function fitTraceText() {
+      document.querySelectorAll(".copy-trace-text").forEach((el) => {
+        const grid = el.parentElement;
+        if (!grid) return;
+        const maxW = Math.max(24, grid.clientWidth * 0.92);
+        let size = parseFloat(el.style.fontSize) || 2.58;
+        el.style.fontSize = size + "rem";
+        let guard = 0;
+        while (el.scrollWidth > maxW && size > 0.95 && guard < 40) {
+          size -= 0.06;
+          el.style.fontSize = size + "rem";
+          guard += 1;
+        }
+      });
+    }
+
+    document.getElementById("btnPdf").addEventListener("click", () => {
+      fitTraceText();
+      window.print();
+    });
+    window.addEventListener("beforeprint", fitTraceText);
+    window.addEventListener("resize", () => {
+      window.clearTimeout(window.__fitT);
+      window.__fitT = window.setTimeout(fitTraceText, 80);
+    });
+
+    render();
+  </script>
+</body>
+</html>
