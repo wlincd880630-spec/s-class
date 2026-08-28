@@ -83,6 +83,34 @@
       page-break-inside: avoid;
     }
     .copy-sheet:last-child { border-bottom: 0; margin-bottom: 0; }
+    .copy-sheet-body {
+      display: grid;
+      grid-template-columns: 42mm 1fr;
+      gap: 8px 12px;
+      align-items: start;
+    }
+    .meaning-pic {
+      width: 42mm;
+      height: 42mm;
+      border: 2px solid var(--ink);
+      border-radius: 10px;
+      overflow: hidden;
+      background: #efe6d6;
+      box-shadow: 2px 2px 0 var(--ink);
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+    }
+    .copy-sheet.is-wide .meaning-pic {
+      height: 52mm;
+    }
+    .meaning-pic img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    .copy-practice { min-width: 0; }
     .copy-word-head {
       display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.45rem 0.7rem;
       margin-bottom: 7px;
@@ -153,6 +181,8 @@
     .copy-cell--write .copy-cell-tag { background: #f1f2f6; color: var(--muted); }
 
     @media (max-width: 640px) {
+      .copy-sheet-body { grid-template-columns: 1fr; justify-items: start; }
+      .meaning-pic, .copy-sheet.is-wide .meaning-pic { width: 42mm; height: 42mm; }
       .copy-row { grid-template-columns: 1fr; }
       .workbook { padding: 0.8rem; }
     }
@@ -163,8 +193,13 @@
       .topbar, .hero, .no-print, .copy-cell-tag { display: none !important; }
       .wrap { max-width: none; padding: 0; }
       .workbook { border: 0; border-radius: 0; padding: 0; }
+      .copy-sheet-body { grid-template-columns: 38mm 1fr !important; }
+      .meaning-pic { width: 38mm; height: 38mm; }
+      .copy-sheet.is-wide .meaning-pic { height: 48mm; }
       .copy-row { grid-template-columns: repeat(3, 1fr) !important; }
       .copy-sheet.is-wide .copy-row { grid-template-columns: 1fr !important; }
+      .meaning-pic,
+      .meaning-pic img,
       .copy-trace-text {
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
@@ -188,7 +223,7 @@
   <div class="wrap">
     <section class="hero no-print">
       <h1>从 Passage A 选出 15 个原形词 / 词组</h1>
-      <p>短词仍是两行、每行三格。较长词组改为通栏四线格，字号与 track 相同，描红 3 行、空白抄写 3 行，字母高度贴合四线。</p>
+      <p>左侧词义图沿用漫画分镜原图。短词仍是两行、每行三格。较长词组改为通栏四线格，字号与 track 相同，描红 3 行、空白抄写 3 行，字母高度贴合四线。</p>
       <div class="legend">
         <span><i class="dot trace"></i>描红 ×3</span>
         <span><i class="dot write"></i>独立书写 ×3</span>
@@ -200,21 +235,21 @@
 
   <script>
     const ITEMS = [
-      { en: "cheetah", zh: "猎豹" },
-      { en: "upset", zh: "难过；不安" },
-      { en: "in great danger", zh: "处境危险" },
-      { en: "get in touch with", zh: "联系" },
-      { en: "wildlife sanctuary", zh: "野生动物保护中心" },
-      { en: "raise money", zh: "筹款" },
-      { en: "sell", zh: "卖" },
-      { en: "yard sale", zh: "庭院旧货甩卖" },
-      { en: "skating party", zh: "滑冰派对" },
-      { en: "collar", zh: "项圈" },
-      { en: "track", zh: "追踪" },
-      { en: "protect", zh: "保护" },
-      { en: "volunteer", zh: "做志愿者" },
-      { en: "raise awareness", zh: "提高意识" },
-      { en: "make a difference", zh: "有所作为" }
+      { en: "cheetah", zh: "猎豹", img: "set_01_comic/img/a-loves.jpg" },
+      { en: "upset", zh: "难过；不安", img: "set_01_comic/img/a-upset.jpg" },
+      { en: "in great danger", zh: "处境危险", img: "set_01_comic/img/a-danger-wild.jpg" },
+      { en: "get in touch with", zh: "联系", img: "set_01_comic/img/a2-sanctuary.jpg" },
+      { en: "wildlife sanctuary", zh: "野生动物保护中心", img: "set_01_comic/img/a-visit.jpg" },
+      { en: "raise money", zh: "筹款", img: "set_01_comic/img/a-raise-start.jpg" },
+      { en: "sell", zh: "卖", img: "set_01_comic/img/a-sell-tshirts.jpg" },
+      { en: "yard sale", zh: "庭院旧货甩卖", img: "set_01_comic/img/a-yard-sale.jpg" },
+      { en: "skating party", zh: "滑冰派对", img: "set_01_comic/img/a-skating.jpg" },
+      { en: "collar", zh: "项圈", img: "set_01_comic/img/a4-collar.jpg" },
+      { en: "track", zh: "追踪", img: "set_01_comic/img/a-track.jpg" },
+      { en: "protect", zh: "保护", img: "set_01_comic/img/a-protect.jpg" },
+      { en: "volunteer", zh: "做志愿者", img: "set_01_comic/img/a5-volunteer.jpg" },
+      { en: "raise awareness", zh: "提高意识", img: "set_01_comic/img/a6-awareness.jpg" },
+      { en: "make a difference", zh: "有所作为", img: "set_01_comic/img/a-make-difference.jpg" }
     ];
 
     const WIDE_WORDS = {
@@ -262,6 +297,9 @@
           ? [["trace"], ["trace"], ["trace"], ["write"], ["write"], ["write"]]
           : [["trace", "trace", "trace"], ["write", "write", "write"]];
         html += '<article class="copy-sheet' + (wide ? " is-wide" : "") + '">';
+        html += '<div class="copy-sheet-body">';
+        html += '<div class="meaning-pic"><img src="' + esc(item.img) + '" alt="' + esc(item.en) + '" /></div>';
+        html += '<div class="copy-practice">';
         html += '<div class="copy-word-head">';
         html += '<span class="copy-num">' + (i + 1) + "</span>";
         html += '<span class="copy-word">' + esc(item.en) + "</span>";
@@ -272,7 +310,7 @@
           row.forEach((mode) => { html += cellHtml(mode, item.en); });
           html += "</div>";
         });
-        html += "</div></article>";
+        html += "</div></div></div></article>";
       });
       document.getElementById("workbook").innerHTML = html;
     }
