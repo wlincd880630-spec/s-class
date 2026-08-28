@@ -59,15 +59,14 @@
 
   function stopPlayback() {
     playbackGen += 1;
-    if (!playbackAudio) return;
-    try {
-      playbackAudio.onended = null;
-      playbackAudio.onerror = null;
-      playbackAudio.pause();
-      playbackAudio.removeAttribute("src");
-      playbackAudio.load();
-    } catch (e0) {}
+    var a = playbackAudio || sharedAudio;
     playbackAudio = null;
+    if (!a) return;
+    try {
+      a.onended = null;
+      a.onerror = null;
+      a.pause();
+    } catch (e0) {}
   }
 
   function unlockPlayback() {
@@ -112,7 +111,11 @@
         resolve(!!ok && gen === playbackGen);
       }
       audio.onended = function () {
-        finish(true);
+        var dur = 0;
+        try {
+          dur = Number(audio.duration);
+        } catch (eDur) {}
+        finish(isFinite(dur) && dur >= 0.4);
       };
       audio.onerror = function () {
         finish(false);
