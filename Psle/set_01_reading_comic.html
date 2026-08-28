@@ -156,24 +156,29 @@
       font-size: 1.18rem; line-height: 1.72; margin: 0;
     }
     .sent-zh {
-      grid-column: 2; margin: 0.05rem 0 0;
-      color: var(--muted); font-size: 0.88rem;
-      display: none;
-    }
-    .sentence.show-zh .sent-zh { display: block; }
-    .zh-hit {
       grid-column: 2;
-      display: inline-flex; align-items: center;
-      margin-top: -0.05rem;
-      font-size: 0.75rem; font-weight: 700; color: #8a6a3a;
-      background: #f4e6cf; border: 0; border-radius: 999px;
-      padding: 0.12rem 0.55rem; cursor: pointer; width: fit-content;
-      font-family: inherit;
+      margin: 0.08rem 0 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+      cursor: pointer;
+      width: fit-content;
+      max-width: 100%;
+      user-select: none;
     }
-    .zh-hit:hover { background: #ead6b3; }
-    .sentence.show-zh .zh-hit { background: #e8d4a8; }
-    body.show-all-zh .sent-zh { display: block; }
-    body.show-all-zh .zh-hit { display: none; }
+    .sent-zh:focus-visible { outline: 2px solid #e0b56a; outline-offset: 2px; border-radius: 8px; }
+    .zh-ghost {
+      display: inline-flex; align-items: center;
+      font-size: 0.75rem; font-weight: 700; color: #8a6a3a;
+      background: #f4e6cf; border-radius: 999px;
+      padding: 0.12rem 0.55rem;
+    }
+    .sent-zh:hover .zh-ghost { background: #ead6b3; }
+    .zh-text { display: none; margin: 0; }
+    .sentence.show-zh .zh-ghost { display: none; }
+    .sentence.show-zh .zh-text { display: block; }
+    body.show-all-zh .zh-ghost { display: none; }
+    body.show-all-zh .zh-text { display: block; }
+    body.is-printing .sent-zh { display: none !important; }
     .wlink, .plink {
       cursor: pointer; border-radius: 4px; padding: 0 0.06em;
       border-bottom: 1.5px dotted rgba(36,28,20,0.28);
@@ -203,6 +208,8 @@
     .note-hint {
       margin: 0 0 0.25rem; font-size: 0.78rem; color: #a89070;
     }
+    .note-input {
+      width: 100%; min-height: 5.2rem; resize: vertical;
       border: 0; background: transparent; font: inherit; color: var(--ink);
       line-height: 1.75; outline: none;
     }
@@ -284,15 +291,18 @@
       }
       .sent-en { font-size: 12pt; line-height: 1.55; }
       .sentence { padding: 0.2rem 0; }
-      .sent-zh, .zh-hit, .btnToggleZh, .note-hint { display: none !important; }
+      .sent-zh, .zh-ghost, .zh-text, .btnToggleZh, .note-hint, .passage-head .sub {
+        display: none !important;
+      }
       .note-box {
         min-height: 36mm;
         background: repeating-linear-gradient(#fff, #fff 8.2mm, #eadcc6 8.2mm, #eadcc6 8.35mm);
         border-style: solid;
       }
-      .note-box h3 { color: #a89070; }
+      .note-box h3 { display: none !important; }
       .note-input {
         min-height: 32mm; font-size: 11pt;
+        color: #241c14;
       }
       .note-input::placeholder { color: transparent !important; opacity: 0 !important; }
       .print-footer {
@@ -335,7 +345,7 @@
 
     <header class="hero screen-only">
       <h1>把阅读变成一本 3D 漫画</h1>
-      <p>Passage A 按细节拆成 27 个场景格子，Passage B 6 格。点单词查词，划选多个词查词组；每句都可 Azure 英式慢速朗读。中文翻译默认隐藏，点句子下的「中文」即可查看。导出 PDF 为英文图文 + 空白笔记线。</p>
+      <p>Passage A 按细节拆成 27 个场景格子，Passage B 6 格。点单词查词，划选多个词查词组；每句都可 Azure 英式慢速朗读。中文翻译默认不显示，点句子下方的「中文」区域即可查看；再点一次可收起。导出 PDF 只含英文图文和空白笔记线，不含译文。</p>
       <div class="hint-row">
         <span class="chip">点词查义</span>
         <span class="chip">划选词组</span>
@@ -791,7 +801,7 @@
       html += '<section class="pass-' + pass.id + '" id="passage-' + pass.id + '">';
       html += '<div class="passage-head"><div>';
       html += "<h2>" + esc(pass.title) + " · " + esc(pass.en) + "</h2>";
-      html += '<p class="sub">' + esc(pass.zh) + "</p></div>";
+      html += '<p class="sub no-print">' + esc(pass.zh) + "</p></div>";
       html += '<button type="button" class="btn teal no-print btn-pass-tts" data-pass="' + pass.id + '">朗读本篇</button>';
       html += "</div>";
       pass.panels.forEach((panel, pi) => {
@@ -808,8 +818,9 @@
           html += '<div class="sentence" data-sid="' + sid + '">';
           html += '<button type="button" class="btn tts no-print btn-sent-tts" data-text="' + esc(stripTts(sent.en)) + '" title="Azure 朗读本句">朗读</button>';
           html += '<p class="sent-en" data-plain="' + esc(stripTts(sent.en)) + '">' + wrapInteractive(sent.en) + "</p>";
-          html += '<button type="button" class="zh-hit no-print" aria-expanded="false">中文</button>';
-          html += '<p class="sent-zh">' + esc(sent.zh) + "</p>";
+          html += '<p class="sent-zh no-print" role="button" tabindex="0" aria-expanded="false" title="点击显示或隐藏中文翻译">';
+          html += '<span class="zh-ghost">中文</span>';
+          html += '<span class="zh-text">' + esc(sent.zh) + "</span></p>";
           html += "</div>";
         });
         html += "</div>";
@@ -1055,14 +1066,10 @@
       playTts(passPlain(passBtn.getAttribute("data-pass")));
       return;
     }
-    const zhBtn = t.closest(".zh-hit");
-    if (zhBtn) {
+    const zhHit = t.closest(".sent-zh");
+    if (zhHit) {
       ev.preventDefault();
-      const sent = zhBtn.closest(".sentence");
-      if (!sent) return;
-      const on = sent.classList.toggle("show-zh");
-      zhBtn.setAttribute("aria-expanded", on ? "true" : "false");
-      zhBtn.textContent = on ? "隐藏中文" : "中文";
+      toggleSentenceZh(zhHit.closest(".sentence"));
       return;
     }
     const w = t.closest(".wlink, .plink");
@@ -1109,17 +1116,36 @@
     if (modalQuery) playTts(modalQuery);
   });
 
+  function toggleSentenceZh(sent, force) {
+    if (!sent) return;
+    const on = typeof force === "boolean" ? force : !sent.classList.contains("show-zh");
+    sent.classList.toggle("show-zh", on);
+    const zh = sent.querySelector(".sent-zh");
+    if (zh) zh.setAttribute("aria-expanded", on ? "true" : "false");
+  }
+
+  document.getElementById("comicRoot").addEventListener("keydown", (ev) => {
+    if (ev.key !== "Enter" && ev.key !== " ") return;
+    const zhHit = ev.target && ev.target.closest && ev.target.closest(".sent-zh");
+    if (!zhHit) return;
+    ev.preventDefault();
+    toggleSentenceZh(zhHit.closest(".sentence"));
+  });
+
   document.getElementById("btnToggleZh").addEventListener("click", () => {
     document.body.classList.toggle("show-all-zh");
     const all = document.body.classList.contains("show-all-zh");
     document.getElementById("btnToggleZh").textContent = all ? "全部隐藏中文" : "全部显示中文";
     document.querySelectorAll(".sentence").forEach((s) => {
-      if (!all) {
-        s.classList.remove("show-zh");
-        const b = s.querySelector(".zh-hit");
-        if (b) { b.textContent = "中文"; b.setAttribute("aria-expanded", "false"); }
-      }
+      toggleSentenceZh(s, all);
     });
+  });
+
+  window.addEventListener("beforeprint", () => {
+    document.body.classList.add("is-printing");
+  });
+  window.addEventListener("afterprint", () => {
+    document.body.classList.remove("is-printing");
   });
 
   document.getElementById("btnPdf").addEventListener("click", () => {
