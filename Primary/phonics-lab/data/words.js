@@ -30,7 +30,7 @@
     w("ax", "斧头", "/æks/", ["a"], ["a"], "kite", 1, ["initial", "vocab"]),
     w("alligator", "鳄鱼", "/ælɪɡeɪtə/", ["a"], ["a"], "goat", 1, ["initial", "vocab"]),
     w("sofa", "沙发", "/səʊfə/", ["s"], ["s"], "bed", 1, ["initial", "vocab"]),
-    w("sandwich", "三明治", "/sænwɪtʃ/", ["s"], ["s"], "jam", 1, ["initial", "vocab"]),
+    w("sandwich", "三明治", "/sænwɪtʃ/", ["s"], ["s"], "sandwich", 1, ["initial", "vocab"]),
     w("ten", "十", "/ten/", ["t"], ["t"], "coin", 1, ["initial", "vocab"]),
     w("tiger", "老虎", "/taɪɡə/", ["t"], ["t"], "cat", 1, ["initial", "vocab"]),
     w("table", "桌子", "/teɪbl/", ["t"], ["t"], "house", 1, ["initial", "vocab"]),
