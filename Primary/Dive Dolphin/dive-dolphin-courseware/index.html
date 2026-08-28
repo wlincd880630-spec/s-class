@@ -185,6 +185,11 @@
       .word-col-art { max-width: 100%; flex: 0 0 auto; width: 100%; }
       .word-col-art .art-img { max-height: min(40dvh, 16rem); }
       .view-body--story .story-sentence--xl.story-sentence-row { flex-direction: column; }
+      .view-body--story .story-sentence--xl.story-sentence--pyramid { flex-direction: column; }
+      .view-body--story .story-sentence--pyramid .story-col--art { max-width: min(18rem, 100%); flex: 0 0 auto; }
+      .view-body--story .story-sentence--pyramid .story-col--art .art-img { max-height: min(9.5rem, 28vh); min-height: 0; }
+      .view-body--story .story-sentence--pyramid .story-col--text { max-height: none; overflow: visible; width: 100%; flex: 1 1 auto; }
+      .story-pyramid-layer { min-height: 44px; font-size: clamp(0.9rem, 3.3vw, 1.12rem); padding: 0.35rem 0.65rem 0.35rem 0.4rem; }
       .view-body--story .story-col--art { flex: 0 0 auto; max-width: 100%; }
       .opt-img { flex: 1 1 100%; max-width: 100%; }
     }
@@ -435,7 +440,7 @@
       margin: 0.35rem 0 0; font-weight: 700; font-size: min(1.4rem, 4.2vw); color: rgba(255, 255, 250, 0.96);
       animation: ok-cele-sub 0.4s ease-out 0.35s 1 both; opacity: 0;
     }
-    .panel-lite { background: #EEF1E8; border: 1px solid #c8c4b8; border-left: 3px solid var(--ng-gold); border-radius: 6px; padding: 0.5rem 0.65rem; margin: 0 auto 0.4rem; max-width: 36rem; box-shadow: 0 2px 8px rgba(0,0,0,.04); }
+    .panel-lite { background: #EEF1E8; border: 1px solid #c8c4b8; border-left: 3px solid var(--ng-gold); border-radius: 6px; padding: 0.5rem 0.65rem; margin: 0 auto 0.4rem; max-width: 48rem; box-shadow: 0 2px 8px rgba(0,0,0,.04); }
     .story-sentence {
       margin: 0.6rem 0; padding: 0.5rem 0.6rem;
       background: #fff; border: 1px solid #D4CFC3; border-left: 3px solid var(--wild-green); box-shadow: 0 2px 12px rgba(0,0,0,.06);
@@ -443,7 +448,7 @@
     .story-sentence p { margin: 0.1rem 0; font-size: 1.02rem; font-family: "Source Serif 4", Georgia, "Noto Serif SC", serif; }
     .story-zh { color: #4a4a4a; font-size: 0.88rem; font-family: "Noto Sans SC", sans-serif; }
     .story-sentence .polaroid { transform: rotate(0.2deg); }
-    .story-slide { margin: 0.35rem 0 0.25rem; min-height: 4rem; }
+    .story-slide { margin: 0.35rem 0 0.25rem; flex: 1; width: 100%; min-height: 8rem; overflow: auto; }
     .story-slide .story-sentence { margin: 0; }
     .match-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem; }
     @media (max-width: 560px) { .match-cols { grid-template-columns: 1fr; } }
@@ -548,10 +553,78 @@
     }
     .story-zh-hold:not(.is-on) .story-zh { display: none; }
     .story-zh-hold.is-on .story-zh-ghost { display: none; }
+    /* 学课文 · 句子金字塔：每行多一个单词，点行朗读 */
+    .story-pyramid-caption {
+      margin: 0 0 0.25rem; font-size: clamp(0.78rem, 1.15vw, 0.9rem);
+      color: #6b6150; font-weight: 600; text-align: left; line-height: 1.4;
+      font-family: "Noto Sans SC", sans-serif;
+    }
+    .view-body--story .story-col--text > .story-pyramid-caption {
+      font-size: clamp(0.78rem, 1.15vw, 0.9rem);
+      line-height: 1.4;
+    }
+    .story-pyramid {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 0.18rem; width: 100%; margin: 0.05rem 0 0.1rem;
+    }
+    .story-pyramid-layer {
+      display: flex; align-items: center; justify-content: flex-start;
+      gap: 0.35rem; width: var(--py-w, 70%); max-width: 100%;
+      font-family: "Source Serif 4", Georgia, "Noto Serif SC", serif;
+      font-size: clamp(0.78rem, 1.35vw, 1.02rem); line-height: 1.25;
+      padding: 0.18rem 0.5rem 0.18rem 0.32rem; border-radius: 999px;
+      background: #fff; border: 2px solid #1a1a1a; color: var(--ink);
+      cursor: pointer; min-height: 1.75rem; text-align: left;
+      box-shadow: 0 2px 0 rgba(0,0,0,.08); touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .story-pyramid-layer:hover, .story-pyramid-layer:focus-visible {
+      background: #fff8e0; outline: none;
+    }
+    .story-pyramid-layer .py-idx {
+      flex: 0 0 1.45rem; width: 1.45rem; height: 1.45rem; border-radius: 50%;
+      background: var(--ng-gold); color: #1a1a1a; font-size: 0.72rem; font-weight: 800;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: "Noto Sans SC", sans-serif;
+    }
+    .story-pyramid-layer .py-text { flex: 1; min-width: 0; }
+    .story-pyramid-layer .py-old { color: var(--ink-soft); font-weight: 600; }
+    .story-pyramid-layer .py-new { color: #1e3a5f; font-weight: 800; }
+    .story-pyramid-layer .py-hear {
+      flex: 0 0 auto; font-size: 0.78rem; color: #2E6A9B; font-weight: 800;
+      font-family: "Noto Sans SC", sans-serif;
+    }
+    .story-pyramid-layer.is-on {
+      background: #fff3c4; border-color: #c9a008;
+      box-shadow: 0 0 0 2px rgba(245, 196, 0, 0.35), 0 4px 12px rgba(0,0,0,.08);
+    }
+    .story-pyramid-layer.is-on .py-idx { background: #1a1a1a; color: var(--ng-gold); }
+    .view-body--story .story-sentence--xl.story-sentence--pyramid {
+      flex-direction: row; flex-wrap: nowrap; align-items: stretch; gap: 0.7rem;
+      margin: 0.25rem auto; padding: 0.5rem 0.7rem 0.55rem;
+    }
+    .view-body--story .story-sentence--pyramid .story-col--art {
+      flex: 0 1 36%; max-width: 38%; align-self: center;
+    }
+    .view-body--story .story-sentence--pyramid .hero-art {
+      min-height: 0; margin: 0;
+    }
+    .view-body--story .story-sentence--pyramid .story-col--art .art-img {
+      max-height: min(13.5rem, 40vh); min-height: 0;
+    }
+    .view-body--story .story-sentence--pyramid .story-col--text {
+      flex: 1 1 64%; width: auto; min-width: 0;
+      max-height: min(18.4rem, 54vh); overflow-y: auto; justify-content: flex-start;
+    }
     @media (max-width: 720px) {
       .view-body--story .story-sentence--xl.story-sentence-row { flex-direction: column; }
+      .view-body--story .story-sentence--xl.story-sentence--pyramid { flex-direction: column; }
       .view-body--story .story-col--art { flex: 0 0 auto; max-width: 100%; }
       .view-body--story .story-col--art .art-img { max-height: min(20.8rem, 52vh); min-height: 10.4rem; }
+      .view-body--story .story-sentence--pyramid .story-col--art { max-width: 100%; }
+      .view-body--story .story-sentence--pyramid .story-col--art .art-img { max-height: min(9.5rem, 28vh); min-height: 0; }
+      .view-body--story .story-sentence--pyramid .story-col--text { max-height: none; overflow: visible; width: 100%; }
+      .story-pyramid-layer { min-height: 44px; }
     }
     /* 大复习·选图；双列/三列 */
     .opt-img {
@@ -839,6 +912,8 @@
               <button type="button" class="btn primary" id="sNormal">选正常</button>
               <button type="button" class="btn primary" id="sHearLine" title="朗读当前英文句">▶ 听本句</button>
               <button type="button" class="btn" id="sLoop">▶ 循环本句</button>
+              <button type="button" class="btn" id="sPyramid" aria-pressed="false" title="用金字塔逐词显示本句，点每一层朗读">🔺 金字塔</button>
+              <button type="button" class="btn" id="sPyramidPlay" hidden title="从第一个词开始，一层一层往上朗读">▶ 逐层朗读</button>
               <span class="sub" id="sLoopState">已停</span>
             </div>
           </div>
@@ -1985,9 +2060,144 @@
       renderReview();
     };
 
-    var storyIndex = 0, storyLoop = false, loopToken = 0;
+    var storyIndex = 0, storyLoop = false, loopToken = 0, pyramidPlayToken = 0;
     window.__storySlow = true;
+    window.__storyPyramidOn = false;
     function stopStoryLoop() { storyLoop = false; loopToken++; document.getElementById("sLoopState").textContent = "已停"; stopStoryNarration(); }
+    function stopPyramidPlay() { pyramidPlayToken++; }
+    function storySpeakOpts() {
+      return { rate: window.__storySlow ? 0.8 : 1.0, slow: !!window.__storySlow };
+    }
+    function escapeStoryHtml(s) {
+      return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+    /** 每行多一个单词：There → There are → … → There are many kinds of dolphins. */
+    function storyPyramidLayers(sentence) {
+      var raw = String(sentence || "").trim();
+      var endPunct = "";
+      var m = raw.match(/([.!?]+)$/);
+      if (m) {
+        endPunct = m[1];
+        raw = raw.slice(0, -endPunct.length).trim();
+      }
+      var words = raw.split(/\s+/).filter(Boolean);
+      return words.map(function (w, i) {
+        var text = words.slice(0, i + 1).join(" ");
+        if (i === words.length - 1) text += endPunct;
+        return {
+          text: text,
+          newWord: String(w).replace(/[.,;:!?]+$/g, ""),
+          index: i,
+          total: words.length
+        };
+      });
+    }
+    function pyramidLayerInner(ly) {
+      var text = String(ly.text || "");
+      var punct = "";
+      var m = text.match(/([.,!?]+)$/);
+      if (m) {
+        punct = m[1];
+        text = text.slice(0, -punct.length);
+      }
+      var parts = text.split(/\s+/).filter(Boolean);
+      var last = parts.pop() || "";
+      var old = parts.join(" ");
+      return (old ? '<span class="py-old">' + escapeStoryHtml(old) + " </span>" : "") +
+        '<span class="py-new">' + escapeStoryHtml(last) + "</span>" +
+        (punct ? '<span class="py-old">' + escapeStoryHtml(punct) + "</span>" : "");
+    }
+    function storyPyramidHtml(sentence) {
+      var list = storyPyramidLayers(sentence);
+      var n = Math.max(list.length, 1);
+      var rows = list.map(function (ly, i) {
+        var pct = list.length === 1 ? 58 : 34 + Math.round((i / (n - 1)) * 66);
+        return (
+          '<button type="button" class="story-pyramid-layer" data-layer="' + i +
+          '" style="--py-w:' + pct + '%" aria-label="第' + (i + 1) + "层：" +
+          escapeStoryHtml(ly.text) + '，点击朗读">' +
+          '<span class="py-idx">' + (i + 1) + "</span>" +
+          '<span class="py-text">' + pyramidLayerInner(ly) + "</span>" +
+          '<span class="py-hear" aria-hidden="true">▶</span></button>'
+        );
+      }).join("");
+      return '<div class="story-pyramid" role="list">' + rows + "</div>";
+    }
+    function highlightPyramidLayer(root, i) {
+      if (!root) return;
+      root.querySelectorAll(".story-pyramid-layer").forEach(function (el) {
+        var on = el.getAttribute("data-layer") === String(i);
+        el.classList.toggle("is-on", on);
+        if (on && typeof el.scrollIntoView === "function") {
+          try { el.scrollIntoView({ block: "nearest", inline: "nearest" }); } catch (e1) {}
+        }
+      });
+    }
+    function speakPyramidLayer(text) {
+      stopStoryLoop();
+      return speakText(text, storySpeakOpts());
+    }
+    function bindStoryPyramid(root, sentence) {
+      var list = storyPyramidLayers(sentence);
+      root.querySelectorAll(".story-pyramid-layer").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var i = parseInt(btn.getAttribute("data-layer"), 10);
+          if (isNaN(i) || !list[i]) return;
+          stopPyramidPlay();
+          highlightPyramidLayer(root, i);
+          speakPyramidLayer(list[i].text);
+        });
+      });
+    }
+    function playStoryPyramid() {
+      var row = STORY[storyIndex];
+      if (!row) return;
+      if (!window.__storyPyramidOn) {
+        window.__storyPyramidOn = true;
+        renderStorySlide();
+      }
+      stopStoryLoop();
+      var list = storyPyramidLayers(row.en);
+      var my = ++pyramidPlayToken;
+      var root = document.getElementById("storySlide");
+      var playBtn = document.getElementById("sPyramidPlay");
+      if (playBtn) playBtn.textContent = "逐层朗读中…";
+      var i = 0;
+      function step() {
+        if (my !== pyramidPlayToken) return Promise.resolve();
+        if (i >= list.length) {
+          if (playBtn) playBtn.textContent = "▶ 逐层朗读";
+          return Promise.resolve();
+        }
+        highlightPyramidLayer(root, i);
+        var text = list[i].text;
+        i += 1;
+        return speakPyramidLayer(text).then(function () {
+          if (my !== pyramidPlayToken) return;
+          return new Promise(function (res) { setTimeout(res, 280); }).then(step);
+        });
+      }
+      return step().then(function () {
+        if (my === pyramidPlayToken && playBtn) playBtn.textContent = "▶ 逐层朗读";
+      });
+    }
+    function syncPyramidToggleUi() {
+      var sp = document.getElementById("sPyramid");
+      var pp = document.getElementById("sPyramidPlay");
+      var on = !!window.__storyPyramidOn;
+      if (sp) {
+        sp.className = on ? "btn primary" : "btn";
+        sp.setAttribute("aria-pressed", on ? "true" : "false");
+      }
+      if (pp) {
+        pp.hidden = !on;
+        if (on) pp.textContent = "▶ 逐层朗读";
+      }
+    }
     function renderStorySlide() {
       var c = document.getElementById("storySlide");
       var pr = document.getElementById("storyProgress");
@@ -1998,16 +2208,28 @@
       if (n > STORY.length) n = STORY.length;
       var z = n < 10 ? "0" : "";
       var imgSrc = MEDIA_COS + "images/story/" + z + n + ".png";
-      if (pr) pr.textContent = "第 " + (storyIndex + 1) + " / " + STORY.length + " 句";
+      var pyramidOn = !!window.__storyPyramidOn;
+      var layers = pyramidOn ? storyPyramidLayers(row.en) : [];
+      if (pr) {
+        pr.textContent = "第 " + (storyIndex + 1) + " / " + STORY.length + " 句" +
+          (pyramidOn ? " · 金字塔朗读" : "");
+      }
+      var textInner = pyramidOn
+        ? "<div class=\"story-pyramid-caption\">点每一层朗读 · 每层多一个单词" +
+          (layers.length > 7 ? " · 可滑动看全部" : "") +
+          "</div>" +
+          storyPyramidHtml(row.en)
+        : "<p><span style='color:#7a5a2a'>#" + (storyIndex + 1) + "</span> " + escapeStoryHtml(row.en) + "</p>";
       c.innerHTML =
-        "<div class=\"story-sentence story-sentence--xl story-sentence-row\">" +
+        "<div class=\"story-sentence story-sentence--xl story-sentence-row" +
+        (pyramidOn ? " story-sentence--pyramid" : "") + "\">" +
         "<div class=\"story-col story-col--art\">" +
         "<div class=\"hero-art\">" + artFromSrc(imgSrc, "🐬") + "</div></div>" +
         "<div class=\"story-col story-col--text\">" +
-        "<p><span style='color:#7a5a2a'>#" + (storyIndex + 1) + "</span> " + row.en + "</p>" +
+        textInner +
         "<button type=\"button\" class=\"story-zh-hold\" aria-expanded=\"false\" title=\"点按显示或隐藏中文\" aria-label=\"点按显示或隐藏中文\">" +
         "<span class=\"story-zh-ghost\">点按显示中文</span>" +
-        "<span class=\"story-zh\" aria-hidden=\"true\">" + row.zh + "</span>" +
+        "<span class=\"story-zh\" aria-hidden=\"true\">" + escapeStoryHtml(row.zh) + "</span>" +
         "</button></div></div>";
       (function () {
         var hb = c.querySelector(".story-zh-hold");
@@ -2021,9 +2243,11 @@
         hb.onclick = function () { hb.classList.toggle("is-on"); syncA11y(); };
         syncA11y();
       })();
+      if (pyramidOn) bindStoryPyramid(c, row.en);
       document.getElementById("sPrev").disabled = storyIndex === 0;
       document.getElementById("sNext").disabled = storyIndex === STORY.length - 1;
       syncLoopToggleUi();
+      syncPyramidToggleUi();
     }
     function syncLoopToggleUi() {
       var sl = document.getElementById("sSlow");
@@ -2034,6 +2258,7 @@
     document.getElementById("sNormal").onclick = function () { window.__storySlow = false; syncLoopToggleUi(); };
     document.getElementById("sPrev").onclick = function () {
       if (storyIndex <= 0) return;
+      stopPyramidPlay();
       stopStoryLoop();
       stopStoryNarration();
       storyIndex--;
@@ -2041,27 +2266,37 @@
     };
     document.getElementById("sNext").onclick = function () {
       if (storyIndex >= STORY.length - 1) return;
+      stopPyramidPlay();
       stopStoryLoop();
       stopStoryNarration();
       storyIndex++;
       renderStorySlide();
     };
     document.getElementById("sHearLine").onclick = function () {
+      stopPyramidPlay();
       stopStoryLoop();
-      var r2 = __storySlow ? 0.8 : 1.0;
-      speakStoryLine(storyIndex, { rate: r2, slow: __storySlow });
+      speakStoryLine(storyIndex, storySpeakOpts());
+    };
+    document.getElementById("sPyramid").onclick = function () {
+      stopPyramidPlay();
+      stopStoryLoop();
+      window.__storyPyramidOn = !window.__storyPyramidOn;
+      renderStorySlide();
+    };
+    document.getElementById("sPyramidPlay").onclick = function () {
+      playStoryPyramid();
     };
     renderStorySlide();
     document.getElementById("sLoop").onclick = function () {
       if (storyLoop) { stopStoryLoop(); return; }
+      stopPyramidPlay();
       storyLoop = true;
       var myL = ++loopToken;
       document.getElementById("sLoopState").textContent = "循环中，再点停";
       (function L2() {
         if (!storyLoop) return;
         if (myL !== loopToken) return;
-        var r = __storySlow ? 0.8 : 1.0;
-        speakStoryLine(storyIndex, { rate: r, slow: __storySlow }).then(function () { if (storyLoop && myL === loopToken) setTimeout(L2, 500); });
+        speakStoryLine(storyIndex, storySpeakOpts()).then(function () { if (storyLoop && myL === loopToken) setTimeout(L2, 500); });
       })();
     };
     function updateTopNavActive(name) {
@@ -2076,7 +2311,7 @@
     function showView(name) {
       var el, n;
       n = (name === "words" || name === "review" || name === "story") ? name : "words";
-      if (n !== "story") stopStoryNarration();
+      if (n !== "story") { stopPyramidPlay(); stopStoryNarration(); }
       document.querySelectorAll(".view").forEach(function (v) { v.classList.remove("on"); });
       el = document.getElementById("view-" + n);
       if (el) el.classList.add("on");
