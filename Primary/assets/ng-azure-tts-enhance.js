@@ -16,6 +16,7 @@
   var sdkReady = null;
   var playbackGen = 0;
   var playbackAudio = null;
+  var sharedAudio = null;
 
   function loadSdk() {
     if (global.SpeechSDK) return Promise.resolve();
@@ -69,6 +70,22 @@
     playbackAudio = null;
   }
 
+  function unlockPlayback() {
+    if (!sharedAudio) {
+      sharedAudio = new Audio();
+      sharedAudio.setAttribute("playsinline", "true");
+      sharedAudio.preload = "auto";
+    }
+    try {
+      sharedAudio.muted = false;
+      sharedAudio.src =
+        "data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA";
+      var p = sharedAudio.play();
+      if (p && typeof p.catch === "function") p.catch(function () {});
+    } catch (eUnlock) {}
+    return loadSdk();
+  }
+
   function playAudioData(data, mime, gen) {
     return new Promise(function (resolve) {
       if (gen !== playbackGen) {
@@ -81,7 +98,8 @@
       }
       var blob = new Blob([data], { type: mime || "audio/wav" });
       var url = URL.createObjectURL(blob);
-      var audio = new Audio();
+      var audio = sharedAudio || new Audio();
+      sharedAudio = audio;
       playbackAudio = audio;
       var settled = false;
       function finish(ok) {
@@ -99,6 +117,9 @@
       audio.onerror = function () {
         finish(false);
       };
+      try {
+        audio.muted = false;
+      } catch (eMute) {}
       audio.src = url;
       var p = audio.play();
       if (p && typeof p.catch === "function") {
@@ -274,6 +295,8 @@
     speak: azureSpeak,
     speakPlayback: azureSpeakPlayback,
     stopPlayback: stopPlayback,
+    unlock: unlockPlayback,
+    preload: loadSdk,
     AZURE: AZURE,
   };
 })(typeof window !== "undefined" ? window : this);
