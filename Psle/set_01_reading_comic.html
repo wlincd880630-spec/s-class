@@ -178,7 +178,20 @@
     .sentence.show-zh .zh-text { display: block; }
     body.show-all-zh .zh-ghost { display: none; }
     body.show-all-zh .zh-text { display: block; }
-    body.is-printing .sent-zh { display: none !important; }
+    html body.is-printing .sent-zh,
+    html body.is-printing .zh-ghost,
+    html body.is-printing .zh-text,
+    html body.show-all-zh.is-printing .sent-zh,
+    html body.show-all-zh.is-printing .zh-ghost,
+    html body.show-all-zh.is-printing .zh-text,
+    html body.show-all-zh.is-printing .sentence.show-zh .zh-text {
+      display: none !important;
+    }
+    html body.is-printing .note-hint,
+    html body.is-printing .note-box h3,
+    html body.is-printing .passage-head .sub {
+      display: none !important;
+    }
     .wlink, .plink {
       cursor: pointer; border-radius: 4px; padding: 0 0.06em;
       border-bottom: 1.5px dotted rgba(36,28,20,0.28);
@@ -1141,12 +1154,36 @@
     });
   });
 
-  window.addEventListener("beforeprint", () => {
+  let printRestore = null;
+  function enterPrintLayout() {
+    if (printRestore) return;
+    printRestore = {
+      all: document.body.classList.contains("show-all-zh"),
+      shown: Array.prototype.slice.call(document.querySelectorAll(".sentence.show-zh"))
+    };
     document.body.classList.add("is-printing");
-  });
-  window.addEventListener("afterprint", () => {
+    document.body.classList.remove("show-all-zh");
+    printRestore.shown.forEach((s) => s.classList.remove("show-zh"));
+    const btn = document.getElementById("btnToggleZh");
+    if (btn) btn.textContent = "全部显示中文";
+  }
+  function exitPrintLayout() {
     document.body.classList.remove("is-printing");
-  });
+    if (!printRestore) return;
+    if (printRestore.all) {
+      document.body.classList.add("show-all-zh");
+      const btn = document.getElementById("btnToggleZh");
+      if (btn) btn.textContent = "全部隐藏中文";
+    }
+    printRestore.shown.forEach((s) => {
+      s.classList.add("show-zh");
+      const zh = s.querySelector(".sent-zh");
+      if (zh) zh.setAttribute("aria-expanded", "true");
+    });
+    printRestore = null;
+  }
+  window.addEventListener("beforeprint", enterPrintLayout);
+  window.addEventListener("afterprint", exitPrintLayout);
 
   document.getElementById("btnPdf").addEventListener("click", () => {
     window.print();
