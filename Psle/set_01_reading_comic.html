@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>第01套阅读理解 · 漫画版</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,500;0,9..40,700;1,9..40,500&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,480;0,8..60,600;1,8..60,480&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #f6efe2;
+      --ink: #241c14;
+      --muted: #6d5e4e;
+      --gold: #c4782a;
+      --gold-soft: #f3ddb8;
+      --teal: #1f6f66;
+      --teal-soft: #d5eee8;
+      --card: #fffaf2;
+      --line: #e4d5c0;
+      --shadow: rgba(36, 28, 20, 0.12);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body {
+      font-family: "DM Sans", system-ui, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(900px 420px at 8% -8%, rgba(196, 120, 42, 0.18), transparent 55%),
+        radial-gradient(800px 380px at 100% 0%, rgba(31, 111, 102, 0.14), transparent 50%),
+        linear-gradient(180deg, #f3e7d2, var(--paper) 28%, #efe4d1);
+      min-height: 100vh;
+    }
+    a { color: inherit; }
+
+    .topbar {
+      position: sticky; top: 0; z-index: 20;
+      display: flex; flex-wrap: wrap; gap: 0.55rem; align-items: center;
+      justify-content: space-between;
+      padding: 0.7rem 1.1rem;
+      background: rgba(255, 250, 242, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    .brand { display: flex; flex-direction: column; gap: 0.05rem; }
+    .brand .kicker { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); font-weight: 700; }
+    .brand strong { font-family: "Fraunces", Georgia, serif; font-size: 1.05rem; }
+    .top-actions { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .btn {
+      appearance: none; border: 1px solid var(--line); background: #fff;
+      color: var(--ink); border-radius: 999px; padding: 0.42rem 0.9rem;
+      font: inherit; font-weight: 700; font-size: 0.88rem; cursor: pointer;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem;
+    }
+    .btn:hover { border-color: var(--ink); }
+    .btn.primary { background: var(--ink); color: #fff8ee; border-color: var(--ink); }
+    .btn.gold { background: #fff6e8; color: #8a4b12; border-color: #e0b56a; }
+    .btn.teal { background: var(--teal-soft); color: #14554e; border-color: #9dcdc6; }
+    .btn.tts { padding: 0.22rem 0.55rem; font-size: 0.78rem; border-radius: 8px; background: #fff; }
+    .btn.tts.speaking { background: #1c2420; color: #fff8ee; border-color: #1c2420; }
+
+    .wrap { max-width: 980px; margin: 0 auto; padding: 1.1rem 1rem 4rem; }
+    .hero {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 1.35rem 1.35rem 1.2rem;
+      box-shadow: 0 16px 40px var(--shadow);
+      margin-bottom: 1.1rem;
+    }
+    .hero h1 {
+      font-family: "Fraunces", Georgia, serif;
+      font-size: clamp(1.55rem, 4vw, 2.2rem);
+      line-height: 1.2; margin: 0 0 0.45rem;
+    }
+    .hero p { margin: 0.2rem 0 0; color: var(--muted); line-height: 1.55; max-width: 46rem; }
+    .hint-row { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.9rem; }
+    .chip {
+      font-size: 0.78rem; font-weight: 700; color: #5c4a38;
+      background: #f4e6cf; border-radius: 999px; padding: 0.22rem 0.65rem;
+    }
+    .toc {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; margin: 1rem 0 1.4rem;
+    }
+    @media (max-width: 640px) { .toc { grid-template-columns: 1fr; } }
+    .toc a {
+      display: block; text-decoration: none; background: var(--card);
+      border: 1px solid var(--line); border-radius: 18px; padding: 0.95rem 1rem;
+      box-shadow: 0 8px 22px var(--shadow);
+    }
+    .toc a .tag { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; }
+    .toc a h2 { font-family: "Fraunces", Georgia, serif; font-size: 1.15rem; margin: 0.2rem 0 0.25rem; }
+    .toc a p { margin: 0; color: var(--muted); font-size: 0.88rem; }
+    .toc-a { border-left: 6px solid var(--gold) !important; }
+    .toc-b { border-left: 6px solid var(--teal) !important; }
+    .toc-a .tag { color: var(--gold); }
+    .toc-b .tag { color: var(--teal); }
+
+    .passage-head {
+      display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between;
+      gap: 0.6rem; margin: 1.6rem 0 0.85rem;
+    }
+    .passage-head h2 {
+      font-family: "Fraunces", Georgia, serif; font-size: 1.55rem; margin: 0;
+    }
+    .passage-head .sub { color: var(--muted); margin: 0.15rem 0 0; }
+    .pass-a h2 { color: #8a4b12; }
+    .pass-b h2 { color: var(--teal); }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 0.85rem 0.85rem 1rem;
+      margin-bottom: 1.15rem;
+      box-shadow: 0 14px 32px var(--shadow);
+    }
+    .panel-top {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 0.5rem; margin: 0.15rem 0.35rem 0.55rem;
+    }
+    .panel-num {
+      width: 2rem; height: 2rem; border-radius: 50%;
+      display: inline-grid; place-items: center;
+      font-weight: 800; color: #fff8ee;
+      background: var(--ink); font-size: 0.92rem;
+    }
+    .pass-a .panel-num { background: #a65b16; }
+    .pass-b .panel-num { background: var(--teal); }
+    .panel-label { font-weight: 700; font-size: 0.92rem; }
+    .panel-art {
+      border: 3px solid #2a2118;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #ddd2c2;
+      box-shadow: 6px 7px 0 #2a2118;
+      margin: 0 0.2rem 1rem;
+    }
+    .panel-art img {
+      display: block; width: 100%; height: auto; vertical-align: middle;
+    }
+    .sentences { padding: 0 0.4rem; }
+    .sentence {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.45rem 0.55rem;
+      align-items: start;
+      padding: 0.55rem 0.45rem;
+      border-radius: 12px;
+      margin-bottom: 0.2rem;
+    }
+    .sentence:hover { background: #f7efe1; }
+    .sentence.speaking { background: #fff3d6; outline: 2px solid #e0b56a; }
+    .sent-en {
+      font-family: "Source Serif 4", Georgia, serif;
+      font-size: 1.18rem; line-height: 1.72; margin: 0;
+    }
+    .sent-zh { grid-column: 2; margin: -0.15rem 0 0; color: var(--muted); font-size: 0.88rem; }
+    body.hide-zh .sent-zh { display: none; }
+    .wlink, .plink {
+      cursor: pointer; border-radius: 4px; padding: 0 0.06em;
+      border-bottom: 1.5px dotted rgba(36,28,20,0.28);
+    }
+    .wlink:hover { background: #ffe7b8; border-bottom-color: #c4782a; }
+    .plink {
+      background: rgba(31,111,102,0.1);
+      border-bottom: 1.5px solid rgba(31,111,102,0.45);
+    }
+    .plink:hover { background: #cfeedf; }
+    .uword { background: #fff1c4; border-bottom: 2px solid #c4782a; }
+    .gloss { color: #8a6a3a; font-size: 0.92em; }
+
+    .note-box {
+      margin: 0.75rem 0.35rem 0.15rem;
+      border: 1.5px dashed #d7c4a6;
+      border-radius: 14px;
+      background:
+        linear-gradient(#fffdf8, #fffdf8) padding-box,
+        repeating-linear-gradient(transparent, transparent 27px, #efe3d1 27px, #efe3d1 28px);
+      padding: 0.55rem 0.7rem 0.4rem;
+    }
+    .note-box h3 {
+      margin: 0 0 0.35rem; font-size: 0.78rem; letter-spacing: 0.06em;
+      text-transform: uppercase; color: #8a6a3a;
+    }
+    .note-input {
+      width: 100%; min-height: 5.2rem; resize: vertical;
+      border: 0; background: transparent; font: inherit; color: var(--ink);
+      line-height: 1.75; outline: none;
+    }
+
+    #modal {
+      display: none; position: fixed; inset: 0; z-index: 40;
+      background: rgba(36,28,20,0.38); align-items: center; justify-content: center;
+      padding: 1rem;
+    }
+    #modal.open { display: flex; }
+    #modal .box {
+      width: min(520px, 100%);
+      background: #fffaf2; border-radius: 18px; padding: 1.05rem 1.1rem 1rem;
+      border: 1px solid var(--line); box-shadow: 0 20px 50px rgba(36,28,20,0.25);
+    }
+    #modalWord { margin: 0; font-family: "Fraunces", Georgia, serif; color: #8a4b12; }
+    #modalBody { white-space: pre-wrap; line-height: 1.55; margin: 0.55rem 0 0.8rem; }
+
+    #selBar {
+      display: none; position: absolute; z-index: 30;
+      background: #241c14; color: #fff8ee; border-radius: 999px;
+      padding: 0.28rem 0.35rem; gap: 0.25rem; box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+    }
+    #selBar.show { display: flex; }
+    #selBar button {
+      appearance: none; border: 0; background: transparent; color: inherit;
+      font: inherit; font-weight: 700; font-size: 0.78rem; cursor: pointer;
+      padding: 0.22rem 0.55rem; border-radius: 999px;
+    }
+    #selBar button:hover { background: rgba(255,255,255,0.12); }
+
+    .print-cover { display: none; }
+    .screen-only {}
+
+    @media print {
+      @page { size: A4 portrait; margin: 11mm 12mm 12mm; }
+      body {
+        background: #fff !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .topbar, .hero, .toc, .hint-row, .no-print, #modal, #selBar, .top-actions,
+      .btn.tts, .passage-head .no-print { display: none !important; }
+      .print-cover { display: block !important; }
+      .wrap { max-width: none; padding: 0; }
+      .print-cover {
+        break-after: page; page-break-after: always;
+        border: 2px solid #2a2118; border-radius: 10px; padding: 18mm 14mm;
+        min-height: 250mm;
+      }
+      .print-cover h1 {
+        font-family: "Fraunces", Georgia, serif;
+        font-size: 28pt; margin: 8mm 0 4mm; line-height: 1.15;
+      }
+      .print-cover .rule {
+        height: 0; border: 0; border-top: 2px solid #2a2118; margin: 6mm 0;
+      }
+      .cover-meta { display: grid; gap: 7mm; margin-top: 10mm; font-size: 12pt; }
+      .cover-line { border-bottom: 1px solid #cbb89a; padding-bottom: 2mm; }
+      .cover-thumbs { display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; margin-top: 12mm; }
+      .cover-thumbs img { width: 100%; border-radius: 8px; border: 2px solid #2a2118; }
+      .passage-head { margin-top: 0; }
+      .panel {
+        break-inside: avoid; page-break-inside: avoid;
+        break-after: page; page-break-after: always;
+        box-shadow: none; border: 1.5px solid #d7c4a6; border-radius: 10px;
+        padding: 6mm;
+      }
+      .pass-b .panel:last-child, .panel:last-of-type {
+        break-after: auto; page-break-after: auto;
+      }
+      .panel-art { box-shadow: none; margin-bottom: 4mm; border-width: 2px; }
+      .panel-art img {
+        max-height: 68mm;
+        width: 100%;
+        object-fit: cover;
+        object-position: center 35%;
+      }
+      .sent-en { font-size: 12pt; line-height: 1.55; }
+      .sent-zh { font-size: 9pt; }
+      .sentence { padding: 0.2rem 0; }
+      .note-box {
+        min-height: 36mm;
+        background: repeating-linear-gradient(#fff, #fff 8.2mm, #eadcc6 8.2mm, #eadcc6 8.35mm);
+        border-style: solid;
+      }
+      .note-input {
+        min-height: 32mm; font-size: 11pt;
+      }
+      .print-footer {
+        display: flex !important; justify-content: space-between;
+        font-size: 8.5pt; color: #6d5e4e; margin-top: 3mm;
+      }
+    }
+    .print-footer { display: none; }
+  </style>
+</head>
+<body>
+  <div class="topbar no-print">
+    <div class="brand">
+      <span class="kicker">S-Class · PSLE Set 01</span>
+      <strong>阅读理解漫画版</strong>
+    </div>
+    <div class="top-actions">
+      <a class="btn" href="set_01_typeflow.html">← 返回题型页</a>
+      <button type="button" class="btn" id="btnToggleZh">隐藏中文提示</button>
+      <button type="button" class="btn gold" id="btnPdf">导出 PDF 笔记册</button>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <section class="print-cover" aria-hidden="true">
+      <p style="letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:#c4782a;margin:0">S-Class English · Comic Reader</p>
+      <h1>第01套阅读理解<br>漫画笔记册</h1>
+      <p style="font-size:13pt;color:#6d5e4e;max-width:42rem">Passage A · Joris and the Cheetahs　　Passage B · How to Stay Young</p>
+      <hr class="rule" />
+      <div class="cover-meta">
+        <div class="cover-line">姓名 Name：<span id="printName"></span></div>
+        <div class="cover-line">班级 / 日期：______________________________</div>
+        <div class="cover-line">学习目标：看图理解故事 → 点词 / 划选词组查询 → 跟读句子 → 在笔记栏写下关键词。</div>
+      </div>
+      <div class="cover-thumbs">
+        <img src="set_01_comic/img/a1-book.jpg" alt="" />
+        <img src="set_01_comic/img/b1-garden.jpg" alt="" />
+      </div>
+    </section>
+
+    <header class="hero screen-only">
+      <h1>把阅读变成一本 3D 漫画</h1>
+      <p>Passage A 与 Passage B 按情节拆成图文格子。点单词查词，划选多个词查词组；每句都可 Azure 英式慢速朗读。导出 PDF 后，每格下方留有笔记线，方便纸笔摘录。</p>
+      <div class="hint-row">
+        <span class="chip">点词查义</span>
+        <span class="chip">划选词组</span>
+        <span class="chip">Azure 朗读</span>
+        <span class="chip">PDF 笔记册</span>
+      </div>
+    </header>
+
+    <nav class="toc screen-only" aria-label="篇章导航">
+      <a class="toc-a" href="#passage-a">
+        <div class="tag">PASSAGE A</div>
+        <h2>Joris and the Cheetahs</h2>
+        <p>小男孩乔里斯为保护非洲猎豹而行动。</p>
+      </a>
+      <a class="toc-b" href="#passage-b">
+        <div class="tag">PASSAGE B</div>
+        <h2>How to Stay Young</h2>
+        <p>交快乐的朋友、保持学习与健康。</p>
+      </a>
+    </nav>
+
+    <div id="comicRoot"></div>
+  </div>
+
+  <div id="selBar" class="no-print" role="toolbar" aria-label="选中词组">
+    <button type="button" id="selLookup">查词组</button>
+    <button type="button" id="selSpeak">朗读</button>
+  </div>
+
+  <div id="modal" aria-hidden="true">
+    <div class="box">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0.5rem">
+        <h3 id="modalWord">词汇</h3>
+        <button type="button" class="btn primary" id="modalTts">朗读</button>
+      </div>
+      <p id="modalBody"></p>
+      <button type="button" class="btn" id="modalClose">关闭</button>
+    </div>
+  </div>
+
+  <script>
+  const INLINE_CFG = {
+    deepseekKey: "sk-daa16008e81843deba6fefe9dce51465",
+    azureKey: "4SJbskufsk2tiu5jq1kzlJwTDw2eVPYd8e7HvDhb3lX6ZmItWOnxJQQJ99CHACqBBLyXJ3w3AAAYACOGxnpO",
+    azureRegion: "southeastasia",
+  };
+
+  const PHRASES = [
+    "protect them from being killed",
+    "one new thing every day",
+    "got in touch with",
+    "wildlife sanctuary",
+    "in great danger",
+    "raise awareness",
+    "make a difference",
+    "raising money",
+    "yard sales",
+    "skating parties",
+    "special collars",
+    "stay young",
+    "forget some numbers",
+    "make happy friends",
+    "keep learning",
+    "take an interest in",
+    "keep healthy",
+    "see the doctor",
+    "and so on",
+    "so far",
+    "even if",
+    "at least",
+    "bad mood",
+    "normal kid",
+    "young boy",
+    "big animals",
+    "simple things",
+    "laughing often",
+    "having a walk often",
+    "telling people you love them"
+  ];
+  const UNDERLINED = ["track", "weight"];
+
+  const COMIC = [
+    {
+      id: "a",
+      title: "Passage A",
+      en: "Joris and the Cheetahs",
+      zh: "乔里斯与猎豹",
+      panels: [
+        {
+          id: "a1",
+          img: "set_01_comic/img/a1-book.jpg",
+          alt: "六岁的乔里斯在卧室里读关于猎豹的书，神情难过",
+          kicker: "A boy and a book",
+          sentences: [
+            { en: "Joris Hutchissen, a young boy, loves cheetahs (非洲猎豹).", zh: "小男孩乔里斯非常喜爱非洲猎豹。" },
+            { en: "He was upset to learn that the big animals might be in great danger.", zh: "当他得知这些大型动物可能处境危险时，他很难过。" },
+            { en: "“When he was six, he was reading a book about cheetahs. The book says cheetahs could be in great danger. He got very upset,” said Joris' mother.", zh: "妈妈说：他六岁读猎豹的书时，书上说猎豹可能有危险，他非常难过。" }
+          ]
+        },
+        {
+          id: "a2",
+          img: "set_01_comic/img/a2-sanctuary.jpg",
+          alt: "乔里斯和妈妈在厨房联系非洲野生动物保护中心",
+          kicker: "Ask for help",
+          sentences: [
+            { en: "Joris asked his mum what he could do to help.", zh: "乔里斯问妈妈，自己能做些什么来帮忙。" },
+            { en: "They got in touch with a wildlife sanctuary (野生动物保护中心) in Africa.", zh: "他们联系上了非洲的一家野生动物保护中心。" }
+          ]
+        },
+        {
+          id: "a3",
+          img: "set_01_comic/img/a3-fundraiser.jpg",
+          alt: "乔里斯在后院义卖T恤、鲜花和果汁来筹款",
+          kicker: "A normal kid who starts",
+          sentences: [
+            { en: "Joris began raising money.", zh: "乔里斯开始筹款。" },
+            { en: "He sold T-shirts, flowers and juice.", zh: "他卖T恤、鲜花和果汁。" },
+            { en: "He held yard sales and skating parties.", zh: "他还举办庭院旧货甩卖和滑冰派对。" },
+            { en: "“I'm just a normal kid. I only want to do something to save them,” Joris said.", zh: "乔里斯说：“我只是个普通小孩。我只想做点事来救它们。”" }
+          ]
+        },
+        {
+          id: "a4",
+          img: "set_01_comic/img/a4-collar.jpg",
+          alt: "保护人员给猎豹戴上追踪项圈，乔里斯在一旁观看",
+          kicker: "Collars that track",
+          sentences: [
+            { en: "So far, he has raised more than $14,000.", zh: "到目前为止，他已经筹到一万四千多美元。" },
+            { en: "The money is used to buy special collars (项圈).", zh: "这些钱用来购买特殊的项圈。" },
+            { en: "The collars track the cheetahs.", zh: "项圈可以追踪猎豹。" },
+            { en: "This helps protect them from being killed.", zh: "这有助于保护它们不被杀害。" }
+          ]
+        },
+        {
+          id: "a5",
+          img: "set_01_comic/img/a5-volunteer.jpg",
+          alt: "乔里斯在非洲保护中心当志愿者，陪伴猎豹",
+          kicker: "Three summers in Africa",
+          sentences: [
+            { en: "Joris has also visited the sanctuary in Africa.", zh: "乔里斯还去过非洲的保护中心。" },
+            { en: "He has spent three summers volunteering there.", zh: "他在那里做了三个夏天的志愿者。" }
+          ]
+        },
+        {
+          id: "a6",
+          img: "set_01_comic/img/a6-awareness.jpg",
+          alt: "乔里斯在学校集会上呼吁大家保护猎豹",
+          kicker: "Everyone can make a difference",
+          sentences: [
+            { en: "“We need to raise awareness (意识) and tell people what's happening,” Joris says.", zh: "乔里斯说：“我们需要提高意识，告诉人们正在发生的事。”" },
+            { en: "“I've learned that everyone can make a difference, even if you're just a kid!” says Joris.", zh: "“我明白了每个人都可以有所作为，即使你只是个孩子！”" },
+            { en: "“You just have to start somewhere.”", zh: "“你只要从某处开始就好。”" }
+          ]
+        }
+      ]
+    },
+    {
+      id: "b",
+      title: "Passage B",
+      en: "How to Stay Young",
+      zh: "如何保持年轻",
+      panels: [
+        {
+          id: "b1",
+          img: "set_01_comic/img/b1-garden.jpg",
+          alt: "一位神采奕奕的女士站在春日花园里微笑",
+          kicker: "Here's some advice",
+          sentences: [
+            { en: "Do you want to stay young?", zh: "你想保持年轻吗？" },
+            { en: "Do you know how to stay young?", zh: "你知道怎样才能保持年轻吗？" },
+            { en: "Here's some advice (建议).", zh: "这里有一些建议。" }
+          ]
+        },
+        {
+          id: "b2",
+          img: "set_01_comic/img/b2-forget-numbers.jpg",
+          alt: "体重秤、卷尺和日历像气球一样飘走，医生在一旁接住",
+          kicker: "Forget some numbers",
+          sentences: [
+            { en: "Forget some numbers.", zh: "忘掉一些数字吧。" },
+            { en: "The numbers are about your age, weight and height (身高).", zh: "这些数字是关于你的年龄、体重和身高。" },
+            { en: "Let the doctor worry about them.", zh: "让医生去操心这些数字。" },
+            { en: "That's why you pay him or her.", zh: "这正是你付钱给医生的原因。" }
+          ]
+        },
+        {
+          id: "b3",
+          img: "set_01_comic/img/b3-happy-friends.jpg",
+          alt: "公园野餐，开朗快乐的朋友们让心情变好",
+          kicker: "Make happy friends",
+          sentences: [
+            { en: "Make happy friends.", zh: "结交快乐的朋友。" },
+            { en: "People who are bright and happy should be your friends.", zh: "开朗快乐的人应该成为你的朋友。" },
+            { en: "Their happiness may help you change (改变) your bad mood (情绪), and your life will be better.", zh: "他们的快乐也许能帮你改变坏心情，你的生活也会更好。" }
+          ]
+        },
+        {
+          id: "b4",
+          img: "set_01_comic/img/b4-keep-learning.jpg",
+          alt: "在温室里用电脑学习园艺，手里捧着幼苗",
+          kicker: "Keep learning",
+          sentences: [
+            { en: "Keep learning.", zh: "保持学习。" },
+            { en: "Learn more about the computer, gardening or others.", zh: "多了解电脑、园艺或其他事物。" },
+            { en: "Don't stop using your mind.", zh: "不要停止动脑。" },
+            { en: "Take an interest in the world around you, and learn at least one new thing every day.", zh: "对周围的世界保持兴趣，并且每天至少学一样新东西。" },
+            { en: "Learning makes you become very clever.", zh: "学习会让你变得非常聪明。" }
+          ]
+        },
+        {
+          id: "b5",
+          img: "set_01_comic/img/b5-keep-healthy.jpg",
+          alt: "晨跑、健康早餐，医生竖起大拇指",
+          kicker: "Keep healthy",
+          sentences: [
+            { en: "Keep healthy.", zh: "保持健康。" },
+            { en: "Do more exercise and eat healthy food to keep healthy.", zh: "多运动、吃健康食物来保持健康。" },
+            { en: "If there is something wrong, go to see the doctor.", zh: "如果身体有什么不对，就去看医生。" }
+          ]
+        },
+        {
+          id: "b6",
+          img: "set_01_comic/img/b6-simple-joys.jpg",
+          alt: "散步、欢笑、拥抱和享受阳光茶点的简单快乐",
+          kicker: "Simple things",
+          sentences: [
+            { en: "There are many other ways to stay young, such as enjoying the simple things, laughing often, having a walk often, telling people you love them and so on.", zh: "还有许多保持年轻的方法，比如享受简单事物、经常笑、常常散步、告诉别人你爱他们，等等。" }
+          ]
+        }
+      ]
+    }
+  ];
+
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+
+  function wrapInteractive(en) {
+    const glossRe = /(\([^)]*[\u4e00-\u9fff][^)]*\))/g;
+    return String(en).split(glossRe).map((part) => {
+      if (!part) return "";
+      if (/^\([^)]*[\u4e00-\u9fff][^)]*\)$/.test(part)) {
+        return '<span class="gloss">' + esc(part) + "</span>";
+      }
+      return wrapPhrasesAndWords(part);
+    }).join("");
+  }
+
+  function wrapPhrasesAndWords(s) {
+    const phrases = PHRASES.slice().sort((a, b) => b.length - a.length);
+    const phrasePat = phrases.map((p) => p.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|");
+    const re = new RegExp("(" + phrasePat + "|\\b[A-Za-z]+(?:[-'][A-Za-z]+)*\\b)", "gi");
+    let out = "";
+    let last = 0;
+    let m;
+    while ((m = re.exec(s)) !== null) {
+      out += esc(s.slice(last, m.index));
+      const lower = m[0].toLowerCase();
+      const isPhrase = phrases.some((p) => p.toLowerCase() === lower);
+      const isU = UNDERLINED.some((w) => w.toLowerCase() === lower);
+      const cls = (isPhrase ? "plink" : "wlink") + (isU ? " uword" : "");
+      out += '<span class="' + cls + '" data-q="' + esc(m[0]) + '">' + esc(m[0]) + "</span>";
+      last = m.index + m[0].length;
+    }
+    out += esc(s.slice(last));
+    return out;
+  }
+
+  function noteKey(id) { return "psle-set01-comic-note-" + id; }
+
+  function render() {
+    const root = document.getElementById("comicRoot");
+    let html = "";
+    COMIC.forEach((pass) => {
+      html += '<section class="pass-' + pass.id + '" id="passage-' + pass.id + '">';
+      html += '<div class="passage-head"><div>';
+      html += "<h2>" + esc(pass.title) + " · " + esc(pass.en) + "</h2>";
+      html += '<p class="sub">' + esc(pass.zh) + "</p></div>";
+      html += '<button type="button" class="btn teal no-print btn-pass-tts" data-pass="' + pass.id + '">朗读本篇</button>';
+      html += "</div>";
+      pass.panels.forEach((panel, pi) => {
+        html += '<article class="panel" id="' + panel.id + '">';
+        html += '<div class="panel-top"><div style="display:flex;align-items:center;gap:.55rem">';
+        html += '<span class="panel-num">' + (pi + 1) + "</span>";
+        html += '<div class="panel-label">' + esc(panel.kicker) + "</div></div>";
+        html += '<button type="button" class="btn tts no-print btn-panel-tts" data-panel="' + panel.id + '">朗读本格</button>';
+        html += "</div>";
+        html += '<figure class="panel-art"><img src="' + esc(panel.img) + '" alt="' + esc(panel.alt) + '" width="1400" height="933" loading="' + (pass.id === "a" && pi === 0 ? "eager" : "lazy") + '" /></figure>';
+        html += '<div class="sentences">';
+        panel.sentences.forEach((sent, si) => {
+          const sid = panel.id + "-s" + si;
+          html += '<div class="sentence" data-sid="' + sid + '">';
+          html += '<button type="button" class="btn tts no-print btn-sent-tts" data-text="' + esc(stripTts(sent.en)) + '" title="Azure 朗读本句">朗读</button>';
+          html += '<p class="sent-en" data-plain="' + esc(stripTts(sent.en)) + '">' + wrapInteractive(sent.en) + "</p>";
+          html += '<p class="sent-zh">' + esc(sent.zh) + "</p>";
+          html += "</div>";
+        });
+        html += "</div>";
+        const saved = localStorage.getItem(noteKey(panel.id)) || "";
+        html += '<div class="note-box"><h3>My Notes · 我的笔记</h3>';
+        html += '<textarea class="note-input" data-note="' + panel.id + '" placeholder="写下本格关键词、词组或一句感想…">' + esc(saved) + "</textarea></div>";
+        html += '<div class="print-footer"><span>' + esc(pass.title) + " · " + esc(panel.kicker) + "</span><span>S-Class 漫画笔记册</span></div>";
+        html += "</article>";
+      });
+      html += "</section>";
+    });
+    root.innerHTML = html;
+  }
+
+  function stripTts(s) {
+    return String(s).replace(/\([^)]*[\u4e00-\u9fff][^)]*\)/g, " ").replace(/\s+/g, " ").trim();
+  }
+
+  function xmlEscapeTts(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+
+  function hasDeepseekKey() {
+    return String(INLINE_CFG.deepseekKey || "").trim().length >= 8;
+  }
+
+  async function deepseekChat(userContent, maxTokens) {
+    if (!hasDeepseekKey()) throw new Error("未配置 DeepSeek API Key");
+    const r = await fetch("https://api.deepseek.com/chat/completions", {
+      method: "POST",
+      mode: "cors",
+      credentials: "omit",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + INLINE_CFG.deepseekKey,
+      },
+      body: JSON.stringify({
+        model: "deepseek-v4-flash",
+        messages: [{ role: "user", content: userContent }],
+        temperature: 0.2,
+        max_tokens: maxTokens || 512,
+      }),
+    });
+    let data = {};
+    try { data = await r.json(); } catch (e) { /* ignore */ }
+    if (!r.ok) {
+      const msg = (data.error && data.error.message) || data.detail || r.statusText || "请求失败";
+      throw new Error(msg);
+    }
+    const c = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
+    return (c || "").trim();
+  }
+
+  let modalQuery = "";
+  let playingAudio = null;
+
+  async function openLookup(query, context) {
+    const q = String(query || "").trim();
+    if (!q) return;
+    modalQuery = q;
+    document.getElementById("modalWord").textContent = q;
+    document.getElementById("modalBody").textContent = "查询中…";
+    document.getElementById("modal").classList.add("open");
+    if (!hasDeepseekKey()) {
+      document.getElementById("modalBody").textContent = "未配置查词密钥。仍可点击「朗读」。";
+      return;
+    }
+    try {
+      const ctx = String(context || "").slice(0, 1200);
+      const isPhrase = /\s/.test(q);
+      const txt = await deepseekChat(
+        "你是小学高年级 / 小升初英语老师。请解释英文" + (isPhrase ? "词组" : "单词") +
+        "「" + q + "」在下列语境中的含义。用中文，简洁准确，分点：1) 音标 2) 词性/结构 3) 语境义 4) 一个简单英文例句+中文。不要客套。\n\n语境：\n" + ctx,
+        512
+      );
+      document.getElementById("modalBody").textContent = txt || "（无返回）";
+    } catch (e) {
+      document.getElementById("modalBody").textContent = "查询失败：" + e.message;
+    }
+  }
+
+  function closestContext(el) {
+    const sent = el && el.closest && el.closest(".sentence");
+    if (sent && sent.innerText) return sent.innerText;
+    const panel = el && el.closest && el.closest(".panel");
+    return panel && panel.innerText ? panel.innerText.slice(0, 1200) : "";
+  }
+
+  async function playTtsAzure(textPlain) {
+    const t = String(textPlain || "").trim();
+    if (!t) throw new Error("无朗读内容");
+    const region = String(INLINE_CFG.azureRegion || "").trim();
+    const key = String(INLINE_CFG.azureKey || "").trim();
+    if (!region || !key) throw new Error("未配置 Azure");
+    const url = "https://" + region + ".tts.speech.microsoft.com/cognitiveservices/v1";
+    const ssml =
+      "<speak version='1.0' xml:lang='en-GB'>" +
+      "<voice xml:lang='en-GB' name='en-GB-RyanNeural'>" +
+      "<prosody rate='0.85'>" + xmlEscapeTts(t) + "</prosody></voice></speak>";
+    const r = await fetch(url, {
+      method: "POST",
+      mode: "cors",
+      credentials: "omit",
+      headers: {
+        "Ocp-Apim-Subscription-Key": key,
+        "Content-Type": "application/ssml+xml",
+        "X-Microsoft-OutputFormat": "audio-16khz-128kbitrate-mono-mp3",
+      },
+      body: ssml,
+    });
+    if (!r.ok) throw new Error("Azure " + r.status);
+    const buf = await r.arrayBuffer();
+    const blob = new Blob([buf], { type: "audio/mpeg" });
+    const u = URL.createObjectURL(blob);
+    if (playingAudio) {
+      try { playingAudio.pause(); } catch (e) { /* ignore */ }
+    }
+    const a = new Audio(u);
+    playingAudio = a;
+    await a.play();
+    await new Promise((resolve, reject) => {
+      a.onended = () => { URL.revokeObjectURL(u); resolve(); };
+      a.onerror = () => { URL.revokeObjectURL(u); reject(new Error("音频播放失败")); };
+    });
+  }
+
+  function pickEnglishTtsVoice() {
+    const syn = window.speechSynthesis;
+    if (!syn) return null;
+    const vs = syn.getVoices();
+    return vs.find((v) => /^en-GB\b/i.test(v.lang || "")) ||
+      vs.find((v) => /^en-US\b/i.test(v.lang || "")) ||
+      vs.find((v) => (v.lang || "").toLowerCase().startsWith("en")) || null;
+  }
+
+  async function playTtsSpeechSynth(textPlain) {
+    const t = String(textPlain || "").trim();
+    if (!t) throw new Error("无朗读内容");
+    const syn = window.speechSynthesis;
+    if (!syn) throw new Error("当前浏览器不支持本机语音");
+    syn.cancel();
+    return new Promise((resolve, reject) => {
+      const u = new SpeechSynthesisUtterance(t);
+      u.lang = "en-GB";
+      u.rate = 0.85;
+      const voice = pickEnglishTtsVoice();
+      if (voice) u.voice = voice;
+      u.onend = () => resolve();
+      u.onerror = () => reject(new Error("本机朗读出错"));
+      syn.speak(u);
+    });
+  }
+
+  async function playTts(text) {
+    const t = String(text || "").trim();
+    if (!t) return;
+    const fileLocal = location.protocol === "file:";
+    const order = fileLocal
+      ? [playTtsSpeechSynth, playTtsAzure]
+      : [playTtsAzure, playTtsSpeechSynth];
+    let lastErr = null;
+    for (let i = 0; i < order.length; i++) {
+      try { await order[i](t); return; }
+      catch (e) { lastErr = e; }
+    }
+    alert("朗读未成功：" + (lastErr && lastErr.message ? lastErr.message : "未知"));
+  }
+
+  async function speakWithHighlight(el, text) {
+    document.querySelectorAll(".sentence.speaking, .btn.tts.speaking").forEach((n) => n.classList.remove("speaking"));
+    if (el) el.classList.add("speaking");
+    const btn = el && el.querySelector && el.querySelector(".btn-sent-tts");
+    if (btn) btn.classList.add("speaking");
+    try { await playTts(text); }
+    finally {
+      if (el) el.classList.remove("speaking");
+      if (btn) btn.classList.remove("speaking");
+    }
+  }
+
+  function panelPlain(panelId) {
+    const art = document.getElementById(panelId);
+    if (!art) return "";
+    return Array.from(art.querySelectorAll(".sent-en")).map((p) => p.getAttribute("data-plain") || p.innerText).join(" ");
+  }
+
+  function passPlain(passId) {
+    const pass = COMIC.find((p) => p.id === passId);
+    if (!pass) return "";
+    return pass.panels.map((panel) => panel.sentences.map((s) => stripTts(s.en)).join(" ")).join(" ");
+  }
+
+  const selBar = document.getElementById("selBar");
+  let selText = "";
+
+  function hideSelBar() { selBar.classList.remove("show"); selText = ""; }
+
+  function showSelBar(range) {
+    const rect = range.getBoundingClientRect();
+    selBar.classList.add("show");
+    const top = window.scrollY + rect.top - 42;
+    const left = window.scrollX + rect.left + rect.width / 2 - 70;
+    selBar.style.top = Math.max(8, top) + "px";
+    selBar.style.left = Math.max(8, left) + "px";
+  }
+
+  function selectedEnglish() {
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed) return "";
+    const t = String(sel.toString() || "").replace(/\s+/g, " ").trim();
+    if (!t || !/[A-Za-z]/.test(t)) return "";
+    const words = t.split(" ").filter(Boolean);
+    if (words.length < 2) return "";
+    return t;
+  }
+
+  render();
+
+  const printNameEl = document.getElementById("printName");
+  if (printNameEl) {
+    printNameEl.textContent = localStorage.getItem("authing-user") || localStorage.getItem("current-user") || "";
+  }
+
+  document.getElementById("comicRoot").addEventListener("click", (ev) => {
+    const t = ev.target;
+    if (!t || !t.closest) return;
+    const sentBtn = t.closest(".btn-sent-tts");
+    if (sentBtn) {
+      ev.preventDefault();
+      speakWithHighlight(sentBtn.closest(".sentence"), sentBtn.getAttribute("data-text") || "");
+      return;
+    }
+    const panelBtn = t.closest(".btn-panel-tts");
+    if (panelBtn) {
+      ev.preventDefault();
+      playTts(panelPlain(panelBtn.getAttribute("data-panel")));
+      return;
+    }
+    const passBtn = t.closest(".btn-pass-tts");
+    if (passBtn) {
+      ev.preventDefault();
+      playTts(passPlain(passBtn.getAttribute("data-pass")));
+      return;
+    }
+    const w = t.closest(".wlink, .plink");
+    if (w) {
+      const sel = selectedEnglish();
+      if (sel) return;
+      ev.preventDefault();
+      openLookup(w.getAttribute("data-q") || w.textContent, closestContext(w));
+    }
+  });
+
+  document.getElementById("comicRoot").addEventListener("input", (ev) => {
+    const ta = ev.target;
+    if (!ta || !ta.classList || !ta.classList.contains("note-input")) return;
+    localStorage.setItem(noteKey(ta.getAttribute("data-note")), ta.value);
+  });
+
+  document.addEventListener("mouseup", () => {
+    setTimeout(() => {
+      const t = selectedEnglish();
+      const sel = window.getSelection();
+      if (!t || !sel || sel.rangeCount === 0) { hideSelBar(); return; }
+      selText = t;
+      showSelBar(sel.getRangeAt(0));
+    }, 10);
+  });
+
+  document.getElementById("selLookup").addEventListener("click", () => {
+    if (selText) openLookup(selText, selText);
+    hideSelBar();
+  });
+  document.getElementById("selSpeak").addEventListener("click", () => {
+    if (selText) playTts(selText);
+    hideSelBar();
+  });
+
+  document.getElementById("modalClose").addEventListener("click", () => {
+    document.getElementById("modal").classList.remove("open");
+  });
+  document.getElementById("modal").addEventListener("click", (ev) => {
+    if (ev.target.id === "modal") document.getElementById("modal").classList.remove("open");
+  });
+  document.getElementById("modalTts").addEventListener("click", () => {
+    if (modalQuery) playTts(modalQuery);
+  });
+
+  document.getElementById("btnToggleZh").addEventListener("click", () => {
+    document.body.classList.toggle("hide-zh");
+    document.getElementById("btnToggleZh").textContent =
+      document.body.classList.contains("hide-zh") ? "显示中文提示" : "隐藏中文提示";
+  });
+
+  document.getElementById("btnPdf").addEventListener("click", () => {
+    window.print();
+  });
+  </script>
+</body>
+</html>
