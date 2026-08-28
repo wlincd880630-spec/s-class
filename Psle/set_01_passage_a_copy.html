@@ -73,12 +73,7 @@
     .print-head {
       text-align: center; margin-bottom: 12px;
     }
-    .print-head h2 { margin: 0 0 0.35rem; font-size: 1.12rem; }
-    .print-meta {
-      display: flex; gap: 1.2rem; justify-content: center;
-      font-size: 0.92rem; color: var(--muted);
-    }
-    .print-meta span { border-bottom: 1px solid #cbb89a; min-width: 8rem; padding-bottom: 2px; }
+    .print-head h2 { margin: 0; font-size: 1.12rem; }
 
     .copy-sheet {
       margin: 0 0 11mm;
@@ -106,6 +101,7 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 7px;
     }
+    .copy-sheet.is-wide .copy-row { grid-template-columns: 1fr; }
     .copy-cell {
       position: relative;
       border: 2px solid var(--blue);
@@ -143,6 +139,10 @@
       line-height: 1;
       letter-spacing: 0.01em;
     }
+    .copy-sheet.is-wide .copy-trace-text {
+      left: 8mm;
+      transform: translate(0, calc(1.1mm - 100%));
+    }
     .copy-cell-tag {
       position: absolute; top: 3px; left: 5px;
       font-size: 0.64rem; font-weight: 800;
@@ -164,6 +164,7 @@
       .wrap { max-width: none; padding: 0; }
       .workbook { border: 0; border-radius: 0; padding: 0; }
       .copy-row { grid-template-columns: repeat(3, 1fr) !important; }
+      .copy-sheet.is-wide .copy-row { grid-template-columns: 1fr !important; }
       .copy-trace-text {
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
@@ -187,7 +188,7 @@
   <div class="wrap">
     <section class="hero no-print">
       <h1>从 Passage A 选出 15 个原形词 / 词组</h1>
-      <p>每个词或词组占两行四线格，每行抄写 3 次：第一行描红 3 次，第二行空白抄写 3 次。描红字坐在草地上，升部顶到第一线，降部落到第四线。</p>
+      <p>短词仍是两行、每行三格。较长词组改为通栏四线格，字号与 track 相同，描红 3 行、空白抄写 3 行，字母高度贴合四线。</p>
       <div class="legend">
         <span><i class="dot trace"></i>描红 ×3</span>
         <span><i class="dot write"></i>独立书写 ×3</span>
@@ -216,29 +217,30 @@
       { en: "make a difference", zh: "有所作为" }
     ];
 
-    const PATTERN = [
-      ["trace", "trace", "trace"],
-      ["write", "write", "write"]
-    ];
+    const WIDE_WORDS = {
+      "in great danger": 1,
+      "get in touch with": 1,
+      "wildlife sanctuary": 1,
+      "raise money": 1,
+      "yard sale": 1,
+      "skating party": 1,
+      "raise awareness": 1,
+      "make a difference": 1
+    };
+
+    function isWide(word) {
+      return !!WIDE_WORDS[word] || /\s/.test(word);
+    }
 
     function esc(s) {
       return String(s == null ? "" : s)
         .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
     }
 
-    function remFor(text) {
-      const n = String(text).length;
-      if (n <= 7) return 2.58;
-      if (n <= 10) return 2.12;
-      if (n <= 13) return 1.72;
-      if (n <= 16) return 1.42;
-      return 1.18;
-    }
-
     function cellHtml(mode, word) {
       const tag = mode === "trace" ? "描红" : "抄写";
       const guide = mode === "trace"
-        ? '<span class="copy-trace-text" style="font-size:' + remFor(word) + 'rem">' + esc(word) + "</span>"
+        ? '<span class="copy-trace-text">' + esc(word) + "</span>"
         : "";
       return (
         '<div class="copy-cell copy-cell--' + mode + '">' +
@@ -253,17 +255,19 @@
     }
 
     function render() {
-      const name = localStorage.getItem("authing-user") || localStorage.getItem("current-user") || "";
-      let html = '<div class="print-head"><h2>Passage A · Joris and the Cheetahs · 四线格描红抄写</h2>';
-      html += '<div class="print-meta"><span>姓名：' + esc(name) + '</span><span>班级 / 日期：</span></div></div>';
+      let html = '<div class="print-head"><h2>Passage A · Joris and the Cheetahs · 四线格描红抄写</h2></div>';
       ITEMS.forEach((item, i) => {
-        html += '<article class="copy-sheet">';
+        const wide = isWide(item.en);
+        const rows = wide
+          ? [["trace"], ["trace"], ["trace"], ["write"], ["write"], ["write"]]
+          : [["trace", "trace", "trace"], ["write", "write", "write"]];
+        html += '<article class="copy-sheet' + (wide ? " is-wide" : "") + '">';
         html += '<div class="copy-word-head">';
         html += '<span class="copy-num">' + (i + 1) + "</span>";
         html += '<span class="copy-word">' + esc(item.en) + "</span>";
         html += '<span class="copy-zh">' + esc(item.zh) + "</span></div>";
         html += '<div class="copy-rows">';
-        PATTERN.forEach((row) => {
+        rows.forEach((row) => {
           html += '<div class="copy-row">';
           row.forEach((mode) => { html += cellHtml(mode, item.en); });
           html += "</div>";
@@ -271,33 +275,10 @@
         html += "</div></article>";
       });
       document.getElementById("workbook").innerHTML = html;
-      fitTraceText();
-    }
-
-    function fitTraceText() {
-      document.querySelectorAll(".copy-trace-text").forEach((el) => {
-        const grid = el.parentElement;
-        if (!grid) return;
-        const maxW = Math.max(24, grid.clientWidth * 0.92);
-        let size = parseFloat(el.style.fontSize) || 2.58;
-        el.style.fontSize = size + "rem";
-        let guard = 0;
-        while (el.scrollWidth > maxW && size > 0.95 && guard < 40) {
-          size -= 0.06;
-          el.style.fontSize = size + "rem";
-          guard += 1;
-        }
-      });
     }
 
     document.getElementById("btnPdf").addEventListener("click", () => {
-      fitTraceText();
       window.print();
-    });
-    window.addEventListener("beforeprint", fitTraceText);
-    window.addEventListener("resize", () => {
-      window.clearTimeout(window.__fitT);
-      window.__fitT = window.setTimeout(fitTraceText, 80);
     });
 
     render();
