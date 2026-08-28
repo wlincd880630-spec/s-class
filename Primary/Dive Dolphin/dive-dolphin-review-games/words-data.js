@@ -159,7 +159,7 @@
     ALL_KEYS: ALL_KEYS,
     WMAP: WMAP,
     STORAGE_KEY: STORAGE_KEY,
-    IMG_BASE: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Dive%20Dolphin/dive-dolphin-courseware/images/words/",
+    IMG_BASE: "../dive-dolphin-courseware/images/words/",
     getSelected: getSelected,
     getSelectedKeys: getSelectedKeys,
     getDefaultKeys: getDefaultKeys,
