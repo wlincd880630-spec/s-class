@@ -9,6 +9,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,600;0,8..60,700;1,8..60,600&display=swap" rel="stylesheet" />
   <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Play%20Kitty/play-kitty-courseware/audio/audio-manifest.js"></script>
   <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Play%20Kitty/play-kitty-courseware/audio/local-audio.js"></script>
+  <script src="../../assets/ng-azure-tts-enhance.js?v=5"></script>
+  <script>if (window.NgAzureTTS) NgAzureTTS.enhance("LocalAudio");</script>
   <style>
     :root {
       /* 国家地理式：金标黄 + 墨黑 + 大地/纸白 */
@@ -712,6 +714,8 @@
   <link rel="stylesheet" href="../../assets/ng-word-extras.css?v=2" />
   <script src="../../assets/ng-word-say-data.js?v=2"></script>
   <script src="../../assets/ng-word-extras.js?v=2"></script>
+  <link rel="stylesheet" href="../../assets/ng-story-pyramid.css?v=1" />
+  <script src="../../assets/ng-story-pyramid.js?v=1"></script>
 </head>
 <body>
   <a class="back-hub" href="../index.html">← Play, Kitty! 首页</a>
@@ -792,6 +796,8 @@
               <button type="button" class="btn primary" id="sNormal">选正常</button>
               <button type="button" class="btn primary" id="sHearLine" title="朗读当前英文句">▶ 听本句</button>
               <button type="button" class="btn" id="sLoop">▶ 循环本句</button>
+              <button type="button" class="btn" id="sPyramid" aria-pressed="false" title="用金字塔逐词显示本句，点每一层朗读">🔺 金字塔</button>
+              <button type="button" class="btn" id="sPyramidPlay" hidden title="慢速逐层朗读：上一层结束后再读下一层">▶ 逐层朗读</button>
               <span class="sub" id="sLoopState">已停</span>
             </div>
           </div>
@@ -968,9 +974,11 @@
 
     /* 发音：本地 MP3 · en-GB-RyanNeural（audio/ 目录） */
     function speakText(text, options) {
-      if (!window.LocalAudio) return Promise.resolve(false);
       stopStoryNarration();
-      return LocalAudio.speak(text, options || {});
+      options = options || {};
+      if (window.LocalAudio && LocalAudio.speak) return LocalAudio.speak(text, options);
+      if (window.NgAzureTTS && NgAzureTTS.speak) return NgAzureTTS.speak(text, options);
+      return Promise.resolve(false);
     }
 
     /** 课文真人 MP3 时间轴（与 STORY 一一对应）；无则 null */
@@ -1722,7 +1730,13 @@
 
     var storyIndex = 0, storyLoop = false, loopToken = 0;
     window.__storySlow = true;
-    function stopStoryLoop() { storyLoop = false; loopToken++; document.getElementById("sLoopState").textContent = "已停"; stopStoryNarration(); }
+    function stopStoryLoop() {
+      storyLoop = false; loopToken++;
+      var st = document.getElementById("sLoopState");
+      if (st) st.textContent = "已停";
+      stopStoryNarration();
+      if (window.NgStoryPyramid) NgStoryPyramid.stop();
+    }
     function renderStorySlide() {
       var c = document.getElementById("storySlide");
       var pr = document.getElementById("storyProgress");
@@ -1733,13 +1747,23 @@
       if (n > STORY.length) n = STORY.length;
       var z = n < 10 ? "0" : "";
       var imgSrc = MEDIA_COS + "images/story/" + z + n + ".png";
-      if (pr) pr.textContent = "第 " + (storyIndex + 1) + " / " + STORY.length + " 句";
+      var pyramidOn = !!(window.NgStoryPyramid && NgStoryPyramid.isOn());
+      if (pr) {
+        pr.textContent = "第 " + (storyIndex + 1) + " / " + STORY.length + " 句" +
+          (window.NgStoryPyramid ? NgStoryPyramid.progressSuffix() : "");
+      }
+      var textInner = window.NgStoryPyramid
+        ? NgStoryPyramid.textBlock(row.en, storyIndex)
+        : "<p><span style='color:#7a5a2a'>#" + (storyIndex + 1) + "</span> " + row.en + "</p>";
+      var cardClass = window.NgStoryPyramid
+        ? NgStoryPyramid.cardClass()
+        : "story-sentence story-sentence--xl story-sentence-row";
       c.innerHTML =
-        "<div class=\"story-sentence story-sentence--xl story-sentence-row\">" +
+        "<div class=\"" + cardClass + "\">" +
         "<div class=\"story-col story-col--art\">" +
         "<div class=\"hero-art\">" + artFromSrc(imgSrc, "🐱") + "</div></div>" +
         "<div class=\"story-col story-col--text\">" +
-        "<p><span style='color:#7a5a2a'>#" + (storyIndex + 1) + "</span> " + row.en + "</p>" +
+        textInner +
         "<button type=\"button\" class=\"story-zh-hold\" aria-expanded=\"false\" title=\"点按显示或隐藏中文\" aria-label=\"点按显示或隐藏中文\">" +
         "<span class=\"story-zh-ghost\">点按显示中文</span>" +
         "<span class=\"story-zh\" aria-hidden=\"true\">" + row.zh + "</span>" +
@@ -1759,6 +1783,7 @@
       document.getElementById("sPrev").disabled = storyIndex === 0;
       document.getElementById("sNext").disabled = storyIndex === STORY.length - 1;
       syncLoopToggleUi();
+      if (window.NgStoryPyramid) NgStoryPyramid.afterRender(c, row.en);
     }
     function syncLoopToggleUi() {
       var sl = document.getElementById("sSlow");
@@ -1786,9 +1811,19 @@
       var r2 = __storySlow ? 0.8 : 1.0;
       speakStoryLine(storyIndex, { rate: r2, slow: __storySlow });
     };
+    if (window.NgStoryPyramid) {
+      NgStoryPyramid.install({
+        speakText: speakText,
+        render: renderStorySlide,
+        stopLoop: stopStoryLoop,
+        syncSlowUi: syncLoopToggleUi,
+        getEnglish: function () { return STORY[storyIndex] ? STORY[storyIndex].en : ""; }
+      });
+    }
     renderStorySlide();
     document.getElementById("sLoop").onclick = function () {
       if (storyLoop) { stopStoryLoop(); return; }
+      if (window.NgStoryPyramid) NgStoryPyramid.stop();
       storyLoop = true;
       var myL = ++loopToken;
       document.getElementById("sLoopState").textContent = "循环中，再点停";
@@ -1811,7 +1846,10 @@
     function showView(name) {
       var el, n;
       n = (name === "words" || name === "review" || name === "story") ? name : "words";
-      if (n !== "story") stopStoryNarration();
+      if (n !== "story") {
+        stopStoryNarration();
+        if (window.NgStoryPyramid) NgStoryPyramid.stop();
+      }
       document.querySelectorAll(".view").forEach(function (v) { v.classList.remove("on"); });
       el = document.getElementById("view-" + n);
       if (el) el.classList.add("on");
