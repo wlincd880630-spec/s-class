@@ -22,7 +22,8 @@
   var sdkReady = null;
   var localBase = "";
   var rateAudio = null;
-  var rateGen = 0;
+  var speakGen = 0;
+  var azureSynth = null;
 
   function loadSdk() {
     if (global.SpeechSDK) return Promise.resolve();
@@ -60,13 +61,35 @@
     return slow ? { rate: RATE_SLOW, slow: true } : { rate: RATE_NORMAL, slow: false };
   }
 
-  function rememberSpeak(source, rate, text) {
+  function rememberSpeak(source, rate, text, gen) {
+    if (gen != null && gen !== speakGen) return;
     global.NgAzureTTS.lastSpeak = {
       source: source,
       rate: rate,
       slow: rate < 0.88,
       text: String(text || ""),
+      gen: speakGen,
     };
+  }
+
+  function bumpSpeak() {
+    speakGen++;
+    if (azureSynth) {
+      try {
+        azureSynth.close();
+      } catch (e0) {}
+      azureSynth = null;
+    }
+    if (rateAudio) {
+      try {
+        rateAudio.pause();
+        rateAudio.src = "";
+      } catch (e1) {}
+      rateAudio = null;
+    }
+    try {
+      if (global.speechSynthesis) global.speechSynthesis.cancel();
+    } catch (e2) {}
   }
 
   function normalizeText(text) {
@@ -131,27 +154,15 @@
     }
   }
 
-  function stopRateAudio() {
-    rateGen++;
-    if (rateAudio) {
-      try {
-        rateAudio.pause();
-        rateAudio.src = "";
-      } catch (e1) {}
-      rateAudio = null;
-    }
-  }
-
-  function playLocalWithRate(text, targetRate) {
+  function playLocalWithRate(text, targetRate, gen) {
     var clip = findLocalClip(text, targetRate);
     var base = detectLocalBase();
     if (!clip || !base) return Promise.resolve(false);
     var url = buildAudioUrl(base, clip.rel);
     var playback = targetRate / (clip.sourceRate || 1);
     playback = Math.max(0.5, Math.min(1.5, playback));
-    var gen = rateGen;
     return new Promise(function (resolve) {
-      if (gen !== rateGen) {
+      if (gen !== speakGen) {
         resolve(false);
         return;
       }
@@ -161,7 +172,7 @@
       a.playbackRate = playback;
       a.onended = function () {
         if (rateAudio === a) rateAudio = null;
-        resolve(gen === rateGen);
+        resolve(gen === speakGen);
       };
       a.onerror = function () {
         if (rateAudio === a) rateAudio = null;
@@ -175,7 +186,7 @@
         });
       }
     }).then(function (ok) {
-      if (ok) rememberSpeak("local", targetRate, text);
+      if (ok) rememberSpeak("local", targetRate, text, gen);
       return ok;
     });
   }
@@ -202,10 +213,11 @@
     });
   }
 
-  function azureSpeak(text, options) {
+  function azureSpeak(text, options, gen) {
     options = options || {};
     var onDone = options.onDone;
     var rate = resolveTargetRate(options);
+    if (gen == null) gen = speakGen;
     var rateStr = rate < 0.88 ? AZURE.slowRate : AZURE.speechRate;
     var ssml =
       '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="' +
@@ -224,6 +236,7 @@
         var cfg = sdk.SpeechConfig.fromSubscription(AZURE.subscriptionKey, AZURE.region);
         cfg.speechSynthesisVoiceName = AZURE.voice;
         var synthesizer = new sdk.SpeechSynthesizer(cfg, sdk.AudioConfig.fromDefaultSpeakerOutput());
+        azureSynth = synthesizer;
         return new Promise(function (resolve) {
           synthesizer.speakSsmlAsync(
             ssml,
@@ -231,7 +244,12 @@
               try {
                 synthesizer.close();
               } catch (e1) {}
-              rememberSpeak("azure", rate, text);
+              if (azureSynth === synthesizer) azureSynth = null;
+              if (gen !== speakGen) {
+                resolve(false);
+                return;
+              }
+              rememberSpeak("azure", rate, text, gen);
               if (onDone) onDone();
               resolve(true);
             },
@@ -239,6 +257,11 @@
               try {
                 synthesizer.close();
               } catch (e2) {}
+              if (azureSynth === synthesizer) azureSynth = null;
+              if (gen !== speakGen) {
+                resolve(false);
+                return;
+              }
               browserSpeak(text, options).then(function (ok) {
                 if (onDone) onDone();
                 resolve(ok);
@@ -274,25 +297,22 @@
       options = options || {};
       var onDone = options.onDone;
       var rate = resolveTargetRate(options);
+      bumpSpeak();
+      var gen = speakGen;
+      rememberSpeak("request", rate, text, gen);
       if (origStop) origStop();
-      stopRateAudio();
-      try {
-        if (global.speechSynthesis) global.speechSynthesis.cancel();
-      } catch (e3) {}
-      return playLocalWithRate(text, rate).then(function (ok) {
+      return playLocalWithRate(text, rate, gen).then(function (ok) {
+        if (gen !== speakGen) return false;
         if (ok) {
           if (onDone) onDone();
           return true;
         }
-        return azureSpeak(text, { rate: rate, slow: rate < 0.88, onDone: onDone });
+        return azureSpeak(text, { rate: rate, slow: rate < 0.88, onDone: onDone }, gen);
       });
     };
     api.stop = function () {
-      stopRateAudio();
+      bumpSpeak();
       if (origStop) origStop();
-      try {
-        if (global.speechSynthesis) global.speechSynthesis.cancel();
-      } catch (e4) {}
     };
     api.voice = (api.voice || "en-GB") + " + Azure";
     api.__azureEnhanced = true;
