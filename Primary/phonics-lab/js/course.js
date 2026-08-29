@@ -67,7 +67,7 @@
   function card(w, n, extra) {
     var key = w.word;
     return (
-      "<button class=\"vocab-card\" type=\"button\" data-vocab=\"" +
+      "<div class=\"vocab-card\" data-vocab=\"" +
       w.word +
       "\">" +
       (n ? "<span class=\"vocab-num\">" + n + "</span>" : "") +
@@ -80,7 +80,7 @@
       (w.ipa ? " · " + w.ipa : "") +
       "</p>" +
       (extra || "") +
-      "</button>"
+      "</div>"
     );
   }
 
@@ -298,7 +298,7 @@
       "<div class=\"vocab-grid\">" +
       words
         .map(function (w, i) {
-          return card(w, i + 1, "<button class=\"mini\" type=\"button\" data-flip=\"" + w.word + "\">换图</button>");
+          return card(w, i + 1, "<span class=\"mini\" data-flip=\"" + w.word + "\">换图</span>");
         })
         .join("") +
       "</div>" +
@@ -419,7 +419,7 @@
           "</h3><div class=\"vocab-grid\">" +
           f.words
             .map(function (id, i) {
-              return card(wordOf(id), i + 1, "<button class=\"mini\" type=\"button\" data-flip=\"" + id + "\">换图</button>");
+              return card(wordOf(id), i + 1, "<span class=\"mini\" data-flip=\"" + id + "\">换图</span>");
             })
             .join("") +
           "</div>";
@@ -429,7 +429,7 @@
         "<div class=\"vocab-grid\">" +
         words
           .map(function (w, i) {
-            return card(w, i + 1, "<button class=\"mini\" type=\"button\" data-flip=\"" + w.word + "\">换图</button>");
+            return card(w, i + 1, "<span class=\"mini\" data-flip=\"" + w.word + "\">换图</span>");
           })
           .join("") +
         "</div>";
