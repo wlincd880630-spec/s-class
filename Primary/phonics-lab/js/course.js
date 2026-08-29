@@ -7,10 +7,13 @@
   var packIndex = 0;
   var activity = "A";
   var listenKind = "first";
+  var blendView = "words";
   var storyPage = 0;
   var groupScore = { a: 0, b: 0 };
   var groupTurn = "a";
+  var groupPrompt = null;
   var flipped = {};
+  var revealed = {};
   var quiz = null;
 
   var STEPS = [
@@ -35,6 +38,11 @@
     { id: "last", label: "尾字母" },
     { id: "mark", label: "听辨打叉" }
   ];
+  var BLENDS = [
+    { id: "words", label: "词族" },
+    { id: "sight", label: "奇形词" },
+    { id: "copy", label: "抄写" }
+  ];
 
   function $(id) {
     return document.getElementById(id);
@@ -55,13 +63,69 @@
       zh: "",
       ipa: "",
       img: id,
-      img2: id,
+      img2: id + "2",
       graphemes: String(id).split("")
     };
   }
 
   function flipSrc(w, key) {
     return flipped[key] ? Lab.img(w.img2 || w.img) : Lab.img(w.img);
+  }
+
+  function wordTitle(w) {
+    if (mode === "youDo" && !revealed[w.word]) return "???";
+    return w.word;
+  }
+
+  function modeLine() {
+    if (mode === "iDo") return "Teacher I Do · 教师先指、先读";
+    if (mode === "youDo") return "Student You Do · 先听再指，单词先藏着";
+    if (mode === "group") {
+      return (
+        "小组竞赛 · " +
+        groupTurn.toUpperCase() +
+        "队 " +
+        groupScore.a +
+        " : " +
+        groupScore.b
+      );
+    }
+    return "";
+  }
+
+  function scoreHud() {
+    if (mode !== "group") return "";
+    return (
+      "<div class=\"score-hud\">" +
+      "<b>A " +
+      groupScore.a +
+      "</b><span>:</span><b>B " +
+      groupScore.b +
+      "</b>" +
+      "<button class=\"chip" +
+      (groupTurn === "a" ? " active" : "") +
+      "\" type=\"button\" data-turn=\"a\">A 队</button>" +
+      "<button class=\"chip" +
+      (groupTurn === "b" ? " active" : "") +
+      "\" type=\"button\" data-turn=\"b\">B 队</button>" +
+      (groupPrompt ? "<button class=\"btn sun\" id=\"hearG\" type=\"button\">听题</button>" : "") +
+      "</div>"
+    );
+  }
+
+  function bindScore() {
+    $("stage").querySelectorAll("[data-turn]").forEach(function (b) {
+      b.onclick = function () {
+        groupTurn = b.getAttribute("data-turn");
+        render();
+      };
+    });
+    var hear = $("hearG");
+    if (hear) {
+      hear.onclick = function () {
+        if (groupPrompt) Lab.playWord(groupPrompt);
+      };
+    }
   }
 
   function card(w, n, extra) {
@@ -73,26 +137,42 @@
       (n ? "<span class=\"vocab-num\">" + n + "</span>" : "") +
       Lab.pic(flipSrc(w, key), "pic", w.zh) +
       "<h3>" +
-      w.word +
+      wordTitle(w) +
       "</h3>" +
       "<p class=\"muted\">" +
-      (w.zh || "") +
-      (w.ipa ? " · " + w.ipa : "") +
+      (mode === "youDo" && !revealed[w.word] ? "先听" : (w.zh || "") + (w.ipa ? " · " + w.ipa : "")) +
       "</p>" +
       (extra || "") +
       "</div>"
     );
   }
 
-  function bindCards(root) {
+  function bindCards(root, pool) {
     root.querySelectorAll("[data-vocab]").forEach(function (btn) {
       btn.addEventListener("click", function () {
         var id = btn.getAttribute("data-vocab");
+        revealed[id] = true;
+        if (mode === "group" && groupPrompt) {
+          if (id === groupPrompt) {
+            groupScore[groupTurn] += 1;
+            Lab.toast(groupTurn.toUpperCase() + "队 +1");
+            Lab.playWord(id);
+            groupPrompt = pool && pool.length ? pool[Math.floor(Math.random() * pool.length)].word : null;
+          } else {
+            Lab.toast("再听");
+            Lab.playWord(groupPrompt);
+          }
+          render();
+          return;
+        }
         Lab.playWord(id);
         btn.classList.add("active");
-        setTimeout(function () {
-          btn.classList.remove("active");
-        }, 400);
+        if (mode === "youDo") render();
+        else {
+          setTimeout(function () {
+            btn.classList.remove("active");
+          }, 400);
+        }
       });
     });
     root.querySelectorAll("[data-flip]").forEach(function (btn) {
@@ -103,17 +183,30 @@
         render();
       });
     });
+    bindScore();
   }
 
   function teacherNote() {
     return "<p class=\"teacher-note\">音素由教师示范 · 点图只听单词</p>";
   }
 
+  function banner(title, extra) {
+    return (
+      "<div class=\"opw-banner\"><b>" +
+      title +
+      "</b> " +
+      (extra || "") +
+      "</div>" +
+      (mode !== "games" ? "<p class=\"mode-line\">" + modeLine() + "</p>" : "") +
+      scoreHud()
+    );
+  }
+
   function init() {
     var id = Lab.qs("id", "L01");
     lesson = PHONICS_LESSON_MAP[id] || PHONICS_LESSONS[0];
     content = Lab.qs("content", lesson.type === "letters" || lesson.letters ? "letter" : "blend");
-    if (content === "word") content = "blend";
+    if (content === "word" || content === "passage") content = content === "passage" ? "story" : "blend";
     renderChrome();
     bind();
     render();
@@ -152,6 +245,7 @@
       btn.onclick = function () {
         content = btn.getAttribute("data-content");
         quiz = null;
+        groupPrompt = null;
         render();
       };
     });
@@ -159,6 +253,8 @@
       btn.onclick = function () {
         mode = btn.getAttribute("data-mode");
         quiz = null;
+        groupPrompt = null;
+        revealed = {};
         render();
       };
     });
@@ -220,6 +316,7 @@
       html += chipRow(ACTS, activity, "act");
     }
     if (content === "listen") html += chipRow(LISTENS, listenKind, "listen");
+    if (content === "blend") html += chipRow(BLENDS, blendView, "bview");
     $("subnav").innerHTML = html;
     $("subnav").querySelectorAll("[data-pack]").forEach(function (b) {
       b.onclick = function () {
@@ -243,6 +340,12 @@
         render();
       };
     });
+    $("subnav").querySelectorAll("[data-bview]").forEach(function (b) {
+      b.onclick = function () {
+        blendView = b.getAttribute("data-bview");
+        render();
+      };
+    });
   }
 
   function renderLetter() {
@@ -261,13 +364,7 @@
 
   function renderA(p) {
     $("stage").innerHTML =
-      "<div class=\"opw-banner\"><b>" +
-      p.letters +
-      "</b> " +
-      p.sound +
-      " · " +
-      p.mnemonic +
-      "</div>" +
+      banner(p.letters, p.sound + " · " + p.mnemonic) +
       teacherNote() +
       "<div class=\"hero-card\">" +
       Lab.pic(Lab.img(p.img), "pic xl", p.mnemonicZh) +
@@ -283,17 +380,23 @@
       "<div class=\"btn-row\">" +
       "<button class=\"btn teal\" id=\"sayWord\" type=\"button\">听口诀单词</button>" +
       "</div></div>";
+    bindScore();
     $("sayWord").onclick = function () {
       Lab.playWord(p.mnemonic);
     };
   }
 
+  function startGroup(words) {
+    if (mode === "group" && words.length) {
+      groupPrompt = words[Math.floor(Math.random() * words.length)].word;
+    }
+  }
+
   function renderB(p) {
     var words = p.words.map(wordOf);
+    if (mode === "group" && !groupPrompt) startGroup(words);
     $("stage").innerHTML =
-      "<div class=\"opw-banner\"><b>" +
-      p.letters +
-      "</b> Listen, point, and say.</div>" +
+      banner(p.letters, "Listen, point, and say.") +
       (mode === "iDo" ? teacherNote() : "") +
       "<div class=\"vocab-grid\">" +
       words
@@ -303,7 +406,7 @@
         .join("") +
       "</div>" +
       "<div class=\"btn-row\"><button class=\"btn teal\" id=\"playAll\" type=\"button\">四个词连听</button></div>";
-    bindCards($("stage"));
+    bindCards($("stage"), words);
     $("playAll").onclick = function () {
       var i = 0;
       function next() {
@@ -318,13 +421,12 @@
 
   function renderC(p) {
     $("stage").innerHTML =
-      "<div class=\"opw-banner\"><b>" +
-      p.letters +
-      "</b> Trace.</div>" +
+      banner(p.letters, "Trace.") +
       "<div class=\"trace-card\"><div class=\"trace-letter\">" +
       p.letters +
       "</div><div class=\"trace-lines\"></div><div class=\"trace-lines\"></div><div class=\"trace-lines\"></div></div>" +
       "<p class=\"muted\">四线格抄写 · 教师先范写</p>";
+    bindScore();
   }
 
   function renderD(p) {
@@ -332,9 +434,7 @@
       return { w: wordOf(m.word), hit: m.hit };
     });
     $("stage").innerHTML =
-      "<div class=\"opw-banner\"><b>" +
-      p.letters +
-      "</b> Listen and cross.</div>" +
+      banner(p.letters || "Listen", "Listen and cross.") +
       "<div class=\"vocab-grid mark-grid\">" +
       items
         .map(function (it, i) {
@@ -344,13 +444,14 @@
             "\">" +
             Lab.pic(Lab.img(it.w.img), "pic", it.w.zh) +
             "<strong>" +
-            it.w.word +
+            (mode === "youDo" ? "?" : it.w.word) +
             "</strong></button>"
           );
         })
         .join("") +
       "</div>" +
       "<div class=\"btn-row\"><button class=\"btn sun\" id=\"playMark\" type=\"button\">听首音词</button></div>";
+    bindScore();
     $("stage").querySelectorAll("[data-mark]").forEach(function (b) {
       b.onclick = function () {
         var it = items[parseInt(b.getAttribute("data-mark"), 10)];
@@ -378,9 +479,7 @@
   function renderE(p) {
     var words = (p.chant || p.words).map(wordOf);
     $("stage").innerHTML =
-      "<div class=\"opw-banner\"><b>" +
-      p.letters +
-      "</b> Chant.</div>" +
+      banner(p.letters, "Chant.") +
       "<div class=\"chant-row\">" +
       words
         .map(function (w, i) {
@@ -389,7 +488,7 @@
         .join("") +
       "</div>" +
       "<div class=\"btn-row\"><button class=\"btn teal\" id=\"chant\" type=\"button\">▶ 歌谣</button></div>";
-    bindCards($("stage"));
+    bindCards($("stage"), words);
     $("chant").onclick = function () {
       var i = 0;
       function next() {
@@ -402,15 +501,19 @@
     };
   }
 
+  function blendTip() {
+    if (lesson.type === "letters") return "用本课词练滑读。";
+    return (lesson.focus && lesson.focus.sound ? lesson.focus.sound + " · " : "") + "先分音再滑读。";
+  }
+
   function renderBlend() {
     var fam = lesson.families || [];
     var words = Lab.wordObjs(lesson.words);
     if (!words.length) words = (lesson.chant || []).map(wordOf);
-    var html =
-      "<div class=\"opw-banner\"><b>拼读</b> " +
-      ((lesson.focus && lesson.focus.tip) || "") +
-      "</div>" +
-      teacherNote();
+    if (mode === "group" && !groupPrompt) startGroup(words);
+    if (blendView === "sight") return renderSight();
+    if (blendView === "copy") return renderCopy(words);
+    var html = banner("拼读", blendTip()) + teacherNote();
     if (fam.length) {
       fam.forEach(function (f) {
         html +=
@@ -437,11 +540,61 @@
     html +=
       "<div class=\"btn-row\"><button class=\"btn teal\" id=\"playBlend\" type=\"button\">听单词</button></div>";
     $("stage").innerHTML = html;
-    bindCards($("stage"));
+    bindCards($("stage"), words);
     $("playBlend").onclick = function () {
       var w = words[Math.floor(Math.random() * words.length)];
       if (w) Lab.playWord(w.word);
     };
+  }
+
+  function renderSight() {
+    var list = Lab.sightObjs(lesson.sight);
+    $("stage").innerHTML =
+      banner("奇形词", "能拼的圈出来，不规则画 ♥") +
+      "<div class=\"sight-grid\">" +
+      list
+        .map(function (s) {
+          return (
+            "<button class=\"sight-card\" type=\"button\" data-say=\"" +
+            s.word +
+            "\"><strong>" +
+            s.word +
+            "</strong><span class=\"ipa\">" +
+            s.ipa +
+            "</span><span class=\"muted\">" +
+            s.zh +
+            (s.tip ? " · " + s.tip : "") +
+            "</span></button>"
+          );
+        })
+        .join("") +
+      "</div>";
+    bindScore();
+    $("stage").querySelectorAll("[data-say]").forEach(function (b) {
+      b.onclick = function () {
+        Lab.playWord(b.getAttribute("data-say"));
+      };
+    });
+  }
+
+  function renderCopy(words) {
+    $("stage").innerHTML =
+      banner("抄写", "边写边读") +
+      "<div class=\"copy-list\">" +
+      words
+        .slice(0, 10)
+        .map(function (w) {
+          return (
+            "<div class=\"copy-row\">" +
+            Lab.pic(Lab.img(w.img), "pic sm", w.zh) +
+            "<div><b>" +
+            w.word +
+            "</b><div class=\"trace-lines\"></div></div></div>"
+          );
+        })
+        .join("") +
+      "</div>";
+    bindScore();
   }
 
   function letterOf(w, kind) {
@@ -453,9 +606,12 @@
 
   function renderListen() {
     if (listenKind === "mark") {
-      var p = pack() || { letters: "Listen", mark: (lesson.words || []).slice(0, 6).map(function (id, i) {
-        return { word: id, hit: i % 2 === 0 };
-      }) };
+      var p = pack() || {
+        letters: "Listen",
+        mark: (lesson.words || []).slice(0, 6).map(function (id, i) {
+          return { word: id, hit: i % 2 === 0 };
+        })
+      };
       return renderD(p);
     }
     var pool = Lab.wordObjs(lesson.words);
@@ -463,22 +619,24 @@
     if (!quiz) {
       var ans = pool[Math.floor(Math.random() * pool.length)];
       var right = letterOf(ans, listenKind);
-      var opts = [right];
-      "abcdefghijklmnopqrstuvwxyz".split("").forEach(function (ch) {
-        if (opts.length < 4 && opts.indexOf(ch) === -1) opts.push(ch);
+      var bag = [];
+      pool.forEach(function (w) {
+        var ch = letterOf(w, listenKind);
+        if (ch && ch !== right && bag.indexOf(ch) === -1) bag.push(ch);
       });
-      quiz = { word: ans, answer: right, opts: Lab.shuffle(opts).slice(0, 4) };
+      "abcdefghijklmnopqrstuvwxyz".split("").forEach(function (ch) {
+        if (bag.indexOf(ch) === -1 && ch !== right) bag.push(ch);
+      });
+      quiz = { word: ans, answer: right, opts: Lab.shuffle([right].concat(bag.slice(0, 3))) };
     }
     var title = listenKind === "first" ? "听词，点首字母" : listenKind === "last" ? "听词，点尾字母" : "听词，点中间字母";
     $("stage").innerHTML =
-      "<div class=\"opw-banner\"><b>听辨</b> " +
-      title +
-      (mode === "group" ? " · " + groupTurn.toUpperCase() + "队 " + groupScore.a + ":" + groupScore.b : "") +
-      "</div>" +
+      banner("听辨", title) +
       "<div class=\"hero-card\">" +
       Lab.pic(Lab.img(quiz.word.img), "pic lg", "") +
       "<div class=\"btn-row\"><button class=\"btn teal\" id=\"playQ\" type=\"button\">▶ 听单词</button></div>" +
       "<div class=\"letter-opts\" id=\"opts\"></div></div>";
+    bindScore();
     var box = $("opts");
     quiz.opts.forEach(function (ch) {
       var b = document.createElement("button");
@@ -513,15 +671,7 @@
     if (storyPage >= pages.length) storyPage = 0;
     var pg = pages[storyPage];
     $("stage").innerHTML =
-      "<div class=\"opw-banner\"><b>" +
-      t.passage.title +
-      "</b> " +
-      (t.passage.titleZh || "") +
-      " · " +
-      (storyPage + 1) +
-      "/" +
-      pages.length +
-      "</div>" +
+      banner(t.passage.title, (t.passage.titleZh || "") + " · " + (storyPage + 1) + "/" + pages.length) +
       "<div class=\"hero-card\">" +
       Lab.pic(Lab.img(pg.img), "pic xl", "") +
       "<h2>" +
@@ -532,6 +682,7 @@
       "<button class=\"btn teal\" id=\"sayP\" type=\"button\">听句子</button>" +
       "<button class=\"btn ghost\" id=\"nextP\" type=\"button\">下一页</button>" +
       "</div></div>";
+    bindScore();
     $("sayP").onclick = function () {
       Lab.playSentence(pg.en);
     };
@@ -548,9 +699,9 @@
   function renderSentence() {
     var t = phonicsText(lesson.id);
     $("stage").innerHTML =
-      "<div class=\"opw-banner\"><b>句子</b> 点一层听一句</div>" +
+      banner("句子", "点一层听一句") +
       t.sentences
-        .map(function (s, i) {
+        .map(function (s) {
           return (
             "<div class=\"sent-block\">" +
             Lab.pic(Lab.img(s.img), "pic sm", "") +
@@ -560,6 +711,7 @@
           );
         })
         .join("");
+    bindScore();
     $("stage").querySelectorAll("[data-layer]").forEach(function (btn) {
       btn.onclick = function () {
         Lab.playSentence(btn.getAttribute("data-text") || btn.textContent);
@@ -570,11 +722,7 @@
   function renderTalk() {
     var t = phonicsText(lesson.id).talk;
     $("stage").innerHTML =
-      "<div class=\"opw-banner\"><b>" +
-      t.title +
-      "</b> " +
-      (t.titleEn || "") +
-      "</div>" +
+      banner(t.title, t.titleEn || "") +
       "<div class=\"talk-list\">" +
       t.lines
         .map(function (ln) {
@@ -593,6 +741,7 @@
         .join("") +
       "</div>" +
       "<div class=\"btn-row\"><button class=\"btn teal\" id=\"playTalk\" type=\"button\">听整段</button></div>";
+    bindScore();
     $("stage").querySelectorAll("[data-say]").forEach(function (b) {
       b.onclick = function () {
         Lab.playSentence(b.getAttribute("data-say"));

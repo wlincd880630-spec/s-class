@@ -40,7 +40,7 @@
         lines: [L("A", "Good morning! How are you?", "早上好！你好吗？"), L("B", "I am fine, thank you. And you?", "我很好，谢谢。你呢？"), L("A", "I am great! Let's play together.", "我很好！我们一起玩吧。"), L("B", "OK! What do you want to play?", "好！想玩什么？"), L("A", "Let's play with the ball.", "我们玩球吧。"), L("B", "Good idea!", "好主意！")] }
     ),
     L03: pack(
-      [S("I sat.", "我坐下了。", "sun"), S("I tap the pan.", "我拍那口锅。", "pan"), S("Sit at the tap.", "坐在水龙头边。", "tap")],
+      [S("I sat.", "我坐下了。", "sat"), S("I tap the pan.", "我拍那口锅。", "pan"), S("Sit at the tap.", "坐在水龙头边。", "tap")],
       { title: "At the Tap", titleZh: "在水龙头边", img: "tap",
         zh: "我坐在水龙头边。我拍锅。请坐。我坐下了。",
         sentences: ["I sat.", "I sat at the tap.", "I tap the pan.", "Sit at the tap.", "I sit."] },
@@ -49,13 +49,13 @@
         lines: [L("A", "Sit.", "请坐。"), L("B", "I sat.", "我坐下了。"), L("A", "To the tap.", "去水龙头。"), L("B", "I sat at the tap.", "我坐在水龙头边。"), L("A", "Tap.", "打开水龙头。"), L("B", "I tap.", "我打开了。")] }
     ),
     L04: pack(
-      [S("I am sad.", "我很难过。", "sun"), S("I dig.", "我挖掘。", "dog"), S("Go to the map.", "去看地图。", "map"), S("No, I sit.", "不，我坐下。", "sun")],
-      { title: "The Map", titleZh: "地图", img: "map",
-        zh: "我很难过。去看地图。我不去，我坐下。我挖掘。",
-        sentences: ["I am sad.", "Go to the map.", "No, I sit.", "I dig.", "I sit at the map."] },
-      { title: "去还是不去", titleEn: "Go or no", scene: "操场门口", img: "map",
-        goals: "邀请 · 拒绝 · 换活动",
-        lines: [L("A", "Go!", "走吧！"), L("B", "No.", "不。"), L("A", "Go to the map.", "去看地图。"), L("B", "No, I sit.", "不，我坐下。"), L("A", "I am sad.", "我很难过。"), L("B", "Sit.", "坐下吧。")] }
+      [S("The bed is red.", "床是红的。", "bed"), S("The pig is big.", "猪很大。", "pig"), S("The dog is hot.", "狗很热。", "dog"), S("The sun is up.", "太阳升起来了。", "sun")],
+      { title: "A Big Pig", titleZh: "大猪", img: "pig",
+        zh: "床是红的。猪很大。狗很热。太阳升起来了。小猪坐下。",
+        sentences: ["The bed is red.", "The pig is big.", "The dog is hot.", "The sun is up.", "The pig sat."] },
+      { title: "小狗在哪", titleEn: "Where is the dog", scene: "家里", img: "dog",
+        goals: "问路 · 描述颜色 · 确认",
+        lines: [L("A", "Where is the dog?", "狗在哪里？"), L("B", "The dog is on the bed.", "狗在床上。"), L("A", "The bed is red.", "床是红的。"), L("B", "The pig is big.", "猪很大。"), L("A", "The sun is up.", "太阳升起来了。"), L("B", "Let's run.", "我们跑吧。")] }
     ),
     L05: pack(
       [S("I see a cat.", "我看见一只猫。", "cat"), S("The dog is big.", "这只狗很大。", "dog"), S("A kid in a cap.", "一个戴帽的小孩。", "hat"), S("The duck has a sock.", "小鸭有一只袜子。", "duck")],
@@ -67,103 +67,103 @@
         lines: [L("A", "Look!", "看！"), L("B", "A cat?", "一只猫？"), L("A", "A cat.", "一只猫。"), L("B", "A dog, too.", "还有一只狗。"), L("A", "The dog is big.", "这只狗很大。"), L("B", "I see a cat.", "我看见一只猫。")] }
     ),
     L06: pack(
-      [S("I am sad.", "我很难过。", "bed"), S("He is in bed.", "他在床上。", "bed"), S("The sun is up.", "太阳升起来了。", "sun"), S("We run.", "我们跑步。", "rabbit")],
-      { title: "The Red Sun", titleZh: "红太阳", img: "sun",
-        zh: "太阳升起来了。他在床上。我很难过。我们跑步。太阳是红的。",
-        sentences: ["The sun is up.", "He is in bed.", "I am sad.", "We run.", "The sun is red."] },
-      { title: "我是谁", titleEn: "Who I am", scene: "自我介绍", img: "boy",
-        goals: "自我介绍 · 描述情绪 · 邀请活动",
-        lines: [L("A", "Hi. I am Sam.", "你好，我是山姆。"), L("B", "Hi. I am Pat.", "你好，我是帕特。"), L("A", "He is sad.", "他很难过。"), L("B", "We run.", "我们跑步。"), L("A", "The sun is up.", "太阳升起来了。"), L("B", "Let's run.", "我们跑吧。")] }
+      [S("The flag is blue.", "旗子是蓝的。", "flag"), S("I see a frog.", "我看见一只青蛙。", "frog"), S("The crab is green.", "螃蟹是绿的。", "crab"), S("A tree and a drum.", "一棵树和一面鼓。", "tree")],
+      { title: "The Blue Flag", titleZh: "蓝旗", img: "flag",
+        zh: "旗子是蓝的。我看见青蛙。螃蟹是绿的。树旁边有鼓。我们拍手。",
+        sentences: ["The flag is blue.", "I see a frog.", "The crab is green.", "I see a tree and a drum.", "We clap."] },
+      { title: "什么颜色", titleEn: "What color", scene: "公园", img: "blue",
+        goals: "问颜色 · 指认 · 描述",
+        lines: [L("A", "What color is the flag?", "旗子是什么颜色？"), L("B", "The flag is blue.", "旗子是蓝的。"), L("A", "I see a frog.", "我看见一只青蛙。"), L("B", "The frog can jump.", "青蛙会跳。"), L("A", "Look! A crab.", "看！一只螃蟹。"), L("B", "The crab is green.", "螃蟹是绿的。")] }
     ),
     L07: pack(
-      [S("You hop.", "你单脚跳。", "hop"), S("I have a hat.", "我有一顶帽子。", "hat"), S("The bat is big.", "球棒很大。", "ball"), S("Hop to me.", "跳到我这儿来。", "hop")],
-      { title: "Hop, Hop", titleZh: "跳呀跳", img: "hop",
-        zh: "你跳。我跳。帽子很大。跳到我这儿。我们一起跳。",
-        sentences: ["You hop.", "I hop.", "The hat is big.", "Hop to me.", "I hop to you."] },
-      { title: "一起跳", titleEn: "Let's hop", scene: "课间操", img: "hop",
-        goals: "发出指令 · 跟做 · 回应 OK",
-        lines: [L("A", "You hop.", "你跳。"), L("B", "I hop.", "我跳。"), L("A", "Hop to me.", "跳到我这儿。"), L("B", "OK!", "好！"), L("A", "I have a hat.", "我有一顶帽子。"), L("B", "The hat is big.", "帽子很大。")] }
+      [S("Stop!", "停！", "stop"), S("I can swim.", "我会游泳。", "swim"), S("I see a snake.", "我看见一条蛇。", "snake"), S("Look at the star.", "看那颗星星。", "star")],
+      { title: "Stop and Swim", titleZh: "停下，去游泳", img: "swim",
+        zh: "停下！我会游泳。我看见蛇。看星星。我们跳一跳。",
+        sentences: ["Stop!", "I can swim.", "I see a snake.", "Look at the star.", "I jump."] },
+      { title: "你会游泳吗", titleEn: "Can you swim", scene: "泳池边", img: "swim",
+        goals: "问能力 · 安全指令 · 答应",
+        lines: [L("A", "Can you swim?", "你会游泳吗？"), L("B", "Yes, I can swim.", "会，我会游泳。"), L("A", "Stop!", "停！"), L("B", "OK, I stop.", "好，我停。"), L("A", "Look at the star.", "看那颗星星。"), L("B", "I see it.", "我看见了。")] }
     ),
     L08: pack(
-      [S("They are big.", "他们很大。", "ball"), S("I like jam.", "我喜欢果酱。", "jam"), S("The van is red.", "面包车是红色的。", "van"), S("My leg is sad.", "我的腿不舒服。", "leaf")],
-      { title: "Jam in the Van", titleZh: "车上的果酱", img: "jam",
-        zh: "我喜欢果酱。面包车是红的。他们在车里。果酱也在车里。车很大。",
-        sentences: ["I like jam.", "The van is red.", "They are in the van.", "Jam is in the van.", "The van is big."] },
-      { title: "他们是谁", titleEn: "Who are they", scene: "接人", img: "van",
-        goals: "询问身份 · 确认位置 · 肯定回答",
-        lines: [L("A", "Who are they?", "他们是谁？"), L("B", "They are my pals.", "他们是我的朋友。"), L("A", "Are they in the van?", "他们在车里吗？"), L("B", "Yes, they are.", "是的。"), L("A", "I like jam.", "我喜欢果酱。"), L("B", "Jam is in the van.", "果酱在车里。")] }
+      [S("The ship is big.", "那艘船很大。", "ship"), S("I have a fish.", "我有一条鱼。", "fish"), S("The chick is in the shop.", "小鸡在商店里。", "shop"), S("This is my thumb.", "这是我的拇指。", "thumb")],
+      { title: "The Fish Shop", titleZh: "鱼店", img: "fish",
+        zh: "船很大。店里有鱼。小鸡在店里。这是拇指。那是鲸。",
+        sentences: ["The ship is big.", "The shop has fish.", "A chick is in the shop.", "This is my thumb.", "That is a whale."] },
+      { title: "去商店", titleEn: "At the shop", scene: "鱼店", img: "shop",
+        goals: "购物 · this/that · 表达喜好",
+        lines: [L("A", "I like fish.", "我喜欢鱼。"), L("B", "The shop has fish.", "店里有鱼。"), L("A", "What is this?", "这是什么？"), L("B", "This is my thumb.", "这是我的拇指。"), L("A", "What is that?", "那是什么？"), L("B", "That is a whale.", "那是一头鲸。")] }
     ),
     L09: pack(
-      [S("Yes, I can.", "是的，我可以。", "yoyo"), S("My fox is in the box.", "我的狐狸在盒子里。", "box"), S("Zip it.", "拉上拉链。", "zip"), S("The web is wet.", "蜘蛛网是湿的。", "web")],
-      { title: "The Fox in the Box", titleZh: "盒中狐", img: "box",
-        zh: "我的狐狸在盒子里。拉上盒子。是的，我可以。狐狸坐下。网是湿的。",
-        sentences: ["My fox is in the box.", "Zip the box.", "Yes, I can.", "The fox sits.", "The web is wet."] },
-      { title: "行不行", titleEn: "Yes or no", scene: "收拾书包", img: "zip",
-        goals: "请求帮助 · 能力回答 · 确认位置",
-        lines: [L("A", "Can you zip it?", "你能拉上吗？"), L("B", "Yes, I can.", "能。"), L("A", "Is it in the box?", "它在盒子里吗？"), L("B", "Yes.", "是的。"), L("A", "Zip it.", "拉上拉链。"), L("B", "I zip it.", "我拉上了。")] }
+      [S("I like cake.", "我喜欢蛋糕。", "cake"), S("I like my kite.", "我喜欢我的风筝。", "kite"), S("I go home.", "我回家。", "house"), S("I have a bike.", "我有一辆自行车。", "bike")],
+      { title: "Cake Time", titleZh: "蛋糕时间", img: "cake",
+        zh: "我喜欢蛋糕。我喜欢风筝。我回家。我有自行车。该坐下了。",
+        sentences: ["I like cake.", "I like my kite.", "I go home.", "I have a bike.", "It is time to sit."] },
+      { title: "我喜欢蛋糕", titleEn: "I like cake", scene: "点心时间", img: "cake",
+        goals: "表达喜好 · 魔法 e 词 · 课堂指令",
+        lines: [L("A", "I like cake.", "我喜欢蛋糕。"), L("B", "I like cake, too.", "我也喜欢蛋糕。"), L("A", "I like my kite.", "我喜欢我的风筝。"), L("B", "I have a bike.", "我有一辆自行车。"), L("A", "It is time to sit.", "该坐下了。"), L("B", "OK. I sit.", "好，我坐下。")] }
     ),
     L10: pack(
-      [S("I am a kid.", "我是个小孩。", "boy"), S("The quiz is fun.", "测验很好玩。", "queen"), S("I can sit.", "我可以坐下。", "sun"), S("The pig and the cub sit.", "小猪和幼兽坐下。", "pig")],
-      { title: "The Quiz", titleZh: "小测验", img: "queen",
-        zh: "我是个小孩。我坐下。测验很好玩。我能完成。小猪也坐下。",
-        sentences: ["I am a kid.", "I sit.", "The quiz is fun.", "I can do it.", "The pig and the cub sit."] },
-      { title: "课堂测验", titleEn: "Quiz time", scene: "教室", img: "queen",
-        goals: "课堂指令 · 鼓励 · 自我介绍",
-        lines: [L("A", "Sit, please.", "请坐。"), L("B", "I sit.", "我坐下。"), L("A", "The quiz is fun.", "测验很好玩。"), L("B", "I can do it.", "我能完成。"), L("A", "Who are you?", "你是谁？"), L("B", "I am a kid.", "我是个小孩。")] }
+      [S("I have a cube.", "我有一个立方体。", "cube"), S("These are cute.", "这些很可爱。", "cub"), S("I like my home.", "我喜欢我的家。", "house"), S("I like cake.", "我喜欢蛋糕。", "cake")],
+      { title: "A Cute Cube", titleZh: "可爱的方块", img: "cube",
+        zh: "我有一个立方体。这些很可爱。我喜欢家。我喜欢蛋糕。该回家了。",
+        sentences: ["I have a cube.", "These are cute.", "I like my home.", "I like cake.", "It is time to go home."] },
+      { title: "该回家了", titleEn: "Time to go home", scene: "放学", img: "house",
+        goals: "告别 · 表达喜好 · 确认物品",
+        lines: [L("A", "I have a cube.", "我有一个立方体。"), L("B", "These are cute.", "这些很可爱。"), L("A", "I like my home.", "我喜欢我的家。"), L("B", "Me too.", "我也是。"), L("A", "It is time to go home.", "该回家了。"), L("B", "See you.", "再见。")] }
     ),
     L11: pack(
-      [S("The ship is big.", "那艘船很大。", "ship"), S("I have a fish.", "我有一条鱼。", "fish"), S("The chick is in the shop.", "小鸡在商店里。", "chick"), S("Chop the fish.", "把鱼切开。", "fish")],
-      { title: "The Fish Shop", titleZh: "鱼店", img: "fish",
-        zh: "我去商店。店里有鱼。小鸡也在店里。我喜欢这条鱼。船很大。",
-        sentences: ["I go to the shop.", "The shop has fish.", "A chick is in the shop.", "I like the fish.", "The ship is big."] },
-      { title: "去商店", titleEn: "At the shop", scene: "鱼店", img: "ship",
-        goals: "表达喜好 · 购物请求 · 答应",
-        lines: [L("A", "I like fish.", "我喜欢鱼。"), L("B", "The shop has fish.", "店里有鱼。"), L("A", "Can I have a fish?", "我能买一条吗？"), L("B", "Yes, you can.", "可以。"), L("A", "Thank you.", "谢谢。"), L("B", "The chick is in the shop.", "小鸡在店里。")] }
+      [S("I can see the sea.", "我能看见大海。", "whale"), S("We play all day.", "我们玩了一整天。", "ball"), S("The rain is on the leaf.", "雨落在叶子上。", "rain"), S("I see two trees.", "我看见两棵树。", "tree")],
+      { title: "A Rainy Day", titleZh: "下雨天", img: "rain",
+        zh: "我看见雨。雨落在叶子上。我们玩了一整天。我能看见大海。我看见两棵树。",
+        sentences: ["I see the rain.", "The rain is on the leaf.", "We play all day.", "I can see the sea.", "I see two trees."] },
+      { title: "今天玩什么", titleEn: "What to play", scene: "下雨的公园", img: "rain",
+        goals: "提议活动 · 描述天气 · 做决定",
+        lines: [L("A", "Can we play?", "我们能玩吗？"), L("B", "It is rain.", "在下雨。"), L("A", "We can see the sea.", "我们能去看海。"), L("B", "Yes, let's go.", "好，走吧。"), L("A", "I see two trees.", "我看见两棵树。"), L("B", "We play all day.", "我们玩一整天。")] }
     ),
     L12: pack(
-      [S("This is my thumb.", "这是我的拇指。", "thumb"), S("That is a whale.", "那是一头鲸。", "whale"), S("When can we go?", "我们什么时候走？", "whale"), S("They are thin.", "他们很瘦。", "thumb")],
-      { title: "This and That", titleZh: "这个和那个", img: "feather",
-        zh: "这是拇指。那是鲸。他们很瘦。我们什么时候走？我们可以走了。",
-        sentences: ["This is a thumb.", "That is a whale.", "They are thin.", "When can we go?", "We can go."] },
-      { title: "这是什么", titleEn: "What is this", scene: "看图说话", img: "thumb",
-        goals: "指认 this/that · 提问时间",
-        lines: [L("A", "What is this?", "这是什么？"), L("B", "This is my thumb.", "这是我的拇指。"), L("A", "What is that?", "那是什么？"), L("B", "That is a whale.", "那是一头鲸。"), L("A", "When can we go?", "我们什么时候走？"), L("B", "We can go.", "我们可以走了。")] }
+      [S("I see a boat.", "我看见一条船。", "boat"), S("Snow is on the road.", "路上有雪。", "snow"), S("The night is long.", "夜晚很长。", "night"), S("The light is on.", "灯开着。", "lamp")],
+      { title: "Night Light", titleZh: "夜灯", img: "night",
+        zh: "我看见船。路上有雪。夜晚很长。灯开着。我们走吧。",
+        sentences: ["I see a boat.", "Snow is on the road.", "The night is long.", "The light is on.", "Let's go."] },
+      { title: "晚上出门", titleEn: "At night", scene: "夜晚的路", img: "night",
+        goals: "描述环境 · 同行",
+        lines: [L("A", "It is night.", "现在是晚上。"), L("B", "The light is on.", "灯开着。"), L("A", "I see a boat.", "我看见一条船。"), L("B", "Snow is on the road.", "路上有雪。"), L("A", "Let's go.", "我们走吧。"), L("B", "OK. I go.", "好，我走。")] }
     ),
     L13: pack(
-      [S("Come and sing.", "过来唱歌。", "ring"), S("I have a pink ring.", "我有一枚粉色戒指。", "ring"), S("The duck can sing.", "小鸭会唱歌。", "duck"), S("Sink the ship.", "让船沉下去。", "ship")],
-      { title: "Sing with Me", titleZh: "和我一起唱", img: "ring",
-        zh: "过来唱歌。我唱。小鸭会唱。我们唱了又唱。我有粉色戒指。",
-        sentences: ["Come and sing.", "I sing.", "The duck can sing.", "We sing and sing.", "I have a pink ring."] },
-      { title: "来唱歌", titleEn: "Come and sing", scene: "音乐课", img: "ring",
-        goals: "邀请加入 · 能力表达 · 跟唱",
-        lines: [L("A", "Come and sing.", "过来唱歌。"), L("B", "I can sing.", "我会唱。"), L("A", "Sing with me.", "和我一起唱。"), L("B", "OK, I sing.", "好，我唱。"), L("A", "The duck can sing.", "小鸭会唱歌。"), L("B", "We sing and sing.", "我们唱了又唱。")] }
+      [S("I like cake.", "我喜欢蛋糕。", "cake"), S("I see the rain.", "我看见雨。", "rain"), S("The night is long.", "夜晚很长。", "night"), S("I see a boat.", "我看见一条船。", "boat")],
+      { title: "Long Vowel Day", titleZh: "长元音的一天", img: "cake",
+        zh: "我喜欢蛋糕。我看见雨。夜晚很长。我看见船。胶水是蓝的。",
+        sentences: ["I like cake.", "I see the rain.", "The night is long.", "I see a boat.", "The glue is blue."] },
+      { title: "你看见什么", titleEn: "What do you see", scene: "看图复习", img: "rain",
+        goals: "指认长元音词 · 表达喜好",
+        lines: [L("A", "What do you see?", "你看见什么？"), L("B", "I see the rain.", "我看见雨。"), L("A", "I like cake.", "我喜欢蛋糕。"), L("B", "I see a boat.", "我看见一条船。"), L("A", "The glue is blue.", "胶水是蓝的。"), L("B", "The night is long.", "夜晚很长。")] }
     ),
     L14: pack(
-      [S("Stop!", "停！", "sun"), S("I can swim.", "我会游泳。", "fish"), S("Do not slip.", "别滑倒。", "sun"), S("Spin and stop.", "转一转再停下。", "sun")],
-      { title: "Stop and Swim", titleZh: "停下，去游泳", img: "fish",
-        zh: "停下！我会游泳。别滑倒。游一游再停下。我停下了。",
-        sentences: ["Stop!", "I can swim.", "Do not slip.", "Swim and stop.", "I stop."] },
-      { title: "注意安全", titleEn: "Be careful", scene: "泳池边", img: "fish",
-        goals: "安全指令 · 答应 · 能力表达",
-        lines: [L("A", "Stop!", "停下！"), L("B", "OK, I stop.", "好，我停。"), L("A", "Do not slip.", "别滑倒。"), L("B", "I can swim.", "我会游泳。"), L("A", "Swim and stop.", "游一游再停下。"), L("B", "Thank you.", "谢谢。")] }
+      [S("The car is in the park.", "汽车在公园里。", "car"), S("I have a fork.", "我有一把叉子。", "fork"), S("Her bird is little.", "她的鸟很小。", "bird"), S("The stars are up.", "星星升起来了。", "star")],
+      { title: "In the Park", titleZh: "在公园", img: "car",
+        zh: "汽车在公园里。我有叉子。她的鸟很小。星星升起来了。我们到了。",
+        sentences: ["The car is in the park.", "I have a fork.", "Her bird is little.", "The stars are up.", "We are here."] },
+      { title: "去公园", titleEn: "To the park", scene: "周末出行", img: "tree",
+        goals: "问路 · 约定地点 · 到达确认",
+        lines: [L("A", "Where is the car?", "车在哪里？"), L("B", "The car is in the park.", "车在公园里。"), L("A", "Let's go to the park.", "我们去公园吧。"), L("B", "We are here.", "我们到了。"), L("A", "The stars are up.", "星星升起来了。"), L("B", "I have a fork.", "我有一把叉子。")] }
     ),
     L15: pack(
-      [S("The frog can jump.", "青蛙会跳。", "goat"), S("I see a little crab.", "我看见一只小螃蟹。", "cat"), S("The flag is up.", "旗子升起来了。", "leaf"), S("Come out!", "出来！", "sun")],
-      { title: "The Little Frog", titleZh: "小青蛙", img: "goat",
-        zh: "我看见一只小青蛙。青蛙会跳。螃蟹坐下。旗子升起来了。小青蛙跳出来。",
-        sentences: ["I see a little frog.", "The frog can jump.", "A crab sits.", "The flag is up.", "Come out, little frog."] },
-      { title: "看那边", titleEn: "Look there", scene: "池塘边", img: "goat",
-        goals: "引起注意 · 描述 · 提问能力",
-        lines: [L("A", "Look! A frog.", "看！一只青蛙。"), L("B", "A little frog.", "一只小青蛙。"), L("A", "Can it jump?", "它会跳吗？"), L("B", "Yes, it can.", "会。"), L("A", "I see a little crab.", "我看见一只小螃蟹。"), L("B", "Come out!", "出来！")] }
+      [S("The boy has a toy.", "男孩有一个玩具。", "boy"), S("I saw a coin.", "我看见一枚硬币。", "coin"), S("I see a cloud.", "我看见一朵云。", "cloud"), S("The cow is at the house.", "奶牛在房子旁。", "cow")],
+      { title: "A Boy and a Toy", titleZh: "男孩和玩具", img: "coin",
+        zh: "男孩有玩具。我看见硬币。我看见云。奶牛在房子旁。我们买吧。",
+        sentences: ["The boy has a toy.", "I saw a coin.", "I see a cloud.", "The cow is at the house.", "Let's get it."] },
+      { title: "商店里", titleEn: "In the shop", scene: "买玩具", img: "coin",
+        goals: "表达喜好 · 付钱 · 做决定",
+        lines: [L("A", "I saw a toy.", "我看见一个玩具。"), L("B", "I like this toy.", "我喜欢这个。"), L("A", "I have a coin.", "我有一枚硬币。"), L("B", "Let's get it.", "我们买吧。"), L("A", "The boy has a toy.", "男孩有一个玩具。"), L("B", "Thank you.", "谢谢。")] }
     ),
     L16: pack(
-      [S("I like cake.", "我喜欢蛋糕。", "cake"), S("My name is Pat.", "我叫帕特。", "nest"), S("I like my kite.", "我喜欢我的风筝。", "kite"), S("It is time to sit.", "该坐下了。", "tap")],
-      { title: "Cake Time", titleZh: "蛋糕时间", img: "cake",
-        zh: "我叫帕特。我喜欢蛋糕。该坐下了。我也喜欢风筝。蛋糕时间到了。",
-        sentences: ["My name is Pat.", "I like cake.", "It is time to sit.", "I like my kite, too.", "It is cake time."] },
-      { title: "自我介绍", titleEn: "My name is", scene: "新同学", img: "cake",
-        goals: "问好 · 自我介绍 · 谈喜好 · 课堂指令",
-        lines: [L("A", "Hi. My name is Pat.", "你好，我叫帕特。"), L("B", "Hi. I like cake.", "你好。我喜欢蛋糕。"), L("A", "I like cake, too.", "我也喜欢蛋糕。"), L("B", "I like my kite.", "我喜欢我的风筝。"), L("A", "It is time to sit.", "该坐下了。"), L("B", "OK. I sit.", "好，我坐下。")] }
+      [S("I look at the moon.", "我看着月亮。", "moon"), S("I like good food.", "我喜欢好吃的。", "cake"), S("Look at the book now.", "现在看书。", "book"), S("The moon is up.", "月亮升起来了。", "moon")],
+      { title: "Moon and Book", titleZh: "月亮和书", img: "moon",
+        zh: "我看着月亮。我喜欢我的书。现在看书。食物很好吃。月亮升起来了。",
+        sentences: ["I look at the moon.", "I like my book.", "Look at the book now.", "The food is good.", "The moon is up."] },
+      { title: "请看书", titleEn: "Look at the book", scene: "晚读", img: "book",
+        goals: "课堂指令 · 跟做 · 观察",
+        lines: [L("A", "Look at the book.", "请看书。"), L("B", "I look at it now.", "我现在看。"), L("A", "The moon is up.", "月亮升起来了。"), L("B", "I can see it.", "我看见了。"), L("A", "The food is good.", "食物很好吃。"), L("B", "I like good food.", "我喜欢好吃的。")] }
     ),
     L17: pack(
       [S("I go home.", "我回家。", "house"), S("I have a cube.", "我有一个立方体。", "cub"), S("These are my notes.", "这些是我的笔记。", "book"), S("I like my home.", "我喜欢我的家。", "house")],

@@ -364,7 +364,7 @@
         t.disabled = true;
         t.style.opacity = "0.4";
         $("built").textContent = built.join(" ");
-        Lab.playPhoneme(w.phonemes[Math.min(built.length - 1, w.phonemes.length - 1)]);
+        Lab.playWord(g);
         if (built.length === w.graphemes.length) {
           if (built.join("") === w.graphemes.join("")) {
             Lab.playWord(w.word);
@@ -477,7 +477,7 @@
           if (!selected) {
             selected = { p: p, el: b, key: key };
             b.classList.add("active");
-            Lab.playPhoneme(p.id);
+            Lab.playWord(p.keyword);
             return;
           }
           if (selected.key === key) {
@@ -492,12 +492,12 @@
             selected.el.classList.remove("active");
             selected = null;
             done += 1;
-            Lab.playPhoneme(p.id);
+            Lab.playWord(p.keyword);
             if (done >= ph.length) win();
           } else {
             selected.el.classList.remove("active");
             selected = null;
-            if (!lose()) Lab.playPhoneme(p.id);
+            if (!lose()) Lab.playWord(p.keyword);
           }
         };
         box.appendChild(b);
@@ -629,10 +629,10 @@
   }
 
   function gameSpin() {
-    var kinds = ["point", "mark", "chant", "pop", "pic", "blend", "segment", "pyramid"];
+    var kinds = ["point", "mark", "chant", "first", "pic", "blend", "segment", "pyramid"];
     var pick = Lab.pick(kinds, 1)[0];
     $("prompt").textContent = "转盘抽到：" + GAMES.filter(function (g) { return g.id === pick; })[0].title;
-    var fn = { point: gamePoint, mark: gameMark, chant: gameChant, pop: gamePop, pic: gamePic, blend: gameBlend, segment: gameSegment, pyramid: gamePyramid }[pick];
+    var fn = { point: gamePoint, mark: gameMark, chant: gameChant, first: function () { gameLetterPos("first"); }, pic: gamePic, blend: gameBlend, segment: gameSegment, pyramid: gamePyramid }[pick];
     fn();
   }
 
@@ -660,7 +660,7 @@
   }
 
   function initPlay() {
-    state.game = Lab.qs("game", "pop");
+    state.game = Lab.qs("game", "point");
     state.stage = parseInt(Lab.qs("stage", "1"), 10) || 1;
     state.diff = Lab.qs("diff", "easy");
     var meta = GAMES.filter(function (g) { return g.id === state.game; })[0] || GAMES[0];

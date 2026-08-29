@@ -127,10 +127,10 @@
       phonemes: ["l", "r"],
       focus: { title: "blends", sound: "bl cl fl · br cr dr", img: "frog", tip: "两个辅音都要读，不要吞。" },
       families: [
-        { id: "l", words: ["black", "blue", "flag", "plum"] },
+        { id: "l", words: ["black", "blue", "flag", "plum", "clap", "clock", "block"] },
         { id: "r", words: ["crab", "drum", "frog", "green", "tree", "rain"] }
       ],
-      words: ["black", "blue", "flag", "plum", "crab", "drum", "frog", "green", "tree", "rain", "frog", "crab"],
+      words: ["black", "blue", "flag", "plum", "clap", "clock", "block", "crab", "drum", "frog", "green", "tree", "rain"],
       sight: ["blue", "from", "green", "three", "all"],
       chant: ["blue", "flag", "frog", "tree", "crab", "drum"],
       homework: [
@@ -163,13 +163,13 @@
       phonemes: ["sh", "ch", "th", "thv", "wh", "ph"],
       focus: { title: "digraphs", sound: "sh ch th wh ph", img: "ship", tip: "两个字母一个音。" },
       families: [
-        { id: "sh", words: ["ship", "shop", "fish"] },
-        { id: "ch", words: ["chick", "chop", "chin"] },
-        { id: "th", words: ["thumb", "thin", "this", "that"] },
-        { id: "wh", words: ["whale", "when"] },
+        { id: "sh", words: ["ship", "shop", "fish", "dish"] },
+        { id: "ch", words: ["chick", "chop", "chin", "chip"] },
+        { id: "th", words: ["thumb", "thin", "this", "that", "path"] },
+        { id: "wh", words: ["whale", "when", "white"] },
         { id: "ph", words: ["photo", "phone"] }
       ],
-      words: ["ship", "shop", "fish", "chick", "chop", "chin", "thumb", "thin", "this", "that", "whale", "when", "photo", "phone"],
+      words: ["ship", "shop", "fish", "dish", "chick", "chop", "chin", "chip", "thumb", "thin", "this", "that", "path", "whale", "when", "white", "photo", "phone"],
       sight: ["said", "have", "what", "they"],
       chant: ["ship", "fish", "chick", "thumb", "whale", "photo"],
       homework: [
@@ -184,11 +184,11 @@
       phonemes: ["a_e", "i_e", "o_e"],
       focus: { title: "magic e", sound: "a_e i_e o_e", img: "cake", tip: "词尾 e 不发音，前面元音读字母名。" },
       families: [
-        { id: "a-e", words: ["cake", "name", "tape"] },
-        { id: "i-e", words: ["kite", "like", "time"] },
-        { id: "o-e", words: ["home", "bone", "nose"] }
+        { id: "a-e", words: ["cake", "name", "tape", "lake", "cape"] },
+        { id: "i-e", words: ["kite", "like", "time", "five", "bike"] },
+        { id: "o-e", words: ["home", "bone", "nose", "rose", "rope"] }
       ],
-      words: ["cake", "name", "tape", "kite", "like", "time", "home", "bone", "nose"],
+      words: ["cake", "name", "tape", "lake", "cape", "kite", "like", "time", "five", "bike", "home", "bone", "nose", "rose", "rope"],
       sight: ["like", "have"],
       chant: ["cake", "kite", "home", "name", "time", "nose"],
       homework: [
@@ -203,11 +203,11 @@
       phonemes: ["e_e", "u_e"],
       focus: { title: "magic e all", sound: "e_e u_e", img: "cube", tip: "have 不是魔法 e。" },
       families: [
-        { id: "u-e", words: ["cube", "tune"] },
+        { id: "u-e", words: ["cube", "tune", "cute"] },
         { id: "e-e", words: ["these"] },
-        { id: "all", words: ["cake", "kite", "home", "cube"] }
+        { id: "all", words: ["cake", "lake", "kite", "bike", "home", "bone", "cube"] }
       ],
-      words: ["cube", "tune", "these", "cake", "kite", "home", "name", "like"],
+      words: ["cube", "tune", "cute", "these", "cake", "lake", "kite", "bike", "home", "bone", "name", "like"],
       sight: ["have", "like", "these"],
       chant: ["cake", "these", "kite", "home", "cube"],
       homework: [
@@ -221,10 +221,10 @@
       phonemes: ["ai", "ay", "ee", "ea"],
       focus: { title: "vowel teams", sound: "/eɪ/ /iː/", img: "rain", tip: "ai 词中，ay 词尾。" },
       families: [
-        { id: "ai/ay", words: ["rain", "tail", "play", "day"] },
-        { id: "ee/ea", words: ["tree", "see", "leaf", "sea"] }
+        { id: "ai/ay", words: ["rain", "tail", "wait", "train", "play", "day", "say"] },
+        { id: "ee/ea", words: ["tree", "see", "bee", "leaf", "sea", "eat"] }
       ],
-      words: ["rain", "tail", "play", "day", "tree", "see", "leaf", "sea"],
+      words: ["rain", "tail", "wait", "train", "play", "day", "say", "tree", "see", "bee", "leaf", "sea", "eat"],
       sight: ["people", "two"],
       chant: ["rain", "play", "tree", "see", "leaf", "sea"],
       homework: [
@@ -238,10 +238,10 @@
       phonemes: ["oa", "ow", "igh"],
       focus: { title: "oa igh", sound: "/əʊ/ /aɪ/", img: "boat", tip: "igh 三个字母一个音。" },
       families: [
-        { id: "oa/ow", words: ["boat", "road", "snow"] },
-        { id: "igh", words: ["night", "light"] }
+        { id: "oa/ow", words: ["boat", "road", "coat", "snow", "grow"] },
+        { id: "igh", words: ["night", "light", "right"] }
       ],
-      words: ["boat", "road", "snow", "night", "light", "my"],
+      words: ["boat", "road", "coat", "snow", "grow", "night", "light", "right", "fly", "my"],
       sight: ["their", "my"],
       chant: ["boat", "snow", "night", "light", "road"],
       homework: [
