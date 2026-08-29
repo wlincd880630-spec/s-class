@@ -50,9 +50,10 @@
         url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='none' stroke='%23ffffff' stroke-opacity='.04' d='M0 64h256M0 128h256M0 192h256M64 0v256M128 0v256M192 0v256'/%3E%3C/svg%3E");
       position: relative;
       display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
       overflow-x: clip;
       -webkit-tap-highlight-color: rgba(0, 172, 193, 0.12);
-      padding: max(6px, env(safe-area-inset-top)) max(6px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(6px, env(safe-area-inset-left));
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
     }
     .back-hub {
       position: fixed;
@@ -78,12 +79,12 @@
     body::before { content: none; }
     .app {
       position: relative; z-index: 1;
-      width: min(96vw, calc((100dvh - 20px) * 16 / 9));
-      height: min(calc(100dvh - 20px), calc(96vw * 9 / 16));
-      max-width: min(96vw, calc((100dvh - 20px) * 16 / 9));
-      max-height: min(calc(100dvh - 20px), calc(96vw * 9 / 16));
+      width: min(100vw, calc(100dvh * 16 / 9));
+      height: min(100dvh, calc(100vw * 9 / 16));
+      max-width: min(100vw, calc(100dvh * 16 / 9));
+      max-height: min(100dvh, calc(100vw * 9 / 16));
       aspect-ratio: 16 / 9;
-      margin: 0 auto; padding: 0.4rem 0.55rem 0.5rem;
+      margin: 0 auto; padding: 0;
       display: flex; flex-direction: column; overflow: hidden;
     }
     .book-cover {
@@ -111,14 +112,14 @@
       font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft);
     }
     .book-inner {
-      border: none; border-radius: 0; padding: 0.45rem 0.7rem 0.5rem 0.8rem; background: var(--paper);
+      border: none; border-radius: 0; padding: 0.18rem 0.45rem 0.16rem 0.55rem; background: var(--paper);
       flex: 1; min-height: 0; overflow: hidden; display: flex; flex-direction: column;
       -webkit-overflow-scrolling: touch;
     }
     /* 顶栏：左上标题+副题，右侧三个主导航，与标题行齐高 */
     .book-top {
       display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: space-between;
-      gap: 0.5rem 1rem; padding: 0.15rem 0 0.5rem; margin: 0 0 0.4rem; border-bottom: 1px solid #D8D2C4;
+      gap: 0.3rem 0.8rem; padding: 0.06rem 0 0.22rem; margin: 0 0 0.16rem; border-bottom: 1px solid #D8D2C4;
       flex-shrink: 0;
     }
     .book-top-left { flex: 1; min-width: min(12rem, 100%); }
@@ -204,33 +205,36 @@
     }
     .view { display: none; flex: 1; min-height: 0; min-width: 0; flex-direction: column; }
     .view.on { display: flex; }
-    /* 主内容区：水平居中、留白、略限宽，整体更稳、更大气 */
+    /* 主内容区：铺满 16:9 舞台，与海豚课同一套比例 */
     .view-body {
       flex: 1; min-height: 0; width: 100%;
-      max-width: min(52rem, 100%);
-      margin: 0 auto; padding: 0.2rem 0.65rem 0.55rem;
-      display: flex; flex-direction: column; align-items: center; box-sizing: border-box;
+      max-width: none;
+      margin: 0; padding: 0.08rem 0.2rem 0.12rem;
+      display: flex; flex-direction: column; align-items: stretch; box-sizing: border-box;
     }
     .view-body--words {
-      max-width: 100%;
-      padding-left: 0.5rem; padding-right: 0.5rem;
+      max-width: none;
+      padding-left: 0.15rem; padding-right: 0.15rem;
       align-items: stretch;
     }
-    /* 各模块主内容区整体放大：学单词 25% · 大复习 50% · 学课文 25% */
+    .view-body--story {
+      max-width: none;
+      padding-top: 0.04rem;
+      padding-bottom: 0.08rem;
+    }
     @supports (zoom: 1) {
-      #view-words .view-body--words { zoom: 1.25; }
-      #view-review > .view-body { zoom: 1.5; }
-      #view-story .view-body--story { zoom: 1.25; }
+      #view-words .view-body--words,
+      #view-review > .view-body,
+      #view-story .view-body--story { zoom: 1; }
     }
     @supports not (zoom: 1) {
-      #view-words .view-body--words {
-        transform: scale(1.25); transform-origin: top center; width: 80%; max-width: 80%; align-self: center;
-      }
-      #view-review > .view-body {
-        transform: scale(1.5); transform-origin: top center; width: 66.6667%; max-width: 66.6667%; align-self: center;
-      }
+      #view-words .view-body--words,
+      #view-review > .view-body,
       #view-story .view-body--story {
-        transform: scale(1.25); transform-origin: top center; width: 80%; max-width: 80%; align-self: center;
+        transform: none;
+        width: 100%;
+        max-width: none;
+        align-self: stretch;
       }
     }
     .view-body > h2,
@@ -239,18 +243,20 @@
       text-align: center;
       border-left: none;
       border-bottom: 2px solid var(--ng-gold);
-      padding: 0 0.5rem 0.4rem;
-      margin: 0 0 0.5rem;
-      font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+      padding: 0 0.35rem 0.18rem;
+      margin: 0 0 0.2rem;
+      font-size: clamp(1.05rem, 1.9vw, 1.35rem);
       align-self: stretch;
+      flex-shrink: 0;
     }
     .view-h2 .sub { font-size: 0.72em; font-weight: 500; color: var(--ink-soft); }
-    .view-body .prog { max-width: 24rem; margin-left: auto; margin-right: auto; }
-    .view-body .sub#wMeta { text-align: center; width: 100%; max-width: 40rem; }
+    .view-body .prog { max-width: none; width: 100%; margin-left: 0; margin-right: 0; }
+    .view-body .sub#wMeta { text-align: center; width: 100%; max-width: none; }
     .view-body .stage-row { justify-content: center; width: 100%; }
     .view-nav-row {
       display: flex; flex-wrap: wrap; gap: 0.55rem; justify-content: center; width: 100%;
-      margin-top: 0.5rem; padding-top: 0.45rem; border-top: 1px solid #D8D2C4;
+      margin-top: 0.28rem; padding-top: 0.28rem; border-top: 1px solid #D8D2C4;
+      flex-shrink: 0;
     }
     .view-nav-row .btn { min-width: 6.5rem; }
     .view-msg { text-align: center; width: 100%; max-width: 36rem; min-height: 1.2em; margin: 0.35rem 0 0; }
@@ -439,7 +445,7 @@
       margin: 0.35rem 0 0; font-weight: 700; font-size: min(1.4rem, 4.2vw); color: rgba(255, 255, 250, 0.96);
       animation: ok-cele-sub 0.4s ease-out 0.35s 1 both; opacity: 0;
     }
-    .panel-lite { background: #EEF1E8; border: 1px solid #c8c4b8; border-left: 3px solid var(--ng-gold); border-radius: 6px; padding: 0.5rem 0.65rem; margin: 0 auto 0.4rem; max-width: 36rem; box-shadow: 0 2px 8px rgba(0,0,0,.04); }
+    .panel-lite { background: #EEF1E8; border: 1px solid #c8c4b8; border-left: 3px solid var(--ng-gold); border-radius: 6px; padding: 0.28rem 0.45rem; margin: 0 0 0.16rem; max-width: none; width: 100%; box-sizing: border-box; box-shadow: 0 2px 8px rgba(0,0,0,.04); flex-shrink: 0; }
     .story-sentence {
       margin: 0.6rem 0; padding: 0.5rem 0.6rem;
       background: #fff; border: 1px solid #D4CFC3; border-left: 3px solid var(--wild-green); box-shadow: 0 2px 12px rgba(0,0,0,.06);
@@ -447,7 +453,10 @@
     .story-sentence p { margin: 0.1rem 0; font-size: 1.02rem; font-family: "Source Serif 4", Georgia, "Noto Serif SC", serif; }
     .story-zh { color: #4a4a4a; font-size: 0.88rem; font-family: "Noto Sans SC", sans-serif; }
     .story-sentence .polaroid { transform: rotate(0.2deg); }
-    .story-slide { margin: 0.35rem 0 0.25rem; min-height: 4rem; }
+    .story-slide {
+      margin: 0.08rem 0 0.1rem; flex: 1 1 auto; width: 100%; min-height: 0;
+      overflow: hidden; display: flex; flex-direction: column;
+    }
     .story-slide .story-sentence { margin: 0; }
     .match-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem; }
     @media (max-width: 560px) { .match-cols { grid-template-columns: 1fr; } }
@@ -459,33 +468,35 @@
     .pool { display: flex; flex-wrap: wrap; gap: 0.5rem; align-content: flex-start; }
     .pool.review-pool-3 {
       justify-content: center;
-      gap: 0.6rem 0.55rem;
+      gap: 0.7rem 0.7rem;
       width: 100%;
-      max-width: min(46rem, 100%);
+      max-width: none;
     }
-    .pool.review-pool-3 .opt-img {
-      flex: 1 1 30%;
-      min-width: min(28vw, 9.5rem);
-      max-width: 34%;
-      min-height: min(15rem, 40vh);
-      padding: 0.5rem 0.45rem;
+    @media (min-width: 821px) {
+      .pool.review-pool-3 .opt-img {
+        flex: 1 1 30%;
+        min-width: min(22vw, 12rem);
+        max-width: 32%;
+        min-height: min(18rem, 46vh);
+        padding: 0.45rem 0.4rem;
+      }
+      .pool.review-pool-3 .opt-img .opt-thumb {
+        min-height: min(14rem, 38vh);
+        max-height: min(24rem, 52vh);
+      }
     }
-    .pool.review-pool-3 .opt-img .opt-thumb {
-      min-height: min(11.5rem, 34vh);
-      max-height: min(20rem, 45vh);
-    }
-    .review-block--pick3 { max-width: min(50rem, 100%); }
+    .review-block--pick3 { max-width: none; width: 100%; }
     .review-center-block .pool.review-pool-3 + .btns {
       margin-top: 1.05rem;
     }
-    #rQ, .review-q { font-size: clamp(1.02rem, 1.8vw, 1.25rem); margin: 0.2rem 0 0.6rem; line-height: 1.55; font-weight: 600; text-align: center; color: var(--ink); max-width: 32rem; margin-left: auto; margin-right: auto; }
-    #rBody { display: flex; flex-direction: column; align-items: center; width: 100%; flex: 1; min-height: 0; justify-content: flex-start; }
-    .review-center-block { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 40rem; margin: 0.15rem 0; }
+    #rQ, .review-q { font-size: clamp(1.02rem, 1.8vw, 1.25rem); margin: 0.2rem 0 0.4rem; line-height: 1.55; font-weight: 600; text-align: center; color: var(--ink); max-width: min(56rem, 100%); margin-left: auto; margin-right: auto; }
+    #rBody { display: flex; flex-direction: column; align-items: center; width: 100%; flex: 1; min-height: 0; justify-content: center; }
+    .review-center-block { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: none; margin: 0.1rem 0; flex: 1 1 auto; min-height: 0; justify-content: center; }
     .review-center-block .btns { justify-content: center; }
-    .review-center-block .hero-art { max-width: 20rem; margin: 0.15rem auto 0.2rem; }
+    .review-center-block .hero-art { max-width: min(28rem, 100%); margin: 0.15rem auto 0.2rem; }
     .review-word-bling {
-      font-family: "Source Serif 4", Georgia, serif; font-size: clamp(1.85rem, 3.8vw, 2.55rem);
-      font-weight: 700; text-align: center; margin: 0.1rem 0 0.45rem; letter-spacing: 0.02em;
+      font-family: "Source Serif 4", Georgia, serif; font-size: clamp(2.1rem, 4.4vw, 3.1rem);
+      font-weight: 700; text-align: center; margin: 0.1rem 0 0.55rem; letter-spacing: 0.02em;
     }
     .w-spell-host, #wWordSpell { align-self: center; width: 100%; }
     .jumble-hold .hero-art { margin: 0.2rem auto 0.65rem; }
@@ -497,42 +508,55 @@
     .jumble-hold .jumble:last-of-type {
       font-size: 1.62rem; font-weight: 600; color: var(--ink); padding: 0.35rem; min-height: 2.1rem;
     }
-    .view-body--story .story-sentence { max-width: 40rem; margin-left: auto; margin-right: auto; }
+    .view-body--story .story-sentence { max-width: none; width: 100%; margin-left: 0; margin-right: 0; }
     .word-col-panel .btns#wActions { width: 100%; justify-content: center; }
     .view-body--story .story-sentence { box-shadow: 0 4px 20px rgba(0,0,0,.06); border-radius: 6px; }
     .view-body--story .story-slide { width: 100%; }
+    #view-story #storyProgress { flex-shrink: 0; }
+    #view-story .view-body--story > .btns { flex-shrink: 0; margin: 0.12rem 0 0; }
     /* 学课文单句卡：左大图 | 右英文 + 可点按中文区 */
     .view-body--story .story-sentence--xl {
-      max-width: min(64rem, 100%);
-      margin: 0.75rem auto;
+      max-width: none;
+      width: 100%;
+      margin: 0;
       border-radius: 8px;
       box-shadow: 0 6px 28px rgba(0,0,0,.08);
+      flex: 1 1 auto;
+      min-height: 0;
     }
     .view-body--story .story-sentence--xl.story-sentence-row {
       display: flex; flex-direction: row; flex-wrap: nowrap; align-items: stretch;
-      gap: 0.85rem; width: 100%;
-      margin: 0.75rem auto; padding: 0.8rem 0.95rem 0.9rem; box-sizing: border-box;
+      gap: 0.9rem; width: 100%;
+      margin: 0; padding: 0.45rem 0.7rem 0.5rem; box-sizing: border-box;
     }
     .view-body--story .story-col--art {
-      flex: 1.12; min-width: 0;
+      flex: 1.15; min-width: 0; min-height: 0;
       display: flex; align-items: center; justify-content: center;
     }
     .view-body--story .story-col--text {
-      flex: 1; min-width: 0;
+      flex: 1; min-width: 0; min-height: 0;
       display: flex; flex-direction: column; justify-content: center; gap: 0.45rem; text-align: left;
     }
     .view-body--story .story-col--text > p {
-      margin: 0; font-size: clamp(1.5rem, 2.8vw, 2.1rem);
+      margin: 0; font-size: clamp(1.65rem, 3.1vw, 2.35rem);
       line-height: 1.4; font-family: "Source Serif 4", Georgia, "Noto Serif SC", serif;
     }
     .view-body--story .story-col--art .hero-art {
-      margin: 0; min-height: 0; width: 100%;
+      margin: 0; min-height: 0; width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
     }
-    .view-body--story .story-col--art .polaroid { padding: 0.5rem; max-width: 100%; }
+    .view-body--story .story-col--art .polaroid {
+      padding: 0.28rem; max-width: 100%; max-height: 100%;
+      height: 100%; box-sizing: border-box;
+      display: flex; align-items: center; justify-content: center;
+      background: #fff;
+    }
     .view-body--story .story-col--art .art-img {
-      max-height: min(26rem, 75.4vh);
-      min-height: 13rem; width: auto; max-width: 100%;
+      max-height: 100%;
+      min-height: 0; width: auto; max-width: 100%;
+      height: 100%; object-fit: contain;
       display: block; margin: 0 auto;
+      background: #fff;
     }
     .story-zh-hold {
       display: block; width: 100%; text-align: left; margin: 0.15rem 0 0; padding: 0.5rem 0.6rem;
@@ -573,7 +597,7 @@
     }
     .opt-img .opt-thumb {
       display: block; width: 100%; height: auto; max-width: 100%;
-      max-height: min(14rem, 36vh); min-height: 7.5rem;
+      max-height: min(18rem, 44vh); min-height: 9rem;
       object-fit: contain; object-position: center; border-radius: 4px;
     }
     .opt-emoji { font-size: 2.2rem; }
@@ -609,11 +633,12 @@
     .wiggle .polaroid { animation: wiggle 2.5s ease-in-out infinite; }
     /* 学单词：左图 | 右栏（听音显素 / 例句 / 拼写 + 上/下一步） */
     .word-study-wrap {
-      display: flex; flex-direction: row; flex-wrap: nowrap; align-items: center;
-      gap: 0.9rem; width: 100%; min-height: 0; margin: 0.35rem 0 0.1rem; justify-content: center;
+      display: flex; flex-direction: row; flex-wrap: nowrap; align-items: stretch;
+      gap: 0.9rem; width: 100%; min-height: 0; margin: 0.15rem 0 0;
+      justify-content: stretch; flex: 1 1 auto;
     }
     .word-col-art {
-      flex: 0 1 55%; min-width: 0; max-width: 64%;
+      flex: 1 1 60%; min-width: 0; max-width: 68%;
       display: flex; align-items: center; justify-content: center;
     }
     .word-col-art .hero-art {
@@ -627,7 +652,7 @@
       flex: 1; min-width: 0; display: flex; flex-direction: column;
       align-items: center; gap: 0.35rem; justify-content: flex-start;
     }
-    .word-col-panel .w-display-line, .word-col-panel #wEx, .word-col-panel #wSpellMsg { text-align: center; max-width: 28rem; }
+    .word-col-panel .w-display-line, .word-col-panel #wEx, .word-col-panel #wSpellMsg { text-align: center; max-width: min(40rem, 100%); }
     .w-display-line { margin: 0.1rem 0; min-height: 1em; }
     .w-display-skip { min-height: 0; height: 0.2rem; margin: 0; padding: 0; font-size: 0.01rem; line-height: 0; color: transparent; overflow: hidden; user-select: none; }
     .w-spell-host { margin: 0.2rem 0; width: 100%; }
@@ -810,9 +835,9 @@
               <span class="sub" id="sLoopState">已停</span>
             </div>
           </div>
-          <p class="sub" id="storyProgress" style="margin:0.2rem 0 0.25rem;font-weight:600;color:#5a4a3a;text-align:center"></p>
+          <p class="sub" id="storyProgress" style="margin:0.06rem 0 0.08rem;font-weight:600;color:#5a4a3a;text-align:center"></p>
           <div id="storySlide" class="story-slide" aria-live="polite"></div>
-          <div class="btns" style="margin:0.4rem 0 0.2rem;justify-content:center">
+          <div class="btns" style="margin:0.12rem 0 0;justify-content:center">
             <button type="button" class="btn" id="sPrev" disabled>上一句</button>
             <button type="button" class="btn primary" id="sNext">下一句</button>
             <a class="btn" href="print-story.html" title="导出带配图与中英对照的课文 PDF" style="text-decoration:none">📄 课文 PDF</a>
