@@ -736,9 +736,9 @@
     }
   </style>
   <link rel="stylesheet" href="../../assets/primary-responsive.css?v=2" />
-  <link rel="stylesheet" href="../../assets/ng-word-extras.css?v=2" />
-  <script src="../../assets/ng-word-say-data.js?v=2"></script>
-  <script src="../../assets/ng-word-extras.js?v=2"></script>
+  <link rel="stylesheet" href="../../assets/ng-word-extras.css?v=3" />
+  <script src="../../assets/ng-word-say-data.js?v=3"></script>
+  <script src="../../assets/ng-word-extras.js?v=3"></script>
   <link rel="stylesheet" href="../../assets/ng-story-pyramid.css?v=1" />
   <script src="../../assets/ng-story-pyramid.js?v=1"></script>
 </head>
@@ -1508,15 +1508,16 @@
         speakText(w.key, { slow: true });
       } else if (subStep === 1) {
         wStepTitle.textContent = "例句跟读";
+        var ex = NGWordExtras.exOf(w, SAY);
         wArt.classList.add("wiggle");
-        wArt.innerHTML = artFromSrc(wordImg(w), w.emoji);
+        wArt.innerHTML = artFromSrc(NGWordExtras.sceneSrc(w, "ex"), w.emoji);
         wDisplay.style.display = "";
-        wDisplay.textContent = w.ex;
-        wEx.textContent = w.zh + " · 先听示范，再看着句子大声跟读；可多次点「再听例句」。";
+        wDisplay.textContent = ex.en;
+        wEx.textContent = (ex.zh || w.zh) + " · 先听示范，再看着句子大声跟读；可多次点「再听例句」。";
         wActions.innerHTML = "<button type='button' class='btn' id='vSlow'>例句(慢)</button> <button type='button' class='btn primary' id='v1'>再听例句</button>";
-        document.getElementById("v1").onclick = function () { speakText(w.ex, { slow: false }); };
-        document.getElementById("vSlow").onclick = function () { speakText(w.ex, { slow: true }); };
-        speakText(w.ex, { slow: true });
+        document.getElementById("v1").onclick = function () { speakText(ex.en, { slow: false }); };
+        document.getElementById("vSlow").onclick = function () { speakText(ex.en, { slow: true }); };
+        speakText(ex.en, { slow: true });
       } else if (subStep === 2) {
         wStepTitle.textContent = "拼写";
         wArt.innerHTML = artFromSrc(wordImg(w), w.emoji);
@@ -1532,7 +1533,7 @@
         speakText(w.key, { slow: true });
       } else if (subStep === 3) {
         wStepTitle.textContent = "听音排序";
-        wArt.innerHTML = artFromSrc(wordImg(w), w.emoji);
+        wArt.innerHTML = artFromSrc(NGWordExtras.sceneSrc(w, "sort"), w.emoji);
         wDisplay.style.display = "";
         wDisplay.className = "word-big w-display-line w-display-skip";
         wDisplay.textContent = " ";
