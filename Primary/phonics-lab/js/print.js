@@ -1,211 +1,180 @@
 (function () {
   "use strict";
 
-  var COLORS = ["#fb5607", "#2a9d8f", "#4361ee", "#7b2cbf", "#ffb703", "#e63946", "#4cc9f0"];
-
   function $(id) {
     return document.getElementById(id);
   }
 
-  function header(title, lesson) {
+  function header(title, lesson, sub) {
     return (
-      "<div class=\"sheet-head\" style=\"display:flex;justify-content:space-between;align-items:flex-end;border-bottom:4px solid #ffb703;padding-bottom:8px;margin-bottom:10px\">" +
-      "<div><img src=\"assets/img/mascot.jpg\" alt=\"\" style=\"width:52px;height:52px;border-radius:14px;object-fit:cover;float:left;margin-right:10px\">" +
-      "<h2 style=\"font-family:Fredoka,sans-serif;color:#fb5607;margin:0\">" +
+      "<div class=\"pdf-head\">" +
+      "<img src=\"assets/img/mascot.jpg\" alt=\"\">" +
+      "<div class=\"pdf-head-text\">" +
+      "<p class=\"pdf-kicker\">S-Class · Oxford Phonics World</p>" +
+      "<h2>" +
       title +
-      "</h2><p style=\"margin:0;color:#6b7788;font-size:12px\">" +
+      "</h2>" +
+      "<p>" +
       lesson.id +
       " · " +
       lesson.title +
       " · " +
       lesson.hours +
-      " 课时</p></div>" +
-      "<div style=\"font-size:12px\">姓名 ________　日期 ________</div></div>"
+      " 课时" +
+      (sub ? " · " + sub : "") +
+      "</p></div>" +
+      "<div class=\"pdf-meta\">姓名 ________<br>日期 ________</div></div>"
     );
   }
 
-  function sheet(inner) {
-    var c = COLORS[Math.floor(Math.random() * COLORS.length)];
-    return "<section class=\"sheet\" style=\"border-color:" + c + "\">" + inner + "</section>";
+  function sheet(inner, tone) {
+    return "<section class=\"sheet pdf-sheet" + (tone ? " " + tone : "") + "\">" + inner + "</section>";
+  }
+
+  function fourLine() {
+    return "<div class=\"pdf-lines\"></div>";
+  }
+
+  function wordCard(w, i) {
+    return (
+      "<div class=\"pdf-word\">" +
+      "<span class=\"pdf-n\">" +
+      (i + 1) +
+      "</span>" +
+      "<img src=\"" +
+      Lab.img(w.img) +
+      "\" alt=\"\">" +
+      "<div><b>" +
+      w.word +
+      "</b><span>" +
+      (w.zh || "") +
+      "</span>" +
+      fourLine() +
+      "</div></div>"
+    );
   }
 
   function render() {
     var id = $("lessonSel").value;
     var lesson = PHONICS_LESSON_MAP[id];
     var words = Lab.wordObjs(lesson.words);
-    var ph = Lab.phonemeObjs(lesson.phonemes);
     var sight = Lab.sightObjs(lesson.sight);
+    var text = phonicsText(lesson.id);
     var html = "";
 
     html += sheet(
-      header("音素 · 字母对应", lesson) +
-        "<p style=\"font-size:13px;margin-bottom:8px\">听一听、圈一圈、再抄写。每个音素都标了国际音标。</p>" +
-        "<div style=\"display:grid;grid-template-columns:repeat(3,1fr);gap:10px\">" +
-        ph
-          .map(function (p) {
-            return (
-              "<div style=\"border:2px dashed " +
-              COLORS[p.stage % COLORS.length] +
-              ";border-radius:14px;padding:8px;text-align:center;background:#fffdf8\">" +
-              "<img src=\"" +
-              Lab.img(p.img) +
-              "\" style=\"width:100%;height:90px;object-fit:cover;border-radius:10px\" alt=\"\">" +
-              "<div style=\"font-size:28px;font-weight:800\">" +
-              p.graphemes[0] +
-              "</div><div style=\"color:#4361ee;font-weight:800\">" +
-              p.ipaDisplay +
-              "</div><div style=\"font-size:12px;color:#6b7788\">" +
-              p.keyword +
-              " " +
-              p.keywordZh +
-              "</div>" +
-              "<div style=\"margin-top:6px;border-bottom:2px solid #1b2430;height:28px\"></div>" +
-              "</div>"
-            );
+      header("课后作业", lesson, "Home") +
+        "<div class=\"pdf-hero\">" +
+        "<p class=\"pdf-focus\">" +
+        (lesson.focus ? lesson.focus.title + " · " + lesson.focus.sound : "") +
+        "</p>" +
+        "<ol class=\"pdf-hw\">" +
+        (lesson.homework || [])
+          .map(function (h) {
+            return "<li><i></i>" + h.text + "</li>";
           })
           .join("") +
-        "</div>"
+        "</ol></div>" +
+        "<p class=\"pdf-label\">四线格抄写</p>" +
+        fourLine() +
+        fourLine() +
+        fourLine() +
+        "<div class=\"pdf-sign\">家长签字 ________　　用时 ______ 分钟　　朗读 □ 抄写 □</div>",
+      "sun"
     );
 
-    var unit = phonicsLetterUnit(lesson.id);
-    if (unit) {
-      unit.packs.forEach(function (p) {
+    if (lesson.letters && lesson.letters.length) {
+      var packs = phonicsLetters(lesson.letters);
+      html += sheet(
+        header("字母口诀", lesson, "A Listen") +
+          "<div class=\"pdf-alpha\">" +
+          packs
+            .map(function (p) {
+              return (
+                "<div class=\"pdf-alpha-cell\"><img src=\"" +
+                Lab.img(p.img) +
+                "\" alt=\"\"><b>" +
+                p.letters +
+                "</b><span>" +
+                p.mnemonic +
+                "</span></div>"
+              );
+            })
+            .join("") +
+          "</div>"
+      );
+      packs.slice(0, 4).forEach(function (p) {
         var vocab = Lab.wordObjs(p.words);
         html += sheet(
-          header(p.letters + " · Listen, point, and repeat", lesson) +
-            "<p style=\"font-size:13px;margin-bottom:8px\">口诀 <strong>" +
+          header(p.letters + " · 指读", lesson, "B Point") +
+            "<p class=\"pdf-label\">Listen, point, and say.  " +
             p.mnemonic +
-            "</strong> · " +
-            p.mnemonicZh +
-            " · 每个字母 4 个首音词，先听图再指。</p>" +
-            "<div style=\"display:grid;grid-template-columns:1fr 1fr;gap:10px\">" +
+            "</p>" +
+            "<div class=\"pdf-4\">" +
             vocab
               .map(function (w, i) {
                 return (
-                  "<div style=\"border:2px solid #2a9d8f;border-radius:14px;padding:8px;text-align:center\">" +
-                  "<div style=\"width:24px;height:24px;border-radius:50%;background:#2a9d8f;color:#fff;margin:0 auto 6px;font-weight:800\">" +
+                  "<div class=\"pdf-pic-card\"><span>" +
                   (i + 1) +
-                  "</div>" +
-                  "<img src=\"" +
+                  "</span><img src=\"" +
                   Lab.img(w.img) +
-                  "\" style=\"width:100%;height:90px;object-fit:cover;border-radius:10px\" alt=\"\">" +
-                  "<div style=\"font-size:20px;font-weight:800\">" +
+                  "\" alt=\"\"><b>" +
                   w.word +
-                  "</div>" +
-                  "<div style=\"font-size:12px;color:#6b7788\">" +
-                  w.zh +
-                  " " +
-                  w.ipa +
-                  "</div></div>"
+                  "</b></div>"
                 );
               })
               .join("") +
-            "</div>"
-        );
-        html += sheet(
-          header(p.letters + " · Trace, write, and say", lesson) +
-            "<p style=\"font-size:13px\">四线格描红，边写边说 " +
-            p.sound +
-            "。</p>" +
-            ["uppercase", "lowercase"]
-              .map(function (kind) {
-                var ch = kind === "uppercase" ? p.letters[0] : p.letters[1];
-                return (
-                  "<div style=\"margin:10px 0\"><strong>" +
-                  ch +
-                  "</strong>" +
-                  "<div style=\"height:64px;border-top:2px solid #90caf9;border-bottom:2px solid #90caf9;background:linear-gradient(transparent 30px,#ef9a9a 30px,#ef9a9a 32px,transparent 32px);font-size:48px;color:#ddd;font-family:Fredoka,sans-serif;line-height:64px;letter-spacing:18px\">" +
-                  ch +
-                  " " +
-                  ch +
-                  " " +
-                  ch +
-                  "　　　</div></div>"
-                );
-              })
-              .join("")
-        );
-        html += sheet(
-          header(p.letters + " · Listen. Write or cross out", lesson) +
-            "<p style=\"font-size:13px\">听到 " +
-            p.sound +
-            " 写 " +
-            p.letters +
-            "，不是就打 ×。</p>" +
-            "<div style=\"display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:#3d7ea6;padding:10px;border-radius:16px\">" +
-            (p.mark || [])
-              .map(function (m, i) {
-                var w = phonicsGetWord(m.word);
-                return (
-                  "<div style=\"background:#fff;border-radius:12px;padding:6px;text-align:center\">" +
-                  "<img src=\"" +
-                  Lab.img(w ? w.img : p.img) +
-                  "\" style=\"width:100%;height:70px;object-fit:cover;border-radius:8px\" alt=\"\">" +
-                  "<div style=\"height:28px;border:1px dashed #1b2430;margin-top:6px;font-size:11px;color:#9aa\">" +
-                  (i + 1) +
-                  "</div></div>"
-                );
-              })
-              .join("") +
-            "</div>"
+            "</div>" +
+            "<p class=\"pdf-label\">描红</p>" +
+            "<div class=\"pdf-trace-big\">" +
+            p.letters[0] +
+            "　" +
+            p.letters[1] +
+            "</div>" +
+            fourLine()
         );
       });
     }
 
     html += sheet(
-      header("看图拼写", lesson) +
-        words
-          .map(function (w) {
-            return (
-              "<div style=\"display:grid;grid-template-columns:88px 1fr;gap:10px;align-items:center;padding:8px 0;border-bottom:1px dashed #ead9b2\">" +
-              "<img src=\"" +
-              Lab.img(w.img) +
-              "\" style=\"width:88px;height:72px;object-fit:cover;border-radius:10px;border:2px solid #ffe08a\" alt=\"\">" +
-              "<div><div style=\"font-size:12px;color:#6b7788\">" +
-              w.zh +
-              "　<span style=\"color:#4361ee\">" +
-              w.ipa +
-              "</span></div>" +
-              "<div>" +
-              w.graphemes
-                .map(function () {
-                  return "<span style=\"display:inline-block;width:28px;height:28px;border:2px solid #2a9d8f;border-radius:8px;margin:3px\"></span>";
-                })
-                .join("") +
-              "</div>" +
-              "<div style=\"margin-top:4px;font-size:12px\">再写一遍：<span style=\"display:inline-block;min-width:140px;border-bottom:2px solid #1b2430;height:18px\"></span></div>" +
-              "</div></div>"
-            );
-          })
-          .join("")
+      header("看图拼写", lesson, "Blend") +
+        "<div class=\"pdf-words\">" +
+        words.map(wordCard).join("") +
+        "</div>"
     );
 
     html += sheet(
-      header("切音火车", lesson) +
-        "<p style=\"font-size:13px\">每个格子只写一个音素（不是一个字母）。</p>" +
-        words
-          .slice(0, 6)
-          .map(function (w) {
+      header("听辨 · 首 / 中 / 尾", lesson, "Listen") +
+        "<p class=\"pdf-label\">教师读单词。学生圈出听到的字母。</p>" +
+        ["首字母", "中间字母", "尾字母"]
+          .map(function (kind, k) {
             return (
-              "<div style=\"display:flex;align-items:center;gap:8px;margin:10px 0\">" +
-              "<img src=\"" +
-              Lab.img(w.img) +
-              "\" style=\"width:56px;height:56px;object-fit:cover;border-radius:10px\" alt=\"\">" +
-              "<strong style=\"width:70px\">" +
-              w.word +
-              "</strong>" +
-              w.phonemes
-                .map(function (pid) {
-                  var p = PHONEMES[pid];
+              "<div class=\"pdf-listen-block\"><h3>" +
+              kind +
+              "</h3>" +
+              words
+                .slice(0, 6)
+                .map(function (w, i) {
+                  var letters = "abcdefghijklmnopqrstuvwxyz".split("").slice(k * 4, k * 4 + 4);
+                  if (w.graphemes && w.graphemes[k === 2 ? w.graphemes.length - 1 : k === 0 ? 0 : 1]) {
+                    letters[0] = w.graphemes[k === 2 ? w.graphemes.length - 1 : k === 0 ? 0 : Math.floor((w.graphemes.length - 1) / 2)];
+                  }
                   return (
-                    "<span style=\"width:52px;height:42px;border:2px solid #7b2cbf;border-radius:10px;display:inline-flex;align-items:flex-end;justify-content:center;font-size:10px;color:#4361ee\">" +
-                    (p ? p.ipaDisplay : "") +
-                    "</span>"
+                    "<div class=\"pdf-listen-row\"><img src=\"" +
+                    Lab.img(w.img) +
+                    "\" alt=\"\"><span>" +
+                    (i + 1) +
+                    "</span>" +
+                    letters
+                      .map(function (ch) {
+                        return "<i>" + ch + "</i>";
+                      })
+                      .join("") +
+                    "</div>"
                   );
                 })
-                .join("<span style=\"font-size:18px;color:#fb5607\">+</span>") +
-              "<span style=\"font-size:18px\">=</span>" +
-              "<span style=\"min-width:70px;border-bottom:2px solid #1b2430;height:28px\"></span></div>"
+                .join("") +
+              "</div>"
             );
           })
           .join("")
@@ -213,26 +182,19 @@
 
     if (sight.length) {
       html += sheet(
-        header("Heart Words 描红", lesson) +
-          "<p style=\"font-size:13px\">先圈出能拼的部分，不规则部分画 ♥。</p>" +
-          "<div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">" +
+        header("奇形词", lesson, "Heart Words") +
+          "<div class=\"pdf-sight\">" +
           sight
             .map(function (s) {
               return (
-                "<div style=\"border:2px solid #ffc2d1;border-radius:14px;padding:10px;background:#fff0f5\">" +
-                "<div style=\"font-size:32px;font-weight:800;letter-spacing:4px\">" +
+                "<div class=\"pdf-sight-card\"><b>" +
                 s.word +
-                "</div>" +
-                "<div style=\"color:#4361ee;font-weight:800\">" +
+                "</b><span>" +
                 s.ipa +
                 " · " +
                 s.zh +
-                "</div>" +
-                "<p style=\"font-size:12px;margin:6px 0\">" +
-                (s.tip || "") +
-                "</p>" +
-                "<div style=\"border-bottom:2px solid #1b2430;height:26px\"></div>" +
-                "<div style=\"border-bottom:2px dashed #fb5607;height:26px;margin-top:6px\"></div>" +
+                "</span>" +
+                fourLine() +
                 "</div>"
               );
             })
@@ -242,150 +204,81 @@
     }
 
     html += sheet(
-      header("听写格子", lesson) +
-        "<p style=\"font-size:13px\">课堂听写：教师播放整词或慢拼，学生只写词。</p>" +
-        "<div style=\"display:grid;grid-template-columns:1fr 1fr;gap:12px\">" +
+      header("听写", lesson, "Write") +
+        "<div class=\"pdf-dict\">" +
         words
           .map(function (w, i) {
-            return (
-              "<div style=\"border:2px solid #cdeae4;border-radius:12px;padding:10px;background:#f3fffc\">" +
-              "<div style=\"font-family:Fredoka,sans-serif;color:#2a9d8f\">" +
-              (i + 1) +
-              ".</div>" +
-              "<div style=\"height:36px;border-bottom:2px solid #1b2430\"></div>" +
-              "<div style=\"height:36px;border-bottom:2px dashed #2a9d8f;margin-top:8px\"></div>" +
-              "</div>"
-            );
+            return "<div class=\"pdf-dict-cell\"><span>" + (i + 1) + "</span>" + fourLine() + "</div>";
           })
           .join("") +
         "</div>"
     );
 
     html += sheet(
-      header("图词连线", lesson) +
-        "<div style=\"display:grid;grid-template-columns:1fr 1fr;gap:16px\">" +
+      header("图词连线", lesson, "Match") +
+        "<div class=\"pdf-match\">" +
         "<div>" +
         words
           .map(function (w) {
             return (
-              "<div style=\"display:flex;align-items:center;gap:8px;margin:8px 0\"><img src=\"" +
+              "<div class=\"pdf-match-pic\"><img src=\"" +
               Lab.img(w.img) +
-              "\" style=\"width:64px;height:52px;object-fit:cover;border-radius:10px\" alt=\"\"><span style=\"flex:1;border-bottom:2px dotted #6b7788\"></span></div>"
+              "\" alt=\"\"><span></span></div>"
             );
           })
           .join("") +
         "</div><div>" +
-        Lab.shuffle(words)
+        Lab.shuffle(words.slice())
           .map(function (w) {
-            return (
-              "<div style=\"margin:14px 0;padding:8px 10px;border:2px solid #4361ee;border-radius:999px;text-align:center;font-weight:800\">" +
-              w.word +
-              " <span style=\"color:#4361ee\">" +
-              w.ipa +
-              "</span></div>"
-            );
+            return "<div class=\"pdf-match-word\">" + w.word + "</div>";
           })
           .join("") +
         "</div></div>"
     );
 
     html += sheet(
-      header("拼读规律小海报", lesson) +
-        "<div style=\"background:linear-gradient(135deg,#fff3c4,#ffe0ef);border-radius:16px;padding:14px\">" +
-        "<h3 style=\"font-family:Fredoka,sans-serif;color:#7b2cbf;margin:0 0 8px\">" +
-        lesson.ruleName +
-        "</h3><p style=\"font-size:15px;line-height:1.6\">" +
-        lesson.rule +
-        "</p></div>" +
-        "<p style=\"margin-top:12px;font-size:13px\">用自己的话再写一遍这条规律：</p>" +
-        "<div style=\"height:90px;border:2px dashed #7b2cbf;border-radius:12px;background:#faf4ff\"></div>"
-    );
-
-    var text = phonicsText(lesson.id);
-    html += sheet(
-      header("句子金字塔朗读", lesson) +
-        "<p style=\"font-size:13px;margin-bottom:8px\">从第一个词往上加，新词用红笔描。例：I → I am → I am a → I am a student.</p>" +
+      header("句子 · " + text.passage.title, lesson, "Read") +
+        "<p class=\"pdf-label\">" +
+        text.passage.titleZh +
+        " · 点读后抄写</p>" +
         text.sentences
           .map(function (s) {
-            var lys = phonicsPyramid(s.en);
             return (
-              "<div style=\"margin:10px 0 14px;padding:10px;border:2px solid #ffe08a;border-radius:14px;background:#fffdf4\">" +
-              "<div style=\"display:flex;gap:8px;align-items:center;margin-bottom:6px\"><img src=\"" +
+              "<div class=\"pdf-sent\"><img src=\"" +
               Lab.img(s.img) +
-              "\" style=\"width:48px;height:48px;object-fit:cover;border-radius:10px\" alt=\"\"><strong>" +
+              "\" alt=\"\"><div><b>" +
+              s.en +
+              "</b><span>" +
               s.zh +
-              "</strong></div>" +
-              lys
-                .map(function (ly) {
-                  return (
-                    "<div class=\"strip\">" +
-                    ly.text +
-                    " <span style=\"float:right;min-width:40%;border-bottom:2px solid #1b2430;height:18px\"></span></div>"
-                  );
-                })
-                .join("") +
-              "</div>"
-            );
-          })
-          .join("")
-    );
-
-    html += sheet(
-      header("短文金字塔 · " + text.passage.title, lesson) +
-        "<p style=\"font-size:13px\">" +
-        text.passage.titleZh +
-        (text.passage.zh ? " · " + text.passage.zh : "") +
-        " · 每句先爬金字塔，再把短文连成一篇朗读。</p>" +
-        "<img src=\"" +
-        Lab.img(text.passage.img) +
-        "\" style=\"width:120px;height:90px;object-fit:cover;border-radius:12px;margin:6px 0\" alt=\"\">" +
-        text.passage.sentences
-          .map(function (s, i) {
-            return (
-              "<div style=\"margin:8px 0\"><strong style=\"color:#2a9d8f\">" +
-              (i + 1) +
-              ".</strong> " +
-              phonicsPyramid(s)
-                .map(function (ly) {
-                  return "<div class=\"strip\">" + ly.text + "</div>";
-                })
-                .join("") +
-              "</div>"
-            );
-          })
-          .join("") +
-        "<p style=\"margin-top:10px;font-size:13px\">全文再抄一遍：</p>" +
-        "<div style=\"height:70px;border:2px dashed #2a9d8f;border-radius:12px\"></div>"
-    );
-
-    html += sheet(
-      header("日常交流 · " + text.talk.title, lesson) +
-        "<p style=\"font-size:13px\">情景：" +
-        text.talk.scene +
-        (text.talk.goals ? " · 功能：" + text.talk.goals : "") +
-        " · 一人当 A，一人当 B。每句金字塔朗读后再对答。</p>" +
-        text.talk.lines
-          .map(function (ln) {
-            return (
-              "<div style=\"display:grid;grid-template-columns:48px 1fr;gap:8px;margin:8px 0\">" +
-              "<div style=\"background:" +
-              (ln.role === "A" ? "#2a9d8f" : "#7b2cbf") +
-              ";color:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:800\">" +
-              ln.role +
-              "</div><div><strong>" +
-              ln.en +
-              "</strong><div style=\"font-size:12px;color:#6b7788\">" +
-              ln.zh +
-              "</div>" +
-              phonicsPyramid(ln.en)
-                .map(function (ly) {
-                  return "<div class=\"strip\">" + ly.text + "</div>";
-                })
-                .join("") +
+              "</span>" +
+              fourLine() +
               "</div></div>"
             );
           })
           .join("")
+    );
+
+    html += sheet(
+      header("对话 · " + text.talk.title, lesson, "Talk") +
+        "<p class=\"pdf-label\">" +
+        (text.talk.scene || "") +
+        " · 一人当 A，一人当 B</p>" +
+        text.talk.lines
+          .map(function (ln) {
+            return (
+              "<div class=\"pdf-talk\"><b class=\"" +
+              (ln.role === "A" ? "a" : "b") +
+              "\">" +
+              ln.role +
+              "</b><div><strong>" +
+              ln.en +
+              "</strong><span>" +
+              ln.zh +
+              "</span></div></div>"
+            );
+          })
+          .join("") +
+        "<div class=\"pdf-sign\">表演 □　　家长签字 ________</div>"
     );
 
     $("printArea").innerHTML = html;

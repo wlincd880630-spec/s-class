@@ -35,6 +35,31 @@
     return "assets/img/" + key + ".jpg";
   }
 
+  function img2(word) {
+    if (!word) return img("mascot");
+    if (typeof word === "string") {
+      var w0 = global.phonicsGetWord ? global.phonicsGetWord(word) : null;
+      return w0 ? img(w0.img2 || w0.img) : img(word);
+    }
+    return img(word.img2 || word.img);
+  }
+
+  function pic(src, cls, alt) {
+    var fb = String(src || "").replace(/2\.jpg$/i, ".jpg");
+    if (fb === src) fb = "assets/img/mascot.jpg";
+    return (
+      "<img class=\"" +
+      (cls || "pic") +
+      "\" src=\"" +
+      src +
+      "\" alt=\"" +
+      (alt || "") +
+      "\" data-fb=\"" +
+      fb +
+      "\" onerror=\"this.onerror=null;this.src=this.getAttribute('data-fb')||'assets/img/mascot.jpg'\">"
+    );
+  }
+
   function shuffle(arr) {
     var a = arr.slice();
     for (var i = a.length - 1; i > 0; i--) {
@@ -102,18 +127,26 @@
       });
   }
 
-  function playPhoneme(id) {
-    if (global.PhonicsTTS) return global.PhonicsTTS.speakPhoneme(id);
+  function playPhoneme() {
+    toast("音素由教师示范");
+    return Promise.resolve(false);
   }
   function playPhonemeThenWord(id) {
-    if (global.PhonicsTTS && global.PhonicsTTS.speakPhonemeThenWord) {
-      return global.PhonicsTTS.speakPhonemeThenWord(id);
-    }
-    return playPhoneme(id);
+    var w = global.phonicsGetWord ? global.phonicsGetWord(id) : null;
+    return playWord(w ? w.word : id);
   }
 
   function letterUnit(lessonId) {
-    return global.phonicsLetterUnit ? global.phonicsLetterUnit(lessonId) : null;
+    var lesson = global.PHONICS_LESSON_MAP && global.PHONICS_LESSON_MAP[lessonId];
+    if (!lesson || !lesson.letters || !global.phonicsLetters) return null;
+    var packs = global.phonicsLetters(lesson.letters);
+    if (!packs.length) return null;
+    return {
+      unit: lesson.titleEn,
+      letters: packs.map(function (p) { return p.letters; }).join(" "),
+      blurb: lesson.focus && lesson.focus.tip,
+      packs: packs
+    };
   }
 
   function vocabObjs(ids) {
@@ -123,7 +156,10 @@
     if (global.PhonicsTTS) return global.PhonicsTTS.speakWord(text);
   }
   function playBlend(ids, word) {
-    if (global.PhonicsTTS) return global.PhonicsTTS.speakBlend(ids, word);
+    if (global.PhonicsTTS) return global.PhonicsTTS.speakWord(word || "");
+  }
+  function playSentence(text) {
+    if (global.PhonicsTTS) return global.PhonicsTTS.speakWord(text);
   }
 
   global.Lab = {
@@ -132,6 +168,8 @@
     markLesson: markLesson,
     completedCount: completedCount,
     img: img,
+    img2: img2,
+    pic: pic,
     shuffle: shuffle,
     pick: pick,
     qs: qs,
@@ -145,6 +183,7 @@
     letterUnit: letterUnit,
     vocabObjs: vocabObjs,
     playWord: playWord,
-    playBlend: playBlend
+    playBlend: playBlend,
+    playSentence: playSentence
   };
 })(typeof window !== "undefined" ? window : this);

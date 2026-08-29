@@ -1,596 +1,500 @@
 /**
- * 60 小时课程：6 个阶段 × 5 课 × 2 课时
- * 每课含：目标音素、拼读规律、可解码词、奇形词、四步课堂流程、练习与打印。
+ * 60 小时 · 30 课
+ * 按 PDF 六阶段选题，按 Oxford Phonics World 的 A–E 课型上课。
  */
 (function (global) {
   "use strict";
 
   var stages = [
-    {
-      id: 1,
-      hours: "1–10",
-      title: "字母与单音素 I",
-      titleEn: "Letters & Sounds I",
-      color: "#fb5607",
-      blurb: "SATPIN 起步 · 声音先行 · 三音素拼读",
-      methods: ["声音先行", "口腔示范", "连续拼读"]
-    },
-    {
-      id: 2,
-      hours: "11–20",
-      title: "字母与单音素 II",
-      titleEn: "Letters & Sounds II",
-      color: "#2a9d8f",
-      blurb: "剩余字母 · CVC 流利 · 开音节奇形词",
-      methods: ["图片先行", "对比短元音", "字母名 vs 字母音"]
-    },
-    {
-      id: 3,
-      hours: "21–30",
-      title: "辅音音组与复辅音",
-      titleEn: "Digraphs & Blends",
-      color: "#4361ee",
-      blurb: "两个字母一个音 · 词首词尾辅音簇",
-      methods: ["音素分割", "音组卡片", "小组听辨"]
-    },
-    {
-      id: 4,
-      hours: "31–40",
-      title: "长元音与元音组合",
-      titleEn: "Magic E & Vowel Teams",
-      color: "#7b2cbf",
-      blurb: "魔法 e · ai/ay · ee/ea · igh · oa",
-      methods: ["最小对立体", "词族类推", "规则口述"]
-    },
-    {
-      id: 5,
-      hours: "41–50",
-      title: "R 控制与双元音",
-      titleEn: "Bossy R & Diphthongs",
-      color: "#e09f3e",
-      blurb: "ar/or/er · oo · ou/ow · oi/oy · 软 c/g",
-      methods: ["家族词", "拼读规律墙", "独立解码"]
-    },
-    {
-      id: 6,
-      hours: "51–60",
-      title: "奇形词 · 多音节 · 流利",
-      titleEn: "Heart Words, Syllables, Fluency",
-      color: "#d62828",
-      blurb: "Heart words · 六种音节 · 连读短文",
-      methods: ["心形词标注", "拍音节", "计时朗读"]
-    }
+    { id: 1, hours: "1–10", title: "字母与短元音", titleEn: "Letters & Short Vowels", color: "#fb5607", blurb: "26 字母 · 首音词 · CVC" },
+    { id: 2, hours: "11–16", title: "辅音连缀与组合", titleEn: "Blends & Digraphs", color: "#2a9d8f", blurb: "L/R/S-blends · sh ch th" },
+    { id: 3, hours: "17–32", title: "长元音与双元音", titleEn: "Long Vowels & Diphthongs", color: "#7b2cbf", blurb: "Magic e · 元音组合 · R 控制" },
+    { id: 4, hours: "33–40", title: "音节与进阶辅音", titleEn: "Syllables & Advanced", color: "#4361ee", blurb: "词尾连缀 · 鼻音 · 划音节" },
+    { id: 5, hours: "41–50", title: "构词与阅读", titleEn: "Word Study & Fluency", color: "#e09f3e", blurb: "词缀 · 复合词 · 同音词" },
+    { id: 6, hours: "51–60", title: "综合与毕业", titleEn: "Review & Showcase", color: "#d62828", blurb: "听写 · 口语 · 测评 · 展示" }
   ];
 
   function lesson(cfg) {
-    cfg.print = cfg.print || ["match", "spell", "segment", "sight", "dictation"];
     cfg.durationMin = cfg.durationMin || 120;
-    cfg.games = cfg.games || ["pop", "pic", "blend", "segment"];
+    cfg.games = cfg.games || ["point", "first", "middle", "last", "mark", "race"];
+    cfg.homework = cfg.homework || [];
     return cfg;
   }
 
+  var AZ = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m"];
+  var NZ = ["n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+
   var lessons = [
     lesson({
-      id: "L01",
-      stage: 1,
-      hours: "1–2",
-      title: "第一次拼读：s · a · t",
-      titleEn: "First blend: s a t · Oxford-style letter pages",
-      phonemes: ["s", "a", "t"],
-      rule: "每个字母先学「口诀 + 4 个首音词」（Oxford Phonics World 1 的密度），再把已经会的音滑读成词：/s/ + /æ/ + /t/ → sat。看见字母先想它的音，不读字母名。",
-      ruleName: "首音词 → 连续拼读",
-      words: ["at", "sat", "as"],
-      vocab: ["sun", "sock", "sofa", "sandwich", "apple", "ax", "ant", "alligator", "tap", "ten", "tiger", "table"],
-      sight: ["I", "a"],
-      letterUnit: "L01",
-      iDo: [
-        "每个字母走教材流程：A 听读口诀（singing sun / angry apple / ticking tap）→ B 指读 4 个词。",
-        "Aa 四个词与 Oxford Phonics World 1 Unit 1 相同：apple, ax, ant, alligator。",
-        "三个字母都见过以后，再示范把 /s/ /æ/ /t/ 滑成 sat。"
+      id: "L01", stage: 1, hours: "1–2", type: "letters",
+      title: "字母 Aa–Mm", titleEn: "Letters Aa–Mm",
+      letters: AZ,
+      phonemes: AZ,
+      focus: { title: "Aa–Mm", sound: "letter sounds", img: "apple", tip: "每个字母：听口诀 → 指 4 图 → 描红 → 听辨 → 歌谣。" },
+      words: ["cat", "hat", "map", "bag", "bed", "big", "dog", "duck", "red", "fan", "frog", "jam", "kite", "man"],
+      sight: ["a", "I", "am", "is", "the"],
+      chant: ["apple", "ball", "cat", "dog", "egg"],
+      homework: [
+        { kind: "sing", text: "听唱字母歌 3 遍" },
+        { kind: "copy", text: "抄写 Aa–Mm 各 3 行" },
+        { kind: "read", text: "朗读本课首音词各 3 遍" },
+        { kind: "say", text: "用 a / I / am / is / the 各说 1 句" },
+        { kind: "talk", text: "背诵自我介绍" }
+      ]
+    }),
+    lesson({
+      id: "L02", stage: 1, hours: "3–4", type: "letters",
+      title: "字母 Nn–Zz", titleEn: "Letters Nn–Zz",
+      letters: NZ,
+      phonemes: NZ,
+      focus: { title: "Nn–Zz", sound: "letter sounds", img: "nest", tip: "q 带 u。x 多在词尾。" },
+      words: ["nest", "pig", "pan", "sun", "tap", "van", "box", "fox", "web", "zip", "ten", "hot"],
+      sight: ["and", "you", "are", "my", "we"],
+      chant: ["nest", "orange", "pig", "queen", "rabbit"],
+      homework: [
+        { kind: "sing", text: "完整字母歌 3 遍" },
+        { kind: "copy", text: "抄写 Nn–Zz 各 3 行" },
+        { kind: "read", text: "朗读本课首音词各 3 遍" },
+        { kind: "say", text: "用 and / you / are / my / we 各说 1 句" },
+        { kind: "talk", text: "背诵问候对话" }
+      ]
+    }),
+    lesson({
+      id: "L03", stage: 1, hours: "5–6", type: "pattern",
+      title: "短元音 a · CVC", titleEn: "Short a CVC",
+      letters: ["a"],
+      phonemes: ["a"],
+      focus: { title: "short a", sound: "/æ/", img: "apple", tip: "闭音节 a 发 /æ/。先分音再滑读。" },
+      families: [
+        { id: "at", words: ["cat", "hat", "mat", "sat", "bat", "rat", "fat"] },
+        { id: "an", words: ["can", "man", "fan", "pan", "van"] },
+        { id: "ap", words: ["cap", "map", "nap", "tap"] },
+        { id: "ag", words: ["bag", "tag"] },
+        { id: "ad", words: ["mad", "sad", "dad"] },
+        { id: "am", words: ["ham", "jam"] }
       ],
-      weDo: [
-        "全班跟读口诀，再 Listen, point, and repeat 四个图。",
-        "拉长 /s/ /æ/，截断 /t/。",
-        "一起拼 at、sat，慢拼 → 正常语速。"
+      words: ["cat", "hat", "mat", "sat", "bat", "rat", "can", "man", "fan", "pan", "map", "nap", "tap", "bag", "mad", "sad", "dad", "jam", "ant", "cap"],
+      sight: ["a", "an", "can", "has", "had"],
+      chant: ["cat", "hat", "can", "man", "map", "bag"],
+      homework: [
+        { kind: "copy", text: "抄写 8 个 a-CVC 词各 3 遍" },
+        { kind: "read", text: "听读本课单词各 3 遍" },
+        { kind: "say", text: "用 a / an / can / has / had 各说 2 句" },
+        { kind: "talk", text: "背诵 Look! What is that?" },
+        { kind: "make", text: "做 6 张 a 的单词卡" }
+      ]
+    }),
+    lesson({
+      id: "L04", stage: 1, hours: "7–8", type: "pattern",
+      title: "短元音 e i o u", titleEn: "Short e i o u",
+      letters: ["e", "i", "o", "u"],
+      phonemes: ["e", "i", "o", "u"],
+      focus: { title: "short e i o u", sound: "/e/ /ɪ/ /ɒ/ /ʌ/", img: "egg", tip: "五个短元音要能听辨。" },
+      families: [
+        { id: "e", words: ["bed", "red", "pen", "ten", "hen", "net", "pet", "wet", "jet", "leg"] },
+        { id: "i", words: ["big", "pig", "dig", "sit", "pin", "win", "hit", "kit", "zip"] },
+        { id: "o", words: ["dog", "log", "fog", "box", "fox", "hot", "pot", "top", "hop", "mop"] },
+        { id: "u", words: ["bug", "mug", "rug", "hug", "sun", "run", "bus", "cut", "nut", "cub"] }
       ],
-      group: [
-        "听辨打叉：听到首音就写字母，不是就打 ×（教材 Section D）。",
-        "歌谣接龙：按 chant 顺序点图。",
-        "听音选图（12 个首音词）。"
-      ],
-      independent: [
-        "描红 Ss / Aa / Tt（四线格）。",
-        "看图指读 12 个首音词，再拼 at / sat / as。",
-        "奇形词 I、a 描红。"
-      ],
-      games: ["point", "mark", "chant", "pop", "pic", "blend"]
+      words: ["bed", "red", "pen", "ten", "hen", "net", "big", "pig", "sit", "pin", "dog", "box", "fox", "hot", "hop", "sun", "run", "bus", "mug", "cub"],
+      sight: ["it", "in", "on", "up", "us"],
+      chant: ["bed", "pig", "dog", "sun", "box", "bus"],
+      homework: [
+        { kind: "copy", text: "e/i/o/u 各抄 5 个 CVC 词" },
+        { kind: "read", text: "听读本课单词各 3 遍" },
+        { kind: "say", text: "五大短元音各举 3 例" },
+        { kind: "talk", text: "背诵 Where is the dog?" }
+      ]
     }),
     lesson({
-      id: "L02",
-      stage: 1,
-      hours: "3–4",
-      title: "加入 p · i · n，拼出更多词",
-      titleEn: "Add p i n",
-      phonemes: ["p", "i", "n"],
-      rule: "新学的音立刻放进旧词里换音：sat → pat → pan → pin。这叫「换音拼读」（phoneme substitution）。",
-      ruleName: "换音拼读",
-      words: ["pin", "pan", "tap", "sit", "nap", "sip", "tin", "pat"],
-      sight: ["the"],
-      iDo: [
-        "声音先行出示 /p/ /ɪ/ /n/，再揭示平底锅、昆虫、鸟巢图。",
-        "示范截断音 /p/：双唇炸开后立刻停，不说「普」。",
-        "用 sat 换成 pat、pan，让学生看见「只换一个音」。"
-      ],
-      weDo: ["齐读六个新词，先慢拼再整词。", "听音做动作：sip 做喝，sit 做坐，tap 做拍。", "跟读 the：浊 th + 弱读 /ə/。"],
-      group: ["小组听音选图（4 选 1）。", "火车拼读：每人只发一个音素，最后一人说整词。", "the 的心形词翻牌。"],
-      independent: ["看图圈词。", "三音素切分：把 pin 切成 3 格。", "听写 tap / sit / pan。"]
+      id: "L05", stage: 1, hours: "9–10", type: "review",
+      title: "26 字母 + CVC 复习", titleEn: "Alphabet & CVC review",
+      letters: AZ.concat(NZ),
+      phonemes: ["a", "e", "i", "o", "u"],
+      focus: { title: "review", sound: "26 letters", img: "sun", tip: "闪读字母，混合拼 CVC。" },
+      words: ["cat", "hat", "map", "bag", "bed", "pen", "pig", "sit", "dog", "box", "sun", "run", "bus", "fox", "jam", "duck"],
+      sight: ["I", "a", "the", "and", "you", "are", "my", "we", "can", "is"],
+      chant: ["cat", "bed", "pig", "dog", "sun"],
+      homework: [
+        { kind: "copy", text: "五大短元音各写 5 个 CVC 词" },
+        { kind: "read", text: "复习 26 字母口诀" },
+        { kind: "talk", text: "背诵 I Spy 对话" }
+      ]
     }),
     lesson({
-      id: "L03",
-      stage: 1,
-      hours: "5–6",
-      title: "SATPIN 大会合 · 流利拼读",
-      titleEn: "SATPIN mastery",
-      phonemes: ["s", "a", "t", "p", "i", "n"],
-      rule: "六个音可以组成几十个词。每天用「慢拼 → 快拼 → 整词」三档速度练流利。",
-      ruleName: "三档速度",
-      words: ["sat", "pin", "pan", "tap", "sit", "nap", "ant", "tin", "pat", "sip"],
-      sight: ["I", "a", "the", "to"],
-      iDo: ["快速闪卡六个音素（只发音）。", "示范 to：o 不读短音，标成心形部分。", "读一小句：I sat. I tap the pan."],
-      weDo: ["全班闪卡 1 分钟计次。", "齐读短句，手指点词。", "声音先行：先听再看词卡。"],
-      group: ["小组计时拼读 10 词。", "一人读句，两人举奇形词卡。", "纠音员负责抓「加呃」的读法。"],
-      independent: ["默写 SATPIN。", "把 8 个词按元音 /æ/ /ɪ/ 分类。", "抄写短句 I sat."],
-      games: ["pop", "pic", "blend", "maze"]
-    }),
-    lesson({
-      id: "L04",
-      stage: 1,
-      hours: "7–8",
-      title: "新朋友 m · d · g",
-      titleEn: "Add m d g",
-      phonemes: ["m", "d", "g"],
-      rule: "/m/ 可以拉长；/d/ /g/ 是浊爆破，截断。g 在本课只教硬音 /g/（goat），不教字母名 /dʒiː/。",
-      ruleName: "字母名 ≠ 字母音",
-      words: ["mad", "dig", "gap", "sad", "map", "nap"],
-      sight: ["no", "go"],
-      iDo: ["对比字母名 G /dʒiː/ 与字母音 /g/。", "示范 no / go 是开音节，o 读 /əʊ/。", "图片先行：先看地图，再猜 map。"],
-      weDo: ["mmm 拉长接力。", "mad / sad 最小对立体。", "齐读 no, go, I go."],
-      group: ["听音举手：这是字母名还是字母音？", "拼 map、dig 接力。", "开音节 no/go 对对碰。"],
-      independent: ["画口型：闭唇 /m/ vs 开口 /æ/。", "看图写 map / dog（dog 可预告下节 o）。", "奇形词描红 no go"]
-    }),
-    lesson({
-      id: "L05",
-      stage: 1,
-      hours: "9–10",
-      title: "o · c · k 与词尾 ck",
-      titleEn: "o c k and ck",
-      phonemes: ["o", "c", "k", "ck"],
-      rule: "硬 c 和 k 都读 /k/。短元音后面的 /k/ 常常写成 ck（duck、sock），这是英语拼写的「保护短元音」习惯。",
-      ruleName: "ck 规则",
-      words: ["cat", "kid", "sock", "duck", "kit", "cap", "dog"],
-      sight: ["into"],
-      iDo: ["出示 cat 与 kite 图，强调 c/k 同音不同形。", "板书 duck：短 u 后面用 ck。", "范读 into = in + to。"],
-      weDo: ["给词贴标签：ck 还是 k？", "齐拼 cat / kit / sock。", "听写 duck。"],
-      group: ["ck 规则法官：对的举绿牌。", "小组做 duck/sock 动作。", "into 造口头句。"],
-      independent: ["完成 ck 规则练习纸。", "分类 c / k / ck。", "独立朗读 8 词。"],
-      games: ["pop", "match", "blend", "segment"]
-    }),
-    lesson({
-      id: "L06",
-      stage: 2,
-      hours: "11–12",
-      title: "短元音 e · u 与 r",
-      titleEn: "Short e u and r",
-      phonemes: ["e", "u", "r"],
-      rule: "五个短元音要能听辨：/æ/ /e/ /ɪ/ /ɒ/ /ʌ/。r 是近音，舌尖卷起但不碰牙，不要打中文颤音。",
-      ruleName: "五短元音对比",
-      words: ["red", "run", "mug", "bed", "sun", "hen"],
-      sight: ["he", "she", "we", "me", "be"],
-      iDo: ["五张元音卡只发音，学生闭眼指方向。", "示范开音节 he/she：e 读 /iː/。", "图片先行 bed / sun。"],
-      weDo: ["bed vs bad 最小对比。", "齐读开音节家族 he she we me be。", "拉长 /r/ 再接 un → run。"],
-      group: ["元音听辨淘汰赛。", "开音节齐读接龙。", "两人互听 run / red。"],
-      independent: ["五短元音涂色分类。", "听写 bed sun mug。", "开音节描红。"]
-    }),
-    lesson({
-      id: "L07",
-      stage: 2,
-      hours: "13–14",
-      title: "h · b · f：呵气与双唇",
-      titleEn: "h b f",
-      phonemes: ["h", "b", "f"],
-      rule: "/h/ 是呵气；/b/ 与 /p/ 成对（清浊）；/f/ 咬唇可拉长。清浊成对是以后学 th、s/z 的基础。",
-      ruleName: "清浊成对",
-      words: ["hat", "bat", "fan", "hop", "big", "fog"],
-      sight: ["was", "you"],
-      iDo: ["手放喉部感受 /p/ 无声 /b/ 有声。", "对镜子呵气学 /h/。", "was：a 读 /ɒ/，标心形。"],
-      weDo: ["hat/bat 最小对比。", "fff 拉长接力。", "跟读 You hop."],
-      group: ["清浊裁判。", "听音选图 hat/bat/fan。", "was/you 翻牌。"],
-      independent: ["画喉部振动图。", "抄写 You hop. I hop.", "听写 hat big fan。"]
-    }),
-    lesson({
-      id: "L08",
-      stage: 2,
-      hours: "15–16",
-      title: "l · j · v",
-      titleEn: "l j v",
-      phonemes: ["l", "j", "v"],
-      rule: "/l/ 舌尖抵龈可拉长；/j/（字母 j）是破擦音 /dʒ/；/v/ 与 /f/ 同口型但要振动。",
-      ruleName: "同口型不同声带",
-      words: ["lip", "jam", "van", "leg", "jet", "vet"],
-      sight: ["they", "all", "are"],
-      iDo: ["f/v 对比：纸条放嘴前，/f/ 能动 /v/ 更弱但喉部振。", "jam 图声音先行。", "they：浊 th + ey。"],
-      weDo: ["lll 唱歌。", "jam/van 拼读。", "they all are 短句。"],
-      group: ["f/v 听辨。", "看图说词接力。", "奇形词记忆翻牌。"],
-      independent: ["f/v 涂色。", "看图写 jam van leg。", "they/all/are 描红。"]
-    }),
-    lesson({
-      id: "L09",
-      stage: 2,
-      hours: "17–18",
-      title: "w · x · y · z",
-      titleEn: "w x y z",
-      phonemes: ["w", "x", "y", "z"],
-      rule: "词首 y 读 /j/（yes）；词尾 x 读 /ks/（box）。z 是带声的 s。到这里 26 个字母的「主要音」全部到齐。",
-      ruleName: "字母主要音收官",
-      words: ["web", "box", "yes", "zip", "wax", "fox"],
-      sight: ["my", "her"],
-      iDo: ["揭晓：我们能读的 CVC 已经覆盖五短元音。", "x = /k/+ /s/ 两音一字母。", "my：y 在词尾读 /aɪ/。"],
-      weDo: ["字母主要音过关闪卡。", "box/fox 词族。", "Yes, my fox."],
-      group: ["26 音素 bingo。", "x 词比赛。", "my/her 造句。"],
-      independent: ["默写 w x y z 关键词。", "听写 box zip web。", "自我检测：26 音闪卡。"],
-      games: ["pop", "pic", "memory", "spin"]
-    }),
-    lesson({
-      id: "L10",
-      stage: 2,
-      hours: "19–20",
-      title: "qu 与 CVC 阶段测评",
-      titleEn: "qu and CVC checkpoint",
-      phonemes: ["qu"],
-      rule: "q 几乎总是带着 u，合读 /kw/。本课同时做 0–20 小时形成性测评：听音、拼读、切音、奇形词。",
-      ruleName: "qu = /kw/",
-      words: ["quit", "quiz", "pig", "cub", "sun", "map", "bed", "fox"],
-      sight: ["I", "a", "the", "to", "no", "go", "he", "she", "we", "was", "you"],
-      iDo: ["示范 queen 图 + /kw/。", "说明测评是为了找到还要练的音，不是排名。", "复习截断音 vs 可拉长音。"],
-      weDo: ["全班模拟测评一题。", "齐读复习词单。", "奇形词快闪。"],
-      group: ["小组互测 8 词。", "qu 词创作口头句。", "错误音素收集墙。"],
-      independent: ["阶段测评卷（可打印）。", "错题订正。", "自己录一遍 pig cub quiz。"],
-      print: ["match", "spell", "segment", "sight", "dictation", "check"],
-      games: ["pop", "pic", "blend", "segment", "memory", "maze"]
-    }),
-    lesson({
-      id: "L11",
-      stage: 3,
-      hours: "21–22",
-      title: "两个字母一个音：sh · ch · tch",
-      titleEn: "sh ch and tch",
-      phonemes: ["sh", "ch", "tch"],
-      rule: "Digraph：两个字母合起来只发一个音。sh=/ʃ/ 可拉长；ch=/tʃ/ 短促。不要读成 s-h。",
-      ruleName: "辅音 Digraph",
-      words: ["ship", "fish", "shop", "chick", "chop", "chin"],
-      sight: ["said", "have"],
-      iDo: ["对比 s+h 分开读 vs sh 合读。", "火车声 ch vs 安静 sh。", "said 的 ai 标心形 /e/。"],
-      weDo: ["sh/ch 听辨。", "ship/chip 最小对比（chip 可口述）。", "have：e 不让 a 变长音。"],
-      group: ["音组卡片对对碰。", "看图说 ship/fish/chick。", "said/have 翻牌。"],
-      independent: ["把 sh/ch 涂成不同颜色。", "看图写 fish ship。", "听写 chop chin。"],
-      games: ["match", "pop", "pic", "blend"]
-    }),
-    lesson({
-      id: "L12",
-      stage: 3,
-      hours: "23–24",
-      title: "th 清浊 · wh",
-      titleEn: "th voiced/voiceless and wh",
-      phonemes: ["th", "thv", "wh"],
-      rule: "th 有清 /θ/（thumb）和浊 /ð/（this）。舌尖必须露一点点。wh 在现代英语多读 /w/。",
-      ruleName: "th 清浊",
-      words: ["thumb", "thin", "this", "that", "whale", "when"],
-      sight: ["they", "there", "what"],
-      iDo: ["镜子看舌尖。", "this/thin 对比喉部。", "what 的 a 标心形 /ɒ/。"],
-      weDo: ["th 歌曲：this that the they。", "whale/when 齐读。", "there vs they。"],
-      group: ["清浊 th 裁判。", "听音选图 thumb/whale。", "what/when 问答。"],
-      independent: ["舌位示意图涂色。", "圈出浊 th 词。", "听写 this that when。"]
-    }),
-    lesson({
-      id: "L13",
-      stage: 3,
-      hours: "25–26",
-      title: "词尾 ng · nk · 复习 ck",
-      titleEn: "ng nk ck",
-      phonemes: ["ng", "nk", "ck"],
-      rule: "/ŋ/ 是舌根鼻音，不要再加 /g/。nk = /ŋk/。ck 只出现在短元音后。",
-      ruleName: "词尾鼻音",
-      words: ["ring", "sing", "pink", "sink", "duck", "sock"],
-      sight: ["some", "come"],
-      iDo: ["唱歌尾音感受 ng。", "pink = ping + k。", "some/come：o 读 /ʌ/。"],
-      weDo: ["ring/sing 词族。", "ck vs k vs nk 分类。", "Come, sing."],
-      group: ["鼻音听辨。", "词尾bingo。", "some/come 家族。"],
-      independent: ["ng/nk/ck 三栏分类纸。", "看图写 ring duck pink。", "听写 sing sink。"]
-    }),
-    lesson({
-      id: "L14",
-      stage: 3,
-      hours: "27–28",
-      title: "词首 s 复辅音：st sm sn sp sw sk",
-      titleEn: "s-blends",
-      phonemes: ["s"],
-      rule: "Blend 不是 digraph：两个辅音仍然是两个音，只是拼得很快。stop = /s/+/t/+/ɒ/+/p/，四个音。",
-      ruleName: "Blend ≠ Digraph",
-      words: ["stop", "spin", "snap", "swim", "slip"],
-      sight: ["so", "do"],
-      iDo: ["用手指点两个辅音，证明是两个音。", "对比 ship（1 个音 sh）与 stop（s+t 两个音）。", "do 的 o 读 /uː/。"],
-      weDo: ["慢切 stop 为 4 拍。", "s-blend 齐读。", "So I stop."],
-      group: ["切音拍桌子。", "听音数音素。", "do/so 对比。"],
-      independent: ["音素格：每个音一格。", "看图写 stop swim。", "听写 snap spin。"],
-      games: ["segment", "blend", "clap", "pop"]
-    }),
-    lesson({
-      id: "L15",
-      stage: 3,
-      hours: "29–30",
-      title: "l-blend 与 r-blend",
-      titleEn: "l-blends and r-blends",
+      id: "L06", stage: 2, hours: "11–12", type: "pattern",
+      title: "L-blends · R-blends", titleEn: "L-blends and R-blends",
       phonemes: ["l", "r"],
-      rule: "bl cl fl gl pl sl / br cr dr fr gr pr tr：第一个辅音要读完整，不要吞掉。中文母语者常丢 /l/ 或 /r/。",
-      ruleName: "不要吞辅音",
-      words: ["flag", "plug", "frog", "crab", "drum", "slip"],
-      sight: ["little", "one", "out"],
-      iDo: ["夸张示范 flag：fff-lll-ag。", "one 完全不像拼写，整词记。", "out 可解码 ou=/aʊ/。"],
-      weDo: ["blend 慢→快。", "看图 frog/crab/drum。", "little 分音节 lit-tle。"],
-      group: ["吞音抓捕员。", "听音选 blend。", "one/out 造句。"],
-      independent: ["blend 拼图纸。", "看图写 flag frog drum。", "阶段 3 小测。"],
-      games: ["blend", "segment", "maze", "pic"]
+      focus: { title: "blends", sound: "bl cl fl · br cr dr", img: "frog", tip: "两个辅音都要读，不要吞。" },
+      families: [
+        { id: "l", words: ["black", "blue", "flag", "plum", "clap", "clock", "block"] },
+        { id: "r", words: ["crab", "drum", "frog", "green", "tree", "rain"] }
+      ],
+      words: ["black", "blue", "flag", "plum", "clap", "clock", "block", "crab", "drum", "frog", "green", "tree", "rain"],
+      sight: ["blue", "from", "green", "three", "all"],
+      chant: ["blue", "flag", "frog", "tree", "crab", "drum"],
+      homework: [
+        { kind: "copy", text: "L-blends / R-blends 各抄 5 词" },
+        { kind: "read", text: "听读本课单词各 3 遍" },
+        { kind: "talk", text: "背诵颜色对话" }
+      ]
     }),
     lesson({
-      id: "L16",
-      stage: 4,
-      hours: "31–32",
-      title: "魔法 e：a_e · i_e",
-      titleEn: "Magic E a_e i_e",
-      phonemes: ["a_e", "i_e"],
-      rule: "词尾不发音的 e 会跳到前面，让元音读字母名：cap → cape，kit → kite。这叫 Magic E / CVCe。",
-      ruleName: "Magic E",
-      words: ["cake", "name", "tape", "kite", "like", "time"],
-      sight: ["like"],
-      iDo: ["动画演示 e 跳到 a 身上。", "最小对立体 cap/cape（口述 cap）、kit/kite。", "图片先行 cake / kite。"],
-      weDo: ["变魔术：给 CVC 加 e。", "齐读 a_e / i_e 词族。", "I like cake."],
-      group: ["魔术表演：一人加 e 一人读。", "听音判断短还是长。", "看图选词。"],
-      independent: ["CVC vs CVCe 对照表。", "看图写 cake kite name。", "听写 like time。"],
-      games: ["match", "blend", "pic", "spin"]
+      id: "L07", stage: 2, hours: "13–14", type: "pattern",
+      title: "S-blends 与词尾连缀", titleEn: "S-blends and end blends",
+      phonemes: ["s"],
+      focus: { title: "s-blends", sound: "st sm sn sp sw", img: "snake", tip: "blend 是两个音，不是一个音。" },
+      families: [
+        { id: "s", words: ["stop", "star", "swim", "snake", "smile", "spin", "snap", "slip"] },
+        { id: "end", words: ["jump", "lamp", "hand", "sand", "nest", "best"] }
+      ],
+      words: ["stop", "star", "swim", "snake", "smile", "spin", "snap", "slip", "jump", "lamp", "hand", "sand", "nest"],
+      sight: ["ask", "best", "just", "must"],
+      chant: ["stop", "swim", "snake", "star", "jump", "hand"],
+      homework: [
+        { kind: "copy", text: "s-blends 各抄 5 词，词尾连缀 3 词" },
+        { kind: "read", text: "听读本课单词各 3 遍" },
+        { kind: "talk", text: "背诵 Can you swim?" }
+      ]
     }),
     lesson({
-      id: "L17",
-      stage: 4,
-      hours: "33–34",
-      title: "魔法 e：o_e · u_e · e_e",
-      titleEn: "Magic E o_e u_e e_e",
-      phonemes: ["o_e", "u_e", "e_e"],
-      rule: "o_e → /əʊ/（home）；u_e 常 /juː/（cube）或 /uː/（flute）；e_e 较少（these）。不是所有词尾 e 都是魔法 e（have 是例外）。",
-      ruleName: "Magic E 全家",
-      words: ["home", "bone", "nose", "cube", "tune", "these"],
-      sight: ["have", "like"],
-      iDo: ["对比 have（例外）与 these（真·魔法 e）。", "home 图声音先行。", "cube /juː/ 口型。"],
-      weDo: ["五组魔法 e 过关。", "nose/bone 词族。", "These cubes."],
-      group: ["例外法官 have。", "听音选长元音。", "造句 I go home."],
-      independent: ["五列 a_e e_e i_e o_e u_e 分类。", "看图写 home cube。", "听写 bone nose。"]
+      id: "L08", stage: 2, hours: "15–16", type: "pattern",
+      title: "sh · ch · th · wh · ph", titleEn: "Consonant digraphs",
+      phonemes: ["sh", "ch", "th", "thv", "wh", "ph"],
+      focus: { title: "digraphs", sound: "sh ch th wh ph", img: "ship", tip: "两个字母一个音。" },
+      families: [
+        { id: "sh", words: ["ship", "shop", "fish", "dish"] },
+        { id: "ch", words: ["chick", "chop", "chin", "chip"] },
+        { id: "th", words: ["thumb", "thin", "this", "that", "path"] },
+        { id: "wh", words: ["whale", "when", "white"] },
+        { id: "ph", words: ["photo", "phone"] }
+      ],
+      words: ["ship", "shop", "fish", "dish", "chick", "chop", "chin", "chip", "thumb", "thin", "this", "that", "path", "whale", "when", "white", "photo", "phone"],
+      sight: ["said", "have", "what", "they"],
+      chant: ["ship", "fish", "chick", "thumb", "whale", "photo"],
+      homework: [
+        { kind: "copy", text: "每种组合抄 3 词" },
+        { kind: "read", text: "听读本课单词各 3 遍" },
+        { kind: "say", text: "用 said / have / what 各说 1 句" }
+      ]
     }),
     lesson({
-      id: "L18",
-      stage: 4,
-      hours: "35–36",
-      title: "元音组合 ai/ay · ee/ea",
-      titleEn: "ai ay ee ea",
-      phonemes: ["ai", "ay", "ee", "ea", "ey"],
-      rule: "When two vowels go walking, the first one does the talking——适用于许多（不是全部）元音组合。ai 在词中、ay 在词尾；ee/ea 常读 /iː/。",
-      ruleName: "元音组合（vowel team）",
-      words: ["rain", "tail", "play", "day", "tree", "see", "leaf", "sea"],
+      id: "L09", stage: 3, hours: "17–18", type: "pattern",
+      title: "魔法 e：a-e i-e o-e", titleEn: "Magic e a-e i-e o-e",
+      phonemes: ["a_e", "i_e", "o_e"],
+      focus: { title: "magic e", sound: "a_e i_e o_e", img: "cake", tip: "词尾 e 不发音，前面元音读字母名。" },
+      families: [
+        { id: "a-e", words: ["cake", "name", "tape", "lake", "cape"] },
+        { id: "i-e", words: ["kite", "like", "time", "five", "bike"] },
+        { id: "o-e", words: ["home", "bone", "nose", "rose", "rope"] }
+      ],
+      words: ["cake", "name", "tape", "lake", "cape", "kite", "like", "time", "five", "bike", "home", "bone", "nose", "rose", "rope"],
+      sight: ["like", "have"],
+      chant: ["cake", "kite", "home", "name", "time", "nose"],
+      homework: [
+        { kind: "copy", text: "三组魔法 e 各抄 3 词" },
+        { kind: "read", text: "对比 cap/cape、kit/kite（口头）" },
+        { kind: "talk", text: "说 I like cake." }
+      ]
+    }),
+    lesson({
+      id: "L10", stage: 3, hours: "19–20", type: "pattern",
+      title: "魔法 e：e-e u-e 总复习", titleEn: "Magic e e-e u-e",
+      phonemes: ["e_e", "u_e"],
+      focus: { title: "magic e all", sound: "e_e u_e", img: "cube", tip: "have 不是魔法 e。" },
+      families: [
+        { id: "u-e", words: ["cube", "tune", "cute"] },
+        { id: "e-e", words: ["these"] },
+        { id: "all", words: ["cake", "lake", "kite", "bike", "home", "bone", "cube"] }
+      ],
+      words: ["cube", "tune", "cute", "these", "cake", "lake", "kite", "bike", "home", "bone", "name", "like"],
+      sight: ["have", "like", "these"],
+      chant: ["cake", "these", "kite", "home", "cube"],
+      homework: [
+        { kind: "copy", text: "五列魔法 e 分类抄写" },
+        { kind: "read", text: "听读本课单词各 3 遍" }
+      ]
+    }),
+    lesson({
+      id: "L11", stage: 3, hours: "21–22", type: "pattern",
+      title: "ai ay · ee ea", titleEn: "ai ay ee ea",
+      phonemes: ["ai", "ay", "ee", "ea"],
+      focus: { title: "vowel teams", sound: "/eɪ/ /iː/", img: "rain", tip: "ai 词中，ay 词尾。" },
+      families: [
+        { id: "ai/ay", words: ["rain", "tail", "wait", "train", "play", "day", "say"] },
+        { id: "ee/ea", words: ["tree", "see", "bee", "leaf", "sea", "eat"] }
+      ],
+      words: ["rain", "tail", "wait", "train", "play", "day", "say", "tree", "see", "bee", "leaf", "sea", "eat"],
       sight: ["people", "two"],
-      iDo: ["位置规则：ay 收尾。", "ea 多数 /iː/，少数 bread /e/ 作预告。", "people 的 eo 标心形。"],
-      weDo: ["rain/day 词族。", "tree/leaf 齐读。", "I see the sea."],
-      group: ["位置规则竞赛。", "听音写 ai 还是 ay。", "two 不发音 w。"],
-      independent: ["ai/ay ee/ea 四栏。", "看图写 rain tree leaf。", "听写 play see day。"],
-      games: ["match", "maze", "pic", "blend"]
+      chant: ["rain", "play", "tree", "see", "leaf", "sea"],
+      homework: [
+        { kind: "copy", text: "ai/ay/ee/ea 各抄 2 词" },
+        { kind: "read", text: "读 I see the sea." }
+      ]
     }),
     lesson({
-      id: "L19",
-      stage: 4,
-      hours: "37–38",
-      title: "igh · oa · ow（长 o）",
-      titleEn: "igh oa ow",
-      phonemes: ["igh", "oa", "ow", "ie", "y_ai"],
-      rule: "igh 三个字母一个音 /aɪ/。oa 在词中、ow 可在词尾表示 /əʊ/（snow）。ow 还有另一读 /aʊ/，下一阶段再对比。",
-      ruleName: "三字母音组 igh",
-      words: ["night", "light", "boat", "road", "snow"],
-      sight: ["their"],
-      iDo: ["igh 用 pal 记忆：night light fight。", "boat 图。", "their 与 there 同音异形。"],
-      weDo: ["night/light 词族。", "oa 词齐读。", "snow 拉长 /əʊ/。"],
-      group: ["igh 单词搜集。", "听音 oa 还是 igh。", "their/there 分辨句。"],
-      independent: ["igh/oa/ow 分类。", "看图写 night boat。", "听写 light road。"]
+      id: "L12", stage: 3, hours: "23–24", type: "pattern",
+      title: "oa ow · igh · y", titleEn: "oa ow igh y",
+      phonemes: ["oa", "ow", "igh"],
+      focus: { title: "oa igh", sound: "/əʊ/ /aɪ/", img: "boat", tip: "igh 三个字母一个音。" },
+      families: [
+        { id: "oa/ow", words: ["boat", "road", "coat", "snow", "grow"] },
+        { id: "igh", words: ["night", "light", "right"] }
+      ],
+      words: ["boat", "road", "coat", "snow", "grow", "night", "light", "right", "fly", "my"],
+      sight: ["their", "my"],
+      chant: ["boat", "snow", "night", "light", "road"],
+      homework: [
+        { kind: "copy", text: "oa/ow/igh 各抄 2 词" },
+        { kind: "read", text: "听读 night / boat / snow" }
+      ]
     }),
     lesson({
-      id: "L20",
-      stage: 4,
-      hours: "39–40",
-      title: "ue / ew 与长元音阶段测评",
-      titleEn: "ue ew checkpoint",
-      phonemes: ["ue", "ew"],
-      rule: "ue/ew 可读 /uː/（glue、blue）或 /juː/（new、cube）。本课整合所有长元音拼法墙。",
-      ruleName: "同一音多种拼",
-      words: ["glue", "blue", "cake", "kite", "home", "tree", "rain", "boat", "night"],
-      sight: ["does", "two", "people"],
-      iDo: ["拼法墙：/eɪ/ 可以 a_e、ai、ay。", "glue 图。", "does：oe 读 /ʌ/。"],
-      weDo: ["同一音多种拼头脑风暴。", "齐读长元音词表。", "测评说明。"],
-      group: ["拼法墙小组赛。", "互测 10 词。", "does/people 心形词。"],
-      independent: ["长元音拼法整理纸。", "阶段 4 测评卷。", "看图写 glue cake boat。"],
-      print: ["match", "spell", "segment", "sight", "dictation", "check"],
-      games: ["match", "spin", "blend", "memory"]
+      id: "L13", stage: 3, hours: "25–26", type: "review",
+      title: "长元音综合", titleEn: "Long vowel review",
+      phonemes: ["a_e", "ai", "ee", "igh", "oa"],
+      focus: { title: "long vowels", sound: "/eɪ/ /iː/ /aɪ/ /əʊ/", img: "cake", tip: "同一音可以有多种拼法。" },
+      words: ["cake", "rain", "play", "tree", "sea", "kite", "night", "home", "boat", "snow", "glue", "blue"],
+      sight: ["people", "two", "their"],
+      chant: ["cake", "rain", "tree", "night", "boat"],
+      homework: [
+        { kind: "copy", text: "每种长元音写 3 个词" },
+        { kind: "read", text: "整理拼法墙" }
+      ]
     }),
     lesson({
-      id: "L21",
-      stage: 5,
-      hours: "41–42",
-      title: "Bossy R：ar · or",
-      titleEn: "ar and or",
-      phonemes: ["ar", "or", "ore"],
-      rule: "r 很霸道，会改掉前面元音的声音：car 不读 /kæ/，而读 /kɑː/；fork 读 /fɔːk/。",
-      ruleName: "R-controlled",
-      words: ["car", "star", "park", "fork", "corn"],
-      sight: ["are"],
-      iDo: ["cat vs car 最小对比。", "fork 图声音先行。", "are 与 ar 家族联系。"],
-      weDo: ["ar 词族齐读。", "or 词族齐读。", "The car in the park."],
-      group: ["Bossy R 角色扮演。", "听音 ar 还是短 a。", "看图说 fork/car。"],
-      independent: ["ar/or 分类纸。", "看图写 car fork star。", "听写 park corn。"]
+      id: "L14", stage: 3, hours: "27–28", type: "pattern",
+      title: "R 控制：ar er ir or ur", titleEn: "Bossy R",
+      phonemes: ["ar", "er", "ir", "or", "ur"],
+      focus: { title: "bossy r", sound: "ar or er ir ur", img: "car", tip: "r 会改掉前面的元音。" },
+      families: [
+        { id: "ar", words: ["car", "star", "park"] },
+        { id: "or", words: ["fork", "corn"] },
+        { id: "er/ir/ur", words: ["her", "bird", "fur"] }
+      ],
+      words: ["car", "star", "park", "fork", "corn", "her", "bird", "fur"],
+      sight: ["are", "her"],
+      chant: ["car", "star", "fork", "bird", "her"],
+      homework: [
+        { kind: "copy", text: "五组 R 控制各抄 1–2 词" },
+        { kind: "read", text: "对比 cat / car" }
+      ]
     }),
     lesson({
-      id: "L22",
-      stage: 5,
-      hours: "43–44",
-      title: "er · ir · ur · air · ear",
-      titleEn: "er ir ur air ear",
-      phonemes: ["er", "ir", "ur", "air", "ear"],
-      rule: "三种拼法一个音 /ɜː/（英式）：her、bird、fur。靠词族记忆用哪一种拼，而不是「听出来用哪个」。",
-      ruleName: "同音异形家族",
-      words: ["her", "bird", "fur"],
-      sight: ["her"],
-      iDo: ["三张卡同一音。", "bird 图。", "说明拼写要看词，不能只靠听。"],
-      weDo: ["er/ir/ur 轮读。", "her bird 齐读。", "The bird has fur."],
-      group: ["抽拼法说词。", "听音写三种可能再选对的。", "词族搜集。"],
-      independent: ["三栏 her/bird/fur 扩展。", "看图写 bird。", "听写 her fur。"],
-      games: ["match", "memory", "spin", "pic"]
+      id: "L15", stage: 3, hours: "29–30", type: "pattern",
+      title: "oi oy · ou ow", titleEn: "oi oy ou ow",
+      phonemes: ["oi", "oy", "ou", "ow_d"],
+      focus: { title: "diphthongs", sound: "/ɔɪ/ /aʊ/", img: "coin", tip: "oi 词中，oy 词尾。" },
+      families: [
+        { id: "oi/oy", words: ["coin", "boil", "boy", "toy"] },
+        { id: "ou/ow", words: ["cloud", "house", "cow", "now"] }
+      ],
+      words: ["coin", "boil", "boy", "toy", "cloud", "house", "cow", "now"],
+      sight: ["now", "how"],
+      chant: ["coin", "boy", "cloud", "house", "cow"],
+      homework: [
+        { kind: "copy", text: "oi/oy/ou/ow 各抄 2 词" },
+        { kind: "talk", text: "说 The boy saw a coin." }
+      ]
     }),
     lesson({
-      id: "L23",
-      stage: 5,
-      hours: "45–46",
-      title: "长 oo / 短 oo · ou / ow",
-      titleEn: "oo ou ow",
-      phonemes: ["oo", "oo_s", "ou", "ow_d"],
-      rule: "oo 有 moon /uː/ 与 book /ʊ/ 两套。ou/ow 常读 /aʊ/（cloud、cow），但 ow 也可 /əʊ/（snow）——用词族判断。",
-      ruleName: "一词多音靠词族",
-      words: ["moon", "food", "book", "look", "cloud", "house", "cow", "now"],
-      sight: ["could", "would", "should"],
-      iDo: ["moon vs book 口型对比。", "cloud/house 图。", "ould 家族：could would should。"],
-      weDo: ["两套 oo 分类齐读。", "ou/ow 滑音。", "I could look at the moon."],
-      group: ["oo 裁判长还是短。", "ow 两读分类。", "ould 变形练习。"],
-      independent: ["四栏分类纸。", "看图写 moon book house。", "听写 look cloud now。"]
+      id: "L16", stage: 3, hours: "31–32", type: "pattern",
+      title: "oo · 弱读 /ə/", titleEn: "oo and schwa",
+      phonemes: ["oo", "oo_s", "schwa"],
+      focus: { title: "oo / schwa", sound: "/uː/ /ʊ/ /ə/", img: "moon", tip: "moon 长，book 短。the 弱读。" },
+      families: [
+        { id: "long oo", words: ["moon", "food"] },
+        { id: "short oo", words: ["book", "look"] }
+      ],
+      words: ["moon", "food", "book", "look", "the", "a"],
+      sight: ["the", "a", "could", "would"],
+      chant: ["moon", "book", "food", "look"],
+      homework: [
+        { kind: "copy", text: "长 oo / 短 oo 各抄 3 词" },
+        { kind: "read", text: "用弱读读 the book" }
+      ]
     }),
     lesson({
-      id: "L24",
-      stage: 5,
-      hours: "47–48",
-      title: "oi/oy · au/aw",
-      titleEn: "oi oy au aw",
-      phonemes: ["oi", "oy", "au", "aw"],
-      rule: "oi 词中、oy 词尾 → /ɔɪ/。au 词中、aw 词尾 → /ɔː/。位置规则再次出现。",
-      ruleName: "位置规则 2",
-      words: ["coin", "boil", "boy", "toy", "straw", "saw"],
+      id: "L17", stage: 4, hours: "33–34", type: "pattern",
+      title: "三辅音连缀", titleEn: "3-letter blends",
+      phonemes: ["s"],
+      focus: { title: "str spr", sound: "str spr scr", img: "star", tip: "三个辅音都要读到。" },
+      words: ["stop", "star", "spin", "snap", "tree", "frog", "green", "flag"],
+      sight: ["three", "from"],
+      chant: ["star", "tree", "stop", "spin"],
+      homework: [
+        { kind: "copy", text: "抄 6 个带连缀的词" },
+        { kind: "read", text: "慢切再快读" }
+      ]
+    }),
+    lesson({
+      id: "L18", stage: 4, hours: "35–36", type: "review",
+      title: "辅音组合复习", titleEn: "Digraph review",
+      phonemes: ["sh", "ch", "th", "wh", "ph"],
+      focus: { title: "digraphs again", sound: "sh ch th", img: "fish", tip: "清浊 th 要分开。" },
+      words: ["ship", "fish", "chick", "thumb", "this", "whale", "photo", "phone"],
+      sight: ["they", "there", "what"],
+      chant: ["ship", "chick", "thumb", "whale"],
+      homework: [
+        { kind: "copy", text: "每种 digraph 抄 2 词" },
+        { kind: "read", text: "this / thin 对比" }
+      ]
+    }),
+    lesson({
+      id: "L19", stage: 4, hours: "37–38", type: "pattern",
+      title: "鼻音 m n ng · 边音 l", titleEn: "Nasals and l",
+      phonemes: ["m", "n", "ng", "l"],
+      focus: { title: "nasals", sound: "/m/ /n/ /ŋ/ /l/", img: "moon", tip: "ng 不要再加 /g/。" },
+      words: ["moon", "man", "nest", "sun", "king", "pink", "lion", "leaf"],
+      sight: ["some", "come"],
+      chant: ["moon", "nest", "king", "lion"],
+      homework: [
+        { kind: "copy", text: "m/n/ng/l 各抄 2 词" },
+        { kind: "read", text: "拉长 /m/ /n/ /ŋ/" }
+      ]
+    }),
+    lesson({
+      id: "L20", stage: 4, hours: "39–40", type: "pattern",
+      title: "半元音 y w · 音节", titleEn: "y w and syllables",
+      phonemes: ["y", "w", "h"],
+      focus: { title: "syllables", sound: "y w · clap", img: "yoyo", tip: "先拍音节再拼读。" },
+      words: ["yoyo", "yellow", "web", "window", "hat", "rabbit", "umbrella", "picnic"],
+      sight: ["you", "we"],
+      chant: ["yoyo", "window", "rabbit", "picnic"],
+      homework: [
+        { kind: "copy", text: "给 rabbit / picnic / umbrella 划音节" },
+        { kind: "read", text: "拍掌读多音节词" }
+      ]
+    }),
+    lesson({
+      id: "L21", stage: 5, hours: "41–42", type: "pattern",
+      title: "前缀与后缀", titleEn: "Prefixes and suffixes",
+      phonemes: ["s"],
+      focus: { title: "affixes", sound: "un- -ing -s", img: "book", tip: "先认词根，再加词缀。" },
+      words: ["sun", "run", "play", "look", "jump", "like"],
+      sight: ["look", "play"],
+      chant: ["run", "jump", "play", "look"],
+      homework: [
+        { kind: "copy", text: "写 running / playing / looks / unlike" },
+        { kind: "read", text: "圈出词缀" }
+      ]
+    }),
+    lesson({
+      id: "L22", stage: 5, hours: "43–44", type: "pattern",
+      title: "复合词与多音节", titleEn: "Compounds & syllables",
+      phonemes: ["schwa"],
+      focus: { title: "compounds", sound: "sun+set", img: "sun", tip: "复合词按词切开。" },
+      words: ["sunset", "picnic", "rabbit", "basket", "umbrella", "sandwich"],
       sight: ["because"],
-      iDo: ["coin/boy 位置对比。", "straw 图。", "because 分音节 be-cause。"],
-      weDo: ["oi/oy 词族。", "aw 齐读。", "The boy saw a coin."],
-      group: ["位置规则竞赛。", "听音写 oi 还是 oy。", "because 口头造句。"],
-      independent: ["oi/oy au/aw 四栏。", "看图写 coin boy straw。", "听写 toy saw boil。"]
+      chant: ["sunset", "picnic", "rabbit", "umbrella"],
+      homework: [
+        { kind: "copy", text: "拆开再合写 4 个复合/多音节词" },
+        { kind: "read", text: "We have a picnic at sunset." }
+      ]
     }),
     lesson({
-      id: "L25",
-      stage: 5,
-      hours: "49–50",
-      title: "软 c / 软 g · ph · dge · 不发音字母",
-      titleEn: "soft c g, ph, dge, silent letters",
-      phonemes: ["soft_c", "soft_g", "ph", "dge", "kn", "wr", "mb"],
-      rule: "c/g 在 e i y 前常变软：ice /s/、gem /dʒ/。ph=/f/。kn、wr、mb 中有一个字母不发音。",
-      ruleName: "软音与默音",
+      id: "L23", stage: 5, hours: "45–46", type: "pattern",
+      title: "同音词", titleEn: "Homophones",
+      phonemes: ["ee", "ea"],
+      focus: { title: "homophones", sound: "see / sea", img: "sea", tip: "同音不同形，靠句子判断。" },
+      words: ["see", "sea", "tail", "night", "there", "their"],
+      sight: ["there", "their", "two"],
+      chant: ["see", "sea", "there", "their"],
+      homework: [
+        { kind: "copy", text: "see/sea、there/their 各造 1 句" },
+        { kind: "read", text: "读给家长听，让家长选词" }
+      ]
+    }),
+    lesson({
+      id: "L24", stage: 5, hours: "47–48", type: "pattern",
+      title: "不规则与默音", titleEn: "Irregular & silent letters",
+      phonemes: ["soft_c", "soft_g", "ph"],
+      focus: { title: "odd bits", sound: "soft c · kn wr", img: "ice", tip: "先圈出规则部分，心形标不规则。" },
       words: ["ice", "city", "gem", "photo", "phone", "knee", "write", "lamb"],
-      sight: ["could", "would", "should"],
-      iDo: ["c 变魔术：cat vs ice。", "photo 图。", "划掉不发音字母：knee、write、lamb。"],
-      weDo: ["软硬 c/g 分类。", "ph 词齐读。", "I write with a pen."],
-      group: ["默音侦探：划掉不发音字母。", "听音 /s/ 还是 /k/。", "阶段 5 互测。"],
-      independent: ["规则整理纸。", "看图写 ice photo lamb。", "听写 phone write。"],
-      games: ["match", "maze", "segment", "spin"]
+      sight: ["could", "would", "should", "said"],
+      chant: ["ice", "photo", "write", "lamb"],
+      homework: [
+        { kind: "copy", text: "划掉不发音字母：knee / write / lamb" },
+        { kind: "read", text: "给 said / could 画心" }
+      ]
     }),
     lesson({
-      id: "L26",
-      stage: 6,
-      hours: "51–52",
-      title: "Heart Words：把不规则部分标出来",
-      titleEn: "Heart words",
-      phonemes: ["schwa"],
-      rule: "奇形词不是「没法教」：先圈出符合规律的部分，只把不规则的字母画上心。这比整词死记更省力。",
-      ruleName: "Heart Word Magic",
-      words: ["sun", "the", "said", "have", "come", "one"],
-      sight: ["said", "have", "come", "one", "the", "was", "you", "they"],
-      iDo: ["示范 said：s 和 d 可拼，ai 画心。", "schwa：the /ðə/。", "one 几乎整颗心。"],
-      weDo: ["给 8 个奇形词画心。", "可解码部分齐读。", "短句 Mixed：I said the sun is up."],
-      group: ["心形词工作坊。", "记忆翻牌。", "互相检查画心得对不对。"],
-      independent: ["心形词练习纸。", "默写 8 词。", "自己讲解一个 heart word。"],
-      games: ["memory", "spin", "pic", "maze"]
+      id: "L25", stage: 5, hours: "49–50", type: "review",
+      title: "短文流利朗读", titleEn: "Fluency",
+      phonemes: ["s", "a", "sh", "a_e"],
+      focus: { title: "fluency", sound: "accurate → smooth", img: "book", tip: "先准，再快，再有表情。" },
+      words: ["sun", "ship", "cake", "car", "moon", "rain", "frog", "night"],
+      sight: ["the", "I", "said", "to", "you"],
+      chant: ["sun", "ship", "cake", "moon"],
+      homework: [
+        { kind: "read", text: "短文跟读 3 遍，第 3 遍计时" },
+        { kind: "talk", text: "用表情再读一遍" }
+      ]
     }),
     lesson({
-      id: "L27",
-      stage: 6,
-      hours: "53–54",
-      title: "更多高频心形词",
-      titleEn: "More high-frequency hearts",
-      phonemes: ["schwa"],
-      rule: "高频词要在拼读课里循环出现，每次只攻 6–8 个，用在可解码句子里，而不是孤立词表。",
-      ruleName: "在句子里记词",
-      words: ["friend", "because", "could", "people", "their", "does"],
-      sight: ["friend", "because", "could", "people", "their", "does", "would", "should"],
-      iDo: ["每个词只标一处心。", "放进可解码句子：My friend can see the boat.", "does 与 do 家族。"],
-      weDo: ["句子合唱。", "心形词听写。", "their/there 分辨。"],
-      group: ["造句接龙，必须用一个 heart word。", "翻牌。", "纠错：哪颗心标错了。"],
-      independent: ["句子抄写（可打印）。", "their/there/they're 预告（they're 口授）。", "听写 because friend。"]
+      id: "L26", stage: 6, hours: "51–52", type: "review",
+      title: "拼写与听写", titleEn: "Spelling & dictation",
+      phonemes: ["a", "e", "i", "o", "u"],
+      focus: { title: "dictation", sound: "listen and write", img: "pen", tip: "先听整词，再想规律，最后写。" },
+      words: ["cat", "bed", "pig", "dog", "sun", "ship", "cake", "rain", "car", "moon"],
+      sight: ["the", "said", "have", "come"],
+      chant: ["cat", "ship", "cake", "car"],
+      homework: [
+        { kind: "copy", text: "听写本课 10 词（家长读）" },
+        { kind: "read", text: "错词各抄 3 行" }
+      ]
     }),
     lesson({
-      id: "L28",
-      stage: 6,
-      hours: "55–56",
-      title: "六种音节类型",
-      titleEn: "Six syllable types",
-      phonemes: ["a", "a_e", "ar", "le", "tion", "y_ee", "zh"],
-      rule: "Closed（cvC）短元音；Open（cv）长元音；Magic E；Vowel team；R-controlled；Consonant-le（apple）。先认类型再拼读。",
-      ruleName: "六种音节",
-      words: ["cat", "me", "cake", "rain", "car", "apple", "table"],
-      sight: ["the", "a"],
-      iDo: ["六张类型海报。", "apple = ap + ple。", "table = ta（开音节）+ ble。"],
-      weDo: ["给词贴类型标签。", "拍音节 apple（2）。", "齐读每类一例。"],
-      group: ["音节分类接力。", "拍音节比赛。", "给 rabbit 划音节。"],
-      independent: ["六种音节整理纸。", "给 picnic/sunset 划线。", "听写 apple table。"],
-      games: ["clap", "segment", "match", "spin"]
+      id: "L27", stage: 6, hours: "53–54", type: "review",
+      title: "口语情景", titleEn: "Speaking",
+      phonemes: ["th", "w"],
+      focus: { title: "talk", sound: "dialogues", img: "boy", tip: "先爬句子，再对答。" },
+      words: ["hello", "name", "play", "like", "home"],
+      sight: ["I", "you", "my", "we", "are"],
+      chant: ["play", "like", "home"],
+      homework: [
+        { kind: "talk", text: "和家人演一遍本课对话" },
+        { kind: "say", text: "自我介绍 4 句" }
+      ]
     }),
     lesson({
-      id: "L29",
-      stage: 6,
-      hours: "57–58",
-      title: "双音节拼读：VC/CV 与复合词",
-      titleEn: "Two-syllable decoding",
-      phonemes: ["schwa"],
-      rule: "两辅音之间切开（rab-bit、pic-nic）；复合词按词切开（sun-set）。非重读常变成 schwa /ə/。",
-      ruleName: "音节划分",
-      words: ["sunset", "picnic", "rabbit", "basket", "umbrella"],
-      sight: ["because"],
-      iDo: ["示范划线 picnic。", "umbrella 三音节拍掌。", "schwa 在 a 的尾巴。"],
-      weDo: ["划线练习 5 词。", "慢读每个音节再连。", "We have a picnic at sunset."],
-      group: ["拍音节 + 说词。", "复合词拆开再合。", "互听 umbrella。"],
-      independent: ["划音节纸。", "看图写 rabbit picnic。", "听写 sunset basket。"],
-      games: ["clap", "blend", "maze", "pic"]
+      id: "L28", stage: 6, hours: "55–56", type: "review",
+      title: "阅读理解", titleEn: "Reading",
+      phonemes: ["a_e", "sh"],
+      focus: { title: "read", sound: "decode then mean", img: "book", tip: "先拼出来，再想画面。" },
+      words: ["cat", "ship", "cake", "home", "rain", "night"],
+      sight: ["the", "said", "because"],
+      chant: ["cat", "ship", "home"],
+      homework: [
+        { kind: "read", text: "读短文并回答 3 个问题" },
+        { kind: "copy", text: "抄写最喜欢的一句" }
+      ]
     }),
     lesson({
-      id: "L30",
-      stage: 6,
-      hours: "59–60",
-      title: "短文流利与 60 小时总测评",
-      titleEn: "Fluency and final checkpoint",
+      id: "L29", stage: 6, hours: "57–58", type: "review",
+      title: "综合测评", titleEn: "Checkpoint",
+      phonemes: ["s", "a", "sh", "a_e", "ar"],
+      focus: { title: "check", sound: "listen · blend · write", img: "star", tip: "找还要练的音，不是排名。" },
+      words: ["sun", "cat", "ship", "cake", "car", "moon", "rain", "frog"],
+      sight: ["I", "the", "said", "you", "because"],
+      chant: ["sun", "ship", "cake", "car"],
+      homework: [
+        { kind: "read", text: "订正错题" },
+        { kind: "copy", text: "错词各写 3 遍" }
+      ]
+    }),
+    lesson({
+      id: "L30", stage: 6, hours: "59–60", type: "review",
+      title: "毕业展示", titleEn: "Showcase",
       phonemes: ["s", "a", "sh", "a_e", "ar", "oo"],
-      rule: "流利 = 准确 + 自动 + 韵律。先解码，再像说话一样读。测评覆盖：单音、拼读、切音、规则、奇形词、短文。",
-      ruleName: "准确 → 自动 → 有韵律",
+      focus: { title: "showcase", sound: "perform", img: "star", tip: "选一篇短文，准确 + 有表情。" },
       words: ["sun", "ship", "cake", "car", "moon", "rain", "frog", "night"],
       sight: ["the", "I", "said", "to", "you", "because"],
-      iDo: ["范读短文两遍：第一遍准，第二遍有表情。", "说明测评对照表。", "回顾声音先行：永远先听。"],
-      weDo: ["合唱短文。", "影子跟读。", "自己挑一个最难的音再练。"],
-      group: ["两人互测词表。", "小组表演短文。", "给同学标一个 heart word。"],
-      independent: ["60 小时总测评卷（可打印）。", "错题订正计划。", "独立朗读短文并自评。"],
-      print: ["match", "spell", "segment", "sight", "dictation", "check", "fluency"],
-      games: ["pop", "pic", "blend", "segment", "memory", "match", "maze", "clap", "spin"]
+      chant: ["sun", "ship", "cake", "moon", "night"],
+      homework: [
+        { kind: "talk", text: "表演字母歌 + 一段对话" },
+        { kind: "read", text: "独立朗读毕业短文" }
+      ]
     })
   ];
 

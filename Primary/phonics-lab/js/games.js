@@ -2,11 +2,14 @@
   "use strict";
 
   var GAMES = [
-    { id: "point", title: "听音指图", desc: "Listen, point, and repeat：先听再点对的图", icon: "👆" },
-    { id: "mark", title: "听辨打叉", desc: "听到首音就写字母，不是就打 ×", icon: "🍎" },
-    { id: "chant", title: "歌谣点读", desc: "按顺序点四个词，跟着 chant", icon: "🎵" },
-    { id: "pop", title: "音素泡泡", desc: "听到音素，点破正确字母泡泡", icon: "🫧" },
-    { id: "pic", title: "听音选图", desc: "声音先行：先听词，再选 3D 图", icon: "🖼️" },
+    { id: "point", title: "听音指图", desc: "先听单词，再点对的图", icon: "👆" },
+    { id: "first", title: "听词点首字母", desc: "听单词，点它的第一个字母", icon: "🅰️" },
+    { id: "middle", title: "听词点中间字母", desc: "听单词，点中间的字母", icon: "🔤" },
+    { id: "last", title: "听词点尾字母", desc: "听单词，点最后一个字母", icon: "Z" },
+    { id: "mark", title: "听辨打叉", desc: "是这个音就点对，不是就打 ×", icon: "🍎" },
+    { id: "chant", title: "歌谣点读", desc: "按顺序点四个词", icon: "🎵" },
+    { id: "race", title: "小组抢答", desc: "听单词，两边抢先点图", icon: "🏁" },
+    { id: "pic", title: "听音选图", desc: "先听词，再选图", icon: "🖼️" },
     { id: "blend", title: "拼读积木", desc: "按顺序点字母，滑读成词", icon: "🧱" },
     { id: "segment", title: "切音小火车", desc: "数一数这个词有几个音素", icon: "🚂" },
     { id: "memory", title: "奇形词翻翻乐", desc: "Heart words 配对记忆", icon: "🃏" },
@@ -18,7 +21,7 @@
   ];
 
   var state = {
-    game: "pop",
+    game: "point",
     stage: 1,
     diff: "easy",
     score: 0,
@@ -47,6 +50,7 @@
 
   function currentUnit() {
     var lid = Lab.qs("lesson", "L01");
+    if (global.Lab && Lab.letterUnit) return Lab.letterUnit(lid);
     return global.phonicsLetterUnit ? phonicsLetterUnit(lid) : null;
   }
 
@@ -99,9 +103,13 @@
     hud();
     var fn = {
       point: gamePoint,
+      first: function () { gameLetterPos("first"); },
+      middle: function () { gameLetterPos("middle"); },
+      last: function () { gameLetterPos("last"); },
+      race: gameRace,
       mark: gameMark,
       chant: gameChant,
-      pop: gamePop,
+      pop: function () { gameLetterPos("first"); },
       pic: gamePic,
       blend: gameBlend,
       segment: gameSegment,
@@ -219,6 +227,67 @@
     Lab.playWord(order[0]);
   }
 
+  function letterPos(w, kind) {
+    var g = w.graphemes && w.graphemes.length ? w.graphemes : String(w.word).split("");
+    if (kind === "first") return g[0];
+    if (kind === "last") return g[g.length - 1];
+    return g[Math.max(0, Math.floor((g.length - 1) / 2))];
+  }
+
+  function gameLetterPos(kind) {
+    var words = Lab.pick(poolWords(), 8);
+    var answer = words[0];
+    var right = letterPos(answer, kind);
+    var opts = [right];
+    "abcdefghijklmnopqrstuvwxyz".split("").forEach(function (ch) {
+      if (opts.length < 4 && opts.indexOf(ch) === -1) opts.push(ch);
+    });
+    opts = Lab.shuffle(opts);
+    var title = kind === "first" ? "首字母" : kind === "last" ? "尾字母" : "中间字母";
+    state.target = answer;
+    $("prompt").textContent = "听单词，点" + title;
+    $("board").innerHTML =
+      "<div style=\"text-align:center\">" +
+      "<img class=\"pic md\" style=\"margin:0 auto 0.8rem\" src=\"" +
+      Lab.img(answer.img) +
+      "\" alt=\"\">" +
+      "<div class=\"btn-row\" style=\"justify-content:center\" id=\"lp\"></div></div>";
+    opts.forEach(function (ch) {
+      var b = document.createElement("button");
+      b.className = "btn ghost";
+      b.textContent = ch;
+      b.onclick = function () {
+        if (ch === right) {
+          Lab.playWord(answer.word);
+          win();
+        } else if (!lose()) Lab.playWord(answer.word);
+      };
+      $("lp").appendChild(b);
+    });
+    Lab.playWord(answer.word);
+  }
+
+  function gameRace() {
+    var words = Lab.pick(poolWords(), 4);
+    var answer = words[0];
+    state.target = answer;
+    $("prompt").textContent = "小组抢答 · 听单词，两边谁先点对";
+    $("board").innerHTML = "<div class=\"vocab-grid\" id=\"pts\"></div>";
+    Lab.shuffle(words.slice()).forEach(function (w) {
+      var b = document.createElement("button");
+      b.className = "vocab-card";
+      b.innerHTML = "<img class=\"pic\" src=\"" + Lab.img(w.img) + "\" alt=\"\"><h3>" + w.word + "</h3>";
+      b.onclick = function () {
+        if (w.word === answer.word) {
+          Lab.playWord(w.word);
+          win();
+        } else if (!lose()) Lab.playWord(answer.word);
+      };
+      $("pts").appendChild(b);
+    });
+    Lab.playWord(answer.word);
+  }
+
   function gamePop() {
     var list = Lab.pick(poolPhonemes(), 5);
     var answer = list[0];
@@ -295,7 +364,7 @@
         t.disabled = true;
         t.style.opacity = "0.4";
         $("built").textContent = built.join(" ");
-        Lab.playPhoneme(w.phonemes[Math.min(built.length - 1, w.phonemes.length - 1)]);
+        Lab.playWord(g);
         if (built.length === w.graphemes.length) {
           if (built.join("") === w.graphemes.join("")) {
             Lab.playWord(w.word);
@@ -408,7 +477,7 @@
           if (!selected) {
             selected = { p: p, el: b, key: key };
             b.classList.add("active");
-            Lab.playPhoneme(p.id);
+            Lab.playWord(p.keyword);
             return;
           }
           if (selected.key === key) {
@@ -423,12 +492,12 @@
             selected.el.classList.remove("active");
             selected = null;
             done += 1;
-            Lab.playPhoneme(p.id);
+            Lab.playWord(p.keyword);
             if (done >= ph.length) win();
           } else {
             selected.el.classList.remove("active");
             selected = null;
-            if (!lose()) Lab.playPhoneme(p.id);
+            if (!lose()) Lab.playWord(p.keyword);
           }
         };
         box.appendChild(b);
@@ -560,10 +629,10 @@
   }
 
   function gameSpin() {
-    var kinds = ["point", "mark", "chant", "pop", "pic", "blend", "segment", "pyramid"];
+    var kinds = ["point", "mark", "chant", "first", "pic", "blend", "segment", "pyramid"];
     var pick = Lab.pick(kinds, 1)[0];
     $("prompt").textContent = "转盘抽到：" + GAMES.filter(function (g) { return g.id === pick; })[0].title;
-    var fn = { point: gamePoint, mark: gameMark, chant: gameChant, pop: gamePop, pic: gamePic, blend: gameBlend, segment: gameSegment, pyramid: gamePyramid }[pick];
+    var fn = { point: gamePoint, mark: gameMark, chant: gameChant, first: function () { gameLetterPos("first"); }, pic: gamePic, blend: gameBlend, segment: gameSegment, pyramid: gamePyramid }[pick];
     fn();
   }
 
@@ -591,7 +660,7 @@
   }
 
   function initPlay() {
-    state.game = Lab.qs("game", "pop");
+    state.game = Lab.qs("game", "point");
     state.stage = parseInt(Lab.qs("stage", "1"), 10) || 1;
     state.diff = Lab.qs("diff", "easy");
     var meta = GAMES.filter(function (g) { return g.id === state.game; })[0] || GAMES[0];

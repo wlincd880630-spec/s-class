@@ -178,37 +178,13 @@
     );
   }
 
-  function speakPhoneme(id, options) {
-    options = options || {};
-    stop();
-    var ph = global.PHONEMES && global.PHONEMES[id];
-    if (!ph) return speakWord(id);
-    var alphabets = options.sapi
-      ? ["sapi", "ipa"]
-      : options.ups
-      ? ["ups", "ipa"]
-      : ["ipa", "ups", "sapi"];
-    function tryAt(i) {
-      if (i >= alphabets.length) {
-        return speakWord(ph.keyword);
-      }
-      var body = phonemeSsmlBody(ph, alphabets[i]);
-      if (!body) return tryAt(i + 1);
-      return speakSsml(wrapSpeak(body, AZURE.phonemeVoice), "").then(function (ok) {
-        if (ok) return true;
-        return tryAt(i + 1);
-      });
-    }
-    return tryAt(0);
+  function speakPhoneme() {
+    return Promise.resolve(false);
   }
 
   function speakPhonemeThenWord(id) {
-    return speakPhoneme(id).then(function () {
-      return wait(260);
-    }).then(function () {
-      var ph = global.PHONEMES && global.PHONEMES[id];
-      return speakWord(ph ? ph.keyword : id, { slow: true });
-    });
+    var ph = global.PHONEMES && global.PHONEMES[id];
+    return speakWord(ph ? ph.keyword : id, { slow: true });
   }
 
   function wait(ms) {
@@ -217,25 +193,13 @@
     });
   }
 
-  function speakBlend(phonemeIds, word, options) {
-    options = options || {};
-    var gap = options.gap || 420;
-    var chain = Promise.resolve();
-    (phonemeIds || []).forEach(function (pid) {
-      chain = chain.then(function () {
-        return speakPhoneme(pid).then(function () {
-          return wait(gap);
-        });
-      });
+  function speakBlend(phonemeIds, word) {
+    if (!word) return Promise.resolve(false);
+    return speakWord(word, { slow: true }).then(function () {
+      return wait(200);
+    }).then(function () {
+      return speakWord(word);
     });
-    if (word) {
-      chain = chain.then(function () {
-        return wait(180);
-      }).then(function () {
-        return speakWord(word, { slow: true });
-      });
-    }
-    return chain;
   }
 
   function speakLetterName(letter) {
