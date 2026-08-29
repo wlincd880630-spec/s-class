@@ -53,13 +53,16 @@
     return String(rate);
   }
 
-  function resolveRate(options) {
+  function resolveTargetRate(options) {
     options = options || {};
     if (options.rate != null && !isNaN(parseFloat(String(options.rate)))) {
-      return normalizeRate(options.rate);
+      return parseFloat(String(options.rate)) < 0.88 ? 0.7 : 1;
     }
-    if (options.slow) return "0.80";
-    return "0.90";
+    return options.slow ? 0.7 : 1;
+  }
+
+  function resolveRate(options) {
+    return resolveTargetRate(options) < 0.88 ? "0.80" : "0.90";
   }
 
   function buildAudioUrl(base, rel) {
@@ -87,15 +90,14 @@
     var titled = t.charAt(0).toUpperCase() + t.slice(1).toLowerCase();
     if (texts.indexOf(titled) < 0) texts.push(titled);
 
-    var rates = [rate];
-    if (rates.indexOf("0.90") < 0) rates.push("0.90");
-    if (rates.indexOf("0.80") < 0) rates.push("0.80");
+    var preferred = parseFloat(rate) < 0.88 ? ["0.80", "0.90", "0.92"] : ["0.90", "0.92", "0.80"];
+    if (preferred.indexOf(rate) < 0) preferred.unshift(rate);
 
     var i, j, key;
-    for (i = 0; i < texts.length; i++) {
-      for (j = 0; j < rates.length; j++) {
-        key = texts[i] + "|" + rates[j];
-        if (m.lookup[key]) return m.lookup[key];
+    for (j = 0; j < preferred.length; j++) {
+      for (i = 0; i < texts.length; i++) {
+        key = texts[i] + "|" + preferred[j];
+        if (m.lookup[key]) return { rel: m.lookup[key], sourceRate: parseFloat(preferred[j]) };
       }
     }
     return null;
@@ -112,7 +114,7 @@
     }
   }
 
-  function playUrl(url, gen) {
+  function playUrl(url, gen, playbackRate) {
     return new Promise(function (resolve) {
       if (gen !== __gen) {
         resolve(false);
@@ -121,6 +123,7 @@
       var a = new Audio();
       __audio = a;
       a.preload = "auto";
+      a.playbackRate = playbackRate || 1;
       a.onended = function () {
         if (__audio === a) __audio = null;
         resolve(gen === __gen);
@@ -148,14 +151,15 @@
       if (options.onDone) options.onDone();
       return Promise.resolve(false);
     }
-    var rate = resolveRate(options);
-    var rel = lookupPath(t, rate);
-    if (!rel) {
+    var target = resolveTargetRate(options);
+    var found = lookupPath(t, resolveRate(options));
+    if (!found) {
       if (options.onDone) options.onDone();
       return Promise.resolve(false);
     }
-    var url = buildAudioUrl(__base, rel);
-    return playUrl(url, gen).then(function (ok) {
+    var playback = Math.max(0.5, Math.min(1.5, target / (found.sourceRate || 1)));
+    var url = buildAudioUrl(__base, found.rel);
+    return playUrl(url, gen, playback).then(function (ok) {
       if (options.onDone) options.onDone();
       return ok;
     });

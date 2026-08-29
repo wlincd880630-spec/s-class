@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,600;0,8..60,700;1,8..60,600&display=swap" rel="stylesheet" />
   <script src="audio/audio-manifest.js"></script>
   <script src="audio/local-audio.js"></script>
-  <script src="../../assets/ng-azure-tts-enhance.js"></script>
+  <script src="../../assets/ng-azure-tts-enhance.js?v=7"></script>
   <script>NgAzureTTS.enhance("LocalAudio");</script>
   <style>
     :root {
@@ -1416,10 +1416,13 @@
         if (!a) { speakText(STORY[sentenceIndex].en, options).then(function () { resolve(true); return; }); return; }
         var pr = 1.0;
         if (options) {
-          if (options.slow) pr = 0.85;
-          else if (options.rate != null && !isNaN(parseFloat(String(options.rate)))) pr = parseFloat(String(options.rate));
+          if (options.rate != null && !isNaN(parseFloat(String(options.rate)))) pr = parseFloat(String(options.rate));
+          else if (options.slow) pr = 0.7;
         }
-        a.playbackRate = Math.max(0.7, Math.min(1.15, pr));
+        a.playbackRate = Math.max(0.55, Math.min(1.25, pr));
+        if (window.NgAzureTTS) {
+          NgAzureTTS.lastSpeak = { source: "story-mp3", rate: a.playbackRate, slow: a.playbackRate < 0.88, text: STORY[sentenceIndex].en };
+        }
         var rel = p.audio || "media/story-read-aloud.mp3";
         var relAbs = MEDIA_COS + rel;
         if (a.getAttribute("data-timings-audio") !== relAbs) {
@@ -2105,7 +2108,10 @@
     function stopStoryLoop() { storyLoop = false; loopToken++; document.getElementById("sLoopState").textContent = "已停"; stopStoryNarration(); }
     function stopPyramidPlay() { pyramidPlayToken++; }
     function storySpeakOpts() {
-      return { rate: window.__storySlow ? 0.8 : 1.0, slow: !!window.__storySlow };
+      if (window.NgAzureTTS && typeof NgAzureTTS.storyOpts === "function") {
+        return NgAzureTTS.storyOpts(window.__storySlow);
+      }
+      return { rate: window.__storySlow ? 0.7 : 1, slow: !!window.__storySlow };
     }
     function escapeStoryHtml(s) {
       return String(s)
@@ -2293,8 +2299,20 @@
       var sn = document.getElementById("sNormal");
       if (window.__storySlow) { sl.className = "btn primary"; sn.className = "btn"; } else { sl.className = "btn"; sn.className = "btn primary"; }
     }
-    document.getElementById("sSlow").onclick = function () { window.__storySlow = true; syncLoopToggleUi(); };
-    document.getElementById("sNormal").onclick = function () { window.__storySlow = false; syncLoopToggleUi(); };
+    document.getElementById("sSlow").onclick = function () {
+      window.__storySlow = true;
+      syncLoopToggleUi();
+      stopPyramidPlay();
+      stopStoryLoop();
+      speakStoryLine(storyIndex, storySpeakOpts());
+    };
+    document.getElementById("sNormal").onclick = function () {
+      window.__storySlow = false;
+      syncLoopToggleUi();
+      stopPyramidPlay();
+      stopStoryLoop();
+      speakStoryLine(storyIndex, storySpeakOpts());
+    };
     document.getElementById("sPrev").onclick = function () {
       if (storyIndex <= 0) return;
       stopPyramidPlay();

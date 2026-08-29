@@ -10,7 +10,7 @@
   <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Jump%20Pup/jump-pup-courseware/media/story-timings.js"></script>
   <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Jump%20Pup/jump-pup-courseware/audio/audio-manifest.js"></script>
   <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Jump%20Pup/jump-pup-courseware/audio/local-audio.js"></script>
-  <script src="../../assets/ng-azure-tts-enhance.js?v=5"></script>
+  <script src="../../assets/ng-azure-tts-enhance.js?v=7"></script>
   <script>if (window.NgAzureTTS) NgAzureTTS.enhance("LocalAudio");</script>
   <style>
     :root {
@@ -1046,10 +1046,13 @@
         if (!a) { speakText(STORY[sentenceIndex].en, options).then(function () { resolve(true); return; }); return; }
         var pr = 1.0;
         if (options) {
-          if (options.slow) pr = 0.85;
-          else if (options.rate != null && !isNaN(parseFloat(String(options.rate)))) pr = parseFloat(String(options.rate));
+          if (options.rate != null && !isNaN(parseFloat(String(options.rate)))) pr = parseFloat(String(options.rate));
+          else if (options.slow) pr = 0.7;
         }
-        a.playbackRate = Math.max(0.7, Math.min(1.15, pr));
+        a.playbackRate = Math.max(0.55, Math.min(1.25, pr));
+        if (window.NgAzureTTS) {
+          NgAzureTTS.lastSpeak = { source: "story-mp3", rate: a.playbackRate, slow: a.playbackRate < 0.88, text: STORY[sentenceIndex].en };
+        }
         var rel = p.audio || "media/story-read-aloud.mp3";
         var relAbs = MEDIA_COS + rel;
         if (a.getAttribute("data-timings-audio") !== relAbs) {
@@ -1731,6 +1734,12 @@
 
     var storyIndex = 0, storyLoop = false, loopToken = 0;
     window.__storySlow = true;
+    function storySpeakOpts() {
+      if (window.NgAzureTTS && typeof NgAzureTTS.storyOpts === "function") {
+        return NgAzureTTS.storyOpts(window.__storySlow);
+      }
+      return { rate: window.__storySlow ? 0.7 : 1, slow: !!window.__storySlow };
+    }
     function stopStoryLoop() {
       storyLoop = false; loopToken++;
       var st = document.getElementById("sLoopState");
@@ -1791,8 +1800,18 @@
       var sn = document.getElementById("sNormal");
       if (window.__storySlow) { sl.className = "btn primary"; sn.className = "btn"; } else { sl.className = "btn"; sn.className = "btn primary"; }
     }
-    document.getElementById("sSlow").onclick = function () { window.__storySlow = true; syncLoopToggleUi(); };
-    document.getElementById("sNormal").onclick = function () { window.__storySlow = false; syncLoopToggleUi(); };
+    document.getElementById("sSlow").onclick = function () {
+      window.__storySlow = true;
+      syncLoopToggleUi();
+      stopStoryLoop();
+      speakStoryLine(storyIndex, storySpeakOpts());
+    };
+    document.getElementById("sNormal").onclick = function () {
+      window.__storySlow = false;
+      syncLoopToggleUi();
+      stopStoryLoop();
+      speakStoryLine(storyIndex, storySpeakOpts());
+    };
     document.getElementById("sPrev").onclick = function () {
       if (storyIndex <= 0) return;
       stopStoryLoop();
@@ -1809,8 +1828,7 @@
     };
     document.getElementById("sHearLine").onclick = function () {
       stopStoryLoop();
-      var r2 = __storySlow ? 0.8 : 1.0;
-      speakStoryLine(storyIndex, { rate: r2, slow: __storySlow });
+      speakStoryLine(storyIndex, storySpeakOpts());
     };
     if (window.NgStoryPyramid) {
       NgStoryPyramid.install({
@@ -1831,8 +1849,7 @@
       (function L2() {
         if (!storyLoop) return;
         if (myL !== loopToken) return;
-        var r = __storySlow ? 0.8 : 1.0;
-        speakStoryLine(storyIndex, { rate: r, slow: __storySlow }).then(function () { if (storyLoop && myL === loopToken) setTimeout(L2, 500); });
+        speakStoryLine(storyIndex, storySpeakOpts()).then(function () { if (storyLoop && myL === loopToken) setTimeout(L2, 500); });
       })();
     };
     function updateTopNavActive(name) {
