@@ -11,29 +11,47 @@
     return String(key || "").toLowerCase().replace(/\s+/g, "-");
   }
 
+  function sceneSrc(w, kind) {
+    var s = slug(w && w.key);
+    if (kind === "ex") return "images/sentences/" + s + "-ex.png";
+    if (kind === "sort") return "images/sentences/" + s + "-sort.png";
+    return "images/sentences/" + s + ".png";
+  }
+
   function sentenceSrc(w, mediaCos) {
-    var file = "images/sentences/" + slug(w && w.key) + ".png";
-    return file;
+    return sceneSrc(w, "say");
+  }
+
+  function pack(en, zh) {
+    return { en: en || "", zh: zh || "" };
   }
 
   function sayOf(w, sayMap) {
     var hit = sayMap && w && sayMap[w.key];
-    if (hit && hit.en) return { en: hit.en, zh: hit.zh || "" };
-    if (w && w.say && w.say.en) return { en: w.say.en, zh: w.say.zh || "" };
-    return { en: (w && w.ex) || "", zh: (w && w.zh) || "" };
+    if (hit && hit.say && hit.say.en) return pack(hit.say.en, hit.say.zh);
+    if (hit && hit.en) return pack(hit.en, hit.zh);
+    if (w && w.say && w.say.en) return pack(w.say.en, w.say.zh);
+    return pack((w && w.ex) || "", (w && w.zh) || "");
   }
 
   function sortOf(w, sayMap) {
     var hit = sayMap && w && sayMap[w.key];
-    if (hit && hit.sort && hit.sort.en) return { en: hit.sort.en, zh: hit.sort.zh || "" };
-    if (w && w.sort && w.sort.en) return { en: w.sort.en, zh: w.sort.zh || "" };
+    if (hit && hit.sort && hit.sort.en) return pack(hit.sort.en, hit.sort.zh);
+    if (w && w.sort && w.sort.en) return pack(w.sort.en, w.sort.zh);
     var say = sayOf(w, sayMap);
     var key = (w && w.key) || "";
     if (key && say.en) {
-      var fallback = { en: "I can say " + key + ".", zh: "我会说 " + ((w && w.zh) || key) + "。" };
+      var fallback = pack("I can say " + key + ".", "我会说 " + ((w && w.zh) || key) + "。");
       if (normalize(fallback.en) !== normalize(say.en)) return fallback;
     }
     return say;
+  }
+
+  function exOf(w, sayMap) {
+    var hit = sayMap && w && sayMap[w.key];
+    if (hit && hit.ex && hit.ex.en) return pack(hit.ex.en, hit.ex.zh);
+    if (w && w.ex) return pack(w.ex, (hit && hit.ex && hit.ex.zh) || (w.zh || ""));
+    return sortOf(w, sayMap);
   }
 
   function normalize(s) {
@@ -312,8 +330,10 @@
   global.NGWordExtras = {
     slug: slug,
     sentenceSrc: sentenceSrc,
+    sceneSrc: sceneSrc,
     sayOf: sayOf,
     sortOf: sortOf,
+    exOf: exOf,
     tokenize: tokenize,
     normalize: normalize,
     hasTargetWord: hasTargetWord,
