@@ -747,6 +747,20 @@
         .listen-play-btn:hover { transform: translateY(-2px); }
         .listen-play-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #b71c1c; }
         .listen-play-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+        .listen-play-btn.start-mode {
+            background: linear-gradient(135deg, #66bb6a, #2e7d32);
+            box-shadow: 0 6px 0 #1b5e20, 0 12px 32px rgba(46, 125, 50, 0.35);
+        }
+        .listen-play-btn.start-mode:active { box-shadow: 0 2px 0 #1b5e20; }
+        .listen-voice-status {
+            text-align: center;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #78909c;
+            margin: -6px 0 12px;
+            min-height: 1.2em;
+        }
+        .listen-locked { opacity: 0.42; pointer-events: none; }
         .listen-hint {
             text-align: center;
             color: #546e7a;
@@ -978,7 +992,7 @@
                 <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Alphabet/assets/games/game5-listen-letters.png" alt="听字母选字母">
                 <div class="game-card-body">
                     <h3>⑤ 听字母 · 选字母</h3>
-                    <p>听 1～5 个连续字母，按朗读顺序点选（可选难度）</p>
+                    <p>点「开始」再听 1～5 个连续字母，按朗读顺序点选（可选难度）</p>
                     <span class="game-tag">Listen · 1–5 Letters</span>
                 </div>
             </button>
@@ -1092,7 +1106,7 @@
             <div class="game-head">
                 <div class="game-num-badge">⑤</div>
                 <h2>听字母 · 选字母 Listen & Pick</h2>
-                <p>选择要听几个字母，再按顺序点出来</p>
+                <p>选择要听几个字母，点「开始」后才播放；每一组听完后再点「开始」</p>
             </div>
             <div class="game-progress-wrap">
                 <span class="round-badge" id="g5-round-label">第 1 / 10 题</span>
@@ -1112,10 +1126,11 @@
                     <div class="listen-waves paused" id="g5-waves" aria-hidden="true">
                         <span></span><span></span><span></span><span></span><span></span>
                     </div>
-                    <button type="button" class="listen-play-btn" id="g5-replay">🔊 听一遍</button>
+                    <button type="button" class="listen-play-btn start-mode" id="g5-replay">▶ 开始</button>
                 </div>
             </div>
-            <p class="listen-hint" id="g5-hint">听 1 个字母，点选正确答案</p>
+            <p class="listen-voice-status" id="g5-voice-status">正在加载 Azure 英式男声…</p>
+            <p class="listen-hint" id="g5-hint">点「开始」听字母，听完后再选答案</p>
             <div class="listen-answer-strip hidden" id="g5-answer-strip"></div>
             <div class="choices-4 hidden" id="g5-choices-1"></div>
             <div class="listen-pool hidden" id="g5-pool"></div>
@@ -1139,7 +1154,17 @@
         const CAPS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
         const SMALLS = 'abcdefghijklmnopqrstuvwxyz'.split('');
         const PRACTICE_STORAGE = 'lesson02_practice_letters';
-        const AUDIO = {};
+        const AZURE_TTS = {
+            subscriptionKey: '4SJbskufsk2tiu5jq1kzlJwTDw2eVPYd8e7HvDhb3lX6ZmItWOnxJQQJ99CHACqBBLyXJ3w3AAAYACOGxnpO',
+            region: 'southeastasia',
+            language: 'en-GB',
+            voice: 'en-GB-RyanNeural',
+            rate: '0.85',
+        };
+        const COS_LETTER_AUDIO = 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Alphabet/assets/audio/';
+        const letterAudioCache = Object.create(null);
+        const letterInflight = Object.create(null);
+        let azureSdkPromise = null;
         let practiceSet = new Set(CAPS);
         let totalScore = 0;
         let currentGame = 0;
@@ -1148,7 +1173,7 @@
         let g3Order = [], g3Idx = 0, g3Timer = null, g3Start = 0, g3Mode = 'cap';
         let g4Round = 0, g4Total = 12, g4Locked = false, g4Answer = '', g4Triples = [];
         let g5Level = 1, g5Seq = [], g5PickIdx = 0, g5Round = 0, g5Total = 10;
-        let g5Locked = false, g5Audio = null, g5PlayGen = 0;
+        let g5Locked = false, g5Heard = false, g5Audio = null, g5PlayGen = 0;
         let toastTimer = null;
 
         function getPracticeCaps() {
@@ -1313,35 +1338,181 @@
             return arr;
         }
 
-        function speakLetter(ch) {
-            const src = `https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Alphabet/assets/audio/${ch.toUpperCase()}.mp3`;
-            if (!g5Audio) g5Audio = new Audio();
-            g5Audio.onended = null;
-            g5Audio.onerror = null;
-            g5Audio.src = src;
-            g5Audio.play().catch(() => {});
+        function delay(ms) {
+            return new Promise((r) => setTimeout(r, ms));
         }
 
-        function speakLetterAsync(ch) {
-            return new Promise((resolve) => {
-                const a = new Audio(`https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Alphabet/assets/audio/${ch.toUpperCase()}.mp3`);
-                a.onended = resolve;
-                a.onerror = resolve;
-                a.play().catch(resolve);
+        function cosLetterUrl(ch) {
+            return COS_LETTER_AUDIO + String(ch).toUpperCase() + '.mp3';
+        }
+
+        function setVoiceStatus(text) {
+            const el = document.getElementById('g5-voice-status');
+            if (el) el.textContent = text || '';
+        }
+
+        function loadAzureSdk() {
+            if (window.SpeechSDK) return Promise.resolve(window.SpeechSDK);
+            if (azureSdkPromise) return azureSdkPromise;
+            azureSdkPromise = new Promise((resolve, reject) => {
+                const s = document.createElement('script');
+                s.src = 'https://aka.ms/csspeech/jsbrowserpackageraw';
+                s.onload = () => {
+                    if (window.SpeechSDK) resolve(window.SpeechSDK);
+                    else reject(new Error('Speech SDK missing'));
+                };
+                s.onerror = () => reject(new Error('Speech SDK load failed'));
+                document.head.appendChild(s);
+            });
+            return azureSdkPromise;
+        }
+
+        function letterSsml(ch) {
+            const letter = String(ch).toUpperCase();
+            return (
+                '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="' +
+                AZURE_TTS.language +
+                '"><voice name="' +
+                AZURE_TTS.voice +
+                '"><prosody rate="' +
+                AZURE_TTS.rate +
+                '"><say-as interpret-as="characters">' +
+                letter +
+                '</say-as></prosody></voice></speak>'
+            );
+        }
+
+        function synthesizeAzureLetter(ch) {
+            const key = String(ch).toUpperCase();
+            return loadAzureSdk().then((sdk) => {
+                const cfg = sdk.SpeechConfig.fromSubscription(AZURE_TTS.subscriptionKey, AZURE_TTS.region);
+                cfg.speechSynthesisVoiceName = AZURE_TTS.voice;
+                cfg.speechSynthesisOutputFormat = sdk.SpeechSynthesisOutputFormat.Audio16Khz32KBitRateMonoMp3;
+                const synthesizer = new sdk.SpeechSynthesizer(cfg, null);
+                return new Promise((resolve, reject) => {
+                    synthesizer.speakSsmlAsync(
+                        letterSsml(key),
+                        (result) => {
+                            try { synthesizer.close(); } catch (_) {}
+                            const data = result && result.audioData;
+                            const ok = result && result.reason === sdk.ResultReason.SynthesizingAudioCompleted;
+                            if (ok && data && data.byteLength) {
+                                const blob = new Blob([data], { type: 'audio/mpeg' });
+                                resolve(URL.createObjectURL(blob));
+                            } else {
+                                reject(new Error('Azure letter synth empty'));
+                            }
+                        },
+                        (err) => {
+                            try { synthesizer.close(); } catch (_) {}
+                            reject(err || new Error('Azure letter synth failed'));
+                        }
+                    );
+                });
             });
         }
 
-        function delay(ms) {
-            return new Promise((r) => setTimeout(r, ms));
+        function ensureLetterUrl(ch) {
+            const key = String(ch).toUpperCase();
+            if (letterAudioCache[key]) return Promise.resolve(letterAudioCache[key]);
+            if (letterInflight[key]) return letterInflight[key];
+            letterInflight[key] = synthesizeAzureLetter(key)
+                .then((url) => {
+                    letterAudioCache[key] = url;
+                    return url;
+                })
+                .finally(() => {
+                    delete letterInflight[key];
+                });
+            return letterInflight[key];
+        }
+
+        function warmupAzureLetters(letters) {
+            const list = (letters || CAPS).filter((ch, i, arr) => arr.indexOf(ch) === i);
+            const queue = list.filter((ch) => !letterAudioCache[String(ch).toUpperCase()]);
+            if (!queue.length) return Promise.resolve();
+            const workers = Array.from({ length: Math.min(3, queue.length) }, async () => {
+                while (queue.length) {
+                    const next = queue.shift();
+                    try { await ensureLetterUrl(next); } catch (_) {}
+                }
+            });
+            return Promise.all(workers);
+        }
+
+        function playAudioUrl(url) {
+            return new Promise((resolve) => {
+                if (!g5Audio) g5Audio = new Audio();
+                const a = g5Audio;
+                let settled = false;
+                const finish = (ok) => {
+                    if (settled) return;
+                    settled = true;
+                    if (a._finish === finish) a._finish = null;
+                    resolve(ok);
+                };
+                a._finish = finish;
+                a.onended = () => finish(true);
+                a.onerror = () => finish(false);
+                a.src = url;
+                a.play().then(() => {}, () => finish(false));
+            });
+        }
+
+        function playCosLetterAsync(ch) {
+            return playAudioUrl(cosLetterUrl(ch));
+        }
+
+        async function speakLetterAsync(ch, playGen) {
+            const gen = playGen == null ? g5PlayGen : playGen;
+            try {
+                const url = await Promise.race([
+                    ensureLetterUrl(ch),
+                    delay(2800).then(() => { throw new Error('azure timeout'); }),
+                ]);
+                if (gen !== g5PlayGen) return;
+                const ok = await playAudioUrl(url);
+                if (gen !== g5PlayGen) return;
+                if (!ok) await playCosLetterAsync(ch);
+            } catch (_) {
+                if (gen !== g5PlayGen) return;
+                await playCosLetterAsync(ch);
+            }
+        }
+
+        function speakLetter(ch) {
+            speakLetterAsync(ch);
         }
 
         function stopG5Audio() {
             g5PlayGen++;
             setG5Waves(false);
             if (g5Audio) {
+                const finish = g5Audio._finish;
                 g5Audio.pause();
+                g5Audio.onended = null;
+                g5Audio.onerror = null;
                 g5Audio.src = '';
+                if (typeof finish === 'function') finish(false);
+                g5Audio._finish = null;
             }
+        }
+
+        function preloadAzureVoice() {
+            setVoiceStatus('正在加载 Azure 英式男声…');
+            loadAzureSdk()
+                .then(() => {
+                    setVoiceStatus('正在预加载 A–Z 英式男声…');
+                    return warmupAzureLetters(CAPS);
+                })
+                .then(() => {
+                    const ready = CAPS.filter((c) => letterAudioCache[c]).length;
+                    if (ready) setVoiceStatus('英式男声已就绪 · 点「开始」播放');
+                    else setVoiceStatus('将使用备用字母发音');
+                })
+                .catch(() => {
+                    setVoiceStatus('Azure 未就绪，将使用备用发音');
+                });
         }
 
         function addScore(n) {
@@ -1414,6 +1585,7 @@
         loadPracticeLetters();
         initLetterPicker();
         refreshG5LevelButtons();
+        preloadAzureVoice();
 
         /* —— 游戏1 —— */
         function buildG1Deck() {
@@ -1741,8 +1913,28 @@
             return shuffle(getPracticeCaps()).slice(0, n);
         }
 
+        function updateG5PlayButton() {
+            const btn = document.getElementById('g5-replay');
+            if (!btn) return;
+            btn.classList.toggle('start-mode', !g5Heard);
+            btn.textContent = g5Heard ? '🔊 再听一遍' : '▶ 开始';
+        }
+
+        function setG5ChoicesLocked(locked) {
+            ['g5-choices-1', 'g5-pool'].forEach((id) => {
+                const el = document.getElementById(id);
+                if (el) el.classList.toggle('listen-locked', locked);
+            });
+        }
+
         function updateG5Hint() {
             const el = document.getElementById('g5-hint');
+            if (!g5Heard) {
+                el.textContent = g5Level === 1
+                    ? '点「开始」听字母，听完后再选答案'
+                    : `点「开始」连续听 ${g5Level} 个字母，听完后按顺序点选`;
+                return;
+            }
             if (g5Level === 1) {
                 el.textContent = '听 1 个字母，点选正确答案';
             } else {
@@ -1755,24 +1947,44 @@
             if (waves) waves.classList.toggle('paused', !playing);
         }
 
+        async function preloadG5Sequence(letters) {
+            const unique = [];
+            letters.forEach((ch) => {
+                const key = String(ch).toUpperCase();
+                if (!unique.includes(key)) unique.push(key);
+            });
+            await Promise.all(unique.map((ch) => ensureLetterUrl(ch).catch(() => null)));
+        }
+
         async function playG5Sequence() {
             if (!g5Seq.length || g5Locked) return;
             const gen = g5PlayGen;
             g5Locked = true;
             const btn = document.getElementById('g5-replay');
             btn.disabled = true;
-            setG5Waves(true);
+            btn.textContent = '⏳ 准备语音…';
+            setVoiceStatus('正在提前加载本组 Azure 英式男声…');
             try {
+                await preloadG5Sequence(g5Seq);
+                if (gen !== g5PlayGen) return;
+                btn.textContent = '🔊 播放中…';
+                setVoiceStatus('正在播放英式男声…');
+                setG5Waves(true);
                 for (let i = 0; i < g5Seq.length; i++) {
                     if (gen !== g5PlayGen) return;
-                    await speakLetterAsync(g5Seq[i]);
+                    await speakLetterAsync(g5Seq[i], gen);
                     if (i < g5Seq.length - 1) await delay(450);
                 }
             } finally {
                 if (gen === g5PlayGen) {
+                    g5Heard = true;
                     g5Locked = false;
                     btn.disabled = false;
                     setG5Waves(false);
+                    setG5ChoicesLocked(false);
+                    updateG5PlayButton();
+                    updateG5Hint();
+                    setVoiceStatus('英式男声 · 可再听一遍，或开始选字母');
                 }
             }
         }
@@ -1780,6 +1992,8 @@
         function renderG5Round() {
             stopG5Audio();
             setG5Waves(false);
+            g5Heard = false;
+            g5Locked = false;
             const pct = (g5Round / g5Total) * 100;
             document.getElementById('g5-progress').style.width = pct + '%';
             const g5Label = document.getElementById('g5-round-label');
@@ -1791,7 +2005,10 @@
             }
             g5Seq = buildG5Sequence(g5Level);
             g5PickIdx = 0;
+            updateG5PlayButton();
             updateG5Hint();
+            const ready = CAPS.filter((c) => letterAudioCache[c]).length;
+            setVoiceStatus(ready ? '本组已就绪 · 点「开始」播放' : '点「开始」后会先加载英式男声');
 
             const strip = document.getElementById('g5-answer-strip');
             const pool = document.getElementById('g5-pool');
@@ -1802,8 +2019,8 @@
                 pool.classList.add('hidden');
                 ch1.classList.remove('hidden');
                 const correct = g5Seq[0];
-                const pool = getPracticeCaps();
-                const wrong = shuffle(pool.filter((c) => c !== correct)).slice(0, Math.min(3, pool.length - 1));
+                const caps = getPracticeCaps();
+                const wrong = shuffle(caps.filter((c) => c !== correct)).slice(0, Math.min(3, caps.length - 1));
                 const opts = shuffle([correct, ...wrong]);
                 ch1.innerHTML = '';
                 opts.forEach((ch) => {
@@ -1844,11 +2061,12 @@
                     pool.appendChild(b);
                 });
             }
-            setTimeout(() => playG5Sequence(), 350);
+            setG5ChoicesLocked(true);
+            preloadG5Sequence(g5Seq).catch(() => {});
         }
 
         function onG5Pick(ch, btn) {
-            if (g5Locked) return;
+            if (g5Locked || !g5Heard) return;
             const want = g5Seq[g5PickIdx];
             if (ch !== want) {
                 btn.classList.add('wrong');
