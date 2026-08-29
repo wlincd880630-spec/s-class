@@ -1342,6 +1342,18 @@
             return new Promise((r) => setTimeout(r, ms));
         }
 
+        function bindActivate(el, fn) {
+            let last = 0;
+            const run = () => {
+                const now = Date.now();
+                if (now - last < 120) return;
+                last = now;
+                fn();
+            };
+            el.addEventListener('pointerup', run);
+            el.addEventListener('click', run);
+        }
+
         function cosLetterUrl(ch) {
             return COS_LETTER_AUDIO + String(ch).toUpperCase() + '.mp3';
         }
@@ -1586,6 +1598,19 @@
         initLetterPicker();
         refreshG5LevelButtons();
         preloadAzureVoice();
+        window.Lesson02ListenGame = {
+            getState() {
+                return {
+                    seq: g5Seq.slice(),
+                    heard: g5Heard,
+                    locked: g5Locked,
+                    round: g5Round,
+                    level: g5Level,
+                    cached: CAPS.filter((c) => !!letterAudioCache[c]).length,
+                    voice: AZURE_TTS.voice,
+                };
+            },
+        };
 
         /* —— 游戏1 —— */
         function buildG1Deck() {
@@ -2030,7 +2055,7 @@
                     b.textContent = ch;
                     const hue = (ch.charCodeAt(0) - 65) * 14;
                     b.style.color = `hsl(${hue}, 65%, 38%)`;
-                    b.addEventListener('pointerup', () => onG5Pick(ch, b));
+                    bindActivate(b, () => onG5Pick(ch, b));
                     ch1.appendChild(b);
                 });
             } else {
@@ -2057,7 +2082,7 @@
                     b.dataset.letter = ch;
                     const hue = (ch.charCodeAt(0) - 65) * 14;
                     b.style.color = `hsl(${hue}, 65%, 38%)`;
-                    b.addEventListener('pointerup', () => onG5Pick(ch, b));
+                    bindActivate(b, () => onG5Pick(ch, b));
                     pool.appendChild(b);
                 });
             }
@@ -2074,9 +2099,10 @@
                 return;
             }
             if (g5Level === 1) {
+                g5Locked = true;
                 btn.classList.add('correct');
                 addScore(5);
-                setTimeout(() => { g5Round++; renderG5Round(); }, 600);
+                setTimeout(() => { g5Round++; renderG5Round(); }, 800);
                 return;
             }
             const slots = document.querySelectorAll('#g5-answer-strip .listen-slot');
@@ -2090,8 +2116,9 @@
             g5PickIdx++;
             updateG5Hint();
             if (g5PickIdx >= g5Level) {
+                g5Locked = true;
                 addScore(4 + g5Level);
-                setTimeout(() => { g5Round++; renderG5Round(); }, 700);
+                setTimeout(() => { g5Round++; renderG5Round(); }, 800);
             }
         }
 
