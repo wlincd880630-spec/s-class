@@ -18,28 +18,26 @@
   var TEXTS = {
     L01: pack(
       [
-        S("Sun.", "太阳。", "sun"),
-        S("Ant.", "蚂蚁。", "insect"),
-        S("Apple.", "苹果。", "apple"),
-        S("I sat.", "我坐下了。", "sun"),
-        S("Sit.", "请坐。", "sun"),
-        S("As I sat.", "当我坐下时。", "sun")
+        S("I am a boy.", "我是一个男孩。", "boy"),
+        S("This is a cat.", "这是一只猫。", "cat"),
+        S("I see an apple.", "我看见一个苹果。", "apple"),
+        S("The dog is big.", "这只狗很大。", "dog")
       ],
       { title: "The Ant and the Apple", titleZh: "蚂蚁和苹果", img: "apple",
-        zh: "太阳。蚂蚁。生气的苹果。水龙头滴答。我坐下了。",
-        sentences: ["Sun.", "Ant.", "Angry apple.", "Tap, tap, tap.", "I sat."] },
-      { title: "请进，请坐", titleEn: "Come in and sit", scene: "走进教室", img: "sun",
-        goals: "问好 · 请坐 · 指图说词",
-        lines: [L("A", "Hi.", "你好。"), L("B", "Hi.", "你好。"), L("A", "Sit.", "请坐。"), L("B", "I sat.", "我坐下了。"), L("A", "Apple.", "苹果。"), L("B", "Ant.", "蚂蚁。")] }
+        zh: "蚂蚁看见苹果。苹果很大。我看见一只猫。狗也很大。",
+        sentences: ["I see an ant.", "I see an apple.", "This is a cat.", "The dog is big.", "I am a boy."] },
+      { title: "自我介绍", titleEn: "Nice to meet you", scene: "见面", img: "boy",
+        goals: "问好 · 姓名 · 年龄",
+        lines: [L("A", "Hello! What is your name?", "你好！你叫什么名字？"), L("B", "My name is Tom.", "我叫汤姆。"), L("A", "Nice to meet you, Tom!", "很高兴认识你，汤姆！"), L("B", "Nice to meet you too!", "我也很高兴认识你！"), L("A", "How old are you?", "你几岁？"), L("B", "I am six years old.", "我六岁。")] }
     ),
     L02: pack(
-      [S("I sit.", "我坐下。", "sun"), S("I tap.", "我轻拍。", "tap"), S("Pat the pan.", "拍一拍锅。", "pan"), S("I sip.", "我抿一口。", "sun")],
-      { title: "Tap the Pan", titleZh: "拍拍锅", img: "pan",
-        zh: "我坐下。我拍那口锅。我抿一口。我再坐下。",
-        sentences: ["I sit.", "I tap the pan.", "Pat the pan.", "I sip.", "I sit."] },
-      { title: "请坐、请喝", titleEn: "Sit and sip", scene: "点心时间", img: "pan",
-        goals: "请坐 · 请喝 · 道谢",
-        lines: [L("A", "Sit.", "请坐。"), L("B", "I sit.", "我坐下。"), L("A", "Sip.", "喝一口。"), L("B", "I sip.", "我喝一口。"), L("A", "Pat the pan.", "拍一拍锅。"), L("B", "I tap.", "我拍了。")] }
+      [S("You and I are friends.", "你和我是朋友。", "boy"), S("We are happy.", "我们很开心。", "sun"), S("My cat is black.", "我的猫是黑色的。", "cat"), S("The sun is hot.", "太阳很热。", "sun")],
+      { title: "The Hot Sun", titleZh: "热太阳", img: "sun",
+        zh: "太阳很热。我和你是朋友。我们很开心。我的猫是黑的。",
+        sentences: ["The sun is hot.", "You and I are friends.", "We are happy.", "My cat is black.", "Let's play."] },
+      { title: "早上好", titleEn: "Good morning", scene: "课间", img: "ball",
+        goals: "问候 · 邀请玩",
+        lines: [L("A", "Good morning! How are you?", "早上好！你好吗？"), L("B", "I am fine, thank you. And you?", "我很好，谢谢。你呢？"), L("A", "I am great! Let's play together.", "我很好！我们一起玩吧。"), L("B", "OK! What do you want to play?", "好！想玩什么？"), L("A", "Let's play with the ball.", "我们玩球吧。"), L("B", "Good idea!", "好主意！")] }
     ),
     L03: pack(
       [S("I sat.", "我坐下了。", "sun"), S("I tap the pan.", "我拍那口锅。", "pan"), S("Sit at the tap.", "坐在水龙头边。", "tap")],

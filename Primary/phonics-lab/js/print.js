@@ -38,6 +38,24 @@
     var html = "";
 
     html += sheet(
+      header("课后作业", lesson) +
+        "<div style=\"background:linear-gradient(135deg,#fff7e0,#ffe8f2);border-radius:18px;padding:14px 16px;margin-bottom:12px\">" +
+        "<p style=\"margin:0 0 8px;font-weight:800\">抄写 · 朗读 · 打勾</p>" +
+        "<ol style=\"margin:0 0 0 1.1rem;line-height:1.9\">" +
+        (lesson.homework || [])
+          .map(function (h) {
+            return "<li style=\"margin:4px 0\">☐ " + h.text + "</li>";
+          })
+          .join("") +
+        "</ol></div>" +
+        "<p style=\"font-size:13px;margin:0 0 8px\">四线格抄写</p>" +
+        "<div style=\"height:44px;border-bottom:2px solid #1b2430;margin:10px 0\"></div>" +
+        "<div style=\"height:44px;border-bottom:2px solid #cde4ff;margin:10px 0\"></div>" +
+        "<div style=\"height:44px;border-bottom:2px solid #ffd0d0;margin:10px 0\"></div>" +
+        "<p style=\"margin-top:14px;font-size:13px\">家长签字 ________　　用时 ______ 分钟</p>"
+    );
+
+    html += sheet(
       header("音素 · 字母对应", lesson) +
         "<p style=\"font-size:13px;margin-bottom:8px\">听一听、圈一圈、再抄写。每个音素都标了国际音标。</p>" +
         "<div style=\"display:grid;grid-template-columns:repeat(3,1fr);gap:10px\">" +

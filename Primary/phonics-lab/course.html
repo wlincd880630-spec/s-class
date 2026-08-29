@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>拼读课 · 教师展示</title>
+  <title>拼读课 · Oxford 课型</title>
   <script src="../../scripts/auth-check.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:wght@600;800&family=Noto+Sans+SC:wght@500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/lab.css" />
 </head>
-<body class="lab">
+<body class="lab opw">
   <div class="wrap">
     <div class="topbar">
       <a class="brand" href="index.html">
@@ -23,50 +23,40 @@
       <nav class="nav-pills">
         <a class="pill" href="index.html">总览</a>
         <a class="pill" href="games.html">游戏</a>
-        <a class="pill" href="print.html">PDF</a>
-        <a class="pill" href="print-aids.html">教具</a>
+        <a class="pill" href="print.html">作业 PDF</a>
       </nav>
     </div>
-    <p class="muted" id="lessonEn"></p>
-    <div class="card" id="ruleBox" style="margin:0.7rem 0 1rem"></div>
-    <div class="btn-row">
-      <label class="muted">跳转课时
-        <select id="lessonJump" style="margin-left:6px;min-height:42px;border-radius:12px;padding:0.3rem 0.6rem;font-weight:800"></select>
-      </label>
+
+    <div class="opw-bar">
+      <select id="lessonJump" aria-label="跳转课时"></select>
       <span class="muted" id="progressHint"></span>
-      <a class="btn sun" id="aidsLink" href="print-aids.html">本课教具 PDF</a>
-      <button class="btn ghost" id="markDone" type="button">标记本课完成</button>
+      <button class="btn ghost" id="markDone" type="button">本课完成</button>
     </div>
-    <div class="mode-tabs">
-      <button class="mode-tab" data-content="letter" type="button">字母页</button>
-      <button class="mode-tab active" data-content="word" type="button">拼读单词</button>
-      <button class="mode-tab" data-content="story" type="button">故事</button>
-      <button class="mode-tab" data-content="sentence" type="button">句子金字塔</button>
-      <button class="mode-tab" data-content="passage" type="button">短文金字塔</button>
-      <button class="mode-tab" data-content="talk" type="button">日常交流</button>
-    </div>
-    <div class="mode-tabs" id="letterTabs" hidden></div>
-    <div class="mode-tabs" id="activityTabs" hidden></div>
-    <div class="mode-tabs">
-      <button class="mode-tab active" data-mode="iDo" type="button">教师展示 I Do</button>
-      <button class="mode-tab" data-mode="weDo" type="button">学生模仿 We Do</button>
-      <button class="mode-tab" data-mode="group" type="button">小组测试</button>
-      <button class="mode-tab" data-mode="independent" type="button">独立练习</button>
-    </div>
-    <div class="mode-tabs">
-      <button class="mode-tab" data-method="sound" type="button">声音先行</button>
-      <button class="mode-tab" data-method="picture" type="button">图片先行</button>
-    </div>
-    <div class="btn-row" style="margin-top:0">
-      <button class="btn ghost" id="prevWord" type="button">上一项</button>
-      <button class="btn ghost" id="nextWord" type="button">下一项</button>
-    </div>
-    <div id="stage" class="card" style="margin-top:0.8rem"></div>
+
+    <nav class="step-nav" id="contentNav">
+      <button class="step" data-content="letter" type="button">字母</button>
+      <button class="step" data-content="blend" type="button">拼读</button>
+      <button class="step" data-content="listen" type="button">听辨</button>
+      <button class="step" data-content="story" type="button">故事</button>
+      <button class="step" data-content="sentence" type="button">句子</button>
+      <button class="step" data-content="talk" type="button">对话</button>
+      <button class="step" data-content="homework" type="button">作业</button>
+    </nav>
+
+    <nav class="mode-nav" id="modeNav">
+      <button class="mode-tab" data-mode="iDo" type="button">Teacher I Do</button>
+      <button class="mode-tab" data-mode="youDo" type="button">Student You Do</button>
+      <button class="mode-tab" data-mode="group" type="button">小组竞赛</button>
+      <button class="mode-tab" data-mode="games" type="button">复习游戏</button>
+    </nav>
+
+    <div id="subnav"></div>
+    <main id="stage" class="opw-stage"></main>
   </div>
   <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
   <script src="data/phonemes.js"></script>
   <script src="data/words.js"></script>
-  <script src="data/letter-packs.js"></script>
+  <script src="data/letters.js"></script>
   <script src="data/curriculum.js"></script>
   <script src="data/texts.js"></script>
   <script src="js/tts.js"></script>
