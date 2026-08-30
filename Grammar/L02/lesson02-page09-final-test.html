@@ -481,13 +481,15 @@
     .match-items { display: flex; flex-direction: column; gap: 0.5rem; }
     .match-img {
       width: 100%;
-      max-height: 120px;
-      object-fit: cover;
+      max-height: 140px;
+      height: 140px;
+      object-fit: contain;
       border-radius: 10px;
       border: 4px solid var(--rail);
       cursor: pointer;
       transition: box-shadow 0.2s, transform 0.15s;
-      background: #eee;
+      background: #fff8ef;
+      display: block;
     }
     .match-img:hover { transform: scale(1.02); }
     .match-img.selected,
@@ -1874,6 +1876,9 @@ html body > nav.lesson-pager {
   }
 
   function imgFallback(el, n) {
+    if (!el || !el.parentNode) return;
+    if (el.dataset.fallbackAttached === "1") return;
+    el.dataset.fallbackAttached = "1";
     var colors = ["#ffcc80", "#90caf9", "#a5d6a7", "#ce93d8", "#ffab91", "#80deea", "#fff59d", "#c5e1a5", "#b39ddb", "#f48fb1"];
     el.style.display = "none";
     var fb = document.createElement("div");
@@ -1884,6 +1889,39 @@ html body > nav.lesson-pager {
     el.parentNode.insertBefore(fb, el.nextSibling);
     if (state.matchDone[n]) fb.classList.add("done");
     else wireMatchImg(fb, n, true);
+  }
+
+  function matchImageUrl(id) {
+    var item = TOWER_DATA.matchData[id - 1];
+    var rel = item && item.image ? item.image : ("images/l02/match-" + id + ".webp");
+    try {
+      return new URL(rel, window.location.href).href;
+    } catch (e) {
+      return rel;
+    }
+  }
+
+  function createMatchImage(id) {
+    var img = document.createElement("img");
+    img.className = "match-img";
+    img.alt = "match " + id;
+    img.decoding = "async";
+    img.loading = "eager";
+    img.setAttribute("data-no-lightbox", "1");
+    img.dataset.matchId = String(id);
+    if (state.matchDone[id]) img.classList.add("done");
+    img.addEventListener("load", function () {
+      img.style.display = "";
+      var fb = img.parentNode && img.parentNode.querySelector('.match-fallback[data-fallback-for="' + id + '"]');
+      if (fb) fb.remove();
+      img.dataset.fallbackAttached = "0";
+    });
+    img.addEventListener("error", function () {
+      imgFallback(img, id);
+    });
+    img.src = matchImageUrl(id);
+    if (!state.matchDone[id]) wireMatchImg(img, id, false);
+    return img;
   }
 
   function wireMatchImg(el, id, isFallback) {
@@ -1997,15 +2035,7 @@ html body > nav.lesson-pager {
     });
 
     orderImg.forEach(function (id) {
-      var img = document.createElement("img");
-      img.className = "match-img";
-      if (state.matchDone[id]) img.classList.add("done");
-      img.alt = "match " + id;
-      img.dataset.matchId = String(id);
-      img.src = TOWER_DATA.matchData[id - 1].image;
-      img.onerror = function () { imgFallback(this, id); };
-      if (!state.matchDone[id]) wireMatchImg(img, id, false);
-      imgBox.appendChild(img);
+      imgBox.appendChild(createMatchImage(id));
     });
 
     orderTxt.forEach(function (id) {
@@ -2391,15 +2421,7 @@ html body > nav.lesson-pager {
       mergeBox.appendChild(row);
     });
     state.matchPersist.orderImg.forEach(function (id) {
-      var img = document.createElement("img");
-      img.className = "match-img";
-      if (state.matchDone[id]) img.classList.add("done");
-      img.alt = "match " + id;
-      img.dataset.matchId = String(id);
-      img.src = TOWER_DATA.matchData[id - 1].image;
-      img.onerror = function () { imgFallback(this, id); };
-      if (!state.matchDone[id]) wireMatchImg(img, id, false);
-      imgBox.appendChild(img);
+      imgBox.appendChild(createMatchImage(id));
     });
     state.matchPersist.orderTxt.forEach(function (id) {
       var t = TOWER_DATA.matchData[id - 1];
@@ -2807,6 +2829,12 @@ html body > nav.lesson-pager {
   updateScoreDisplay();
   buildSingleQuiz();
   renderSingleStage();
+
+  // Prefetch match images so Q51 连线题打开时不闪占位
+  TOWER_DATA.matchData.forEach(function (item, i) {
+    var pre = new Image();
+    pre.src = matchImageUrl(i + 1);
+  });
 })();
   </script>
   <link rel="stylesheet" href="assets/lesson-image-lightbox.css" />
