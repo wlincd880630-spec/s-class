@@ -2,9 +2,8 @@
  * 国家地理复习游戏 · Azure TTS 增强层
  * 在 LocalAudio 之后自动回退到 Azure Speech SDK，再回退浏览器朗读
  *
- * 学课文「选慢 / 选正常」必须是两档明显不同的语速：
- * 慢速 0.50（半速，孩子跟得上），正常 1.00。
- * Azure 用 -50%，比小数 0.70 减速更明显。
+ * 学课文一律走 Azure en-GB-RyanNeural（教材英式男声），不播课文整段 MP3、不播本地预生成句。
+ * 「选慢 / 选正常」两档：慢速 0.50（SSML -50%），正常 1.00。
  */
 (function (global) {
   "use strict";
@@ -59,7 +58,26 @@
   }
 
   function storyOpts(slow) {
-    return slow ? { rate: RATE_SLOW, slow: true } : { rate: RATE_NORMAL, slow: false };
+    return {
+      rate: slow ? RATE_SLOW : RATE_NORMAL,
+      slow: !!slow,
+      azureOnly: true
+    };
+  }
+
+  function speakStory(text, options) {
+    var opts = Object.assign({}, storyOpts(!!(options && options.slow)), options || {});
+    opts.azureOnly = true;
+    if (global.LocalAudio && typeof global.LocalAudio.stop === "function") {
+      try {
+        global.LocalAudio.stop();
+      } catch (e0) {}
+    }
+    bumpSpeak();
+    var gen = speakGen;
+    var rate = resolveTargetRate(opts);
+    rememberSpeak("request", rate, text, gen);
+    return azureSpeak(text, opts, gen);
   }
 
   function rememberSpeak(source, rate, text, gen) {
@@ -302,6 +320,9 @@
       var gen = speakGen;
       rememberSpeak("request", rate, text, gen);
       if (origStop) origStop();
+      if (options.azureOnly) {
+        return azureSpeak(text, { rate: rate, slow: rate < 0.88, onDone: onDone }, gen);
+      }
       return playLocalWithRate(text, rate, gen).then(function (ok) {
         if (gen !== speakGen) return false;
         if (ok) {
@@ -326,7 +347,9 @@
     RATE_SLOW: RATE_SLOW,
     RATE_NORMAL: RATE_NORMAL,
     storyOpts: storyOpts,
+    speakStory: speakStory,
     resolveTargetRate: resolveTargetRate,
+    preload: loadSdk,
     lastSpeak: null,
     lastSsml: "",
   };

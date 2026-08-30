@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,600;0,8..60,700;1,8..60,600&display=swap" rel="stylesheet" />
   <script src="audio/audio-manifest.js"></script>
   <script src="audio/local-audio.js"></script>
-  <script src="../../assets/ng-azure-tts-enhance.js?v=8"></script>
+  <script src="../../assets/ng-azure-tts-enhance.js?v=9"></script>
   <script>NgAzureTTS.enhance("LocalAudio");</script>
   <style>
     :root {
@@ -1371,15 +1371,20 @@
 
     /* 发音：本地 MP3 → Azure en-GB-RyanNeural 英音男声 → 浏览器朗读 */
     function speakText(text, options) {
-      if (!window.LocalAudio) return Promise.resolve(false);
       stopStoryNarration();
-      return LocalAudio.speak(text, options || {});
+      options = options || {};
+      if (window.LocalAudio && LocalAudio.speak) return LocalAudio.speak(text, options);
+      if (window.NgAzureTTS && NgAzureTTS.speak) return NgAzureTTS.speak(text, options);
+      return Promise.resolve(false);
     }
 
     /** 课文真人 MP3 时间轴（与 STORY 一一对应）；无则 null */
     var __storyNarr = null;
     var __storyNarrP = null;
     function loadStoryNarration(callback) {
+      if (window.NgAzureTTS && typeof NgAzureTTS.preload === "function") {
+        NgAzureTTS.preload().catch(function () {});
+      }
       function done() {
         if (callback) callback();
       }
@@ -1415,62 +1420,13 @@
       try { a.pause(); } catch (e) {}
     }
     function speakStoryLine(sentenceIndex, options) {
-      return new Promise(function (resolve) {
-        if (window.LocalAudio) LocalAudio.stop();
-        var p = __storyNarr;
-        if (!p || !p.segments || !p.segments[sentenceIndex]) {
-          speakText(STORY[sentenceIndex].en, options).then(function () { resolve(true); return; });
-          return;
-        }
-        var seg = p.segments[sentenceIndex];
-        var t0 = parseFloat(seg.start);
-        var t1 = parseFloat(seg.end);
-        if (isNaN(t0) || isNaN(t1) || t1 <= t0) {
-          speakText(STORY[sentenceIndex].en, options).then(function () { resolve(true); return; });
-          return;
-        }
-        var a = getStoryAudioEl();
-        if (!a) { speakText(STORY[sentenceIndex].en, options).then(function () { resolve(true); return; }); return; }
-        var pr = 1.0;
-        if (window.NgAzureTTS && typeof NgAzureTTS.resolveTargetRate === "function") {
-          pr = NgAzureTTS.resolveTargetRate(options || {});
-        } else if (options) {
-          if (options.rate != null && !isNaN(parseFloat(String(options.rate)))) pr = parseFloat(String(options.rate));
-          else if (options.slow) pr = 0.5;
-        }
-        a.playbackRate = Math.max(0.4, Math.min(1.25, pr));
-        var rel = p.audio || "media/story-read-aloud.mp3";
-        var relAbs = MEDIA_COS + rel;
-        if (a.getAttribute("data-timings-audio") !== relAbs) {
-          a.setAttribute("data-timings-audio", relAbs);
-          a.src = relAbs;
-        }
-        a.playbackRate = Math.max(0.4, Math.min(1.25, pr));
-        stopStoryNarration();
-        var finished = false;
-        function fin() {
-          if (finished) return;
-          finished = true;
-          a.ontimeupdate = null; a.onended = null; a.onerror = null; try { a.pause(); } catch (e) {}
-          resolve(true);
-        }
-        a.ontimeupdate = function () {
-          if (a.currentTime >= t1 - 0.03) { a.pause(); fin(); }
-        };
-        a.onended = fin;
-        a.onerror = function () { speakText(STORY[sentenceIndex].en, options).then(fin); };
-        function doPlay() {
-          a.playbackRate = Math.max(0.4, Math.min(1.25, pr));
-          if (window.NgAzureTTS) {
-            NgAzureTTS.lastSpeak = { source: "story-mp3", rate: a.playbackRate, slow: a.playbackRate < 0.88, text: STORY[sentenceIndex].en };
-          }
-          try { a.currentTime = t0; } catch (e2) { speakText(STORY[sentenceIndex].en, options).then(fin); return; }
-          var pl = a.play();
-          if (pl && pl.catch) pl.catch(function () { speakText(STORY[sentenceIndex].en, options).then(fin); });
-        }
-        if (a.src && a.readyState >= 2) doPlay();
-        else a.addEventListener("canplay", function once() { a.removeEventListener("canplay", once); doPlay(); }, { once: true });
-      });
+      stopStoryNarration();
+      options = Object.assign({ azureOnly: true }, options || {});
+      var text = STORY[sentenceIndex].en;
+      if (window.NgAzureTTS && typeof NgAzureTTS.speakStory === "function") {
+        return NgAzureTTS.speakStory(text, options);
+      }
+      return speakText(text, options);
     }
 
     var currentWord = 0, subStep = 0;
@@ -2133,7 +2089,7 @@
       if (window.NgAzureTTS && typeof NgAzureTTS.storyOpts === "function") {
         return NgAzureTTS.storyOpts(window.__storySlow);
       }
-      return { rate: window.__storySlow ? 0.5 : 1, slow: !!window.__storySlow };
+      return { rate: window.__storySlow ? 0.5 : 1, slow: !!window.__storySlow, azureOnly: true };
     }
     function escapeStoryHtml(s) {
       return String(s)
@@ -2206,6 +2162,9 @@
     }
     function speakPyramidLayer(text) {
       stopStoryLoop();
+      if (window.NgAzureTTS && typeof NgAzureTTS.speakStory === "function") {
+        return NgAzureTTS.speakStory(text, storySpeakOpts());
+      }
       return speakText(text, storySpeakOpts());
     }
     function bindStoryPyramid(root, sentence) {
