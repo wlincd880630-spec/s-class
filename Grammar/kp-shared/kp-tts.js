@@ -28,6 +28,28 @@
       .trim();
   }
 
+  /** 去掉中文备注，按 " / " 拆成多句；标点只用来断句，不读出 slash/括号。 */
+  function ttsParts(text) {
+    var s = norm(text);
+    s = s.replace(/[（(][^）)]*[）)]/g, function (m) {
+      return /[\u4e00-\u9fff]/.test(m) ? " " : m;
+    });
+    s = s.replace(/[\u4e00-\u9fff]+/g, " ");
+    s = s.replace(/\s+/g, " ").trim();
+    return s
+      .split(/\s+[\/／]\s+/)
+      .map(function (p) {
+        return p.replace(/^[\s\/／|]+/, "").replace(/[\s\/／|]+$/, "").trim();
+      })
+      .filter(Boolean);
+  }
+
+  function ssmlInner(text) {
+    var parts = ttsParts(text);
+    if (!parts.length) return "";
+    return parts.map(xmlEscape).join('<break time="1500ms"/>');
+  }
+
   function stop() {
     try {
       if (_audio) {
@@ -86,7 +108,8 @@
     var region = String(global.__AZURE_SPEECH_REGION__ || "southeastasia").trim();
     if (!key) return Promise.resolve(false);
 
-    var safe = xmlEscape(text);
+    var inner = ssmlInner(text);
+    if (!inner) return Promise.resolve(false);
     var ssml =
       '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="' +
       LANG +
@@ -95,7 +118,7 @@
       '"><prosody rate="' +
       RATE +
       '">' +
-      safe +
+      inner +
       "</prosody></voice></speak>";
 
     return fetch("https://" + region + ".tts.speech.microsoft.com/cognitiveservices/v1", {
@@ -121,14 +144,13 @@
       });
   }
 
-  function webSpeechFallback(text) {
+  function webSpeechOne(text) {
     return new Promise(function (resolve) {
       if (!global.speechSynthesis || !global.SpeechSynthesisUtterance) {
         resolve(false);
         return;
       }
       try {
-        global.speechSynthesis.cancel();
         var u = new SpeechSynthesisUtterance(text);
         u.lang = "en-GB";
         u.rate = 0.78;
@@ -138,11 +160,9 @@
         });
         if (male) u.voice = male;
         u.onend = function () {
-          stop();
           resolve(true);
         };
         u.onerror = function () {
-          stop();
           resolve(false);
         };
         global.speechSynthesis.speak(u);
@@ -152,8 +172,35 @@
     });
   }
 
+  function webSpeechFallback(text) {
+    var parts = ttsParts(text);
+    if (!parts.length) return Promise.resolve(false);
+    if (!global.speechSynthesis || !global.SpeechSynthesisUtterance) {
+      return Promise.resolve(false);
+    }
+    try {
+      global.speechSynthesis.cancel();
+    } catch (e) {}
+    var chain = Promise.resolve(true);
+    parts.forEach(function (part, i) {
+      chain = chain.then(function (ok) {
+        if (!ok && i > 0) return false;
+        return new Promise(function (resolve) {
+          var wait = i === 0 ? 0 : 1500;
+          setTimeout(function () {
+            webSpeechOne(part).then(resolve);
+          }, wait);
+        });
+      });
+    });
+    return chain.then(function (ok) {
+      stop();
+      return ok;
+    });
+  }
+
   function speak(text, btn) {
-    var raw = norm(text);
+    var raw = ttsParts(text).join(" ");
     if (!raw) return Promise.resolve(false);
     if (_busy) {
       stop();
@@ -163,9 +210,9 @@
       btn.classList.add("tts-playing");
       btn.setAttribute("aria-busy", "true");
     }
-    return azureSpeak(raw).then(function (ok) {
+    return azureSpeak(text).then(function (ok) {
       if (ok) return true;
-      return webSpeechFallback(raw);
+      return webSpeechFallback(text);
     });
   }
 
@@ -173,6 +220,7 @@
     speak: speak,
     stop: stop,
     norm: norm,
+    ttsParts: ttsParts,
     VOICE: VOICE,
     RATE: RATE,
   };
