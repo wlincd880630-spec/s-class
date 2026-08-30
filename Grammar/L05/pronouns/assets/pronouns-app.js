@@ -9,6 +9,7 @@
     level: localStorage.getItem(STORAGE_LEVEL) || "g7",
     view: "home",
     typeId: "subject",
+    formIdx: 0,
     quizIdx: 0,
     quizScore: 0,
     quizAnswered: false,
@@ -48,6 +49,140 @@
       if (DATA.types[i].id === id) return DATA.types[i];
     }
     return DATA.types[0];
+  }
+
+  var TYPE_LABELS = {
+    subject: "主格",
+    object: "宾格",
+    possAdj: "形物",
+    possPron: "名物",
+    reflexive: "反身",
+  };
+  var TYPE_ORDER = ["subject", "object", "possAdj", "possPron", "reflexive"];
+
+  var PERSON_ROWS = [
+    {
+      id: "p1s",
+      person: "第一人称单数",
+      cells: { subject: "I", object: "me", possAdj: "my", possPron: "mine", reflexive: "myself" },
+      ipa: { subject: "/aɪ/", object: "/miː/", possAdj: "/maɪ/", possPron: "/maɪn/", reflexive: "/maɪˈself/" },
+    },
+    {
+      id: "p2s",
+      person: "第二人称单数",
+      cells: { subject: "you", object: "you", possAdj: "your", possPron: "yours", reflexive: "yourself" },
+      ipa: { subject: "/juː/", object: "/juː/", possAdj: "/jɔː/", possPron: "/jɔːz/", reflexive: "/jɔːˈself/" },
+    },
+    {
+      id: "p3m",
+      person: "第三人称单数（男）",
+      cells: { subject: "he", object: "him", possAdj: "his", possPron: "his", reflexive: "himself" },
+      ipa: { subject: "/hiː/", object: "/hɪm/", possAdj: "/hɪz/", possPron: "/hɪz/", reflexive: "/hɪmˈself/" },
+    },
+    {
+      id: "p3f",
+      person: "第三人称单数（女）",
+      cells: { subject: "she", object: "her", possAdj: "her", possPron: "hers", reflexive: "herself" },
+      ipa: { subject: "/ʃiː/", object: "/hɜː/", possAdj: "/hɜː/", possPron: "/hɜːz/", reflexive: "/hɜːˈself/" },
+    },
+    {
+      id: "p3n",
+      person: "第三人称单数（物）",
+      cells: { subject: "it", object: "it", possAdj: "its", possPron: "its", reflexive: "itself" },
+      ipa: { subject: "/ɪt/", object: "/ɪt/", possAdj: "/ɪts/", possPron: "/ɪts/", reflexive: "/ɪtˈself/" },
+    },
+    {
+      id: "p1p",
+      person: "第一人称复数",
+      cells: { subject: "we", object: "us", possAdj: "our", possPron: "ours", reflexive: "ourselves" },
+      ipa: { subject: "/wiː/", object: "/ʌs/", possAdj: "/aʊə/", possPron: "/aʊəz/", reflexive: "/aʊəˈselvz/" },
+    },
+    {
+      id: "p2p",
+      person: "第二人称复数",
+      cells: { subject: "you", object: "you", possAdj: "your", possPron: "yours", reflexive: "yourselves" },
+      ipa: { subject: "/juː/", object: "/juː/", possAdj: "/jɔː/", possPron: "/jɔːz/", reflexive: "/jɔːˈselvz/" },
+    },
+    {
+      id: "p3p",
+      person: "第三人称复数",
+      cells: { subject: "they", object: "them", possAdj: "their", possPron: "theirs", reflexive: "themselves" },
+      ipa: { subject: "/ðeɪ/", object: "/ðem/", possAdj: "/ðeə/", possPron: "/ðeəz/", reflexive: "/ðəmˈselvz/" },
+    },
+  ];
+
+  var FORM_TEACH = {
+    "subject:I": { image: "ex/ex-subject-g7-0.jpg", en: "I am a student.", zh: "我是一名学生。", en2: "I love English.", zh2: "我喜欢英语。", tip: "放在动词前，说明「谁做这件事」。" },
+    "subject:you": { image: "ex/ex-subject-g7-1.jpg", en: "You are my friend.", zh: "你是我的朋友。", en2: "You and I are good friends.", zh2: "你我是好朋友。", tip: "you 单复数同形，都作主语。" },
+    "subject:he": { image: "ex/ex-subject-g8-0.jpg", en: "He plays basketball after school.", zh: "他放学后打篮球。", en2: "He doesn't know the answer.", zh2: "他不知道答案。", tip: "指男性，动词第三人称单数要加 -s。" },
+    "subject:she": { image: "ex/ex-subject-g7-2.jpg", en: "She likes apples.", zh: "她喜欢苹果。", en2: "She and I often study together.", zh2: "她和我经常一起学习。", tip: "指女性；并列主语都用主格。" },
+    "subject:it": { image: "ex/ex-subject-g8-2.jpg", en: "It is a sunny day.", zh: "今天是晴天。", en2: "It is important to study hard.", zh2: "努力学习很重要。", tip: "指物、动物、天气、时间，也可作形式主语。" },
+    "subject:we": { image: "ex/ex-subject-g7-3.jpg", en: "We have a new teacher.", zh: "我们有一位新老师。", en2: "We all like our English teacher.", zh2: "我们都喜欢我们的英语老师。", tip: "第一人称复数作主语。" },
+    "subject:they": { image: "ex/ex-subject-g8-1.jpg", en: "They are going to the park.", zh: "他们要去公园。", en2: "They are the winners of the game.", zh2: "他们是比赛的获胜者。", tip: "指他们/她们/它们，作主语。" },
+    "object:me": { image: "ex/ex-object-g7-0.jpg", en: "Please help me.", zh: "请帮助我。", en2: "Please give it to me.", zh2: "请把它给我。", tip: "动词或介词后用宾格，不能用 I。" },
+    "object:you": { image: "ex/ex-object-g7-1.jpg", en: "I like you.", zh: "我喜欢你。", en2: "Between you and me, he is wrong.", zh2: "在你我之间，他错了。", tip: "you 主格宾格同形；介词后仍用 you。" },
+    "object:him": { image: "ex/ex-object-g7-2.jpg", en: "She sees him every day.", zh: "她每天看见他。", en2: "I saw him at the library.", zh2: "我在图书馆看见了他。", tip: "he 的宾格是 him，不是 he。" },
+    "object:her": { image: "ex/ex-object-g8-1.jpg", en: "I will call her later.", zh: "我稍后给她打电话。", en2: "This gift is for her.", zh2: "这份礼物是给她的。", tip: "动词后、介词后都用 her。" },
+    "object:it": { image: "ex/ex-object-g8-2.jpg", en: "Please give it to me.", zh: "请把它给我。", en2: "I like it very much.", zh2: "我非常喜欢它。", tip: "it 主格宾格同形。" },
+    "object:us": { image: "ex/ex-object-g8-0.jpg", en: "Can you help us with our homework?", zh: "你能帮助我们做作业吗？", en2: "Please tell us the truth.", zh2: "请告诉我们真相。", tip: "we 的宾格是 us；give/tell/show 后的人用宾格。" },
+    "object:them": { image: "ex/ex-object-g7-3.jpg", en: "We love them.", zh: "我们爱他们。", en2: "Please tell them the good news.", zh2: "请告诉他们这个好消息。", tip: "they 的宾格是 them。" },
+    "possAdj:my": { image: "ex/ex-possAdj-g7-0.jpg", en: "This is my book.", zh: "这是我的书。", en2: "My mother cooks dinner.", zh2: "我妈妈做晚饭。", tip: "后面必须再接名词，不能单独用。" },
+    "possAdj:your": { image: "ex/ex-possAdj-g7-1.jpg", en: "Your bag is nice.", zh: "你的包很漂亮。", en2: "Your idea sounds great.", zh2: "你的主意听起来很棒。", tip: "your 后接名词：your bag。" },
+    "possAdj:his": { image: "ex/ex-possAdj-g8-0.jpg", en: "His father is a doctor.", zh: "他的爸爸是医生。", en2: "This is his new bike.", zh2: "这是他的新自行车。", tip: "his 形物、名物同形；这里后面有名词，是形物。" },
+    "possAdj:her": { image: "ex/ex-possAdj-g7-2.jpg", en: "Her name is Lily.", zh: "她的名字是莉莉。", en2: "Her desk is near the window.", zh2: "她的课桌靠近窗户。", tip: "her 后接名词=她的；单独用 her 才是宾格。" },
+    "possAdj:its": { image: "ex/ex-possAdj-g8-1.jpg", en: "Its tail is long.", zh: "它的尾巴很长。", en2: "The dog wagged its tail.", zh2: "狗摇了摇它的尾巴。", tip: "its=它的；it's=it is。后面必须有名词。" },
+    "possAdj:our": { image: "ex/ex-possAdj-g7-3.jpg", en: "Our school is big.", zh: "我们的学校很大。", en2: "Our teacher is very kind.", zh2: "我们的老师非常和蔼。", tip: "our + 名词；没有名词时改用 ours。" },
+    "possAdj:their": { image: "ex/ex-possAdj-g8-2.jpg", en: "Their house is near the park.", zh: "他们的房子在公园附近。", en2: "Their parents are busy.", zh2: "他们的父母很忙。", tip: "their + 名词；不要和 there / they're 混淆。" },
+    "possPron:mine": { image: "ex/ex-possPron-g7-0.jpg", en: "The book is mine.", zh: "这本书是我的。", en2: "Your phone is new, but mine is old.", zh2: "你的手机是新的，但我的旧了。", tip: "后面不再接名词，相当于 my + 名词。" },
+    "possPron:yours": { image: "ex/ex-possPron-g7-1.jpg", en: "Is this yours?", zh: "这是你的吗？", en2: "The choice is yours.", zh2: "选择权是你的。", tip: "回答 Whose…? 常用 yours。" },
+    "possPron:his": { image: "ex/ex-possPron-g8-0.jpg", en: "This seat is his.", zh: "这个座位是他的。", en2: "That is her idea, not his.", zh2: "那是她的主意，不是他的。", tip: "his 名物与形物同形；这里后面没有名词。" },
+    "possPron:hers": { image: "ex/ex-possPron-g7-2.jpg", en: "The pen is hers.", zh: "这支笔是她的。", en2: "Whose bag is this? It's hers.", zh2: "这是谁的包？是她的。", tip: "hers 后面不加名词，不要写成 her's。" },
+    "possPron:its": { image: "ex/ex-possAdj-g8-1.jpg", en: "The bone is its.", zh: "这根骨头是它的。", en2: "The nest is its, not ours.", zh2: "这个窝是它的，不是我们的。", tip: "its 作名物很少用，考试里几乎只考形物 its。" },
+    "possPron:ours": { image: "ex/ex-possPron-g7-3.jpg", en: "The classroom is ours.", zh: "这间教室是我们的。", en2: "Their house is bigger than ours.", zh2: "他们的房子比我们的大。", tip: "ours = our + 名词，单独使用。" },
+    "possPron:theirs": { image: "ex/ex-possPron-g8-1.jpg", en: "The cat is theirs.", zh: "这只猫是他们的。", en2: "Our school is bigger than theirs.", zh2: "我们的学校比他们的大。", tip: "theirs 后面不加名词。" },
+    "reflexive:myself": { image: "ex/ex-reflexive-g7-0.jpg", en: "I can do it myself.", zh: "我自己能做。", en2: "I taught myself English.", zh2: "我自学英语。", tip: "动作回到 I，或强调「亲自」。" },
+    "reflexive:yourself": { image: "ex/ex-reflexive-g8-0.jpg", en: "You should believe in yourself.", zh: "你应该相信自己。", en2: "Help yourself to some fruit.", zh2: "请随便吃些水果。", tip: "对一个人说 you 时用 yourself。" },
+    "reflexive:himself": { image: "ex/ex-reflexive-g7-2.jpg", en: "He hurt himself.", zh: "他伤了自己。", en2: "He introduced himself to the class.", zh2: "他向全班介绍了自己。", tip: "he → himself，不是 hisself。" },
+    "reflexive:herself": { image: "ex/ex-reflexive-g7-1.jpg", en: "She made the cake herself.", zh: "她自己做蛋糕。", en2: "She looked at herself in the mirror.", zh2: "她看着镜子里的自己。", tip: "she → herself；可表亲自或动作回到主语。" },
+    "reflexive:itself": { image: "ex/use-possAdj-2.jpg", en: "The cat washed itself.", zh: "猫给自己洗了澡。", en2: "The door opened by itself.", zh2: "门自己开了。", tip: "it → itself，常用于动物或事物。" },
+    "reflexive:ourselves": { image: "ex/ex-reflexive-g7-3.jpg", en: "We enjoyed ourselves at the party.", zh: "我们在聚会上玩得很开心。", en2: "We should help ourselves first.", zh2: "我们应该先帮助自己。", tip: "we → ourselves；enjoy oneself 是固定搭配。" },
+    "reflexive:yourselves": { image: "ex/use-reflexive-2.jpg", en: "Help yourselves to some fruit.", zh: "请随便吃些水果。", en2: "Did you enjoy yourselves?", zh2: "你们玩得开心吗？", tip: "对两人或以上说 you 时用 yourselves。" },
+    "reflexive:themselves": { image: "ex/ex-reflexive-g8-1.jpg", en: "They built the house themselves.", zh: "他们自己建了房子。", en2: "They enjoyed themselves at the party.", zh2: "他们在聚会上玩得很开心。", tip: "they → themselves，不是 theirselves。" },
+  };
+
+  function cleanForm(form) {
+    return String(form || "")
+      .replace(/（[^）]*）/g, "")
+      .replace(/\([^)]*\)/g, "")
+      .trim();
+  }
+
+  function personFor(typeId, form) {
+    var key = cleanForm(form);
+    var hits = PERSON_ROWS.filter(function (r) {
+      return r.cells[typeId] === key;
+    });
+    if (!hits.length) return PERSON_ROWS[0];
+    if (key === "yourselves") {
+      return hits.filter(function (r) { return r.id === "p2p"; })[0] || hits[0];
+    }
+    if (key === "yourself") {
+      return hits.filter(function (r) { return r.id === "p2s"; })[0] || hits[0];
+    }
+    return hits[0];
+  }
+
+  function teachFor(typeId, form) {
+    return FORM_TEACH[typeId + ":" + cleanForm(form)] || null;
+  }
+
+  function formIndexInType(typeId, form) {
+    var t = typeById(typeId);
+    var key = cleanForm(form);
+    for (var i = 0; i < t.forms.length; i++) {
+      if (cleanForm(t.forms[i].form) === key) return i;
+    }
+    return 0;
   }
   function examplesFor(typeId) {
     var block = (DATA.examples && DATA.examples[typeId]) || {};
@@ -345,6 +480,11 @@
     var host = $("#view-teach");
     var t = typeById(state.typeId);
     var exs = examplesFor(state.typeId);
+    if (state.formIdx < 0 || state.formIdx >= t.forms.length) state.formIdx = 0;
+    var curForm = t.forms[state.formIdx] || t.forms[0];
+    var curKey = cleanForm(curForm.form);
+    var person = personFor(state.typeId, curForm.form);
+    var teach = teachFor(state.typeId, curForm.form) || {};
     var tabs = DATA.types
       .map(function (x) {
         return (
@@ -360,10 +500,14 @@
       .join("");
 
     var forms = t.forms
-      .map(function (f) {
+      .map(function (f, fi) {
         return (
-          '<button type="button" class="pr-form-pill" data-speak="' +
-          esc(f.form) +
+          '<button type="button" class="pr-form-pill' +
+          (fi === state.formIdx ? " on" : "") +
+          '" data-form-idx="' +
+          fi +
+          '" data-speak="' +
+          esc(cleanForm(f.form)) +
           '">' +
           esc(f.form) +
           " · " +
@@ -372,6 +516,83 @@
         );
       })
       .join("");
+
+    var familyChips = TYPE_ORDER.map(function (tid) {
+      var word = person.cells[tid];
+      var ipa = (person.ipa && person.ipa[tid]) || "";
+      return (
+        '<button type="button" class="pr-family__chip' +
+        (tid === state.typeId ? " on" : "") +
+        '" data-jump-type="' +
+        tid +
+        '" data-jump-form="' +
+        esc(word) +
+        '"><span class="k">' +
+        esc(TYPE_LABELS[tid]) +
+        '</span><span class="v" lang="en">' +
+        esc(word) +
+        (ipa ? " " + esc(ipa) : "") +
+        "</span></button>"
+      );
+    }).join("");
+
+    var vocabImg = teach.image || t.image;
+    var vocabHtml =
+      '<section class="pr-section">' +
+      '<h2 class="pr-section__title">词汇教学 · ' +
+      esc(curForm.form) +
+      "</h2>" +
+      '<p class="pr-section__lead">词形家族 + 配图 + 语音 + 两句例句，点选上方单词或下方家族格切换</p>' +
+      '<article class="pr-vocab">' +
+      (vocabImg
+        ? '<div class="pr-vocab__img-wrap"><img src="' +
+          IMG +
+          esc(vocabImg) +
+          '" alt="' +
+          esc(curForm.form) +
+          " · " +
+          esc(curForm.zh) +
+          '" /></div>'
+        : "") +
+      '<div class="pr-vocab__body">' +
+      '<p class="pr-vocab__word" lang="en">' +
+      esc(curKey) +
+      "</p>" +
+      '<p class="pr-vocab__ipa">' +
+      esc((person.ipa && person.ipa[state.typeId]) || "") +
+      " · " +
+      esc(person.person) +
+      " · " +
+      esc(t.nameZh) +
+      "</p>" +
+      '<p class="pr-vocab__zh">' +
+      esc(curForm.zh) +
+      " · " +
+      esc(t.short) +
+      "</p>" +
+      '<div class="pr-family" aria-label="五种代词家族">' +
+      familyChips +
+      "</div>" +
+      (teach.tip ? '<p class="pr-vocab__tip">' + esc(teach.tip) + "</p>" : "") +
+      (teach.en
+        ? '<div class="pr-vocab__ex"><div class="pr-vocab__ex-label">例句 01</div>' +
+          '<div class="pr-actions" style="margin-top:0;margin-bottom:.45rem">' +
+          '<button type="button" class="pr-tts" data-speak="' +
+          esc(teach.en) +
+          '">先听示范</button></div>' +
+          revealHtml(teach.en, teach.zh) +
+          "</div>"
+        : "") +
+      (teach.en2
+        ? '<div class="pr-vocab__ex"><div class="pr-vocab__ex-label">例句 02</div>' +
+          '<div class="pr-actions" style="margin-top:0;margin-bottom:.45rem">' +
+          '<button type="button" class="pr-tts" data-speak="' +
+          esc(teach.en2) +
+          '">先听示范</button></div>' +
+          revealHtml(teach.en2, teach.zh2) +
+          "</div>"
+        : "") +
+      "</div></article></section>";
 
     var usages = t.usages
       .map(function (u, ui) {
@@ -448,9 +669,17 @@
       " · " +
       esc(t.short) +
       "</h3></div></div>" +
+      '<section class="pr-section" style="margin-bottom:.65rem">' +
+      '<h2 class="pr-section__title">本类单词</h2>' +
+      '<p class="pr-section__lead">点选后进入完整词汇教学：音标、词形家族、配图与两句例句</p>' +
       '<div class="pr-forms">' +
       forms +
-      "</div>" +
+      "</div></section>" +
+      vocabHtml +
+      '<section class="pr-section">' +
+      '<h2 class="pr-section__title">用法讲解</h2>' +
+      '<p class="pr-section__lead">配图完整显示 · 先听再揭开中英文</p>' +
+      "</section>" +
       usages +
       '<hr class="pr-divider" />' +
       '<section class="pr-section">' +
@@ -468,6 +697,23 @@
     $$(".pr-type-tabs button", host).forEach(function (b) {
       b.addEventListener("click", function () {
         state.typeId = b.getAttribute("data-type");
+        state.formIdx = 0;
+        renderTeach();
+      });
+    });
+    $$(".pr-form-pill[data-form-idx]", host).forEach(function (b) {
+      b.addEventListener("click", function () {
+        state.formIdx = +b.getAttribute("data-form-idx") || 0;
+        renderTeach();
+      });
+    });
+    $$("[data-jump-type]", host).forEach(function (b) {
+      b.addEventListener("click", function () {
+        var tid = b.getAttribute("data-jump-type");
+        var word = b.getAttribute("data-jump-form");
+        if (!tid || !word) return;
+        state.typeId = tid;
+        state.formIdx = formIndexInType(tid, word);
         renderTeach();
       });
     });
