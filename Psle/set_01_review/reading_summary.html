@@ -118,24 +118,117 @@
     .feedback.bad { color: var(--bad); }
     .actions { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .45rem; }
 
+    /* 纸质 PDF：屏幕隐藏，打印时显示 */
+    .pdf-cover,
+    .print-only,
+    .print-word-hints,
+    .print-lines,
+    .print-answer-line { display: none; }
+
     @media print {
-      .toolbar, a.back, .actions, .chips { display: none !important; }
-      .unit { box-shadow: none; break-inside: avoid; }
-      .hint { display: block !important; }
+      @page { size: A4; margin: 14mm 12mm; }
+      body {
+        background: #fff !important;
+        color: #000;
+        font-size: 11pt;
+        line-height: 1.45;
+      }
+      .wrap { max-width: none; padding: 0; margin: 0; }
+      .toolbar, a.back, .actions, .chips, .slot-box, .feedback,
+      .make-input, .hint, .progress, .screen-only { display: none !important; }
+      .eyebrow { color: #000; margin-top: 0; letter-spacing: .04em; }
+      h1 {
+        font-size: 16pt; margin: .2rem 0 .4rem;
+        border-bottom: 2px solid #000; padding-bottom: .35rem;
+      }
+      .lead { color: #333; font-size: 10.5pt; margin-bottom: .65rem; }
+      .pdf-cover {
+        display: block !important;
+        margin: 0 0 .85rem; padding: 0 0 .55rem;
+        border-bottom: 1px solid #999; font-size: 10.5pt;
+      }
+      .pdf-cover .row {
+        display: flex; flex-wrap: wrap; gap: .55rem 1.4rem; margin-top: .4rem;
+      }
+      .pdf-cover .blank {
+        display: inline-block; min-width: 7.5rem;
+        border-bottom: 1px solid #000; height: 1.05em; vertical-align: bottom;
+      }
+      .unit {
+        background: #fff !important; box-shadow: none !important;
+        border: 1px solid #bbb !important; border-radius: 0 !important;
+        padding: .65rem .7rem .75rem; margin-bottom: .7rem;
+        break-inside: avoid; page-break-inside: avoid;
+      }
+      .unit-num {
+        background: #fff !important; color: #000 !important;
+        border: 1.5px solid #000; border-radius: 0; width: 1.45rem; height: 1.45rem;
+        font-size: .78rem;
+      }
+      .unit-term { color: #000 !important; font-size: 12.5pt; }
+      .unit-tag {
+        background: #fff !important; color: #000 !important;
+        border: 1px solid #666; border-radius: 0; font-size: .68rem;
+      }
+      .unit-mean { margin-bottom: .3rem; }
+      .unit-tip { color: #333; margin-bottom: .45rem; font-size: 9.5pt; }
+      .ex {
+        background: #fff !important; border-left: 2px solid #000;
+        border-radius: 0; padding: .4rem .55rem; margin-bottom: .55rem;
+      }
+      .ex-label { color: #000; }
+      .ex-zh { color: #333; }
+      .practice {
+        background: #fff !important; border: 1px solid #ccc !important;
+        border-radius: 0 !important; padding: .5rem .55rem; margin-top: .45rem;
+      }
+      .practice h3 { color: #000 !important; font-size: 10.5pt; margin-bottom: .3rem; }
+      .prompt { color: #222; font-size: 10pt; margin-bottom: .35rem; }
+      .print-only { display: block !important; }
+      .print-word-hints {
+        display: block !important;
+        font-size: 10.5pt; line-height: 1.55;
+        margin: .25rem 0 .4rem; padding: .4rem .5rem;
+        border: 1px solid #999; background: #fff !important; color: #000;
+      }
+      .print-lines {
+        display: block !important;
+        border: none !important; border-bottom: 1.2pt solid #000 !important;
+        height: 8.5mm; margin: 3px 0 5px; width: 100%;
+      }
+      .print-answer-line {
+        display: block !important;
+        border: none !important; border-bottom: 1.35pt solid #000 !important;
+        min-height: 8mm; margin: .35rem 0 .15rem; width: 100%;
+        position: relative; padding-left: 2em; box-sizing: border-box;
+      }
+      .print-answer-line::before {
+        content: "答："; font-size: 10pt; color: #333;
+        position: absolute; left: 0; bottom: 2px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <a class="back" href="index.html">← 复习首页</a>
+    <a class="back screen-only" href="index.html">← 复习首页</a>
     <div class="eyebrow">阅读学后总结 · 练一练</div>
     <h1>阅读理解 · 词汇词组句型用法总结</h1>
-    <p class="lead">不展示阅读原题答案，只记用法。每条都有例句，并请你用它<strong>造一句</strong>、再做一道<strong>句子排序</strong>。</p>
+    <p class="lead screen-only">不展示阅读原题答案，只记用法。每条都有例句，并请你用它<strong>造一句</strong>、再做一道<strong>句子排序</strong>。</p>
+    <p class="lead print-only">纸质练习卷 · 不提供参考答案 · 请按提示造句并完成句子排序</p>
+
+    <div class="pdf-cover">
+      <div class="row">
+        <span>姓名：<span class="blank"></span></span>
+        <span>班级：<span class="blank"></span></span>
+        <span>日期：<span class="blank"></span></span>
+      </div>
+    </div>
 
     <div class="toolbar">
       <a class="btn btn-secondary" href="../set_01_typeflow.html">返回第01套</a>
       <a class="btn btn-primary" href="reading_review_quiz.html">去做阅读复习测试</a>
-      <button type="button" class="btn btn-ghost" onclick="window.print()">打印</button>
+      <button type="button" class="btn btn-ghost" id="btnPdf" title="按标准试卷版式导出，打印对话框中选「另存为 PDF」">导出 PDF（试卷版）</button>
       <div class="progress" id="progress">完成 0 / 0</div>
     </div>
 
@@ -392,6 +485,7 @@
       el.dataset.idx = String(idx);
 
       const bank = shuffle(u.scramble.map((w, i) => ({ w, i })));
+      const printHints = bank.map((x) => x.w).join(" / ");
 
       el.innerHTML =
         '<div class="unit-head">' +
@@ -409,23 +503,28 @@
         '<div class="practice make">' +
           "<h3>① 造句练习</h3>" +
           '<p class="prompt">' + esc(u.makePrompt) + "</p>" +
-          '<textarea class="make-input" rows="2" placeholder="在这里写出你的句子…"></textarea>' +
-          '<div class="actions">' +
+          '<textarea class="make-input screen-only" rows="2" placeholder="在这里写出你的句子…"></textarea>' +
+          '<div class="print-lines" aria-hidden="true"></div>' +
+          '<div class="print-lines" aria-hidden="true"></div>' +
+          '<div class="actions screen-only">' +
             '<button type="button" class="btn btn-secondary btn-show-hint">看参考句</button>' +
             '<button type="button" class="btn btn-primary btn-save-make">我写好了</button>' +
           "</div>" +
-          '<div class="hint"><strong>参考：</strong> ' + esc(u.makeHint) + "</div>" +
+          '<div class="hint screen-only"><strong>参考：</strong> ' + esc(u.makeHint) + "</div>" +
         "</div>" +
         '<div class="practice order">' +
           "<h3>② 句子排序</h3>" +
-          '<p class="prompt">点击下方单词，按正确顺序排出完整句子（可再点已选词撤销）。</p>' +
-          '<div class="slot-box" data-role="slot"><span class="slot-empty">点选单词组成句子…</span></div>' +
-          '<div class="chips" data-role="bank"></div>' +
-          '<div class="actions">' +
+          '<p class="prompt screen-only">点击下方单词，按正确顺序排出完整句子（可再点已选词撤销）。</p>' +
+          '<p class="prompt print-only">根据单词提示，写出正确语序的完整句子。</p>' +
+          '<div class="print-word-hints"><strong>单词提示：</strong>' + esc(printHints) + "</div>" +
+          '<div class="print-answer-line" aria-hidden="true"></div>' +
+          '<div class="slot-box screen-only" data-role="slot"><span class="slot-empty">点选单词组成句子…</span></div>' +
+          '<div class="chips screen-only" data-role="bank"></div>' +
+          '<div class="actions screen-only">' +
             '<button type="button" class="btn btn-primary btn-check-order">检查排序</button>' +
             '<button type="button" class="btn btn-ghost btn-reset-order">重置</button>' +
           "</div>" +
-          '<div class="feedback" data-role="fb"></div>' +
+          '<div class="feedback screen-only" data-role="fb"></div>' +
         "</div>";
 
       const bankEl = el.querySelector('[data-role="bank"]');
@@ -535,6 +634,10 @@
   }
 
   render();
+
+  document.getElementById("btnPdf").addEventListener("click", () => {
+    window.print();
+  });
   </script>
 </body>
 </html>
