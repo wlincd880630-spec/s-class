@@ -73,14 +73,157 @@
     .single-sequence-mode .tower-panel {
       display: none;
     }
+    .q-nav-panel {
+      display: none;
+      flex: 0 0 220px;
+      background: rgba(255, 249, 240, 0.95);
+      border: 4px solid var(--crayon-blue);
+      border-radius: 10px 24px 12px 16px;
+      box-shadow: 4px 5px 0 rgba(74, 144, 217, 0.28);
+      padding: 0.75rem 0.55rem 0.85rem;
+      position: sticky;
+      top: 0.5rem;
+      z-index: 2;
+      max-height: calc(100vh - 1.5rem);
+      overflow: hidden;
+      flex-direction: column;
+    }
+    .single-sequence-mode .q-nav-panel {
+      display: flex;
+    }
     .single-sequence-mode .layout {
-      max-width: 980px;
+      max-width: 1180px;
       justify-content: center;
+      align-items: flex-start;
     }
     .single-sequence-mode .stage-wrap {
-      flex: 1 1 min(960px, 100%);
-      max-width: 960px;
-      margin: 0 auto;
+      flex: 1 1 min(720px, 100%);
+      max-width: 900px;
+      margin: 0;
+    }
+    .q-nav-panel h2 {
+      font-size: 0.92rem;
+      color: var(--crayon-blue);
+      margin: 0 0 0.35rem;
+      text-align: center;
+    }
+    .q-nav-hint {
+      margin: 0 0 0.55rem;
+      font-size: 0.72rem;
+      line-height: 1.4;
+      color: #607d8b;
+      text-align: center;
+    }
+    .q-jump-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0.32rem;
+      overflow-y: auto;
+      padding: 0.1rem 0.15rem 0.35rem;
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+    .q-jump-btn {
+      appearance: none;
+      min-height: 2rem;
+      padding: 0.2rem 0;
+      border-radius: 8px;
+      border: 2px solid #90a4ae;
+      background: #fff;
+      color: #455a64;
+      font-weight: 800;
+      font-size: 0.78rem;
+      cursor: pointer;
+      touch-action: manipulation;
+      transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.12s;
+    }
+    .q-jump-btn:hover {
+      border-color: var(--crayon-blue);
+      color: var(--crayon-blue);
+      transform: translateY(-1px);
+    }
+    .q-jump-btn.current {
+      border-color: var(--crayon-blue);
+      background: rgba(187, 222, 251, 0.75);
+      color: #0d47a1;
+      box-shadow: 0 0 0 2px rgba(74, 144, 217, 0.28);
+    }
+    .q-jump-btn.done {
+      border-color: var(--habit-green);
+      background: rgba(200, 230, 201, 0.55);
+      color: #1b5e20;
+    }
+    .q-jump-btn.done.current {
+      border-color: var(--habit-green);
+      background: rgba(165, 214, 167, 0.85);
+      color: #1b5e20;
+      box-shadow: 0 0 0 2px rgba(67, 160, 71, 0.3);
+    }
+    .q-jump-btn.tier-simple { border-bottom-color: var(--habit-green); }
+    .q-jump-btn.tier-medium { border-bottom-color: var(--crayon-blue); }
+    .q-jump-btn.tier-challenge { border-bottom-color: var(--crayon-red); }
+    .q-nav-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 0.55rem;
+      justify-content: center;
+      margin-top: 0.45rem;
+      font-size: 0.68rem;
+      color: #607d8b;
+    }
+    .q-nav-legend span::before {
+      content: "";
+      display: inline-block;
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 3px;
+      margin-right: 0.22rem;
+      vertical-align: -1px;
+      border: 1.5px solid #90a4ae;
+      background: #fff;
+    }
+    .q-nav-legend .lg-current::before {
+      border-color: var(--crayon-blue);
+      background: #bbdefb;
+    }
+    .q-nav-legend .lg-done::before {
+      border-color: var(--habit-green);
+      background: #c8e6c9;
+    }
+    .q-step-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 0.95rem;
+      position: relative;
+      z-index: 1;
+    }
+    .q-step-nav .crayon-btn {
+      margin: 0;
+    }
+    .q-step-nav .crayon-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+    @media (max-width: 820px) {
+      .single-sequence-mode .layout {
+        flex-direction: column;
+      }
+      .single-sequence-mode .q-nav-panel {
+        flex: 1 1 auto;
+        width: 100%;
+        max-width: none;
+        position: static;
+        max-height: none;
+      }
+      .q-jump-grid {
+        grid-template-columns: repeat(8, minmax(0, 1fr));
+        max-height: 9.5rem;
+      }
+      .single-sequence-mode .stage-wrap {
+        max-width: none;
+        width: 100%;
+      }
     }
     .tier-chip {
       display: inline-flex;
@@ -173,7 +316,7 @@
     .prog-bar strong { color: var(--crayon-red); }
 
     .quiz-pdf-bar {
-      max-width: 980px;
+      max-width: 1180px;
       margin: 0 auto 0.65rem;
       padding: 0 0.15rem;
       display: flex;
@@ -1236,6 +1379,18 @@ html body > nav.lesson-pager {
       <div id="towerFloors"></div>
     </aside>
 
+    <aside class="q-nav-panel" aria-label="题目导航">
+      <h2>选题导航</h2>
+      <div class="score-badge" id="scoreDisplayNav">100 分</div>
+      <p class="q-nav-hint">点击题号可随时切换；绿色表示已答对。</p>
+      <div class="q-jump-grid" id="qJumpGrid"></div>
+      <div class="q-nav-legend" aria-hidden="true">
+        <span class="lg-current">当前</span>
+        <span class="lg-done">已完成</span>
+        <span>未作答</span>
+      </div>
+    </aside>
+
     <main class="stage-wrap">
       <div class="prog-bar">
         <span id="floorTitle">综合试炼 · 简单 / 中等 / 挑战</span>
@@ -1243,6 +1398,10 @@ html body > nav.lesson-pager {
       </div>
       <div class="floor-mission" id="floorMission">所有题目集中在本页面顺序显示：先简单、再中等、后挑战；每一层内部随机排列。</div>
       <div class="q-body" id="stageRoot"></div>
+      <div class="q-step-nav" id="qStepNav">
+        <button type="button" class="crayon-btn secondary" id="btnPrevQ">← 上一题</button>
+        <button type="button" class="crayon-btn" id="btnNextQ">下一题 →</button>
+      </div>
     </main>
   </div>
 
@@ -1382,7 +1541,9 @@ html body > nav.lesson-pager {
     singleMode: true,
     quiz: [],
     quizIndex: 0,
-    quizDone: false
+    quizDone: false,
+    quizSolved: [],
+    matchByIndex: {}
   };
 
   function normalizeAnswer(s) {
@@ -1409,7 +1570,11 @@ html body > nav.lesson-pager {
   }
 
   function updateScoreDisplay() {
-    document.getElementById("scoreDisplay").textContent = state.score + " 分";
+    var text = state.score + " 分";
+    var el = document.getElementById("scoreDisplay");
+    if (el) el.textContent = text;
+    var elNav = document.getElementById("scoreDisplayNav");
+    if (elNav) elNav.textContent = text;
   }
 
   function updateFloorMission() {
@@ -1910,11 +2075,71 @@ html body > nav.lesson-pager {
 
     state.quiz = shuffleCopy(simple).concat(shuffleCopy(medium), shuffleCopy(challenge));
     state.quizIndex = 0;
+    state.quizDone = false;
+    state.quizSolved = state.quiz.map(function () { return false; });
+    state.matchByIndex = {};
+  }
+
+  function solvedCount() {
+    var n = 0;
+    for (var i = 0; i < state.quizSolved.length; i++) {
+      if (state.quizSolved[i]) n++;
+    }
+    return n;
+  }
+
+  function renderQNav() {
+    var grid = document.getElementById("qJumpGrid");
+    if (!grid) return;
+    grid.innerHTML = "";
+    state.quiz.forEach(function (item, i) {
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "q-jump-btn " + tierClass(item.tier);
+      if (i === state.quizIndex) btn.classList.add("current");
+      if (state.quizSolved[i]) btn.classList.add("done");
+      btn.textContent = String(i + 1);
+      btn.title = "第 " + (i + 1) + " 题 · " + tierLabel(item.tier) + " · " + item.label +
+        (state.quizSolved[i] ? "（已完成）" : "");
+      btn.setAttribute("aria-label", btn.title);
+      btn.setAttribute("aria-current", i === state.quizIndex ? "true" : "false");
+      btn.addEventListener("click", function () {
+        jumpToQuestion(i);
+      });
+      grid.appendChild(btn);
+    });
+    updateStepNavButtons();
+  }
+
+  function updateStepNavButtons() {
+    var prev = document.getElementById("btnPrevQ");
+    var next = document.getElementById("btnNextQ");
+    if (prev) prev.disabled = state.quizIndex <= 0;
+    if (next) next.disabled = state.quizIndex >= state.quiz.length - 1;
+  }
+
+  function jumpToQuestion(i) {
+    if (i < 0 || i >= state.quiz.length) return;
+    if (i === state.quizIndex) return;
+    state.quizIndex = i;
+    renderSingleStage();
+  }
+
+  function findNextUnsolved(fromIndex) {
+    var i;
+    for (i = fromIndex + 1; i < state.quiz.length; i++) {
+      if (!state.quizSolved[i]) return i;
+    }
+    for (i = 0; i < fromIndex; i++) {
+      if (!state.quizSolved[i]) return i;
+    }
+    return -1;
   }
 
   function updateSingleHeader() {
     var item = state.quiz[state.quizIndex];
     var n = state.quiz.length;
+    var done = solvedCount();
     if (!item) {
       document.getElementById("floorTitle").innerHTML = "<span class='tier-chip tier-challenge'>完成</span>综合试炼";
       document.getElementById("qProgress").textContent = "全部完成 · " + state.score + " 分";
@@ -1923,25 +2148,30 @@ html body > nav.lesson-pager {
     document.getElementById("floorTitle").innerHTML =
       "<span class='tier-chip " + tierClass(item.tier) + "'>" + tierLabel(item.tier) + "</span>" +
       item.label;
-    document.getElementById("qProgress").textContent = (state.quizIndex + 1) + " / " + n + " · " + state.score + " 分";
+    document.getElementById("qProgress").textContent =
+      (state.quizIndex + 1) + " / " + n + " · 已完成 " + done + " · " + state.score + " 分";
     document.getElementById("floorMission").innerHTML =
-      "单页顺序模式：题目已按 <strong>简单 → 中等 → 挑战</strong> 分层，当前层级内部随机排列；完成本题后自动进入下一题。";
+      "可点击左侧<strong>题号</strong>或下方<strong>上一题 / 下一题</strong>随时切换；题目按 <strong>简单 → 中等 → 挑战</strong> 分层。答对后自动跳到下一道未完成题。";
   }
 
   function completeSingleQuestion() {
     if (state.quizDone) return;
-    state.quizIndex++;
-    if (state.quizIndex >= state.quiz.length) {
+    state.quizSolved[state.quizIndex] = true;
+    renderQNav();
+    var next = findNextUnsolved(state.quizIndex);
+    if (next < 0) {
       state.quizDone = true;
       updateSingleHeader();
       showVictory();
       return;
     }
+    state.quizIndex = next;
     renderSingleStage();
   }
 
   function renderSingleStage() {
     updateSingleHeader();
+    renderQNav();
     var root = document.getElementById("stageRoot");
     root.innerHTML = "";
     state.choiceLocked = false;
@@ -1950,12 +2180,33 @@ html body > nav.lesson-pager {
       root.innerHTML = "<p class='q-text'>全部题目已完成。</p>";
       return;
     }
+    if (state.quizSolved[state.quizIndex]) {
+      renderSolvedQuestion(root, item);
+      return;
+    }
     if (item.type === "choice") return renderSingleChoice(root, item);
     if (item.type === "fill") return renderSingleFill(root, item);
     if (item.type === "order") return renderSingleOrder(root, item);
     if (item.type === "correct") return renderSingleCorrect(root, item);
     if (item.type === "transform") return renderSingleTransform(root, item);
     if (item.type === "match") return renderSingleMatch(root, item);
+  }
+
+  function renderSolvedQuestion(root, item) {
+    var ans = "";
+    if (item.type === "match") {
+      ans = TOWER_DATA.matchData.map(function (t, i) {
+        return "图 " + (i + 1) + " → " + t.text;
+      }).join("<br>");
+    } else if (item.q) {
+      ans = escapeHtml(item.q.answer);
+    }
+    root.innerHTML = renderQuestionLead(item, "本题已完成") +
+      (item.type === "match"
+        ? "<p class='q-text'>终极连线已全部配对完成。</p>"
+        : "<p class='q-text'>" + escapeHtml(item.q.question) + "</p>") +
+      "<p class='hint-note' style='color:#1b5e20;font-weight:700'>✓ 参考答案：</p>" +
+      "<p class='q-text' style='color:#2e7d32'>" + ans + "</p>";
   }
 
   function renderQuestionLead(item, extra) {
@@ -2111,13 +2362,19 @@ html body > nav.lesson-pager {
   }
 
   function renderSingleMatch(root, item) {
-    state.matchPersist = {
-      orderImg: shuffleCopy([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
-      orderTxt: shuffleCopy([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
-      done: {},
-      merged: []
-    };
+    var qi = state.quizIndex;
+    if (!state.matchByIndex[qi]) {
+      state.matchByIndex[qi] = {
+        orderImg: shuffleCopy([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
+        orderTxt: shuffleCopy([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
+        done: {},
+        merged: []
+      };
+    }
+    state.matchPersist = state.matchByIndex[qi];
     state.matchDone = state.matchPersist.done;
+    state.matchSelectedLeft = null;
+    state.matchSelectedRight = null;
     root.innerHTML = renderQuestionLead(item, "图片与现在进行时句子连线") +
       "<p class='q-text'>终极连线：先点左侧图片，再点对应英文句子。配对成功会合并展示；答错不扣分。</p>" +
       "<div class='match-grid'>" +
@@ -2126,29 +2383,40 @@ html body > nav.lesson-pager {
       "</div><div id='matchMergedRows'></div>";
     var imgBox = document.getElementById("matchImgs");
     var txtBox = document.getElementById("matchTxts");
+    var mergeBox = document.getElementById("matchMergedRows");
+    state.matchPersist.merged.forEach(function (mid) {
+      var row = document.createElement("div");
+      row.className = "match-row-done";
+      row.innerHTML = "<span style='font-weight:800'>✓</span> " + escapeHtml(TOWER_DATA.matchData[mid - 1].text);
+      mergeBox.appendChild(row);
+    });
     state.matchPersist.orderImg.forEach(function (id) {
       var img = document.createElement("img");
       img.className = "match-img";
+      if (state.matchDone[id]) img.classList.add("done");
       img.alt = "match " + id;
       img.dataset.matchId = String(id);
       img.src = "images/l02/match-" + id + ".png";
       img.onerror = function () { imgFallback(this, id); };
-      wireMatchImg(img, id, false);
+      if (!state.matchDone[id]) wireMatchImg(img, id, false);
       imgBox.appendChild(img);
     });
     state.matchPersist.orderTxt.forEach(function (id) {
       var t = TOWER_DATA.matchData[id - 1];
       var div = document.createElement("div");
       div.className = "match-txt";
+      if (state.matchDone[id]) div.classList.add("done");
       div.textContent = t.text;
       div.dataset.matchId = String(id);
-      div.addEventListener("click", function () {
-        if (state.matchDone[id]) return;
-        document.querySelectorAll(".match-txt").forEach(function (x) { x.classList.remove("selected"); });
-        div.classList.add("selected");
-        state.matchSelectedRight = id;
-        tryMatch();
-      });
+      if (!state.matchDone[id]) {
+        div.addEventListener("click", function () {
+          if (state.matchDone[id]) return;
+          document.querySelectorAll(".match-txt").forEach(function (x) { x.classList.remove("selected"); });
+          div.classList.add("selected");
+          state.matchSelectedRight = id;
+          tryMatch();
+        });
+      }
       txtBox.appendChild(div);
     });
   }
@@ -2531,6 +2799,13 @@ html body > nav.lesson-pager {
   }
 
   document.getElementById("btnExportQuizPdf").addEventListener("click", exportTowerQuizPdf);
+
+  document.getElementById("btnPrevQ").addEventListener("click", function () {
+    jumpToQuestion(state.quizIndex - 1);
+  });
+  document.getElementById("btnNextQ").addEventListener("click", function () {
+    jumpToQuestion(state.quizIndex + 1);
+  });
 
   updateScoreDisplay();
   buildSingleQuiz();
