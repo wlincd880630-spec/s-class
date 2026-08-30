@@ -717,7 +717,7 @@
       color: #b71c1c !important; background: #ffebee; border-color: #c62828;
       box-shadow: 0 0 0 3px rgba(198,40,40,0.22);
     }
-    .w-sb-hint-under { font-size: 0.7rem; color: #6d5c4a; max-width: 7rem; text-align: center; line-height: 1.3; font-weight: 600; }
+    .w-sb-hint-under { font-size: 0.7rem; color: #6d5c4a; max-width: 7rem; text-align: center; line-height: 1.3; font-weight: 600; font-family: "Noto Sans SC", "Segoe UI", sans-serif; }
     .w-sb-friend-btn-wrap { margin: 0.45rem auto 0; text-align: center; width: 100%; }
     .w-sb-friend-panel {
       display: none; margin-top: 0.4rem; padding: 0.5rem 0.55rem; border: 2px dashed #8d6e63; border-radius: 10px;
@@ -752,8 +752,9 @@
     }
   </style>
   <link rel="stylesheet" href="../../assets/primary-responsive.css?v=3" />
-  <link rel="stylesheet" href="../../assets/ng-word-extras.css?v=9" />
+  <link rel="stylesheet" href="../../assets/ng-word-extras.css?v=10" />
   <script src="../../assets/ng-word-say-data.js?v=3"></script>
+  <script src="../../assets/ng-word-ipa.js?v=1"></script>
   <script src="../../assets/ng-word-extras.js?v=3"></script>
   <link rel="stylesheet" href="../../assets/ng-story-pyramid.css?v=1" />
   <script src="../../assets/ng-story-pyramid.js?v=3"></script>
@@ -1272,7 +1273,9 @@
           btn.textContent = "·";
           var hu = document.createElement("div");
           hu.className = "w-sb-hint-under";
-          hu.textContent = boxes[i].hint || "";
+          hu.textContent = (window.NgWordIpa && NgWordIpa.hint)
+            ? NgWordIpa.hint(boxes[i].hint, boxes[i].text, w.key)
+            : (boxes[i].hint || "");
           col.appendChild(tag);
           col.appendChild(btn);
           col.appendChild(hu);

@@ -201,13 +201,21 @@ function renderPhonemeBoxes(container, w) {
   let consumed = 0;
   const parts = w.word.includes(' ') ? w.word.split(' ') : [w.word];
 
+  function resolvePhoneme(ph, word) {
+    if (typeof NgWordIpa !== 'undefined' && NgWordIpa.forPhoneme) {
+      return NgWordIpa.forPhoneme(ph, word);
+    }
+    return { symbol: ph.symbol, silent: ph.symbol === '—' || ph.symbol === '/—/' };
+  }
   function appendBox(ph) {
-    const isSilent = ph.symbol === '—' || ph.symbol === '/—/';
+    const shown = resolvePhoneme(ph, w);
+    const isSilent = shown.silent;
+    const symbol = shown.symbol;
     const box = document.createElement('div');
     box.className = 'phoneme-box' + (ph.letter.length > 2 ? ' wide' : '') + (isSilent ? ' silent' : '');
-    box.textContent = isSilent ? '—' : ph.symbol;
-    box.title = isSilent ? `不发音：${ph.letter}` : `音标 ${ph.symbol}，点击显示字母：${ph.letter}`;
-    box.dataset.ipa = ph.symbol;
+    box.textContent = isSilent ? '—' : symbol;
+    box.title = isSilent ? `不发音：${ph.letter}` : `音标 ${symbol}，点击显示字母：${ph.letter}`;
+    box.dataset.ipa = symbol;
     box.dataset.letter = ph.letter;
     if (!isSilent) {
       box.addEventListener('click', () => {
