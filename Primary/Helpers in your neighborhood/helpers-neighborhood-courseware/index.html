@@ -1181,15 +1181,13 @@
           else if (options.slow) pr = 0.5;
         }
         a.playbackRate = Math.max(0.4, Math.min(1.25, pr));
-        if (window.NgAzureTTS) {
-          NgAzureTTS.lastSpeak = { source: "story-mp3", rate: a.playbackRate, slow: a.playbackRate < 0.88, text: STORY[sentenceIndex].en };
-        }
         var rel = p.audio || "media/story-read-aloud.mp3";
         var relAbs = MEDIA_COS + rel;
         if (a.getAttribute("data-timings-audio") !== relAbs) {
           a.setAttribute("data-timings-audio", relAbs);
           a.src = relAbs;
         }
+        a.playbackRate = Math.max(0.4, Math.min(1.25, pr));
         stopStoryNarration();
         var finished = false;
         function fin() {
@@ -1204,6 +1202,10 @@
         a.onended = fin;
         a.onerror = function () { speakText(STORY[sentenceIndex].en, options).then(fin); };
         function doPlay() {
+          a.playbackRate = Math.max(0.4, Math.min(1.25, pr));
+          if (window.NgAzureTTS) {
+            NgAzureTTS.lastSpeak = { source: "story-mp3", rate: a.playbackRate, slow: a.playbackRate < 0.88, text: STORY[sentenceIndex].en };
+          }
           try { a.currentTime = t0; } catch (e2) { speakText(STORY[sentenceIndex].en, options).then(fin); return; }
           var pl = a.play();
           if (pl && pl.catch) pl.catch(function () { speakText(STORY[sentenceIndex].en, options).then(fin); });
