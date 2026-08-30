@@ -253,24 +253,49 @@
     });
   }
 
+  function ttsParts(text) {
+    if (global.KpTTS && typeof global.KpTTS.ttsParts === "function") {
+      return global.KpTTS.ttsParts(text);
+    }
+    var s = String(text || "")
+      .replace(/['']/g, "'")
+      .replace(/[（(][^）)]*[）)]/g, function (m) {
+        return /[\u4e00-\u9fff]/.test(m) ? " " : m;
+      })
+      .replace(/[\u4e00-\u9fff]+/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+    return s
+      .split(/\s+[\/／]\s+/)
+      .map(function (p) {
+        return p.replace(/^[\s\/／|]+/, "").replace(/[\s\/／|]+$/, "").trim();
+      })
+      .filter(Boolean);
+  }
+
   function azureSpeak(text) {
     if (global.KpTTS && typeof global.KpTTS.speak === "function") {
       return global.KpTTS.speak(text);
     }
     var key = String(global.__AZURE_SPEECH_KEY__ || "").trim();
     var region = String(global.__AZURE_SPEECH_REGION__ || "southeastasia").trim();
-    var safe = String(text || "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&apos;");
-    if (!key || !safe) return Promise.resolve(false);
+    var parts = ttsParts(text);
+    var inner = parts
+      .map(function (p) {
+        return String(p)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&apos;");
+      })
+      .join('<break time="1500ms"/>');
+    if (!key || !inner) return Promise.resolve(false);
     stopTts();
     var ssml =
       '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-GB">' +
       '<voice name="en-GB-RyanNeural"><prosody rate="-15%">' +
-      safe +
+      inner +
       "</prosody></voice></speak>";
     return fetch("https://" + region + ".tts.speech.microsoft.com/cognitiveservices/v1", {
       method: "POST",
@@ -313,18 +338,30 @@
         });
       })
       .catch(function () {
-        if (!global.speechSynthesis) return false;
-        return new Promise(function (resolve) {
-          var u = new SpeechSynthesisUtterance(text);
-          u.lang = "en-GB";
-          u.onend = function () {
-            resolve(true);
-          };
-          u.onerror = function () {
-            resolve(false);
-          };
-          speechSynthesis.speak(u);
+        var segs = ttsParts(text);
+        if (!global.speechSynthesis || !segs.length) return false;
+        var chain = Promise.resolve(true);
+        segs.forEach(function (part, i) {
+          chain = chain.then(function () {
+            return new Promise(function (resolve) {
+              setTimeout(
+                function () {
+                  var u = new SpeechSynthesisUtterance(part);
+                  u.lang = "en-GB";
+                  u.onend = function () {
+                    resolve(true);
+                  };
+                  u.onerror = function () {
+                    resolve(false);
+                  };
+                  speechSynthesis.speak(u);
+                },
+                i === 0 ? 0 : 1500
+              );
+            });
+          });
         });
+        return chain;
       });
   }
 
