@@ -4,16 +4,28 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>五种代词 · 纸质测试 / PDF · L05</title>
-  <meta name="description" content="五种代词纸质测试：对照表（可选提示）+ 30 道填空，精美配色，打印或下载 PDF。" />
-  <link rel="stylesheet" href="assets/pronouns-test.css?v=1" />
-  <script src="assets/pronouns-test-data.js"></script>
+  <meta name="description" content="五种代词纸质测试：按 4–8 年级分层，DeepSeek 三套题库交叉组卷，完整语境填空 + 卡通 3D 配图。" />
+  <link rel="stylesheet" href="assets/pronouns-test.css?v=2" />
+  <script src="assets/pronouns-test-data.js?v=2"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
-  <script src="assets/pronouns-test.js?v=1" defer></script>
+  <script src="assets/pronouns-test.js?v=2" defer></script>
   <script src="../../../scripts/auth-check.js" defer></script>
 </head>
 <body>
   <div class="pt-toolbar no-print">
     <a class="back" href="index.html">← 返回课程</a>
+    <label class="pt-grade" title="选择年级难度">
+      年级
+      <select id="selGrade" aria-label="选择年级">
+        <option value="g4">四年级</option>
+        <option value="g5">五年级</option>
+        <option value="g6">六年级</option>
+        <option value="g7" selected>七年级</option>
+        <option value="g8">八年级</option>
+      </select>
+    </label>
+    <button type="button" class="pt-btn ghost" id="btnShuffle" title="从该年级 3 套题库交叉随机组卷">🔀 换一组</button>
+    <button type="button" class="pt-btn ghost" id="btnAi" title="调用 DeepSeek 为当前年级全新生成 10 题">✨ AI 组卷</button>
     <label class="pt-toggle" title="开启后表格显示完整代词，可作为提示工具">
       <input type="checkbox" id="chkHints" />
       表格显示提示
@@ -28,8 +40,11 @@
   </div>
 
   <p class="pt-hint no-print">
-    建议：浏览器打印时勾选「背景图形」，纸张 A4。下载 PDF 依赖 CDN；若失败请用「打印 / 另存 PDF」。
+    选题说明：每个年级预置 DeepSeek 生成的 <strong>3 套</strong>题库；点「换一组」会从三套中交叉随机抽题。
+    题干只给人称括号提示（如「第一人称单数」），不含答案类型提示。配图为卡通 3D 场景图，辅助理解语境。
+    打印请勾选「背景图形」。
   </p>
+  <p class="pt-status no-print" id="ptStatus" aria-live="polite"></p>
 
   <div class="pt-sheet-wrap">
     <main class="pt-sheet" id="ptSheet" aria-label="纸质测试预览"></main>
