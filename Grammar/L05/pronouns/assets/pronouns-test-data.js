@@ -1,4 +1,4 @@
-/* L05 Pronouns · 纸质测试语料（DeepSeek 按年级生成 · 每级 3 套） */
+/* L05 Pronouns · 纸质测试语料（DeepSeek 按年级生成 · 每级 3 套 · Composer 2.5 配图） */
 (function (g) {
   "use strict";
   g.L05PronounsTestData = 
@@ -19,7 +19,8 @@
             "type": "subject",
             "personHint": "第三人称单数(女)",
             "imgPrompt": "A cute 3D cartoon girl with pigtails drawing colorful pictures of cats at a small desk, bright room, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我妹妹艾玛五岁了，她喜欢画猫。"
+            "zh": "我妹妹艾玛五岁了，她喜欢画猫。",
+            "image": "fill/g4-s1-q01.jpg"
           },
           {
             "n": 2,
@@ -28,7 +29,8 @@
             "type": "subject",
             "personHint": "第一人称复数",
             "imgPrompt": "Two cute 3D cartoon boys playing basketball on a sunny school playground, one holding the ball, laughing, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "汤姆和我在同一个班，放学后我们一起打篮球。"
+            "zh": "汤姆和我在同一个班，放学后我们一起打篮球。",
+            "image": "fill/g4-s1-q02.jpg"
           },
           {
             "n": 3,
@@ -37,7 +39,8 @@
             "type": "object",
             "personHint": "第三人称单数(物)",
             "imgPrompt": "A shiny new 3D cartoon bicycle with a red bow, standing in a bright living room, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "这是我的新自行车，我爸爸在我生日时送给我的。"
+            "zh": "这是我的新自行车，我爸爸在我生日时送给我的。",
+            "image": "fill/g4-s1-q03.jpg"
           },
           {
             "n": 4,
@@ -46,7 +49,8 @@
             "type": "object",
             "personHint": "第三人称复数",
             "imgPrompt": "A cute 3D cartoon boy searching under a bed, colorful shoes scattered, bright bedroom, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "妈妈让我找我的鞋子，但我哪儿都看不到。"
+            "zh": "妈妈让我找我的鞋子，但我哪儿都看不到。",
+            "image": "fill/g4-s1-q04.jpg"
           },
           {
             "n": 5,
@@ -55,7 +59,8 @@
             "type": "possAdj",
             "personHint": "第三人称单数(男)",
             "imgPrompt": "A cute 3D cartoon boy holding a toy robot, the robot walking on the floor, bright room, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我哥哥有一个玩具机器人，他的机器人会走路和说话。"
+            "zh": "我哥哥有一个玩具机器人，他的机器人会走路和说话。",
+            "image": "fill/g4-s1-q05.jpg"
           },
           {
             "n": 6,
@@ -64,7 +69,8 @@
             "type": "possAdj",
             "personHint": "第一人称复数",
             "imgPrompt": "Two cute 3D cartoon children (a girl and a boy) sitting at a shared desk near a window with books and pencils, bright classroom, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "莉莉和我共用一张桌子，我们的桌子在窗户旁边。"
+            "zh": "莉莉和我共用一张桌子，我们的桌子在窗户旁边。",
+            "image": "fill/g4-s1-q06.jpg"
           },
           {
             "n": 7,
@@ -73,7 +79,8 @@
             "type": "possPron",
             "personHint": "第三人称单数(女)",
             "imgPrompt": "A cute 3D cartoon girl hugging a pretty doll, the doll has a pink dress, bright room, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "露西有一个漂亮的娃娃，这个娃娃是她的，她非常喜欢它。"
+            "zh": "露西有一个漂亮的娃娃，这个娃娃是她的，她非常喜欢它。",
+            "image": "fill/g4-s1-q07.jpg"
           },
           {
             "n": 8,
@@ -82,7 +89,8 @@
             "type": "reflexive",
             "personHint": "第一人称单数",
             "imgPrompt": "A cute 3D cartoon child sitting at a desk doing homework, with a confident smile, bright room, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我可以自己做作业，不需要帮助。"
+            "zh": "我可以自己做作业，不需要帮助。",
+            "image": "fill/g4-s1-q08.jpg"
           },
           {
             "n": 9,
@@ -91,7 +99,8 @@
             "type": "object",
             "personHint": "第三人称单数(物)",
             "imgPrompt": "A cute 3D cartoon cat sitting next to an empty bowl, looking up, a plate of fish nearby, bright kitchen, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "猫饿了，请给它一些鱼。"
+            "zh": "猫饿了，请给它一些鱼。",
+            "image": "fill/g4-s1-q09.jpg"
           },
           {
             "n": 10,
@@ -100,7 +109,8 @@
             "type": "subject",
             "personHint": "第二人称单数",
             "imgPrompt": "A cute 3D cartoon boy with a backpack waving hello, bright sunny outdoor scene, school bus in background, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "你好，迈克！你准备好明天的学校旅行了吗？"
+            "zh": "你好，迈克！你准备好明天的学校旅行了吗？",
+            "image": "fill/g4-s1-q10.jpg"
           }
         ],
         [
@@ -111,7 +121,8 @@
             "type": "subject",
             "personHint": "第三人称单数(物)",
             "imgPrompt": "A cute shiny red bicycle standing in a sunny garden, with a soft blue sky and green grass, 3D cartoon style, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "这是我的新自行车。它是红色的，而且很快。"
+            "zh": "这是我的新自行车。它是红色的，而且很快。",
+            "image": "fill/g4-s2-q01.jpg"
           },
           {
             "n": 2,
@@ -120,7 +131,8 @@
             "type": "object",
             "personHint": "第三人称单数(女)",
             "imgPrompt": "A warm happy scene of a little child hugging a kind mother, both smiling in a cozy living room, 3D cartoon style, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我妈妈是一名老师。我非常爱她。"
+            "zh": "我妈妈是一名老师。我非常爱她。",
+            "image": "fill/g4-s2-q02.jpg"
           },
           {
             "n": 3,
@@ -129,7 +141,8 @@
             "type": "subject",
             "personHint": "第一人称复数",
             "imgPrompt": "Two cheerful cartoon boys playing basketball on a sunny school playground, high-fiving, 3D cartoon style, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "汤姆和我是好朋友。放学后我们一起打篮球。"
+            "zh": "汤姆和我是好朋友。放学后我们一起打篮球。",
+            "image": "fill/g4-s2-q03.jpg"
           },
           {
             "n": 4,
@@ -138,7 +151,8 @@
             "type": "object",
             "personHint": "第三人称单数(物)",
             "imgPrompt": "A cute yellow pencil on a wooden desk, a kid's hand placing it into a blue schoolbag, bright classroom, 3D cartoon style, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "这是你的铅笔。请把它放进你的书包里。"
+            "zh": "这是你的铅笔。请把它放进你的书包里。",
+            "image": "fill/g4-s2-q04.jpg"
           },
           {
             "n": 5,
@@ -147,7 +161,8 @@
             "type": "possAdj",
             "personHint": "第三人称单数(男)",
             "imgPrompt": "A little boy proudly holding a blue and white toy car, smiling in a bright bedroom with toys around, 3D cartoon style, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我哥哥有一辆新玩具车。他的车是蓝白相间的。"
+            "zh": "我哥哥有一辆新玩具车。他的车是蓝白相间的。",
+            "image": "fill/g4-s2-q05.jpg"
           },
           {
             "n": 6,
@@ -156,7 +171,8 @@
             "type": "possAdj",
             "personHint": "第二人称单数",
             "imgPrompt": "A friendly girl named Lucy standing at a school gate, pointing at a pink schoolbag on a bench, sunny day, 3D cartoon style, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "你好，露西！这是你的书包吗？"
+            "zh": "你好，露西！这是你的书包吗？",
+            "image": "fill/g4-s2-q06.jpg"
           },
           {
             "n": 7,
@@ -165,7 +181,8 @@
             "type": "possAdj",
             "personHint": "第三人称单数(物)",
             "imgPrompt": "A cute fluffy orange cat curled up sleeping on a cozy cushion, its long tail stretched out, warm home corner, 3D cartoon style, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "猫在睡觉。它的尾巴又长又软。"
+            "zh": "猫在睡觉。它的尾巴又长又软。",
+            "image": "fill/g4-s2-q07.jpg"
           },
           {
             "n": 8,
@@ -174,7 +191,8 @@
             "type": "possPron",
             "personHint": "第一人称复数",
             "imgPrompt": "Two cheerful girls in a cute pink and purple bedroom, one pointing at a pink bed with colorful pillows, 3D cartoon style, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我和姐姐共用一间房间。那张粉色的床是我们的。"
+            "zh": "我和姐姐共用一间房间。那张粉色的床是我们的。",
+            "image": "fill/g4-s2-q08.jpg"
           },
           {
             "n": 9,
@@ -183,7 +201,8 @@
             "type": "possPron",
             "personHint": "第三人称单数(女)",
             "imgPrompt": "A happy girl twirling in a beautiful colorful dress in a garden, flowers around, sunny day, 3D cartoon style, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "莉莉有一条漂亮的裙子。那条裙子是她的。"
+            "zh": "莉莉有一条漂亮的裙子。那条裙子是她的。",
+            "image": "fill/g4-s2-q09.jpg"
           },
           {
             "n": 10,
@@ -192,7 +211,8 @@
             "type": "reflexive",
             "personHint": "第三人称单数(男)",
             "imgPrompt": "A cute baby in a high chair trying to feed himself with a spoon, food on his face, a smiling mother nearby, bright kitchen, 3D cartoon style, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "这个婴儿太小了，不能自己吃饭。"
+            "zh": "这个婴儿太小了，不能自己吃饭。",
+            "image": "fill/g4-s2-q10.jpg"
           }
         ],
         [
@@ -203,7 +223,8 @@
             "type": "subject",
             "personHint": "第一人称复数",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a group of children hiding behind a big tree, one child peeking, sunny park, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我和朋友们在玩捉迷藏。我们藏在大树后面。"
+            "zh": "我和朋友们在玩捉迷藏。我们藏在大树后面。",
+            "image": "fill/g4-s3-q01.jpg"
           },
           {
             "n": 2,
@@ -212,7 +233,8 @@
             "type": "subject",
             "personHint": "第三人称单数(男)",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a little boy with a mischievous smile, holding a toy, in a cozy living room, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "这是我的小弟弟。他很调皮。"
+            "zh": "这是我的小弟弟。他很调皮。",
+            "image": "fill/g4-s3-q02.jpg"
           },
           {
             "n": 3,
@@ -221,7 +243,8 @@
             "type": "object",
             "personHint": "第三人称单数(女)",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a mother cooking in a bright kitchen, a child handing her a salt shaker, warm atmosphere, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "妈妈在厨房做饭。请把盐递给她。"
+            "zh": "妈妈在厨房做饭。请把盐递给她。",
+            "image": "fill/g4-s3-q03.jpg"
           },
           {
             "n": 4,
@@ -230,7 +253,8 @@
             "type": "object",
             "personHint": "第三人称单数(物)",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a cute cat looking at a fish, a child giving food to the cat, home setting, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "猫饿了。我给它一些鱼。"
+            "zh": "猫饿了。我给它一些鱼。",
+            "image": "fill/g4-s3-q04.jpg"
           },
           {
             "n": 5,
@@ -239,7 +263,8 @@
             "type": "possAdj",
             "personHint": "第二人称单数",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a child showing off a new shiny bike, another child admiring it, in a neighborhood, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "你有一辆新自行车。我非常喜欢你的自行车。"
+            "zh": "你有一辆新自行车。我非常喜欢你的自行车。",
+            "image": "fill/g4-s3-q05.jpg"
           },
           {
             "n": 6,
@@ -248,7 +273,8 @@
             "type": "possAdj",
             "personHint": "第三人称单数(物)",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a cute dog with a name tag, a child petting it, in a backyard, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "这是我的狗。它的名字叫Lucky。"
+            "zh": "这是我的狗。它的名字叫Lucky。",
+            "image": "fill/g4-s3-q06.jpg"
           },
           {
             "n": 7,
@@ -257,7 +283,8 @@
             "type": "object",
             "personHint": "第三人称单数(男)",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a boy chasing another boy in a playground, both laughing, dynamic scene, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "看汤姆和杰瑞。汤姆在追他。"
+            "zh": "看汤姆和杰瑞。汤姆在追他。",
+            "image": "fill/g4-s3-q07.jpg"
           },
           {
             "n": 8,
@@ -266,7 +293,8 @@
             "type": "object",
             "personHint": "第三人称单数(女)",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, two children visiting their grandmother, hugging her, cozy home with cookies, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我和姐姐爱我们的奶奶。我们每个星期天都去看她。"
+            "zh": "我和姐姐爱我们的奶奶。我们每个星期天都去看她。",
+            "image": "fill/g4-s3-q08.jpg"
           },
           {
             "n": 9,
@@ -275,7 +303,8 @@
             "type": "subject",
             "personHint": "第三人称单数(物)",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a new blue and white schoolbag on a desk, pencils and books around, bright classroom, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我有一个新书包。它是蓝白相间的。"
+            "zh": "我有一个新书包。它是蓝白相间的。",
+            "image": "fill/g4-s3-q09.jpg"
           },
           {
             "n": 10,
@@ -284,7 +313,8 @@
             "type": "subject",
             "personHint": "第一人称复数",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a group of children playing basketball in an outdoor court, laughing and dribbling, sunny day, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我们是好朋友。我们经常一起打篮球。"
+            "zh": "我们是好朋友。我们经常一起打篮球。",
+            "image": "fill/g4-s3-q10.jpg"
           }
         ]
       ]
@@ -301,7 +331,8 @@
             "type": "subject",
             "personHint": "第一人称复数",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, two happy boys playing basketball on a sunny school playground, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我和汤姆在同一个班，我们经常放学后一起打篮球。"
+            "zh": "我和汤姆在同一个班，我们经常放学后一起打篮球。",
+            "image": "fill/g5-s1-q01.jpg"
           },
           {
             "n": 2,
@@ -310,7 +341,8 @@
             "type": "object",
             "personHint": "第三人称单数(女)",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a big brother helping his little sister with homework at a desk, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我妹妹露西很小，我经常帮她做作业。"
+            "zh": "我妹妹露西很小，我经常帮她做作业。",
+            "image": "fill/g5-s1-q02.jpg"
           },
           {
             "n": 3,
@@ -319,7 +351,8 @@
             "type": "object",
             "personHint": "第三人称单数(物)",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a cute dog looking at a food bowl, a child holding a bag of dog food, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "狗饿了，请给它一些食物。"
+            "zh": "狗饿了，请给它一些食物。",
+            "image": "fill/g5-s1-q03.jpg"
           },
           {
             "n": 4,
@@ -328,7 +361,8 @@
             "type": "object",
             "personHint": "第三人称复数",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a child visiting grandparents in a cozy village house, happy reunion, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我的祖父母住在一个小村庄，我每年夏天都去看望他们。"
+            "zh": "我的祖父母住在一个小村庄，我每年夏天都去看望他们。",
+            "image": "fill/g5-s1-q04.jpg"
           },
           {
             "n": 5,
@@ -337,7 +371,8 @@
             "type": "possPron",
             "personHint": "第一人称单数",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a child pointing to a book with a name label, another child confused, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "这不是你的书，是我的。我把名字写在上面了。"
+            "zh": "这不是你的书，是我的。我把名字写在上面了。",
+            "image": "fill/g5-s1-q05.jpg"
           },
           {
             "n": 6,
@@ -346,7 +381,8 @@
             "type": "possAdj",
             "personHint": "第三人称单数(女)",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a kind female teacher with smiling students in a classroom, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我妈妈是一名老师，她的学生非常喜欢她。"
+            "zh": "我妈妈是一名老师，她的学生非常喜欢她。",
+            "image": "fill/g5-s1-q06.jpg"
           },
           {
             "n": 7,
@@ -355,7 +391,8 @@
             "type": "object",
             "personHint": "第三人称单数(男)",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, two boys playing with a toy car in a classroom after class, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "你和迈克是好朋友，你经常课后和他一起玩吗？"
+            "zh": "你和迈克是好朋友，你经常课后和他一起玩吗？",
+            "image": "fill/g5-s1-q07.jpg"
           },
           {
             "n": 8,
@@ -364,7 +401,8 @@
             "type": "possAdj",
             "personHint": "第一人称复数",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, two kids in a tidy small bedroom with bunk beds and toys, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我和弟弟共用一个房间，我们的房间不大但很干净。"
+            "zh": "我和弟弟共用一个房间，我们的房间不大但很干净。",
+            "image": "fill/g5-s1-q08.jpg"
           },
           {
             "n": 9,
@@ -373,7 +411,8 @@
             "type": "subject",
             "personHint": "第三人称复数",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, several children flying colorful kites in a sunny park, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "孩子们在公园里，他们正在开心地放风筝。"
+            "zh": "孩子们在公园里，他们正在开心地放风筝。",
+            "image": "fill/g5-s1-q09.jpg"
           },
           {
             "n": 10,
@@ -382,7 +421,8 @@
             "type": "subject",
             "personHint": "第三人称单数(男)",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a father reading a storybook to a child in bed, cozy night scene, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我爸爸喜欢读书，他经常在睡前给我读故事。"
+            "zh": "我爸爸喜欢读书，他经常在睡前给我读故事。",
+            "image": "fill/g5-s1-q10.jpg"
           }
         ],
         [
@@ -393,7 +433,8 @@
             "type": "subject",
             "personHint": "第三人称单数(男)",
             "imgPrompt": "A cute 3D cartoon little boy proudly counting on his fingers, with numbers floating around him, bright classroom background, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我的小弟弟只有三岁，但他已经能从一数到二十了。"
+            "zh": "我的小弟弟只有三岁，但他已经能从一数到二十了。",
+            "image": "fill/g5-s2-q01.jpg"
           },
           {
             "n": 2,
@@ -402,7 +443,8 @@
             "type": "object",
             "personHint": "第三人称单数(女)",
             "imgPrompt": "A friendly female teacher smiling in a classroom, surrounded by happy cartoon students giving thumbs up, warm colors, 3D cute style, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "新来的英语老师非常好，所有的学生都很喜欢她。"
+            "zh": "新来的英语老师非常好，所有的学生都很喜欢她。",
+            "image": "fill/g5-s2-q02.jpg"
           },
           {
             "n": 3,
@@ -411,7 +453,8 @@
             "type": "possPron",
             "personHint": "第二人称单数",
             "imgPrompt": "A cute cartoon student asking to borrow a pencil, holding out hand, another student giving a pencil, classroom desk, 3D style, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我找不到我的铅笔盒了，我能借用你的吗？"
+            "zh": "我找不到我的铅笔盒了，我能借用你的吗？",
+            "image": "fill/g5-s2-q03.jpg"
           },
           {
             "n": 4,
@@ -420,7 +463,8 @@
             "type": "reflexive",
             "personHint": "第一人称复数",
             "imgPrompt": "Two cute cartoon boys helping each other with homework at a desk, books and pencils, friendly atmosphere, 3D cute style, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "汤姆和我是好朋友，我们经常放学后互相帮助做作业。"
+            "zh": "汤姆和我是好朋友，我们经常放学后互相帮助做作业。",
+            "image": "fill/g5-s2-q04.jpg"
           },
           {
             "n": 5,
@@ -429,7 +473,8 @@
             "type": "possAdj",
             "personHint": "第三人称单数(物)",
             "imgPrompt": "A cute cartoon dog with a name tag, wagging tail, sitting on a green lawn, bright sunny day, 3D style, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "这是我的宠物狗。它的名字叫Lucky，而且它非常聪明。"
+            "zh": "这是我的宠物狗。它的名字叫Lucky，而且它非常聪明。",
+            "image": "fill/g5-s2-q05.jpg"
           },
           {
             "n": 6,
@@ -438,7 +483,8 @@
             "type": "subject",
             "personHint": "第三人称复数",
             "imgPrompt": "Two cute cartoon twin girls playing a piano together, music notes floating, cozy room, 3D style, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "露西和莉莉是双胞胎，她们都喜欢弹钢琴。"
+            "zh": "露西和莉莉是双胞胎，她们都喜欢弹钢琴。",
+            "image": "fill/g5-s2-q06.jpg"
           },
           {
             "n": 7,
@@ -447,7 +493,8 @@
             "type": "object",
             "personHint": "第三人称单数(女)",
             "imgPrompt": "A proud cartoon child hugging a doctor mother in a hospital corridor, medical symbols, warm lighting, 3D style, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我妈妈是医生，她工作很努力，我为她感到骄傲。"
+            "zh": "我妈妈是医生，她工作很努力，我为她感到骄傲。",
+            "image": "fill/g5-s2-q07.jpg"
           },
           {
             "n": 8,
@@ -456,7 +503,8 @@
             "type": "object",
             "personHint": "第一人称单数",
             "imgPrompt": "A cartoon child asking dad for help with a science project, showing a model volcano, dad smiling, home workshop, 3D style, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "爸爸，你能帮我做科学项目吗？对我来说真的很难。"
+            "zh": "爸爸，你能帮我做科学项目吗？对我来说真的很难。",
+            "image": "fill/g5-s2-q08.jpg"
           },
           {
             "n": 9,
@@ -465,7 +513,8 @@
             "type": "subject",
             "personHint": "第三人称复数",
             "imgPrompt": "A group of cute cartoon students reading books silently in a library, shelves full of books, peaceful atmosphere, 3D style, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "学生们在图书馆里，他们正在安静地读书。"
+            "zh": "学生们在图书馆里，他们正在安静地读书。",
+            "image": "fill/g5-s2-q09.jpg"
           },
           {
             "n": 10,
@@ -474,7 +523,8 @@
             "type": "subject",
             "personHint": "第三人称单数(物)",
             "imgPrompt": "A bright and clean cartoon classroom with desks, chairs, and a green board, sunlight streaming through windows, 3D style, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "这是我们的教室，它非常干净明亮。"
+            "zh": "这是我们的教室，它非常干净明亮。",
+            "image": "fill/g5-s2-q10.jpg"
           }
         ],
         [
@@ -485,7 +535,8 @@
             "type": "subject",
             "personHint": "第一人称复数",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, two happy children walking to school together with backpacks, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我和姐姐在同一所学校，我们每天一起上学。"
+            "zh": "我和姐姐在同一所学校，我们每天一起上学。",
+            "image": "fill/g5-s3-q01.jpg"
           },
           {
             "n": 2,
@@ -494,7 +545,8 @@
             "type": "object",
             "personHint": "第三人称单数(男)",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, two boys playing basketball happily in a school playground, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "汤姆是我最好的朋友，我经常课后和他一起打篮球。"
+            "zh": "汤姆是我最好的朋友，我经常课后和他一起打篮球。",
+            "image": "fill/g5-s3-q02.jpg"
           },
           {
             "n": 3,
@@ -503,7 +555,8 @@
             "type": "possAdj",
             "personHint": "第三人称单数(物)",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a cute little dog with a short white tail wagging happily, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "那只狗很可爱，它的尾巴又短又白。"
+            "zh": "那只狗很可爱，它的尾巴又短又白。",
+            "image": "fill/g5-s3-q03.jpg"
           },
           {
             "n": 4,
@@ -512,7 +565,8 @@
             "type": "possPron",
             "personHint": "第二人称单数",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, two children looking at a pile of books, one pointing at the books, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "这些书不是我的，是你的。我的书落在家里了。"
+            "zh": "这些书不是我的，是你的。我的书落在家里了。",
+            "image": "fill/g5-s3-q04.jpg"
           },
           {
             "n": 5,
@@ -521,7 +575,8 @@
             "type": "possAdj",
             "personHint": "第三人称复数",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a group of happy children playing with a football in a sunny garden, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "孩子们在花园里，他们正在玩他们的足球。"
+            "zh": "孩子们在花园里，他们正在玩他们的足球。",
+            "image": "fill/g5-s3-q05.jpg"
           },
           {
             "n": 6,
@@ -530,7 +585,8 @@
             "type": "subject",
             "personHint": "第三人称单数(女)",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a kind woman doctor in a white coat standing in front of a hospital, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我妈妈是医生，她在一家大医院工作。"
+            "zh": "我妈妈是医生，她在一家大医院工作。",
+            "image": "fill/g5-s3-q06.jpg"
           },
           {
             "n": 7,
@@ -539,7 +595,8 @@
             "type": "object",
             "personHint": "第一人称复数",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a teacher asking children to clean a classroom, children holding cleaning tools, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "老师让我们打扫教室，请帮帮我们。"
+            "zh": "老师让我们打扫教室，请帮帮我们。",
+            "image": "fill/g5-s3-q07.jpg"
           },
           {
             "n": 8,
@@ -548,7 +605,8 @@
             "type": "subject",
             "personHint": "第三人称单数(男)",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a little boy sitting on a chair trying to tie his shoes, looking a bit frustrated, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我弟弟只有五岁，他还不会系鞋带。"
+            "zh": "我弟弟只有五岁，他还不会系鞋带。",
+            "image": "fill/g5-s3-q08.jpg"
           },
           {
             "n": 9,
@@ -557,7 +615,8 @@
             "type": "object",
             "personHint": "第三人称单数(物)",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a cute bird singing on a tree branch, musical notes floating in the air, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "鸟在树上唱歌，听它唱。"
+            "zh": "鸟在树上唱歌，听它唱。",
+            "image": "fill/g5-s3-q09.jpg"
           },
           {
             "n": 10,
@@ -566,7 +625,8 @@
             "type": "subject",
             "personHint": "第一人称复数",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, two girls laughing and helping each other, one carrying books for the other, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "莉莉和我是好朋友，我们经常互相帮助。"
+            "zh": "莉莉和我是好朋友，我们经常互相帮助。",
+            "image": "fill/g5-s3-q10.jpg"
           }
         ]
       ]
@@ -583,7 +643,8 @@
             "type": "subject",
             "personHint": "第三人称单数(女)",
             "imgPrompt": "A cute 3D cartoon sister with a big smile helping a young boy do homework at a desk, warm lighting, cozy room, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我的妹妹很善良，她经常帮我做作业。"
+            "zh": "我的妹妹很善良，她经常帮我做作业。",
+            "image": "fill/g6-s1-q01.jpg"
           },
           {
             "n": 2,
@@ -592,7 +653,8 @@
             "type": "object",
             "personHint": "第一人称复数",
             "imgPrompt": "Two happy 3D cartoon boys playing basketball in a sunny park, a third child watching, fun and vivid, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "汤姆和我是好朋友，我们经常一起打篮球。你想加入我们吗？"
+            "zh": "汤姆和我是好朋友，我们经常一起打篮球。你想加入我们吗？",
+            "image": "fill/g6-s1-q02.jpg"
           },
           {
             "n": 3,
@@ -601,7 +663,8 @@
             "type": "possAdj",
             "personHint": "第三人称单数(物)",
             "imgPrompt": "A cute 3D cartoon cat playing with a colorful ball, bright room, soft lighting, adorable and kid-friendly, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "猫正在玩球，那个球是它的。"
+            "zh": "猫正在玩球，那个球是它的。",
+            "image": "fill/g6-s1-q03.jpg"
           },
           {
             "n": 4,
@@ -610,7 +673,8 @@
             "type": "possPron",
             "personHint": "第一人称单数",
             "imgPrompt": "A 3D cartoon classroom with a desk and a book, a child pointing to another book, clear and vivid, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "这不是我的书，我的在那边桌子上。"
+            "zh": "这不是我的书，我的在那边桌子上。",
+            "image": "fill/g6-s1-q04.jpg"
           },
           {
             "n": 5,
@@ -619,7 +683,8 @@
             "type": "reflexive",
             "personHint": "第一人称单数",
             "imgPrompt": "A cute 3D cartoon child proudly showing a handmade card, art supplies on table, bright colors, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我可以自己做卡片，不需要帮助。"
+            "zh": "我可以自己做卡片，不需要帮助。",
+            "image": "fill/g6-s1-q05.jpg"
           },
           {
             "n": 6,
@@ -628,7 +693,8 @@
             "type": "object",
             "personHint": "第三人称复数",
             "imgPrompt": "Two kind 3D cartoon grandparents standing at a school gate, smiling and waving, a child running towards them, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "你的祖父母在大门口等你，请去跟他们打招呼。"
+            "zh": "你的祖父母在大门口等你，请去跟他们打招呼。",
+            "image": "fill/g6-s1-q06.jpg"
           },
           {
             "n": 7,
@@ -637,7 +703,8 @@
             "type": "subject",
             "personHint": "第三人称复数",
             "imgPrompt": "A peaceful 3D cartoon library with several children sitting and reading books, soft lighting, quiet atmosphere, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "学生们在图书馆，他们正在安静地阅读。"
+            "zh": "学生们在图书馆，他们正在安静地阅读。",
+            "image": "fill/g6-s1-q07.jpg"
           },
           {
             "n": 8,
@@ -646,7 +713,8 @@
             "type": "object",
             "personHint": "第三人称单数(物)",
             "imgPrompt": "A cute 3D cartoon girl with a hat, her mother handing her the hat, warm home setting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "莉莉，这是你的帽子，请戴上它。"
+            "zh": "莉莉，这是你的帽子，请戴上它。",
+            "image": "fill/g6-s1-q08.jpg"
           },
           {
             "n": 9,
@@ -655,7 +723,8 @@
             "type": "object",
             "personHint": "第三人称单数(女)",
             "imgPrompt": "A 3D cartoon father giving a wrapped gift to a smiling mother, living room with Christmas decorations, warm lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我爸爸给妈妈买了一份礼物，这份礼物是给她的。"
+            "zh": "我爸爸给妈妈买了一份礼物，这份礼物是给她的。",
+            "image": "fill/g6-s1-q09.jpg"
           },
           {
             "n": 10,
@@ -664,7 +733,8 @@
             "type": "reflexive",
             "personHint": "第一人称复数",
             "imgPrompt": "Two 3D cartoon children painting a fence, proud expressions, tools around, sunny day, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我们靠自己完成了所有工作，没有人帮忙。"
+            "zh": "我们靠自己完成了所有工作，没有人帮忙。",
+            "image": "fill/g6-s1-q10.jpg"
           }
         ],
         [
@@ -675,7 +745,8 @@
             "type": "subject",
             "personHint": "第一人称复数",
             "imgPrompt": "Cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, showing a group of happy children flying colorful kites in a sunny park., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我和朋友们要去公园。我们会在那里放风筝。"
+            "zh": "我和朋友们要去公园。我们会在那里放风筝。",
+            "image": "fill/g6-s2-q01.jpg"
           },
           {
             "n": 2,
@@ -684,7 +755,8 @@
             "type": "object",
             "personHint": "第三人称单数(男)",
             "imgPrompt": "Cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, showing a tall boy in a blue T-shirt playing basketball, with another child pointing at him., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "你哥哥很高。看那个穿蓝色T恤的他！"
+            "zh": "你哥哥很高。看那个穿蓝色T恤的他！",
+            "image": "fill/g6-s2-q02.jpg"
           },
           {
             "n": 3,
@@ -693,7 +765,8 @@
             "type": "object",
             "personHint": "第三人称单数(物)",
             "imgPrompt": "Cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, showing a cute cat meowing near an empty bowl, with a child holding a bottle of milk., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "猫饿了。请给它一些牛奶。"
+            "zh": "猫饿了。请给它一些牛奶。",
+            "image": "fill/g6-s2-q03.jpg"
           },
           {
             "n": 4,
@@ -702,7 +775,8 @@
             "type": "possPron",
             "personHint": "第一人称单数",
             "imgPrompt": "Cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, showing a school desk with pencils, one pencil lying separately, and a child pointing to it., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "这不是我的铅笔。我的在书桌上。"
+            "zh": "这不是我的铅笔。我的在书桌上。",
+            "image": "fill/g6-s2-q04.jpg"
           },
           {
             "n": 5,
@@ -711,7 +785,8 @@
             "type": "reflexive",
             "personHint": "第三人称单数(男)",
             "imgPrompt": "Cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, showing a boy proudly holding a handmade model airplane, with a happy expression., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "汤姆自己做的模型飞机。他为此感到自豪。"
+            "zh": "汤姆自己做的模型飞机。他为此感到自豪。",
+            "image": "fill/g6-s2-q05.jpg"
           },
           {
             "n": 6,
@@ -720,7 +795,8 @@
             "type": "possAdj",
             "personHint": "第一人称复数",
             "imgPrompt": "Cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, showing two children reading books with animal pictures, a stack of books beside them., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我和妹妹爱读书。我们最喜欢的书是关于动物的。"
+            "zh": "我和妹妹爱读书。我们最喜欢的书是关于动物的。",
+            "image": "fill/g6-s2-q06.jpg"
           },
           {
             "n": 7,
@@ -729,7 +805,8 @@
             "type": "object",
             "personHint": "第三人称复数",
             "imgPrompt": "Cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, showing a pair of colorful gloves on a table, with a child's hand reaching for them., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "这些是你的手套。请把它们戴上。"
+            "zh": "这些是你的手套。请把它们戴上。",
+            "image": "fill/g6-s2-q07.jpg"
           },
           {
             "n": 8,
@@ -738,7 +815,8 @@
             "type": "object",
             "personHint": "第三人称复数",
             "imgPrompt": "Cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, showing a child watering colorful flowers in a garden with a watering can., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "这些花很漂亮。我每天给它们浇水。"
+            "zh": "这些花很漂亮。我每天给它们浇水。",
+            "image": "fill/g6-s2-q08.jpg"
           },
           {
             "n": 9,
@@ -747,7 +825,8 @@
             "type": "possPron",
             "personHint": "第二人称单数",
             "imgPrompt": "Cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, showing a basketball on a school playground, with a boy picking it up and looking at another boy., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "你好，迈克！这个篮球是你的吗？我在操场上找到的。"
+            "zh": "你好，迈克！这个篮球是你的吗？我在操场上找到的。",
+            "image": "fill/g6-s2-q09.jpg"
           },
           {
             "n": 10,
@@ -756,7 +835,8 @@
             "type": "reflexive",
             "personHint": "第三人称单数(女)",
             "imgPrompt": "Cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, showing a little girl trying to put on a dress, with a parent nearby helping., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "她很小。她还不会自己穿衣服。"
+            "zh": "她很小。她还不会自己穿衣服。",
+            "image": "fill/g6-s2-q10.jpg"
           }
         ],
         [
@@ -767,7 +847,8 @@
             "type": "subject",
             "personHint": "第一人称复数",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, two happy children walking to school together with backpacks, morning sunshine, trees and a school building in background, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我和妹妹在同一所学校，我们每天早晨一起上学。"
+            "zh": "我和妹妹在同一所学校，我们每天早晨一起上学。",
+            "image": "fill/g6-s3-q01.jpg"
           },
           {
             "n": 2,
@@ -776,7 +857,8 @@
             "type": "object",
             "personHint": "第三人称单数(男)",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, two boys playing basketball on an outdoor court, one boy passing the ball, happy expressions, park setting, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "汤姆是我最好的朋友，我周末经常和他打篮球。"
+            "zh": "汤姆是我最好的朋友，我周末经常和他打篮球。",
+            "image": "fill/g6-s3-q02.jpg"
           },
           {
             "n": 3,
@@ -785,7 +867,8 @@
             "type": "possAdj",
             "personHint": "第三人称单数(物)",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a bright classroom with white walls, desks and chairs, blackboard, windows with sunlight, no people, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "这是我们的教室，它的墙壁又白又干净。"
+            "zh": "这是我们的教室，它的墙壁又白又干净。",
+            "image": "fill/g6-s3-q03.jpg"
           },
           {
             "n": 4,
@@ -794,7 +877,8 @@
             "type": "possPron",
             "personHint": "第二人称单数",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a red bicycle parked near a tree, a child pointing at it with a question look, sunny park background, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "看那辆红色自行车，它是你的吗？我昨天看到你骑它了。"
+            "zh": "看那辆红色自行车，它是你的吗？我昨天看到你骑它了。",
+            "image": "fill/g6-s3-q04.jpg"
           },
           {
             "n": 5,
@@ -803,7 +887,8 @@
             "type": "reflexive",
             "personHint": "第一人称单数",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a cheerful child wearing an apron and chef hat, proudly holding a decorated cake in a kitchen, flour and baking tools around, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "上周我自学做了蛋糕，非常好吃！"
+            "zh": "上周我自学做了蛋糕，非常好吃！",
+            "image": "fill/g6-s3-q05.jpg"
           },
           {
             "n": 6,
@@ -812,7 +897,8 @@
             "type": "object",
             "personHint": "第三人称单数(物)",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a cute cat sleeping curled up on a sofa, a child tiptoeing away with a finger to lips, cozy living room, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "猫在沙发上睡觉，请不要吵醒它。"
+            "zh": "猫在沙发上睡觉，请不要吵醒它。",
+            "image": "fill/g6-s3-q06.jpg"
           },
           {
             "n": 7,
@@ -821,7 +907,8 @@
             "type": "possPron",
             "personHint": "第三人称复数",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, an old wooden house with a garden, an elderly couple standing in front, a child looking at a photo album, warm nostalgic feeling, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "这些是我祖父母的照片，照片里的老房子是他们的。"
+            "zh": "这些是我祖父母的照片，照片里的老房子是他们的。",
+            "image": "fill/g6-s3-q07.jpg"
           },
           {
             "n": 8,
@@ -830,7 +917,8 @@
             "type": "possAdj",
             "personHint": "第三人称单数(女)",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a classroom with two desks side by side, one desk has a pink backpack and a name tag 'Anna', another desk with a blue notebook, friendly atmosphere, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "安娜是新同学，她的桌子挨着我的。"
+            "zh": "安娜是新同学，她的桌子挨着我的。",
+            "image": "fill/g6-s3-q08.jpg"
           },
           {
             "n": 9,
@@ -839,7 +927,8 @@
             "type": "object",
             "personHint": "第一人称复数",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, two children holding cleaning tools like a duster and a spray bottle, smiling at their mom, bright living room, family bonding, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "妈妈，我们可以帮你打扫房子，请让我们来做吧。"
+            "zh": "妈妈，我们可以帮你打扫房子，请让我们来做吧。",
+            "image": "fill/g6-s3-q09.jpg"
           },
           {
             "n": 10,
@@ -848,7 +937,8 @@
             "type": "reflexive",
             "personHint": "第二人称单数",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a boy standing on a winner's podium with a gold medal, smiling confidently, confetti and cheering friends around, sports field, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "迈克，你应该为自己感到骄傲，你赢了比赛！"
+            "zh": "迈克，你应该为自己感到骄傲，你赢了比赛！",
+            "image": "fill/g6-s3-q10.jpg"
           }
         ]
       ]
@@ -865,7 +955,8 @@
             "type": "object",
             "personHint": "第三人称复数",
             "imgPrompt": "A cute 3D cartoon of a school sports day, boys running on a track, girls cheering and clapping on the side, soft lighting, adorable style, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "今天是校运动会，男孩们在跑步，女孩们在为他们加油。"
+            "zh": "今天是校运动会，男孩们在跑步，女孩们在为他们加油。",
+            "image": "fill/g7-s1-q01.jpg"
           },
           {
             "n": 2,
@@ -874,7 +965,8 @@
             "type": "subject",
             "personHint": "第三人称单数(物)",
             "imgPrompt": "A cute 3D cartoon of a girl and a boy playing with a fluffy cat in a sunny garden, the cat chasing a ball, soft lighting, adorable style, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我和妹妹养了一只可爱的猫，它常和我们一起在花园玩。"
+            "zh": "我和妹妹养了一只可爱的猫，它常和我们一起在花园玩。",
+            "image": "fill/g7-s1-q02.jpg"
           },
           {
             "n": 3,
@@ -883,7 +975,8 @@
             "type": "possPron",
             "personHint": "第一人称复数",
             "imgPrompt": "A cute 3D cartoon of two school kids at a tidy shared desk in a classroom, pencils and books neatly arranged, soft lighting, adorable style, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我和朋友露西共用一张课桌，它是我们的，干净又整洁。"
+            "zh": "我和朋友露西共用一张课桌，它是我们的，干净又整洁。",
+            "image": "fill/g7-s1-q03.jpg"
           },
           {
             "n": 4,
@@ -892,7 +985,8 @@
             "type": "object",
             "personHint": "第三人称单数(男)",
             "imgPrompt": "A cute 3D cartoon of a boy and a girl at a school desk, the boy helping the girl with a math worksheet, both smiling, soft lighting, adorable style, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "汤姆是我的同学，他经常帮助别人，我有难题时也会找他。"
+            "zh": "汤姆是我的同学，他经常帮助别人，我有难题时也会找他。",
+            "image": "fill/g7-s1-q04.jpg"
           },
           {
             "n": 5,
@@ -901,7 +995,8 @@
             "type": "possAdj",
             "personHint": "第三人称单数(女)",
             "imgPrompt": "A cute 3D cartoon of a friendly female teacher telling stories to a group of kids in a classroom, kids listening happily, soft lighting, adorable style, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我们的英语老师很和蔼，我们都很喜欢她的课。"
+            "zh": "我们的英语老师很和蔼，我们都很喜欢她的课。",
+            "image": "fill/g7-s1-q05.jpg"
           },
           {
             "n": 6,
@@ -910,7 +1005,8 @@
             "type": "object",
             "personHint": "第二人称单数",
             "imgPrompt": "A cute 3D cartoon of a kind kid helping an old man carry a heavy bag in a park, trees and flowers around, soft lighting, adorable style, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "公园里我看到一位老人，我跑过去对他说，让我帮你拿包吧。"
+            "zh": "公园里我看到一位老人，我跑过去对他说，让我帮你拿包吧。",
+            "image": "fill/g7-s1-q06.jpg"
           },
           {
             "n": 7,
@@ -919,7 +1015,8 @@
             "type": "reflexive",
             "personHint": "第一人称复数",
             "imgPrompt": "A cute 3D cartoon of a family of three carrying a picnic basket together in a sunny park, smiling, soft lighting, adorable style, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我们全家每周日野餐，我们自己搬篮子，不需要别人帮忙。"
+            "zh": "我们全家每周日野餐，我们自己搬篮子，不需要别人帮忙。",
+            "image": "fill/g7-s1-q07.jpg"
           },
           {
             "n": 8,
@@ -928,7 +1025,8 @@
             "type": "possPron",
             "personHint": "第三人称复数",
             "imgPrompt": "A cute 3D cartoon of a school garden with colorful flowers, a group of students watering plants together, soft lighting, adorable style, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "二班的学生有一个美丽的花园，花园是他们的，他们每天浇水。"
+            "zh": "二班的学生有一个美丽的花园，花园是他们的，他们每天浇水。",
+            "image": "fill/g7-s1-q08.jpg"
           },
           {
             "n": 9,
@@ -937,7 +1035,8 @@
             "type": "object",
             "personHint": "第一人称单数",
             "imgPrompt": "A cute 3D cartoon of two kids talking at school, one holding out a book, the other smiling, books and lockers in background, soft lighting, adorable style, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "嗨，迈克！这本新书给你，那本给我。"
+            "zh": "嗨，迈克！这本新书给你，那本给我。",
+            "image": "fill/g7-s1-q09.jpg"
           },
           {
             "n": 10,
@@ -946,7 +1045,8 @@
             "type": "reflexive",
             "personHint": "第三人称单数(男)",
             "imgPrompt": "A cute 3D cartoon of a little boy trying to put on a shirt, a mom gently helping him, bedroom with toys, soft lighting, adorable style, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我的小弟弟才三岁，他还不会自己穿衣服，妈妈每天早上帮他。"
+            "zh": "我的小弟弟才三岁，他还不会自己穿衣服，妈妈每天早上帮他。",
+            "image": "fill/g7-s1-q10.jpg"
           }
         ],
         [
@@ -957,7 +1057,8 @@
             "type": "subject",
             "personHint": "第一人称复数",
             "imgPrompt": "Two happy school kids holding a trophy on a running track, confetti in the air, cute 3D cartoon style, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "在运动会上，我和汤姆的团队赢得了第一名。"
+            "zh": "在运动会上，我和汤姆的团队赢得了第一名。",
+            "image": "fill/g7-s2-q01.jpg"
           },
           {
             "n": 2,
@@ -966,7 +1067,8 @@
             "type": "object",
             "personHint": "第三人称单数(物)",
             "imgPrompt": "A little girl holding a brown wallet, pointing to a school building, other kids playing around, cute 3D cartoon style, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "莉莉捡到钱包并交给了老师。"
+            "zh": "莉莉捡到钱包并交给了老师。",
+            "image": "fill/g7-s2-q02.jpg"
           },
           {
             "n": 3,
@@ -975,7 +1077,8 @@
             "type": "possAdj",
             "personHint": "第三人称单数(男)",
             "imgPrompt": "A cozy bedroom with a blue desk and a white bed, two brothers smiling, one pointing at the bed, cute 3D cartoon style, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "蓝桌子是我的，白床是我哥哥的。"
+            "zh": "蓝桌子是我的，白床是我哥哥的。",
+            "image": "fill/g7-s2-q03.jpg"
           },
           {
             "n": 4,
@@ -984,7 +1087,8 @@
             "type": "object",
             "personHint": "第三人称复数",
             "imgPrompt": "A cheerful teacher watching students clean a classroom, kids with brooms and cloths, happy faces, cute 3D cartoon style, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "老师为努力打扫的学生们感到骄傲。"
+            "zh": "老师为努力打扫的学生们感到骄傲。",
+            "image": "fill/g7-s2-q04.jpg"
           },
           {
             "n": 5,
@@ -993,7 +1097,8 @@
             "type": "object",
             "personHint": "第三人称单数(女)",
             "imgPrompt": "A child drawing at a desk, a picture showing a family with parents and a little sister holding a flower, cute 3D cartoon style, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "画中妹妹拿着花，父母站在她身后。"
+            "zh": "画中妹妹拿着花，父母站在她身后。",
+            "image": "fill/g7-s2-q05.jpg"
           },
           {
             "n": 6,
@@ -1002,7 +1107,8 @@
             "type": "possPron",
             "personHint": "第一人称复数",
             "imgPrompt": "A picnic blanket in a park with sandwiches and cookies, kids sitting around, one kid shaking head at cookies, cute 3D cartoon style, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "三明治好吃，但饼干不是我们的。"
+            "zh": "三明治好吃，但饼干不是我们的。",
+            "image": "fill/g7-s2-q06.jpg"
           },
           {
             "n": 7,
@@ -1011,7 +1117,8 @@
             "type": "possPron",
             "personHint": "第三人称复数",
             "imgPrompt": "Two identical twin boys pointing at red jackets on a rack, smiling, cute 3D cartoon style, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "那些红夹克是双胞胎兄弟的。"
+            "zh": "那些红夹克是双胞胎兄弟的。",
+            "image": "fill/g7-s2-q07.jpg"
           },
           {
             "n": 8,
@@ -1020,7 +1127,8 @@
             "type": "reflexive",
             "personHint": "第一人称单数",
             "imgPrompt": "A child on a ski slope, frightened but determined, wearing a helmet and goggles, cute 3D cartoon style, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我告诉自己‘你能行’，然后滑雪就学好了。"
+            "zh": "我告诉自己‘你能行’，然后滑雪就学好了。",
+            "image": "fill/g7-s2-q08.jpg"
           },
           {
             "n": 9,
@@ -1029,7 +1137,8 @@
             "type": "object",
             "personHint": "第三人称单数(女)",
             "imgPrompt": "A proud family looking at a mother in nurse uniform, hospital background, hearts around, cute 3D cartoon style, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我们为当护士的妈妈感到骄傲。"
+            "zh": "我们为当护士的妈妈感到骄傲。",
+            "image": "fill/g7-s2-q09.jpg"
           },
           {
             "n": 10,
@@ -1038,7 +1147,8 @@
             "type": "object",
             "personHint": "第三人称单数(男)",
             "imgPrompt": "Children playing hide-and-seek in a park, one boy peeking from behind a tree, others searching, cute 3D cartoon style, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "其他孩子正在找那个躲藏的男孩。"
+            "zh": "其他孩子正在找那个躲藏的男孩。",
+            "image": "fill/g7-s2-q10.jpg"
           }
         ],
         [
@@ -1049,7 +1159,8 @@
             "type": "subject",
             "personHint": "第一人称复数",
             "imgPrompt": "A cute 3D cartoon of two kids running on a track, one holding a baton, practicing after school, sunshine, sports field, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "运动会上，我和莉莉都参加了接力赛。我们队不够快，但我们每天放学后都刻苦训练。"
+            "zh": "运动会上，我和莉莉都参加了接力赛。我们队不够快，但我们每天放学后都刻苦训练。",
+            "image": "fill/g7-s3-q01.jpg"
           },
           {
             "n": 2,
@@ -1058,7 +1169,8 @@
             "type": "possPron",
             "personHint": "第一人称单数",
             "imgPrompt": "A cute 3D cartoon of a messy bedroom with two beds, one side tidy, one side messy, a boy pointing at the messy side, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我和哥哥共用一个房间。他总是说房间乱的那边不是他的，而是我的。"
+            "zh": "我和哥哥共用一个房间。他总是说房间乱的那边不是他的，而是我的。",
+            "image": "fill/g7-s3-q02.jpg"
           },
           {
             "n": 3,
@@ -1067,7 +1179,8 @@
             "type": "object",
             "personHint": "第一人称单数",
             "imgPrompt": "A cute 3D cartoon of a grandmother teaching two children to make dumplings in a warm kitchen, flour on the table, smiling faces, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "寒假期间，我们全家去乡下看望祖父母。奶奶教我和妹妹包饺子。"
+            "zh": "寒假期间，我们全家去乡下看望祖父母。奶奶教我和妹妹包饺子。",
+            "image": "fill/g7-s3-q03.jpg"
           },
           {
             "n": 4,
@@ -1076,7 +1189,8 @@
             "type": "possAdj",
             "personHint": "第三人称复数",
             "imgPrompt": "A cute 3D cartoon of a classroom, kids drawing at desks, one drawing a panda, another a dolphin, teacher smiling, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "美术课上，老师让每个人画一幅自己最喜欢的动物。汤姆画了熊猫，露西画了海豚。"
+            "zh": "美术课上，老师让每个人画一幅自己最喜欢的动物。汤姆画了熊猫，露西画了海豚。",
+            "image": "fill/g7-s3-q04.jpg"
           },
           {
             "n": 5,
@@ -1085,7 +1199,8 @@
             "type": "subject",
             "personHint": "第三人称单数(物)",
             "imgPrompt": "A cute 3D cartoon of a fluffy cat curled up on a sofa, eyes closed, cozy, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "猫在沙发上找到了一个暖和的地方，蜷缩起来。在外面玩了一整天后，它看起来很舒服。"
+            "zh": "猫在沙发上找到了一个暖和的地方，蜷缩起来。在外面玩了一整天后，它看起来很舒服。",
+            "image": "fill/g7-s3-q05.jpg"
           },
           {
             "n": 6,
@@ -1094,7 +1209,8 @@
             "type": "subject",
             "personHint": "第三人称复数",
             "imgPrompt": "A cute 3D cartoon of a school stage, kids in costumes performing a play, audience clapping, colorful banners, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "在学校节日上，三班的学生表演了一个短剧。他们花了两个星期准备。"
+            "zh": "在学校节日上，三班的学生表演了一个短剧。他们花了两个星期准备。",
+            "image": "fill/g7-s3-q06.jpg"
           },
           {
             "n": 7,
@@ -1103,7 +1219,8 @@
             "type": "object",
             "personHint": "第三人称单数(物)",
             "imgPrompt": "A cute 3D cartoon of a girl giving a pink schoolbag to her younger sister, both smiling, room background, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "莉莉的妈妈给她买了一个新书包。但莉莉不喜欢那个颜色，所以她把它送给了妹妹。"
+            "zh": "莉莉的妈妈给她买了一个新书包。但莉莉不喜欢那个颜色，所以她把它送给了妹妹。",
+            "image": "fill/g7-s3-q07.jpg"
           },
           {
             "n": 8,
@@ -1112,7 +1229,8 @@
             "type": "object",
             "personHint": "第三人称单数(男)",
             "imgPrompt": "A cute 3D cartoon of a basketball court, a boy on the ground holding his knee, a coach helping him up, concerned teammates, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "篮球比赛中，迈克摔倒伤了膝盖。教练扶他站起来，走到长凳旁。"
+            "zh": "篮球比赛中，迈克摔倒伤了膝盖。教练扶他站起来，走到长凳旁。",
+            "image": "fill/g7-s3-q08.jpg"
           },
           {
             "n": 9,
@@ -1121,7 +1239,8 @@
             "type": "possPron",
             "personHint": "第三人称单数(女)",
             "imgPrompt": "A cute 3D cartoon of a picnic blanket with sandwiches, juice, and a chocolate cake, friends sitting around, sunny park, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "上周末我和朋友们去野餐。我们带了三明治和果汁。甜点是露西带的，是巧克力蛋糕。"
+            "zh": "上周末我和朋友们去野餐。我们带了三明治和果汁。甜点是露西带的，是巧克力蛋糕。",
+            "image": "fill/g7-s3-q09.jpg"
           },
           {
             "n": 10,
@@ -1130,7 +1249,8 @@
             "type": "reflexive",
             "personHint": "第三人称复数",
             "imgPrompt": "A cute 3D cartoon of two twin children making their beds and doing homework, proud expressions, bright room, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "这对双胞胎很独立。他们总是自己整理床铺、自己做作业，不要父母帮忙。"
+            "zh": "这对双胞胎很独立。他们总是自己整理床铺、自己做作业，不要父母帮忙。",
+            "image": "fill/g7-s3-q10.jpg"
           }
         ]
       ]
@@ -1147,7 +1267,8 @@
             "type": "subject",
             "personHint": "第一人称复数",
             "imgPrompt": "Two cute cartoon girls in a colorful bedroom, one holding a broom, the other holding a dustpan, smiling at each other, soft lighting, 3D style, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我和妹妹共用一间卧室，我们经常争论该谁打扫，但很快就和好了。"
+            "zh": "我和妹妹共用一间卧室，我们经常争论该谁打扫，但很快就和好了。",
+            "image": "fill/g8-s1-q01.jpg"
           },
           {
             "n": 2,
@@ -1156,7 +1277,8 @@
             "type": "object",
             "personHint": "第三人称单数(物)",
             "imgPrompt": "A sad cartoon boy talking to a friendly police officer, a shiny bicycle behind them in a green park, cute 3D style, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "汤姆的自行车上周被偷了，他很沮丧，但警察两天后在公园里找到了它。"
+            "zh": "汤姆的自行车上周被偷了，他很沮丧，但警察两天后在公园里找到了它。",
+            "image": "fill/g8-s1-q02.jpg"
           },
           {
             "n": 3,
@@ -1165,7 +1287,8 @@
             "type": "object",
             "personHint": "第三人称单数(物)",
             "imgPrompt": "A happy cartoon girl giving a framed family drawing to her smiling mother, hearts in the air, cute 3D style, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "艾玛是个有才华的艺术家，她画了一幅全家福，在母亲节送给了妈妈。"
+            "zh": "艾玛是个有才华的艺术家，她画了一幅全家福，在母亲节送给了妈妈。",
+            "image": "fill/g8-s1-q03.jpg"
           },
           {
             "n": 4,
@@ -1174,7 +1297,8 @@
             "type": "possAdj",
             "personHint": "第三人称单数(男)",
             "imgPrompt": "A group of cartoon students in sports uniforms, one boy holding a medal, others cheering, a classroom in background, cute 3D style, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "学生们正在为学校运动会做准备，每个人都想为班级赢得奖牌。"
+            "zh": "学生们正在为学校运动会做准备，每个人都想为班级赢得奖牌。",
+            "image": "fill/g8-s1-q04.jpg"
           },
           {
             "n": 5,
@@ -1183,7 +1307,8 @@
             "type": "possAdj",
             "personHint": "第三人称单数(男)",
             "imgPrompt": "A cute cartoon little boy sitting on a small chair, tying his red shoes, parents watching proudly in background, 3D style, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我弟弟只有五岁，他现在能自己系鞋带了，这让父母很骄傲。"
+            "zh": "我弟弟只有五岁，他现在能自己系鞋带了，这让父母很骄傲。",
+            "image": "fill/g8-s1-q05.jpg"
           },
           {
             "n": 6,
@@ -1192,7 +1317,8 @@
             "type": "object",
             "personHint": "第一人称复数",
             "imgPrompt": "A cartoon basketball coach talking to a group of young players in a gym, basketballs on the floor, determined expressions, cute 3D style, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我和朋友加入了校篮球队，教练告诉我们如果想赢冠军就要每天训练。"
+            "zh": "我和朋友加入了校篮球队，教练告诉我们如果想赢冠军就要每天训练。",
+            "image": "fill/g8-s1-q06.jpg"
           },
           {
             "n": 7,
@@ -1201,7 +1327,8 @@
             "type": "reflexive",
             "personHint": "第三人称复数",
             "imgPrompt": "Two identical cartoon twin girls, one reading a book quietly, the other playing basketball energetically, split background, cute 3D style, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "莉莉和露西是双胞胎，她们长得一样，但性格却大不相同。"
+            "zh": "莉莉和露西是双胞胎，她们长得一样，但性格却大不相同。",
+            "image": "fill/g8-s1-q07.jpg"
           },
           {
             "n": 8,
@@ -1210,7 +1337,8 @@
             "type": "possAdj",
             "personHint": "第三人称单数(女)",
             "imgPrompt": "A kind cartoon grandmother telling stories to two children, a hospital and nurse uniform in a framed picture on the wall, warm lighting, 3D style, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "奶奶年轻时是护士，她常给我们讲战争时期在医院里的经历。"
+            "zh": "奶奶年轻时是护士，她常给我们讲战争时期在医院里的经历。",
+            "image": "fill/g8-s1-q08.jpg"
           },
           {
             "n": 9,
@@ -1219,7 +1347,8 @@
             "type": "subject",
             "personHint": "第三人称复数",
             "imgPrompt": "Three cartoon boys whispering and grinning, holding balloons and a birthday cake, a classroom with a 'Surprise!' banner, cute 3D style, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "男孩们正在为老师策划惊喜派对，他们一直保密，而且非常兴奋。"
+            "zh": "男孩们正在为老师策划惊喜派对，他们一直保密，而且非常兴奋。",
+            "image": "fill/g8-s1-q09.jpg"
           },
           {
             "n": 10,
@@ -1228,7 +1357,8 @@
             "type": "possAdj",
             "personHint": "第一人称单数",
             "imgPrompt": "A cartoon student looking at a test paper with a red X, facepalming, a lightbulb above head, classroom background, cute 3D style, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我数学考试犯了错，因为没仔细检查答案，我保证下次更细心。"
+            "zh": "我数学考试犯了错，因为没仔细检查答案，我保证下次更细心。",
+            "image": "fill/g8-s1-q10.jpg"
           }
         ],
         [
@@ -1239,7 +1369,8 @@
             "type": "subject",
             "personHint": "第一人称复数",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a boy and a girl with a basketball going to a sunny park, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我和哥哥都爱篮球，每周六早上去公园和朋友打球。"
+            "zh": "我和哥哥都爱篮球，每周六早上去公园和朋友打球。",
+            "image": "fill/g8-s2-q01.jpg"
           },
           {
             "n": 2,
@@ -1248,7 +1379,8 @@
             "type": "subject",
             "personHint": "第三人称单数(男)",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a male student promising to finish homework at his desk, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "老师让学生按时交作业，汤姆答应晚饭前完成。"
+            "zh": "老师让学生按时交作业，汤姆答应晚饭前完成。",
+            "image": "fill/g8-s2-q02.jpg"
           },
           {
             "n": 3,
@@ -1257,7 +1389,8 @@
             "type": "object",
             "personHint": "第三人称单数(女)",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a girl singing in a choir and an audience smiling, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "露西嗓音很美，合唱表演时大家都爱听她唱。"
+            "zh": "露西嗓音很美，合唱表演时大家都爱听她唱。",
+            "image": "fill/g8-s2-q03.jpg"
           },
           {
             "n": 4,
@@ -1266,7 +1399,8 @@
             "type": "object",
             "personHint": "第一人称复数",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a cat jumping out from behind a door to surprise people, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "那只猫很顽皮，常躲在门后，我们回家时跳出来吓我们。"
+            "zh": "那只猫很顽皮，常躲在门后，我们回家时跳出来吓我们。",
+            "image": "fill/g8-s2-q04.jpg"
           },
           {
             "n": 5,
@@ -1275,7 +1409,8 @@
             "type": "possAdj",
             "personHint": "第三人称单数(女)",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, two desks in a study, one by the window, one by a bookshelf, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "妹妹和我共用书房，她的书桌靠窗，我的靠书架。"
+            "zh": "妹妹和我共用书房，她的书桌靠窗，我的靠书架。",
+            "image": "fill/g8-s2-q05.jpg"
           },
           {
             "n": 6,
@@ -1284,7 +1419,8 @@
             "type": "possPron",
             "personHint": "第三人称复数",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a coach encouraging a team on a sports field, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "队员们为决赛苦练，教练相信只要团结，胜利就是他们的。"
+            "zh": "队员们为决赛苦练，教练相信只要团结，胜利就是他们的。",
+            "image": "fill/g8-s2-q06.jpg"
           },
           {
             "n": 7,
@@ -1293,7 +1429,8 @@
             "type": "reflexive",
             "personHint": "第一人称复数",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a family laughing and taking photos in the countryside, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "假期父母带我们去乡下，我们玩得很开心，拍了很多照片。"
+            "zh": "假期父母带我们去乡下，我们玩得很开心，拍了很多照片。",
+            "image": "fill/g8-s2-q07.jpg"
           },
           {
             "n": 8,
@@ -1302,7 +1439,8 @@
             "type": "reflexive",
             "personHint": "第二人称单数",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a young traveler looking at a map and staying safe, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "去新地方时，你应该照顾好自己，避开危险区域。"
+            "zh": "去新地方时，你应该照顾好自己，避开危险区域。",
+            "image": "fill/g8-s2-q08.jpg"
           },
           {
             "n": 9,
@@ -1311,7 +1449,8 @@
             "type": "possPron",
             "personHint": "第三人称单数(女)",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a girl holding a favorite book in a reading club, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "读书会上每人分享一本最喜欢的书，昨天杰克推荐了，今天安娜会带她的。"
+            "zh": "读书会上每人分享一本最喜欢的书，昨天杰克推荐了，今天安娜会带她的。",
+            "image": "fill/g8-s2-q09.jpg"
           },
           {
             "n": 10,
@@ -1320,7 +1459,8 @@
             "type": "object",
             "personHint": "第一人称复数",
             "imgPrompt": "cute vivid 3D cartoon style, soft lighting, kid-friendly, no text, no letters, a grandfather teaching two kids fishing by a lake, cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "表哥和我常跟爷爷去钓鱼，他教我们选鱼饵。"
+            "zh": "表哥和我常跟爷爷去钓鱼，他教我们选鱼饵。",
+            "image": "fill/g8-s2-q10.jpg"
           }
         ],
         [
@@ -1331,7 +1471,8 @@
             "type": "subject",
             "personHint": "第一人称复数",
             "imgPrompt": "A cute 3D cartoon of two happy kids playing basketball in a sunny park, with a picnic basket nearby, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "我和弟弟昨天去了公园。我们打了两个小时篮球，然后野餐了。"
+            "zh": "我和弟弟昨天去了公园。我们打了两个小时篮球，然后野餐了。",
+            "image": "fill/g8-s3-q01.jpg"
           },
           {
             "n": 2,
@@ -1340,7 +1481,8 @@
             "type": "object",
             "personHint": "第三人称单数(女)",
             "imgPrompt": "A cute 3D cartoon of a shy girl standing in front of a classroom, teacher smiling at her, students watching, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "萨拉是我们班的新生。老师让她向大家介绍自己。"
+            "zh": "萨拉是我们班的新生。老师让她向大家介绍自己。",
+            "image": "fill/g8-s3-q02.jpg"
           },
           {
             "n": 3,
@@ -1349,7 +1491,8 @@
             "type": "subject",
             "personHint": "第三人称复数",
             "imgPrompt": "A cute 3D cartoon of three hungry children eating sandwiches on a park bench, mother nearby, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "孩子们长途跋涉后饿了，所以他们很快吃光了妈妈做的三明治。"
+            "zh": "孩子们长途跋涉后饿了，所以他们很快吃光了妈妈做的三明治。",
+            "image": "fill/g8-s3-q03.jpg"
           },
           {
             "n": 4,
@@ -1358,7 +1501,8 @@
             "type": "reflexive",
             "personHint": "第三人称单数(男)",
             "imgPrompt": "A cute 3D cartoon of a boy fixing his bicycle with tools, focused expression, backyard scene, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "迈克的自行车坏了，但他不想向任何人求助。他决定自己修理。"
+            "zh": "迈克的自行车坏了，但他不想向任何人求助。他决定自己修理。",
+            "image": "fill/g8-s3-q04.jpg"
           },
           {
             "n": 5,
@@ -1367,7 +1511,8 @@
             "type": "subject",
             "personHint": "第三人称单数(物)",
             "imgPrompt": "A cute 3D cartoon of a clever cat jumping to open a door handle, cozy room background, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "这只猫非常聪明。它能跳起来转动门把手开门。"
+            "zh": "这只猫非常聪明。它能跳起来转动门把手开门。",
+            "image": "fill/g8-s3-q05.jpg"
           },
           {
             "n": 6,
@@ -1376,7 +1521,8 @@
             "type": "object",
             "personHint": "第一人称单数",
             "imgPrompt": "A cute 3D cartoon of two boys sharing a book, one handing a novel to the other, warm lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "汤姆和我是好朋友。我们经常互相分享书。昨天他把他最喜欢的小说借给了我。"
+            "zh": "汤姆和我是好朋友。我们经常互相分享书。昨天他把他最喜欢的小说借给了我。",
+            "image": "fill/g8-s3-q06.jpg"
           },
           {
             "n": 7,
@@ -1385,7 +1531,8 @@
             "type": "possPron",
             "personHint": "第一人称复数",
             "imgPrompt": "A cute 3D cartoon of a group of students planning a festival with colorful decorations, one kid holding a checklist, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "学生们正在为学校节日做准备。他们每人都有一项任务，但我们还没决定我们的。"
+            "zh": "学生们正在为学校节日做准备。他们每人都有一项任务，但我们还没决定我们的。",
+            "image": "fill/g8-s3-q07.jpg"
           },
           {
             "n": 8,
@@ -1394,7 +1541,8 @@
             "type": "object",
             "personHint": "第三人称单数(女)",
             "imgPrompt": "A cute 3D cartoon of an older sister helping her younger sister with homework at a desk, caring expression, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "安娜非常爱她的小妹妹。她放学后总是帮她做作业。"
+            "zh": "安娜非常爱她的小妹妹。她放学后总是帮她做作业。",
+            "image": "fill/g8-s3-q08.jpg"
           },
           {
             "n": 9,
@@ -1403,7 +1551,8 @@
             "type": "possAdj",
             "personHint": "第三人称复数",
             "imgPrompt": "A cute 3D cartoon of two girls sitting at adjacent desks in a classroom, talking happily, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "莉莉和简在同班。她们的桌子紧挨着，所以课间经常聊天。"
+            "zh": "莉莉和简在同班。她们的桌子紧挨着，所以课间经常聊天。",
+            "image": "fill/g8-s3-q09.jpg"
           },
           {
             "n": 10,
@@ -1412,7 +1561,8 @@
             "type": "subject",
             "personHint": "第三人称单数(物)",
             "imgPrompt": "A cute 3D cartoon of a bird building a nest on a tree branch with twigs and leaves, bright day, soft lighting, no text., cute vivid 3D cartoon, soft pastel lighting, no text, no watermark",
-            "zh": "鸟在树上建了一个巢。它用树枝和树叶把它建得坚固又温暖。"
+            "zh": "鸟在树上建了一个巢。它用树枝和树叶把它建得坚固又温暖。",
+            "image": "fill/g8-s3-q10.jpg"
           }
         ]
       ]

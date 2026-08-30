@@ -98,17 +98,38 @@
     state.source = "bank";
   }
 
-  function imgUrl(prompt, seed) {
+  function imgUrl(it, seed) {
+    if (it && it.image) {
+      return "assets/img/" + String(it.image).replace(/^\/+/, "");
+    }
     var base =
-      String(prompt || "cute vivid 3D cartoon kids school scene soft lighting") +
+      String((it && it.imgPrompt) || "cute vivid 3D cartoon kids school scene soft lighting") +
       ", cute vivid 3D cartoon, soft pastel lighting, kid-friendly, no text, no letters, no watermark";
-    var clean = base.replace(/[#?&]/g, " ").slice(0, 200);
+    var clean = base.replace(/[#?&]/g, " ").slice(0, 160);
     return (
       "https://image.pollinations.ai/prompt/" +
       encodeURIComponent(clean) +
-      "?nologo=true&width=640&height=480&model=turbo&seed=" +
+      "?nologo=true&width=512&height=384&model=turbo&seed=" +
       (seed || 1)
     );
+  }
+
+  function placeholderSvg(label) {
+    var t = String(label || "Scene").slice(0, 18);
+    var svg =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="512" height="384" viewBox="0 0 512 384">' +
+      '<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">' +
+      '<stop offset="0%" stop-color="#7dd3c7"/><stop offset="100%" stop-color="#f0b429"/>' +
+      "</linearGradient></defs>" +
+      '<rect width="512" height="384" fill="url(#g)"/>' +
+      '<circle cx="400" cy="70" r="48" fill="rgba(255,255,255,.35)"/>' +
+      '<ellipse cx="180" cy="300" rx="90" ry="28" fill="rgba(15,42,46,.12)"/>' +
+      '<circle cx="160" cy="200" r="42" fill="#fff6"/>' +
+      '<circle cx="210" cy="210" r="36" fill="#fff8"/>' +
+      '<text x="256" y="340" text-anchor="middle" fill="#0a6b65" font-size="22" font-family="sans-serif" font-weight="700">' +
+      t.replace(/[<>&]/g, "") +
+      "</text></svg>";
+    return "data:image/svg+xml;utf8," + encodeURIComponent(svg);
   }
 
   function renderTable(showHints) {
@@ -167,7 +188,8 @@
         .map(function (it, i) {
           var n = it.n || i + 1;
           var seed = (state.grade.charCodeAt(1) || 7) * 100 + n * 17 + (it.answer || "").length;
-          var src = imgUrl(it.imgPrompt, seed);
+          var src = imgUrl(it, seed);
+          var fb = placeholderSvg(it.personHint || "Pronoun");
           return (
             '<li class="pt-q">' +
             '<span class="num">' +
@@ -180,8 +202,10 @@
             '<figure class="pt-q-fig">' +
             '<img src="' +
             esc(src) +
-            '" alt="题意配图" loading="lazy" crossorigin="anonymous" />' +
-            '<figcaption class="no-print">卡通 3D · 语境插图</figcaption>' +
+            '" alt="题意配图" loading="lazy" decoding="async" data-fallback="' +
+            esc(fb) +
+            '" onerror="if(this.dataset.fallback){this.onerror=null;this.src=this.dataset.fallback;}" />' +
+            "<figcaption class=\"no-print\">卡通 3D · 语境插图</figcaption>" +
             "</figure>" +
             "</div></li>"
           );
