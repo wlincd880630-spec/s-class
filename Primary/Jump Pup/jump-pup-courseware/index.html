@@ -183,7 +183,7 @@
           align-self: stretch;
         }
       }
-      .word-study-wrap { flex-direction: column; align-items: center; }
+      .word-study-wrap { grid-template-columns: 1fr; align-items: center; justify-items: center; }
       .word-col-art { max-width: 100%; flex: 0 0 auto; width: 100%; }
       .word-col-art .art-img { max-height: min(40dvh, 16rem); }
       .view-body--story .story-sentence--xl.story-sentence-row { flex-direction: column; }
@@ -624,24 +624,32 @@
     .wiggle .polaroid { animation: wiggle 2.5s ease-in-out infinite; }
     /* 学单词：左图 | 右栏（听音显素 / 例句 / 拼写 + 上/下一步） */
     .word-study-wrap {
-      display: flex; flex-direction: row; flex-wrap: nowrap; align-items: stretch;
-      gap: 0.9rem; width: 100%; min-height: 0; margin: 0.15rem 0 0;
-      justify-content: stretch; flex: 1 1 auto;
+      display: grid;
+      grid-template-columns: minmax(12rem, 28rem) minmax(14rem, 22rem);
+      column-gap: 1.35rem; row-gap: 0.75rem;
+      align-items: center; justify-content: center; justify-items: center;
+      width: 100%; max-width: 54rem; margin: 0.2rem auto 0;
+      padding: 0.45rem 1.1rem 0.65rem; box-sizing: border-box;
+      flex: 1 1 auto; min-height: 0;
     }
     .word-col-art {
-      flex: 1 1 60%; min-width: 0; max-width: 68%;
+      width: 100%; max-width: 28rem; min-width: 0;
       display: flex; align-items: center; justify-content: center;
     }
     .word-col-art .hero-art {
-      min-height: 0; margin: 0; width: 100%;
+      min-height: 0; margin: 0; width: 100%; max-width: 100%;
     }
     .word-col-art .art-img {
+      width: 100%; height: auto;
       max-width: 100%;
-      max-height: min(32rem, 86vh);
+      max-height: min(28rem, 70vh);
+      object-fit: contain;
     }
     .word-col-panel {
-      flex: 1; min-width: 0; display: flex; flex-direction: column;
-      align-items: center; gap: 0.35rem; justify-content: flex-start;
+      width: 100%; max-width: 22rem; min-width: 0;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 0.45rem; justify-content: center;
+      padding: 0.35rem 0.55rem; box-sizing: border-box;
     }
     .word-col-panel .w-display-line, .word-col-panel #wEx, .word-col-panel #wSpellMsg { text-align: center; max-width: min(40rem, 100%); }
     .w-display-line { margin: 0.1rem 0; min-height: 1em; }
@@ -723,9 +731,17 @@
     }
     .w-sb-caption { margin: 0.35rem 0 0; text-align: center; font-family: "Source Serif 4", Georgia, serif; font-size: clamp(1.2rem, 2.2vw, 1.75rem); font-weight: 700; color: var(--ink); min-height: 1.4em; }
     @media (max-width: 620px) {
-      .word-study-wrap { flex-direction: column; align-items: center; }
-      .word-col-art { max-width: 95%; flex: 0 0 auto; }
+      .word-study-wrap {
+        grid-template-columns: 1fr;
+        max-width: 100%;
+        padding: 0.25rem 0.55rem 0.45rem; gap: 0.7rem;
+      }
+      .word-col-art { max-width: 95%; }
       .word-col-art .art-img { max-height: min(30rem, 70dvh); }
+      .word-col-panel {
+        max-width: 100%; width: 100%;
+        padding: 0.2rem 0.35rem 0.35rem;
+      }
     }
     @media (hover: none) and (pointer: coarse) {
       .btn:hover { background: #fff; box-shadow: 0 2px 0 rgba(0,0,0,.08), 0 4px 12px rgba(0,0,0,.04); }
@@ -736,7 +752,7 @@
     }
   </style>
   <link rel="stylesheet" href="../../assets/primary-responsive.css?v=2" />
-  <link rel="stylesheet" href="../../assets/ng-word-extras.css?v=3" />
+  <link rel="stylesheet" href="../../assets/ng-word-extras.css?v=7" />
   <script src="../../assets/ng-word-say-data.js?v=3"></script>
   <script src="../../assets/ng-word-extras.js?v=3"></script>
   <link rel="stylesheet" href="../../assets/ng-story-pyramid.css?v=1" />
