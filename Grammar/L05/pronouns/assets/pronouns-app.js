@@ -13,6 +13,8 @@
     quizIdx: 0,
     quizScore: 0,
     quizAnswered: false,
+    quizRound: null,
+    quizRoundLevel: "",
     raceMode: false,
     raceLeft: 0,
     raceTimer: null,
@@ -188,8 +190,41 @@
     var block = (DATA.examples && DATA.examples[typeId]) || {};
     return block[state.level] || block.g7 || [];
   }
+  var QUIZ_ROUND_SIZE = 8;
+
+  function shuffle(arr) {
+    var a = (arr || []).slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i];
+      a[i] = a[j];
+      a[j] = t;
+    }
+    return a;
+  }
+
+  function quizBank() {
+    var src =
+      (global.L05PronounsQuizData && global.L05PronounsQuizData[state.level]) ||
+      (DATA.quiz && DATA.quiz[state.level]) ||
+      (DATA.quiz && DATA.quiz.g7) ||
+      [];
+    return src;
+  }
+
+  function ensureQuizRound(force) {
+    if (force || !state.quizRound || state.quizRoundLevel !== state.level) {
+      state.quizRound = shuffle(quizBank()).slice(0, QUIZ_ROUND_SIZE);
+      state.quizRoundLevel = state.level;
+      state.quizIdx = 0;
+      state.quizScore = 0;
+      state.quizAnswered = false;
+    }
+    return state.quizRound;
+  }
+
   function quizPool() {
-    return (DATA.quiz && DATA.quiz[state.level]) || DATA.quiz.g7 || [];
+    return ensureQuizRound(false);
   }
   function imitatePool() {
     return (DATA.imitate && DATA.imitate[state.level]) || DATA.imitate.g7 || [];
@@ -442,6 +477,7 @@
       b.addEventListener("click", function () {
         state.level = k;
         localStorage.setItem(STORAGE_LEVEL, k);
+        state.quizRound = null;
         renderHome();
       });
       lp.appendChild(b);
@@ -852,6 +888,7 @@
       })
       .join("");
 
+    var kindLabel = { blank: "语境填空", dialogue: "对话补全", choose: "选正确句", confuse: "易混辨析" }[q.kind] || "选择题";
     host.innerHTML =
       '<div class="pr-view-hd">' +
       '<button type="button" class="ghost" data-go="home">← 目录</button>' +
@@ -860,23 +897,34 @@
       "</h2>" +
       '<span class="chip">' +
       esc(levelMeta().label) +
+      (race ? " · 题库 " + quizBank().length + " · 本组 8" : "") +
       "</span></div>" +
       (race
         ? '<div class="pr-race-banner"><img src="' +
           IMG +
           esc(DATA.meta.raceImg) +
-          '" alt="" /><div><strong>限时竞赛</strong><div class="pr-timer" id="raceClock">--</div></div></div>'
+          '" alt="" /><div><strong>限时竞赛</strong><p class="pr-section__lead" style="margin:0">从本年级题库随机 8 题</p><div class="pr-timer" id="raceClock">--</div></div></div>'
         : "") +
       '<section class="pr-panel">' +
       '<div class="pr-quiz-hd"><span class="pr-score">得分 ' +
       state[scoreKey] +
       " / " +
       pool.length +
-      '</span><span>' +
+      '</span><span class="pr-kind-chip">' +
+      esc(kindLabel) +
+      "</span><span>" +
       (state[idxKey] + 1) +
       " / " +
       pool.length +
       "</span></div>" +
+      (q.image
+        ? '<figure class="pr-quiz-fig"><img src="' +
+          IMG +
+          esc(q.image) +
+          '" alt="' +
+          esc(q.zh || "") +
+          '" /></figure>'
+        : "") +
       '<p class="pr-q" lang="en">' +
       esc(q.q) +
       "</p>" +
@@ -885,10 +933,12 @@
       "</div>" +
       '<div class="pr-explain" id="explain">' +
       esc(q.explain || "") +
+      (q.zh ? '<span class="pr-quiz-zh">' + esc(q.zh) + "</span>" : "") +
       "</div>" +
       '<div class="pr-actions">' +
       (race
-        ? '<button type="button" class="pr-btn amber" id="startRace">开始 60 秒</button>'
+        ? '<button type="button" class="pr-btn amber" id="startRace">开始 60 秒</button>' +
+          '<button type="button" class="pr-btn ghost" id="reshuffle">换一组</button>'
         : "") +
       '<button type="button" class="pr-btn ghost" id="qPrev">上一题</button>' +
       '<button type="button" class="pr-btn" id="qNext">下一题</button>' +
@@ -934,10 +984,23 @@
         setView(b.getAttribute("data-go"));
       });
     });
+    var reshuffle = $("#reshuffle", host);
+    if (reshuffle) {
+      reshuffle.addEventListener("click", function () {
+        if (state.raceTimer) {
+          clearInterval(state.raceTimer);
+          state.raceTimer = null;
+        }
+        state.raceMode = false;
+        ensureQuizRound(true);
+        renderPractice();
+      });
+    }
     var start = $("#startRace", host);
     if (start) {
       start.addEventListener("click", function () {
         if (state.raceTimer) clearInterval(state.raceTimer);
+        ensureQuizRound(true);
         state.raceLeft = 60;
         state.quizScore = 0;
         state.quizIdx = 0;
@@ -950,7 +1013,7 @@
             clearInterval(state.raceTimer);
             state.raceTimer = null;
             state.raceMode = false;
-            alert("时间到！得分 " + state.quizScore + " / " + quizPool().length);
+            alert("时间到！得分 " + state.quizScore + " / " + QUIZ_ROUND_SIZE);
           }
         }, 1000);
         renderPractice();
