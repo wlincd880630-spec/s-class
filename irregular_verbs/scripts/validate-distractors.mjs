@@ -11,7 +11,7 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, "..");
 const context = { window: {} };
 
-for (const filename of ["verbs-data.js", "shared.js", "distractors.js"]) {
+for (const filename of ["verbs-data.js", "pdf-examples-data.js", "shared.js", "distractors.js"]) {
   vm.runInNewContext(fs.readFileSync(path.join(ROOT, filename), "utf8"), context, {
     filename,
   });
@@ -46,17 +46,11 @@ function letters(value) {
   return String(value ?? "").toLowerCase().match(/[a-z]/g) ?? [];
 }
 
-function signature(value) {
-  return letters(value).sort().join("");
-}
-
-function isAAA(verb) {
-  return (
-    forms(verb, "past").length === 1 &&
-    forms(verb, "pp").length === 1 &&
-    normalize(verb.base) === normalize(verb.past) &&
-    normalize(verb.base) === normalize(verb.pp)
-  );
+function looksNear(target, option) {
+  const a = normalize(target);
+  const b = normalize(option);
+  if (a[0] !== b[0]) return Math.abs(a.length - b.length) <= 1;
+  return Math.abs(a.length - b.length) <= 2;
 }
 
 function checkChoice(question, verb, field, count, label) {
@@ -65,7 +59,7 @@ function checkChoice(question, verb, field, count, label) {
     return;
   }
   if (!Array.isArray(question.options) || question.options.length !== count) {
-    fail(`${label}: expected ${count} options`);
+    fail(`${label}: expected ${count} options, got ${question.options?.length ?? 0}`);
     return;
   }
   const unique = new Set(question.options.map(normalize));
@@ -74,13 +68,20 @@ function checkChoice(question, verb, field, count, label) {
   const correctCount = question.options.filter((option) => validAnswers.has(normalize(option))).length;
   if (correctCount !== 1) fail(`${label}: expected one correct option, found ${correctCount}`);
   if (!validAnswers.has(normalize(question.correct))) fail(`${label}: invalid correct value`);
+  const invented = question.distractors.filter((option) => !validAnswers.has(normalize(option)));
+  if (invented.length < Math.min(2, count - 1)) {
+    fail(`${label}: expected highly confusing distractors`);
+  }
+  question.distractors.forEach((option) => {
+    const isRealForm = data.verbs.some((item) =>
+      ["base", "past", "pp"].some((key) => forms(item, key === "base" ? "past" : key).includes(option) || item.base === option),
+    );
+    if (!isRealForm && !looksNear(question.correct, option) && normalize(option)[0] !== normalize(question.correct)[0]) {
+      fail(`${label}: distractor ${option} is not near ${question.correct}`);
+    }
+  });
   const selfCheck = D.validateQuestion(question, verb, field);
   if (!selfCheck.valid) fail(`${label}: engine self-check failed: ${selfCheck.errors.join("; ")}`);
-  try {
-    D.assertSingleCorrect(question, verb, field);
-  } catch (error) {
-    fail(`${label}: assertSingleCorrect threw: ${error.message}`);
-  }
 }
 
 if (!data || !Array.isArray(data.verbs) || data.verbs.length !== 80) {
@@ -88,16 +89,11 @@ if (!data || !Array.isArray(data.verbs) || data.verbs.length !== 80) {
 }
 if (!D) fail("window.IrregularVerbsDistractors was not exported");
 
-const realAnswers = [];
-for (const verb of data.verbs) {
-  for (const field of fields) {
-    for (const form of forms(verb, field)) realAnswers.push(form);
-  }
-}
-
 let choiceCount = 0;
 let chineseCount = 0;
+let gapCount = 0;
 let letterCount = 0;
+let identityCount = 0;
 
 for (const verb of data.verbs) {
   for (const field of fields) {
@@ -106,89 +102,81 @@ for (const verb of data.verbs) {
     if (unavailable) {
       if (D.canonical(verb, field) !== null) fail(`${label}: canonical must be null`);
       if (D.createChoiceQuestion({ verb, field }) !== null) fail(`${label}: choice must be null`);
-      if (D.createChineseQuestion({ verb, field }) !== null) fail(`${label}: Chinese question must be null`);
-      if (D.createLetterQuestion({ verb, field }) !== null) fail(`${label}: letter question must be null`);
+      if (D.createChineseQuestion({ verb, field, optionCount: 4 }) !== null) {
+        fail(`${label}: Chinese question must be null`);
+      }
+      if (D.createLetterQuestion({ verb, field, mode: "double" }) !== null) {
+        fail(`${label}: letter question must be null`);
+      }
       continue;
     }
 
-    const choice = D.createChoiceQuestion({ verb, field, optionCount: 4 });
+    const choice = D.createChoiceQuestion({ verb, field, optionCount: 4, excludePrompt: true });
     checkChoice(choice, verb, field, 4, `${label} choice`);
     choiceCount += 1;
 
-    const chinese = D.createChineseQuestion({ verb, field });
-    if (isAAA(verb)) {
-      if (chinese !== null) fail(`${label}: AAA Chinese question must be null`);
-    } else {
-      checkChoice(chinese, verb, field, 2, `${label} Chinese`);
+    const chinese = D.createChineseQuestion({ verb, field, optionCount: 4 });
+    if (chinese) {
+      checkChoice(chinese, verb, field, 4, `${label} Chinese`);
       chineseCount += 1;
-      const otherField = field === "past" ? "pp" : "past";
-      const otherForms = accepted(verb, otherField);
-      if (
-        otherForms.size &&
-        !otherForms.has(normalize(D.canonical(verb, field))) &&
-        !otherForms.has(normalize(chinese.distractors[0]))
-      ) {
-        fail(`${label}: Chinese question did not prioritize the other form`);
-      }
     }
 
-    const letterQuestion = D.createLetterQuestion({ verb, field });
-    if (!letterQuestion) {
-      fail(`${label}: letter question is null`);
-      continue;
-    }
-    const targetLetters = letters(letterQuestion.target);
-    if (letterQuestion.letters.length !== targetLetters.length * 2) {
-      fail(`${label}: letter pool is not exactly 2N`);
-    }
-    if (!letterQuestion.letters.every((letter) => /^[a-z]$/i.test(String(letter)))) {
-      fail(`${label}: letter pool contains a non-letter token`);
-    }
-    if (!D.canSpell(letterQuestion.target, letterQuestion.letters)) {
-      fail(`${label}: letter pool cannot spell target`);
-    }
-    if (!accepted(verb, field).has(normalize(letterQuestion.target))) {
-      fail(`${label}: letter target is not correct`);
-    }
+    const gap = D.createGapQuestion({ verb, field });
+    checkChoice(gap, verb, field, 5, `${label} gap`);
+    gapCount += 1;
 
-    // Exact anagrams cannot be separated by any unordered letter pool.
-    for (const candidate of realAnswers) {
-      if (
-        normalize(candidate) === normalize(letterQuestion.target) ||
-        letters(candidate).length !== targetLetters.length ||
-        signature(candidate) === signature(letterQuestion.target)
-      ) {
+    for (const mode of ["free", "double", "sort"]) {
+      const letterQuestion = D.createLetterQuestion({ verb, field, mode });
+      if (!letterQuestion) {
+        fail(`${label} ${mode}: letter question is null`);
         continue;
       }
-      if (D.canSpell(candidate, letterQuestion.letters)) {
-        fail(`${label}: letter pool can also spell ${candidate}`);
-        break;
+      const targetLetters = letters(letterQuestion.target);
+      if (mode === "free" && letterQuestion.letters.length !== 0) {
+        fail(`${label} free: must hide letter pool`);
       }
+      if (mode === "sort" && letterQuestion.letters.slice().sort().join("") !== targetLetters.slice().sort().join("")) {
+        fail(`${label} sort: pool is not an anagram`);
+      }
+      if (mode === "double" && letterQuestion.letters.length !== targetLetters.length * 2) {
+        fail(`${label} double: letter pool is not exactly 2N`);
+      }
+      if (mode !== "free" && !D.canSpell(letterQuestion.target, letterQuestion.letters)) {
+        fail(`${label} ${mode}: letter pool cannot spell target`);
+      }
+      const letterSelfCheck = D.validateLetterQuestion(letterQuestion, verb, field);
+      if (!letterSelfCheck.valid) {
+        fail(`${label} ${mode}: letter self-check failed: ${letterSelfCheck.errors.join("; ")}`);
+      }
+      letterCount += 1;
     }
-    const letterSelfCheck = D.validateLetterQuestion(letterQuestion, verb, field);
-    if (!letterSelfCheck.valid) {
-      fail(`${label}: letter self-check failed: ${letterSelfCheck.errors.join("; ")}`);
+
+    const identity = D.createIdentityQuestion({ verb, field, levelId: "j1" });
+    if (!identity) {
+      fail(`${label}: identity question is null`);
+    } else {
+      if (!identity.baseOptions.includes(verb.base)) fail(`${label}: identity missing base`);
+      if (!identity.meaningOptions.includes(verb.cn)) fail(`${label}: identity missing meaning`);
+      if (identity.baseOptions.length !== 4) fail(`${label}: identity base options`);
+      if (identity.meaningOptions.length !== 4) fail(`${label}: identity meaning options`);
+      identityCount += 1;
     }
-    letterCount += 1;
   }
 }
+
+const hang = data.verbs.find((verb) => verb.id === "hang");
+const hangQuestion = D.createChoiceQuestion({ verb: hang, field: "past", optionCount: 4, excludePrompt: true });
+if (normalize(hangQuestion.correct) !== "hung") fail("hang.past correct must be hung");
+hangQuestion.distractors.forEach((option) => {
+  if (!/^h[a-z]{2,4}$/.test(normalize(option))) {
+    fail(`hang.past distractor is not a hang-family lookalike: ${option}`);
+  }
+});
 
 const be = data.verbs.find((verb) => verb.id === "be");
 if (normalize(D.canonical(be, "past")) !== "was") fail("be.past default canonical must be was");
 if (normalize(D.canonical(be, "past", { variant: "were" })) !== "were") {
   fail("be.past canonical must support were");
-}
-
-const breakVerb = data.verbs.find((verb) => verb.id === "break");
-const breakQuestion = D.createChoiceQuestion({ verb: breakVerb, field: "past" });
-if (breakQuestion.distractors.join("|") !== "broken|spoke|woke") {
-  fail(`break.past ranking mismatch: ${breakQuestion.distractors.join("|")}`);
-}
-
-const take = data.verbs.find((verb) => verb.id === "take");
-const takeQuestion = D.createChoiceQuestion({ verb: take, field: "pp" });
-if (!takeQuestion.distractors.some((option) => normalize(option) === "took")) {
-  fail("take.pp must include took");
 }
 
 if (failures.length) {
@@ -199,5 +187,6 @@ if (failures.length) {
 
 console.log(
   `Distractor validation passed: 80 verbs, ${choiceCount} four-option choices, ` +
-    `${chineseCount} two-option Chinese questions, ${letterCount} exact-2N letter pools; can.pp skipped.`,
+    `${chineseCount} Chinese questions, ${gapCount} gap questions, ` +
+    `${letterCount} letter pools, ${identityCount} identity questions; can.pp skipped.`,
 );

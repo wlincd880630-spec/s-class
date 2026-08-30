@@ -26,6 +26,7 @@ const REQUIRED_PAGES = [
   "games/game7-base-participle.html",
   "games/game8-chinese-form.html",
   "games/game9-letter-sort.html",
+  "games/game10-form-identity.html",
 ];
 
 function loadData() {
@@ -150,7 +151,7 @@ async function main() {
     process.exit(1);
   }
   console.log(
-    `校验通过：80 个动词、240 条例句、12 个页面${ONLINE ? "、320 张 COS WebP" : ""}。`,
+    `校验通过：80 个动词、240 条例句、13 个页面${ONLINE ? "、320 张 COS WebP" : ""}。`,
   );
 }
 
