@@ -75,22 +75,30 @@ async function speakText(text, onEnd) {
 function renderPhonemeBoxes(container, w) {
   if (!container || !w || !w.phonemes) return;
   container.innerHTML = '';
+  function resolvePhoneme(ph, word) {
+    if (typeof NgWordIpa !== 'undefined' && NgWordIpa.forPhoneme) {
+      return NgWordIpa.forPhoneme(ph, word);
+    }
+    return { symbol: ph.symbol, silent: ph.symbol === '—' || ph.symbol === '/—/' };
+  }
   w.phonemes.forEach(ph => {
-    const isSilent = ph.symbol === '—' || ph.symbol === '/—/';
+    const shown = resolvePhoneme(ph, w);
+    const isSilent = shown.silent;
+    const symbol = shown.symbol;
     const box = document.createElement('div');
     box.className = 'phoneme-box' + (isSilent ? ' silent' : '');
-    box.textContent = isSilent ? '—' : ph.symbol;
-    box.dataset.ipa = ph.symbol;
+    box.textContent = isSilent ? '—' : symbol;
+    box.dataset.ipa = symbol;
     box.dataset.letter = ph.letter;
     if (isSilent) {
       box.title = '间隔';
     } else {
-      box.title = `音标 ${ph.symbol} · 点击显示字母 ${ph.letter}`;
+      box.title = `音标 ${symbol} · 点击显示字母 ${ph.letter}`;
       box.setAttribute('role', 'button');
       box.setAttribute('tabindex', '0');
       const toggle = () => {
         const show = !box.classList.contains('show-letter');
-        box.textContent = show ? ph.letter : ph.symbol;
+        box.textContent = show ? ph.letter : symbol;
         box.classList.toggle('show-letter', show);
       };
       box.addEventListener('click', toggle);

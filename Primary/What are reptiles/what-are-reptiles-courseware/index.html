@@ -154,6 +154,7 @@
   <script src="assets/data/story-data.js"></script>
   <script src="audio/audio-manifest.js"></script>
   <script src="audio/local-audio.js"></script>
+  <script src="../../assets/ng-word-ipa.js?v=1"></script>
   <script src="../../assets/ng-azure-tts-enhance.js"></script>
   <script>
   (function () {
@@ -200,7 +201,8 @@
       document.getElementById("exampleEn").textContent = sentence.en;
       document.getElementById("exampleZh").textContent = sentence.zh;
       document.getElementById("phonemeRow").innerHTML = (w.phonemes || []).map(function (p) {
-        return '<span class="phoneme"><b>' + esc(p.letter) + '</b><br><small>' + esc(p.symbol) + '</small></span>';
+        var ipa = (window.NgWordIpa && NgWordIpa.hint) ? NgWordIpa.hint(p.symbol, p.letter, w.word) : p.symbol;
+        return '<span class="phoneme"><b>' + esc(p.letter) + '</b><br><small>' + esc(ipa) + '</small></span>';
       }).join("");
       Array.prototype.forEach.call(document.querySelectorAll(".word-chip"), function (chip, i) {
         chip.classList.toggle("is-active", i === wordIndex);
