@@ -10,7 +10,7 @@
   <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Jump%20Pup/jump-pup-courseware/media/story-timings.js"></script>
   <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Jump%20Pup/jump-pup-courseware/audio/audio-manifest.js"></script>
   <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Jump%20Pup/jump-pup-courseware/audio/local-audio.js"></script>
-  <script src="../../assets/ng-azure-tts-enhance.js?v=7"></script>
+  <script src="../../assets/ng-azure-tts-enhance.js?v=8"></script>
   <script>if (window.NgAzureTTS) NgAzureTTS.enhance("LocalAudio");</script>
   <style>
     :root {
@@ -740,7 +740,7 @@
   <script src="../../assets/ng-word-say-data.js?v=3"></script>
   <script src="../../assets/ng-word-extras.js?v=3"></script>
   <link rel="stylesheet" href="../../assets/ng-story-pyramid.css?v=1" />
-  <script src="../../assets/ng-story-pyramid.js?v=1"></script>
+  <script src="../../assets/ng-story-pyramid.js?v=2"></script>
 </head>
 <body>
   <a class="back-hub" href="../index.html">← Jump, Pup! 首页</a>
@@ -1045,11 +1045,13 @@
         var a = getStoryAudioEl();
         if (!a) { speakText(STORY[sentenceIndex].en, options).then(function () { resolve(true); return; }); return; }
         var pr = 1.0;
-        if (options) {
+        if (window.NgAzureTTS && typeof NgAzureTTS.resolveTargetRate === "function") {
+          pr = NgAzureTTS.resolveTargetRate(options || {});
+        } else if (options) {
           if (options.rate != null && !isNaN(parseFloat(String(options.rate)))) pr = parseFloat(String(options.rate));
-          else if (options.slow) pr = 0.7;
+          else if (options.slow) pr = 0.5;
         }
-        a.playbackRate = Math.max(0.55, Math.min(1.25, pr));
+        a.playbackRate = Math.max(0.4, Math.min(1.25, pr));
         if (window.NgAzureTTS) {
           NgAzureTTS.lastSpeak = { source: "story-mp3", rate: a.playbackRate, slow: a.playbackRate < 0.88, text: STORY[sentenceIndex].en };
         }
@@ -1739,7 +1741,7 @@
       if (window.NgAzureTTS && typeof NgAzureTTS.storyOpts === "function") {
         return NgAzureTTS.storyOpts(window.__storySlow);
       }
-      return { rate: window.__storySlow ? 0.7 : 1, slow: !!window.__storySlow };
+      return { rate: window.__storySlow ? 0.5 : 1, slow: !!window.__storySlow };
     }
     function stopStoryLoop() {
       storyLoop = false; loopToken++;
