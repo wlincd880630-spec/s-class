@@ -23,8 +23,20 @@ assert(T.resolveTargetRate({ rate: 0.7 }) === 0.5, "legacy 0.7 maps to half");
 assert(T.resolveTargetRate({ rate: 0.8 }) === 0.5, "legacy 0.8 maps to half");
 assert(T.resolveTargetRate({ rate: 1 }) === 1, "rate 1 stays normal");
 assert(T.storyOpts(true).rate === 0.5 && T.storyOpts(true).slow === true, "storyOpts slow");
+assert(T.storyOpts(true).azureOnly === true, "storyOpts slow is Azure-only");
 assert(T.storyOpts(false).rate === 1 && T.storyOpts(false).slow === false, "storyOpts normal");
+assert(T.storyOpts(false).azureOnly === true, "storyOpts normal is Azure-only");
+assert(typeof T.speakStory === "function", "speakStory exported");
+assert(T.AZURE.voice === "en-GB-RyanNeural", "textbook British male voice");
 assert(T.AZURE.slowRate === "-50%", "Azure SSML uses -50%");
+
+ctx.window.LocalAudio = { speak: function () {}, stop: function () {} };
+ctx.window.__LOCAL_AUDIO_MANIFEST = { lookup: { "Hello|0.80": "clip.mp3" } };
+T.enhance("LocalAudio");
+ctx.window.LocalAudio.speak("Hello", { azureOnly: true, slow: true });
+assert(ctx.window.NgAzureTTS.lastSpeak.source !== "local", "azureOnly skips local clips");
+assert(String(ctx.window.NgAzureTTS.lastSsml).indexOf("en-GB-RyanNeural") >= 0, "story SSML uses Ryan");
+assert(String(ctx.window.NgAzureTTS.lastSsml).indexOf('rate="-50%"') >= 0, "slow SSML is -50%");
 
 if (fails) {
   console.error(fails + " failed");
