@@ -250,6 +250,21 @@
     });
   }
 
+  function buildCoverageRounds(source) {
+    return shuffleLocal(Array.isArray(source) ? source.filter(Boolean) : []);
+  }
+
+  function shuffleLocal(arr) {
+    var a = Array.isArray(arr) ? arr.slice() : [];
+    for (var i = a.length - 1; i > 0; i -= 1) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = a[i];
+      a[i] = a[j];
+      a[j] = temp;
+    }
+    return a;
+  }
+
   function buildRounds(source, count) {
     var items = Array.isArray(source) ? source.filter(Boolean) : [];
     var target = Math.max(0, Number(count) || 0);
@@ -427,6 +442,7 @@
     closeSettlement: closeSettlement,
     uniqueStrings: uniqueStrings,
     buildRounds: buildRounds,
+    buildCoverageRounds: buildCoverageRounds,
     recordGameAttempt: recordGameAttempt,
     recordGameSession: recordGameSession,
     showGameSettlement: showGameSettlement,

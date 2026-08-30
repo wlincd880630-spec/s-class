@@ -123,7 +123,13 @@
   }
 
   function speakLayer(text) {
-    return Promise.resolve(hooks.speakText(text, { rate: 0.8, slow: true }));
+    var opts = (global.NgAzureTTS && typeof global.NgAzureTTS.storyOpts === "function")
+      ? global.NgAzureTTS.storyOpts(!!global.__storySlow)
+      : { rate: 0.5, slow: true, azureOnly: true };
+    if (global.NgAzureTTS && typeof global.NgAzureTTS.speakStory === "function") {
+      return global.NgAzureTTS.speakStory(text, opts);
+    }
+    return Promise.resolve(hooks.speakText(text, opts));
   }
 
   function bind(root, sentence) {

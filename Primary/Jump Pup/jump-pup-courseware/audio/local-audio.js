@@ -56,9 +56,9 @@
   function resolveTargetRate(options) {
     options = options || {};
     if (options.rate != null && !isNaN(parseFloat(String(options.rate)))) {
-      return parseFloat(String(options.rate)) < 0.88 ? 0.7 : 1;
+      return parseFloat(String(options.rate)) < 0.88 ? 0.5 : 1;
     }
-    return options.slow ? 0.7 : 1;
+    return options.slow ? 0.5 : 1;
   }
 
   function resolveRate(options) {
@@ -157,7 +157,7 @@
       if (options.onDone) options.onDone();
       return Promise.resolve(false);
     }
-    var playback = Math.max(0.5, Math.min(1.5, target / (found.sourceRate || 1)));
+    var playback = Math.max(0.4, Math.min(1.5, target / (found.sourceRate || 1)));
     var url = buildAudioUrl(__base, found.rel);
     return playUrl(url, gen, playback).then(function (ok) {
       if (options.onDone) options.onDone();

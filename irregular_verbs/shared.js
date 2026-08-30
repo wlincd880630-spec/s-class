@@ -7,7 +7,18 @@
   var STORAGE_KEY = "iv-selected-verbs-v1";
   var MASTERY_KEY = "iv-mastery-v2";
   var LEARNING_PROGRESS_KEY = "iv-progress-learn-v2";
+  var GRADE_KEY = "iv-selected-grade-v1";
   var REQUIRED_EXAMPLES = ["present", "past", "perfect"];
+  var GRADE_LEVELS = [
+    { id: "g5", label: "小学五年级", short: "小五" },
+    { id: "g6", label: "小学六年级", short: "小六" },
+    { id: "j1", label: "初一", short: "初一" },
+    { id: "j2", label: "初二", short: "初二" },
+    { id: "j3", label: "初三中考", short: "初三" },
+    { id: "s1", label: "高一", short: "高一" },
+    { id: "s2", label: "高二", short: "高二" },
+    { id: "s3", label: "高三高考", short: "高三" },
+  ];
   var GROUPS = [
     { id: "all", label: "全部轨道", shortLabel: "全部" },
     { id: "abc", label: "三态全变化", shortLabel: "ABC" },
@@ -451,11 +462,84 @@
     return parseStorage("iv-progress-" + key, null);
   }
 
+  function getGradeLevels() {
+    return GRADE_LEVELS.slice();
+  }
+
+  function getSelectedGrade() {
+    var raw = readStorage(GRADE_KEY);
+    var allowed = {};
+    GRADE_LEVELS.forEach(function (level) {
+      allowed[level.id] = true;
+    });
+    if (raw && allowed[raw]) return raw;
+    if (raw) {
+      try {
+        var parsed = JSON.parse(raw);
+        if (parsed && allowed[parsed]) return parsed;
+      } catch (e) {
+      }
+    }
+    return "j1";
+  }
+
+  function setSelectedGrade(levelId) {
+    var match = GRADE_LEVELS.filter(function (level) {
+      return level.id === levelId;
+    })[0];
+    if (!match) return getSelectedGrade();
+    try {
+      if (global.localStorage) global.localStorage.setItem(GRADE_KEY, match.id);
+    } catch (e) {
+    }
+    return match.id;
+  }
+
+  function getGradeMeta(levelId) {
+    return (
+      GRADE_LEVELS.filter(function (level) {
+        return level.id === (levelId || getSelectedGrade());
+      })[0] || GRADE_LEVELS[2]
+    );
+  }
+
+  function getLeveledExample(verb, field, levelId) {
+    var store = global.IV_PDF_EXAMPLES;
+    var grade = levelId || getSelectedGrade();
+    var pack;
+    var key = field === "pp" ? "pp" : field === "base" ? "base" : "past";
+    var fallbackKey = field === "pp" ? "perfect" : field === "base" ? "present" : "past";
+    if (store && store.byId && verb && store.byId[verb.id] && store.byId[verb.id].levels) {
+      pack = store.byId[verb.id].levels[grade];
+      if (pack && pack[key] && isText(pack[key].en)) {
+        return {
+          en: pack[key].en,
+          cn: pack[key].cn || "",
+          tense: field === "pp" ? "现在完成时" : field === "base" ? "一般现在时" : "一般过去时",
+          level: getGradeMeta(grade).label,
+          source: "leveled",
+        };
+      }
+    }
+    if (verb && verb.examples && verb.examples[fallbackKey] && isText(verb.examples[fallbackKey].en)) {
+      return verb.examples[fallbackKey];
+    }
+    return null;
+  }
+
+  function fieldLabel(field) {
+    if (field === "pp") return "过去分词";
+    if (field === "base") return "原形";
+    return "过去式";
+  }
+
   global.IrregularVerbsUtil = {
     STORAGE_KEY: STORAGE_KEY,
     MASTERY_KEY: MASTERY_KEY,
     LEARNING_PROGRESS_KEY: LEARNING_PROGRESS_KEY,
+    GRADE_KEY: GRADE_KEY,
     GROUPS: GROUPS.slice(),
+    GRADE_LEVELS: GRADE_LEVELS.slice(),
     validateData: validateData,
     getDataStatus: getDataStatus,
     getAllVerbs: getAllVerbs,
@@ -484,5 +568,11 @@
     clearLearningProgress: clearLearningProgress,
     saveProgress: saveProgress,
     loadProgress: loadProgress,
+    getGradeLevels: getGradeLevels,
+    getSelectedGrade: getSelectedGrade,
+    setSelectedGrade: setSelectedGrade,
+    getGradeMeta: getGradeMeta,
+    getLeveledExample: getLeveledExample,
+    fieldLabel: fieldLabel,
   };
 })(typeof window !== "undefined" ? window : this);

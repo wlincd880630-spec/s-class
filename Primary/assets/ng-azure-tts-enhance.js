@@ -2,8 +2,8 @@
  * 国家地理复习游戏 · Azure TTS 增强层
  * 在 LocalAudio 之后自动回退到 Azure Speech SDK，再回退浏览器朗读
  *
- * 学课文「选慢 / 选正常」必须是两档明显不同的语速：
- * 慢速 0.70，正常 1.00（不再用 0.80 对 0.90，听起来几乎一样）。
+ * 学课文一律走 Azure en-GB-RyanNeural（教材英式男声），不播课文整段 MP3、不播本地预生成句。
+ * 「选慢 / 选正常」两档：慢速 0.50（SSML -50%），正常 1.00。
  */
 (function (global) {
   "use strict";
@@ -14,10 +14,10 @@
     language: "en-GB",
     voice: "en-GB-RyanNeural",
     speechRate: "1.00",
-    slowRate: "0.70",
+    slowRate: "-50%",
   };
 
-  var RATE_SLOW = 0.7;
+  var RATE_SLOW = 0.5;
   var RATE_NORMAL = 1;
   var sdkReady = null;
   var localBase = "";
@@ -58,7 +58,26 @@
   }
 
   function storyOpts(slow) {
-    return slow ? { rate: RATE_SLOW, slow: true } : { rate: RATE_NORMAL, slow: false };
+    return {
+      rate: slow ? RATE_SLOW : RATE_NORMAL,
+      slow: !!slow,
+      azureOnly: true
+    };
+  }
+
+  function speakStory(text, options) {
+    var opts = Object.assign({}, storyOpts(!!(options && options.slow)), options || {});
+    opts.azureOnly = true;
+    if (global.LocalAudio && typeof global.LocalAudio.stop === "function") {
+      try {
+        global.LocalAudio.stop();
+      } catch (e0) {}
+    }
+    bumpSpeak();
+    var gen = speakGen;
+    var rate = resolveTargetRate(opts);
+    rememberSpeak("request", rate, text, gen);
+    return azureSpeak(text, opts, gen);
   }
 
   function rememberSpeak(source, rate, text, gen) {
@@ -160,7 +179,7 @@
     if (!clip || !base) return Promise.resolve(false);
     var url = buildAudioUrl(base, clip.rel);
     var playback = targetRate / (clip.sourceRate || 1);
-    playback = Math.max(0.5, Math.min(1.5, playback));
+    playback = Math.max(0.4, Math.min(1.5, playback));
     return new Promise(function (resolve) {
       if (gen !== speakGen) {
         resolve(false);
@@ -301,6 +320,9 @@
       var gen = speakGen;
       rememberSpeak("request", rate, text, gen);
       if (origStop) origStop();
+      if (options.azureOnly) {
+        return azureSpeak(text, { rate: rate, slow: rate < 0.88, onDone: onDone }, gen);
+      }
       return playLocalWithRate(text, rate, gen).then(function (ok) {
         if (gen !== speakGen) return false;
         if (ok) {
@@ -322,8 +344,12 @@
     enhance: enhance,
     speak: azureSpeak,
     AZURE: AZURE,
+    RATE_SLOW: RATE_SLOW,
+    RATE_NORMAL: RATE_NORMAL,
     storyOpts: storyOpts,
+    speakStory: speakStory,
     resolveTargetRate: resolveTargetRate,
+    preload: loadSdk,
     lastSpeak: null,
     lastSsml: "",
   };
