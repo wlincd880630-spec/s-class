@@ -11,6 +11,7 @@
   <script src="../../scripts/auth-check.js"></script>
   <script src="../verbs-data.js"></script>
   <script src="../shared.js"></script>
+  <script src="../distractors.js"></script>
   <script src="../azure-tts.js"></script>
   <script src="../assets/verbverse.js"></script>
 </head>
@@ -18,77 +19,86 @@
   <header class="game-topbar">
     <a class="topbar-back" href="index.html" aria-label="返回游戏大厅"><span aria-hidden="true">←</span><span>游戏大厅</span></a>
     <div class="game-progress" aria-label="游戏进度">
-      <div class="game-progress-labels"><span>GAME 03 · 语境填空</span><strong id="progressLabel">1 / 10</strong></div>
+      <div class="game-progress-labels"><span id="progressTitle">GAME 03 · 语境填空</span><strong id="progressLabel">0 / 0</strong></div>
       <div class="game-progress-track"><div class="game-progress-fill" id="progressFill"></div></div>
     </div>
     <a class="brand-lockup" href="../index.html"><span class="brand-mark">VA</span><span class="brand-copy"><strong>Verb Atlas</strong><span>Tense Observatory</span></span></a>
   </header>
 
-  <main class="game-shell" id="gameStage" data-game-stage>
+  <main class="game-shell">
     <div class="game-stage-head">
-      <div><p class="eyebrow">CONTEXT LAB · 10 QUESTIONS</p><h1>语境填空</h1></div>
-      <p>每题来自词库中的真实例句。根据时态与上下文，找回被隐藏的目标词。</p>
+      <div><p class="eyebrow">CONTEXT LAB</p><h1>语境填空</h1></div>
+      <p>每题 5 个选项：2 个近形干扰 + 2 个他词近形。按当前词库全覆盖。</p>
     </div>
-    <section class="game-panel">
-      <div class="question-meta">
-        <span class="question-index" id="questionIndex">QUESTION 01</span>
-        <span class="tense-pill" id="tenseLabel">一般现在时</span>
+
+    <section class="game-setup" aria-label="选择训练模式">
+      <div class="game-setup-row">
+        <p><strong>测试目标</strong> · 例句来自对应时态</p>
+        <div class="mode-tabs">
+          <button class="mode-button" type="button" data-mode="past" aria-pressed="false">过去式</button>
+          <button class="mode-button" type="button" data-mode="pp" aria-pressed="false">过去分词</button>
+        </div>
       </div>
-      <div class="context-card" id="contextCard" data-tense="present">
-        <p class="context-sentence" id="sentence"></p>
-        <p class="context-translation" id="translation"></p>
-      </div>
-      <div class="choice-grid" id="answerOptions" aria-label="句子填空选项"></div>
-      <p class="game-feedback" id="gameFeedback" role="status" aria-live="polite">选择最符合例句的实际动词形式。</p>
-      <div class="game-action-row">
-        <button class="button button-secondary" id="speakButton" type="button">朗读完整例句</button>
-        <button class="button button-primary" id="nextButton" type="button" hidden>下一题</button>
-      </div>
+      <section class="mode-confirm" id="modeConfirm" hidden>
+        <div>
+          <strong>切换训练模式？</strong>
+          <p>当前进度会清空，并从第 1 题重新开始。</p>
+        </div>
+        <div class="mode-confirm-actions">
+          <button class="button button-secondary" id="cancelMode" type="button">继续本局</button>
+          <button class="button button-primary" id="confirmMode" type="button">确认切换</button>
+        </div>
+      </section>
     </section>
+
+    <div id="gameStage" data-game-stage>
+      <section class="game-empty">
+        <p class="eyebrow">SELECT A ROUTE</p>
+        <h1>先选择填空目标</h1>
+        <p>选择过去式或过去分词后，将按词库逐词出题。</p>
+      </section>
+    </div>
   </main>
 
   <script>
     (function () {
       "use strict";
       var U = window.IrregularVerbsUtil;
+      var D = window.IrregularVerbsDistractors;
       var VV = window.VerbVerse;
       var TTS = window.IrregularVerbsTTS;
       var GAME_ID = "sentence-gap";
-      var TOTAL = 10;
-      var verbs = U.getSelectedVerbs();
+      var MODE_META = {
+        past: { label: "过去式", tenseKey: "past", tone: "is-past" },
+        pp: { label: "过去分词", tenseKey: "perfect", tone: "is-perfect" }
+      };
+      var selectedVerbs = U.getSelectedVerbs();
       var stage = document.getElementById("gameStage");
-      var sentenceNode = document.getElementById("sentence");
-      var contextCard = document.getElementById("contextCard");
-      var optionsBox = document.getElementById("answerOptions");
-      var feedback = document.getElementById("gameFeedback");
-      var nextButton = document.getElementById("nextButton");
-      var speakButton = document.getElementById("speakButton");
-      var candidates = [];
+      var modeButtons = Array.prototype.slice.call(document.querySelectorAll("[data-mode]"));
+      var modeConfirm = document.getElementById("modeConfirm");
+      var pendingMode = null;
+      var mode = null;
       var questions = [];
       var roundIndex = 0;
       var score = 0;
       var answered = false;
       var mistakes = [];
-
-      function showEmpty() {
-        stage.innerHTML =
-          '<section class="game-empty"><p class="eyebrow">EMPTY ATLAS</p><h1>缺少可用例句</h1>' +
-          '<p>请先选择包含完整例句的练习词汇。</p><a class="button button-primary" href="../index.html#wordStudio">前往调整词库</a></section>';
-      }
+      var sentenceNode;
+      var contextCard;
+      var optionsBox;
+      var feedback;
+      var nextButton;
+      var speakButton;
+      var revealCard;
 
       function escapeRegExp(value) {
         return String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
       }
 
       function findActualTarget(sentence, forms) {
-        var sorted = VV.uniqueStrings(forms).sort(function (a, b) {
-          return b.length - a.length;
-        });
+        var sorted = VV.uniqueStrings(forms).sort(function (a, b) { return b.length - a.length; });
         for (var i = 0; i < sorted.length; i += 1) {
-          var expression = new RegExp(
-            "(^|[^A-Za-z])(" + escapeRegExp(sorted[i]) + ")(?=$|[^A-Za-z])",
-            "i"
-          );
+          var expression = new RegExp("(^|[^A-Za-z])(" + escapeRegExp(sorted[i]) + ")(?=$|[^A-Za-z])", "i");
           var match = expression.exec(sentence);
           if (match) {
             return {
@@ -101,47 +111,112 @@
         return null;
       }
 
-      function buildCandidates() {
-        var list = [];
-        verbs.forEach(function (verb) {
-          ["present", "past", "perfect"].forEach(function (key) {
-            if (verb.id === "can" && key === "perfect") return;
-            var example = verb.examples && verb.examples[key];
-            if (!example || !example.en) return;
-            var target = findActualTarget(example.en, U.getHighlightForms(verb, key));
-            if (!target) return;
-            list.push({
-              verb: verb,
-              key: key,
-              example: example,
-              answer: target.answer,
-              start: target.start,
-              end: target.end
-            });
-          });
+      function buildQuestion(verb, field) {
+        var tenseKey = MODE_META[field].tenseKey;
+        var example = verb.examples && verb.examples[tenseKey];
+        var target;
+        var gap;
+        if (verb.id === "can" && field === "pp") return null;
+        if (!example || !example.en) return null;
+        target = findActualTarget(example.en, U.getHighlightForms(verb, tenseKey));
+        if (!target) return null;
+        gap = D.createGapQuestion({
+          verb: verb,
+          field: field,
+          answer: target.answer
         });
-        return list;
+        gap.example = example;
+        gap.start = target.start;
+        gap.end = target.end;
+        gap.answer = target.answer;
+        gap.correct = target.answer;
+        return gap;
+      }
+
+      function setModeButtons() {
+        modeButtons.forEach(function (button) {
+          var active = button.dataset.mode === mode;
+          button.classList.toggle("is-active", active);
+          button.setAttribute("aria-pressed", active ? "true" : "false");
+        });
+      }
+
+      function updateProgress(completed) {
+        var total = questions.length;
+        var current = mode ? Math.min(total, roundIndex + (completed ? 1 : 0)) : 0;
+        document.getElementById("progressLabel").textContent =
+          total ? Math.min(roundIndex + 1, total) + " / " + total : "0 / 0";
+        document.getElementById("progressFill").style.setProperty(
+          "--progress",
+          total ? Math.round((current / total) * 100) + "%" : "0%"
+        );
+      }
+
+      function showEmpty(field) {
+        stage.innerHTML =
+          '<section class="game-empty"><p class="eyebrow">NO CONTEXT</p><h1>缺少可用例句</h1>' +
+          '<p>「' + MODE_META[field].label + '」需要包含目标形式的例句。</p>' +
+          '<a class="button button-primary" href="../index.html#wordStudio">前往调整词库</a></section>';
+        updateProgress(false);
       }
 
       function renderSentence(item, reveal) {
         var before = U.escapeHtml(item.example.en.slice(0, item.start));
         var after = U.escapeHtml(item.example.en.slice(item.end));
         var middle = reveal ? U.escapeHtml(item.answer) : "?";
-        sentenceNode.innerHTML =
-          before + '<span class="sentence-gap">' + middle + "</span>" + after;
+        sentenceNode.innerHTML = before + '<span class="sentence-gap">' + middle + "</span>" + after;
       }
 
-      function makeOptions(item) {
-        var alternatives = VV.uniqueStrings(
-          candidates
-            .filter(function (candidate) {
-              return candidate.key === item.key && candidate.verb.id !== item.verb.id;
-            })
-            .map(function (candidate) { return candidate.answer; })
-        ).filter(function (value) {
-          return U.normalizeForm(value) !== U.normalizeForm(item.answer);
+      function renderPlayShell() {
+        stage.innerHTML =
+          '<section class="game-panel"><div class="question-meta">' +
+          '<span class="question-index" id="questionIndex">QUESTION 01</span>' +
+          '<span class="tense-pill" id="tenseLabel"></span></div>' +
+          '<div class="context-card" id="contextCard"><p class="context-sentence" id="sentence"></p>' +
+          '<p class="context-translation" id="translation"></p></div>' +
+          '<div class="choice-grid" id="answerOptions"></div>' +
+          '<div class="reveal-card" id="revealCard" hidden></div>' +
+          '<p class="game-feedback" id="gameFeedback">选择最符合例句的实际动词形式。</p>' +
+          '<div class="game-action-row">' +
+          '<button class="button button-secondary" id="speakButton" type="button">朗读完整例句</button>' +
+          '<button class="button button-primary" id="nextButton" type="button" hidden>下一题</button></div></section>';
+        sentenceNode = document.getElementById("sentence");
+        contextCard = document.getElementById("contextCard");
+        optionsBox = document.getElementById("answerOptions");
+        feedback = document.getElementById("gameFeedback");
+        nextButton = document.getElementById("nextButton");
+        speakButton = document.getElementById("speakButton");
+        revealCard = document.getElementById("revealCard");
+        speakButton.addEventListener("click", speakSentence);
+        nextButton.addEventListener("click", function () {
+          roundIndex += 1;
+          renderRound();
         });
-        return U.shuffle([item.answer].concat(U.shuffle(alternatives).slice(0, 3)));
+      }
+
+      function startMode(nextMode) {
+        var built = [];
+        mode = nextMode;
+        selectedVerbs.forEach(function (verb) {
+          try {
+            var question = buildQuestion(verb, nextMode);
+            if (question) built.push(question);
+          } catch (error) {
+          }
+        });
+        questions = VV.buildCoverageRounds(built);
+        roundIndex = 0;
+        score = 0;
+        answered = false;
+        mistakes = [];
+        setModeButtons();
+        document.getElementById("progressTitle").textContent = "GAME 03 · " + MODE_META[mode].label;
+        if (!questions.length) {
+          showEmpty(mode);
+          return;
+        }
+        renderPlayShell();
+        renderRound();
       }
 
       function speakSentence() {
@@ -150,19 +225,7 @@
         VV.setButtonBusy(speakButton, true, { busy: "正在朗读" });
         Promise.resolve(TTS.speak(item.example.en, { slow: true }))
           .catch(function () { return false; })
-          .finally(function () {
-            VV.setButtonBusy(speakButton, false);
-          });
-      }
-
-      function updateProgress(completed) {
-        var current = Math.min(TOTAL, roundIndex + (completed ? 1 : 0));
-        document.getElementById("progressLabel").textContent =
-          Math.min(roundIndex + 1, TOTAL) + " / " + TOTAL;
-        document.getElementById("progressFill").style.setProperty(
-          "--progress",
-          Math.round((current / TOTAL) * 100) + "%"
-        );
+          .finally(function () { VV.setButtonBusy(speakButton, false); });
       }
 
       function choose(button, value) {
@@ -177,10 +240,14 @@
           }
         });
         renderSentence(item, true);
+        revealCard.hidden = false;
+        revealCard.innerHTML = '<p class="eyebrow">UNLOCKED</p><strong></strong><span></span>';
+        revealCard.querySelector("strong").textContent = item.base;
+        revealCard.querySelector("span").textContent = item.cn + " · " + item.answer;
         if (correct) {
           score += 1;
           feedback.className = "game-feedback is-success";
-          feedback.textContent = "语境匹配正确：" + item.example.en;
+          feedback.textContent = "语境匹配正确。";
         } else {
           button.classList.add("is-wrong");
           mistakes.push({
@@ -188,23 +255,23 @@
             answer: item.answer
           });
           feedback.className = "game-feedback is-error";
-          feedback.textContent = "正确答案是 " + item.answer + "。现在为你朗读完整例句。";
+          feedback.textContent = "正确答案是 " + item.answer + "。";
           speakSentence();
         }
         VV.recordGameAttempt(GAME_ID, {
           verbId: item.verb.id,
-          tense: item.key,
+          mode: mode,
           correct: correct,
           answer: value,
           expected: item.answer
         });
         nextButton.hidden = false;
-        nextButton.textContent = roundIndex === TOTAL - 1 ? "查看结算" : "下一题";
+        nextButton.textContent = roundIndex === questions.length - 1 ? "查看结算" : "下一题";
         updateProgress(true);
       }
 
       function renderRound() {
-        if (roundIndex >= TOTAL) {
+        if (roundIndex >= questions.length) {
           finishGame();
           return;
         }
@@ -212,15 +279,14 @@
         answered = false;
         document.getElementById("questionIndex").textContent =
           "QUESTION " + String(roundIndex + 1).padStart(2, "0");
-        document.getElementById("tenseLabel").textContent =
-          item.example.tense + " · " + item.example.level;
-        document.getElementById("tenseLabel").className =
-          "tense-pill " + (item.key === "past" ? "is-past" : item.key === "perfect" ? "is-perfect" : "");
-        contextCard.dataset.tense = item.key;
+        document.getElementById("tenseLabel").textContent = item.example.tense + " · " + item.example.level;
+        document.getElementById("tenseLabel").className = "tense-pill " + MODE_META[mode].tone;
+        contextCard.dataset.tense = MODE_META[mode].tenseKey;
         document.getElementById("translation").textContent = item.example.cn;
         renderSentence(item, false);
+        revealCard.hidden = true;
         optionsBox.innerHTML = "";
-        makeOptions(item).forEach(function (option, index) {
+        item.options.forEach(function (option, index) {
           var button = document.createElement("button");
           button.type = "button";
           button.className = "choice-button";
@@ -230,55 +296,54 @@
           optionsBox.appendChild(button);
         });
         feedback.className = "game-feedback";
-        feedback.textContent = "选择最符合例句的实际动词形式。";
+        feedback.textContent = "2 个近形干扰 + 2 个他词干扰，请依据时态线索判断。";
         nextButton.hidden = true;
         updateProgress(false);
       }
 
       function finishGame() {
-        document.getElementById("progressLabel").textContent = TOTAL + " / " + TOTAL;
-        document.getElementById("progressFill").style.setProperty("--progress", "100%");
         if (TTS && typeof TTS.stop === "function") TTS.stop();
-        VV.recordGameSession(GAME_ID, {
-          score: score,
-          total: TOTAL,
-          mistakes: mistakes.length
-        });
+        document.getElementById("progressLabel").textContent = questions.length + " / " + questions.length;
+        document.getElementById("progressFill").style.setProperty("--progress", "100%");
+        VV.recordGameSession(GAME_ID, { mode: mode, score: score, total: questions.length, mistakes: mistakes.length });
         VV.showGameSettlement({
           host: stage,
           title: "语境实验完成",
-          message: "十个真实例句已经重新接回时态轨道。",
+          message: "已按当前词库完成" + MODE_META[mode].label + "语境全覆盖。",
           score: score,
-          total: TOTAL,
+          total: questions.length,
           mistakes: mistakes,
-          nextHref: "game4-time-tunnel.html"
+          nextHref: "game4-time-tunnel.html",
+          onRestart: function () { startMode(mode); }
         });
       }
 
-      if (!verbs.length) {
-        showEmpty();
-        return;
-      }
-      candidates = buildCandidates();
-      questions = VV.buildRounds(candidates, TOTAL);
-      if (!questions.length) {
-        showEmpty();
-        return;
-      }
-      speakButton.addEventListener("click", speakSentence);
-      nextButton.addEventListener("click", function () {
-        roundIndex += 1;
-        renderRound();
+      modeButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          var nextMode = button.dataset.mode;
+          if (!mode) startMode(nextMode);
+          else if (nextMode !== mode) {
+            pendingMode = nextMode;
+            modeConfirm.hidden = false;
+          }
+        });
+      });
+      document.getElementById("cancelMode").addEventListener("click", function () {
+        pendingMode = null;
+        modeConfirm.hidden = true;
+      });
+      document.getElementById("confirmMode").addEventListener("click", function () {
+        var nextMode = pendingMode;
+        pendingMode = null;
+        modeConfirm.hidden = true;
+        if (nextMode) startMode(nextMode);
       });
       document.addEventListener("keydown", function (event) {
-        if (!answered && /^[1-4]$/.test(event.key)) {
-          var option = optionsBox.children[Number(event.key) - 1];
-          if (option) option.click();
-        } else if (event.key === "Enter" && event.target === document.body && !nextButton.hidden) {
-          nextButton.click();
+        if (!mode || answered || !optionsBox) return;
+        if (/^[1-5]$/.test(event.key) && optionsBox.children[Number(event.key) - 1]) {
+          optionsBox.children[Number(event.key) - 1].click();
         }
       });
-      renderRound();
     })();
   </script>
 </body>

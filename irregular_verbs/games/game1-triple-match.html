@@ -11,97 +11,130 @@
   <script src="../../scripts/auth-check.js"></script>
   <script src="../verbs-data.js"></script>
   <script src="../shared.js"></script>
+  <script src="../distractors.js"></script>
   <script src="../assets/verbverse.js"></script>
 </head>
 <body class="game-page">
   <header class="game-topbar">
     <a class="topbar-back" href="index.html" aria-label="返回游戏大厅"><span aria-hidden="true">←</span><span>游戏大厅</span></a>
     <div class="game-progress" aria-label="游戏进度">
-      <div class="game-progress-labels"><span>GAME 01 · 三态组装</span><strong id="progressLabel">1 / 10</strong></div>
+      <div class="game-progress-labels"><span id="progressTitle">GAME 01 · 三态组装</span><strong id="progressLabel">0 / 0</strong></div>
       <div class="game-progress-track"><div class="game-progress-fill" id="progressFill"></div></div>
     </div>
     <a class="brand-lockup" href="../index.html"><span class="brand-mark">VA</span><span class="brand-copy"><strong>Verb Atlas</strong><span>Tense Observatory</span></span></a>
   </header>
 
-  <main class="game-shell" id="gameStage" data-game-stage>
+  <main class="game-shell">
     <div class="game-stage-head">
-      <div><p class="eyebrow">FORM ASSEMBLY · 10 QUESTIONS</p><h1>三态组装</h1></div>
-      <p>根据原形分别选择过去式与过去分词。每一栏只有一个正确选项。</p>
+      <div><p class="eyebrow">FORM ASSEMBLY</p><h1>三态组装</h1></div>
+      <p>先选择要考过去式还是过去分词。选项都是近形干扰，不能靠一眼排除。</p>
     </div>
-    <section class="game-panel" aria-labelledby="baseWord">
-      <div class="question-meta">
-        <span class="question-index" id="questionIndex">QUESTION 01</span>
-        <span class="tense-pill">BASE → PAST → PARTICIPLE</span>
+
+    <section class="game-setup" aria-label="选择训练模式">
+      <div class="game-setup-row">
+        <p><strong>测试目标</strong> · 切换会重新开始本局，并覆盖当前词库</p>
+        <div class="mode-tabs">
+          <button class="mode-button" type="button" data-mode="past" aria-pressed="false">过去式</button>
+          <button class="mode-button" type="button" data-mode="pp" aria-pressed="false">过去分词</button>
+          <button class="mode-button" type="button" data-mode="both" aria-pressed="false">双轨组装</button>
+        </div>
       </div>
-      <h2 class="verb-prompt" id="baseWord">—</h2>
-      <p class="verb-meaning" id="baseMeaning"></p>
-      <div class="assembly-grid">
-        <section class="assembly-zone is-past" aria-labelledby="pastTitle">
-          <h2 id="pastTitle">过去式 · Past Simple</h2>
-          <div class="choice-grid" id="pastOptions"></div>
-        </section>
-        <section class="assembly-zone is-perfect" aria-labelledby="ppTitle">
-          <h2 id="ppTitle">过去分词 · Past Participle</h2>
-          <div class="choice-grid" id="ppOptions"></div>
-        </section>
-      </div>
-      <p class="game-feedback" id="gameFeedback" role="status" aria-live="polite">请在两条轨道各选择一个形式。</p>
-      <div class="game-action-row">
-        <button class="button button-primary" id="checkButton" type="button" disabled>检查组装</button>
-      </div>
+      <section class="mode-confirm" id="modeConfirm" hidden>
+        <div>
+          <strong id="confirmTitle">切换训练模式？</strong>
+          <p id="confirmCopy">当前进度会清空，并从第 1 题重新开始。</p>
+        </div>
+        <div class="mode-confirm-actions">
+          <button class="button button-secondary" id="cancelMode" type="button">继续本局</button>
+          <button class="button button-primary" id="confirmMode" type="button">确认切换</button>
+        </div>
+      </section>
     </section>
+
+    <div id="gameStage" data-game-stage>
+      <section class="game-empty">
+        <p class="eyebrow">SELECT A ROUTE</p>
+        <h1>先选择测试目标</h1>
+        <p>过去式、过去分词或双轨组装，都会按当前词库全覆盖出题。</p>
+      </section>
+    </div>
   </main>
 
   <script>
     (function () {
       "use strict";
       var U = window.IrregularVerbsUtil;
+      var D = window.IrregularVerbsDistractors;
       var VV = window.VerbVerse;
       var GAME_ID = "triple-match";
-      var TOTAL = 10;
-      var verbs = U.getSelectedVerbs();
+      var MODE_META = {
+        past: { label: "过去式", pill: "BASE → PAST", tone: "is-past" },
+        pp: { label: "过去分词", pill: "BASE → PARTICIPLE", tone: "is-perfect" },
+        both: { label: "双轨组装", pill: "BASE → PAST → PARTICIPLE", tone: "" }
+      };
+      var selectedVerbs = U.getSelectedVerbs();
       var stage = document.getElementById("gameStage");
-      var pastBox = document.getElementById("pastOptions");
-      var ppBox = document.getElementById("ppOptions");
-      var checkButton = document.getElementById("checkButton");
-      var feedback = document.getElementById("gameFeedback");
-      var rounds;
+      var modeButtons = Array.prototype.slice.call(document.querySelectorAll("[data-mode]"));
+      var modeConfirm = document.getElementById("modeConfirm");
+      var pendingMode = null;
+      var mode = null;
+      var questions = [];
       var roundIndex = 0;
       var score = 0;
-      var selections = { past: "", pp: "" };
       var answered = false;
       var mistakes = [];
+      var selections = { past: "", pp: "", form: "" };
+      var pastBox;
+      var ppBox;
+      var formBox;
+      var checkButton;
+      var feedback;
+      var revealCard;
 
-      function showEmpty() {
-        stage.innerHTML =
-          '<section class="game-empty"><p class="eyebrow">EMPTY ATLAS</p><h1>先选择练习词汇</h1>' +
-          '<p>词库为空，暂时无法生成十道组装题。</p><a class="button button-primary" href="../index.html#wordStudio">前往调整词库</a></section>';
-      }
-
-      function displayForm(verb, field) {
-        if (field === "pp" && (verb.id === "can" || verb.pp === "—")) {
-          return "无过去分词（特殊）";
-        }
-        return String(verb[field] || "").trim();
-      }
-
-      function makeOptions(field, correct) {
-        var alternatives = VV.uniqueStrings(
-          verbs.map(function (verb) { return displayForm(verb, field); })
-        ).filter(function (value) {
-          return U.normalizeForm(value) !== U.normalizeForm(correct);
+      function eligibleVerbs(nextMode) {
+        return selectedVerbs.filter(function (verb) {
+          if (nextMode === "pp" || nextMode === "both") {
+            return verb.id !== "can" && D.canonical(verb, "pp");
+          }
+          return Boolean(D.canonical(verb, "past"));
         });
-        return U.shuffle([correct].concat(U.shuffle(alternatives).slice(0, 3)));
       }
 
-      function renderOptions(container, field, options) {
+      function setModeButtons() {
+        modeButtons.forEach(function (button) {
+          var active = button.dataset.mode === mode;
+          button.classList.toggle("is-active", active);
+          button.setAttribute("aria-pressed", active ? "true" : "false");
+        });
+      }
+
+      function updateProgress(completed) {
+        var total = questions.length;
+        var current = mode ? Math.min(total, roundIndex + (completed ? 1 : 0)) : 0;
+        document.getElementById("progressLabel").textContent =
+          total ? Math.min(roundIndex + 1, total) + " / " + total : "0 / 0";
+        document.getElementById("progressFill").style.setProperty(
+          "--progress",
+          total ? Math.round((current / total) * 100) + "%" : "0%"
+        );
+      }
+
+      function showEmpty(nextMode) {
+        stage.innerHTML =
+          '<section class="game-empty"><p class="eyebrow">EMPTY ATLAS</p><h1>当前词库无法出题</h1>' +
+          '<p>「' + MODE_META[nextMode].label + '」需要可用形式。过去分词模式会跳过 can。</p>' +
+          '<a class="button button-primary" href="../index.html#wordStudio">前往调整词库</a></section>';
+        updateProgress(false);
+      }
+
+      function renderChoices(container, field, options) {
         container.innerHTML = "";
-        options.forEach(function (option) {
+        options.forEach(function (option, index) {
           var button = document.createElement("button");
           button.type = "button";
           button.className = "choice-button";
-          button.textContent = option;
           button.dataset.value = option;
+          button.textContent = String(index + 1) + " · " + option;
           button.setAttribute("aria-pressed", "false");
           button.addEventListener("click", function () {
             if (answered) return;
@@ -111,60 +144,110 @@
               item.classList.toggle("is-selected", selected);
               item.setAttribute("aria-pressed", selected ? "true" : "false");
             });
-            checkButton.disabled = !(selections.past && selections.pp);
-            feedback.className = "game-feedback";
-            feedback.textContent =
-              selections.past && selections.pp
-                ? "两条轨道已就位，可以检查。"
-                : "还需要选择另一条轨道。";
+            syncCheck();
           });
           container.appendChild(button);
         });
       }
 
-      function updateProgress(completed) {
-        var current = Math.min(TOTAL, roundIndex + (completed ? 1 : 0));
-        document.getElementById("progressLabel").textContent =
-          Math.min(roundIndex + 1, TOTAL) + " / " + TOTAL;
-        document.getElementById("progressFill").style.setProperty(
-          "--progress",
-          Math.round((current / TOTAL) * 100) + "%"
-        );
+      function syncCheck() {
+        if (!checkButton) return;
+        checkButton.disabled = mode === "both" ? !(selections.past && selections.pp) : !selections.form;
+        feedback.className = "game-feedback";
+        feedback.textContent = checkButton.disabled
+          ? "选项高度近形，请仔细辨认后再提交。"
+          : "可以检查这道题。";
       }
 
-      function renderRound() {
-        if (roundIndex >= TOTAL) {
-          finishGame();
+      function renderPlayShell() {
+        if (mode === "both") {
+          stage.innerHTML =
+            '<section class="game-panel" aria-labelledby="baseWord">' +
+            '<div class="question-meta"><span class="question-index" id="questionIndex">QUESTION 01</span>' +
+            '<span class="tense-pill" id="formLabel"></span></div>' +
+            '<h2 class="verb-prompt" id="baseWord">—</h2>' +
+            '<p class="verb-meaning" id="baseMeaning"></p>' +
+            '<div class="assembly-grid">' +
+            '<section class="assembly-zone is-past"><h2>过去式 · Past</h2><div class="choice-grid" id="pastOptions"></div></section>' +
+            '<section class="assembly-zone is-perfect"><h2>过去分词 · Participle</h2><div class="choice-grid" id="ppOptions"></div></section>' +
+            '</div>' +
+            '<div class="reveal-card" id="revealCard" hidden></div>' +
+            '<p class="game-feedback" id="gameFeedback">请在两条轨道各选择一个形式。</p>' +
+            '<div class="game-action-row"><button class="button button-primary" id="checkButton" type="button" disabled>检查组装</button></div></section>';
+          pastBox = document.getElementById("pastOptions");
+          ppBox = document.getElementById("ppOptions");
+        } else {
+          stage.innerHTML =
+            '<section class="game-panel" aria-labelledby="baseWord">' +
+            '<div class="question-meta"><span class="question-index" id="questionIndex">QUESTION 01</span>' +
+            '<span class="tense-pill" id="formLabel"></span></div>' +
+            '<h2 class="verb-prompt" id="baseWord">—</h2>' +
+            '<p class="verb-meaning" id="baseMeaning"></p>' +
+            '<div class="choice-grid" id="formOptions"></div>' +
+            '<div class="reveal-card" id="revealCard" hidden></div>' +
+            '<p class="game-feedback" id="gameFeedback">从四个近形干扰中锁定正确答案。</p>' +
+            '<div class="game-action-row"><button class="button button-primary" id="checkButton" type="button" disabled>提交答案</button></div></section>';
+          formBox = document.getElementById("formOptions");
+        }
+        feedback = document.getElementById("gameFeedback");
+        revealCard = document.getElementById("revealCard");
+        checkButton = document.getElementById("checkButton");
+        checkButton.addEventListener("click", checkAnswer);
+      }
+
+      function buildQuestion(verb) {
+        if (mode === "both") {
+          return {
+            verb: verb,
+            past: D.createChoiceQuestion({ verb: verb, field: "past", optionCount: 4, excludePrompt: true }),
+            pp: D.createChoiceQuestion({ verb: verb, field: "pp", optionCount: 4, excludePrompt: true })
+          };
+        }
+        return D.createChoiceQuestion({
+          verb: verb,
+          field: mode,
+          optionCount: 4,
+          excludePrompt: true
+        });
+      }
+
+      function startMode(nextMode) {
+        var candidates = eligibleVerbs(nextMode);
+        mode = nextMode;
+        questions = VV.buildCoverageRounds(candidates).map(buildQuestion);
+        roundIndex = 0;
+        score = 0;
+        answered = false;
+        mistakes = [];
+        setModeButtons();
+        document.getElementById("progressTitle").textContent = "GAME 01 · " + MODE_META[mode].label;
+        if (!questions.length) {
+          showEmpty(mode);
           return;
         }
-        var verb = rounds[roundIndex];
-        answered = false;
-        selections = { past: "", pp: "" };
-        document.getElementById("questionIndex").textContent =
-          "QUESTION " + String(roundIndex + 1).padStart(2, "0");
-        document.getElementById("baseWord").textContent = verb.base;
-        document.getElementById("baseMeaning").textContent =
-          verb.cn + (verb.id === "can" ? " · 特殊情态动词" : "");
-        renderOptions(pastBox, "past", makeOptions("past", displayForm(verb, "past")));
-        renderOptions(ppBox, "pp", makeOptions("pp", displayForm(verb, "pp")));
-        feedback.className = "game-feedback";
-        feedback.textContent =
-          verb.id === "can"
-            ? "can 没有过去分词，请选择对应的特殊说明。"
-            : "请在两条轨道各选择一个形式。";
-        checkButton.disabled = true;
-        checkButton.textContent = "检查组装";
-        updateProgress(false);
+        renderPlayShell();
+        renderRound();
       }
 
       function markOptions(container, correct, selected) {
         Array.prototype.forEach.call(container.children, function (button) {
           button.disabled = true;
-          if (button.dataset.value === correct) button.classList.add("is-correct");
-          if (button.dataset.value === selected && selected !== correct) {
+          if (U.normalizeForm(button.dataset.value) === U.normalizeForm(correct)) {
+            button.classList.add("is-correct");
+          }
+          if (selected && U.normalizeForm(button.dataset.value) === U.normalizeForm(selected) &&
+              U.normalizeForm(selected) !== U.normalizeForm(correct)) {
             button.classList.add("is-wrong");
           }
         });
+      }
+
+      function showReveal(verb) {
+        revealCard.hidden = false;
+        revealCard.innerHTML =
+          '<p class="eyebrow">UNLOCKED</p><strong></strong><span></span>';
+        revealCard.querySelector("strong").textContent = verb.base;
+        revealCard.querySelector("span").textContent = verb.cn + " · " + verb.past + " / " + verb.pp;
       }
 
       function checkAnswer() {
@@ -173,67 +256,108 @@
           renderRound();
           return;
         }
-        var verb = rounds[roundIndex];
-        var correctPast = displayForm(verb, "past");
-        var correctPp = displayForm(verb, "pp");
-        var correct = selections.past === correctPast && selections.pp === correctPp;
+        var question = questions[roundIndex];
+        var verb = question.verb;
+        var correct = false;
+        var expected = "";
         answered = true;
+        if (mode === "both") {
+          correct =
+            U.normalizeForm(selections.past) === U.normalizeForm(question.past.correct) &&
+            U.normalizeForm(selections.pp) === U.normalizeForm(question.pp.correct);
+          expected = question.past.correct + " / " + question.pp.correct;
+          markOptions(pastBox, question.past.correct, selections.past);
+          markOptions(ppBox, question.pp.correct, selections.pp);
+        } else {
+          correct = U.normalizeForm(selections.form) === U.normalizeForm(question.correct);
+          expected = question.correct;
+          markOptions(formBox, question.correct, selections.form);
+        }
         if (correct) {
           score += 1;
           feedback.className = "game-feedback is-success";
-          feedback.textContent = "组装正确：" + verb.base + " → " + correctPast + " → " + correctPp;
+          feedback.textContent = "正确：" + verb.base + " → " + expected;
         } else {
-          mistakes.push({
-            prompt: verb.base,
-            answer: correctPast + " / " + correctPp
-          });
+          mistakes.push({ prompt: verb.base + " · " + verb.cn, answer: expected });
           feedback.className = "game-feedback is-error";
-          feedback.textContent = "正确轨道：" + correctPast + " / " + correctPp;
+          feedback.textContent = "正确答案是 " + expected + "。";
         }
-        markOptions(pastBox, correctPast, selections.past);
-        markOptions(ppBox, correctPp, selections.pp);
+        showReveal(verb);
         VV.recordGameAttempt(GAME_ID, {
           verbId: verb.id,
+          mode: mode,
           correct: correct,
-          answer: selections.past + " / " + selections.pp,
-          expected: correctPast + " / " + correctPp
+          expected: expected
         });
-        checkButton.textContent = roundIndex === TOTAL - 1 ? "查看结算" : "下一题";
+        checkButton.textContent = roundIndex === questions.length - 1 ? "查看结算" : "下一题";
         checkButton.disabled = false;
         updateProgress(true);
       }
 
+      function renderRound() {
+        if (roundIndex >= questions.length) {
+          finishGame();
+          return;
+        }
+        var question = questions[roundIndex];
+        var verb = question.verb;
+        answered = false;
+        selections = { past: "", pp: "", form: "" };
+        document.getElementById("questionIndex").textContent =
+          "QUESTION " + String(roundIndex + 1).padStart(2, "0");
+        document.getElementById("formLabel").className = "tense-pill " + MODE_META[mode].tone;
+        document.getElementById("formLabel").textContent = MODE_META[mode].pill;
+        document.getElementById("baseWord").textContent = verb.base;
+        document.getElementById("baseMeaning").textContent = verb.cn + " · 请选择" + MODE_META[mode].label;
+        revealCard.hidden = true;
+        revealCard.innerHTML = "";
+        if (mode === "both") {
+          renderChoices(pastBox, "past", question.past.options);
+          renderChoices(ppBox, "pp", question.pp.options);
+        } else {
+          renderChoices(formBox, "form", question.options);
+        }
+        checkButton.textContent = mode === "both" ? "检查组装" : "提交答案";
+        syncCheck();
+        updateProgress(false);
+      }
+
       function finishGame() {
-        document.getElementById("progressLabel").textContent = TOTAL + " / " + TOTAL;
+        document.getElementById("progressLabel").textContent = questions.length + " / " + questions.length;
         document.getElementById("progressFill").style.setProperty("--progress", "100%");
-        VV.recordGameSession(GAME_ID, {
-          score: score,
-          total: TOTAL,
-          mistakes: mistakes.length
-        });
+        VV.recordGameSession(GAME_ID, { mode: mode, score: score, total: questions.length, mistakes: mistakes.length });
         VV.showGameSettlement({
           host: stage,
-          title: "组装轨道完成",
-          message: "十组动词已经完成三态校准。",
+          title: MODE_META[mode].label + "组装完成",
+          message: "已按当前词库完成全覆盖考察。",
           score: score,
-          total: TOTAL,
+          total: questions.length,
           mistakes: mistakes,
-          nextHref: "game2-listen-pick.html"
+          nextHref: "game2-listen-pick.html",
+          onRestart: function () { startMode(mode); }
         });
       }
 
-      if (!verbs.length) {
-        showEmpty();
-        return;
-      }
-      rounds = VV.buildRounds(verbs, TOTAL);
-      checkButton.addEventListener("click", checkAnswer);
-      document.addEventListener("keydown", function (event) {
-        if (event.key === "Enter" && event.target === document.body && !checkButton.disabled) {
-          checkButton.click();
-        }
+      modeButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          var nextMode = button.dataset.mode;
+          if (!mode) startMode(nextMode);
+          else if (nextMode !== mode) {
+            pendingMode = nextMode;
+            modeConfirm.hidden = false;
+          }
+        });
       });
-      renderRound();
+      document.getElementById("cancelMode").addEventListener("click", function () {
+        pendingMode = null;
+        modeConfirm.hidden = true;
+      });
+      document.getElementById("confirmMode").addEventListener("click", function () {
+        var nextMode = pendingMode;
+        pendingMode = null;
+        modeConfirm.hidden = true;
+        if (nextMode) startMode(nextMode);
+      });
     })();
   </script>
 </body>

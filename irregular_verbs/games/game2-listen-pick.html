@@ -11,6 +11,7 @@
   <script src="../../scripts/auth-check.js"></script>
   <script src="../verbs-data.js"></script>
   <script src="../shared.js"></script>
+  <script src="../distractors.js"></script>
   <script src="../azure-tts.js"></script>
   <script src="../assets/verbverse.js"></script>
 </head>
@@ -18,186 +19,231 @@
   <header class="game-topbar">
     <a class="topbar-back" href="index.html" aria-label="返回游戏大厅"><span aria-hidden="true">←</span><span>游戏大厅</span></a>
     <div class="game-progress" aria-label="游戏进度">
-      <div class="game-progress-labels"><span>GAME 02 · 听音辨形</span><strong id="progressLabel">1 / 10</strong></div>
+      <div class="game-progress-labels"><span id="progressTitle">GAME 02 · 听音辨形</span><strong id="progressLabel">0 / 0</strong></div>
       <div class="game-progress-track"><div class="game-progress-fill" id="progressFill"></div></div>
     </div>
     <a class="brand-lockup" href="../index.html"><span class="brand-mark">VA</span><span class="brand-copy"><strong>Verb Atlas</strong><span>Tense Observatory</span></span></a>
   </header>
 
-  <main class="game-shell" id="gameStage" data-game-stage>
+  <main class="game-shell">
     <div class="game-stage-head">
-      <div><p class="eyebrow">SOUND SIGNAL · 10 QUESTIONS</p><h1>听音辨形</h1></div>
-      <p>播放英式发音，从四个形式中识别声音信号。数字键 1–4 也可作答。</p>
+      <div><p class="eyebrow">SOUND SIGNAL</p><h1>听音辨形</h1></div>
+      <p>只听英式发音，从四个近形干扰中锁定目标。答完后揭示原形与词义。</p>
     </div>
-    <section class="game-panel">
-      <div class="question-meta">
-        <span class="question-index" id="questionIndex">QUESTION 01</span>
-        <span class="tense-pill" id="formLabel">过去式 · PAST</span>
-      </div>
-      <div class="listen-layout">
-        <div>
-          <div class="listen-orbit">
-            <button class="listen-button" id="playButton" type="button" aria-label="播放当前动词发音"></button>
-          </div>
-          <p class="listen-copy">可随时重播 · British English</p>
-          <p class="audio-fallback" id="audioFallback" role="status" aria-live="polite"></p>
-        </div>
-        <div>
-          <div class="choice-grid is-single-column" id="answerOptions" aria-label="发音对应的动词形式"></div>
-          <p class="game-feedback" id="gameFeedback" role="status" aria-live="polite">先听发音，再选择对应形式。</p>
-          <div class="game-action-row">
-            <button class="button button-primary" id="nextButton" type="button" hidden>下一题</button>
-          </div>
+
+    <section class="game-setup" aria-label="选择训练模式">
+      <div class="game-setup-row">
+        <p><strong>测试目标</strong> · 按当前词库全覆盖考察</p>
+        <div class="mode-tabs">
+          <button class="mode-button" type="button" data-mode="past" aria-pressed="false">过去式</button>
+          <button class="mode-button" type="button" data-mode="pp" aria-pressed="false">过去分词</button>
         </div>
       </div>
+      <section class="mode-confirm" id="modeConfirm" hidden>
+        <div>
+          <strong>切换训练模式？</strong>
+          <p>当前进度会清空，并从第 1 题重新开始。</p>
+        </div>
+        <div class="mode-confirm-actions">
+          <button class="button button-secondary" id="cancelMode" type="button">继续本局</button>
+          <button class="button button-primary" id="confirmMode" type="button">确认切换</button>
+        </div>
+      </section>
     </section>
+
+    <div id="gameStage" data-game-stage>
+      <section class="game-empty">
+        <p class="eyebrow">SELECT A ROUTE</p>
+        <h1>先选择听音目标</h1>
+        <p>选择过去式或过去分词后开始。数字键 1–4 也可作答。</p>
+      </section>
+    </div>
   </main>
 
   <script>
     (function () {
       "use strict";
       var U = window.IrregularVerbsUtil;
+      var D = window.IrregularVerbsDistractors;
       var VV = window.VerbVerse;
       var TTS = window.IrregularVerbsTTS;
       var GAME_ID = "listen-pick";
-      var TOTAL = 10;
-      var FORM_META = {
-        base: { label: "原形 · BASE", tone: "" },
-        past: { label: "过去式 · PAST", tone: "is-past" },
-        pp: { label: "过去分词 · PARTICIPLE", tone: "is-perfect" }
+      var MODE_META = {
+        past: { label: "过去式", pill: "过去式 · PAST", tone: "is-past" },
+        pp: { label: "过去分词", pill: "过去分词 · PARTICIPLE", tone: "is-perfect" }
       };
-      var verbs = U.getSelectedVerbs();
+      var selectedVerbs = U.getSelectedVerbs();
       var stage = document.getElementById("gameStage");
-      var playButton = document.getElementById("playButton");
-      var optionsBox = document.getElementById("answerOptions");
-      var nextButton = document.getElementById("nextButton");
-      var feedback = document.getElementById("gameFeedback");
-      var fallback = document.getElementById("audioFallback");
+      var modeButtons = Array.prototype.slice.call(document.querySelectorAll("[data-mode]"));
+      var modeConfirm = document.getElementById("modeConfirm");
+      var pendingMode = null;
+      var mode = null;
       var questions = [];
       var roundIndex = 0;
       var score = 0;
       var answered = false;
       var mistakes = [];
+      var playButton;
+      var optionsBox;
+      var nextButton;
+      var feedback;
+      var fallback;
+      var revealCard;
 
-      playButton.innerHTML = VV.icon("volume");
+      function eligibleVerbs(field) {
+        return selectedVerbs.filter(function (verb) {
+          if (verb.id === "read") return false;
+          return Boolean(D.createChoiceQuestion({ verb: verb, field: field, optionCount: 4 }));
+        });
+      }
 
-      function showEmpty() {
+      function setModeButtons() {
+        modeButtons.forEach(function (button) {
+          var active = button.dataset.mode === mode;
+          button.classList.toggle("is-active", active);
+          button.setAttribute("aria-pressed", active ? "true" : "false");
+        });
+      }
+
+      function updateProgress(completed) {
+        var total = questions.length;
+        var current = mode ? Math.min(total, roundIndex + (completed ? 1 : 0)) : 0;
+        document.getElementById("progressLabel").textContent =
+          total ? Math.min(roundIndex + 1, total) + " / " + total : "0 / 0";
+        document.getElementById("progressFill").style.setProperty(
+          "--progress",
+          total ? Math.round((current / total) * 100) + "%" : "0%"
+        );
+      }
+
+      function showEmpty(field) {
         stage.innerHTML =
-          '<section class="game-empty"><p class="eyebrow">EMPTY ATLAS</p><h1>先选择练习词汇</h1>' +
-          '<p>词库为空，暂时无法生成听音题。</p><a class="button button-primary" href="../index.html#wordStudio">前往调整词库</a></section>';
+          '<section class="game-empty"><p class="eyebrow">NO SOUND ROUTE</p><h1>当前词库无法出题</h1>' +
+          '<p>「' + MODE_META[field].label + '」需要可用形式。read 因同形异音已跳过。</p>' +
+          '<a class="button button-primary" href="../index.html#wordStudio">前往调整词库</a></section>';
+        updateProgress(false);
       }
 
-      function firstForm(value) {
-        return U.splitForms(value)[0] || "";
-      }
-
-      function buildCandidates() {
-        var candidates = [];
-        verbs.forEach(function (verb) {
-          ["base", "past", "pp"].forEach(function (key) {
-            var spoken = firstForm(verb[key]);
-            if (!spoken || spoken === "—") return;
-            if (verb.id === "read" && key !== "base") return;
-            candidates.push({ verb: verb, key: key, spoken: spoken });
-          });
+      function renderPlayShell() {
+        stage.innerHTML =
+          '<section class="game-panel"><div class="question-meta">' +
+          '<span class="question-index" id="questionIndex">QUESTION 01</span>' +
+          '<span class="tense-pill" id="formLabel"></span></div>' +
+          '<div class="listen-layout"><div><div class="listen-orbit">' +
+          '<button class="listen-button" id="playButton" type="button" aria-label="播放当前动词发音"></button></div>' +
+          '<p class="listen-copy">可随时重播 · British English</p>' +
+          '<p class="audio-fallback" id="audioFallback" role="status"></p></div><div>' +
+          '<div class="choice-grid is-single-column" id="answerOptions"></div>' +
+          '<div class="reveal-card" id="revealCard" hidden></div>' +
+          '<p class="game-feedback" id="gameFeedback">先听发音，再选择对应形式。</p>' +
+          '<div class="game-action-row"><button class="button button-primary" id="nextButton" type="button" hidden>下一题</button></div>' +
+          '</div></div></section>';
+        playButton = document.getElementById("playButton");
+        optionsBox = document.getElementById("answerOptions");
+        nextButton = document.getElementById("nextButton");
+        feedback = document.getElementById("gameFeedback");
+        fallback = document.getElementById("audioFallback");
+        revealCard = document.getElementById("revealCard");
+        playButton.innerHTML = VV.icon("volume");
+        playButton.addEventListener("click", speak);
+        nextButton.addEventListener("click", function () {
+          roundIndex += 1;
+          renderRound();
         });
-        return candidates;
       }
 
-      function makeOptions(question) {
-        var alternatives = VV.uniqueStrings(
-          verbs.map(function (verb) { return firstForm(verb[question.key]); })
-        ).filter(function (value) {
-          return value !== "—" && U.normalizeForm(value) !== U.normalizeForm(question.spoken);
+      function startMode(nextMode) {
+        mode = nextMode;
+        questions = VV.buildCoverageRounds(eligibleVerbs(nextMode)).map(function (verb) {
+          return D.createChoiceQuestion({ verb: verb, field: nextMode, optionCount: 4 });
         });
-        return U.shuffle([question.spoken].concat(U.shuffle(alternatives).slice(0, 3)));
+        roundIndex = 0;
+        score = 0;
+        answered = false;
+        mistakes = [];
+        setModeButtons();
+        document.getElementById("progressTitle").textContent = "GAME 02 · " + MODE_META[mode].label;
+        if (!questions.length) {
+          showEmpty(mode);
+          return;
+        }
+        renderPlayShell();
+        renderRound();
       }
 
       function speak() {
         var question = questions[roundIndex];
-        if (!question || answered && !question.spoken) return;
+        if (!question) return;
         fallback.textContent = "";
         playButton.classList.add("is-playing");
-        playButton.setAttribute("aria-busy", "true");
-        Promise.resolve(TTS.speak(question.spoken, { slow: true }))
+        Promise.resolve(TTS.speak(question.correct, { slow: true }))
           .then(function (ok) {
-            if (!ok) {
-              fallback.textContent = "音频暂不可用 · 文字重播：" + question.spoken;
-              VV.announce("文字重播：" + question.spoken);
-            }
+            if (!ok) fallback.textContent = "音频暂不可用 · 请根据记忆选择形式。";
           })
           .catch(function () {
-            fallback.textContent = "音频暂不可用 · 文字重播：" + question.spoken;
-            VV.announce("文字重播：" + question.spoken);
+            fallback.textContent = "音频暂不可用 · 请根据记忆选择形式。";
           })
           .finally(function () {
             playButton.classList.remove("is-playing");
-            playButton.removeAttribute("aria-busy");
           });
-      }
-
-      function updateProgress(completed) {
-        var current = Math.min(TOTAL, roundIndex + (completed ? 1 : 0));
-        document.getElementById("progressLabel").textContent =
-          Math.min(roundIndex + 1, TOTAL) + " / " + TOTAL;
-        document.getElementById("progressFill").style.setProperty(
-          "--progress",
-          Math.round((current / TOTAL) * 100) + "%"
-        );
       }
 
       function choose(button, value) {
         if (answered) return;
         var question = questions[roundIndex];
-        var correct = value === question.spoken;
+        var correct = U.normalizeForm(value) === U.normalizeForm(question.correct);
         answered = true;
         Array.prototype.forEach.call(optionsBox.children, function (option) {
           option.disabled = true;
-          if (option.dataset.value === question.spoken) option.classList.add("is-correct");
+          if (U.normalizeForm(option.dataset.value) === U.normalizeForm(question.correct)) {
+            option.classList.add("is-correct");
+          }
         });
+        revealCard.hidden = false;
+        revealCard.innerHTML = '<p class="eyebrow">UNLOCKED</p><strong></strong><span></span>';
+        revealCard.querySelector("strong").textContent = question.base;
+        revealCard.querySelector("span").textContent = question.cn + " · " + MODE_META[mode].label + " " + question.correct;
         if (correct) {
           score += 1;
           feedback.className = "game-feedback is-success";
-          feedback.textContent = "声音匹配正确：" + question.spoken;
+          feedback.textContent = "声音匹配正确。";
         } else {
           button.classList.add("is-wrong");
-          mistakes.push({
-            prompt: FORM_META[question.key].label,
-            answer: question.spoken
-          });
+          mistakes.push({ prompt: MODE_META[mode].label, answer: question.base + " · " + question.correct });
           feedback.className = "game-feedback is-error";
-          feedback.textContent = "你听到的是：" + question.spoken;
+          feedback.textContent = "你听到的是 " + question.correct + "。";
         }
         VV.recordGameAttempt(GAME_ID, {
           verbId: question.verb.id,
-          form: question.key,
+          mode: mode,
           correct: correct,
           answer: value,
-          expected: question.spoken
+          expected: question.correct
         });
         nextButton.hidden = false;
-        nextButton.textContent = roundIndex === TOTAL - 1 ? "查看结算" : "下一题";
+        nextButton.textContent = roundIndex === questions.length - 1 ? "查看结算" : "下一题";
         updateProgress(true);
       }
 
       function renderRound() {
-        if (roundIndex >= TOTAL) {
+        if (roundIndex >= questions.length) {
           finishGame();
           return;
         }
         var question = questions[roundIndex];
-        var meta = FORM_META[question.key];
         answered = false;
         fallback.textContent = "";
+        revealCard.hidden = true;
+        revealCard.innerHTML = "";
         feedback.className = "game-feedback";
-        feedback.textContent = "先听发音，再选择对应形式。";
+        feedback.textContent = "先听发音，再从近形干扰中选择。";
         nextButton.hidden = true;
         document.getElementById("questionIndex").textContent =
           "QUESTION " + String(roundIndex + 1).padStart(2, "0");
-        document.getElementById("formLabel").className = "tense-pill " + meta.tone;
-        document.getElementById("formLabel").textContent = meta.label;
+        document.getElementById("formLabel").className = "tense-pill " + MODE_META[mode].tone;
+        document.getElementById("formLabel").textContent = MODE_META[mode].pill;
         optionsBox.innerHTML = "";
-        makeOptions(question).forEach(function (option, index) {
+        question.options.forEach(function (option, index) {
           var button = document.createElement("button");
           button.type = "button";
           button.className = "choice-button";
@@ -207,52 +253,52 @@
           optionsBox.appendChild(button);
         });
         updateProgress(false);
-        window.setTimeout(speak, 320);
+        window.setTimeout(speak, 280);
       }
 
       function finishGame() {
-        document.getElementById("progressLabel").textContent = TOTAL + " / " + TOTAL;
-        document.getElementById("progressFill").style.setProperty("--progress", "100%");
         if (TTS && typeof TTS.stop === "function") TTS.stop();
-        VV.recordGameSession(GAME_ID, {
-          score: score,
-          total: TOTAL,
-          mistakes: mistakes.length
-        });
+        document.getElementById("progressLabel").textContent = questions.length + " / " + questions.length;
+        document.getElementById("progressFill").style.setProperty("--progress", "100%");
+        VV.recordGameSession(GAME_ID, { mode: mode, score: score, total: questions.length, mistakes: mistakes.length });
         VV.showGameSettlement({
           host: stage,
           title: "声音轨道接通",
-          message: "十个声音信号已经完成辨认。",
+          message: "已按当前词库完成" + MODE_META[mode].label + "听音全覆盖。",
           score: score,
-          total: TOTAL,
+          total: questions.length,
           mistakes: mistakes,
-          nextHref: "game3-sentence-gap.html"
+          nextHref: "game3-sentence-gap.html",
+          onRestart: function () { startMode(mode); }
         });
       }
 
-      if (!verbs.length) {
-        showEmpty();
-        return;
-      }
-      questions = VV.buildRounds(buildCandidates(), TOTAL);
-      if (!questions.length) {
-        showEmpty();
-        return;
-      }
-      playButton.addEventListener("click", speak);
-      nextButton.addEventListener("click", function () {
-        roundIndex += 1;
-        renderRound();
+      modeButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          var nextMode = button.dataset.mode;
+          if (!mode) startMode(nextMode);
+          else if (nextMode !== mode) {
+            pendingMode = nextMode;
+            modeConfirm.hidden = false;
+          }
+        });
+      });
+      document.getElementById("cancelMode").addEventListener("click", function () {
+        pendingMode = null;
+        modeConfirm.hidden = true;
+      });
+      document.getElementById("confirmMode").addEventListener("click", function () {
+        var nextMode = pendingMode;
+        pendingMode = null;
+        modeConfirm.hidden = true;
+        if (nextMode) startMode(nextMode);
       });
       document.addEventListener("keydown", function (event) {
-        if (!answered && /^[1-4]$/.test(event.key)) {
-          var option = optionsBox.children[Number(event.key) - 1];
-          if (option) option.click();
-        } else if (event.key === "Enter" && event.target === document.body && !nextButton.hidden) {
-          nextButton.click();
+        if (!mode || answered || !optionsBox) return;
+        if (/^[1-4]$/.test(event.key) && optionsBox.children[Number(event.key) - 1]) {
+          optionsBox.children[Number(event.key) - 1].click();
         }
       });
-      renderRound();
     })();
   </script>
 </body>

@@ -125,7 +125,7 @@
   <header class="game-topbar">
     <a class="topbar-back" href="index.html" aria-label="返回游戏大厅"><span aria-hidden="true">←</span><span>游戏大厅</span></a>
     <div class="game-progress" aria-label="游戏进度">
-      <div class="game-progress-labels"><span id="progressTitle">GAME 08 · 中文辨形</span><strong id="progressLabel">0 / 10</strong></div>
+      <div class="game-progress-labels"><span id="progressTitle">GAME 08 · 中文辨形</span><strong id="progressLabel">0 / 0</strong></div>
       <div class="game-progress-track"><div class="game-progress-fill" id="progressFill"></div></div>
     </div>
     <a class="brand-lockup" href="../index.html"><span class="brand-mark">VA</span><span class="brand-copy"><strong>Verb Atlas</strong><span>Tense Observatory</span></span></a>
@@ -133,8 +133,8 @@
 
   <main class="game-shell">
     <div class="game-stage-head">
-      <div><p class="eyebrow">MEANING SIGNAL · 10 QUESTIONS</p><h1>中文辨形</h1></div>
-      <p>根据中文与原形，从两个高度相近的形式中锁定答案。数字键 1 / 2 也可作答。</p>
+      <div><p class="eyebrow">MEANING SIGNAL</p><h1>中文辨形</h1></div>
+      <p>根据中文与原形，从四个高度近形的干扰项中锁定答案。按当前词库全覆盖。</p>
     </div>
 
     <section class="mode-switcher" aria-label="选择训练模式">
@@ -160,7 +160,7 @@
       <section class="game-empty">
         <p class="eyebrow">SELECT A ROUTE</p>
         <h1>先选择辨形模式</h1>
-        <p>选择过去式或过去分词，开始十题中文辨形。</p>
+        <p>选择过去式或过去分词，按当前词库全覆盖辨形。</p>
       </section>
     </div>
   </main>
@@ -172,7 +172,6 @@
       var D = window.IrregularVerbsDistractors;
       var VV = window.VerbVerse;
       var GAME_ID = "chinese-form";
-      var TOTAL = 10;
       var MODE_META = {
         past: { label: "过去式", pill: "过去式 · PAST", tone: "is-past" },
         pp: { label: "过去分词", pill: "过去分词 · PARTICIPLE", tone: "is-perfect" }
@@ -203,12 +202,13 @@
       }
 
       function updateProgress(completed) {
-        var count = mode ? Math.min(TOTAL, roundIndex + (completed ? 1 : 0)) : 0;
+        var total = rounds.length;
+        var count = mode ? Math.min(total, roundIndex + (completed ? 1 : 0)) : 0;
         document.getElementById("progressLabel").textContent =
-          mode ? Math.min(roundIndex + 1, TOTAL) + " / " + TOTAL : "0 / " + TOTAL;
+          mode && total ? Math.min(roundIndex + 1, total) + " / " + total : "0 / 0";
         document.getElementById("progressFill").style.setProperty(
           "--progress",
-          Math.round((count / TOTAL) * 100) + "%"
+          total ? Math.round((count / total) * 100) + "%" : "0%"
         );
       }
 
@@ -230,7 +230,7 @@
 
       function eligibleVerbs(field) {
         return selectedVerbs.filter(function (verb) {
-          return Boolean(D.createChineseQuestion({ verb: verb, field: field }));
+          return Boolean(D.createChineseQuestion({ verb: verb, field: field, optionCount: 4 }));
         });
       }
 
@@ -266,7 +266,7 @@
         score = 0;
         answered = false;
         mistakes = [];
-        rounds = VV.buildRounds(candidates, TOTAL);
+        rounds = VV.buildCoverageRounds(candidates);
         setModeButtons();
         document.getElementById("progressTitle").textContent =
           "GAME 08 · " + MODE_META[mode].label;
@@ -310,16 +310,16 @@
           expected: currentQuestion.correct
         });
         nextButton.hidden = false;
-        nextButton.textContent = roundIndex === TOTAL - 1 ? "查看结算" : "下一题";
+        nextButton.textContent = roundIndex === rounds.length - 1 ? "查看结算" : "下一题";
         updateProgress(true);
       }
 
       function renderRound() {
-        if (roundIndex >= TOTAL) {
+        if (roundIndex >= rounds.length) {
           finishGame();
           return;
         }
-        currentQuestion = D.createChineseQuestion({ verb: rounds[roundIndex], field: mode });
+        currentQuestion = D.createChineseQuestion({ verb: rounds[roundIndex], field: mode, optionCount: 4 });
         answered = false;
         document.getElementById("questionIndex").textContent =
           "QUESTION " + String(roundIndex + 1).padStart(2, "0");
@@ -351,20 +351,20 @@
       }
 
       function finishGame() {
-        document.getElementById("progressLabel").textContent = TOTAL + " / " + TOTAL;
+        document.getElementById("progressLabel").textContent = rounds.length + " / " + rounds.length;
         document.getElementById("progressFill").style.setProperty("--progress", "100%");
         VV.recordGameSession(GAME_ID, {
           mode: mode,
           score: score,
-          total: TOTAL,
+          total: rounds.length,
           mistakes: mistakes.length
         });
         VV.showGameSettlement({
           host: stage,
           title: MODE_META[mode].label + "辨形完成",
-          message: "十组中文信号已经与正确形式对齐。",
+          message: "已按当前词库完成中文辨形全覆盖。",
           score: score,
-          total: TOTAL,
+          total: rounds.length,
           mistakes: mistakes,
           nextHref: "game9-letter-sort.html",
           onRestart: function () { startMode(mode); }
@@ -399,7 +399,7 @@
           modeButtons[Number(event.key) - 1].click();
           return;
         }
-        if (!answered && /^[12]$/.test(event.key) && optionsBox) {
+        if (!answered && /^[1-4]$/.test(event.key) && optionsBox) {
           var option = optionsBox.children[Number(event.key) - 1];
           if (option) option.click();
         } else if (answered && event.key === "Enter" && nextButton && !nextButton.hidden) {

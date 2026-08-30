@@ -18,7 +18,7 @@
   <header class="game-topbar">
     <a class="topbar-back" href="index.html" aria-label="返回游戏大厅"><span aria-hidden="true">←</span><span>游戏大厅</span></a>
     <div class="game-progress" aria-label="游戏进度">
-      <div class="game-progress-labels"><span>GAME 06 · BASE → PAST</span><strong id="progressLabel">1 / 10</strong></div>
+      <div class="game-progress-labels"><span>GAME 06 · BASE → PAST</span><strong id="progressLabel">1 / 0</strong></div>
       <div class="game-progress-track"><div class="game-progress-fill" id="progressFill"></div></div>
     </div>
     <a class="brand-lockup" href="../index.html"><span class="brand-mark">VA</span><span class="brand-copy"><strong>Verb Atlas</strong><span>Tense Observatory</span></span></a>
@@ -26,8 +26,8 @@
 
   <main class="game-shell" id="gameStage" data-game-stage>
     <div class="game-stage-head">
-      <div><p class="eyebrow">PAST SIGNAL · 10 QUESTIONS</p><h1>原形到过去式</h1></div>
-      <p>根据原形与中文含义，从四个相近形式中锁定过去式。按数字键 1–4 也可作答。</p>
+      <div><p class="eyebrow">PAST SIGNAL</p><h1>原形到过去式</h1></div>
+      <p>根据原形与中文含义，从四个高度近形的干扰项中锁定过去式。按当前词库全覆盖。</p>
     </div>
     <section class="game-panel" aria-labelledby="baseWord">
       <div class="question-meta">
@@ -51,7 +51,6 @@
       var D = window.IrregularVerbsDistractors;
       var VV = window.VerbVerse;
       var GAME_ID = "base-past";
-      var TOTAL = 10;
       var selectedVerbs = U.getSelectedVerbs();
       var stage = document.getElementById("gameStage");
       var optionsBox = document.getElementById("answerOptions");
@@ -66,7 +65,7 @@
       function showEmpty() {
         stage.innerHTML =
           '<section class="game-empty"><p class="eyebrow">EMPTY ATLAS</p><h1>先选择练习词汇</h1>' +
-          '<p>词库为空，暂时无法生成十道过去式题目。</p><a class="button button-primary" href="../index.html#wordStudio">前往调整词库</a></section>';
+          '<p>词库为空，暂时无法生成过去式题目。</p><a class="button button-primary" href="../index.html#wordStudio">前往调整词库</a></section>';
       }
 
       function groupLabel(group) {
@@ -75,7 +74,7 @@
       }
 
       function buildQuestion(verb) {
-        var config = { verb: verb, field: "past", optionCount: 4 };
+        var config = { verb: verb, field: "past", optionCount: 4, excludePrompt: true };
         var plural;
         var question;
         if (verb.id === "be") {
@@ -112,12 +111,13 @@
       }
 
       function updateProgress(completed) {
-        var progress = Math.min(TOTAL, roundIndex + (completed ? 1 : 0));
+        var total = questions.length;
+        var progress = Math.min(total, roundIndex + (completed ? 1 : 0));
         document.getElementById("progressLabel").textContent =
-          Math.min(roundIndex + 1, TOTAL) + " / " + TOTAL;
+          Math.min(roundIndex + 1, total) + " / " + total;
         document.getElementById("progressFill").style.setProperty(
           "--progress",
-          Math.round((progress / TOTAL) * 100) + "%"
+          total ? Math.round((progress / total) * 100) + "%" : "0%"
         );
       }
 
@@ -158,12 +158,12 @@
           expected: question.correct
         });
         nextButton.hidden = false;
-        nextButton.textContent = roundIndex === TOTAL - 1 ? "查看结算" : "下一题";
+        nextButton.textContent = roundIndex === questions.length - 1 ? "查看结算" : "下一题";
         updateProgress(true);
       }
 
       function renderRound() {
-        if (roundIndex >= TOTAL) {
+        if (roundIndex >= questions.length) {
           finishGame();
           return;
         }
@@ -196,19 +196,19 @@
       }
 
       function finishGame() {
-        document.getElementById("progressLabel").textContent = TOTAL + " / " + TOTAL;
+        document.getElementById("progressLabel").textContent = questions.length + " / " + questions.length;
         document.getElementById("progressFill").style.setProperty("--progress", "100%");
         VV.recordGameSession(GAME_ID, {
           score: score,
-          total: TOTAL,
+          total: questions.length,
           mistakes: mistakes.length
         });
         VV.showGameSettlement({
           host: stage,
           title: "过去式信号已锁定",
-          message: "十道原形到过去式的辨形任务已完成。",
+          message: "已按当前词库完成原形到过去式的全覆盖辨形。",
           score: score,
-          total: TOTAL,
+          total: questions.length,
           mistakes: mistakes,
           nextHref: "game7-base-participle.html"
         });
@@ -218,7 +218,7 @@
         showEmpty();
         return;
       }
-      questions = VV.buildRounds(selectedVerbs, TOTAL).map(buildQuestion);
+      questions = VV.buildCoverageRounds(selectedVerbs).map(buildQuestion);
       nextButton.addEventListener("click", function () {
         roundIndex += 1;
         renderRound();

@@ -17,7 +17,7 @@
   <header class="game-topbar">
     <a class="topbar-back" href="index.html" aria-label="返回游戏大厅"><span aria-hidden="true">←</span><span>游戏大厅</span></a>
     <div class="game-progress" aria-label="配对进度">
-      <div class="game-progress-labels"><span>GAME 05 · 记忆翻牌</span><strong id="progressLabel">0 / 6</strong></div>
+      <div class="game-progress-labels"><span>GAME 05 · 记忆翻牌</span><strong id="progressLabel">记忆中</strong></div>
       <div class="game-progress-track"><div class="game-progress-fill" id="progressFill"></div></div>
     </div>
     <a class="brand-lockup" href="../index.html"><span class="brand-mark">VA</span><span class="brand-copy"><strong>Verb Atlas</strong><span>Tense Observatory</span></span></a>
@@ -25,16 +25,25 @@
 
   <main class="game-shell" id="gameStage" data-game-stage>
     <div class="game-stage-head">
-      <div><p class="eyebrow">MEMORY FIELD · 06 PAIRS</p><h1>记忆翻牌</h1></div>
-      <p>翻开十二张卡片，把同一动词的原形与过去式配成一组。所有卡片都可用键盘操作。</p>
+      <div><p class="eyebrow">MEMORY FIELD</p><h1>记忆翻牌</h1></div>
+      <p>先看清正面，记住原形与过去式的位置，再翻回去开始配对。</p>
     </div>
     <section class="game-panel">
-      <div class="memory-meta">
-        <span>已配对 <strong id="matchedCount">0 / 6</strong></span>
-        <span>步数 <strong id="moveCount">0</strong></span>
+      <div class="memory-study-banner" id="studyBanner">
+        <div>
+          <p class="eyebrow">STUDY FIRST</p>
+          <h2>先记住这些配对</h2>
+          <p>所有卡片正面朝上。记好位置后，再点击开始配对。</p>
+        </div>
+        <button class="button button-primary" id="startMatch" type="button">记住了，开始配对</button>
       </div>
-      <div class="memory-grid" id="memoryGrid" aria-label="十二张记忆卡片"></div>
-      <p class="game-feedback" id="gameFeedback" role="status" aria-live="polite">翻开两张卡片，寻找同一动词的原形与过去式。</p>
+      <div class="memory-meta">
+        <span>已配对 <strong id="matchedCount">0 / 0</strong></span>
+        <span>步数 <strong id="moveCount">0</strong></span>
+        <span id="phaseLabel">记忆阶段</span>
+      </div>
+      <div class="memory-grid is-preview" id="memoryGrid" aria-label="记忆卡片"></div>
+      <p class="game-feedback" id="gameFeedback" role="status" aria-live="polite">先观察每张卡片的正面，不要急着翻。</p>
     </section>
   </main>
 
@@ -44,47 +53,45 @@
       var U = window.IrregularVerbsUtil;
       var VV = window.VerbVerse;
       var GAME_ID = "memory-flip";
-      var TOTAL = 6;
       var selectedVerbs = U.getSelectedVerbs();
       var stage = document.getElementById("gameStage");
       var grid = document.getElementById("memoryGrid");
       var feedback = document.getElementById("gameFeedback");
+      var studyBanner = document.getElementById("studyBanner");
+      var startMatch = document.getElementById("startMatch");
       var cards = [];
       var openCards = [];
       var matchedPairs = 0;
       var moves = 0;
-      var locked = false;
+      var locked = true;
+      var studying = true;
       var mismatches = [];
+      var pairCount = 0;
 
       function showEmpty() {
         stage.innerHTML =
           '<section class="game-empty"><p class="eyebrow">EMPTY ATLAS</p><h1>先选择练习词汇</h1>' +
-          '<p>词库为空，暂时无法建立六组记忆卡。</p><a class="button button-primary" href="../index.html#wordStudio">前往调整词库</a></section>';
+          '<p>词库为空，暂时无法建立记忆场。</p><a class="button button-primary" href="../index.html#wordStudio">前往调整词库</a></section>';
       }
 
       function firstForm(value) {
         return U.splitForms(value)[0] || String(value || "");
       }
 
-      function pickSixVerbs() {
-        var picked = U.shuffle(selectedVerbs).slice(0, TOTAL);
-        if (picked.length < TOTAL) {
-          var selectedIds = picked.map(function (verb) { return verb.id; });
-          var extras = U.shuffle(U.getAllVerbs().filter(function (verb) {
-            return selectedIds.indexOf(verb.id) === -1;
-          }));
-          picked = picked.concat(extras.slice(0, TOTAL - picked.length));
-        }
-        return picked;
+      function pickVerbs() {
+        var limit = Math.min(8, Math.max(3, selectedVerbs.length));
+        return U.shuffle(selectedVerbs).slice(0, limit);
       }
 
       function updateProgress() {
-        document.getElementById("matchedCount").textContent = matchedPairs + " / " + TOTAL;
+        document.getElementById("matchedCount").textContent = matchedPairs + " / " + pairCount;
         document.getElementById("moveCount").textContent = moves;
-        document.getElementById("progressLabel").textContent = matchedPairs + " / " + TOTAL;
+        document.getElementById("progressLabel").textContent = studying
+          ? "记忆中"
+          : matchedPairs + " / " + pairCount;
         document.getElementById("progressFill").style.setProperty(
           "--progress",
-          Math.round((matchedPairs / TOTAL) * 100) + "%"
+          pairCount ? Math.round((matchedPairs / pairCount) * 100) + "%" : "0%"
         );
       }
 
@@ -96,8 +103,8 @@
         var word = document.createElement("strong");
         var type = document.createElement("span");
         button.type = "button";
-        button.className = "memory-card";
-        button.setAttribute("aria-label", "第 " + (position + 1) + " 张卡片，未翻开");
+        button.className = "memory-card is-preview " + (card.form === "base" ? "is-base" : "is-past");
+        button.setAttribute("aria-label", card.text + "，" + card.type + "，记忆中");
         inner.className = "memory-card-inner";
         back.className = "memory-face memory-back";
         back.innerHTML = "<span>VA</span>";
@@ -109,24 +116,31 @@
         inner.appendChild(back);
         inner.appendChild(front);
         button.appendChild(inner);
-        button.addEventListener("click", function () {
-          flipCard(card);
-        });
+        button.addEventListener("click", function () { flipCard(card); });
         card.element = button;
         return button;
       }
 
+      function beginMatching() {
+        studying = false;
+        locked = false;
+        studyBanner.hidden = true;
+        grid.classList.remove("is-preview");
+        document.getElementById("phaseLabel").textContent = "配对阶段";
+        cards.forEach(function (card, index) {
+          card.element.classList.remove("is-preview");
+          card.element.setAttribute("aria-label", "第 " + (index + 1) + " 张卡片，未翻开");
+        });
+        feedback.className = "game-feedback";
+        feedback.textContent = "卡片已翻回背面。凭记忆找出同一动词的原形与过去式。";
+        updateProgress();
+        VV.announce("记忆结束，开始配对");
+      }
+
       function flipCard(card) {
-        if (
-          locked ||
-          card.matched ||
-          openCards.indexOf(card) !== -1
-        ) return;
+        if (studying || locked || card.matched || openCards.indexOf(card) !== -1) return;
         card.element.classList.add("is-flipped");
-        card.element.setAttribute(
-          "aria-label",
-          card.text + "，" + card.type + "，已翻开"
-        );
+        card.element.setAttribute("aria-label", card.text + "，" + card.type + "，已翻开");
         openCards.push(card);
         VV.announce(card.text + "，" + card.type);
         if (openCards.length < 2) {
@@ -162,15 +176,10 @@
           feedback.className = "game-feedback is-success";
           feedback.textContent = "配对成功：" + first.text + " ↔ " + second.text;
           updateProgress();
-          if (matchedPairs === TOTAL) {
-            window.setTimeout(finishGame, 520);
-          }
+          if (matchedPairs === pairCount) window.setTimeout(finishGame, 520);
           return;
         }
-        mismatches.push({
-          prompt: first.text + " / " + second.text,
-          answer: "不是同一动词"
-        });
+        mismatches.push({ prompt: first.text + " / " + second.text, answer: "不是同一动词" });
         feedback.className = "game-feedback is-error";
         feedback.textContent = "这两张不属于同一动词，记住位置后再试。";
         updateProgress();
@@ -185,22 +194,22 @@
       }
 
       function finishGame() {
-        document.getElementById("progressLabel").textContent = TOTAL + " / " + TOTAL;
+        document.getElementById("progressLabel").textContent = pairCount + " / " + pairCount;
         document.getElementById("progressFill").style.setProperty("--progress", "100%");
         VV.recordGameSession(GAME_ID, {
-          score: TOTAL,
-          total: TOTAL,
+          score: pairCount,
+          total: pairCount,
           mistakes: mismatches.length,
           moves: moves
         });
         VV.showGameSettlement({
           host: stage,
           title: "记忆场全部配对",
-          message: "六组原形与过去式已经建立连接，共使用 " + moves + " 步。",
-          score: TOTAL,
-          total: TOTAL,
+          message: pairCount + " 组原形与过去式已经建立连接，共使用 " + moves + " 步。",
+          score: pairCount,
+          total: pairCount,
           mistakes: mismatches.slice(0, 10),
-          nextHref: "game1-triple-match.html"
+          nextHref: "game6-base-past.html"
         });
       }
 
@@ -208,7 +217,8 @@
         showEmpty();
         return;
       }
-      pickSixVerbs().forEach(function (verb, index) {
+      pickVerbs().forEach(function (verb, index) {
+        pairCount += 1;
         cards.push({
           id: verb.id + "-base-" + index,
           pairId: verb.id,
@@ -232,6 +242,7 @@
       cards.forEach(function (card, index) {
         grid.appendChild(makeCardButton(card, index));
       });
+      startMatch.addEventListener("click", beginMatching);
       updateProgress();
     })();
   </script>

@@ -1,7 +1,10 @@
 /**
- * Verb Atlas · shared high-confusion choices and letter-pool engine.
+ * Verb Atlas · 高迷惑选项与字母池引擎
  *
- * Load after verbs-data.js and shared.js.
+ * 选择题以「看起来像同一词的错误拼写」为主：
+ * hang → hung / hong / hant / hune
+ *
+ * 需在 verbs-data.js、shared.js 之后加载。
  */
 (function (global) {
   "use strict";
@@ -9,6 +12,7 @@
   var U = global.IrregularVerbsUtil;
   var DATA = global.IRREGULAR_VERBS_DATA;
   var FIELDS = ["past", "pp"];
+  var VOWELS = "aeiou";
   var CONFUSABLE_LETTERS = {
     a: "eou",
     b: "pd",
@@ -18,7 +22,7 @@
     f: "vph",
     g: "jq",
     h: "nf",
-    i: "ey",
+    i: "eyu",
     j: "gi",
     k: "cg",
     l: "ir",
@@ -30,13 +34,63 @@
     r: "ln",
     s: "cz",
     t: "d",
-    u: "ao",
+    u: "aoi",
     v: "fw",
     w: "vm",
     x: "ks",
     y: "ie",
     z: "s",
   };
+  var VOWEL_SWAPS = {
+    a: ["e", "u", "o", "ai"],
+    e: ["a", "i", "ea"],
+    i: ["e", "a", "u", "ie"],
+    o: ["a", "u", "e", "oa"],
+    u: ["o", "a", "i", "ou"],
+    y: ["i", "ie"],
+    ai: ["ei", "ay", "a"],
+    ay: ["ey", "ai"],
+    ea: ["ee", "ae", "ie"],
+    ee: ["ea", "ie"],
+    ie: ["ei", "ee"],
+    oa: ["o", "ou"],
+    oo: ["oa", "ou", "u"],
+    ou: ["ow", "oo", "au"],
+    ow: ["ew", "aw", "ou"],
+    aw: ["ow", "au"],
+    ew: ["ow", "ue"],
+    ue: ["ew", "u"],
+  };
+  var ENDING_SWAPS = [
+    [/ung$/, ["ong", "ang", "ant", "une", "und", "ank"]],
+    [/ang$/, ["ung", "ong", "ant", "ane"]],
+    [/ank$/, ["unk", "anked", "unct"]],
+    [/unk$/, ["ank", "onk", "unct"]],
+    [/ing$/, ["ang", "ung", "ong", "ought"]],
+    [/oke$/, ["eak", "ook", "oken", "oked"]],
+    [/oken$/, ["oke", "eaken", "okened"]],
+    [/ook$/, ["aked", "oken", "uke", "eak"]],
+    [/ew$/, ["ow", "own", "ewed"]],
+    [/own$/, ["ew", "owen", "ewn"]],
+    [/ewn$/, ["own", "ewed"]],
+    [/ought$/, ["aught", "oughted", "out"]],
+    [/aught$/, ["ought", "aut", "aughted"]],
+    [/ame$/, ["ome", "omed", "aim"]],
+    [/ome$/, ["ame", "omed"]],
+    [/ore$/, ["ear", "orn", "ored"]],
+    [/orn$/, ["ore", "earn", "orned"]],
+    [/elt$/, ["elted", "old", "ilt"]],
+    [/old$/, ["elt", "olded"]],
+    [/ept$/, ["eeped", "epted", "apt"]],
+    [/ent$/, ["ented", "int", "ant"]],
+    [/en$/, ["an", "un", "in", "ed"]],
+    [/ed$/, ["id", "t", "en"]],
+    [/t$/, ["ed", "te", "d"]],
+    [/d$/, ["t", "ed"]],
+    [/g$/, ["t", "e", "d", "k"]],
+    [/n$/, ["m", "t", "ne"]],
+    [/e$/, ["t", "n", "ed"]],
+  ];
 
   if (!U || !DATA || !Array.isArray(DATA.verbs)) {
     throw new Error("IrregularVerbsDistractors requires IrregularVerbsUtil and IRREGULAR_VERBS_DATA");
@@ -150,6 +204,16 @@
     return count;
   }
 
+  function commonPrefixLength(left, right) {
+    var a = String(left || "").toLowerCase();
+    var b = String(right || "").toLowerCase();
+    var count = 0;
+    while (count < a.length && count < b.length && a.charAt(count) === b.charAt(count)) {
+      count += 1;
+    }
+    return count;
+  }
+
   function editDistance(left, right) {
     var a = String(left || "").toLowerCase();
     var b = String(right || "").toLowerCase();
@@ -172,6 +236,16 @@
     return previous[b.length];
   }
 
+  function looksEnglish(word) {
+    var value = String(word || "").toLowerCase();
+    if (value.length < 2 || value.length > 12) return false;
+    if (!/^[a-z]+$/.test(value)) return false;
+    if (!/[aeiouy]/.test(value)) return false;
+    if (/[^aeiouy]{3,}/.test(value) && !/^(sch|scr|spl|spr|str|thr|shr)/.test(value)) return false;
+    if (/[hqjx]{2}|hg|mg|qg|pf|bv|kd|gk|nk$g/.test(value)) return false;
+    return true;
+  }
+
   function regularizedForms(base) {
     var word = String(base || "").toLowerCase().replace(/[^a-z]/g, "");
     var values = [];
@@ -188,21 +262,202 @@
     if (/[^aeiou]y$/.test(word)) add(word.slice(0, -1) + "ied");
     if (/e$/.test(word)) add(word + "d");
     add(word + "ed");
+    add(word + "en");
+    add(word + "t");
     return values;
   }
 
+  function applyPatternToBase(base, field) {
+    var word = String(base || "").toLowerCase();
+    var values = [];
+
+    function add(value) {
+      if (looksEnglish(value)) values.push(value);
+    }
+
+    if (!word) return values;
+    if (/ink$/.test(word)) add(word.replace(/ink$/, "ank"));
+    if (/ing$/.test(word)) {
+      add(word.replace(/ing$/, "ang"));
+      add(word.replace(/ing$/, "ung"));
+    }
+    if (/im$/.test(word)) add(word.replace(/im$/, "am"));
+    if (/in$/.test(word)) add(word.replace(/in$/, "an"));
+    if (/ake$/.test(word)) add(word.replace(/ake$/, field === "pp" ? "aken" : "oke"));
+    if (/eak$/.test(word)) add(word.replace(/eak$/, field === "pp" ? "oken" : "oke"));
+    if (/ive$/.test(word)) add(word.replace(/ive$/, field === "pp" ? "iven" : "ave"));
+    if (/ow$/.test(word)) add(word.replace(/ow$/, field === "pp" ? "own" : "ew"));
+    if (/aw$/.test(word)) add(word.replace(/aw$/, field === "pp" ? "awn" : "ew"));
+    if (/ay$/.test(word)) add(word.replace(/ay$/, "aid"));
+    if (/ell$/.test(word)) add(word.replace(/ell$/, "old"));
+    if (/ee[pd]$/.test(word)) add(word.replace(/ee([pd])$/, "e$1t"));
+    if (/i(.)e$/.test(word)) add(word.replace(/i(.)e$/, "o$1e"));
+    if (/ea(.)/.test(word)) add(word.replace(/ea(.)/, "o$1e"));
+    if (field === "pp") {
+      add(word + "en");
+      add(word.replace(/e$/, "") + "en");
+      add(word + "n");
+    }
+    regularizedForms(word).forEach(add);
+    return values;
+  }
+
+  function mutateVowels(word) {
+    var value = String(word || "").toLowerCase();
+    var values = [];
+    var clusters = [];
+    var expression = /[aeiouy]{1,2}/g;
+    var match;
+
+    while ((match = expression.exec(value))) {
+      clusters.push({ start: match.index, text: match[0] });
+    }
+    clusters.forEach(function (cluster) {
+      var swaps = VOWEL_SWAPS[cluster.text] || [];
+      swaps.forEach(function (swap) {
+        values.push(value.slice(0, cluster.start) + swap + value.slice(cluster.start + cluster.text.length));
+      });
+    });
+    return values;
+  }
+
+  function mutateEndings(word) {
+    var value = String(word || "").toLowerCase();
+    var values = [];
+    ENDING_SWAPS.forEach(function (pair) {
+      if (pair[0].test(value)) {
+        pair[1].forEach(function (ending) {
+          values.push(value.replace(pair[0], ending));
+        });
+      }
+    });
+    return values;
+  }
+
+  function mutateLetters(word) {
+    var value = String(word || "").toLowerCase();
+    var values = [];
+    var index;
+    var letter;
+    var swaps;
+    var swapIndex;
+    for (index = 0; index < value.length; index += 1) {
+      letter = value.charAt(index);
+      swaps = (CONFUSABLE_LETTERS[letter] || "").split("");
+      for (swapIndex = 0; swapIndex < swaps.length; swapIndex += 1) {
+        values.push(value.slice(0, index) + swaps[swapIndex] + value.slice(index + 1));
+      }
+      if (index > 0) {
+        values.push(
+          value.slice(0, index - 1) +
+            value.charAt(index) +
+            value.charAt(index - 1) +
+            value.slice(index + 1)
+        );
+      }
+    }
+    if (value.length > 3) values.push(value.slice(0, -1));
+    values.push(value + "e");
+    values.push(value + "t");
+    values.push(value + "n");
+    return values;
+  }
+
+  function vowelSignature(word) {
+    return String(word || "").toLowerCase().replace(/[^aeiouy]/g, "");
+  }
+
+  function consonantSkeleton(word) {
+    return String(word || "").toLowerCase().replace(/[aeiouy]/g, "");
+  }
+
+  function inventedScore(target, candidate, kind) {
+    var distance = editDistance(target, candidate);
+    var prefix = commonPrefixLength(target, candidate);
+    var suffix = commonSuffixLength(target, candidate);
+    var lengthDelta = Math.abs(target.length - candidate.length);
+    var score = 0;
+    if (target.charAt(0) === candidate.charAt(0)) score += 10;
+    if (prefix >= 2 && prefix < target.length) score += 6;
+    if (consonantSkeleton(target) === consonantSkeleton(candidate)) score += 18;
+    if (lengthDelta === 0) score += 10;
+    else if (lengthDelta === 1) score += 3;
+    if (candidate === target + "e" || candidate === target + "d" || candidate === target + "n") score -= 8;
+    if (distance === 1) score += 8;
+    else if (distance === 2) score += 12;
+    else if (distance === 3) score += 7;
+    else score -= distance;
+    if (vowelSignature(target) !== vowelSignature(candidate)) score += 8;
+    if (kind === "vowel") score += 16;
+    if (kind === "ending") score += 15;
+    if (kind === "pattern") score += 8;
+    if (kind === "letter") score -= 8;
+    if (
+      target !== candidate &&
+      String(target).toLowerCase().split("").sort().join("") ===
+        String(candidate).toLowerCase().split("").sort().join("")
+    ) {
+      score -= 20;
+    }
+    score += Math.min(suffix, 2);
+    if (allRealForms[normalize(candidate)]) score -= 2;
+    if (!looksEnglish(candidate)) score -= 30;
+    return score;
+  }
+
+  function inventLookalikes(target, opts) {
+    var word = String(target || "").toLowerCase();
+    var blocked = {};
+    var seen = {};
+    var pool = [];
+    opts = opts || {};
+
+    function block(value) {
+      var key = normalize(value);
+      if (key) blocked[key] = true;
+    }
+
+    function add(value, kind) {
+      var clean = String(value || "").toLowerCase();
+      var key = normalize(clean);
+      if (!looksEnglish(clean) || blocked[key] || seen[key]) return;
+      seen[key] = true;
+      pool.push({ word: clean, kind: kind || "letter" });
+    }
+
+    (opts.exclude || []).forEach(block);
+    block(word);
+
+    mutateVowels(word).forEach(function (value) { add(value, "vowel"); });
+    mutateEndings(word).forEach(function (value) { add(value, "ending"); });
+    applyPatternToBase(opts.base || word, opts.field).forEach(function (value) { add(value, "pattern"); });
+    regularizedForms(opts.base || word).forEach(function (value) { add(value, "pattern"); });
+    mutateLetters(word).forEach(function (value) { add(value, "letter"); });
+
+    pool.sort(function (left, right) {
+      return (
+        inventedScore(word, right.word, right.kind) - inventedScore(word, left.word, left.kind) ||
+        left.word.localeCompare(right.word)
+      );
+    });
+    return pool.map(function (item) { return item.word; });
+  }
+
   function categoryFor(record) {
-    if (record.sameVerbOther) return 0;
-    if (record.suffixLength >= 2) return 1;
-    if (record.distance <= 2) return 2;
-    if (record.lengthDelta <= 1) return 3;
-    if (record.regularized) return 4;
-    if (record.sameGroup) return 5;
-    return 6;
+    if (record.invented) return 0;
+    if (record.sameVerbOther) return 1;
+    if (record.suffixLength >= 2) return 2;
+    if (record.distance <= 2) return 3;
+    if (record.lengthDelta <= 1) return 4;
+    if (record.regularized) return 5;
+    if (record.sameGroup) return 6;
+    return 7;
   }
 
   function compareRecords(left, right) {
     var difference = left.category - right.category;
+    if (difference) return difference;
+    difference = (right.inventedScore || 0) - (left.inventedScore || 0);
     if (difference) return difference;
     difference = right.suffixLength - left.suffixLength;
     if (difference) return difference;
@@ -217,18 +472,23 @@
     return left.word < right.word ? -1 : left.word > right.word ? 1 : 0;
   }
 
-  function rankedRecords(verb, field) {
+  function rankedRecords(verb, field, opts) {
     var item = resolveVerb(verb);
-    var target = canonical(item, field);
+    var target = canonical(item, field, opts && opts.canonicalOptions);
     var accepted;
     var targetGroup;
     var records = [];
     var otherField;
+    var exclude = [];
 
     if (!item || !target) return records;
     accepted = acceptedMap(item, field);
     targetGroup = U.getVerbGroup(item);
     otherField = field === "past" ? "pp" : "past";
+    Object.keys(accepted).forEach(function (key) {
+      exclude.push(key);
+    });
+    if (opts && opts.excludePrompt) exclude.push(item.base);
 
     function add(word, sourceVerb, sourceField, flags) {
       var clean = String(word || "").trim();
@@ -240,6 +500,8 @@
         word: clean,
         sourceVerb: sourceVerb || null,
         sourceField: sourceField || null,
+        invented: !!flags.invented,
+        inventedScore: flags.inventedScore || 0,
         sameVerbOther: !!flags.sameVerbOther,
         regularized: !!flags.regularized,
         suffixLength: commonSuffixLength(target, clean),
@@ -251,6 +513,17 @@
       record.category = categoryFor(record);
       records.push(record);
     }
+
+    inventLookalikes(target, {
+      base: item.base,
+      field: field,
+      exclude: exclude,
+    }).forEach(function (form, index) {
+      add(form, null, null, {
+        invented: true,
+        inventedScore: 1000 - index,
+      });
+    });
 
     formsFor(item, otherField).forEach(function (form) {
       add(form, item, otherField, { sameVerbOther: true });
@@ -274,19 +547,58 @@
     return records;
   }
 
-  function rankDistractors(verb, field) {
+  function uniqueWords(records) {
     var seen = {};
-    var ranked = [];
-    rankedRecords(verb, field).forEach(function (record) {
+    var words = [];
+    records.forEach(function (record) {
       var key = normalize(record.word);
       if (seen[key]) return;
       seen[key] = true;
-      ranked.push(record.word);
+      words.push(record.word);
     });
-    return ranked;
+    return words;
   }
 
-  function questionResult(type, verb, field, correct, distractors, optionCount) {
+  function rankDistractors(verb, field, opts) {
+    return uniqueWords(rankedRecords(verb, field, opts));
+  }
+
+  function pickMixedDistractors(verb, field, count, opts) {
+    var records = rankedRecords(verb, field, opts);
+    var invented = [];
+    var sameOther = [];
+    var others = [];
+    var picked = [];
+    var seen = {};
+
+    function take(list) {
+      list.forEach(function (record) {
+        var key = normalize(record.word);
+        if (picked.length >= count || seen[key]) return;
+        seen[key] = true;
+        picked.push(record.word);
+      });
+    }
+
+    records.forEach(function (record) {
+      if (record.invented) invented.push(record);
+      else if (record.sameVerbOther) sameOther.push(record);
+      else others.push(record);
+    });
+
+    if (opts && opts.preferOtherWords) {
+      take(invented);
+      take(others);
+      take(sameOther);
+    } else {
+      take(sameOther);
+      take(invented);
+      take(others);
+    }
+    return picked.slice(0, count);
+  }
+
+  function questionResult(type, verb, field, correct, distractors, optionCount, extra) {
     var options = [correct].concat(distractors);
     var question = {
       type: type,
@@ -299,6 +611,9 @@
       options: U.shuffle(options),
       optionCount: optionCount,
     };
+    Object.keys(extra || {}).forEach(function (key) {
+      question[key] = extra[key];
+    });
     assertSingleCorrect(question);
     return question;
   }
@@ -315,7 +630,11 @@
     count = Math.max(2, Math.floor(Number(config.optionCount) || 4));
     correct = canonical(item, field, config.canonicalOptions);
     if (!item || !correct) return null;
-    distractors = rankDistractors(item, field).slice(0, count - 1);
+    distractors = pickMixedDistractors(item, field, count - 1, {
+      canonicalOptions: config.canonicalOptions,
+      excludePrompt: config.excludePrompt,
+      preferOtherWords: !!config.preferOtherWords,
+    });
     if (distractors.length !== count - 1) {
       throw new Error("Not enough unique distractors for " + item.id + "." + field);
     }
@@ -335,18 +654,107 @@
   function createChineseQuestion(config) {
     var item;
     var field;
+    var count;
     var correct;
     var distractors;
     config = config || {};
     item = resolveVerb(config.verb);
     field = config.field;
-    if (!item || !isField(field) || (item.id === "can" && field === "pp") || isAAA(item)) {
+    count = Math.max(2, Math.floor(Number(config.optionCount) || 4));
+    if (!item || !isField(field) || (item.id === "can" && field === "pp")) {
       return null;
     }
+    if (isAAA(item) && count < 3) return null;
     correct = canonical(item, field);
-    distractors = rankDistractors(item, field).slice(0, 1);
-    if (!correct || !distractors.length) return null;
-    return questionResult("chinese", item, field, correct, distractors, 2);
+    distractors = pickMixedDistractors(item, field, count - 1, {
+      inventedCount: Math.max(1, count - 2),
+      otherWordCount: 1,
+    });
+    if (!correct || distractors.length !== count - 1) return null;
+    return questionResult("chinese", item, field, correct, distractors, count);
+  }
+
+  function createGapQuestion(config) {
+    var item;
+    var field;
+    var correct;
+    var distractors;
+    config = config || {};
+    item = resolveVerb(config.verb);
+    field = config.field;
+    correct = config.answer || canonical(item, field, config.canonicalOptions);
+    if (!item || !correct) return null;
+    distractors = pickMixedDistractors(item, field, 4, {
+      canonicalOptions: config.canonicalOptions,
+      preferOtherWords: true,
+    });
+    if (distractors.length !== 4) {
+      throw new Error("Not enough gap distractors for " + item.id);
+    }
+    return questionResult("gap", item, field, correct, distractors, 5);
+  }
+
+  function uniqueStrings(values) {
+    var seen = {};
+    return (values || []).filter(function (value) {
+      var key = normalize(value);
+      if (!key || seen[key]) return false;
+      seen[key] = true;
+      return true;
+    });
+  }
+
+  function createIdentityQuestion(config) {
+    var item;
+    var field;
+    var form;
+    var example;
+    var baseOptions;
+    var meaningOptions;
+    var baseFakes;
+    config = config || {};
+    item = resolveVerb(config.verb);
+    field = config.field;
+    if (!item || !isField(field) || (item.id === "can" && field === "pp")) return null;
+    form = canonical(item, field, config.canonicalOptions);
+    example = U.getLeveledExample(item, field, config.levelId);
+    if (!form || !example || !example.en) return null;
+    baseFakes = inventLookalikes(item.base, {
+      base: item.base,
+      field: "past",
+      exclude: [item.base, form],
+    }).slice(0, 2);
+    baseOptions = uniqueStrings([item.base].concat(baseFakes).concat(
+      verbs
+        .filter(function (candidate) { return candidate.id !== item.id; })
+        .map(function (candidate) { return candidate.base; })
+    )).slice(0, 4);
+    if (baseOptions.length < 4) return null;
+    meaningOptions = uniqueStrings([item.cn].concat(
+      verbs
+        .filter(function (candidate) { return candidate.id !== item.id; })
+        .map(function (candidate) { return candidate.cn; })
+    ));
+    meaningOptions = [item.cn].concat(
+      U.pickRandom(
+        meaningOptions.filter(function (value) { return normalize(value) !== normalize(item.cn); }),
+        3
+      )
+    );
+    if (meaningOptions.length < 4) return null;
+    return {
+      type: "identity",
+      verb: item,
+      base: item.base,
+      cn: item.cn,
+      field: field,
+      correct: form,
+      form: form,
+      example: example,
+      levelId: config.levelId || U.getSelectedGrade(),
+      baseOptions: U.shuffle(baseOptions.slice(0, 4)),
+      meaningOptions: U.shuffle(meaningOptions.slice(0, 4)),
+    };
   }
 
   function lettersOf(value) {
@@ -385,8 +793,6 @@
     var seen = {};
     var blockers = [];
 
-    // Exact anagrams (for example felt/left) are intrinsically indistinguishable
-    // in a letter pool; every other same-length real form remains blocked.
     verbs.forEach(function (verb) {
       FIELDS.forEach(function (field) {
         formsFor(verb, field).forEach(function (form) {
@@ -416,37 +822,46 @@
     return true;
   }
 
-  function preferredExtraLetters(verb, field, target) {
-    var preferred = [];
-    rankDistractors(verb, field).slice(0, 12).forEach(function (word) {
-      preferred = preferred.concat(lettersOf(word));
-    });
-    lettersOf(target).forEach(function (letter) {
-      preferred = preferred.concat(lettersOf(CONFUSABLE_LETTERS[letter] || ""));
-    });
-    return preferred.concat(lettersOf(target)).concat(lettersOf("etaoinshrdlucmfwypvbgkjqxz"));
+  function randomAlphabet() {
+    return U.shuffle("etaoinshrdlucmfwypvbgkjqxz".split(""));
   }
 
-  function buildLetterPool(verb, field, target) {
+  function buildLetterPool(verb, field, target, mode) {
     var targetLetters = lettersOf(target);
-    var pool = targetLetters.slice();
-    var blockers = letterBlockers(target);
-    var preferred = preferredExtraLetters(verb, field, target);
+    var pool;
+    var blockers;
+    var extras;
     var cursor = 0;
     var stalled = 0;
     var letter;
 
+    if (mode === "sort") return U.shuffle(targetLetters.slice());
+    if (mode === "free") return [];
+
+    pool = targetLetters.slice();
+    blockers = letterBlockers(target);
+    extras = randomAlphabet().concat(
+      targetLetters.map(function (item) {
+        return (CONFUSABLE_LETTERS[item] || "aeiou").charAt(0);
+      })
+    );
+
     while (pool.length < targetLetters.length * 2) {
-      letter = preferred[cursor % preferred.length];
+      letter = extras[cursor % extras.length];
       cursor += 1;
+      if (!letter) {
+        extras = extras.concat(randomAlphabet());
+        continue;
+      }
       if (keepsPoolSafe(pool, letter, blockers)) {
         pool.push(letter);
         stalled = 0;
       } else {
         stalled += 1;
-      }
-      if (stalled > preferred.length * 3) {
-        throw new Error("Unable to build a safe letter pool for " + verb.id + "." + field);
+        if (stalled > extras.length * 2) {
+          pool.push(letter);
+          stalled = 0;
+        }
       }
     }
     return U.shuffle(pool);
@@ -456,13 +871,15 @@
     var item;
     var field;
     var target;
+    var mode;
     var question;
     config = config || {};
     item = resolveVerb(config.verb);
     field = config.field;
+    mode = config.mode || "double";
     if (!item || !isField(field) || (item.id === "can" && field === "pp")) return null;
 
-    target = canonical(item, field, item.id === "be" && field === "past" ? { variant: "were" } : null);
+    target = canonical(item, field, item.id === "be" && field === "past" ? { variant: "were" } : config.canonicalOptions);
     if (!target) return null;
     question = {
       type: "letters",
@@ -470,8 +887,9 @@
       base: item.base,
       cn: item.cn,
       field: field,
+      mode: mode,
       target: target,
-      letters: buildLetterPool(item, field, target),
+      letters: buildLetterPool(item, field, target, mode),
     };
     assertValidLetterQuestion(question);
     return question;
@@ -492,7 +910,7 @@
     accepted = acceptedMap(item, targetField);
     if (!Array.isArray(question.options)) errors.push("options must be an array");
     if (!accepted[normalize(question.correct)]) errors.push("correct is not an accepted form");
-    expectedCount = question.optionCount || (question.type === "chinese" ? 2 : 4);
+    expectedCount = question.optionCount || (question.type === "gap" ? 5 : 4);
 
     (question.options || []).forEach(function (option) {
       var key = normalize(option);
@@ -523,27 +941,39 @@
     var targetLetters;
     var accepted;
     var blockers;
+    var mode;
 
     if (!question || !item || !isField(targetField)) {
       return { valid: false, errors: ["Question, verb, or field is invalid"] };
     }
     targetLetters = lettersOf(question.target);
     accepted = acceptedMap(item, targetField);
+    mode = question.mode || "double";
     if (!accepted[normalize(question.target)]) errors.push("target is not an accepted form");
     if (!Array.isArray(question.letters)) errors.push("letters must be an array");
-    if ((question.letters || []).length !== targetLetters.length * 2) {
+    if (mode === "free") {
+      if ((question.letters || []).length !== 0) errors.push("free spelling must not expose letters");
+    } else if (mode === "sort") {
+      if ((question.letters || []).slice().sort().join("") !== targetLetters.slice().sort().join("")) {
+        errors.push("sort pool must be an anagram of the target");
+      }
+    } else if ((question.letters || []).length !== targetLetters.length * 2) {
       errors.push("letter pool must contain exactly 2N letters");
     }
     (question.letters || []).forEach(function (letter) {
       if (!/^[a-z]$/i.test(String(letter))) errors.push("letter pool contains a non-letter token");
     });
-    if (!canSpell(question.target, question.letters || [])) errors.push("letter pool cannot spell target");
-    blockers = letterBlockers(question.target);
-    blockers.forEach(function (candidate) {
-      if (canSpell(candidate, question.letters || [])) {
-        errors.push("letter pool can also spell " + candidate);
-      }
-    });
+    if (mode !== "free" && !canSpell(question.target, question.letters || [])) {
+      errors.push("letter pool cannot spell target");
+    }
+    if (mode === "double") {
+      blockers = letterBlockers(question.target);
+      blockers.forEach(function (candidate) {
+        if (canSpell(candidate, question.letters || [])) {
+          errors.push("letter pool can also spell " + candidate);
+        }
+      });
+    }
     return { valid: errors.length === 0, errors: errors };
   }
 
@@ -557,9 +987,12 @@
 
   global.IrregularVerbsDistractors = {
     canonical: canonical,
+    inventLookalikes: inventLookalikes,
     rankDistractors: rankDistractors,
     createChoiceQuestion: createChoiceQuestion,
     createChineseQuestion: createChineseQuestion,
+    createGapQuestion: createGapQuestion,
+    createIdentityQuestion: createIdentityQuestion,
     createLetterQuestion: createLetterQuestion,
     canSpell: canSpell,
     validateQuestion: validateQuestion,

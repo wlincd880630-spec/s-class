@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>形义还原 · Verb Atlas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@600;700;800&family=Noto+Sans+SC:wght@400;500;700&family=Outfit:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/verbverse.css" />
+  <script src="../../scripts/auth-check.js"></script>
+  <script src="../verbs-data.js"></script>
+  <script src="../pdf-examples-data.js"></script>
+  <script src="../shared.js"></script>
+  <script src="../distractors.js"></script>
+  <script src="../assets/verbverse.js"></script>
+</head>
+<body class="game-page">
+  <header class="game-topbar">
+    <a class="topbar-back" href="index.html" aria-label="返回游戏大厅"><span aria-hidden="true">←</span><span>游戏大厅</span></a>
+    <div class="game-progress" aria-label="游戏进度">
+      <div class="game-progress-labels"><span id="progressTitle">GAME 10 · 形义还原</span><strong id="progressLabel">0 / 0</strong></div>
+      <div class="game-progress-track"><div class="game-progress-fill" id="progressFill"></div></div>
+    </div>
+    <a class="brand-lockup" href="../index.html"><span class="brand-mark">VA</span><span class="brand-copy"><strong>Verb Atlas</strong><span>Tense Observatory</span></span></a>
+  </header>
+
+  <main class="game-shell">
+    <div class="game-stage-head">
+      <div><p class="eyebrow">FORM IDENTITY</p><h1>形义还原</h1></div>
+      <p>在年级例句中看见过去式或过去分词，再还原它的原形与中文词义。</p>
+    </div>
+
+    <section class="game-setup" aria-label="选择测试设置">
+      <div class="game-setup-row">
+        <p><strong>测试目标</strong></p>
+        <div class="mode-tabs">
+          <button class="mode-button" type="button" data-mode="past" aria-pressed="false">过去式</button>
+          <button class="mode-button" type="button" data-mode="pp" aria-pressed="false">过去分词</button>
+        </div>
+      </div>
+      <div class="game-setup-row">
+        <p><strong>例句年级</strong> · 难度与所选年级对齐</p>
+        <div class="grade-tabs" id="gradeTabs"></div>
+      </div>
+      <section class="mode-confirm" id="modeConfirm" hidden>
+        <div>
+          <strong>切换设置？</strong>
+          <p>当前进度会清空，并从第 1 题重新开始。</p>
+        </div>
+        <div class="mode-confirm-actions">
+          <button class="button button-secondary" id="cancelMode" type="button">继续本局</button>
+          <button class="button button-primary" id="confirmMode" type="button">确认切换</button>
+        </div>
+      </section>
+    </section>
+
+    <div id="gameStage" data-game-stage>
+      <section class="game-empty">
+        <p class="eyebrow">SELECT A ROUTE</p>
+        <h1>先选择目标与年级</h1>
+        <p>题目会把目标形式嵌在对应年级的例句里，再请你还原原形和词义。</p>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      "use strict";
+      var U = window.IrregularVerbsUtil;
+      var D = window.IrregularVerbsDistractors;
+      var VV = window.VerbVerse;
+      var GAME_ID = "form-identity";
+      var MODE_META = {
+        past: { label: "过去式", pill: "过去式 · PAST", tone: "is-past" },
+        pp: { label: "过去分词", pill: "过去分词 · PARTICIPLE", tone: "is-perfect" }
+      };
+      var selectedVerbs = U.getSelectedVerbs();
+      var stage = document.getElementById("gameStage");
+      var gradeTabs = document.getElementById("gradeTabs");
+      var modeConfirm = document.getElementById("modeConfirm");
+      var pendingChange = null;
+      var mode = null;
+      var gradeId = U.getSelectedGrade();
+      var questions = [];
+      var roundIndex = 0;
+      var score = 0;
+      var answered = false;
+      var mistakes = [];
+      var selections = { base: "", meaning: "" };
+      var baseBox;
+      var meaningBox;
+      var checkButton;
+      var feedback;
+
+      function renderGradeTabs() {
+        gradeTabs.innerHTML = "";
+        U.getGradeLevels().forEach(function (level) {
+          var button = document.createElement("button");
+          button.type = "button";
+          button.className = "grade-button" + (level.id === gradeId ? " is-active" : "");
+          button.dataset.grade = level.id;
+          button.textContent = level.short;
+          button.setAttribute("aria-pressed", level.id === gradeId ? "true" : "false");
+          button.addEventListener("click", function () { requestChange("grade", level.id); });
+          gradeTabs.appendChild(button);
+        });
+      }
+
+      function setModeButtons() {
+        Array.prototype.forEach.call(document.querySelectorAll("[data-mode]"), function (button) {
+          var active = button.dataset.mode === mode;
+          button.classList.toggle("is-active", active);
+          button.setAttribute("aria-pressed", active ? "true" : "false");
+        });
+        Array.prototype.forEach.call(document.querySelectorAll("[data-grade]"), function (button) {
+          var active = button.dataset.grade === gradeId;
+          button.classList.toggle("is-active", active);
+          button.setAttribute("aria-pressed", active ? "true" : "false");
+        });
+      }
+
+      function updateProgress(completed) {
+        var total = questions.length;
+        var current = mode ? Math.min(total, roundIndex + (completed ? 1 : 0)) : 0;
+        document.getElementById("progressLabel").textContent =
+          total ? Math.min(roundIndex + 1, total) + " / " + total : "0 / 0";
+        document.getElementById("progressFill").style.setProperty(
+          "--progress",
+          total ? Math.round((current / total) * 100) + "%" : "0%"
+        );
+      }
+
+      function showEmpty() {
+        stage.innerHTML =
+          '<section class="game-empty"><p class="eyebrow">NO IDENTITY ROUTE</p><h1>当前设置无法出题</h1>' +
+          '<p>请确认词库中包含可还原的动词，或换一年级档位。</p>' +
+          '<a class="button button-primary" href="../index.html#wordStudio">前往调整词库</a></section>';
+        updateProgress(false);
+      }
+
+      function highlightForm(sentence, form) {
+        return U.highlightVerb(sentence, form);
+      }
+
+      function renderChoices(container, field, options) {
+        container.innerHTML = "";
+        options.forEach(function (option, index) {
+          var button = document.createElement("button");
+          button.type = "button";
+          button.className = "choice-button";
+          button.dataset.value = option;
+          button.textContent = String(index + 1) + " · " + option;
+          button.addEventListener("click", function () {
+            if (answered) return;
+            selections[field] = option;
+            Array.prototype.forEach.call(container.children, function (item) {
+              item.classList.toggle("is-selected", item === button);
+            });
+            checkButton.disabled = !(selections.base && selections.meaning);
+            feedback.className = "game-feedback";
+            feedback.textContent = checkButton.disabled ? "还需要选择另一栏。" : "原形与词义都已就位。";
+          });
+          container.appendChild(button);
+        });
+      }
+
+      function renderPlayShell() {
+        stage.innerHTML =
+          '<section class="game-panel">' +
+          '<div class="question-meta"><span class="question-index" id="questionIndex">QUESTION 01</span>' +
+          '<span class="tense-pill" id="formLabel"></span></div>' +
+          '<p class="identity-sentence" id="sentence"></p>' +
+          '<p class="context-translation" id="translation" style="text-align:center"></p>' +
+          '<div class="identity-grid">' +
+          '<section class="identity-zone"><h2>还原原形</h2><div class="choice-grid" id="baseOptions"></div></section>' +
+          '<section class="identity-zone"><h2>选择词义</h2><div class="choice-grid" id="meaningOptions"></div></section>' +
+          '</div>' +
+          '<p class="game-feedback" id="gameFeedback">先看例句里的目标形式，再还原原形和意思。</p>' +
+          '<div class="game-action-row"><button class="button button-primary" id="checkButton" type="button" disabled>提交答案</button></div></section>';
+        baseBox = document.getElementById("baseOptions");
+        meaningBox = document.getElementById("meaningOptions");
+        feedback = document.getElementById("gameFeedback");
+        checkButton = document.getElementById("checkButton");
+        checkButton.addEventListener("click", checkAnswer);
+      }
+
+      function startRound(nextMode, nextGrade) {
+        mode = nextMode;
+        gradeId = U.setSelectedGrade(nextGrade || gradeId);
+        questions = VV.buildCoverageRounds(selectedVerbs.map(function (verb) {
+          return D.createIdentityQuestion({ verb: verb, field: mode, levelId: gradeId });
+        }).filter(Boolean));
+        roundIndex = 0;
+        score = 0;
+        answered = false;
+        mistakes = [];
+        setModeButtons();
+        document.getElementById("progressTitle").textContent =
+          "GAME 10 · " + MODE_META[mode].label + " · " + U.getGradeMeta(gradeId).short;
+        if (!questions.length) {
+          showEmpty();
+          return;
+        }
+        renderPlayShell();
+        renderRound();
+      }
+
+      function markOptions(container, correct, selected) {
+        Array.prototype.forEach.call(container.children, function (button) {
+          button.disabled = true;
+          if (U.normalizeForm(button.dataset.value) === U.normalizeForm(correct)) {
+            button.classList.add("is-correct");
+          }
+          if (selected && U.normalizeForm(button.dataset.value) === U.normalizeForm(selected) &&
+              U.normalizeForm(selected) !== U.normalizeForm(correct)) {
+            button.classList.add("is-wrong");
+          }
+        });
+      }
+
+      function checkAnswer() {
+        if (answered) {
+          roundIndex += 1;
+          renderRound();
+          return;
+        }
+        var question = questions[roundIndex];
+        var correct =
+          U.normalizeForm(selections.base) === U.normalizeForm(question.base) &&
+          U.normalizeForm(selections.meaning) === U.normalizeForm(question.cn);
+        answered = true;
+        markOptions(baseBox, question.base, selections.base);
+        markOptions(meaningBox, question.cn, selections.meaning);
+        if (correct) {
+          score += 1;
+          feedback.className = "game-feedback is-success";
+          feedback.textContent = "还原正确：" + question.form + " → " + question.base + " · " + question.cn;
+        } else {
+          mistakes.push({
+            prompt: question.form + " · " + question.example.en,
+            answer: question.base + " / " + question.cn
+          });
+          feedback.className = "game-feedback is-error";
+          feedback.textContent = "正确答案：" + question.base + " · " + question.cn;
+        }
+        VV.recordGameAttempt(GAME_ID, {
+          verbId: question.verb.id,
+          mode: mode,
+          gradeId: gradeId,
+          correct: correct,
+          answer: selections.base + " / " + selections.meaning,
+          expected: question.base + " / " + question.cn
+        });
+        checkButton.textContent = roundIndex === questions.length - 1 ? "查看结算" : "下一题";
+        checkButton.disabled = false;
+        updateProgress(true);
+      }
+
+      function renderRound() {
+        if (roundIndex >= questions.length) {
+          finishGame();
+          return;
+        }
+        var question = questions[roundIndex];
+        answered = false;
+        selections = { base: "", meaning: "" };
+        document.getElementById("questionIndex").textContent =
+          "QUESTION " + String(roundIndex + 1).padStart(2, "0");
+        document.getElementById("formLabel").className = "tense-pill " + MODE_META[mode].tone;
+        document.getElementById("formLabel").textContent =
+          MODE_META[mode].pill + " · " + U.getGradeMeta(gradeId).label;
+        document.getElementById("sentence").innerHTML = highlightForm(question.example.en, question.form);
+        document.getElementById("translation").textContent = question.example.cn;
+        renderChoices(baseBox, "base", question.baseOptions);
+        renderChoices(meaningBox, "meaning", question.meaningOptions);
+        feedback.className = "game-feedback";
+        feedback.textContent = "例句中的 " + question.form + " 是" + MODE_META[mode].label + "，请还原原形和词义。";
+        checkButton.textContent = "提交答案";
+        checkButton.disabled = true;
+        updateProgress(false);
+      }
+
+      function finishGame() {
+        document.getElementById("progressLabel").textContent = questions.length + " / " + questions.length;
+        document.getElementById("progressFill").style.setProperty("--progress", "100%");
+        VV.recordGameSession(GAME_ID, {
+          mode: mode,
+          gradeId: gradeId,
+          score: score,
+          total: questions.length,
+          mistakes: mistakes.length
+        });
+        VV.showGameSettlement({
+          host: stage,
+          title: "形义还原完成",
+          message: "已按 " + U.getGradeMeta(gradeId).label + " 例句完成" + MODE_META[mode].label + "全覆盖。",
+          score: score,
+          total: questions.length,
+          mistakes: mistakes,
+          nextHref: "index.html",
+          onRestart: function () { startRound(mode, gradeId); }
+        });
+      }
+
+      function requestChange(kind, value) {
+        if (!mode) {
+          if (kind === "mode") mode = value;
+          if (kind === "grade") {
+            gradeId = U.setSelectedGrade(value);
+            renderGradeTabs();
+          }
+          setModeButtons();
+          if (mode) startRound(mode, gradeId);
+          return;
+        }
+        if ((kind === "mode" && value === mode) || (kind === "grade" && value === gradeId)) return;
+        pendingChange = { kind: kind, value: value };
+        modeConfirm.hidden = false;
+      }
+
+      Array.prototype.forEach.call(document.querySelectorAll("[data-mode]"), function (button) {
+        button.addEventListener("click", function () { requestChange("mode", button.dataset.mode); });
+      });
+      document.getElementById("cancelMode").addEventListener("click", function () {
+        pendingChange = null;
+        modeConfirm.hidden = true;
+      });
+      document.getElementById("confirmMode").addEventListener("click", function () {
+        var change = pendingChange;
+        pendingChange = null;
+        modeConfirm.hidden = true;
+        if (!change) return;
+        if (change.kind === "mode") startRound(change.value, gradeId);
+        else startRound(mode, change.value);
+      });
+      renderGradeTabs();
+      setModeButtons();
+    })();
+  </script>
+</body>
+</html>
