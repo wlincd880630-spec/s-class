@@ -3,7 +3,8 @@
  * 在 LocalAudio 之后自动回退到 Azure Speech SDK，再回退浏览器朗读
  *
  * 学课文「选慢 / 选正常」必须是两档明显不同的语速：
- * 慢速 0.70，正常 1.00（不再用 0.80 对 0.90，听起来几乎一样）。
+ * 慢速 0.50（半速，孩子跟得上），正常 1.00。
+ * Azure 用 -50%，比小数 0.70 减速更明显。
  */
 (function (global) {
   "use strict";
@@ -14,10 +15,10 @@
     language: "en-GB",
     voice: "en-GB-RyanNeural",
     speechRate: "1.00",
-    slowRate: "0.70",
+    slowRate: "-50%",
   };
 
-  var RATE_SLOW = 0.7;
+  var RATE_SLOW = 0.5;
   var RATE_NORMAL = 1;
   var sdkReady = null;
   var localBase = "";
@@ -160,7 +161,7 @@
     if (!clip || !base) return Promise.resolve(false);
     var url = buildAudioUrl(base, clip.rel);
     var playback = targetRate / (clip.sourceRate || 1);
-    playback = Math.max(0.5, Math.min(1.5, playback));
+    playback = Math.max(0.4, Math.min(1.5, playback));
     return new Promise(function (resolve) {
       if (gen !== speakGen) {
         resolve(false);
@@ -322,6 +323,8 @@
     enhance: enhance,
     speak: azureSpeak,
     AZURE: AZURE,
+    RATE_SLOW: RATE_SLOW,
+    RATE_NORMAL: RATE_NORMAL,
     storyOpts: storyOpts,
     resolveTargetRate: resolveTargetRate,
     lastSpeak: null,

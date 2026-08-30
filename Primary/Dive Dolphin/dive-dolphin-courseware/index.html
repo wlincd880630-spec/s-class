@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,600;0,8..60,700;1,8..60,600&display=swap" rel="stylesheet" />
   <script src="audio/audio-manifest.js"></script>
   <script src="audio/local-audio.js"></script>
-  <script src="../../assets/ng-azure-tts-enhance.js?v=7"></script>
+  <script src="../../assets/ng-azure-tts-enhance.js?v=8"></script>
   <script>NgAzureTTS.enhance("LocalAudio");</script>
   <style>
     :root {
@@ -1415,20 +1415,20 @@
         var a = getStoryAudioEl();
         if (!a) { speakText(STORY[sentenceIndex].en, options).then(function () { resolve(true); return; }); return; }
         var pr = 1.0;
-        if (options) {
+        if (window.NgAzureTTS && typeof NgAzureTTS.resolveTargetRate === "function") {
+          pr = NgAzureTTS.resolveTargetRate(options || {});
+        } else if (options) {
           if (options.rate != null && !isNaN(parseFloat(String(options.rate)))) pr = parseFloat(String(options.rate));
-          else if (options.slow) pr = 0.7;
+          else if (options.slow) pr = 0.5;
         }
-        a.playbackRate = Math.max(0.55, Math.min(1.25, pr));
-        if (window.NgAzureTTS) {
-          NgAzureTTS.lastSpeak = { source: "story-mp3", rate: a.playbackRate, slow: a.playbackRate < 0.88, text: STORY[sentenceIndex].en };
-        }
+        a.playbackRate = Math.max(0.4, Math.min(1.25, pr));
         var rel = p.audio || "media/story-read-aloud.mp3";
         var relAbs = MEDIA_COS + rel;
         if (a.getAttribute("data-timings-audio") !== relAbs) {
           a.setAttribute("data-timings-audio", relAbs);
           a.src = relAbs;
         }
+        a.playbackRate = Math.max(0.4, Math.min(1.25, pr));
         stopStoryNarration();
         var finished = false;
         function fin() {
@@ -1443,6 +1443,10 @@
         a.onended = fin;
         a.onerror = function () { speakText(STORY[sentenceIndex].en, options).then(fin); };
         function doPlay() {
+          a.playbackRate = Math.max(0.4, Math.min(1.25, pr));
+          if (window.NgAzureTTS) {
+            NgAzureTTS.lastSpeak = { source: "story-mp3", rate: a.playbackRate, slow: a.playbackRate < 0.88, text: STORY[sentenceIndex].en };
+          }
           try { a.currentTime = t0; } catch (e2) { speakText(STORY[sentenceIndex].en, options).then(fin); return; }
           var pl = a.play();
           if (pl && pl.catch) pl.catch(function () { speakText(STORY[sentenceIndex].en, options).then(fin); });
@@ -2112,7 +2116,7 @@
       if (window.NgAzureTTS && typeof NgAzureTTS.storyOpts === "function") {
         return NgAzureTTS.storyOpts(window.__storySlow);
       }
-      return { rate: window.__storySlow ? 0.7 : 1, slow: !!window.__storySlow };
+      return { rate: window.__storySlow ? 0.5 : 1, slow: !!window.__storySlow };
     }
     function escapeStoryHtml(s) {
       return String(s)
