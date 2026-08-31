@@ -8,7 +8,8 @@
 
 | 脚本 | 用途 | 说明 |
 |------|------|------|
-| `scripts/pet-speech-helper.js` | PET 词汇课 01–08 | 提供 `PetSpeech.playTTS(key, region, text)`、`PetSpeech.createRecognizer(key, region, text, onScore)`；Azure 不可用时回退到浏览器 TTS/STT。 |
+| `scripts/pet-speech-helper.js` | PET 词汇课 | 提供 `PetSpeech.playTTS(key, region, text)`、`PetSpeech.createRecognizer(key, region, text, onScore)`；Azure 不可用时回退到浏览器 TTS/STT。 |
+| `scripts/pet-vocab-enhance.js` | PET 词汇课 01–36 | Step 2 完整出图；Step 3/7 单词点击查词（DeepSeek）+ Azure 朗读；Step 3 键盘输入查词；Step 4 实体键盘拼写。 |
 | `scripts/pet-passage-speech.js` | PET Unit*_passage | 提供 `window.azureSpeak(text, opts)`、`window.azureRecognizeOnce(locale, onResult, onError, opts)`；Azure 失败时自动用浏览器 TTS/STT。 |
 | `js/api-config.js` | 可选 | 提供基于 DeepSeek 的 `callAI()`，供需要统一 AI 调用的页面使用。 |
 
@@ -23,8 +24,7 @@
 
 | 范围 | TTS/STT | 评价 | 备注 |
 |------|---------|------|------|
-| **01–08** | ✅ 已接 `pet-speech-helper.js`（PetSpeech + 浏览器回退） | 无 AI 评价（仅发音分） | 变量统一为 `recInstance`，无裸 `synthesizer`/`recognizer`。 |
-| **09–36** | ⚠️ 仍为裸 Azure SpeechSDK | 无 AI 评价 | 未接 PetSpeech，无浏览器回退；可按 01–08 方式逐步替换。 |
+| **01–36** | ✅ 已接 `pet-speech-helper.js` + `pet-vocab-enhance.js` | Step 3/7 点词查词用 DeepSeek；发音仍为 Azure 分 | 01–08 录音走 PetSpeech；09–36 页面录音仍可能走裸 SpeechSDK，查词朗读走 enhance。 |
 
 ---
 
