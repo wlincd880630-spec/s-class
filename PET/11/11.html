@@ -10,6 +10,8 @@
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <script src="../../scripts/pet-speech-helper.js"></script>
+    <script src="../../scripts/pet-vocab-enhance.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
     
@@ -288,8 +290,8 @@
                     </div>
                     
                     <div v-else>
-                        <div class="relative w-full h-56 bg-black rounded-2xl overflow-hidden mb-4 border-2 border-slate-700">
-                            <img :src="getImagePath(currentItem.image_file)" class="w-full h-full object-cover opacity-90">
+                        <div class="relative w-full pet-step2-image bg-slate-950 rounded-2xl overflow-hidden mb-4 border-2 border-slate-700">
+                            <img :src="getImagePath(currentItem.image_file)" class="pet-step2-img" alt="word image">
                             <button @click="playTTS(currentItem.image_desc_en)" class="btn-3d absolute bottom-3 right-3 bg-indigo-600 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg"><i class="fas fa-volume-up"></i></button>
                         </div>
                         <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-600 mb-6 text-center">
@@ -320,7 +322,7 @@
                                 <div class="flex items-start gap-3 mb-3">
                                     <button @click="playTTS(ex.sentence)" class="btn-3d w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center shrink-0 border-b-4 border-indigo-800"><i class="fas fa-volume-up"></i></button>
                                     <div class="flex-1">
-                                        <p class="text-lg text-white font-medium">{{ ex.sentence }}</p>
+                                        <p class="text-lg text-white font-medium pet-clickable-sentence leading-relaxed" v-html="$wrapWords(ex.sentence)"></p>
                                     </div>
                                 </div>
                                 <div class="flex items-center gap-3 border-t border-slate-700 pt-2 cursor-pointer hover:bg-slate-700/50 rounded p-1 transition" @click="toggleEx(i)">
@@ -395,7 +397,7 @@
 
                 <div v-if="currentStep === 7" class="text-center w-full">
                     <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 mb-8">
-                        <p class="text-xl font-serif text-white leading-relaxed mb-4">"{{ getZhongkaoSentence() }}"</p>
+                        <p class="text-xl font-serif text-white leading-relaxed mb-4 pet-clickable-sentence">"<span v-html="$wrapWords(getZhongkaoSentence())"></span>"</p>
                         <button @click="playTTS(getZhongkaoSentence())" class="btn-3d px-4 py-2 bg-slate-700 rounded-lg text-indigo-400 text-sm font-bold border-b-2 border-slate-900"><i class="fas fa-volume-up mr-1"></i> Listen</button>
                     </div>
                     <div class="mb-8">
