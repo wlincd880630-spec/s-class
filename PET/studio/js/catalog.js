@@ -60,6 +60,12 @@
     return "img/article-u" + pad2(unitId) + ".jpg";
   }
 
+  function passageImg(unitId, passIdx) {
+    var n = Number(passIdx) || 0;
+    if (n >= 1) return "img/article-u" + pad2(unitId) + "-p2.jpg";
+    return articleImg(unitId);
+  }
+
   function gameImg(gameId) {
     return "img/game-" + pad2(gameId) + ".jpg";
   }
@@ -88,6 +94,7 @@
   global.PETStudio.getUnit = getUnit;
   global.PETStudio.pad2 = pad2;
   global.PETStudio.articleImg = articleImg;
+  global.PETStudio.passageImg = passageImg;
   global.PETStudio.gameImg = gameImg;
   global.PETStudio.lessonImageUrl = lessonImageUrl;
   global.PETStudio.parseQuery = parseQuery;

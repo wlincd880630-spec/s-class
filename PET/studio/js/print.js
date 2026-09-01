@@ -94,7 +94,7 @@
     var html = cover(u, "文章精读讲义", "每篇文章配 3D 主题插图，便于朗读与翻译练习。");
     (bag.passages || []).forEach(function (p, idx) {
       html += '<section class=sheet>' +
-        '<img class=pass-hero src="' + esc(absUrl(PETStudio.articleImg(u.id))) + '" alt="">' +
+        '<img class=pass-hero src="' + esc(absUrl(PETStudio.passageImg(u.id, idx))) + '" alt="">' +
         '<div class=inner><div class=sec-h><div class=dot style="background:#e11d48"></div><h2>' +
         esc(p.title || ("Passage " + (idx + 1))) + "</h2><span>" + (p.sentences || []).length + " sentences</span></div>";
       (p.sentences || []).forEach(function (s, i) {
@@ -158,7 +158,10 @@
       });
     });
     grammarQs = PETStudio.pickN(grammarQs, Math.min(8, grammarQs.length));
-    return { zh2en: zh2en, en2zh: en2zh, spells: spells, gaps: gaps, grammar: grammarQs };
+    var pics = PETStudio.pickN(bag.vocab.filter(function (x) { return x.imageUrl; }), 6).map(function (it) {
+      return { q: "看图写出单词", img: it.imageUrl, answer: it.word, meaning: it.meaning };
+    });
+    return { zh2en: zh2en, en2zh: en2zh, spells: spells, gaps: gaps, grammar: grammarQs, pics: pics };
   }
 
   function renderGamesPaper(bag, level) {
@@ -184,6 +187,18 @@
     html += '<section class=sheet><div class=inner>' +
       mcqBlock("E. 语法诊所", "#7c3aed", pack.grammar) +
       '<div class=foot><span>PET Review Games</span><span>E</span></div></div></section>';
+    if (pack.pics && pack.pics.length) {
+      html += '<section class=sheet><div class=inner>' +
+        '<div class=sec-h><div class=dot style="background:#0284c7"></div><h2>F. 看图写词</h2><span>' + pack.pics.length + " 题</span></div>" +
+        '<div class=cards>';
+      pack.pics.forEach(function (q, i) {
+        html += '<article class=vcard><div class=n style="font-weight:900;color:#0284c7">' + (i + 1) + ".</div>" +
+          '<img src="' + esc(q.img) + '" alt="">' +
+          '<div class=ex>' + esc(q.meaning || "看图写词") + '</div>' +
+          '<div class=ex>________________</div></article>';
+      });
+      html += '</div><div class=foot><span>PET Review Games</span><span>F</span></div></div></section>';
+    }
     html += '<section class="sheet"><div class=inner><div class=sec-h><div class=dot style="background:#059669"></div><h2>参考答案</h2></div>';
     function ansList(name, arr) {
       html += '<div class="q ans"><b>' + name + "</b><div>";
@@ -195,6 +210,7 @@
     ansList("C 拼写", pack.spells);
     ansList("D 词组", pack.gaps);
     ansList("E 语法", pack.grammar);
+    if (pack.pics && pack.pics.length) ansList("F 看图写词", pack.pics);
     html += '<div class=foot><span>Answer Key</span><span>Unit ' + u.id + "</span></div></div></section>";
     return html;
   }
