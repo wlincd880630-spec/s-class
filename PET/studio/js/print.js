@@ -33,7 +33,7 @@
       esc(title) + "</title><link rel=stylesheet href=\"" + esc(absUrl("css/print.css")) + "\">" +
       '<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&family=Noto+Sans+SC:wght@500;700;900&display=swap" rel=stylesheet>' +
       "</head><body class=print-page>" +
-      '<div class=screen-bar><div><strong>' + esc(title) + '</strong><div style="opacity:.7;font-size:12px">浏览器打印 → 另存为 PDF（建议横向关闭页眉页脚）</div></div>' +
+      '<div class=screen-bar><div><strong>' + esc(title) + '</strong><div style="opacity:.7;font-size:12px">浏览器打印 → 另存为 PDF（建议关闭页眉页脚；配图为完整显示）</div></div>' +
       '<div><button class=btn onclick=window.print() style="background:#4f46e5;color:#fff">导出 PDF</button> ' +
       '<button class=btn onclick=window.close() style="background:#e2e8f0">关闭</button></div></div>' +
       bodyHtml + "</body></html>";
@@ -52,40 +52,189 @@
       "</div></section>";
   }
 
-  function vocabCards(items) {
-    return items.map(function (it) {
-      var ex = (it.examples && it.examples[0]) || {};
-      return '<article class=vcard>' +
-        (it.imageUrl ? '<img src="' + esc(it.imageUrl) + '" alt="">' : "") +
-        '<div class=w>' + esc(it.word) + '</div>' +
-        (it.phonetic ? '<div class=ph>' + esc(it.phonetic) + "</div>" : "") +
-        '<div class=cn>' + esc(it.meaning) + "</div>" +
-        (ex.sentence ? '<div class=ex>' + esc(ex.sentence) + "<br>" + esc(ex.trans || "") + "</div>" : "") +
-        "</article>";
+  function posOf(it) {
+    if (it.kind === "phrase") return "phr.";
+    var u = String(it.usage || "");
+    if (/phrasal\s*verb/i.test(u)) return "phr.v.";
+    if (/countable noun/i.test(u)) return "n. [C]";
+    if (/uncountable noun/i.test(u)) return "n. [U]";
+    if (/\bnoun\b/i.test(u)) return "n.";
+    if (/\badjective\b/i.test(u)) return "adj.";
+    if (/\badverb\b/i.test(u)) return "adv.";
+    if (/\bverb\b/i.test(u)) return "v.";
+    return "";
+  }
+
+  var EX_BADGE = {
+    zk: { cls: "zk", label: "中考" },
+    g10: { cls: "g10", label: "高一" },
+    g11: { cls: "g11", label: "高二" },
+    gk: { cls: "gk", label: "高考" }
+  };
+
+  function exampleBlocks(it) {
+    var list = it.handoutExamples || [];
+    return list.map(function (ex) {
+      var meta = EX_BADGE[ex.level] || EX_BADGE.zk;
+      return '<div class="pdf-section">' +
+        '<span class="pdf-badge ' + meta.cls + '">' + meta.label + "</span>" +
+        '<div class="pdf-en">' + esc(ex.sentence) + "</div>" +
+        (ex.trans ? '<div class="pdf-cn">' + esc(ex.trans) + "</div>" : "") +
+        "</div>";
     }).join("");
+  }
+
+  function wordCard(it, i) {
+    var hasPic = !!it.imageUrl;
+    return '<article class="wcard' + (hasPic ? "" : " no-pic") + '">' +
+      (hasPic
+        ? '<div class="pic"><img src="' + esc(absUrl(it.imageUrl)) + '" alt="' + esc(it.word) + '"></div>'
+        : "") +
+      '<div class="wbody">' +
+      '<div class="wtitle"><span class="idx">' + (i + 1) + ".</span> " +
+      esc(it.word) +
+      (it.phonetic ? ' <span class="ph">' + esc(it.phonetic) + "</span>" : "") +
+      (posOf(it) ? ' <span class="pos">' + esc(posOf(it)) + "</span>" : "") +
+      "</div>" +
+      (it.definitionEn
+        ? '<div class="pdf-row"><span class="pdf-label">英文释义</span><span class="pdf-val">' + esc(it.definitionEn) + "</span></div>"
+        : "") +
+      '<div class="pdf-row"><span class="pdf-label">中文释义</span><span class="pdf-val pdf-cn">' + esc(it.meaning) + "</span></div>" +
+      (it.usage
+        ? '<div class="pdf-row"><span class="pdf-label">常见用法</span><span class="pdf-val">' + esc(strip(it.usage)) + "</span></div>"
+        : "") +
+      exampleBlocks(it) +
+      "</div></article>";
+  }
+
+  function vocabCards(items) {
+    return items.map(function (it, i) { return wordCard(it, i); }).join("");
+  }
+
+  function grammarExample(ex) {
+    var lv = String(ex.level || "zk").toLowerCase();
+    if (lv === "g10" || lv === "g11") lv = lv;
+    else if (lv === "gk" || lv === "gaokao" || lv === "高考") lv = "gk";
+    else lv = "zk";
+    var meta = EX_BADGE[lv] || EX_BADGE.zk;
+    return '<div class="pdf-section">' +
+      '<span class="pdf-badge ' + meta.cls + '">' + meta.label + "</span>" +
+      '<div class="pdf-en">' + esc(ex.en || ex.sentence || "") + "</div>" +
+      (ex.cn || ex.trans ? '<div class="pdf-cn">' + esc(ex.cn || ex.trans) + "</div>" : "") +
+      "</div>";
+  }
+
+  function exerciseBlock(ex, i) {
+    var lv = String(ex.level || "zk").toLowerCase();
+    var meta = lv === "gk" || lv === "gaokao" || lv === "高考" ? EX_BADGE.gk : EX_BADGE.zk;
+    var type = String(ex.type || "choice");
+    var h = '<div class="ex-q"><span class="n">' + (i + 1) + ".</span> " +
+      '<span class="pdf-badge ' + meta.cls + '">' + meta.label + "</span> " +
+      esc(ex.q || ex.question || "");
+    if (type === "choice" && (ex.options || []).length) {
+      h += '<div class="opts">';
+      (ex.options || []).forEach(function (o, j) {
+        h += "<div>" + String.fromCharCode(65 + j) + ". " + esc(o) + "</div>";
+      });
+      h += "</div>";
+    } else if (type === "truefalse") {
+      h += '<div class="opts"><div>A. True</div><div>B. False</div></div>';
+    } else {
+      h += '<div class="blank">______________________________</div>';
+    }
+    h += "</div>";
+    return h;
+  }
+
+  function grammarArticle(g, idx) {
+    var h = '<article class="glecture">' +
+      "<h3>" + (idx + 1) + ". " + esc(g.title || g.word || "语法点") +
+      (g.titleEn ? ' <small>' + esc(g.titleEn) + "</small>" : "") +
+      "</h3>";
+    if (g.usage) {
+      h += '<div class="usage"><div class="subh">详细用法</div><p>' + esc(strip(g.usage)).replace(/\n+/g, "</p><p>") + "</p></div>";
+    }
+    if (g.forms && g.forms.length) {
+      h += '<ul class="forms">';
+      g.forms.forEach(function (f) { h += "<li>" + esc(f) + "</li>"; });
+      h += "</ul>";
+    }
+    if (g.notes && g.notes.length) {
+      h += '<div class="notes"><div class="subh">易错提醒</div><ul>';
+      g.notes.forEach(function (n) { h += "<li>" + esc(strip(n)) + "</li>"; });
+      h += "</ul></div>";
+    }
+    if (g.examples && g.examples.length) {
+      h += '<div class="subh">例句</div>';
+      g.examples.forEach(function (ex) { h += grammarExample(ex); });
+    }
+    var zk = (g.exercises || []).filter(function (e) {
+      var lv = String(e.level || "zk").toLowerCase();
+      return lv !== "gk" && lv !== "gaokao" && lv !== "高考";
+    });
+    var gk = (g.exercises || []).filter(function (e) {
+      var lv = String(e.level || "").toLowerCase();
+      return lv === "gk" || lv === "gaokao" || lv === "高考";
+    });
+    if (zk.length) {
+      h += '<div class="subh">中考难度练习</div>';
+      zk.forEach(function (e, i) { h += exerciseBlock(e, i); });
+    }
+    if (gk.length) {
+      h += '<div class="subh">高考难度练习</div>';
+      gk.forEach(function (e, i) { h += exerciseBlock(e, i); });
+    }
+    h += "</article>";
+    return h;
+  }
+
+  function grammarAnswers(points) {
+    var html = '<section class="sheet long"><div class="inner">' +
+      '<div class="sec-h"><div class="dot" style="background:#059669"></div><h2>语法练习参考答案</h2></div>';
+    (points || []).forEach(function (g, gi) {
+      var exs = g.exercises || [];
+      if (!exs.length) return;
+      html += '<div class="q ans"><b>' + (gi + 1) + ". " + esc(g.title) + "</b><div>";
+      exs.forEach(function (e, i) {
+        html += (i + 1) + ". " + esc(e.answer || e.correct || "") + "　";
+      });
+      html += "</div></div>";
+    });
+    html += '<div class="foot"><span>Answer Key</span><span>Grammar</span></div></div></section>';
+    return html;
   }
 
   function renderHandout(bag) {
     var u = bag.unit;
-    var html = cover(u, "单词 · 词组 · 语法讲义", "彩色卡片排版，便于课前预习与课后复习。");
-    html += '<section class=sheet><div class=inner>' +
-      '<div class=sec-h><div class=dot style="background:#4f46e5"></div><h2>Vocabulary 单词</h2><span>' + bag.vocab.length + " words</span></div>" +
-      '<div class=cards>' + vocabCards(bag.vocab) + "</div>" +
-      '<div class=foot><span>S-Class PET</span><span>Unit ' + u.id + " · Vocab</span></div></div></section>";
-    html += '<section class=sheet><div class=inner>' +
-      '<div class=sec-h><div class=dot style="background:#0d9488"></div><h2>Phrases 词组</h2><span>' + bag.colloc.length + " phrases</span></div>" +
-      '<div class=cards>' + vocabCards(bag.colloc) + "</div>" +
-      '<div class=foot><span>S-Class PET</span><span>Unit ' + u.id + " · Phrases</span></div></div></section>";
-    html += '<section class=sheet><div class=inner>' +
-      '<div class=sec-h><div class=dot style="background:#7c3aed"></div><h2>Grammar 语法</h2><span>' + bag.grammar.length + " points</span></div>";
-    bag.grammar.forEach(function (g) {
-      html += '<article class=gbox><h3>' + esc(g.title || g.word) + "</h3>" +
-        (g.sourceSentence ? '<div class=ex style="margin-bottom:6px">“' + esc(g.sourceSentence) + "” " + esc(g.sourceSentenceCn) + "</div>" : "") +
-        '<div class=exp>' + esc(strip(g.explanation)).slice(0, 420) + "</div>" +
-        (g.tips ? '<div class=ex style="margin-top:6px;color:#6d28d9">' + esc(strip(g.tips)).slice(0, 220) + "</div>" : "") +
-        "</article>";
+    var grammar = bag.handoutGrammar || bag.grammar || [];
+    var html = cover(
+      u,
+      "单词 · 词组 · 语法讲义",
+      "词汇/词组：音标 + 英中释义 + 中考/高一/高二三条例句，配图完整显示，不含课文原句。语法：独立讲义（详细用法、例句、中考与高考分层练习）。"
+    );
+    html += '<section class="sheet long"><div class="inner">' +
+      '<div class="sec-h"><div class="dot" style="background:#4f46e5"></div><h2>Vocabulary 单词</h2><span>' +
+      bag.vocab.length + " words · 音标保留 · 三条例句</span></div>" +
+      '<p class="lead">每词 3 句：<span class="pdf-badge zk">中考</span> 初中常用 · ' +
+      '<span class="pdf-badge g10">高一</span> 高中起步 · ' +
+      '<span class="pdf-badge g11">高二</span> 进阶记忆。不含文章原文。</p>' +
+      vocabCards(bag.vocab) +
+      '<div class="foot"><span>S-Class PET</span><span>Unit ' + u.id + " · Vocab</span></div></div></section>";
+    html += '<section class="sheet long"><div class="inner">' +
+      '<div class="sec-h"><div class="dot" style="background:#0d9488"></div><h2>Phrases 词组</h2><span>' +
+      bag.colloc.length + " phrases</span></div>" +
+      '<p class="lead">词组同样保留音标（如有）、英中释义与三档例句，便于课前预习与课后复习。</p>' +
+      vocabCards(bag.colloc) +
+      '<div class="foot"><span>S-Class PET</span><span>Unit ' + u.id + " · Phrases</span></div></div></section>";
+    html += '<section class="sheet long"><div class="inner">' +
+      '<div class="sec-h"><div class="dot" style="background:#7c3aed"></div><h2>Grammar 语法讲义</h2><span>' +
+      grammar.length + " points</span></div>" +
+      '<p class="lead">本部分为独立语法课件：详细用法、结构公式、易错提醒、例句与分层练习。不呈现课文内容。</p>';
+    grammar.forEach(function (g, i) {
+      html += grammarArticle(g, i);
     });
-    html += '<div class=foot><span>S-Class PET</span><span>Unit ' + u.id + " · Grammar</span></div></div></section>";
+    html += '<div class="foot"><span>S-Class PET</span><span>Unit ' + u.id + " · Grammar</span></div></div></section>";
+    html += grammarAnswers(grammar);
     return html;
   }
 
@@ -227,6 +376,9 @@
 
   global.PETStudio.printHandout = function (bag) {
     openPrint("PET Unit " + bag.unit.id + " 讲义", renderHandout(bag));
+  };
+  global.PETStudio.handoutDocument = function (bag) {
+    return shell("PET Unit " + bag.unit.id + " 讲义", renderHandout(bag));
   };
   global.PETStudio.printPassage = function (bag) {
     openPrint("PET Unit " + bag.unit.id + " 文章", renderPassage(bag));
