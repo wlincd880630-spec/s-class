@@ -111,6 +111,79 @@
     return String(op);
   }
 
+  function stripBilingualLabel(s) {
+    return String(s || "")
+      .replace(/[（(]\s*[A-Za-z][A-Za-z0-9/'’+.\s&-]*[）)]/g, "")
+      .replace(/\s{2,}/g, " ")
+      .trim();
+  }
+
+  function clinicTermZh(s) {
+    var map = {
+      ability: "能力",
+      permission: "允许",
+      possibility: "可能性",
+      request: "请求",
+      speculation: "推测",
+      true: "正确",
+      false: "错误"
+    };
+    return map[String(s || "").trim().toLowerCase()] || "";
+  }
+
+  function clinicOptLabel(op) {
+    var zh = clinicTermZh(op);
+    if (zh) return zh;
+    if (/^true$/i.test(String(op))) return "正确";
+    if (/^false$/i.test(String(op))) return "错误";
+    return stripBilingualLabel(String(op));
+  }
+
+  function mostlyEnglish(s) {
+    var t = String(s || "");
+    var en = (t.match(/[A-Za-z]/g) || []).length;
+    var zh = (t.match(/[\u4e00-\u9fff]/g) || []).length;
+    return en >= 8 && en > zh;
+  }
+
+  function sanitizeClinicHtml(html) {
+    var allow = { P: 1, UL: 1, OL: 1, LI: 1, B: 1, STRONG: 1, EM: 1, BR: 1 };
+    var src = document.createElement("div");
+    src.innerHTML = String(html || "");
+    function copy(from) {
+      var out = document.createDocumentFragment();
+      Array.prototype.forEach.call(from.childNodes, function (n) {
+        if (n.nodeType === 3) {
+          out.appendChild(document.createTextNode(n.nodeValue));
+          return;
+        }
+        if (n.nodeType !== 1) return;
+        if (n.tagName === "BR") {
+          out.appendChild(document.createElement("br"));
+          return;
+        }
+        if (allow[n.tagName]) {
+          var el = document.createElement(n.tagName.toLowerCase());
+          el.appendChild(copy(n));
+          out.appendChild(el);
+          return;
+        }
+        out.appendChild(copy(n));
+      });
+      return out;
+    }
+    var dest = document.createElement("div");
+    dest.appendChild(copy(src));
+    return dest.innerHTML;
+  }
+
+  function clinicRich(htmlOrText) {
+    var raw = String(htmlOrText || "").trim();
+    if (!raw) return "";
+    if (/<[a-z][\s\S]*>/i.test(raw)) return sanitizeClinicHtml(raw);
+    return "<p>" + esc(raw) + "</p>";
+  }
+
   function examKind(src) {
     var s = String(src || "").toLowerCase();
     if (s.indexOf("gaokao") !== -1 || s.indexOf("高考") !== -1) return "gaokao";
@@ -304,7 +377,7 @@
     (q.options || []).forEach(function (op) {
       var b = document.createElement("button");
       b.className = "opt";
-      b.textContent = optionLabel(op);
+      b.textContent = (q.labelOpt || optionLabel)(op);
       b.setAttribute("data-answer", op);
       b.onclick = function () {
         if (state.lock) return;
@@ -777,11 +850,12 @@
         prompt: kindLabel,
         options: opts,
         answer: ans,
-        explain: row.explanation || row.hint || "",
+        explain: stripBilingualLabel(row.explanation || row.hint || ""),
         speak: "",
         g: g,
         kind: "quiz",
-        qType: kindLabel
+        qType: kindLabel,
+        labelOpt: clinicOptLabel
       });
     }
     (g.guide || []).forEach(function (row) { push(row, "引导题"); });
@@ -811,7 +885,6 @@
       return '<button type="button" class="clinic-station" data-gi="' + i + '">' +
         '<div class="clinic-kicker">语法点 ' + (i + 1) + "</div>" +
         "<h3>" + esc(clinicLabel(g)) + "</h3>" +
-        '<p class="note">' + esc(g.title || "") + "</p>" +
         (g.sourceSentenceCn ? "<p>" + esc(g.sourceSentenceCn) + "</p>" : "") +
         "<span>" + n + " 道练习</span></button>";
     }).join("");
@@ -852,27 +925,35 @@
 
   function renderGrammarIntro(q) {
     var g = q.g || {};
-    var fullExp = stripHtml(g.explanation || "");
-    var fullTips = stripHtml(g.tips || "");
-    var body = fullExp.slice(0, 360);
-    var tips = fullTips.slice(0, 240);
-    var exHtml = (g.examples || []).slice(0, 2).map(function (ex) {
+    var expHtml = clinicRich(g.explanation || "");
+    var tipsHtml = clinicRich(g.tips || "");
+    var exHtml = (g.examples || []).map(function (ex) {
       var en = ex.en || ex.sentence || "";
-      var cn = ex.cn || ex.trans || "";
       if (!en) return "";
-      return "<li><i>" + esc(en) + "</i>" + (cn ? "<br>" + esc(cn) : "") + "</li>";
+      return "<li>" + esc(en) + "</li>";
     }).join("");
+    var blocks = "";
+    if (g.sourceSentence) {
+      blocks += '<section class="clinic-block"><h3>课文原句</h3>' +
+        '<p class="clinic-quote">' + esc(g.sourceSentence) + "</p></section>";
+    }
+    if (expHtml) {
+      blocks += '<section class="clinic-block"><h3>语法讲解</h3>' +
+        '<div class="clinic-exp">' + expHtml + "</div></section>";
+    }
+    if (exHtml) {
+      blocks += '<section class="clinic-block"><h3>例句</h3>' +
+        '<ul class="clinic-ex">' + exHtml + "</ul></section>";
+    }
+    if (tipsHtml) {
+      blocks += '<section class="clinic-block clinic-tips-block"><h3>中考提示</h3>' +
+        '<div class="clinic-tips">' + tipsHtml + "</div></section>";
+    }
     $("playRoot").innerHTML = '<div class="play-shell">' + hud() +
       '<div class="clinic-card">' +
       '<div class="clinic-kicker">语法诊所</div>' +
       "<h2>" + esc(clinicLabel(g)) + "</h2>" +
-      '<p class="note">' + esc(g.title || "") + "</p>" +
-      (g.sourceSentence
-        ? "<blockquote><p>" + esc(g.sourceSentence) + "</p><p>" + esc(g.sourceSentenceCn || "") + "</p></blockquote>"
-        : "") +
-      (body ? '<p class="clinic-exp">' + esc(body) + (fullExp.length > 360 ? "…" : "") + "</p>" : "") +
-      (exHtml ? '<ul class="clinic-ex">' + exHtml + "</ul>" : "") +
-      (tips ? '<p class="clinic-tips"><b>中考提示</b> ' + esc(tips) + (fullTips.length > 240 ? "…" : "") + "</p>" : "") +
+      blocks +
       '<p class="note">接下来按顺序完成本语法点的引导题和练习题，看完解析再进入下一题。</p>' +
       '<button class="btn btn-indigo" id="clinicGo">开始练习</button> ' +
       '<button class="btn btn-ghost" id="clinicLobby">其他语法点</button>' +
@@ -884,16 +965,24 @@
     $("clinicLobby").onclick = showGrammarLobby;
   }
 
+  function clinicAskHtml(q) {
+    var stem = String(q.q || "").trim();
+    var html = '<div class="clinic-chip qtype">' + esc(q.qType || "练习") + "</div>";
+    if (mostlyEnglish(stem)) {
+      html += '<p class="clinic-ask">请根据下面的英文题干作答。</p>';
+      html += '<div class="q-box clinic-stem">' + esc(stem) + "</div>";
+    } else {
+      html += '<div class="q-box">' + esc(stripBilingualLabel(stem)) + "</div>";
+    }
+    return html;
+  }
+
   function renderGrammar() {
     var q = state.queue[state.idx];
     if (!q) return done();
     if (q.showIntro && !q.introSeen) return renderGrammarIntro(q);
-    var g = q.g || {};
     $("playRoot").innerHTML = '<div class="play-shell">' + hud() +
-      '<div class="clinic-chip">' + esc(clinicLabel(g)) + "</div> " +
-      '<div class="clinic-chip qtype">' + esc(q.qType || "练习") + "</div>" +
-      (g.sourceSentenceCn ? '<p class="clinic-src">课文：' + esc(g.sourceSentenceCn) + "</p>" : "") +
-      '<div class="q-box">' + esc(q.q) + "</div>" +
+      clinicAskHtml(q) +
       '<div class="opts" id="opts"></div>' +
       '<div class="explain" id="explainBox" hidden></div>' +
       '<div class="mem-actions">' +
