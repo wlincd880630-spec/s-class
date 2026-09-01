@@ -177,13 +177,10 @@
     return escapeRe(w);
   }
 
-  function blankPhrase(sentence, phrase) {
-    var raw = String(sentence || "");
+  function phraseRegexes(phrase) {
     var p = String(phrase || "").replace(/[()]/g, " ").replace(/\s+/g, " ").trim();
-    if (!raw) return "______";
-    if (!p) return raw;
-    var next = raw.replace(new RegExp(escapeRe(p), "ig"), "______");
-    if (next !== raw) return next;
+    if (!p) return [];
+    var out = [escapeRe(p)];
     var chunks = p.split(/\.{2,}|…/).map(function (x) {
       return x.replace(/^[\s,]+|[\s,]+$/g, "");
     }).filter(Boolean);
@@ -195,30 +192,59 @@
         var tail = words.slice(1).map(flexRestWord).join("\\s+");
         return "\\b" + head + (tail ? "\\s+" + tail : "");
       }).filter(Boolean);
-      next = raw.replace(new RegExp(bits.join(".{0,56}?"), "ig"), "______");
-      if (next !== raw) return next;
+      if (bits.length) out.push(bits.join(".{0,56}?"));
     }
     var parts = p.replace(/\.{2,}|…/g, " ").split(/\s+/).filter(Boolean);
-    if (!parts.length) return raw.replace(/\s*$/, "") + " （______）";
+    if (!parts.length) return out;
     var flexFirst = firstFlex(parts[0]);
     var rest = parts.slice(1).map(flexRestWord).join("\\s+");
-    var patterns = rest
-      ? [
-        "\\b" + flexFirst + "\\s+" + rest + "\\b",
-        "\\b" + flexFirst + "\\s+(?:it|them|him|her|this|that|one)\\s+" + rest + "\\b"
-      ]
-      : ["\\b" + flexFirst + "\\b"];
-    if (parts.length === 2) {
-      patterns.push("\\b" + flexFirst + "\\s+(?:\\S+\\s+){0,8}" + flexRestWord(parts[1]) + "\\b");
-    } else if (parts.length >= 3) {
-      patterns.push("\\b" + flexFirst + ".{0,42}?" + parts.slice(-2).map(flexRestWord).join("\\s+"));
+    if (rest) {
+      out.push("\\b" + flexFirst + "\\s+" + rest + "\\b");
+      out.push("\\b" + flexFirst + "\\s+(?:it|them|him|her|this|that|one)\\s+" + rest + "\\b");
+    } else {
+      out.push("\\b" + flexFirst + "\\b");
     }
+    if (parts.length === 2) {
+      out.push("\\b" + flexFirst + "\\s+(?:\\S+\\s+){0,8}" + flexRestWord(parts[1]) + "\\b");
+    } else if (parts.length >= 3) {
+      out.push("\\b" + flexFirst + ".{0,42}?" + parts.slice(-2).map(flexRestWord).join("\\s+"));
+    }
+    return out;
+  }
+
+  function findPhraseMatch(sentence, phrase) {
+    var raw = String(sentence || "");
+    var regs = phraseRegexes(phrase);
     var i;
-    for (i = 0; i < patterns.length; i++) {
-      next = raw.replace(new RegExp(patterns[i], "ig"), "______");
+    for (i = 0; i < regs.length; i++) {
+      var re = new RegExp(regs[i], "ig");
+      var m = re.exec(raw);
+      if (m) return { index: m.index, text: m[0] };
+    }
+    return null;
+  }
+
+  function blankPhrase(sentence, phrase) {
+    var raw = String(sentence || "");
+    if (!raw) return "______";
+    var regs = phraseRegexes(phrase);
+    var i;
+    var next;
+    for (i = 0; i < regs.length; i++) {
+      next = raw.replace(new RegExp(regs[i], "ig"), "______");
       if (next !== raw) return next;
     }
+    if (!String(phrase || "").trim()) return raw;
     return raw.replace(/\s*$/, "") + " （______）";
+  }
+
+  function markPhraseHtml(sentence, phrase) {
+    var raw = String(sentence || "");
+    var hit = findPhraseMatch(raw, phrase);
+    if (!hit) return esc(raw);
+    return esc(raw.slice(0, hit.index)) +
+      '<mark class="gap-fill">' + esc(hit.text) + "</mark>" +
+      esc(raw.slice(hit.index + hit.text.length));
   }
 
   function sameSent(a, b) {
@@ -548,7 +574,7 @@
     var cur = state.examSource || "zhongkao";
     $("playRoot").innerHTML = '<div class="play-shell gap-setup">' +
       "<h2>词组填空</h2>" +
-      '<p class="note">给出中文词义，从选项中选出正确词组。例句只用中考或高考，不用课文原句。</p>' +
+      '<p class="note">先读英文例句，从四个词组里选出填空答案。选错可再选，选对后句子补全，再点中文翻译。</p>' +
       '<div class="source-picks">' +
       '<button type="button" class="src-btn' + (cur === "zhongkao" ? " on" : "") + '" data-src="zhongkao" id="srcZhongkao">中考例句</button>' +
       '<button type="button" class="src-btn' + (cur === "gaokao" ? " on" : "") + '" data-src="gaokao" id="srcGaokao">高考例句</button>' +
@@ -638,14 +664,17 @@
       var raw = ex.sentence || "";
       return {
         kind: "gap",
-        meaning: it.meaning,
+        meaning: it.meaning || "",
         q: blankPhrase(raw, it.word),
         trans: ex.trans || "",
         sourceLabel: want === "gaokao" ? "高考" : "中考",
-        prompt: "根据中文词义，选出正确词组",
-        options: PETStudio.shuffle([it.word].concat(PETStudio.distractors(words, it.word, levelCfg().options - 1))),
+        options: PETStudio.shuffle([it.word].concat(PETStudio.distractors(words, it.word, 3))),
         answer: it.word,
-        speak: raw
+        speak: raw,
+        solved: false,
+        showZh: false,
+        missed: false,
+        wrong: []
       };
     });
     state.idx = 0;
@@ -740,24 +769,67 @@
       return;
     }
     var note = state.gapNote ? '<p class="toast">' + esc(state.gapNote) + "</p>" : "";
+    var sent = q.solved ? markPhraseHtml(q.speak, q.answer) : esc(q.q);
+    var follow = "";
+    if (q.solved) {
+      follow += '<div class="gap-follow">';
+      if (!q.showZh) {
+        follow += '<button class="btn btn-teal" type="button" id="gapZhBtn">中文翻译</button>';
+      } else {
+        follow += '<div class="gap-zh">' + esc(q.trans || q.meaning || "暂无中文翻译") + "</div>";
+        follow += '<button class="btn btn-indigo" type="button" id="gapNext">' +
+          (state.idx + 1 >= state.queue.length ? "完成本局" : "下一题") + "</button>";
+      }
+      follow += "</div>";
+    }
     $("playRoot").innerHTML = '<div class="play-shell">' + hud() + note +
       sourceSwitchHtml() +
-      '<div class="meaning-card">' +
-      '<div class="clinic-kicker">中文词义</div>' +
-      '<div class="meaning">' + esc(q.meaning) + "</div>" +
-      '<p class="prompt-line">请从下面选出正确词组</p></div>' +
+      '<div class="exam-line"><span class="exam-tag">' + esc(q.sourceLabel) + "例句</span></div>" +
+      '<p class="gap-sent' + (q.solved ? " filled" : "") + '">' + sent + "</p>" +
       '<div class="opts" id="opts"></div>' +
-      '<div class="exam-ref">' +
-      '<div class="exam-line"><span class="exam-tag">' + esc(q.sourceLabel) + "参考例句</span></div>" +
-      '<p class="exam-sent">' + esc(q.q) + "</p>" +
-      (q.trans ? '<p class="note">' + esc(q.trans) + "</p>" : "") +
-      (q.speak ? '<button class="btn btn-ghost" id="speakBtn">朗读原句</button>' : "") +
-      "</div>" +
+      follow +
       '<div class="mem-actions"><button class="btn btn-ghost" type="button" id="backGames">返回游戏列表</button></div></div>';
-    if ($("speakBtn")) $("speakBtn").onclick = function () { say(q.speak); };
     $("backGames").onclick = showList;
     bindSourceSwitch();
-    bindOpts(q);
+    bindGapOpts(q);
+    if ($("gapZhBtn")) {
+      $("gapZhBtn").onclick = function () {
+        q.showZh = true;
+        renderGap();
+      };
+    }
+    if ($("gapNext")) $("gapNext").onclick = next;
+  }
+
+  function bindGapOpts(q) {
+    var box = $("opts");
+    if (!box) return;
+    (q.options || []).forEach(function (op) {
+      var b = document.createElement("button");
+      var wrong = (q.wrong || []).indexOf(op) !== -1;
+      b.className = "opt" + (q.solved && op === q.answer ? " ok" : "") + (wrong ? " bad" : "");
+      b.textContent = optionLabel(op);
+      b.setAttribute("data-answer", op);
+      if (q.solved || wrong) {
+        b.disabled = true;
+        box.appendChild(b);
+        return;
+      }
+      b.onclick = function () {
+        if (q.solved) return;
+        if (op === q.answer) {
+          q.solved = true;
+          if (!q.missed) state.score++;
+          renderGap();
+          return;
+        }
+        q.missed = true;
+        q.wrong = q.wrong || [];
+        if (q.wrong.indexOf(op) === -1) q.wrong.push(op);
+        renderGap();
+      };
+      box.appendChild(b);
+    });
   }
 
   function startContext() {
