@@ -642,12 +642,35 @@
     renderGap();
   }
 
+  function rebindQueueSource(want) {
+    (state.queue || []).forEach(function (q) {
+      if (q.kind !== "gap") return;
+      var it = null;
+      (state.bag.colloc || []).some(function (x) {
+        if (x.word === q.answer) { it = x; return true; }
+        return false;
+      });
+      if (!it) return;
+      var ex = pickExamExample(it, want);
+      if (!ex || !ex.sentence) return;
+      q.q = blankPhrase(ex.sentence, it.word);
+      q.trans = ex.trans || "";
+      q.sourceLabel = want === "gaokao" ? "高考" : "中考";
+      q.speak = ex.sentence;
+    });
+  }
+
   function bindSourceSwitch() {
     Array.prototype.forEach.call(document.querySelectorAll("[data-src]"), function (btn) {
       btn.onclick = function () {
         var src = btn.getAttribute("data-src");
         if (!src || src === state.examSource) return;
         state.examSource = src;
+        if (state.queue && state.queue.length && state.queue[0].kind === "gap") {
+          rebindQueueSource(src);
+          renderGap();
+          return;
+        }
         beginGap();
       };
     });
