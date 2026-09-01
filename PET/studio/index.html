@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="../../scripts/auth-check.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PET 讲义与复习工作室 | S-Class</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&family=Noto+Sans+SC:wght@500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/studio.css">
+</head>
+<body class="studio">
+  <div class="wrap">
+    <div class="topbar">
+      <a class="back" href="../../index.html">← 返回首页</a>
+    </div>
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="kicker">PET Practice Studio</div>
+        <h1>精美讲义 PDF · 文章插图 · 九种分层复习游戏</h1>
+        <p>每个单元的单词、词组、语法与文章都可导出彩色 PDF；复习游戏分基础 / 标准 / 挑战，部分带 3D 配图，也可用 DeepSeek 加题并打印。</p>
+      </div>
+      <img src="img/hub-hero.jpg" alt="PET 工作室">
+    </section>
+    <div class="toolbar">
+      <div class="field">
+        <label>选择单元</label>
+        <select id="unitSel"></select>
+      </div>
+      <a class="btn btn-indigo" id="goPrint">单词 / 词组 / 语法 PDF</a>
+      <a class="btn btn-rose" id="goPass">文章 PDF</a>
+      <a class="btn btn-teal" id="goGames">九种复习游戏</a>
+      <a class="btn btn-ghost" id="goPaper">游戏纸质卷 PDF</a>
+    </div>
+    <h2 style="margin:8px 0 12px">18 个单元</h2>
+    <div class="unit-grid" id="units"></div>
+  </div>
+  <script src="js/catalog.js"></script>
+  <script>
+    (function () {
+      var sel = document.getElementById("unitSel");
+      var box = document.getElementById("units");
+      PETStudio.UNITS.forEach(function (u) {
+        var o = document.createElement("option");
+        o.value = u.id;
+        o.textContent = "Unit " + u.id + " · " + u.title;
+        sel.appendChild(o);
+        var a = document.createElement("a");
+        a.className = "unit-chip";
+        a.href = "games.html?unit=" + u.id;
+        a.innerHTML = "<strong>Unit " + u.id + "</strong><span>" + u.subtitle + "</span>";
+        box.appendChild(a);
+      });
+      var q = PETStudio.parseQuery();
+      if (q.unit) sel.value = q.unit;
+      function hrefs() {
+        var u = sel.value;
+        document.getElementById("goPrint").href = "print.html?type=handout&unit=" + u;
+        document.getElementById("goPass").href = "print.html?type=passage&unit=" + u;
+        document.getElementById("goGames").href = "games.html?unit=" + u;
+        document.getElementById("goPaper").href = "print.html?type=games&unit=" + u + "&level=standard";
+      }
+      sel.onchange = hrefs;
+      hrefs();
+    })();
+  </script>
+</body>
+</html>
