@@ -14,7 +14,9 @@
     lock: false,
     memory: null,
     spinDeg: 0,
-    timerId: null
+    timerId: null,
+    examSource: "zhongkao",
+    gapNote: ""
   };
 
   function clearTimer() {
@@ -30,8 +32,14 @@
     return Math.max(s, 40);
   }
 
+  function timedGame() {
+    var k = state.game && state.game.key;
+    return k !== "gap" && k !== "grammar" && k !== "memory";
+  }
+
   function attachTimer() {
     clearTimer();
+    if (!timedGame()) return;
     var sec = levelCfg().seconds;
     var el = $("timer");
     if (!sec || !el) return;
@@ -75,16 +83,77 @@
 
   function hud() {
     var total = state.queue.length || 1;
-    var sec = (state.game && state.game.key === "spell") ? spellSeconds() : levelCfg().seconds;
-    var timed = sec
-      ? '<span class=timer id=timer>' + sec + "s</span>"
-      : "";
+    var n = Math.min(state.idx + 1, total);
+    var sec = !timedGame() ? 0 : ((state.game && state.game.key === "spell") ? spellSeconds() : levelCfg().seconds);
+    var timed = sec ? '<span class=timer id=timer>' + sec + "s</span>" : "";
     return '<div class=hud><span>' + esc(state.game.name) + " · " + esc(levelCfg().label) +
-      "</span>" + timed + "<span>题 " + (state.idx + 1) + "/" + total + " · 分 " + state.score + "</span></div>";
+      "</span>" + timed + "<span>题 " + n + "/" + total + " · 分 " + state.score + "</span></div>";
   }
 
   function esc(s) {
     return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  function stripHtml(html) {
+    var d = document.createElement("div");
+    d.innerHTML = html || "";
+    return String(d.textContent || d.innerText || "").replace(/\s+/g, " ").trim();
+  }
+
+  function escapeRe(s) {
+    return String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  }
+
+  function optionLabel(op) {
+    if (/^true$/i.test(String(op))) return "正确 True";
+    if (/^false$/i.test(String(op))) return "错误 False";
+    return String(op);
+  }
+
+  function examKind(src) {
+    var s = String(src || "").toLowerCase();
+    if (s.indexOf("gaokao") !== -1 || s.indexOf("高考") !== -1) return "gaokao";
+    if (s.indexOf("zhongkao") !== -1 || s.indexOf("中考") !== -1) return "zhongkao";
+    if (s.indexOf("article") !== -1 || s.indexOf("文章") !== -1) return "article";
+    return s;
+  }
+
+  function blankPhrase(sentence, phrase) {
+    var raw = String(sentence || "");
+    var p = String(phrase || "").trim();
+    if (!raw) return "______";
+    if (!p) return raw;
+    var re = new RegExp(escapeRe(p), "ig");
+    if (re.test(raw)) return raw.replace(re, "______");
+    var parts = p.split(/\s+/);
+    var first = parts[0];
+    var rest = parts.slice(1).map(escapeRe).join("\\s+");
+    var stem = escapeRe(first.replace(/e$/i, ""));
+    var flex = "\\b" + stem + "(?:e|es|ed|ing|s)?";
+    if (rest) flex += "\\s+" + rest;
+    flex += "\\b";
+    var re2 = new RegExp(flex, "ig");
+    if (re2.test(raw)) return raw.replace(re2, "______");
+    return raw.replace(/\s*$/, "") + " （______）";
+  }
+
+  function pickExamExample(it, want) {
+    var list = it.examples || [];
+    var i;
+    for (i = 0; i < list.length; i++) {
+      if (examKind(list[i].source) === want && list[i].sentence) return list[i];
+    }
+    if (want === "gaokao" && it.gaokaoEx && it.gaokaoEx.sentence) {
+      return { sentence: it.gaokaoEx.sentence, trans: it.gaokaoEx.trans || "", source: "Gaokao" };
+    }
+    return null;
+  }
+
+  function isQuizCorrect(row) {
+    if (!row) return false;
+    return row.is_correct === true || row.isCorrect === true ||
+      String(row.is_correct).toLowerCase() === "true" ||
+      String(row.isCorrect).toLowerCase() === "true";
   }
 
   function done() {
@@ -92,7 +161,10 @@
       '<div class=q-box>本局完成！得分 ' + state.score + " / " + state.queue.length + "</div>" +
       '<button class="btn btn-indigo" id="againBtn">再来一局</button> ' +
       '<button class="btn btn-ghost" id="backGames">返回游戏列表</button></div>';
-    $("againBtn").onclick = function () { startGame(state.game.key, state.level); };
+    $("againBtn").onclick = function () {
+      if (state.game.key === "gap" && state.examSource) beginGap();
+      else startGame(state.game.key, state.level);
+    };
     $("backGames").onclick = showList;
   }
 
@@ -119,6 +191,36 @@
     });
   }
 
+  function bindOpts(q) {
+    var box = $("opts");
+    if (!box) return;
+    (q.options || []).forEach(function (op) {
+      var b = document.createElement("button");
+      b.className = "opt";
+      b.textContent = optionLabel(op);
+      b.setAttribute("data-answer", op);
+      b.onclick = function () {
+        if (state.lock) return;
+        state.lock = true;
+        var ok = op === q.answer;
+        b.className = "opt " + (ok ? "ok" : "bad");
+        if (ok) state.score++;
+        else {
+          Array.prototype.forEach.call(box.children, function (el) {
+            if (el.getAttribute("data-answer") === q.answer) el.className = "opt ok";
+          });
+        }
+        var explain = $("explainBox");
+        if (explain && q.explain) {
+          explain.hidden = false;
+          explain.textContent = q.explain;
+        }
+        setTimeout(next, q.explain ? 1800 : 700);
+      };
+      box.appendChild(b);
+    });
+  }
+
   function renderChoice() {
     var q = state.queue[state.idx];
     var pic = (state.game.key === "picture" && q.img)
@@ -129,28 +231,10 @@
       pic +
       '<div class=q-box>' + esc(q.q) + "</div>" +
       (q.speak ? '<button class="btn btn-ghost" id="speakBtn">朗读</button>' : "") +
-      '<div class=opts id=opts></div></div>';
+      '<div class=opts id=opts></div>' +
+      '<div class="explain" id="explainBox" hidden></div></div>';
     if ($("speakBtn")) $("speakBtn").onclick = function () { say(q.speak); };
-    var box = $("opts");
-    q.options.forEach(function (op) {
-      var b = document.createElement("button");
-      b.className = "opt";
-      b.textContent = op;
-      b.onclick = function () {
-        if (state.lock) return;
-        state.lock = true;
-        var ok = op === q.answer;
-        b.className = "opt " + (ok ? "ok" : "bad");
-        if (ok) state.score++;
-        else {
-          Array.prototype.forEach.call(box.children, function (el) {
-            if (el.textContent === q.answer) el.className = "opt ok";
-          });
-        }
-        setTimeout(next, 700);
-      };
-      box.appendChild(b);
-    });
+    bindOpts(q);
     attachTimer();
   }
 
@@ -192,7 +276,7 @@
         (open ? " open" : "") +
         (matched ? " done" : "") +
         (c.kind === "zh" ? " zh" : " en") +
-        '" data-i="' + i + '">';
+        '" id="mem-card-' + i + '" data-i="' + i + '">';
       if (open) {
         if (c.img) html += '<img src="' + esc(c.img) + '" alt="">';
         html += "<small>" + (c.kind === "en" ? "EN" : "中文") + "</small>";
@@ -317,36 +401,170 @@
     if (inp && document.activeElement !== inp) inp.value = typed;
   }
 
-  function startGap() {
-    var list = state.bag.colloc.filter(function (x) { return x.examples && x.examples.length; });
-    state.queue = PETStudio.pickN(list, Math.min(levelCfg().count, list.length)).map(function (it) {
-      var ex = it.examples[0];
-      var raw = ex.sentence || "";
-      var blank = raw;
-      if (it.word && raw.toLowerCase().indexOf(it.word.toLowerCase()) !== -1) {
-        blank = raw.replace(new RegExp(it.word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "ig"), "______");
-      }
-      var words = state.bag.colloc.map(function (x) { return x.word; });
-      var opts = PETStudio.shuffle([it.word].concat(PETStudio.distractors(words, it.word, levelCfg().options - 1)));
-      return { q: blank, prompt: ex.trans || it.meaning, options: opts, answer: it.word, speak: raw };
+  function showGapSetup() {
+    var cur = state.examSource || "zhongkao";
+    $("playRoot").innerHTML = '<div class="play-shell gap-setup">' +
+      "<h2>词组填空</h2>" +
+      '<p class="note">给出中文词义，从选项中选出正确词组。例句只用中考或高考，不用课文原句。</p>' +
+      '<div class="source-picks">' +
+      '<button type="button" class="src-btn' + (cur === "zhongkao" ? " on" : "") + '" data-src="zhongkao" id="srcZhongkao">中考例句</button>' +
+      '<button type="button" class="src-btn' + (cur === "gaokao" ? " on" : "") + '" data-src="gaokao" id="srcGaokao">高考例句</button>' +
+      "</div>" +
+      '<button class="btn btn-indigo" id="gapStart">开始作答</button> ' +
+      '<button class="btn btn-ghost" id="backGames">返回游戏列表</button></div>';
+    Array.prototype.forEach.call(document.querySelectorAll(".src-btn"), function (btn) {
+      btn.onclick = function () {
+        state.examSource = btn.getAttribute("data-src");
+        showGapSetup();
+      };
     });
-    renderChoice();
+    $("gapStart").onclick = function () { beginGap(); };
+    $("backGames").onclick = showList;
+  }
+
+  function gaokaoCacheKey() {
+    var id = state.bag && state.bag.unit ? state.bag.unit.id : 0;
+    return "pet-gap-gaokao-u" + id;
+  }
+
+  function loadGaokaoCache() {
+    try {
+      var map = JSON.parse(sessionStorage.getItem(gaokaoCacheKey()) || "{}");
+      (state.bag.colloc || []).forEach(function (it) {
+        var hit = map[String(it.word).toLowerCase()];
+        if (hit && hit.sentence) it.gaokaoEx = hit;
+      });
+    } catch (e) {}
+  }
+
+  function saveGaokaoCache() {
+    try {
+      var map = {};
+      (state.bag.colloc || []).forEach(function (it) {
+        if (it.gaokaoEx && it.gaokaoEx.sentence) map[String(it.word).toLowerCase()] = it.gaokaoEx;
+      });
+      sessionStorage.setItem(gaokaoCacheKey(), JSON.stringify(map));
+    } catch (e) {}
+  }
+
+  function ensureGaokaoExamples() {
+    loadGaokaoCache();
+    var items = (state.bag.colloc || []).filter(function (x) { return x.word; });
+    var missing = items.filter(function (x) { return !(x.gaokaoEx && x.gaokaoEx.sentence); });
+    if (!missing.length) return Promise.resolve();
+    if (typeof PETStudio.aiExamSentences !== "function") {
+      return Promise.reject(new Error("无生成接口"));
+    }
+    return PETStudio.aiExamSentences(missing, "gaokao").then(function (arr) {
+      var map = {};
+      (arr || []).forEach(function (row) {
+        var k = String(row.phrase || row.word || "").toLowerCase();
+        if (k && row.sentence) map[k] = { sentence: row.sentence, trans: row.trans || "" };
+      });
+      function lookupEx(word) {
+        var k = String(word || "").toLowerCase();
+        if (map[k]) return map[k];
+        var keys = Object.keys(map);
+        var i;
+        for (i = 0; i < keys.length; i++) {
+          if (keys[i].indexOf(k) !== -1 || k.indexOf(keys[i]) !== -1) return map[keys[i]];
+        }
+        return null;
+      }
+      missing.forEach(function (it) {
+        var hit = lookupEx(it.word);
+        if (hit) it.gaokaoEx = hit;
+      });
+      saveGaokaoCache();
+      var got = items.filter(function (x) { return x.gaokaoEx && x.gaokaoEx.sentence; }).length;
+      if (!got) throw new Error("未得到高考例句");
+    });
+  }
+
+  function buildGapQueue(want) {
+    var list = (state.bag.colloc || []).filter(function (it) {
+      return it.word && it.meaning && pickExamExample(it, want);
+    });
+    if (!list.length) {
+      state.queue = [];
+      return false;
+    }
+    var words = state.bag.colloc.map(function (x) { return x.word; }).filter(Boolean);
+    state.queue = PETStudio.pickN(list, Math.min(levelCfg().count, list.length)).map(function (it) {
+      var ex = pickExamExample(it, want);
+      var raw = ex.sentence || "";
+      return {
+        kind: "gap",
+        meaning: it.meaning,
+        q: blankPhrase(raw, it.word),
+        trans: ex.trans || "",
+        sourceLabel: want === "gaokao" ? "高考" : "中考",
+        prompt: "根据中文词义，选出正确词组",
+        options: PETStudio.shuffle([it.word].concat(PETStudio.distractors(words, it.word, levelCfg().options - 1))),
+        answer: it.word,
+        speak: raw
+      };
+    });
+    state.idx = 0;
+    state.score = 0;
+    state.lock = false;
+    return true;
+  }
+
+  function beginGap() {
+    var src = state.examSource || "zhongkao";
+    if (src === "gaokao") {
+      $("playRoot").innerHTML = '<div class="play-shell"><p class="note" id="gapLoading">正在生成高考例句…</p></div>';
+      ensureGaokaoExamples().then(function () {
+        state.gapNote = "";
+        if (!buildGapQueue("gaokao")) {
+          state.examSource = "zhongkao";
+          state.gapNote = "本单元暂无高考例句，已改用中考例句。";
+          buildGapQueue("zhongkao");
+        }
+        renderGap();
+      }).catch(function (e) {
+        state.examSource = "zhongkao";
+        state.gapNote = "高考例句暂不可用（" + (e.message || "网络") + "），已改用中考例句。";
+        buildGapQueue("zhongkao");
+        renderGap();
+      });
+      return;
+    }
+    state.gapNote = "";
+    if (!buildGapQueue("zhongkao")) {
+      $("playRoot").innerHTML = '<div class="play-shell"><p class="note">本单元没有可用的中考词组例句。</p>' +
+        '<button class="btn btn-ghost" id="backGames">返回游戏列表</button></div>';
+      $("backGames").onclick = showList;
+      return;
+    }
+    renderGap();
+  }
+
+  function renderGap() {
+    var q = state.queue[state.idx];
+    if (!q) {
+      $("playRoot").innerHTML = '<div class="play-shell"><p class="note">没有题目。</p>' +
+        '<button class="btn btn-ghost" id="backGames">返回游戏列表</button></div>';
+      if ($("backGames")) $("backGames").onclick = showList;
+      return;
+    }
+    var note = state.gapNote ? '<p class="toast">' + esc(state.gapNote) + "</p>" : "";
+    $("playRoot").innerHTML = '<div class="play-shell">' + hud() + note +
+      '<div class="meaning-card"><div class="clinic-kicker">中文词义</div><div class="meaning">' + esc(q.meaning) + "</div></div>" +
+      '<div class="exam-line"><span class="exam-tag">' + esc(q.sourceLabel) + "例句</span></div>" +
+      '<div class="q-box">' + esc(q.q) + "</div>" +
+      (q.trans ? '<p class="note">' + esc(q.trans) + "</p>" : "") +
+      (q.speak ? '<button class="btn btn-ghost" id="speakBtn">朗读原句</button>' : "") +
+      '<p class="note">' + esc(q.prompt) + "</p>" +
+      '<div class="opts" id="opts"></div>' +
+      '<div class="mem-actions"><button class="btn btn-ghost" type="button" id="backGames">返回游戏列表</button></div></div>';
+    if ($("speakBtn")) $("speakBtn").onclick = function () { say(q.speak); };
+    $("backGames").onclick = showList;
+    bindOpts(q);
   }
 
   function startContext() {
-    var qs = [];
-    state.bag.vocab.concat(state.bag.colloc).forEach(function (it) {
-      (it.quizFill || []).forEach(function (row) {
-        qs.push({
-          q: row.sentence,
-          prompt: "选出正确语境（本词：" + it.word + "）",
-          options: null,
-          answer: row.is_correct === true || String(row.is_correct).toLowerCase() === "true",
-          item: it,
-          raw: row
-        });
-      });
-    });
     var grouped = {};
     state.bag.vocab.concat(state.bag.colloc).forEach(function (it) {
       if (it.quizFill && it.quizFill.length) grouped[it.word] = it;
@@ -356,7 +574,7 @@
       var rows = PETStudio.shuffle(it.quizFill.slice());
       var correct = "";
       rows.forEach(function (r) {
-        if (r.is_correct === true || String(r.is_correct).toLowerCase() === "true") correct = r.sentence;
+        if (isQuizCorrect(r)) correct = r.sentence;
       });
       return {
         q: "哪一句最适合填入 / 使用「" + it.word + "」？",
@@ -369,21 +587,98 @@
     renderChoice();
   }
 
+  function grammarItems(g) {
+    var out = [];
+    function push(row) {
+      if (!row || !row.question) return;
+      var opts = (row.options || []).slice();
+      var ans = row.correct;
+      if (!opts.length && /^true|false$/i.test(String(ans))) opts = ["True", "False"];
+      if (!opts.length) return;
+      out.push({
+        q: row.question,
+        prompt: "结合本课语法点作答",
+        options: opts,
+        answer: ans,
+        explain: row.explanation || row.hint || "",
+        speak: "",
+        g: g,
+        kind: "quiz"
+      });
+    }
+    (g.guide || []).forEach(push);
+    (g.quiz || []).forEach(push);
+    return out;
+  }
+
   function startGrammar() {
-    var qs = [];
-    state.bag.grammar.forEach(function (g) {
-      (g.quiz || []).forEach(function (qq) {
-        qs.push({
-          q: qq.question,
-          prompt: g.title || "Grammar",
-          options: qq.options || [],
-          answer: qq.correct,
-          speak: ""
-        });
+    var points = (state.bag.grammar || []).filter(function (g) {
+      return (g.quiz && g.quiz.length) || (g.guide && g.guide.length);
+    });
+    var wantP = ({ easy: 2, standard: 3, challenge: Math.max(points.length, 1) })[state.level] || 3;
+    var wantQ = ({ easy: 3, standard: 4, challenge: 6 })[state.level] || 4;
+    var picked = PETStudio.pickN(points, Math.min(wantP, points.length));
+    var queue = [];
+    picked.forEach(function (g) {
+      var qs = grammarItems(g);
+      PETStudio.pickN(qs, Math.min(wantQ, qs.length)).forEach(function (item, i) {
+        item.showIntro = i === 0;
+        item.introSeen = false;
+        queue.push(item);
       });
     });
-    state.queue = PETStudio.pickN(qs, Math.min(levelCfg().count, qs.length));
-    renderChoice();
+    state.queue = queue;
+    state.idx = 0;
+    if (!queue.length) {
+      $("playRoot").innerHTML = '<div class="play-shell"><p class="note">本单元还没有语法练习题。</p>' +
+        '<button class="btn btn-ghost" id="backGames">返回游戏列表</button></div>';
+      $("backGames").onclick = showList;
+      return;
+    }
+    renderGrammar();
+  }
+
+  function renderGrammarIntro(q) {
+    var g = q.g || {};
+    var fullExp = stripHtml(g.explanation || "");
+    var fullTips = stripHtml(g.tips || "");
+    var body = fullExp.slice(0, 360);
+    var tips = fullTips.slice(0, 240);
+    $("playRoot").innerHTML = '<div class="play-shell">' + hud() +
+      '<div class="clinic-card">' +
+      '<div class="clinic-kicker">语法诊所</div>' +
+      "<h2>" + esc(g.title || "Grammar") + "</h2>" +
+      (g.sourceSentence
+        ? "<blockquote><p>" + esc(g.sourceSentence) + "</p><p>" + esc(g.sourceSentenceCn || "") + "</p></blockquote>"
+        : "") +
+      (body ? '<p class="clinic-exp">' + esc(body) + (fullExp.length > 360 ? "…" : "") + "</p>" : "") +
+      (tips ? '<p class="clinic-tips"><b>中考提示</b> ' + esc(tips) + (fullTips.length > 240 ? "…" : "") + "</p>" : "") +
+      '<p class="note">接下来用本课引导题和练习题巩固这个语法点。</p>' +
+      '<button class="btn btn-indigo" id="clinicGo">开始练习</button> ' +
+      '<button class="btn btn-ghost" id="backGames">返回游戏列表</button>' +
+      "</div></div>";
+    $("clinicGo").onclick = function () {
+      q.introSeen = true;
+      renderGrammar();
+    };
+    $("backGames").onclick = showList;
+  }
+
+  function renderGrammar() {
+    var q = state.queue[state.idx];
+    if (!q) return done();
+    if (q.showIntro && !q.introSeen) return renderGrammarIntro(q);
+    var g = q.g || {};
+    $("playRoot").innerHTML = '<div class="play-shell">' + hud() +
+      '<div class="clinic-chip">' + esc(g.title || "语法练习") + "</div>" +
+      (g.sourceSentence ? '<p class="clinic-src">课文：' + esc(g.sourceSentence) + "</p>" : "") +
+      '<div class="note">' + esc(q.prompt || "结合本课语法点作答") + "</div>" +
+      '<div class="q-box">' + esc(q.q) + "</div>" +
+      '<div class="opts" id="opts"></div>' +
+      '<div class="explain" id="explainBox" hidden></div>' +
+      '<div class="mem-actions"><button class="btn btn-ghost" type="button" id="backGames">返回游戏列表</button></div></div>';
+    $("backGames").onclick = showList;
+    bindOpts(q);
   }
 
   function startSpin() {
@@ -428,6 +723,8 @@
   function renderCurrent() {
     if (state.game.key === "memory") return renderMemory();
     if (state.game.key === "spell") return renderSpell();
+    if (state.game.key === "gap") return renderGap();
+    if (state.game.key === "grammar") return renderGrammar();
     if (state.game.key === "spin") {
       if (state.idx === 0 && !$("opts")) return renderSpin();
       return renderChoice();
@@ -442,13 +739,14 @@
     state.idx = 0;
     state.score = 0;
     state.lock = false;
+    state.gapNote = "";
     if (!state.game) return;
     if (key === "memory") startMemory();
     else if (key === "picture") { state.queue = makeChoiceQs(true).filter(function (q) { return q.img; }); if (!state.queue.length) state.queue = makeChoiceQs(true); renderChoice(); }
     else if (key === "zh2en") { state.queue = makeChoiceQs(true); renderChoice(); }
     else if (key === "en2zh") { state.queue = makeChoiceQs(false); renderChoice(); }
     else if (key === "spell") startSpell();
-    else if (key === "gap") startGap();
+    else if (key === "gap") showGapSetup();
     else if (key === "context") startContext();
     else if (key === "grammar") startGrammar();
     else if (key === "spin") startSpin();
