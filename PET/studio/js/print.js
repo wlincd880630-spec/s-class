@@ -230,8 +230,16 @@
     return html;
   }
 
-  function levelLegend() {
-    return GRADE_LEVELS.map(function (lv) {
+  function levelLegend(items) {
+    var seen = {};
+    (items || []).forEach(function (it) {
+      (it.handoutExamples || []).forEach(function (ex) {
+        seen[String(ex.level || "")] = true;
+      });
+    });
+    var list = GRADE_LEVELS.filter(function (lv) { return seen[lv.id]; });
+    if (!list.length) list = GRADE_LEVELS;
+    return list.map(function (lv) {
       return '<span class="pdf-badge ' + lv.id + '">' + lv.label + "</span>";
     }).join(" ");
   }
@@ -247,7 +255,7 @@
     html += '<section class="sheet long"><div class="inner">' +
       '<div class="sec-h"><div class="dot" style="background:#4f46e5"></div><h2>Vocabulary 单词</h2><span>' +
       bag.vocab.length + " words · 音标保留 · 分层例句</span></div>" +
-      '<p class="lead">例句级别：' + levelLegend() + "　不含文章原文。</p>" +
+      '<p class="lead">例句级别：' + levelLegend(bag.vocab.concat(bag.colloc || [])) + "　不含文章原文。</p>" +
       vocabCards(bag.vocab) +
       '<div class="foot"><span>S-Class PET</span><span>Unit ' + u.id + " · Vocab</span></div></div></section>";
     html += '<section class="sheet long"><div class="inner">' +
