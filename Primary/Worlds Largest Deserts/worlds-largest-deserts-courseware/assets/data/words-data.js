@@ -9,6 +9,7 @@ const DESERT_COURSE = {
   source: "Encyclopaedia Britannica",
   sourceUrl: "https://www.britannica.com/topic/worlds-largest-deserts-2225895",
   lexile: 600,
+  level: 3,
   grade: "\u5c0f\u5b66\u4e94\u5e74\u7ea7",
   accent: "#c4782a",
   ranking: [
