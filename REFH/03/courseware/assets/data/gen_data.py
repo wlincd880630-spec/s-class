@@ -1,5 +1,21 @@
 # -*- coding: utf-8 -*-
-import json, os
+import json, os, random
+
+def scramble_letters(word, seed):
+    chars = [ch for ch in str(word).lower() if ch.isalpha()]
+    if len(chars) <= 1:
+        return ' '.join(chars)
+    rng = random.Random(seed)
+    target = ''.join(chars)
+    for _ in range(80):
+        shuffled = chars[:]
+        rng.shuffle(shuffled)
+        if ''.join(shuffled) != target:
+            return ' '.join(shuffled)
+    shuffled = chars[::-1]
+    if ''.join(shuffled) == target and len(shuffled) > 1:
+        shuffled[0], shuffled[1] = shuffled[1], shuffled[0]
+    return ' '.join(shuffled)
 
 base = os.path.dirname(os.path.abspath(__file__))
 
@@ -454,12 +470,12 @@ quiz = {
     ]
   },
   "unscramble": [
-    {"letters": "f e s t i v a l", "answer": "festival", "hint": "节日"},
-    {"letters": "t r a d i t i o n", "answer": "tradition", "hint": "传统"},
-    {"letters": "h a r v e s t", "answer": "harvest", "hint": "收获"},
-    {"letters": "l u n a r", "answer": "lunar", "hint": "农历的"},
-    {"letters": "g o d d e s s", "answer": "goddess", "hint": "女神"},
-    {"letters": "l a n t e r n", "answer": "lantern", "hint": "灯笼"},
+    {"letters": scramble_letters("festival", 301), "answer": "festival", "hint": "节日"},
+    {"letters": scramble_letters("tradition", 302), "answer": "tradition", "hint": "传统"},
+    {"letters": scramble_letters("harvest", 303), "answer": "harvest", "hint": "收获"},
+    {"letters": scramble_letters("lunar", 304), "answer": "lunar", "hint": "农历的"},
+    {"letters": scramble_letters("goddess", 305), "answer": "goddess", "hint": "女神"},
+    {"letters": scramble_letters("lantern", 306), "answer": "lantern", "hint": "灯笼"},
   ],
   "first_letter": [
     {"before": "The Mid-Autumn ", "letter": "f", "after": " is a popular holiday in Asia.", "answer": "festival", "analysis": "Festival 节日。"},

@@ -1,5 +1,21 @@
 # -*- coding: utf-8 -*-
-import json, os
+import json, os, random
+
+def scramble_letters(word, seed):
+    chars = [ch for ch in str(word).lower() if ch.isalpha()]
+    if len(chars) <= 1:
+        return ' '.join(chars)
+    rng = random.Random(seed)
+    target = ''.join(chars)
+    for _ in range(80):
+        shuffled = chars[:]
+        rng.shuffle(shuffled)
+        if ''.join(shuffled) != target:
+            return ' '.join(shuffled)
+    shuffled = chars[::-1]
+    if ''.join(shuffled) == target and len(shuffled) > 1:
+        shuffled[0], shuffled[1] = shuffled[1], shuffled[0]
+    return ' '.join(shuffled)
 
 base = os.path.dirname(os.path.abspath(__file__))
 
@@ -393,12 +409,12 @@ quiz = {
     ]
   },
   "unscramble": [
-    {"letters": "e n e g", "answer": "gene", "hint": "基因"},
-    {"letters": "d e v e l o p", "answer": "develop", "hint": "发展；发育"},
-    {"letters": "e s t i m a t e", "answer": "estimate", "hint": "估计"},
-    {"letters": "t r a i t", "answer": "trait", "hint": "特征"},
-    {"letters": "i n h i b i t", "answer": "inhibit", "hint": "抑制"},
-    {"letters": "e n z y m e", "answer": "enzyme", "hint": "酶"},
+    {"letters": scramble_letters("gene", 101), "answer": "gene", "hint": "基因"},
+    {"letters": scramble_letters("develop", 102), "answer": "develop", "hint": "发展；发育"},
+    {"letters": scramble_letters("estimate", 103), "answer": "estimate", "hint": "估计"},
+    {"letters": scramble_letters("trait", 104), "answer": "trait", "hint": "特征"},
+    {"letters": scramble_letters("inhibit", 105), "answer": "inhibit", "hint": "抑制"},
+    {"letters": scramble_letters("enzyme", 106), "answer": "enzyme", "hint": "酶"},
   ],
   "first_letter": [
     {"before": "Thousands of years of ", "letter": "s", "after": " breeding has changed fruits over thousands of years.", "answer": "selective", "analysis": "Selective breeding 选择性育种。"},
