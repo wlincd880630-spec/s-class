@@ -6,6 +6,7 @@
   const IMAGE_BASE = 'assets/images/';
   const COURSEWARE_WEB_BASE = 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/REFH/07/courseware/';
   const ARTICLE_PAGE_URL = COURSEWARE_WEB_BASE + 'part2-reading.html';
+  const QUIZ_PAGE_URL = 'https://www.s-class.top/REFH/07/courseware/part4-quiz.html';
 
   const DEFAULT_CONFIG = {
     azureKey: '4SJbskufsk2tiu5jq1kzlJwTDw2eVPYd8e7HvDhb3lX6ZmItWOnxJQQJ99CHACqBBLyXJ3w3AAAYACOGxnpO',
@@ -1711,7 +1712,9 @@ ${azureLine}
       .qpdf-cover-img-wrap{
         flex:0 0 168px;background:rgba(255,255,255,0.16);border-radius:12px;padding:5px;
       }
-      .qpdf-cover-img{width:100%;height:112px;object-fit:contain;object-position:center;border-radius:8px;display:block;background:#155e75;}
+      .qpdf-cover-img{width:100%;height:96px;object-fit:contain;object-position:center;border-radius:8px;display:block;background:#155e75;}
+      .qpdf-cover-qr{width:72px;height:72px;display:block;margin:6px auto 2px;border-radius:6px;background:#fff;padding:3px;}
+      .qpdf-cover-qr-label{font-size:8px;text-align:center;margin:0;opacity:0.95;font-weight:700;}
       .qpdf-fields{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 14px;}
       .qpdf-field{
         background:rgba(255,255,255,0.16);border:1px dashed rgba(255,255,255,0.5);
@@ -1827,9 +1830,16 @@ ${azureLine}
   function buildQuizPdfCover(data, meta) {
     const date = new Date().toLocaleDateString('zh-CN');
     const img = imageUrl('section1-intro.jpg');
-    const imgBlock = img
-      ? `<div class="qpdf-cover-img-wrap"><img class="qpdf-cover-img" src="${escapeHtml(img)}" alt="" crossorigin="anonymous"></div>`
+    const qr = meta.qrDataUrl
+      ? `<img class="qpdf-cover-qr" src="${meta.qrDataUrl}" alt="扫码测验">
+         <p class="qpdf-cover-qr-label">扫码在线测验</p>`
       : '';
+    const imgBlock = img
+      ? `<div class="qpdf-cover-img-wrap">
+           <img class="qpdf-cover-img" src="${escapeHtml(img)}" alt="" crossorigin="anonymous">
+           ${qr}
+         </div>`
+      : (qr ? `<div class="qpdf-cover-img-wrap">${qr}</div>` : '');
     return `<div class="pdf-export-block qpdf-cover">
       <div class="qpdf-cover-top">
         <div class="qpdf-cover-copy">
@@ -1953,19 +1963,6 @@ ${azureLine}
       </div>`
     ).join('');
 
-    const qrDataUrl = meta.qrDataUrl || '';
-    const pageUrl = meta.pageUrl || '';
-    const qrFooter = qrDataUrl
-      ? `<div class="pdf-export-block qpdf-footer">
-          <img src="${qrDataUrl}" alt="扫码测验">
-          <div class="qpdf-footer-text">
-            <b>📱 扫码在线测验</b>
-            打开手机课件完成同样的 Spelling / Word Bank / Cloze 练习，可即时核对与听音。
-            ${pageUrl ? `<br><span style="font-size:8px;word-break:break-all;">${escapeHtml(pageUrl)}</span>` : ''}
-          </div>
-        </div>`
-      : '';
-
     return `<div class="pdf-doc">
       ${buildQuizPdfCover(data, meta)}
       ${buildQuizPartHead(1, 'Spelling Bee', '根据英文释义拼写单词',
@@ -1994,7 +1991,6 @@ ${azureLine}
         </div>
         <div class="qpdf-key-body">${keyHtml}</div>
       </div>
-      ${qrFooter}
     </div>`;
   }
 
@@ -2051,10 +2047,7 @@ ${azureLine}
   async function exportQuizPdf(options) {
     const data = options?.data;
     if (!data?.quiz) throw new Error('无测验内容可导出');
-    const pageUrl = resolveArticlePageUrl({
-      pageUrl: options?.pageUrl,
-      pageTarget: options?.pageTarget || 'part4-quiz.html'
-    });
+    const pageUrl = options?.pageUrl || QUIZ_PAGE_URL;
     const meta = {
       title: options.title || data.title,
       accent: options.accent || '#0e7490',
@@ -2082,10 +2075,7 @@ ${azureLine}
       return;
     }
     meta = { ...(meta || {}) };
-    const pageUrl = resolveArticlePageUrl({
-      pageUrl: meta.pageUrl,
-      pageTarget: meta.pageTarget || 'part4-quiz.html'
-    });
+    const pageUrl = meta.pageUrl || QUIZ_PAGE_URL;
     meta.pageUrl = pageUrl;
     if (pageUrl) {
       try {

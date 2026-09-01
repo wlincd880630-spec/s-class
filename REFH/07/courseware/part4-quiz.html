@@ -340,19 +340,13 @@
           data: courseData,
           title: PDF_META.title,
           accent: PDF_META.accent,
-          filename: 'Meet_the_Dogs_Quiz_Packet.pdf',
-          pageTarget: 'part4-quiz.html',
-          pageUrl: location.href.split('#')[0].split('?')[0]
+          filename: 'Meet_the_Dogs_Quiz_Packet.pdf'
         });
         Courseware.showToast('测验卷 PDF 已下载');
       } catch (e) {
         console.error(e);
         Courseware.showToast('PDF 生成失败，已打开打印窗口…');
-        await Courseware.openQuizPrintWindow(courseData, {
-          ...PDF_META,
-          pageTarget: 'part4-quiz.html',
-          pageUrl: location.href.split('#')[0].split('?')[0]
-        });
+        await Courseware.openQuizPrintWindow(courseData, PDF_META);
       } finally {
         if (btn) { btn.disabled = false; btn.textContent = '📄 导出测验卷 PDF'; }
       }
@@ -363,11 +357,7 @@
         Courseware.showToast('测验尚未加载');
         return;
       }
-      await Courseware.openQuizPrintWindow(courseData, {
-        ...PDF_META,
-        pageTarget: 'part4-quiz.html',
-        pageUrl: location.href.split('#')[0].split('?')[0]
-      });
+      await Courseware.openQuizPrintWindow(courseData, PDF_META);
     }
 
     function shuffleArray(arr) {
