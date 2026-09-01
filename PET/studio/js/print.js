@@ -295,7 +295,14 @@
   }
   function paperLine(q, i) {
     var body = q.html || fillHtml(q.q || "");
-    if (q.hint) body += ' <span class="zh-hint">（' + esc(q.hint) + "）</span>";
+    if (q.hint) {
+      var hint = ' <span class="zh-hint">（' + esc(q.hint) + "）</span>";
+      if (/fill-line/.test(body)) {
+        body = body.replace(/<span class="fill-line"><\/span>/, '<span class="fill-line"></span>' + hint);
+      } else {
+        body += hint;
+      }
+    }
     return '<div class=q><span class=n>' + (i + 1) + ".</span> " + body + "</div>";
   }
 
