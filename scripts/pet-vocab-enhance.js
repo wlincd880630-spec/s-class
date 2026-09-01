@@ -100,11 +100,18 @@
             '.pet-word-modal-sent{font-size:.8rem;color:#94a3b8;margin-bottom:10px;padding:8px 10px;background:#0f172a;border-radius:8px;}',
             '.pet-word-modal-loading{color:#94a3b8;}',
             '.pet-word-modal-error{color:#f87171;}',
-            '.pet-lookup-bar{display:flex;gap:8px;margin:0 0 16px;align-items:center;}',
-            '.pet-lookup-bar input{flex:1;min-width:0;background:#0f172a;border:1px solid #475569;border-radius:12px;color:#f8fafc;padding:10px 12px;font-size:1rem;font-weight:700;outline:none;}',
+            '.pet-lookup-bar{display:flex;gap:8px;margin:0 auto 16px;align-items:center;justify-content:center;width:100%;max-width:480px;}',
+            '.pet-lookup-bar input{flex:1;min-width:0;background:#0f172a;border:1px solid #475569;border-radius:12px;color:#f8fafc;padding:10px 12px;font-size:1rem;font-weight:700;outline:none;text-align:center;}',
             '.pet-lookup-bar input:focus{border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.25);}',
             '.pet-lookup-bar button{background:#4f46e5;color:#fff;border:none;border-radius:12px;padding:10px 14px;font-weight:800;cursor:pointer;white-space:nowrap;}',
-            '.pet-lookup-hint,.pet-spell-hint{font-size:.75rem;color:#64748b;margin:-8px 0 14px;font-weight:700;text-align:center;}',
+            '.pet-lookup-hint,.pet-spell-hint{font-size:.75rem;color:#64748b;margin:8px auto 14px;font-weight:700;text-align:center;width:100%;}',
+            '.pet-spell-wrap{display:flex!important;flex-direction:column!important;align-items:center!important;text-align:center!important;width:100%;}',
+            '.pet-spell-wrap>button{margin-left:auto!important;margin-right:auto!important;}',
+            '.pet-spell-slots{display:flex!important;justify-content:center!important;align-items:center!important;flex-wrap:wrap!important;gap:8px!important;width:100%;margin:0 auto 20px!important;}',
+            '.pet-spell-slots>div{display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;line-height:1;}',
+            '.pet-spell-keys{display:flex!important;flex-wrap:wrap!important;justify-content:center!important;margin:0 auto!important;max-width:36rem;width:100%;}',
+            '.pet-spell-input{display:block;width:min(420px,92%);margin:4px auto 16px;text-align:center;font-size:1.65rem;font-weight:900;letter-spacing:.18em;padding:12px 14px;border:2px solid #6366f1;border-radius:16px;background:#0f172a;color:#e0e7ff;outline:none;text-transform:uppercase;}',
+            '.pet-spell-input:focus{box-shadow:0 0 0 4px rgba(99,102,241,.28);}',
             '.pet-img-lightbox{position:fixed;inset:0;z-index:1300;background:rgba(2,6,23,.88);display:none;align-items:center;justify-content:center;padding:16px;cursor:zoom-out;}',
             '.pet-img-lightbox.show{display:flex;}',
             '.pet-img-lightbox img{max-width:96vw;max-height:92vh;object-fit:contain;border-radius:12px;box-shadow:0 20px 50px rgba(0,0,0,.5);}'
@@ -284,15 +291,81 @@
         });
     }
 
+    function clickReset() {
+        var reset = Array.prototype.find.call(document.querySelectorAll('button'), function (b) {
+            return /Reset/i.test(b.textContent || '');
+        });
+        if (reset) reset.click();
+    }
+
+    function clickLetter(letter) {
+        letter = String(letter || '').toUpperCase();
+        var keys = document.querySelectorAll('.key-btn');
+        for (var i = 0; i < keys.length; i++) {
+            if (keys[i].disabled) continue;
+            if ((keys[i].textContent || '').trim().toUpperCase() === letter) {
+                keys[i].click();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function readSpellSlots(slots) {
+        if (!slots) return '';
+        var letters = [];
+        Array.prototype.forEach.call(slots.children, function (el) {
+            var t = (el.textContent || '').trim();
+            if (t && t.toUpperCase() !== 'SPACE') letters.push(t);
+        });
+        return letters.join('');
+    }
+
     function ensureSpellHint() {
         if (currentStepLabel() !== 4) return;
-        if (document.querySelector('.pet-spell-hint')) return;
         var key = document.querySelector('.key-btn');
         if (!key || !key.parentElement) return;
-        var hint = document.createElement('p');
-        hint.className = 'pet-spell-hint';
-        hint.textContent = '也可用电脑键盘输入字母，Backspace 重置。';
-        key.parentElement.insertAdjacentElement('afterend', hint);
+        var keysWrap = key.parentElement;
+        var stepRoot = keysWrap.parentElement;
+        if (stepRoot) stepRoot.classList.add('pet-spell-wrap');
+        keysWrap.classList.add('pet-spell-keys');
+        var slots = stepRoot && stepRoot.querySelector('.flex.justify-center.gap-2');
+        if (slots) slots.classList.add('pet-spell-slots');
+        if (!stepRoot) return;
+        if (stepRoot.querySelector('.pet-spell-input')) return;
+        var input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'pet-spell-input';
+        input.setAttribute('autocomplete', 'off');
+        input.setAttribute('autocapitalize', 'off');
+        input.setAttribute('spellcheck', 'false');
+        input.setAttribute('aria-label', '拼写输入');
+        input.placeholder = '在此居中输入拼写';
+        keysWrap.insertAdjacentElement('beforebegin', input);
+        if (!stepRoot.querySelector('.pet-spell-hint')) {
+            var hint = document.createElement('p');
+            hint.className = 'pet-spell-hint';
+            hint.textContent = '字母居中显示；可用此输入框、下方按键或电脑键盘，Backspace 重置。';
+            keysWrap.insertAdjacentElement('afterend', hint);
+        }
+        function syncFromSlots() {
+            if (document.activeElement !== input) input.value = readSpellSlots(slots);
+        }
+        input.addEventListener('input', function () {
+            var next = (input.value || '').replace(/[^a-zA-Z]/g, '');
+            input.value = next;
+            var cur = readSpellSlots(slots);
+            if (next.length < cur.length || next.slice(0, cur.length).toLowerCase() !== cur.toLowerCase()) {
+                clickReset();
+                cur = '';
+            }
+            next.slice(cur.length).split('').forEach(clickLetter);
+        });
+        if (!stepRoot.__petSpellObs && slots) {
+            stepRoot.__petSpellObs = new MutationObserver(syncFromSlots);
+            stepRoot.__petSpellObs.observe(slots, { childList: true, subtree: true, characterData: true });
+        }
+        syncFromSlots();
     }
 
     function bindClicks() {
@@ -360,7 +433,7 @@
             scheduled = false;
             enhanceSentences();
             ensureLookupBar();
-            ensureSpellHint();
+            if (currentStepLabel() === 4) ensureSpellHint();
         }
         function schedule() {
             if (scheduled) return;

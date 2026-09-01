@@ -13,8 +13,36 @@
     score: 0,
     lock: false,
     memory: null,
-    spinDeg: 0
+    spinDeg: 0,
+    timerId: null
   };
+
+  function clearTimer() {
+    if (state.timerId) {
+      clearInterval(state.timerId);
+      state.timerId = null;
+    }
+  }
+
+  function attachTimer() {
+    clearTimer();
+    var sec = levelCfg().seconds;
+    var el = $("timer");
+    if (!sec || !el) return;
+    var left = sec;
+    el.textContent = left + "s";
+    state.timerId = setInterval(function () {
+      left -= 1;
+      if (el) el.textContent = Math.max(0, left) + "s";
+      if (left <= 0) {
+        clearTimer();
+        if (!state.lock) {
+          state.lock = true;
+          setTimeout(next, 350);
+        }
+      }
+    }, 1000);
+  }
 
   function $(id) { return document.getElementById(id); }
 
@@ -41,8 +69,11 @@
 
   function hud() {
     var total = state.queue.length || 1;
+    var timed = levelCfg().seconds
+      ? '<span class=timer id=timer>' + levelCfg().seconds + "s</span>"
+      : "";
     return '<div class=hud><span>' + esc(state.game.name) + " · " + esc(levelCfg().label) +
-      "</span><span>题 " + (state.idx + 1) + "/" + total + " · 分 " + state.score + "</span></div>";
+      "</span>" + timed + "<span>题 " + (state.idx + 1) + "/" + total + " · 分 " + state.score + "</span></div>";
   }
 
   function esc(s) {
@@ -59,6 +90,7 @@
   }
 
   function next() {
+    clearTimer();
     state.idx++;
     state.lock = false;
     if (state.idx >= state.queue.length) done();
@@ -112,6 +144,7 @@
       };
       box.appendChild(b);
     });
+    attachTimer();
   }
 
   function startMemory() {
@@ -135,7 +168,9 @@
     m.cards.forEach(function (c, i) {
       var open = m.open.indexOf(i) !== -1 || m.matched[c.pair];
       html += '<button class="flip' + (open ? " open" : "") + (m.matched[c.pair] ? " done" : "") + '" data-i="' + i + '">' +
-        (open ? esc(c.text) : "?") + "</button>";
+        (open
+          ? (c.img ? '<img src="' + esc(c.img) + '" alt="">' : "") + "<span>" + esc(c.text) + "</span>"
+          : "?") + "</button>";
     });
     html += "</div></div>";
     $("playRoot").innerHTML = html;
@@ -174,14 +209,14 @@
   function renderSpell() {
     var q = state.queue[state.idx];
     var w = (q.item.word || "").replace(/[^a-zA-Z]/g, "");
-    $("playRoot").innerHTML = '<div class=play-shell>' + hud() +
+    $("playRoot").innerHTML = '<div class="play-shell spell-play">' + hud() +
       '<div class=note>' + esc(q.item.meaning) + "</div>" +
       '<div class=q-box>' + esc(q.item.phonetic || "听音 / 看义拼写") + "</div>" +
       '<button class="btn btn-ghost" id="speakBtn">朗读单词</button>' +
       '<div class=spell-row id=slots></div>' +
-      '<input id=spellIn autocomplete=off autocapitalize=off style="opacity:0;position:absolute">' +
+      '<input id=spellIn class=spell-input autocomplete=off autocapitalize=off spellcheck=false placeholder="在此居中输入拼写">' +
       '<div class=keys id=keys></div>' +
-      '<p class=note>也可直接用键盘输入</p></div>';
+      '<p class=note>字母居中显示，也可用下方按键</p></div>';
     $("speakBtn").onclick = function () { say(q.item.word); };
     drawSpell(w, q.typed);
     var letters = PETStudio.shuffle((w + "abcdefghijklmnopqrstuvwxyz").slice(0, Math.max(w.length + 4, 12)).split(""));
@@ -195,25 +230,24 @@
     });
     var inp = $("spellIn");
     inp.focus();
-    inp.onkeydown = function (e) {
-      if (e.key === "Backspace") {
-        q.typed = q.typed.slice(0, -1);
-        drawSpell(w, q.typed);
-        e.preventDefault();
-      } else if (/^[a-zA-Z]$/.test(e.key)) {
-        pushSpell(e.key);
-        e.preventDefault();
-      }
+    inp.oninput = function () {
+      q.typed = (inp.value || "").replace(/[^a-zA-Z]/g, "").slice(0, w.length).toLowerCase();
+      inp.value = q.typed;
+      drawSpell(w, q.typed);
+      if (q.typed.length === w.length) finishSpell();
     };
     function pushSpell(ch) {
       if (q.typed.length >= w.length) return;
       q.typed += ch.toLowerCase();
       drawSpell(w, q.typed);
-      if (q.typed.length === w.length) {
-        if (q.typed === w.toLowerCase()) state.score++;
-        setTimeout(next, 500);
-      }
+      if (q.typed.length === w.length) finishSpell();
     }
+    function finishSpell() {
+      if (q.typed === w.toLowerCase()) state.score++;
+      clearTimer();
+      setTimeout(next, 500);
+    }
+    attachTimer();
   }
 
   function drawSpell(w, typed) {
@@ -222,6 +256,8 @@
     el.innerHTML = w.split("").map(function (ch, i) {
       return '<div class=slot>' + esc(typed[i] || "") + "</div>";
     }).join("");
+    var inp = $("spellIn");
+    if (inp && document.activeElement !== inp) inp.value = typed;
   }
 
   function startGap() {
@@ -343,6 +379,7 @@
   }
 
   function startGame(key, level) {
+    clearTimer();
     state.game = PETStudio.GAMES.filter(function (g) { return g.key === key; })[0];
     state.level = level || state.level;
     state.idx = 0;
