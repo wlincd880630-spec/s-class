@@ -17,7 +17,8 @@
 | G7_B2 七年级下 | 475 | `junior_vocab/G7_B2/UnitN/images/*_1.jpg` |
 | G8_B1 八年级上 | 549 | `junior_vocab/G8_B1/UnitN/images/*_1.jpg` |
 | G8_B2 八年级下 | 606 | `junior_vocab/G8_B2/UnitN/images/*_1.jpg` |
-| G9 九年级 | 563 | `junior_vocab/G9/UnitN/images/*_{1,2}.jpg` |
+| G9 九年级（旧全一册） | 563 | `junior_vocab/G9/UnitN/images/*_{1,2}.jpg` |
+| G9_B1 九年级上（2024 新版） | 453 | 新词复用已有配图；缺图由课件 SVG 词卡兜底 |
 
 构建：`node scripts/build-junior-wordpark.mjs`  
 压缩：`python3 scripts/compress-junior-vocab-images.py`

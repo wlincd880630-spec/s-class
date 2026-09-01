@@ -61,27 +61,21 @@ const BOOKS = [
     unitTitles: {}
   },
   {
-    folder: 'G9',
-    id: 'pep-g9',
-    name: '人教版九年级全一册',
+    folder: 'G9_B1',
+    id: 'pep-g9a',
+    name: '人教版九年级上册',
     grade: 9,
-    semester: '全',
-    short: '九年级',
+    semester: '上',
+    short: '九年级上',
     unitTitles: {
-      1: ['How can we become good learners?', '我们怎样才能成为好的学习者？'],
-      2: ['I think that mooncakes are delicious!', '我认为月饼很好吃！'],
-      3: ['Could you please tell me where the restrooms are?', '你能告诉我洗手间在哪里吗？'],
-      4: ['I used to be afraid of the dark.', '我过去害怕黑暗。'],
-      5: ['What are the shirts made of?', '这些衬衫是用什么做的？'],
-      6: ['When was it invented?', '它是什么时候发明的？'],
-      7: ['Teenagers should be allowed to choose their own clothes.', '应该允许青少年选择自己的衣服。'],
-      8: ['It must belong to Carla.', '它一定属于卡拉。'],
-      9: ['I like music that I can dance to.', '我喜欢能跟着跳舞的音乐。'],
-      10: ["You're supposed to shake hands.", '你应该握手。'],
-      11: ['Sad movies make me cry.', '悲伤的电影让我哭。'],
-      12: ['Life is full of the unexpected.', '生活充满意外。'],
-      13: ["We're trying to save the earth!", '我们正在努力拯救地球！'],
-      14: ['I remember meeting all of you in Grade 7.', '我记得在七年级遇见你们所有人。']
+      1: ['The Changing World', '变化的世界'],
+      2: ['Inspiring People', '鼓舞人心的人'],
+      3: ['Smart Learning', '聪明地学习'],
+      4: ['Our Memory', '我们的记忆'],
+      5: ['Power of Ideas', '思想的力量'],
+      6: ['Beyond Earth', '超越地球'],
+      7: ['Feel the Rhythm', '感受节奏'],
+      8: ['More than a Game', '不止是一场比赛']
     }
   }
 ];
@@ -175,7 +169,7 @@ function buildBookData(meta) {
       const sentences = examples.slice(0, 2).map((ex, i) => ({
         en: ex.en || '',
         zh: ex.cn || ex.zh || '',
-        source: i === 0 ? 'textbook' : 'context',
+        source: ex.source || (i === 0 ? 'textbook' : 'context'),
         image: ''
       }));
       // 若只有一句，补一条用法/搭配说明句（仍可朗读）
@@ -465,9 +459,20 @@ function writeHub(stats) {
   console.log('✓ hub index.html');
 }
 
+function bookStats(meta) {
+  const data = buildBookData(meta);
+  const wordCount = data.units.reduce((n, u) => n + u.words.length, 0);
+  return { meta, wordCount, unitCount: data.units.length };
+}
+
 function main() {
+  const onlyIdx = process.argv.indexOf('--only');
+  const only = onlyIdx >= 0 ? process.argv[onlyIdx + 1] : null;
   fs.mkdirSync(OUT, { recursive: true });
-  const stats = BOOKS.map(writeBook);
+  const stats = BOOKS.map((meta) => {
+    if (only && meta.folder !== only) return bookStats(meta);
+    return writeBook(meta);
+  });
   writeHub(stats);
   const total = stats.reduce((n, s) => n + s.wordCount, 0);
   console.log(`\nDone. ${stats.length} books, ${total} words → ${OUT}`);

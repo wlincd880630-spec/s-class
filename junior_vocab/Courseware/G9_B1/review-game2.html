@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>游戏二：单词迷宫 · 九年级上</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+<body>
+  <div class="container">
+    <div class="top-bar">
+      <a class="course-logo" href="index.html" title="Steven's Class English Studio">
+        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/logo.png" alt="Steven's Class English Studio">
+      </a>
+      <a class="back-link" href="index.html"><i class="fa-solid fa-house"></i> 返回</a>
+      <h1 class="page-title"><i class="fa-solid fa-border-all"></i> 单词迷宫</h1>
+    </div>
+
+    <div class="card" id="setupPanel">
+      <div id="reviewWordSummary"></div>
+      <p style="color:#636e72;font-size:0.9rem;">每个迷宫 <strong>4 个单词</strong>（左→右、右→左、上→下、下→上各一，分布四象限）；交叉字母可重复选用。</p>
+      <button class="btn btn-primary btn-lg" id="btnStart"><i class="fa-solid fa-play"></i> 开始游戏</button>
+    </div>
+
+    <div class="card game-area hidden" id="gamePanel">
+      <div class="timer-bar">
+        <span><i class="fa-solid fa-layer-group"></i> 第 <strong id="groupNum">1</strong> / <strong id="groupTotal">1</strong> 组</span>
+        <span><i class="fa-solid fa-border-all"></i> <strong id="gridSize">8×8</strong></span>
+        <span><i class="fa-solid fa-stopwatch"></i> <strong id="gameTime">0:00</strong></span>
+      </div>
+      <p class="maze-hint"><i class="fa-solid fa-hand-pointer"></i> 点击第一个字母，再沿<strong>横或竖直线</strong>逐格点选；点「确认连线」提交</p>
+      <div class="target-words" id="targetWords"></div>
+      <p id="pathPreview" class="maze-path-preview"></p>
+      <div class="maze-grid" id="mazeGrid"></div>
+      <div style="text-align:center;margin-top:16px;">
+        <button class="btn btn-secondary" id="btnHint"><i class="fa-solid fa-lightbulb"></i> 提示</button>
+        <button class="btn btn-secondary" id="btnConfirm" style="margin-left:8px;"><i class="fa-solid fa-check"></i> 确认连线</button>
+        <button class="btn btn-secondary" id="btnClear" style="margin-left:8px;"><i class="fa-solid fa-eraser"></i> 清除</button>
+      </div>
+      <div id="feedback" class="feedback hidden"></div>
+    </div>
+
+    <div class="card hidden" id="donePanel"></div>
+  </div>
+
+  <script src="assets/data/data.js"></script>
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/audio/audio-manifest.js?v=1"></script>
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/School_textbook/Courseware/audio/local-audio.js?v=1"></script>
+<script src="../assets/js/utils.js"></script>
+  <script>
+    let groups = [], groupIdx = 0;
+    let mazeData = null, selected = [], pathDir = null;
+    let found = new Set(), foundPaths = new Map();
+    let gameTimer = null;
+    let statCorrect = 0, statWrong = 0, totalWords = 0;
+    let hintCells = new Set(), hintWordId = null, hintTimer = null;
+    let currentPageWords = [];
+
+    const setupPanel = document.getElementById('setupPanel');
+    const gamePanel = document.getElementById('gamePanel');
+    const donePanel = document.getElementById('donePanel');
+    const mazeGridEl = document.getElementById('mazeGrid');
+    renderReviewWordSummary(document.getElementById('reviewWordSummary'), { wordFilter: isMazeWord, minCount: 4 });
+    document.getElementById('btnStart').addEventListener('click', startGame);
+    document.getElementById('btnConfirm').addEventListener('click', confirmSelection);
+    document.getElementById('btnClear').addEventListener('click', clearSelection);
+    document.getElementById('btnHint').addEventListener('click', showHint);
+
+    mazeGridEl.addEventListener('click', (e) => {
+      const cell = e.target.closest('.maze-cell');
+      if (!cell) return;
+      const r = +cell.dataset.r;
+      const c = +cell.dataset.c;
+      clickPath(r, c, mazeData.grid[r][c], cellKey(r, c));
+    });
+
+    function cellKey(r, c) { return `${r},${c}`; }
+
+    function isCellFound(key) {
+      for (const keys of foundPaths.values()) {
+        if (keys.has(key)) return true;
+      }
+      return false;
+    }
+
+    function cellClasses(key) {
+      if (selected.some(s => s.key === key)) return 'selected';
+      if (hintCells.has(key)) return 'hint';
+      if (isCellFound(key)) return 'found';
+      return '';
+    }
+
+    function wordLetters(w) {
+      return w.word.replace(/[\s-]/g, '').toLowerCase();
+    }
+
+    function getDirection(a, b) {
+      const dr = b.r - a.r;
+      const dc = b.c - a.c;
+      if (dr !== 0 && dc !== 0) return null;
+      if (dr === 0 && dc === 0) return null;
+      return { dr: dr === 0 ? 0 : dr / Math.abs(dr), dc: dc === 0 ? 0 : dc / Math.abs(dc) };
+    }
+
+    function isAdjacent(a, b) {
+      return Math.abs(a.r - b.r) + Math.abs(a.c - b.c) === 1;
+    }
+
+    function syncPathDir() {
+      pathDir = selected.length >= 2 ? getDirection(selected[0], selected[1]) : null;
+    }
+
+    function startGame() {
+      const all = requireReviewWords({ wordFilter: isMazeWord, minCount: 4, emptyMsg: '请先在首页选择至少 4 个适合迷宫的单词（不含空格、长度≤9）！' });
+      if (!all) return;
+      groups = chunkGroups(all, 4);
+      groupIdx = 0;
+      statCorrect = 0;
+      statWrong = 0;
+      totalWords = all.length;
+      setupPanel.classList.add('hidden');
+      donePanel.classList.add('hidden');
+      gamePanel.classList.remove('hidden');
+      gameTimer = new GameTimer(document.getElementById('gameTime'));
+      gameTimer.start();
+      loadGroup();
+    }
+
+    function loadGroup() {
+      if (groupIdx >= groups.length) { finishGame(); return; }
+      updateGroupProgress(groupIdx, groups.length, { num: 'groupNum', total: 'groupTotal' });
+      currentPageWords = shuffle(groups[groupIdx].slice(0, 4));
+      found = new Set();
+      foundPaths = new Map();
+      selected = [];
+      pathDir = null;
+      clearHint(false);
+      for (let i = 0; i < 20; i++) {
+        mazeData = generateMazeGrid(currentPageWords);
+        if (mazeData.placements.length === currentPageWords.length) break;
+      }
+      const sz = mazeData.size || mazeData.grid.length;
+      document.getElementById('gridSize').textContent = `${sz}×${sz}`;
+      renderTargets(currentPageWords);
+      renderGrid();
+      updatePathPreview();
+      document.getElementById('feedback').classList.add('hidden');
+    }
+
+    function renderTargets(pageWords) {
+      const el = document.getElementById('targetWords');
+      el.innerHTML = '';
+      pageWords.forEach(w => {
+        const item = document.createElement('div');
+        item.className = 'target-word-item' + (found.has(w.id) ? ' done' : '');
+        if (!found.has(w.id) && w.id === hintWordId) item.classList.add('hint-target');
+
+        const img = document.createElement('img');
+        img.src = w.image;
+        img.alt = w.word;
+
+        const chinese = document.createElement('div');
+        chinese.className = 'target-word-chinese';
+        chinese.textContent = w.chinese || '';
+
+        const speakBtn = document.createElement('button');
+        speakBtn.type = 'button';
+        speakBtn.className = 'btn btn-sm btn-outline target-word-speak';
+        speakBtn.title = '发音';
+        speakBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+        speakBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          speakText(w.word);
+        });
+
+        const label = document.createElement('div');
+        label.className = 'word-label';
+        label.textContent = found.has(w.id) ? w.word : '???';
+
+        item.appendChild(img);
+        item.appendChild(chinese);
+        item.appendChild(speakBtn);
+        item.appendChild(label);
+        el.appendChild(item);
+      });
+    }
+
+    function renderGrid() {
+      const cols = mazeData.size || mazeData.grid.length;
+      mazeGridEl.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+      mazeGridEl.innerHTML = '';
+      mazeData.grid.forEach((row, r) => {
+        row.forEach((ch, c) => {
+          const cell = document.createElement('div');
+          const key = cellKey(r, c);
+          const cls = cellClasses(key);
+          cell.className = 'maze-cell' + (cls ? ' ' + cls : '');
+          cell.dataset.r = r;
+          cell.dataset.c = c;
+          cell.textContent = ch;
+          mazeGridEl.appendChild(cell);
+        });
+      });
+    }
+
+    function updateGridClasses() {
+      const cols = mazeData.size || mazeData.grid.length;
+      const cells = mazeGridEl.children;
+      mazeData.grid.forEach((row, r) => {
+        row.forEach((ch, c) => {
+          const cell = cells[r * cols + c];
+          if (!cell) return;
+          const key = cellKey(r, c);
+          const cls = cellClasses(key);
+          cell.className = 'maze-cell' + (cls ? ' ' + cls : '');
+        });
+      });
+      updatePathPreview();
+    }
+
+    function updatePathPreview() {
+      const el = document.getElementById('pathPreview');
+      if (!selected.length) {
+        el.textContent = '';
+        return;
+      }
+      el.textContent = '当前连线：' + selected.map(s => s.ch.toUpperCase()).join(' ');
+    }
+
+    function clickPath(r, c, ch, key) {
+      const i = selected.findIndex(s => s.key === key);
+      if (i >= 0) {
+        selected = selected.slice(0, i + 1);
+        syncPathDir();
+        updateGridClasses();
+        return;
+      }
+
+      const point = { r, c, ch, key };
+      if (!selected.length) {
+        selected = [point];
+      } else if (selected.length === 1) {
+        const last = selected[0];
+        if (isAdjacent(last, point)) {
+          selected.push(point);
+          pathDir = getDirection(selected[0], selected[1]);
+        } else {
+          selected = [point];
+          pathDir = null;
+        }
+      } else {
+        const last = selected[selected.length - 1];
+        const nr = last.r + pathDir.dr;
+        const nc = last.c + pathDir.dc;
+        if (nr === r && nc === c) {
+          selected.push(point);
+        } else {
+          selected = [point];
+          pathDir = null;
+        }
+      }
+      updateGridClasses();
+    }
+
+    function pathWord() {
+      return selected.map(s => s.ch.toLowerCase()).join('');
+    }
+
+    function findMatchInGroup() {
+      const letters = pathWord();
+      if (!letters) return null;
+      return currentPageWords.find(w => !found.has(w.id) && wordLetters(w) === letters);
+    }
+
+    function clearHint(rerender = true) {
+      if (hintTimer) { clearTimeout(hintTimer); hintTimer = null; }
+      hintCells.clear();
+      hintWordId = null;
+      if (rerender) {
+        renderTargets(currentPageWords);
+        renderGrid();
+        updatePathPreview();
+      }
+    }
+
+    function showHint() {
+      const unfound = currentPageWords.filter(w => !found.has(w.id));
+      if (!unfound.length) return;
+
+      const target = shuffle(unfound)[0];
+      const placement = mazeData.placements.find(p => p.word.id === target.id);
+      const fb = document.getElementById('feedback');
+      if (!placement) {
+        showFeedback(fb, '暂时无法提示，请继续尝试！', false);
+        return;
+      }
+
+      selected = [];
+      pathDir = null;
+      clearHint(false);
+      hintWordId = target.id;
+      placement.cells.forEach(({ r, c }) => hintCells.add(cellKey(r, c)));
+      renderTargets(currentPageWords);
+      renderGrid();
+      updatePathPreview();
+      showFeedback(fb, '紫色高亮为提示路径，请根据图片找出对应单词！', true);
+      hintTimer = setTimeout(() => clearHint(true), 3200);
+    }
+
+    function clearSelection() {
+      selected = [];
+      pathDir = null;
+      updateGridClasses();
+    }
+
+    function confirmSelection() {
+      if (!selected.length) {
+        showFeedback(document.getElementById('feedback'), '请先点击连成完整单词！', false);
+        return;
+      }
+      const match = findMatchInGroup();
+      const fb = document.getElementById('feedback');
+      if (match) {
+        statCorrect++;
+        found.add(match.id);
+        clearHint(false);
+        foundPaths.set(match.id, new Set(selected.map(s => s.key)));
+        showFeedback(fb, `找到了 ${match.word}！🎉`, true);
+        speakText(match.word);
+        selected = [];
+        pathDir = null;
+        renderTargets(currentPageWords);
+        renderGrid();
+        updatePathPreview();
+        if (found.size === currentPageWords.length) {
+          if (groupIdx < groups.length - 1) {
+            showFeedback(fb, `第 ${groupIdx + 1} 组完成！下一组… 🎉`, true);
+            groupIdx++;
+            setTimeout(loadGroup, 1500);
+          } else {
+            setTimeout(finishGame, 1200);
+          }
+        }
+      } else {
+        statWrong++;
+        showFeedback(fb, '连线不对，请沿横/竖直线重新点击！', false);
+        selected = [];
+        pathDir = null;
+        updateGridClasses();
+      }
+    }
+
+    function finishGame() {
+      const timeSec = gameTimer.stop();
+      gamePanel.classList.add('hidden');
+      donePanel.classList.remove('hidden');
+      showFinalGameStats(donePanel, {
+        title: '迷宫通关！',
+        groups: groups.length,
+        totalItems: totalWords,
+        correct: statCorrect,
+        wrong: statWrong,
+        timeSec,
+        onRetry: () => { donePanel.classList.add('hidden'); setupPanel.classList.remove('hidden'); }
+      });
+    }
+  </script>
+</body>
+</html>
