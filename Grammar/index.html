@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Steven's Class · 语法课程总目录</title>
-  <meta name="description" content="初中语法精讲：时态、名词代词、比较、情态句型、从句与语态。小学语法课程序列重制中。" />
+  <meta name="description" content="初中语法精讲：时态、名词代词、比较、情态句型、从句与语态。" />
   <link rel="stylesheet" href="shared/grammar-index.css" />
   <link rel="stylesheet" href="shared/grammar-index-scale.css" />
   <link rel="stylesheet" href="shared/grammar-logo.css" />
@@ -121,7 +121,7 @@
       </a>
     </p>
 <h1>语法课程总目录</h1>
-    <p class="g-index-lead">初中语法精讲仍可学习。小学语法课程序列已全部下线，将逐一重新制作后再上线。</p>
+    <p class="g-index-lead">初中语法精讲：句子成分、时态、名词代词、比较、情态、从句与语态。</p>
     <div class="g-index-legend">
       <strong>知识树：</strong>句子成分 → 时态 → 名词 / 代词 / 情态 / 比较 → 从句与语态。
     </div>
@@ -130,9 +130,6 @@
       <input type="search" id="courseSearch" placeholder="搜索知识点，如「完成时」「比较级」「宾语从句」…" autocomplete="off" />
     </div>
     <p class="g-index-empty" id="emptyHint">没有匹配的课程，请换个关键词试试。</p>
-
-    <h2 class="g-index-group" id="groupPrimary">小学语法</h2>
-    <p class="g-index-lead">原小学语法课件（一般现在时、现在进行时、一般过去时及小升初专项等）已全部移除。新课将逐一重新制作。</p>
 
     <h2 class="g-index-group g-index-group--junior" id="groupJunior">初中语法</h2>
     <h3 class="g-index-sub">句子成分</h3>
@@ -307,22 +304,15 @@
   var search = document.getElementById("courseSearch");
   var emptyHint = document.getElementById("emptyHint");
   var items = Array.prototype.slice.call(document.querySelectorAll(".course-list > li"));
-  var groupPrimary = document.getElementById("groupPrimary");
   var groupJunior = document.getElementById("groupJunior");
 
   function norm(s) {
     return String(s || "").toLowerCase().replace(/\s+/g, "");
   }
 
-  function isPrimary(li) {
-    return !!(groupJunior && (li.compareDocumentPosition(groupJunior) & Node.DOCUMENT_POSITION_FOLLOWING));
-  }
-
   function applySearch() {
     var q = norm(search.value);
     var visible = 0;
-    var visPrimary = 0;
-    var visJunior = 0;
     items.forEach(function (li) {
       var title = norm(li.getAttribute("data-title"));
       var descEl = li.querySelector(".desc");
@@ -331,11 +321,7 @@
       var label = norm(labelEl && labelEl.textContent);
       var show = !q || title.indexOf(q) >= 0 || desc.indexOf(q) >= 0 || label.indexOf(q) >= 0;
       li.classList.toggle("hidden", !show);
-      if (show) {
-        visible++;
-        if (isPrimary(li)) visPrimary++;
-        else visJunior++;
-      }
+      if (show) visible++;
     });
     document.querySelectorAll(".g-index-sub").forEach(function (h) {
       var ol = h.nextElementSibling;
@@ -344,8 +330,7 @@
       h.classList.toggle("hidden", !!q && vis === 0);
       ol.classList.toggle("hidden", !!q && vis === 0);
     });
-    if (groupPrimary) groupPrimary.classList.toggle("hidden", !!q && visPrimary === 0);
-    if (groupJunior) groupJunior.classList.toggle("hidden", !!q && visJunior === 0);
+    if (groupJunior) groupJunior.classList.toggle("hidden", !!q && visible === 0);
     emptyHint.classList.toggle("show", visible === 0);
   }
 
