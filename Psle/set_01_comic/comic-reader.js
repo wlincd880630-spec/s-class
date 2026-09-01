@@ -124,9 +124,10 @@
       return p.imgs && p.imgs[0] ? p.imgs[0] : null;
     }).filter(Boolean);
     const name = localStorage.getItem("authing-user") || localStorage.getItem("current-user") || "";
+    const coverLabel = pass.coverLabel || "阅读理解";
     cover.innerHTML =
       '<p style="letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:#c4782a;margin:0">S-Class English · Comic Reader</p>' +
-      "<h1>第01套阅读理解<br>" + esc(pass.title) + " 漫画笔记册</h1>" +
+      "<h1>第01套" + esc(coverLabel) + "<br>" + esc(pass.title) + " 漫画笔记册</h1>" +
       '<p style="font-size:13pt;color:#6d5e4e;max-width:42rem">' + esc(pass.title) + " · " + esc(pass.en) + "</p>" +
       '<hr class="rule" />' +
       '<div class="cover-meta">' +
@@ -152,9 +153,24 @@
     html += '<section class="pass-' + PASS.id + '" id="passage-' + PASS.id + '">';
     html += '<div class="passage-head"><div>';
     html += "<h2>" + esc(PASS.title) + " · " + esc(PASS.en) + "</h2>";
-    html += '<p class="sub no-print">' + esc(PASS.zh) + " · " + PASS.panels.length + " 句（同句多图已合并为宫格）</p></div>";
+    html += '<p class="sub no-print">' + esc(PASS.zh) + " · " + PASS.panels.length + " 句";
+    if (PASS.kind === "cloze") html += " · 填入正确答案后的完整课文";
+    else html += "（同句多图已合并为宫格）";
+    html += "</p></div>";
     html += '<button type="button" class="btn teal no-print btn-pass-tts" data-pass="' + PASS.id + '">朗读本篇</button>';
     html += "</div>";
+    if (PASS.showFullText && PASS.fullParagraphs && PASS.fullParagraphs.length) {
+      html += '<article class="panel full-article" id="full-article">';
+      html += '<div class="panel-top"><div class="panel-label">完整课文</div>';
+      html += '<button type="button" class="btn tts no-print btn-pass-tts" data-pass="' + PASS.id + '">朗读全文</button></div>';
+      html += '<div class="full-article-body">';
+      PASS.fullParagraphs.forEach(function (para) {
+        html += '<p class="sent-en" data-plain="' + esc(stripTts(para)) + '">' + wrapInteractive(para) + "</p>";
+      });
+      html += "</div>";
+      html += '<div class="print-footer"><span>' + esc(PASS.title) + " · 完整课文</span><span>S-Class 漫画笔记册</span></div>";
+      html += "</article>";
+    }
     PASS.panels.forEach(function (panel, pi) {
       const nImg = panel.imgs.length;
       html += '<article class="panel' + (nImg > 1 ? " has-multi-art" : "") + '" id="' + panel.id + '">';

@@ -38,9 +38,19 @@ const PHRASES = [
   "simple things",
   "laughing often",
   "having a walk often",
-  "telling people you love them"
+  "telling people you love them",
+  "shop for",
+  "shopping centre",
+  "stay with me",
+  "a long time",
+  "go here and there",
+  "on sale",
+  "looking at",
+  "family rules",
+  "each time",
+  "school things"
 ];
-const UNDERLINED = ["track", "weight"];
+const UNDERLINED = ["track", "weight", "tired", "size", "thirsty"];
 
 const COMIC = [
   {
@@ -549,12 +559,163 @@ const COMIC = [
         alt: "女士拥抱亲人，告诉别人自己爱他们",
         kicker: "Tell people you love them",
         sentences: [
-          { en: "Telling people you love them and so on.", zh: "告诉别人你爱他们，等等。" }
-        ]
-      }
-    ]
-  }
-];
+            { en: "Telling people you love them and so on.", zh: "告诉别人你爱他们，等等。" }
+          ]
+        }
+      ]
+    },
+    {
+      id: "c",
+      kind: "cloze",
+      title: "完形填空",
+      en: "Shop with One Boy Each Time",
+      zh: "开学前一天的购物",
+      coverLabel: "完形填空",
+      showFullText: true,
+      fullParagraphs: [
+        "It's the day before school starts. Mum takes her three little boys, Jim, Bob and Tom, shopping for clothes and school things. There are so many people in the shopping centre. “Stay with me,” Mum says. But it doesn't take a long time for her kids to go here and there.",
+        "Jim would like a new shirt, but he doesn't know his size, so he asks for help. While his mother is trying to ask for a small shirt, Bob goes away. He is thirsty and runs to buy three bottles of cola, because they are on sale. While Bob is looking at a pair of shoes, Mum can't find Tom. He sees his classmate Jack happily so he goes to talk with him. While Tom is choosing a schoolbag from different colours, Mum can't find Jim and Bob, either. They drink too much cola and go to the bathroom.",
+        "It's seven when they get home. Mum is really tired. She gets a pen and then writes one rule (规定) on the list of “Family Rules” —Shop with one boy each time."
+      ],
+      panels: [
+        {
+          id: "c01",
+          img: "set_01_comic/img/c01-school-eve.jpg",
+          alt: "开学前一晚，妈妈和三个男孩在厨房整理书包",
+          kicker: "The day before school",
+          sentences: [
+            { en: "It's the day before school starts.", zh: "那是开学前一天。" }
+          ]
+        },
+        {
+          id: "c02",
+          img: "set_01_comic/img/c02-shopping-trip.jpg",
+          alt: "妈妈带着吉姆、鲍勃和汤姆去商场买衣服和学习用品",
+          kicker: "Shopping for clothes",
+          sentences: [
+            { en: "Mum takes her three little boys, Jim, Bob and Tom, shopping for clothes and school things.", zh: "妈妈带着三个小男孩吉姆、鲍勃和汤姆去买衣服和学习用品。" }
+          ]
+        },
+        {
+          id: "c03",
+          img: "set_01_comic/img/c03-crowded-mall.jpg",
+          alt: "购物中心里人很多",
+          kicker: "So many people",
+          sentences: [
+            { en: "There are so many people in the shopping centre.", zh: "购物中心里人非常多。" }
+          ]
+        },
+        {
+          id: "c04",
+          img: "set_01_comic/img/c04-stay-with-me.jpg",
+          alt: "妈妈拉着三个孩子的手，让他们待在身边",
+          kicker: "Stay with me",
+          sentences: [
+            { en: "“Stay with me,” Mum says.", zh: "妈妈说：“跟我待在一起。”" }
+          ]
+        },
+        {
+          id: "c05",
+          img: "set_01_comic/img/c05-kids-scatter.jpg",
+          alt: "三个孩子很快就到处乱跑",
+          kicker: "Here and there",
+          sentences: [
+            { en: "But it doesn't take a long time for her kids to go here and there.", zh: "可没过多久，孩子们就到处乱跑了。" }
+          ]
+        },
+        {
+          id: "c06",
+          img: "set_01_comic/img/c06-shirt-size.jpg",
+          alt: "吉姆想买新衬衫，却不知道自己的尺码，向妈妈求助",
+          kicker: "He doesn't know his size",
+          sentences: [
+            { en: "Jim would like a new shirt, but he doesn't know his size, so he asks for help.", zh: "吉姆想买一件新衬衫，但他不知道自己的尺码，所以向人求助。" }
+          ]
+        },
+        {
+          id: "c07",
+          img: "set_01_comic/img/c07-bob-goes-away.jpg",
+          alt: "妈妈正帮吉姆问小尺码衬衫时，鲍勃溜走了",
+          kicker: "Bob goes away",
+          sentences: [
+            { en: "While his mother is trying to ask for a small shirt, Bob goes away.", zh: "妈妈正要帮他问一件小号衬衫时，鲍勃走开了。" }
+          ]
+        },
+        {
+          id: "c08",
+          img: "set_01_comic/img/c08-cola-sale.jpg",
+          alt: "鲍勃口渴，跑去买三瓶正在促销的可乐",
+          kicker: "Thirsty · on sale",
+          sentences: [
+            { en: "He is thirsty and runs to buy three bottles of cola, because they are on sale.", zh: "他口渴了，跑去买三瓶可乐，因为它们正在促销。" }
+          ]
+        },
+        {
+          id: "c09",
+          img: "set_01_comic/img/c09-shoes-lost-tom.jpg",
+          alt: "鲍勃在看鞋子，妈妈找不到汤姆",
+          kicker: "Looking at shoes",
+          sentences: [
+            { en: "While Bob is looking at a pair of shoes, Mum can't find Tom.", zh: "鲍勃正在看一双鞋时，妈妈找不到汤姆了。" }
+          ]
+        },
+        {
+          id: "c10",
+          img: "set_01_comic/img/c10-jack-happily.jpg",
+          alt: "汤姆高兴地看见同学杰克，走过去和他说话",
+          kicker: "Jack happily",
+          sentences: [
+            { en: "He sees his classmate Jack happily so he goes to talk with him.", zh: "他看见同学杰克很高兴，于是走过去和他说话。" }
+          ]
+        },
+        {
+          id: "c11",
+          img: "set_01_comic/img/c11-schoolbag-colours.jpg",
+          alt: "汤姆在不同颜色的书包里挑选，妈妈又找不到吉姆和鲍勃",
+          kicker: "Choosing a schoolbag",
+          sentences: [
+            { en: "While Tom is choosing a schoolbag from different colours, Mum can't find Jim and Bob, either.", zh: "汤姆正在从不同颜色中挑选书包时，妈妈也找不到吉姆和鲍勃了。" }
+          ]
+        },
+        {
+          id: "c12",
+          img: "set_01_comic/img/c12-bathroom.jpg",
+          alt: "吉姆和鲍勃喝了太多可乐，赶去洗手间",
+          kicker: "Too much cola",
+          sentences: [
+            { en: "They drink too much cola and go to the bathroom.", zh: "他们可乐喝得太多，去了洗手间。" }
+          ]
+        },
+        {
+          id: "c13",
+          img: "set_01_comic/img/c13-home-seven.jpg",
+          alt: "晚上七点，一家人才回到家门口",
+          kicker: "It's seven",
+          sentences: [
+            { en: "It's seven when they get home.", zh: "他们到家时已经七点了。" }
+          ]
+        },
+        {
+          id: "c14",
+          img: "set_01_comic/img/c14-mum-tired.jpg",
+          alt: "妈妈坐在沙发上，看起来非常疲倦",
+          kicker: "Mum is really tired",
+          sentences: [
+            { en: "Mum is really tired.", zh: "妈妈真的非常累。" }
+          ]
+        },
+        {
+          id: "c15",
+          img: "set_01_comic/img/c15-family-rules.jpg",
+          alt: "妈妈拿起笔，在家规清单上写下：每次只带一个男孩购物",
+          kicker: "Family Rules",
+          sentences: [
+            { en: "She gets a pen and then writes one rule (规定) on the list of “Family Rules” —Shop with one boy each time.", zh: "她拿起笔，在「家庭规定」清单上写下一条：每次只带一个男孩购物。" }
+          ]
+        }
+      ]
+    }
+  ];
 
 
   function stripTts(s) {
@@ -605,9 +766,13 @@ const COMIC = [
     if (!pass) return null;
     return {
       id: pass.id,
+      kind: pass.kind || "reading",
       title: pass.title,
       en: pass.en,
       zh: pass.zh,
+      coverLabel: pass.coverLabel || "阅读理解",
+      showFullText: !!pass.showFullText,
+      fullParagraphs: pass.fullParagraphs || [],
       panels: mergePanels(pass.panels)
     };
   }
