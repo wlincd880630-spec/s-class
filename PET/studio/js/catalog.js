@@ -34,9 +34,9 @@
     { id: 3, key: "zh2en", name: "看义选词", tag: "游戏 3", level: "easy", paper: true, pictured: false, desc: "看中文释义，从选项中选出英文单词或词组。" },
     { id: 4, key: "en2zh", name: "看词选义", tag: "游戏 4", level: "easy", paper: true, pictured: false, desc: "看英文单词，选出正确中文意思。" },
     { id: 5, key: "spell", name: "拼写冲刺", tag: "游戏 5", level: "standard", paper: true, pictured: false, desc: "看释义拼出单词，可用键盘输入。" },
-    { id: 6, key: "gap", name: "词组填空", tag: "游戏 6", level: "standard", paper: true, pictured: false, desc: "在句子空格中填入本单元词组。" },
+    { id: 6, key: "gap", name: "词组填空", tag: "游戏 6", level: "standard", paper: true, pictured: false, desc: "给出中文词义，从选项中选出正确词组；例句可选中考或高考。" },
     { id: 7, key: "context", name: "语境选择", tag: "游戏 7", level: "standard", paper: true, pictured: false, desc: "选出最符合语境的完整句子。" },
-    { id: 8, key: "grammar", name: "语法诊所", tag: "游戏 8", level: "challenge", paper: true, pictured: false, desc: "语法选择 / 判断，挑战 PET 句型。" },
+    { id: 8, key: "grammar", name: "语法诊所", tag: "游戏 8", level: "challenge", paper: true, pictured: false, desc: "按本课语法点看课文原句，再做引导题和练习题。" },
     { id: 9, key: "spin", name: "转盘挑战", tag: "游戏 9", level: "challenge", paper: true, pictured: true, desc: "转盘随机出题，可请 DeepSeek 加题。" }
   ];
 

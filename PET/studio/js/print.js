@@ -288,7 +288,17 @@
     });
     var gaps = [];
     PETStudio.pickN(bag.colloc, Math.min(8, bag.colloc.length)).forEach(function (it) {
-      var ex = (it.examples && it.examples[0]) || {};
+      var ex = {};
+      (it.examples || []).forEach(function (row) {
+        var src = String(row.source || "").toLowerCase();
+        if (src.indexOf("zhongkao") !== -1 || src.indexOf("中考") !== -1) ex = row;
+      });
+      if (!ex.sentence) {
+        (it.examples || []).forEach(function (row) {
+          var src = String(row.source || "").toLowerCase();
+          if (!ex.sentence && src.indexOf("article") === -1 && src.indexOf("文章") === -1) ex = row;
+        });
+      }
       var sent = ex.sentence || "";
       var blank = sent;
       if (it.word && sent.toLowerCase().indexOf(it.word.toLowerCase()) !== -1) {

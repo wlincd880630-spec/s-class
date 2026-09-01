@@ -1,5 +1,5 @@
 /**
- * DeepSeek：复习加题 + 讲义例句 / 语法课件生成
+ * DeepSeek：复习加题 + 中考/高考例句 + 讲义例句 / 语法课件生成
  */
 (function (global) {
   "use strict";
@@ -168,6 +168,36 @@
       '{"q":"题干","options":["A","B","C","D"],"answer":"正确选项原文","explain":"一句中文解析"}' +
       "\noptions 必须包含正确答案。不要 markdown。";
     return callDeepSeek(prompt);
+  }
+
+  function examSentences(items, exam) {
+    var label = exam === "gaokao" ? "中国高考英语（书面表达 / 阅读理解）" : "中国中考英语";
+    var list = (items || [])
+      .map(function (x) {
+        return (x.word || x.phrase || "") + " = " + (x.meaning || "");
+      })
+      .filter(Boolean)
+      .join("\n");
+    var prompt =
+      "你是高中英语教师。为下列英语词组各写 1 句" +
+      label +
+      "风格的独立例句（不要课文原句）。\n要求：\n" +
+      "1. 句子必须包含该词组，允许合理变形（如 look forward to → looking forward to）。\n" +
+      "2. 高考句可稍长、稍正式；中考句简洁地道。\n" +
+      "3. 不要抄阅读课文。\n词组：\n" +
+      list +
+      "\n\n只返回 JSON 数组，每项：" +
+      '{"phrase":"词组原文","sentence":"英文例句","trans":"中文翻译"}' +
+      "\n不要 markdown。";
+    return chatRetry(prompt, 4096).then(function (text) {
+      return asArray(parseJson(text)).map(function (x) {
+        return {
+          phrase: x.phrase || x.word || "",
+          sentence: x.sentence || x.en || "",
+          trans: x.trans || x.cn || ""
+        };
+      });
+    });
   }
 
   function chunk(arr, n) {
@@ -536,6 +566,7 @@
   }
 
   global.PETStudio.aiExtra = extraQuestions;
+  global.PETStudio.aiExamSentences = examSentences;
   global.PETStudio.enrichHandout = enrichHandout;
   global.PETStudio.applyHandoutFallback = function (bag) {
     return applyEnrichment(bag, { vocab: {}, colloc: {}, grammar: [] });
