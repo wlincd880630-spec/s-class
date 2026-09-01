@@ -794,6 +794,7 @@ ${azureLine}
     const pages = [
       { href: 'index.html', label: '首页' },
       { href: 'part1-vocabulary.html', label: '词汇' },
+      { href: 'copy.html', label: '抄写' },
       { href: 'part2-reading.html', label: '阅读' },
       { href: 'part3-speaking.html', label: '朗读' },
       { href: 'part4-quiz.html', label: '测验' }
