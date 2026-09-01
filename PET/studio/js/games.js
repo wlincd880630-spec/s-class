@@ -123,17 +123,24 @@
     var p = String(phrase || "").trim();
     if (!raw) return "______";
     if (!p) return raw;
-    var re = new RegExp(escapeRe(p), "ig");
-    if (re.test(raw)) return raw.replace(re, "______");
+    var next = raw.replace(new RegExp(escapeRe(p), "ig"), "______");
+    if (next !== raw) return next;
     var parts = p.split(/\s+/);
     var first = parts[0];
     var rest = parts.slice(1).map(escapeRe).join("\\s+");
     var stem = escapeRe(first.replace(/e$/i, ""));
-    var flex = "\\b" + stem + "(?:e|es|ed|ing|s)?";
-    if (rest) flex += "\\s+" + rest;
-    flex += "\\b";
-    var re2 = new RegExp(flex, "ig");
-    if (re2.test(raw)) return raw.replace(re2, "______");
+    var flexFirst = stem + "(?:e|es|ed|ing|s)?";
+    var patterns = rest
+      ? [
+        "\\b" + flexFirst + "\\s+" + rest + "\\b",
+        "\\b" + flexFirst + "\\s+(?:it|them|him|her|this|that|one)\\s+" + rest + "\\b"
+      ]
+      : ["\\b" + flexFirst + "\\b"];
+    var i;
+    for (i = 0; i < patterns.length; i++) {
+      next = raw.replace(new RegExp(patterns[i], "ig"), "______");
+      if (next !== raw) return next;
+    }
     return raw.replace(/\s*$/, "") + " （______）";
   }
 
