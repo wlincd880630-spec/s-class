@@ -32,6 +32,7 @@
       <button class="btn btn-indigo" id="exportBtn">生成并导出 PDF</button>
     </div>
     <p class="note" id="status">正在读取本单元数据…</p>
+    <iframe id="preview" title="讲义预览" style="display:none;width:100%;min-height:88vh;margin-top:16px;border:1px solid #e2e8f0;border-radius:16px;background:#fff"></iframe>
   </div>
   <script src="js/catalog.js"></script>
   <script src="js/loader.js"></script>
@@ -65,9 +66,18 @@
       document.getElementById("exportBtn").onclick = function () {
         if (!bag) return;
         var t = document.getElementById("typeSel").value;
-        if (t === "handout") PETStudio.printHandout(bag);
-        else if (t === "passage") PETStudio.printPassage(bag);
-        else PETStudio.printGames(bag, document.getElementById("levelSel").value);
+        var preview = document.getElementById("preview");
+        if (t === "handout") {
+          preview.style.display = "none";
+          PETStudio.printHandout(bag);
+        } else if (t === "passage") {
+          preview.style.display = "block";
+          preview.srcdoc = PETStudio.passageDocument(bag);
+          PETStudio.printPassage(bag);
+        } else {
+          preview.style.display = "none";
+          PETStudio.printGames(bag, document.getElementById("levelSel").value);
+        }
       };
     })();
   </script>
