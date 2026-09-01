@@ -17,7 +17,7 @@
         model: "deepseek-v4-flash",
         messages: [{ role: "user", content: prompt }],
         temperature: 0.4,
-        max_tokens: 1600
+        max_tokens: 4096
       })
     })
       .then(function (r) {
@@ -31,8 +31,22 @@
             data.choices[0].message &&
             data.choices[0].message.content) ||
           "";
-        text = text.replace(/^```json\s*|\s*```$/g, "").trim();
-        return JSON.parse(text);
+        text = String(text).replace(/```json|```/g, "").trim();
+        var start = text.indexOf("[");
+        var end = text.lastIndexOf("]");
+        if (start === -1 || end <= start) {
+          throw new Error("DeepSeek 未返回题目数组");
+        }
+        var arr = JSON.parse(text.slice(start, end + 1));
+        if (!Array.isArray(arr)) throw new Error("DeepSeek 返回格式不对");
+        return arr.map(function (x) {
+          var opts = x.options || [];
+          var ans = x.answer;
+          if (typeof ans === "string" && /^[A-D]$/i.test(ans.trim()) && opts.length) {
+            ans = opts[ans.trim().toUpperCase().charCodeAt(0) - 65] || ans;
+          }
+          return { q: x.q, options: opts, answer: ans, explain: x.explain || "" };
+        });
       });
   }
 

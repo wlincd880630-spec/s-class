@@ -93,10 +93,13 @@
     var u = bag.unit;
     var html = cover(u, "文章精读讲义", "每篇文章配 3D 主题插图，便于朗读与翻译练习。");
     (bag.passages || []).forEach(function (p, idx) {
+      var topic = (u.topics && u.topics[idx]) || p.title || ("Passage " + (idx + 1));
       html += '<section class=sheet>' +
-        '<img class=pass-hero src="' + esc(absUrl(PETStudio.passageImg(u.id, idx))) + '" alt="">' +
+        '<div class=pass-hero-wrap>' +
+        '<img class=pass-hero src="' + esc(absUrl(PETStudio.passageImg(u.id, idx))) + '" alt="' + esc(topic) + '">' +
+        '<div class=pass-label>Passage ' + (idx + 1) + " · " + esc(topic) + "</div></div>" +
         '<div class=inner><div class=sec-h><div class=dot style="background:#e11d48"></div><h2>' +
-        esc(p.title || ("Passage " + (idx + 1))) + "</h2><span>" + (p.sentences || []).length + " sentences</span></div>";
+        esc(topic) + "</h2><span>" + (p.sentences || []).length + " sentences</span></div>";
       (p.sentences || []).forEach(function (s, i) {
         html += '<p class=sent><b style="color:#4f46e5">' + (i + 1) + ".</b> " + esc(s) + "</p>";
       });
