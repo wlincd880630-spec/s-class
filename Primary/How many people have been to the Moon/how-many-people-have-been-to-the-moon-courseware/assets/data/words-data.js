@@ -9,6 +9,7 @@ const MOON_COURSE = {
   "source": "Encyclopaedia Britannica / NASA",
   "sourceUrl": "https://www.britannica.com/story/how-many-people-have-been-to-the-moon",
   "lexile": 450,
+  "level": 2,
   "grade": "小学三至四年级",
   "accent": "#3d7ea6",
   "facts": [

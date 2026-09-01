@@ -1,11 +1,13 @@
 /**
  * What are reptiles? · S-Class Science 科学审校词表
- * 面向中国小学四年级 · 一词一页学习
+ * Level 3 · 面向中国小学四年级 · 一词一页学习
  */
 const REPTILE_COURSE = {
   title: "What are reptiles?",
   titleZh: "什么是爬行动物",
   source: "S-Class Science · reviewed curriculum",
+  level: 3,
+  grade: "小学四年级",
   accent: "#2e7d32",
   imgBase: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/What%20are%20reptiles/what-are-reptiles-courseware/images/words/",
   videos: [

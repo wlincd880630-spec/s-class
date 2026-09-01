@@ -2,6 +2,7 @@
 
 S-Class 科学考察营课件 · 内容改编自 [Encyclopaedia Britannica](https://www.britannica.com/story/how-many-people-have-been-to-the-moon) 与 NASA 公开资料。
 
+- **级别**：**Level 2**（已从 Level 1 绘本目录拆出）
 - **Lexile**：约 450（小学三至四年级）
 - **关键答案**：阿波罗年代 24 人到达月球，其中 12 人走过月面
 - **配图**：优先 NASA / 公有领域真实照片；词义图与主体图双呈现
