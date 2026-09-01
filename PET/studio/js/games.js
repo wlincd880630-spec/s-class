@@ -118,24 +118,100 @@
     return s;
   }
 
+  function firstFlex(word) {
+    var w = String(word || "").replace(/[’']/g, "'").toLowerCase();
+    var irr = {
+      make: "make|makes|made|making",
+      go: "go|goes|went|gone|going",
+      get: "get|gets|got|getting",
+      run: "run|runs|ran|running",
+      blow: "blow|blows|blew|blown|blowing",
+      take: "take|takes|took|taken|taking",
+      come: "come|comes|came|coming",
+      break: "break|breaks|broke|broken|breaking",
+      stick: "stick|sticks|stuck|sticking",
+      keep: "keep|keeps|kept|keeping",
+      leave: "leave|leaves|left|leaving",
+      feel: "feel|feels|felt|feeling",
+      lead: "lead|leads|led|leading",
+      pay: "pay|pays|paid|paying",
+      bring: "bring|brings|brought|bringing",
+      build: "build|builds|built|building",
+      fall: "fall|falls|fell|fallen|falling",
+      stand: "stand|stands|stood|standing",
+      win: "win|wins|won|winning",
+      cut: "cut|cuts|cutting",
+      spend: "spend|spends|spent|spending",
+      deal: "deal|deals|dealt|dealing",
+      fight: "fight|fights|fought|fighting",
+      draw: "draw|draws|drew|drawn|drawing",
+      wake: "wake|wakes|woke|woken|waking",
+      sit: "sit|sits|sat|sitting",
+      give: "give|gives|gave|given|giving",
+      find: "find|finds|found|finding",
+      think: "think|thinks|thought|thinking",
+      buy: "buy|buys|bought|buying",
+      catch: "catch|catches|caught|catching",
+      drive: "drive|drives|drove|driven|driving",
+      went: "went|go|goes|gone|going",
+      can: "can|could",
+      "can't": "can't|cannot|couldn't|could not",
+      cannot: "cannot|can't|could not|couldn't",
+      do: "do|does|did|done|doing",
+      have: "have|has|had|having",
+      be: "be|am|is|are|was|were|been|being",
+      is: "is|are|was|were|be|been|being"
+    };
+    if (irr[w]) return "(?:" + irr[w] + ")";
+    var stem = escapeRe(String(word).replace(/e$/i, ""));
+    return stem + "(?:e|es|ed|ing|s)?";
+  }
+
+  function flexRestWord(w) {
+    if (/^(your|my|our|his|her|their)$/i.test(w)) return "(?:your|my|our|his|her|their)";
+    if (/self$/i.test(w) || /selves$/i.test(w)) {
+      return "(?:yourself|myself|himself|herself|themselves|ourselves)";
+    }
+    if (/^(us|me|you|them)$/i.test(w)) return "(?:us|me|you|them|him|her)";
+    return escapeRe(w);
+  }
+
   function blankPhrase(sentence, phrase) {
     var raw = String(sentence || "");
-    var p = String(phrase || "").trim();
+    var p = String(phrase || "").replace(/[()]/g, " ").replace(/\s+/g, " ").trim();
     if (!raw) return "______";
     if (!p) return raw;
     var next = raw.replace(new RegExp(escapeRe(p), "ig"), "______");
     if (next !== raw) return next;
-    var parts = p.split(/\s+/);
-    var first = parts[0];
-    var rest = parts.slice(1).map(escapeRe).join("\\s+");
-    var stem = escapeRe(first.replace(/e$/i, ""));
-    var flexFirst = stem + "(?:e|es|ed|ing|s)?";
+    var chunks = p.split(/\.{2,}|…/).map(function (x) {
+      return x.replace(/^[\s,]+|[\s,]+$/g, "");
+    }).filter(Boolean);
+    if (chunks.length >= 2) {
+      var bits = chunks.map(function (ch, idx) {
+        var words = ch.split(/\s+/).filter(Boolean);
+        if (!words.length) return "";
+        var head = idx === 0 ? firstFlex(words[0]) : flexRestWord(words[0]);
+        var tail = words.slice(1).map(flexRestWord).join("\\s+");
+        return "\\b" + head + (tail ? "\\s+" + tail : "");
+      }).filter(Boolean);
+      next = raw.replace(new RegExp(bits.join(".{0,56}?"), "ig"), "______");
+      if (next !== raw) return next;
+    }
+    var parts = p.replace(/\.{2,}|…/g, " ").split(/\s+/).filter(Boolean);
+    if (!parts.length) return raw.replace(/\s*$/, "") + " （______）";
+    var flexFirst = firstFlex(parts[0]);
+    var rest = parts.slice(1).map(flexRestWord).join("\\s+");
     var patterns = rest
       ? [
         "\\b" + flexFirst + "\\s+" + rest + "\\b",
         "\\b" + flexFirst + "\\s+(?:it|them|him|her|this|that|one)\\s+" + rest + "\\b"
       ]
       : ["\\b" + flexFirst + "\\b"];
+    if (parts.length === 2) {
+      patterns.push("\\b" + flexFirst + "\\s+(?:\\S+\\s+){0,8}" + flexRestWord(parts[1]) + "\\b");
+    } else if (parts.length >= 3) {
+      patterns.push("\\b" + flexFirst + ".{0,42}?" + parts.slice(-2).map(flexRestWord).join("\\s+"));
+    }
     var i;
     for (i = 0; i < patterns.length; i++) {
       next = raw.replace(new RegExp(patterns[i], "ig"), "______");
@@ -144,14 +220,27 @@
     return raw.replace(/\s*$/, "") + " （______）";
   }
 
+  function sameSent(a, b) {
+    return String(a || "").replace(/\s+/g, " ").trim().toLowerCase() ===
+      String(b || "").replace(/\s+/g, " ").trim().toLowerCase();
+  }
+
   function pickExamExample(it, want) {
     var list = it.examples || [];
+    var arts = [];
+    list.forEach(function (ex) {
+      if (examKind(ex.source) === "article" && ex.sentence) arts.push(ex.sentence);
+    });
     var i;
     for (i = 0; i < list.length; i++) {
-      if (examKind(list[i].source) === want && list[i].sentence) return list[i];
+      if (examKind(list[i].source) !== want || !list[i].sentence) continue;
+      if (arts.some(function (a) { return sameSent(a, list[i].sentence); })) continue;
+      return list[i];
     }
     if (want === "gaokao" && it.gaokaoEx && it.gaokaoEx.sentence) {
-      return { sentence: it.gaokaoEx.sentence, trans: it.gaokaoEx.trans || "", source: "Gaokao" };
+      if (!arts.some(function (a) { return sameSent(a, it.gaokaoEx.sentence); })) {
+        return { sentence: it.gaokaoEx.sentence, trans: it.gaokaoEx.trans || "", source: "Gaokao" };
+      }
     }
     return null;
   }
@@ -521,6 +610,11 @@
   function beginGap() {
     var src = state.examSource || "zhongkao";
     if (src === "gaokao") {
+      if (buildGapQueue("gaokao")) {
+        state.gapNote = "";
+        renderGap();
+        return;
+      }
       $("playRoot").innerHTML = '<div class="play-shell"><p class="note" id="gapLoading">正在生成高考例句…</p></div>';
       ensureGaokaoExamples().then(function () {
         state.gapNote = "";
@@ -548,6 +642,25 @@
     renderGap();
   }
 
+  function bindSourceSwitch() {
+    Array.prototype.forEach.call(document.querySelectorAll("[data-src]"), function (btn) {
+      btn.onclick = function () {
+        var src = btn.getAttribute("data-src");
+        if (!src || src === state.examSource) return;
+        state.examSource = src;
+        beginGap();
+      };
+    });
+  }
+
+  function sourceSwitchHtml() {
+    var cur = state.examSource || "zhongkao";
+    return '<div class="source-picks compact">' +
+      '<button type="button" class="src-btn' + (cur === "zhongkao" ? " on" : "") + '" data-src="zhongkao">中考例句</button>' +
+      '<button type="button" class="src-btn' + (cur === "gaokao" ? " on" : "") + '" data-src="gaokao">高考例句</button>' +
+      "</div>";
+  }
+
   function renderGap() {
     var q = state.queue[state.idx];
     if (!q) {
@@ -558,6 +671,7 @@
     }
     var note = state.gapNote ? '<p class="toast">' + esc(state.gapNote) + "</p>" : "";
     $("playRoot").innerHTML = '<div class="play-shell">' + hud() + note +
+      sourceSwitchHtml() +
       '<div class="meaning-card"><div class="clinic-kicker">中文词义</div><div class="meaning">' + esc(q.meaning) + "</div></div>" +
       '<div class="exam-line"><span class="exam-tag">' + esc(q.sourceLabel) + "例句</span></div>" +
       '<div class="q-box">' + esc(q.q) + "</div>" +
@@ -568,6 +682,7 @@
       '<div class="mem-actions"><button class="btn btn-ghost" type="button" id="backGames">返回游戏列表</button></div></div>';
     if ($("speakBtn")) $("speakBtn").onclick = function () { say(q.speak); };
     $("backGames").onclick = showList;
+    bindSourceSwitch();
     bindOpts(q);
   }
 

@@ -54,6 +54,24 @@
     };
   }
 
+  function attachGaokao(bag, bank) {
+    if (!bank) return;
+    (bag.colloc || []).forEach(function (it) {
+      var lessonBank = bank[it.lesson] || {};
+      var row = lessonBank[it.word] || lessonBank[it.phrase];
+      if (!row || !row.sentence) return;
+      var has = (it.examples || []).some(function (ex) {
+        return String(ex.source || "").toLowerCase().indexOf("gaokao") !== -1;
+      });
+      if (has) return;
+      it.examples = (it.examples || []).concat([{
+        sentence: row.sentence,
+        trans: row.trans || "",
+        source: "Gaokao"
+      }]);
+    });
+  }
+
   function loadLesson(lesson) {
     return fetchJson("../" + lesson + "/course_data.json").then(function (data) {
       var vocab = (data.vocabulary || []).map(function (x) { return normalizeItem(x, lesson, "vocab"); });
@@ -67,9 +85,13 @@
     var unit = PETStudio.getUnit(unitId);
     var jobs = unit.lessons.map(loadLesson);
     var passUrl = "../Unit" + unit.id + "_passage/Unit" + unit.id + "_passage.html";
-    return Promise.all(jobs.concat([fetchText(passUrl).catch(function () { return ""; })])).then(function (parts) {
+    return Promise.all(jobs.concat([
+      fetchText(passUrl).catch(function () { return ""; }),
+      fetchJson("data/gaokao-phrases.json").catch(function () { return {}; })
+    ])).then(function (parts) {
       var lessons = parts.slice(0, unit.lessons.length);
-      var html = parts[parts.length - 1] || "";
+      var html = parts[unit.lessons.length] || "";
+      var gaokaoBank = parts[unit.lessons.length + 1] || {};
       var passages = typeof html === "string" ? parsePassages(html) : [];
       var bag = { unit: unit, vocab: [], colloc: [], grammar: [], passages: passages, lessons: lessons };
       lessons.forEach(function (L) {
@@ -77,6 +99,7 @@
         bag.colloc = bag.colloc.concat(L.colloc);
         bag.grammar = bag.grammar.concat(L.grammar);
       });
+      attachGaokao(bag, gaokaoBank);
       return bag;
     });
   }
