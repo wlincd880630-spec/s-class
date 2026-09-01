@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>词汇抄写作业</title>
+  <link rel="stylesheet" href="assets/css/shared.css">
+  <link rel="stylesheet" href="../../assets/css/copy-handwriting.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="nav"></div>
+  <div class="copy-page-wrap">
+    <section class="copy-hero no-print">
+      <h1>✍️ 词汇抄写作业</h1>
+      <p>四线格纸质作业：每个单词先描红 3 次，再独立书写 3 次。短词两行三格；较长单词 / 词组改通栏，字号按词长缩放到四线格内，不会写出格子。</p>
+      <div class="copy-legend">
+        <span><i class="dot trace"></i>描红 ×3（浅蓝底字）</span>
+        <span><i class="dot write"></i>独立书写 ×3（空白四线格）</span>
+      </div>
+      <div class="copy-toolbar">
+        <button type="button" class="btn btn-primary" id="btn-copy-pdf">📄 导出抄写 PDF</button>
+        <button type="button" class="btn btn-outline" id="btn-copy-print">🖨️ 打印抄写页</button>
+        <label><input type="checkbox" id="include-phrases"> 含词组</label>
+      </div>
+    </section>
+    <div class="copy-workbook" id="copy-workbook"></div>
+  </div>
+
+  <script src="assets/js/course-data.js"></script>
+  <script src="assets/js/shared.js?v=20260901-copy"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="assets/js/vendor/qrcode.min.js"></script>
+  <script src="../../assets/js/copy-handwriting.js?v=20260901b"></script>
+  <script>
+    document.getElementById('nav').innerHTML = Courseware.renderNav('copy.html');
+    Courseware.injectConfigPanel();
+    Courseware.loadCourseData().then(data => {
+      document.title = '词汇抄写作业 | ' + (data.title || '');
+      RefhCopyHandwriting.mount({
+        workbook: document.getElementById('copy-workbook'),
+        includePhrasesEl: document.getElementById('include-phrases'),
+        pdfBtn: document.getElementById('btn-copy-pdf'),
+        printBtn: document.getElementById('btn-copy-print')
+      });
+    });
+  </script>
+</body>
+</html>
