@@ -66,11 +66,37 @@
   }
 
   var EX_BADGE = {
-    zk: { cls: "zk", label: "中考" },
-    g10: { cls: "g10", label: "高一" },
-    g11: { cls: "g11", label: "高二" },
-    gk: { cls: "gk", label: "高考" }
+    j1: { cls: "j1", label: "初一" },
+    j2: { cls: "j2", label: "初二" },
+    j3: { cls: "j3", label: "初三" },
+    s1: { cls: "s1", label: "高一" },
+    s2: { cls: "s2", label: "高二" },
+    s3: { cls: "s3", label: "高三" },
+    zk: { cls: "j3", label: "初三" },
+    g10: { cls: "s1", label: "高一" },
+    g11: { cls: "s2", label: "高二" },
+    gk: { cls: "s3", label: "高三" }
   };
+  var GRADE_LEVELS = [
+    { id: "j1", label: "初一" },
+    { id: "j2", label: "初二" },
+    { id: "j3", label: "初三" },
+    { id: "s1", label: "高一" },
+    { id: "s2", label: "高二" },
+    { id: "s3", label: "高三" }
+  ];
+
+  function familyHtml(it) {
+    var list = it.family || [];
+    if (!list.length) return "";
+    var chips = list.map(function (row) {
+      var posLabel = [row.posZh, row.pos].filter(Boolean).join(" ");
+      return '<span class="family-chip"><b>' + esc(row.word) + "</b>" +
+        "<i>" + esc(posLabel) + "</i>" + esc(row.meaning || "") + "</span>";
+    }).join("");
+    return '<div class="pdf-row"><span class="pdf-label">词性家族</span><span class="pdf-val family-wrap">' +
+      chips + "</span></div>";
+  }
 
   function exampleBlocks(it) {
     var list = it.handoutExamples || [];
@@ -100,9 +126,11 @@
         ? '<div class="pdf-row"><span class="pdf-label">英文释义</span><span class="pdf-val">' + esc(it.definitionEn) + "</span></div>"
         : "") +
       '<div class="pdf-row"><span class="pdf-label">中文释义</span><span class="pdf-val pdf-cn">' + esc(it.meaning) + "</span></div>" +
-      (it.usage
-        ? '<div class="pdf-row"><span class="pdf-label">常见用法</span><span class="pdf-val">' + esc(strip(it.usage)) + "</span></div>"
+      (it.usageZh || it.usage
+        ? '<div class="pdf-row"><span class="pdf-label">常见用法</span><span class="pdf-val">' +
+          esc(it.usageZh || strip(it.usage)) + "</span></div>"
         : "") +
+      familyHtml(it) +
       exampleBlocks(it) +
       "</div></article>";
   }
@@ -112,11 +140,8 @@
   }
 
   function grammarExample(ex) {
-    var lv = String(ex.level || "zk").toLowerCase();
-    if (lv === "g10" || lv === "g11") lv = lv;
-    else if (lv === "gk" || lv === "gaokao" || lv === "高考") lv = "gk";
-    else lv = "zk";
-    var meta = EX_BADGE[lv] || EX_BADGE.zk;
+    var lv = String(ex.level || "j3").toLowerCase();
+    var meta = EX_BADGE[lv] || EX_BADGE.j3;
     return '<div class="pdf-section">' +
       '<span class="pdf-badge ' + meta.cls + '">' + meta.label + "</span>" +
       '<div class="pdf-en">' + esc(ex.en || ex.sentence || "") + "</div>" +
@@ -125,8 +150,8 @@
   }
 
   function exerciseBlock(ex, i) {
-    var lv = String(ex.level || "zk").toLowerCase();
-    var meta = lv === "gk" || lv === "gaokao" || lv === "高考" ? EX_BADGE.gk : EX_BADGE.zk;
+    var lv = String(ex.level || "j3").toLowerCase();
+    var meta = EX_BADGE[lv] || EX_BADGE.j3;
     var type = String(ex.type || "choice");
     var h = '<div class="ex-q"><span class="n">' + (i + 1) + ".</span> " +
       '<span class="pdf-badge ' + meta.cls + '">' + meta.label + "</span> " +
@@ -138,7 +163,16 @@
       });
       h += "</div>";
     } else if (type === "truefalse") {
-      h += '<div class="opts"><div>A. True</div><div>B. False</div></div>';
+      var tf = (ex.options && ex.options.length) ? ex.options : ["正确", "错误"];
+      h += '<div class="opts">';
+      tf.forEach(function (o, j) {
+        h += "<div>" + String.fromCharCode(65 + j) + ". " + esc(o) + "</div>";
+      });
+      h += "</div>";
+    } else if (type === "rewrite") {
+      h += '<div class="blank">改写：________________________________</div>';
+    } else if (type === "error") {
+      h += '<div class="blank">改正：________________________________</div>';
     } else {
       h += '<div class="blank">______________________________</div>';
     }
@@ -168,22 +202,14 @@
       h += '<div class="subh">例句</div>';
       g.examples.forEach(function (ex) { h += grammarExample(ex); });
     }
-    var zk = (g.exercises || []).filter(function (e) {
-      var lv = String(e.level || "zk").toLowerCase();
-      return lv !== "gk" && lv !== "gaokao" && lv !== "高考";
+    GRADE_LEVELS.forEach(function (lv) {
+      var list = (g.exercises || []).filter(function (e) {
+        return String(e.level || "") === lv.id;
+      });
+      if (!list.length) return;
+      h += '<div class="subh">' + lv.label + "练习</div>";
+      list.forEach(function (e, i) { h += exerciseBlock(e, i); });
     });
-    var gk = (g.exercises || []).filter(function (e) {
-      var lv = String(e.level || "").toLowerCase();
-      return lv === "gk" || lv === "gaokao" || lv === "高考";
-    });
-    if (zk.length) {
-      h += '<div class="subh">中考难度练习</div>';
-      zk.forEach(function (e, i) { h += exerciseBlock(e, i); });
-    }
-    if (gk.length) {
-      h += '<div class="subh">高考难度练习</div>';
-      gk.forEach(function (e, i) { h += exerciseBlock(e, i); });
-    }
     h += "</article>";
     return h;
   }
@@ -204,32 +230,44 @@
     return html;
   }
 
+  function levelLegend(items) {
+    var seen = {};
+    (items || []).forEach(function (it) {
+      (it.handoutExamples || []).forEach(function (ex) {
+        seen[String(ex.level || "")] = true;
+      });
+    });
+    var list = GRADE_LEVELS.filter(function (lv) { return seen[lv.id]; });
+    if (!list.length) list = GRADE_LEVELS;
+    return list.map(function (lv) {
+      return '<span class="pdf-badge ' + lv.id + '">' + lv.label + "</span>";
+    }).join(" ");
+  }
+
   function renderHandout(bag) {
     var u = bag.unit;
     var grammar = bag.handoutGrammar || bag.grammar || [];
     var html = cover(
       u,
       "单词 · 词组 · 语法讲义",
-      "词汇/词组：音标 + 英中释义 + 中考/高一/高二三条例句，配图完整显示，不含课文原句。语法：独立讲义（详细用法、例句、中考与高考分层练习）。"
+      "词汇/词组：音标、英中释义、中文用法、词性家族，以及初一到高三可选例句。语法：详细用法与分层练习（每点 15 题以上）。"
     );
     html += '<section class="sheet long"><div class="inner">' +
       '<div class="sec-h"><div class="dot" style="background:#4f46e5"></div><h2>Vocabulary 单词</h2><span>' +
-      bag.vocab.length + " words · 音标保留 · 三条例句</span></div>" +
-      '<p class="lead">每词 3 句：<span class="pdf-badge zk">中考</span> 初中常用 · ' +
-      '<span class="pdf-badge g10">高一</span> 高中起步 · ' +
-      '<span class="pdf-badge g11">高二</span> 进阶记忆。不含文章原文。</p>' +
+      bag.vocab.length + " words · 音标保留 · 分层例句</span></div>" +
+      '<p class="lead">例句级别：' + levelLegend(bag.vocab.concat(bag.colloc || [])) + "　不含文章原文。</p>" +
       vocabCards(bag.vocab) +
       '<div class="foot"><span>S-Class PET</span><span>Unit ' + u.id + " · Vocab</span></div></div></section>";
     html += '<section class="sheet long"><div class="inner">' +
       '<div class="sec-h"><div class="dot" style="background:#0d9488"></div><h2>Phrases 词组</h2><span>' +
       bag.colloc.length + " phrases</span></div>" +
-      '<p class="lead">词组同样保留音标（如有）、英中释义与三档例句，便于课前预习与课后复习。</p>' +
+      '<p class="lead">词组同样保留音标（如有）、中文用法、词性家族与分层例句。</p>' +
       vocabCards(bag.colloc) +
       '<div class="foot"><span>S-Class PET</span><span>Unit ' + u.id + " · Phrases</span></div></div></section>";
     html += '<section class="sheet long"><div class="inner">' +
       '<div class="sec-h"><div class="dot" style="background:#7c3aed"></div><h2>Grammar 语法讲义</h2><span>' +
       grammar.length + " points</span></div>" +
-      '<p class="lead">本部分为独立语法课件：详细用法、结构公式、易错提醒、例句与分层练习。不呈现课文内容。</p>';
+      '<p class="lead">本部分为独立语法课件：详细用法、结构公式、易错提醒、例句与初一至高三分层练习。每点不少于 15 题，题型含选择、填空、判断、改写、改错。</p>';
     grammar.forEach(function (g, i) {
       html += grammarArticle(g, i);
     });
@@ -384,6 +422,7 @@
     w.document.close();
   }
 
+  global.PETStudio.GRADE_LEVELS = GRADE_LEVELS;
   global.PETStudio.printHandout = function (bag) {
     openPrint("PET Unit " + bag.unit.id + " 讲义", renderHandout(bag));
   };

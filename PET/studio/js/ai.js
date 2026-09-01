@@ -539,28 +539,73 @@
       });
   }
 
+  function padUnit(id) {
+    var n = Number(id) || 0;
+    return n < 10 ? "0" + n : String(n);
+  }
+
+  function filterByLevels(list, levels) {
+    if (levels == null) return list || [];
+    if (!levels.length) return [];
+    return (list || []).filter(function (row) {
+      return levels.indexOf(String(row.level || "")) !== -1;
+    });
+  }
+
+  function applyStaticHandout(bag, data, filters) {
+    data = data || {};
+    filters = filters || {};
+    var exLv = filters.exampleLevels;
+    var grLv = filters.grammarLevels;
+    function mergeList(items, map) {
+      (items || []).forEach(function (it) {
+        var row = lookup(map, it.word) || lookup(map, it.phrase);
+        if (!row) {
+          it.handoutExamples = localExamples(it);
+          return;
+        }
+        it.usageZh = row.usageZh || "";
+        it.family = row.family || [];
+        it.handoutExamples = filterByLevels(row.examples, exLv);
+      });
+    }
+    mergeList(bag.vocab, data.vocab || {});
+    mergeList(bag.colloc, data.colloc || {});
+    bag.handoutGrammar = (data.grammar || []).map(function (g) {
+      return {
+        title: g.title,
+        titleEn: g.titleEn || "",
+        usage: g.usage || "",
+        forms: g.forms || [],
+        notes: g.notes || [],
+        examples: filterByLevels(g.examples, exLv),
+        exercises: filterByLevels(g.exercises, grLv)
+      };
+    });
+    if (!bag.handoutGrammar.length) {
+      bag.handoutGrammar = fallbackGrammar(bag.grammar);
+    }
+    bag.handoutFromCache = true;
+    return bag;
+  }
+
   function enrichHandout(bag, opts) {
     opts = opts || {};
     var onProgress = opts.onProgress || function () {};
-    var force = !!opts.force;
-    if (!force) {
-      var cached = readCache(bag.unit.id);
-      if (cached) {
-        cached.fromCache = true;
-        onProgress("已使用本机缓存的 DeepSeek 讲义，可点「重新生成」刷新。");
-        return Promise.resolve(applyEnrichment(bag, cached));
-      }
-    }
-    onProgress("正在调用 DeepSeek 生成讲义内容，首次约需两分钟…");
-    return generateHandout(bag, onProgress)
+    onProgress("正在载入已预生成的讲义…");
+    return fetch("data/handouts/u" + padUnit(bag.unit.id) + ".json")
+      .then(function (r) {
+        if (!r.ok) throw new Error("讲义数据 " + r.status);
+        return r.json();
+      })
       .then(function (data) {
-        writeCache(bag.unit.id, data);
-        data.fromCache = false;
-        return applyEnrichment(bag, data);
+        applyStaticHandout(bag, data, opts.filters);
+        onProgress("已载入预生成讲义，可按所选级别导出。");
+        return bag;
       })
       .catch(function (err) {
         applyEnrichment(bag, { vocab: {}, colloc: {}, grammar: [] });
-        bag.handoutWarning = (err && err.message) || "DeepSeek 生成失败";
+        bag.handoutWarning = (err && err.message) || "未找到预生成讲义";
         return bag;
       });
   }
