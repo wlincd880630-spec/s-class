@@ -54,6 +54,10 @@
     return s.replace(/[^A-Za-z]/g, '').length >= 11;
   }
 
+  function itemKey(it) {
+    return (it.type || 'word') + ':' + String(it.word || '').trim().toLowerCase();
+  }
+
   function collectItems(data, includePhrases) {
     const words = (data && data.vocabulary) || [];
     const list = words.map((w, i) => ({
@@ -75,6 +79,32 @@
       });
     }
     return list.filter(it => String(it.word || '').trim());
+  }
+
+  function filterSelected(items, selectedKeys) {
+    if (!selectedKeys) return items.slice();
+    return items.filter(it => selectedKeys.has(itemKey(it)));
+  }
+
+  function storageKey() {
+    return 'refh-copy-selected-' + lessonId();
+  }
+
+  function loadSavedKeys() {
+    try {
+      const raw = sessionStorage.getItem(storageKey());
+      if (!raw) return null;
+      const arr = JSON.parse(raw);
+      return Array.isArray(arr) ? arr : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function saveKeys(keys) {
+    try {
+      sessionStorage.setItem(storageKey(), JSON.stringify(Array.from(keys)));
+    } catch (e) {}
   }
 
   function cellHtml(mode, word) {
@@ -117,15 +147,58 @@
 
   function workbookInnerHtml(data, options) {
     options = options || {};
-    const items = collectItems(data, !!options.includePhrases);
+    const all = collectItems(data, !!options.includePhrases);
+    const items = filterSelected(all, options.selectedKeys);
     const meta = lessonMeta();
     const date = new Date().toLocaleDateString('zh-CN');
     let html = '<div class="copy-print-head pdf-export-block">';
     html += '<h2>' + escapeHtml(data.title || 'Vocabulary') + ' · 词汇抄写作业</h2>';
-    html += '<p>' + escapeHtml(meta.kicker) + ' · 四线格描红 ×3 · 独立书写 ×3 · ' + items.length + ' 词 · ' + date + '</p>';
+    html += '<p>' + escapeHtml(meta.kicker) + ' · 四线格描红 ×3 · 独立书写 ×3 · 已选 ' + items.length + ' / ' + all.length + ' 词 · ' + date + '</p>';
     html += '</div>';
+    if (!items.length) {
+      html += '<div class="copy-empty">请先勾选要抄写的目标单词</div>';
+      return html;
+    }
     items.forEach((it, i) => { html += sheetHtml(it, i); });
     return html;
+  }
+
+  function pickerHtml(items, selectedKeys) {
+    const n = items.length;
+    const k = items.filter(it => selectedKeys.has(itemKey(it))).length;
+    let html = '<div class="copy-picker-head">';
+    html += '<div><h2>目标单词</h2><p>勾选需要抄写的单词，预览 / 打印 / PDF 只包含已选词。</p></div>';
+    html += '<div class="copy-picker-actions">';
+    html += '<span class="copy-picker-count" id="copy-picker-count">已选 ' + k + ' / ' + n + '</span>';
+    html += '<button type="button" class="btn btn-outline" data-copy-pick="all">全选</button>';
+    html += '<button type="button" class="btn btn-outline" data-copy-pick="none">清空</button>';
+    html += '</div></div><div class="copy-picker-grid">';
+    items.forEach(it => {
+      const key = itemKey(it);
+      const on = selectedKeys.has(key);
+      html += '<label class="copy-pick-chip' + (on ? ' is-on' : '') + (it.type === 'phrase' ? ' is-phrase' : '') + '">';
+      html += '<input type="checkbox" data-copy-key="' + escapeHtml(key) + '"' + (on ? ' checked' : '') + '>';
+      html += '<span class="copy-pick-en">' + escapeHtml(it.word) + '</span>';
+      if (it.cn) html += '<span class="copy-pick-cn">' + escapeHtml(it.cn) + '</span>';
+      html += '</label>';
+    });
+    html += '</div>';
+    return html;
+  }
+
+  function ensurePicker(workbook) {
+    let el = document.getElementById('copy-picker');
+    if (el) return el;
+    el = document.createElement('section');
+    el.id = 'copy-picker';
+    el.className = 'copy-picker no-print';
+    if (workbook && workbook.parentNode) workbook.parentNode.insertBefore(el, workbook);
+    else document.body.appendChild(el);
+    return el;
+  }
+
+  function toast(msg) {
+    if (global.Courseware && Courseware.showToast) Courseware.showToast(msg);
   }
 
   function traceFitsGrid(el, grid, padX) {
@@ -247,10 +320,19 @@
     const qr = meta.qrDataUrl
       ? '<div class="copy-cover-qr"><img src="' + meta.qrDataUrl + '" alt="扫码抄写"><span>扫码打开抄写页</span></div>'
       : '';
+    const all = collectItems(data, !!meta.includePhrases);
+    const items = filterSelected(all, meta.selectedKeys);
+    const names = items.length && items.length <= 8
+      ? items.map(it => it.word).join(' · ')
+      : '';
+    const jobLine = names
+      ? '本次作业 ' + items.length + ' 词：' + names + '。'
+      : '本次作业已选 ' + items.length + ' 个目标单词。';
     return '<div class="pdf-export-block copy-cover"><div class="copy-cover-row"><div class="copy-cover-copy">' +
       '<div class="kicker">' + escapeHtml(meta.kicker) + '</div>' +
       '<h1>' + escapeHtml(data.title || 'Vocabulary Copywork') + '</h1>' +
-      '<p>四线格抄写 · 每个单词描红 3 次，再独立书写 3 次。长词使用通栏格子，字号按词长缩放到四线格内。</p>' +
+      '<p>四线格抄写 · 每个单词描红 3 次，再独立书写 3 次。长词使用通栏格子，字号按词长缩放到四线格内。' +
+      escapeHtml(jobLine) + '</p>' +
       '<div class="copy-fields">' +
       '<div class="copy-field"><b>姓名 Name</b><div class="copy-field-line"></div></div>' +
       '<div class="copy-field"><b>班级 Class</b><div class="copy-field-line"></div></div>' +
@@ -374,7 +456,8 @@
     const meta = {
       kicker: metaInfo.kicker,
       accent,
-      includePhrases: !!options.includePhrases
+      includePhrases: !!options.includePhrases,
+      selectedKeys: options.selectedKeys
     };
     await ensurePdfLibs();
     meta.qrDataUrl = await buildQr(metaInfo.pageUrl, accent);
@@ -426,6 +509,7 @@
       kicker: metaInfo.kicker,
       accent,
       includePhrases: !!options.includePhrases,
+      selectedKeys: options.selectedKeys,
       qrDataUrl: await buildQr(metaInfo.pageUrl, accent)
     };
     const w = window.open('', '_blank');
@@ -457,14 +541,95 @@
     if (!data) return;
     const includeEl = config.includePhrasesEl;
     const workbook = config.workbook;
+    const pickerHost = ensurePicker(workbook);
+
+    const heroP = document.querySelector('.copy-hero p');
+    if (heroP && !heroP.dataset.pickHint) {
+      heroP.dataset.pickHint = '1';
+      heroP.textContent = '先勾选目标单词，再导出 PDF。每个单词描红 3 次、独立书写 3 次；短词两行三格，长词通栏，字号按格子缩放。';
+    }
+
+    let selectedKeys = new Set();
+    let knownKeys = new Set();
+    let initialized = false;
+
+    function allItems() {
+      return collectItems(data, !!(includeEl && includeEl.checked));
+    }
+
+    function syncSelection(items) {
+      const keys = items.map(itemKey);
+      if (!initialized) {
+        initialized = true;
+        const saved = loadSavedKeys();
+        selectedKeys = new Set();
+        if (saved && saved.length) {
+          const savedSet = new Set(saved);
+          keys.forEach(k => { if (savedSet.has(k)) selectedKeys.add(k); });
+          if (!selectedKeys.size) keys.forEach(k => selectedKeys.add(k));
+        } else {
+          keys.forEach(k => selectedKeys.add(k));
+        }
+        knownKeys = new Set(keys);
+        return;
+      }
+      keys.forEach(k => {
+        if (!knownKeys.has(k)) selectedKeys.add(k);
+      });
+      const live = new Set(keys);
+      selectedKeys.forEach(k => { if (!live.has(k)) selectedKeys.delete(k); });
+      knownKeys = live;
+    }
 
     function currentOpts() {
-      return { includePhrases: !!(includeEl && includeEl.checked) };
+      return {
+        includePhrases: !!(includeEl && includeEl.checked),
+        selectedKeys
+      };
+    }
+
+    function selectedItems() {
+      return filterSelected(allItems(), selectedKeys);
     }
 
     function refresh() {
+      const items = allItems();
+      syncSelection(items);
+      saveKeys(selectedKeys);
+      pickerHost.innerHTML = pickerHtml(items, selectedKeys);
       renderWorkbook(workbook, data, currentOpts());
     }
+
+    pickerHost.addEventListener('change', e => {
+      const input = e.target.closest('input[data-copy-key]');
+      if (!input) return;
+      const key = input.getAttribute('data-copy-key');
+      if (input.checked) selectedKeys.add(key);
+      else selectedKeys.delete(key);
+      saveKeys(selectedKeys);
+      const chip = input.closest('.copy-pick-chip');
+      if (chip) chip.classList.toggle('is-on', input.checked);
+      const items = allItems();
+      const countEl = document.getElementById('copy-picker-count');
+      if (countEl) {
+        const k = items.filter(it => selectedKeys.has(itemKey(it))).length;
+        countEl.textContent = '已选 ' + k + ' / ' + items.length;
+      }
+      renderWorkbook(workbook, data, currentOpts());
+    });
+
+    pickerHost.addEventListener('click', e => {
+      const btn = e.target.closest('[data-copy-pick]');
+      if (!btn) return;
+      const mode = btn.getAttribute('data-copy-pick');
+      const items = allItems();
+      selectedKeys = new Set();
+      if (mode === 'all') items.forEach(it => selectedKeys.add(itemKey(it)));
+      knownKeys = new Set(items.map(itemKey));
+      saveKeys(selectedKeys);
+      pickerHost.innerHTML = pickerHtml(items, selectedKeys);
+      renderWorkbook(workbook, data, currentOpts());
+    });
 
     if (includeEl) includeEl.addEventListener('change', refresh);
     refresh();
@@ -472,19 +637,28 @@
 
     if (config.pdfBtn) {
       config.pdfBtn.addEventListener('click', async () => {
+        const picked = selectedItems();
+        if (!picked.length) {
+          toast('请先勾选要抄写的目标单词');
+          return;
+        }
         try {
-          if (global.Courseware && Courseware.showToast) Courseware.showToast('正在生成四线格抄写 PDF…');
+          toast('正在生成四线格抄写 PDF…');
           await exportCopyPdf(data, currentOpts());
-          if (global.Courseware && Courseware.showToast) Courseware.showToast('抄写 PDF 已下载');
+          toast('抄写 PDF 已下载（' + picked.length + ' 词）');
         } catch (err) {
           console.error(err);
-          if (global.Courseware && Courseware.showToast) Courseware.showToast('PDF 生成失败，已打开打印窗口…');
+          toast('PDF 生成失败，已打开打印窗口…');
           await openCopyPrintWindow(data, currentOpts());
         }
       });
     }
     if (config.printBtn) {
       config.printBtn.addEventListener('click', () => {
+        if (!selectedItems().length) {
+          toast('请先勾选要抄写的目标单词');
+          return;
+        }
         document.body.classList.add('copy-print-body');
         fitTraceTexts(workbook);
         setTimeout(() => window.print(), 50);
@@ -495,6 +669,8 @@
 
   global.RefhCopyHandwriting = {
     collectItems,
+    itemKey,
+    filterSelected,
     isWideWord,
     fitTraceTexts,
     renderWorkbook,
