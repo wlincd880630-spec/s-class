@@ -155,52 +155,81 @@
   }
 
   function startMemory() {
-    var n = Math.min(6, state.bag.vocab.length);
-    var items = PETStudio.pickN(state.bag.vocab.filter(function (x) { return x.word && x.meaning; }), n);
+    var want = { easy: 4, standard: 6, challenge: 8 };
+    var pool = state.bag.vocab.filter(function (x) { return x.word && x.meaning; });
+    var n = Math.min(want[state.level] || 6, pool.length);
+    var items = PETStudio.pickN(pool, n);
     var cards = [];
     items.forEach(function (it, i) {
-      cards.push({ pair: i, text: it.word, img: it.imageUrl });
-      cards.push({ pair: i, text: it.meaning, img: "" });
+      var pid = "p" + i;
+      cards.push({ pair: pid, kind: "en", text: it.word, img: it.imageUrl || "" });
+      cards.push({ pair: pid, kind: "zh", text: it.meaning, img: "" });
     });
-    state.memory = { cards: PETStudio.shuffle(cards), open: [], matched: {} };
+    state.memory = { cards: PETStudio.shuffle(cards), open: [], matched: {}, busy: false };
     state.queue = items;
     state.idx = 0;
     renderMemory();
   }
 
+  function memoryHud() {
+    var m = state.memory;
+    var got = Object.keys(m.matched).length;
+    var total = m.cards.length / 2;
+    return '<div class=hud><span>' + esc(state.game.name) + " · " + esc(levelCfg().label) +
+      "</span><span>配对 " + got + "/" + total + " · 分 " + state.score + "</span></div>";
+  }
+
   function renderMemory() {
     var m = state.memory;
-    var html = '<div class=play-shell>' + hud().replace(/题.*/, "配对 " + Object.keys(m.matched).length + "/" + (m.cards.length / 2) + " · 分 " + state.score) +
-      '<div class=board>';
+    if (!m) return;
+    var html = '<div class="play-shell">' + memoryHud() +
+      '<p class="note">翻开一张英文牌和一张中文牌，配对成功即可留下；点错会翻回去。</p>' +
+      '<div class="board memory-board">';
     m.cards.forEach(function (c, i) {
-      var open = m.open.indexOf(i) !== -1 || m.matched[c.pair];
-      html += '<button class="flip' + (open ? " open" : "") + (m.matched[c.pair] ? " done" : "") + '" data-i="' + i + '">' +
-        (open
-          ? (c.img ? '<img src="' + esc(c.img) + '" alt="">' : "") + "<span>" + esc(c.text) + "</span>"
-          : "?") + "</button>";
+      var matched = !!m.matched[c.pair];
+      var open = m.open.indexOf(i) !== -1 || matched;
+      html += '<button type="button" class="flip' +
+        (open ? " open" : "") +
+        (matched ? " done" : "") +
+        (c.kind === "zh" ? " zh" : " en") +
+        '" data-i="' + i + '">';
+      if (open) {
+        if (c.img) html += '<img src="' + esc(c.img) + '" alt="">';
+        html += "<small>" + (c.kind === "en" ? "EN" : "中文") + "</small>";
+        html += "<span>" + esc(c.text) + "</span>";
+      } else {
+        html += '<span class="qmark">?</span>';
+      }
+      html += "</button>";
     });
-    html += "</div></div>";
+    html += '</div><div class="mem-actions"><button class="btn btn-ghost" type="button" id="backGames">返回游戏列表</button></div></div>';
     $("playRoot").innerHTML = html;
+    $("backGames").onclick = showList;
     Array.prototype.forEach.call(document.querySelectorAll(".flip"), function (btn) {
       btn.onclick = function () {
         var i = Number(btn.getAttribute("data-i"));
         var card = m.cards[i];
-        if (m.matched[card.pair] || m.open.indexOf(i) !== -1 || m.open.length === 2) return;
+        if (m.busy || m.matched[card.pair] || m.open.indexOf(i) !== -1 || m.open.length >= 2) return;
         m.open.push(i);
         renderMemory();
         if (m.open.length < 2) return;
-        var a = m.cards[m.open[0]], b = m.cards[m.open[1]];
+        var a = m.cards[m.open[0]];
+        var b = m.cards[m.open[1]];
         if (a.pair === b.pair) {
           m.matched[a.pair] = true;
           state.score++;
           m.open = [];
-          if (Object.keys(m.matched).length === m.cards.length / 2) {
-            state.queue = [{}];
-            state.idx = 0;
-            setTimeout(done, 400);
-          } else setTimeout(renderMemory, 250);
+          renderMemory();
+          if (Object.keys(m.matched).length >= m.cards.length / 2) {
+            setTimeout(done, 500);
+          }
         } else {
-          setTimeout(function () { m.open = []; renderMemory(); }, 700);
+          m.busy = true;
+          setTimeout(function () {
+            m.open = [];
+            m.busy = false;
+            renderMemory();
+          }, 800);
         }
       };
     });
