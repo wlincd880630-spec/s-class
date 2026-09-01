@@ -1,5 +1,7 @@
 # PSLE 知识点注册表
 
+> **小学语法课件已下线（重制中）。** 下表中 `Grammar/L*`、`Grammar/KP-*` 路径已从站点移除；`primary_vocab/` 词汇课仍可用。生成脚本与 lesson spec 保留，供之后逐课重做。
+
 ## 结构
 - `master.json` — 全量知识点索引（含 PSLE 溯源）
 - `wave1.json` — Wave 1 试点清单（8 条）
