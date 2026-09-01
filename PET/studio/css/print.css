@@ -1,6 +1,11 @@
 @page { size: A4; margin: 12mm 11mm 14mm; }
 html, body { margin: 0; background: #e2e8f0; }
-body.print-page { font-family: "Nunito", "Noto Sans SC", "PingFang SC", sans-serif; color: #1e293b; }
+body.print-page {
+  font-family: "Nunito", "Noto Sans SC", "PingFang SC", sans-serif;
+  color: #1e293b;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
 .screen-bar {
   position: sticky; top: 0; z-index: 20; display: flex; gap: 10px; flex-wrap: wrap;
   align-items: center; justify-content: space-between;
@@ -9,13 +14,14 @@ body.print-page { font-family: "Nunito", "Noto Sans SC", "PingFang SC", sans-ser
 .screen-bar .btn { border: 0; border-radius: 10px; padding: 8px 14px; font-weight: 800; cursor: pointer; }
 .sheet {
   width: 210mm; min-height: 297mm; margin: 16px auto; background: #fff;
-  box-shadow: 0 18px 40px rgba(15,23,42,.18); overflow: hidden;
+  box-shadow: 0 18px 40px rgba(15,23,42,.18); overflow: visible;
   page-break-after: always;
 }
+.sheet.long { min-height: auto; }
 .cover {
   min-height: 297mm; display: flex; flex-direction: column;
   background: linear-gradient(160deg, #1e1b4b 0%, #4f46e5 48%, #7c3aed 100%);
-  color: #fff; position: relative;
+  color: #fff; position: relative; overflow: hidden;
 }
 .cover img.hero { width: 100%; height: 148mm; object-fit: cover; display: block; }
 .cover .meta { padding: 22px 26px 28px; }
@@ -34,6 +40,7 @@ body.print-page { font-family: "Nunito", "Noto Sans SC", "PingFang SC", sans-ser
 .sec-h .dot { width: 14px; height: 14px; border-radius: 50%; }
 .sec-h h2 { margin: 0; font-size: 18px; }
 .sec-h span { color: #64748b; font-size: 12px; font-weight: 800; }
+.lead { font-size: 12px; color: #475569; margin: 0 0 12px; line-height: 1.55; }
 .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .vcard {
   border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 10px 11px;
@@ -43,13 +50,77 @@ body.print-page { font-family: "Nunito", "Noto Sans SC", "PingFang SC", sans-ser
 .vcard .ph { color: #6366f1; font-size: 12px; font-weight: 800; }
 .vcard .cn { color: #0f766e; font-weight: 800; margin: 3px 0; }
 .vcard .ex { font-size: 12px; color: #334155; line-height: 1.45; }
-.vcard img { width: 100%; height: 78px; object-fit: cover; border-radius: 10px; margin-bottom: 6px; background: #e2e8f0; }
+.vcard img {
+  width: 100%; height: 140px; object-fit: contain; object-position: center;
+  border-radius: 10px; margin-bottom: 6px; background: #eef2ff;
+}
+
+/* REFH-style vocabulary / phrase cards */
+.wcard {
+  display: grid; grid-template-columns: 176px 1fr; gap: 12px;
+  margin: 0 0 12px; padding: 12px 12px 10px;
+  border: 1px solid #dce8e2; border-radius: 10px; border-left: 4px solid #4f46e5;
+  background: #fafcfb; break-inside: avoid; page-break-inside: avoid;
+}
+.wcard.no-pic { grid-template-columns: 1fr; }
+.wcard .pic {
+  background: #eef2ff; border-radius: 10px; padding: 8px;
+  display: flex; align-items: center; justify-content: center;
+  min-height: 168px;
+}
+.wcard .pic img {
+  display: block; width: 100%; height: auto;
+  max-height: 200px; object-fit: contain; object-position: center;
+  background: transparent;
+}
+.wtitle { font-size: 16px; font-weight: 900; color: #312e81; margin-bottom: 6px; line-height: 1.4; }
+.wtitle .idx { color: #64748b; font-weight: 800; margin-right: 4px; }
+.wtitle .ph { color: #4f46e5; font-size: 12.5px; font-weight: 800; margin-left: 6px; }
+.wtitle .pos { font-size: 11px; color: #64748b; font-weight: 700; margin-left: 6px; }
+.pdf-row { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 4px; font-size: 12px; line-height: 1.55; }
+.pdf-label { flex: 0 0 64px; font-weight: 800; color: #0f766e; }
+.pdf-val { flex: 1; min-width: 0; word-break: break-word; }
+.pdf-section {
+  margin-top: 6px; padding-top: 6px; border-top: 1px dashed #dce8e2;
+}
+.pdf-en { font-size: 12.5px; color: #1e293b; line-height: 1.55; }
+.pdf-cn { font-size: 12px; color: #0f766e; line-height: 1.5; margin-top: 2px; }
+.pdf-badge {
+  display: inline-block; font-size: 10px; font-weight: 800;
+  padding: 1px 7px; border-radius: 4px; color: #fff; margin: 0 6px 4px 0;
+  vertical-align: middle;
+}
+.pdf-badge.zk { background: #27ae60; }
+.pdf-badge.g10 { background: #e67e22; }
+.pdf-badge.g11 { background: #7c3aed; }
+.pdf-badge.gk { background: #c0392b; }
+
 .gbox {
   border-left: 6px solid #7c3aed; background: #f5f3ff; border-radius: 0 12px 12px 0;
   padding: 10px 12px; margin-bottom: 10px; break-inside: avoid;
 }
 .gbox h3 { margin: 0 0 6px; font-size: 15px; color: #5b21b6; }
 .gbox .exp { font-size: 12.5px; line-height: 1.55; }
+.glecture {
+  border: 1px solid #ddd6fe; border-radius: 12px; padding: 12px 14px;
+  margin: 0 0 14px; background: linear-gradient(180deg, #fff, #f5f3ff);
+  break-inside: avoid; page-break-inside: avoid;
+}
+.glecture h3 { margin: 0 0 8px; font-size: 16px; color: #5b21b6; }
+.glecture h3 small { font-size: 12px; color: #7c3aed; font-weight: 700; margin-left: 6px; }
+.glecture .subh {
+  font-size: 12px; font-weight: 900; color: #6d28d9; margin: 10px 0 6px;
+  letter-spacing: .04em;
+}
+.glecture .usage p { margin: 0 0 6px; font-size: 12.5px; line-height: 1.6; color: #334155; }
+.glecture .forms, .glecture .notes ul { margin: 0 0 6px; padding-left: 18px; font-size: 12.5px; line-height: 1.55; }
+.glecture .notes { background: #fefce8; border-radius: 8px; padding: 8px 10px; }
+.ex-q {
+  margin: 0 0 8px; padding: 8px 10px; border-radius: 10px;
+  background: #f8fafc; border: 1px solid #e2e8f0; break-inside: avoid;
+  font-size: 12.5px; line-height: 1.5;
+}
+.ex-q .blank { margin: 6px 0 0 22px; color: #94a3b8; letter-spacing: .12em; }
 .sent { font-size: 13.5px; line-height: 1.7; margin: 0 0 6px; }
 .pass-hero-wrap { position: relative; }
 .pass-hero { width: 100%; height: 62mm; object-fit: cover; display: block; }
@@ -59,7 +130,7 @@ body.print-page { font-family: "Nunito", "Noto Sans SC", "PingFang SC", sans-ser
   padding: 8px 14px; border-radius: 999px; font-weight: 900; font-size: 14px;
 }
 .q { margin: 0 0 8px; padding: 8px 10px; border-radius: 10px; background: #f8fafc; border: 1px solid #e2e8f0; break-inside: avoid; }
-.q .n { display: inline-block; min-width: 22px; font-weight: 900; color: #4f46e5; }
+.q .n, .ex-q .n { display: inline-block; min-width: 22px; font-weight: 900; color: #4f46e5; }
 .opts { margin: 4px 0 0 22px; font-size: 12.5px; }
 .foot {
   display: flex; justify-content: space-between; color: #94a3b8; font-size: 11px;
@@ -72,4 +143,5 @@ body.print-page { font-family: "Nunito", "Noto Sans SC", "PingFang SC", sans-ser
   body.print-page { background: #fff; }
   .screen-bar { display: none !important; }
   .sheet { margin: 0; box-shadow: none; width: auto; }
+  .wcard .pic img { max-height: 190px; }
 }
