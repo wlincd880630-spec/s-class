@@ -250,7 +250,7 @@
   <script src="assets/js/course-data.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="assets/js/shared.js?v=20260901d"></script>
+  <script src="assets/js/shared.js?v=20260901e"></script>
   <script>
     let cp = 1, tp = 7, courseData = null, vocabWords = [];
     const PDF_META = {
@@ -377,10 +377,23 @@
     }
 
     function scrambleLetters(letters, answer) {
-      const chars = Courseware.scrambleQuizLetters
-        ? Courseware.scrambleQuizLetters(letters, answer)
-        : shuffleArray(String(answer || letters || '').replace(/\s+/g, '').split(''));
-      return chars;
+      if (Courseware.scrambleQuizLetters) {
+        return Courseware.scrambleQuizLetters(letters, answer);
+      }
+      const source = String(answer || letters || '').replace(/[^A-Za-z]/g, '').split('');
+      const target = source.join('').toLowerCase();
+      let shuffled = source.slice();
+      for (let i = 0; i < 80; i++) {
+        shuffled = shuffleArray(source);
+        if (shuffled.join('').toLowerCase() !== target) return shuffled;
+      }
+      shuffled = source.slice().reverse();
+      if (shuffled.join('').toLowerCase() === target && shuffled.length > 1) {
+        const tmp = shuffled[0];
+        shuffled[0] = shuffled[1];
+        shuffled[1] = tmp;
+      }
+      return shuffled;
     }
 
     function renderQuiz() {
@@ -411,11 +424,12 @@
       }).join('');
 
       document.getElementById('unscramble-list').innerHTML = q.unscramble.map(u => {
-        const tiles = scrambleLetters(u.letters, u.answer).map(ch =>
+        const scrambled = scrambleLetters(u.letters, u.answer);
+        const tiles = scrambled.map(ch =>
           `<span class="letter-tile">${Courseware.escapeHtml(String(ch).toUpperCase())}</span>`
         ).join('');
         return `<div class="q-card" data-ans="${u.answer}">
-          <div class="scram">${tiles}</div>
+          <div class="scram" data-scrambled="${Courseware.escapeHtml(scrambled.join('').toLowerCase())}">${tiles}</div>
           <p style="font-size:0.82rem;color:var(--muted)">${u.hint}</p>
           <input type="text" class="block-inp" placeholder="Type answer...">
           <div class="analysis-box"><span class="ans-val">${u.answer}</span>: ${u.hint}</div>

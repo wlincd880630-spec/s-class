@@ -1690,22 +1690,33 @@ ${azureLine}
   }
 
   function parseQuizLetters(letters, answer) {
-    let chars = String(letters || '').trim().split(/\s+/).filter(Boolean);
-    if (chars.length === 1) chars = chars[0].split('');
-    if (chars.length <= 1 && answer) chars = String(answer).replace(/\s+/g, '').split('');
-    return chars;
+    const fromAnswer = String(answer || '').replace(/[^A-Za-z]/g, '');
+    if (fromAnswer.length > 1) return fromAnswer.split('');
+    const raw = String(letters || '').trim();
+    let chars = raw.split(/\s+/).filter(Boolean);
+    if (chars.length === 1) chars = chars[0].replace(/[^A-Za-z]/g, '').split('');
+    else chars = raw.replace(/[^A-Za-z]/g, '').split('');
+    return chars.filter(Boolean);
+  }
+
+  function lettersSpellTarget(arr, target) {
+    return arr.join('').toLowerCase() === String(target || '').toLowerCase();
   }
 
   function scrambleQuizLetters(letters, answer) {
     const chars = parseQuizLetters(letters, answer);
     if (chars.length <= 1) return chars;
-    const original = chars.join('').toLowerCase();
-    const target = String(answer || original).replace(/\s+/g, '').toLowerCase();
+    const target = String(answer || chars.join('')).replace(/[^A-Za-z]/g, '').toLowerCase();
     let shuffled = chars.slice();
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 80; i++) {
       shuffled = shuffleArray(chars);
-      const joined = shuffled.join('').toLowerCase();
-      if (joined !== original && joined !== target) return shuffled;
+      if (!lettersSpellTarget(shuffled, target)) return shuffled;
+    }
+    shuffled = chars.slice().reverse();
+    if (lettersSpellTarget(shuffled, target) && shuffled.length > 1) {
+      const tmp = shuffled[0];
+      shuffled[0] = shuffled[1];
+      shuffled[1] = tmp;
     }
     return shuffled;
   }
@@ -1794,7 +1805,7 @@ ${azureLine}
         display:inline-flex;width:16px;height:18px;align-items:center;justify-content:center;
         border-radius:4px;background:#7c3aed;color:#fff;font-weight:800;font-size:11px;margin:0 1px 0 4px;
       }
-      .qpdf-tiles{margin:4px 0 6px;}
+      .qpdf-tiles{margin:4px 0 6px;display:flex;flex-wrap:wrap;gap:3px;align-items:center;}
       .qpdf-tile{
         display:inline-flex;width:20px;height:24px;align-items:center;justify-content:center;
         margin:0 3px 3px 0;border-radius:5px;border:1.5px solid #f97316;
@@ -1924,7 +1935,7 @@ ${azureLine}
         <div class="qpdf-write"></div>`)
     ).join('');
 
-    const bank = (q.word_selection?.bank || q.word_selection?.items?.map(it => it.answer) || []);
+    const bank = shuffleArray(q.word_selection?.bank || q.word_selection?.items?.map(it => it.answer) || []);
     const bankHtml = `<div class="qpdf-bank">${bank.map((w, i) =>
       `<span class="qpdf-bank-item" style="background:${colors[i % colors.length]}">${escapeHtml(w)}</span>`
     ).join('')}</div>`;
@@ -1938,7 +1949,7 @@ ${azureLine}
       const tiles = letters.map(ch => `<span class="qpdf-tile">${escapeHtml(String(ch).toUpperCase())}</span>`).join('');
       return buildQuizItemBlock(3, `
         <div class="qpdf-en"><span class="qpdf-qno" style="background:#f97316">${i + 1}</span><span class="qpdf-cn" style="display:inline;margin:0 8px 0 0">${escapeHtml(u.hint || '')}</span></div>
-        <div class="qpdf-tiles">${tiles}</div>
+        <div class="qpdf-tiles" data-scrambled="${escapeHtml(letters.join('').toLowerCase())}">${tiles}</div>
         <div class="qpdf-write"></div>`);
     }).join('');
 
