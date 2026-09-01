@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Part 3 · 朗读翻译 | Fewer Choices</title>
+  <link rel="stylesheet" href="assets/css/shared.css">
+  <style>
+    .page {
+      min-height: calc(100vh - 60px);
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; padding: 24px 20px 60px;
+    }
+    .progress { width: 100%; max-width: 680px; margin-bottom: 20px; }
+    .progress-bar {
+      height: 6px; background: var(--border); border-radius: 999px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; background: var(--primary); border-radius: 999px; transition: 0.3s;
+    }
+    .progress-text { font-size: 0.85rem; color: var(--muted); margin-top: 6px; text-align: center; }
+    .sentence-card {
+      width: 100%; max-width: 680px;
+      background: var(--surface); border-radius: 24px;
+      border: 1px solid var(--border); box-shadow: var(--shadow);
+      padding: 40px 32px; text-align: center;
+    }
+    .sentence-en {
+      font-family: var(--font-display); font-size: clamp(1.2rem, 3vw, 1.6rem);
+      line-height: 1.6; color: var(--text); margin-bottom: 32px;
+    }
+    .controls {
+      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .ctrl-btn {
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      border: 2px solid var(--border); background: var(--surface);
+      border-radius: 16px; padding: 16px 20px; cursor: pointer;
+      min-width: 100px; transition: 0.2s;
+    }
+    .ctrl-btn:hover { border-color: var(--primary); background: var(--primary-light); }
+    .ctrl-btn.active { border-color: var(--accent2); background: #fff5f5; }
+    .ctrl-btn .icon { font-size: 1.5rem; }
+    .ctrl-btn .label { font-size: 0.78rem; font-weight: 600; color: var(--muted); }
+    .speed-toggle {
+      display: flex; gap: 6px; justify-content: center; margin-bottom: 20px;
+    }
+    .speed-btn {
+      border: 1px solid var(--border); background: var(--bg);
+      padding: 5px 14px; border-radius: 999px; cursor: pointer; font-size: 0.82rem;
+    }
+    .speed-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .nav-row { display: flex; gap: 12px; justify-content: center; margin-top: 24px; flex-wrap: wrap; }
+    .result-area { width: 100%; max-width: 680px; margin-top: 20px; display: none; }
+    .result-area.show { display: block !important; }
+    .score-badge {
+      display: inline-block; font-size: 2rem; font-weight: 700;
+      color: var(--primary); font-family: var(--font-display);
+    }
+    .recording-indicator {
+      display: none; color: var(--accent2); font-size: 0.85rem;
+      animation: pulse 1s infinite; margin-bottom: 16px;
+    }
+    .recording-indicator.show { display: block; }
+    @keyframes pulse { 50% { opacity: 0.5; } }
+    .transcript-panel {
+      width: 100%; max-width: 680px; margin-top: 16px;
+      display: grid; gap: 12px; text-align: left;
+    }
+    .transcript-box {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 14px 16px;
+    }
+    .transcript-box label {
+      display: block; font-size: 0.82rem; font-weight: 700;
+      color: var(--primary); margin-bottom: 8px;
+    }
+    .transcript-live {
+      min-height: 2.4em; padding: 10px 12px; border-radius: 10px;
+      background: var(--bg); border: 1px dashed var(--border);
+      font-size: 0.95rem; line-height: 1.55; color: var(--text);
+      word-break: break-word;
+    }
+    .transcript-live.empty { color: var(--muted); font-style: italic; }
+    .transcript-live.listening {
+      border-color: var(--accent2); background: #fff8f6;
+    }
+    .transcript-edit {
+      width: 100%; margin-top: 8px; padding: 8px 10px;
+      border: 1px solid var(--border); border-radius: 8px;
+      font-family: var(--font); font-size: 0.88rem; resize: vertical;
+    }
+    .transcript-hint {
+      font-size: 0.75rem; color: var(--muted); margin-top: 6px;
+    }
+    #btn-eval:disabled { opacity: 0.6; cursor: wait; }
+    .eval-meta { font-size: 0.88rem; color: var(--muted); margin-bottom: 10px; word-break: break-word; }
+    .score-grid {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;
+      margin: 12px 0;
+    }
+    .score-item {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 10px; padding: 10px 6px; text-align: center;
+    }
+    .score-item.highlight { background: var(--primary-light); border-color: var(--primary); }
+    .score-num { display: block; font-size: 1.25rem; font-weight: 700; color: var(--primary); }
+    .score-lbl { display: block; font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
+    @media (max-width: 600px) { .score-grid { grid-template-columns: repeat(3, 1fr); } }
+  </style>
+</head>
+<body>
+  <div id="nav"></div>
+  <div class="page">
+    <div class="progress">
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
+      <div class="progress-text" id="prog-text">加载中…</div>
+    </div>
+
+    <div class="sentence-card">
+      <div class="sentence-en" id="sentence-en"></div>
+      <div class="speed-toggle">
+        <button class="speed-btn" data-rate="slow" onclick="setSpeed('slow',this)">🐢 慢速</button>
+        <button class="speed-btn active" data-rate="normal" onclick="setSpeed('normal',this)">▶️ 正常</button>
+      </div>
+      <div class="controls">
+        <button class="ctrl-btn" type="button" onclick="playSentence()">
+          <span class="icon">🔊</span><span class="label">TTS 朗读</span>
+        </button>
+        <button class="ctrl-btn" type="button" id="btn-read" onclick="toggleReadRecord()">
+          <span class="icon">🎤</span><span class="label">朗读录音</span>
+        </button>
+        <button class="ctrl-btn" type="button" id="btn-trans" onclick="toggleTransRecord()">
+          <span class="icon">🌐</span><span class="label">翻译录音</span>
+        </button>
+      </div>
+      <div class="recording-indicator" id="rec-ind">● 录音中… 再次点击结束</div>
+      <div class="nav-row">
+        <button class="btn btn-outline" type="button" onclick="prev()" id="btn-prev">← 上一句</button>
+        <button class="btn btn-primary" type="button" id="btn-eval">AI 评价</button>
+        <button class="btn btn-outline" type="button" onclick="next()" id="btn-next">下一句 →</button>
+      </div>
+    </div>
+
+    <div class="transcript-panel">
+      <div class="transcript-box">
+        <label>🎤 朗读语音识别（英文）</label>
+        <div class="transcript-live empty" id="read-live">点击「朗读录音」开始，识别文字将实时显示</div>
+        <textarea class="transcript-edit" id="read-edit" rows="2" placeholder="可手动修改朗读识别结果…"></textarea>
+        <div class="transcript-hint">录音时实时识别；结束后可在此修改再提交 AI 评价</div>
+      </div>
+      <div class="transcript-box">
+        <label>🌐 翻译语音识别（中文）</label>
+        <div class="transcript-live empty" id="trans-live">点击「翻译录音」说中文，识别文字将实时显示</div>
+        <textarea class="transcript-edit" id="trans-edit" rows="2" placeholder="可手动修改中文翻译…"></textarea>
+        <div class="transcript-hint">请用中文说出本句翻译；识别结果可手动修改</div>
+      </div>
+    </div>
+
+    <div class="result-area card" id="result-area">
+      <h3 style="color:var(--primary);margin-bottom:12px">📊 AI 评价结果</h3>
+      <div id="read-result"></div>
+      <hr style="margin:16px 0;border:none;border-top:1px solid var(--border)">
+      <div id="trans-result"></div>
+    </div>
+  </div>
+
+  <script src="assets/js/course-data.js"></script>
+  <script src="assets/js/shared.js?v=20260901a"></script>
+  <script>
+    document.getElementById('nav').innerHTML = Courseware.renderNav('part3-speaking.html');
+    Courseware.injectConfigPanel();
+
+    let sentences = [];
+    let idx = 0;
+    let speed = 'normal';
+    let readTranscript = '';
+    let transTranscript = '';
+    let lastPronunciation = null;
+
+    function applyStoppedRecording(stopped) {
+      if (!stopped || !stopped.text) return;
+      if (stopped.mode === 'read') {
+        readTranscript = stopped.text;
+        setLiveText(document.getElementById('read-live'), readTranscript, false);
+        document.getElementById('read-edit').value = readTranscript;
+        if (stopped.pronunciation) lastPronunciation = stopped.pronunciation;
+      } else if (stopped.mode === 'trans') {
+        transTranscript = stopped.text;
+        setLiveText(document.getElementById('trans-live'), transTranscript, false);
+        document.getElementById('trans-edit').value = transTranscript;
+      }
+    }
+
+    async function stopAnyRecording() {
+      if (!Courseware.isSpeakingRecording()) return;
+      const stopped = await Courseware.stopSpeakingRecordSafe(3500);
+      document.getElementById('btn-read').classList.remove('active');
+      document.getElementById('btn-trans').classList.remove('active');
+      document.getElementById('rec-ind').classList.remove('show');
+      applyStoppedRecording(stopped);
+    }
+
+    function setSpeed(rate, btn) {
+      speed = rate === 'slow' ? 'slow' : 'normal';
+      document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function setLiveText(el, text, listening) {
+      const value = (text || '').trim();
+      el.textContent = value || el.dataset.placeholder;
+      el.classList.toggle('empty', !value);
+      el.classList.toggle('listening', !!listening);
+    }
+
+    function resetTranscriptUI() {
+      readTranscript = '';
+      transTranscript = '';
+      const readLive = document.getElementById('read-live');
+      const transLive = document.getElementById('trans-live');
+      readLive.dataset.placeholder = '点击「朗读录音」开始，识别文字将实时显示';
+      transLive.dataset.placeholder = '点击「翻译录音」说中文，识别文字将实时显示';
+      setLiveText(readLive, '', false);
+      setLiveText(transLive, '', false);
+      document.getElementById('read-edit').value = '';
+      document.getElementById('trans-edit').value = '';
+    }
+
+    async function render() {
+      const s = sentences[idx];
+      document.getElementById('sentence-en').textContent = s.text;
+      document.getElementById('prog-fill').style.width = ((idx + 1) / sentences.length * 100) + '%';
+      document.getElementById('prog-text').textContent = `${idx + 1} / ${sentences.length} · ${s.paragraph_title}`;
+      document.getElementById('btn-prev').disabled = idx === 0;
+      document.getElementById('btn-next').disabled = idx === sentences.length - 1;
+      document.getElementById('result-area').classList.remove('show');
+      lastPronunciation = null;
+      await stopAnyRecording();
+      resetTranscriptUI();
+    }
+
+    function playSentence() {
+      Courseware.speakText(sentences[idx].text, speed);
+    }
+
+    async function toggleReadRecord() {
+      const btn = document.getElementById('btn-read');
+      const ind = document.getElementById('rec-ind');
+      const live = document.getElementById('read-live');
+
+      if (Courseware.getSpeakingRecordingMode() === 'read') {
+        const stopped = await Courseware.stopSpeakingRecordSafe(3500);
+        applyStoppedRecording(stopped);
+        btn.classList.remove('active');
+        ind.classList.remove('show');
+        return;
+      }
+
+      if (Courseware.isSpeakingRecording()) await stopAnyRecording();
+
+      try {
+        await Courseware.startSpeakingRecord('read', (text) => {
+          readTranscript = text;
+          setLiveText(live, text, true);
+        }, { referenceText: sentences[idx].text });
+        btn.classList.add('active');
+        document.getElementById('btn-trans').classList.remove('active');
+        ind.classList.add('show');
+        ind.textContent = '● 朗读录音中 · 英文实时识别，再次点击结束';
+        setLiveText(live, '', true);
+      } catch (e) {
+        Courseware.showToast(e.message || '无法访问麦克风');
+      }
+    }
+
+    async function toggleTransRecord() {
+      const btn = document.getElementById('btn-trans');
+      const ind = document.getElementById('rec-ind');
+      const live = document.getElementById('trans-live');
+
+      if (Courseware.getSpeakingRecordingMode() === 'trans') {
+        const stopped = await Courseware.stopSpeakingRecordSafe(3500);
+        applyStoppedRecording(stopped);
+        btn.classList.remove('active');
+        ind.classList.remove('show');
+        return;
+      }
+
+      if (Courseware.isSpeakingRecording()) await stopAnyRecording();
+
+      try {
+        await Courseware.startSpeakingRecord('trans', (text) => {
+          transTranscript = text;
+          setLiveText(live, text, true);
+        });
+        btn.classList.add('active');
+        document.getElementById('btn-read').classList.remove('active');
+        ind.classList.add('show');
+        ind.textContent = '● 翻译录音中 · 中文实时识别，再次点击结束';
+        setLiveText(live, '', true);
+      } catch (e) {
+        Courseware.showToast(e.message || '无法访问麦克风');
+      }
+    }
+
+    function getReadText() {
+      return document.getElementById('read-edit').value.trim() || readTranscript.trim();
+    }
+
+    function getTransText() {
+      return document.getElementById('trans-edit').value.trim() || transTranscript.trim();
+    }
+
+    async function evaluate() {
+      const btn = document.getElementById('btn-eval');
+      const area = document.getElementById('result-area');
+      const readEl = document.getElementById('read-result');
+      const transEl = document.getElementById('trans-result');
+
+      area.classList.add('show');
+      area.style.display = 'block';
+      readEl.innerHTML = '<div class="ai-result loading">🤖 Azure + DeepSeek 分析中…</div>';
+      transEl.innerHTML = '<div class="ai-result loading">🤖 翻译评分中…</div>';
+      btn.disabled = true;
+      Courseware.showToast('AI 评价进行中…');
+
+      try {
+        if (!sentences.length) throw new Error('课程数据尚未加载完成');
+
+        const stopped = await Courseware.stopSpeakingRecordSafe(3500);
+        applyStoppedRecording(stopped);
+
+        const original = sentences[idx].text;
+        const readText = getReadText();
+        const transText = getTransText();
+        const pronunciation = lastPronunciation || Courseware.getLastPronunciation();
+
+        let readingData = null;
+        let translationData = null;
+
+        if (readText) {
+          try {
+            const result = await Courseware.runSpeakingEvaluation({
+              original, readText, transText: '', pronunciation
+            });
+            readingData = result.reading;
+          } catch (e) {
+            readEl.innerHTML = `<p style="color:var(--accent2)">朗读评价失败：${Courseware.escapeHtml(e.message || '请检查 Azure / DeepSeek 配置')}</p>`;
+          }
+        }
+        if (readingData) {
+          readEl.innerHTML = Courseware.renderReadingEvalHtml(readingData, readText);
+        } else if (!readText) {
+          readEl.innerHTML = Courseware.renderReadingEvalHtml(null, '');
+        }
+
+        if (transText) {
+          try {
+            const result = await Courseware.runSpeakingEvaluation({
+              original, readText: '', transText, pronunciation: null
+            });
+            translationData = result.translation;
+            transEl.innerHTML = Courseware.renderTranslationEvalHtml(translationData, transText);
+          } catch (e) {
+            transEl.innerHTML = `<p style="color:var(--accent2)">翻译评分失败：${Courseware.escapeHtml(e.message || '请检查 DeepSeek 配置')}</p>`;
+          }
+        } else {
+          transEl.innerHTML = Courseware.renderTranslationEvalHtml(null, '');
+        }
+
+        area.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } catch (e) {
+        readEl.innerHTML = `<p style="color:var(--accent2)">评价出错：${Courseware.escapeHtml(e.message || '未知错误')}</p>`;
+        Courseware.showToast('评价失败：' + (e.message || '未知错误'));
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    window.evaluate = evaluate;
+
+    async function prev() { if (idx > 0) { idx--; await render(); } }
+    async function next() { if (idx < sentences.length - 1) { idx++; await render(); } }
+
+    document.getElementById('read-edit').addEventListener('input', e => { readTranscript = e.target.value; });
+    document.getElementById('trans-edit').addEventListener('input', e => { transTranscript = e.target.value; });
+    document.getElementById('btn-eval').addEventListener('click', evaluate);
+
+    Courseware.loadCourseData().then(data => {
+      sentences = data.all_sentences || [];
+      if (!sentences.length) {
+        document.getElementById('prog-text').textContent = '未找到句子数据';
+        Courseware.showToast('all_sentences 数据缺失');
+        return;
+      }
+      render();
+    }).catch(() => {
+      Courseware.showToast('课程数据加载失败');
+    });
+  </script>
+</body>
+</html>
