@@ -87,7 +87,14 @@
       display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
     }
     .bank span { background: var(--primary-light); padding: 4px 12px; border-radius: 999px; font-weight: 600; color: var(--primary); font-size: 0.85rem; }
-    .scram { font-size: 1.15rem; letter-spacing: 3px; font-weight: 700; color: #e67e22; }
+    .scram { font-size: 1.15rem; letter-spacing: 3px; font-weight: 700; color: #e67e22; display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+    .letter-tile {
+      display: inline-flex; min-width: 32px; height: 38px; padding: 0 8px;
+      align-items: center; justify-content: center;
+      border-radius: 8px; border: 2px solid #f97316;
+      background: linear-gradient(180deg, #fff7ed, #ffedd5);
+      color: #c2410c; font-weight: 800; font-size: 1.15rem; letter-spacing: 0;
+    }
     .submit-bar {
       position: absolute; bottom: 0; left: 0; right: 0;
       background: rgba(255,255,255,0.95); padding: 14px; text-align: center;
@@ -243,7 +250,7 @@
   <script src="assets/js/course-data.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="assets/js/shared.js?v=20260901b"></script>
+  <script src="assets/js/shared.js?v=20260901d"></script>
   <script>
     let cp = 1, tp = 7, courseData = null, vocabWords = [];
     const PDF_META = {
@@ -370,16 +377,10 @@
     }
 
     function scrambleLetters(letters, answer) {
-      let chars = String(letters || '').trim().split(/\s+/).filter(Boolean);
-      if (chars.length <= 1 && answer) chars = String(answer).split('');
-      if (chars.length <= 1) return letters;
-      const original = chars.join(' ').toLowerCase();
-      let shuffled = chars;
-      for (let i = 0; i < 20; i++) {
-        shuffled = shuffleArray(chars);
-        if (shuffled.join(' ').toLowerCase() !== original) break;
-      }
-      return shuffled.join(' ');
+      const chars = Courseware.scrambleQuizLetters
+        ? Courseware.scrambleQuizLetters(letters, answer)
+        : shuffleArray(String(answer || letters || '').replace(/\s+/g, '').split(''));
+      return chars;
     }
 
     function renderQuiz() {
@@ -409,13 +410,17 @@
         </div>`;
       }).join('');
 
-      document.getElementById('unscramble-list').innerHTML = q.unscramble.map(u =>
-        `<div class="q-card" data-ans="${u.answer}">
-          <div class="scram">${scrambleLetters(u.letters, u.answer)}</div>
+      document.getElementById('unscramble-list').innerHTML = q.unscramble.map(u => {
+        const tiles = scrambleLetters(u.letters, u.answer).map(ch =>
+          `<span class="letter-tile">${Courseware.escapeHtml(String(ch).toUpperCase())}</span>`
+        ).join('');
+        return `<div class="q-card" data-ans="${u.answer}">
+          <div class="scram">${tiles}</div>
           <p style="font-size:0.82rem;color:var(--muted)">${u.hint}</p>
           <input type="text" class="block-inp" placeholder="Type answer...">
           <div class="analysis-box"><span class="ans-val">${u.answer}</span>: ${u.hint}</div>
-        </div>`).join('');
+        </div>`;
+      }).join('');
 
       document.getElementById('first-letter-list').innerHTML = q.first_letter.map(f => {
         const fill = f.answer.slice(1).toLowerCase();

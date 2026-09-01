@@ -1680,6 +1680,36 @@ ${azureLine}
     }, 700);
   }
 
+  function shuffleArray(arr) {
+    const a = (arr || []).slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function parseQuizLetters(letters, answer) {
+    let chars = String(letters || '').trim().split(/\s+/).filter(Boolean);
+    if (chars.length === 1) chars = chars[0].split('');
+    if (chars.length <= 1 && answer) chars = String(answer).replace(/\s+/g, '').split('');
+    return chars;
+  }
+
+  function scrambleQuizLetters(letters, answer) {
+    const chars = parseQuizLetters(letters, answer);
+    if (chars.length <= 1) return chars;
+    const original = chars.join('').toLowerCase();
+    const target = String(answer || original).replace(/\s+/g, '').toLowerCase();
+    let shuffled = chars.slice();
+    for (let i = 0; i < 40; i++) {
+      shuffled = shuffleArray(chars);
+      const joined = shuffled.join('').toLowerCase();
+      if (joined !== original && joined !== target) return shuffled;
+    }
+    return shuffled;
+  }
+
   const QUIZ_PART_COLORS = {
     1: { bg: '#ecfeff', border: '#0e7490', ink: '#155e75', chip: '#0e7490', name: '潮汐青绿' },
     2: { bg: '#e0f2fe', border: '#0284c7', ink: '#075985', chip: '#0369a1', name: '太平洋蓝' },
@@ -1904,8 +1934,8 @@ ${azureLine}
     ).join('');
 
     const unscrambleItems = (q.unscramble || []).map((u, i) => {
-      const letters = String(u.letters || u.answer || '').trim().split(/\s+/).filter(Boolean);
-      const tiles = letters.map(ch => `<span class="qpdf-tile">${escapeHtml(ch.toUpperCase())}</span>`).join('');
+      const letters = scrambleQuizLetters(u.letters, u.answer);
+      const tiles = letters.map(ch => `<span class="qpdf-tile">${escapeHtml(String(ch).toUpperCase())}</span>`).join('');
       return buildQuizItemBlock(3, `
         <div class="qpdf-en"><span class="qpdf-qno" style="background:#f97316">${i + 1}</span><span class="qpdf-cn" style="display:inline;margin:0 8px 0 0">${escapeHtml(u.hint || '')}</span></div>
         <div class="qpdf-tiles">${tiles}</div>
@@ -2117,6 +2147,7 @@ ${azureLine}
     isSpeakingRecording, getSpeakingRecordingMode,
     buildVocabPdfHtml, exportVocabPdf, openVocabPrintWindow,
     buildArticlePdfHtml, exportArticlePdf,
-    buildQuizPdfHtml, exportQuizPdf, openQuizPrintWindow
+    buildQuizPdfHtml, exportQuizPdf, openQuizPrintWindow,
+    shuffleArray, scrambleQuizLetters
   };
 })(window);
