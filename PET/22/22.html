@@ -3,6 +3,8 @@
 <html lang="en">
 <head>
     <script src="../../scripts/auth-check.js"></script>
+    <script src="../studio/js/entry.js"></script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Intensive English Lab | S-Class</title>
@@ -362,18 +364,18 @@
                             <div class="text-6xl mb-4">🏆</div><h3 class="text-2xl font-bold text-green-400">All Correct!</h3>
                         </div>
                     </div>
-                    <div v-else class="w-full">
-                        <button @click="playTTS(currentItem.word || currentItem.phrase)" class="mb-8 w-16 h-16 rounded-full bg-indigo-600 text-white text-2xl shadow-lg flex items-center justify-center animate-bounce btn-3d border-b-4 border-indigo-800"><i class="fas fa-volume-up"></i></button>
-                        <div class="flex justify-center gap-2 mb-10 flex-wrap min-h-[60px]">
+                    <div v-else class="pet-spell-panel w-full flex flex-col items-center text-center">
+                        <button @click="playTTS(currentItem.word || currentItem.phrase)" class="mb-8 mx-auto w-16 h-16 rounded-full bg-indigo-600 text-white text-2xl shadow-lg flex items-center justify-center animate-bounce btn-3d border-b-4 border-indigo-800"><i class="fas fa-volume-up"></i></button>
+                        <div class="pet-spell-slots flex justify-center items-center gap-2 mb-10 flex-wrap min-h-[60px] w-full">
                             <template v-for="(char, i) in spellingDisplaySlots" :key="i">
                                 <div v-if="char === 'SPACE'" class="w-6"></div>
                                 <div v-else class="w-12 h-14 bg-slate-800 border-b-4 border-indigo-500 flex items-center justify-center text-2xl font-bold text-white rounded-lg">{{ char || '' }}</div>
                             </template>
                         </div>
-                        <div class="flex flex-wrap justify-center gap-2 max-w-lg">
-                            <button v-for="(char, i) in stepData.shuffledLetters" :key="i" @click="handleTask('spell', char, i)" :disabled="stepData.usedIndices.has(i)" class="key-btn btn-3d">{{ char }}</button>
+                        <div class="pet-spell-keys flex flex-wrap justify-center gap-2 max-w-lg mx-auto w-full">
+                            <button v-for="(char, i) in stepData.shuffledLetters" :key="i" @click="handleTask('spell', char, i)" :disabled="!!(stepData.usedIndices && stepData.usedIndices.has && stepData.usedIndices.has(i))" class="key-btn btn-3d">{{ char }}</button>
                         </div>
-                        <button @click="resetSpelling" class="mt-10 px-4 py-2 bg-slate-700 rounded-lg text-slate-300 text-sm btn-3d border-b-4 border-slate-900"><i class="fas fa-undo"></i> Reset</button>
+                        <button @click="resetSpelling" class="mt-10 mx-auto px-4 py-2 bg-slate-700 rounded-lg text-slate-300 text-sm btn-3d border-b-4 border-slate-900"><i class="fas fa-undo"></i> Reset</button>
                     </div>
                 </div>
 
@@ -2780,7 +2782,7 @@ createApp({
         const startNew = () => { localStorage.removeItem('eng_lab_save'); phase.value = 'vocab'; currentIndex.value = 0; initStepData(); };
         const resume = () => {
             const s = JSON.parse(localStorage.getItem('eng_lab_save'));
-            if(s) { phase.value=s.p; currentIndex.value=s.i; userName.value=s.u; initStepData(); if(s.d) stepData.value=s.d; }
+            if(s) { phase.value=s.p; currentIndex.value=s.i; userName.value=s.u; initStepData(); if(s.d) stepData.value=s.d; if(!(stepData.value.usedIndices instanceof Set)) stepData.value.usedIndices=new Set(); }
         };
         const saveProgress = () => {
             localStorage.setItem('eng_lab_save', JSON.stringify({p:phase.value, i:currentIndex.value, u:userName.value, d:stepData.value}));
@@ -2906,7 +2908,7 @@ createApp({
             }
             if (action === 'spell') {
                 stepData.value.userSpelling.push(payload);
-                stepData.value.usedIndices.add(index);
+                if(!(stepData.value.usedIndices instanceof Set)) stepData.value.usedIndices=new Set(); stepData.value.usedIndices.add(index);
                 const currentStr = stepData.value.userSpelling.join('').toLowerCase();
                 const target = (item.word || item.phrase).replace(/[^a-zA-Z]/g, '').toLowerCase();
                 if (currentStr.length === target.length) {
@@ -3000,7 +3002,7 @@ createApp({
         };
 
         const updateOralCount = (score) => { stepData.value.lastOralScore = score; if(score > 0) stepData.value.oralCount++; saveProgress(); }
-        const resetSpelling = () => { stepData.value.userSpelling = []; stepData.value.usedIndices.clear(); };
+        const resetSpelling = () => { stepData.value.userSpelling = []; if(!(stepData.value.usedIndices instanceof Set)) stepData.value.usedIndices=new Set(); else stepData.value.usedIndices.clear(); };
         const toggleEx = (i) => { stepData.value.exStates[i].showCn = !stepData.value.exStates[i].showCn; };
         
         const getZhongkaoSentence = () => { const ex = currentItem.value.examples.find(e => e.source === 'Zhongkao'); return ex ? ex.sentence : currentItem.value.examples[0].sentence; };

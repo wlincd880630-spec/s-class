@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="../../scripts/auth-check.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PET 九种复习游戏 | S-Class</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&family=Noto+Sans+SC:wght@500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/studio.css">
+  <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
+  <script src="../../scripts/pet-speech-helper.js"></script>
+</head>
+<body class="studio">
+  <div class="wrap">
+    <div class="topbar">
+      <a class="back" href="index.html">← 工作室</a>
+    </div>
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="kicker">9 Review Games</div>
+        <h1 id="unitTitle">分层复习游戏</h1>
+        <p>基础 / 标准 / 挑战三档。看图与翻牌使用本单元配图；转盘可用 DeepSeek 加题；纸质卷可导出 PDF。</p>
+      </div>
+      <img id="heroImg" src="img/hub-hero.jpg" alt="">
+    </section>
+    <div class="toolbar">
+      <div class="field"><label>单元</label><select id="unitSel"></select></div>
+      <div class="field"><label>难度分层</label>
+        <select id="levelSel">
+          <option value="easy">基础 Easy</option>
+          <option value="standard" selected>标准 Standard</option>
+          <option value="challenge">挑战 Challenge</option>
+        </select>
+      </div>
+      <button class="btn btn-indigo" id="printGamesBtn">导出纸质复习卷</button>
+      <button class="btn btn-rose" id="aiPaperBtn">DeepSeek 加题卷</button>
+    </div>
+    <p class="note" id="status">载入词表中…</p>
+    <div id="playRoot"></div>
+  </div>
+  <script src="js/catalog.js"></script>
+  <script src="js/loader.js"></script>
+  <script src="js/print.js"></script>
+  <script src="js/ai.js"></script>
+  <script src="js/games.js"></script>
+  <script>
+    (function () {
+      var q = PETStudio.parseQuery();
+      var sel = document.getElementById("unitSel");
+      PETStudio.UNITS.forEach(function (u) {
+        var o = document.createElement("option");
+        o.value = u.id; o.textContent = "Unit " + u.id + " · " + u.title;
+        sel.appendChild(o);
+      });
+      if (q.unit) sel.value = q.unit;
+      if (q.level) document.getElementById("levelSel").value = q.level;
+      function boot() {
+        var u = PETStudio.getUnit(sel.value);
+        document.getElementById("unitTitle").textContent = "Unit " + u.id + " · " + u.title;
+        document.getElementById("heroImg").src = PETStudio.articleImg(u.id);
+        document.getElementById("status").textContent = "正在读取 Unit " + u.id + " …";
+        PETStudio.loadUnit(u.id).then(function (bag) {
+          document.getElementById("status").textContent =
+            "单词 " + bag.vocab.length + " · 词组 " + bag.colloc.length + " · 语法 " + bag.grammar.length +
+            " · 点卡片开始游戏";
+          PETStudio.mountGames(bag);
+        }).catch(function (e) {
+          document.getElementById("status").textContent = "读取失败：" + e.message;
+        });
+      }
+      sel.onchange = boot;
+      boot();
+    })();
+  </script>
+</body>
+</html>

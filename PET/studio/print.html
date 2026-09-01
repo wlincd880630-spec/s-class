@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="../../scripts/auth-check.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PET 讲义导出 | S-Class</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&family=Noto+Sans+SC:wght@500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/studio.css">
+</head>
+<body class="studio">
+  <div class="wrap">
+    <div class="topbar">
+      <a class="back" href="index.html">← 工作室</a>
+    </div>
+    <div class="toolbar">
+      <div class="field"><label>单元</label><select id="unitSel"></select></div>
+      <div class="field"><label>类型</label>
+        <select id="typeSel">
+          <option value="handout">单词 / 词组 / 语法讲义</option>
+          <option value="passage">文章精读</option>
+          <option value="games">复习游戏纸质卷</option>
+        </select>
+      </div>
+      <div class="field"><label>难度（仅纸质卷）</label>
+        <select id="levelSel">
+          <option value="easy">基础</option>
+          <option value="standard" selected>标准</option>
+          <option value="challenge">挑战</option>
+        </select>
+      </div>
+      <button class="btn btn-indigo" id="exportBtn">生成并导出 PDF</button>
+    </div>
+    <p class="note" id="status">正在读取本单元数据…</p>
+  </div>
+  <script src="js/catalog.js"></script>
+  <script src="js/loader.js"></script>
+  <script src="js/print.js"></script>
+  <script>
+    (function () {
+      var q = PETStudio.parseQuery();
+      var sel = document.getElementById("unitSel");
+      PETStudio.UNITS.forEach(function (u) {
+        var o = document.createElement("option");
+        o.value = u.id; o.textContent = "Unit " + u.id + " · " + u.title;
+        sel.appendChild(o);
+      });
+      if (q.unit) sel.value = q.unit;
+      if (q.type) document.getElementById("typeSel").value = q.type;
+      if (q.level) document.getElementById("levelSel").value = q.level;
+      var bag = null;
+      function load() {
+        document.getElementById("status").textContent = "正在读取 Unit " + sel.value + " …";
+        PETStudio.loadUnit(sel.value).then(function (b) {
+          bag = b;
+          document.getElementById("status").textContent =
+            "已载入 单词 " + b.vocab.length + " · 词组 " + b.colloc.length + " · 语法 " + b.grammar.length +
+            " · 文章 " + (b.passages || []).length + " 篇。点击按钮将打开排版页，再选「另存为 PDF」。";
+        }).catch(function (e) {
+          document.getElementById("status").textContent = "读取失败：" + e.message;
+        });
+      }
+      sel.onchange = load;
+      load();
+      document.getElementById("exportBtn").onclick = function () {
+        if (!bag) return;
+        var t = document.getElementById("typeSel").value;
+        if (t === "handout") PETStudio.printHandout(bag);
+        else if (t === "passage") PETStudio.printPassage(bag);
+        else PETStudio.printGames(bag, document.getElementById("levelSel").value);
+      };
+    })();
+  </script>
+</body>
+</html>
