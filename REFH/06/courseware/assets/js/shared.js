@@ -1668,6 +1668,48 @@ ${azureLine}
     }, 700);
   }
 
+
+  function shuffleArray(arr) {
+    const a = (arr || []).slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function parseQuizLetters(letters, answer) {
+    const fromAnswer = String(answer || '').replace(/[^A-Za-z]/g, '');
+    if (fromAnswer.length > 1) return fromAnswer.split('');
+    const raw = String(letters || '').trim();
+    let chars = raw.split(/\s+/).filter(Boolean);
+    if (chars.length === 1) chars = chars[0].replace(/[^A-Za-z]/g, '').split('');
+    else chars = raw.replace(/[^A-Za-z]/g, '').split('');
+    return chars.filter(Boolean);
+  }
+
+  function lettersSpellTarget(arr, target) {
+    return arr.join('').toLowerCase() === String(target || '').toLowerCase();
+  }
+
+  function scrambleQuizLetters(letters, answer) {
+    const chars = parseQuizLetters(letters, answer);
+    if (chars.length <= 1) return chars;
+    const target = String(answer || chars.join('')).replace(/[^A-Za-z]/g, '').toLowerCase();
+    let shuffled = chars.slice();
+    for (let i = 0; i < 80; i++) {
+      shuffled = shuffleArray(chars);
+      if (!lettersSpellTarget(shuffled, target)) return shuffled;
+    }
+    shuffled = chars.slice().reverse();
+    if (lettersSpellTarget(shuffled, target) && shuffled.length > 1) {
+      const tmp = shuffled[0];
+      shuffled[0] = shuffled[1];
+      shuffled[1] = tmp;
+    }
+    return shuffled;
+  }
+
   initConfig();
 
   global.Courseware = {
@@ -1685,6 +1727,7 @@ ${azureLine}
     ensureSpeechSdk, startSpeakingRecord, stopSpeakingRecord,
     isSpeakingRecording, getSpeakingRecordingMode,
     buildVocabPdfHtml, exportVocabPdf, openVocabPrintWindow,
-    buildArticlePdfHtml, exportArticlePdf
+    buildArticlePdfHtml, exportArticlePdf,
+    shuffleArray, scrambleQuizLetters
   };
 })(window);

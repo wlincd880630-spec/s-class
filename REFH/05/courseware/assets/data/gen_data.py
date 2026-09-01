@@ -1,5 +1,21 @@
 # -*- coding: utf-8 -*-
-import json, os
+import json, os, random
+
+def scramble_letters(word, seed):
+    chars = [ch for ch in str(word).lower() if ch.isalpha()]
+    if len(chars) <= 1:
+        return ' '.join(chars)
+    rng = random.Random(seed)
+    target = ''.join(chars)
+    for _ in range(80):
+        shuffled = chars[:]
+        rng.shuffle(shuffled)
+        if ''.join(shuffled) != target:
+            return ' '.join(shuffled)
+    shuffled = chars[::-1]
+    if ''.join(shuffled) == target and len(shuffled) > 1:
+        shuffled[0], shuffled[1] = shuffled[1], shuffled[0]
+    return ' '.join(shuffled)
 
 base = os.path.dirname(os.path.abspath(__file__))
 
@@ -523,14 +539,14 @@ quiz = {
     ]
   },
   "unscramble": [
-    {"letters": "s o l a r", "answer": "solar", "hint": "太阳能的"},
-    {"letters": "e n e r g y", "answer": "energy", "hint": "能源"},
-    {"letters": "j u s t i c e", "answer": "justice", "hint": "正义"},
-    {"letters": "p o l l u t e", "answer": "pollute", "hint": "污染（动词）"},
-    {"letters": "g r a d u a t e", "answer": "graduate", "hint": "毕业"},
-    {"letters": "a c t i v i s t", "answer": "activist", "hint": "活动家"},
-    {"letters": "s u n l i g h t", "answer": "sunlight", "hint": "阳光"},
-    {"letters": "p a t h w a y", "answer": "pathway", "hint": "途径"},
+    {"letters": scramble_letters("solar", 501), "answer": "solar", "hint": "太阳能的"},
+    {"letters": scramble_letters("energy", 502), "answer": "energy", "hint": "能源"},
+    {"letters": scramble_letters("justice", 503), "answer": "justice", "hint": "正义"},
+    {"letters": scramble_letters("pollute", 504), "answer": "pollute", "hint": "污染（动词）"},
+    {"letters": scramble_letters("graduate", 505), "answer": "graduate", "hint": "毕业"},
+    {"letters": scramble_letters("activist", 506), "answer": "activist", "hint": "活动家"},
+    {"letters": scramble_letters("sunlight", 507), "answer": "sunlight", "hint": "阳光"},
+    {"letters": scramble_letters("pathway", 508), "answer": "pathway", "hint": "途径"},
   ],
   "first_letter": [
     {"before": "___ energy does not run out like coal or oil.", "letter": "R", "after": "", "answer": "Renewable", "analysis": "Renewable 可再生的。"},

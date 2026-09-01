@@ -1,5 +1,21 @@
 # -*- coding: utf-8 -*-
-import json, os
+import json, os, random
+
+def scramble_letters(word, seed):
+    chars = [ch for ch in str(word).lower() if ch.isalpha()]
+    if len(chars) <= 1:
+        return ' '.join(chars)
+    rng = random.Random(seed)
+    target = ''.join(chars)
+    for _ in range(80):
+        shuffled = chars[:]
+        rng.shuffle(shuffled)
+        if ''.join(shuffled) != target:
+            return ' '.join(shuffled)
+    shuffled = chars[::-1]
+    if ''.join(shuffled) == target and len(shuffled) > 1:
+        shuffled[0], shuffled[1] = shuffled[1], shuffled[0]
+    return ' '.join(shuffled)
 
 base = os.path.dirname(os.path.abspath(__file__))
 
@@ -449,14 +465,14 @@ quiz = {
     ]
   },
   "unscramble": [
-    {"letters": "b r a i l l e", "answer": "braille", "hint": "盲文"},
-    {"letters": "a c c e s s", "answer": "access", "hint": "获取"},
-    {"letters": "c r u c i a l", "answer": "crucial", "hint": "至关重要的"},
-    {"letters": "d i g i t a l", "answer": "digital", "hint": "数字的"},
-    {"letters": "g e n e t i c", "answer": "genetic", "hint": "遗传的"},
-    {"letters": "f l u e n t", "answer": "fluent", "hint": "流利的"},
-    {"letters": "d o c u m e n t", "answer": "document", "hint": "文件"},
-    {"letters": "v o l u n t e e r", "answer": "volunteer", "hint": "志愿者"},
+    {"letters": scramble_letters("braille", 601), "answer": "braille", "hint": "盲文"},
+    {"letters": scramble_letters("access", 602), "answer": "access", "hint": "获取"},
+    {"letters": scramble_letters("crucial", 603), "answer": "crucial", "hint": "至关重要的"},
+    {"letters": scramble_letters("digital", 604), "answer": "digital", "hint": "数字的"},
+    {"letters": scramble_letters("genetic", 605), "answer": "genetic", "hint": "遗传的"},
+    {"letters": scramble_letters("fluent", 606), "answer": "fluent", "hint": "流利的"},
+    {"letters": scramble_letters("document", 607), "answer": "document", "hint": "文件"},
+    {"letters": scramble_letters("volunteer", 608), "answer": "volunteer", "hint": "志愿者"},
   ],
   "first_letter": [
     {"before": "Not enough braille teachers is one reason; ___ technology is another.", "letter": "a", "after": "", "answer": "assistive", "analysis": "Assistive 辅助的。"},
