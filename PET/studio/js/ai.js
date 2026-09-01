@@ -1,12 +1,15 @@
 /**
- * DeepSeek：为复习游戏 / 纸质卷加题
+ * DeepSeek：复习加题 + 讲义例句 / 语法课件生成
  */
 (function (global) {
   "use strict";
 
   var KEY = global.PET_DEEPSEEK_KEY || "sk-daa16008e81843deba6fefe9dce51465";
+  var MODEL = "deepseek-v4-flash";
+  var HANDOUT_CACHE_VER = 4;
+  var BATCH = 8;
 
-  function callDeepSeek(prompt) {
+  function chat(prompt, maxTokens) {
     return fetch("https://api.deepseek.com/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -14,40 +17,107 @@
         Authorization: "Bearer " + KEY
       },
       body: JSON.stringify({
-        model: "deepseek-v4-flash",
+        model: MODEL,
         messages: [{ role: "user", content: prompt }],
-        temperature: 0.4,
-        max_tokens: 4096
+        temperature: 0.45,
+        max_tokens: maxTokens || 4096
       })
-    })
-      .then(function (r) {
-        if (!r.ok) throw new Error("API " + r.status);
-        return r.json();
-      })
-      .then(function (data) {
-        var text =
-          (data.choices &&
-            data.choices[0] &&
-            data.choices[0].message &&
-            data.choices[0].message.content) ||
-          "";
-        text = String(text).replace(/```json|```/g, "").trim();
-        var start = text.indexOf("[");
-        var end = text.lastIndexOf("]");
-        if (start === -1 || end <= start) {
-          throw new Error("DeepSeek 未返回题目数组");
-        }
-        var arr = JSON.parse(text.slice(start, end + 1));
-        if (!Array.isArray(arr)) throw new Error("DeepSeek 返回格式不对");
-        return arr.map(function (x) {
-          var opts = x.options || [];
-          var ans = x.answer;
-          if (typeof ans === "string" && /^[A-D]$/i.test(ans.trim()) && opts.length) {
-            ans = opts[ans.trim().toUpperCase().charCodeAt(0) - 65] || ans;
-          }
-          return { q: x.q, options: opts, answer: ans, explain: x.explain || "" };
-        });
+    }).then(function (r) {
+      if (!r.ok) throw new Error("DeepSeek API " + r.status);
+      return r.json();
+    }).then(function (data) {
+      return (
+        (data.choices &&
+          data.choices[0] &&
+          data.choices[0].message &&
+          data.choices[0].message.content) ||
+        ""
+      );
+    });
+  }
+
+  function chatRetry(prompt, maxTokens, tries) {
+    tries = tries == null ? 2 : tries;
+    return chat(prompt, maxTokens).catch(function (err) {
+      if (tries <= 1) throw err;
+      return new Promise(function (resolve) { setTimeout(resolve, 800); }).then(function () {
+        return chatRetry(prompt, maxTokens, tries - 1);
       });
+    });
+  }
+
+  function stripFence(text) {
+    return String(text || "")
+      .replace(/```json/gi, "")
+      .replace(/```/g, "")
+      .trim();
+  }
+
+  function extractBalanced(text, openCh, closeCh, from) {
+    var start = text.indexOf(openCh, from || 0);
+    if (start < 0) return "";
+    var depth = 0;
+    var inStr = false;
+    var esc = false;
+    for (var i = start; i < text.length; i++) {
+      var ch = text.charAt(i);
+      if (inStr) {
+        if (esc) esc = false;
+        else if (ch === "\\") esc = true;
+        else if (ch === '"') inStr = false;
+        continue;
+      }
+      if (ch === '"') {
+        inStr = true;
+        continue;
+      }
+      if (ch === openCh) depth++;
+      else if (ch === closeCh) {
+        depth--;
+        if (depth === 0) return text.slice(start, i + 1);
+      }
+    }
+    return "";
+  }
+
+  function parseJson(text) {
+    var raw = stripFence(text);
+    var iObj = raw.indexOf("{");
+    var iArr = raw.indexOf("[");
+    var blob = "";
+    if (iArr >= 0 && (iObj < 0 || iArr < iObj)) blob = extractBalanced(raw, "[", "]");
+    else blob = extractBalanced(raw, "{", "}") || extractBalanced(raw, "[", "]");
+    if (!blob) throw new Error("DeepSeek 未返回 JSON");
+    try {
+      return JSON.parse(blob);
+    } catch (e) {
+      blob = blob.replace(/,\s*([}\]])/g, "$1");
+      return JSON.parse(blob);
+    }
+  }
+
+  function asArray(data) {
+    if (Array.isArray(data)) return data;
+    if (data && Array.isArray(data.items)) return data.items;
+    if (data && Array.isArray(data.points)) return data.points;
+    if (data && Array.isArray(data.examples)) return data.examples;
+    if (data && Array.isArray(data.exercises)) return data.exercises;
+    return [];
+  }
+
+  function callDeepSeek(prompt) {
+    return chatRetry(prompt, 4096).then(function (text) {
+      var arr = asArray(parseJson(text));
+      if (!arr.length) throw new Error("DeepSeek 未返回题目数组");
+      return arr.map(function (x) {
+        var opts = x.options || [];
+        var ans = x.answer;
+        if (typeof ans === "string" && /^[A-D]$/i.test(ans.trim()) && opts.length) {
+          ans = opts[ans.trim().toUpperCase().charCodeAt(0) - 65] || ans;
+        }
+        return { q: x.q, options: opts, answer: ans, explain: x.explain || "" };
+      });
+    });
   }
 
   function extraQuestions(kind, items, count) {
@@ -71,5 +141,368 @@
     return callDeepSeek(prompt);
   }
 
+  function chunk(arr, n) {
+    var out = [];
+    for (var i = 0; i < (arr || []).length; i += n) out.push(arr.slice(i, i + n));
+    return out;
+  }
+
+  function cacheKey(unitId) {
+    return "pet-handout-v" + HANDOUT_CACHE_VER + "-u" + unitId;
+  }
+
+  function readCache(unitId) {
+    try {
+      var data = JSON.parse(localStorage.getItem(cacheKey(unitId)) || "null");
+      if (data && data.v === HANDOUT_CACHE_VER) return data;
+    } catch (e) {}
+    return null;
+  }
+
+  function writeCache(unitId, data) {
+    try {
+      localStorage.setItem(cacheKey(unitId), JSON.stringify(data));
+    } catch (e) {}
+  }
+
+  function itemBrief(it) {
+    return {
+      word: it.word || it.phrase || "",
+      phonetic: it.phonetic || "",
+      cn: it.meaning || "",
+      en: it.definitionEn || "",
+      usage: String(it.usage || "").slice(0, 160)
+    };
+  }
+
+  function normalizeExamples(row) {
+    var list = (row && row.examples) || [];
+    var levels = ["zk", "g10", "g11"];
+    var byLevel = {};
+    list.forEach(function (ex) {
+      if (!ex || !ex.sentence) return;
+      var lv = String(ex.level || "").toLowerCase();
+      if (lv === "zhongkao" || lv === "junior" || lv === "zk") lv = "zk";
+      else if (lv === "g10" || lv === "grade10" || lv === "senior1" || lv === "高一") lv = "g10";
+      else if (lv === "g11" || lv === "grade11" || lv === "senior2" || lv === "高二") lv = "g11";
+      else if (!byLevel.zk) lv = "zk";
+      else if (!byLevel.g10) lv = "g10";
+      else lv = "g11";
+      byLevel[lv] = {
+        level: lv,
+        sentence: String(ex.sentence || "").trim(),
+        trans: String(ex.trans || ex.translation || "").trim()
+      };
+    });
+    return levels.map(function (lv) {
+      return byLevel[lv] || null;
+    }).filter(Boolean);
+  }
+
+  function localExamples(it) {
+    var kept = (it.examples || []).filter(function (e) {
+      if (!e || !(e.sentence || e.en)) return false;
+      return !/^article$/i.test(String(e.source || ""));
+    });
+    var levels = ["zk", "g10", "g11"];
+    return kept.slice(0, 3).map(function (e, i) {
+      return {
+        level: levels[i],
+        sentence: e.sentence || e.en || "",
+        trans: e.trans || e.translation || e.cn || ""
+      };
+    });
+  }
+
+  function lookup(map, word) {
+    if (!map || !word) return null;
+    return map[word] || map[String(word).toLowerCase()] || null;
+  }
+
+  function storeRow(map, word, row) {
+    if (!word) return;
+    map[word] = row;
+    map[String(word).toLowerCase()] = row;
+  }
+
+  function enrichExampleBatch(items, kind) {
+    var payload = items.map(itemBrief);
+    var prompt =
+      "你是初高中英语教材编者。为下列" +
+      (kind === "phrase" ? "英语词组" : "英语单词") +
+      "各写 3 条高质量例句。\n" +
+      "直接输出 JSON，不要解释。\n" +
+      "硬性要求：\n" +
+      "1) 不要改写课文/文章原句，不要出现明显的课文翻译腔。\n" +
+      "2) 恰好 3 句：zk=初中中考难度（短、高频搭配、生活场景）；g10=高一难度（稍长，含从句或固定搭配）；g11=高二难度（更地道，有对比/强调/习语等记忆点）。\n" +
+      "3) 每句必须自然使用目标词/词组，有真实使用价值和记忆价值。\n" +
+      "4) 给出准确中文翻译。保留原词拼写。\n" +
+      "词表：\n" +
+      JSON.stringify(payload) +
+      "\n只返回 JSON 数组，不要 markdown：\n" +
+      '[{"word":"原词","examples":[{"level":"zk","sentence":"...","trans":"..."},{"level":"g10","sentence":"...","trans":"..."},{"level":"g11","sentence":"...","trans":"..."}]}]';
+    return chatRetry(prompt, 4096).then(function (text) {
+      var data = parseJson(text);
+      var rows = Array.isArray(data)
+        ? data
+        : (data && (data.items || data.words)) || (data && data.word ? [data] : []);
+      return rows.map(function (row) {
+        return {
+          word: row.word || row.phrase || "",
+          examples: normalizeExamples(row)
+        };
+      });
+    });
+  }
+
+  function fallbackGrammar(list) {
+    return (list || []).map(function (g) {
+      var exercises = (g.quiz || []).map(function (q) {
+        return {
+          level: "zk",
+          type: q.type || (q.options && q.options.length ? "choice" : "fill"),
+          q: q.question || q.q || "",
+          options: q.options || [],
+          answer: q.correct || q.answer || "",
+          explain: q.explanation || q.explain || ""
+        };
+      });
+      var examples = (g.examples || []).map(function (e, i) {
+        return {
+          level: i % 2 ? "gk" : "zk",
+          en: e.en || e.sentence || "",
+          cn: e.cn || e.trans || ""
+        };
+      });
+      return {
+        title: g.title || g.word || "语法点",
+        titleEn: "",
+        usage: String(g.explanation || "")
+          .replace(/<[^>]+>/g, "")
+          .replace(/\s+/g, " ")
+          .trim(),
+        forms: [],
+        notes: g.tips
+          ? [String(g.tips).replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim()]
+          : [],
+        examples: examples,
+        exercises: exercises
+      };
+    });
+  }
+
+  function generateGrammarOutline(bag) {
+    var unit = bag.unit || {};
+    var words = (bag.vocab || []).slice(0, 18).map(function (x) { return x.word; }).join(", ");
+    var phrases = (bag.colloc || []).slice(0, 12).map(function (x) { return x.word; }).join(", ");
+    var old = (bag.grammar || []).map(function (g) { return g.title || g.word; }).join("；");
+    var prompt =
+      "你是中考/高考英语语法主编。请为 PET 英语 Unit " +
+      unit.id +
+      "「" +
+      (unit.title || "") +
+      " / " +
+      (unit.subtitle || "") +
+      "」编写一套独立语法讲义（7 个语法点）。\n" +
+      "直接输出 JSON，不要解释。\n" +
+      "硬性要求：\n" +
+      "1) 不要呈现、引用、改写课文原句；不要出现 source sentence。\n" +
+      "2) 原课语法点仅作参考，内容过于局限，必须重写并扩充。覆盖对初高中有教学价值的点（时态、情态、被动、定语从句、状语从句、比较、不定式/动名词、条件句、名词性从句、介词/冠词等中最贴合本单元主题的 7 个）。\n" +
+      "3) 每个点要有详细用法（结构、肯定/否定/疑问、与易混结构对比），面向中考学生也能读懂。\n" +
+      "本单元词： " + words + "\n" +
+      "本单元词组： " + phrases + "\n" +
+      "原语法标题参考： " + old + "\n" +
+      "只返回 JSON 对象，不要 markdown：\n" +
+      '{"points":[{"title":"中文标题","titleEn":"English title","usage":"250-400字详细用法","forms":["结构公式1","公式2","公式3"],"notes":["易错1","易错2","易错3"],"examples":[{"level":"zk","en":"...","cn":"..."},{"level":"zk","en":"...","cn":"..."},{"level":"gk","en":"...","cn":"..."},{"level":"gk","en":"...","cn":"..."}]}]}';
+    return chatRetry(prompt, 8192).then(function (text) {
+      var data = parseJson(text);
+      var points = asArray(data);
+      if (!points.length) throw new Error("语法讲义为空");
+      return points.map(function (p) {
+        return {
+          title: p.title || "语法点",
+          titleEn: p.titleEn || p.title_en || "",
+          usage: p.usage || "",
+          forms: p.forms || [],
+          notes: p.notes || [],
+          examples: p.examples || [],
+          exercises: []
+        };
+      });
+    });
+  }
+
+  function generateGrammarExercises(pointsSlice) {
+    var brief = pointsSlice.map(function (p) {
+      return { title: p.title, titleEn: p.titleEn, usage: String(p.usage || "").slice(0, 180) };
+    });
+    var prompt =
+      "你是中考/高考命题人。为下列语法点各出 10 道练习题，务必丰富、可独立作答（不要依赖某篇课文）。\n" +
+      "直接输出 JSON，不要解释。\n" +
+      "每个语法点 10 题：前 5 题 level=zk 中考难度（基础选择/填空/判断），后 5 题 level=gk 高考难度（易混辨析、长难句、语境题）。\n" +
+      "题型 mix：choice / fill / truefalse。choice 给 4 个 options，answer 写选项原文；fill 的 q 用 ____ 表示空；truefalse 的 answer 为 True 或 False。每题带一句中文 explain。\n" +
+      "语法点：\n" +
+      JSON.stringify(brief) +
+      "\n只返回 JSON，不要 markdown：\n" +
+      '{"items":[{"title":"与上面完全一致的标题","exercises":[{"level":"zk","type":"choice","q":"...","options":["A","B","C","D"],"answer":"...","explain":"..."}]}]}';
+    return chatRetry(prompt, 8192).then(function (text) {
+      return asArray(parseJson(text));
+    });
+  }
+
+  function mergeExercises(points, packs) {
+    var byTitle = {};
+    (packs || []).forEach(function (pack) {
+      var t = pack.title || pack.titleEn || "";
+      byTitle[t] = pack.exercises || pack.questions || [];
+    });
+    points.forEach(function (p) {
+      var ex = byTitle[p.title] || byTitle[p.titleEn] || [];
+      if (ex.length) p.exercises = ex;
+    });
+    return points;
+  }
+
+  function generateGrammar(bag, onProgress, ticker) {
+    onProgress(ticker.msg("正在重写语法讲义（用法与例句）…"));
+    return generateGrammarOutline(bag)
+      .then(function (points) {
+        ticker.step();
+        var a = points.slice(0, 4);
+        var b = points.slice(4);
+        onProgress(ticker.msg("正在生成中考 / 高考语法练习（1/2）…"));
+        return generateGrammarExercises(a)
+          .then(function (packA) {
+            ticker.step();
+            mergeExercises(a, packA);
+            if (!b.length) return points;
+            onProgress(ticker.msg("正在生成中考 / 高考语法练习（2/2）…"));
+            return generateGrammarExercises(b).then(function (packB) {
+              ticker.step();
+              mergeExercises(b, packB);
+              return points;
+            });
+          })
+          .catch(function () {
+            ticker.step();
+            ticker.step();
+            return points;
+          });
+      })
+      .catch(function () {
+        ticker.step();
+        ticker.step();
+        ticker.step();
+        return fallbackGrammar(bag.grammar);
+      });
+  }
+
+  function applyEnrichment(bag, data) {
+    data = data || {};
+    function mergeList(list, map) {
+      (list || []).forEach(function (it) {
+        var row = lookup(map, it.word);
+        var generated = row && row.examples ? row.examples : [];
+        it.handoutExamples = generated.length ? generated : localExamples(it);
+      });
+    }
+    mergeList(bag.vocab, data.vocab || {});
+    mergeList(bag.colloc, data.colloc || {});
+    bag.handoutGrammar =
+      data.grammar && data.grammar.length ? data.grammar : fallbackGrammar(bag.grammar);
+    bag.handoutFromCache = !!data.fromCache;
+    return bag;
+  }
+
+  function makeTicker(total) {
+    var n = 0;
+    return {
+      total: total,
+      step: function () {
+        n++;
+      },
+      msg: function (text) {
+        return text + "  (" + Math.min(n + 1, total) + "/" + total + ")";
+      }
+    };
+  }
+
+  function generateHandout(bag, onProgress) {
+    onProgress = onProgress || function () {};
+    var vocabChunks = chunk(bag.vocab, BATCH);
+    var collocChunks = chunk(bag.colloc, BATCH);
+    var total = vocabChunks.length + collocChunks.length + 3;
+    var ticker = makeTicker(total);
+    var vocabMap = {};
+    var collocMap = {};
+
+    function runChunks(chunks, kind, map, label) {
+      return chunks.reduce(function (p, items, idx) {
+        return p.then(function () {
+          onProgress(
+            ticker.msg("正在生成" + label + "例句 " + (idx + 1) + "/" + chunks.length + "…")
+          );
+          return enrichExampleBatch(items, kind)
+            .then(function (arr) {
+              (arr || []).forEach(function (row) {
+                if (row && row.word) storeRow(map, row.word, row);
+              });
+              ticker.step();
+            })
+            .catch(function () {
+              ticker.step();
+            });
+        });
+      }, Promise.resolve());
+    }
+
+    return runChunks(vocabChunks, "vocab", vocabMap, "词汇")
+      .then(function () {
+        return runChunks(collocChunks, "phrase", collocMap, "词组");
+      })
+      .then(function () {
+        return generateGrammar(bag, onProgress, ticker);
+      })
+      .then(function (grammar) {
+        return {
+          v: HANDOUT_CACHE_VER,
+          vocab: vocabMap,
+          colloc: collocMap,
+          grammar: grammar
+        };
+      });
+  }
+
+  function enrichHandout(bag, opts) {
+    opts = opts || {};
+    var onProgress = opts.onProgress || function () {};
+    var force = !!opts.force;
+    if (!force) {
+      var cached = readCache(bag.unit.id);
+      if (cached) {
+        cached.fromCache = true;
+        onProgress("已使用本机缓存的 DeepSeek 讲义，可点「重新生成」刷新。");
+        return Promise.resolve(applyEnrichment(bag, cached));
+      }
+    }
+    onProgress("正在调用 DeepSeek 生成讲义内容，约需一分钟…");
+    return generateHandout(bag, onProgress)
+      .then(function (data) {
+        writeCache(bag.unit.id, data);
+        data.fromCache = false;
+        return applyEnrichment(bag, data);
+      })
+      .catch(function (err) {
+        applyEnrichment(bag, { vocab: {}, colloc: {}, grammar: [] });
+        bag.handoutWarning = (err && err.message) || "DeepSeek 生成失败";
+        return bag;
+      });
+  }
+
   global.PETStudio.aiExtra = extraQuestions;
+  global.PETStudio.enrichHandout = enrichHandout;
+  global.PETStudio.applyHandoutFallback = function (bag) {
+    return applyEnrichment(bag, { vocab: {}, colloc: {}, grammar: [] });
+  };
+  global.PETStudio.HANDOUT_CACHE_VER = HANDOUT_CACHE_VER;
 })(window);
