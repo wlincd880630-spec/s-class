@@ -29,7 +29,7 @@
   ];
 
   var GAMES = [
-    { id: 1, key: "memory", name: "翻翻配对", tag: "游戏 1", level: "easy", paper: true, pictured: true, desc: "单词与中文/图片翻牌配对，训练瞬间记忆。" },
+    { id: 1, key: "memory", name: "翻翻配对", tag: "游戏 1", level: "easy", paper: true, pictured: true, desc: "先全亮看牌记忆，再反转翻牌，把英文/图片和中文配成对。" },
     { id: 2, key: "picture", name: "看图选词", tag: "游戏 2", level: "easy", paper: true, pictured: true, desc: "看 3D 场景图选出正确英文单词。" },
     { id: 3, key: "zh2en", name: "看义选词", tag: "游戏 3", level: "easy", paper: true, pictured: false, desc: "看中文释义，从选项中选出英文单词或词组。" },
     { id: 4, key: "en2zh", name: "看词选义", tag: "游戏 4", level: "easy", paper: true, pictured: false, desc: "看英文单词，选出正确中文意思。" },

@@ -365,7 +365,13 @@
       cards.push({ pair: pid, kind: "en", text: it.word, img: it.imageUrl || "" });
       cards.push({ pair: pid, kind: "zh", text: it.meaning, img: "" });
     });
-    state.memory = { cards: PETStudio.shuffle(cards), open: [], matched: {}, busy: false };
+    state.memory = {
+      cards: PETStudio.shuffle(cards),
+      open: [],
+      matched: {},
+      busy: false,
+      phase: "preview"
+    };
     state.queue = items;
     state.idx = 0;
     renderMemory();
@@ -375,22 +381,30 @@
     var m = state.memory;
     var got = Object.keys(m.matched).length;
     var total = m.cards.length / 2;
+    var right = m.phase === "preview"
+      ? "先看牌记忆"
+      : ("配对 " + got + "/" + total + " · 分 " + state.score);
     return '<div class=hud><span>' + esc(state.game.name) + " · " + esc(levelCfg().label) +
-      "</span><span>配对 " + got + "/" + total + " · 分 " + state.score + "</span></div>";
+      "</span><span>" + right + "</span></div>";
   }
 
   function renderMemory() {
     var m = state.memory;
     if (!m) return;
+    var preview = m.phase === "preview";
+    var note = preview
+      ? "所有牌默认亮着。先记住英文、图片和中文的位置，再点「反转开始配对」。"
+      : "翻开一张英文牌和一张中文牌，配对成功即可留下；点错会翻回去。";
     var html = '<div class="play-shell">' + memoryHud() +
-      '<p class="note">翻开一张英文牌和一张中文牌，配对成功即可留下；点错会翻回去。</p>' +
+      '<p class="note">' + note + "</p>" +
       '<div class="board memory-board">';
     m.cards.forEach(function (c, i) {
       var matched = !!m.matched[c.pair];
-      var open = m.open.indexOf(i) !== -1 || matched;
+      var open = preview || m.open.indexOf(i) !== -1 || matched;
       html += '<button type="button" class="flip' +
         (open ? " open" : "") +
         (matched ? " done" : "") +
+        (preview ? " preview" : "") +
         (c.kind === "zh" ? " zh" : " en") +
         '" id="mem-card-' + i + '" data-i="' + i + '">';
       if (open) {
@@ -402,14 +416,27 @@
       }
       html += "</button>";
     });
-    html += '</div><div class="mem-actions"><button class="btn btn-ghost" type="button" id="backGames">返回游戏列表</button></div></div>';
+    html += '</div><div class="mem-actions">';
+    if (preview) {
+      html += '<button class="btn btn-indigo" type="button" id="flipStart">反转开始配对</button> ';
+    }
+    html += '<button class="btn btn-ghost" type="button" id="backGames">返回游戏列表</button></div></div>';
     $("playRoot").innerHTML = html;
     $("backGames").onclick = showList;
+    if (preview) {
+      $("flipStart").onclick = function () {
+        m.phase = "play";
+        m.open = [];
+        m.busy = false;
+        renderMemory();
+      };
+      return;
+    }
     Array.prototype.forEach.call(document.querySelectorAll(".flip"), function (btn) {
       btn.onclick = function () {
         var i = Number(btn.getAttribute("data-i"));
         var card = m.cards[i];
-        if (m.busy || m.matched[card.pair] || m.open.indexOf(i) !== -1 || m.open.length >= 2) return;
+        if (m.phase !== "play" || m.busy || m.matched[card.pair] || m.open.indexOf(i) !== -1 || m.open.length >= 2) return;
         m.open.push(i);
         renderMemory();
         if (m.open.length < 2) return;
