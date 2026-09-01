@@ -297,6 +297,14 @@
         );
         if (sep.test(s)) return s.replace(sep, fillMark());
       }
+      var last = parts[parts.length - 1];
+      if (parts.length >= 3 && last.length >= 4) {
+        var span = new RegExp(
+          "\\b" + head + "(?:e?s|ed|ing|d)?\\b[^.,;:!?]{0,32}?\\b" + escRe(last) + "\\b",
+          "ig"
+        );
+        if (span.test(s)) return s.replace(span, fillMark());
+      }
     }
     return "";
   }
@@ -350,6 +358,12 @@
       }
       var sent = String(ex.sentence || "");
       var blanked = blankPhraseInSentence(sent, phrase);
+      if (!blanked) {
+        var fill = (it.quizFill || []).find(function (r) {
+          return r && (r.is_correct || r.isCorrect) && r.sentence && /_{2,}/.test(r.sentence);
+        });
+        if (fill) blanked = String(fill.sentence).replace(/_{2,}/g, fillMark());
+      }
       if (!blanked) {
         if (sent && !/[\u4e00-\u9fff]/.test(sent)) {
           blanked = sent.replace(/[.?!]\s*$/, "") + " → " + fillMark();
