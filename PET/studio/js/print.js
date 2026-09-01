@@ -290,6 +290,13 @@
       var rest = parts.slice(1).map(escRe).join("\\s+");
       var flex = new RegExp("\\b" + head + "(?:e?s|ed|ing|d)?\\s+" + rest, "ig");
       if (flex.test(s)) return s.replace(flex, fillMark());
+      if (parts.length === 2) {
+        var sep = new RegExp(
+          "\\b" + head + "(?:e?s|ed|ing|d)?\\s+(?:it|them|him|her|this|that|me|you|us)\\s+" + escRe(parts[1]),
+          "ig"
+        );
+        if (sep.test(s)) return s.replace(sep, fillMark());
+      }
     }
     return "";
   }
