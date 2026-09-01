@@ -110,6 +110,7 @@
             '.pet-spell-slots,.glass-panel div.flex.justify-center.gap-2.mb-10{display:flex!important;flex-direction:row!important;justify-content:center!important;align-items:center!important;flex-wrap:wrap!important;gap:8px!important;width:100%!important;margin-left:auto!important;margin-right:auto!important;}',
             '.pet-spell-slots>div{display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;line-height:1;}',
             '.pet-spell-keys,.glass-panel div:has(>.key-btn){display:flex!important;flex-direction:row!important;flex-wrap:wrap!important;justify-content:center!important;align-content:center!important;margin-left:auto!important;margin-right:auto!important;max-width:36rem!important;width:100%!important;}',
+            '.key-btn:disabled{display:none!important;width:0!important;height:0!important;margin:0!important;padding:0!important;border:0!important;overflow:hidden!important;transform:none!important;}',
             '.pet-spell-hint{text-align:center!important;width:100%!important;margin-left:auto!important;margin-right:auto!important;}',
             '.pet-spell-input{display:block;width:min(420px,92%);margin:4px auto 16px;text-align:center;font-size:1.65rem;font-weight:900;letter-spacing:.18em;padding:12px 14px;border:2px solid #6366f1;border-radius:16px;background:#0f172a;color:#e0e7ff;outline:none;text-transform:uppercase;}',
             '.pet-spell-input:focus{box-shadow:0 0 0 4px rgba(99,102,241,.28);}',
