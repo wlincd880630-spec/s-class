@@ -3,6 +3,7 @@
 S-Class **科学考察营**课程，视觉与模块结构对齐 `What are reptiles?`。
 
 - 来源：[Britannica — World's largest deserts](https://www.britannica.com/topic/worlds-largest-deserts-2225895)
+- 级别：**Level 3**（已从 Level 1 绘本目录拆出）
 - 难度：约 **Lexile 600** · 小学五年级
 
 ## 模块
