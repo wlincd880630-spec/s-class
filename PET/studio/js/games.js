@@ -16,7 +16,8 @@
     spinDeg: 0,
     timerId: null,
     examSource: "zhongkao",
-    gapNote: ""
+    gapNote: "",
+    clinicPoint: null
   };
 
   function clearTimer() {
@@ -259,8 +260,18 @@
       '<button class="btn btn-ghost" id="backGames">返回游戏列表</button></div>';
     $("againBtn").onclick = function () {
       if (state.game.key === "gap" && state.examSource) beginGap();
+      else if (state.game.key === "grammar" && state.clinicPoint) startGrammarStation(state.clinicPoint);
       else startGame(state.game.key, state.level);
     };
+    if (state.game.key === "grammar") {
+      var extra = document.createElement("button");
+      extra.className = "btn btn-teal";
+      extra.id = "clinicLobbyBtn";
+      extra.textContent = "选择其他语法点";
+      extra.onclick = showGrammarLobby;
+      $("againBtn").insertAdjacentElement("afterend", extra);
+      extra.insertAdjacentText("beforebegin", " ");
+    }
     $("backGames").onclick = showList;
   }
 
@@ -287,7 +298,7 @@
     });
   }
 
-  function bindOpts(q) {
+  function bindOpts(q, manual) {
     var box = $("opts");
     if (!box) return;
     (q.options || []).forEach(function (op) {
@@ -310,6 +321,15 @@
         if (explain && q.explain) {
           explain.hidden = false;
           explain.textContent = q.explain;
+        }
+        if (manual) {
+          var nextBtn = $("clinicNext");
+          if (nextBtn) {
+            nextBtn.hidden = false;
+            nextBtn.textContent = state.idx + 1 >= state.queue.length ? "完成本语法点" : "下一题";
+            nextBtn.onclick = next;
+          }
+          return;
         }
         setTimeout(next, q.explain ? 1800 : 700);
       };
@@ -695,13 +715,17 @@
     var note = state.gapNote ? '<p class="toast">' + esc(state.gapNote) + "</p>" : "";
     $("playRoot").innerHTML = '<div class="play-shell">' + hud() + note +
       sourceSwitchHtml() +
-      '<div class="meaning-card"><div class="clinic-kicker">中文词义</div><div class="meaning">' + esc(q.meaning) + "</div></div>" +
-      '<div class="exam-line"><span class="exam-tag">' + esc(q.sourceLabel) + "例句</span></div>" +
-      '<div class="q-box">' + esc(q.q) + "</div>" +
+      '<div class="meaning-card">' +
+      '<div class="clinic-kicker">中文词义</div>' +
+      '<div class="meaning">' + esc(q.meaning) + "</div>" +
+      '<p class="prompt-line">请从下面选出正确词组</p></div>' +
+      '<div class="opts" id="opts"></div>' +
+      '<div class="exam-ref">' +
+      '<div class="exam-line"><span class="exam-tag">' + esc(q.sourceLabel) + "参考例句</span></div>" +
+      '<p class="exam-sent">' + esc(q.q) + "</p>" +
       (q.trans ? '<p class="note">' + esc(q.trans) + "</p>" : "") +
       (q.speak ? '<button class="btn btn-ghost" id="speakBtn">朗读原句</button>' : "") +
-      '<p class="note">' + esc(q.prompt) + "</p>" +
-      '<div class="opts" id="opts"></div>' +
+      "</div>" +
       '<div class="mem-actions"><button class="btn btn-ghost" type="button" id="backGames">返回游戏列表</button></div></div>';
     if ($("speakBtn")) $("speakBtn").onclick = function () { say(q.speak); };
     $("backGames").onclick = showList;
@@ -732,9 +756,17 @@
     renderChoice();
   }
 
+  function clinicLabel(g) {
+    var exp = stripHtml(g && g.explanation || "");
+    var first = (exp.split(/[。！？\n]/)[0] || "").trim();
+    if (first.length >= 8 && first.length <= 52) return first;
+    if (g && g.sourceSentenceCn) return String(g.sourceSentenceCn).slice(0, 36);
+    return (g && g.title) || "语法点";
+  }
+
   function grammarItems(g) {
     var out = [];
-    function push(row) {
+    function push(row, kindLabel) {
       if (!row || !row.question) return;
       var opts = (row.options || []).slice();
       var ans = row.correct;
@@ -742,45 +774,80 @@
       if (!opts.length) return;
       out.push({
         q: row.question,
-        prompt: "结合本课语法点作答",
+        prompt: kindLabel,
         options: opts,
         answer: ans,
         explain: row.explanation || row.hint || "",
         speak: "",
         g: g,
-        kind: "quiz"
+        kind: "quiz",
+        qType: kindLabel
       });
     }
-    (g.guide || []).forEach(push);
-    (g.quiz || []).forEach(push);
+    (g.guide || []).forEach(function (row) { push(row, "引导题"); });
+    var quizzes = g.quiz || [];
+    var cap = ({ easy: 2, standard: 4, challenge: quizzes.length })[state.level];
+    if (cap == null) cap = 4;
+    quizzes.slice(0, cap).forEach(function (row) { push(row, "巩固练习"); });
     return out;
   }
 
-  function startGrammar() {
-    var points = (state.bag.grammar || []).filter(function (g) {
+  function grammarPoints() {
+    return (state.bag.grammar || []).filter(function (g) {
       return (g.quiz && g.quiz.length) || (g.guide && g.guide.length);
     });
-    var wantP = ({ easy: 2, standard: 3, challenge: Math.max(points.length, 1) })[state.level] || 3;
-    var wantQ = ({ easy: 3, standard: 4, challenge: 6 })[state.level] || 4;
-    var picked = PETStudio.pickN(points, Math.min(wantP, points.length));
-    var queue = [];
-    picked.forEach(function (g) {
-      var qs = grammarItems(g);
-      PETStudio.pickN(qs, Math.min(wantQ, qs.length)).forEach(function (item, i) {
-        item.showIntro = i === 0;
-        item.introSeen = false;
-        queue.push(item);
-      });
-    });
-    state.queue = queue;
-    state.idx = 0;
-    if (!queue.length) {
+  }
+
+  function showGrammarLobby() {
+    var points = grammarPoints();
+    if (!points.length) {
       $("playRoot").innerHTML = '<div class="play-shell"><p class="note">本单元还没有语法练习题。</p>' +
         '<button class="btn btn-ghost" id="backGames">返回游戏列表</button></div>';
       $("backGames").onclick = showList;
       return;
     }
+    var cards = points.map(function (g, i) {
+      var n = grammarItems(g).length;
+      return '<button type="button" class="clinic-station" data-gi="' + i + '">' +
+        '<div class="clinic-kicker">语法点 ' + (i + 1) + "</div>" +
+        "<h3>" + esc(clinicLabel(g)) + "</h3>" +
+        '<p class="note">' + esc(g.title || "") + "</p>" +
+        (g.sourceSentenceCn ? "<p>" + esc(g.sourceSentenceCn) + "</p>" : "") +
+        "<span>" + n + " 道练习</span></button>";
+    }).join("");
+    $("playRoot").innerHTML = '<div class="play-shell">' +
+      '<div class="hud"><span>' + esc(state.game.name) + " · " + esc(levelCfg().label) +
+      "</span><span>" + points.length + " 个语法点</span></div>" +
+      '<p class="note">先选一个本课语法点，看课文原句和要点，再做该点的引导题与练习题。</p>' +
+      '<div class="clinic-lobby">' + cards + "</div>" +
+      '<div class="mem-actions"><button class="btn btn-ghost" type="button" id="backGames">返回游戏列表</button></div></div>';
+    $("backGames").onclick = showList;
+    Array.prototype.forEach.call(document.querySelectorAll(".clinic-station"), function (btn) {
+      btn.onclick = function () {
+        var g = points[Number(btn.getAttribute("data-gi"))];
+        if (g) startGrammarStation(g);
+      };
+    });
+  }
+
+  function startGrammarStation(g) {
+    var qs = grammarItems(g);
+    if (!qs.length) {
+      showGrammarLobby();
+      return;
+    }
+    qs[0].showIntro = true;
+    qs[0].introSeen = false;
+    state.clinicPoint = g;
+    state.queue = qs;
+    state.idx = 0;
+    state.score = 0;
+    state.lock = false;
     renderGrammar();
+  }
+
+  function startGrammar() {
+    showGrammarLobby();
   }
 
   function renderGrammarIntro(q) {
@@ -789,24 +856,32 @@
     var fullTips = stripHtml(g.tips || "");
     var body = fullExp.slice(0, 360);
     var tips = fullTips.slice(0, 240);
+    var exHtml = (g.examples || []).slice(0, 2).map(function (ex) {
+      var en = ex.en || ex.sentence || "";
+      var cn = ex.cn || ex.trans || "";
+      if (!en) return "";
+      return "<li><i>" + esc(en) + "</i>" + (cn ? "<br>" + esc(cn) : "") + "</li>";
+    }).join("");
     $("playRoot").innerHTML = '<div class="play-shell">' + hud() +
       '<div class="clinic-card">' +
       '<div class="clinic-kicker">语法诊所</div>' +
-      "<h2>" + esc(g.title || "Grammar") + "</h2>" +
+      "<h2>" + esc(clinicLabel(g)) + "</h2>" +
+      '<p class="note">' + esc(g.title || "") + "</p>" +
       (g.sourceSentence
         ? "<blockquote><p>" + esc(g.sourceSentence) + "</p><p>" + esc(g.sourceSentenceCn || "") + "</p></blockquote>"
         : "") +
       (body ? '<p class="clinic-exp">' + esc(body) + (fullExp.length > 360 ? "…" : "") + "</p>" : "") +
+      (exHtml ? '<ul class="clinic-ex">' + exHtml + "</ul>" : "") +
       (tips ? '<p class="clinic-tips"><b>中考提示</b> ' + esc(tips) + (fullTips.length > 240 ? "…" : "") + "</p>" : "") +
-      '<p class="note">接下来用本课引导题和练习题巩固这个语法点。</p>' +
+      '<p class="note">接下来按顺序完成本语法点的引导题和练习题，看完解析再进入下一题。</p>' +
       '<button class="btn btn-indigo" id="clinicGo">开始练习</button> ' +
-      '<button class="btn btn-ghost" id="backGames">返回游戏列表</button>' +
+      '<button class="btn btn-ghost" id="clinicLobby">其他语法点</button>' +
       "</div></div>";
     $("clinicGo").onclick = function () {
       q.introSeen = true;
       renderGrammar();
     };
-    $("backGames").onclick = showList;
+    $("clinicLobby").onclick = showGrammarLobby;
   }
 
   function renderGrammar() {
@@ -815,15 +890,17 @@
     if (q.showIntro && !q.introSeen) return renderGrammarIntro(q);
     var g = q.g || {};
     $("playRoot").innerHTML = '<div class="play-shell">' + hud() +
-      '<div class="clinic-chip">' + esc(g.title || "语法练习") + "</div>" +
-      (g.sourceSentence ? '<p class="clinic-src">课文：' + esc(g.sourceSentence) + "</p>" : "") +
-      '<div class="note">' + esc(q.prompt || "结合本课语法点作答") + "</div>" +
+      '<div class="clinic-chip">' + esc(clinicLabel(g)) + "</div> " +
+      '<div class="clinic-chip qtype">' + esc(q.qType || "练习") + "</div>" +
+      (g.sourceSentenceCn ? '<p class="clinic-src">课文：' + esc(g.sourceSentenceCn) + "</p>" : "") +
       '<div class="q-box">' + esc(q.q) + "</div>" +
       '<div class="opts" id="opts"></div>' +
       '<div class="explain" id="explainBox" hidden></div>' +
-      '<div class="mem-actions"><button class="btn btn-ghost" type="button" id="backGames">返回游戏列表</button></div></div>';
-    $("backGames").onclick = showList;
-    bindOpts(q);
+      '<div class="mem-actions">' +
+      '<button class="btn btn-indigo" type="button" id="clinicNext" hidden>下一题</button> ' +
+      '<button class="btn btn-ghost" type="button" id="clinicLobby">其他语法点</button></div></div>';
+    $("clinicLobby").onclick = showGrammarLobby;
+    bindOpts(q, true);
   }
 
   function startSpin() {
