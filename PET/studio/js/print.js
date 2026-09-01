@@ -307,6 +307,58 @@
     return h;
   }
 
+  function fillMark() {
+    return "@@BLANK@@";
+  }
+  function fillHtml(text) {
+    return esc(String(text || "")).replace(/@@BLANK@@/g, '<span class="fill-line"></span>');
+  }
+  function blankPhraseInSentence(sent, phrase) {
+    var p = String(phrase || "").trim();
+    var s = String(sent || "");
+    if (!p || !s) return "";
+    function escRe(x) {
+      return String(x).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    }
+    var exact = new RegExp(escRe(p), "ig");
+    if (exact.test(s)) return s.replace(exact, fillMark());
+    var parts = p.split(/\s+/);
+    if (parts.length >= 2) {
+      var head = escRe(parts[0]);
+      var rest = parts.slice(1).map(escRe).join("\\s+");
+      var flex = new RegExp("\\b" + head + "(?:e?s|ed|ing|d)?\\s+" + rest, "ig");
+      if (flex.test(s)) return s.replace(flex, fillMark());
+      if (parts.length === 2) {
+        var sep = new RegExp(
+          "\\b" + head + "(?:e?s|ed|ing|d)?\\s+(?:it|them|him|her|this|that|me|you|us)\\s+" + escRe(parts[1]),
+          "ig"
+        );
+        if (sep.test(s)) return s.replace(sep, fillMark());
+      }
+      var last = parts[parts.length - 1];
+      if (parts.length >= 3 && last.length >= 4) {
+        var span = new RegExp(
+          "\\b" + head + "(?:e?s|ed|ing|d)?\\b[^.,;:!?]{0,32}?\\b" + escRe(last) + "\\b",
+          "ig"
+        );
+        if (span.test(s)) return s.replace(span, fillMark());
+      }
+    }
+    return "";
+  }
+  function paperLine(q, i) {
+    var body = q.html || fillHtml(q.q || "");
+    if (q.hint) {
+      var hint = ' <span class="zh-hint">（' + esc(q.hint) + "）</span>";
+      if (/fill-line/.test(body)) {
+        body = body.replace(/<span class="fill-line"><\/span>/, '<span class="fill-line"></span>' + hint);
+      } else {
+        body += hint;
+      }
+    }
+    return '<div class=q><span class=n>' + (i + 1) + ".</span> " + body + "</div>";
+  }
+
   function buildPaperQs(bag, level) {
     var n = (PETStudio.LEVELS[level] || PETStudio.LEVELS.standard).count;
     var optN = (PETStudio.LEVELS[level] || PETStudio.LEVELS.standard).options;
@@ -322,10 +374,15 @@
       return { q: it.word + (it.phonetic ? "  " + it.phonetic : ""), options: opts, answer: it.meaning };
     });
     var spells = PETStudio.pickN(bag.vocab, Math.min(8, bag.vocab.length)).map(function (it) {
-      return { q: "根据释义拼写：" + it.meaning + "  (" + (it.word[0] || "") + "______)", answer: it.word };
+      return {
+        q: "根据释义拼写：" + it.meaning + "  " + (it.word[0] || "") + fillMark(),
+        answer: it.word
+      };
     });
     var gaps = [];
     PETStudio.pickN(bag.colloc, Math.min(8, bag.colloc.length)).forEach(function (it) {
+      var phrase = it.word || it.phrase || "";
+      var hint = it.meaning || "";
       var ex = {};
       (it.examples || []).forEach(function (row) {
         var src = String(row.source || "").toLowerCase();
@@ -337,14 +394,22 @@
           if (!ex.sentence && src.indexOf("article") === -1 && src.indexOf("文章") === -1) ex = row;
         });
       }
-      var sent = ex.sentence || "";
-      var blank = sent;
-      if (it.word && sent.toLowerCase().indexOf(it.word.toLowerCase()) !== -1) {
-        blank = sent.replace(new RegExp(it.word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "ig"), "________");
-      } else {
-        blank = "________  (" + (ex.trans || it.meaning) + ")";
+      var sent = String(ex.sentence || "");
+      var blanked = blankPhraseInSentence(sent, phrase);
+      if (!blanked) {
+        var fill = (it.quizFill || []).find(function (r) {
+          return r && (r.is_correct || r.isCorrect) && r.sentence && /_{2,}/.test(r.sentence);
+        });
+        if (fill) blanked = String(fill.sentence).replace(/_{2,}/g, fillMark());
       }
-      gaps.push({ q: blank, answer: it.word });
+      if (!blanked) {
+        if (sent && !/[\u4e00-\u9fff]/.test(sent)) {
+          blanked = sent.replace(/[.?!]\s*$/, "") + " → " + fillMark();
+        } else {
+          blanked = fillMark();
+        }
+      }
+      gaps.push({ q: blanked, hint: hint, answer: phrase });
     });
     var grammarQs = [];
     bag.grammar.forEach(function (g) {
@@ -377,11 +442,11 @@
     html += '<section class=sheet><div class=inner>' +
       '<div class=sec-h><div class=dot style="background:#d97706"></div><h2>C. 拼写冲刺</h2></div>';
     pack.spells.forEach(function (q, i) {
-      html += '<div class=q><span class=n>' + (i + 1) + ".</span> " + esc(q.q) + "</div>";
+      html += paperLine(q, i);
     });
     html += '<div class=sec-h style="margin-top:16px"><div class=dot style="background:#e11d48"></div><h2>D. 词组填空</h2></div>';
     pack.gaps.forEach(function (q, i) {
-      html += '<div class=q><span class=n>' + (i + 1) + ".</span> " + esc(q.q) + "</div>";
+      html += paperLine(q, i);
     });
     html += '<div class=foot><span>PET Review Games</span><span>C–D</span></div></div></section>';
     html += '<section class=sheet><div class=inner>' +
@@ -395,7 +460,7 @@
         html += '<article class=vcard><div class=n style="font-weight:900;color:#0284c7">' + (i + 1) + ".</div>" +
           '<img src="' + esc(q.img) + '" alt="">' +
           '<div class=ex>' + esc(q.meaning || "看图写词") + '</div>' +
-          '<div class=ex>________________</div></article>';
+          '<div class="fill-line wide"></div></article>';
       });
       html += '</div><div class=foot><span>PET Review Games</span><span>F</span></div></div></section>';
     }
