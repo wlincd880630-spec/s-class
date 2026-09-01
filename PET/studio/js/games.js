@@ -24,6 +24,12 @@
     }
   }
 
+  function spellSeconds() {
+    var s = levelCfg().seconds;
+    if (!s) return 0;
+    return Math.max(s, 40);
+  }
+
   function attachTimer() {
     clearTimer();
     var sec = levelCfg().seconds;
@@ -69,8 +75,9 @@
 
   function hud() {
     var total = state.queue.length || 1;
-    var timed = levelCfg().seconds
-      ? '<span class=timer id=timer>' + levelCfg().seconds + "s</span>"
+    var sec = (state.game && state.game.key === "spell") ? spellSeconds() : levelCfg().seconds;
+    var timed = sec
+      ? '<span class=timer id=timer>' + sec + "s</span>"
       : "";
     return '<div class=hud><span>' + esc(state.game.name) + " · " + esc(levelCfg().label) +
       "</span>" + timed + "<span>题 " + (state.idx + 1) + "/" + total + " · 分 " + state.score + "</span></div>";
@@ -209,6 +216,10 @@
   function renderSpell() {
     var q = state.queue[state.idx];
     var w = (q.item.word || "").replace(/[^a-zA-Z]/g, "");
+    if (!w) {
+      setTimeout(next, 0);
+      return;
+    }
     $("playRoot").innerHTML = '<div class="play-shell spell-play">' + hud() +
       '<div class=note>' + esc(q.item.meaning) + "</div>" +
       '<div class=q-box>' + esc(q.item.phonetic || "听音 / 看义拼写") + "</div>" +
@@ -247,7 +258,24 @@
       clearTimer();
       setTimeout(next, 500);
     }
-    attachTimer();
+    clearTimer();
+    var sec = spellSeconds();
+    var el = $("timer");
+    if (sec && el) {
+      var left = sec;
+      el.textContent = left + "s";
+      state.timerId = setInterval(function () {
+        left -= 1;
+        if (el) el.textContent = Math.max(0, left) + "s";
+        if (left <= 0) {
+          clearTimer();
+          if (!state.lock) {
+            state.lock = true;
+            setTimeout(next, 350);
+          }
+        }
+      }, 1000);
+    }
   }
 
   function drawSpell(w, typed) {
