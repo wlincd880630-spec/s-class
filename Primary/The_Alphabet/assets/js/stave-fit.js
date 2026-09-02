@@ -127,26 +127,14 @@
         continue;
       }
       ctx.font = fontStr(g.size, family, weight);
-      if (opts.dashed) {
-        ctx.lineJoin = "round";
-        ctx.lineCap = "round";
-        ctx.lineWidth = Math.max(1.6, g.size * 0.042);
-        ctx.setLineDash([Math.max(5, g.size * 0.08), Math.max(4.5, g.size * 0.07)]);
-        ctx.strokeStyle = g.fill || "rgba(100, 181, 246, 0.92)";
-        ctx.strokeText(g.ch, x, baseY);
-        ctx.setLineDash([]);
-        ctx.fillStyle = "rgba(187, 222, 251, 0.28)";
-        ctx.fillText(g.ch, x, baseY);
-      } else {
-        ctx.fillStyle = g.fill || TRACE_FILL;
-        ctx.fillText(g.ch, x, baseY);
-      }
+      ctx.fillStyle = g.fill || TRACE_FILL;
+      ctx.fillText(g.ch, x, baseY);
       drawn.push({ ch: g.ch, size: g.size, x: x, advance: g.advance });
       x += g.advance;
       if (i < glyphs.length - 1 && glyphs[i + 1].type === "g") x += gap;
     }
 
-    if (opts.startDot && drawn.length === 1) {
+    if (opts.startDot && drawn.length) {
       paintStartDot(ctx, drawn[0], baseY, h);
     }
     return true;
@@ -235,11 +223,16 @@
     if (!canvas || !word) return;
     var center = line.classList.contains("model-stave") || word.classList.contains("center");
     var model = line.classList.contains("model-stave");
-    var ok = paintRun(canvas, runsFromWordEl(word), {
+    var runs = runsFromWordEl(word);
+    if (model) {
+      runs.forEach(function (run) {
+        run.fill = "rgba(66, 165, 245, 0.42)";
+      });
+    }
+    var ok = paintRun(canvas, runs, {
       family: HAND,
-      weight: "700",
+      weight: "400",
       align: center ? "center" : "left",
-      dashed: model,
       startDot: model
     });
     if (ok) line.classList.add("is-fitted");

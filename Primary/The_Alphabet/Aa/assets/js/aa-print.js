@@ -71,7 +71,11 @@
       '<p class="model-hint">' + hint + "</p>" +
       '<div class="stave-line model-stave">' +
       '<div class="grid-lines"><i class="gl gl-sky"></i><i class="gl gl-cloud"></i><i class="gl gl-grass"></i><i class="gl gl-dirt"></i></div>' +
-      '<div class="trace-word center"><span class="' + cls + '">' + letter + "</span></div>" +
+      '<div class="trace-word center">' +
+      '<span class="' + cls + '">' + letter + "</span>" +
+      '<span class="' + cls + '">' + letter + "</span>" +
+      '<span class="' + cls + '">' + letter + "</span>" +
+      "</div>" +
       '<canvas class="stave-ghost-cv" aria-hidden="true"></canvas>' +
       "</div></div>"
     );
