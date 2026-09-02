@@ -17,8 +17,9 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.4rem 0.7rem;
-  margin: 0 0 0.35rem;
+  gap: 0.35rem 0.7rem;
+  margin: 0 0 0.3rem;
+  flex: 0 0 auto;
 }
 .lc-head h2 {
   margin: 0;
@@ -32,6 +33,8 @@
   flex: 1;
   min-width: 12rem;
 }
+
+/* —— 选关：照片铺满卡片，说明条贴在照片下方，绝不叠字 —— */
 .lc-hub {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -42,6 +45,8 @@
 .lc-card {
   display: flex;
   flex-direction: column;
+  min-height: 0;
+  height: 100%;
   border: 2px solid #d8d2c4;
   border-radius: 14px;
   background: #fffef8;
@@ -61,20 +66,57 @@
   outline: none;
 }
 .lc-card-photos {
+  flex: 1 1 auto;
+  min-height: 14rem;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  height: min(28vh, 11.5rem);
+  grid-template-rows: 1fr 1fr;
   background: #1b2418;
+  overflow: hidden;
+  position: relative;
+  z-index: 0;
+}
+.lc-card-photos figure {
+  margin: 0;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
 }
 .lc-card-photos img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+  vertical-align: middle;
 }
-.lc-card-body { padding: 0.65rem 0.8rem 0.8rem; }
+.lc-card-photos figcaption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  margin: 0;
+  padding: 0.18rem 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+  color: #fffef8;
+  background: rgba(18, 16, 12, .72);
+  text-align: center;
+  pointer-events: none;
+}
+.lc-card-body {
+  flex: 0 0 auto;
+  position: relative;
+  z-index: 2;
+  padding: 0.7rem 0.9rem 0.85rem;
+  background: #fffef8;
+  border-top: 1px solid #eadfce;
+}
 .lc-card-body b {
   display: block;
-  font-size: 1.02rem;
+  font-size: 1.08rem;
   color: #1a1a1a;
   margin-bottom: 0.2rem;
 }
@@ -102,7 +144,8 @@
   flex-wrap: wrap;
   gap: 0.4rem;
   align-items: center;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.35rem;
+  flex: 0 0 auto;
 }
 .lc-toolbar .sub { margin: 0; font-size: 0.78rem; color: #5a4a3a; flex: 1; min-width: 10rem; }
 .lc-msg {
@@ -112,24 +155,36 @@
   font-weight: 600;
   color: #5a4a3a;
   text-align: center;
+  flex: 0 0 auto;
 }
 .lc-msg.ok { color: #2e7d32; }
 .lc-msg.bad { color: #c62828; }
 
+/* —— 排序：2×2 大投放格，照片铺满格子，英文在格子下方不盖图 —— */
+.lc-cycle-board {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
 .lc-cols {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
   gap: 0.55rem;
-  flex: 0 0 auto;
+  flex: 1 1 auto;
+  min-height: 22rem;
 }
 .lc-col {
   border: 2px dashed #c9bfae;
   border-radius: 12px;
-  background: rgba(255,255,255,.88);
-  padding: 0.35rem;
+  background: rgba(255,255,255,.92);
+  padding: 0.3rem;
   display: flex;
   flex-direction: column;
   min-height: 0;
+  min-width: 0;
   isolation: isolate;
   overflow: hidden;
   transition: border-color .2s, background .2s;
@@ -137,22 +192,24 @@
 .lc-col.is-target { border-color: #e65100; background: #fff8e8; }
 .lc-col.is-ok { border-style: solid; border-color: #43a047; background: #f1f8e9; }
 .lc-col-title {
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   font-weight: 800;
   text-align: center;
   color: #bf360c;
   letter-spacing: .04em;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.2rem;
   flex: 0 0 auto;
   position: relative;
   z-index: 2;
-  background: transparent;
+  background: #fffef8;
+  border-radius: 6px;
+  padding: 0.08rem 0.2rem;
 }
 .lc-col-title small { display: block; color: #6d5c4a; font-weight: 600; letter-spacing: 0; }
 .lc-drop {
-  flex: 0 0 auto;
-  height: 16rem;
-  min-height: 16rem;
+  flex: 1 1 auto;
+  min-height: 9.5rem;
+  height: auto;
   display: flex;
   align-items: stretch;
   justify-content: center;
@@ -162,15 +219,24 @@
   border-radius: 10px;
   background: #1b2418;
 }
+.lc-drop-hint {
+  margin: auto;
+  color: #d7ccb8;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 0.4rem;
+  pointer-events: none;
+}
 .lc-cap-slot {
-  min-height: 4.4rem;
+  min-height: 3.6rem;
   border-radius: 8px;
   background: #f7f3ea;
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding: 0.28rem;
-  margin-top: 0.3rem;
+  padding: 0.22rem;
+  margin-top: 0.25rem;
   flex: 0 0 auto;
   position: relative;
   z-index: 2;
@@ -178,35 +244,46 @@
 }
 
 .lc-pool, .lc-caps {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.45rem;
-  justify-content: center;
-  margin-top: 0.45rem;
-  padding: 0.45rem;
+  justify-items: stretch;
+  margin: 0;
+  padding: 0.4rem;
   border-radius: 10px;
   background: #efeae0;
   flex: 0 0 auto;
 }
+.lc-caps {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 .lc-photo {
-  width: 14.5rem;
-  height: 10.8rem;
+  width: 100%;
+  height: min(20vh, 12.5rem);
   border-radius: 10px;
   overflow: hidden;
   border: 3px solid #fff;
   box-shadow: 0 2px 8px rgba(0,0,0,.18);
   cursor: pointer;
   padding: 0;
-  background: #222;
+  margin: 0;
+  background: #1b2418;
   position: relative;
   z-index: 1;
+  appearance: none;
+  -webkit-appearance: none;
+  font: inherit;
 }
 .lc-photo img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
   display: block;
   pointer-events: none;
+  background: #1b2418;
 }
 .lc-photo.is-sel { border-color: #e65100; box-shadow: 0 0 0 2px #ffcc80; }
 .lc-photo.is-locked { cursor: default; opacity: 1; }
@@ -214,8 +291,12 @@
   width: 100%;
   max-width: none;
   height: 100%;
-  flex: none;
+  min-height: 0;
+  flex: 1 1 auto;
   border-radius: 10px;
+}
+.lc-drop .lc-photo img {
+  object-fit: contain;
 }
 
 .lc-chip {
@@ -261,6 +342,8 @@
   min-height: 5.2rem;
   overflow: hidden;
   isolation: isolate;
+  appearance: none;
+  -webkit-appearance: none;
 }
 .lc-m-photo {
   flex-direction: column;
@@ -271,21 +354,24 @@
 .lc-m-photo.is-bad, .lc-m-text.is-bad { animation: lcShake .35s; border-color: #c62828; }
 .lc-m-main {
   width: 100%;
-  height: 12.5rem;
+  height: min(28vh, 14rem);
   border-radius: 10px;
   overflow: hidden;
   background: #1b2418;
   flex: 0 0 auto;
+  position: relative;
+  z-index: 0;
 }
 .lc-m-main img,
 .lc-m-photo > img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
   display: block;
-  background: #222;
+  background: #1b2418;
 }
-.lc-thumbs { display: flex; gap: 0.25rem; flex-wrap: wrap; margin-top: 0.3rem; }
+.lc-thumbs { display: flex; gap: 0.25rem; flex-wrap: wrap; margin-top: 0.3rem; position: relative; z-index: 1; }
 .lc-thumbs img {
   width: 2.6rem; height: 2.6rem; object-fit: cover; border-radius: 5px;
 }
@@ -307,9 +393,10 @@
     flex: 1 1 calc(50% - 0.35rem) !important;
   }
   .lc-hub { grid-template-columns: 1fr; }
-  .lc-cols { grid-template-columns: 1fr 1fr; }
+  .lc-card-photos { min-height: 12rem; }
+  .lc-cols { grid-template-columns: 1fr 1fr; min-height: 18rem; }
+  .lc-pool { grid-template-columns: 1fr 1fr; }
+  .lc-photo { height: min(22vh, 11rem); }
   .lc-match { grid-template-columns: 1fr; }
-  .lc-photo { width: 11.5rem; height: 8.6rem; }
-  .lc-drop { height: 13rem; min-height: 13rem; }
-  .lc-m-main { height: 11rem; }
+  .lc-m-main { height: min(24vh, 12rem); }
 }

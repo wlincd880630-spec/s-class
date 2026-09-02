@@ -141,27 +141,46 @@
     return '<button type="button" class="btn' + (cls ? " " + cls : "") + '" id="' + id + '">' + label + "</button>";
   }
 
+  function hubFig(file, cap) {
+    return "<figure>" + imgTag(file, cap) + "<figcaption>" + cap + "</figcaption></figure>";
+  }
+
+  function bindActivate(el, fn) {
+    if (!el) return;
+    el.onclick = fn;
+    el.onkeydown = function (ev) {
+      if (ev.key === "Enter" || ev.key === " ") {
+        ev.preventDefault();
+        fn();
+      }
+    };
+  }
+
   function renderHub(root) {
     state.mode = "hub";
     root.innerHTML =
       '<div class="lc-head"><h2>🦋 生命游戏</h2>' +
       "<p>Old World Swallowtail 金凤蝶真实照片 · 根据课文排出生命循环，再把阶段和句子配起来。</p></div>" +
       '<div class="lc-hub">' +
-      '<button type="button" class="lc-card" id="lcOpen1">' +
+      '<div class="lc-card" id="lcOpen1" role="button" tabindex="0">' +
       '<div class="lc-card-photos">' +
-      imgTag("egg-yellow.jpg", "egg") + imgTag("cat-green.jpg", "caterpillar") +
-      imgTag("pupa-green.jpg", "pupa") + imgTag("adult-land.jpg", "butterfly") +
+      hubFig("egg-yellow-b.jpg", "卵 Egg") +
+      hubFig("cat-green.jpg", "毛虫 Caterpillar") +
+      hubFig("pupa-green.jpg", "蛹 Pupa") +
+      hubFig("adult-land.jpg", "蝴蝶 Butterfly") +
       "</div><div class=\"lc-card-body\"><span class=\"lc-badge\">Game 1</span>" +
-      "<b>生命循环排序</b><span>把 egg → caterpillar → pupa → butterfly 的照片放进正确的格子，再配上英文。</span></div></button>" +
-      '<button type="button" class="lc-card" id="lcOpen2">' +
+      "<b>生命循环排序</b><span>把 egg → caterpillar → pupa → butterfly 的大图放进正确的格子，再配上英文。</span></div></div>" +
+      '<div class="lc-card" id="lcOpen2" role="button" tabindex="0">' +
       '<div class="lc-card-photos">' +
-      imgTag("egg-laying.jpg", "lays egg") + imgTag("egg-brown.jpg", "brown egg") +
-      imgTag("cat-green-eat.jpg", "eats") + imgTag("emerge-out.jpg", "comes out") +
+      hubFig("egg-laying.jpg", "产卵 Lands / lays") +
+      hubFig("egg-brown.jpg", "棕卵 Brown egg") +
+      hubFig("cat-green-eat.jpg", "吃叶子 Eats") +
+      hubFig("emerge-out.jpg", "破蛹 Comes out") +
       "</div><div class=\"lc-card-body\"><span class=\"lc-badge\">Game 2</span>" +
-      "<b>阶段与文字搭配</b><span>看真实照片，点选对应的课文句子。共 8 个 life stage，分两轮。</span></div></button>" +
+      "<b>阶段与文字搭配</b><span>看真实大图，点选对应的课文句子。共 8 个 life stage，分两轮。</span></div></div>" +
       "</div>";
-    document.getElementById("lcOpen1").onclick = function () { startCycle(root); };
-    document.getElementById("lcOpen2").onclick = function () { startMatch(root, 0); };
+    bindActivate(document.getElementById("lcOpen1"), function () { startCycle(root); });
+    bindActivate(document.getElementById("lcOpen2"), function () { startMatch(root, 0); });
   }
 
   function startCycle(root) {
@@ -184,6 +203,7 @@
   function drawCycle(root) {
     var html = '<div class="lc-head"><h2>生命循环排序</h2><p>先点照片，再点格子；英文句子也同样点选放入。四步：Egg → Caterpillar → Pupa → Butterfly。</p></div>';
     html += '<div class="lc-toolbar">' + btn("← 游戏首页", "", "lcBack") + btn("听顺序", "primary", "lcHear") + btn("检查", "primary", "lcCheck") + btn("再来", "", "lcReset") + '<span class="sub" id="lcHint">点一张图，再点上面的格子</span></div>';
+    html += '<div class="lc-cycle-board">';
     html += '<div class="lc-cols">';
     CYCLE.forEach(function (st, i) {
       html += '<div class="lc-col" data-col="' + st.id + '">';
@@ -195,6 +215,7 @@
     html += "</div>";
     html += '<div class="lc-pool" id="lcPool"></div>';
     html += '<div class="lc-caps" id="lcCaps"></div>';
+    html += "</div>";
     html += '<p class="lc-msg" id="lcMsg"></p>';
     root.innerHTML = html;
 
@@ -229,7 +250,9 @@
     var caps = document.getElementById("lcCaps");
     pool.innerHTML = "";
     caps.innerHTML = "";
-    root.querySelectorAll(".lc-drop").forEach(function (d) { d.innerHTML = ""; });
+    root.querySelectorAll(".lc-drop").forEach(function (d) {
+      d.innerHTML = '<span class="lc-drop-hint">点照片，再点这里</span>';
+    });
     root.querySelectorAll(".lc-cap-slot").forEach(function (d) { d.innerHTML = ""; });
 
     state.photoPool.forEach(function (p) {
@@ -240,7 +263,10 @@
       var p = findPhoto(pid);
       var col = state.placed[pid];
       var drop = root.querySelector('.lc-drop[data-drop="' + col + '"]');
-      if (p && drop) drop.appendChild(makePhotoBtn(root, p, true));
+      if (p && drop) {
+        drop.innerHTML = "";
+        drop.appendChild(makePhotoBtn(root, p, true));
+      }
     });
     state.capPool.forEach(function (c) {
       if (state.caps[c.id]) return;
