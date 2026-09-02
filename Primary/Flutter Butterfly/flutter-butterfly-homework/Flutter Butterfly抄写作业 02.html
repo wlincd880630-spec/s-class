@@ -23,6 +23,7 @@
   --line-dash  : rgba(33,150,243,.32);
   --text-dark  : #2C3E50;
   --trace-color: rgba(144,202,249,.55);
+  --copy-font  : 2.58rem;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -218,7 +219,7 @@ body {
   flex: 1; height: 100%;
   display: flex; align-items: center; justify-content: center;
   font-family: var(--font-hand);
-  font-size: 2.58rem;
+  font-size: var(--copy-font);
   letter-spacing: 0;
   transform: translateY(-1.4mm);
   user-select: none;
@@ -245,17 +246,8 @@ body {
   justify-content: flex-start;
   padding: 0 2.4mm;
 }
-.word-block--long .cell {
-  font-size: 2.05rem;
-  letter-spacing: -0.02em;
-}
-.word-block--full .cell {
-  font-size: 1.92rem;
-  letter-spacing: -0.01em;
-}
 .word-block--long .word-lbl,
 .word-block--full .word-lbl {
-  font-size: 0.8rem;
   line-height: 1.2;
   text-align: center;
   max-width: 36mm;
@@ -425,7 +417,7 @@ function wordLayout(display) {
   const letters = display.replace(/[^A-Za-z']/g, '').length;
   const parts = display.trim().split(/\s+/).filter(Boolean);
   if (parts.length >= 2 || display.length >= 14) return 'full';
-  if (letters >= 9) return 'pair';
+  if (letters >= 6) return 'pair';
   return 'normal';
 }
 
@@ -496,17 +488,20 @@ function buildWriteRow(display, rowClass, layout) {
 function fitWordCells() {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
-  document.querySelectorAll('.word-block .cell').forEach((cell) => {
+  const cells = Array.from(document.querySelectorAll('.word-block .cell'));
+  if (!cells.length) return;
+  cells.forEach((cell) => { cell.style.fontSize = ''; });
+  const cs = getComputedStyle(cells[0]);
+  let unified = parseFloat(cs.fontSize);
+  const min = 20;
+  const family = cs.fontFamily;
+  const weight = cs.fontWeight;
+  cells.forEach((cell) => {
     const text = cell.textContent.trim();
     if (!text) return;
     const avail = cell.clientWidth - 10;
     if (avail < 48) return;
-    cell.style.fontSize = '';
-    const cs = getComputedStyle(cell);
-    let size = parseFloat(cs.fontSize);
-    const min = 20;
-    const family = cs.fontFamily;
-    const weight = cs.fontWeight;
+    let size = unified;
     ctx.font = weight + ' ' + size + 'px ' + family;
     let guard = 0;
     while (ctx.measureText(text).width > avail && size > min && guard < 40) {
@@ -514,8 +509,9 @@ function fitWordCells() {
       ctx.font = weight + ' ' + size + 'px ' + family;
       guard += 1;
     }
-    cell.style.fontSize = size + 'px';
+    if (size < unified) unified = size;
   });
+  cells.forEach((cell) => { cell.style.fontSize = unified + 'px'; });
 }
 
 function chunkArray(arr, size) {
