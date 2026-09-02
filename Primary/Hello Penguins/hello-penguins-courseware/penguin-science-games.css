@@ -12,6 +12,7 @@
   min-height: 0;
   display: flex;
   flex-direction: column;
+  overflow: auto;
 }
 .lc-head {
   display: flex;
@@ -47,18 +48,39 @@
   flex: 0 0 auto;
   min-height: auto;
   align-content: start;
-  padding-bottom: 0.4rem;
+  gap: 0.55rem;
+  padding-bottom: 0.45rem;
 }
 .lc-hub.three .lc-card {
   height: auto;
   min-height: auto;
+  isolation: isolate;
 }
-.lc-hub.three .lc-card-photos {
+.lc-hub.three .lc-card-photos,
+.lc-card-cover {
+  display: block;
+  position: relative;
   flex: none;
-  height: 11rem;
-  min-height: 11rem;
+  height: auto;
+  min-height: 0;
+  max-height: none;
+  aspect-ratio: 4 / 3;
+  grid-template-columns: none;
+  grid-template-rows: none;
+  overflow: hidden;
 }
-.lc-hub.three .lc-card-body { padding: 0.4rem 0.65rem 0.5rem; }
+.lc-hub.three .lc-card-photos img,
+.lc-card-cover img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  flex: none;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+}
+.lc-hub.three .lc-card-body { padding: 0.42rem 0.65rem 0.5rem; }
 .lc-hub.three .lc-card-body b { font-size: 0.92rem; }
 .lc-card {
   display: flex;
@@ -102,6 +124,7 @@
   margin: 0;
   min-width: 0;
   min-height: 0;
+  height: 100%;
   overflow: hidden;
   position: relative;
   display: flex;
@@ -109,13 +132,12 @@
 }
 .lc-card-photos img {
   width: 100%;
-  flex: 1 1 auto;
+  flex: 1 1 0;
   min-height: 0;
-  height: auto;
+  height: 0;
   object-fit: cover;
   object-position: center 38%;
   display: block;
-  vertical-align: middle;
 }
 .lc-card-photos figcaption {
   position: static;

@@ -387,10 +387,10 @@
       '<span class="sub">' + (bi ? "当前：中英双语" : "Mode: English") + "</span></div>" +
       '<div class="lc-hub three">' +
       menuCard("who", bi ? "认企鹅" : "Who is this?", bi ? "看照片选种类" : "Name the species", ["emperor-big.jpg", "chinstrap-shuffle.jpg", "humboldt-fish.jpg", "galapagos.jpg"]) +
-      menuCard("hab", bi ? "住哪里" : "Where do they live?", bi ? "冰 / 沙滩 / 森林 / 洋流" : "Ice, beach, forest, current", ["emperor-ice.jpg", "magellanic-nest.jpg", "snares-roots.jpg", "african.jpg"]) +
+      menuCard("hab", bi ? "住哪里" : "Where do they live?", bi ? "冰 / 沙滩 / 森林 / 洋流" : "Ice, beach, forest, current", ["magellanic-beach.jpg", "emperor-ice.jpg", "snares-roots.jpg", "african.jpg"]) +
       menuCard("tf", bi ? "真假赛" : "True or false", bi ? "对还是错？看图判断" : "True or false with photos", ["penguin-swim.jpg", "penguin-slide.jpg", "emperor-huddle.jpg", "king-plain.jpg"]) +
-      menuCard("look", bi ? "大·小·花哨·朴素" : "Big, small, fancy, plain", bi ? "外貌与课文对应" : "Match looks from the book", ["fairy-small.jpg", "rockhopper-fancy.jpg", "adelie-plain.jpg", "macaroni.jpg"]) +
-      menuCard("life", bi ? "蛋·雏鸟·食物" : "Eggs, chicks, food", bi ? "生命故事看图答题" : "Life-cycle photo facts", ["emperor-egg.jpg", "penguin-egg.jpg", "penguin-fish.jpg", "african-bray.jpg"]) +
+      menuCard("look", bi ? "大·小·花哨·朴素" : "Big, small, fancy, plain", bi ? "外貌与课文对应" : "Match looks from the book", ["rockhopper-fancy.jpg", "fairy-small.jpg", "adelie-plain.jpg", "macaroni.jpg"]) +
+      menuCard("life", bi ? "蛋·雏鸟·食物" : "Eggs, chicks, food", bi ? "生命故事看图答题" : "Life-cycle photo facts", ["penguin-egg.jpg", "emperor-egg.jpg", "penguin-fish.jpg", "african-bray.jpg"]) +
       menuCard("mix", bi ? "全能赛 18 题" : "Marathon 18", bi ? "混合题型争高分" : "Mixed facts, high score", ["penguin-splash.jpg", "penguin-fish.jpg", "yellow-eyed.jpg", "royal.jpg"]) +
       menuCard("match", bi ? "种类配对" : "Photo match", bi ? "照片配中英文名" : "Match photos to names", ["gentoo-land.jpg", "magellanic-pair.jpg", "rockhopper-crest.jpg", "adelie-group.jpg"]) +
       "</div>";
@@ -406,7 +406,7 @@
 
   function menuCard(id, title, desc, photos) {
     return '<div class="lc-card" role="button" tabindex="0" data-game="' + id + '">' +
-      '<div class="lc-card-photos">' + photos.map(function (f) { return hubFig(f); }).join("") + "</div>" +
+      '<div class="lc-card-photos lc-card-cover">' + imgTag(photos[0], title) + "</div>" +
       '<div class="lc-card-body"><span class="lc-badge">Quiz</span><b>' + title + "</b><span>" + desc + "</span></div></div>";
   }
 
