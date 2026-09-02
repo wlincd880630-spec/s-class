@@ -133,7 +133,22 @@ var cases = [
   ["—", "-", "cold-blooded", "—"],
   ["/tar/", "tar", "Antarctica", "/tɑː/"],
   ["/and/", "and", "heathland", "/ænd/"],
-  ["/eks/", "ex", "exoskeleton", "/eks/"]
+  ["/eks/", "ex", "exoskeleton", "/eks/"],
+  ["/th/", "th", "On the ice", "/ð/"],
+  ["/th/", "th", "On the beach", "/ð/"],
+  ["/th/", "th", "In the forest", "/ð/"],
+  ["短 a", "a", "Many kinds of", "/e/"],
+  ["短 a", "a", "Many", "/e/"],
+  ["/ər/", "ir", "Dirt", "/ɜː/"],
+  ["/ər/", "ur", "Turn brown", "/ɜː/"],
+  ["/ər/", "ur", "Nurse", "/ɜː/"],
+  ["/ər/", "er", "Flutter", "/ə/"],
+  ["短 i 发 /ɪ/", "u", "Penguin", "/w/"],
+  ["/ng/", "ng", "Penguin", "/ŋɡ/"],
+  ["/ŋ/", "n", "Penguin", "/ŋ/"],
+  ["/w/", "u", "Penguin", "/w/"],
+  ["/g/", "g", "Penguin", "/ɡ/"],
+  ["长 /ī/", "y", "Butterfly", "/aɪ/"]
 ];
 
 cases.forEach(function (row) {
@@ -154,7 +169,9 @@ var ngBooks = [
   "Primary/Play Kitty/play-kitty-courseware/index.html",
   "Primary/Peek Otter/peek-otter-courseware/index.html",
   "Primary/Dive Dolphin/dive-dolphin-courseware/index.html",
-  "Primary/Helpers in your neighborhood/helpers-neighborhood-courseware/index.html"
+  "Primary/Helpers in your neighborhood/helpers-neighborhood-courseware/index.html",
+  "Primary/Hello Penguins/hello-penguins-courseware/index.html",
+  "Primary/Flutter Butterfly/flutter-butterfly-courseware/index.html"
 ];
 
 var seen = Object.create(null);
@@ -244,6 +261,133 @@ var schoolFiles = [
 ];
 schoolFiles.forEach(function (rel) {
   checkAlreadyIpaFile(path.join(root, rel));
+});
+
+function loadNgWordsFromHtml(file) {
+  var html = fs.readFileSync(file, "utf8");
+  var i = html.indexOf("var WORDS = [");
+  if (i < 0) throw new Error("无 WORDS " + file);
+  var rest = html.slice(i);
+  var end = rest.indexOf("\n    ];");
+  if (end < 0) throw new Error("WORDS 未结束 " + file);
+  var ctx = { window: {}, console: console };
+  vm.createContext(ctx);
+  vm.runInContext(rest.slice(0, end) + "\n    ]; this.__WORDS = WORDS;", ctx);
+  if (!ctx.__WORDS) throw new Error("无法读取 WORDS " + file);
+  return ctx.__WORDS;
+}
+
+function boxesIpa(word) {
+  return (word.soundBoxes || []).map(function (b) {
+    return {
+      text: b.text,
+      ipa: NgWordIpa.hint(b.hint, b.text, word.key)
+    };
+  });
+}
+
+function compactLetters(s) {
+  return String(s).toLowerCase().replace(/['’]/g, "'").replace(/\s+/g, "");
+}
+
+function expectBoxes(file, key, want) {
+  var words = loadNgWordsFromHtml(path.join(root, file));
+  var word = words.filter(function (w) { return w.key === key; })[0];
+  if (!word) {
+    failed += 1;
+    console.error("FAIL missing word", key, "in", file);
+    return;
+  }
+  var letters = (word.soundBoxes || []).map(function (b) { return b.text; }).join("");
+  if (compactLetters(letters) !== compactLetters(key)) {
+    failed += 1;
+    console.error("FAIL letters", key, JSON.stringify(letters));
+  }
+  var got = boxesIpa(word).map(function (b) { return b.text + " " + b.ipa; });
+  if (got.join(" | ") !== want.join(" | ")) {
+    failed += 1;
+    console.error("FAIL boxes", key, "got", got, "want", want);
+  }
+}
+
+expectBoxes(
+  "Primary/Hello Penguins/hello-penguins-courseware/index.html",
+  "Penguin",
+  ["p /p/", "e /e/", "n /ŋ/", "g /ɡ/", "u /w/", "i /ɪ/", "n /n/"]
+);
+expectBoxes(
+  "Primary/Hello Penguins/hello-penguins-courseware/index.html",
+  "Many kinds of",
+  ["m /m/", "a /e/", "n /n/", "y /i/", "  —", "k /k/", "i /aɪ/", "nds /ndz/", "  —", "o /ɒ/", "f /v/"]
+);
+expectBoxes(
+  "Primary/Hello Penguins/hello-penguins-courseware/index.html",
+  "On the ice",
+  ["o /ɒ/", "n /n/", "  —", "th /ð/", "e /ə/", "  —", "i /aɪ/", "ce /s/"]
+);
+expectBoxes(
+  "Primary/Hello Penguins/hello-penguins-courseware/index.html",
+  "Dirt",
+  ["d /d/", "ir /ɜː/", "t /t/"]
+);
+expectBoxes(
+  "Primary/Flutter Butterfly/flutter-butterfly-courseware/index.html",
+  "Butterfly",
+  ["b /b/", "u /ʌ/", "tt /t/", "er /ə/", "fl /fl/", "y /aɪ/"]
+);
+expectBoxes(
+  "Primary/Flutter Butterfly/flutter-butterfly-courseware/index.html",
+  "Animals",
+  ["a /æ/", "n /n/", "i /ɪ/", "m /m/", "a /ə/", "l /l/", "s /z/"]
+);
+expectBoxes(
+  "Primary/Flutter Butterfly/flutter-butterfly-courseware/index.html",
+  "Pupa",
+  ["p /p/", "u /juː/", "p /p/", "a /ə/"]
+);
+expectBoxes(
+  "Primary/Flutter Butterfly/flutter-butterfly-courseware/index.html",
+  "Turn brown",
+  ["t /t/", "ur /ɜː/", "n /n/", "  —", "b /b/", "r /r/", "ow /aʊ/", "n /n/"]
+);
+expectBoxes(
+  "Primary/Dive Dolphin/dive-dolphin-courseware/index.html",
+  "Many",
+  ["m /m/", "a /e/", "n /n/", "y /i/"]
+);
+expectBoxes(
+  "Primary/Dive Dolphin/dive-dolphin-courseware/index.html",
+  "These",
+  ["th /ð/", "e /iː/", "se /z/"]
+);
+expectBoxes(
+  "Primary/Helpers in your neighborhood/helpers-neighborhood-courseware/index.html",
+  "Nurse",
+  ["n /n/", "ur /ɜː/", "se /s/"]
+);
+
+[
+  "Primary/Hello Penguins/hello-penguins-courseware/index.html",
+  "Primary/Flutter Butterfly/flutter-butterfly-courseware/index.html",
+  "Primary/Dive Dolphin/dive-dolphin-courseware/index.html",
+  "Primary/Helpers in your neighborhood/helpers-neighborhood-courseware/index.html",
+  "Primary/Jump Pup/jump-pup-courseware/index.html",
+  "Primary/Play Kitty/play-kitty-courseware/index.html",
+  "Primary/Peek Otter/peek-otter-courseware/index.html"
+].forEach(function (rel) {
+  loadNgWordsFromHtml(path.join(root, rel)).forEach(function (w) {
+    var letters = (w.soundBoxes || []).map(function (b) { return b.text; }).join("");
+    if (compactLetters(letters) !== compactLetters(w.key)) {
+      failed += 1;
+      console.error("FAIL letters", rel, w.key, JSON.stringify(letters));
+    }
+    boxesIpa(w).forEach(function (b) {
+      if (!isDisplayIpa(b.ipa)) {
+        failed += 1;
+        console.error("FAIL ipa", rel, w.key, b.text, b.ipa);
+      }
+    });
+  });
 });
 
 if (failed) {

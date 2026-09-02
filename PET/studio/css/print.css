@@ -24,10 +24,6 @@ body.print-page {
   color: #fff; position: relative; overflow: hidden;
 }
 .cover img.hero { width: 100%; height: 148mm; object-fit: cover; display: block; }
-body.passage-doc .cover { min-height: auto; }
-body.passage-doc .cover img.hero { height: 86mm; }
-body.passage-doc .cover .meta { padding: 16px 22px 18px; }
-body.passage-doc .cover h1 { font-size: 28px; }
 .cover .meta { padding: 22px 26px 28px; }
 .cover .kicker { letter-spacing: .2em; text-transform: uppercase; font-size: 11px; color: #c7d2fe; font-weight: 800; }
 .cover h1 { margin: 8px 0 8px; font-size: 32px; line-height: 1.2; }
@@ -195,50 +191,141 @@ body.passage-doc .cover h1 { font-size: 28px; }
 }
 .ex-q .blank { margin: 6px 0 0 22px; color: #94a3b8; letter-spacing: .12em; }
 .sent { font-size: 13.5px; line-height: 1.7; margin: 0 0 6px; }
-.passage-sheet {
-  overflow: visible;
-  min-height: auto;
+
+body.passage-doc { background: #c5c8d4; }
+body.passage-doc .sheet { background: #f6f1e6; }
+.pass-cover {
+  min-height: 297mm; display: flex; flex-direction: column; padding: 0;
+  background: #080b18; color: #fff; overflow: hidden;
 }
-.passage-inner { padding: 12px 18px 16px; }
+.pass-cover-photo {
+  position: relative; overflow: hidden;
+  flex: 1 1 auto; min-height: 188mm;
+  display: flex; align-items: center; justify-content: center;
+  background: #080b18;
+}
+.pass-cover-bg {
+  position: absolute; inset: -16px;
+  background-size: cover; background-position: center;
+  filter: blur(22px) saturate(1.15);
+  transform: scale(1.08);
+}
+.pass-cover-photo img {
+  position: relative; z-index: 1;
+  display: block; width: 100%; height: 188mm;
+  object-fit: contain; object-position: center;
+}
+.pass-cover-panel {
+  padding: 20px 26px 24px;
+  background: linear-gradient(180deg, #1e1b4b 0%, #312e81 42%, #4c1d95 100%);
+  border-top: 3px solid #e4c36a;
+}
+.pass-cover-panel .kicker {
+  letter-spacing: .2em; text-transform: uppercase;
+  font-size: 11px; font-weight: 800; color: #fbbf24;
+}
+.pass-cover-panel h1 { margin: 8px 0 8px; font-size: 30px; line-height: 1.2; }
+.pass-cover-panel p { margin: 0; color: #e0e7ff; line-height: 1.55; }
+.pass-cover-blurb { margin-top: 10px !important; color: #fde68a !important; font-weight: 700; }
+.pass-cover-date { margin-top: 14px !important; font-size: 12px; color: #c7d2fe !important; }
+
+.passage-sheet { overflow: hidden; min-height: auto; background: #f6f1e6; }
+.pass-stage {
+  position: relative; overflow: hidden;
+  background: #080b18;
+}
+.pass-stage-bg {
+  position: absolute; inset: -8px;
+  background-size: cover; background-position: center;
+  filter: saturate(1.08) contrast(1.04);
+}
+.pass-stage-grad {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg,
+    rgba(8,11,24,.18) 0%,
+    rgba(8,11,24,.42) 42%,
+    rgba(8,11,24,.88) 100%);
+}
+.pass-portrait {
+  position: relative; z-index: 1;
+  margin: 12px 16px 0; padding: 7px;
+  background: rgba(8,11,24,.28);
+  border: 1px solid rgba(228,195,106,.7);
+  box-shadow: 0 0 0 5px rgba(8,11,24,.28), 0 16px 28px rgba(0,0,0,.28);
+}
+.pass-portrait img {
+  display: block; width: 100%; height: 92mm;
+  object-fit: contain; object-position: center;
+  background: transparent;
+}
+.pass-masthead {
+  position: relative; z-index: 1;
+  display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+  padding: 12px 20px 14px; color: #f8fafc;
+}
+.pass-kicker {
+  letter-spacing: .2em; text-transform: uppercase;
+  font-size: 10px; font-weight: 800; color: #fbbf24;
+}
+.pass-masthead h2 { margin: 0; font-size: 22px; font-weight: 900; letter-spacing: .01em; }
+.pass-masthead span { margin-left: auto; font-size: 11px; color: #c7d2fe; font-weight: 800; }
+
+.pass-body {
+  padding: 16px 16px 22px;
+  background:
+    linear-gradient(180deg, rgba(246,241,230,.97), #f6f1e6 28px);
+}
 .pass-hint {
-  margin: 0 0 8px;
+  margin: 0 0 12px;
   font-size: 12px;
-  color: #64748b;
-  font-weight: 600;
+  color: #7c6a46;
+  font-weight: 700;
+  letter-spacing: .04em;
 }
-.passage-sents { margin: 0; }
-.passage-doc .sent {
+.sent-card {
   position: relative;
-  font-size: 16px;
-  line-height: 1.5;
-  letter-spacing: 0;
-  margin: 0 0 2px;
-  padding: 0 0 1.15em;
-  font-weight: 600;
-  color: #0f172a;
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  gap: 10px;
+  margin: 0 0 11px;
+  padding: 11px 13px 12px;
+  background: rgba(255,252,246,.94);
+  border: 1px solid #d7c39a;
+  box-shadow: 0 0 0 1px #f4ead2, 0 8px 16px rgba(62, 48, 20, .06);
   break-inside: avoid;
   page-break-inside: avoid;
 }
-.passage-doc .sent::after {
+.sent-card::before,
+.sent-card::after {
   content: "";
   position: absolute;
-  left: 1.6em;
-  right: 0;
-  bottom: 0.15em;
-  border-bottom: 1px dashed #94a3b8;
+  width: 11px; height: 11px;
+  border-color: #c4a35a;
+  border-style: solid;
+  pointer-events: none;
 }
-.passage-doc .sent .n {
-  display: inline-block;
-  min-width: 1.6em;
-  color: #4f46e5;
-  font-weight: 900;
+.sent-card::before { top: 4px; left: 4px; border-width: 1.4px 0 0 1.4px; }
+.sent-card::after { right: 4px; bottom: 4px; border-width: 0 1.4px 1.4px 0; }
+.sent-idx {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1.5px solid #c4a35a;
+  color: #6d4c1d;
+  font-weight: 900; font-size: 13px;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(180deg, #fff8e7, #efd9a4);
+  box-shadow: inset 0 1px 0 #fff;
 }
-.pass-hero-wrap { position: relative; }
-.pass-hero { width: 100%; height: 28mm; object-fit: cover; display: block; }
-.pass-label {
-  position: absolute; left: 12px; bottom: 8px;
-  background: rgba(15, 23, 42, .78); color: #fff;
-  padding: 5px 12px; border-radius: 999px; font-weight: 800; font-size: 12px;
+.sent-en {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.72;
+  font-weight: 700;
+  color: #1b1630;
+}
+.sent-rule {
+  margin-top: 8px;
+  height: 1.25em;
+  border-bottom: 1px dashed #b89a68;
 }
 .q { margin: 0 0 10px; padding: 10px 12px; border-radius: 10px; background: #f8fafc; border: 1px solid #e2e8f0; break-inside: avoid; }
 .q .n, .ex-q .n { display: inline-block; min-width: 22px; font-weight: 900; color: #4f46e5; }
@@ -265,5 +352,8 @@ body.passage-doc .cover h1 { font-size: 28px; }
   .screen-bar { display: none !important; }
   .sheet { margin: 0; box-shadow: none; width: auto; }
   body.passage-doc .sheet:last-child { page-break-after: auto; }
+  body.passage-doc .pass-stage-bg,
+  body.passage-doc .pass-cover-photo img,
+  body.passage-doc .pass-portrait img { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .wcard .pic img { max-height: 190px; }
 }

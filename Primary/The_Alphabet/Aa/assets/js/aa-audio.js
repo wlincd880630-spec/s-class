@@ -17,6 +17,9 @@
   var clipAudio = null;
   var clipTimer = null;
   var currentSynth = null;
+  var audioCtx = null;
+  var voiceSource = null;
+  var voiceAudio = null;
 
   function loadSdk() {
     if (global.SpeechSDK) return Promise.resolve(global.SpeechSDK);
@@ -68,10 +71,30 @@
     clipAudio = null;
   }
 
+  function unlockAudio() {
+    var AC = global.AudioContext || global.webkitAudioContext;
+    if (!AC) return null;
+    if (!audioCtx) audioCtx = new AC();
+    if (audioCtx.state === "suspended") audioCtx.resume();
+    return audioCtx;
+  }
+
   function stopVoice() {
     if (currentSynth) {
       try { currentSynth.close(); } catch (e) {}
       currentSynth = null;
+    }
+    if (voiceSource) {
+      try { voiceSource.stop(); } catch (e0) {}
+      voiceSource = null;
+    }
+    if (voiceAudio) {
+      try {
+        voiceAudio.pause();
+        voiceAudio.removeAttribute("src");
+        voiceAudio.load();
+      } catch (e1) {}
+      voiceAudio = null;
     }
     if (global.speechSynthesis) {
       try { global.speechSynthesis.cancel(); } catch (e3) {}
@@ -142,24 +165,65 @@
     );
   }
 
+  function playAudioData(arrayBuffer) {
+    unlockAudio();
+    if (!arrayBuffer || !arrayBuffer.byteLength) {
+      return Promise.reject(new Error("empty audio"));
+    }
+    if (audioCtx) {
+      return audioCtx.decodeAudioData(arrayBuffer.slice(0)).then(function (buf) {
+        return new Promise(function (resolve, reject) {
+          var src = audioCtx.createBufferSource();
+          voiceSource = src;
+          src.buffer = buf;
+          src.connect(audioCtx.destination);
+          src.onended = function () {
+            if (voiceSource === src) voiceSource = null;
+            resolve();
+          };
+          try { src.start(0); }
+          catch (err) { reject(err); }
+        });
+      });
+    }
+    var url = URL.createObjectURL(new Blob([arrayBuffer], { type: "audio/wav" }));
+    var a = new Audio(url);
+    voiceAudio = a;
+    return a.play().then(function () {
+      return new Promise(function (resolve) {
+        a.onended = function () {
+          URL.revokeObjectURL(url);
+          if (voiceAudio === a) voiceAudio = null;
+          resolve();
+        };
+      });
+    });
+  }
+
   function speakSsml(inner, rate) {
     stopVoice();
+    unlockAudio();
     var ssml = wrapSpeak(inner, rate);
+    var plain = String(inner).replace(/<[^>]+>/g, " ");
     return loadSdk()
       .then(function (sdk) {
         var cfg = sdk.SpeechConfig.fromSubscription(AZURE.subscriptionKey, AZURE.region);
         cfg.speechSynthesisVoiceName = AZURE.voice;
+        /* null = 不走扬声器，音频在 result.audioData，避免 SDK 默默合成却不播放 */
         var synth = new sdk.SpeechSynthesizer(cfg, null);
         currentSynth = synth;
         return new Promise(function (resolve, reject) {
           synth.speakSsmlAsync(
             ssml,
             function (result) {
+              var data = result && result.audioData;
               try { synth.close(); } catch (e) {}
               currentSynth = null;
-              var ok = result && result.reason === sdk.ResultReason.SynthesizingAudioCompleted;
-              if (ok) resolve();
-              else reject(new Error("azure empty"));
+              if (data && data.byteLength) {
+                playAudioData(data).then(resolve, reject);
+                return;
+              }
+              reject(new Error("azure empty"));
             },
             function (err) {
               try { synth.close(); } catch (e2) {}
@@ -170,7 +234,7 @@
         });
       })
       .catch(function () {
-        return browserSpeak(inner.replace(/<[^>]+>/g, " "));
+        return browserSpeak(plain);
       });
   }
 
@@ -190,8 +254,16 @@
   }
 
   function speakWord(word, slow) {
+    unlockAudio();
     return speakSsml(escapeSsml(word), slow ? "0.65" : AZURE.rate);
   }
+
+  function warm() {
+    unlockAudio();
+    return loadSdk().catch(function () { return null; });
+  }
+
+  warm();
 
   global.AAAudio = {
     AZURE: AZURE,
@@ -202,6 +274,8 @@
     isTrackPlaying: isTrackPlaying,
     playFile: playFile,
     playClip: playClip,
-    speakWord: speakWord
+    speakWord: speakWord,
+    warm: warm,
+    unlock: unlockAudio
   };
 })(window);

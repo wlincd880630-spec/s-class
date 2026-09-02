@@ -234,7 +234,33 @@ body {
   align-self: center;
 }
 
+
 .write-row.row2 .cell.trace { color: rgba(144,202,249,.28); }
+
+.cells--pair .cell { flex: 1; min-width: 0; }
+.cells--full { padding: 0 2mm; }
+.cells--full .cell {
+  flex: 1;
+  min-width: 0;
+  justify-content: flex-start;
+  padding: 0 2.4mm;
+}
+.word-block--long .cell {
+  font-size: 2.05rem;
+  letter-spacing: -0.02em;
+}
+.word-block--full .cell {
+  font-size: 1.92rem;
+  letter-spacing: -0.01em;
+}
+.word-block--long .word-lbl,
+.word-block--full .word-lbl {
+  font-size: 0.8rem;
+  line-height: 1.2;
+  text-align: center;
+  max-width: 36mm;
+  overflow-wrap: anywhere;
+}
 
 @media screen and (max-width: 720px) {
   .toolbar-left span:not(.icon) {
@@ -377,31 +403,83 @@ function buildPage(vData, words, pageNum, totalPages) {
   return viewport;
 }
 
+function escapeHw(s) {
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function displayWord(slug) {
+  const s = String(slug || '').trim();
+  if (s === 'cant') return "can't";
+  return s.replace(/-/g, ' ');
+}
+
+function wordImgKey(slug) {
+  return String(slug || '').trim().replace(/ /g, '-').replace(/'/g, '');
+}
+
+function wordLayout(display) {
+  const letters = display.replace(/[^A-Za-z']/g, '').length;
+  const parts = display.trim().split(/\s+/).filter(Boolean);
+  if (parts.length >= 2 || display.length >= 14) return 'full';
+  if (letters >= 9) return 'pair';
+  return 'normal';
+}
+
 function buildWordBlock(word, accentColor) {
+  const display = displayWord(word);
+  const layout = wordLayout(display);
+  const shown = escapeHw(display);
   const block = document.createElement('div');
-  block.className = 'word-block';
+  block.className = 'word-block' + (layout === 'full' ? ' word-block--full' : layout === 'pair' ? ' word-block--long' : '');
 
   block.innerHTML = `
     <div class="img-col">
       <div class="img-frame">
-        <img class="hw-word-img" alt="${word}" />
+        <img class="hw-word-img" alt="${shown}" />
       </div>
-      <div class="word-lbl" style="color:${accentColor}">${word}</div>
+      <div class="word-lbl" style="color:${accentColor}">${shown}</div>
     </div>
-    ${buildWriteRow(word, 'row1')}
-    ${buildWriteRow(word, 'row2')}
+    ${buildWriteRow(display, 'row1', layout)}
+    ${buildWriteRow(display, 'row2', layout)}
   `;
   const img = block.querySelector('.hw-word-img');
-  img.src = IMG_BASE + word + '.png';
+  const key = wordImgKey(word);
+  img.src = IMG_BASE + key + '.png';
   img.addEventListener('error', function onImgErr() {
     this.removeEventListener('error', onImgErr);
-    this.src = svgPlaceholderDataUrl(word, IMG_BASE + word + '.png');
+    this.src = svgPlaceholderDataUrl(display, IMG_BASE + key + '.png');
   }, { once: true });
 
   return block;
 }
 
-function buildWriteRow(word, rowClass) {
+function buildWriteRow(display, rowClass, layout) {
+  const shown = escapeHw(display);
+  let cells = '';
+  if (layout === 'full') {
+    const kind = rowClass === 'row1' ? 'trace' : 'empty';
+    cells = `<div class="cells cells--full"><div class="cell ${kind}">${shown}</div></div>`;
+  } else if (layout === 'pair') {
+    cells = `<div class="cells cells--pair">
+        <div class="cell trace">${shown}</div>
+        <div class="vsep"></div>
+        <div class="cell empty">${shown}</div>
+      </div>`;
+  } else {
+    cells = `<div class="cells">
+        <div class="cell model">${shown}</div>
+        <div class="vsep"></div>
+        <div class="cell trace">${shown}</div>
+        <div class="cell trace">${shown}</div>
+        <div class="vsep"></div>
+        <div class="cell empty">${shown}</div>
+        <div class="cell empty">${shown}</div>
+      </div>`;
+  }
   return `
     <div class="write-row ${rowClass}">
       <div class="grid-bg">
@@ -410,17 +488,34 @@ function buildWriteRow(word, rowClass) {
         <div class="gl gl-grass"></div>
         <div class="gl gl-dirt"></div>
       </div>
-      <div class="cells">
-        <div class="cell model">${word}</div>
-        <div class="vsep"></div>
-        <div class="cell trace">${word}</div>
-        <div class="cell trace">${word}</div>
-        <div class="vsep"></div>
-        <div class="cell empty">${word}</div>
-        <div class="cell empty">${word}</div>
-      </div>
+      ${cells}
     </div>
   `;
+}
+
+function fitWordCells() {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  document.querySelectorAll('.word-block .cell').forEach((cell) => {
+    const text = cell.textContent.trim();
+    if (!text) return;
+    const avail = cell.clientWidth - 10;
+    if (avail < 48) return;
+    cell.style.fontSize = '';
+    const cs = getComputedStyle(cell);
+    let size = parseFloat(cs.fontSize);
+    const min = 20;
+    const family = cs.fontFamily;
+    const weight = cs.fontWeight;
+    ctx.font = weight + ' ' + size + 'px ' + family;
+    let guard = 0;
+    while (ctx.measureText(text).width > avail && size > min && guard < 40) {
+      size -= 0.5;
+      ctx.font = weight + ' ' + size + 'px ' + family;
+      guard += 1;
+    }
+    cell.style.fontSize = size + 'px';
+  });
 }
 
 function chunkArray(arr, size) {
@@ -431,7 +526,10 @@ function chunkArray(arr, size) {
 
 function buildAllAndFit() {
   buildAll();
-  fitPageViewports();
+  const run = () => { fitWordCells(); fitPageViewports(); };
+  const afterLayout = () => requestAnimationFrame(() => requestAnimationFrame(run));
+  afterLayout();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(afterLayout);
 }
 
 function fitPageViewports() {
