@@ -184,16 +184,19 @@
     return "/" + inner + "/";
   }
 
+  var VOICED_TH = /\b(they|there|this|these|those|with|other|others|together|breathe|the|that|than|then)\b/;
+  var VOICELESS_TH = /\b(thing|through|think|thumb|thick|three|earth|mouth|north|south)\b/;
+  var NURSE = /\b(dirt|bird|girl|first|turn|hurt|burn|nurse|her|word|world|work)\b/i;
+  var MANY_ANY = /\b(many|any)\b/i;
+
   function thOf(word, grapheme) {
     var w = String(word || "").toLowerCase();
     var g = String(grapheme || "").toLowerCase();
-    if (/^(thing|through|think|thumb|thick|three|earth|mouth|north|south)$/.test(w)) return "/θ/";
+    if (VOICELESS_TH.test(w)) return "/θ/";
     if (g === "th" || g === "the") {
-      if (/^(they|there|this|these|those|with|other|others|together|breathe|the|that|than|then)$/.test(w)) {
-        return "/ð/";
-      }
+      if (VOICED_TH.test(w)) return "/ð/";
     }
-    if (/^(they|there|this|these|those|with|other|others|together|breathe)$/.test(w)) return "/ð/";
+    if (VOICED_TH.test(w)) return "/ð/";
     return "/θ/";
   }
 
@@ -224,6 +227,14 @@
 
     if (src === "/th/" || src === "th") return thOf(w, g);
     if (src === "/or/" && /^work$/i.test(w)) return "/ɜː/";
+    if ((src === "/ər/" || src === "ər") && NURSE.test(w)) return "/ɜː/";
+    if (MANY_ANY.test(w) && /^a$/i.test(g) && (src === "短 a" || src === "/ă/" || src === "/æ/" || src === "/a/")) {
+      return "/e/";
+    }
+    if (/^penguin$/i.test(w)) {
+      if (/^ng$/i.test(g)) return "/ŋɡ/";
+      if (/^u$/i.test(g)) return "/w/";
+    }
 
     if (EXACT.hasOwnProperty(src)) {
       if (EXACT[src] === "") return letterFallback(g);
