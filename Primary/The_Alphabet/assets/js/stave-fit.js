@@ -41,7 +41,8 @@
   }
 
   function kindOf(ch) {
-    if (/[A-Z]/.test(ch)) return "cap";
+    if (!ch || ch === " " || ch === "\u00a0") return "space";
+    if (/[A-Zbdfhklt]/.test(ch)) return "cap";
     if (/[a-z]/.test(ch)) return "small";
     return "space";
   }
@@ -64,6 +65,8 @@
     var baseY = yOf(h, "base");
     var skyY = yOf(h, "sky");
     var midY = yOf(h, "mid");
+    var capSize = sizeForAscent(ctx, "A", baseY - skyY, family, weight);
+    var smallSize = sizeForAscent(ctx, "o", baseY - midY, family, weight);
     var gap = Math.max(1.5, h * 0.012);
 
     var glyphs = [];
@@ -76,8 +79,7 @@
         continue;
       }
       var kind = run.kind || kindOf(ch);
-      var topY = kind === "small" ? midY : skyY;
-      var size = sizeForAscent(ctx, ch, baseY - topY, family, weight);
+      var size = kind === "small" ? smallSize : capSize;
       var m = measure(ctx, ch, size, family, weight);
       glyphs.push({
         type: "g",
@@ -165,25 +167,22 @@
 
   function runsFromWordEl(el) {
     var runs = [];
-    function walk(node, fill, kind) {
+    function walk(node, fill) {
       if (!node) return;
       if (node.nodeType === 3) {
         var t = node.textContent || "";
         for (var i = 0; i < t.length; i++) {
-          runs.push({ ch: t[i], fill: fill, kind: kind });
+          runs.push({ ch: t[i], fill: fill, kind: kindOf(t[i]) });
         }
         return;
       }
       if (node.nodeType !== 1) return;
       var f = fill;
-      var k = kind;
-      if (node.classList.contains("letter-cap")) k = "cap";
-      if (node.classList.contains("letter-small")) k = "small";
       if (node.classList.contains("onset")) f = ONSET_FILL;
       else if (node.classList.contains("rest")) f = REST_FILL;
-      for (var c = node.firstChild; c; c = c.nextSibling) walk(c, f, k);
+      for (var c = node.firstChild; c; c = c.nextSibling) walk(c, f);
     }
-    walk(el, TRACE_FILL, null);
+    walk(el, TRACE_FILL);
     return runs;
   }
 
