@@ -28,6 +28,8 @@ assert(T.storyOpts(false).rate === 1 && T.storyOpts(false).slow === false, "stor
 assert(T.storyOpts(false).azureOnly === true, "storyOpts normal is Azure-only");
 assert(typeof T.speakStory === "function", "speakStory exported");
 assert(T.AZURE.voice === "en-GB-RyanNeural", "textbook British male voice");
+assert(T.textVariants("on-the-ice").indexOf("on the ice") >= 0, "hyphen slug maps to phrase");
+assert(T.textVariants("cant").indexOf("can't") >= 0, "cant maps to can't");
 assert(T.AZURE.slowRate === "-50%", "Azure SSML uses -50%");
 
 ctx.window.LocalAudio = { speak: function () {}, stop: function () {} };

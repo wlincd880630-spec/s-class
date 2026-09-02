@@ -259,10 +259,12 @@
       opacity: 1;
       visibility: visible;
     }
+    .img-col { cursor: pointer; touch-action: manipulation; }
     .btn-word {
       font-size: 0.72rem;
       padding: 6px 12px;
-      min-height: 40px;
+      min-height: 44px;
+      width: 100%;
       border-radius: 8px;
       border: 1px solid #9fa8da;
       background: #fff;
@@ -272,7 +274,8 @@
       font-weight: 600;
       touch-action: manipulation;
     }
-    .btn-word:hover { background: #e8eaf6; }
+    .btn-word:hover,
+    .btn-word.is-playing { background: #e8eaf6; }
 
     .dict-row {
       position: relative;
@@ -404,6 +407,8 @@
   <!-- Azure 密钥写在页面中会被他人复制滥用；勿将本页上传到公网，可在门户轮换密钥 -->
   <script src="../audio/audio-manifest.js"></script>
   <script src="../audio/local-audio.js"></script>
+  <script src="../../assets/ng-azure-tts-enhance.js?v=10"></script>
+  <script>NgAzureTTS.enhance("LocalAudio");</script>
   <script>
     (function () {
       "use strict";
@@ -441,13 +446,31 @@
         return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
       }
 
+      function spokenWord(slug) {
+        var s = String(slug || "").trim();
+        if (s === "cant") return "can't";
+        return s.replace(/-/g, " ");
+      }
+
       function speakWord(w, onComplete) {
         stopAllSpeech();
         if (!window.LocalAudio) {
           if (onComplete) onComplete();
           return;
         }
-        LocalAudio.speak(w, { slow: true, onDone: onComplete });
+        var text = spokenWord(w);
+        document.querySelectorAll(".btn-word.is-playing").forEach(function (btn) {
+          btn.classList.remove("is-playing");
+        });
+        var active = document.querySelector('.btn-word[data-w="' + String(w).replace(/"/g, "") + '"]');
+        if (active) active.classList.add("is-playing");
+        LocalAudio.speak(text, {
+          slow: true,
+          onDone: function () {
+            if (active) active.classList.remove("is-playing");
+            if (onComplete) onComplete();
+          },
+        });
       }
 
       function buildBlankRows(n) {
@@ -482,7 +505,7 @@
           word +
           "'>▶ 读这个词</button>" +
           "<div class='word-answer'>" +
-          esc(word) +
+          esc(spokenWord(word)) +
           "</div></div>" +
           "<div class='write-stack'>" +
           buildBlankRows(1) +
@@ -495,7 +518,7 @@
           },
           { once: true }
         );
-        wrap.querySelector(".btn-word").addEventListener("click", function () {
+        wrap.querySelector(".img-col").addEventListener("click", function () {
           speakWord(word);
         });
         return wrap;
@@ -604,7 +627,12 @@
       });
       window.addEventListener("orientationchange", fitPageViewports);
 
-      window.addEventListener("load", buildAll);
+      window.addEventListener("load", function () {
+        buildAll();
+        if (window.NgAzureTTS && typeof NgAzureTTS.preload === "function") {
+          NgAzureTTS.preload().catch(function () {});
+        }
+      });
     })();
   </script>
   <script src="../../assets/primary-responsive.js?v=2" defer></script>
