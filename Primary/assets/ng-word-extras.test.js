@@ -16,6 +16,7 @@ function assert(cond, msg) {
 }
 
 assert(X.slug("Mail carrier") === "mail-carrier", "slug spaces");
+assert(X.slug("Can't") === "cant", "slug apostrophe");
 assert(X.slug("Need to") === "need-to", "slug need-to");
 assert(X.sentenceSrc({ key: "Play" }) === "images/sentences/play.png", "sentence src say");
 assert(X.sceneSrc({ key: "Play" }, "ex") === "images/sentences/play-ex.png", "scene src ex");

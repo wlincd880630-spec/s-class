@@ -8,7 +8,7 @@
   "use strict";
 
   function slug(key) {
-    return String(key || "").toLowerCase().replace(/\s+/g, "-");
+    return String(key || "").toLowerCase().replace(/'/g, "").replace(/\s+/g, "-");
   }
 
   function sceneSrc(w, kind) {
