@@ -119,6 +119,7 @@
 
     ctx.textAlign = "left";
     ctx.textBaseline = "alphabetic";
+    var drawn = [];
     for (i = 0; i < glyphs.length; i++) {
       var g = glyphs[i];
       if (g.type === "space") {
@@ -126,12 +127,54 @@
         continue;
       }
       ctx.font = fontStr(g.size, family, weight);
-      ctx.fillStyle = g.fill || TRACE_FILL;
-      ctx.fillText(g.ch, x, baseY);
+      if (opts.dashed) {
+        ctx.lineJoin = "round";
+        ctx.lineCap = "round";
+        ctx.lineWidth = Math.max(1.6, g.size * 0.042);
+        ctx.setLineDash([Math.max(5, g.size * 0.08), Math.max(4.5, g.size * 0.07)]);
+        ctx.strokeStyle = g.fill || "rgba(100, 181, 246, 0.92)";
+        ctx.strokeText(g.ch, x, baseY);
+        ctx.setLineDash([]);
+        ctx.fillStyle = "rgba(187, 222, 251, 0.28)";
+        ctx.fillText(g.ch, x, baseY);
+      } else {
+        ctx.fillStyle = g.fill || TRACE_FILL;
+        ctx.fillText(g.ch, x, baseY);
+      }
+      drawn.push({ ch: g.ch, size: g.size, x: x, advance: g.advance });
       x += g.advance;
       if (i < glyphs.length - 1 && glyphs[i + 1].type === "g") x += gap;
     }
+
+    if (opts.startDot && drawn.length === 1) {
+      paintStartDot(ctx, drawn[0], baseY, h);
+    }
     return true;
+  }
+
+  function paintStartDot(ctx, g, baseY, h) {
+    ctx.font = fontStr(g.size, HAND, "700");
+    var met = ctx.measureText(g.ch);
+    var ascent = met.actualBoundingBoxAscent || g.size * 0.7;
+    var r = Math.max(3.2, h * 0.032);
+    var dx;
+    var dy;
+    if (g.ch === "A") {
+      dx = g.x + Math.max(3, g.advance * 0.06);
+      dy = baseY - r * 0.2;
+    } else if (g.ch === "a") {
+      dx = g.x + g.advance * 0.46;
+      dy = baseY - ascent + r * 0.6;
+    } else {
+      return;
+    }
+    ctx.beginPath();
+    ctx.fillStyle = "#43a047";
+    ctx.arc(dx, dy, r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.lineWidth = Math.max(1, r * 0.28);
+    ctx.strokeStyle = "#fff";
+    ctx.stroke();
   }
 
   function paintLetter(canvas, letter, kind, family, fill, weight) {
@@ -190,10 +233,14 @@
     var canvas = line.querySelector("canvas.stave-ghost-cv");
     var word = line.querySelector(".trace-word");
     if (!canvas || !word) return;
+    var center = line.classList.contains("model-stave") || word.classList.contains("center");
+    var model = line.classList.contains("model-stave");
     var ok = paintRun(canvas, runsFromWordEl(word), {
       family: HAND,
       weight: "700",
-      align: "left"
+      align: center ? "center" : "left",
+      dashed: model,
+      startDot: model
     });
     if (ok) line.classList.add("is-fitted");
   }
