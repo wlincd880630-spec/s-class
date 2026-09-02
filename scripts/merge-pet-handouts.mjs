@@ -87,31 +87,44 @@ function mergeItem(ds, gk, word) {
   };
 }
 
+function cloneEx(ex) {
+  const { _src, _sc, ...rest } = ex;
+  return rest;
+}
+
 function badStem(ex) {
-  const q = String(ex.q || "");
+  const q = String(ex.q || "").trim();
   const lv = String(ex.level || "");
   if (/中考/.test(q) && /^(s1|s2|s3)$/.test(lv)) return true;
   if (/高考/.test(q) && /^(j1|j2)$/.test(lv)) return true;
   if (/最能说明.*已经学会|先看公式，再看例句|课文页码|插图颜色/.test(q)) return true;
-  if (q.length < 8) return true;
+  if (q.length < 4) return true;
   return false;
 }
 
 function exScore(ex) {
+  const q = String(ex.q || "").trim();
   let n = 2;
   if (badStem(ex)) return -20;
   if (/^(choice|fill|truefalse|rewrite|error)$/.test(ex.type)) n += 1;
   if (ex.explain) n += 1;
   if (ex.type === "choice" && (ex.options || []).length >= 4) n += 2;
-  if (ex.q && ex.q.length > 18) n += 1;
+  if (q.length > 18) n += 1;
+  if (q.length < 8) n -= 1;
   return n;
 }
 
 function mergeExercises(dsList, gkList) {
+  const ds = (dsList || []).filter((ex) => ex && String(ex.q || "").trim());
+  const gk = (gkList || []).filter((ex) => ex && String(ex.q || "").trim());
+  // 只有一份源时原样保留，避免短题干/去重把每档削到 15 以下。
+  if (!ds.length && gk.length) return gk.map((ex) => cloneEx(ex));
+  if (!gk.length && ds.length) return ds.map((ex) => cloneEx(ex));
+
   const pool = [];
   const seen = new Set();
   function add(list, src) {
-    (list || []).forEach((ex) => {
+    list.forEach((ex) => {
       const q = String(ex.q || "").trim();
       const lv = String(ex.level || "");
       if (!q || !lv || seen.has(lv + "|" + q)) return;
@@ -119,33 +132,30 @@ function mergeExercises(dsList, gkList) {
       pool.push(Object.assign({}, ex, { _src: src, _sc: exScore(ex) + (src === "gk" ? 0.2 : 0) }));
     });
   }
-  add(gkList, "gk");
-  add(dsList, "ds");
+  add(gk, "gk");
+  add(ds, "ds");
   pool.sort((a, b) => b._sc - a._sc);
   const types = ["choice", "fill", "truefalse", "rewrite", "error"];
   const by = { j1: [], j2: [], j3: [], s1: [], s2: [], s3: [] };
-  function strip(ex) {
-    const { _src, _sc, ...rest } = ex;
-    return rest;
-  }
   LEVELS.forEach((lv) => {
-    const cand = pool.filter((ex) => ex.level === lv && ex._sc >= 0);
+    const cand = pool.filter((ex) => ex.level === lv);
     const picked = [];
     const used = new Set();
     types.forEach((t) => {
-      const hit = cand.find((ex) => ex.type === t && !used.has(ex.q));
+      const hit = cand.find((ex) => ex.type === t && !used.has(ex.q) && ex._sc >= 0);
       if (hit) {
         used.add(hit.q);
-        picked.push(strip(hit));
+        picked.push(cloneEx(hit));
       }
     });
     cand.forEach((ex) => {
       if (picked.length >= 18) return;
       if (used.has(ex.q)) return;
       used.add(ex.q);
-      picked.push(strip(ex));
+      picked.push(cloneEx(ex));
     });
-    by[lv] = picked.slice(0, Math.max(15, Math.min(18, picked.length)));
+    const cap = Math.min(18, Math.max(picked.length, 0));
+    by[lv] = picked.slice(0, cap);
   });
   return LEVELS.flatMap((lv) => by[lv]);
 }
