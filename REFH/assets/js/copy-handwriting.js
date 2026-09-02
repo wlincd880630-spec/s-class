@@ -10,7 +10,9 @@
     '05': { file: 'Chicago_Solar_Green_Jobs_Copywork.pdf', kicker: 'S-Class · REFH 05 · Vocabulary Copywork' },
     '06': { file: 'Braille_Tech_Copywork.pdf', kicker: 'S-Class · REFH 06 · Vocabulary Copywork' },
     '07': { file: 'Meet_the_Dogs_Copywork.pdf', kicker: 'S-Class · REFH 07 · Vocabulary Copywork' },
-    '08': { file: 'Cut_Choices_Copywork.pdf', kicker: 'S-Class · REFH 08 · Vocabulary Copywork' }
+    '08': { file: 'Cut_Choices_Copywork.pdf', kicker: 'S-Class · REFH 08 · Vocabulary Copywork' },
+    '09': { file: 'Pearl_Harbor_Copywork.pdf', kicker: 'S-Class · REFH 09 · Vocabulary Copywork' },
+    '10': { file: 'Cappadocia_Balloons_Copywork.pdf', kicker: 'S-Class · REFH 10 · Vocabulary Copywork' }
   };
 
   function lessonId() {
