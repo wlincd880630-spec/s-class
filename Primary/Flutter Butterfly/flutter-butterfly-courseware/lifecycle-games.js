@@ -40,7 +40,7 @@
       zhTitle: "蝴蝶",
       en: "A butterfly comes out! Flutter, butterfly!",
       zh: "蝴蝶出来了！飞起来吧，蝴蝶！",
-      photos: ["adult-land.jpg", "adult-underside.jpg", "adult-open.jpg", "emerge-ready.jpg"]
+      photos: ["adult-underside.jpg", "adult-open.jpg", "adult-land.jpg", "adult-spread.jpg", "emerge-ready.jpg"]
     }
   ];
 
@@ -49,7 +49,7 @@
       id: "lands",
       en: "A butterfly lands on a plant.",
       zh: "一只蝴蝶落在植物上。",
-      photos: ["adult-land.jpg", "adult-open.jpg"]
+      photos: ["adult-land.jpg", "egg-laying.jpg", "adult-nectar-b.jpg"]
     },
     {
       id: "yellow-egg",
@@ -485,7 +485,7 @@
         setTimeout(function () {
           if (state.round === 0) startMatch(root, 1);
           else renderHub(root);
-        }, 1100);
+        }, 2400);
       }
     } else {
       var pEl = root.querySelector('.lc-m-photo[data-id="' + state.selStage + '"]');
