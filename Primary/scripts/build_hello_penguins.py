@@ -977,6 +977,13 @@ def main():
     if os.path.isfile(spec):
         os.remove(spec)
 
+    games_src = os.path.dirname(__file__)
+    cw_dir = os.path.join(DEST, "hello-penguins-courseware")
+    for name in ("penguin-science-games.js", "penguin-science-games.css"):
+        src = os.path.join(games_src, name)
+        if os.path.isfile(src):
+            shutil.copy2(src, os.path.join(cw_dir, name))
+
     print(f"Built {DEST}")
     print(f"Words: {len(WORDS)}, Story sentences: {len(STORY)}")
 
