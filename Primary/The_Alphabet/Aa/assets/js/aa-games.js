@@ -4,6 +4,23 @@
   var score = 0;
   var currentGame = 0;
   var replayFn = null;
+  var gameTimer = null;
+  var gameGen = 0;
+
+  function clearGameTimer() {
+    if (gameTimer) {
+      clearTimeout(gameTimer);
+      gameTimer = null;
+    }
+  }
+  function later(fn, ms) {
+    var gen = gameGen;
+    clearGameTimer();
+    gameTimer = setTimeout(function () {
+      if (gen !== gameGen) return;
+      fn();
+    }, ms);
+  }
 
   function $(id) { return document.getElementById(id); }
   function shuffle(arr) {
@@ -25,6 +42,8 @@
     el.className = "feedback" + (ok === true ? " ok" : ok === false ? " no" : "");
   }
   function showHub() {
+    gameGen += 1;
+    clearGameTimer();
     currentGame = 0;
     AAAudio.stop();
     $("hub").classList.remove("hidden");
@@ -41,6 +60,8 @@
     replayFn = again;
   }
   function openGame(id) {
+    gameGen += 1;
+    clearGameTimer();
     currentGame = id;
     var meta = L.games[id - 1];
     $("hub").classList.add("hidden");
@@ -139,7 +160,7 @@
         addScore(4);
         fb("全对！这些都是 /æ/ 开头。", true);
         round++;
-        setTimeout(function () {
+        later(function () {
           if (round >= total) showResult("开头音小侦探完成", "你能听出 angry apple 的 /æ/ 了。", startG1);
           else deal();
         }, 900);
@@ -232,7 +253,7 @@
           fb(w.en + " 不是 /æ/ 开头。", true);
           AAAudio.speakWord(w.en);
           round++;
-          setTimeout(function () {
+          later(function () {
             if (round >= total) showResult("局外人完成", "能把 /æ/ 和其他开头音分开了。", startG3);
             else deal();
           }, 800);
@@ -285,7 +306,7 @@
       if (c1.key === c2.key && c1.kind !== c2.kind) {
         addScore(2);
         fb("配对成功！", true);
-        setTimeout(function () {
+        later(function () {
           first.classList.add("matched");
           b.classList.add("matched");
           first = null;
@@ -295,7 +316,7 @@
         }, 450);
       } else {
         fb("不是一对，再试。", false);
-        setTimeout(function () {
+        later(function () {
           first.classList.remove("face");
           b.classList.remove("face");
           first.textContent = "?";
@@ -349,8 +370,8 @@
           addScore(1);
           fb(it.writeAa ? (w.en + " → 写 Aa") : (w.en + " → 打叉"), true);
           i++;
-          setTimeout(function () {
-            if (i >= items.length) showResult("Aa 或打叉完成", "这是教材 D 题：Track 05 的六个苹果。", startG5);
+          later(function () {
+            if (i >= items.length) showResult("Aa 或打叉完成", "这是教材 D 题：Track 05 的六道听音。", startG5);
             else ask();
           }, 700);
         } else {
