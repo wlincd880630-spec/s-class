@@ -165,7 +165,6 @@
           return (
             '<div class="pic-tile t' + (i % 6) + '">' +
             '<img src="' + item.img + '" alt="' + item.en + '">' +
-            '<div class="lab">' + item.en + "</div>" +
             '<div class="write-box">Aa / X</div>' +
             "</div>"
           );
@@ -176,20 +175,19 @@
     pages.push(sheet("theme-candy",
       header("E · Listen and chant", "Chant 小火车", "Track 06") +
       task("E", "跟着 chant 唱：ant → apple → alligator → axe。在格子里写 1 2 3 4。", "leaf") +
-      '<div class="chant-path">' +
+      '<div class="vocab-4">' +
         L.chantOrder.map(function (id, i) {
           var item = w(id);
-          var arrow = i < 3 ? '<div class="arrow">→</div>' : "";
           return (
             '<div class="pic-tile t' + i + '">' +
             '<img src="' + item.img + '" alt="">' +
             '<div class="lab">' + onsetHTML(item) + "</div>" +
             '<div class="num-box"></div>' +
-            "</div>" + arrow
+            "</div>"
           );
         }).join("") +
       "</div>" +
-      '<p style="font-size:15pt;margin-top:8mm;">也可以把下面四个词剪下来，按 chant 顺序排队、唱歌、拍手。</p>' +
+      '<p style="font-size:15pt;margin-top:6mm;">唱完把序号写进格子。正确顺序是 ant → apple → alligator → axe。</p>' +
       foot(6, total, "教材")
     ));
     return pages.join("");
@@ -240,7 +238,6 @@
           );
         }).join("") +
       "</div>" +
-      '<p style="font-size:13pt;color:#78909c;margin-top:4mm;">答案（老师用）：apple · alligator · axe · ant</p>' +
       foot(3, total, "练习册")
     ));
     pages.push(sheet("",
@@ -248,8 +245,7 @@
       task("C", "只给大写 A 和小写 a 的气球涂上喜欢的颜色。B b C c 不要涂。然后在四线格写 Aa。", "sun") +
       '<div class="balloon-board">' +
         letters.map(function (ch) {
-          var isA = ch === "A" || ch === "a";
-          return '<div class="balloon' + (isA ? " is-a" : "") + '">' + ch + "</div>";
+          return '<div class="balloon">' + ch + "</div>";
         }).join("") +
       "</div>" +
       stave(onsetHTML({ kind: "letter", id: "Aa" }), "trace", "fs-lg", "描") +
@@ -521,6 +517,8 @@
         "<li><b>冰箱配对</b> 磁贴或胶带：一边图一边词，每天吃饭前配对一次。</li>" +
         "<li><b>睡前闪卡</b> 只看图说词；隔天只看词找家里的实物（apple 可用真苹果）。</li>" +
         "<li><b>描红作业</b> 在工坊勾选单词，导出四线格：每个词描红 3 次、独立写 3 次。</li>" +
+        "<li><b>练习册 B 答案</b> 圈 apple · alligator · axe · ant。banana、computer 不圈。</li>" +
+        "<li><b>Track 05 答案</b> ant Aa · bear X · apple Aa · alligator Aa · cup X · axe Aa。</li>" +
         "<li><b>分层</b> 尚未认词的孩子只玩图片与开头音；已会读的孩子拿掉图，只读单词卡。</li>" +
         "<li><b>不要依赖颜色作弊</b> 大卡没有一对一的独特底色，必须看图或读词才能配对。</li>" +
         "<li><b>打印建议</b> 彩色、A4、边距无、打开「背景图形」。卡纸更耐用。对折卡可覆膜。</li>" +
