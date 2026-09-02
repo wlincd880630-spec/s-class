@@ -250,7 +250,7 @@
     var html = cover(
       u,
       "单词 · 词组 · 语法讲义",
-      "词汇/词组：音标、英中释义、中文用法、词性家族，以及初一到高三可选例句。语法：详细用法与分层练习（每点 15 题以上）。"
+      "词汇/词组：音标、英中释义、中文用法、词性家族，以及按年级抽取的例句。语法：拓展讲解；题库每档 15 题以上，本次按年级随机抽题。"
     );
     html += '<section class="sheet long"><div class="inner">' +
       '<div class="sec-h"><div class="dot" style="background:#4f46e5"></div><h2>Vocabulary 单词</h2><span>' +
@@ -267,7 +267,7 @@
     html += '<section class="sheet long"><div class="inner">' +
       '<div class="sec-h"><div class="dot" style="background:#7c3aed"></div><h2>Grammar 语法讲义</h2><span>' +
       grammar.length + " points</span></div>" +
-      '<p class="lead">本部分为独立语法课件：详细用法、结构公式、易错提醒、例句与初一至高三分层练习。每点不少于 15 题，题型含选择、填空、判断、改写、改错。</p>';
+      '<p class="lead">本部分为独立语法课件：核心用法加相关结构拓展、易错提醒、分级例句。题库每个年级不少于 15 题（选择/填空/判断/改写/改错），导出时按年级随机抽取，避免讲义过厚。高中题不套用中考提示语。</p>';
     grammar.forEach(function (g, i) {
       html += grammarArticle(g, i);
     });
@@ -281,24 +281,23 @@
     var html = cover(
       u,
       "文章精读讲义",
-      "大号字体、宽松行距；每句下方留有笔记虚线，方便朗读、翻译与课堂记录。"
+      "按句排列，句与句之间空一行作笔记；版面紧凑，便于打印。"
     );
     (bag.passages || []).forEach(function (p, idx) {
       var topic = (u.topics && u.topics[idx]) || p.title || ("Passage " + (idx + 1));
-      html += '<section class="sheet passage-sheet">' +
+      html += '<section class="sheet long passage-sheet">' +
         '<div class=pass-hero-wrap>' +
         '<img class=pass-hero src="' + esc(absUrl(PETStudio.passageImg(u.id, idx))) + '" alt="' + esc(topic) + '">' +
         '<div class=pass-label>Passage ' + (idx + 1) + " · " + esc(topic) + "</div></div>" +
         '<div class="inner passage-inner"><div class=sec-h><div class=dot style="background:#e11d48"></div><h2>' +
         esc(topic) + "</h2><span>" + (p.sentences || []).length + " sentences</span></div>" +
-        '<p class="pass-hint">请在句下虚线上写译文、生词或课堂笔记。</p>';
+        '<p class="pass-hint">句间空行可写译文、生词或课堂笔记。</p>' +
+        '<div class="passage-sents">';
       (p.sentences || []).forEach(function (s, i) {
-        html += '<article class="sent-block">' +
-          '<p class="sent"><span class="n">' + (i + 1) + ".</span> " + esc(s) + "</p>" +
-          '<div class="note-lines" aria-hidden="true"><span></span><span></span></div>' +
-          "</article>";
+        html += '<p class="sent"><span class="n">' + (i + 1) + ".</span> " + esc(s) + "</p>";
       });
-      html += '<div class=foot><span>S-Class PET Reading</span><span>Unit ' + u.id + "</span></div></div></section>";
+      html += "</div>" +
+        '<div class=foot><span>S-Class PET Reading</span><span>Unit ' + u.id + "</span></div></div></section>";
     });
     return html;
   }
