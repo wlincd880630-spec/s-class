@@ -337,8 +337,7 @@
       '<div class="pass-cover-panel">' +
         '<div class="kicker">S-CLASS · CLOSE READING</div>' +
         "<h1>Unit " + unit.id + " · " + esc(unit.title) + "</h1>" +
-        "<p>" + esc(unit.subtitle) + " · 文章精读讲义</p>" +
-        '<p class="pass-cover-blurb">配图完整呈现，一句一框。框内读原文，虚线写译文、生词或课堂笔记。</p>' +
+        "<p>" + esc(unit.subtitle) + "</p>" +
         '<p class="pass-cover-date">Printed ' + today() + "</p>" +
       "</div></section>";
   }
@@ -360,8 +359,7 @@
             "<h2>" + esc(topic) + "</h2>" +
             "<span>" + sents.length + " sentences</span>" +
           "</header></div>" +
-        '<div class="pass-body">' +
-          '<p class="pass-hint">一句一框 · 框内读原文 · 虚线写译文或笔记</p>';
+        '<div class="pass-body">';
       sents.forEach(function (s, i) {
         html += '<article class="sent-card">' +
           '<div class="sent-idx">' + padNum(i + 1) + "</div>" +
