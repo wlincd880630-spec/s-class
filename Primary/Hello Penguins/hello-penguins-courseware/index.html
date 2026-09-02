@@ -1295,11 +1295,13 @@
 
     var SAY = (window.NG_WORD_SAY && window.NG_WORD_SAY["hello-penguins"]) || {};
     if (window.NGWordExtras) {
-      NGWordExtras.sceneSrc = function (w) {
-        return MEDIA_COS + "images/words/" + String(w && w.key).toLowerCase().replace(/'/g, "").replace(/\s+/g, "-") + ".png";
+      NGWordExtras.sceneSrc = function (w, kind) {
+        var s = String(w && w.key).toLowerCase().replace(/'/g, "").replace(/\s+/g, "-");
+        var file = kind === "ex" ? s + "-ex.png" : kind === "sort" ? s + "-sort.png" : s + ".png";
+        return MEDIA_COS + "images/sentences/" + file + "?v=c3d1";
       };
       NGWordExtras.sentenceSrc = function (w) {
-        return NGWordExtras.sceneSrc(w);
+        return NGWordExtras.sceneSrc(w, "say");
       };
     }
     var Distract = "XYZQKVBFGHM".split("");
@@ -1320,7 +1322,7 @@
     }
 
     function wordImg(w) { return MEDIA_COS + "images/words/" + String(w.key).toLowerCase().replace(/'/g, '').replace(/ /g, '-') + ".png?v=p1"; }
-    function wordMeaningImg(w) { return MEDIA_COS + "images/words-meaning/" + String(w.key).toLowerCase().replace(/'/g, '').replace(/ /g, '-') + ".png?v=p1"; }
+    function wordMeaningImg(w) { return MEDIA_COS + "images/words-meaning/" + String(w.key).toLowerCase().replace(/'/g, '').replace(/ /g, '-') + ".png?v=c3d1"; }
 
     function artFromSrc(src, emoji, caption) {
       var cap = caption
