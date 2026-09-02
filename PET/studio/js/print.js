@@ -281,24 +281,23 @@
     var html = cover(
       u,
       "文章精读讲义",
-      "大号字体、宽松行距；每句下方留有笔记虚线，方便朗读、翻译与课堂记录。"
+      "按句排列，句与句之间空一行作笔记；版面紧凑，便于打印。"
     );
     (bag.passages || []).forEach(function (p, idx) {
       var topic = (u.topics && u.topics[idx]) || p.title || ("Passage " + (idx + 1));
-      html += '<section class="sheet passage-sheet">' +
+      html += '<section class="sheet long passage-sheet">' +
         '<div class=pass-hero-wrap>' +
         '<img class=pass-hero src="' + esc(absUrl(PETStudio.passageImg(u.id, idx))) + '" alt="' + esc(topic) + '">' +
         '<div class=pass-label>Passage ' + (idx + 1) + " · " + esc(topic) + "</div></div>" +
         '<div class="inner passage-inner"><div class=sec-h><div class=dot style="background:#e11d48"></div><h2>' +
         esc(topic) + "</h2><span>" + (p.sentences || []).length + " sentences</span></div>" +
-        '<p class="pass-hint">请在句下虚线上写译文、生词或课堂笔记。</p>';
+        '<p class="pass-hint">句间空行可写译文、生词或课堂笔记。</p>' +
+        '<div class="passage-sents">';
       (p.sentences || []).forEach(function (s, i) {
-        html += '<article class="sent-block">' +
-          '<p class="sent"><span class="n">' + (i + 1) + ".</span> " + esc(s) + "</p>" +
-          '<div class="note-lines" aria-hidden="true"><span></span><span></span></div>' +
-          "</article>";
+        html += '<p class="sent"><span class="n">' + (i + 1) + ".</span> " + esc(s) + "</p>";
       });
-      html += '<div class=foot><span>S-Class PET Reading</span><span>Unit ' + u.id + "</span></div></div></section>";
+      html += "</div>" +
+        '<div class=foot><span>S-Class PET Reading</span><span>Unit ' + u.id + "</span></div></div></section>";
     });
     return html;
   }
