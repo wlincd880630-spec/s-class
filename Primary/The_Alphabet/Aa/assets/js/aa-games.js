@@ -41,9 +41,6 @@
     el.textContent = text || "";
     el.className = "feedback" + (ok === true ? " ok" : ok === false ? " no" : "");
   }
-  function playTrack03() {
-    AAAudio.playFile(L.tracks.t03);
-  }
   function picCardHTML(w) {
     return (
       '<div class="pic-card">' +
@@ -53,6 +50,17 @@
         '<button type="button" class="say-btn" data-say="' + w.id + '">听</button>' +
       "</div>"
     );
+  }
+  function speakCard(sayBtn) {
+    var spoken = word(sayBtn.getAttribute("data-say"));
+    if (!spoken) return;
+    AAAudio.unlock();
+    sayBtn.classList.add("is-on");
+    AAAudio.speakWord(spoken.en).then(function () {
+      sayBtn.classList.remove("is-on");
+    }, function () {
+      sayBtn.classList.remove("is-on");
+    });
   }
   function playWordClip(w) {
     var clip = L.track04Clips[w.id];
@@ -177,16 +185,7 @@
       $("g1-grid").onclick = function (e) {
         var say = e.target.closest(".say-btn");
         if (say) {
-          var spoken = word(say.getAttribute("data-say"));
-          if (spoken) {
-            AAAudio.unlock();
-            say.classList.add("is-on");
-            AAAudio.speakWord(spoken.en).then(function () {
-              say.classList.remove("is-on");
-            }, function () {
-              say.classList.remove("is-on");
-            });
-          }
+          speakCard(say);
           return;
         }
         var c = e.target.closest(".choice");
@@ -272,16 +271,18 @@
       var pair = shuffle(L.vocab).slice(0, 2);
       var odd = shuffle(L.distractors)[0];
       var cards = shuffle([pair[0], pair[1], odd]);
-      $("play-tools").innerHTML = '<button type="button" class="btn btn-apple" id="g3-ae">听</button>';
+      $("play-tools").innerHTML = "";
       $("play-board").innerHTML =
         '<p class="round-mark">' + (round + 1) + " / " + total + "</p>" +
         '<div class="choice-grid" style="grid-template-columns:repeat(3,1fr)" id="g3-grid">' +
-        cards.map(function (w) {
-          return '<button type="button" class="choice" data-id="' + w.id + '"><img src="' + w.img + '" alt=""></button>';
-        }).join("") + "</div>";
+        cards.map(picCardHTML).join("") + "</div>";
       $("play-actions").innerHTML = "";
-      $("g3-ae").onclick = playTrack03;
       $("g3-grid").onclick = function (e) {
+        var say = e.target.closest(".say-btn");
+        if (say) {
+          speakCard(say);
+          return;
+        }
         var c = e.target.closest(".choice");
         if (!c) return;
         var w = word(c.getAttribute("data-id"));
