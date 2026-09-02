@@ -1,0 +1,662 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>翻翻配对 · Hello, penguins!</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Patrick+Hand&family=Noto+Sans+SC:wght@500;700&display=swap" rel="stylesheet" />
+  <script src="audio/audio-manifest.js"></script>
+  <script src="audio/local-audio.js"></script>
+  <script src="azure-tts.js"></script>
+  <script src="words-data.js"></script>
+  <style>
+    :root {
+      --gold: #f5c400;
+      --ink: #1a1a1a;
+      --paper: #f7f5f0;
+      --accent: #004d40;
+      --card-ar: 4 / 3;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+    body {
+      font-family: "Noto Sans SC", sans-serif;
+      min-height: 100dvh;
+      background: linear-gradient(165deg, #37474f, #1b2327);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: clip;
+      -webkit-tap-highlight-color: rgba(0, 172, 193, 0.12);
+      padding:
+        max(0.75rem, env(safe-area-inset-top))
+        max(0.5rem, env(safe-area-inset-right))
+        max(2rem, env(safe-area-inset-bottom))
+        max(0.5rem, env(safe-area-inset-left));
+    }
+    .toolbar {
+      width: 100%;
+      max-width: 52rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.65rem 1rem;
+      background: #fffef8;
+      border-bottom: 3px solid var(--gold);
+      margin-bottom: 1rem;
+      border-radius: 0 0 8px 8px;
+    }
+    .toolbar h1 {
+      font-family: "Fredoka", sans-serif;
+      font-size: clamp(0.95rem, 3.5vw, 1.05rem);
+      color: var(--ink);
+    }
+    .toolbar .meta { font-size: 0.8rem; color: #78909c; }
+    .toolbar .btns { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .btn {
+      font-family: "Fredoka", sans-serif;
+      font-weight: 700;
+      border: none;
+      border-radius: 999px;
+      padding: 0.45rem 1rem;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.88rem;
+      background: #fff;
+      border: 2px solid var(--ink);
+      color: var(--ink);
+      text-decoration: none;
+      touch-action: manipulation;
+      flex-shrink: 0;
+    }
+    .btn:active { filter: brightness(0.96); }
+    .btn.primary { background: var(--gold); border-color: #c9a008; }
+    .btn.big { font-size: 1.05rem; padding: 0.65rem 1.75rem; }
+    .stage {
+      width: min(52rem, 100%);
+      background: var(--paper);
+      border-radius: 10px;
+      padding: 1rem 0.75rem 1.25rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+      border-left: 4px solid var(--gold);
+    }
+    .group-badge {
+      text-align: center;
+      font-family: "Fredoka", sans-serif;
+      font-size: 0.95rem;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+    .phase-hint {
+      text-align: center;
+      font-size: 0.92rem;
+      color: #546e7a;
+      line-height: 1.55;
+      margin-bottom: 0.75rem;
+      padding: 0.55rem 0.65rem;
+      background: #fff8e1;
+      border: 2px solid var(--gold);
+      border-radius: 10px;
+    }
+    .phase-hint strong { color: var(--accent); }
+    .phase-hint.play-mode {
+      background: #e3f2fd;
+      border-color: #90caf9;
+    }
+    .stats {
+      display: none;
+      justify-content: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.85rem;
+      font-size: 0.9rem;
+      color: #546e7a;
+    }
+    .stats.on { display: flex; }
+    .stats strong { color: var(--accent); font-family: "Fredoka", sans-serif; font-size: 1.1rem; }
+    .stars { font-size: 1.4rem; letter-spacing: 0.15rem; }
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(0.4rem, 1.5vw, 0.7rem);
+      max-width: 36rem;
+      margin: 0 auto;
+      align-items: start;
+    }
+    .board.memorize .card { cursor: default; pointer-events: none; }
+    .card {
+      width: 100%;
+      perspective: 700px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      padding: 0;
+      font: inherit;
+      touch-action: manipulation;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .card:disabled { cursor: default; }
+    .card-inner {
+      width: 100%;
+      aspect-ratio: var(--card-ar, 4 / 3);
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.5s cubic-bezier(0.4, 0.2, 0.2, 1);
+      border-radius: 10px;
+    }
+    /* 正面朝上：记忆阶段 / 翻开后 / 已配对 */
+    .card.face-up .card-inner,
+    .card.flipped .card-inner,
+    .card.matched .card-inner {
+      transform: rotateY(180deg);
+    }
+    .card-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 2.5px solid #d4cfc3;
+      box-shadow: 0 3px 0 rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+    }
+    .card-back {
+      background: linear-gradient(145deg, #1B5E20, #43A047);
+      color: #fff;
+      font-size: clamp(1.5rem, 5vw, 2.2rem);
+    }
+    .card-front {
+      background: #fff;
+      transform: rotateY(180deg);
+      padding: 0;
+    }
+    .card-front.word {
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(1.15rem, 3.5vw, 1.65rem);
+      font-weight: 700;
+      color: var(--ink);
+      padding: 0.4rem;
+    }
+    .card-front.pic { justify-content: flex-start; }
+    .card-front.pic .pic-wrap {
+      width: 100%;
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.25rem;
+      background: #fafafa;
+    }
+    .card-front.pic .pic-wrap img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      display: block;
+    }
+    .card-front.pic .pic-wrap .emo {
+      font-size: clamp(2rem, 8vw, 2.6rem);
+      display: none;
+    }
+    .card-front.pic .zh-bar {
+      width: 100%;
+      flex-shrink: 0;
+      text-align: center;
+      font-size: 0.62rem;
+      color: #78909c;
+      padding: 0.2rem 0.25rem 0.3rem;
+      background: #fff;
+      border-top: 1px solid #eceff1;
+    }
+    .card.matched .card-front {
+      border-color: #43a047;
+      background: #e8f5e9;
+    }
+    .card.wobble .card-inner { animation: wobble 0.45s ease; }
+    @keyframes wobble {
+      0%, 100% { transform: rotateY(180deg) translateX(0); }
+      25% { transform: rotateY(180deg) translateX(-6px); }
+      75% { transform: rotateY(180deg) translateX(6px); }
+    }
+    .phase-actions { text-align: center; margin-top: 0.85rem; }
+    .phase-actions.hidden { display: none; }
+    .win {
+      display: none;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 0.75rem;
+      background: #fff8e1;
+      border: 2px solid var(--gold);
+      border-radius: 10px;
+    }
+    .win.show { display: block; }
+    .win h2 { font-family: "Fredoka", sans-serif; color: var(--accent); font-size: 1.35rem; }
+    .win p { margin-top: 0.4rem; color: #546e7a; line-height: 1.5; }
+    .win .btn { margin-top: 0.65rem; }
+    @media screen and (max-width: 720px) {
+      .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .toolbar .btns {
+        width: 100%;
+        flex-direction: column;
+      }
+      .toolbar .btns .btn {
+        width: 100%;
+      }
+      .stage {
+        padding: 0.85rem 0.55rem 1rem;
+      }
+      .phase-hint {
+        font-size: 0.85rem;
+        text-align: left;
+      }
+      .phase-actions .btn.big {
+        width: 100%;
+      }
+      .win .btn {
+        display: flex;
+        width: 100%;
+        max-width: none;
+        margin-top: 0.5rem;
+      }
+      .board {
+        gap: 0.35rem;
+      }
+    }
+    @media screen and (max-width: 380px) {
+      .card-front.word {
+        font-size: clamp(1rem, 4.5vw, 1.25rem);
+      }
+      .card-front.pic .zh-bar {
+        font-size: 0.58rem;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .card-inner { transition: none !important; }
+      .card.wobble .card-inner { animation: none !important; }
+      .btn:active { filter: none; }
+    }
+  </style>
+  <link rel="stylesheet" href="../../assets/primary-responsive.css?v=2" />
+</head>
+<body>
+  <div class="toolbar">
+    <div>
+      <h1>🃏 翻翻配对</h1>
+      <p class="meta">先记位置再翻面配对 · 每轮最多 3 词</p>
+    </div>
+    <div class="btns">
+      <button type="button" class="btn" id="btnHome">← 选游戏</button>
+      <a class="btn" href="settings.html">⚙️ 选词</a>
+      <button type="button" class="btn" id="btnMemAgain" style="display:none">再看一遍正面</button>
+    </div>
+  </div>
+
+  <main class="stage">
+    <p class="group-badge" id="groupBadge">第 1 组 · 3 个单词</p>
+
+    <p class="phase-hint" id="phaseHint">
+      <strong>第 1 步 · 记位置</strong>：下面 6 张牌已翻开（3 个单词 + 3 张图）。<br />
+      请记住每张牌在<strong>哪一格</strong>，以及单词与图的对应关系。
+    </p>
+
+    <div class="stats" id="statsRow">
+      <span>翻牌：<strong id="moves">0</strong></span>
+      <span>配对：<strong id="pairs">0</strong> / <strong id="pairsTotal">3</strong></span>
+      <span class="stars" id="stars" aria-label="星级">☆☆☆</span>
+    </div>
+
+    <div class="board memorize" id="board" role="grid" aria-label="记忆翻牌"></div>
+
+    <div class="phase-actions" id="phaseActions">
+      <button type="button" class="btn primary big" id="btnStartFlip">开始 · 全部翻面 ▶</button>
+    </div>
+
+    <div class="win" id="win">
+      <h2 id="winTitle">🎉 本组完成！</h2>
+      <p id="winMsg"></p>
+      <button type="button" class="btn primary" id="btnNext" style="display:none">下一组 →</button>
+      <button type="button" class="btn" id="btnReplayGroup">本组再练一次</button>
+    </div>
+  </main>
+
+  <script>
+  (function () {
+    "use strict";
+
+    var IMG_BASE = HelloPenguinsWords.IMG_BASE;
+    var DEFAULT_AR = "4 / 3";
+    var wordChunks = [];
+    var pairTotal = 3;
+
+    var board = document.getElementById("board");
+    var groupBadge = document.getElementById("groupBadge");
+    var phaseHint = document.getElementById("phaseHint");
+    var statsRow = document.getElementById("statsRow");
+    var phaseActions = document.getElementById("phaseActions");
+    var movesEl = document.getElementById("moves");
+    var pairsEl = document.getElementById("pairs");
+    var starsEl = document.getElementById("stars");
+    var winEl = document.getElementById("win");
+    var winTitle = document.getElementById("winTitle");
+    var winMsg = document.getElementById("winMsg");
+    var btnNext = document.getElementById("btnNext");
+    var btnMemAgain = document.getElementById("btnMemAgain");
+
+    var chunkIndex = 0;
+    var pairsTotalEl = document.getElementById("pairsTotal");
+    var aspectByWord = {};
+    var currentWords = [];
+    var phase = "memorize";
+    var flipped = [];
+    var matchedCount = 0;
+    var moves = 0;
+    var lock = false;
+
+    function shuffle(arr) {
+      return HelloPenguinsWords.shuffle(arr);
+    }
+
+    function applyBoardGrid() {
+      var n = currentWords.length * 2;
+      board.style.gridTemplateColumns = n <= 4 ? "repeat(2, 1fr)" : "repeat(3, 1fr)";
+      board.style.maxWidth = n <= 4 ? "24rem" : "36rem";
+    }
+
+    function speak(word) {
+      if (window.HelloPenguinsTTS) HelloPenguinsTTS.speak(word, { slow: false, azureOnly: true });
+    }
+
+    function starRating(m) {
+      var good = pairTotal * 2 + 2;
+      var ok = pairTotal * 3 + 2;
+      if (m <= good) return "★★★";
+      if (m <= ok) return "★★☆";
+      return "★☆☆";
+    }
+
+    function setAspect(word, w, h) {
+      aspectByWord[word] = w > 0 && h > 0 ? w + " / " + h : DEFAULT_AR;
+    }
+
+    function preloadAspects(words) {
+      words.forEach(function (w) {
+        if (aspectByWord[w.word]) return;
+        var pre = new Image();
+        pre.src = IMG_BASE + HelloPenguinsWords.wordImgFile(w) + ".png";
+        pre.onload = function () {
+          setAspect(w.word, pre.naturalWidth, pre.naturalHeight);
+          board.querySelectorAll('.card[data-pair="' + w.word + '"]').forEach(function (btn) {
+            var ar = aspectByWord[w.word];
+            btn.style.setProperty("--card-ar", ar);
+            var inner = btn.querySelector(".card-inner");
+            if (inner) inner.style.setProperty("--card-ar", ar);
+          });
+        };
+      });
+    }
+
+    function buildCardFace(front, item) {
+      if (item.type === "word") {
+        front.textContent = item.label;
+      } else {
+        var picWrap = document.createElement("div");
+        picWrap.className = "pic-wrap";
+        var img = document.createElement("img");
+        img.src = IMG_BASE + HelloPenguinsWords.wordImgFile(item.label) + ".png";
+        img.alt = item.label;
+        var emo = document.createElement("span");
+        emo.className = "emo";
+        emo.textContent = item.emoji;
+        img.onerror = function () {
+          img.style.display = "none";
+          emo.style.display = "block";
+        };
+        img.addEventListener("load", function () {
+          if (img.naturalWidth > 0) {
+            setAspect(item.pair, img.naturalWidth, img.naturalHeight);
+            var ar = aspectByWord[item.pair];
+            var card = img.closest(".card");
+            if (card) {
+              card.style.setProperty("--card-ar", ar);
+              var inner = card.querySelector(".card-inner");
+              if (inner) inner.style.setProperty("--card-ar", ar);
+            }
+          }
+        });
+        picWrap.appendChild(img);
+        picWrap.appendChild(emo);
+        var zhBar = document.createElement("div");
+        zhBar.className = "zh-bar";
+        zhBar.textContent = item.zh;
+        front.appendChild(picWrap);
+        front.appendChild(zhBar);
+      }
+    }
+
+    function renderBoard() {
+      board.innerHTML = "";
+      flipped = [];
+      matchedCount = 0;
+      moves = 0;
+      lock = false;
+      movesEl.textContent = "0";
+      pairsEl.textContent = "0";
+      starsEl.textContent = "☆☆☆";
+      winEl.classList.remove("show");
+      btnNext.style.display = "none";
+
+      currentWords = wordChunks[chunkIndex] || [];
+      pairTotal = currentWords.length;
+      pairsTotalEl.textContent = String(pairTotal);
+      applyBoardGrid();
+      var labels = currentWords.map(function (w) { return w.word; }).join(" · ");
+      groupBadge.textContent =
+        "第 " + (chunkIndex + 1) + " 轮 / 共 " + wordChunks.length + " 轮 · " + labels;
+
+      var deck = [];
+      currentWords.forEach(function (w) {
+        deck.push({ pair: w.word, type: "word", label: w.word, zh: w.zh, emoji: w.emoji });
+        deck.push({ pair: w.word, type: "pic", label: w.word, zh: w.zh, emoji: w.emoji });
+      });
+      deck = shuffle(deck);
+
+      deck.forEach(function (item) {
+        var ar = aspectByWord[item.pair] || DEFAULT_AR;
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "card face-up";
+        btn.dataset.pair = item.pair;
+        btn.dataset.type = item.type;
+        btn.style.setProperty("--card-ar", ar);
+        btn.setAttribute(
+          "aria-label",
+          item.type === "word" ? "单词 " + item.label : "图片 " + item.zh
+        );
+
+        var inner = document.createElement("div");
+        inner.className = "card-inner";
+        inner.style.setProperty("--card-ar", ar);
+
+        var back = document.createElement("div");
+        back.className = "card-face card-back";
+        back.textContent = "🐧";
+
+        var front = document.createElement("div");
+        front.className = "card-face card-front " + item.type;
+        buildCardFace(front, item);
+
+        inner.appendChild(back);
+        inner.appendChild(front);
+        btn.appendChild(inner);
+        btn.addEventListener("click", onFlip);
+        board.appendChild(btn);
+      });
+
+      preloadAspects(currentWords);
+      enterMemorizePhase();
+    }
+
+    function enterMemorizePhase() {
+      phase = "memorize";
+      board.classList.add("memorize");
+      statsRow.classList.remove("on");
+      phaseActions.classList.remove("hidden");
+      btnMemAgain.style.display = "none";
+      phaseHint.classList.remove("play-mode");
+      var n = currentWords.length;
+      var cards = n * 2;
+      phaseHint.innerHTML =
+        "<strong>第 1 步 · 记位置</strong>：下面 <strong>" + cards + " 张牌已全部翻开</strong>（" +
+        n + " 个英文 + " + n + " 张图），位置已打乱。<br>" +
+        "请记住每张牌在<strong>哪一格</strong>。准备好了，点「开始 · 全部翻面」。";
+      board.querySelectorAll(".card").forEach(function (c) {
+        c.classList.add("face-up");
+        c.classList.remove("flipped", "matched", "wobble");
+        c.disabled = false;
+      });
+    }
+
+    function enterPlayPhase() {
+      phase = "play";
+      lock = true;
+      board.classList.remove("memorize");
+      statsRow.classList.add("on");
+      phaseActions.classList.add("hidden");
+      btnMemAgain.style.display = "inline-block";
+      phaseHint.classList.add("play-mode");
+      phaseHint.innerHTML =
+        "<strong>第 2 步 · 配对</strong>：牌已全部翻面。每次翻开 2 张，把<strong>单词</strong>和<strong>图片</strong>配成一对。";
+
+      board.querySelectorAll(".card").forEach(function (c) {
+        c.classList.remove("face-up", "flipped", "matched", "wobble");
+        c.disabled = false;
+      });
+
+      setTimeout(function () {
+        lock = false;
+      }, 520);
+    }
+
+    function onFlip() {
+      if (phase !== "play") return;
+      var btn = this;
+      if (lock || btn.classList.contains("flipped") || btn.classList.contains("matched")) return;
+
+      btn.classList.add("flipped");
+      if (btn.dataset.type === "word") speak(btn.dataset.pair);
+
+      flipped.push(btn);
+      if (flipped.length < 2) return;
+
+      moves++;
+      movesEl.textContent = String(moves);
+      lock = true;
+
+      var a = flipped[0];
+      var b = flipped[1];
+      if (a.dataset.pair === b.dataset.pair && a.dataset.type !== b.dataset.type) {
+        setTimeout(function () {
+          a.classList.add("matched");
+          b.classList.add("matched");
+          a.disabled = true;
+          b.disabled = true;
+          matchedCount++;
+          pairsEl.textContent = String(matchedCount);
+          flipped = [];
+          lock = false;
+          if (matchedCount === pairTotal) {
+            var stars = starRating(moves);
+            starsEl.textContent = stars;
+            if (chunkIndex < wordChunks.length - 1) {
+              winTitle.textContent = "🎉 第 " + (chunkIndex + 1) + " 轮完成！";
+              winMsg.textContent = "翻牌 " + moves + " 次，" + stars + "。下一轮会先再看正面。";
+              btnNext.style.display = "inline-block";
+            } else {
+              winTitle.textContent = "🎉 全部完成！";
+              winMsg.textContent = "所选单词都配对成功！最后一轮翻牌 " + moves + " 次，" + stars + "。";
+              btnNext.style.display = "none";
+            }
+            winEl.classList.add("show");
+            speak("Great job");
+          }
+        }, 380);
+      } else {
+        setTimeout(function () {
+          a.classList.add("wobble");
+          b.classList.add("wobble");
+          setTimeout(function () {
+            a.classList.remove("flipped", "wobble");
+            b.classList.remove("flipped", "wobble");
+            flipped = [];
+            lock = false;
+          }, 420);
+        }, 700);
+      }
+    }
+
+    document.getElementById("btnStartFlip").addEventListener("click", enterPlayPhase);
+    btnMemAgain.addEventListener("click", function () {
+      if (phase === "play" && matchedCount < pairTotal) {
+        lock = true;
+        board.querySelectorAll(".card").forEach(function (c) {
+          if (!c.classList.contains("matched")) {
+            c.classList.remove("flipped");
+            c.classList.add("face-up");
+          }
+        });
+        board.classList.add("memorize");
+        phase = "memorize";
+        phaseHint.classList.remove("play-mode");
+        phaseHint.innerHTML =
+          "<strong>再看一遍</strong>：未配对的牌已翻开。记好后请点「开始 · 全部翻面」继续。";
+        phaseActions.classList.remove("hidden");
+        flipped = [];
+        setTimeout(function () { lock = false; }, 300);
+      } else {
+        enterMemorizePhase();
+      }
+    });
+    document.getElementById("btnReplayGroup").addEventListener("click", renderBoard);
+    btnNext.addEventListener("click", function () {
+      chunkIndex++;
+      renderBoard();
+    });
+    document.getElementById("btnHome").addEventListener("click", function () {
+      location.href = "index.html";
+    });
+
+    function boot() {
+      wordChunks = HelloPenguinsWords.chunkForMemory(3);
+      if (HelloPenguinsWords.getSelectedKeys().length < HelloPenguinsWords.MIN_WORDS_GAME1) {
+        location.href = "settings.html";
+        return;
+      }
+      chunkIndex = 0;
+      renderBoard();
+    }
+    boot();
+  })();
+  </script>
+  <script src="../../assets/primary-responsive.js?v=2" defer></script>
+</body>
+</html>

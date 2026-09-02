@@ -4,7 +4,7 @@
 
 | 级别 | 入口 | 适合 | 课程 |
 |------|------|------|------|
-| **Level 1** | [index.html](index.html) | 一年级绘本 · 短句启蒙 | Play, Kitty! · Jump, Pup! · Peek, Otter! · Dive, dolphin! · Flutter, butterfly! · Helpers in Your Neighborhood |
+| **Level 1** | [index.html](index.html) | 一年级绘本 · 短句启蒙 | Play, Kitty! · Jump, Pup! · Peek, Otter! · Dive, dolphin! · Hello, penguins! · Flutter, butterfly! · Helpers in Your Neighborhood |
 | **Level 2** | [level-2.html](level-2.html) | Lexile 450 · 小学三至四年级 | [有多少人去过月球？](How%20many%20people%20have%20been%20to%20the%20Moon/index.html) |
 | **Level 3** | [level-3.html](level-3.html) | 小学四至五年级科学阅读 | [什么是爬行动物](What%20are%20reptiles/index.html) · [世界最大的沙漠](Worlds%20Largest%20Deserts/index.html)（Lexile 600） |
 
@@ -18,6 +18,7 @@
 | Jump, Pup! | [Jump Pup/index.html](Jump%20Pup/index.html) |
 | Peek, Otter! | [Peek Otter/index.html](Peek%20Otter/index.html) |
 | Dive, dolphin! | [Dive Dolphin/index.html](Dive%20Dolphin/index.html) |
+| Hello, penguins! | [Hello Penguins/index.html](Hello%20Penguins/index.html) |
 | Flutter, butterfly! | [Flutter Butterfly/index.html](Flutter%20Butterfly/index.html) |
 | Helpers in Your Neighborhood | [Helpers in your neighborhood/index.html](Helpers%20in%20your%20neighborhood/index.html) |
 

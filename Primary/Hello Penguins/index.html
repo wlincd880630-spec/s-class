@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Hello, penguins! · 课程入口</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --accent: #00838f;
+      --accent-dim: #004d40;
+      --text: #e8eaed;
+      --muted: #9aa5b8;
+      --glass: rgba(255,255,255,0.06);
+      --glass-border: rgba(255,255,255,0.11);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "DM Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+      min-height: 100vh;
+      color: var(--text);
+      background: #0d1117;
+      line-height: 1.5;
+    }
+    .bg {
+      position: fixed; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 70% 45% at 20% 0%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 55%),
+        radial-gradient(ellipse 50% 40% at 100% 100%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 50%),
+        linear-gradient(180deg, #0a0e14, #121820 45%, #0d1117);
+    }
+    .page {
+      position: relative; z-index: 1;
+      max-width: 720px; margin: 0 auto;
+      padding: clamp(1.25rem, 4vw, 2rem) clamp(1rem, 4vw, 1.75rem) 3rem;
+    }
+    .back {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      color: var(--muted); text-decoration: none;
+      font-size: 0.88rem; font-weight: 500;
+      margin-bottom: 1.25rem;
+      padding: 0.4rem 0.75rem 0.4rem 0.5rem;
+      border-radius: 999px;
+      border: 1px solid var(--glass-border);
+      background: var(--glass);
+      transition: color .2s, border-color .2s;
+    }
+    .back:hover { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 40%, transparent); }
+    .back img { opacity: 0.85; }
+    .hero {
+      display: flex; align-items: center; gap: 1.1rem;
+      padding: 1.35rem 1.25rem;
+      margin-bottom: 2rem;
+      border-radius: 18px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 16px 40px rgba(0,0,0,.35);
+    }
+    .hero-icon {
+      width: 72px; height: 72px; flex-shrink: 0;
+      border-radius: 16px; overflow: hidden;
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 8px 24px color-mix(in srgb, var(--accent) 35%, transparent);
+    }
+    .hero-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hero-tag {
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.25rem;
+    }
+    .hero h1 {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(1.65rem, 4.5vw, 2rem);
+      font-weight: 700; color: #fff; line-height: 1.15;
+    }
+    .hero p { font-size: 0.92rem; color: var(--muted); margin-top: 0.35rem; }
+    h2 {
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted); margin: 0 0 0.85rem 0.2rem;
+    }
+    .grid { display: grid; gap: 0.75rem; margin-bottom: 2rem; }
+    a.card {
+      display: flex; align-items: center; gap: 0.9rem;
+      padding: 1rem 1.05rem;
+      border-radius: 14px;
+      text-decoration: none; color: inherit;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      transition: transform .3s, border-color .3s, box-shadow .3s;
+    }
+    a.card:hover {
+      transform: translateY(-3px);
+      border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+      box-shadow: 0 12px 32px rgba(0,0,0,.35);
+    }
+    .card-icon {
+      width: 44px; height: 44px; flex-shrink: 0;
+      border-radius: 11px; overflow: hidden;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.08);
+    }
+    .card-icon img { width: 100%; height: 100%; object-fit: cover; }
+    .card-body { flex: 1; min-width: 0; }
+    .card-label { font-weight: 600; font-size: 1rem; color: #fff; }
+    .card-desc { font-size: 0.8rem; color: var(--muted); margin-top: 0.15rem; }
+    .card-arrow {
+      width: 32px; height: 32px; flex-shrink: 0;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid var(--glass-border);
+      background: rgba(255,255,255,.04);
+      transition: background .25s;
+    }
+    a.card:hover .card-arrow { background: var(--accent); border-color: var(--accent); }
+    .hw-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.55rem;
+    }
+    a.hw {
+      display: flex; align-items: center; gap: 0.65rem;
+      padding: 0.7rem 0.85rem;
+      border-radius: 12px;
+      text-decoration: none; color: #fff;
+      font-size: 0.9rem; font-weight: 500;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      transition: transform .2s, border-color .2s;
+    }
+    a.hw:hover {
+      transform: translateY(-2px);
+      border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+    }
+    a.hw img {
+      width: 28px; height: 28px; flex-shrink: 0;
+      border-radius: 8px;
+    }
+    footer {
+      margin-top: 2.5rem; padding-top: 1.25rem;
+      border-top: 1px solid var(--glass-border);
+      text-align: center;
+      font-size: 0.78rem; color: var(--muted);
+    }
+    @media (max-width: 480px) { .hw-grid { grid-template-columns: 1fr; } }
+  </style>
+  <link rel="stylesheet" href="../assets/primary-responsive.css?v=2" />
+</head>
+<body>
+  <div class="bg" aria-hidden="true"></div>
+  <div class="page">
+  <a class="back" href="../index.html">
+    <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/icon-back.png" alt="" width="16" height="16" />
+    <span>返回总目录</span>
+  </a>
+
+    <header class="hero">
+      <div class="hero-icon">
+        <img src="../assets/icon-penguin.png" alt="Hello, penguins!" width="72" height="72"
+          onerror="this.onerror=null;this.src='https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/icon-penguin.png'" />
+      </div>
+      <div>
+        <div class="hero-tag">Hello, penguins!</div>
+        <h1>你好，企鹅</h1>
+        <p>国家地理分级阅读 · Level 1</p>
+      </div>
+    </header>
+
+    <h2>学习模块</h2>
+    <div class="grid">
+      <a class="card" href="hello-penguins-courseware/index.html">
+        <div class="card-icon"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/icon-courseware.png" alt="" width="44" height="44" /></div>
+        <div class="card-body">
+          <div class="card-label">互动课件</div>
+          <div class="card-desc">单词音形 · 课文朗读 · 企鹅科普竞赛游戏</div>
+        </div>
+        <span class="card-arrow"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/icon-arrow.png" alt="" width="16" height="16" /></span>
+      </a>
+      <a class="card" href="hello-penguins-review-games/index.html">
+        <div class="card-icon"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/icon-games.png" alt="" width="44" height="44" /></div>
+        <div class="card-body">
+          <div class="card-label">复习游戏</div>
+          <div class="card-desc">9 款复习游戏：迷宫 · 选择 · 连线 · 泡泡 · 转盘</div>
+        </div>
+        <span class="card-arrow"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/icon-arrow.png" alt="" width="16" height="16" /></span>
+      </a>
+      <a class="card" href="hello-penguins-coloring/index.html">
+        <div class="card-icon"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/icon-coloring.png" alt="" width="44" height="44" /></div>
+        <div class="card-body">
+          <div class="card-label">单词涂色卡</div>
+          <div class="card-desc">打印涂色练习</div>
+        </div>
+        <span class="card-arrow"><img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/icon-arrow.png" alt="" width="16" height="16" /></span>
+      </a>
+    </div>
+
+    <h2>作业练习</h2>
+    <div class="hw-grid">
+      <a class="hw" href="hello-penguins-homework/Hello Penguins听写练习01.html">
+        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/icon-dictation.png" alt="" width="28" height="28" />
+        <span>听写 01</span>
+      </a>
+      <a class="hw" href="hello-penguins-homework/Hello Penguins听写练习02.html">
+        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/icon-dictation.png" alt="" width="28" height="28" />
+        <span>听写 02</span>
+      </a>
+      <a class="hw" href="hello-penguins-homework/Hello Penguins抄写作业 01.html">
+        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/icon-homework.png" alt="" width="28" height="28" />
+        <span>抄写 01</span>
+      </a>
+      <a class="hw" href="hello-penguins-homework/Hello Penguins抄写作业 02.html">
+        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/icon-homework.png" alt="" width="28" height="28" />
+        <span>抄写 02</span>
+      </a>
+      <a class="hw" href="hello-penguins-homework/Hello Penguins抄写作业 03.html">
+        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/icon-homework.png" alt="" width="28" height="28" />
+        <span>抄写 03</span>
+      </a>
+      <a class="hw" href="hello-penguins-homework/Hello Penguins抄写作业 04.html">
+        <img src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/icon-homework.png" alt="" width="28" height="28" />
+        <span>抄写 04</span>
+      </a>
+    </div>
+
+    <footer>本地 MP3 发音 · en-GB-RyanNeural</footer>
+  </div>
+  <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/assets/primary-responsive.js?v=2" defer></script>
+</body>
+</html>
