@@ -8,7 +8,8 @@ var courses = {
   "jump-pup": "Primary/Jump Pup/jump-pup-courseware/images/sentences",
   "peek-otter": "Primary/Peek Otter/peek-otter-courseware/images/sentences",
   "dive-dolphin": "Primary/Dive Dolphin/dive-dolphin-courseware/images/sentences",
-  helpers: "Primary/Helpers in your neighborhood/helpers-neighborhood-courseware/images/sentences"
+  helpers: "Primary/Helpers in your neighborhood/helpers-neighborhood-courseware/images/sentences",
+  "flutter-butterfly": "Primary/Flutter Butterfly/flutter-butterfly-courseware/images/sentences"
 };
 
 var extras = { window: {}, document: {} };
