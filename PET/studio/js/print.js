@@ -87,16 +87,18 @@
       bodyHtml + "</body></html>";
   }
 
-  function cover(unit, kindLabel, blurb, extraImg) {
+  function cover(unit, kindLabel, blurb) {
     var art = PETStudio.articleImg(unit.id);
+    var sub = esc(unit.subtitle || "");
+    if (kindLabel) sub = sub ? sub + " · " + esc(kindLabel) : esc(kindLabel);
     return '<section class="sheet cover">' +
       '<img class=hero src="' + esc(absUrl(art)) + '" alt="">' +
       '<img class=badge src="' + esc(absUrl("img/print-badge.jpg")) + '" alt="">' +
       '<div class=meta><div class=kicker>S-CLASS · PET PRACTICE</div>' +
       "<h1>Unit " + unit.id + " · " + esc(unit.title) + "</h1>" +
-      "<p>" + esc(unit.subtitle) + " · " + esc(kindLabel) + "</p>" +
-      "<p style='margin-top:10px'>" + esc(blurb) + "</p>" +
-      "<p style='margin-top:18px;font-size:12px;color:#c7d2fe'>Printed " + today() + (extraImg ? "" : "") + "</p>" +
+      (sub ? "<p>" + sub + "</p>" : "") +
+      (blurb ? "<p style='margin-top:10px'>" + esc(blurb) + "</p>" : "") +
+      "<p style='margin-top:18px;font-size:12px;color:#c7d2fe'>Printed " + today() + "</p>" +
       "</div></section>";
   }
 
@@ -281,44 +283,23 @@
     return html;
   }
 
-  function levelLegend(items) {
-    var seen = {};
-    (items || []).forEach(function (it) {
-      (it.handoutExamples || []).forEach(function (ex) {
-        seen[String(ex.level || "")] = true;
-      });
-    });
-    var list = GRADE_LEVELS.filter(function (lv) { return seen[lv.id]; });
-    if (!list.length) list = GRADE_LEVELS;
-    return list.map(function (lv) {
-      return '<span class="pdf-badge ' + lv.id + '">' + lv.label + "</span>";
-    }).join(" ");
-  }
-
   function renderHandout(bag) {
     var u = bag.unit;
     var grammar = bag.handoutGrammar || bag.grammar || [];
-    var html = cover(
-      u,
-      "单词 · 词组 · 语法讲义",
-      "词汇/词组：音标、英中释义、中文用法、词性家族，以及按年级抽取的例句。语法：拓展讲解；题库每档 15 题以上，本次按年级随机抽题。"
-    );
+    var html = cover(u);
     html += '<section class="sheet long"><div class="inner">' +
       '<div class="sec-h"><div class="dot" style="background:#4f46e5"></div><h2>Vocabulary 单词</h2><span>' +
-      bag.vocab.length + " words · 音标保留 · 分层例句</span></div>" +
-      '<p class="lead">例句级别：' + levelLegend(bag.vocab.concat(bag.colloc || [])) + "　不含文章原文。</p>" +
+      bag.vocab.length + " words</span></div>" +
       vocabCards(bag.vocab) +
       '<div class="foot"><span>S-Class PET</span><span>Unit ' + u.id + " · Vocab</span></div></div></section>";
     html += '<section class="sheet long"><div class="inner">' +
       '<div class="sec-h"><div class="dot" style="background:#0d9488"></div><h2>Phrases 词组</h2><span>' +
       bag.colloc.length + " phrases</span></div>" +
-      '<p class="lead">词组同样保留音标（如有）、中文用法、词性家族与分层例句。</p>' +
       vocabCards(bag.colloc) +
       '<div class="foot"><span>S-Class PET</span><span>Unit ' + u.id + " · Phrases</span></div></div></section>";
     html += '<section class="sheet long"><div class="inner">' +
       '<div class="sec-h"><div class="dot" style="background:#7c3aed"></div><h2>Grammar 语法讲义</h2><span>' +
-      grammar.length + " points</span></div>" +
-      '<p class="lead">本部分为独立语法课件：核心用法加相关结构拓展、易错提醒、分级例句。题库每个年级不少于 15 题（选择/填空/判断/改写/改错），导出时按年级随机抽取，避免讲义过厚。高中题不套用中考提示语。</p>';
+      grammar.length + " points</span></div>";
     grammar.forEach(function (g, i) {
       html += grammarArticle(g, i);
     });
@@ -509,7 +490,7 @@
   function renderGamesPaper(bag, level) {
     var u = bag.unit;
     var pack = buildPaperQs(bag, level);
-    var html = cover(u, "复习游戏纸质卷 · " + (PETStudio.LEVELS[level] || {}).label, "可印刷的分层复习题，卷末含参考答案。");
+    var html = cover(u);
     html += '<section class=sheet><div class=inner>' +
       mcqBlock("A. 看义选词", "#4f46e5", pack.zh2en) +
       '<div class=foot><span>PET Review Games</span><span>A</span></div></div></section>';
