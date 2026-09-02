@@ -95,7 +95,7 @@
     $("hub").classList.remove("hidden");
     $("play").classList.add("hidden");
     $("result").classList.add("hidden");
-    $("game-title").textContent = "巩固游戏";
+    $("game-title").textContent = "练一练";
     $("btn-back").href = "index.html";
     $("btn-back").onclick = null;
   }
@@ -131,17 +131,17 @@
   }
 
   $("hub-grid").innerHTML = L.games.map(function (g) {
+    var n = g.id < 10 ? "0" + g.id : String(g.id);
     return (
-      '<button type="button" class="game-card" data-id="' + g.id + '">' +
-        '<div class="emoji">' + g.emoji + "</div>" +
-        '<div class="kicker">Game ' + g.id + "</div>" +
-        "<strong>" + g.title + "</strong>" +
-        "<span>" + g.desc + "</span>" +
+      '<button type="button" class="hub-item" data-id="' + g.id + '">' +
+        '<span class="n">' + n + "</span>" +
+        "<div><strong>" + g.title + "</strong></div>" +
+        '<span class="go">→</span>' +
       "</button>"
     );
   }).join("");
   $("hub-grid").addEventListener("click", function (e) {
-    var btn = e.target.closest(".game-card");
+    var btn = e.target.closest(".hub-item");
     if (btn) openGame(Number(btn.getAttribute("data-id")));
   });
   $("btn-hub").addEventListener("click", showHub);
@@ -155,9 +155,9 @@
     function deal() {
       picked = {};
       var cards = shuffle(L.vocab.slice().concat(shuffle(L.distractors).slice(0, 4)));
-      $("play-tools").innerHTML = '<button type="button" class="btn btn-apple" id="g1-sound">听教材</button>';
+      $("play-tools").innerHTML = '<button type="button" class="btn btn-apple" id="g1-sound">听</button>';
       $("play-board").innerHTML =
-        "<p style=\"margin:4px 0 10px;font-weight:650;\">" + (round + 1) + " / " + total + "</p>" +
+        '<p class="round-mark">' + (round + 1) + " / " + total + "</p>" +
         '<div class="choice-grid" id="g1-grid">' +
         cards.map(function (w) {
           return '<button type="button" class="choice" data-id="' + w.id + '"><img src="' + w.img + '" alt=""></button>';
@@ -172,7 +172,7 @@
         else { picked[id] = true; c.classList.add("on"); }
       };
       $("g1-check").onclick = check;
-      fb("点出所有 /æ/ 开头的图");
+      fb("");
     }
     function check() {
       var miss = 0, extra = 0;
@@ -206,9 +206,9 @@
       locked = false;
       var target = queue[n];
       var opts = shuffle(L.vocab.slice());
-      $("play-tools").innerHTML = '<button type="button" class="btn btn-apple" id="g2-hear">再听一次</button>';
+      $("play-tools").innerHTML = '<button type="button" class="btn btn-apple" id="g2-hear">听</button>';
       $("play-board").innerHTML =
-        "<p style=\"font-weight:650;\">" + (n + 1) + " / " + queue.length + "</p>" +
+        '<p class="round-mark">' + (n + 1) + " / " + queue.length + "</p>" +
         '<div class="choice-grid" id="g2-grid">' +
         opts.map(function (w) {
           return '<button type="button" class="choice" data-id="' + w.id + '"><img src="' + w.img + '" alt=""></button>';
@@ -248,9 +248,9 @@
       var pair = shuffle(L.vocab).slice(0, 2);
       var odd = shuffle(L.distractors)[0];
       var cards = shuffle([pair[0], pair[1], odd]);
-      $("play-tools").innerHTML = '<button type="button" class="btn btn-apple" id="g3-ae">听教材</button>';
+      $("play-tools").innerHTML = '<button type="button" class="btn btn-apple" id="g3-ae">听</button>';
       $("play-board").innerHTML =
-        "<p style=\"font-weight:650;\">" + (round + 1) + " / " + total + " · 哪个不是 /æ/？</p>" +
+        '<p class="round-mark">' + (round + 1) + " / " + total + "</p>" +
         '<div class="choice-grid" style="grid-template-columns:repeat(3,1fr)" id="g3-grid">' +
         cards.map(function (w) {
           return '<button type="button" class="choice" data-id="' + w.id + '"><img src="' + w.img + '" alt=""></button>';
@@ -267,7 +267,7 @@
           fb(w.en, true);
           round++;
           later(function () {
-            if (round >= total) showResult("完成", "能把 /æ/ 分开了。", startG3);
+            if (round >= total) showResult("完成", "能把 a 开头分开了。", startG3);
             else deal();
           }, 700);
         } else {
@@ -287,7 +287,7 @@
     function setup() {
       $("play-tools").innerHTML = "";
       $("play-board").innerHTML =
-        "<p style=\"font-weight:650;margin:0 0 10px;\">先选单词，再记位置</p>" +
+        '<p class="round-mark">选本局单词</p>' +
         wordPickerHTML(selected, pool);
       $("play-actions").innerHTML = '<button type="button" class="btn btn-apple" id="g4-go">开始记忆</button>';
       bindPicker(selected);
@@ -311,8 +311,9 @@
       });
       var deck = shuffle(items.reduce(function (a, b) { return a.concat(b); }, []));
       var first = null, lock = false, matched = 0, phase = "preview";
+      var cols = words.length <= 2 ? 2 : words.length === 3 ? 3 : 4;
       $("play-tools").innerHTML = "";
-      $("play-board").innerHTML = '<div class="memory-grid" id="g4-grid"></div>';
+      $("play-board").innerHTML = '<div class="memory-grid" id="g4-grid" style="grid-template-columns:repeat(' + cols + ',1fr)"></div>';
       $("play-actions").innerHTML = '<button type="button" class="btn btn-apple" id="g4-start">记住了，开始配对</button>';
       var grid = $("g4-grid");
       deck.forEach(function (card, idx) {
@@ -323,13 +324,13 @@
         b.innerHTML = card.html;
         grid.appendChild(b);
       });
-      fb("看清每一张图和词的位置");
+      fb("看清位置");
 
       function hideAll() {
         phase = "play";
         Array.prototype.forEach.call(grid.children, function (b) {
           b.classList.remove("preview", "face");
-          b.textContent = "";
+          b.innerHTML = "";
         });
         $("play-actions").innerHTML = "";
         fb("翻开一张图、一张词");
@@ -362,8 +363,8 @@
           later(function () {
             first.classList.remove("face");
             b.classList.remove("face");
-            first.textContent = "";
-            b.textContent = "";
+            first.innerHTML = "";
+            b.innerHTML = "";
             first = null;
             lock = false;
           }, 650);
@@ -381,17 +382,19 @@
       answered = false;
       var it = items[n];
       var w = word(it.id);
-      $("play-tools").innerHTML = '<button type="button" class="btn btn-apple" id="g5-hear">再听一次</button>';
+      $("play-tools").innerHTML = '<button type="button" class="btn btn-apple" id="g5-hear">听</button>';
       $("play-board").innerHTML =
-        '<div class="apple-trail">' +
-        items.map(function (_, k) {
-          return "<i class=\"" + (k < n ? "done" : k === n ? "now" : "") + "\"></i>";
-        }).join("") + "</div>" +
-        '<div class="g5-pic"><img src="' + w.img + '" alt=""></div>' +
-        '<div id="g5-word"></div>' +
-        '<div class="big-choice" id="g5-choice">' +
-          '<button type="button" class="btn btn-leaf" data-aa="1">Aa</button>' +
-          '<button type="button" class="btn btn-apple" data-aa="0">✗</button>' +
+        '<div class="play-stage">' +
+          '<div class="apple-trail">' +
+          items.map(function (_, k) {
+            return "<i class=\"" + (k < n ? "done" : k === n ? "now" : "") + "\"></i>";
+          }).join("") + "</div>" +
+          '<div class="g5-pic"><img src="' + w.img + '" alt=""></div>' +
+          '<div id="g5-word"></div>' +
+          '<div class="big-choice" id="g5-choice">' +
+            '<button type="button" class="btn btn-leaf" data-aa="1">Aa</button>' +
+            '<button type="button" class="btn btn-apple" data-aa="0">✗</button>' +
+          "</div>" +
         "</div>";
       $("play-actions").innerHTML = "";
       function play() {
@@ -412,6 +415,7 @@
         }
         answered = true;
         addScore(1);
+        $("play-tools").innerHTML = "";
         $("g5-choice").classList.add("hidden");
         $("g5-word").innerHTML =
           '<div class="giant-word"><b>' + w.onset + "</b>" + w.rest + "</div>";
@@ -434,15 +438,23 @@
     var slots = [null, null, null, null];
     var pool = shuffle(order.slice());
 
-    function render() {
-      $("play-tools").innerHTML =
-        '<button type="button" class="btn btn-apple" id="g6-chant">听 Chant</button>' +
-        '<button type="button" class="btn btn-ghost" id="g6-reset">重排</button>';
-      $("play-board").innerHTML =
-        '<div class="chant-row" id="g6-slots"></div>' +
-        '<div class="chant-row" id="g6-pool"></div>';
-      $("play-actions").innerHTML = '<button type="button" class="btn btn-leaf" id="g6-check">检查</button>';
+    $("play-tools").innerHTML =
+      '<button type="button" class="btn btn-apple" id="g6-chant">听歌</button>' +
+      '<button type="button" class="btn btn-ghost" id="g6-reset">重排</button>';
+    $("play-board").innerHTML =
+      '<div class="chant-row" id="g6-slots"></div>' +
+      '<div class="chant-row" id="g6-pool"></div>';
+    $("play-actions").innerHTML = '<button type="button" class="btn btn-leaf" id="g6-check">检查</button>';
+
+    $("g6-chant").onclick = function () { AAAudio.playFile(L.tracks.t06); };
+    $("g6-reset").onclick = startG6;
+    $("g6-check").onclick = check;
+
+    function paint() {
       var slotBox = $("g6-slots");
+      var poolBox = $("g6-pool");
+      slotBox.innerHTML = "";
+      poolBox.innerHTML = "";
       slots.forEach(function (id, idx) {
         var w = id ? word(id) : null;
         slotBox.insertAdjacentHTML("beforeend",
@@ -450,35 +462,32 @@
           (w ? '<img src="' + w.img + '" alt="">' : "<div>" + (idx + 1) + "</div>") +
           "</button>");
       });
-      var poolBox = $("g6-pool");
       pool.forEach(function (id) {
         var w = word(id);
         poolBox.insertAdjacentHTML("beforeend",
           '<button type="button" class="chant-tile" data-id="' + id + '"><img src="' + w.img + '" alt=""></button>');
       });
-      $("g6-chant").onclick = function () { AAAudio.playFile(L.tracks.t06); };
-      $("g6-reset").onclick = startG6;
-      $("g6-check").onclick = check;
-      poolBox.onclick = function (e) {
-        var t = e.target.closest(".chant-tile");
-        if (!t) return;
-        var id = t.getAttribute("data-id");
-        var empty = slots.indexOf(null);
-        if (empty < 0) return;
-        slots[empty] = id;
-        pool = pool.filter(function (x) { return x !== id; });
-        render();
-      };
-      slotBox.onclick = function (e) {
-        var t = e.target.closest(".chant-slot");
-        if (!t) return;
-        var idx = Number(t.getAttribute("data-slot"));
-        if (!slots[idx]) return;
-        pool.push(slots[idx]);
-        slots[idx] = null;
-        render();
-      };
     }
+
+    $("g6-pool").onclick = function (e) {
+      var t = e.target.closest(".chant-tile");
+      if (!t) return;
+      var id = t.getAttribute("data-id");
+      var empty = slots.indexOf(null);
+      if (empty < 0) return;
+      slots[empty] = id;
+      pool = pool.filter(function (x) { return x !== id; });
+      paint();
+    };
+    $("g6-slots").onclick = function (e) {
+      var t = e.target.closest(".chant-slot");
+      if (!t) return;
+      var idx = Number(t.getAttribute("data-slot"));
+      if (!slots[idx]) return;
+      pool.push(slots[idx]);
+      slots[idx] = null;
+      paint();
+    };
 
     function check() {
       var ok = slots.every(function (id, n) { return id === order[n]; });
@@ -490,8 +499,9 @@
         fb("再听，按歌曲顺序排", false);
       }
     }
-    render();
-    fb("点图排进 1–4。听歌时仍可排。");
+
+    paint();
+    fb("听歌时可继续排队");
     AAAudio.playFile(L.tracks.t06);
   }
 
@@ -502,7 +512,7 @@
     function setup() {
       $("play-tools").innerHTML = "";
       $("play-board").innerHTML =
-        "<p style=\"font-weight:650;margin:0 0 10px;\">选要练的单词</p>" +
+        '<p class="round-mark">选本局单词</p>' +
         wordPickerHTML(selected, L.vocab);
       $("play-actions").innerHTML = '<button type="button" class="btn btn-apple" id="g7-go">开始</button>';
       bindPicker(selected);
@@ -520,14 +530,17 @@
         locked = false;
         var w = words[n];
         var choices = shuffle([w.onset].concat(lettersPool.filter(function (ch) { return ch !== w.onset; })).slice(0, 4));
-        $("play-tools").innerHTML = '<button type="button" class="btn btn-apple" id="g7-hear">再听一次</button>';
+        $("play-tools").innerHTML = '<button type="button" class="btn btn-apple" id="g7-hear">听</button>';
         $("play-board").innerHTML =
-          '<div class="g5-pic"><img src="' + w.img + '" alt=""></div>' +
-          '<div class="blank-word" id="g7-blank"><span class="hole"> </span>' + w.rest + "</div>" +
-          '<div class="onset-row" id="g7-letters">' +
-          choices.map(function (ch) {
-            return '<button type="button" class="onset-btn" data-ch="' + ch + '">' + ch + "</button>";
-          }).join("") + "</div>";
+          '<div class="play-stage">' +
+            '<p class="round-mark">' + (n + 1) + " / " + words.length + "</p>" +
+            '<div class="g5-pic"><img src="' + w.img + '" alt=""></div>' +
+            '<div class="blank-word" id="g7-blank"><span class="hole"> </span>' + w.rest + "</div>" +
+            '<div class="onset-row" id="g7-letters">' +
+            choices.map(function (ch) {
+              return '<button type="button" class="onset-btn" data-ch="' + ch + '">' + ch + "</button>";
+            }).join("") + "</div>" +
+          "</div>";
         $("play-actions").innerHTML = "";
         $("g7-hear").onclick = function () { playWordClip(w); };
         $("g7-letters").onclick = function (e) {
@@ -547,17 +560,18 @@
           $("g7-blank").innerHTML = '<span class="hole">' + w.onset + "</span>" + w.rest;
           later(function () {
             $("g7-letters").classList.add("hidden");
+            $("play-tools").innerHTML = "";
             $("g7-blank").innerHTML = '<div class="giant-word"><b>' + w.onset + "</b>" + w.rest + "</div>";
-            fb(w.en, true);
+            fb("", true);
             $("play-actions").innerHTML = '<button type="button" class="btn btn-apple" id="g7-next">下一个</button>';
             $("g7-next").onclick = function () {
               n++;
               if (n >= words.length) showResult("完成", "会填开头字母了。", startG7);
               else ask();
             };
-          }, 350);
+          }, 280);
         };
-        fb((n + 1) + " / " + words.length);
+        fb("");
         playWordClip(w);
       }
       ask();
