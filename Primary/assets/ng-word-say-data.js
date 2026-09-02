@@ -520,5 +520,343 @@ window.NG_WORD_SAY = {
       sort: { en: "A nurse checks my temperature.", zh: "护士量我的体温。" },
       en: "The nurse puts on a bandage.", zh: "护士贴上创可贴。"
     }
+  },
+  "flutter-butterfly": {
+      "Flutter": {
+          "ex": {
+              "en": "Flags flutter in the wind.",
+              "zh": "旗子在风中飘动。"
+          },
+          "sort": {
+              "en": "I flutter my paper fan.",
+              "zh": "我扇动纸扇。"
+          },
+          "en": "Leaves flutter to the ground.",
+          "zh": "叶子飘落到地上。"
+      },
+      "Butterfly": {
+          "ex": {
+              "en": "I draw a butterfly.",
+              "zh": "我画一只蝴蝶。"
+          },
+          "sort": {
+              "en": "This sticker is a butterfly.",
+              "zh": "这张贴纸是蝴蝶。"
+          },
+          "en": "We see a toy butterfly.",
+          "zh": "我们看见一只玩具蝴蝶。"
+      },
+      "Animals": {
+          "ex": {
+              "en": "Cats are animals.",
+              "zh": "猫是动物。"
+          },
+          "sort": {
+              "en": "We read about animals.",
+              "zh": "我们读关于动物的书。"
+          },
+          "en": "Farm animals eat grass.",
+          "zh": "农场动物吃草。"
+      },
+      "Lay an egg": {
+          "ex": {
+              "en": "Hens lay an egg.",
+              "zh": "母鸡会下蛋。"
+          },
+          "sort": {
+              "en": "This bird can lay an egg.",
+              "zh": "这只鸟能下蛋。"
+          },
+          "en": "Ducks lay an egg too.",
+          "zh": "鸭子也会下蛋。"
+      },
+      "Hatch": {
+          "ex": {
+              "en": "Chicks hatch in spring.",
+              "zh": "小鸡在春天孵出来。"
+          },
+          "sort": {
+              "en": "The eggs will hatch soon.",
+              "zh": "这些蛋很快会孵化。"
+          },
+          "en": "We watch the chicks hatch.",
+          "zh": "我们看小鸡孵出来。"
+      },
+      "Crawl": {
+          "ex": {
+              "en": "Babies crawl on the floor.",
+              "zh": "宝宝在地板上爬。"
+          },
+          "sort": {
+              "en": "Ants crawl on the wall.",
+              "zh": "蚂蚁在墙上爬。"
+          },
+          "en": "I crawl under the table.",
+          "zh": "我爬到桌子下面。"
+      },
+      "Grow": {
+          "ex": {
+              "en": "Plants grow in the sun.",
+              "zh": "植物在阳光下生长。"
+          },
+          "sort": {
+              "en": "I grow taller each year.",
+              "zh": "我每年都长高。"
+          },
+          "en": "Beans grow in the pot.",
+          "zh": "豆子在盆里生长。"
+      },
+      "Change": {
+          "ex": {
+              "en": "I change my shoes.",
+              "zh": "我换鞋子。"
+          },
+          "sort": {
+              "en": "The light can change color.",
+              "zh": "灯会变颜色。"
+          },
+          "en": "We change seats in class.",
+          "zh": "我们在课上换座位。"
+      },
+      "Caterpillar": {
+          "ex": {
+              "en": "I see a caterpillar.",
+              "zh": "我看见一只毛毛虫。"
+          },
+          "sort": {
+              "en": "This book has a caterpillar.",
+              "zh": "这本书里有毛毛虫。"
+          },
+          "en": "A toy caterpillar is green.",
+          "zh": "玩具毛毛虫是绿色的。"
+      },
+      "Pupa": {
+          "ex": {
+              "en": "The pupa is still.",
+              "zh": "蛹是静止的。"
+          },
+          "sort": {
+              "en": "I found a pupa on a stick.",
+              "zh": "我在树枝上找到一个蛹。"
+          },
+          "en": "This photo shows a pupa.",
+          "zh": "这张照片里有一个蛹。"
+      },
+      "Land": {
+          "ex": {
+              "en": "Planes land at the airport.",
+              "zh": "飞机在机场降落。"
+          },
+          "sort": {
+              "en": "The bird can land on a roof.",
+              "zh": "鸟能落在屋顶上。"
+          },
+          "en": "A leaf can land in my hand.",
+          "zh": "一片叶子能落在我手里。"
+      },
+      "Plant": {
+          "ex": {
+              "en": "I water the plant.",
+              "zh": "我给植物浇水。"
+          },
+          "sort": {
+              "en": "This plant is on my desk.",
+              "zh": "这盆植物在我桌上。"
+          },
+          "en": "We plant seeds in a cup.",
+          "zh": "我们把种子种在杯子里。"
+      },
+      "Yellow": {
+          "ex": {
+              "en": "The sun looks yellow.",
+              "zh": "太阳看起来是黄色的。"
+          },
+          "sort": {
+              "en": "I have a yellow crayon.",
+              "zh": "我有一支黄蜡笔。"
+          },
+          "en": "My raincoat is yellow.",
+          "zh": "我的雨衣是黄色的。"
+      },
+      "Pass": {
+          "ex": {
+              "en": "Please pass the paper.",
+              "zh": "请把纸递过来。"
+          },
+          "sort": {
+              "en": "Cars pass the school.",
+              "zh": "汽车从学校旁经过。"
+          },
+          "en": "We pass the ball in PE.",
+          "zh": "体育课上我们传球。"
+      },
+      "Turn brown": {
+          "ex": {
+              "en": "Leaves turn brown in fall.",
+              "zh": "秋天叶子变成棕色。"
+          },
+          "sort": {
+              "en": "Toast can turn brown.",
+              "zh": "面包会烤成棕色。"
+          },
+          "en": "The banana will turn brown.",
+          "zh": "香蕉会变成棕色。"
+      },
+      "Inside": {
+          "ex": {
+              "en": "My pencil is inside the box.",
+              "zh": "铅笔在盒子里面。"
+          },
+          "sort": {
+              "en": "We play inside on rainy days.",
+              "zh": "下雨天我们在室内玩。"
+          },
+          "en": "The cat is inside the bag.",
+          "zh": "猫在袋子里面。"
+      },
+      "Come out": {
+          "ex": {
+              "en": "Please come out to play.",
+              "zh": "请出来玩。"
+          },
+          "sort": {
+              "en": "The moon can come out at night.",
+              "zh": "月亮会在夜里出来。"
+          },
+          "en": "Stars come out after dark.",
+          "zh": "天黑后星星出来。"
+      },
+      "Young": {
+          "ex": {
+              "en": "The young bird is small.",
+              "zh": "幼鸟很小。"
+          },
+          "sort": {
+              "en": "A young tree needs water.",
+              "zh": "小树需要水。"
+          },
+          "en": "The young puppy sleeps a lot.",
+          "zh": "小狗睡得很多。"
+      },
+      "Look for": {
+          "ex": {
+              "en": "I look for my socks.",
+              "zh": "我找我的袜子。"
+          },
+          "sort": {
+              "en": "We look for the red book.",
+              "zh": "我们找那本红书。"
+          },
+          "en": "Please look for your bag.",
+          "zh": "请找一找你的包。"
+      },
+      "Leave": {
+          "ex": {
+              "en": "A leaf is on the path.",
+              "zh": "小路上有一片叶子。"
+          },
+          "sort": {
+              "en": "I pick up a green leaf.",
+              "zh": "我捡起一片绿叶。"
+          },
+          "en": "Trees have many leaves.",
+          "zh": "树上有许多叶子。"
+      },
+      "Bigger": {
+          "ex": {
+              "en": "This box is bigger.",
+              "zh": "这个盒子更大。"
+          },
+          "sort": {
+              "en": "My new shoes are bigger.",
+              "zh": "我的新鞋更大。"
+          },
+          "en": "The red ball is bigger.",
+          "zh": "红球更大。"
+      },
+      "Green": {
+          "ex": {
+              "en": "Grass is green.",
+              "zh": "草是绿色的。"
+          },
+          "sort": {
+              "en": "I like green apples.",
+              "zh": "我喜欢青苹果。"
+          },
+          "en": "My cup is green.",
+          "zh": "我的杯子是绿色的。"
+      },
+      "Keep eating": {
+          "ex": {
+              "en": "The goat keeps eating grass.",
+              "zh": "山羊继续吃草。"
+          },
+          "sort": {
+              "en": "Please keep eating your rice.",
+              "zh": "请继续吃饭。"
+          },
+          "en": "Fish keep eating flakes.",
+          "zh": "鱼继续吃鱼食。"
+      },
+      "More": {
+          "ex": {
+              "en": "I want more water.",
+              "zh": "我想要更多水。"
+          },
+          "sort": {
+              "en": "She has more stickers.",
+              "zh": "她有更多贴纸。"
+          },
+          "en": "Please give me more paper.",
+          "zh": "请再给我一些纸。"
+      },
+      "After": {
+          "ex": {
+              "en": "We wash hands after lunch.",
+              "zh": "午饭后我们洗手。"
+          },
+          "sort": {
+              "en": "I read after school.",
+              "zh": "放学后我读书。"
+          },
+          "en": "Play after you finish.",
+          "zh": "做完后再玩。"
+      },
+      "Week": {
+          "ex": {
+              "en": "There are seven days in a week.",
+              "zh": "一周有七天。"
+          },
+          "sort": {
+              "en": "We have PE this week.",
+              "zh": "这周我们有体育课。"
+          },
+          "en": "A week has a weekend.",
+          "zh": "一周有周末。"
+      },
+      "Hard": {
+          "ex": {
+              "en": "The rock is hard.",
+              "zh": "石头是硬的。"
+          },
+          "sort": {
+              "en": "This chair feels hard.",
+              "zh": "这把椅子摸起来硬。"
+          },
+          "en": "Ice can be hard.",
+          "zh": "冰会很硬。"
+      },
+      "Covering": {
+          "ex": {
+              "en": "The box has a covering.",
+              "zh": "盒子有一层盖。"
+          },
+          "sort": {
+              "en": "A blanket is a covering.",
+              "zh": "毯子是一种覆盖物。"
+          },
+          "en": "The table has a covering.",
+          "zh": "桌子上有一层罩。"
+      }
   }
 };

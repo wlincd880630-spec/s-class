@@ -1,0 +1,2324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Flutter, butterfly! · 国家地理分级 课堂</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,600;0,8..60,700;1,8..60,600&display=swap" rel="stylesheet" />
+  <script src="audio/audio-manifest.js"></script>
+  <script src="audio/local-audio.js"></script>
+  <script src="../../assets/ng-azure-tts-enhance.js?v=9"></script>
+  <script>NgAzureTTS.enhance("LocalAudio");</script>
+  <style>
+    :root {
+      /* 国家地理式：金标黄 + 墨黑 + 大地/纸白 */
+      --ng-gold: #F5C400;
+      --ng-gold-dim: #C9A008;
+      --ink: #1a1a1a;
+      --ink-soft: #4a4a4a;
+      --paper: #F7F5F0;
+      --paper-edge: #E8E4DB;
+      --frame: #D4CFC3;
+      --wild-green: #33691e;
+      --edge-blue: #33691e;
+      --crayon-red: #c45c4e;
+      --crayon-blue: #2E6A9B;
+    }
+    * { box-sizing: border-box; }
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+    body {
+      margin: 0; min-height: 100dvh; color: var(--ink);
+      font-family: "Noto Sans SC", "Segoe UI", "Helvetica Neue", sans-serif;
+      background: #121212;
+      background-image:
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(45, 74, 62, 0.45) 0%, transparent 50%),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='none' stroke='%23ffffff' stroke-opacity='.04' d='M0 64h256M0 128h256M0 192h256M64 0v256M128 0v256M192 0v256'/%3E%3C/svg%3E");
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      overflow-x: clip;
+      -webkit-tap-highlight-color: rgba(0, 172, 193, 0.12);
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    }
+    .back-hub {
+      position: fixed;
+      top: max(8px, env(safe-area-inset-top));
+      left: max(8px, env(safe-area-inset-left));
+      z-index: 100002;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 44px;
+      padding: 6px 14px 6px 10px;
+      border-radius: 999px;
+      border: 2px solid #ffb74d;
+      background: rgba(255, 255, 255, 0.95);
+      color: #bf360c;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-decoration: none;
+      touch-action: manipulation;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+    }
+    .back-hub:active { background: #fff3e0; }
+    body::before { content: none; }
+    .app {
+      position: relative; z-index: 1;
+      width: min(100vw, calc(100dvh * 16 / 9));
+      height: min(100dvh, calc(100vw * 9 / 16));
+      max-width: min(100vw, calc(100dvh * 16 / 9));
+      max-height: min(100dvh, calc(100vw * 9 / 16));
+      aspect-ratio: 16 / 9;
+      margin: 0 auto; padding: 0;
+      display: flex; flex-direction: column; overflow: hidden;
+    }
+    .book-cover {
+      background: #ECE8E0;
+      border-radius: 4px;
+      box-shadow: 0 0 0 1px rgba(0,0,0,.2), 0 24px 60px rgba(0,0,0,.5);
+      padding: 0;
+      position: relative;
+      flex: 1; min-height: 0; display: flex; flex-direction: column;
+    }
+    .book-cover::before { content: none; }
+    .ng-spine {
+      position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--ng-gold);
+      border-radius: 2px 0 0 2px; z-index: 2; pointer-events: none;
+    }
+    .ng-bar {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem;
+      margin: 0.12rem 0 0.5rem; padding: 0.2rem 0; border-bottom: 1px solid #D8D2C4;
+    }
+    .ng-bar .ng-mark {
+      display: inline-block; min-width: 0.4rem; height: 0.5rem; background: var(--ng-gold);
+      box-shadow: 0 0 0 1px rgba(0,0,0,.15);
+    }
+    .ng-bar .ng-tag {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft);
+    }
+    .book-inner {
+      border: none; border-radius: 0; padding: 0.18rem 0.45rem 0.16rem 0.55rem; background: var(--paper);
+      flex: 1; min-height: 0; overflow: hidden; display: flex; flex-direction: column;
+      -webkit-overflow-scrolling: touch;
+    }
+    /* 顶栏：左上标题+副题，右侧三个主导航，与标题行齐高 */
+    .book-top {
+      display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      gap: 0.3rem 0.8rem; padding: 0.06rem 0 0.22rem; margin: 0 0 0.16rem; border-bottom: 1px solid #D8D2C4;
+      flex-shrink: 0;
+    }
+    .book-top-left { flex: 1; min-width: min(12rem, 100%); }
+    .book-top-left .book-title { line-height: 1.2; margin: 0; }
+    .book-top-left .book-sub { margin: 0.2rem 0 0.15rem; line-height: 1.45; }
+    .book-top-left .ng-bar { margin: 0.15rem 0 0; padding: 0.1rem 0; border: none; }
+    .book-top-right { flex: 0 0 auto; align-self: center; }
+    .book-top-right .nav-bar { margin: 0; }
+    .book-top-right .btns { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 0.4rem; }
+    .book-top-right .btn { white-space: nowrap; }
+    /* 手机 / 窄屏：强制纵向长页，取消 16:9 横屏幻灯片 */
+    @media (pointer: coarse) and (max-width: 1024px), (max-width: 820px) {
+      body {
+        display: block;
+        padding:
+          max(2.75rem, calc(env(safe-area-inset-top) + 2.2rem))
+          max(4px, env(safe-area-inset-right))
+          max(6px, env(safe-area-inset-bottom))
+          max(4px, env(safe-area-inset-left));
+      }
+      .app {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        min-height: calc(100dvh - 3rem);
+        max-height: none;
+        aspect-ratio: auto;
+        overflow: visible;
+        margin: 0;
+        padding: 0.35rem 0.4rem 0.65rem;
+      }
+      .book-cover {
+        min-height: calc(100dvh - 3.5rem);
+        max-height: none;
+        overflow: visible;
+      }
+      .book-inner {
+        overflow: visible;
+        flex: 1 1 auto;
+      }
+      .book-top { align-items: flex-start; }
+      .book-top-right { width: 100%; }
+      .book-top-right .btns { justify-content: stretch; }
+      .book-top-right .btn {
+        flex: 1 1 calc(33.33% - 0.35rem);
+        min-height: 44px;
+        text-align: center;
+        white-space: normal;
+        font-size: clamp(0.72rem, 2.8vw, 0.82rem);
+        line-height: 1.2;
+      }
+      .book-main {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        flex: 1 1 auto;
+        min-height: 55dvh;
+      }
+      @supports (zoom: 1) {
+        #view-words .view-body--words,
+        #view-review > .view-body,
+        #view-story .view-body--story { zoom: 1; }
+      }
+      @supports not (zoom: 1) {
+        #view-words .view-body--words,
+        #view-review > .view-body,
+        #view-story .view-body--story {
+          transform: none;
+          width: 100%;
+          max-width: 100%;
+          align-self: stretch;
+        }
+      }
+      .word-study-wrap { grid-template-columns: 1fr; align-items: center; justify-items: center; }
+      .word-col-art { max-width: 100%; flex: 0 0 auto; width: 100%; }
+      .word-col-art .art-img { max-height: min(40dvh, 16rem); }
+      .view-body--story .story-sentence--xl.story-sentence-row { flex-direction: column; }
+      .view-body--story .story-sentence--xl.story-sentence--pyramid { flex-direction: column; }
+      .view-body--story .story-sentence--pyramid .story-col--art { max-width: min(18rem, 100%); flex: 0 0 auto; }
+      .view-body--story .story-sentence--pyramid .story-col--art .art-img { max-height: min(9.5rem, 28vh); min-height: 0; }
+      .view-body--story .story-sentence--pyramid .story-col--text { max-height: none; overflow: visible; width: 100%; flex: 1 1 auto; }
+      .story-pyramid-layer { min-height: 44px; font-size: clamp(0.9rem, 3.3vw, 1.12rem); padding: 0.35rem 0.65rem 0.35rem 0.4rem; }
+      .view-body--story .story-col--art { flex: 0 0 auto; max-width: 100%; }
+      .opt-img { flex: 1 1 100%; max-width: 100%; }
+      .pool.review-pool-3 .opt-img {
+        flex: 1 1 100%;
+        max-width: 100%;
+        min-width: 0;
+        min-height: 0;
+      }
+    }
+    .book-main {
+      flex: 1; min-width: 0; min-height: 0; overflow: auto;
+      display: flex; flex-direction: column;
+    }
+    .view { display: none; flex: 1; min-height: 0; min-width: 0; flex-direction: column; }
+    .view.on { display: flex; }
+    /* 主内容区：铺满 16:9 舞台，100% 比例、去掉限宽留白 */
+    .view-body {
+      flex: 1; min-height: 0; width: 100%;
+      max-width: none;
+      margin: 0; padding: 0.08rem 0.2rem 0.12rem;
+      display: flex; flex-direction: column; align-items: stretch; box-sizing: border-box;
+    }
+    .view-body--words {
+      max-width: none;
+      padding-left: 0.15rem; padding-right: 0.15rem;
+      align-items: stretch;
+    }
+    .view-body--story {
+      max-width: none;
+      padding-top: 0.04rem;
+      padding-bottom: 0.08rem;
+    }
+    /* 100% 显示比例：不再用 zoom 放大窄栏 */
+    @supports (zoom: 1) {
+      #view-words .view-body--words,
+      #view-review > .view-body,
+      #view-story .view-body--story { zoom: 1; }
+    }
+    @supports not (zoom: 1) {
+      #view-words .view-body--words,
+      #view-review > .view-body,
+      #view-story .view-body--story {
+        transform: none;
+        width: 100%;
+        max-width: none;
+        align-self: stretch;
+      }
+    }
+    .view-body > h2,
+    .view-body h2.view-h2 {
+      width: 100%;
+      text-align: center;
+      border-left: none;
+      border-bottom: 2px solid var(--ng-gold);
+      padding: 0 0.35rem 0.18rem;
+      margin: 0 0 0.2rem;
+      font-size: clamp(1.05rem, 1.9vw, 1.35rem);
+      align-self: stretch;
+      flex-shrink: 0;
+    }
+    .view-h2 .sub { font-size: 0.72em; font-weight: 500; color: var(--ink-soft); }
+    .view-body .prog { max-width: none; width: 100%; margin-left: 0; margin-right: 0; }
+    .view-body .sub#wMeta { text-align: center; width: 100%; max-width: none; }
+    .view-body .stage-row { justify-content: center; width: 100%; }
+    .view-nav-row {
+      display: flex; flex-wrap: wrap; gap: 0.55rem; justify-content: center; width: 100%;
+      margin-top: 0.28rem; padding-top: 0.28rem; border-top: 1px solid #D8D2C4;
+      flex-shrink: 0;
+    }
+    .view-nav-row .btn { min-width: 6.5rem; }
+    .view-msg { text-align: center; width: 100%; max-width: 36rem; min-height: 1.2em; margin: 0.35rem 0 0; }
+    .book-title { font-family: "Noto Serif SC", "Source Serif 4", "Georgia", serif; font-size: clamp(1.1rem, 1.8vw, 1.6rem); color: var(--ink); letter-spacing: 0.04em; line-height: 1.2; font-weight: 700; }
+    .book-title em { color: var(--ng-gold-dim); font-style: normal; font-weight: 800; }
+    .book-sub { color: var(--ink-soft); font-size: clamp(0.7rem, 1.1vw, 0.86rem); margin: 0.2rem 0 0.15rem; font-weight: 500; }
+    h2 { font-family: "Noto Serif SC", "Source Serif 4", Georgia, serif; color: var(--ink); font-size: 1.2rem; margin: 0 0 0.4rem; font-weight: 700; letter-spacing: 0.03em; }
+    .book-main h2:first-child { margin-top: 0; }
+    .nav-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; margin: 0.1rem 0 0.75rem; }
+    .book-top-right .btn { min-height: 2.3rem; padding: 0.4rem 0.85rem; }
+    .btns { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; justify-content: center; }
+    .btn {
+      font-family: "Noto Sans SC", sans-serif; font-weight: 600; cursor: pointer;
+      border: 2px solid #1a1a1a; background: #fff; color: #1a1a1a;
+      border-radius: 6px; padding: 0.5rem 1.15rem; min-height: 2.75rem;
+      font-size: clamp(0.9rem, 1.15vw, 1.02rem);
+      box-shadow: 0 2px 0 rgba(0,0,0,.08), 0 4px 12px rgba(0,0,0,.04);
+      transition: background 0.15s, transform 0.12s, box-shadow 0.15s;
+      touch-action: manipulation;
+    }
+    .btn:hover { background: #f0ede6; box-shadow: 0 2px 0 rgba(0,0,0,.1), 0 6px 16px rgba(0,0,0,.07); }
+    .btn:active { background: #e5e0d6; transform: translateY(1px); }
+    .btn.primary { background: var(--ng-gold); border-color: #1a1a1a; color: #1a1a1a; font-weight: 700; }
+    .btn.primary:hover { background: #FFD633; }
+    .prog { width: 100%; height: 0.38rem; background: #2a2a2a; border-radius: 0; overflow: hidden; margin: 0.3rem 0; border: none; }
+    .prog > b { display: block; height: 100%; width: 0; background: var(--ng-gold); }
+    .stage-row { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.4rem 0; align-items: center; }
+    .step-pill { font-family: "Noto Sans SC", sans-serif; display: inline-block; padding: 0.2rem 0.6rem; font-size: 0.88rem; font-weight: 700; color: #1a1a1a; background: var(--ng-gold); letter-spacing: 0.02em; }
+    .hero-art { min-height: 12.5rem; display: flex; align-items: center; justify-content: center; margin: 0.45rem 0; }
+    .polaroid {
+      background: #fff; padding: 0.4rem; box-shadow: 0 4px 20px rgba(0,0,0,.1);
+      border-radius: 0; border: 1px solid #ccc;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center;
+    }
+    .art-img {
+      max-width: 100%; max-height: min(12.5rem, 42vh); width: auto; height: auto; display: block;
+      margin-left: auto; margin-right: auto;
+      object-fit: contain; border: none; border-radius: 0; background: #0d0d0d;
+    }
+    .art-img.is-hide { display: none; }
+    .art-fb { display: none; text-align: center; font-size: 3.5rem; min-height: 4rem; line-height: 1.1; }
+    .art-fb.on { display: block; }
+    .word-big { font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif; font-size: clamp(2rem, 3.2vw, 2.5rem); font-weight: 600; letter-spacing: 0.01em; color: var(--ink); }
+    .word-reveal-tap {
+      cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent;
+      border: none; box-shadow: none; outline: none; background: transparent; padding: 0; margin: 0;
+    }
+    .word-reveal-tap.reveal-all-shown { cursor: default; }
+    .word-reveal-tap:focus, .word-reveal-tap:focus-visible { outline: none; }
+    .word-reveal-placeholder { color: #8a9aa0; font-weight: 500; }
+    .sub { color: #5c5c5c; font-size: clamp(0.9rem, 1.1vw, 0.98rem); line-height: 1.55; }
+    .hint { font-size: 0.88rem; color: #5a4a3a; margin: 0.2rem 0; }
+    @keyframes ok-pop {
+      0%   { transform: scale(0.12) translateY(0.35em) rotate(-7deg); opacity: 0; }
+      42%  { transform: scale(1.22) translateY(-0.1em) rotate(2.5deg); opacity: 1; }
+      68%  { transform: scale(0.92) translateY(0) rotate(0); }
+      88%  { transform: scale(1.04) translateY(0) rotate(0); }
+      100% { transform: scale(1) translateY(0) rotate(0); }
+    }
+    @keyframes ok-glow {
+      0%   { filter: drop-shadow(0 0 0 transparent); }
+      25%  { filter: drop-shadow(0 0 3px rgba(255, 240, 160, 0.95)) drop-shadow(0 0 18px rgba(40, 200, 90, 0.6)) drop-shadow(0 0 8px rgba(255, 200, 50, 0.45)); }
+      55%  { filter: drop-shadow(0 0 6px rgba(30, 160, 70, 0.75)) drop-shadow(0 0 14px rgba(200, 240, 100, 0.4)); }
+      100% { filter: drop-shadow(0 0 1px rgba(20, 120, 50, 0.35)); }
+    }
+    @keyframes ok-tint {
+      0%   { background: transparent; box-shadow: 0 0 0 0 rgba(30, 180, 80, 0), 0 0 0 0 rgba(255, 220, 80, 0); }
+      35%  { background: linear-gradient(120deg, rgba(255, 240, 160, 0.7) 0%, rgba(120, 220, 130, 0.45) 50%, rgba(255, 224, 100, 0.5) 100%); box-shadow: 0 0 0 2px rgba(30, 150, 70, 0.4), 0 4px 20px rgba(40, 180, 60, 0.25), inset 0 0 12px rgba(255, 255, 255, 0.4); }
+      100% { background: transparent; box-shadow: 0 0 0 0 rgba(30, 180, 80, 0), 0 0 0 0 rgba(255, 220, 80, 0); }
+    }
+    @keyframes ok-spark {
+      0%   { opacity: 0; transform: scale(0) rotate(0deg); }
+      35%  { opacity: 1; transform: scale(1.15) rotate(18deg); }
+      100% { opacity: 0; transform: scale(0.75) rotate(30deg); }
+    }
+    @keyframes view-msg-ok {
+      0%   { background-color: transparent; box-shadow: none; }
+      15%  { background-color: rgba(40, 170, 90, 0.16); box-shadow: inset 0 0 0 1px rgba(30, 140, 60, 0.25), 0 0 24px rgba(50, 200, 100, 0.12); }
+      45%  { background-color: rgba(255, 230, 120, 0.12); box-shadow: inset 0 0 0 2px rgba(200, 180, 50, 0.2), 0 0 20px rgba(255, 210, 60, 0.15); }
+      100% { background-color: transparent; box-shadow: none; }
+    }
+    .ok {
+      color: #0d6b24; font-weight: 800; font-size: 1.1em; letter-spacing: 0.04em;
+      display: inline-block; vertical-align: middle; position: relative; z-index: 0;
+      line-height: 1.2; padding: 0.12em 0.32em; margin: -0.12em 0; border-radius: 0.4em;
+      transform-origin: 50% 60%;
+      animation: ok-pop 0.8s cubic-bezier(0.32, 1.6, 0.52, 1) both, ok-glow 1.15s ease-out 0.04s both, ok-tint 0.95s ease-out 0.05s both;
+    }
+    .ok::before,
+    .ok::after {
+      content: "✦"; position: absolute; font-size: 0.5em; line-height: 1; color: #c9a008;
+      pointer-events: none; z-index: 1; text-shadow: 0 0 6px rgba(255, 250, 200, 0.8);
+    }
+    .ok::before { top: -0.15em; left: 0.05em; animation: ok-spark 0.88s ease-out 0.12s both; }
+    .ok::after  { content: "✧"; bottom: 0.05em; right: 0.02em; font-size: 0.45em; animation: ok-spark 0.88s ease-out 0.3s both; }
+    .bad { color: #a82c2c; }
+    .view-msg:has(.ok), #rMsg:has(.ok), #wSpellMsg:has(.ok) {
+      animation: view-msg-ok 0.95s ease-out 1; border-radius: 0.35em;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ok, .ok::before, .ok::after { animation: none !important; }
+      .ok::before, .ok::after { content: none; }
+      .view-msg:has(.ok), #rMsg:has(.ok), #wSpellMsg:has(.ok) { animation: none !important; }
+      .ok-celebrate.is-on .ok-celebrate__bg { animation: none; }
+      .ok-celebrate.is-on .ok-celebrate__ray { animation: none; }
+      .ok-celebrate.is-on .ok-celebrate__confetti b { animation: none; opacity: 0.4; }
+      .ok-celebrate.is-on .ok-celebrate__title { animation: none; }
+    }
+    /* 全屏：答对庆祝 */
+    @keyframes ok-cele-bg {
+      0% { opacity: 0.88; }
+      40% { opacity: 0.95; }
+      100% { opacity: 0.72; }
+    }
+    @keyframes ok-cele-ray {
+      0% { opacity: 0; }
+      20% { opacity: 0.5; }
+      100% { opacity: 0.12; }
+    }
+    @keyframes ok-cele-burst {
+      0% { transform: scale(0.2); opacity: 0; }
+      55% { transform: scale(1.12); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes ok-cele-conf {
+      0% { transform: translateY(0) rotate(0); opacity: 0; }
+      8% { opacity: 1; }
+      100% { transform: translateY(88vh) rotate(720deg); opacity: 0.85; }
+    }
+    @keyframes ok-cele-title {
+      0% { transform: scale(0.2) translateY(30%); filter: blur(2px); opacity: 0; }
+      55% { transform: scale(1.1) translateY(0); filter: blur(0); opacity: 1; }
+      100% { transform: scale(1) translateY(0); opacity: 1; }
+    }
+    @keyframes ok-cele-sub {
+      0% { transform: translateY(0.6em); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+    .ok-celebrate {
+      position: fixed; inset: 0; z-index: 50000; width: 100vw; height: 100vh; height: 100dvh;
+      display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 0.25rem;
+      pointer-events: none; box-sizing: border-box;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+      opacity: 0; visibility: hidden; transition: opacity 0.18s ease, visibility 0.18s;
+    }
+    .ok-celebrate.is-on { opacity: 1; visibility: visible; }
+    .ok-celebrate__bg {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 100% 70% at 50% 38%, rgba(255, 232, 120, 0.5) 0%, rgba(100, 200, 120, 0.22) 40%, rgba(30, 58, 95, 0.18) 100%),
+        rgba(20, 22, 20, 0.35);
+      animation: ok-cele-bg 1.25s ease-out 1; pointer-events: none;
+    }
+    .ok-celebrate__rays { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+    .ok-celebrate__ray {
+      position: absolute; left: 50%; top: 42%;
+      width: 140vmax; height: 2.5rem; margin-left: -70vmax; margin-top: -1.25rem;
+      background: linear-gradient(90deg, transparent, rgba(255, 250, 200, 0.4), rgba(100, 220, 150, 0.25), transparent);
+      border-radius: 0.2rem; transform-origin: 50% 50%; opacity: 0;
+    }
+    .ok-celebrate__ray.n1 { transform: rotate(0deg); animation: ok-cele-ray 0.7s ease-out 0.02s 1; }
+    .ok-celebrate__ray.n2 { transform: rotate(45deg); animation: ok-cele-ray 0.72s ease-out 0.04s 1; }
+    .ok-celebrate__ray.n3 { transform: rotate(90deg); animation: ok-cele-ray 0.7s ease-out 0.06s 1; }
+    .ok-celebrate__ray.n4 { transform: rotate(135deg); animation: ok-cele-ray 0.68s ease-out 0.03s 1; }
+    .ok-celebrate__confetti { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+    .ok-celebrate:not(.is-on) .ok-celebrate__confetti b { animation: none; opacity: 0; }
+    .ok-celebrate__confetti b {
+      position: absolute; top: -5%; left: 10%; display: block; width: 0.55rem; height: 0.65rem; border-radius: 1px;
+      background: var(--ng-gold);
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.06);
+    }
+    .ok-celebrate.is-on .ok-celebrate__confetti b {
+      animation: ok-cele-conf 1.45s ease-in 1 forwards; opacity: 0;
+    }
+    .ok-celebrate__confetti b.c2 { left: 22%; background: #4ade80; animation-delay: 0.05s; }
+    .ok-celebrate__confetti b.c3 { left: 38%; background: #7dd3fc; animation-delay: 0.12s; width: 0.45rem; height: 0.5rem; }
+    .ok-celebrate__confetti b.c4 { left: 55%; background: #fcd34d; animation-delay: 0.02s; }
+    .ok-celebrate__confetti b.c5 { left: 70%; background: #f9a8d4; animation-delay: 0.15s; }
+    .ok-celebrate__confetti b.c6 { left: 85%; background: #a78bfa; animation-delay: 0.08s; }
+    .ok-celebrate__content {
+      position: relative; z-index: 2; text-align: center;
+      text-shadow: 0 0 40px rgba(255, 255, 200, 0.45), 0 4px 20px rgba(0,0,0,0.35);
+    }
+    .ok-celebrate__icon { font-size: min(5rem, 18vw); line-height: 1; display: block; margin-bottom: 0.1rem; animation: ok-cele-burst 0.65s cubic-bezier(0.2, 1, 0.2, 1) 0.12s 1 both; }
+    .ok-celebrate__title {
+      margin: 0; font-family: "Noto Sans SC", sans-serif; font-weight: 800;
+      font-size: min(3.2rem, 10vw);
+      color: #fff8e0; letter-spacing: 0.1em; line-height: 1.1;
+      animation: ok-cele-title 0.6s cubic-bezier(0.22, 1, 0.4, 1) 0.15s 1 both;
+    }
+    .ok-celebrate__line {
+      margin: 0.35rem 0 0; font-weight: 700; font-size: min(1.4rem, 4.2vw); color: rgba(255, 255, 250, 0.96);
+      animation: ok-cele-sub 0.4s ease-out 0.35s 1 both; opacity: 0;
+    }
+    .panel-lite { background: #EEF1E8; border: 1px solid #c8c4b8; border-left: 3px solid var(--ng-gold); border-radius: 6px; padding: 0.28rem 0.45rem; margin: 0 0 0.16rem; max-width: none; width: 100%; box-sizing: border-box; box-shadow: 0 2px 8px rgba(0,0,0,.04); flex-shrink: 0; }
+    .story-sentence {
+      margin: 0.6rem 0; padding: 0.5rem 0.6rem;
+      background: #fff; border: 1px solid #D4CFC3; border-left: 3px solid var(--wild-green); box-shadow: 0 2px 12px rgba(0,0,0,.06);
+    }
+    .story-sentence p { margin: 0.1rem 0; font-size: 1.02rem; font-family: "Source Serif 4", Georgia, "Noto Serif SC", serif; }
+    .story-zh { color: #4a4a4a; font-size: 0.88rem; font-family: "Noto Sans SC", sans-serif; }
+    .story-sentence .polaroid { transform: rotate(0.2deg); }
+    .story-slide {
+      margin: 0.08rem 0 0.1rem; flex: 1 1 auto; width: 100%; min-height: 0;
+      overflow: hidden; display: flex; flex-direction: column;
+    }
+    .story-slide .story-sentence { margin: 0; }
+    .match-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem; }
+    @media (max-width: 560px) { .match-cols { grid-template-columns: 1fr; } }
+    .m-item {
+      border: 1px dashed #7a7a7a; border-radius: 2px; padding: 0.4rem; cursor: pointer; background: #faf9f6;
+    }
+    .m-item.sel { border-color: var(--edge-blue); background: #E8EEF5; border-style: solid; }
+    .m-item.done { border-style: solid; border-color: var(--wild-green); background: #EDF2EC; }
+    .pool { display: flex; flex-wrap: wrap; gap: 0.5rem; align-content: flex-start; }
+    .pool.review-pool-3 {
+      justify-content: center;
+      gap: 0.7rem 0.7rem;
+      width: 100%;
+      max-width: none;
+    }
+    @media (min-width: 821px) {
+      .pool.review-pool-3 .opt-img {
+        flex: 1 1 30%;
+        min-width: min(22vw, 12rem);
+        max-width: 32%;
+        min-height: min(18rem, 46vh);
+        padding: 0.45rem 0.4rem;
+      }
+      .pool.review-pool-3 .opt-img .opt-thumb {
+        min-height: min(14rem, 38vh);
+        max-height: min(24rem, 52vh);
+      }
+    }
+    .review-block--pick3 { max-width: none; width: 100%; }
+    .review-center-block .pool.review-pool-3 + .btns {
+      margin-top: 1.05rem;
+    }
+    #rQ, .review-q { font-size: clamp(1.02rem, 1.8vw, 1.25rem); margin: 0.2rem 0 0.4rem; line-height: 1.55; font-weight: 600; text-align: center; color: var(--ink); max-width: min(56rem, 100%); margin-left: auto; margin-right: auto; }
+    #rBody { display: flex; flex-direction: column; align-items: center; width: 100%; flex: 1; min-height: 0; justify-content: center; }
+    .review-center-block { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: none; margin: 0.1rem 0; flex: 1 1 auto; min-height: 0; justify-content: center; }
+    .review-center-block .btns { justify-content: center; }
+    .review-center-block .hero-art { max-width: min(28rem, 100%); margin: 0.15rem auto 0.2rem; }
+    .review-word-bling {
+      font-family: "Source Serif 4", Georgia, serif; font-size: clamp(2.1rem, 4.4vw, 3.1rem);
+      font-weight: 700; text-align: center; margin: 0.1rem 0 0.55rem; letter-spacing: 0.02em;
+    }
+    .w-spell-host, #wWordSpell { align-self: center; width: 100%; }
+    .jumble-hold .hero-art { margin: 0.2rem auto 0.65rem; }
+    .jumble-hold > .jumble:nth-child(3) {
+      display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+      gap: 0.6rem 0.75rem; margin: 0.25rem 0 0.25rem; width: 100%;
+    }
+    .jumble-hold > .jumble:nth-child(3) .chip { margin: 0; }
+    .jumble-hold .jumble:last-of-type {
+      font-size: 1.62rem; font-weight: 600; color: var(--ink); padding: 0.35rem; min-height: 2.1rem;
+    }
+    .view-body--story .story-sentence { max-width: none; width: 100%; margin-left: 0; margin-right: 0; }
+    .word-col-panel .btns#wActions { width: 100%; justify-content: center; }
+    .view-body--story .story-sentence { box-shadow: 0 4px 20px rgba(0,0,0,.06); border-radius: 6px; }
+    .view-body--story .story-slide { width: 100%; }
+    /* 学课文单句卡：左大图 | 右英文 + 可点按中文区 */
+    .view-body--story .story-sentence--xl {
+      max-width: none;
+      width: 100%;
+      margin: 0;
+      border-radius: 8px;
+      box-shadow: 0 6px 28px rgba(0,0,0,.08);
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+    .view-body--story .story-sentence--xl.story-sentence-row {
+      display: flex; flex-direction: row; flex-wrap: nowrap; align-items: stretch;
+      gap: 0.9rem; width: 100%;
+      margin: 0; padding: 0.45rem 0.7rem 0.5rem; box-sizing: border-box;
+    }
+    .view-body--story .story-col--art {
+      flex: 1.15; min-width: 0; min-height: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .view-body--story .story-col--text {
+      flex: 1; min-width: 0; min-height: 0;
+      display: flex; flex-direction: column; justify-content: center; gap: 0.45rem; text-align: left;
+    }
+    .view-body--story .story-col--text > p {
+      margin: 0; font-size: clamp(1.65rem, 3.1vw, 2.35rem);
+      line-height: 1.4; font-family: "Source Serif 4", Georgia, "Noto Serif SC", serif;
+    }
+    .view-body--story .story-col--art .hero-art {
+      margin: 0; min-height: 0; width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .view-body--story .story-col--art .polaroid {
+      padding: 0.28rem; max-width: 100%; max-height: 100%;
+      height: 100%; box-sizing: border-box;
+      display: flex; align-items: center; justify-content: center;
+      background: #fff;
+    }
+    .view-body--story .story-col--art .art-img {
+      max-height: 100%;
+      min-height: 0; width: auto; max-width: 100%;
+      height: 100%; object-fit: contain;
+      display: block; margin: 0 auto;
+      background: #fff;
+    }
+    .story-zh-hold {
+      display: block; width: 100%; text-align: left; margin: 0.15rem 0 0; padding: 0.5rem 0.6rem;
+      border: 2px dashed #b8b0a0; border-radius: 6px; background: #f3efe8;
+      cursor: pointer; font: inherit; color: var(--ink-soft);
+      -webkit-tap-highlight-color: transparent; transition: background 0.15s, border-color 0.15s;
+      box-shadow: 0 1px 0 rgba(0,0,0,.04);
+    }
+    .story-zh-hold:hover, .story-zh-hold:focus-visible {
+      background: #ebe4d8; border-color: #8a7d6a; outline: none;
+    }
+    .story-zh-hold.is-on { border-style: solid; background: #fff; border-color: #a89878; }
+    .story-zh-ghost { font-size: clamp(0.9rem, 1.3vw, 1.02rem); color: #6b6150; font-weight: 500; }
+    .story-zh-hold .story-zh {
+      display: block; font-size: clamp(1.15rem, 2.1vw, 1.7rem);
+      line-height: 1.5; color: #3a3a3a; font-weight: 500; font-family: "Noto Sans SC", sans-serif; margin: 0;
+    }
+    .story-zh-hold:not(.is-on) .story-zh { display: none; }
+    .story-zh-hold.is-on .story-zh-ghost { display: none; }
+    /* 学课文 · 句子金字塔：每行多一个单词，点行朗读 */
+    .story-pyramid-caption {
+      margin: 0 0 0.25rem; font-size: clamp(0.78rem, 1.15vw, 0.9rem);
+      color: #6b6150; font-weight: 600; text-align: left; line-height: 1.4;
+      font-family: "Noto Sans SC", sans-serif;
+    }
+    .view-body--story .story-col--text > .story-pyramid-caption {
+      font-size: clamp(0.78rem, 1.15vw, 0.9rem);
+      line-height: 1.4;
+    }
+    .story-pyramid {
+      display: flex; flex-direction: column; align-items: flex-start;
+      gap: 0.32rem; width: 100%; margin: 0.05rem 0 0.1rem;
+      flex: 1 1 auto; min-height: 0; justify-content: space-evenly;
+    }
+    .story-pyramid-layer {
+      display: flex; align-items: center; justify-content: flex-start;
+      gap: 0.4rem; width: var(--py-w, 70%); max-width: 100%;
+      margin-left: 0; margin-right: auto; align-self: flex-start;
+      font-family: "Source Serif 4", Georgia, "Noto Serif SC", serif;
+      font-size: clamp(0.92rem, 1.65vw, 1.22rem); line-height: 1.28;
+      padding: 0.28rem 0.6rem 0.28rem 0.38rem; border-radius: 8px;
+      background: #fff; border: 2px solid #1a1a1a; color: var(--ink);
+      cursor: pointer; min-height: 2.05rem; text-align: left;
+      box-shadow: 0 2px 0 rgba(0,0,0,.08); touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .story-pyramid-layer:hover, .story-pyramid-layer:focus-visible {
+      background: #fff8e0; outline: none;
+    }
+    .story-pyramid-layer .py-idx {
+      flex: 0 0 1.45rem; width: 1.45rem; height: 1.45rem; border-radius: 50%;
+      background: var(--ng-gold); color: #1a1a1a; font-size: 0.72rem; font-weight: 800;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: "Noto Sans SC", sans-serif;
+    }
+    .story-pyramid-layer .py-text { flex: 1; min-width: 0; text-align: left; }
+    .story-pyramid-layer .py-old { color: var(--ink-soft); font-weight: 600; }
+    .story-pyramid-layer .py-new { color: #33691e; font-weight: 800; }
+    .story-pyramid-layer .py-hear {
+      flex: 0 0 auto; font-size: 0.78rem; color: #2E6A9B; font-weight: 800;
+      font-family: "Noto Sans SC", sans-serif;
+    }
+    .story-pyramid-layer.is-on {
+      background: #fff3c4; border-color: #c9a008;
+      box-shadow: 0 0 0 2px rgba(245, 196, 0, 0.35), 0 4px 12px rgba(0,0,0,.08);
+    }
+    .story-pyramid-layer.is-on .py-idx { background: #1a1a1a; color: var(--ng-gold); }
+    .view-body--story .story-sentence--xl.story-sentence--pyramid {
+      flex-direction: row; flex-wrap: nowrap; align-items: stretch; gap: 0.85rem;
+      margin: 0; padding: 0.4rem 0.55rem 0.45rem;
+      flex: 1 1 auto; min-height: 0; height: 100%;
+    }
+    .view-body--story .story-sentence--pyramid .story-col--art {
+      flex: 0 1 42%; max-width: 44%; align-self: stretch;
+    }
+    .view-body--story .story-sentence--pyramid .hero-art {
+      min-height: 0; margin: 0; height: 100%;
+    }
+    .view-body--story .story-sentence--pyramid .story-col--art .art-img {
+      max-height: 100%; min-height: 0;
+    }
+    .view-body--story .story-sentence--pyramid .story-col--text {
+      flex: 1 1 58%; width: auto; min-width: 0; min-height: 0;
+      max-height: none; overflow-y: auto; justify-content: stretch;
+      align-items: stretch; text-align: left;
+    }
+    #view-story #storyProgress { flex-shrink: 0; }
+    #view-story .view-body--story > .btns { flex-shrink: 0; margin: 0.12rem 0 0; }
+    @media (max-width: 720px) {
+      .view-body--story .story-sentence--xl.story-sentence-row { flex-direction: column; }
+      .view-body--story .story-sentence--xl.story-sentence--pyramid { flex-direction: column; }
+      .view-body--story .story-col--art { flex: 0 0 auto; max-width: 100%; }
+      .view-body--story .story-col--art .art-img { max-height: min(20.8rem, 52vh); min-height: 10.4rem; }
+      .view-body--story .story-sentence--pyramid .story-col--art { max-width: 100%; }
+      .view-body--story .story-sentence--pyramid .story-col--art .art-img { max-height: min(9.5rem, 28vh); min-height: 0; }
+      .view-body--story .story-sentence--pyramid .story-col--text { max-height: none; overflow: visible; width: 100%; }
+      .story-pyramid-layer { min-height: 44px; }
+    }
+    /* 大复习·选图；双列/三列 */
+    .opt-img {
+      box-sizing: border-box; min-width: 0; min-height: min(12rem, 30vh);
+      border: 2px solid #1a1a1a; border-radius: 8px; padding: 0.45rem 0.5rem; cursor: pointer;
+      background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 0.25rem; flex: 1 1 calc(50% - 0.35rem);
+      max-width: calc(50% - 0.35rem);
+      box-shadow: 0 2px 0 rgba(0,0,0,.1), 0 8px 20px rgba(0,0,0,.05);
+    }
+    .r-zh-opts { display: flex; flex-direction: column; gap: 0.75rem; width: 100%; max-width: 26rem; margin: 0.35rem auto; align-items: stretch; }
+    .r-zh-opts .btn {
+      width: 100%; min-height: 3.1rem; font-size: 1.12rem; text-align: center; justify-content: center;
+      padding: 0.7rem 1.1rem; border-radius: 8px; font-weight: 600;
+    }
+    .opt-img .opt-thumb {
+      display: block; width: 100%; height: auto; max-width: 100%;
+      max-height: min(18rem, 44vh); min-height: 9rem;
+      object-fit: contain; object-position: center; border-radius: 4px;
+    }
+    .opt-emoji { font-size: 2.2rem; }
+    .opt-img.on { box-shadow: 0 0 0 2px var(--edge-blue); background: #f5f6f0; }
+    .jumble { text-align: center; justify-content: center; }
+    /* 大复习·例句词序：词块较默认可点区域再放大约 1.5 倍，行内用 flex+gap 拉开间距 */
+    .jumble .chip {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0.5rem 0.85rem; border-radius: 8px; background: #fff; border: 2px solid #1a1a1a;
+      margin: 0.2rem; cursor: pointer; min-width: 3.3rem; min-height: 3.75rem;
+      text-align: center; font-family: "Source Serif 4", Georgia, serif; font-size: 1.53rem; font-weight: 600; line-height: 1.2;
+      box-shadow: 0 3px 0 rgba(0,0,0,.1); -webkit-tap-highlight-color: transparent;
+    }
+    /* 大复习·听音拼词：大触摸热区，上排待选、下排格子 */
+    .r-spell-hint { font-size: 0.92rem; color: #4a4a4a; margin: 0.1rem 0 0.35rem; line-height: 1.45; }
+    .r-spell-row { display: flex; flex-wrap: wrap; gap: 0.55rem; align-items: center; justify-content: center; margin: 0.35rem 0; }
+    .r-spell-tile, .r-spell-slot {
+      -webkit-tap-highlight-color: transparent; box-sizing: border-box;
+      min-width: min(4.2rem, 14vw); min-height: min(4.5rem, 15vw);
+      width: min(4.2rem, 14vw); height: min(4.5rem, 15vw);
+      max-width: 4.5rem; max-height: 4.85rem;
+      font-size: clamp(1.5rem, 3.2vw, 1.95rem); font-weight: 700; line-height: 1;
+      font-family: "Source Serif 4", Georgia, serif; color: var(--ink);
+      border: 2.5px solid #1a1a1a; border-radius: 3px; cursor: pointer; padding: 0;
+      display: inline-flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 0 rgba(0,0,0,.12);
+    }
+    .r-spell-tile { background: #fff; }
+    .r-spell-tile.is-pick { outline: 3px solid var(--edge-blue); outline-offset: 0; background: #E8EEF5; }
+    .r-spell-slot { background: #faf8f3; }
+    .r-spell-slot.is-filled { background: #E8EEF5; }
+    @keyframes wiggle { 0%,100% { transform: translate(0) } 50% { transform: translateY(-1px) } }
+    .wiggle .polaroid { animation: wiggle 2.5s ease-in-out infinite; }
+    /* 学单词：左图 | 右栏（听音显素 / 例句 / 拼写 + 上/下一步） */
+    .word-study-wrap {
+      display: grid;
+      grid-template-columns: minmax(0, 1.28fr) minmax(24rem, 0.92fr);
+      column-gap: clamp(0.9rem, 2vw, 2.2rem); row-gap: 0.5rem;
+      align-items: stretch; justify-content: stretch; justify-items: stretch;
+      width: 100%; max-width: none; margin: 0.08rem 0 0;
+      padding: 0.12rem 0.25rem 0.18rem; box-sizing: border-box;
+      flex: 1 1 auto; min-height: 0;
+    }
+    .word-col-art {
+      width: 100%; max-width: none; min-width: 0; min-height: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .word-col-art .hero-art {
+      min-height: 0; margin: 0; width: 100%; max-width: 100%; height: 100%;
+    }
+    .word-art-duo {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      width: 100%;
+      max-width: 100%;
+      align-items: stretch;
+      justify-content: center;
+    }
+    .word-art-duo .polaroid {
+      flex: 1 1 calc(50% - 0.35rem);
+      min-width: min(12rem, 46%);
+      max-width: calc(50% - 0.2rem);
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .word-art-duo .polaroid .art-img {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .word-art-duo .polaroid .art-cap {
+      display: block;
+      text-align: center;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: #6d5c4a;
+      margin: 0 0 0.25rem;
+      text-transform: uppercase;
+    }
+    .word-col-art .art-img {
+      width: auto; height: auto;
+      max-width: 100%;
+      max-height: min(66vh, calc(100dvh - 10.5rem));
+      object-fit: contain;
+    }
+    .word-art-duo .art-img {
+      max-height: min(46vh, calc(100dvh - 13rem));
+    }
+    .word-col-panel {
+      width: 100%; max-width: none; min-width: 0;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 0.55rem; justify-content: center;
+      padding: 0.15rem 0.35rem; box-sizing: border-box;
+    }
+    .word-col-panel .w-display-line, .word-col-panel #wEx, .word-col-panel #wSpellMsg { text-align: center; max-width: 100%; }
+    .view-body--words .w-say-box,
+    .view-body--words .w-sort-box,
+    .view-body--words .w-sound-wrap { max-width: 100%; }
+    .w-display-line { margin: 0.1rem 0; min-height: 1em; }
+    .w-display-skip { min-height: 0; height: 0.2rem; margin: 0; padding: 0; font-size: 0.01rem; line-height: 0; color: transparent; overflow: hidden; user-select: none; }
+    .w-spell-host { margin: 0.2rem 0; width: 100%; }
+    .word-step-nav { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.45rem; justify-content: center; width: 100%; }
+    .word-step-nav .btn { min-width: 6.5rem; }
+    /* Sound mapping 分格点击（与 Play Kitty 一致） */
+    .w-sound-wrap { width: 100%; max-width: 100%; margin: 0.15rem auto 0.35rem; align-self: center; }
+    .w-sb-grid { display: flex; flex-wrap: wrap; gap: 0.55rem; justify-content: center; align-items: flex-start; margin: 0.35rem 0; }
+    .w-sb-col {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.22rem;
+      min-width: 3rem;
+      padding-top: 2.85rem;
+    }
+    .w-sb-combo-tag {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+      display: block;
+      box-sizing: border-box;
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: #b71c1c;
+      letter-spacing: 0.04em;
+      background: #ffebee;
+      border: 2px solid #e57373;
+      border-radius: 6px;
+      padding: 0.18rem 0.55rem;
+      text-align: center;
+      line-height: 1.35;
+      writing-mode: horizontal-tb;
+      white-space: nowrap;
+      word-break: normal;
+      overflow-wrap: normal;
+      width: max-content;
+      max-width: min(19rem, calc(100vw - 2rem));
+      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s;
+    }
+    .w-sb-combo-tag.is-on {
+      visibility: visible;
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .w-sb-box {
+      position: relative;
+      z-index: 2;
+      min-width: 2.75rem; min-height: 3.15rem; padding: 0.3rem 0.5rem;
+      font-family: "Source Serif 4", Georgia, serif; font-size: clamp(1.25rem, 2.5vw, 1.95rem); font-weight: 700;
+      border: 3px solid #1a1a1a; border-radius: 10px; background: #f3f1ec; cursor: pointer; color: #bdbdbd;
+      box-shadow: 0 2px 0 rgba(0,0,0,.1); transition: color 0.15s, background 0.15s, border-color 0.15s;
+    }
+    .w-sb-box:disabled { cursor: not-allowed; opacity: 0.55; }
+    .w-sb-box.w-sb-box--shown { color: var(--ink); background: #fff; }
+    .w-sb-box.w-sb-box--combo-red {
+      color: #b71c1c !important; background: #ffebee; border-color: #c62828;
+      box-shadow: 0 0 0 3px rgba(198,40,40,0.22);
+    }
+    .w-sb-hint-under { font-size: 0.7rem; color: #6d5c4a; max-width: 7rem; text-align: center; line-height: 1.3; font-weight: 600; font-family: "Noto Sans SC", "Segoe UI", sans-serif; }
+    .w-sb-friend-btn-wrap { margin: 0.45rem auto 0; text-align: center; width: 100%; }
+    .w-sb-friend-panel {
+      display: none; margin-top: 0.4rem; padding: 0.5rem 0.55rem; border: 2px dashed #8d6e63; border-radius: 10px;
+      background: #fffefb; max-width: 30rem; width: 100%;
+    }
+    .w-sb-friend-panel.is-open { display: block; }
+    .w-sb-friend-row { display: flex; flex-wrap: wrap; gap: 0.45rem; justify-content: center; margin-top: 0.25rem; }
+    .w-sb-friend-chip {
+      display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.22rem 0.5rem; border-radius: 8px;
+      border: 1px solid #b0a090; background: #fff; font-family: "Source Serif 4", Georgia, serif; font-weight: 700; color: var(--edge-blue);
+    }
+    .w-sb-caption { margin: 0.35rem 0 0; text-align: center; font-family: "Source Serif 4", Georgia, serif; font-size: clamp(1.2rem, 2.2vw, 1.75rem); font-weight: 700; color: var(--ink); min-height: 1.4em; }
+    @media (max-width: 620px) {
+      .word-study-wrap {
+        grid-template-columns: 1fr;
+        max-width: 100%;
+        padding: 0.25rem 0.55rem 0.45rem; gap: 0.7rem;
+      }
+      .word-col-art { max-width: 100%; }
+      .word-col-art .art-img { max-height: min(44dvh, 22rem); }
+      .word-col-panel {
+        max-width: 100%; width: 100%;
+        padding: 0.2rem 0.35rem 0.35rem;
+      }
+      .word-art-duo { flex-direction: column; align-items: center; width: 100%; }
+      .word-art-duo .polaroid { max-width: 100%; flex: 1 1 auto; }
+      .word-art-duo .art-img { max-height: min(14rem, 34dvh); }
+    }
+    @media (hover: none) and (pointer: coarse) {
+      .btn:hover { background: #fff; box-shadow: 0 2px 0 rgba(0,0,0,.08), 0 4px 12px rgba(0,0,0,.04); }
+      .btn.primary:hover { background: var(--ng-gold); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .btn { transition: none !important; }
+    }
+  </style>
+  <link rel="stylesheet" href="../../assets/primary-responsive.css?v=3" />
+  <link rel="stylesheet" href="lifecycle-games.css" />
+  <link rel="stylesheet" href="../../assets/ng-word-extras.css?v=10" />
+  <script src="../../assets/ng-word-say-data.js?v=3"></script>
+  <script src="../../assets/ng-word-ipa.js?v=1"></script>
+  <script src="../../assets/ng-word-extras.js?v=3"></script>
+</head>
+<body>
+  <a class="back-hub" href="../index.html">← Flutter, butterfly! 首页</a>
+  <div class="app">
+    <div class="book-cover">
+      <div class="ng-spine" aria-hidden="true"></div>
+      <div class="book-inner">
+        <header class="book-top" role="banner">
+          <div class="book-top-left">
+            <p class="book-title">Flutter, butterfly! <em>LEARN</em></p>
+            <p class="book-sub">国家地理分级阅读 · 互动练习 · 学单词 & 学课文</p>
+            <div class="ng-bar" aria-hidden="true">
+              <span class="ng-mark"></span>
+              <span class="ng-tag">National Geographic Style</span>
+            </div>
+          </div>
+          <div class="book-top-right">
+            <div class="nav-bar">
+              <div class="btns" id="topNav">
+                <button type="button" class="btn primary" data-goto="words">学单词</button>
+                <button type="button" class="btn" data-goto="review">大复习</button>
+                <button type="button" class="btn" data-goto="story">学课文</button>
+                <button type="button" class="btn" data-goto="games">生命游戏</button>
+              </div>
+            </div>
+          </div>
+        </header>
+        <div class="book-main" id="bookMain">
+        <div id="view-words" class="view on">
+          <div class="view-body view-body--words">
+          <h2>单词小剧场</h2>
+          <div class="word-jump" id="wJump"></div>
+          <div class="prog" aria-hidden="true"><b id="wProg" style="width:0%"></b></div>
+          <p class="sub" id="wMeta"></p>
+          <div class="stage-row">
+            <span class="step-pill" id="wStepTag">1 / 5</span>
+            <span id="wStepTitle" class="sub" style="margin:0"></span>
+          </div>
+          <div class="word-study-wrap" id="wWordCanvas">
+            <div class="word-col-art">
+              <div class="hero-art" id="wArt"></div>
+            </div>
+            <div class="word-col-panel">
+              <p class="word-big w-display-line" id="wDisplay"></p>
+              <div id="wSoundMapHost" class="w-sound-wrap" style="display:none" aria-hidden="true"></div>
+              <p class="sub" id="wEx"></p>
+              <div id="wWordSpell" class="w-spell-host" style="display:none" aria-hidden="true"></div>
+              <div class="btns" id="wActions"></div>
+              <p class="sub" id="wSpellMsg" style="min-height:1.1em;margin:0.15rem 0 0" aria-live="polite" aria-atomic="true"></p>
+              <div class="btns word-step-nav">
+                <button type="button" class="btn" id="wPrev" disabled>上一步</button>
+                <button type="button" class="btn primary" id="wNext">下一步</button>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+
+        <div id="view-review" class="view">
+          <div class="view-body">
+          <h2>大复习 <span class="sub" id="rMeta" style="font-size:0.85em"></span></h2>
+          <div class="review-q" id="rQ"></div>
+          <div id="rBody"></div>
+          <div class="btns view-nav-row">
+            <button type="button" class="btn" id="rPrev" disabled>上一步</button>
+            <button type="button" class="btn primary" id="rNext">下一步</button>
+          </div>
+          <p id="rMsg" class="sub view-msg" aria-live="polite"></p>
+          </div>
+        </div>
+
+        <div id="view-story" class="view">
+          <div class="view-body view-body--story">
+          <h2>学课文</h2>
+          <div class="panel-lite">
+            <div class="btns" style="margin:0.1rem 0;justify-content:center;flex-wrap:wrap">
+              <span class="sub" style="margin-right:0.2rem;align-self:center">本句用</span>
+              <button type="button" class="btn" id="sSlow">选慢</button>
+              <button type="button" class="btn primary" id="sNormal">选正常</button>
+              <button type="button" class="btn primary" id="sHearLine" title="朗读当前英文句">▶ 听本句</button>
+              <button type="button" class="btn" id="sLoop">▶ 循环本句</button>
+              <button type="button" class="btn" id="sPyramid" aria-pressed="false" title="用金字塔逐词显示本句，点每一层朗读">🔺 金字塔</button>
+              <button type="button" class="btn" id="sPyramidPlay" hidden title="从第一个词开始，一层一层往上朗读">▶ 逐层朗读</button>
+              <span class="sub" id="sLoopState">已停</span>
+            </div>
+          </div>
+          <p class="sub" id="storyProgress" style="margin:0.06rem 0 0.08rem;font-weight:600;color:#5a4a3a;text-align:center"></p>
+          <div id="storySlide" class="story-slide" aria-live="polite"></div>
+          <div class="btns" style="margin:0.12rem 0 0;justify-content:center">
+            <button type="button" class="btn" id="sPrev" disabled>上一句</button>
+            <button type="button" class="btn primary" id="sNext">下一句</button>
+            <a class="btn" href="print-story.html" title="导出带配图与中英对照的课文 PDF" style="text-decoration:none">📄 课文 PDF</a>
+          </div>
+          </div>
+        </div>
+
+        <div id="view-games" class="view">
+          <div class="view-body view-body--games">
+            <div id="lcRoot"></div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <audio id="storyNarration" preload="auto" style="position:absolute;left:0;bottom:0;width:0;height:0;opacity:0;pointer-events:none" aria-hidden="true"></audio>
+
+  <div id="okCelebrate" class="ok-celebrate" role="status" aria-live="polite" aria-atomic="true" aria-hidden="true">
+    <div class="ok-celebrate__bg" aria-hidden="true"></div>
+    <div class="ok-celebrate__rays" aria-hidden="true">
+      <div class="ok-celebrate__ray n1"></div>
+      <div class="ok-celebrate__ray n2"></div>
+      <div class="ok-celebrate__ray n3"></div>
+      <div class="ok-celebrate__ray n4"></div>
+    </div>
+    <div class="ok-celebrate__confetti" aria-hidden="true">
+      <b></b><b class="c2"></b><b class="c3"></b><b class="c4"></b><b class="c5"></b><b class="c6"></b>
+    </div>
+    <div class="ok-celebrate__content">
+      <span class="ok-celebrate__icon" aria-hidden="true">🎉</span>
+      <p class="ok-celebrate__title">太棒了！</p>
+      <p class="ok-celebrate__line">答对了</p>
+    </div>
+  </div>
+
+  <script>
+    var MEDIA_COS = (function () {
+      var cos = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Flutter%20Butterfly/flutter-butterfly-courseware/";
+      var h = (location.hostname || "").toLowerCase();
+      if (h === "localhost" || h === "127.0.0.1" || h === "www.s-class.top" || h.endsWith(".s-class.top")) return "";
+      return cos;
+    })();
+  (function () {
+    "use strict";
+
+            var WORDS = [
+      { key: "Flutter", zh: "振翅飞舞", ex: "Flutter, butterfly!", emoji: "🦋",
+        soundBoxes: [
+          { text: "fl", hint: "/fl/", combo: true, friends: ["flutter", "flag", "fly", "flower"] },
+          { text: "u", hint: "短 u", combo: false },
+          { text: "tt", hint: "/t/", combo: false },
+          { text: "er", hint: "/ər/", combo: true, friends: ["flutter", "water", "river", "better"] },
+        ] },
+      { key: "Butterfly", zh: "蝴蝶", ex: "A butterfly lands on a plant.", emoji: "🦋",
+        soundBoxes: [
+          { text: "b", hint: "/b/", combo: false },
+          { text: "u", hint: "短 u", combo: false },
+          { text: "tt", hint: "/t/", combo: false },
+          { text: "er", hint: "/ər/", combo: true, friends: ["butter", "better", "water"] },
+          { text: "fl", hint: "/fl/", combo: true, friends: ["fly", "flag", "flower"] },
+          { text: "y", hint: "词尾 y /ē/", combo: false },
+        ] },
+      { key: "Animals", zh: "动物", ex: "Butterflies are animals.", emoji: "🐾",
+        soundBoxes: [
+          { text: "a", hint: "短 a", combo: false },
+          { text: "n", hint: "/n/", combo: false },
+          { text: "i", hint: "短 i", combo: false },
+          { text: "m", hint: "/m/", combo: false },
+          { text: "a", hint: "弱读 /ə/", combo: false },
+          { text: "ls", hint: "/z/", combo: false },
+        ] },
+      { key: "Lay an egg", zh: "产卵", ex: "It lays an egg.", emoji: "🥚",
+        soundBoxes: [
+          { text: "l", hint: "/l/", combo: false },
+          { text: "ay", hint: "长 /ā/", combo: true, friends: ["lay", "play", "day", "say"] },
+          { text: " ", hint: "空格", combo: false },
+          { text: "a", hint: "短 a", combo: false },
+          { text: "n", hint: "/n/", combo: false },
+          { text: " ", hint: "空格", combo: false },
+          { text: "e", hint: "短 e", combo: false },
+          { text: "gg", hint: "/g/", combo: false },
+        ] },
+      { key: "Hatch", zh: "孵化", ex: "Then the egg hatches!", emoji: "🐣",
+        soundBoxes: [
+          { text: "h", hint: "/h/", combo: false },
+          { text: "a", hint: "短 a", combo: false },
+          { text: "tch", hint: "/ch/", combo: true, friends: ["hatch", "catch", "match", "watch"] },
+        ] },
+      { key: "Crawl", zh: "爬行", ex: "The caterpillar crawls on plants.", emoji: "🐛",
+        soundBoxes: [
+          { text: "c", hint: "/k/", combo: false },
+          { text: "r", hint: "/r/", combo: false },
+          { text: "aw", hint: "/aw/ 像 paw", combo: true, friends: ["crawl", "saw", "draw", "paw"] },
+          { text: "l", hint: "/l/", combo: false },
+        ] },
+      { key: "Grow", zh: "生长", ex: "A caterpillar grows inside the egg.", emoji: "📈",
+        soundBoxes: [
+          { text: "g", hint: "/g/", combo: false },
+          { text: "r", hint: "/r/", combo: false },
+          { text: "ow", hint: "/ō/", combo: true, friends: ["grow", "show", "snow", "blow"] },
+        ] },
+      { key: "Change", zh: "变化", ex: "After many weeks, the caterpillar changes.", emoji: "🔄",
+        soundBoxes: [
+          { text: "ch", hint: "/ch/", combo: true, friends: ["change", "chip", "rich", "lunch"] },
+          { text: "a", hint: "长 /ā/", combo: false },
+          { text: "n", hint: "/n/", combo: false },
+          { text: "ge", hint: "/j/", combo: true, friends: ["change", "age", "page", "huge"] },
+        ] },
+      { key: "Caterpillar", zh: "毛毛虫", ex: "The young caterpillar is black.", emoji: "🐛",
+        soundBoxes: [
+          { text: "c", hint: "/k/", combo: false },
+          { text: "a", hint: "短 a", combo: false },
+          { text: "t", hint: "/t/", combo: false },
+          { text: "er", hint: "/ər/", combo: true, friends: ["cater", "water", "better"] },
+          { text: "p", hint: "/p/", combo: false },
+          { text: "i", hint: "短 i", combo: false },
+          { text: "ll", hint: "/l/", combo: false },
+          { text: "ar", hint: "/ər/", combo: true, friends: ["pillar", "dollar", "collar"] },
+        ] },
+      { key: "Pupa", zh: "蛹", ex: "Now it's a pupa.", emoji: "🟤",
+        soundBoxes: [
+          { text: "p", hint: "/p/", combo: false },
+          { text: "u", hint: "发长 /ū/", combo: false },
+          { text: "p", hint: "/p/", combo: false },
+          { text: "a", hint: "弱读 /ə/", combo: false },
+        ] },
+      { key: "Land", zh: "降落", ex: "A butterfly lands on a plant.", emoji: "🛬",
+        soundBoxes: [
+          { text: "l", hint: "/l/", combo: false },
+          { text: "a", hint: "短 a", combo: false },
+          { text: "n", hint: "/n/", combo: false },
+          { text: "d", hint: "/d/", combo: false },
+        ] },
+      { key: "Plant", zh: "植物", ex: "A butterfly lands on a plant.", emoji: "🌿",
+        soundBoxes: [
+          { text: "p", hint: "/p/", combo: false },
+          { text: "l", hint: "/l/", combo: false },
+          { text: "a", hint: "短 a", combo: false },
+          { text: "n", hint: "/n/", combo: false },
+          { text: "t", hint: "/t/", combo: false },
+        ] },
+      { key: "Yellow", zh: "黄色", ex: "The new egg is yellow.", emoji: "💛",
+        soundBoxes: [
+          { text: "y", hint: "/y/", combo: false },
+          { text: "e", hint: "短 e", combo: false },
+          { text: "ll", hint: "/l/", combo: false },
+          { text: "ow", hint: "/ō/", combo: true, friends: ["yellow", "follow", "window"] },
+        ] },
+      { key: "Pass", zh: "过去", ex: "Many days pass.", emoji: "⏳",
+        soundBoxes: [
+          { text: "p", hint: "/p/", combo: false },
+          { text: "a", hint: "短 a", combo: false },
+          { text: "ss", hint: "/s/", combo: false },
+        ] },
+      { key: "Turn brown", zh: "变成棕色", ex: "The egg turns brown.", emoji: "🟤",
+        soundBoxes: [
+          { text: "t", hint: "/t/", combo: false },
+          { text: "ur", hint: "/ər/", combo: true, friends: ["turn", "hurt", "burn", "nurse"] },
+          { text: "n", hint: "/n/", combo: false },
+          { text: " ", hint: "空格", combo: false },
+          { text: "b", hint: "/b/", combo: false },
+          { text: "r", hint: "/r/", combo: false },
+          { text: "ow", hint: "/ow/", combo: true, friends: ["brown", "now", "how", "cow"] },
+          { text: "n", hint: "/n/", combo: false },
+        ] },
+      { key: "Inside", zh: "在里面", ex: "A caterpillar grows inside the egg.", emoji: "📦",
+        soundBoxes: [
+          { text: "in", hint: "/ɪn/", combo: true, friends: ["inside", "into", "in"] },
+          { text: "s", hint: "/s/", combo: false },
+          { text: "i", hint: "长 /ī/", combo: false },
+          { text: "de", hint: "/d/", combo: true, friends: ["side", "ride", "hide"] },
+        ] },
+      { key: "Come out", zh: "出来", ex: "The caterpillar comes out.", emoji: "🚪",
+        soundBoxes: [
+          { text: "c", hint: "/k/", combo: false },
+          { text: "o", hint: "短 o 发 /ʌ/", combo: false },
+          { text: "m", hint: "/m/", combo: false },
+          { text: "e", hint: "silent e 不发音", combo: false },
+          { text: " ", hint: "空格", combo: false },
+          { text: "ou", hint: "/ow/", combo: true, friends: ["out", "shout", "cloud"] },
+          { text: "t", hint: "/t/", combo: false },
+        ] },
+      { key: "Young", zh: "幼小的", ex: "The young caterpillar is black.", emoji: "👶",
+        soundBoxes: [
+          { text: "y", hint: "/y/", combo: false },
+          { text: "ou", hint: "/ʌ/", combo: true, friends: ["young", "touch", "cousin"] },
+          { text: "ng", hint: "/ng/", combo: true, friends: ["young", "sing", "long", "king"] },
+        ] },
+      { key: "Look for", zh: "寻找", ex: "It looks for food.", emoji: "🔍",
+        soundBoxes: [
+          { text: "l", hint: "/l/", combo: false },
+          { text: "oo", hint: "短 /ʊ/", combo: true, friends: ["look", "book", "good", "cook"] },
+          { text: "k", hint: "/k/", combo: false },
+          { text: " ", hint: "空格", combo: false },
+          { text: "f", hint: "/f/", combo: false },
+          { text: "or", hint: "/or/", combo: true, friends: ["for", "or", "short"] },
+        ] },
+      { key: "Leave", zh: "叶子", ex: "It eats leaves.", emoji: "🍃",
+        soundBoxes: [
+          { text: "l", hint: "/l/", combo: false },
+          { text: "ea", hint: "发 /ē/", combo: true, friends: ["leave", "eat", "sea", "read"] },
+          { text: "ve", hint: "/v/", combo: false },
+        ] },
+      { key: "Bigger", zh: "更大", ex: "The caterpillar grows bigger.", emoji: "📏",
+        soundBoxes: [
+          { text: "b", hint: "/b/", combo: false },
+          { text: "i", hint: "短 i", combo: false },
+          { text: "gg", hint: "/g/", combo: false },
+          { text: "er", hint: "/ər/", combo: true, friends: ["bigger", "better", "water"] },
+        ] },
+      { key: "Green", zh: "绿色", ex: "It turns green.", emoji: "💚",
+        soundBoxes: [
+          { text: "g", hint: "/g/", combo: false },
+          { text: "r", hint: "/r/", combo: false },
+          { text: "ee", hint: "长 e", combo: true, friends: ["green", "see", "tree", "need"] },
+          { text: "n", hint: "/n/", combo: false },
+        ] },
+      { key: "Keep eating", zh: "继续吃", ex: "The caterpillar keeps eating.", emoji: "🍽️",
+        soundBoxes: [
+          { text: "k", hint: "/k/", combo: false },
+          { text: "ee", hint: "长 e", combo: true, friends: ["keep", "see", "tree", "need"] },
+          { text: "p", hint: "/p/", combo: false },
+          { text: " ", hint: "空格", combo: false },
+          { text: "ea", hint: "发 /ē/", combo: true, friends: ["eat", "sea", "read", "leaf"] },
+          { text: "t", hint: "/t/", combo: false },
+          { text: "ing", hint: "/ing/", combo: true, friends: ["eating", "sing", "jumping"] },
+        ] },
+      { key: "More", zh: "更多", ex: "It eats more leaves.", emoji: "➕",
+        soundBoxes: [
+          { text: "m", hint: "/m/", combo: false },
+          { text: "ore", hint: "/or/", combo: true, friends: ["more", "store", "shore", "core"] },
+        ] },
+      { key: "After", zh: "之后", ex: "After many weeks, the caterpillar changes.", emoji: "⏭️",
+        soundBoxes: [
+          { text: "a", hint: "短 a", combo: false },
+          { text: "f", hint: "/f/", combo: false },
+          { text: "t", hint: "/t/", combo: false },
+          { text: "er", hint: "/ər/", combo: true, friends: ["after", "water", "better"] },
+        ] },
+      { key: "Week", zh: "周", ex: "After many weeks, the caterpillar changes.", emoji: "📅",
+        soundBoxes: [
+          { text: "w", hint: "/w/", combo: false },
+          { text: "ee", hint: "长 e", combo: true, friends: ["week", "see", "tree", "need"] },
+          { text: "k", hint: "/k/", combo: false },
+        ] },
+      { key: "Hard", zh: "坚硬的", ex: "It's inside a hard covering.", emoji: "🪨",
+        soundBoxes: [
+          { text: "h", hint: "/h/", combo: false },
+          { text: "ar", hint: "/ar/", combo: true, friends: ["hard", "car", "park", "star"] },
+          { text: "d", hint: "/d/", combo: false },
+        ] },
+      { key: "Covering", zh: "外壳", ex: "It's inside a hard covering.", emoji: "🛡️",
+        soundBoxes: [
+          { text: "c", hint: "/k/", combo: false },
+          { text: "o", hint: "短 o 发 /ʌ/", combo: false },
+          { text: "v", hint: "/v/", combo: false },
+          { text: "er", hint: "/ər/", combo: true, friends: ["cover", "over", "river"] },
+          { text: "ing", hint: "/ing/", combo: true, friends: ["covering", "sing", "jumping"] },
+        ] },
+    ];
+
+            var STORY = [
+      { en: "Flutter, butterfly!", zh: "飞起来吧，蝴蝶！" },
+      { en: "A butterfly lands on a plant.", zh: "一只蝴蝶落在植物上。" },
+      { en: "It lays an egg.", zh: "它产下一颗卵。" },
+      { en: "The new egg is yellow.", zh: "新卵是黄色的。" },
+      { en: "Many days pass.", zh: "许多天过去了。" },
+      { en: "The egg turns brown.", zh: "卵变成棕色。" },
+      { en: "A caterpillar grows inside the egg.", zh: "毛毛虫在卵里生长。" },
+      { en: "Then the egg hatches!", zh: "然后卵孵化了！" },
+      { en: "The caterpillar comes out.", zh: "毛毛虫出来了。" },
+      { en: "The young caterpillar is black.", zh: "幼小的毛毛虫是黑色的。" },
+      { en: "The caterpillar crawls on plants.", zh: "毛毛虫在植物上爬行。" },
+      { en: "It looks for food.", zh: "它在找食物。" },
+      { en: "It eats leaves.", zh: "它吃叶子。" },
+      { en: "The caterpillar grows bigger.", zh: "毛毛虫长得更大了。" },
+      { en: "It turns green.", zh: "它变成绿色。" },
+      { en: "The caterpillar keeps eating.", zh: "毛毛虫继续吃。" },
+      { en: "It eats more leaves.", zh: "它吃更多叶子。" },
+      { en: "After many weeks, the caterpillar changes.", zh: "许多周以后，毛毛虫变化了。" },
+      { en: "Now it's a pupa.", zh: "现在它是蛹。" },
+      { en: "It's inside a hard covering.", zh: "它在坚硬的外壳里面。" },
+      { en: "Weeks pass.", zh: "几周过去了。" },
+      { en: "A butterfly comes out!", zh: "一只蝴蝶出来了！" },
+      { en: "Flutter, butterfly!", zh: "飞起来吧，蝴蝶！" },
+    ];
+
+    var SAY = (window.NG_WORD_SAY && window.NG_WORD_SAY["flutter-butterfly"]) || {};
+    if (window.NGWordExtras) {
+      NGWordExtras.sceneSrc = function (w) {
+        return MEDIA_COS + "images/words/" + String(w && w.key).toLowerCase().replace(/\s+/g, "-") + ".png";
+      };
+      NGWordExtras.sentenceSrc = function (w) {
+        return NGWordExtras.sceneSrc(w);
+      };
+    }
+    var Distract = "XYZQKVBFGHM".split("");
+
+    var __celebT = 0;
+    function showOkCelebrate() {
+      if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) { return; }
+      var el = document.getElementById("okCelebrate");
+      if (!el) return;
+      el.setAttribute("aria-hidden", "false");
+      el.classList.add("is-on");
+      if (__celebT) clearTimeout(__celebT);
+      __celebT = setTimeout(function () {
+        el.classList.remove("is-on");
+        el.setAttribute("aria-hidden", "true");
+        __celebT = 0;
+      }, 1750);
+    }
+
+    function wordImg(w) { return MEDIA_COS + "images/words/" + String(w.key).toLowerCase().replace(/ /g, "-") + ".png?v=sci1"; }
+    function wordMeaningImg(w) { return MEDIA_COS + "images/words-meaning/" + String(w.key).toLowerCase().replace(/ /g, "-") + ".png?v=orig1"; }
+
+    function artFromSrc(src, emoji, caption) {
+      var cap = caption
+        ? "<span class=\"art-cap\">" + caption + "</span>"
+        : "";
+      return (
+        "<div class=\"polaroid\" role=\"img\" aria-label=\"\" >" +
+        cap +
+        "  <img class=\"art-img\" src=\"" + src + "\" alt=\"\" " +
+        "  onerror=\"this.classList.add('is-hide');if(this.nextElementSibling)this.nextElementSibling.classList.add('on')\">" +
+        "  <span class=\"art-fb\" aria-hidden=\"true\">" + emoji + "</span>" +
+        "</div>"
+      );
+    }
+
+    function wordArtDual(w) {
+      return (
+        "<div class=\"word-art-duo\">" +
+        artFromSrc(wordImg(w), w.emoji, "单词图") +
+        artFromSrc(wordMeaningImg(w), w.emoji, "词义图") +
+        "</div>"
+      );
+    }
+
+    /* 发音：本地 MP3 → Azure en-GB-RyanNeural 英音男声 → 浏览器朗读 */
+    function speakText(text, options) {
+      stopStoryNarration();
+      options = options || {};
+      if (window.LocalAudio && LocalAudio.speak) return LocalAudio.speak(text, options);
+      if (window.NgAzureTTS && NgAzureTTS.speak) return NgAzureTTS.speak(text, options);
+      return Promise.resolve(false);
+    }
+
+    /** 课文真人 MP3 时间轴（与 STORY 一一对应）；无则 null */
+    var __storyNarr = null;
+    var __storyNarrP = null;
+    function loadStoryNarration(callback) {
+      if (window.NgAzureTTS && typeof NgAzureTTS.preload === "function") {
+        NgAzureTTS.preload().catch(function () {});
+      }
+      function done() {
+        if (callback) callback();
+      }
+      if (window.__STORY_TIMINGS && window.__STORY_TIMINGS.segments && window.__STORY_TIMINGS.segments.length === STORY.length) {
+        __storyNarr = window.__STORY_TIMINGS;
+        done();
+        return;
+      }
+      if (typeof fetch !== "function") {
+        __storyNarr = null;
+        done();
+        return;
+      }
+      if (!__storyNarrP) {
+        __storyNarrP = fetch(MEDIA_COS + "media/story-timings.json", { cache: "no-store" })
+          .then(function (r) { if (!r.ok) throw new Error("nojson"); return r.json(); })
+          .then(function (d) {
+            if (d && d.segments && d.segments.length === STORY.length) __storyNarr = d;
+            else __storyNarr = null;
+            return d;
+          })
+          .catch(function () { __storyNarr = null; return null; });
+      }
+      __storyNarrP.then(done);
+    }
+    function getStoryAudioEl() { return document.getElementById("storyNarration"); }
+    function stopStoryNarration() {
+      var a = getStoryAudioEl();
+      if (!a) return;
+      a.onended = null;
+      a.ontimeupdate = null;
+      a.onerror = null;
+      try { a.pause(); } catch (e) {}
+    }
+    function speakStoryLine(sentenceIndex, options) {
+      stopStoryNarration();
+      options = Object.assign({ azureOnly: true }, options || {});
+      var text = STORY[sentenceIndex].en;
+      if (window.NgAzureTTS && typeof NgAzureTTS.speakStory === "function") {
+        return NgAzureTTS.speakStory(text, options);
+      }
+      return speakText(text, options);
+    }
+
+    var currentWord = 0, subStep = 0;
+    var totalWordSteps = 5;
+    var wDisplay = document.getElementById("wDisplay");
+    var wEx = document.getElementById("wEx");
+    var wStepTitle = document.getElementById("wStepTitle");
+    var wStepTag = document.getElementById("wStepTag");
+    var wMeta = document.getElementById("wMeta");
+    var wArt = document.getElementById("wArt");
+    var wActions = document.getElementById("wActions");
+    var wWordSpell = document.getElementById("wWordSpell");
+    var wSoundMapHost = document.getElementById("wSoundMapHost");
+    var wSpellMsg = document.getElementById("wSpellMsg");
+    var wPrev = document.getElementById("wPrev");
+    var wNext = document.getElementById("wNext");
+    var wProg = document.getElementById("wProg");
+
+    function shuffled(a) { var x = a.slice(0), i, j, t; for (i = x.length - 1; i > 0; i--) { j = (Math.random() * (i + 1)) | 0; t = x[i]; x[i] = x[j]; x[j] = t; } return x; }
+
+    /** 上排待选字母 + 下排格子；用于大复习与学单词拼写步。 */
+    function mountLetterPoolSpelling(w, poolBoxHost, actionsHost, msgEl, hearLabel) {
+      var targetU2, nLen, ex, poolList, slotArr, pickIdx, poolRow, boxRow, renderSpellUi, ss, s2, i2, jj, tb, sb, ch0, f, bH, bR, bChk;
+      targetU2 = w.key.toUpperCase();
+      nLen = targetU2.length;
+      ex = (shuffled(Distract).filter(function (L) { return targetU2.indexOf(L) < 0; })).slice(0, 4);
+      poolList = shuffled(targetU2.split("").concat(ex));
+      slotArr = new Array(nLen);
+      for (ss = 0; ss < nLen; ss++) slotArr[ss] = null;
+      pickIdx = null;
+      poolBoxHost.innerHTML = "";
+      poolRow = document.createElement("div");
+      poolRow.className = "r-spell-row r-spell-pool";
+      boxRow = document.createElement("div");
+      boxRow.className = "r-spell-row r-spell-boxes";
+      renderSpellUi = function () {
+        poolRow.innerHTML = "";
+        boxRow.innerHTML = "";
+        for (i2 = 0; i2 < poolList.length; i2++) {
+          tb = document.createElement("button");
+          tb.type = "button";
+          tb.className = "r-spell-tile" + (pickIdx === i2 ? " is-pick" : "");
+          tb.setAttribute("aria-pressed", pickIdx === i2 ? "true" : "false");
+          tb.textContent = poolList[i2];
+          (function (ii) {
+            tb.addEventListener("click", function () { pickIdx = pickIdx === ii ? null : ii; renderSpellUi(); });
+          })(i2);
+          poolRow.appendChild(tb);
+        }
+        for (jj = 0; jj < nLen; jj++) {
+          sb = document.createElement("button");
+          sb.type = "button";
+          sb.className = "r-spell-slot" + (slotArr[jj] != null ? " is-filled" : "");
+          sb.textContent = slotArr[jj] != null ? slotArr[jj] : " ";
+          (function (jSlot) {
+            sb.addEventListener("click", function () {
+              if (slotArr[jSlot] != null) {
+                poolList.push(slotArr[jSlot]);
+                slotArr[jSlot] = null;
+              } else if (pickIdx !== null) {
+                ch0 = poolList[pickIdx];
+                poolList.splice(pickIdx, 1);
+                slotArr[jSlot] = ch0;
+              }
+              pickIdx = null;
+              if (msgEl) msgEl.innerHTML = "";
+              renderSpellUi();
+            });
+          })(jj);
+          boxRow.appendChild(sb);
+        }
+      };
+      poolBoxHost.appendChild(poolRow);
+      poolBoxHost.appendChild(boxRow);
+      actionsHost.innerHTML = "";
+      bH = document.createElement("button");
+      bH.type = "button";
+      bH.className = "btn";
+      bH.textContent = hearLabel != null && hearLabel !== "" ? hearLabel : "再听";
+      bR = document.createElement("button");
+      bR.type = "button";
+      bR.className = "btn";
+      bR.textContent = "退一格";
+      bChk = document.createElement("button");
+      bChk.className = "btn primary";
+      bChk.type = "button";
+      bChk.textContent = "检查";
+      actionsHost.appendChild(bH);
+      actionsHost.appendChild(bR);
+      actionsHost.appendChild(bChk);
+      bH.addEventListener("click", function () { speakText(w.key, { slow: true }); });
+      bR.addEventListener("click", function () {
+        for (s2 = nLen - 1; s2 >= 0; s2--) {
+          if (slotArr[s2] != null) {
+            poolList.push(slotArr[s2]);
+            slotArr[s2] = null;
+            break;
+          }
+        }
+        pickIdx = null;
+        if (msgEl) msgEl.innerHTML = "";
+        renderSpellUi();
+      });
+      bChk.addEventListener("click", function () {
+        for (ss = 0; ss < nLen; ss++) if (slotArr[ss] == null) { if (msgEl) msgEl.innerHTML = "<span class='bad'>格子还没满哦</span>"; return; }
+        f = "";
+        for (ss = 0; ss < nLen; ss++) f += slotArr[ss];
+        if (msgEl) {
+          if (f === targetU2) { msgEl.innerHTML = "<span class='ok'>对！</span>"; showOkCelebrate(); } else { msgEl.innerHTML = "<span class='bad'>再试</span>"; }
+        }
+      });
+      renderSpellUi();
+    }
+
+    function mountSoundMap(w, host) {
+      if (!host) return;
+      host.innerHTML = "";
+      host.style.display = "block";
+      host.removeAttribute("aria-hidden");
+      wDisplay.style.display = "none";
+
+      var boxes = [];
+      if (w.soundBoxes && w.soundBoxes.length) {
+        boxes = w.soundBoxes.map(function (b) {
+          return {
+            text: b.text,
+            hint: b.hint != null ? String(b.hint) : "",
+            combo: !!b.combo,
+            comboDisplay: b.comboDisplay != null ? String(b.comboDisplay) : null,
+            friends: Array.isArray(b.friends) ? b.friends.slice() : [],
+            speak: b.speak != null ? String(b.speak) : String(b.text)
+          };
+        });
+      } else if (w.soundMap && w.soundMap.length) {
+        boxes = w.soundMap.map(function (c) {
+          return {
+            text: c.g,
+            hint: c.snd != null ? String(c.snd) : "",
+            combo: false,
+            comboDisplay: null,
+            friends: [],
+            speak: c.speak != null ? String(c.speak) : String(c.g)
+          };
+        });
+      } else if (w.sounds && w.sounds.length) {
+        boxes = w.sounds.map(function (s) {
+          return { text: s.t, hint: "/" + String(s.t).toLowerCase() + "/", combo: false, comboDisplay: null, friends: [], speak: s.t };
+        });
+      } else {
+        boxes = w.key.split("").map(function (ch) {
+          return { text: ch, hint: "字母", combo: false, comboDisplay: null, friends: [], speak: ch };
+        });
+      }
+
+      var n = boxes.length;
+      var revealed = [];
+      for (var ri = 0; ri < n; ri++) revealed.push(0);
+
+      function canOpenIndex(i) {
+        var j;
+        for (j = 0; j < i; j++) if (revealed[j] < 1) return false;
+        return true;
+      }
+
+      function clearOtherComboRed(keep) {
+        var j;
+        for (j = 0; j < n; j++) {
+          if (j === keep) continue;
+          if (boxes[j].combo && revealed[j] === 2) revealed[j] = 1;
+        }
+      }
+
+      function filterFriends(list) {
+        var k0 = String(w.key).toLowerCase();
+        return list.filter(function (fw) {
+          return String(fw).toLowerCase() !== k0;
+        });
+      }
+
+      var wrap = document.createElement("div");
+      wrap.className = "w-sound-wrap";
+
+      var grid = document.createElement("div");
+      grid.className = "w-sb-grid";
+      var tagEls = [];
+      var boxEls = [];
+      var ii;
+      for (ii = 0; ii < n; ii++) {
+        (function (i) {
+          var col = document.createElement("div");
+          col.className = "w-sb-col";
+          var tag = document.createElement("span");
+          tag.className = "w-sb-combo-tag";
+          tag.setAttribute("aria-hidden", "true");
+          var btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "w-sb-box";
+          btn.textContent = "·";
+          var hu = document.createElement("div");
+          hu.className = "w-sb-hint-under";
+          hu.textContent = (window.NgWordIpa && NgWordIpa.hint)
+            ? NgWordIpa.hint(boxes[i].hint, boxes[i].text, w.key)
+            : (boxes[i].hint || "");
+          col.appendChild(tag);
+          col.appendChild(btn);
+          col.appendChild(hu);
+          grid.appendChild(col);
+          tagEls.push(tag);
+          boxEls.push(btn);
+        })(ii);
+      }
+      wrap.appendChild(grid);
+
+      var caption = document.createElement("p");
+      caption.className = "w-sb-caption";
+      caption.textContent = "从左到右点格，拼成单词";
+      wrap.appendChild(caption);
+
+      var btnWrap = document.createElement("div");
+      btnWrap.className = "w-sb-friend-btn-wrap";
+      var friendBtn = document.createElement("button");
+      friendBtn.type = "button";
+      friendBtn.className = "btn primary";
+      friendBtn.style.display = "none";
+      btnWrap.appendChild(friendBtn);
+      wrap.appendChild(btnWrap);
+
+      var panel = document.createElement("div");
+      panel.className = "w-sb-friend-panel";
+      panel.setAttribute("aria-hidden", "true");
+      var panelSub = document.createElement("p");
+      panelSub.className = "sub";
+      panelSub.style.margin = "0 0 0.2rem";
+      panelSub.textContent = "点例词旁的 🔊 跟读练拼读。";
+      var row = document.createElement("div");
+      row.className = "w-sb-friend-row";
+      panel.appendChild(panelSub);
+      panel.appendChild(row);
+      wrap.appendChild(panel);
+      host.appendChild(wrap);
+
+      var activeComboIdx = null;
+      var panelOpen = false;
+
+      function comboLabelText(i) {
+        var disp = boxes[i].comboDisplay || boxes[i].text;
+        return "字母组合：" + disp;
+      }
+
+      function rebuildFriendRow(flist) {
+        row.innerHTML = "";
+        flist.forEach(function (fw) {
+          var chip = document.createElement("span");
+          chip.className = "w-sb-friend-chip";
+          var lb = document.createElement("span");
+          lb.textContent = fw;
+          var bf = document.createElement("button");
+          bf.type = "button";
+          bf.className = "btn";
+          bf.textContent = "🔊";
+          bf.title = "听 " + fw;
+          (function (wrd) {
+            bf.addEventListener("click", function () {
+              speakText(wrd, { slow: true });
+            });
+          })(fw);
+          chip.appendChild(lb);
+          chip.appendChild(bf);
+          row.appendChild(chip);
+        });
+      }
+
+      function paint() {
+        var i2;
+        var allShown = true;
+        for (i2 = 0; i2 < n; i2++) {
+          if (revealed[i2] < 1) allShown = false;
+          var b = boxEls[i2];
+          var tg = tagEls[i2];
+          b.classList.remove("w-sb-box--shown", "w-sb-box--combo-red");
+          if (revealed[i2] >= 1) {
+            b.textContent = boxes[i2].text;
+            b.classList.add("w-sb-box--shown");
+          } else {
+            b.textContent = "·";
+          }
+          if (revealed[i2] === 2 && boxes[i2].combo) {
+            b.classList.add("w-sb-box--combo-red");
+          }
+          var locked = revealed[i2] < 1 && !canOpenIndex(i2);
+          b.disabled = locked;
+          b.setAttribute("aria-label", boxes[i2].combo ? "字母组合格" : "拼读格");
+          if (boxes[i2].combo && revealed[i2] === 2) {
+            tg.textContent = comboLabelText(i2);
+            tg.classList.add("is-on");
+            tg.removeAttribute("aria-hidden");
+          } else {
+            tg.textContent = "";
+            tg.classList.remove("is-on");
+            tg.setAttribute("aria-hidden", "true");
+          }
+        }
+        caption.textContent = allShown ? w.key : "从左到右点格，拼成单词";
+
+        var showBtn = false;
+        var btnLabel = "";
+        var fi;
+        for (fi = 0; fi < n; fi++) {
+          if (boxes[fi].combo && revealed[fi] === 2 && filterFriends(boxes[fi].friends).length) {
+            showBtn = true;
+            var d = boxes[fi].comboDisplay || boxes[fi].text;
+            btnLabel = "显示含「" + d + "」的其他单词";
+            break;
+          }
+        }
+        if (showBtn) {
+          friendBtn.style.display = "inline-block";
+          friendBtn.textContent = btnLabel;
+        } else {
+          friendBtn.style.display = "none";
+          panel.classList.remove("is-open");
+          panel.setAttribute("aria-hidden", "true");
+          panelOpen = false;
+        }
+
+        if (activeComboIdx != null && revealed[activeComboIdx] !== 2) {
+          activeComboIdx = null;
+          panel.classList.remove("is-open");
+          panel.setAttribute("aria-hidden", "true");
+          panelOpen = false;
+        }
+      }
+
+      friendBtn.addEventListener("click", function () {
+        var i3;
+        for (i3 = 0; i3 < n; i3++) {
+          if (boxes[i3].combo && revealed[i3] === 2 && filterFriends(boxes[i3].friends).length) {
+            activeComboIdx = i3;
+            rebuildFriendRow(filterFriends(boxes[i3].friends));
+            panelOpen = !panelOpen;
+            if (panelOpen) {
+              panel.classList.add("is-open");
+              panel.removeAttribute("aria-hidden");
+            } else {
+              panel.classList.remove("is-open");
+              panel.setAttribute("aria-hidden", "true");
+            }
+            return;
+          }
+        }
+      });
+
+      for (ii = 0; ii < n; ii++) {
+        (function (i) {
+          boxEls[i].addEventListener("click", function () {
+            if (revealed[i] < 1) {
+              if (!canOpenIndex(i)) return;
+              revealed[i] = 1;
+              paint();
+              return;
+            }
+            if (boxes[i].combo) {
+              if (revealed[i] === 1) {
+                var all1 = true;
+                var q;
+                for (q = 0; q < n; q++) if (revealed[q] < 1) all1 = false;
+                if (!all1) return;
+                clearOtherComboRed(i);
+                revealed[i] = 2;
+                activeComboIdx = i;
+                panelOpen = false;
+                panel.classList.remove("is-open");
+                panel.setAttribute("aria-hidden", "true");
+                paint();
+                return;
+              }
+              if (revealed[i] === 2) return;
+            }
+          });
+        })(ii);
+      }
+
+      paint();
+    }
+
+    function clearWDisplayInteractivity() {
+      wDisplay.className = "word-big w-display-line";
+      wDisplay.style.display = "";
+      wDisplay.removeAttribute("role");
+      wDisplay.removeAttribute("tabindex");
+      wDisplay.removeAttribute("title");
+      wDisplay.removeAttribute("aria-label");
+      wDisplay.onclick = null;
+      wDisplay.onkeydown = null;
+      if (wSoundMapHost) {
+        wSoundMapHost.innerHTML = "";
+        wSoundMapHost.style.display = "none";
+        wSoundMapHost.setAttribute("aria-hidden", "true");
+      }
+    }
+    function renderWordStep() {
+      wArt.classList.remove("wiggle");
+      var w = WORDS[currentWord];
+      wMeta.textContent = subStep === 0
+        ? ("第 " + (currentWord + 1) + " / " + WORDS.length + " 词  ·  " + w.zh)
+        : ("第 " + (currentWord + 1) + " / " + WORDS.length + " 词  ·  " + w.key + " / " + w.zh);
+      wProg.style.width = (currentWord * totalWordSteps + subStep) / (WORDS.length * totalWordSteps) * 100 + "%";
+      wDisplay.textContent = "";
+      clearWDisplayInteractivity();
+      wEx.textContent = "";
+      wActions.innerHTML = "";
+      if (wWordSpell) {
+        wWordSpell.style.display = "none";
+        wWordSpell.setAttribute("aria-hidden", "true");
+        wWordSpell.innerHTML = "";
+      }
+      if (wSpellMsg) wSpellMsg.innerHTML = "";
+      wStepTag.textContent = (subStep + 1) + " / " + totalWordSteps;
+      if (subStep === 0) {
+        wStepTitle.textContent = "Sound mapping（音形对应）";
+        wArt.innerHTML = wordArtDual(w);
+        wActions.innerHTML = "<button type='button' class='btn primary' id='act1'>再听一遍单词</button>";
+        document.getElementById("act1").onclick = function () {
+          speakText(w.key, { slow: true });
+        };
+        wEx.textContent = "";
+        mountSoundMap(w, wSoundMapHost);
+        speakText(w.key, { slow: true });
+      } else if (subStep === 1) {
+        wStepTitle.textContent = "例句跟读";
+        var ex = NGWordExtras.exOf(w, SAY);
+        wArt.classList.add("wiggle");
+        wArt.innerHTML = artFromSrc(NGWordExtras.sceneSrc(w, "ex"), w.emoji);
+        wDisplay.style.display = "";
+        wDisplay.textContent = ex.en;
+        wEx.textContent = (ex.zh || w.zh) + " · 先听示范，再看着句子大声跟读；可多次点「再听例句」。";
+        wActions.innerHTML = "<button type='button' class='btn' id='vSlow'>例句(慢)</button> <button type='button' class='btn primary' id='v1'>再听例句</button>";
+        document.getElementById("v1").onclick = function () { speakText(ex.en, { slow: false }); };
+        document.getElementById("vSlow").onclick = function () { speakText(ex.en, { slow: true }); };
+        speakText(ex.en, { slow: true });
+      } else if (subStep === 2) {
+        wStepTitle.textContent = "拼写";
+        wArt.innerHTML = wordArtDual(w);
+        wDisplay.className = "word-big w-display-line w-display-skip";
+        wDisplay.textContent = " ";
+        wEx.textContent = "不显示整词。先点上面待选字母，再点下面空格；点格内字母可收回。可点「再听本词」。";
+        if (wWordSpell) {
+          wWordSpell.style.display = "block";
+          wWordSpell.setAttribute("aria-hidden", "false");
+          mountLetterPoolSpelling(w, wWordSpell, wActions, wSpellMsg, "再听本词");
+        }
+
+        speakText(w.key, { slow: true });
+      } else if (subStep === 3) {
+        wStepTitle.textContent = "听音排序";
+        wArt.innerHTML = artFromSrc(NGWordExtras.sceneSrc(w, "sort"), w.emoji);
+        wDisplay.style.display = "";
+        wDisplay.className = "word-big w-display-line w-display-skip";
+        wDisplay.textContent = " ";
+        wEx.textContent = "先听句子，再把词语排成正确顺序。这句可以和课文主题不一样。";
+        if (wWordSpell) {
+          NGWordExtras.mountSort(wWordSpell, wActions, wSpellMsg, w, NGWordExtras.sortOf(w, SAY), {
+            speak: speakText,
+            celebrate: showOkCelebrate,
+            autoPlay: true
+          });
+        }
+      } else if (subStep === 4) {
+        wStepTitle.textContent = "看图造句";
+        wArt.innerHTML = artFromSrc(NGWordExtras.sentenceSrc(w, MEDIA_COS), w.emoji);
+        wDisplay.style.display = "";
+        wDisplay.textContent = w.key;
+        wEx.textContent = "看图，用上单词 " + w.key + " 写一句英文。";
+        if (wWordSpell) {
+          NGWordExtras.mountSay(wWordSpell, wActions, wSpellMsg, w, NGWordExtras.sayOf(w, SAY), {
+            speak: speakText,
+            celebrate: showOkCelebrate
+          });
+        }
+      }
+      if (window.NGWordExtras) {
+        NGWordExtras.renderJumpList(document.getElementById("wJump"), WORDS, currentWord, function (i) {
+          currentWord = i;
+          subStep = 0;
+          renderWordStep();
+        });
+      }
+      wPrev.disabled = currentWord === 0 && subStep === 0;
+    }
+    wNext.onclick = function () { if (subStep < totalWordSteps - 1) subStep++; else { subStep = 0; currentWord = Math.min(WORDS.length - 1, currentWord + 1); } renderWordStep(); };
+    wPrev.onclick = function () { if (subStep > 0) subStep--; else if (currentWord > 0) { currentWord--; subStep = totalWordSteps - 1; } renderWordStep(); };
+
+    var reviewModes = ["pickImg3", "zhPick3", "jumbleHear"];
+    var rWordOrder = null, rPos = 0, rMode = 0;
+    function initReviewOrder() {
+      rWordOrder = shuffled(WORDS.map(function (_a, i) { return i; }));
+      rPos = 0;
+      rMode = 0;
+    }
+    function currentReviewW() { return WORDS[rWordOrder[rPos]]; }
+    function allReviewSteps() { return WORDS.length * reviewModes.length; }
+    function renderReview() {
+      if (!rWordOrder || rWordOrder.length !== WORDS.length) initReviewOrder();
+      var w = currentReviewW();
+      var stepIndex = rPos * reviewModes.length + rMode;
+      var mode = reviewModes[rMode];
+      var body, q, row, cands, p, d, ptext, toks, sh, c, s, line, chosen, out, t2, art, pickImg, b, zhWrong, i2, block, zbox, jbox;
+      document.getElementById("rMeta").textContent = " 进度 " + (stepIndex + 1) + " / " + allReviewSteps() + "（本关单词随机顺序）";
+      body = document.getElementById("rBody");
+      q = document.getElementById("rQ");
+      document.getElementById("rMsg").innerHTML = "";
+      body.innerHTML = "";
+      document.getElementById("rPrev").disabled = rPos === 0 && rMode === 0;
+      if (mode === "pickImg3") {
+        q.textContent = "看英文单词，在下面三幅图里选出正确的一项。";
+        cands = shuffled([w].concat(
+          shuffled(WORDS.filter(function (o) { return o.key !== w.key; })).slice(0, 2)
+        ));
+        pickImg = null;
+        row = document.createElement("div");
+        row.className = "pool review-pool-3";
+        cands.forEach(function (oo) {
+          d = document.createElement("button");
+          d.type = "button";
+          d.className = "opt-img";
+          (function (oo2, btn) {
+            var i2a = new Image();
+            i2a.className = "opt-thumb";
+            i2a.alt = oo2.key;
+            i2a.src = wordImg(oo2);
+            i2a.onerror = function () { i2a.remove(); var sp = document.createElement("span"); sp.className = "opt-emoji"; sp.textContent = oo2.emoji; btn.appendChild(sp); };
+            btn.appendChild(i2a);
+            btn._key = oo2.key;
+            btn.addEventListener("click", function () {
+              pickImg = btn._key;
+              row.querySelectorAll(".opt-img").forEach(function (x) { x.classList.remove("on"); });
+              btn.classList.add("on");
+            });
+          })(oo, d);
+          row.appendChild(d);
+        });
+        s = document.createElement("p");
+        s.className = "review-word-bling";
+        s.textContent = w.key;
+        p = document.createElement("div");
+        p.className = "btns";
+        p.innerHTML = "<button type='button' class='btn' id='rHear1'>再听单词</button> <button type='button' class='btn primary' id='rOk1'>我选好了</button>";
+        block = document.createElement("div");
+        block.className = "review-center-block review-block--pick3";
+        block.appendChild(s);
+        block.appendChild(row);
+        block.appendChild(p);
+        body.appendChild(block);
+        document.getElementById("rHear1").onclick = function () { speakText(w.key, { slow: true }); };
+        document.getElementById("rOk1").onclick = function () {
+          var rEl = document.getElementById("rMsg");
+          if (pickImg === w.key) { rEl.innerHTML = "<span class='ok'>对！</span>"; showOkCelebrate(); } else { rEl.innerHTML = "<span class='bad'>再选选</span>"; }
+        };
+        speakText(w.key, { slow: true });
+      } else if (mode === "zhPick3") {
+        q.textContent = "「" + w.key + "」的中文应该是哪一个？三选一。";
+        zhWrong = [];
+        cands = shuffled(WORDS.filter(function (o) { return o.key !== w.key; }));
+        for (i2 = 0; i2 < cands.length; i2++) {
+          if (cands[i2].zh === w.zh) continue;
+          if (zhWrong.indexOf(cands[i2].zh) < 0) zhWrong.push(cands[i2].zh);
+          if (zhWrong.length >= 2) break;
+        }
+        while (zhWrong.length < 2) zhWrong.push("其他词义 " + (zhWrong.length + 1));
+        cands = shuffled([w.zh].concat(zhWrong.slice(0, 2)));
+        p = document.createElement("div");
+        p.className = "r-zh-opts";
+        cands.forEach(function (zz) {
+          b = document.createElement("button");
+          b.type = "button";
+          b.className = "btn";
+          b.textContent = zz;
+          b.addEventListener("click", function () {
+            var re = document.getElementById("rMsg");
+            if (zz === w.zh) { re.innerHTML = "<span class='ok'>对！</span>"; showOkCelebrate(); } else { re.innerHTML = "<span class='bad'>再想想</span>"; }
+          });
+          p.appendChild(b);
+        });
+        zbox = document.createElement("div");
+        zbox.className = "review-center-block";
+        zbox.appendChild(p);
+        zbox.appendChild((function () { var p2 = document.createElement("div"); p2.className = "btns"; p2.innerHTML = "<button type='button' class='btn' id='rHearW'>再听单词</button>"; return p2; })());
+        body.appendChild(zbox);
+        document.getElementById("rHearW").onclick = function () { speakText(w.key, { slow: true }); };
+        speakText(w.key, { slow: true });
+      } else {
+        ptext = w.ex;
+        toks = ptext.split(/\s+/).filter(function (x) { return x; });
+        sh = shuffled(toks.map(function (x) { return { x: x }; }));
+        out = document.createElement("div");
+        out.className = "jumble";
+        out.style.minHeight = "1.2rem";
+        out.style.margin = "0.2rem 0 0.15rem";
+        line = document.createElement("div");
+        line.className = "jumble";
+        chosen = [];
+        sh.forEach(function (oo) {
+          c = document.createElement("span");
+          c.className = "chip";
+          c.textContent = oo.x;
+          c.addEventListener("click", function (ev) {
+            chosen.push(oo);
+            (ev.currentTarget).style.visibility = "hidden";
+            out.textContent = chosen.map(function (x) { return x.x; }).join(" ");
+          });
+          line.appendChild(c);
+        });
+        art = document.createElement("div");
+        art.className = "hero-art";
+        art.style.minHeight = "0";
+        art.style.margin = "0.1rem 0 0.25rem";
+        art.innerHTML = artFromSrc(wordImg(w), w.emoji);
+        q.textContent = "先听例句，再把下面打乱的词点回正确顺序；可多次点「再听例句」。";
+        t2 = document.createElement("div");
+        t2.className = "btns";
+        t2.style.margin = "0.1rem 0 0.35rem";
+        t2.innerHTML = "<button type='button' class='btn primary' id='rHearJ'>再听例句</button> " +
+          "<button type='button' class='btn' id='rResetJ'>重排</button> " +
+          "<button type='button' class='btn' id='rChkJ'>检查</button>";
+        jbox = document.createElement("div");
+        jbox.className = "review-center-block jumble-hold";
+        jbox.appendChild(t2);
+        jbox.appendChild(art);
+        jbox.appendChild(line);
+        jbox.appendChild(out);
+        body.appendChild(jbox);
+        document.getElementById("rHearJ").onclick = function () { speakText(w.ex, { slow: true }); };
+        document.getElementById("rChkJ").onclick = function () {
+          var a = chosen.map(function (c) { return c.x; }).join(" ").replace(/\s+/g, " ").trim();
+          var b2 = ptext.replace(/\s+/g, " ").trim();
+          var rj = document.getElementById("rMsg");
+          if (a === b2) { rj.innerHTML = "<span class='ok'>对！</span>"; showOkCelebrate(); } else { rj.innerHTML = "<span class='bad'>再试试</span>"; }
+        };
+        document.getElementById("rResetJ").onclick = function () {
+          chosen = [];
+          line.querySelectorAll(".chip").forEach(function (c2) { c2.style.visibility = "visible"; });
+          out.textContent = "";
+        };
+        speakText(w.ex, { slow: true });
+      }
+    }
+    document.getElementById("rNext").onclick = function () {
+      if (rMode < reviewModes.length - 1) { rMode++; } else { rMode = 0; if (rPos < WORDS.length - 1) rPos++; else initReviewOrder(); }
+      renderReview();
+    };
+    document.getElementById("rPrev").onclick = function () {
+      if (rMode > 0) { rMode--; } else { if (rPos > 0) { rPos--; rMode = reviewModes.length - 1; } }
+      renderReview();
+    };
+
+    var storyIndex = 0, storyLoop = false, loopToken = 0, pyramidPlayToken = 0;
+    window.__storySlow = true;
+    window.__storyPyramidOn = false;
+    function stopStoryLoop() { storyLoop = false; loopToken++; document.getElementById("sLoopState").textContent = "已停"; stopStoryNarration(); }
+    function stopPyramidPlay() { pyramidPlayToken++; }
+    function storySpeakOpts() {
+      if (window.NgAzureTTS && typeof NgAzureTTS.storyOpts === "function") {
+        return NgAzureTTS.storyOpts(window.__storySlow);
+      }
+      return { rate: window.__storySlow ? 0.5 : 1, slow: !!window.__storySlow, azureOnly: true };
+    }
+    function escapeStoryHtml(s) {
+      return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+    /** 每行多一个单词：A → A butterfly → … → 完整英文句 */
+    function storyPyramidLayers(sentence) {
+      var raw = String(sentence || "").trim();
+      var endPunct = "";
+      var m = raw.match(/([.!?]+)$/);
+      if (m) {
+        endPunct = m[1];
+        raw = raw.slice(0, -endPunct.length).trim();
+      }
+      var words = raw.split(/\s+/).filter(Boolean);
+      return words.map(function (w, i) {
+        var text = words.slice(0, i + 1).join(" ");
+        if (i === words.length - 1) text += endPunct;
+        return {
+          text: text,
+          newWord: String(w).replace(/[.,;:!?]+$/g, ""),
+          index: i,
+          total: words.length
+        };
+      });
+    }
+    function pyramidLayerInner(ly) {
+      var text = String(ly.text || "");
+      var punct = "";
+      var m = text.match(/([.,!?]+)$/);
+      if (m) {
+        punct = m[1];
+        text = text.slice(0, -punct.length);
+      }
+      var parts = text.split(/\s+/).filter(Boolean);
+      var last = parts.pop() || "";
+      var old = parts.join(" ");
+      return (old ? '<span class="py-old">' + escapeStoryHtml(old) + " </span>" : "") +
+        '<span class="py-new">' + escapeStoryHtml(last) + "</span>" +
+        (punct ? '<span class="py-old">' + escapeStoryHtml(punct) + "</span>" : "");
+    }
+    function storyPyramidHtml(sentence) {
+      var list = storyPyramidLayers(sentence);
+      var n = Math.max(list.length, 1);
+      var rows = list.map(function (ly, i) {
+        var pct = list.length === 1 ? 58 : 34 + Math.round((i / (n - 1)) * 66);
+        return (
+          '<button type="button" class="story-pyramid-layer" data-layer="' + i +
+          '" style="--py-w:' + pct + '%" aria-label="第' + (i + 1) + "层：" +
+          escapeStoryHtml(ly.text) + '，点击朗读">' +
+          '<span class="py-idx">' + (i + 1) + "</span>" +
+          '<span class="py-text">' + pyramidLayerInner(ly) + "</span>" +
+          '<span class="py-hear" aria-hidden="true">▶</span></button>'
+        );
+      }).join("");
+      return '<div class="story-pyramid" role="list">' + rows + "</div>";
+    }
+    function highlightPyramidLayer(root, i) {
+      if (!root) return;
+      root.querySelectorAll(".story-pyramid-layer").forEach(function (el) {
+        var on = el.getAttribute("data-layer") === String(i);
+        el.classList.toggle("is-on", on);
+        if (on && typeof el.scrollIntoView === "function") {
+          try { el.scrollIntoView({ block: "nearest", inline: "nearest" }); } catch (e1) {}
+        }
+      });
+    }
+    function speakPyramidLayer(text) {
+      stopStoryLoop();
+      if (window.NgAzureTTS && typeof NgAzureTTS.speakStory === "function") {
+        return NgAzureTTS.speakStory(text, storySpeakOpts());
+      }
+      return speakText(text, storySpeakOpts());
+    }
+    function bindStoryPyramid(root, sentence) {
+      var list = storyPyramidLayers(sentence);
+      root.querySelectorAll(".story-pyramid-layer").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var i = parseInt(btn.getAttribute("data-layer"), 10);
+          if (isNaN(i) || !list[i]) return;
+          stopPyramidPlay();
+          highlightPyramidLayer(root, i);
+          speakPyramidLayer(list[i].text);
+        });
+      });
+    }
+    function playStoryPyramid() {
+      var row = STORY[storyIndex];
+      if (!row) return;
+      if (!window.__storyPyramidOn) {
+        window.__storyPyramidOn = true;
+        renderStorySlide();
+      }
+      stopStoryLoop();
+      var list = storyPyramidLayers(row.en);
+      var my = ++pyramidPlayToken;
+      var root = document.getElementById("storySlide");
+      var playBtn = document.getElementById("sPyramidPlay");
+      if (playBtn) playBtn.textContent = "逐层朗读中…";
+      var i = 0;
+      function step() {
+        if (my !== pyramidPlayToken) return Promise.resolve();
+        if (i >= list.length) {
+          if (playBtn) playBtn.textContent = "▶ 逐层朗读";
+          return Promise.resolve();
+        }
+        highlightPyramidLayer(root, i);
+        var text = list[i].text;
+        i += 1;
+        return speakPyramidLayer(text).then(function () {
+          if (my !== pyramidPlayToken) return;
+          return new Promise(function (res) { setTimeout(res, 280); }).then(step);
+        });
+      }
+      return step().then(function () {
+        if (my === pyramidPlayToken && playBtn) playBtn.textContent = "▶ 逐层朗读";
+      });
+    }
+    function syncPyramidToggleUi() {
+      var sp = document.getElementById("sPyramid");
+      var pp = document.getElementById("sPyramidPlay");
+      var on = !!window.__storyPyramidOn;
+      if (sp) {
+        sp.className = on ? "btn primary" : "btn";
+        sp.setAttribute("aria-pressed", on ? "true" : "false");
+      }
+      if (pp) {
+        pp.hidden = !on;
+        if (on) pp.textContent = "▶ 逐层朗读";
+      }
+    }
+    function renderStorySlide() {
+      var c = document.getElementById("storySlide");
+      var pr = document.getElementById("storyProgress");
+      if (!c || !STORY.length) return;
+      var row = STORY[storyIndex];
+      /* 第 n 句用 images/story/ 编号 0n，与 STORY 顺序一一对应 */
+      var n = storyIndex + 1;
+      if (n > STORY.length) n = STORY.length;
+      var z = n < 10 ? "0" : "";
+      var imgSrc = MEDIA_COS + "images/story/" + z + n + ".png?v=sci1";
+      var pyramidOn = !!window.__storyPyramidOn;
+      var layers = pyramidOn ? storyPyramidLayers(row.en) : [];
+      if (pr) {
+        pr.textContent = "第 " + (storyIndex + 1) + " / " + STORY.length + " 句" +
+          (pyramidOn ? " · 金字塔朗读" : "");
+      }
+      var textInner = pyramidOn
+        ? "<div class=\"story-pyramid-caption\">点每一层朗读 · 每层多一个单词" +
+          (layers.length > 7 ? " · 可滑动看全部" : "") +
+          "</div>" +
+          storyPyramidHtml(row.en)
+        : "<p><span style='color:#7a5a2a'>#" + (storyIndex + 1) + "</span> " + escapeStoryHtml(row.en) + "</p>";
+      c.innerHTML =
+        "<div class=\"story-sentence story-sentence--xl story-sentence-row" +
+        (pyramidOn ? " story-sentence--pyramid" : "") + "\">" +
+        "<div class=\"story-col story-col--art\">" +
+        "<div class=\"hero-art\">" + artFromSrc(imgSrc, "🦋") + "</div></div>" +
+        "<div class=\"story-col story-col--text\">" +
+        textInner +
+        "<button type=\"button\" class=\"story-zh-hold\" aria-expanded=\"false\" title=\"点按显示或隐藏中文\" aria-label=\"点按显示或隐藏中文\">" +
+        "<span class=\"story-zh-ghost\">点按显示中文</span>" +
+        "<span class=\"story-zh\" aria-hidden=\"true\">" + escapeStoryHtml(row.zh) + "</span>" +
+        "</button></div></div>";
+      (function () {
+        var hb = c.querySelector(".story-zh-hold");
+        var ch = c.querySelector(".story-zh");
+        if (!hb || !ch) return;
+        function syncA11y() {
+          var on = hb.classList.contains("is-on");
+          hb.setAttribute("aria-expanded", on ? "true" : "false");
+          ch.setAttribute("aria-hidden", on ? "false" : "true");
+        }
+        hb.onclick = function () { hb.classList.toggle("is-on"); syncA11y(); };
+        syncA11y();
+      })();
+      if (pyramidOn) bindStoryPyramid(c, row.en);
+      document.getElementById("sPrev").disabled = storyIndex === 0;
+      document.getElementById("sNext").disabled = storyIndex === STORY.length - 1;
+      syncLoopToggleUi();
+      syncPyramidToggleUi();
+    }
+    function syncLoopToggleUi() {
+      var sl = document.getElementById("sSlow");
+      var sn = document.getElementById("sNormal");
+      if (window.__storySlow) { sl.className = "btn primary"; sn.className = "btn"; } else { sl.className = "btn"; sn.className = "btn primary"; }
+    }
+    document.getElementById("sSlow").onclick = function () {
+      window.__storySlow = true;
+      syncLoopToggleUi();
+      stopPyramidPlay();
+      stopStoryLoop();
+      speakStoryLine(storyIndex, storySpeakOpts());
+    };
+    document.getElementById("sNormal").onclick = function () {
+      window.__storySlow = false;
+      syncLoopToggleUi();
+      stopPyramidPlay();
+      stopStoryLoop();
+      speakStoryLine(storyIndex, storySpeakOpts());
+    };
+    document.getElementById("sPrev").onclick = function () {
+      if (storyIndex <= 0) return;
+      stopPyramidPlay();
+      stopStoryLoop();
+      stopStoryNarration();
+      storyIndex--;
+      renderStorySlide();
+    };
+    document.getElementById("sNext").onclick = function () {
+      if (storyIndex >= STORY.length - 1) return;
+      stopPyramidPlay();
+      stopStoryLoop();
+      stopStoryNarration();
+      storyIndex++;
+      renderStorySlide();
+    };
+    document.getElementById("sHearLine").onclick = function () {
+      stopPyramidPlay();
+      stopStoryLoop();
+      speakStoryLine(storyIndex, storySpeakOpts());
+    };
+    document.getElementById("sPyramid").onclick = function () {
+      stopPyramidPlay();
+      stopStoryLoop();
+      window.__storyPyramidOn = !window.__storyPyramidOn;
+      renderStorySlide();
+    };
+    document.getElementById("sPyramidPlay").onclick = function () {
+      playStoryPyramid();
+    };
+    renderStorySlide();
+    document.getElementById("sLoop").onclick = function () {
+      if (storyLoop) { stopStoryLoop(); return; }
+      stopPyramidPlay();
+      storyLoop = true;
+      var myL = ++loopToken;
+      document.getElementById("sLoopState").textContent = "循环中，再点停";
+      (function L2() {
+        if (!storyLoop) return;
+        if (myL !== loopToken) return;
+        speakStoryLine(storyIndex, storySpeakOpts()).then(function () { if (storyLoop && myL === loopToken) setTimeout(L2, 500); });
+      })();
+    };
+    function updateTopNavActive(name) {
+      var nav = document.getElementById("topNav");
+      if (!nav) return;
+      var t = (name === "words" || name === "review" || name === "story" || name === "games") ? name : "words";
+      nav.querySelectorAll("[data-goto]").forEach(function (btn) {
+        var g = btn.getAttribute("data-goto");
+        if (g === t) { btn.className = "btn primary"; } else { btn.className = "btn"; }
+      });
+    }
+    function showView(name) {
+      var el, n;
+      n = (name === "words" || name === "review" || name === "story" || name === "games") ? name : "words";
+      if (n !== "story") { stopPyramidPlay(); stopStoryNarration(); }
+      document.querySelectorAll(".view").forEach(function (v) { v.classList.remove("on"); });
+      el = document.getElementById("view-" + n);
+      if (el) el.classList.add("on");
+      updateTopNavActive(n);
+      if (n === "words") renderWordStep();
+      if (n === "review") { initReviewOrder(); renderReview(); }
+      if (n === "story") { loadStoryNarration(function () { renderStorySlide(); }); }
+      if (n === "games" && window.FlutterLifeCycleGames) FlutterLifeCycleGames.mount();
+    }
+    document.querySelectorAll("[data-goto]").forEach(function (b2) { b2.addEventListener("click", function () { showView(b2.getAttribute("data-goto") || "words"); }); });
+    updateTopNavActive("words");
+    loadStoryNarration();
+    renderWordStep();
+  })();
+  </script>
+  <script src="lifecycle-games.js"></script>
+  <script src="../../assets/primary-responsive.js?v=2" defer></script>
+</body>
+</html>
