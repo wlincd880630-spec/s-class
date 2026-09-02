@@ -13,6 +13,54 @@
     d.innerHTML = html || "";
     return d.textContent || d.innerText || "";
   }
+  function padNum(n) {
+    n = String(n);
+    return n.length < 2 ? "0" + n : n;
+  }
+  function splitEnglishSentences(text) {
+    var t = String(text == null ? "" : text).replace(/\s+/g, " ").trim();
+    if (!t) return [];
+    var ABBR = /(?:\b(?:U\.S|U\.K|Mr|Mrs|Ms|Dr|Jr|Sr|Prof|Inc|Ltd|Co|vs|etc|Fig|No|St|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)|e\.g|i\.e)\.$/i;
+    var out = [];
+    var buf = "";
+    var i;
+    for (i = 0; i < t.length; i++) {
+      var ch = t[i];
+      buf += ch;
+      var end = ch === "." || ch === "!" || ch === "?";
+      if (!end) continue;
+      if (ch === "." && t[i + 1] === ".") continue;
+      if (ch === "." && /\d/.test(t[i - 1] || "") && /\d/.test(t[i + 1] || "")) continue;
+      if (ch === "." && /[A-Za-z]/.test(t[i + 1] || "") && t[i + 2] === ".") continue;
+      if (ABBR.test(buf.trim())) continue;
+      var k = i + 1;
+      while (k < t.length && /["'\u201d\u2019]/.test(t[k])) {
+        buf += t[k];
+        i = k;
+        k++;
+      }
+      var j = i + 1;
+      while (j < t.length && /\s/.test(t[j])) j++;
+      if (j >= t.length) {
+        out.push(buf.trim());
+        buf = "";
+        break;
+      }
+      if (/[A-Z0-9“"]/.test(t[j])) {
+        out.push(buf.trim());
+        buf = "";
+      }
+    }
+    if (buf.trim()) out.push(buf.trim());
+    return out.map(function (s) {
+      return s.replace(/^["'\u201c\u201d]\s+/, "").replace(/\s+/g, " ").trim();
+    }).filter(Boolean);
+  }
+  function normalizePassageSentences(list) {
+    var joined = (list || []).map(function (s) { return String(s || "").trim(); }).filter(Boolean).join(" ");
+    var split = splitEnglishSentences(joined);
+    return split.length ? split : (list || []).slice();
+  }
   function today() {
     var d = new Date();
     return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
@@ -279,28 +327,49 @@
     return html;
   }
 
+  function passageCover(unit) {
+    var art = absUrl(PETStudio.articleImg(unit.id));
+    return '<section class="sheet pass-cover">' +
+      '<div class="pass-cover-photo">' +
+        '<div class="pass-cover-bg" style="background-image:url(\'' + esc(art) + "')\"></div>" +
+        '<img src="' + esc(art) + '" alt="">' +
+      "</div>" +
+      '<div class="pass-cover-panel">' +
+        '<div class="kicker">S-CLASS · CLOSE READING</div>' +
+        "<h1>Unit " + unit.id + " · " + esc(unit.title) + "</h1>" +
+        "<p>" + esc(unit.subtitle) + " · 文章精读讲义</p>" +
+        '<p class="pass-cover-blurb">配图完整呈现，一句一框。框内读原文，虚线写译文、生词或课堂笔记。</p>' +
+        '<p class="pass-cover-date">Printed ' + today() + "</p>" +
+      "</div></section>";
+  }
+
   function renderPassage(bag) {
     var u = bag.unit;
-    var html = cover(
-      u,
-      "文章精读讲义",
-      "按句排列，句与句之间空一行作笔记；版面紧凑，便于打印。"
-    );
+    var html = passageCover(u);
     (bag.passages || []).forEach(function (p, idx) {
       var topic = (u.topics && u.topics[idx]) || p.title || ("Passage " + (idx + 1));
+      var img = absUrl(PETStudio.passageImg(u.id, idx));
+      var sents = normalizePassageSentences(p.sentences || []);
       html += '<section class="sheet long passage-sheet">' +
-        '<div class=pass-hero-wrap>' +
-        '<img class=pass-hero src="' + esc(absUrl(PETStudio.passageImg(u.id, idx))) + '" alt="' + esc(topic) + '">' +
-        '<div class=pass-label>Passage ' + (idx + 1) + " · " + esc(topic) + "</div></div>" +
-        '<div class="inner passage-inner"><div class=sec-h><div class=dot style="background:#e11d48"></div><h2>' +
-        esc(topic) + "</h2><span>" + (p.sentences || []).length + " sentences</span></div>" +
-        '<p class="pass-hint">句间空行可写译文、生词或课堂笔记。</p>' +
-        '<div class="passage-sents">';
-      (p.sentences || []).forEach(function (s, i) {
-        html += '<p class="sent"><span class="n">' + (i + 1) + ".</span> " + esc(s) + "</p>";
+        '<div class="pass-stage">' +
+          '<div class="pass-stage-bg" style="background-image:url(\'' + esc(img) + "')\"></div>" +
+          '<div class="pass-stage-grad"></div>' +
+          '<figure class="pass-portrait"><img src="' + esc(img) + '" alt="' + esc(topic) + '"></figure>' +
+          '<header class="pass-masthead">' +
+            '<div class="pass-kicker">Passage ' + padNum(idx + 1) + "</div>" +
+            "<h2>" + esc(topic) + "</h2>" +
+            "<span>" + sents.length + " sentences</span>" +
+          "</header></div>" +
+        '<div class="pass-body">' +
+          '<p class="pass-hint">一句一框 · 框内读原文 · 虚线写译文或笔记</p>';
+      sents.forEach(function (s, i) {
+        html += '<article class="sent-card">' +
+          '<div class="sent-idx">' + padNum(i + 1) + "</div>" +
+          '<div class="sent-copy"><p class="sent-en">' + esc(s) + "</p>" +
+          '<div class="sent-rule" aria-hidden="true"></div></div></article>';
       });
-      html += "</div>" +
-        '<div class=foot><span>S-Class PET Reading</span><span>Unit ' + u.id + "</span></div></div></section>";
+      html += '<div class="foot"><span>S-Class PET Reading</span><span>Unit ' +
+        u.id + " · P" + (idx + 1) + "</span></div></div></section>";
     });
     return html;
   }
@@ -510,6 +579,7 @@
   global.PETStudio.passageDocument = function (bag) {
     return shell("PET Unit " + bag.unit.id + " 文章", renderPassage(bag), "print-page passage-doc");
   };
+  global.PETStudio.normalizePassageSentences = normalizePassageSentences;
   global.PETStudio.printGames = function (bag, level) {
     openPrint("PET Unit " + bag.unit.id + " 复习卷", renderGamesPaper(bag, level || "standard"));
   };
