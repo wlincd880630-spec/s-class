@@ -152,7 +152,10 @@
   }).join("");
   $("hub-grid").addEventListener("click", function (e) {
     var btn = e.target.closest(".hub-item");
-    if (btn) openGame(Number(btn.getAttribute("data-id")));
+    if (btn) {
+      if (window.AAAudio && AAAudio.unlock) AAAudio.unlock();
+      openGame(Number(btn.getAttribute("data-id")));
+    }
   });
   $("btn-hub").addEventListener("click", showHub);
   $("btn-replay").addEventListener("click", function () {
@@ -175,7 +178,15 @@
         var say = e.target.closest(".say-btn");
         if (say) {
           var spoken = word(say.getAttribute("data-say"));
-          if (spoken) AAAudio.speakWord(spoken.en);
+          if (spoken) {
+            AAAudio.unlock();
+            say.classList.add("is-on");
+            AAAudio.speakWord(spoken.en).then(function () {
+              say.classList.remove("is-on");
+            }, function () {
+              say.classList.remove("is-on");
+            });
+          }
           return;
         }
         var c = e.target.closest(".choice");
