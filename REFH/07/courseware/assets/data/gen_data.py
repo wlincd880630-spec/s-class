@@ -1,5 +1,21 @@
 # -*- coding: utf-8 -*-
-import json, os
+import json, os, random
+
+def scramble_letters(word, seed):
+    chars = [ch for ch in str(word).lower() if ch.isalpha()]
+    if len(chars) <= 1:
+        return ' '.join(chars)
+    rng = random.Random(seed)
+    target = ''.join(chars)
+    for _ in range(80):
+        shuffled = chars[:]
+        rng.shuffle(shuffled)
+        if ''.join(shuffled) != target:
+            return ' '.join(shuffled)
+    shuffled = chars[::-1]
+    if ''.join(shuffled) == target and len(shuffled) > 1:
+        shuffled[0], shuffled[1] = shuffled[1], shuffled[0]
+    return ' '.join(shuffled)
 
 base = os.path.dirname(os.path.abspath(__file__))
 
@@ -449,15 +465,15 @@ quiz = {
     ]
   },
   "unscramble": [
-    {"letters": "g a t h e r", "answer": "gather", "hint": "聚集"},
-    {"letters": "t a l e n t", "answer": "talent", "hint": "才能"},
-    {"letters": "a w a r d", "answer": "award", "hint": "奖项"},
-    {"letters": "o w n e r", "answer": "owner", "hint": "主人"},
-    {"letters": "o c e a n", "answer": "ocean", "hint": "海洋"},
-    {"letters": "w a v e", "answer": "wave", "hint": "波浪"},
-    {"letters": "r e s c u e", "answer": "rescue", "hint": "救援"},
-    {"letters": "s t y l e", "answer": "style", "hint": "风格"},
-    {"letters": "e v e n t", "answer": "event", "hint": "赛事"},
+    {"letters": scramble_letters("gather", 701), "answer": "gather", "hint": "聚集"},
+    {"letters": scramble_letters("talent", 702), "answer": "talent", "hint": "才能"},
+    {"letters": scramble_letters("award", 703), "answer": "award", "hint": "奖项"},
+    {"letters": scramble_letters("owner", 704), "answer": "owner", "hint": "主人"},
+    {"letters": scramble_letters("ocean", 705), "answer": "ocean", "hint": "海洋"},
+    {"letters": scramble_letters("wave", 706), "answer": "wave", "hint": "波浪"},
+    {"letters": scramble_letters("rescue", 707), "answer": "rescue", "hint": "救援"},
+    {"letters": scramble_letters("style", 708), "answer": "style", "hint": "风格"},
+    {"letters": scramble_letters("event", 709), "answer": "event", "hint": "赛事"},
   ],
   "first_letter": [
     {"before": "They showed off their talents in the World Dog Surfing ___.", "letter": "c", "after": "", "answer": "championships", "analysis": "Championships 锦标赛。"},

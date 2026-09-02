@@ -1323,35 +1323,33 @@ const TEXTBOOK_DATA = {
         {
           "id": "w39",
           "word": "US",
-          "chinese": "我们（宾格）",
-          "ipa": "/ʌs/",
+          "chinese": "美国（美利坚合众国）",
+          "ipa": "/ˌjuːˈes/",
           "phonemes": [],
           "image": "../../G7_B1/Unit1/images/US_1.jpg",
           "image2": "../../G7_B1/Unit1/images/US_2.jpg",
-          "usage": "作动词或介词的宾语，表示“我们”",
+          "usage": "US 是 the United States 的缩写，用作专有名词，通常前面加定冠词 the。",
           "collocations": [
-            "tell us",
-            "help us",
-            "with us",
-            "for us"
+            "the US government",
+            "live in the US",
+            "visit the US"
           ],
           "preposition_combos": [
-            "to us",
-            "from us",
-            "with us",
-            "for us"
+            "in the US",
+            "from the US",
+            "to the US"
           ],
-          "image_desc_cn": "一张标有首都星标的美国地图，旁边放着一本护照和一面小国旗在木桌上。",
+          "image_desc_cn": "自由女神像矗立在纽约港的自由岛上，天空湛蓝。",
           "sentences": [
             {
-              "en": "The teacher gives us a new book today.",
-              "zh": "老师今天给了我们一本新书。",
+              "en": "My cousin lives in the US.",
+              "zh": "我的表弟住在美国。",
               "source": "textbook",
               "image": ""
             },
             {
-              "en": "Can you come to the park with us?",
-              "zh": "你能和我们一起去公园吗？",
+              "en": "The US is a large country in North America.",
+              "zh": "美国是北美洲的一个大国。",
               "source": "context",
               "image": ""
             }

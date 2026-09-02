@@ -1,5 +1,21 @@
 # -*- coding: utf-8 -*-
-import json, os
+import json, os, random
+
+def scramble_letters(word, seed):
+    chars = [ch for ch in str(word).lower() if ch.isalpha()]
+    if len(chars) <= 1:
+        return ' '.join(chars)
+    rng = random.Random(seed)
+    target = ''.join(chars)
+    for _ in range(80):
+        shuffled = chars[:]
+        rng.shuffle(shuffled)
+        if ''.join(shuffled) != target:
+            return ' '.join(shuffled)
+    shuffled = chars[::-1]
+    if ''.join(shuffled) == target and len(shuffled) > 1:
+        shuffled[0], shuffled[1] = shuffled[1], shuffled[0]
+    return ' '.join(shuffled)
 
 base = os.path.dirname(os.path.abspath(__file__))
 
@@ -376,12 +392,12 @@ quiz = {
     ]
   },
   "unscramble": [
-    {"letters": "c r o p", "answer": "crop", "hint": "作物"},
-    {"letters": "t r a d e", "answer": "trade", "hint": "贸易"},
-    {"letters": "w h e a t", "answer": "wheat", "hint": "小麦"},
-    {"letters": "m i l l e t", "answer": "millet", "hint": "小米"},
-    {"letters": "e x p a n d", "answer": "expand", "hint": "扩张"},
-    {"letters": "c l i m a t e", "answer": "climate", "hint": "气候"},
+    {"letters": scramble_letters("crop", 401), "answer": "crop", "hint": "作物"},
+    {"letters": scramble_letters("trade", 402), "answer": "trade", "hint": "贸易"},
+    {"letters": scramble_letters("wheat", 403), "answer": "wheat", "hint": "小麦"},
+    {"letters": scramble_letters("millet", 404), "answer": "millet", "hint": "小米"},
+    {"letters": scramble_letters("expand", 405), "answer": "expand", "hint": "扩张"},
+    {"letters": scramble_letters("climate", 406), "answer": "climate", "hint": "气候"},
   ],
   "first_letter": [
     {"before": "The link between water and ", "letter": "a", "after": " is important to understanding ancient China.", "answer": "agriculture", "analysis": "Agriculture 农业。"},

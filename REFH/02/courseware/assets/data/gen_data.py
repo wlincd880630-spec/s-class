@@ -1,5 +1,21 @@
 # -*- coding: utf-8 -*-
-import json, os
+import json, os, random
+
+def scramble_letters(word, seed):
+    chars = [ch for ch in str(word).lower() if ch.isalpha()]
+    if len(chars) <= 1:
+        return ' '.join(chars)
+    rng = random.Random(seed)
+    target = ''.join(chars)
+    for _ in range(80):
+        shuffled = chars[:]
+        rng.shuffle(shuffled)
+        if ''.join(shuffled) != target:
+            return ' '.join(shuffled)
+    shuffled = chars[::-1]
+    if ''.join(shuffled) == target and len(shuffled) > 1:
+        shuffled[0], shuffled[1] = shuffled[1], shuffled[0]
+    return ' '.join(shuffled)
 
 base = os.path.dirname(os.path.abspath(__file__))
 
@@ -398,12 +414,12 @@ quiz = {
     ]
   },
   "unscramble": [
-    {"letters": "b r o n z e", "answer": "bronze", "hint": "青铜"},
-    {"letters": "j a d e", "answer": "jade", "hint": "玉"},
-    {"letters": "t o m b", "answer": "tomb", "hint": "陵墓"},
-    {"letters": "g r a i n", "answer": "grain", "hint": "谷物"},
-    {"letters": "n o m a d", "answer": "nomad", "hint": "游牧民"},
-    {"letters": "r i t u a l", "answer": "ritual", "hint": "仪式"},
+    {"letters": scramble_letters("bronze", 201), "answer": "bronze", "hint": "青铜"},
+    {"letters": scramble_letters("jade", 202), "answer": "jade", "hint": "玉"},
+    {"letters": scramble_letters("tomb", 203), "answer": "tomb", "hint": "陵墓"},
+    {"letters": scramble_letters("grain", 204), "answer": "grain", "hint": "谷物"},
+    {"letters": scramble_letters("nomad", 205), "answer": "nomad", "hint": "游牧民"},
+    {"letters": scramble_letters("ritual", 206), "answer": "ritual", "hint": "仪式"},
   ],
   "first_letter": [
     {"before": "Recorded history begins with the Shang ", "letter": "d", "after": ".", "answer": "dynasty", "analysis": "Dynasty 王朝。"},

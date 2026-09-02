@@ -87,7 +87,14 @@
       display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
     }
     .bank span { background: var(--primary-light); padding: 4px 12px; border-radius: 999px; font-weight: 600; color: var(--primary); font-size: 0.85rem; }
-    .scram { font-size: 1.15rem; letter-spacing: 3px; font-weight: 700; color: #e67e22; }
+    .scram { font-size: 1.15rem; letter-spacing: 3px; font-weight: 700; color: #e67e22; display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+    .letter-tile {
+      display: inline-flex; min-width: 32px; height: 38px; padding: 0 8px;
+      align-items: center; justify-content: center;
+      border-radius: 8px; border: 2px solid #f97316;
+      background: linear-gradient(180deg, #fff7ed, #ffedd5);
+      color: #c2410c; font-weight: 800; font-size: 1.15rem; letter-spacing: 0;
+    }
     .submit-bar {
       position: absolute; bottom: 0; left: 0; right: 0;
       background: rgba(255,255,255,0.95); padding: 14px; text-align: center;
@@ -129,6 +136,17 @@
     }
     .score-val { font-size: 2.2rem; font-weight: 700; }
     .check-vocab { accent-color: var(--primary); width: 18px; height: 18px; }
+    .quiz-export-btn {
+      background: linear-gradient(90deg, #0e7490, #7c3aed);
+      color: #fff; border: none; padding: 6px 14px; border-radius: 999px;
+      cursor: pointer; font-size: 0.82rem; font-weight: 700; margin-right: 8px;
+    }
+    .quiz-export-btn:disabled { opacity: 0.55; cursor: wait; }
+    .quiz-export-print {
+      background: #fff; color: var(--primary); border: 1px solid var(--primary);
+      padding: 6px 12px; border-radius: 999px; cursor: pointer; font-size: 0.82rem;
+      margin-right: 10px;
+    }
     @media (max-width: 768px) {
       .cloze-wrap { flex-direction: column; }
     }
@@ -138,6 +156,8 @@
   <div class="quiz-nav">
     <b>📝 词汇总结 & 测验</b>
     <div>
+      <button class="quiz-export-btn" id="btn-quiz-pdf" type="button" onclick="exportQuizPacket()">📄 导出测验卷 PDF</button>
+      <button class="quiz-export-print" type="button" onclick="printQuizPacket()">🖨️ 打印测验卷</button>
       <span id="ind" style="margin-right:10px;font-size:0.85rem;color:var(--muted)"></span>
       <button class="nav-btn" id="pb" onclick="nav(-1)">← Prev</button>
       <button class="nav-btn" id="nb" onclick="nav(1)" style="margin-left:6px">Next →</button>
@@ -152,8 +172,9 @@
         <div class="pdf-bar">
           <label><input type="checkbox" id="select-all" onchange="toggleSelectAll(this)"> 全选</label>
           <button class="btn btn-primary" onclick="exportPDF()">📄 导出 PDF 词汇表</button>
-          <button class="btn btn-outline" onclick="exportPDFPrint(getSelectedWords())">🖨️ 打印/PDF</button>
-          <span style="font-size:0.82rem;color:var(--muted)">勾选要导出的词；未勾选任何项则导出全部</span>
+          <button class="btn btn-outline" onclick="exportPDFPrint(getSelectedWords())">🖨️ 打印词汇表</button>
+          <button class="btn btn-primary" style="background:linear-gradient(90deg,#0e7490,#7c3aed)" onclick="exportQuizPacket()">📄 导出彩色测验卷</button>
+          <span style="font-size:0.82rem;color:var(--muted)">测验卷含 Part 1–6 与参考答案；词汇表仍可按勾选导出</span>
         </div>
         <div id="vocab-list"></div>
       </div>
@@ -219,14 +240,17 @@
         </div>
         <div id="wrong-container"></div>
       </div>
-      <div class="submit-bar"><button class="submit-btn" style="background:var(--g)" onclick="location.reload()">🔄 Restart</button></div>
+      <div class="submit-bar">
+        <button class="submit-btn" style="background:linear-gradient(90deg,#0e7490,#7c3aed);margin-right:8px" onclick="exportQuizPacket()">📄 导出测验卷 PDF</button>
+        <button class="submit-btn" style="background:var(--g)" onclick="location.reload()">🔄 Restart</button>
+      </div>
     </div>
   </div>
 
   <script src="assets/js/course-data.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="assets/js/shared.js?v=20260901a"></script>
+  <script src="assets/js/shared.js?v=20260901e"></script>
   <script>
     let cp = 1, tp = 7, courseData = null, vocabWords = [];
     const PDF_META = {
@@ -310,6 +334,39 @@
       await Courseware.openVocabPrintWindow(list, PDF_META);
     }
 
+    async function exportQuizPacket() {
+      if (!courseData?.quiz) {
+        Courseware.showToast('测验尚未加载');
+        return;
+      }
+      const btn = document.getElementById('btn-quiz-pdf');
+      if (btn) { btn.disabled = true; btn.textContent = '⏳ 生成中…'; }
+      Courseware.showToast('正在生成彩色测验卷 PDF…');
+      try {
+        await Courseware.exportQuizPdf({
+          data: courseData,
+          title: PDF_META.title,
+          accent: PDF_META.accent,
+          filename: 'Meet_the_Dogs_Quiz_Packet.pdf'
+        });
+        Courseware.showToast('测验卷 PDF 已下载');
+      } catch (e) {
+        console.error(e);
+        Courseware.showToast('PDF 生成失败，已打开打印窗口…');
+        await Courseware.openQuizPrintWindow(courseData, PDF_META);
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = '📄 导出测验卷 PDF'; }
+      }
+    }
+
+    async function printQuizPacket() {
+      if (!courseData?.quiz) {
+        Courseware.showToast('测验尚未加载');
+        return;
+      }
+      await Courseware.openQuizPrintWindow(courseData, PDF_META);
+    }
+
     function shuffleArray(arr) {
       const a = arr.slice();
       for (let i = a.length - 1; i > 0; i--) {
@@ -320,16 +377,23 @@
     }
 
     function scrambleLetters(letters, answer) {
-      let chars = String(letters || '').trim().split(/\s+/).filter(Boolean);
-      if (chars.length <= 1 && answer) chars = String(answer).split('');
-      if (chars.length <= 1) return letters;
-      const original = chars.join(' ').toLowerCase();
-      let shuffled = chars;
-      for (let i = 0; i < 20; i++) {
-        shuffled = shuffleArray(chars);
-        if (shuffled.join(' ').toLowerCase() !== original) break;
+      if (Courseware.scrambleQuizLetters) {
+        return Courseware.scrambleQuizLetters(letters, answer);
       }
-      return shuffled.join(' ');
+      const source = String(answer || letters || '').replace(/[^A-Za-z]/g, '').split('');
+      const target = source.join('').toLowerCase();
+      let shuffled = source.slice();
+      for (let i = 0; i < 80; i++) {
+        shuffled = shuffleArray(source);
+        if (shuffled.join('').toLowerCase() !== target) return shuffled;
+      }
+      shuffled = source.slice().reverse();
+      if (shuffled.join('').toLowerCase() === target && shuffled.length > 1) {
+        const tmp = shuffled[0];
+        shuffled[0] = shuffled[1];
+        shuffled[1] = tmp;
+      }
+      return shuffled;
     }
 
     function renderQuiz() {
@@ -359,13 +423,18 @@
         </div>`;
       }).join('');
 
-      document.getElementById('unscramble-list').innerHTML = q.unscramble.map(u =>
-        `<div class="q-card" data-ans="${u.answer}">
-          <div class="scram">${scrambleLetters(u.letters, u.answer)}</div>
+      document.getElementById('unscramble-list').innerHTML = q.unscramble.map(u => {
+        const scrambled = scrambleLetters(u.letters, u.answer);
+        const tiles = scrambled.map(ch =>
+          `<span class="letter-tile">${Courseware.escapeHtml(String(ch).toUpperCase())}</span>`
+        ).join('');
+        return `<div class="q-card" data-ans="${u.answer}">
+          <div class="scram" data-scrambled="${Courseware.escapeHtml(scrambled.join('').toLowerCase())}">${tiles}</div>
           <p style="font-size:0.82rem;color:var(--muted)">${u.hint}</p>
           <input type="text" class="block-inp" placeholder="Type answer...">
           <div class="analysis-box"><span class="ans-val">${u.answer}</span>: ${u.hint}</div>
-        </div>`).join('');
+        </div>`;
+      }).join('');
 
       document.getElementById('first-letter-list').innerHTML = q.first_letter.map(f => {
         const fill = f.answer.slice(1).toLowerCase();

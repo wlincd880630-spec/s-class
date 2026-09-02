@@ -138,19 +138,19 @@
 
 ---
 
-## 9. afraid（词汇）
+## 9. tired（词汇）
 
-**意思：** 害怕的；担心的  
-**用法：** be afraid / be afraid of sth. / be afraid to do sth.
+**意思：** 疲倦的；累的  
+**用法：** be tired / feel tired / tired after ...
 
-**例句：** Mum is afraid when she cannot find her boys.  
-妈妈找不到孩子们时很害怕。
+**例句：** Mum is really tired.  
+妈妈真的非常累。
 
-**造句：** 用 afraid 写一句——小女孩晚上一个人在家会害怕。  
-参考：The little girl is afraid when she stays at home alone at night.
+**造句：** 用 tired 写一句——购物一天后，妈妈很累。  
+参考：Mum is tired after a long shopping day.
 
-**句子排序：** Don't / be / afraid / of / speaking / English / .  
-→ Don't be afraid of speaking English.
+**句子排序：** Mum / is / really / tired / after / shopping / .  
+→ Mum is really tired after shopping.
 
 ---
 

@@ -1,5 +1,21 @@
 # -*- coding: utf-8 -*-
-import json, os
+import json, os, random
+
+def scramble_letters(word, seed):
+    chars = [ch for ch in str(word).lower() if ch.isalpha()]
+    if len(chars) <= 1:
+        return ' '.join(chars)
+    rng = random.Random(seed)
+    target = ''.join(chars)
+    for _ in range(80):
+        shuffled = chars[:]
+        rng.shuffle(shuffled)
+        if ''.join(shuffled) != target:
+            return ' '.join(shuffled)
+    shuffled = chars[::-1]
+    if ''.join(shuffled) == target and len(shuffled) > 1:
+        shuffled[0], shuffled[1] = shuffled[1], shuffled[0]
+    return ' '.join(shuffled)
 
 base = os.path.dirname(os.path.abspath(__file__))
 
@@ -552,14 +568,14 @@ quiz = {
     ]
   },
   "unscramble": [
-    {"letters": "c h o i c e", "answer": "choice", "hint": "选择"},
-    {"letters": "o p t i o n", "answer": "option", "hint": "选项"},
-    {"letters": "s t r e s s", "answer": "stress", "hint": "压力"},
-    {"letters": "l i m i t", "answer": "limit", "hint": "限制"},
-    {"letters": "e n e r g y", "answer": "energy", "hint": "精力"},
-    {"letters": "r e v i e w", "answer": "review", "hint": "审阅"},
-    {"letters": "g o a l", "answer": "goal", "hint": "目标"},
-    {"letters": "b o o s t", "answer": "boost", "hint": "提升"},
+    {"letters": scramble_letters("choice", 801), "answer": "choice", "hint": "选择"},
+    {"letters": scramble_letters("option", 802), "answer": "option", "hint": "选项"},
+    {"letters": scramble_letters("stress", 803), "answer": "stress", "hint": "压力"},
+    {"letters": scramble_letters("limit", 804), "answer": "limit", "hint": "限制"},
+    {"letters": scramble_letters("energy", 805), "answer": "energy", "hint": "精力"},
+    {"letters": scramble_letters("review", 806), "answer": "review", "hint": "审阅"},
+    {"letters": scramble_letters("goal", 807), "answer": "goal", "hint": "目标"},
+    {"letters": scramble_letters("boost", 808), "answer": "boost", "hint": "提升"},
   ],
   "first_letter": [
     {"before": "This ___ shows having too many options is not a good thing.", "letter": "r", "after": "", "answer": "research", "analysis": "Research 研究。"},

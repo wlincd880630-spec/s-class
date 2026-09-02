@@ -29,13 +29,23 @@
           <option value="challenge">挑战</option>
         </select>
       </div>
-      <button class="btn btn-indigo" id="exportBtn">生成并导出 PDF</button>
+      <div class="field wide handout-only">
+        <label>例句级别（可多选）</label>
+        <div class="level-picks" id="exLevels"></div>
+      </div>
+      <div class="field wide handout-only">
+        <label>语法练习级别（可多选）</label>
+        <div class="level-picks" id="grLevels"></div>
+      </div>
+      <button class="btn btn-indigo" id="exportBtn">导出 PDF</button>
     </div>
     <p class="note" id="status">正在读取本单元数据…</p>
+    <p class="note" id="hint">讲义内容已全部预生成。导出时勾选初一到高三的例句级别和语法练习级别，无需等待 DeepSeek。</p>
     <iframe id="preview" title="讲义预览" style="display:none;width:100%;min-height:88vh;margin-top:16px;border:1px solid #e2e8f0;border-radius:16px;background:#fff"></iframe>
   </div>
   <script src="js/catalog.js"></script>
   <script src="js/loader.js"></script>
+  <script src="js/ai.js"></script>
   <script src="js/print.js"></script>
   <script>
     (function () {
@@ -50,26 +60,97 @@
       if (q.type) document.getElementById("typeSel").value = q.type;
       if (q.level) document.getElementById("levelSel").value = q.level;
       var bag = null;
+      var statusEl = document.getElementById("status");
+      var exportBtn = document.getElementById("exportBtn");
+      var GRADES = [
+        { id: "j1", label: "初一" },
+        { id: "j2", label: "初二" },
+        { id: "j3", label: "初三" },
+        { id: "s1", label: "高一" },
+        { id: "s2", label: "高二" },
+        { id: "s3", label: "高三" }
+      ];
+      function fillLevels(boxId) {
+        var box = document.getElementById(boxId);
+        box.innerHTML = GRADES.map(function (lv) {
+          return '<label class="level-pick on"><input type="checkbox" value="' + lv.id + '" checked> ' + lv.label + "</label>";
+        }).join("");
+        Array.prototype.forEach.call(box.querySelectorAll("label"), function (lab) {
+          var inp = lab.querySelector("input");
+          inp.onchange = function () {
+            lab.className = "level-pick" + (inp.checked ? " on" : "");
+          };
+        });
+      }
+      fillLevels("exLevels");
+      fillLevels("grLevels");
+      function selectedLevels(boxId) {
+        var out = [];
+        Array.prototype.forEach.call(document.querySelectorAll("#" + boxId + " input:checked"), function (inp) {
+          out.push(inp.value);
+        });
+        return out;
+      }
+      function syncTypeHint() {
+        var handout = document.getElementById("typeSel").value === "handout";
+        Array.prototype.forEach.call(document.querySelectorAll(".handout-only"), function (el) {
+          el.style.display = handout ? "" : "none";
+        });
+      }
+      document.getElementById("typeSel").onchange = syncTypeHint;
+      syncTypeHint();
+      function setBusy(busy, label) {
+        exportBtn.disabled = busy;
+        exportBtn.textContent = label || "导出 PDF";
+      }
       function load() {
-        document.getElementById("status").textContent = "正在读取 Unit " + sel.value + " …";
+        statusEl.textContent = "正在读取 Unit " + sel.value + " …";
         PETStudio.loadUnit(sel.value).then(function (b) {
           bag = b;
-          document.getElementById("status").textContent =
+          statusEl.textContent =
             "已载入 单词 " + b.vocab.length + " · 词组 " + b.colloc.length + " · 语法 " + b.grammar.length +
-            " · 文章 " + (b.passages || []).length + " 篇。点击按钮将打开排版页，再选「另存为 PDF」。";
+            " · 文章 " + (b.passages || []).length + " 篇。讲义将打开排版页，再选「另存为 PDF」。";
         }).catch(function (e) {
-          document.getElementById("status").textContent = "读取失败：" + e.message;
+          statusEl.textContent = "读取失败：" + e.message;
         });
       }
       sel.onchange = load;
       load();
-      document.getElementById("exportBtn").onclick = function () {
+      function exportHandout() {
+        if (!bag) return;
+        var exLv = selectedLevels("exLevels");
+        var grLv = selectedLevels("grLevels");
+        if (!exLv.length && !grLv.length) {
+          statusEl.textContent = "请至少选择一个例句级别或语法级别。";
+          return;
+        }
+        setBusy(true, "载入讲义…");
+        PETStudio.enrichHandout(bag, {
+          filters: { exampleLevels: exLv, grammarLevels: grLv },
+          onProgress: function (msg) { statusEl.textContent = msg; }
+        }).then(function (enriched) {
+          if (enriched.handoutWarning) {
+            statusEl.textContent = "讲义降级：" + enriched.handoutWarning;
+          } else {
+            statusEl.textContent = "已使用预生成讲义。例句 " + exLv.length + " 档 · 语法 " + grLv.length + " 档。正在打开排版页…";
+          }
+          var doc = PETStudio.handoutDocument(enriched);
+          var preview = document.getElementById("preview");
+          preview.style.display = "block";
+          preview.srcdoc = doc;
+          PETStudio.printHandout(enriched);
+          setBusy(false);
+        }).catch(function (e) {
+          statusEl.textContent = "导出失败：" + (e.message || e);
+          setBusy(false);
+        });
+      }
+      exportBtn.onclick = function () {
         if (!bag) return;
         var t = document.getElementById("typeSel").value;
         var preview = document.getElementById("preview");
         if (t === "handout") {
-          preview.style.display = "none";
-          PETStudio.printHandout(bag);
+          exportHandout();
         } else if (t === "passage") {
           preview.style.display = "block";
           preview.srcdoc = PETStudio.passageDocument(bag);

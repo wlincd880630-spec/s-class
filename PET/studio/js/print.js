@@ -33,7 +33,7 @@
       esc(title) + "</title><link rel=stylesheet href=\"" + esc(absUrl("css/print.css")) + "\">" +
       '<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&family=Noto+Sans+SC:wght@500;700;900&display=swap" rel=stylesheet>' +
       "</head><body class=\"" + esc(bodyClass || "print-page") + "\">" +
-      '<div class=screen-bar><div><strong>' + esc(title) + '</strong><div style="opacity:.7;font-size:12px">浏览器打印 → 另存为 PDF（建议关闭页眉页脚）</div></div>' +
+      '<div class=screen-bar><div><strong>' + esc(title) + '</strong><div style="opacity:.7;font-size:12px">浏览器打印 → 另存为 PDF（建议关闭页眉页脚；配图为完整显示）</div></div>' +
       '<div><button class=btn onclick=window.print() style="background:#4f46e5;color:#fff">导出 PDF</button> ' +
       '<button class=btn onclick=window.close() style="background:#e2e8f0">关闭</button></div></div>' +
       bodyHtml + "</body></html>";
@@ -52,40 +52,227 @@
       "</div></section>";
   }
 
-  function vocabCards(items) {
-    return items.map(function (it) {
-      var ex = (it.examples && it.examples[0]) || {};
-      return '<article class=vcard>' +
-        (it.imageUrl ? '<img src="' + esc(it.imageUrl) + '" alt="">' : "") +
-        '<div class=w>' + esc(it.word) + '</div>' +
-        (it.phonetic ? '<div class=ph>' + esc(it.phonetic) + "</div>" : "") +
-        '<div class=cn>' + esc(it.meaning) + "</div>" +
-        (ex.sentence ? '<div class=ex>' + esc(ex.sentence) + "<br>" + esc(ex.trans || "") + "</div>" : "") +
-        "</article>";
+  function posOf(it) {
+    if (it.kind === "phrase") return "phr.";
+    var u = String(it.usage || "");
+    if (/phrasal\s*verb/i.test(u)) return "phr.v.";
+    if (/countable noun/i.test(u)) return "n. [C]";
+    if (/uncountable noun/i.test(u)) return "n. [U]";
+    if (/\bnoun\b/i.test(u)) return "n.";
+    if (/\badjective\b/i.test(u)) return "adj.";
+    if (/\badverb\b/i.test(u)) return "adv.";
+    if (/\bverb\b/i.test(u)) return "v.";
+    return "";
+  }
+
+  var EX_BADGE = {
+    j1: { cls: "j1", label: "初一" },
+    j2: { cls: "j2", label: "初二" },
+    j3: { cls: "j3", label: "初三" },
+    s1: { cls: "s1", label: "高一" },
+    s2: { cls: "s2", label: "高二" },
+    s3: { cls: "s3", label: "高三" },
+    zk: { cls: "j3", label: "初三" },
+    g10: { cls: "s1", label: "高一" },
+    g11: { cls: "s2", label: "高二" },
+    gk: { cls: "s3", label: "高三" }
+  };
+  var GRADE_LEVELS = [
+    { id: "j1", label: "初一" },
+    { id: "j2", label: "初二" },
+    { id: "j3", label: "初三" },
+    { id: "s1", label: "高一" },
+    { id: "s2", label: "高二" },
+    { id: "s3", label: "高三" }
+  ];
+
+  function familyHtml(it) {
+    var list = it.family || [];
+    if (!list.length) return "";
+    var chips = list.map(function (row) {
+      var posLabel = [row.posZh, row.pos].filter(Boolean).join(" ");
+      return '<span class="family-chip"><b>' + esc(row.word) + "</b>" +
+        "<i>" + esc(posLabel) + "</i>" + esc(row.meaning || "") + "</span>";
     }).join("");
+    return '<div class="pdf-row"><span class="pdf-label">词性家族</span><span class="pdf-val family-wrap">' +
+      chips + "</span></div>";
+  }
+
+  function exampleBlocks(it) {
+    var list = it.handoutExamples || [];
+    return list.map(function (ex) {
+      var meta = EX_BADGE[ex.level] || EX_BADGE.zk;
+      return '<div class="pdf-section">' +
+        '<span class="pdf-badge ' + meta.cls + '">' + meta.label + "</span>" +
+        '<div class="pdf-en">' + esc(ex.sentence) + "</div>" +
+        (ex.trans ? '<div class="pdf-cn">' + esc(ex.trans) + "</div>" : "") +
+        "</div>";
+    }).join("");
+  }
+
+  function wordCard(it, i) {
+    var hasPic = !!it.imageUrl;
+    return '<article class="wcard' + (hasPic ? "" : " no-pic") + '">' +
+      (hasPic
+        ? '<div class="pic"><img src="' + esc(absUrl(it.imageUrl)) + '" alt="' + esc(it.word) + '"></div>'
+        : "") +
+      '<div class="wbody">' +
+      '<div class="wtitle"><span class="idx">' + (i + 1) + ".</span> " +
+      esc(it.word) +
+      (it.phonetic ? ' <span class="ph">' + esc(it.phonetic) + "</span>" : "") +
+      (posOf(it) ? ' <span class="pos">' + esc(posOf(it)) + "</span>" : "") +
+      "</div>" +
+      (it.definitionEn
+        ? '<div class="pdf-row"><span class="pdf-label">英文释义</span><span class="pdf-val">' + esc(it.definitionEn) + "</span></div>"
+        : "") +
+      '<div class="pdf-row"><span class="pdf-label">中文释义</span><span class="pdf-val pdf-cn">' + esc(it.meaning) + "</span></div>" +
+      (it.usageZh || it.usage
+        ? '<div class="pdf-row"><span class="pdf-label">常见用法</span><span class="pdf-val">' +
+          esc(it.usageZh || strip(it.usage)) + "</span></div>"
+        : "") +
+      familyHtml(it) +
+      exampleBlocks(it) +
+      "</div></article>";
+  }
+
+  function vocabCards(items) {
+    return items.map(function (it, i) { return wordCard(it, i); }).join("");
+  }
+
+  function grammarExample(ex) {
+    var lv = String(ex.level || "j3").toLowerCase();
+    var meta = EX_BADGE[lv] || EX_BADGE.j3;
+    return '<div class="pdf-section">' +
+      '<span class="pdf-badge ' + meta.cls + '">' + meta.label + "</span>" +
+      '<div class="pdf-en">' + esc(ex.en || ex.sentence || "") + "</div>" +
+      (ex.cn || ex.trans ? '<div class="pdf-cn">' + esc(ex.cn || ex.trans) + "</div>" : "") +
+      "</div>";
+  }
+
+  function exerciseBlock(ex, i) {
+    var lv = String(ex.level || "j3").toLowerCase();
+    var meta = EX_BADGE[lv] || EX_BADGE.j3;
+    var type = String(ex.type || "choice");
+    var h = '<div class="ex-q"><span class="n">' + (i + 1) + ".</span> " +
+      '<span class="pdf-badge ' + meta.cls + '">' + meta.label + "</span> " +
+      esc(ex.q || ex.question || "");
+    if (type === "choice" && (ex.options || []).length) {
+      h += '<div class="opts">';
+      (ex.options || []).forEach(function (o, j) {
+        h += "<div>" + String.fromCharCode(65 + j) + ". " + esc(o) + "</div>";
+      });
+      h += "</div>";
+    } else if (type === "truefalse") {
+      var tf = (ex.options && ex.options.length) ? ex.options : ["正确", "错误"];
+      h += '<div class="opts">';
+      tf.forEach(function (o, j) {
+        h += "<div>" + String.fromCharCode(65 + j) + ". " + esc(o) + "</div>";
+      });
+      h += "</div>";
+    } else if (type === "rewrite") {
+      h += '<div class="blank">改写：________________________________</div>';
+    } else if (type === "error") {
+      h += '<div class="blank">改正：________________________________</div>';
+    } else {
+      h += '<div class="blank">______________________________</div>';
+    }
+    h += "</div>";
+    return h;
+  }
+
+  function grammarArticle(g, idx) {
+    var h = '<article class="glecture">' +
+      "<h3>" + (idx + 1) + ". " + esc(g.title || g.word || "语法点") +
+      (g.titleEn ? ' <small>' + esc(g.titleEn) + "</small>" : "") +
+      "</h3>";
+    if (g.usage) {
+      h += '<div class="usage"><div class="subh">详细用法</div><p>' + esc(strip(g.usage)).replace(/\n+/g, "</p><p>") + "</p></div>";
+    }
+    if (g.forms && g.forms.length) {
+      h += '<ul class="forms">';
+      g.forms.forEach(function (f) { h += "<li>" + esc(f) + "</li>"; });
+      h += "</ul>";
+    }
+    if (g.notes && g.notes.length) {
+      h += '<div class="notes"><div class="subh">易错提醒</div><ul>';
+      g.notes.forEach(function (n) { h += "<li>" + esc(strip(n)) + "</li>"; });
+      h += "</ul></div>";
+    }
+    if (g.examples && g.examples.length) {
+      h += '<div class="subh">例句</div>';
+      g.examples.forEach(function (ex) { h += grammarExample(ex); });
+    }
+    GRADE_LEVELS.forEach(function (lv) {
+      var list = (g.exercises || []).filter(function (e) {
+        return String(e.level || "") === lv.id;
+      });
+      if (!list.length) return;
+      h += '<div class="subh">' + lv.label + "练习</div>";
+      list.forEach(function (e, i) { h += exerciseBlock(e, i); });
+    });
+    h += "</article>";
+    return h;
+  }
+
+  function grammarAnswers(points) {
+    var html = '<section class="sheet long"><div class="inner">' +
+      '<div class="sec-h"><div class="dot" style="background:#059669"></div><h2>语法练习参考答案</h2></div>';
+    (points || []).forEach(function (g, gi) {
+      var exs = g.exercises || [];
+      if (!exs.length) return;
+      html += '<div class="q ans"><b>' + (gi + 1) + ". " + esc(g.title) + "</b><div>";
+      exs.forEach(function (e, i) {
+        html += (i + 1) + ". " + esc(e.answer || e.correct || "") + "　";
+      });
+      html += "</div></div>";
+    });
+    html += '<div class="foot"><span>Answer Key</span><span>Grammar</span></div></div></section>';
+    return html;
+  }
+
+  function levelLegend(items) {
+    var seen = {};
+    (items || []).forEach(function (it) {
+      (it.handoutExamples || []).forEach(function (ex) {
+        seen[String(ex.level || "")] = true;
+      });
+    });
+    var list = GRADE_LEVELS.filter(function (lv) { return seen[lv.id]; });
+    if (!list.length) list = GRADE_LEVELS;
+    return list.map(function (lv) {
+      return '<span class="pdf-badge ' + lv.id + '">' + lv.label + "</span>";
+    }).join(" ");
   }
 
   function renderHandout(bag) {
     var u = bag.unit;
-    var html = cover(u, "单词 · 词组 · 语法讲义", "彩色卡片排版，便于课前预习与课后复习。");
-    html += '<section class=sheet><div class=inner>' +
-      '<div class=sec-h><div class=dot style="background:#4f46e5"></div><h2>Vocabulary 单词</h2><span>' + bag.vocab.length + " words</span></div>" +
-      '<div class=cards>' + vocabCards(bag.vocab) + "</div>" +
-      '<div class=foot><span>S-Class PET</span><span>Unit ' + u.id + " · Vocab</span></div></div></section>";
-    html += '<section class=sheet><div class=inner>' +
-      '<div class=sec-h><div class=dot style="background:#0d9488"></div><h2>Phrases 词组</h2><span>' + bag.colloc.length + " phrases</span></div>" +
-      '<div class=cards>' + vocabCards(bag.colloc) + "</div>" +
-      '<div class=foot><span>S-Class PET</span><span>Unit ' + u.id + " · Phrases</span></div></div></section>";
-    html += '<section class=sheet><div class=inner>' +
-      '<div class=sec-h><div class=dot style="background:#7c3aed"></div><h2>Grammar 语法</h2><span>' + bag.grammar.length + " points</span></div>";
-    bag.grammar.forEach(function (g) {
-      html += '<article class=gbox><h3>' + esc(g.title || g.word) + "</h3>" +
-        (g.sourceSentence ? '<div class=ex style="margin-bottom:6px">“' + esc(g.sourceSentence) + "” " + esc(g.sourceSentenceCn) + "</div>" : "") +
-        '<div class=exp>' + esc(strip(g.explanation)).slice(0, 420) + "</div>" +
-        (g.tips ? '<div class=ex style="margin-top:6px;color:#6d28d9">' + esc(strip(g.tips)).slice(0, 220) + "</div>" : "") +
-        "</article>";
+    var grammar = bag.handoutGrammar || bag.grammar || [];
+    var html = cover(
+      u,
+      "单词 · 词组 · 语法讲义",
+      "词汇/词组：音标、英中释义、中文用法、词性家族，以及初一到高三可选例句。语法：详细用法与分层练习（每点 15 题以上）。"
+    );
+    html += '<section class="sheet long"><div class="inner">' +
+      '<div class="sec-h"><div class="dot" style="background:#4f46e5"></div><h2>Vocabulary 单词</h2><span>' +
+      bag.vocab.length + " words · 音标保留 · 分层例句</span></div>" +
+      '<p class="lead">例句级别：' + levelLegend(bag.vocab.concat(bag.colloc || [])) + "　不含文章原文。</p>" +
+      vocabCards(bag.vocab) +
+      '<div class="foot"><span>S-Class PET</span><span>Unit ' + u.id + " · Vocab</span></div></div></section>";
+    html += '<section class="sheet long"><div class="inner">' +
+      '<div class="sec-h"><div class="dot" style="background:#0d9488"></div><h2>Phrases 词组</h2><span>' +
+      bag.colloc.length + " phrases</span></div>" +
+      '<p class="lead">词组同样保留音标（如有）、中文用法、词性家族与分层例句。</p>' +
+      vocabCards(bag.colloc) +
+      '<div class="foot"><span>S-Class PET</span><span>Unit ' + u.id + " · Phrases</span></div></div></section>";
+    html += '<section class="sheet long"><div class="inner">' +
+      '<div class="sec-h"><div class="dot" style="background:#7c3aed"></div><h2>Grammar 语法讲义</h2><span>' +
+      grammar.length + " points</span></div>" +
+      '<p class="lead">本部分为独立语法课件：详细用法、结构公式、易错提醒、例句与初一至高三分层练习。每点不少于 15 题，题型含选择、填空、判断、改写、改错。</p>';
+    grammar.forEach(function (g, i) {
+      html += grammarArticle(g, i);
     });
-    html += '<div class=foot><span>S-Class PET</span><span>Unit ' + u.id + " · Grammar</span></div></div></section>";
+    html += '<div class="foot"><span>S-Class PET</span><span>Unit ' + u.id + " · Grammar</span></div></div></section>";
+    html += grammarAnswers(grammar);
     return html;
   }
 
@@ -128,6 +315,58 @@
     return h;
   }
 
+  function fillMark() {
+    return "@@BLANK@@";
+  }
+  function fillHtml(text) {
+    return esc(String(text || "")).replace(/@@BLANK@@/g, '<span class="fill-line"></span>');
+  }
+  function blankPhraseInSentence(sent, phrase) {
+    var p = String(phrase || "").trim();
+    var s = String(sent || "");
+    if (!p || !s) return "";
+    function escRe(x) {
+      return String(x).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    }
+    var exact = new RegExp(escRe(p), "ig");
+    if (exact.test(s)) return s.replace(exact, fillMark());
+    var parts = p.split(/\s+/);
+    if (parts.length >= 2) {
+      var head = escRe(parts[0]);
+      var rest = parts.slice(1).map(escRe).join("\\s+");
+      var flex = new RegExp("\\b" + head + "(?:e?s|ed|ing|d)?\\s+" + rest, "ig");
+      if (flex.test(s)) return s.replace(flex, fillMark());
+      if (parts.length === 2) {
+        var sep = new RegExp(
+          "\\b" + head + "(?:e?s|ed|ing|d)?\\s+(?:it|them|him|her|this|that|me|you|us)\\s+" + escRe(parts[1]),
+          "ig"
+        );
+        if (sep.test(s)) return s.replace(sep, fillMark());
+      }
+      var last = parts[parts.length - 1];
+      if (parts.length >= 3 && last.length >= 4) {
+        var span = new RegExp(
+          "\\b" + head + "(?:e?s|ed|ing|d)?\\b[^.,;:!?]{0,32}?\\b" + escRe(last) + "\\b",
+          "ig"
+        );
+        if (span.test(s)) return s.replace(span, fillMark());
+      }
+    }
+    return "";
+  }
+  function paperLine(q, i) {
+    var body = q.html || fillHtml(q.q || "");
+    if (q.hint) {
+      var hint = ' <span class="zh-hint">（' + esc(q.hint) + "）</span>";
+      if (/fill-line/.test(body)) {
+        body = body.replace(/<span class="fill-line"><\/span>/, '<span class="fill-line"></span>' + hint);
+      } else {
+        body += hint;
+      }
+    }
+    return '<div class=q><span class=n>' + (i + 1) + ".</span> " + body + "</div>";
+  }
+
   function buildPaperQs(bag, level) {
     var n = (PETStudio.LEVELS[level] || PETStudio.LEVELS.standard).count;
     var optN = (PETStudio.LEVELS[level] || PETStudio.LEVELS.standard).options;
@@ -143,19 +382,42 @@
       return { q: it.word + (it.phonetic ? "  " + it.phonetic : ""), options: opts, answer: it.meaning };
     });
     var spells = PETStudio.pickN(bag.vocab, Math.min(8, bag.vocab.length)).map(function (it) {
-      return { q: "根据释义拼写：" + it.meaning + "  (" + (it.word[0] || "") + "______)", answer: it.word };
+      return {
+        q: "根据释义拼写：" + it.meaning + "  " + (it.word[0] || "") + fillMark(),
+        answer: it.word
+      };
     });
     var gaps = [];
     PETStudio.pickN(bag.colloc, Math.min(8, bag.colloc.length)).forEach(function (it) {
-      var ex = (it.examples && it.examples[0]) || {};
-      var sent = ex.sentence || "";
-      var blank = sent;
-      if (it.word && sent.toLowerCase().indexOf(it.word.toLowerCase()) !== -1) {
-        blank = sent.replace(new RegExp(it.word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "ig"), "________");
-      } else {
-        blank = "________  (" + (ex.trans || it.meaning) + ")";
+      var phrase = it.word || it.phrase || "";
+      var hint = it.meaning || "";
+      var ex = {};
+      (it.examples || []).forEach(function (row) {
+        var src = String(row.source || "").toLowerCase();
+        if (src.indexOf("zhongkao") !== -1 || src.indexOf("中考") !== -1) ex = row;
+      });
+      if (!ex.sentence) {
+        (it.examples || []).forEach(function (row) {
+          var src = String(row.source || "").toLowerCase();
+          if (!ex.sentence && src.indexOf("article") === -1 && src.indexOf("文章") === -1) ex = row;
+        });
       }
-      gaps.push({ q: blank, answer: it.word });
+      var sent = String(ex.sentence || "");
+      var blanked = blankPhraseInSentence(sent, phrase);
+      if (!blanked) {
+        var fill = (it.quizFill || []).find(function (r) {
+          return r && (r.is_correct || r.isCorrect) && r.sentence && /_{2,}/.test(r.sentence);
+        });
+        if (fill) blanked = String(fill.sentence).replace(/_{2,}/g, fillMark());
+      }
+      if (!blanked) {
+        if (sent && !/[\u4e00-\u9fff]/.test(sent)) {
+          blanked = sent.replace(/[.?!]\s*$/, "") + " → " + fillMark();
+        } else {
+          blanked = fillMark();
+        }
+      }
+      gaps.push({ q: blanked, hint: hint, answer: phrase });
     });
     var grammarQs = [];
     bag.grammar.forEach(function (g) {
@@ -188,11 +450,11 @@
     html += '<section class=sheet><div class=inner>' +
       '<div class=sec-h><div class=dot style="background:#d97706"></div><h2>C. 拼写冲刺</h2></div>';
     pack.spells.forEach(function (q, i) {
-      html += '<div class=q><span class=n>' + (i + 1) + ".</span> " + esc(q.q) + "</div>";
+      html += paperLine(q, i);
     });
     html += '<div class=sec-h style="margin-top:16px"><div class=dot style="background:#e11d48"></div><h2>D. 词组填空</h2></div>';
     pack.gaps.forEach(function (q, i) {
-      html += '<div class=q><span class=n>' + (i + 1) + ".</span> " + esc(q.q) + "</div>";
+      html += paperLine(q, i);
     });
     html += '<div class=foot><span>PET Review Games</span><span>C–D</span></div></div></section>';
     html += '<section class=sheet><div class=inner>' +
@@ -206,7 +468,7 @@
         html += '<article class=vcard><div class=n style="font-weight:900;color:#0284c7">' + (i + 1) + ".</div>" +
           '<img src="' + esc(q.img) + '" alt="">' +
           '<div class=ex>' + esc(q.meaning || "看图写词") + '</div>' +
-          '<div class=ex>________________</div></article>';
+          '<div class="fill-line wide"></div></article>';
       });
       html += '</div><div class=foot><span>PET Review Games</span><span>F</span></div></div></section>';
     }
@@ -233,8 +495,12 @@
     w.document.close();
   }
 
+  global.PETStudio.GRADE_LEVELS = GRADE_LEVELS;
   global.PETStudio.printHandout = function (bag) {
     openPrint("PET Unit " + bag.unit.id + " 讲义", renderHandout(bag));
+  };
+  global.PETStudio.handoutDocument = function (bag) {
+    return shell("PET Unit " + bag.unit.id + " 讲义", renderHandout(bag));
   };
   global.PETStudio.printPassage = function (bag) {
     openPrint("PET Unit " + bag.unit.id + " 文章", renderPassage(bag), "print-page passage-doc");

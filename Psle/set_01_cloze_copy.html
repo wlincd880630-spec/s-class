@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>第01套完形填空 · 四线格描红抄写</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500;9..40,700&family=Patrick+Hand&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #f6efe2;
+      --ink: #241c14;
+      --muted: #6d5e4e;
+      --gold: #6b3d6a;
+      --line: #e4d5c0;
+      --blue: #42a5f5;
+      --grid-h: 31mm;
+      --trace-font: 2.58rem;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body {
+      font-family: "DM Sans", system-ui, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(900px 420px at 8% -8%, rgba(196, 120, 42, 0.18), transparent 55%),
+        linear-gradient(180deg, #f3e7d2, var(--paper) 28%, #efe4d1);
+      min-height: 100vh;
+    }
+    a { color: inherit; }
+    .topbar {
+      position: sticky; top: 0; z-index: 20;
+      display: flex; flex-wrap: wrap; gap: 0.55rem; align-items: center;
+      justify-content: space-between;
+      padding: 0.7rem 1.1rem;
+      background: rgba(255, 250, 242, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    .brand .kicker { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); font-weight: 700; }
+    .brand strong { font-size: 1.05rem; }
+    .top-actions { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .btn {
+      appearance: none; border: 1px solid var(--line); background: #fff;
+      color: var(--ink); border-radius: 999px; padding: 0.42rem 0.9rem;
+      font: inherit; font-weight: 700; font-size: 0.88rem; cursor: pointer;
+      text-decoration: none; display: inline-flex; align-items: center;
+    }
+    .btn:hover { border-color: var(--ink); }
+    .btn.gold { background: #fff6e8; color: #8a4b12; border-color: #e0b56a; }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 1.1rem 1rem 4rem; }
+    .hero {
+      background: #fffaf2; border: 1px solid var(--line); border-radius: 22px;
+      padding: 1.15rem 1.2rem 1rem; margin-bottom: 1rem;
+    }
+    .hero h1 { font-size: clamp(1.35rem, 3.5vw, 1.85rem); margin: 0 0 0.4rem; }
+    .hero p { margin: 0; color: var(--muted); line-height: 1.55; }
+    .legend {
+      display: flex; flex-wrap: wrap; gap: 0.7rem 1.1rem; margin-top: 0.75rem;
+      font-size: 0.82rem; color: var(--muted); font-weight: 700;
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; vertical-align: -1px; }
+    .dot.trace { background: rgba(144, 202, 249, 0.95); }
+    .dot.write { background: #fff; border: 2px solid var(--blue); }
+
+    .workbook {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 1.2cm 12mm 12mm;
+    }
+    .print-head {
+      text-align: center; margin-bottom: 12px;
+    }
+    .print-head h2 { margin: 0; font-size: 1.12rem; }
+
+    .copy-sheet {
+      margin: 0 0 11mm;
+      padding-bottom: 7mm;
+      border-bottom: 1px dashed #d7c4a6;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .copy-sheet:last-child { border-bottom: 0; margin-bottom: 0; }
+    .copy-sheet-body {
+      display: grid;
+      grid-template-columns: 42mm 1fr;
+      gap: 8px 12px;
+      align-items: start;
+    }
+    .meaning-pic {
+      width: 42mm;
+      height: 42mm;
+      border: 2px solid var(--ink);
+      border-radius: 10px;
+      overflow: hidden;
+      background: #efe6d6;
+      box-shadow: 2px 2px 0 var(--ink);
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+    }
+    .copy-sheet.is-wide .meaning-pic {
+      height: 52mm;
+    }
+    .meaning-pic img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    .copy-practice { min-width: 0; }
+    .copy-word-head {
+      display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.45rem 0.7rem;
+      margin-bottom: 7px;
+    }
+    .copy-num {
+      width: 1.55rem; height: 1.55rem; border-radius: 50%;
+      display: inline-grid; place-items: center;
+      background: #6b3d6a; color: #fff8ee; font-size: 0.82rem; font-weight: 800;
+    }
+    .copy-word { font-weight: 800; font-size: 1.05rem; }
+    .copy-zh { color: var(--muted); font-size: 0.88rem; font-weight: 600; }
+
+    .copy-rows { display: flex; flex-direction: column; gap: 7px; }
+    .copy-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 7px;
+    }
+    .copy-sheet.is-wide .copy-row { grid-template-columns: 1fr; }
+    .copy-cell {
+      position: relative;
+      border: 2px solid var(--blue);
+      border-radius: 10px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .copy-line-grid {
+      position: relative;
+      height: var(--grid-h);
+      width: 100%;
+    }
+    .copy-line-grid .dl-line {
+      position: absolute; left: 0; right: 0; height: 0;
+      margin: 0; padding: 0; border: none; display: block;
+    }
+    /* 四线：顶线 / 中虚线 / 草地基线 / 底线（与小学英语练习本比例一致） */
+    .copy-line-grid .dl-top { top: 25%; border-top: 1.5px solid #90CAF9; }
+    .copy-line-grid .dl-mid { top: 41.5%; border-top: 1.5px dashed rgba(33, 150, 243, 0.32); }
+    .copy-line-grid .dl-grass { top: 58%; border-top: 2.5px solid #90CAF9; }
+    .copy-line-grid .dl-base { top: 75%; border-top: 1.5px solid #EF9A9A; }
+
+    .copy-trace-text {
+      position: absolute;
+      left: 50%;
+      top: 58%;
+      transform: translate(-50%, calc(1.1mm - 100%));
+      font-family: "Patrick Hand", "Comic Sans MS", cursive;
+      font-weight: 700;
+      font-size: var(--trace-font);
+      color: rgba(144, 202, 249, 0.58);
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 0;
+      line-height: 1;
+      letter-spacing: 0.01em;
+    }
+    .copy-sheet.is-wide .copy-trace-text {
+      left: 8mm;
+      transform: translate(0, calc(1.1mm - 100%));
+    }
+    .copy-cell-tag {
+      position: absolute; top: 3px; left: 5px;
+      font-size: 0.64rem; font-weight: 800;
+      padding: 1px 6px; border-radius: 999px;
+      pointer-events: none; z-index: 1;
+    }
+    .copy-cell--trace .copy-cell-tag { background: rgba(144, 202, 249, 0.38); color: #1565c0; }
+    .copy-cell--write .copy-cell-tag { background: #f1f2f6; color: var(--muted); }
+
+    @media (max-width: 640px) {
+      .copy-sheet-body { grid-template-columns: 1fr; justify-items: start; }
+      .meaning-pic, .copy-sheet.is-wide .meaning-pic { width: 42mm; height: 42mm; }
+      .copy-row { grid-template-columns: 1fr; }
+      .workbook { padding: 0.8rem; }
+    }
+
+    @page { size: A4 portrait; margin: 12mm 12mm 12mm; }
+    @media print {
+      body { background: #fff !important; }
+      .topbar, .hero, .no-print, .copy-cell-tag { display: none !important; }
+      .wrap { max-width: none; padding: 0; }
+      .workbook { border: 0; border-radius: 0; padding: 0; }
+      .copy-sheet-body { grid-template-columns: 38mm 1fr !important; }
+      .meaning-pic { width: 38mm; height: 38mm; }
+      .copy-sheet.is-wide .meaning-pic { height: 48mm; }
+      .copy-row { grid-template-columns: repeat(3, 1fr) !important; }
+      .copy-sheet.is-wide .copy-row { grid-template-columns: 1fr !important; }
+      .meaning-pic,
+      .meaning-pic img,
+      .copy-trace-text {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar no-print">
+    <div class="brand">
+      <div class="kicker">S-Class · PSLE Set 01</div>
+      <strong>完形填空 四线格描红抄写</strong>
+    </div>
+    <div class="top-actions">
+      <a class="btn" href="set_01_cloze_comic.html">← 完形漫画</a>
+      <a class="btn" href="set_01_passage_a_copy.html">阅读描红</a>
+      <a class="btn" href="set_01_typeflow.html">题型页</a>
+      <button type="button" class="btn gold" id="btnPdf">打印 / 导出 PDF</button>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <section class="hero no-print">
+      <h1>从完形填空课文选出 12 个原形词 / 词组</h1>
+      <p>左侧词义图沿用完形漫画分镜。短词两行、每行三格；较长词组改为通栏四线格，描红 3 行、空白抄写 3 行。第 9 空对应词汇为 <strong>tired</strong>（疲倦的）。</p>
+      <div class="legend">
+        <span><i class="dot trace"></i>描红 ×3</span>
+        <span><i class="dot write"></i>独立书写 ×3</span>
+      </div>
+    </section>
+
+    <div class="workbook" id="workbook"></div>
+  </div>
+
+  <script>
+    const ITEMS = [
+      { en: "shop for", zh: "为……购物", img: "set_01_comic/img/c02-shopping-trip.jpg" },
+      { en: "shopping centre", zh: "购物中心", img: "set_01_comic/img/c03-crowded-mall.jpg" },
+      { en: "stay with me", zh: "跟我待在一起", img: "set_01_comic/img/c04-stay-with-me.jpg" },
+      { en: "size", zh: "尺码", img: "set_01_comic/img/c06-shirt-size.jpg" },
+      { en: "thirsty", zh: "口渴的", img: "set_01_comic/img/c08-cola-sale.jpg" },
+      { en: "on sale", zh: "打折促销", img: "set_01_comic/img/c08-cola-sale.jpg" },
+      { en: "look at", zh: "看；注视", img: "set_01_comic/img/c09-shoes-lost-tom.jpg" },
+      { en: "happily", zh: "高兴地", img: "set_01_comic/img/c10-jack-happily.jpg" },
+      { en: "choose", zh: "挑选", img: "set_01_comic/img/c11-schoolbag-colours.jpg" },
+      { en: "tired", zh: "疲倦的", img: "set_01_comic/img/c14-mum-tired.jpg" },
+      { en: "write", zh: "写", img: "set_01_comic/img/c15-family-rules.jpg" },
+      { en: "family rules", zh: "家规", img: "set_01_comic/img/c15-family-rules.jpg" }
+    ];
+
+    const WIDE_WORDS = {
+      "shop for": 1,
+      "shopping centre": 1,
+      "stay with me": 1,
+      "on sale": 1,
+      "look at": 1,
+      "family rules": 1
+    };
+
+    function isWide(word) {
+      return !!WIDE_WORDS[word] || /\s/.test(word);
+    }
+
+    function esc(s) {
+      return String(s == null ? "" : s)
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    function cellHtml(mode, word) {
+      const tag = mode === "trace" ? "描红" : "抄写";
+      const guide = mode === "trace"
+        ? '<span class="copy-trace-text">' + esc(word) + "</span>"
+        : "";
+      return (
+        '<div class="copy-cell copy-cell--' + mode + '">' +
+          '<span class="copy-cell-tag no-print">' + tag + "</span>" +
+          '<div class="copy-line-grid">' +
+            guide +
+            '<i class="dl-line dl-top"></i><i class="dl-line dl-mid"></i>' +
+            '<i class="dl-line dl-grass"></i><i class="dl-line dl-base"></i>' +
+          "</div>" +
+        "</div>"
+      );
+    }
+
+    function render() {
+      let html = '<div class="print-head"><h2>完形填空 · Shop with One Boy Each Time · 四线格描红抄写</h2></div>';
+      ITEMS.forEach((item, i) => {
+        const wide = isWide(item.en);
+        const rows = wide
+          ? [["trace"], ["trace"], ["trace"], ["write"], ["write"], ["write"]]
+          : [["trace", "trace", "trace"], ["write", "write", "write"]];
+        html += '<article class="copy-sheet' + (wide ? " is-wide" : "") + '">';
+        html += '<div class="copy-sheet-body">';
+        html += '<div class="meaning-pic"><img src="' + esc(item.img) + '" alt="' + esc(item.en) + '" /></div>';
+        html += '<div class="copy-practice">';
+        html += '<div class="copy-word-head">';
+        html += '<span class="copy-num">' + (i + 1) + "</span>";
+        html += '<span class="copy-word">' + esc(item.en) + "</span>";
+        html += '<span class="copy-zh">' + esc(item.zh) + "</span></div>";
+        html += '<div class="copy-rows">';
+        rows.forEach((row) => {
+          html += '<div class="copy-row">';
+          row.forEach((mode) => { html += cellHtml(mode, item.en); });
+          html += "</div>";
+        });
+        html += "</div></div></div></article>";
+      });
+      document.getElementById("workbook").innerHTML = html;
+    }
+
+    document.getElementById("btnPdf").addEventListener("click", () => {
+      window.print();
+    });
+
+    render();
+  </script>
+</body>
+</html>

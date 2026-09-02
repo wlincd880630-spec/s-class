@@ -6,6 +6,9 @@
   const IMAGE_BASE = 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/REFH/02/courseware/assets/images/';
   const COURSEWARE_WEB_BASE = 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/REFH/02/courseware/';
   const ARTICLE_PAGE_URL = COURSEWARE_WEB_BASE + 'part2-reading.html';
+  const QUIZ_PAGE_URL = 'https://www.s-class.top/REFH/02/courseware/part4-quiz.html';
+  const QUIZ_KICKER = 'S-Class · REFH 02 · Vocabulary Quiz Packet';
+  const QUIZ_ACCENT = '#1a5f7a';
 
   const DEFAULT_CONFIG = {
     azureKey: '4SJbskufsk2tiu5jq1kzlJwTDw2eVPYd8e7HvDhb3lX6ZmItWOnxJQQJ99CHACqBBLyXJ3w3AAAYACOGxnpO',
@@ -787,6 +790,7 @@ ${azureLine}
     const pages = [
       { href: 'index.html', label: '首页' },
       { href: 'part1-vocabulary.html', label: '词汇' },
+      { href: 'copy.html', label: '抄写' },
       { href: 'part2-reading.html', label: '阅读' },
       { href: 'part3-speaking.html', label: '朗读' },
       { href: 'part4-quiz.html', label: '测验' }
@@ -1668,6 +1672,468 @@ ${azureLine}
     }, 700);
   }
 
+
+  function shuffleArray(arr) {
+    const a = (arr || []).slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function parseQuizLetters(letters, answer) {
+    const fromAnswer = String(answer || '').replace(/[^A-Za-z]/g, '');
+    if (fromAnswer.length > 1) return fromAnswer.split('');
+    const raw = String(letters || '').trim();
+    let chars = raw.split(/\s+/).filter(Boolean);
+    if (chars.length === 1) chars = chars[0].replace(/[^A-Za-z]/g, '').split('');
+    else chars = raw.replace(/[^A-Za-z]/g, '').split('');
+    return chars.filter(Boolean);
+  }
+
+  function lettersSpellTarget(arr, target) {
+    return arr.join('').toLowerCase() === String(target || '').toLowerCase();
+  }
+
+  function scrambleQuizLetters(letters, answer) {
+    const chars = parseQuizLetters(letters, answer);
+    if (chars.length <= 1) return chars;
+    const target = String(answer || chars.join('')).replace(/[^A-Za-z]/g, '').toLowerCase();
+    let shuffled = chars.slice();
+    for (let i = 0; i < 80; i++) {
+      shuffled = shuffleArray(chars);
+      if (!lettersSpellTarget(shuffled, target)) return shuffled;
+    }
+    shuffled = chars.slice().reverse();
+    if (lettersSpellTarget(shuffled, target) && shuffled.length > 1) {
+      const tmp = shuffled[0];
+      shuffled[0] = shuffled[1];
+      shuffled[1] = tmp;
+    }
+    return shuffled;
+  }
+
+  const QUIZ_PART_COLORS = {
+    1: { bg: '#ecfeff', border: '#0e7490', ink: '#155e75', chip: '#0e7490', name: '潮汐青绿' },
+    2: { bg: '#e0f2fe', border: '#0284c7', ink: '#075985', chip: '#0369a1', name: '太平洋蓝' },
+    3: { bg: '#fff7ed', border: '#f97316', ink: '#c2410c', chip: '#ea580c', name: '日落橙' },
+    4: { bg: '#f5f3ff', border: '#7c3aed', ink: '#5b21b6', chip: '#7c3aed', name: '冲浪紫' },
+    5: { bg: '#fdf2f8', border: '#db2777', ink: '#9d174d', chip: '#db2777', name: '救生衣粉' },
+    6: { bg: '#fefce8', border: '#ca8a04', ink: '#854d0e', chip: '#ca8a04', name: '沙滩金' }
+  };
+
+  function getQuizPdfCss() {
+    return `
+      html,body{margin:0;padding:0;background:#fff;color:#16323c;
+        font-family:'Microsoft YaHei','PingFang SC','Noto Sans SC','Segoe UI',sans-serif;
+        -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+      .pdf-doc{box-sizing:border-box;width:680px;max-width:680px;margin:0;padding:14px 16px 22px;overflow:visible;}
+      .pdf-export-block{overflow:visible;page-break-inside:avoid;break-inside:avoid;}
+      .qpdf-cover{
+        border-radius:16px;overflow:hidden;border:2px solid ${QUIZ_ACCENT};
+        background:linear-gradient(135deg,${QUIZ_ACCENT} 0%,#0369a1 42%,#7c3aed 78%,#db2777 100%);
+        color:#fff;padding:0 0 14px;
+      }
+      .qpdf-cover-top{display:flex;gap:12px;padding:14px 14px 10px;align-items:stretch;}
+      .qpdf-cover-copy{flex:1;min-width:0;}
+      .qpdf-kicker{
+        display:inline-block;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.35);
+        padding:3px 10px;border-radius:999px;font-size:9px;font-weight:700;letter-spacing:0.04em;margin-bottom:8px;
+      }
+      .qpdf-cover h1{font-size:20px;line-height:1.28;margin:0 0 6px;font-weight:800;}
+      .qpdf-cover .qpdf-sub{font-size:11px;opacity:0.92;margin:0 0 10px;line-height:1.5;}
+      .qpdf-cover-img-wrap{
+        flex:0 0 168px;background:rgba(255,255,255,0.16);border-radius:12px;padding:5px;
+      }
+      .qpdf-cover-img{width:100%;height:96px;object-fit:contain;object-position:center;border-radius:8px;display:block;background:#155e75;}
+      .qpdf-cover-qr{width:72px;height:72px;display:block;margin:6px auto 2px;border-radius:6px;background:#fff;padding:3px;}
+      .qpdf-cover-qr-label{font-size:8px;text-align:center;margin:0;opacity:0.95;font-weight:700;}
+      .qpdf-fields{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 14px;}
+      .qpdf-field{
+        background:rgba(255,255,255,0.16);border:1px dashed rgba(255,255,255,0.5);
+        border-radius:8px;padding:7px 10px;font-size:10.5px;
+      }
+      .qpdf-field b{display:block;font-size:8.5px;opacity:0.85;margin-bottom:4px;font-weight:700;}
+      .qpdf-field-line{border-bottom:1.5px solid rgba(255,255,255,0.85);height:16px;}
+      .qpdf-legend{
+        display:flex;flex-wrap:wrap;gap:6px;padding:10px 14px 0;
+      }
+      .qpdf-chip{
+        font-size:8.5px;font-weight:700;padding:3px 8px;border-radius:999px;color:#fff;
+      }
+      .qpdf-part{
+        margin:0;border-radius:12px;border:1.5px solid #bae6fd;overflow:hidden;
+      }
+      .qpdf-part-head{
+        display:flex;align-items:center;justify-content:space-between;gap:8px;
+        padding:8px 12px;color:#fff;
+      }
+      .qpdf-part-head h2{font-size:13px;margin:0;font-weight:800;letter-spacing:0.01em;}
+      .qpdf-part-head span{font-size:9px;opacity:0.95;font-weight:600;}
+      .qpdf-part-body{padding:8px 10px 10px;background:#fff;}
+      .qpdf-hint{
+        font-size:9.5px;line-height:1.45;padding:6px 8px;border-radius:8px;margin-bottom:8px;
+      }
+      .qpdf-item{
+        margin:0 0 7px;padding:7px 9px;border-radius:8px;border:1px solid #e2e8f0;background:#f8fafc;
+      }
+      .qpdf-item:last-child{margin-bottom:0;}
+      .qpdf-qno{
+        display:inline-flex;align-items:center;justify-content:center;
+        min-width:18px;height:18px;border-radius:50%;color:#fff;font-size:9px;font-weight:800;margin-right:6px;
+      }
+      .qpdf-en{font-size:11px;line-height:1.55;color:#1e293b;}
+      .qpdf-cn{font-size:9.5px;color:#64748b;margin-top:2px;}
+      .qpdf-write{
+        margin-top:6px;height:22px;border-radius:6px;
+        border:1.5px dashed #94a3b8;background:linear-gradient(180deg,#fff 60%,#f1f5f9 100%);
+      }
+      .qpdf-blank{
+        display:inline-block;min-width:72px;border-bottom:2px solid #0e7490;
+        height:13px;margin:0 3px;vertical-align:-2px;background:linear-gradient(180deg,transparent 72%,#ecfeff 72%);
+      }
+      .qpdf-blank.lg{min-width:108px;}
+      .qpdf-first{
+        display:inline-flex;width:16px;height:18px;align-items:center;justify-content:center;
+        border-radius:4px;background:#7c3aed;color:#fff;font-weight:800;font-size:11px;margin:0 1px 0 4px;
+      }
+      .qpdf-tiles{margin:4px 0 6px;display:flex;flex-wrap:wrap;gap:3px;align-items:center;}
+      .qpdf-tile{
+        display:inline-flex;width:20px;height:24px;align-items:center;justify-content:center;
+        margin:0 3px 3px 0;border-radius:5px;border:1.5px solid #f97316;
+        background:linear-gradient(180deg,#fff7ed,#ffedd5);color:#c2410c;font-weight:800;font-size:12px;
+      }
+      .qpdf-bank{display:flex;flex-wrap:wrap;gap:5px;margin:0 0 8px;padding:8px;border-radius:10px;background:#e0f2fe;border:1px dashed #7dd3fc;}
+      .qpdf-bank-item{
+        font-size:10px;font-weight:700;padding:3px 8px;border-radius:999px;color:#fff;
+      }
+      .qpdf-opts{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:6px;}
+      .qpdf-opts.stack{grid-template-columns:1fr;}
+      .qpdf-opt{
+        font-size:10px;line-height:1.4;padding:6px 8px;border-radius:8px;border:1px solid #cbd5e1;background:#fff;color:#334155;
+      }
+      .qpdf-opt b{
+        display:inline-flex;width:16px;height:16px;align-items:center;justify-content:center;
+        border-radius:50%;margin-right:5px;font-size:9px;color:#fff;
+      }
+      .qpdf-passage{
+        font-size:11px;line-height:1.85;padding:10px 12px;border-radius:10px;
+        background:linear-gradient(180deg,#fff1f2,#fdf2f8);border:1px solid #fbcfe8;color:#1e293b;
+      }
+      .qpdf-cloze{
+        display:inline-flex;min-width:36px;padding:0 6px;margin:0 2px;height:16px;align-items:flex-end;justify-content:center;
+        border-bottom:2px solid #db2777;color:#9d174d;font-weight:800;font-size:9.5px;background:#fff;
+      }
+      .qpdf-key-head{
+        padding:8px 12px;border-radius:12px 12px 0 0;background:linear-gradient(90deg,#ca8a04,#f97316,#db2777);
+        color:#fff;
+      }
+      .qpdf-key-head h2{margin:0;font-size:13px;font-weight:800;}
+      .qpdf-key-head p{margin:3px 0 0;font-size:9px;opacity:0.95;}
+      .qpdf-key-body{padding:8px 10px 10px;border:1.5px solid #fde68a;border-top:0;border-radius:0 0 12px 12px;background:#fffbeb;}
+      .qpdf-key-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 10px;}
+      .qpdf-key-item{font-size:10px;line-height:1.4;padding:4px 6px;border-radius:6px;background:#fff;border:1px solid #fde68a;}
+      .qpdf-key-item b{color:#b45309;}
+      .qpdf-footer{
+        display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:12px;
+        background:linear-gradient(90deg,#ecfeff,#e0f2fe);border:1px dashed #67e8f9;
+      }
+      .qpdf-footer img{width:72px;height:72px;border-radius:8px;}
+      .qpdf-footer-text{font-size:9.5px;line-height:1.5;color:#155e75;}
+      .qpdf-footer-text b{display:block;font-size:11px;color:#0e7490;margin-bottom:3px;}
+      @media print{
+        @page{size:A4 portrait;margin:11mm;}
+        body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+        .pdf-doc{width:auto;max-width:none;padding:0;}
+      }`;
+  }
+
+  function quizOptLetter(i) {
+    return String.fromCharCode(65 + i);
+  }
+
+  function quizOptColors() {
+    return ['#0e7490', '#0284c7', '#7c3aed', '#db2777', '#f97316', '#059669'];
+  }
+
+  function buildQuizBlankHtml(sentence) {
+    return escapeHtml(sentence).replace(/___/g, '<span class="qpdf-blank lg"></span>');
+  }
+
+  function buildQuizPdfCover(data, meta) {
+    const date = new Date().toLocaleDateString('zh-CN');
+    const coverName = (data.paragraphs && data.paragraphs[0] && data.paragraphs[0].image) || '';
+    const img = coverName ? imageUrl(coverName) : '';
+    const qr = meta.qrDataUrl
+      ? `<img class="qpdf-cover-qr" src="${meta.qrDataUrl}" alt="扫码测验">
+         <p class="qpdf-cover-qr-label">扫码在线测验</p>`
+      : '';
+    const imgBlock = img
+      ? `<div class="qpdf-cover-img-wrap">
+           <img class="qpdf-cover-img" src="${escapeHtml(img)}" alt="" crossorigin="anonymous">
+           ${qr}
+         </div>`
+      : (qr ? `<div class="qpdf-cover-img-wrap">${qr}</div>` : '');
+    return `<div class="pdf-export-block qpdf-cover">
+      <div class="qpdf-cover-top">
+        <div class="qpdf-cover-copy">
+          <div class="qpdf-kicker">${escapeHtml(QUIZ_KICKER)}</div>
+          <h1>${escapeHtml(data.title || meta.title || 'Vocabulary Quiz')}</h1>
+          <p class="qpdf-sub">词汇测验卷 · Level ${escapeHtml(data.level || '570L')} · ${data.word_count || 441} words · ${date}<br>学生独立完成 Parts 1–6，末页为参考答案。</p>
+        </div>
+        ${imgBlock}
+      </div>
+      <div class="qpdf-fields">
+        <div class="qpdf-field"><b>姓名 Name</b><div class="qpdf-field-line"></div></div>
+        <div class="qpdf-field"><b>班级 Class</b><div class="qpdf-field-line"></div></div>
+        <div class="qpdf-field"><b>日期 Date</b><div class="qpdf-field-line"></div></div>
+        <div class="qpdf-field"><b>得分 Score</b><div class="qpdf-field-line"></div></div>
+      </div>
+      <div class="qpdf-legend">
+        <span class="qpdf-chip" style="background:#0e7490">1 Spelling 拼写</span>
+        <span class="qpdf-chip" style="background:#0284c7">2 Word Bank 选词</span>
+        <span class="qpdf-chip" style="background:#f97316">3 Unscramble 字母重组</span>
+        <span class="qpdf-chip" style="background:#7c3aed">4 First Letter 首字母</span>
+        <span class="qpdf-chip" style="background:#db2777">5 Cloze 短文填空</span>
+        <span class="qpdf-chip" style="background:#ca8a04">6 Comprehension 阅读理解</span>
+      </div>
+    </div>`;
+  }
+
+  function buildQuizPartHead(num, titleEn, titleCn, extra) {
+    const c = QUIZ_PART_COLORS[num];
+    return `<div class="pdf-export-block qpdf-part" style="border-color:${c.border}">
+      <div class="qpdf-part-head" style="background:linear-gradient(90deg,${c.border},${c.chip})">
+        <h2>Part ${num} · ${escapeHtml(titleEn)}</h2>
+        <span>${escapeHtml(titleCn)} · ${escapeHtml(c.name)}</span>
+      </div>
+      <div class="qpdf-part-body" style="background:${c.bg}">${extra || ''}</div>
+    </div>`;
+  }
+
+  function buildQuizItemBlock(num, inner) {
+    const c = QUIZ_PART_COLORS[num];
+    return `<div class="pdf-export-block qpdf-item" style="border-left:4px solid ${c.border};background:${c.bg}">${inner}</div>`;
+  }
+
+  function buildQuizPdfHtml(data, meta) {
+    meta = meta || {};
+    const q = data.quiz || {};
+    const colors = quizOptColors();
+
+    const spellingItems = (q.spelling || []).map((s, i) =>
+      buildQuizItemBlock(1, `
+        <div class="qpdf-en"><span class="qpdf-qno" style="background:#0e7490">${i + 1}</span>${escapeHtml(s.hint_en || '')}</div>
+        <div class="qpdf-cn">${escapeHtml(s.hint_cn || '')}</div>
+        <div class="qpdf-write"></div>`)
+    ).join('');
+
+    const bank = shuffleArray(q.word_selection?.bank || q.word_selection?.items?.map(it => it.answer) || []);
+    const bankHtml = `<div class="qpdf-bank">${bank.map((w, i) =>
+      `<span class="qpdf-bank-item" style="background:${colors[i % colors.length]}">${escapeHtml(w)}</span>`
+    ).join('')}</div>`;
+    const selectItems = (q.word_selection?.items || []).map((it, i) =>
+      buildQuizItemBlock(2, `
+        <div class="qpdf-en"><span class="qpdf-qno" style="background:#0284c7">${i + 1}</span>${buildQuizBlankHtml(it.sentence || '')}</div>`)
+    ).join('');
+
+    const unscrambleItems = (q.unscramble || []).map((u, i) => {
+      const letters = scrambleQuizLetters(u.letters, u.answer);
+      const tiles = letters.map(ch => `<span class="qpdf-tile">${escapeHtml(String(ch).toUpperCase())}</span>`).join('');
+      return buildQuizItemBlock(3, `
+        <div class="qpdf-en"><span class="qpdf-qno" style="background:#f97316">${i + 1}</span><span class="qpdf-cn" style="display:inline;margin:0 8px 0 0">${escapeHtml(u.hint || '')}</span></div>
+        <div class="qpdf-tiles" data-scrambled="${escapeHtml(letters.join('').toLowerCase())}">${tiles}</div>
+        <div class="qpdf-write"></div>`);
+    }).join('');
+
+    const firstItems = (q.first_letter || []).map((f, i) => {
+      const marker = (f.before || '').indexOf('___');
+      const before = marker >= 0 ? f.before.slice(0, marker) : (f.before || '');
+      const after = marker >= 0 ? f.before.slice(marker + 3) + (f.after || '') : (f.after || '');
+      return buildQuizItemBlock(4, `
+        <div class="qpdf-en"><span class="qpdf-qno" style="background:#7c3aed">${i + 1}</span>${escapeHtml(before)}<span class="qpdf-first">${escapeHtml((f.letter || '').toUpperCase())}</span><span class="qpdf-blank lg"></span>${escapeHtml(after)}</div>`);
+    }).join('');
+
+    let clozePassage = escapeHtml(q.reading_cloze?.passage || '');
+    clozePassage = clozePassage.replace(/___\[(\d+)\]/g, '<span class="qpdf-cloze">[$1]</span>');
+    const clozePassageBlock = buildQuizItemBlock(5, `<div class="qpdf-passage">${clozePassage}</div>`);
+    const clozeQs = (q.reading_cloze?.questions || []).map(cq =>
+      buildQuizItemBlock(5, `
+        <div class="qpdf-en"><span class="qpdf-qno" style="background:#db2777">${cq.num}</span>Blank [${cq.num}]</div>
+        <div class="qpdf-opts">${(cq.options || []).map((o, oi) =>
+          `<div class="qpdf-opt"><b style="background:${colors[oi % colors.length]}">${quizOptLetter(oi)}</b>${escapeHtml(o)}</div>`
+        ).join('')}</div>`)
+    ).join('');
+
+    const compItems = (q.comprehension || data.comprehension_questions || []).map((item, i) =>
+      buildQuizItemBlock(6, `
+        <div class="qpdf-en"><span class="qpdf-qno" style="background:#ca8a04">${i + 1}</span>${escapeHtml(item.q || '')}</div>
+        <div class="qpdf-opts stack">${(item.options || []).map((o, oi) =>
+          `<div class="qpdf-opt"><b style="background:${colors[oi % colors.length]}">${quizOptLetter(oi)}</b>${escapeHtml(o)}</div>`
+        ).join('')}</div>`)
+    ).join('');
+
+    const keyRows = [];
+    (q.spelling || []).forEach((s, i) => keyRows.push({ part: '1 Spelling', n: i + 1, a: s.answer }));
+    (q.word_selection?.items || []).forEach((s, i) => keyRows.push({ part: '2 Word Bank', n: i + 1, a: s.answer }));
+    (q.unscramble || []).forEach((s, i) => keyRows.push({ part: '3 Unscramble', n: i + 1, a: s.answer }));
+    (q.first_letter || []).forEach((s, i) => keyRows.push({ part: '4 First Letter', n: i + 1, a: s.answer }));
+    (q.reading_cloze?.questions || []).forEach((s) => keyRows.push({ part: '5 Cloze', n: s.num, a: s.answer }));
+    (q.comprehension || data.comprehension_questions || []).forEach((s, i) => {
+      const letter = quizOptLetter(s.answer || 0);
+      keyRows.push({ part: '6 Reading', n: i + 1, a: letter });
+    });
+
+    const keyByPart = {};
+    keyRows.forEach(row => {
+      (keyByPart[row.part] ||= []).push(row);
+    });
+    const keyHtml = Object.keys(keyByPart).map(part =>
+      `<div style="margin-bottom:8px">
+        <div style="font-size:10px;font-weight:800;color:#92400e;margin:0 0 4px">${escapeHtml(part)}</div>
+        <div class="qpdf-key-grid">${keyByPart[part].map(r =>
+          `<div class="qpdf-key-item"><b>${r.n}.</b> ${escapeHtml(r.a)}</div>`
+        ).join('')}</div>
+      </div>`
+    ).join('');
+
+    return `<div class="pdf-doc">
+      ${buildQuizPdfCover(data, meta)}
+      ${buildQuizPartHead(1, 'Spelling Bee', '根据英文释义拼写单词',
+        `<div class="qpdf-hint" style="background:#cffafe;color:#155e75">看英文释义（或听老师读），把单词完整写在虚线框里。</div>`)}
+      ${spellingItems}
+      ${buildQuizPartHead(2, 'Word Selection', '从词库选词填空',
+        bankHtml + `<div class="qpdf-hint" style="background:#bae6fd;color:#075985">每个词建议只用一次。把答案写在句子横线上。</div>`)}
+      ${selectItems}
+      ${buildQuizPartHead(3, 'Unscramble', '字母重组',
+        `<div class="qpdf-hint" style="background:#ffedd5;color:#9a3412">把橙色字母块重新排列，写成正确单词。</div>`)}
+      ${unscrambleItems}
+      ${buildQuizPartHead(4, 'First Letter', '根据首字母补全',
+        `<div class="qpdf-hint" style="background:#ede9fe;color:#5b21b6">紫色方块是首字母，在横线上写出剩余字母（或完整单词）。</div>`)}
+      ${firstItems}
+      ${buildQuizPartHead(5, 'Reading Cloze', '短文选择填空',
+        `<div class="qpdf-hint" style="background:#fce7f3;color:#9d174d">先读粉底短文，再为每个空格圈出 A / B / C。</div>`)}
+      ${clozePassageBlock}
+      ${clozeQs}
+      ${buildQuizPartHead(6, 'Comprehension', '原文阅读理解',
+        `<div class="qpdf-hint" style="background:#fef9c3;color:#854d0e">Newsela 原题。圈出 A / B / C / D。</div>`)}
+      ${compItems}
+      <div class="pdf-export-block">
+        <div class="qpdf-key-head">
+          <h2>参考答案 Answer Key</h2>
+          <p>教师页 · 请先独立完成前面的测验再核对</p>
+        </div>
+        <div class="qpdf-key-body">${keyHtml}</div>
+      </div>
+    </div>`;
+  }
+
+  function buildQuizPdfDocument(data, meta) {
+    meta = meta || {};
+    const body = buildQuizPdfHtml(data, meta);
+    return `<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+      <style>${getQuizPdfCss()}</style></head><body>${body}</body></html>`;
+  }
+
+  async function exportPdfDocument(srcdoc, filename, maskText) {
+    await loadPdfLibs();
+    const mask = document.createElement('div');
+    mask.setAttribute('aria-busy', 'true');
+    mask.style.cssText =
+      'position:fixed;inset:0;background:rgba(14,116,144,0.45);z-index:2147483000;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-family:system-ui,sans-serif;';
+    mask.textContent = maskText || '正在生成 PDF…';
+    document.body.appendChild(mask);
+
+    const iframe = document.createElement('iframe');
+    iframe.setAttribute('title', 'quiz-pdf-export');
+    iframe.style.cssText =
+      'position:fixed;left:0;top:0;width:680px;border:0;z-index:2147482000;background:#fff;';
+    iframe.srcdoc = srcdoc;
+    document.body.appendChild(iframe);
+
+    try {
+      await waitPdfIframe(iframe);
+      const idoc = iframe.contentDocument;
+      await waitPdfImages(idoc);
+      const root = idoc.querySelector('.pdf-doc');
+      if (!root) throw new Error('PDF 内容未找到');
+      const h = Math.max(idoc.body.scrollHeight, root.scrollHeight, 400);
+      iframe.style.height = h + 40 + 'px';
+
+      const JsPDF = global.jspdf.jsPDF;
+      const pdf = new JsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait', compress: true });
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
+      const margin = 11;
+      const st = { margin, pageW, pageH, contentW: pageW - margin * 2, y: margin, gap: 3 };
+
+      for (const block of root.querySelectorAll('.pdf-export-block')) {
+        const canvas = await capturePdfBlock(block);
+        appendCanvasAsWholeBlock(pdf, canvas, st, { fitOnePage: true });
+      }
+      pdf.save(filename);
+    } finally {
+      mask.remove();
+      iframe.remove();
+    }
+  }
+
+  async function exportQuizPdf(options) {
+    const data = options?.data;
+    if (!data?.quiz) throw new Error('无测验内容可导出');
+    const pageUrl = options?.pageUrl || QUIZ_PAGE_URL;
+    const meta = {
+      title: options.title || data.title,
+      accent: options.accent || QUIZ_ACCENT,
+      pageUrl
+    };
+    const filename = options.filename || 'Quiz_Packet.pdf';
+    await loadPdfLibs();
+    if (pageUrl) {
+      try {
+        meta.qrDataUrl = await buildArticleQrDataUrl(pageUrl, meta.accent);
+      } catch (e) {
+        console.warn('QR code generation failed', e);
+      }
+    }
+    await exportPdfDocument(
+      buildQuizPdfDocument(data, meta),
+      filename,
+      '正在生成彩色测验卷 PDF…'
+    );
+  }
+
+  async function openQuizPrintWindow(data, meta) {
+    if (!data?.quiz) {
+      showToast('没有可导出的测验');
+      return;
+    }
+    meta = { ...(meta || {}) };
+    const pageUrl = meta.pageUrl || QUIZ_PAGE_URL;
+    meta.pageUrl = pageUrl;
+    if (pageUrl) {
+      try {
+        meta.qrDataUrl = await buildArticleQrDataUrl(pageUrl, meta.accent || QUIZ_ACCENT);
+      } catch (e) {
+        console.warn('QR code generation failed', e);
+      }
+    }
+    const w = window.open('', '_blank');
+    if (!w) {
+      showToast('请允许弹出窗口以打印 PDF');
+      return;
+    }
+    w.document.open();
+    w.document.write(buildQuizPdfDocument(data, meta));
+    w.document.close();
+    w.focus();
+    w.onload = () => setTimeout(() => {
+      w.print();
+      showToast('请选择「另存为 PDF」或打印机保存');
+    }, 700);
+  }
+
   initConfig();
 
   global.Courseware = {
@@ -1685,6 +2151,8 @@ ${azureLine}
     ensureSpeechSdk, startSpeakingRecord, stopSpeakingRecord,
     isSpeakingRecording, getSpeakingRecordingMode,
     buildVocabPdfHtml, exportVocabPdf, openVocabPrintWindow,
-    buildArticlePdfHtml, exportArticlePdf
+    buildArticlePdfHtml, exportArticlePdf,
+    buildQuizPdfHtml, exportQuizPdf, openQuizPrintWindow,
+    shuffleArray, scrambleQuizLetters
   };
 })(window);

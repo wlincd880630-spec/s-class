@@ -107,38 +107,46 @@ function safeSlug(word) {
   return (name || 'word').slice(0, 80);
 }
 
+const PREFER_COS = process.argv.includes('--prefer-cos');
+
 function asList(v) {
   if (!v) return [];
   if (Array.isArray(v)) return v.map(String).filter(Boolean);
   return String(v).split(/[,，]/).map((s) => s.trim()).filter(Boolean);
 }
 
+function imageIndex(rel) {
+  return /_2\.(jpe?g|png)$/i.test(String(rel || '')) || /_2(\.|$)/i.test(String(rel || '')) ? 2 : 1;
+}
+
 function resolveImage(bookFolder, unitNum, rel, word = '') {
   const unitDir = path.join(SRC, bookFolder, `Unit${unitNum}`);
-  if (rel && /^https?:\/\//i.test(rel)) return rel;
+  const n = imageIndex(rel);
+  const slug = word ? safeSlug(word) : '';
 
-  const clean = rel
+  // Production pages on s-class.top load media from COS (jpg is gitignored).
+  if (PREFER_COS && slug) {
+    return `${COS_ROOT}/${bookFolder}/Unit${unitNum}/images/${slug}_${n}.jpg`;
+  }
+
+  const clean = rel && !/^https?:\/\//i.test(rel)
     ? String(rel).replace(/^\.?\/+/, '').replace(/^Unit\d+\//, '')
-    : '';
+    : (slug ? `images/${slug}_${n}.jpg` : '');
 
-  // Prefer locally generated art (composer images) over COS when file exists
   const candidates = [];
   if (clean) candidates.push(path.join(unitDir, clean));
-  if (word) {
-    const slug = safeSlug(word);
-    const isSecond = /_2\.(jpe?g|png)$/i.test(clean) || /_2\./i.test(String(rel || ''));
-    const n = isSecond ? 2 : 1;
+  if (slug) {
     candidates.push(path.join(unitDir, 'images', `${slug}_${n}.jpg`));
     candidates.push(path.join(unitDir, 'images', `${slug}_${n}.png`));
   }
   for (const local of candidates) {
     if (local && fs.existsSync(local)) {
       const base = path.basename(local);
-      // From Courseware/{BOOK}/learn.html → ../../{BOOK}/UnitN/images/...
       return `../../${bookFolder}/Unit${unitNum}/images/${base}`;
     }
   }
 
+  if (slug) return `${COS_ROOT}/${bookFolder}/Unit${unitNum}/images/${slug}_${n}.jpg`;
   if (!clean) return '';
   return `${COS_ROOT}/${bookFolder}/Unit${unitNum}/${clean}`;
 }
