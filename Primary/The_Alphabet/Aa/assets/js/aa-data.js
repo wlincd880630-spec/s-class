@@ -88,12 +88,13 @@
     ],
     copyDefaults: ["apple", "axe", "ant", "alligator"],
     games: [
-      { id: 1, title: "开头音小侦探", en: "Beginning Sound", desc: "听 /æ/，点出所有以短 a 开头的图", emoji: "🔎" },
-      { id: 2, title: "听一听，点一点", en: "Listen, Point, Repeat", desc: "播放教材单词，点出对应的图", emoji: "👆" },
-      { id: 3, title: "谁是局外人", en: "Odd One Out", desc: "三张图里，哪个不是 /æ/ 开头？", emoji: "🧩" },
-      { id: 4, title: "翻牌配对", en: "Memory Match", desc: "把图片和单词配成一对", emoji: "🃏" },
-      { id: 5, title: "写 Aa 还是打叉", en: "Aa or X", desc: "听教材 Track 05，是 /æ/ 就写 Aa", emoji: "🍎" },
-      { id: 6, title: "Chant 排队", en: "Listen and Chant", desc: "跟 Track 06 唱，排出正确顺序", emoji: "🎵" }
+      { id: 1, title: "开头音小侦探", desc: "点听单词，再选出 a 开头" },
+      { id: 2, title: "听音点图", desc: "听单词，点出图" },
+      { id: 3, title: "局外人", desc: "找出不是 a 开头的图" },
+      { id: 4, title: "翻牌配对", desc: "先记位置，再配对" },
+      { id: 5, title: "写 Aa 还是 ✗", desc: "听完选 Aa 或打叉" },
+      { id: 6, title: "Chant 排队", desc: "按歌曲顺序排队" },
+      { id: 7, title: "填首字母", desc: "看图听音，填开头字母" }
     ]
   };
 })(window);

@@ -1,5 +1,5 @@
 /**
- * 教材 MP3 片段 + Azure en-GB-RyanNeural（音素 / 字母名 / 单词）
+ * 教材 MP3 与单词语音分轨：点图、排卡不会打断正在播放的 Track。
  */
 (function (global) {
   "use strict";
@@ -13,9 +13,10 @@
   };
 
   var sdkPromise = null;
-  var currentAudio = null;
-  var currentSynth = null;
+  var trackAudio = null;
+  var clipAudio = null;
   var clipTimer = null;
+  var currentSynth = null;
 
   function loadSdk() {
     if (global.SpeechSDK) return Promise.resolve(global.SpeechSDK);
@@ -44,73 +45,80 @@
       .replace(/'/g, "&apos;");
   }
 
-  function stop() {
+  function killAudio(a) {
+    if (!a) return;
+    try {
+      a.pause();
+      a.removeAttribute("src");
+      a.load();
+    } catch (e) {}
+  }
+
+  function stopTrack() {
+    killAudio(trackAudio);
+    trackAudio = null;
+  }
+
+  function stopClip() {
     if (clipTimer) {
       clearInterval(clipTimer);
       clipTimer = null;
     }
-    if (currentAudio) {
-      try {
-        currentAudio.pause();
-        currentAudio.removeAttribute("src");
-        currentAudio.load();
-      } catch (e) {}
-      currentAudio = null;
-    }
+    killAudio(clipAudio);
+    clipAudio = null;
+  }
+
+  function stopVoice() {
     if (currentSynth) {
-      try {
-        currentSynth.close();
-      } catch (e2) {}
+      try { currentSynth.close(); } catch (e) {}
       currentSynth = null;
     }
     if (global.speechSynthesis) {
-      try {
-        global.speechSynthesis.cancel();
-      } catch (e3) {}
+      try { global.speechSynthesis.cancel(); } catch (e3) {}
     }
   }
 
+  function stop() {
+    stopTrack();
+    stopClip();
+    stopVoice();
+  }
+
+  function isTrackPlaying() {
+    return !!(trackAudio && !trackAudio.paused);
+  }
+
   function playFile(src) {
-    stop();
+    stopTrack();
     return new Promise(function (resolve, reject) {
       var a = new Audio(src);
-      currentAudio = a;
-      a.onended = function () {
-        resolve();
-      };
-      a.onerror = function () {
-        reject(new Error("audio error"));
-      };
+      trackAudio = a;
+      a.onended = function () { resolve(); };
+      a.onerror = function () { reject(new Error("audio error")); };
       a.play().catch(reject);
     });
   }
 
   function playClip(src, start, end) {
-    stop();
+    stopClip();
     return new Promise(function (resolve, reject) {
       var a = new Audio(src);
-      currentAudio = a;
+      clipAudio = a;
       var done = false;
       function finish() {
         if (done) return;
         done = true;
-        try {
-          a.pause();
-        } catch (e) {}
+        try { a.pause(); } catch (e) {}
         if (clipTimer) {
           clearInterval(clipTimer);
           clipTimer = null;
         }
         resolve();
       }
-      a.onerror = function () {
-        reject(new Error("clip error"));
-      };
+      a.onerror = function () { reject(new Error("clip error")); };
       a.onended = finish;
       a.onloadedmetadata = function () {
-        try {
-          a.currentTime = Math.max(0, start || 0);
-        } catch (e) {}
+        try { a.currentTime = Math.max(0, start || 0); } catch (e) {}
         a.play().catch(reject);
         clipTimer = setInterval(function () {
           if (end && a.currentTime >= end) finish();
@@ -135,7 +143,7 @@
   }
 
   function speakSsml(inner, rate) {
-    stop();
+    stopVoice();
     var ssml = wrapSpeak(inner, rate);
     return loadSdk()
       .then(function (sdk) {
@@ -147,18 +155,14 @@
           synth.speakSsmlAsync(
             ssml,
             function (result) {
-              try {
-                synth.close();
-              } catch (e) {}
+              try { synth.close(); } catch (e) {}
               currentSynth = null;
               var ok = result && result.reason === sdk.ResultReason.SynthesizingAudioCompleted;
               if (ok) resolve();
               else reject(new Error("azure empty"));
             },
             function (err) {
-              try {
-                synth.close();
-              } catch (e2) {}
+              try { synth.close(); } catch (e2) {}
               currentSynth = null;
               reject(err || new Error("azure fail"));
             }
@@ -189,30 +193,15 @@
     return speakSsml(escapeSsml(word), slow ? "0.65" : AZURE.rate);
   }
 
-  function speakLetter() {
-    return speakSsml('<say-as interpret-as="characters">A</say-as>');
-  }
-
-  function speakPhoneme() {
-    return speakSsml('<phoneme alphabet="ipa" ph="æ">a</phoneme>');
-  }
-
-  function speakBeginningPrompt() {
-    return speakSsml(
-      'The beginning sound is <phoneme alphabet="ipa" ph="æ">a</phoneme>. ' +
-        escapeSsml("a, a, angry apple.")
-    );
-  }
-
   global.AAAudio = {
     AZURE: AZURE,
     stop: stop,
+    stopTrack: stopTrack,
+    stopClip: stopClip,
+    stopVoice: stopVoice,
+    isTrackPlaying: isTrackPlaying,
     playFile: playFile,
     playClip: playClip,
-    speakWord: speakWord,
-    speakLetter: speakLetter,
-    speakPhoneme: speakPhoneme,
-    speakBeginningPrompt: speakBeginningPrompt,
-    speakSsml: speakSsml
+    speakWord: speakWord
   };
 })(window);
