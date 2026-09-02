@@ -15,22 +15,64 @@
       .replace(/"/g, "&quot;");
   }
 
-  function storyImgSrc(mediaCos, index, cfg) {
-    var n = index + 1;
-    var z = n < 10 ? "0" : "";
-    if (cfg && typeof cfg.getStoryImage === "function") {
-      return cfg.getStoryImage(index, n);
-    }
-    var ext = (cfg && cfg.imageExt) || "png";
-    if (ext.charAt(0) === ".") ext = ext.slice(1);
-    return mediaCos + "images/story/" + z + n + "." + ext;
+  function joinUrl(base, rel) {
+    if (!base) return rel;
+    return String(base).replace(/\/?$/, "/") + rel;
   }
 
-  function polaroidHtml(src, emoji) {
+  function storyImgRel(index, cfg) {
+    var n = index + 1;
+    var z = n < 10 ? "0" : "";
+    var ext = (cfg && cfg.imageExt) || "png";
+    if (ext.charAt(0) === ".") ext = ext.slice(1);
+    return "images/story/" + z + n + "." + ext;
+  }
+
+  /**
+   * 企鹅/蝴蝶课文图在 www.s-class.top 同源相对路径，COS 上没有编号图。
+   * Play Kitty 等课相反：站点相对路径 404，COS 上有图。
+   * 按「相对路径 → mediaCos → 本地调试镜像」依次回退。
+   */
+  function storyImgCandidates(mediaCos, index, cfg) {
+    if (cfg && typeof cfg.getStoryImage === "function") {
+      var custom = cfg.getStoryImage(index, index + 1);
+      return custom ? [custom] : [];
+    }
+    var rel = storyImgRel(index, cfg);
+    var list = [];
+    function add(u) {
+      if (u && list.indexOf(u) < 0) list.push(u);
+    }
+    add(rel);
+    add(joinUrl(mediaCos, rel));
+    var h = ((global.location && location.hostname) || "").toLowerCase();
+    if (h === "localhost" || h === "127.0.0.1") {
+      var dir = ((location.pathname || "/") + "").replace(/[^/]+$/, "");
+      add("https://www.s-class.top" + dir + rel);
+    }
+    return list;
+  }
+
+  function imgError(img) {
+    if (!img) return;
+    var rest = (img.getAttribute("data-fallbacks") || "").split("|").filter(Boolean);
+    if (rest.length) {
+      img.setAttribute("data-fallbacks", rest.slice(1).join("|"));
+      img.removeAttribute("crossorigin");
+      img.src = rest[0];
+      return;
+    }
+    img.classList.add("is-hide");
+  }
+
+  function polaroidHtml(candidates, emoji) {
+    var src = (candidates && candidates[0]) || "";
+    var rest = candidates && candidates.length > 1 ? candidates.slice(1).join("|") : "";
     return (
       '<div class="story-polaroid">' +
-      '<img src="' + esc(src) + '" alt="" crossorigin="anonymous" ' +
-      'onerror="this.classList.add(\'is-hide\')">' +
+      '<img src="' + esc(src) + '" alt=""' +
+      (rest ? ' data-fallbacks="' + esc(rest) + '"' : "") +
+      ' onerror="window.NgStoryPrint&&NgStoryPrint.imgError(this)">' +
       '<div class="art-fallback" aria-hidden="true">' + emoji + "</div>" +
       "</div>"
     );
@@ -69,7 +111,7 @@
   }
 
   function singlePageHtml(cfg, row, index, pageLabel) {
-    var imgSrc = storyImgSrc(cfg.mediaCos, index, cfg);
+    var imgs = storyImgCandidates(cfg.mediaCos, index, cfg);
     return (
       '<section class="story-print-sheet">' +
       '<div class="story-print-inner">' +
@@ -78,7 +120,7 @@
       '<span class="page-num">' + esc(pageLabel) + "</span>" +
       "</header>" +
       '<div class="story-art-wrap">' +
-      polaroidHtml(imgSrc, cfg.emoji) +
+      polaroidHtml(imgs, cfg.emoji) +
       "</div>" +
       textBlockHtml(row, index, cfg.showZh !== false) +
       '<footer class="story-page-footer">National Geographic Style · ' +
@@ -91,11 +133,11 @@
     var blocks = "";
     for (var i = 0; i < rows.length; i++) {
       var idx = indices[i];
-      var imgSrc = storyImgSrc(cfg.mediaCos, idx, cfg);
+      var imgs = storyImgCandidates(cfg.mediaCos, idx, cfg);
       blocks +=
         '<div class="story-block">' +
         '<div class="story-art-wrap">' +
-        polaroidHtml(imgSrc, cfg.emoji) +
+        polaroidHtml(imgs, cfg.emoji) +
         "</div>" +
         textBlockHtml(rows[i], idx, cfg.showZh !== false) +
         "</div>";
@@ -138,24 +180,53 @@
     return html;
   }
 
-  function preloadImages(root) {
+  function waitForImg(img) {
     return new Promise(function (resolve) {
-      var imgs = root ? [].slice.call(root.querySelectorAll("img")) : [];
-      if (!imgs.length) {
-        resolve();
-        return;
+      var tries = 0;
+      function check() {
+        if (img.classList.contains("is-hide")) return resolve();
+        if (img.complete && img.naturalWidth > 0) return resolve();
+        tries += 1;
+        if (tries > 100) return resolve();
+        setTimeout(check, 100);
       }
-      var n = 0;
-      function done() {
-        if (++n >= imgs.length) resolve();
+      check();
+    });
+  }
+
+  function preloadImages(root) {
+    var imgs = root ? [].slice.call(root.querySelectorAll(".story-polaroid img")) : [];
+    if (!imgs.length) return Promise.resolve();
+    return Promise.all(imgs.map(waitForImg));
+  }
+
+  function clearPreviewScale(area) {
+    if (!area) return;
+    [].forEach.call(area.querySelectorAll(".story-print-sheet"), function (el) {
+      el.style.transform = "";
+      el.style.marginBottom = "";
+    });
+  }
+
+  function fitPreview(area) {
+    if (!area || document.body.classList.contains("is-exporting")) return;
+    var sheets = area.querySelectorAll(".story-print-sheet");
+    if (!sheets.length) return;
+    var avail = area.clientWidth || 0;
+    if (avail < 40) return;
+    var raw = sheets[0].offsetWidth;
+    if (raw < 40) return;
+    var scale = Math.min(1, avail / raw);
+    var gap = 16;
+    [].forEach.call(sheets, function (el) {
+      el.style.transformOrigin = "top left";
+      if (scale >= 0.995) {
+        el.style.transform = "";
+        el.style.marginBottom = "";
+      } else {
+        el.style.transform = "scale(" + scale + ")";
+        el.style.marginBottom = Math.round(el.offsetHeight * (scale - 1) + gap) + "px";
       }
-      imgs.forEach(function (img) {
-        if (img.complete) done();
-        else {
-          img.onload = done;
-          img.onerror = done;
-        }
-      });
     });
   }
 
@@ -202,6 +273,7 @@
       cfg.perPage = perPageEl && perPageEl.value === "2" ? 2 : 1;
       cfg.showZh = !showZhEl || showZhEl.checked;
       area.innerHTML = buildAll(cfg);
+      requestAnimationFrame(function () { fitPreview(area); });
     }
 
     var btnGen = document.getElementById("btnStoryGen");
@@ -213,10 +285,22 @@
     if (btnPrint) {
       btnPrint.onclick = function () {
         render();
+        clearPreviewScale(area);
+        document.body.classList.add("is-exporting");
+        area.classList.add("is-exporting");
         preloadImages(area).then(function () {
           setTimeout(function () { global.print(); }, 200);
         });
       };
+    }
+
+    if (typeof global.addEventListener === "function") {
+      global.addEventListener("afterprint", function () {
+        document.body.classList.remove("is-exporting");
+        area.classList.remove("is-exporting");
+        fitPreview(area);
+      });
+      global.addEventListener("resize", function () { fitPreview(area); });
     }
 
     if (btnPdf) {
@@ -225,6 +309,7 @@
         btnPdf.disabled = true;
         btnPdf.textContent = "生成中…";
         render();
+        clearPreviewScale(area);
         document.body.classList.add("is-exporting");
         area.classList.add("is-exporting");
         loadPdfLibs()
@@ -238,16 +323,27 @@
             var opt = {
               margin: [0, 0, 0, 0],
               filename: cfg.filename || "story.pdf",
-              image: { type: "jpeg", quality: 0.96 },
+              image: { type: "jpeg", quality: 0.92 },
               html2canvas: {
-                scale: 2,
+                scale: 1.5,
                 useCORS: true,
                 allowTaint: true,
                 letterRendering: true,
                 scrollX: 0,
                 scrollY: 0,
                 width: A4_WIDTH_CSS_PX,
-                windowWidth: A4_WIDTH_CSS_PX,
+                windowWidth: 1024,
+                onclone: function (doc) {
+                  var b = doc.body;
+                  if (b) b.classList.add("is-exporting");
+                  var a = doc.getElementById("storyPrintArea");
+                  if (!a) return;
+                  a.classList.add("is-exporting");
+                  [].forEach.call(a.querySelectorAll(".story-print-sheet"), function (el) {
+                    el.style.transform = "none";
+                    el.style.marginBottom = "0";
+                  });
+                },
               },
               jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
               pagebreak: { mode: ["legacy"] },
@@ -260,6 +356,7 @@
           .finally(function () {
             document.body.classList.remove("is-exporting");
             area.classList.remove("is-exporting");
+            fitPreview(area);
             btnPdf.disabled = false;
             btnPdf.textContent = old;
           });
@@ -278,5 +375,6 @@
     init: init,
     buildAll: buildAll,
     preloadImages: preloadImages,
+    imgError: imgError,
   };
 })(typeof window !== "undefined" ? window : this);
