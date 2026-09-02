@@ -3,6 +3,7 @@
   var L = window.AA_LESSON;
   var i = 0;
   var traceCtx = null;
+  var unbindGhost = null;
   var slides = [{ type: "meet" }]
     .concat(L.vocab.map(function (w) { return { type: "word", id: w.id }; }))
     .concat([{ type: "video" }, { type: "trace", letter: "A" }, { type: "trace", letter: "a" }]);
@@ -51,13 +52,12 @@
     return ctx;
   }
 
-  function paperHTML(letter) {
-    var kind = letter === "A" ? "cap" : "small";
+  function paperHTML() {
     return (
       '<div class="trace-board">' +
-        '<div class="trace-staff">' +
+        '<div class="trace-staff" id="trace-staff">' +
           '<i class="ln sky"></i><i class="ln mid"></i><i class="ln base"></i><i class="ln desc"></i>' +
-          '<div class="trace-ghost ' + kind + '">' + letter + "</div>" +
+          '<canvas class="trace-ghost-cv" id="trace-ghost"></canvas>' +
           '<canvas id="trace-cv" width="1400" height="700"></canvas>' +
         "</div>" +
       "</div>"
@@ -79,6 +79,10 @@
     $("btn-prev").disabled = i === 0;
     $("btn-next").textContent = i === slides.length - 1 ? "去做游戏 →" : "下一页";
     traceCtx = null;
+    if (unbindGhost) {
+      unbindGhost();
+      unbindGhost = null;
+    }
 
     if (s.type === "meet") {
       box.innerHTML =
@@ -127,10 +131,18 @@
       box.innerHTML =
         '<p class="slide-kicker">Trace</p>' +
         "<h2>" + (isA ? "A" : "a") + "</h2>" +
-        paperHTML(s.letter) +
+        paperHTML() +
         '<button type="button" class="btn btn-ghost" id="btn-clear">清除</button>';
       var cv = $("trace-cv");
       traceCtx = bindTrace(cv);
+      var family = getComputedStyle(document.documentElement).getPropertyValue("--letter") || "Fredoka, sans-serif";
+      unbindGhost = window.AAStave.bind(
+        $("trace-ghost"),
+        s.letter,
+        isA ? "cap" : "small",
+        family,
+        "rgba(28, 25, 23, 0.22)"
+      );
       $("btn-clear").onclick = function () {
         traceCtx.clearRect(0, 0, cv.width, cv.height);
       };

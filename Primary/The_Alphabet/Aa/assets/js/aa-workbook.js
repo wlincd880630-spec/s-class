@@ -6,15 +6,36 @@
   var L = window.AA_LESSON;
   var step = 1;
   var titles = ["", "练习册 A · 描红", "练习册 B · 圈图", "练习册 C · 涂色"];
+  var HAND = '"Patrick Hand", "Segoe Print", cursive';
 
   function $(id) { return document.getElementById(id); }
 
-  function bindTrace(canvas) {
+  function bindTrace(letter, kind) {
+    var canvas = $("canvas-" + letter);
+    var ghost = $("ghost-" + letter);
+    var wrap = $("stave-" + letter);
+    if (!canvas || !wrap) return null;
     var ctx = canvas.getContext("2d");
-    ctx.strokeStyle = "#1565c0";
-    ctx.lineWidth = 7;
-    ctx.lineCap = "round";
-    ctx.lineJoin = "round";
+    var dpr = Math.max(1, window.devicePixelRatio || 1);
+
+    if (window.AAStave && ghost) {
+      window.AAStave.bind(ghost, letter, kind, HAND, "rgba(144, 202, 249, 0.55)");
+    }
+
+    function size() {
+      var r = wrap.getBoundingClientRect();
+      canvas.width = Math.round(r.width * dpr);
+      canvas.height = Math.round(r.height * dpr);
+      canvas.style.width = r.width + "px";
+      canvas.style.height = r.height + "px";
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.strokeStyle = "#1565c0";
+      ctx.lineWidth = Math.max(4, r.height * 0.045) * dpr;
+    }
+    size();
+    if (window.ResizeObserver) new ResizeObserver(size).observe(wrap);
+
     var drawing = false;
     function pos(ev) {
       var r = canvas.getBoundingClientRect();
@@ -48,8 +69,8 @@
     return ctx;
   }
 
-  var ctxA = bindTrace($("canvas-A"));
-  var ctxa = bindTrace($("canvas-a"));
+  var ctxA = bindTrace("A", "cap");
+  var ctxa = bindTrace("a", "small");
 
   function renderCircle() {
     var grid = $("circle-grid");
@@ -145,8 +166,8 @@
   }
 
   $("btn-clear-trace").addEventListener("click", function () {
-    ctxA.clearRect(0, 0, 640, 320);
-    ctxa.clearRect(0, 0, 640, 320);
+    if (ctxA) ctxA.clearRect(0, 0, ctxA.canvas.width, ctxA.canvas.height);
+    if (ctxa) ctxa.clearRect(0, 0, ctxa.canvas.width, ctxa.canvas.height);
   });
   $("btn-say-trace").addEventListener("click", function () {
     AAAudio.speakLetter().then(function () { return AAAudio.speakPhoneme(); });
