@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Flutter, butterfly! · 复习游戏</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+SC:wght@500;700&display=swap" rel="stylesheet" />
+  <script src="words-data.js"></script>
+  <style>
+    :root { --gold: #f5c400; --ink: #1a1a1a; --paper: #f7f5f0; --accent: #bf360c; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+    body {
+      font-family: "Noto Sans SC", sans-serif;
+      min-height: 100dvh;
+      background: #121212;
+      background-image: radial-gradient(ellipse 70% 40% at 50% 0%, rgba(0, 131, 143, 0.35), transparent 55%);
+      color: var(--paper);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: clip;
+      -webkit-tap-highlight-color: rgba(0, 172, 193, 0.12);
+      padding:
+        max(2rem, env(safe-area-inset-top))
+        max(1.25rem, env(safe-area-inset-right))
+        max(3rem, env(safe-area-inset-bottom))
+        max(1.25rem, env(safe-area-inset-left));
+    }
+    .back-hub {
+      align-self: flex-start;
+      width: min(720px, 100%);
+      margin-bottom: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 44px;
+      padding: 6px 14px 6px 10px;
+      border-radius: 999px;
+      border: 2px solid #ffb74d;
+      background: rgba(255, 255, 255, 0.95);
+      color: #bf360c;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-decoration: none;
+      touch-action: manipulation;
+    }
+    .back-hub:active { background: #fff3e0; }
+    .hdr { text-align: center; max-width: 40rem; margin-bottom: 1.5rem; }
+    .hdr h1 {
+      font-family: "Fredoka", sans-serif;
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .hdr p { font-size: 0.95rem; line-height: 1.6; color: #b0bec5; }
+    .settings-banner {
+      width: min(720px, 100%);
+      background: #fffef8;
+      color: var(--ink);
+      border-radius: 12px;
+      padding: 1rem 1.15rem;
+      margin-bottom: 1.25rem;
+      border-left: 5px solid var(--gold);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+    }
+    .settings-banner p { font-size: 0.88rem; color: #546e7a; line-height: 1.5; flex: 1; min-width: 12rem; }
+    .settings-banner strong { color: var(--accent); font-family: "Fredoka", sans-serif; }
+    .btn-set {
+      font-family: "Fredoka", sans-serif;
+      font-weight: 700;
+      background: var(--gold);
+      color: var(--ink);
+      border: 2px solid #c9a008;
+      border-radius: 999px;
+      padding: 0.5rem 1.15rem;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+      font-size: 0.95rem;
+      touch-action: manipulation;
+      flex-shrink: 0;
+    }
+    .words {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 0.35rem;
+      margin-bottom: 1.25rem;
+      width: min(720px, 100%);
+    }
+    .words span {
+      font-family: "Fredoka", sans-serif;
+      font-size: 0.78rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 999px;
+      border: 1px solid rgba(245, 196, 0, 0.35);
+    }
+    .words span.on {
+      background: rgba(0, 131, 143, 0.25);
+      color: #a5d6a7;
+      border-color: rgba(129, 199, 132, 0.55);
+    }
+    .words span.off { color: #546e7a; opacity: 0.45; border-color: #455a64; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+      width: min(720px, 100%);
+    }
+    .card {
+      background: var(--paper);
+      color: var(--ink);
+      border-radius: 12px;
+      padding: 1.35rem 1.25rem;
+      text-decoration: none;
+      border-left: 5px solid var(--gold);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+      transition: transform 0.15s, box-shadow 0.15s;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      min-height: 44px;
+      touch-action: manipulation;
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45); }
+    .card:active { transform: translateY(-1px); }
+    .card.settings-card { border-left-color: var(--accent); }
+    .card .tag { font-size: 0.72rem; font-weight: 700; color: #1b5e20; letter-spacing: 0.08em; text-transform: uppercase; }
+    .card h2 { font-family: "Fredoka", sans-serif; font-size: 1.35rem; color: var(--accent); }
+    .card p { font-size: 0.88rem; line-height: 1.55; color: #546e7a; }
+    .card .go { margin-top: 0.35rem; font-family: "Fredoka", sans-serif; font-weight: 700; color: var(--accent); font-size: 1rem; }
+    .foot { margin-top: 2rem; font-size: 0.78rem; color: #78909c; text-align: center; }
+    @media screen and (max-width: 720px) {
+      .settings-banner {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .btn-set {
+        width: 100%;
+        justify-content: center;
+      }
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (hover: none) and (pointer: coarse) {
+      .card:hover { transform: none; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35); }
+      .card:active { transform: scale(0.98); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .card { transition: none !important; }
+    }
+  </style>
+  <link rel="stylesheet" href="../../assets/primary-responsive.css?v=2" />
+</head>
+<body>
+  <a class="back-hub" href="../index.html">← Flutter, butterfly! 首页</a>
+
+  <header class="hdr">
+    <h1>🦋 Flutter, butterfly! · 复习游戏</h1>
+    <p>共 13 个单词。请先在<strong>选词设置</strong>中勾选本次要练的词，再进入游戏。</p>
+  </header>
+
+  <div class="settings-banner">
+    <p>当前已选 <strong id="selN">13</strong> 个单词 · 九个游戏共用</p>
+    <a class="btn-set" href="settings.html">⚙️ 选词设置</a>
+  </div>
+
+  <div class="words" id="wordChips" aria-label="词表"></div>
+
+  <div class="grid">
+    <a class="card settings-card" href="settings.html">
+      <span class="tag">必做</span>
+      <h2>⚙️ 选词设置</h2>
+      <p>勾选 fish … feet 中任意单词。翻翻配对每轮最多 3 词，词多自动分多轮。</p>
+      <span class="go">去设置 →</span>
+    </a>
+    <a class="card settings-card" href="print-worksheets.html">
+      <span class="tag">纸质</span>
+      <h2>🖨️ 纸质练习 / PDF</h2>
+      <p>单词迷宫、字母排序、图片连线——生成练习纸，打印或导出 PDF。</p>
+      <span class="go">生成练习纸 →</span>
+    </a>
+    <a class="card" href="game1-memory-match.html">
+      <span class="tag">游戏 1</span>
+      <h2>🃏 翻翻配对</h2>
+      <p>6 张牌先全部翻开记位置，点「开始」后翻面，凭记忆配对单词与图。</p>
+      <span class="go">开始游戏 →</span>
+    </a>
+    <a class="card" href="game2-action-catch.html">
+      <span class="tag">游戏 2</span>
+      <h2>⚡ 听音接爪</h2>
+      <p>听英文 / 看中文 / 混合，限时点对蝴蝶动作（至少 2 词）。</p>
+      <span class="go">开始游戏 →</span>
+    </a>
+    <a class="card" href="game3-spell-letters.html">
+      <span class="tag">游戏 3</span>
+      <h2>🔤 看图拼词</h2>
+      <p>看图听英音，按顺序点击乱序字母拼出单词。</p>
+      <span class="go">开始游戏 →</span>
+    </a>
+    <a class="card" href="game4-word-maze.html">
+      <span class="tag">游戏 4</span>
+      <h2>🧩 单词迷宫</h2>
+      <p>7×7 宫格藏 4 词（四方向），点选字母提交，提示首字母，图片可显中文。</p>
+      <span class="go">开始游戏 →</span>
+    </a>
+    <a class="card" href="game5-zh-pick-word.html">
+      <span class="tag">游戏 5</span>
+      <h2>📝 看中文选单词</h2>
+      <p>看中文意思，从 3 个英文单词中选出正确答案，可朗读。</p>
+      <span class="go">开始游戏 →</span>
+    </a>
+    <a class="card" href="game6-picture-connect.html">
+      <span class="tag">游戏 6</span>
+      <h2>🔗 图片单词连线</h2>
+      <p>每页 3 组：左侧图片与右侧单词配对连线（不显示中文）。</p>
+      <span class="go">开始游戏 →</span>
+    </a>
+    <a class="card" href="game7-word-pick-zh.html">
+      <span class="tag">游戏 7</span>
+      <h2>🀄 看单词选中文</h2>
+      <p>看英文单词与图片，从 3 个中文意思中选出正确答案。</p>
+      <span class="go">开始游戏 →</span>
+    </a>
+    <a class="card" href="game8-bubble-catch.html">
+      <span class="tag">游戏 8</span>
+      <h2>🫧 泡泡捞词</h2>
+      <p>看中文提示，从上升泡泡中捞住正确英文单词，连击加分！</p>
+      <span class="go">开始游戏 →</span>
+    </a>
+    <a class="card" href="game9-spin-quiz.html">
+      <span class="tag">游戏 9</span>
+      <h2>🎡 转盘寻宝</h2>
+      <p>转动幸运转盘，听音选图——高互动趣味挑战！</p>
+      <span class="go">开始游戏 →</span>
+    </a>
+  </div>
+
+  <p class="foot">发音：本地 MP3 + Azure 英音（en-GB-RyanNeural）回退</p>
+
+  <script>
+  (function () {
+    var host = document.getElementById("wordChips");
+    var sel = FlutterButterflyWords.getSelectedKeys();
+    var selSet = {};
+    sel.forEach(function (k) { selSet[k] = true; });
+    document.getElementById("selN").textContent = String(sel.length);
+    FlutterButterflyWords.ALL.forEach(function (w) {
+      var s = document.createElement("span");
+      s.textContent = w.word;
+      s.className = selSet[w.word] ? "on" : "off";
+      host.appendChild(s);
+    });
+  })();
+  </script>
+  <script src="../../assets/primary-responsive.js?v=2" defer></script>
+</body>
+</html>

@@ -1,0 +1,469 @@
+/* Flutter, butterfly! · 生命循环课堂游戏 */
+.view-body--games {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 0.1rem 0.2rem 0.25rem;
+  display: flex;
+  flex-direction: column;
+}
+#lcRoot {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.lc-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.7rem;
+  margin: 0 0 0.3rem;
+  flex: 0 0 auto;
+}
+.lc-head h2 {
+  margin: 0;
+  font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+  font-weight: 700;
+}
+.lc-head p {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #5a4a3a;
+  flex: 1;
+  min-width: 12rem;
+}
+
+/* —— 选关：照片铺满卡片，说明条贴在照片下方，绝不叠字 —— */
+.lc-hub {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+  flex: 1;
+  min-height: 0;
+}
+.lc-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+  border: 2px solid #d8d2c4;
+  border-radius: 14px;
+  background: #fffef8;
+  overflow: hidden;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  padding: 0;
+  box-shadow: 0 8px 22px rgba(0,0,0,.08);
+  transition: transform .2s, border-color .2s, box-shadow .2s;
+}
+.lc-card:hover, .lc-card:focus-visible {
+  transform: translateY(-3px);
+  border-color: #e65100;
+  box-shadow: 0 12px 28px rgba(230,81,0,.18);
+  outline: none;
+}
+.lc-card-photos {
+  flex: 1 1 auto;
+  min-height: 14rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  background: #1b2418;
+  overflow: hidden;
+  position: relative;
+  z-index: 0;
+}
+.lc-card-photos figure {
+  margin: 0;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.lc-card-photos img {
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: auto;
+  object-fit: cover;
+  display: block;
+  vertical-align: middle;
+}
+.lc-card-photos figcaption {
+  position: static;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  z-index: 1;
+  margin: 0;
+  padding: 0.18rem 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+  color: #fffef8;
+  background: #2a241c;
+  text-align: center;
+  pointer-events: none;
+  flex: 0 0 auto;
+}
+.lc-card-body {
+  flex: 0 0 auto;
+  position: relative;
+  z-index: 2;
+  padding: 0.5rem 0.8rem 0.55rem;
+  background: #fffef8;
+  border-top: 1px solid #eadfce;
+}
+.lc-card-body b {
+  display: block;
+  font-size: 1.08rem;
+  color: #1a1a1a;
+  margin-bottom: 0.2rem;
+}
+.lc-card-body span {
+  font-size: 0.8rem;
+  color: #6d5c4a;
+  line-height: 1.45;
+}
+.lc-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #bf360c;
+  background: #fff3e0;
+  border: 1px solid #ffcc80;
+  border-radius: 999px;
+  padding: 0.12rem 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.lc-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+  margin-bottom: 0.35rem;
+  flex: 0 0 auto;
+}
+.lc-toolbar .sub { margin: 0; font-size: 0.78rem; color: #5a4a3a; flex: 1; min-width: 10rem; }
+.lc-msg {
+  min-height: 1.2em;
+  margin: 0.2rem 0 0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #5a4a3a;
+  text-align: center;
+  flex: 0 0 auto;
+}
+.lc-msg.ok { color: #2e7d32; }
+.lc-msg.bad { color: #c62828; }
+
+/* —— 排序：左待分类大图 / 右投放格，16:9 舞台用满宽度 —— */
+.lc-cycle-board {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.lc-cycle-main {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 0.55rem;
+}
+.lc-pool-wrap, .lc-cols-wrap {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.lc-pane-label {
+  flex: 0 0 auto;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #6d4c41;
+  letter-spacing: .02em;
+}
+.lc-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0.4rem;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.lc-col {
+  border: 2px dashed #c9bfae;
+  border-radius: 12px;
+  background: rgba(255,255,255,.92);
+  padding: 0.3rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+  isolation: isolate;
+  overflow: hidden;
+  transition: border-color .2s, background .2s;
+}
+.lc-col.is-target { border-color: #e65100; background: #fff8e8; }
+.lc-col.is-ok { border-style: solid; border-color: #43a047; background: #f1f8e9; }
+.lc-col-title {
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-align: center;
+  color: #bf360c;
+  letter-spacing: .04em;
+  margin-bottom: 0.2rem;
+  flex: 0 0 auto;
+  position: relative;
+  z-index: 2;
+  background: #fffef8;
+  border-radius: 6px;
+  padding: 0.08rem 0.2rem;
+}
+.lc-col-title small { display: block; color: #6d5c4a; font-weight: 600; letter-spacing: 0; }
+.lc-drop {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: auto;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #1b2418;
+}
+.lc-drop-hint {
+  margin: auto;
+  color: #d7ccb8;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 0.4rem;
+  pointer-events: none;
+}
+.lc-cap-slot {
+  min-height: 2.8rem;
+  max-height: 4.2rem;
+  overflow: auto;
+  border-radius: 8px;
+  background: #f7f3ea;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0.18rem;
+  margin-top: 0.2rem;
+  flex: 0 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.lc-pool {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0.35rem;
+  border-radius: 10px;
+  background: #efeae0;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.lc-caps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  justify-content: center;
+  margin: 0;
+  padding: 0.35rem 0.4rem;
+  border-radius: 10px;
+  background: #efeae0;
+  flex: 0 0 auto;
+}
+.lc-photo {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,.18);
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  background: #1b2418;
+  position: relative;
+  z-index: 1;
+  appearance: none;
+  -webkit-appearance: none;
+  font: inherit;
+}
+.lc-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  pointer-events: none;
+  background: #1b2418;
+}
+.lc-photo-slot {
+  min-width: 0;
+  min-height: 0;
+  border-radius: 10px;
+  background: rgba(255,255,255,.4);
+  border: 2px dashed #d5cbb8;
+}
+.lc-m-text {
+  flex: 1 1 0;
+  height: auto;
+  min-height: 0;
+  min-width: 0;
+  align-items: flex-start;
+}
+.lc-photo.is-sel { border-color: #e65100; box-shadow: 0 0 0 2px #ffcc80; }
+.lc-photo.is-locked { cursor: default; opacity: 1; }
+.lc-drop .lc-photo {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  min-height: 0;
+  flex: 1 1 auto;
+  border-radius: 10px;
+}
+.lc-drop .lc-photo img {
+  object-fit: cover;
+}
+
+.lc-chip {
+  font-family: "Source Serif 4", Georgia, serif;
+  font-weight: 700;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  padding: 0.4rem 0.6rem;
+  border-radius: 9px;
+  border: 2px solid #bcaaa4;
+  background: #fff;
+  cursor: pointer;
+  color: #1a1a1a;
+  max-width: 22rem;
+  white-space: normal;
+  position: relative;
+  z-index: 2;
+}
+.lc-chip.is-sel { border-color: #e65100; background: #fff3e0; }
+.lc-chip.is-locked { cursor: default; border-color: #43a047; background: #e8f5e9; }
+.lc-cap-slot .lc-chip { max-width: 100%; font-size: 0.78rem; }
+
+.lc-match {
+  display: grid;
+  grid-template-columns: 1.35fr 0.8fr;
+  gap: 0.55rem 0.7rem;
+  flex: 1;
+  min-height: 0;
+}
+.lc-match-col {
+  min-height: 0;
+  overflow: hidden;
+}
+.lc-match-photos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0.4rem;
+}
+.lc-match-texts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.lc-m-photo, .lc-m-text {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 2px solid #d4cfc3;
+  border-radius: 12px;
+  background: #fff;
+  padding: 0.4rem 0.5rem;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  min-height: 0;
+  overflow: hidden;
+  isolation: isolate;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.lc-m-photo {
+  flex-direction: column;
+  align-items: stretch;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+}
+.lc-m-photo.is-sel, .lc-m-text.is-sel { border-color: #e65100; box-shadow: 0 0 0 2px #ffcc80; }
+.lc-m-photo.is-ok, .lc-m-text.is-ok { border-color: #43a047; background: #f1f8e9; cursor: default; }
+.lc-m-photo.is-bad, .lc-m-text.is-bad { animation: lcShake .35s; border-color: #c62828; }
+.lc-m-main {
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: auto;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #1b2418;
+  position: relative;
+  z-index: 0;
+}
+.lc-m-main img,
+.lc-m-photo > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  background: #1b2418;
+}
+.lc-thumbs { display: flex; gap: 0.25rem; flex-wrap: wrap; margin-top: 0.3rem; position: relative; z-index: 1; }
+.lc-thumbs img {
+  width: 2.6rem; height: 2.6rem; object-fit: cover; border-radius: 5px;
+}
+.lc-m-text b {
+  font-family: "Source Serif 4", Georgia, serif;
+  font-size: clamp(0.82rem, 1.5vw, 0.98rem);
+  font-weight: 700;
+}
+.lc-m-text small { display: block; color: #6d5c4a; font-weight: 600; margin-top: 0.15rem; }
+
+@keyframes lcShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+@media (pointer: coarse) and (max-width: 1024px), (max-width: 820px) {
+  .book-top-right .btn {
+    flex: 1 1 calc(50% - 0.35rem) !important;
+  }
+  .lc-hub { grid-template-columns: 1fr; }
+  .lc-card-photos { min-height: 12rem; }
+  .lc-cycle-main { grid-template-columns: 1fr; }
+  .lc-cycle-main { grid-template-rows: 1fr 1fr; }
+  .lc-match { grid-template-columns: 1fr; }
+}

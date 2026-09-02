@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Flutter Butterfly 单词抄写作业 02</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+
+<style>
+/* ══════════════════════════════════════════════════
+   全局变量
+══════════════════════════════════════════════════ */
+:root {
+  --font-hand  : 'Patrick Hand', cursive;
+  --font-ui    : 'Fredoka', sans-serif;
+  --img-w      : 40mm;
+  --block-h    : 62mm;
+  --row-h      : 31mm;
+  --line-blue  : #90CAF9;
+  --line-red   : #EF9A9A;
+  --line-dash  : rgba(33,150,243,.32);
+  --text-dark  : #2C3E50;
+  --trace-color: rgba(144,202,249,.55);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-ui);
+  background: #455A64;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: max(48px, env(safe-area-inset-bottom));
+  min-height: 100dvh;
+  overflow-x: clip;
+  -webkit-tap-highlight-color: rgba(0, 172, 193, 0.12);
+}
+
+.back-hub {
+  align-self: flex-start;
+  margin: 12px 0 0 max(16px, env(safe-area-inset-left));
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 6px 14px 6px 10px;
+  border-radius: 999px;
+  border: 2px solid #ffb74d;
+  background: rgba(255, 255, 255, 0.95);
+  color: #bf360c;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  touch-action: manipulation;
+}
+.back-hub:active { background: #fff3e0; }
+
+#app {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 max(8px, env(safe-area-inset-right)) 0 max(8px, env(safe-area-inset-left));
+}
+
+.toolbar {
+  width: 100%; padding: 12px 24px;
+  padding-top: max(12px, env(safe-area-inset-top));
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
+  background: #fff;
+  box-shadow: 0 2px 18px rgba(0,0,0,.2);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+  position: sticky; top: 0; z-index: 999;
+}
+
+.toolbar-left {
+  display: flex; align-items: center; gap: 10px;
+  font-weight: 700; color: #37474F; font-size: 1.05rem;
+}
+.toolbar-left .icon { font-size: 1.4rem; }
+
+.btn-print {
+  background: #e65100; color: #fff; border: none;
+  padding: 10px 28px; min-height: 44px;
+  border-radius: 50px;
+  font-family: var(--font-ui); font-size: 1.05rem; font-weight: 700;
+  cursor: pointer; transition: .18s;
+  box-shadow: 0 4px 12px rgba(0,172,193,.35);
+  white-space: nowrap;
+  touch-action: manipulation;
+  flex-shrink: 0;
+}
+.btn-print:hover { transform: scale(1.05); background: #bf360c; }
+
+.hw-section { display: none; width: 100%; }
+.hw-section.active { display: flex; flex-direction: column; align-items: center; }
+
+.page-viewport {
+  width: min(210mm, calc(100vw - 24px));
+  margin: 24px auto;
+  overflow: hidden;
+}
+
+.page {
+  background: #fff;
+  width: 210mm; height: 297mm;
+  padding: 14mm 14mm 10mm;
+  margin: 24px 0;
+  box-shadow: 0 0 36px rgba(0,0,0,.55);
+  display: flex; flex-direction: column;
+  page-break-after: always;
+  overflow: hidden;
+}
+
+.page-hdr {
+  flex-shrink: 0;
+  height: 15mm;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 2.5px solid #ECEFF1;
+  padding-bottom: 3mm;
+  margin-bottom: 3mm;
+  font-size: .84rem; color: #9E9E9E;
+  white-space: nowrap;
+  gap: 3mm;
+}
+.page-hdr > span { white-space: nowrap; }
+.page-hdr .vowel-badge {
+  font-size: 1.15rem; font-weight: 700;
+  padding: 2px 14px; border-radius: 8px;
+}
+
+.page-body {
+  flex: 1;
+  display: flex; flex-direction: column;
+}
+
+.page-ftr {
+  flex-shrink: 0;
+  height: 7mm;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .72rem; color: #BDBDBD;
+  border-top: 1px solid #F5F5F5;
+  padding-top: 2mm;
+}
+
+.word-block {
+  /* 固定高度：避免本页词数少于 4 时 flex:1 把块拉高，四线格变大而字号不变 */
+  flex: 0 0 var(--block-h);
+  height: var(--block-h);
+  display: grid;
+  grid-template-columns: var(--img-w) 1fr;
+  grid-template-rows: var(--row-h) var(--row-h);
+  border-bottom: 1px solid #F5F5F5;
+  min-height: 0;
+}
+.word-block:last-child { border-bottom: none; }
+
+.img-col {
+  grid-row: 1 / 3;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 2.5mm;
+  padding: 3mm 2mm 3mm 0;
+  border-right: 1px dashed #E0E0E0;
+}
+.img-frame {
+  width: 30mm; height: 30mm;
+  border-radius: 10px;
+  border: 2px solid #E8F5E9;
+  background: #F9FFF9;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.img-frame img { width: 100%; height: 100%; object-fit: contain; }
+.word-lbl {
+  font-family: var(--font-hand);
+  font-size: 1.1rem; font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.write-row {
+  position: relative;
+  height: var(--row-h);
+  min-height: var(--row-h);
+  max-height: var(--row-h);
+  overflow: hidden;
+}
+.write-row:first-of-type { border-bottom: 1px dashed #EEEEEE; }
+
+.grid-bg {
+  position: absolute;
+  top: 25%; height: 50%;
+  left: 2mm; right: 1mm;
+  pointer-events: none;
+}
+.gl {
+  position: absolute;
+  left: 0; right: 0; height: 0;
+}
+.gl-sky   { top: 0%;   border-top: 1.3pt solid var(--line-blue); }
+.gl-cloud { top: 33%;  border-top: 1.3pt dashed var(--line-dash); }
+.gl-grass { top: 67%;  border-top: 2.8pt solid var(--line-blue); }
+.gl-dirt  { top: 100%; border-top: 1.3pt solid var(--line-red); }
+
+.cells {
+  position: absolute; inset: 0;
+  display: flex; align-items: center;
+  padding: 0 2mm;
+  gap: 1mm;
+}
+.cell {
+  flex: 1; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-hand);
+  font-size: 2.58rem;
+  letter-spacing: 0;
+  transform: translateY(-1.4mm);
+  user-select: none;
+}
+.cell.model { color: var(--text-dark); font-weight: 700; }
+.cell.trace { color: var(--trace-color); font-weight: 700; }
+.cell.empty { color: transparent; }
+
+.vsep {
+  width: 1px; height: 36%; background: #DEDEDE;
+  flex-shrink: 0;
+  transform: translateY(-1.4mm);
+  align-self: center;
+}
+
+.write-row.row2 .cell.trace { color: rgba(144,202,249,.28); }
+
+@media screen and (max-width: 720px) {
+  .toolbar-left span:not(.icon) {
+    font-size: 0.92rem;
+    line-height: 1.35;
+  }
+  .toolbar {
+    justify-content: center;
+  }
+  .btn-print {
+    width: 100%;
+  }
+  .page-viewport {
+    width: calc(100vw - 16px);
+    margin: 12px auto;
+  }
+  .page {
+    margin: 0;
+    box-shadow: 0 0 24px rgba(0,0,0,.45);
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .btn-print:hover { transform: none; }
+  .btn-print:active { transform: scale(0.98); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-print { transition: none !important; }
+}
+
+@media print {
+  body { background: #fff; padding: 0; }
+  .back-hub { display: none !important; }
+  .toolbar { display: none !important; }
+  .hw-section { display: none !important; }
+  .hw-section.active { display: block !important; }
+  .page-viewport {
+    width: auto;
+    height: auto;
+    overflow: visible;
+    margin: 0;
+  }
+  .page-viewport .page {
+    transform: none !important;
+  }
+  .page {
+    margin: 0; box-shadow: none; border: none;
+    width: 210mm; height: 297mm;
+    padding: 14mm 14mm 10mm;
+  }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style>
+  <link rel="stylesheet" href="../../assets/primary-responsive.css?v=2" />
+</head>
+<body>
+
+<a class="back-hub" href="../index.html">← Flutter, butterfly! 首页</a>
+
+<div class="toolbar">
+  <div class="toolbar-left">
+    <span class="icon">🦋</span>
+    <span>Flutter Butterfly 单词抄写作业 02</span>
+  </div>
+  <button class="btn-print" onclick="window.print()">🖨️ 打印</button>
+</div>
+
+<div id="app"></div>
+
+<script>
+/* 抄写 02：teach … feet */
+const LESSON = {
+  label: 'Flutter Butterfly',
+  color: '#bf360c',
+  bg   : '#fff3e0',
+  words: ['turn-brown', 'inside', 'come-out', 'young', 'look-for', 'leave', 'bigger', 'green', 'keep-eating', 'more', 'after', 'week', 'hard', 'covering']
+};
+
+const IMG_BASE = '../flutter-butterfly-courseware/images/words/';
+
+function svgPlaceholderDataUrl(line1, line2) {
+  const esc = (t) => String(t)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+    <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#e0f7fa"/><stop offset="100%" stop-color="#fff8e1"/></linearGradient></defs>
+    <rect width="100%" height="100%" fill="url(#g)"/>
+    <text x="50%" y="38%" text-anchor="middle" font-size="34" fill="#bf360c" font-family="Segoe UI,Arial,sans-serif" font-weight="700">${esc(line1)}</text>
+    <text x="50%" y="52%" text-anchor="middle" font-size="14" fill="#546E7A" font-family="Segoe UI,Arial,sans-serif">${esc(line2)}</text>
+    <text x="50%" y="68%" text-anchor="middle" font-size="12" fill="#90A4AE" font-family="Segoe UI,Arial,sans-serif">请将 PNG 放入 flutter-butterfly-courseware/images/words/ 后刷新</text>
+  </svg>`;
+  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+}
+
+function buildAll() {
+  const app = document.getElementById('app');
+  const section = document.createElement('div');
+  section.className = 'hw-section active';
+  section.id = 'section-flutter-butterfly-hw02';
+  const pages = chunkArray(LESSON.words, 4);
+  pages.forEach((pageWords, pi) => {
+    section.appendChild(buildPage(LESSON, pageWords, pi + 1, pages.length));
+  });
+  app.appendChild(section);
+}
+
+function buildPage(vData, words, pageNum, totalPages) {
+  const viewport = document.createElement('div');
+  viewport.className = 'page-viewport';
+
+  const page = document.createElement('div');
+  page.className = 'page';
+
+  const hdr = document.createElement('div');
+  hdr.className = 'page-hdr';
+  hdr.innerHTML = `
+    <span>姓名: ___________________</span>
+    <span class="vowel-badge"
+          style="background:${vData.bg}; color:${vData.color}">
+      ${vData.label} · 英语抄写
+    </span>
+  `;
+  page.appendChild(hdr);
+
+  const body = document.createElement('div');
+  body.className = 'page-body';
+  words.forEach(word => body.appendChild(buildWordBlock(word, vData.color)));
+  page.appendChild(body);
+
+  const ftr = document.createElement('div');
+  ftr.className = 'page-ftr';
+  ftr.textContent =
+    `Flutter Butterfly · 国家地理分级 · 单词抄写 02  |  ` +
+    `本页: ${words.join(', ')}  |  第 ${pageNum} / ${totalPages} 页`;
+  page.appendChild(ftr);
+
+  viewport.appendChild(page);
+  return viewport;
+}
+
+function buildWordBlock(word, accentColor) {
+  const block = document.createElement('div');
+  block.className = 'word-block';
+
+  block.innerHTML = `
+    <div class="img-col">
+      <div class="img-frame">
+        <img class="hw-word-img" alt="${word}" />
+      </div>
+      <div class="word-lbl" style="color:${accentColor}">${word}</div>
+    </div>
+    ${buildWriteRow(word, 'row1')}
+    ${buildWriteRow(word, 'row2')}
+  `;
+  const img = block.querySelector('.hw-word-img');
+  img.src = IMG_BASE + word + '.png';
+  img.addEventListener('error', function onImgErr() {
+    this.removeEventListener('error', onImgErr);
+    this.src = svgPlaceholderDataUrl(word, IMG_BASE + word + '.png');
+  }, { once: true });
+
+  return block;
+}
+
+function buildWriteRow(word, rowClass) {
+  return `
+    <div class="write-row ${rowClass}">
+      <div class="grid-bg">
+        <div class="gl gl-sky"></div>
+        <div class="gl gl-cloud"></div>
+        <div class="gl gl-grass"></div>
+        <div class="gl gl-dirt"></div>
+      </div>
+      <div class="cells">
+        <div class="cell model">${word}</div>
+        <div class="vsep"></div>
+        <div class="cell trace">${word}</div>
+        <div class="cell trace">${word}</div>
+        <div class="vsep"></div>
+        <div class="cell empty">${word}</div>
+        <div class="cell empty">${word}</div>
+      </div>
+    </div>
+  `;
+}
+
+function chunkArray(arr, size) {
+  const result = [];
+  for (let i = 0; i < arr.length; i += size) result.push(arr.slice(i, i + size));
+  return result;
+}
+
+function buildAllAndFit() {
+  buildAll();
+  fitPageViewports();
+}
+
+function fitPageViewports() {
+  if (window.matchMedia('print').matches) return;
+  document.querySelectorAll('.page-viewport').forEach((vp) => {
+    const page = vp.querySelector('.page');
+    if (!page) return;
+    page.style.transform = 'none';
+    page.style.transformOrigin = 'top left';
+    const naturalW = page.offsetWidth;
+    const targetW = vp.clientWidth;
+    if (!naturalW || !targetW) return;
+    const scale = Math.min(1, targetW / naturalW);
+    page.style.transform = scale < 1 ? `scale(${scale})` : 'none';
+    vp.style.height = scale < 1 ? `${page.offsetHeight * scale}px` : 'auto';
+  });
+}
+
+let fitTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(fitTimer);
+  fitTimer = setTimeout(fitPageViewports, 120);
+});
+window.addEventListener('orientationchange', fitPageViewports);
+
+window.addEventListener('load', buildAllAndFit);
+</script>
+  <script src="../../assets/primary-responsive.js?v=2" defer></script>
+</body>
+</html>
