@@ -16,7 +16,7 @@
       zhTitle: "卵",
       en: "The egg is yellow. Then it turns brown.",
       zh: "卵先是黄色，然后变成棕色。",
-      photos: ["egg-yellow.jpg", "egg-yellow-b.jpg", "egg-brown.jpg", "egg-brown-b.jpg"]
+      photos: ["egg-yellow-b.jpg", "egg-yellow.jpg", "egg-brown.jpg", "egg-brown-b.jpg"]
     },
     {
       id: "caterpillar",
@@ -55,7 +55,7 @@
       id: "yellow-egg",
       en: "It lays an egg. The new egg is yellow.",
       zh: "它产下黄色的卵。",
-      photos: ["egg-laying.jpg", "egg-yellow.jpg", "egg-yellow-b.jpg"]
+      photos: ["egg-yellow-b.jpg", "egg-laying.jpg", "egg-yellow.jpg"]
     },
     {
       id: "brown-egg",
