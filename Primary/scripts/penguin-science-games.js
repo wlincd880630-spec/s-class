@@ -331,6 +331,21 @@
     return '<button type="button" class="btn' + (cls ? " " + cls : "") + '" id="' + id + '">' + label + "</button>";
   }
 
+  function hubFig(file, cap) {
+    return "<figure>" + imgTag(file, cap) + (cap ? "<figcaption>" + cap + "</figcaption>" : "") + "</figure>";
+  }
+
+  function bindActivate(el, fn) {
+    if (!el) return;
+    el.onclick = fn;
+    el.onkeydown = function (ev) {
+      if (ev.key === "Enter" || ev.key === " ") {
+        ev.preventDefault();
+        fn();
+      }
+    };
+  }
+
   function t(en, zh) {
     if (state.lang === "en") return en;
     return en + (zh ? "<small>" + zh + "</small>" : "");
@@ -342,21 +357,25 @@
       '<div class="lc-head"><h2>🐧 科普竞赛</h2>' +
       "<p>真实企鹅照片 · 中英双语或全英文 · 比一比谁的常识多。</p></div>" +
       '<div class="lc-hub">' +
-      '<button type="button" class="lc-card" id="pgBi">' +
+      '<div class="lc-card" id="pgBi" role="button" tabindex="0">' +
       '<div class="lc-card-photos">' +
-      imgTag("emperor-huddle.jpg") + imgTag("magellanic-beach.jpg") +
-      imgTag("snares-forest.jpg") + imgTag("rockhopper-fancy.jpg") +
+      hubFig("emperor-huddle.jpg", "群居 Huddle") +
+      hubFig("magellanic-beach.jpg", "沙滩 Beach") +
+      hubFig("snares-forest.jpg", "森林 Forest") +
+      hubFig("rockhopper-fancy.jpg", "花哨 Fancy") +
       "</div><div class=\"lc-card-body\"><span class=\"lc-badge\">Bilingual</span>" +
-      "<b>中英双语竞赛</b><span>题目中英对照，看图作答，适合中文讲解课。</span></div></button>" +
-      '<button type="button" class="lc-card" id="pgEn">' +
+      "<b>中英双语竞赛</b><span>题目中英对照，看图作答，适合中文讲解课。</span></div></div>" +
+      '<div class="lc-card" id="pgEn" role="button" tabindex="0">' +
       '<div class="lc-card-photos">' +
-      imgTag("fairy-small.jpg") + imgTag("adelie-plain.jpg") +
-      imgTag("penguin-swim.jpg") + imgTag("gentoo-land.jpg") +
+      hubFig("fairy-small.jpg", "小蓝 Fairy") +
+      hubFig("adelie-plain.jpg", "朴素 Plain") +
+      hubFig("penguin-swim.jpg", "游泳 Swim") +
+      hubFig("gentoo-land.jpg", "上岸 Land") +
       "</div><div class=\"lc-card-body\"><span class=\"lc-badge\">English</span>" +
-      "<b>English Science Cup</b><span>English-only quiz with photos. Race for a high score.</span></div></button>" +
+      "<b>English Science Cup</b><span>English-only quiz with photos. Race for a high score.</span></div></div>" +
       "</div>";
-    document.getElementById("pgBi").onclick = function () { state.lang = "bi"; renderMenu(root); };
-    document.getElementById("pgEn").onclick = function () { state.lang = "en"; renderMenu(root); };
+    bindActivate(document.getElementById("pgBi"), function () { state.lang = "bi"; renderMenu(root); });
+    bindActivate(document.getElementById("pgEn"), function () { state.lang = "en"; renderMenu(root); });
   }
 
   function renderMenu(root) {
@@ -377,18 +396,18 @@
       "</div>";
     document.getElementById("pgBack").onclick = function () { renderHub(root); };
     root.querySelectorAll("[data-game]").forEach(function (el) {
-      el.onclick = function () {
+      bindActivate(el, function () {
         var g = el.getAttribute("data-game");
         if (g === "match") startMatch(root);
         else startQuiz(root, g);
-      };
+      });
     });
   }
 
   function menuCard(id, title, desc, photos) {
-    return '<button type="button" class="lc-card" data-game="' + id + '">' +
-      '<div class="lc-card-photos">' + photos.map(function (f) { return imgTag(f); }).join("") + "</div>" +
-      '<div class="lc-card-body"><span class="lc-badge">Quiz</span><b>' + title + "</b><span>" + desc + "</span></div></button>";
+    return '<div class="lc-card" role="button" tabindex="0" data-game="' + id + '">' +
+      '<div class="lc-card-photos">' + photos.map(function (f) { return hubFig(f); }).join("") + "</div>" +
+      '<div class="lc-card-body"><span class="lc-badge">Quiz</span><b>' + title + "</b><span>" + desc + "</span></div></div>";
   }
 
   function startQuiz(root, kind) {
