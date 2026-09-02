@@ -1,43 +1,24 @@
 (function () {
   "use strict";
   var L = window.AA_LESSON;
-  var step = 1;
-  var titles = ["", "Aa · 学字母", "Aa · 学单词", "Aa · 描红"];
+  var i = 0;
+  var traceCtx = null;
+  var slides = [{ type: "meet" }]
+    .concat(L.vocab.map(function (w) { return { type: "word", id: w.id }; }))
+    .concat([{ type: "video" }, { type: "trace", letter: "A" }, { type: "trace", letter: "a" }]);
 
   function $(id) { return document.getElementById(id); }
 
-  function renderVocab() {
-    var grid = $("vocab-grid");
-    grid.innerHTML = L.vocab.map(function (w) {
-      return (
-        '<button type="button" class="word-pic" data-id="' + w.id + '">' +
-          '<img src="' + w.img + '" alt="' + w.en + '">' +
-          '<div class="en"><b>' + w.onset + "</b>" + w.rest + "</div>" +
-          '<div class="zh">' + w.zh + "</div>" +
-        "</button>"
-      );
-    }).join("");
-    grid.querySelectorAll(".word-pic").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        var id = btn.getAttribute("data-id");
-        var clip = L.track04Clips[id];
-        var w = L.words[id];
-        AAAudio.playClip(L.tracks.t04, clip[0], clip[1]).then(function () {
-          return AAAudio.speakWord(w.en);
-        }).catch(function () {
-          AAAudio.speakWord(w.en);
-        });
-      });
-    });
-  }
-
   function bindTrace(canvas) {
     var ctx = canvas.getContext("2d");
-    ctx.strokeStyle = "#1565c0";
-    ctx.lineWidth = 7;
-    ctx.lineCap = "round";
-    ctx.lineJoin = "round";
     var drawing = false;
+    function tune() {
+      ctx.strokeStyle = "#1c4e80";
+      ctx.lineWidth = Math.max(8, canvas.height / 55);
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+    }
+    tune();
     function pos(ev) {
       var r = canvas.getBoundingClientRect();
       var src = ev.touches ? ev.touches[0] : ev;
@@ -70,46 +51,112 @@
     return ctx;
   }
 
-  var ctxA = bindTrace($("canvas-A"));
-  var ctxa = bindTrace($("canvas-a"));
-
-  function showStep(n) {
-    step = n;
-    [1, 2, 3].forEach(function (i) {
-      $("step-" + i).classList.toggle("hidden", i !== n);
-    });
-    document.querySelectorAll(".step-dot").forEach(function (d) {
-      d.classList.toggle("on", Number(d.getAttribute("data-step")) === n);
-    });
-    $("step-title").textContent = titles[n];
-    $("step-pill").textContent = n + " / 3";
-    $("btn-prev").disabled = n === 1;
-    $("btn-next").textContent = n === 3 ? "去做游戏 →" : "下一步";
-    AAAudio.stop();
+  function paperHTML(letter) {
+    var kind = letter === "A" ? "cap" : "small";
+    return (
+      '<div class="trace-board">' +
+        '<div class="trace-staff">' +
+          '<i class="ln sky"></i><i class="ln mid"></i><i class="ln base"></i><i class="ln desc"></i>' +
+          '<div class="trace-ghost ' + kind + '">' + letter + "</div>" +
+          '<canvas id="trace-cv" width="1400" height="700"></canvas>' +
+        "</div>" +
+      "</div>"
+    );
   }
 
-  $("btn-track03").addEventListener("click", function () {
-    AAAudio.playFile(L.tracks.t03);
-  });
-  $("btn-phoneme").addEventListener("click", function () { AAAudio.speakPhoneme(); });
-  $("btn-letter").addEventListener("click", function () { AAAudio.speakLetter(); });
-  $("btn-prompt").addEventListener("click", function () { AAAudio.speakBeginningPrompt(); });
-  $("btn-track04").addEventListener("click", function () { AAAudio.playFile(L.tracks.t04); });
-  $("btn-clear-trace").addEventListener("click", function () {
-    ctxA.clearRect(0, 0, 640, 320);
-    ctxa.clearRect(0, 0, 640, 320);
-  });
-  $("btn-say-trace").addEventListener("click", function () {
-    AAAudio.speakLetter().then(function () { return AAAudio.speakPhoneme(); });
-  });
-  $("btn-prev").addEventListener("click", function () {
-    if (step > 1) showStep(step - 1);
-  });
-  $("btn-next").addEventListener("click", function () {
-    if (step < 3) showStep(step + 1);
-    else location.href = "games.html";
+  function render() {
+    var s = slides[i];
+    var box = $("slide");
+    var titles = {
+      meet: "听字母",
+      video: "看书写",
+      word: "学单词",
+      trace: "描红"
+    };
+    $("step-title").textContent = titles[s.type];
+    $("step-pill").textContent = (i + 1) + " / " + slides.length;
+    $("prog").style.width = ((i + 1) / slides.length * 100) + "%";
+    $("btn-prev").disabled = i === 0;
+    $("btn-next").textContent = i === slides.length - 1 ? "去做游戏 →" : "下一页";
+    traceCtx = null;
+
+    if (s.type === "meet") {
+      box.innerHTML =
+        '<p class="slide-kicker">Listen</p>' +
+        '<div class="meet-row">' +
+          '<div class="meet-card"><img src="' + L.mascot.img + '" alt="angry apple"></div>' +
+          '<div class="meet-card aa-mark"><div class="big">Aa</div></div>' +
+        "</div>" +
+        "<h2>angry apple</h2>" +
+        '<button type="button" class="btn btn-apple" id="btn-t03">听</button>';
+      $("btn-t03").onclick = function () { AAAudio.playFile(L.tracks.t03); };
+      return;
+    }
+
+    if (s.type === "video") {
+      box.innerHTML =
+        '<p class="slide-kicker">Write</p>' +
+        '<div class="vid-frame"><video id="letter-video" controls playsinline preload="metadata" src="' +
+        L.video + '" poster="' + L.mascot.img + '"></video></div>';
+      return;
+    }
+
+    if (s.type === "word") {
+      var w = L.words[s.id];
+      box.innerHTML =
+        '<p class="slide-kicker">Word</p>' +
+        '<button type="button" class="word-hero" id="word-card">' +
+          '<img src="' + w.img + '" alt="' + w.en + '">' +
+          '<div class="en"><b>' + w.onset + "</b>" + w.rest + "</div>" +
+        "</button>" +
+        '<button type="button" class="btn btn-apple" id="btn-hear">听</button>';
+      function play() {
+        var clip = L.track04Clips[w.id];
+        AAAudio.playClip(L.tracks.t04, clip[0], clip[1]).catch(function () {
+          AAAudio.speakWord(w.en);
+        });
+      }
+      $("word-card").onclick = play;
+      $("btn-hear").onclick = play;
+      play();
+      return;
+    }
+
+    if (s.type === "trace") {
+      var isA = s.letter === "A";
+      box.innerHTML =
+        '<p class="slide-kicker">Trace</p>' +
+        "<h2>" + (isA ? "A" : "a") + "</h2>" +
+        paperHTML(s.letter) +
+        '<button type="button" class="btn btn-ghost" id="btn-clear">清除</button>';
+      var cv = $("trace-cv");
+      traceCtx = bindTrace(cv);
+      $("btn-clear").onclick = function () {
+        traceCtx.clearRect(0, 0, cv.width, cv.height);
+      };
+    }
+  }
+
+  $("btn-prev").onclick = function () {
+    if (i > 0) {
+      i -= 1;
+      AAAudio.stop();
+      render();
+    }
+  };
+  $("btn-next").onclick = function () {
+    if (i < slides.length - 1) {
+      i += 1;
+      AAAudio.stop();
+      render();
+    } else {
+      location.href = "games.html";
+    }
+  };
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowRight") $("btn-next").click();
+    if (e.key === "ArrowLeft") $("btn-prev").click();
   });
 
-  renderVocab();
-  showStep(1);
+  render();
 })();
