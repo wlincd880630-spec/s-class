@@ -1,0 +1,74 @@
+/**
+ * Level 1 The Alphabet · Unit 1 · Letter Aa
+ * 词表与音频来自 Student's Book p.4–5（Disc 1 Track 03–06）。
+ */
+(function (global) {
+  "use strict";
+
+  var IMG = "assets/img/";
+  var AUD = "assets/audio/";
+
+  var WORDS = {
+    apple: { id: "apple", en: "apple", zh: "苹果", onset: "a", rest: "pple", img: IMG + "apple.jpg", a: true },
+    axe: { id: "axe", en: "axe", zh: "斧头", onset: "a", rest: "xe", img: IMG + "axe.jpg", a: true },
+    ant: { id: "ant", en: "ant", zh: "蚂蚁", onset: "a", rest: "nt", img: IMG + "ant.jpg", a: true },
+    alligator: { id: "alligator", en: "alligator", zh: "短吻鳄", onset: "a", rest: "lligator", img: IMG + "alligator.jpg", a: true },
+    bear: { id: "bear", en: "bear", zh: "熊", onset: "b", rest: "ear", img: IMG + "bear.jpg", a: false },
+    cup: { id: "cup", en: "cup", zh: "杯子", onset: "c", rest: "up", img: IMG + "cup.jpg", a: false },
+    ball: { id: "ball", en: "ball", zh: "球", onset: "b", rest: "all", img: IMG + "ball.jpg", a: false },
+    cat: { id: "cat", en: "cat", zh: "猫", onset: "c", rest: "at", img: IMG + "cat.jpg", a: false },
+    dog: { id: "dog", en: "dog", zh: "狗", onset: "d", rest: "og", img: IMG + "dog.jpg", a: false }
+  };
+
+  global.AA_LESSON = {
+    unit: "Unit 1",
+    pages: "Student's Book p.4–5",
+    letter: "Aa",
+    soundIpa: "/æ/",
+    soundHint: "短元音，像 angry apple 里的 a",
+    mascot: {
+      id: "angry-apple",
+      phrase: "angry apple",
+      zh: "生气的苹果",
+      img: IMG + "angry-apple.jpg"
+    },
+    hero: IMG + "hero-aa.jpg",
+    video: "assets/video/letter-a.mp4",
+    tracks: {
+      t03: AUD + "track03.mp3",
+      t04: AUD + "track04.mp3",
+      t05: AUD + "track05.mp3",
+      t06: AUD + "track06.mp3"
+    },
+    /** 教材 B：Listen, point, and repeat 顺序 */
+    vocab: [WORDS.apple, WORDS.axe, WORDS.ant, WORDS.alligator],
+    /** Track 04 各词起止（秒） */
+    track04Clips: {
+      apple: [6.0, 14.0],
+      axe: [14.0, 27.0],
+      ant: [27.0, 36.0],
+      alligator: [36.0, 49.2]
+    },
+    /** 教材 D：Listen. Then write Aa or cross it out. */
+    track05Items: [
+      { id: "ant", start: 8.0, end: 13.8, writeAa: true },
+      { id: "bear", start: 14.0, end: 19.5, writeAa: false },
+      { id: "apple", start: 19.8, end: 26.5, writeAa: true },
+      { id: "alligator", start: 26.8, end: 34.3, writeAa: true },
+      { id: "cup", start: 34.5, end: 41.5, writeAa: false },
+      { id: "axe", start: 41.8, end: 50.0, writeAa: true }
+    ],
+    /** 教材 E chant 顺序 */
+    chantOrder: ["ant", "apple", "alligator", "axe"],
+    distractors: [WORDS.bear, WORDS.cup, WORDS.ball, WORDS.cat, WORDS.dog],
+    words: WORDS,
+    games: [
+      { id: 1, title: "开头音小侦探", en: "Beginning Sound", desc: "听 /æ/，点出所有以短 a 开头的图", emoji: "🔎" },
+      { id: 2, title: "听一听，点一点", en: "Listen, Point, Repeat", desc: "播放教材单词，点出对应的图", emoji: "👆" },
+      { id: 3, title: "谁是局外人", en: "Odd One Out", desc: "三张图里，哪个不是 /æ/ 开头？", emoji: "🧩" },
+      { id: 4, title: "翻牌配对", en: "Memory Match", desc: "把图片和单词配成一对", emoji: "🃏" },
+      { id: 5, title: "写 Aa 还是打叉", en: "Aa or X", desc: "听教材 Track 05，是 /æ/ 就写 Aa", emoji: "🍎" },
+      { id: 6, title: "Chant 排队", en: "Listen and Chant", desc: "跟 Track 06 唱，排出正确顺序", emoji: "🎵" }
+    ]
+  };
+})(window);
