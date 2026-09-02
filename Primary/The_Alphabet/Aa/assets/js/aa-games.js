@@ -106,7 +106,7 @@
     $("play").classList.add("hidden");
     $("result").classList.add("hidden");
     $("game-title").textContent = "练一练";
-    $("btn-back").href = "index.html";
+    $("btn-back").href = window.ALPHABET ? ALPHABET.hubUrl(ALPHABET.letterFromPath()) : "../index.html#A";
     $("btn-back").onclick = null;
   }
   function showResult(title, msg, again) {
