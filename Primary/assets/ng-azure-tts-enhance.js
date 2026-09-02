@@ -127,6 +127,12 @@
     add(t);
     add(t.toLowerCase());
     add(t.charAt(0).toUpperCase() + t.slice(1).toLowerCase());
+    add(t.replace(/-/g, " "));
+    add(t.replace(/ /g, "-"));
+    if (t === "cant" || t === "can't") {
+      add("cant");
+      add("can't");
+    }
     return out;
   }
 
@@ -352,5 +358,6 @@
     preload: loadSdk,
     lastSpeak: null,
     lastSsml: "",
+    textVariants: textVariants,
   };
 })(typeof window !== "undefined" ? window : this);
