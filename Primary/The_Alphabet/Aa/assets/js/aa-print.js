@@ -63,6 +63,23 @@
       "</div>"
     );
   }
+  function modelCard(letter, kind, title, hint) {
+    var cls = kind === "small" ? "letter-small" : "letter-cap";
+    return (
+      '<div class="model-card">' +
+      '<div class="model-title">' + title + "</div>" +
+      '<p class="model-hint">' + hint + "</p>" +
+      '<div class="stave-line model-stave">' +
+      '<div class="grid-lines"><i class="gl gl-sky"></i><i class="gl gl-cloud"></i><i class="gl gl-grass"></i><i class="gl gl-dirt"></i></div>' +
+      '<div class="trace-word center">' +
+      '<span class="' + cls + '">' + letter + "</span>" +
+      '<span class="' + cls + '">' + letter + "</span>" +
+      '<span class="' + cls + '">' + letter + "</span>" +
+      "</div>" +
+      '<canvas class="stave-ghost-cv" aria-hidden="true"></canvas>' +
+      "</div></div>"
+    );
+  }
   function header(kicker, title, badge) {
     return (
       '<div class="rainbow-bar"></div>' +
@@ -97,24 +114,6 @@
       '<img src="' + item.img + '" alt="' + item.en + '">' +
       (withWord !== false ? '<div class="lab">' + onsetHTML(item) + "</div>" : "") +
       "</div>"
-    );
-  }
-  function svgA() {
-    return (
-      '<svg viewBox="0 0 220 140" aria-hidden="true">' +
-      '<path d="M30 122 L110 22 L190 122" fill="none" stroke="#90a4ae" stroke-width="9" stroke-linecap="round" stroke-dasharray="7 11"/>' +
-      '<path d="M68 84 H152" fill="none" stroke="#90a4ae" stroke-width="9" stroke-linecap="round" stroke-dasharray="7 11"/>' +
-      '<circle cx="30" cy="122" r="6" fill="#43a047"/>' +
-      "</svg>"
-    );
-  }
-  function svga() {
-    return (
-      '<svg viewBox="0 0 220 140" aria-hidden="true">' +
-      '<circle cx="108" cy="78" r="36" fill="none" stroke="#90a4ae" stroke-width="9" stroke-dasharray="7 11"/>' +
-      '<path d="M144 78 V118" fill="none" stroke="#90a4ae" stroke-width="9" stroke-linecap="round" stroke-dasharray="7 11"/>' +
-      '<circle cx="108" cy="42" r="6" fill="#43a047"/>' +
-      "</svg>"
     );
   }
 
@@ -166,10 +165,10 @@
     ));
     pages.push(sheet("theme-sky",
       header("C · Trace, write, and say", "四线格里写 Aa", "描红") +
-      task("C", "先沿虚线描大写 A、小写 a，再在四线格里自己写。边写边说 /æ/。", "sky") +
+      task("C", "先沿浅色手写体描大写 A、小写 a，再在四线格里自己写。绿点是起笔处。边写边说 /æ/。", "sky") +
       '<div class="letter-models">' +
-        '<div class="model-card"><div>A · 三笔</div>' + svgA() + "</div>" +
-        '<div class="model-card"><div>a · 两笔</div>' + svga() + "</div>" +
+        modelCard("A", "cap", "A · 三笔", "从左下绿点起笔，两斜一横") +
+        modelCard("a", "small", "a · 两笔", "从圆顶绿点起笔，先肚再竖") +
       "</div>" +
       stave('<span class="letter-pair"><span class="letter-cap onset">A</span></span>', "trace", "fs-lg", "描 A") +
       stave('<span class="letter-pair"><span class="letter-cap onset">A</span></span>', "trace", "fs-lg", "描 A") +
@@ -232,10 +231,10 @@
     ));
     pages.push(sheet("theme-sky",
       header("A · Trace, write, and say", "描红大 A 和小 a", "四线格") +
-      task("A", "看绿点起笔。先描虚线，再在四线格里写。写完大声说 A, a, /æ/。") +
+      task("A", "绿点起笔。沿四线格里的浅色手写体描，再自己写。写完大声说 A, a, /æ/。") +
       '<div class="letter-models">' +
-        '<div class="model-card">A' + svgA() + "</div>" +
-        '<div class="model-card">a' + svga() + "</div>" +
+        modelCard("A", "cap", "A · 三笔", "从左下绿点起笔，两斜一横") +
+        modelCard("a", "small", "a · 两笔", "从圆顶绿点起笔，先肚再竖") +
       "</div>" +
       stave('<span class="letter-pair"><span class="letter-cap onset">A</span></span>', "trace", "fs-lg", "描") +
       stave('<span class="letter-pair"><span class="letter-cap onset">A</span></span>', "trace", "fs-lg", "描") +
