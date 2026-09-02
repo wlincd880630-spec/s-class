@@ -246,12 +246,12 @@ body {
   padding: 0 2.4mm;
 }
 .word-block--long .cell {
-  font-size: 1.72rem;
+  font-size: 2.05rem;
   letter-spacing: -0.02em;
 }
 .word-block--full .cell {
-  font-size: 1.46rem;
-  letter-spacing: -0.015em;
+  font-size: 1.92rem;
+  letter-spacing: -0.01em;
 }
 .word-block--long .word-lbl,
 .word-block--full .word-lbl {
@@ -424,8 +424,8 @@ function wordImgKey(slug) {
 function wordLayout(display) {
   const letters = display.replace(/[^A-Za-z']/g, '').length;
   const parts = display.trim().split(/\s+/).filter(Boolean);
-  if (parts.length >= 3 || display.length >= 14) return 'full';
-  if (parts.length >= 2 || letters >= 9) return 'pair';
+  if (parts.length >= 2 || display.length >= 14) return 'full';
+  if (letters >= 9) return 'pair';
   return 'normal';
 }
 
@@ -494,17 +494,27 @@ function buildWriteRow(display, rowClass, layout) {
 }
 
 function fitWordCells() {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
   document.querySelectorAll('.word-block .cell').forEach((cell) => {
-    if (!cell.textContent.trim()) return;
+    const text = cell.textContent.trim();
+    if (!text) return;
+    const avail = cell.clientWidth - 10;
+    if (avail < 48) return;
     cell.style.fontSize = '';
-    let size = parseFloat(getComputedStyle(cell).fontSize);
-    const min = 13;
+    const cs = getComputedStyle(cell);
+    let size = parseFloat(cs.fontSize);
+    const min = 20;
+    const family = cs.fontFamily;
+    const weight = cs.fontWeight;
+    ctx.font = weight + ' ' + size + 'px ' + family;
     let guard = 0;
-    while (cell.scrollWidth > cell.clientWidth - 2 && size > min && guard < 40) {
-      size -= 0.6;
-      cell.style.fontSize = size + 'px';
+    while (ctx.measureText(text).width > avail && size > min && guard < 40) {
+      size -= 0.5;
+      ctx.font = weight + ' ' + size + 'px ' + family;
       guard += 1;
     }
+    cell.style.fontSize = size + 'px';
   });
 }
 
@@ -517,8 +527,9 @@ function chunkArray(arr, size) {
 function buildAllAndFit() {
   buildAll();
   const run = () => { fitWordCells(); fitPageViewports(); };
-  run();
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(run);
+  const afterLayout = () => requestAnimationFrame(() => requestAnimationFrame(run));
+  afterLayout();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(afterLayout);
 }
 
 function fitPageViewports() {
