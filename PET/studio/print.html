@@ -37,10 +37,27 @@
         <label>语法练习级别（可多选）</label>
         <div class="level-picks" id="grLevels"></div>
       </div>
+      <div class="field handout-only">
+        <label>每档语法题（随机抽）</label>
+        <select id="drillCountSel">
+          <option value="3">3 题</option>
+          <option value="5" selected>5 题</option>
+          <option value="8">8 题</option>
+          <option value="0">全部题库</option>
+        </select>
+      </div>
+      <div class="field handout-only">
+        <label>每档例句（随机抽）</label>
+        <select id="exCountSel">
+          <option value="1" selected>1 句</option>
+          <option value="2">2 句</option>
+          <option value="0">全部</option>
+        </select>
+      </div>
       <button class="btn btn-indigo" id="exportBtn">导出 PDF</button>
     </div>
     <p class="note" id="status">正在读取本单元数据…</p>
-    <p class="note" id="hint">讲义已预生成：例句按初一到高三分层；语法每个年级不少于 15 道精选题，并拓展相关结构。导出时勾选级别即可，无需等待模型。</p>
+    <p class="note" id="hint">讲义题库已预生成（语法每档约 15 题）。导出时按年级随机抽取例句和语法题，避免把整本题库打进 PDF。</p>
     <iframe id="preview" title="讲义预览" style="display:none;width:100%;min-height:88vh;margin-top:16px;border:1px solid #e2e8f0;border-radius:16px;background:#fff"></iframe>
   </div>
   <script src="js/catalog.js"></script>
@@ -124,15 +141,23 @@
           statusEl.textContent = "请至少选择一个例句级别或语法级别。";
           return;
         }
+        var drillN = Number(document.getElementById("drillCountSel").value);
+        var exN = Number(document.getElementById("exCountSel").value);
         setBusy(true, "载入讲义…");
         PETStudio.enrichHandout(bag, {
-          filters: { exampleLevels: exLv, grammarLevels: grLv },
+          filters: {
+            exampleLevels: exLv,
+            grammarLevels: grLv,
+            examplePerLevel: exN,
+            exercisePerLevel: drillN
+          },
           onProgress: function (msg) { statusEl.textContent = msg; }
         }).then(function (enriched) {
           if (enriched.handoutWarning) {
             statusEl.textContent = "讲义降级：" + enriched.handoutWarning;
           } else {
-            statusEl.textContent = "已使用预生成讲义。例句 " + exLv.length + " 档 · 语法 " + grLv.length + " 档。正在打开排版页…";
+            statusEl.textContent = "已从题库随机抽取。例句 " + exLv.length + " 档 · 语法 " + grLv.length + " 档" +
+              (drillN > 0 ? " · 每档 " + drillN + " 题" : " · 全题库") + "。正在打开排版页…";
           }
           var doc = PETStudio.handoutDocument(enriched);
           var preview = document.getElementById("preview");

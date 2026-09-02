@@ -250,7 +250,7 @@
     var html = cover(
       u,
       "单词 · 词组 · 语法讲义",
-      "词汇/词组：音标、英中释义、中文用法、词性家族，以及初一到高三可选例句。语法：拓展讲解，每个年级不少于 15 道精选练习。"
+      "词汇/词组：音标、英中释义、中文用法、词性家族，以及按年级抽取的例句。语法：拓展讲解；题库每档 15 题以上，本次按年级随机抽题。"
     );
     html += '<section class="sheet long"><div class="inner">' +
       '<div class="sec-h"><div class="dot" style="background:#4f46e5"></div><h2>Vocabulary 单词</h2><span>' +
@@ -267,7 +267,7 @@
     html += '<section class="sheet long"><div class="inner">' +
       '<div class="sec-h"><div class="dot" style="background:#7c3aed"></div><h2>Grammar 语法讲义</h2><span>' +
       grammar.length + " points</span></div>" +
-      '<p class="lead">本部分为独立语法课件：核心用法加相关结构拓展、易错提醒、分级例句。每个年级（初一至高三）各不少于 15 题，题型含选择、填空、判断、改写、改错。高中题不套用中考提示语。</p>';
+      '<p class="lead">本部分为独立语法课件：核心用法加相关结构拓展、易错提醒、分级例句。题库每个年级不少于 15 题（选择/填空/判断/改写/改错），导出时按年级随机抽取，避免讲义过厚。高中题不套用中考提示语。</p>';
     grammar.forEach(function (g, i) {
       html += grammarArticle(g, i);
     });

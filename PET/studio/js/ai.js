@@ -544,6 +544,57 @@
     return n < 10 ? "0" + n : String(n);
   }
 
+  function shuffle(arr) {
+    var a = (arr || []).slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i];
+      a[i] = a[j];
+      a[j] = t;
+    }
+    return a;
+  }
+
+  function sampleByLevel(list, n, diversifyType) {
+    if (!n || n <= 0) return list || [];
+    var by = {};
+    (list || []).forEach(function (row) {
+      var lv = String(row.level || "");
+      if (!by[lv]) by[lv] = [];
+      by[lv].push(row);
+    });
+    var out = [];
+    Object.keys(by).forEach(function (lv) {
+      var pool = by[lv];
+      if (pool.length <= n) {
+        out = out.concat(pool);
+        return;
+      }
+      var picked = [];
+      var used = {};
+      if (diversifyType) {
+        ["choice", "fill", "truefalse", "rewrite", "error"].forEach(function (t) {
+          if (picked.length >= n) return;
+          var hit = shuffle(pool.filter(function (x) {
+            return x.type === t && !used[x.q];
+          }))[0];
+          if (hit) {
+            used[hit.q] = true;
+            picked.push(hit);
+          }
+        });
+      }
+      shuffle(pool).forEach(function (x) {
+        if (picked.length >= n) return;
+        if (used[x.q]) return;
+        used[x.q] = true;
+        picked.push(x);
+      });
+      out = out.concat(picked);
+    });
+    return out;
+  }
+
   function filterByLevels(list, levels) {
     if (levels == null) return list || [];
     if (!levels.length) return [];
@@ -566,7 +617,7 @@
         }
         it.usageZh = row.usageZh || "";
         it.family = row.family || [];
-        it.handoutExamples = filterByLevels(row.examples, exLv);
+        it.handoutExamples = sampleByLevel(filterByLevels(row.examples, exLv), filters.examplePerLevel);
       });
     }
     mergeList(bag.vocab, data.vocab || {});
@@ -578,8 +629,8 @@
         usage: g.usage || "",
         forms: g.forms || [],
         notes: g.notes || [],
-        examples: filterByLevels(g.examples, exLv),
-        exercises: filterByLevels(g.exercises, grLv)
+        examples: sampleByLevel(filterByLevels(g.examples, exLv), filters.examplePerLevel),
+        exercises: sampleByLevel(filterByLevels(g.exercises, grLv), filters.exercisePerLevel, true)
       };
     });
     if (!bag.handoutGrammar.length) {
