@@ -82,19 +82,23 @@
   min-height: 0;
   overflow: hidden;
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 .lc-card-photos img {
   width: 100%;
-  height: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: auto;
   object-fit: cover;
   display: block;
   vertical-align: middle;
 }
 .lc-card-photos figcaption {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  position: static;
+  left: auto;
+  right: auto;
+  bottom: auto;
   z-index: 1;
   margin: 0;
   padding: 0.18rem 0.35rem;
@@ -102,15 +106,16 @@
   font-weight: 700;
   letter-spacing: .02em;
   color: #fffef8;
-  background: rgba(18, 16, 12, .72);
+  background: #2a241c;
   text-align: center;
   pointer-events: none;
+  flex: 0 0 auto;
 }
 .lc-card-body {
   flex: 0 0 auto;
   position: relative;
   z-index: 2;
-  padding: 0.7rem 0.9rem 0.85rem;
+  padding: 0.5rem 0.8rem 0.55rem;
   background: #fffef8;
   border-top: 1px solid #eadfce;
 }
@@ -160,21 +165,42 @@
 .lc-msg.ok { color: #2e7d32; }
 .lc-msg.bad { color: #c62828; }
 
-/* —— 排序：2×2 大投放格，照片铺满格子，英文在格子下方不盖图 —— */
+/* —— 排序：左待分类大图 / 右投放格，16:9 舞台用满宽度 —— */
 .lc-cycle-board {
   flex: 1;
   min-height: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
+  gap: 0.35rem;
+}
+.lc-cycle-main {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 0.55rem;
+}
+.lc-pool-wrap, .lc-cols-wrap {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.lc-pane-label {
+  flex: 0 0 auto;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #6d4c41;
+  letter-spacing: .02em;
 }
 .lc-cols {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  gap: 0.55rem;
+  gap: 0.4rem;
   flex: 1 1 auto;
-  min-height: 22rem;
+  min-height: 0;
 }
 .lc-col {
   border: 2px dashed #c9bfae;
@@ -208,7 +234,7 @@
 .lc-col-title small { display: block; color: #6d5c4a; font-weight: 600; letter-spacing: 0; }
 .lc-drop {
   flex: 1 1 auto;
-  min-height: 9.5rem;
+  min-height: 0;
   height: auto;
   display: flex;
   align-items: stretch;
@@ -229,39 +255,50 @@
   pointer-events: none;
 }
 .lc-cap-slot {
-  min-height: 3.6rem;
+  min-height: 2.8rem;
+  max-height: 4.2rem;
+  overflow: auto;
   border-radius: 8px;
   background: #f7f3ea;
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding: 0.22rem;
-  margin-top: 0.25rem;
+  padding: 0.18rem;
+  margin-top: 0.2rem;
   flex: 0 0 auto;
   position: relative;
   z-index: 2;
-  overflow: visible;
 }
 
-.lc-pool, .lc-caps {
+.lc-pool {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.45rem;
-  justify-items: stretch;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0.4rem;
   margin: 0;
-  padding: 0.4rem;
+  padding: 0.35rem;
   border-radius: 10px;
   background: #efeae0;
-  flex: 0 0 auto;
+  flex: 1 1 auto;
+  min-height: 0;
 }
 .lc-caps {
   display: flex;
   flex-wrap: wrap;
+  gap: 0.4rem;
   justify-content: center;
+  margin: 0;
+  padding: 0.35rem 0.4rem;
+  border-radius: 10px;
+  background: #efeae0;
+  flex: 0 0 auto;
 }
 .lc-photo {
+  display: flex;
   width: 100%;
-  height: min(20vh, 12.5rem);
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
   border-radius: 10px;
   overflow: hidden;
   border: 3px solid #fff;
@@ -279,11 +316,25 @@
 .lc-photo img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
   display: block;
   pointer-events: none;
   background: #1b2418;
+}
+.lc-photo-slot {
+  min-width: 0;
+  min-height: 0;
+  border-radius: 10px;
+  background: rgba(255,255,255,.4);
+  border: 2px dashed #d5cbb8;
+}
+.lc-m-text {
+  flex: 1 1 0;
+  height: auto;
+  min-height: 0;
+  min-width: 0;
+  align-items: flex-start;
 }
 .lc-photo.is-sel { border-color: #e65100; box-shadow: 0 0 0 2px #ffcc80; }
 .lc-photo.is-locked { cursor: default; opacity: 1; }
@@ -296,7 +347,7 @@
   border-radius: 10px;
 }
 .lc-drop .lc-photo img {
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .lc-chip {
@@ -321,12 +372,26 @@
 
 .lc-match {
   display: grid;
-  grid-template-columns: minmax(16rem, 1.05fr) minmax(16rem, 1fr);
-  gap: 0.65rem 0.9rem;
+  grid-template-columns: 1.35fr 0.8fr;
+  gap: 0.55rem 0.7rem;
   flex: 1;
   min-height: 0;
 }
-.lc-match-col { display: flex; flex-direction: column; gap: 0.5rem; min-height: 0; overflow: auto; }
+.lc-match-col {
+  min-height: 0;
+  overflow: hidden;
+}
+.lc-match-photos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0.4rem;
+}
+.lc-match-texts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
 .lc-m-photo, .lc-m-text {
   display: flex;
   align-items: center;
@@ -339,7 +404,7 @@
   text-align: left;
   font: inherit;
   color: inherit;
-  min-height: 5.2rem;
+  min-height: 0;
   overflow: hidden;
   isolation: isolate;
   appearance: none;
@@ -348,17 +413,21 @@
 .lc-m-photo {
   flex-direction: column;
   align-items: stretch;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
 }
 .lc-m-photo.is-sel, .lc-m-text.is-sel { border-color: #e65100; box-shadow: 0 0 0 2px #ffcc80; }
 .lc-m-photo.is-ok, .lc-m-text.is-ok { border-color: #43a047; background: #f1f8e9; cursor: default; }
 .lc-m-photo.is-bad, .lc-m-text.is-bad { animation: lcShake .35s; border-color: #c62828; }
 .lc-m-main {
   width: 100%;
-  height: min(28vh, 14rem);
+  flex: 1 1 auto;
+  min-height: 0;
+  height: auto;
   border-radius: 10px;
   overflow: hidden;
   background: #1b2418;
-  flex: 0 0 auto;
   position: relative;
   z-index: 0;
 }
@@ -366,7 +435,7 @@
 .lc-m-photo > img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
   display: block;
   background: #1b2418;
@@ -394,9 +463,7 @@
   }
   .lc-hub { grid-template-columns: 1fr; }
   .lc-card-photos { min-height: 12rem; }
-  .lc-cols { grid-template-columns: 1fr 1fr; min-height: 18rem; }
-  .lc-pool { grid-template-columns: 1fr 1fr; }
-  .lc-photo { height: min(22vh, 11rem); }
+  .lc-cycle-main { grid-template-columns: 1fr; }
+  .lc-cycle-main { grid-template-rows: 1fr 1fr; }
   .lc-match { grid-template-columns: 1fr; }
-  .lc-m-main { height: min(24vh, 12rem); }
 }

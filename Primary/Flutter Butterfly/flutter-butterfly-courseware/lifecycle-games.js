@@ -202,9 +202,11 @@
 
   function drawCycle(root) {
     var html = '<div class="lc-head"><h2>生命循环排序</h2><p>先点照片，再点格子；英文句子也同样点选放入。四步：Egg → Caterpillar → Pupa → Butterfly。</p></div>';
-    html += '<div class="lc-toolbar">' + btn("← 游戏首页", "", "lcBack") + btn("听顺序", "primary", "lcHear") + btn("检查", "primary", "lcCheck") + btn("再来", "", "lcReset") + '<span class="sub" id="lcHint">点一张图，再点上面的格子</span></div>';
+    html += '<div class="lc-toolbar">' + btn("← 游戏首页", "", "lcBack") + btn("听顺序", "primary", "lcHear") + btn("检查", "primary", "lcCheck") + btn("再来", "", "lcReset") + '<span class="sub" id="lcHint">点左边大图，再点右边阶段格子</span></div>';
     html += '<div class="lc-cycle-board">';
-    html += '<div class="lc-cols">';
+    html += '<div class="lc-cycle-main">';
+    html += '<div class="lc-pool-wrap"><div class="lc-pane-label">待分类照片 · 先点大图</div><div class="lc-pool" id="lcPool"></div></div>';
+    html += '<div class="lc-cols-wrap"><div class="lc-pane-label">生命阶段 · 再点格子</div><div class="lc-cols">';
     CYCLE.forEach(function (st, i) {
       html += '<div class="lc-col" data-col="' + st.id + '">';
       html += '<div class="lc-col-title">' + (i + 1) + ". " + st.title + "<small>" + st.zhTitle + "</small></div>";
@@ -212,8 +214,7 @@
       html += '<div class="lc-cap-slot" data-cap="' + st.id + '"></div>';
       html += "</div>";
     });
-    html += "</div>";
-    html += '<div class="lc-pool" id="lcPool"></div>';
+    html += "</div></div></div>";
     html += '<div class="lc-caps" id="lcCaps"></div>';
     html += "</div>";
     html += '<p class="lc-msg" id="lcMsg"></p>';
@@ -256,7 +257,12 @@
     root.querySelectorAll(".lc-cap-slot").forEach(function (d) { d.innerHTML = ""; });
 
     state.photoPool.forEach(function (p) {
-      if (state.placed[p.id]) return;
+      if (state.placed[p.id]) {
+        var slot = document.createElement("div");
+        slot.className = "lc-photo-slot";
+        pool.appendChild(slot);
+        return;
+      }
       pool.appendChild(makePhotoBtn(root, p, false));
     });
     Object.keys(state.placed).forEach(function (pid) {
@@ -292,12 +298,13 @@
   }
 
   function makePhotoBtn(root, p, inCol) {
-    var b = document.createElement("button");
-    b.type = "button";
+    var b = document.createElement("div");
     b.className = "lc-photo" + (state.selPhoto === p.id ? " is-sel" : "");
     b.setAttribute("data-pid", p.id);
+    b.setAttribute("role", "button");
+    b.setAttribute("tabindex", "0");
     b.innerHTML = imgTag(p.file, p.stage);
-    b.onclick = function (ev) {
+    function onPick(ev) {
       ev.stopPropagation();
       if (inCol && !state.selPhoto && !state.selCap) {
         delete state.placed[p.id];
@@ -307,6 +314,13 @@
       state.selPhoto = state.selPhoto === p.id ? null : p.id;
       state.selCap = null;
       highlightSel(root);
+    }
+    b.onclick = onPick;
+    b.onkeydown = function (ev) {
+      if (ev.key === "Enter" || ev.key === " ") {
+        ev.preventDefault();
+        onPick(ev);
+      }
     };
     return b;
   }
@@ -406,7 +420,7 @@
     var roundLabel = "第 " + (state.round + 1) + " / 2 轮";
     var html = '<div class="lc-head"><h2>阶段与文字搭配</h2><p>' + roundLabel + " · 点一张真实照片，再点对应的英文句子。</p></div>";
     html += '<div class="lc-toolbar">' + btn("← 游戏首页", "", "lcBack") + btn("听本轮", "primary", "lcHear") + '<span class="sub">已配对 <b id="lcPairN">0</b> / 4</span></div>';
-    html += '<div class="lc-match"><div class="lc-match-col" id="lcPhotos"></div><div class="lc-match-col" id="lcTexts"></div></div>';
+    html += '<div class="lc-match"><div class="lc-match-col lc-match-photos" id="lcPhotos"></div><div class="lc-match-col lc-match-texts" id="lcTexts"></div></div>';
     html += '<p class="lc-msg" id="lcMsg"></p>';
     root.innerHTML = html;
     document.getElementById("lcBack").onclick = function () { renderHub(root); };
@@ -438,22 +452,24 @@
     texts.innerHTML = "";
     state.photoOrder.forEach(function (id) {
       var it = itemById(id);
-      var b = document.createElement("button");
-      b.type = "button";
+      var b = document.createElement("div");
       b.className = "lc-m-photo" + (state.matched[id] ? " is-ok" : "") + (state.selStage === id ? " is-sel" : "");
       b.setAttribute("data-id", id);
-      var extras = "";
-      if (it.photos.length > 1) {
-        extras = '<div class="lc-thumbs">' + it.photos.slice(1).map(function (f) {
-          return imgTag(f, "");
-        }).join("") + "</div>";
-      }
-      b.innerHTML = '<div class="lc-m-main">' + imgTag(it.photos[0], it.en) + "</div>" + extras;
-      b.onclick = function () {
+      b.setAttribute("role", "button");
+      b.setAttribute("tabindex", "0");
+      b.innerHTML = '<div class="lc-m-main">' + imgTag(it.photos[0], it.en) + "</div>";
+      function onPhoto() {
         if (state.matched[id]) return;
         state.selStage = state.selStage === id ? null : id;
         tryPair(root);
         refreshMatchSel(root);
+      }
+      b.onclick = onPhoto;
+      b.onkeydown = function (ev) {
+        if (ev.key === "Enter" || ev.key === " ") {
+          ev.preventDefault();
+          onPhoto();
+        }
       };
       photos.appendChild(b);
     });
