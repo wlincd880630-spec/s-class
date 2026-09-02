@@ -24,19 +24,42 @@
   function onsetHTML(item) {
     if (!item) return "";
     if (item.id === "Aa" || item.kind === "letter") {
-      return '<span class="onset">A</span><span class="rest">a</span>';
+      return '<span class="letter-pair"><span class="letter-cap onset">A</span><span class="letter-small rest">a</span></span>';
     }
     if (item.id === "angry-apple") {
       return '<span class="onset">a</span>ngry <span class="onset">a</span>pple';
     }
     return '<span class="onset">' + item.onset + '</span><span class="rest">' + item.rest + "</span>";
   }
+  function staveHTML(item) {
+    if (!item) return "";
+    if (item.id === "Aa" || item.kind === "letter") {
+      return '<span class="letter-pair"><span class="letter-cap onset">A</span><span class="letter-small rest">a</span></span>';
+    }
+    if (item.id === "angry-apple") {
+      return (
+        '<span class="letter-pair">' +
+        '<span class="letter-small onset">a</span><span class="letter-small rest">ngry</span> ' +
+        '<span class="letter-small onset">a</span><span class="letter-small rest">pple</span>' +
+        "</span>"
+      );
+    }
+    return (
+      '<span class="letter-pair">' +
+      '<span class="letter-small onset">' + item.onset + "</span>" +
+      '<span class="letter-small rest">' + item.rest + "</span>" +
+      "</span>"
+    );
+  }
   function stave(html, mode, fs, tag) {
     return (
       '<div class="stave-line">' +
       (tag ? '<span class="stave-tag">' + tag + "</span>" : "") +
       '<div class="grid-lines"><i class="gl gl-sky"></i><i class="gl gl-cloud"></i><i class="gl gl-grass"></i><i class="gl gl-dirt"></i></div>' +
-      (mode === "trace" ? '<div class="trace-word ' + (fs || "fs-md") + '">' + html + "</div>" : "") +
+      (mode === "trace"
+        ? '<div class="trace-word ' + (fs || "fs-md") + '">' + html + "</div>" +
+          '<canvas class="stave-ghost-cv" aria-hidden="true"></canvas>'
+        : "") +
       "</div>"
     );
   }
@@ -128,7 +151,7 @@
         '<div class="aa-mini"><div class="big">Aa</div><div class="ipa">/æ/</div></div>' +
       "</div>" +
       task("★", "老师说字母名 A 或短音 /æ/，小朋友举起手中的字母卡。", "sun") +
-      stave(onsetHTML({ kind: "letter", id: "Aa" }), "trace", "fs-lg", "描 Aa") +
+      stave(staveHTML({ kind: "letter", id: "Aa" }), "trace", "fs-lg", "描 Aa") +
       stave("", "write", "fs-lg", "写 Aa") +
       foot(2, total, "教材")
     ));
@@ -148,11 +171,11 @@
         '<div class="model-card"><div>A · 三笔</div>' + svgA() + "</div>" +
         '<div class="model-card"><div>a · 两笔</div>' + svga() + "</div>" +
       "</div>" +
-      stave('<span class="onset">A</span>', "trace", "fs-lg", "描 A") +
-      stave('<span class="onset">A</span>', "trace", "fs-lg", "描 A") +
+      stave('<span class="letter-pair"><span class="letter-cap onset">A</span></span>', "trace", "fs-lg", "描 A") +
+      stave('<span class="letter-pair"><span class="letter-cap onset">A</span></span>', "trace", "fs-lg", "描 A") +
       stave("", "write", "fs-lg", "写 A") +
-      stave('<span class="onset">a</span>', "trace", "fs-lg", "描 a") +
-      stave('<span class="onset">a</span>', "trace", "fs-lg", "描 a") +
+      stave('<span class="letter-pair"><span class="letter-small onset">a</span></span>', "trace", "fs-lg", "描 a") +
+      stave('<span class="letter-pair"><span class="letter-small onset">a</span></span>', "trace", "fs-lg", "描 a") +
       stave("", "write", "fs-lg", "写 a") +
       foot(4, total, "教材")
     ));
@@ -214,11 +237,11 @@
         '<div class="model-card">A' + svgA() + "</div>" +
         '<div class="model-card">a' + svga() + "</div>" +
       "</div>" +
-      stave('<span class="onset">A</span>', "trace", "fs-lg", "描") +
-      stave('<span class="onset">A</span>', "trace", "fs-lg", "描") +
+      stave('<span class="letter-pair"><span class="letter-cap onset">A</span></span>', "trace", "fs-lg", "描") +
+      stave('<span class="letter-pair"><span class="letter-cap onset">A</span></span>', "trace", "fs-lg", "描") +
       stave("", "write", "fs-lg", "写") +
-      stave('<span class="onset">a</span>', "trace", "fs-lg", "描") +
-      stave('<span class="onset">a</span>', "trace", "fs-lg", "描") +
+      stave('<span class="letter-pair"><span class="letter-small onset">a</span></span>', "trace", "fs-lg", "描") +
+      stave('<span class="letter-pair"><span class="letter-small onset">a</span></span>', "trace", "fs-lg", "描") +
       stave("", "write", "fs-lg", "写") +
       foot(2, total, "练习册")
     ));
@@ -248,8 +271,8 @@
           return '<div class="balloon">' + ch + "</div>";
         }).join("") +
       "</div>" +
-      stave(onsetHTML({ kind: "letter", id: "Aa" }), "trace", "fs-lg", "描") +
-      stave(onsetHTML({ kind: "letter", id: "Aa" }), "trace", "fs-lg", "描") +
+      stave(staveHTML({ kind: "letter", id: "Aa" }), "trace", "fs-lg", "描") +
+      stave(staveHTML({ kind: "letter", id: "Aa" }), "trace", "fs-lg", "描") +
       stave("", "write", "fs-lg", "写") +
       foot(4, total, "练习册")
     ));
@@ -549,7 +572,7 @@
       foot(1, total, "抄写")
     );
     var pages = items.map(function (item, idx) {
-      var html = onsetHTML(item);
+      var html = staveHTML(item);
       var fs = fsClass(item.en);
       var traces = [1, 2, 3].map(function (n) {
         return stave(html, "trace", fs, "描 " + n);
@@ -603,7 +626,9 @@
 
   function mountPack(id, html) {
     var el = $("pack-" + id);
-    if (el) el.innerHTML = html;
+    if (!el) return;
+    el.innerHTML = html;
+    if (window.AAStave) window.AAStave.bindPrint(el);
   }
 
   function fitSheets() {
@@ -629,6 +654,8 @@
       if (intro) intro.classList.toggle("hidden", p !== id);
     });
     fitSheets();
+    var el = $("pack-" + id);
+    if (window.AAStave && el) window.AAStave.bindPrint(el);
   }
 
   function waitAssets(packId) {
@@ -648,7 +675,9 @@
     if (id === "copy") mountPack("copy", buildCopy(selectedCopyIds()));
     waitAssets(id).then(function () {
       fitSheets();
-      setTimeout(function () { window.print(); }, 120);
+      var el = $("pack-" + id);
+      if (window.AAStave && el) window.AAStave.bindPrint(el);
+      setTimeout(function () { window.print(); }, 280);
     });
   }
 

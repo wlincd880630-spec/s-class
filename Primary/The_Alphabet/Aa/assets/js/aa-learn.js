@@ -3,8 +3,7 @@
   var L = window.AA_LESSON;
   var i = 0;
   var traceCtx = null;
-  var ghostObs = null;
-  var LINE = { sky: 0.12, mid: 0.38, base: 0.64, desc: 0.90 };
+  var unbindGhost = null;
   var slides = [{ type: "meet" }]
     .concat(L.vocab.map(function (w) { return { type: "word", id: w.id }; }))
     .concat([{ type: "video" }, { type: "trace", letter: "A" }, { type: "trace", letter: "a" }]);
@@ -65,53 +64,6 @@
     );
   }
 
-  function paintTraceGhost(staff, letter) {
-    var cv = $("trace-ghost");
-    if (!cv || !staff) return;
-    var w = staff.clientWidth;
-    var h = staff.clientHeight;
-    if (w < 8 || h < 8) return;
-    var dpr = window.devicePixelRatio || 1;
-    cv.width = Math.round(w * dpr);
-    cv.height = Math.round(h * dpr);
-    var ctx = cv.getContext("2d");
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, w, h);
-
-    var family = getComputedStyle(document.documentElement).getPropertyValue("--letter") || "Fredoka, sans-serif";
-    var probe = 160;
-    ctx.font = "700 " + probe + "px " + family;
-    var m = ctx.measureText(letter);
-    var ascent = m.actualBoundingBoxAscent || 0;
-    var descent = m.actualBoundingBoxDescent || 0;
-    var ink = ascent + descent;
-    if (!(ink > 0.5)) return;
-
-    var baseY = LINE.base * h;
-    var topY = (letter === "A" ? LINE.sky : LINE.mid) * h;
-    var size = probe * ((baseY - topY) / ink);
-    ctx.font = "700 " + size + "px " + family;
-    m = ctx.measureText(letter);
-    ctx.fillStyle = "rgba(28, 25, 23, 0.22)";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "alphabetic";
-    ctx.fillText(letter, w / 2, baseY - (m.actualBoundingBoxDescent || 0));
-  }
-
-  function bindGhost(staff, letter) {
-    if (ghostObs) {
-      ghostObs.disconnect();
-      ghostObs = null;
-    }
-    function paint() { paintTraceGhost(staff, letter); }
-    paint();
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(paint);
-    if (window.ResizeObserver) {
-      ghostObs = new ResizeObserver(paint);
-      ghostObs.observe(staff);
-    }
-  }
-
   function render() {
     var s = slides[i];
     var box = $("slide");
@@ -127,9 +79,9 @@
     $("btn-prev").disabled = i === 0;
     $("btn-next").textContent = i === slides.length - 1 ? "去做游戏 →" : "下一页";
     traceCtx = null;
-    if (ghostObs) {
-      ghostObs.disconnect();
-      ghostObs = null;
+    if (unbindGhost) {
+      unbindGhost();
+      unbindGhost = null;
     }
 
     if (s.type === "meet") {
@@ -182,9 +134,15 @@
         paperHTML() +
         '<button type="button" class="btn btn-ghost" id="btn-clear">清除</button>';
       var cv = $("trace-cv");
-      var staff = $("trace-staff");
       traceCtx = bindTrace(cv);
-      bindGhost(staff, s.letter);
+      var family = getComputedStyle(document.documentElement).getPropertyValue("--letter") || "Fredoka, sans-serif";
+      unbindGhost = window.AAStave.bind(
+        $("trace-ghost"),
+        s.letter,
+        isA ? "cap" : "small",
+        family,
+        "rgba(28, 25, 23, 0.22)"
+      );
       $("btn-clear").onclick = function () {
         traceCtx.clearRect(0, 0, cv.width, cv.height);
       };

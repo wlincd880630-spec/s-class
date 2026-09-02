@@ -331,29 +331,34 @@
   color: #90caf9;
 }
 
-/* 四线格 */
+/* 四线格：与 Lesson 02「四线格字母抄写」同一套行高 / 格带 / 字号比例 */
 .stave-line {
+  --row-h: 24mm;
+  --stave-fs: calc(var(--row-h) * 0.51);
   position: relative;
-  height: 22mm;
+  height: var(--row-h);
+  min-height: var(--row-h);
+  max-height: var(--row-h);
   margin: 0 0 2.2mm;
   background: #fff;
   border-radius: 2mm;
   overflow: hidden;
   border: 1px solid #eceff1;
 }
-.stave-line.sm { height: 18mm; }
+.stave-line.sm { --row-h: 20mm; }
 .grid-lines {
   position: absolute;
-  top: 22%;
-  height: 56%;
+  top: 25%;
+  height: 50%;
   left: 4mm;
   right: 4mm;
   pointer-events: none;
+  z-index: 2;
 }
 .gl { position: absolute; left: 0; right: 0; height: 0; }
 .gl-sky { top: 0; border-top: 1.3pt solid var(--sky-line); }
 .gl-cloud { top: 33%; border-top: 1.3pt dashed var(--cloud-line); }
-.gl-grass { top: 67%; border-top: 2.4pt solid var(--grass-line); }
+.gl-grass { top: 67%; border-top: 2.8pt solid var(--sky-line); }
 .gl-dirt { top: 100%; border-top: 1.3pt solid var(--dirt-line); }
 .stave-tag {
   position: absolute;
@@ -363,6 +368,14 @@
   color: #90a4ae;
   z-index: 2;
 }
+.stave-ghost-cv {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
 .trace-word, .model-letter {
   position: absolute;
   inset: 0 6mm 0 14mm;
@@ -370,20 +383,45 @@
   align-items: center;
   justify-content: flex-start;
   font-family: var(--hand-en);
-  color: #607d8b;
+  font-size: var(--stave-fs);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--trace);
   z-index: 1;
-  letter-spacing: 0.06em;
-  transform: translateY(-1.1mm);
+  transform: translateY(-1.4mm);
   white-space: nowrap;
-  opacity: 0.4;
+}
+.stave-line.is-fitted > .trace-word {
+  opacity: 0;
 }
 .trace-word .onset { color: #e53935; }
-.trace-word .rest { color: #546e7a; }
+.trace-word .rest { color: rgba(144, 202, 249, 0.85); }
 .trace-word.center, .model-letter { justify-content: center; inset: 0; }
-.fs-lg { font-size: 16mm; }
-.fs-md { font-size: 13.5mm; }
-.fs-sm { font-size: 11mm; }
-.fs-xs { font-size: 9.2mm; }
+.letter-pair {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.12em;
+  line-height: 1;
+}
+.letter-pair::before {
+  content: "A";
+  font-size: 1em;
+  visibility: hidden;
+  width: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.letter-cap {
+  display: inline-block;
+  transform: translateY(-0.5mm);
+}
+.letter-small {
+  font-size: 0.78em;
+  display: inline-block;
+  transform: translateY(-1.2mm);
+}
+.fs-lg, .fs-md, .fs-sm, .fs-xs { font-size: var(--stave-fs); }
 .rest { color: rgba(96, 125, 139, 0.45); }
 
 .copy-hero {
@@ -684,8 +722,34 @@
 .trace-legend .t { background: rgba(33,150,243,.35); border: 1px solid #90caf9; }
 .trace-legend .w { background: #fff; border: 1px solid #43a047; }
 
-/* 屏幕练习册 */
-.wb-app .wb-part { margin-top: 12px; }
+.letter-stage {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 10px 0 12px;
+}
+.letter-stage .caption {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+}
+.wb-stave {
+  --row-h: 48mm;
+  width: 100%;
+}
+.wb-stave canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.wb-stave .trace-ghost-cv {
+  pointer-events: none;
+  z-index: 1;
+}
+.wb-stave .wb-draw {
+  z-index: 3;
+  touch-action: none;
+}
 .letter-btn {
   width: 100%;
   min-height: 88px;
