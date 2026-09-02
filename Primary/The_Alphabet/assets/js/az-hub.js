@@ -33,6 +33,20 @@
               '<span class="go">→</span>' +
             "</a>" +
           "</li>" +
+          "<li>" +
+            '<a href="' + A.workbookUrl(u.id) + '">' +
+              '<span class="n">03</span>' +
+              "<div><strong>练习册</strong><small>描红 · 圈图 · 涂色</small></div>" +
+              '<span class="go">→</span>' +
+            "</a>" +
+          "</li>" +
+          "<li>" +
+            '<a href="' + A.printUrl(u.id) + '">' +
+              '<span class="n">04</span>' +
+              "<div><strong>教具工坊</strong><small>导出纸质 PDF</small></div>" +
+              '<span class="go">→</span>' +
+            "</a>" +
+          "</li>" +
         "</ol>" +
       "</div>"
     );

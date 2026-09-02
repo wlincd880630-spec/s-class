@@ -69,6 +69,18 @@
     return inLetterFolder() ? "games.html" : u.folder + "/games.html";
   }
 
+  function workbookUrl(ch) {
+    var u = UNITS[ch];
+    if (!u || !u.live) return hubUrl(ch);
+    return inLetterFolder() ? "workbook.html" : u.folder + "/workbook.html";
+  }
+
+  function printUrl(ch) {
+    var u = UNITS[ch];
+    if (!u || !u.live) return hubUrl(ch);
+    return inLetterFolder() ? "print.html" : u.folder + "/print.html";
+  }
+
   function mountRail(el, current) {
     if (!el) return;
     var now = String(current || "A").toUpperCase();
@@ -87,6 +99,8 @@
     hubUrl: hubUrl,
     learnUrl: learnUrl,
     gamesUrl: gamesUrl,
+    workbookUrl: workbookUrl,
+    printUrl: printUrl,
     mountRail: mountRail
   };
 })(window);
