@@ -148,9 +148,17 @@
       exportBtn.onclick = function () {
         if (!bag) return;
         var t = document.getElementById("typeSel").value;
-        if (t === "handout") exportHandout();
-        else if (t === "passage") PETStudio.printPassage(bag);
-        else PETStudio.printGames(bag, document.getElementById("levelSel").value);
+        var preview = document.getElementById("preview");
+        if (t === "handout") {
+          exportHandout();
+        } else if (t === "passage") {
+          preview.style.display = "block";
+          preview.srcdoc = PETStudio.passageDocument(bag);
+          PETStudio.printPassage(bag);
+        } else {
+          preview.style.display = "none";
+          PETStudio.printGames(bag, document.getElementById("levelSel").value);
+        }
       };
     })();
   </script>

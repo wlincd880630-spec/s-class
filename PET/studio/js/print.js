@@ -28,11 +28,11 @@
       : "";
   }
 
-  function shell(title, bodyHtml) {
+  function shell(title, bodyHtml, bodyClass) {
     return "<!DOCTYPE html><html lang=zh-CN><head><meta charset=utf-8><title>" +
       esc(title) + "</title><link rel=stylesheet href=\"" + esc(absUrl("css/print.css")) + "\">" +
       '<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&family=Noto+Sans+SC:wght@500;700;900&display=swap" rel=stylesheet>' +
-      "</head><body class=print-page>" +
+      "</head><body class=\"" + esc(bodyClass || "print-page") + "\">" +
       '<div class=screen-bar><div><strong>' + esc(title) + '</strong><div style="opacity:.7;font-size:12px">浏览器打印 → 另存为 PDF（建议关闭页眉页脚；配图为完整显示）</div></div>' +
       '<div><button class=btn onclick=window.print() style="background:#4f46e5;color:#fff">导出 PDF</button> ' +
       '<button class=btn onclick=window.close() style="background:#e2e8f0">关闭</button></div></div>' +
@@ -278,17 +278,25 @@
 
   function renderPassage(bag) {
     var u = bag.unit;
-    var html = cover(u, "文章精读讲义", "每篇文章配 3D 主题插图，便于朗读与翻译练习。");
+    var html = cover(
+      u,
+      "文章精读讲义",
+      "大号字体、宽松行距；每句下方留有笔记虚线，方便朗读、翻译与课堂记录。"
+    );
     (bag.passages || []).forEach(function (p, idx) {
       var topic = (u.topics && u.topics[idx]) || p.title || ("Passage " + (idx + 1));
-      html += '<section class=sheet>' +
+      html += '<section class="sheet passage-sheet">' +
         '<div class=pass-hero-wrap>' +
         '<img class=pass-hero src="' + esc(absUrl(PETStudio.passageImg(u.id, idx))) + '" alt="' + esc(topic) + '">' +
         '<div class=pass-label>Passage ' + (idx + 1) + " · " + esc(topic) + "</div></div>" +
-        '<div class=inner><div class=sec-h><div class=dot style="background:#e11d48"></div><h2>' +
-        esc(topic) + "</h2><span>" + (p.sentences || []).length + " sentences</span></div>";
+        '<div class="inner passage-inner"><div class=sec-h><div class=dot style="background:#e11d48"></div><h2>' +
+        esc(topic) + "</h2><span>" + (p.sentences || []).length + " sentences</span></div>" +
+        '<p class="pass-hint">请在句下虚线上写译文、生词或课堂笔记。</p>';
       (p.sentences || []).forEach(function (s, i) {
-        html += '<p class=sent><b style="color:#4f46e5">' + (i + 1) + ".</b> " + esc(s) + "</p>";
+        html += '<article class="sent-block">' +
+          '<p class="sent"><span class="n">' + (i + 1) + ".</span> " + esc(s) + "</p>" +
+          '<div class="note-lines" aria-hidden="true"><span></span><span></span></div>' +
+          "</article>";
       });
       html += '<div class=foot><span>S-Class PET Reading</span><span>Unit ' + u.id + "</span></div></div></section>";
     });
@@ -480,10 +488,10 @@
     return html;
   }
 
-  function openPrint(title, html) {
+  function openPrint(title, html, bodyClass) {
     var w = window.open("", "_blank");
     if (!w) { alert("请允许弹出窗口以导出 PDF"); return; }
-    w.document.write(shell(title, html));
+    w.document.write(shell(title, html, bodyClass));
     w.document.close();
   }
 
@@ -495,7 +503,10 @@
     return shell("PET Unit " + bag.unit.id + " 讲义", renderHandout(bag));
   };
   global.PETStudio.printPassage = function (bag) {
-    openPrint("PET Unit " + bag.unit.id + " 文章", renderPassage(bag));
+    openPrint("PET Unit " + bag.unit.id + " 文章", renderPassage(bag), "print-page passage-doc");
+  };
+  global.PETStudio.passageDocument = function (bag) {
+    return shell("PET Unit " + bag.unit.id + " 文章", renderPassage(bag), "print-page passage-doc");
   };
   global.PETStudio.printGames = function (bag, level) {
     openPrint("PET Unit " + bag.unit.id + " 复习卷", renderGamesPaper(bag, level || "standard"));
