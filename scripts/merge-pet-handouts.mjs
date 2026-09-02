@@ -199,6 +199,11 @@ function stats(pack) {
 
 function mergeUnit(id) {
   const file = `u${String(id).padStart(2, "0")}.json`;
+  const existing = load(OUT, file);
+  if (existing && String(existing.model || "").indexOf("composer-2.5") >= 0) {
+    console.log("keep composer", file);
+    return existing;
+  }
   const ds = load(DS, file);
   const gk = load(GK, file);
   if (!ds && !gk) return null;
