@@ -186,7 +186,10 @@
       (g.titleEn ? ' <small>' + esc(g.titleEn) + "</small>" : "") +
       "</h3>";
     if (g.usage) {
-      h += '<div class="usage"><div class="subh">详细用法</div><p>' + esc(strip(g.usage)).replace(/\n+/g, "</p><p>") + "</p></div>";
+      var usageBody = (typeof PETUsageFormat !== "undefined" && PETUsageFormat.formatGrammarUsage)
+        ? PETUsageFormat.formatGrammarUsage(strip(g.usage))
+        : "<p>" + esc(strip(g.usage)).replace(/\\n/g, "\n").replace(/\n+/g, "</p><p>") + "</p>";
+      h += '<div class="usage"><div class="subh">详细用法</div>' + usageBody + "</div>";
     }
     if (g.forms && g.forms.length) {
       h += '<ul class="forms">';
