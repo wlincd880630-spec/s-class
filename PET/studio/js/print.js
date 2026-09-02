@@ -330,7 +330,10 @@
   function passageCover(unit) {
     var art = absUrl(PETStudio.articleImg(unit.id));
     return '<section class="sheet pass-cover">' +
-      '<div class="pass-cover-photo"><img src="' + esc(art) + '" alt=""></div>' +
+      '<div class="pass-cover-photo">' +
+        '<div class="pass-cover-bg" style="background-image:url(\'' + esc(art) + "')\"></div>" +
+        '<img src="' + esc(art) + '" alt="">' +
+      "</div>" +
       '<div class="pass-cover-panel">' +
         '<div class="kicker">S-CLASS · CLOSE READING</div>' +
         "<h1>Unit " + unit.id + " · " + esc(unit.title) + "</h1>" +
