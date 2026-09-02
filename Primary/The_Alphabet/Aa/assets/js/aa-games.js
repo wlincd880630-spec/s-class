@@ -535,7 +535,7 @@
           '<div class="play-stage">' +
             '<p class="round-mark">' + (n + 1) + " / " + words.length + "</p>" +
             '<div class="g5-pic"><img src="' + w.img + '" alt=""></div>' +
-            '<div class="blank-word" id="g7-blank"><span class="hole"> </span>' + w.rest + "</div>" +
+            '<div class="blank-word" id="g7-blank"><span class="hole"></span>' + w.rest + "</div>" +
             '<div class="onset-row" id="g7-letters">' +
             choices.map(function (ch) {
               return '<button type="button" class="onset-btn" data-ch="' + ch + '">' + ch + "</button>";
