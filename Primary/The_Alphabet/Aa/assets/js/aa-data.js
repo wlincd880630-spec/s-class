@@ -63,12 +63,13 @@
     distractors: [WORDS.bear, WORDS.cup, WORDS.ball, WORDS.cat, WORDS.dog],
     words: WORDS,
     games: [
-      { id: 1, title: "开头音小侦探", en: "Beginning Sound", desc: "听 /æ/，点出所有以短 a 开头的图", emoji: "🔎" },
-      { id: 2, title: "听一听，点一点", en: "Listen, Point, Repeat", desc: "播放教材单词，点出对应的图", emoji: "👆" },
-      { id: 3, title: "谁是局外人", en: "Odd One Out", desc: "三张图里，哪个不是 /æ/ 开头？", emoji: "🧩" },
-      { id: 4, title: "翻牌配对", en: "Memory Match", desc: "把图片和单词配成一对", emoji: "🃏" },
-      { id: 5, title: "写 Aa 还是打叉", en: "Aa or X", desc: "听教材 Track 05，是 /æ/ 就写 Aa", emoji: "🍎" },
-      { id: 6, title: "Chant 排队", en: "Listen and Chant", desc: "跟 Track 06 唱，排出正确顺序", emoji: "🎵" }
+      { id: 1, title: "开头音小侦探", en: "Beginning Sound", desc: "点出 /æ/ 开头的图", emoji: "🔎" },
+      { id: 2, title: "听一听，点一点", en: "Listen and point", desc: "听单词，点出对应的图", emoji: "👆" },
+      { id: 3, title: "谁是局外人", en: "Odd one out", desc: "找出不是 /æ/ 开头的图", emoji: "🧩" },
+      { id: 4, title: "翻牌配对", en: "Memory", desc: "先记位置，再翻牌配对", emoji: "🃏" },
+      { id: 5, title: "写 Aa 还是打叉", en: "Aa or X", desc: "听音后选 Aa 或 ✗", emoji: "🍎" },
+      { id: 6, title: "Chant 排队", en: "Chant", desc: "听歌曲，排出顺序", emoji: "🎵" },
+      { id: 7, title: "看图填首字母", en: "First letter", desc: "听单词，选出开头字母", emoji: "🔤" }
     ]
   };
 })(window);
