@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Flutter, butterfly! · 单词涂色卡 · 28 词</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet" />
+  <style>
+    :root { --ng-gold: #f5c400; --ink: #1a1a1a; --accent: #bf360c; --stroke: #263238; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Fredoka", sans-serif;
+      background: linear-gradient(165deg, #37474f 0%, #263238 100%);
+      display: flex; flex-direction: column; align-items: center;
+      padding-bottom: max(48px, env(safe-area-inset-bottom));
+      min-height: 100dvh;
+      overflow-x: clip;
+      -webkit-tap-highlight-color: rgba(230, 81, 0, 0.12);
+    }
+    .back-hub {
+      align-self: flex-start;
+      margin: 12px 0 0 max(16px, env(safe-area-inset-left));
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 44px;
+      padding: 6px 14px 6px 10px;
+      border-radius: 999px;
+      border: 2px solid #ffb74d;
+      background: rgba(255, 255, 255, 0.95);
+      color: #bf360c;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-decoration: none;
+      touch-action: manipulation;
+    }
+    .back-hub:active { background: #fff3e0; }
+    #app {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 max(8px, env(safe-area-inset-right)) 0 max(8px, env(safe-area-inset-left));
+    }
+    .toolbar {
+      width: 100%; padding: 14px 22px;
+      padding-top: max(14px, env(safe-area-inset-top));
+      padding-left: max(16px, env(safe-area-inset-left));
+      padding-right: max(16px, env(safe-area-inset-right));
+      background: #fffef8;
+      border-bottom: 3px solid var(--ng-gold);
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
+      position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,.2);
+    }
+    .toolbar h1 { font-size: 1.1rem; color: var(--ink); }
+    .toolbar p { font-size: 0.8rem; color: #546e7a; max-width: 36rem; line-height: 1.4; }
+    .btn {
+      font-family: inherit; font-weight: 700; border: none; border-radius: 999px;
+      padding: 10px 22px; min-height: 44px; cursor: pointer;
+      background: linear-gradient(180deg, #ff9800, var(--accent));
+      color: #fff; box-shadow: 0 4px 12px rgba(191,54,12,.4);
+      touch-action: manipulation;
+      flex-shrink: 0;
+    }
+    .page-viewport {
+      width: min(210mm, calc(100vw - 24px));
+      margin: 24px auto;
+      overflow: hidden;
+    }
+    .sheet {
+      width: 210mm; min-height: 297mm; margin: 24px 0; padding: 12mm 14mm;
+      background: #fff; box-shadow: 0 0 40px rgba(0,0,0,.5);
+      page-break-after: always; display: flex; flex-direction: column; align-items: center;
+    }
+    .page-viewport .sheet { margin: 0; }
+    .sheet-hdr {
+      width: 100%; display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.82rem; color: #78909c; border-bottom: 2px solid #eceff1;
+      padding-bottom: 4mm; margin-bottom: 4mm; gap: 4px; flex-wrap: wrap;
+    }
+    .sheet-hdr .badge {
+      font-weight: 700; padding: 4px 14px; border-radius: 8px;
+      background: #fff3e0; border: 2px solid var(--ng-gold); color: var(--accent);
+    }
+    .sheet-word {
+      width: 100%;
+      text-align: center;
+      margin: 2mm 0 5mm;
+      font-family: "Patrick Hand", "Fredoka", cursive;
+      font-weight: 700;
+      font-size: clamp(3rem, 11vw, 4.8rem);
+      line-height: 1.05;
+      letter-spacing: 0.03em;
+      color: #ffffff;
+      -webkit-text-stroke: 3.5px #1a1a1a;
+      paint-order: stroke fill;
+      text-transform: lowercase;
+      word-break: keep-all;
+      text-shadow:
+        2px 0 0 #1a1a1a, -2px 0 0 #1a1a1a,
+        0 2px 0 #1a1a1a, 0 -2px 0 #1a1a1a,
+        1.5px 1.5px 0 #1a1a1a, -1.5px 1.5px 0 #1a1a1a,
+        1.5px -1.5px 0 #1a1a1a, -1.5px -1.5px 0 #1a1a1a;
+    }
+    .sheet-word.long {
+      font-size: clamp(2.4rem, 8.5vw, 3.6rem);
+      -webkit-text-stroke-width: 3px;
+    }
+    .sheet-word.xlong {
+      font-size: clamp(1.9rem, 7vw, 2.9rem);
+      -webkit-text-stroke-width: 2.6px;
+      letter-spacing: 0.01em;
+    }
+    .sheet-img {
+      flex: 1; width: 100%; max-width: 170mm;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .sheet-img img {
+      width: 100%; height: auto; max-height: 210mm; object-fit: contain;
+    }
+    .sheet-ftr { margin-top: 4mm; font-size: 0.75rem; color: #b0bec5; text-align: center; }
+    @media print {
+      body { background: #fff; padding: 0; }
+      .back-hub { display: none !important; }
+      .toolbar { display: none !important; }
+      .page-viewport { width: auto; height: auto; overflow: visible; margin: 0; }
+      .page-viewport .sheet { transform: none !important; margin: 0; box-shadow: none; }
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+  <link rel="stylesheet" href="../../assets/primary-responsive.css?v=2" />
+</head>
+<body>
+  <a class="back-hub" href="../index.html">← Flutter, butterfly! 首页</a>
+  <div class="toolbar">
+    <div>
+      <h1>🦋 Flutter, butterfly! · 单词涂色卡（一年级）</h1>
+      <p>每页一词：顶部<strong>大号空心小写英文</strong> + 线稿图。flutter · butterfly · animals · lay an egg · hatch · crawl · grow · change · caterpillar · pupa … 共 28 词。打印选「另存为 PDF」。</p>
+    </div>
+    <button type="button" class="btn" onclick="window.print()">🖨️ 打印 / 导出 PDF</button>
+  </div>
+  <div id="app">
+  <section class="sheet">
+    <div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">flutter · 振翅飞舞</span><span>日期: ____ / ____</span></div>
+    <p class="sheet-word" aria-label="涂色单词 flutter">flutter</p>
+    <div class="sheet-img"><img src="images/flutter.png" alt="flutter 涂色" /></div>
+    <p class="sheet-ftr">Flutter, butterfly! · 涂色记单词 · flutter</p>
+  </section>
+  <section class="sheet">
+    <div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">butterfly · 蝴蝶</span><span>日期: ____ / ____</span></div>
+    <p class="sheet-word long" aria-label="涂色单词 butterfly">butterfly</p>
+    <div class="sheet-img"><img src="images/butterfly.png" alt="butterfly 涂色" /></div>
+    <p class="sheet-ftr">Flutter, butterfly! · 涂色记单词 · butterfly</p>
+  </section>
+  <section class="sheet">
+    <div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">animals · 动物</span><span>日期: ____ / ____</span></div>
+    <p class="sheet-word" aria-label="涂色单词 animals">animals</p>
+    <div class="sheet-img"><img src="images/animals.png" alt="animals 涂色" /></div>
+    <p class="sheet-ftr">Flutter, butterfly! · 涂色记单词 · animals</p>
+  </section>
+  <section class="sheet">
+    <div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">lay an egg · 产卵</span><span>日期: ____ / ____</span></div>
+    <p class="sheet-word xlong" aria-label="涂色单词 lay an egg">lay an egg</p>
+    <div class="sheet-img"><img src="images/lay-an-egg.png" alt="lay an egg 涂色" /></div>
+    <p class="sheet-ftr">Flutter, butterfly! · 涂色记单词 · lay an egg</p>
+  </section>
+  <section class="sheet">
+    <div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">hatch · 孵化</span><span>日期: ____ / ____</span></div>
+    <p class="sheet-word" aria-label="涂色单词 hatch">hatch</p>
+    <div class="sheet-img"><img src="images/hatch.png" alt="hatch 涂色" /></div>
+    <p class="sheet-ftr">Flutter, butterfly! · 涂色记单词 · hatch</p>
+  </section>
+  <section class="sheet">
+    <div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">crawl · 爬行</span><span>日期: ____ / ____</span></div>
+    <p class="sheet-word" aria-label="涂色单词 crawl">crawl</p>
+    <div class="sheet-img"><img src="images/crawl.png" alt="crawl 涂色" /></div>
+    <p class="sheet-ftr">Flutter, butterfly! · 涂色记单词 · crawl</p>
+  </section>
+  <section class="sheet">
+    <div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">grow · 生长</span><span>日期: ____ / ____</span></div>
+    <p class="sheet-word" aria-label="涂色单词 grow">grow</p>
+    <div class="sheet-img"><img src="images/grow.png" alt="grow 涂色" /></div>
+    <p class="sheet-ftr">Flutter, butterfly! · 涂色记单词 · grow</p>
+  </section>
+  <section class="sheet">
+    <div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">change · 变化</span><span>日期: ____ / ____</span></div>
+    <p class="sheet-word" aria-label="涂色单词 change">change</p>
+    <div class="sheet-img"><img src="images/change.png" alt="change 涂色" /></div>
+    <p class="sheet-ftr">Flutter, butterfly! · 涂色记单词 · change</p>
+  </section>
+  <section class="sheet">
+    <div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">caterpillar · 毛毛虫</span><span>日期: ____ / ____</span></div>
+    <p class="sheet-word xlong" aria-label="涂色单词 caterpillar">caterpillar</p>
+    <div class="sheet-img"><img src="images/caterpillar.png" alt="caterpillar 涂色" /></div>
+    <p class="sheet-ftr">Flutter, butterfly! · 涂色记单词 · caterpillar</p>
+  </section>
+  <section class="sheet">
+    <div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">pupa · 蛹</span><span>日期: ____ / ____</span></div>
+    <p class="sheet-word" aria-label="涂色单词 pupa">pupa</p>
+    <div class="sheet-img"><img src="images/pupa.png" alt="pupa 涂色" /></div>
+    <p class="sheet-ftr">Flutter, butterfly! · 涂色记单词 · pupa</p>
+  </section>
+  <section class="sheet">
+    <div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">land · 降落</span><span>日期: ____ / ____</span></div>
+    <p class="sheet-word" aria-label="涂色单词 land">land</p>
+    <div class="sheet-img"><img src="images/land.png" alt="land 涂色" /></div>
+    <p class="sheet-ftr">Flutter, butterfly! · 涂色记单词 · land</p>
+  </section>
+  <section class="sheet">
+    <div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">plant · 植物</span><span>日期: ____ / ____</span></div>
+    <p class="sheet-word" aria-label="涂色单词 plant">plant</p>
+    <div class="sheet-img"><img src="images/plant.png" alt="plant 涂色" /></div>
+    <p class="sheet-ftr">Flutter, butterfly! · 涂色记单词 · plant</p>
+  </section>
+  <section class="sheet">
+    <div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">yellow · 黄色</span><span>日期: ____ / ____</span></div>
+    <p class="sheet-word" aria-label="涂色单词 yellow">yellow</p>
+    <div class="sheet-img"><img src="images/yellow.png" alt="yellow 涂色" /></div>
+    <p class="sheet-ftr">Flutter, butterfly! · 涂色记单词 · yellow</p>
+  </section>
+  <section class="sheet">
+    <div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">pass · 过去</span><span>日期: ____ / ____</span></div>
+    <p class="sheet-word" aria-label="涂色单词 pass">pass</p>
+    <div class="sheet-img"><img src="images/pass.png" alt="pass 涂色" /></div>
+    <p class="sheet-ftr">Flutter, butterfly! · 涂色记单词 · pass</p>
+  </section>
+  <section class="sheet">
+    <div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">turn brown · 变成棕色</span><span>日期: ____ / ____</span></div>
+    <p class="sheet-word xlong" aria-label="涂色单词 turn brown">turn brown</p>
+    <div class="sheet-img"><img src="images/turn-brown.png" alt="turn brown 涂色" /></div>
+    <p class="sheet-ftr">Flutter, butterfly! · 涂色记单词 · turn brown</p>
+  </section>
+  <section class="sheet">
+    <div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">inside · 在里面</span><span>日期: ____ / ____</span></div>
+    <p class="sheet-word" aria-label="涂色单词 inside">inside</p>
+    <div class="sheet-img"><img src="images/inside.png" alt="inside 涂色" /></div>
+    <p class="sheet-ftr">Flutter, butterfly! · 涂色记单词 · inside</p>
+  </section>
+  <section class="sheet">
+    <div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">come out · 出来</span><span>日期: ____ / ____</span></div>
+    <p class="sheet-word xlong" aria-label="涂色单词 come out">come out</p>
+    <div class="sheet-img"><img src="images/come-out.png" alt="come out 涂色" /></div>
+    <p class="sheet-ftr">Flutter, butterfly! · 涂色记单词 · come out</p>
+  </section>
+  <section class="sheet">
+    <div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">young · 幼小的</span><span>日期: ____ / ____</span></div>
+    <p class="sheet-word" aria-label="涂色单词 young">young</p>
+    <div class="sheet-img"><img src="images/young.png" alt="young 涂色" /></div>
+    <p class="sheet-ftr">Flutter, butterfly! · 涂色记单词 · young</p>
+  </section>
+  <section class="sheet">
+    <div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">look for · 寻找</span><span>日期: ____ / ____</span></div>
+    <p class="sheet-word xlong" aria-label="涂色单词 look for">look for</p>
+    <div class="sheet-img"><img src="images/look-for.png" alt="look for 涂色" /></div>
+    <p class="sheet-ftr">Flutter, butterfly! · 涂色记单词 · look for</p>
+  </section>
+  <section class="sheet">
+    <div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">leave · 叶子</span><span>日期: ____ / ____</span></div>
+    <p class="sheet-word" aria-label="涂色单词 leave">leave</p>
+    <div class="sheet-img"><img src="images/leave.png" alt="leave 涂色" /></div>
+    <p class="sheet-ftr">Flutter, butterfly! · 涂色记单词 · leave</p>
+  </section>
+  <section class="sheet">
+    <div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">bigger · 更大</span><span>日期: ____ / ____</span></div>
+    <p class="sheet-word" aria-label="涂色单词 bigger">bigger</p>
+    <div class="sheet-img"><img src="images/bigger.png" alt="bigger 涂色" /></div>
+    <p class="sheet-ftr">Flutter, butterfly! · 涂色记单词 · bigger</p>
+  </section>
+  <section class="sheet">
+    <div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">green · 绿色</span><span>日期: ____ / ____</span></div>
+    <p class="sheet-word" aria-label="涂色单词 green">green</p>
+    <div class="sheet-img"><img src="images/green.png" alt="green 涂色" /></div>
+    <p class="sheet-ftr">Flutter, butterfly! · 涂色记单词 · green</p>
+  </section>
+  <section class="sheet">
+    <div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">keep eating · 继续吃</span><span>日期: ____ / ____</span></div>
+    <p class="sheet-word xlong" aria-label="涂色单词 keep eating">keep eating</p>
+    <div class="sheet-img"><img src="images/keep-eating.png" alt="keep eating 涂色" /></div>
+    <p class="sheet-ftr">Flutter, butterfly! · 涂色记单词 · keep eating</p>
+  </section>
+  <section class="sheet">
+    <div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">more · 更多</span><span>日期: ____ / ____</span></div>
+    <p class="sheet-word" aria-label="涂色单词 more">more</p>
+    <div class="sheet-img"><img src="images/more.png" alt="more 涂色" /></div>
+    <p class="sheet-ftr">Flutter, butterfly! · 涂色记单词 · more</p>
+  </section>
+  <section class="sheet">
+    <div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">after · 之后</span><span>日期: ____ / ____</span></div>
+    <p class="sheet-word" aria-label="涂色单词 after">after</p>
+    <div class="sheet-img"><img src="images/after.png" alt="after 涂色" /></div>
+    <p class="sheet-ftr">Flutter, butterfly! · 涂色记单词 · after</p>
+  </section>
+  <section class="sheet">
+    <div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">week · 周</span><span>日期: ____ / ____</span></div>
+    <p class="sheet-word" aria-label="涂色单词 week">week</p>
+    <div class="sheet-img"><img src="images/week.png" alt="week 涂色" /></div>
+    <p class="sheet-ftr">Flutter, butterfly! · 涂色记单词 · week</p>
+  </section>
+  <section class="sheet">
+    <div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">hard · 坚硬的</span><span>日期: ____ / ____</span></div>
+    <p class="sheet-word" aria-label="涂色单词 hard">hard</p>
+    <div class="sheet-img"><img src="images/hard.png" alt="hard 涂色" /></div>
+    <p class="sheet-ftr">Flutter, butterfly! · 涂色记单词 · hard</p>
+  </section>
+  <section class="sheet">
+    <div class="sheet-hdr"><span>姓名: ___________________</span><span class="badge">covering · 外壳</span><span>日期: ____ / ____</span></div>
+    <p class="sheet-word long" aria-label="涂色单词 covering">covering</p>
+    <div class="sheet-img"><img src="images/covering.png" alt="covering 涂色" /></div>
+    <p class="sheet-ftr">Flutter, butterfly! · 涂色记单词 · covering</p>
+  </section>
+  </div>
+  <script>
+    (function () {
+      var IMG_COS = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Flutter%20Butterfly/flutter-butterfly-coloring/images/";
+      document.querySelectorAll(".sheet-img img").forEach(function (img) {
+        var src = img.getAttribute("src") || "";
+        var file = src.replace(/^images\//, "");
+        if (!file) return;
+        img.addEventListener("error", function onErr() {
+          img.removeEventListener("error", onErr);
+          if (img.dataset.cosfb) return;
+          img.dataset.cosfb = "1";
+          img.src = IMG_COS + file;
+        }, { once: true });
+      });
+      var app = document.getElementById("app");
+      var sheets = Array.prototype.slice.call(app.querySelectorAll(".sheet"));
+      sheets.forEach(function (sheet) {
+        var vp = document.createElement("div");
+        vp.className = "page-viewport";
+        sheet.parentNode.insertBefore(vp, sheet);
+        vp.appendChild(sheet);
+      });
+      function fitPageViewports() {
+        if (window.matchMedia("print").matches) return;
+        document.querySelectorAll(".page-viewport").forEach(function (vp) {
+          var sheet = vp.querySelector(".sheet");
+          if (!sheet) return;
+          sheet.style.transform = "none";
+          sheet.style.transformOrigin = "top left";
+          var naturalW = sheet.offsetWidth;
+          var targetW = vp.clientWidth;
+          if (!naturalW || !targetW) return;
+          var scale = Math.min(1, targetW / naturalW);
+          sheet.style.transform = scale < 1 ? "scale(" + scale + ")" : "none";
+          vp.style.height = scale < 1 ? sheet.offsetHeight * scale + "px" : "auto";
+        });
+      }
+      window.addEventListener("resize", fitPageViewports);
+      window.addEventListener("load", fitPageViewports);
+    })();
+  </script>
+  <script src="../../assets/primary-responsive.js?v=2" defer></script>
+</body>
+</html>
