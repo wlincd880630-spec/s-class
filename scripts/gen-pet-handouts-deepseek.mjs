@@ -78,7 +78,19 @@ async function cached(name, prompt, maxTokens, thinking) {
   } catch (err) {
     fs.mkdirSync(path.dirname(p), { recursive: true });
     fs.writeFileSync(p.replace(/\.json$/, ".raw.txt"), text);
-    throw err;
+    const text2 = await chat(
+      prompt + "\n再次输出：必须是合法 JSON。所有键名和字符串值用双引号，字符串内引号要转义。不要 markdown。",
+      maxTokens,
+      thinking
+    );
+    try {
+      const json = extractJson(text2);
+      fs.writeFileSync(p, JSON.stringify(json));
+      return json;
+    } catch (err2) {
+      fs.writeFileSync(p.replace(/\.json$/, "-r.raw.txt"), text2);
+      throw err2;
+    }
   }
 }
 
