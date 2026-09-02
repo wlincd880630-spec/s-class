@@ -312,6 +312,34 @@ def patch_courseware(path: str):
     )
     text = text.replace("--wild-green: #33691e;", f"--wild-green: {WILD};")
     text = text.replace("--edge-blue: #33691e;", f"--edge-blue: {WILD};")
+    old_scene = (
+        "      NGWordExtras.sceneSrc = function (w) {\n"
+        '        return MEDIA_COS + "images/words/" + String(w && w.key).toLowerCase().replace(/\\s+/g, "-") + ".png";\n'
+        "      };\n"
+        "      NGWordExtras.sentenceSrc = function (w) {\n"
+        "        return NGWordExtras.sceneSrc(w);\n"
+        "      };"
+    )
+    new_scene = (
+        "      NGWordExtras.sceneSrc = function (w, kind) {\n"
+        '        var s = String(w && w.key).toLowerCase().replace(/\\s+/g, "-");\n'
+        '        var file = kind === "ex" ? s + "-ex.png" : kind === "sort" ? s + "-sort.png" : s + ".png";\n'
+        '        return MEDIA_COS + "images/sentences/" + file;\n'
+        "      };\n"
+        "      NGWordExtras.sentenceSrc = function (w) {\n"
+        '        return NGWordExtras.sceneSrc(w, "say");\n'
+        "      };"
+    )
+    if old_scene in text:
+        text = text.replace(old_scene, new_scene)
+    elif "images/sentences/" not in text:
+        text = text.replace(
+            'var SAY = (window.NG_WORD_SAY && window.NG_WORD_SAY["flutter-butterfly"]) || {};',
+            'var SAY = (window.NG_WORD_SAY && window.NG_WORD_SAY["flutter-butterfly"]) || {};\n'
+            "    if (window.NGWordExtras) {\n"
+            + new_scene
+            + "\n    }",
+        )
     text = inject_games(text)
     with open(path, "w", encoding="utf-8") as f:
         f.write(text)
@@ -936,6 +964,13 @@ def main():
     spec = os.path.join(DEST, "flutter-butterfly-courseware", "science-image-spec.json")
     if os.path.isfile(spec):
         os.remove(spec)
+
+    games_src = os.path.dirname(__file__)
+    cw_dir = os.path.join(DEST, "flutter-butterfly-courseware")
+    for name in ("lifecycle-games.js", "lifecycle-games.css"):
+        src = os.path.join(games_src, name)
+        if os.path.isfile(src):
+            shutil.copy2(src, os.path.join(cw_dir, name))
 
     print(f"Built {DEST}")
     print(f"Words: {len(WORDS)}, Story sentences: {len(STORY)}")
