@@ -422,12 +422,16 @@ body.deck .topbar { position: relative; }
   box-shadow: var(--shadow);
 }
 .trace-staff {
+  /* 四线格位置：描红字按字形墨水盒贴齐蓝顶线 / 虚线中线 与 绿底线 */
+  --ln-sky: 12%;
+  --ln-mid: 38%;
+  --ln-base: 64%;
+  --ln-desc: 90%;
   position: relative;
   width: 100%;
   aspect-ratio: 2.35 / 1;
   max-height: min(46vh, 360px);
   margin: 0 auto;
-  container-type: size;
 }
 .ln {
   position: absolute;
@@ -435,41 +439,25 @@ body.deck .topbar { position: relative; }
   right: 3%;
   height: 0;
   pointer-events: none;
+  z-index: 1;
 }
-.ln.sky { top: 12%; border-top: 2px solid var(--sky); }
-.ln.mid { top: 38%; border-top: 2px dashed rgba(74, 144, 200, 0.7); }
-.ln.base { top: 64%; border-top: 3px solid var(--grass); }
-.ln.desc { top: 90%; border-top: 2px solid var(--dirt); }
-.trace-ghost {
-  position: absolute;
-  left: 0;
-  right: 0;
-  font-family: var(--letter);
-  font-weight: 600;
-  color: rgba(28, 25, 23, 0.18);
-  pointer-events: none;
-  user-select: none;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  line-height: 0.78;
-}
-.trace-ghost.cap {
-  top: 12%;
-  height: 52%;
-  font-size: 50cqh;
-}
-.trace-ghost.small {
-  top: 38%;
-  height: 26%;
-  font-size: 28cqh;
-}
+.ln.sky { top: var(--ln-sky); border-top: 2px solid var(--sky); }
+.ln.mid { top: var(--ln-mid); border-top: 2px dashed rgba(74, 144, 200, 0.7); }
+.ln.base { top: var(--ln-base); border-top: 3px solid var(--grass); }
+.ln.desc { top: var(--ln-desc); border-top: 2px solid var(--dirt); }
 .trace-staff canvas {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   touch-action: none;
+}
+.trace-ghost-cv {
+  pointer-events: none;
+  z-index: 0;
+}
+#trace-cv {
+  z-index: 2;
 }
 .deck-nav {
   display: flex; justify-content: space-between; gap: 10px;
