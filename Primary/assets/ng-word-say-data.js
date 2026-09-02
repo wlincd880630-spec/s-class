@@ -520,5 +520,355 @@ window.NG_WORD_SAY = {
       sort: { en: "A nurse checks my temperature.", zh: "护士量我的体温。" },
       en: "The nurse puts on a bandage.", zh: "护士贴上创可贴。"
     }
+  },
+  "hello-penguins": {
+      "Penguin": {
+          "ex": {
+              "en": "I draw a penguin.",
+              "zh": "我画一只企鹅。"
+          },
+          "sort": {
+              "en": "This toy is a penguin.",
+              "zh": "这个玩具是企鹅。"
+          },
+          "en": "We see a penguin book.",
+          "zh": "我们看见一本企鹅书。"
+      },
+      "On the ice": {
+          "ex": {
+              "en": "The cup is on the ice.",
+              "zh": "杯子在冰上。"
+          },
+          "sort": {
+              "en": "We skate on the ice.",
+              "zh": "我们在冰上滑冰。"
+          },
+          "en": "Do not run on the ice.",
+          "zh": "不要在冰上跑。"
+      },
+      "On the beach": {
+          "ex": {
+              "en": "We play on the beach.",
+              "zh": "我们在沙滩上玩。"
+          },
+          "sort": {
+              "en": "Shells are on the beach.",
+              "zh": "贝壳在沙滩上。"
+          },
+          "en": "I sit on the beach.",
+          "zh": "我坐在沙滩上。"
+      },
+      "In the forest": {
+          "ex": {
+              "en": "Birds live in the forest.",
+              "zh": "鸟住在森林里。"
+          },
+          "sort": {
+              "en": "We walk in the forest.",
+              "zh": "我们在森林里走。"
+          },
+          "en": "It is quiet in the forest.",
+          "zh": "森林里很安静。"
+      },
+      "Huddle": {
+          "ex": {
+              "en": "We huddle in the rain.",
+              "zh": "下雨时我们挤在一起。"
+          },
+          "sort": {
+              "en": "The team can huddle.",
+              "zh": "队员可以围成一团。"
+          },
+          "en": "Puppies huddle to sleep.",
+          "zh": "小狗挤在一起睡觉。"
+      },
+      "Shuffle": {
+          "ex": {
+              "en": "I shuffle my feet.",
+              "zh": "我拖着脚走。"
+          },
+          "sort": {
+              "en": "Please shuffle the cards.",
+              "zh": "请洗牌。"
+          },
+          "en": "We shuffle in a line.",
+          "zh": "我们排成一列小步走。"
+      },
+      "Slide": {
+          "ex": {
+              "en": "I slide on the mat.",
+              "zh": "我在垫子上滑。"
+          },
+          "sort": {
+              "en": "The box can slide.",
+              "zh": "盒子能滑。"
+          },
+          "en": "Kids slide at the park.",
+          "zh": "孩子们在公园滑滑梯。"
+      },
+      "Swim": {
+          "ex": {
+              "en": "I swim in the pool.",
+              "zh": "我在游泳池游泳。"
+          },
+          "sort": {
+              "en": "Fish swim in the lake.",
+              "zh": "鱼在湖里游。"
+          },
+          "en": "We swim on Saturday.",
+          "zh": "我们星期六游泳。"
+      },
+      "Big": {
+          "ex": {
+              "en": "This bag is big.",
+              "zh": "这个包很大。"
+          },
+          "sort": {
+              "en": "The bus is big.",
+              "zh": "公交车很大。"
+          },
+          "en": "I want a big apple.",
+          "zh": "我想要一个大苹果。"
+      },
+      "Small": {
+          "ex": {
+              "en": "The ant is small.",
+              "zh": "蚂蚁很小。"
+          },
+          "sort": {
+              "en": "I have a small cup.",
+              "zh": "我有一个小杯子。"
+          },
+          "en": "This button is small.",
+          "zh": "这颗纽扣很小。"
+      },
+      "Fancy": {
+          "ex": {
+              "en": "Her hat is fancy.",
+              "zh": "她的帽子很花哨。"
+          },
+          "sort": {
+              "en": "This cake looks fancy.",
+              "zh": "这块蛋糕看起来很花哨。"
+          },
+          "en": "He wears a fancy tie.",
+          "zh": "他戴着花哨的领带。"
+      },
+      "Plain": {
+          "ex": {
+              "en": "My shirt is plain.",
+              "zh": "我的衬衫很朴素。"
+          },
+          "sort": {
+              "en": "I like plain rice.",
+              "zh": "我喜欢白米饭。"
+          },
+          "en": "The wall is plain.",
+          "zh": "墙是素净的。"
+      },
+      "Cold": {
+          "ex": {
+              "en": "The water is cold.",
+              "zh": "水是冷的。"
+          },
+          "sort": {
+              "en": "I feel cold.",
+              "zh": "我觉得冷。"
+          },
+          "en": "Winter is cold.",
+          "zh": "冬天很冷。"
+      },
+      "Keep warm": {
+          "ex": {
+              "en": "A coat can keep warm.",
+              "zh": "外套能保暖。"
+          },
+          "sort": {
+              "en": "Hats keep warm in winter.",
+              "zh": "冬天帽子能保暖。"
+          },
+          "en": "We keep warm by the fire.",
+          "zh": "我们靠火堆保暖。"
+      },
+      "Kind": {
+          "ex": {
+              "en": "What kind of fruit?",
+              "zh": "哪种水果？"
+          },
+          "sort": {
+              "en": "This kind is sweet.",
+              "zh": "这种是甜的。"
+          },
+          "en": "I like this kind.",
+          "zh": "我喜欢这种。"
+      },
+      "Many kinds of": {
+          "ex": {
+              "en": "I see many kinds of books.",
+              "zh": "我看见许多种书。"
+          },
+          "sort": {
+              "en": "The zoo has many kinds of birds.",
+              "zh": "动物园有许多种鸟。"
+          },
+          "en": "We try many kinds of soup.",
+          "zh": "我们试许多种汤。"
+      },
+      "Make": {
+          "ex": {
+              "en": "I make a card.",
+              "zh": "我做一张卡片。"
+          },
+          "sort": {
+              "en": "We make a cake.",
+              "zh": "我们做蛋糕。"
+          },
+          "en": "They make a paper boat.",
+          "zh": "他们折纸船。"
+      },
+      "Nest": {
+          "ex": {
+              "en": "The bird has a nest.",
+              "zh": "鸟有一个巢。"
+          },
+          "sort": {
+              "en": "I see a nest in the tree.",
+              "zh": "我看见树上有个巢。"
+          },
+          "en": "Do not touch the nest.",
+          "zh": "不要碰那个巢。"
+      },
+      "Dirt": {
+          "ex": {
+              "en": "My shoes have dirt.",
+              "zh": "我的鞋上有土。"
+          },
+          "sort": {
+              "en": "We dig in the dirt.",
+              "zh": "我们在土里挖。"
+          },
+          "en": "Wash the dirt off.",
+          "zh": "把土洗掉。"
+      },
+      "Sand": {
+          "ex": {
+              "en": "Sand is on my toes.",
+              "zh": "沙子在我脚趾上。"
+          },
+          "sort": {
+              "en": "We build with sand.",
+              "zh": "我们用沙子堆东西。"
+          },
+          "en": "The box is full of sand.",
+          "zh": "盒子里装满沙子。"
+      },
+      "Waddle": {
+          "ex": {
+              "en": "Ducks waddle to the pond.",
+              "zh": "鸭子摇摇摆摆走向池塘。"
+          },
+          "sort": {
+              "en": "The baby can waddle.",
+              "zh": "宝宝会摇摇摆摆走。"
+          },
+          "en": "I waddle in big boots.",
+          "zh": "我穿着大靴子摇摇摆摆走。"
+      },
+      "Tree root": {
+          "ex": {
+              "en": "A tree root is in the path.",
+              "zh": "路上有一条树根。"
+          },
+          "sort": {
+              "en": "Do not trip on the tree root.",
+              "zh": "别被树根绊倒。"
+          },
+          "en": "The tree root is thick.",
+          "zh": "这条树根很粗。"
+      },
+      "Can": {
+          "ex": {
+              "en": "I can hop.",
+              "zh": "我能跳。"
+          },
+          "sort": {
+              "en": "She can read.",
+              "zh": "她能读。"
+          },
+          "en": "We can help.",
+          "zh": "我们能帮忙。"
+      },
+      "Can't": {
+          "ex": {
+              "en": "I can't fly.",
+              "zh": "我不能飞。"
+          },
+          "sort": {
+              "en": "He can't reach the shelf.",
+              "zh": "他够不到架子。"
+          },
+          "en": "We can't eat in class.",
+          "zh": "我们不能在课上吃东西。"
+      },
+      "Use": {
+          "ex": {
+              "en": "I use a pencil.",
+              "zh": "我用铅笔。"
+          },
+          "sort": {
+              "en": "We use spoons.",
+              "zh": "我们用勺子。"
+          },
+          "en": "Please use the door.",
+          "zh": "请走门。"
+      },
+      "Wing": {
+          "ex": {
+              "en": "The bird has a wing.",
+              "zh": "鸟有翅膀。"
+          },
+          "sort": {
+              "en": "I see one red wing.",
+              "zh": "我看见一只红翅膀。"
+          },
+          "en": "A plane has a wing.",
+          "zh": "飞机有机翼。"
+      },
+      "Splash": {
+          "ex": {
+              "en": "I splash in the tub.",
+              "zh": "我在浴缸里溅水。"
+          },
+          "sort": {
+              "en": "The dog can splash.",
+              "zh": "狗会溅水。"
+          },
+          "en": "Don't splash my book.",
+          "zh": "别把水溅到我的书上。"
+      },
+      "Go fishing": {
+          "ex": {
+              "en": "We go fishing with Dad.",
+              "zh": "我们和爸爸去钓鱼。"
+          },
+          "sort": {
+              "en": "They go fishing at the lake.",
+              "zh": "他们去湖边钓鱼。"
+          },
+          "en": "I want to go fishing.",
+          "zh": "我想去钓鱼。"
+      },
+      "Go back on land": {
+          "ex": {
+              "en": "The boat must go back on land.",
+              "zh": "船必须回到岸上。"
+          },
+          "sort": {
+              "en": "After class we go back on land.",
+              "zh": "下课后我们回到岸上。"
+          },
+          "en": "Crabs go back on land.",
+          "zh": "螃蟹回到陆地上。"
+      }
   }
 };
