@@ -44,6 +44,16 @@
   function playTrack03() {
     AAAudio.playFile(L.tracks.t03);
   }
+  function picCardHTML(w) {
+    return (
+      '<div class="pic-card">' +
+        '<button type="button" class="choice" data-id="' + w.id + '">' +
+          '<img src="' + w.img + '" alt="">' +
+        "</button>" +
+        '<button type="button" class="say-btn" data-say="' + w.id + '">听</button>' +
+      "</div>"
+    );
+  }
   function playWordClip(w) {
     var clip = L.track04Clips[w.id];
     if (clip) {
@@ -155,16 +165,19 @@
     function deal() {
       picked = {};
       var cards = shuffle(L.vocab.slice().concat(shuffle(L.distractors).slice(0, 4)));
-      $("play-tools").innerHTML = '<button type="button" class="btn btn-apple" id="g1-sound">听</button>';
+      $("play-tools").innerHTML = "";
       $("play-board").innerHTML =
         '<p class="round-mark">' + (round + 1) + " / " + total + "</p>" +
         '<div class="choice-grid" id="g1-grid">' +
-        cards.map(function (w) {
-          return '<button type="button" class="choice" data-id="' + w.id + '"><img src="' + w.img + '" alt=""></button>';
-        }).join("") + "</div>";
+        cards.map(picCardHTML).join("") + "</div>";
       $("play-actions").innerHTML = '<button type="button" class="btn btn-leaf" id="g1-check">检查</button>';
-      $("g1-sound").onclick = playTrack03;
       $("g1-grid").onclick = function (e) {
+        var say = e.target.closest(".say-btn");
+        if (say) {
+          var spoken = word(say.getAttribute("data-say"));
+          if (spoken) AAAudio.speakWord(spoken.en);
+          return;
+        }
         var c = e.target.closest(".choice");
         if (!c) return;
         var id = c.getAttribute("data-id");

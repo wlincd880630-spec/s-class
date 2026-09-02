@@ -63,7 +63,7 @@
     distractors: [WORDS.bear, WORDS.cup, WORDS.ball, WORDS.cat, WORDS.dog],
     words: WORDS,
     games: [
-      { id: 1, title: "开头音", desc: "点出 a 开头的图" },
+      { id: 1, title: "开头音小侦探", desc: "点听单词，再选出 a 开头" },
       { id: 2, title: "听音点图", desc: "听单词，点出图" },
       { id: 3, title: "局外人", desc: "找出不是 a 开头的图" },
       { id: 4, title: "翻牌配对", desc: "先记位置，再配对" },
