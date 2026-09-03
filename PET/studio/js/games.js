@@ -18,8 +18,15 @@
     examSource: "zhongkao",
     gapNote: "",
     clinicPoint: null,
-    spellKey: null
+    spellKey: null,
+    spellPool: [],
+    spellSeen: {},
+    spellBatchSize: 20,
+    spellRound: 0,
+    spellTotal: 0
   };
+
+  var SPELL_BATCHES = [15, 20, 30, 40, 50];
 
   function clearTimer() {
     if (state.timerId) {
@@ -83,13 +90,24 @@
     } catch (e) {}
   }
 
-  function hud() {
+  function hudRight() {
     var total = state.queue.length || 1;
     var n = Math.min(state.idx + 1, total);
+    var bits = [];
+    if (state.game && state.game.key === "spell" && state.spellTotal) {
+      bits.push("第 " + (state.spellRound || 1) + " 组");
+      bits.push("已测 " + spellSeenCount() + "/" + state.spellTotal);
+    }
+    bits.push("题 " + n + "/" + total);
+    bits.push("分 " + state.score);
+    return bits.join(" · ");
+  }
+
+  function hud() {
     var sec = !timedGame() ? 0 : ((state.game && state.game.key === "spell") ? spellSeconds() : levelCfg().seconds);
-    var timed = sec ? '<span class=timer id=timer>' + sec + "s</span>" : "";
+    var timed = sec ? '<span class=timer id=timer>' + sec + "s" + "</span>" : "";
     return '<div class=hud><span>' + esc(state.game.name) + " · " + esc(levelCfg().label) +
-      "</span>" + timed + "<span>题 " + n + "/" + total + " · 分 " + state.score + "</span></div>";
+      "</span>" + timed + "<span>" + hudRight() + "</span></div>";
   }
 
   function esc(s) {
@@ -369,9 +387,64 @@
     if (!hudEl) return;
     var spans = hudEl.querySelectorAll("span");
     if (!spans.length) return;
-    var total = state.queue.length || 1;
-    var n = Math.min(state.idx + 1, total);
-    spans[spans.length - 1].textContent = "题 " + n + "/" + total + " · 分 " + state.score;
+    spans[spans.length - 1].textContent = hudRight();
+  }
+
+  function spellItemKey(it) {
+    return Number(it.unitId || 0) + ":" + String(it.word || "").toLowerCase();
+  }
+
+  function spellSeenCount() {
+    return Object.keys(state.spellSeen || {}).length;
+  }
+
+  function spellableItems() {
+    return (state.bag.vocab || []).concat(state.bag.colloc || []).filter(function (it) {
+      return spellLetters({ item: it }).length > 0;
+    });
+  }
+
+  function unusedSpellItems() {
+    return (state.spellPool || []).filter(function (it) {
+      return !state.spellSeen[spellItemKey(it)];
+    });
+  }
+
+  function spellBatchTake() {
+    var left = unusedSpellItems().length;
+    var size = state.spellBatchSize || 20;
+    return Math.min(size, left);
+  }
+
+  function spellSizePicksHtml() {
+    var cur = state.spellBatchSize || 20;
+    if (SPELL_BATCHES.indexOf(cur) < 0) {
+      cur = 20;
+      state.spellBatchSize = 20;
+    }
+    var left = unusedSpellItems().length;
+    var take = Math.min(cur, left);
+    var html = '<div class="spell-sizes" id="spellSizes">';
+    SPELL_BATCHES.forEach(function (n) {
+      html += '<button type="button" class="kind-btn' + (n === cur ? " on" : "") +
+        '" data-spell-size="' + n + '">' + n + "</button>";
+    });
+    html += "</div>";
+    if (!left) return html;
+    var hint = "本组将测 " + take + " 词";
+    if (take === left) hint += "（最后一组，不重复补题）";
+    else hint += " · 测完还剩 " + (left - take) + " 词";
+    html += '<p class="note" id="spellBatchHint">' + hint + "</p>";
+    return html;
+  }
+
+  function bindSpellSizePicks(rerender) {
+    Array.prototype.forEach.call(document.querySelectorAll("[data-spell-size]"), function (btn) {
+      btn.onclick = function () {
+        state.spellBatchSize = Number(btn.getAttribute("data-spell-size")) || 20;
+        rerender();
+      };
+    });
   }
 
   function spellMissHtml() {
@@ -382,7 +455,7 @@
     if (!misses.length) {
       return '<p class="spell-all-ok">本组单词全部拼对。</p>';
     }
-    return '<div class="miss-box"><div class="miss-h">需要再练的单词（' + misses.length +
+    return '<div class="miss-box"><div class="miss-h">本组需要再练的单词（' + misses.length +
       '）</div><ul class="miss-list">' +
       misses.map(function (q) {
         var typed = q.typed ? q.typed : "未作答";
@@ -392,10 +465,13 @@
   }
 
   function done() {
+    if (state.game && state.game.key === "spell") {
+      showSpellGroupDone();
+      return;
+    }
     unbindSpellKeys();
     $("playRoot").innerHTML = '<div class=play-shell>' + hud() +
       '<div class=q-box>本局完成！得分 ' + state.score + " / " + state.queue.length + "</div>" +
-      spellMissHtml() +
       '<button class="btn btn-indigo" id="againBtn">再来一局</button> ' +
       '<button class="btn btn-ghost" id="backGames">返回游戏列表</button></div>';
     $("againBtn").onclick = function () {
@@ -605,16 +681,83 @@
 
   function startSpell() {
     unbindSpellKeys();
-    state.queue = PETStudio.pickN(state.bag.vocab, levelCfg().count).map(function (it) {
-      return { item: it, typed: "", ok: null, settled: false };
-    }).filter(function (q) {
-      return spellLetters(q).length > 0;
-    });
-    if (!state.queue.length) {
-      done();
+    state.spellPool = spellableItems();
+    state.spellSeen = {};
+    state.spellRound = 0;
+    state.spellTotal = state.spellPool.length;
+    if (!state.spellBatchSize || SPELL_BATCHES.indexOf(state.spellBatchSize) < 0) {
+      state.spellBatchSize = 20;
+    }
+    showSpellSetup();
+  }
+
+  function showSpellSetup() {
+    unbindSpellKeys();
+    var total = state.spellTotal;
+    var left = unusedSpellItems().length;
+    if (!total) {
+      $("playRoot").innerHTML = '<div class="play-shell"><p class="note">没有可拼写的单词。</p>' +
+        '<button class="btn btn-ghost" id="backGames">返回游戏列表</button></div>';
+      $("backGames").onclick = showList;
       return;
     }
+    var take = spellBatchTake();
+    $("playRoot").innerHTML = '<div class="play-shell" id="spellSetup">' +
+      "<h2>拼写冲刺</h2>" +
+      '<p class="note">目标 <b>' + total + "</b> 个词。选每组题量，测过的词不会再出现，每组随机排序。最后一组用剩余词，不重复补题。</p>" +
+      '<p class="note">已测 ' + spellSeenCount() + " · 剩余 " + left + "</p>" +
+      '<div class="field"><label>每组数量</label></div>' +
+      spellSizePicksHtml() +
+      '<button class="btn btn-indigo" id="spellStartBtn">开始（' + take + " 词）</button> " +
+      '<button class="btn btn-ghost" id="backGames">返回游戏列表</button></div>';
+    bindSpellSizePicks(showSpellSetup);
+    $("spellStartBtn").onclick = beginSpellBatch;
+    $("backGames").onclick = showList;
+  }
+
+  function beginSpellBatch() {
+    var unused = unusedSpellItems();
+    if (!unused.length) {
+      showSpellGroupDone();
+      return;
+    }
+    var n = Math.min(state.spellBatchSize || 20, unused.length);
+    var batch = PETStudio.shuffle(unused.slice()).slice(0, n);
+    state.spellRound += 1;
+    state.idx = 0;
+    state.score = 0;
+    state.lock = false;
+    state.queue = batch.map(function (it) {
+      return { item: it, typed: "", ok: null, settled: false };
+    });
     renderSpell();
+  }
+
+  function showSpellGroupDone() {
+    unbindSpellKeys();
+    var left = unusedSpellItems().length;
+    var allDone = left === 0;
+    var take = spellBatchTake();
+    var title = allDone
+      ? "全部测完！共 " + state.spellTotal + " 词"
+      : "第 " + state.spellRound + " 组完成！得分 " + state.score + " / " + state.queue.length;
+    var html = '<div class="play-shell" id="spellGroupDone">' + hud() +
+      '<div class=q-box>' + title + "</div>" +
+      '<p class="note">已测 ' + spellSeenCount() + " / " + state.spellTotal +
+      (allDone ? "" : " · 还剩 " + left + " 个词") + "</p>" +
+      spellMissHtml();
+    if (!allDone) {
+      html += '<div class="field"><label>下一组数量</label></div>' + spellSizePicksHtml() +
+        '<button class="btn btn-indigo" id="spellNextGroup">开始（' + take + " 词）</button> ";
+    } else {
+      html += '<button class="btn btn-indigo" id="spellRestart">全部重测</button> ';
+    }
+    html += '<button class="btn btn-ghost" id="backGames">返回游戏列表</button></div>';
+    $("playRoot").innerHTML = html;
+    bindSpellSizePicks(showSpellGroupDone);
+    if ($("spellNextGroup")) $("spellNextGroup").onclick = beginSpellBatch;
+    if ($("spellRestart")) $("spellRestart").onclick = startSpell;
+    $("backGames").onclick = showList;
   }
 
   function settleSpell() {
@@ -625,6 +768,7 @@
     state.lock = true;
     clearTimer();
     q.ok = q.typed === w.toLowerCase();
+    if (q.item) state.spellSeen[spellItemKey(q.item)] = true;
     if (q.ok) state.score++;
     drawSpell(w, q.typed, q.ok);
     refreshHudScore();
@@ -668,6 +812,7 @@
       q.skip = true;
       q.ok = true;
       q.settled = true;
+      if (q.item) state.spellSeen[spellItemKey(q.item)] = true;
       setTimeout(next, 0);
       return;
     }
