@@ -20,7 +20,7 @@
 
     var ROUTES = [
         { prefix: 'PET-exam', stage: 'primary', hub: { label: 'PET 模考', href: 'PET-exam/index.html' } },
-        { prefix: 'PET/studio', stage: 'primary', hub: { label: 'PET 课程', href: 'PET/index.html' }, sub: { label: '工作室', href: 'PET/studio/index.html' } },
+        { prefix: 'PET/studio', stage: 'primary', hub: { label: 'PET 课程', href: 'PET/index.html' }, sub: { label: '混合游戏', href: 'PET/studio/index.html' } },
         { prefix: 'PET', stage: 'primary', hub: { label: 'PET 课程', href: 'PET/index.html' } },
         { prefix: 'Primary/School_textbook', stage: 'primary', hub: { label: '外研单词', href: 'Primary/School_textbook/Courseware/index.html' } },
         { prefix: 'Primary/The_Alphabet', stage: 'primary', hub: { label: '字母 A–Z', href: 'Primary/The_Alphabet/index.html' } },
@@ -63,7 +63,7 @@
         'School_textbook': '外研单词',
         'Courseware': '课件',
         'phonics': '自然拼读',
-        'studio': '工作室',
+        'studio': '混合游戏',
         'An Interview with Fitz Cahall': 'Fitz 访谈',
         'Review on Vocab and preparation for the video task': '词汇复习',
         'Video Task': '视频任务',

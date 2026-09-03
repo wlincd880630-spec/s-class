@@ -81,8 +81,12 @@
     });
   }
 
+  var unitCache = {};
+
   function loadUnit(unitId) {
-    var unit = PETStudio.getUnit(unitId);
+    var id = Number(unitId);
+    if (unitCache[id]) return Promise.resolve(unitCache[id]);
+    var unit = PETStudio.getUnit(id);
     var jobs = unit.lessons.map(loadLesson);
     var passUrl = "../Unit" + unit.id + "_passage/Unit" + unit.id + "_passage.html";
     return Promise.all(jobs.concat([
@@ -100,8 +104,18 @@
         bag.grammar = bag.grammar.concat(L.grammar);
       });
       attachGaokao(bag, gaokaoBank);
+      unitCache[id] = bag;
       return bag;
     });
+  }
+
+  function loadUnits(ids) {
+    var uniq = [];
+    (ids || []).forEach(function (id) {
+      id = Number(id);
+      if (id && uniq.indexOf(id) < 0) uniq.push(id);
+    });
+    return Promise.all(uniq.map(loadUnit));
   }
 
   function shuffle(arr) {
@@ -126,6 +140,7 @@
   }
 
   global.PETStudio.loadUnit = loadUnit;
+  global.PETStudio.loadUnits = loadUnits;
   global.PETStudio.shuffle = shuffle;
   global.PETStudio.pickN = pickN;
   global.PETStudio.distractors = distractors;

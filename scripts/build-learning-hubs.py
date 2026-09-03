@@ -75,8 +75,8 @@ def main() -> None:
     pet_units_html = ['<div class="hub-stack">']
     pet_units_html.append(
         '<a class="hub-card" href="studio/index.html">'
-        '<span class="no">Studio</span><h2>讲义与游戏</h2>'
-        '<p>彩色 PDF · 九种复习游戏</p></a>'
+        '<span class="no">Mix</span><h2>跨单元复习游戏</h2>'
+        '<p>多选单元与目标单词，混合练习九种游戏</p></a>'
     )
     for i, a, b in PET_UNITS:
         n1, n2 = i * 2 - 1, i * 2
@@ -100,7 +100,7 @@ def main() -> None:
         hub_page(
             "PET 课程",
             "小学 · PET",
-            "18 个单元：词汇 · 口语 · 复习 · 讲义",
+            "18 个单元：词汇 · 口语 · 复习 · 讲义 · 混合游戏",
             "\n".join(pet_units_html),
             1,
         ),

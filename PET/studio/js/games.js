@@ -1173,55 +1173,65 @@
     Array.prototype.forEach.call(document.querySelectorAll("[data-game]"), function (a) {
       a.onclick = function (e) {
         e.preventDefault();
-        startGame(a.getAttribute("data-game"), $("levelSel").value);
+        startGame(a.getAttribute("data-game"), ($("levelSel") && $("levelSel").value) || state.level);
       };
     });
   }
 
+  var bound = false;
+
   function bind() {
-    $("levelSel").onchange = function () { state.level = this.value; };
-    $("printGamesBtn").onclick = function () {
-      if (!state.bag) return;
-      PETStudio.printGames(state.bag, $("levelSel").value);
-    };
-    $("aiPaperBtn").onclick = function () {
-      if (!state.bag) return;
-      var btn = $("aiPaperBtn");
-      btn.disabled = true;
-      PETStudio.aiExtra("worksheet", state.bag.vocab.concat(state.bag.colloc, state.bag.grammar), 8)
-        .then(function (arr) {
-          var w = window.open("", "_blank");
-          if (!w) return;
-          var body = (arr || []).map(function (x, i) {
-            return "<div class=q><b>" + (i + 1) + ".</b> " + esc(x.q) + "<div class=opts>" +
-              (x.options || []).map(function (o, j) { return "<div>" + String.fromCharCode(65 + j) + ". " + esc(o) + "</div>"; }).join("") +
-              "</div><div class=note>答案：" + esc(x.answer) + " · " + esc(x.explain || "") + "</div></div>";
-          }).join("");
-          var css = new URL("css/print.css", location.href).href;
-          w.document.write("<!DOCTYPE html><html><head><meta charset=utf-8><title>AI 加题</title><link rel=stylesheet href=\"" + css + "\"></head><body class=print-page>" +
-            '<div class=screen-bar><button onclick=window.print()>导出 PDF</button></div><section class=sheet><div class=inner><h2>DeepSeek 加题卷</h2>' + body + "</div></section></body></html>");
-          w.document.close();
-        })
-        .catch(function (e) {
-          var pack = PETStudio.buildPaperQs(state.bag, $("levelSel").value);
-          var arr = (pack.zh2en || []).slice(0, 8).map(function (x) {
-            return { q: x.q, options: x.options, answer: x.answer, explain: "本单元词表（DeepSeek 暂不可用）" };
-          });
-          var w = window.open("", "_blank");
-          if (!w) return;
-          var body = arr.map(function (x, i) {
-            return "<div class=q><b>" + (i + 1) + ".</b> " + esc(x.q) + "<div class=opts>" +
-              (x.options || []).map(function (o, j) { return "<div>" + String.fromCharCode(65 + j) + ". " + esc(o) + "</div>"; }).join("") +
-              "</div><div class=note>答案：" + esc(x.answer) + " · " + esc(x.explain || "") + "</div></div>";
-          }).join("");
-          var css = new URL("css/print.css", location.href).href;
-          w.document.write("<!DOCTYPE html><html><head><meta charset=utf-8><title>加题卷</title><link rel=stylesheet href=\"" + css + "\"></head><body class=print-page>" +
-            '<div class=screen-bar><button onclick=window.print()>导出 PDF</button></div><section class=sheet><div class=inner><h2>复习加题卷</h2><p class=note>' +
-            esc(e.message || "DeepSeek 暂不可用") + "</p>" + body + "</div></section></body></html>");
-          w.document.close();
-        })
-        .then(function () { btn.disabled = false; });
-    };
+    if (bound) return;
+    bound = true;
+    if ($("levelSel")) {
+      $("levelSel").onchange = function () { state.level = this.value; };
+    }
+    if ($("printGamesBtn")) {
+      $("printGamesBtn").onclick = function () {
+        if (!state.bag) return;
+        PETStudio.printGames(state.bag, ($("levelSel") && $("levelSel").value) || state.level);
+      };
+    }
+    if ($("aiPaperBtn")) {
+      $("aiPaperBtn").onclick = function () {
+        if (!state.bag) return;
+        var btn = $("aiPaperBtn");
+        btn.disabled = true;
+        PETStudio.aiExtra("worksheet", state.bag.vocab.concat(state.bag.colloc, state.bag.grammar), 8)
+          .then(function (arr) {
+            var w = window.open("", "_blank");
+            if (!w) return;
+            var body = (arr || []).map(function (x, i) {
+              return "<div class=q><b>" + (i + 1) + ".</b> " + esc(x.q) + "<div class=opts>" +
+                (x.options || []).map(function (o, j) { return "<div>" + String.fromCharCode(65 + j) + ". " + esc(o) + "</div>"; }).join("") +
+                "</div><div class=note>答案：" + esc(x.answer) + " · " + esc(x.explain || "") + "</div></div>";
+            }).join("");
+            var css = new URL("css/print.css", location.href).href;
+            w.document.write("<!DOCTYPE html><html><head><meta charset=utf-8><title>AI 加题</title><link rel=stylesheet href=\"" + css + "\"></head><body class=print-page>" +
+              '<div class=screen-bar><button onclick=window.print()>导出 PDF</button></div><section class=sheet><div class=inner><h2>DeepSeek 加题卷</h2>' + body + "</div></section></body></html>");
+            w.document.close();
+          })
+          .catch(function (e) {
+            var pack = PETStudio.buildPaperQs(state.bag, ($("levelSel") && $("levelSel").value) || state.level);
+            var arr = (pack.zh2en || []).slice(0, 8).map(function (x) {
+              return { q: x.q, options: x.options, answer: x.answer, explain: "本单元词表（DeepSeek 暂不可用）" };
+            });
+            var w = window.open("", "_blank");
+            if (!w) return;
+            var body = arr.map(function (x, i) {
+              return "<div class=q><b>" + (i + 1) + ".</b> " + esc(x.q) + "<div class=opts>" +
+                (x.options || []).map(function (o, j) { return "<div>" + String.fromCharCode(65 + j) + ". " + esc(o) + "</div>"; }).join("") +
+                "</div><div class=note>答案：" + esc(x.answer) + " · " + esc(x.explain || "") + "</div></div>";
+            }).join("");
+            var css = new URL("css/print.css", location.href).href;
+            w.document.write("<!DOCTYPE html><html><head><meta charset=utf-8><title>加题卷</title><link rel=stylesheet href=\"" + css + "\"></head><body class=print-page>" +
+              '<div class=screen-bar><button onclick=window.print()>导出 PDF</button></div><section class=sheet><div class=inner><h2>复习加题卷</h2><p class=note>' +
+              esc(e.message || "DeepSeek 暂不可用") + "</p>" + body + "</div></section></body></html>");
+            w.document.close();
+          })
+          .then(function () { btn.disabled = false; });
+      };
+    }
   }
 
   global.PETStudio.mountGames = function (bag) {
