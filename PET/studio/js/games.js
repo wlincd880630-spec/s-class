@@ -382,7 +382,8 @@
     if (!misses.length) {
       return '<p class="spell-all-ok">本组单词全部拼对。</p>';
     }
-    return '<div class="miss-box"><div class="miss-h">需要再练的单词（' + misses.length + "）</div><ul class="miss-list">' +
+    return '<div class="miss-box"><div class="miss-h">需要再练的单词（' + misses.length +
+      '）</div><ul class="miss-list">' +
       misses.map(function (q) {
         var typed = q.typed ? q.typed : "未作答";
         return "<li><b>" + esc(q.item.word) + "</b> " + esc(q.item.meaning || "") +
