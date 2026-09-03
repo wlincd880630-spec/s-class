@@ -141,8 +141,7 @@
     var el = $("game-rail");
     if (!el) return;
     var chips = [
-      '<a class="game-chip is-hub" href="' + hubFile() + '" title="游戏目录">' +
-        '<span class="n">目录</span><span class="t">练一练</span></a>'
+      '<a class="game-chip is-hub" href="' + hubFile() + '" title="游戏目录"><span class="n">目录</span></a>'
     ];
     L.games.forEach(function (g) {
       var on = g.id === GAME_ID ? " is-on" : "";
