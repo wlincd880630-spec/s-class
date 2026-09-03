@@ -20,6 +20,34 @@ iframe {
   height: auto;
 }
 
+/* 课件图片位：按容器缩放，避免 height:auto 把配图撑出相框 */
+body:has(> .app) .polaroid,
+body:has(> .app) .hero-art,
+body:has(> .app) .word-col-art,
+body:has(> .app) .story-col--art,
+body:has(> .app) .opt-img {
+  overflow: hidden;
+  min-height: 0;
+  max-width: 100%;
+}
+body:has(> .app) .art-img,
+body:has(> .app) .polaroid img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  object-position: center;
+}
+body:has(> .app) .opt-img .opt-thumb {
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  min-height: 0;
+  object-fit: contain;
+  object-position: center;
+}
+
 /* 图标 SVG 只有 viewBox 时，height:auto 会按视口宽度等比撑满整屏 */
 svg {
   max-width: 100%;
