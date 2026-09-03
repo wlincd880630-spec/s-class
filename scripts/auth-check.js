@@ -15,15 +15,13 @@
         if (isRootHome) return;
         if (window !== window.top) return;
         if (document.querySelector('script[src*="site-nav.js"]')) return;
-        var src = 'scripts/site-nav.js';
+        var src = 'scripts/site-nav.js?v=5';
         var thisScript = document.currentScript;
         var attr = thisScript && thisScript.getAttribute && thisScript.getAttribute('src');
         if (attr) {
-            src = attr.replace(/auth-check\.js(\?.*)?$/, 'site-nav.js?v=4');
+            src = attr.replace(/auth-check\.js(\?.*)?$/, 'site-nav.js?v=5');
         } else if (thisScript && thisScript.src) {
-            src = thisScript.src.replace(/auth-check\.js(\?.*)?$/, 'site-nav.js?v=4');
-        } else {
-            src = 'scripts/site-nav.js?v=4';
+            src = thisScript.src.replace(/auth-check\.js(\?.*)?$/, 'site-nav.js?v=5');
         }
         var el = document.createElement('script');
         el.src = src;

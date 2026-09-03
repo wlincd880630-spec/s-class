@@ -264,7 +264,7 @@
         var link = document.createElement('link');
         link.id = 'sclass-page-nav-css';
         link.rel = 'stylesheet';
-        link.href = root + 'styles/s-class-page-nav.css?v=4';
+        link.href = root + 'styles/s-class-page-nav.css?v=5';
         document.head.appendChild(link);
     }
 
