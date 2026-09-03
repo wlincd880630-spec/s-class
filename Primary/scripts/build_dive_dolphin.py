@@ -834,7 +834,7 @@ def patch_print_story(courseware_path: str, print_path: str):
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,600;0,8..60,700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../../assets/ng-story-print.css?v=ps7" />
+  <link rel="stylesheet" href="../../assets/ng-story-print.css?v=ps8" />
   <style>:root {{ --accent: {ACCENT}; --wild: {WILD}; }}</style>
 </head>
 <body class="ng-story-print-body">
@@ -852,7 +852,7 @@ def patch_print_story(courseware_path: str, print_path: str):
     </div>
   </div>
   <div id="storyPrintArea"></div>
-  <script src="../../assets/ng-story-print.js?v=ps7"></script>
+  <script src="../../assets/ng-story-print.js?v=ps8"></script>
   <script>
   NgStoryPrint.init({{
     title: "Dive, dolphin!",

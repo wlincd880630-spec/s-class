@@ -98,7 +98,7 @@
     return (
       '<div class="story-qr' + (extraClass ? " " + extraClass : "") +
       '" data-qr-url="' + esc(url) + '">' +
-      '<img alt="扫码学课文" width="120" height="120" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">' +
+      '<img alt="扫码学课文" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">' +
       '<span class="story-qr-cap">' + esc(caption || "扫码学课文") + "</span>" +
       "</div>"
     );
@@ -166,7 +166,7 @@
     return loadQrLib().then(function () {
       return global.QRCode.toDataURL(url, {
         width: 240,
-        margin: 1,
+        margin: 2,
         color: { dark: "#1a1a1a", light: "#ffffff" },
         errorCorrectionLevel: "M",
       });
@@ -222,6 +222,57 @@
       '<div class="cover-scrim"></div>' +
       "</div>"
     );
+  }
+
+  var GOLDEN = 0.382;
+
+  function clampNum(n, a, b) {
+    return Math.max(a, Math.min(b, n));
+  }
+
+  /** 把封面主体放到黄金分割点：16:9 图铺满 A4 时只平移，不放大到裁掉主体。 */
+  function applyCoverFocal(root, cfg) {
+    var img = root && root.querySelector(".cover-hero-img");
+    if (!img || !cfg || !cfg.coverFocal) return;
+    var focal = cfg.coverFocal;
+    if (focal.x == null || focal.y == null) return;
+
+    function place() {
+      if (img.classList.contains("is-hide")) return;
+      var iw = img.naturalWidth || 0;
+      var ih = img.naturalHeight || 0;
+      if (iw < 8 || ih < 8) return;
+      var fx = clampNum(Number(focal.x) || 0.5, 0.08, 0.92);
+      var fy = clampNum(Number(focal.y) || 0.38, 0.08, 0.92);
+      var ax = focal.anchorX != null ? clampNum(Number(focal.anchorX), 0.22, 0.78) : GOLDEN;
+      var ay = focal.anchorY != null ? clampNum(Number(focal.anchorY), 0.18, 0.55) : GOLDEN;
+      var Cw = 210;
+      var Ch = 297;
+      var Sw = Math.max(Cw, Ch * iw / ih);
+      var Sh = Math.max(Ch, Cw * ih / iw);
+      var posX = ax * 100;
+      var posY = ay * 100;
+      if (Sw > Cw + 0.05) {
+        posX = ((fx * Sw / Cw) - ax) / (Sw / Cw - 1) * 100;
+      }
+      if (Sh > Ch + 0.05) {
+        posY = ((fy * Sh / Ch) - ay) / (Sh / Ch - 1) * 100;
+      }
+      posX = clampNum(posX, 0, 100);
+      posY = clampNum(posY, 0, 100);
+      img.style.width = "100%";
+      img.style.height = "100%";
+      img.style.maxWidth = "none";
+      img.style.maxHeight = "none";
+      img.style.left = "0";
+      img.style.top = "0";
+      img.style.transform = "none";
+      img.style.objectFit = "cover";
+      img.style.objectPosition = posX.toFixed(1) + "% " + posY.toFixed(1) + "%";
+    }
+
+    img.addEventListener("load", place);
+    if (img.complete) place();
   }
 
   /**
@@ -505,6 +556,7 @@
       var showZhEl = document.getElementById("optShowZh");
       cfg.showZh = !showZhEl || showZhEl.checked;
       area.innerHTML = buildAll(cfg);
+      applyCoverFocal(area, cfg);
       return fillQrCodes(area).then(function () {
         fitSheetText(area);
         function afterFonts() {
