@@ -825,7 +825,7 @@
       '<input id=spellIn class=spell-input autocomplete=off autocapitalize=off spellcheck=false placeholder="在此居中输入拼写">' +
       '<div class=keys id=keys></div>' +
       '<div id=spellResult></div>' +
-      '<p class=note>字母居中显示，也可用下方按键。拼完后点「下一个」或按回车进入下一词。</p></div>';
+      '<p class=note>写满后仍可用退格修改，按回车才判断。判完后再按回车或点「下一个」进入下一词。</p></div>';
     $("speakBtn").onclick = function () { say(q.item.word); };
     drawSpell(w, q.typed);
     var letters = PETStudio.shuffle((w + "abcdefghijklmnopqrstuvwxyz").slice(0, Math.max(w.length + 4, 12)).split(""));
@@ -837,6 +837,12 @@
       b.onclick = function () { pushSpell(ch); };
       keys.appendChild(b);
     });
+    var del = document.createElement("button");
+    del.className = "key key-del";
+    del.type = "button";
+    del.textContent = "退格";
+    del.onclick = function () { popSpell(); };
+    keys.appendChild(del);
     var inp = $("spellIn");
     inp.focus();
     inp.oninput = function () {
@@ -844,21 +850,39 @@
       q.typed = (inp.value || "").replace(/[^a-zA-Z]/g, "").slice(0, w.length).toLowerCase();
       inp.value = q.typed;
       drawSpell(w, q.typed);
-      if (q.typed.length === w.length) settleSpell();
     };
     function pushSpell(ch) {
       if (q.settled || q.typed.length >= w.length) return;
       q.typed += ch.toLowerCase();
       if (inp) inp.value = q.typed;
       drawSpell(w, q.typed);
-      if (q.typed.length === w.length) settleSpell();
+      if (inp) inp.focus();
+    }
+    function popSpell() {
+      if (q.settled || !q.typed.length) return;
+      q.typed = q.typed.slice(0, -1);
+      if (inp) inp.value = q.typed;
+      drawSpell(w, q.typed);
+      if (inp) inp.focus();
     }
     state.spellKey = function (e) {
+      if (q.settled) {
+        if (e.key === "Enter" && !e.repeat) {
+          e.preventDefault();
+          advanceSpell();
+        }
+        return;
+      }
+      if (e.key === "Backspace") {
+        if (e.target && e.target.id === "spellIn") return;
+        e.preventDefault();
+        popSpell();
+        return;
+      }
       if (e.key !== "Enter") return;
       if (e.repeat) return;
       e.preventDefault();
-      if (!q.settled) settleSpell();
-      else advanceSpell();
+      settleSpell();
     };
     document.addEventListener("keydown", state.spellKey);
     clearTimer();
