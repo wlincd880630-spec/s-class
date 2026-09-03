@@ -1,5 +1,6 @@
 /**
- * PET 各页入口：讲义 PDF / 文章 PDF / 复习游戏
+ * PET 各页入口：本单元讲义 / 文章 / 游戏，以及跨单元混合游戏
+
  * 词汇课放在顶栏右上角，新标签打开，避免中断当前进度。
  */
 (function () {
@@ -36,8 +37,9 @@
     ? link(root + "print.html?type=handout&unit=" + unit, "讲义 PDF") +
       link(root + "read.html?unit=" + unit, "文章学习") +
       link(root + "print.html?type=passage&unit=" + unit, "文章 PDF") +
-      link(root + "games.html?unit=" + unit, "复习游戏")
-    : link(root + "index.html", "PET 讲义 / 游戏");
+      link(root + "games.html?unit=" + unit, "复习游戏") +
+      link(root + "index.html", "混合游戏")
+    : link(root + "index.html", "跨单元混合游戏");
 
   var st = document.createElement("style");
   st.textContent =
@@ -47,7 +49,7 @@
       "font:800 12px/1 Nunito,Noto Sans SC,sans-serif;padding:8px 11px;border-radius:999px;white-space:nowrap;" +
       "box-shadow:0 8px 20px rgba(79,70,229,.35)}" +
     (isVocab
-      ? "#app nav.h-16 .flex.items-center.gap-3{margin-right:328px}" +
+      ? "#app nav.h-16 .flex.items-center.gap-3{margin-right:400px}" +
         "@media (max-width:900px){" +
           "#pet-studio-entry{top:70px;right:12px;flex-wrap:wrap;justify-content:flex-end}" +
           "#app nav.h-16 .flex.items-center.gap-3{margin-right:0}" +

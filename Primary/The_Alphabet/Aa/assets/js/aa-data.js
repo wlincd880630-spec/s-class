@@ -87,6 +87,35 @@
       "ball", "cat", "dog", "angry-apple"
     ],
     copyDefaults: ["apple", "axe", "ant", "alligator"],
+    matchWords: ["ant", "apple", "alligator", "axe"],
+    choosePicture: [
+      { word: "apple", pics: ["banana", "apple", "cup"] },
+      { word: "axe", pics: ["axe", "ball", "bear"] },
+      { word: "ant", pics: ["cat", "dog", "ant"] },
+      { word: "alligator", pics: ["computer", "banana", "alligator"] }
+    ],
+    chooseWord: [
+      { pic: "apple", words: ["ant", "apple", "banana"] },
+      { pic: "axe", words: ["cup", "apple", "axe"] },
+      { pic: "ant", words: ["ant", "cat", "axe"] },
+      { pic: "alligator", words: ["apple", "alligator", "computer"] }
+    ],
+    wordMaze: {
+      size: 10,
+      words: ["apple", "axe", "ant", "alligator"],
+      grid: [
+        "ALLIGATORB",
+        "PCDFHKJMQU",
+        "PAXEVWYZBC",
+        "LNDFHKJMQU",
+        "ETBCDFHKJM",
+        "BCDFHKJMQU",
+        "DFHJKMQUVW",
+        "FHJKMUVWYZ",
+        "HJKMUVWYZB",
+        "JKMUVWYZBC"
+      ]
+    },
     games: [
       { id: 1, title: "开头音小侦探", desc: "点听单词，再选出 a 开头" },
       { id: 2, title: "听音点图", desc: "听单词，点出图" },

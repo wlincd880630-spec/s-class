@@ -10,12 +10,12 @@
     gap: 10px;
     flex-wrap: wrap;
     width: 100%;
-    min-height: 48px;
+    max-width: 100%;
+    min-height: 44px;
     margin: 0;
     flex: 0 0 auto;
     flex-shrink: 0;
     align-self: stretch;
-    max-width: 100%;
     padding: 8px 16px;
     padding-top: max(8px, env(safe-area-inset-top, 0px));
     padding-left: max(16px, env(safe-area-inset-left, 0px));
@@ -63,9 +63,13 @@
     background: #f0fdfa;
 }
 .sclass-page-nav-back svg {
-    width: 14px;
-    height: 14px;
+    width: 14px !important;
+    height: 14px !important;
+    max-width: 14px !important;
+    max-height: 14px !important;
     flex-shrink: 0;
+    display: block;
+    overflow: visible;
 }
 .sclass-page-nav-crumbs {
     display: flex;
@@ -114,10 +118,20 @@ html.sclass-has-page-nav .app-container {
     max-height: calc(100dvh - 44px) !important;
 }
 
-/* body 若是横向 flex（课堂板 / 字母馆），顶栏必须独占一行，不能和内容并排 */
+/* body 若是横向 flex（课堂板 / 字母馆 / .app），顶栏必须独占一行 */
 html.sclass-has-page-nav body {
     flex-direction: column;
 }
+html.sclass-has-page-nav body:has(> .app) {
+    justify-content: flex-start;
+    align-items: center;
+}
+html.sclass-has-page-nav body:has(> .app) > .sclass-page-nav {
+    width: 100%;
+    max-width: 100%;
+    flex: 0 0 auto;
+}
+
 html.sclass-has-page-nav body.deck {
     justify-content: flex-start;
     align-items: stretch;
@@ -126,6 +140,8 @@ html.sclass-has-page-nav body.deck {
 }
 html.sclass-has-page-nav body.deck > .sclass-page-nav {
     width: 100%;
+    max-width: 100%;
+    flex: 0 0 auto;
 }
 html.sclass-has-page-nav body.deck > .board {
     flex: 1 1 auto;

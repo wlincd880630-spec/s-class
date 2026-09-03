@@ -20,7 +20,7 @@
 
     var ROUTES = [
         { prefix: 'PET-exam', stage: 'primary', hub: { label: 'PET 模考', href: 'PET-exam/index.html' } },
-        { prefix: 'PET/studio', stage: 'primary', hub: { label: 'PET 课程', href: 'PET/index.html' }, sub: { label: '工作室', href: 'PET/studio/index.html' } },
+        { prefix: 'PET/studio', stage: 'primary', hub: { label: 'PET 课程', href: 'PET/index.html' }, sub: { label: '混合游戏', href: 'PET/studio/index.html' } },
         { prefix: 'PET', stage: 'primary', hub: { label: 'PET 课程', href: 'PET/index.html' } },
         { prefix: 'Primary/School_textbook', stage: 'primary', hub: { label: '外研单词', href: 'Primary/School_textbook/Courseware/index.html' } },
         { prefix: 'Primary/The_Alphabet', stage: 'primary', hub: { label: '字母 A–Z', href: 'Primary/The_Alphabet/index.html' } },
@@ -63,7 +63,7 @@
         'School_textbook': '外研单词',
         'Courseware': '课件',
         'phonics': '自然拼读',
-        'studio': '工作室',
+        'studio': '混合游戏',
         'An Interview with Fitz Cahall': 'Fitz 访谈',
         'Review on Vocab and preparation for the video task': '词汇复习',
         'Video Task': '视频任务',
@@ -264,12 +264,41 @@
         var link = document.createElement('link');
         link.id = 'sclass-page-nav-css';
         link.rel = 'stylesheet';
-        link.href = root + 'styles/s-class-page-nav.css';
+        link.href = root + 'styles/s-class-page-nav.css?v=3';
         document.head.appendChild(link);
     }
 
+    function injectCriticalCss() {
+        if (document.getElementById('sclass-page-nav-critical')) return;
+        var style = document.createElement('style');
+        style.id = 'sclass-page-nav-critical';
+        style.textContent =
+            '.sclass-page-nav{box-sizing:border-box;display:flex;align-items:center;flex-wrap:wrap;gap:10px;' +
+            'width:100%;max-width:100%;align-self:stretch;flex:0 0 auto;min-height:44px;margin:0;' +
+            'padding:8px 16px;background:#fff;border-bottom:1px solid rgba(15,23,42,.1);' +
+            'font-family:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;' +
+            'font-size:13px;line-height:1.4;color:#0f172a;position:relative;z-index:200}' +
+            'html.sclass-has-page-nav body{flex-direction:column}' +
+            'html.sclass-has-page-nav body:has(> .app){justify-content:flex-start;align-items:center}' +
+            'html.sclass-has-page-nav body.deck{justify-content:flex-start;align-items:stretch}' +
+            '.sclass-page-nav-back{display:inline-flex;align-items:center;gap:6px;flex-shrink:0;' +
+            'min-height:32px;padding:4px 12px 4px 10px;border-radius:999px;border:1px solid rgba(15,23,42,.1);' +
+            'background:#f8fafc;color:#0f172a!important;font-weight:700!important;text-decoration:none!important;white-space:nowrap}' +
+            '.sclass-page-nav-back svg{width:14px!important;height:14px!important;max-width:14px!important;' +
+            'max-height:14px!important;flex-shrink:0;display:block;overflow:visible}' +
+            '.sclass-page-nav-crumbs{display:flex;align-items:center;flex-wrap:wrap;gap:4px 2px;min-width:0;color:#64748b}' +
+            '.sclass-page-nav a{color:#0f766e;text-decoration:none;font-weight:600}' +
+            '.sclass-page-nav-crumbs a{color:#64748b;font-weight:500}' +
+            '.sclass-page-nav-sep{padding:0 4px;color:#cbd5e1}' +
+            '.sclass-page-nav-current{color:#0f172a;font-weight:700}';
+        document.head.appendChild(style);
+    }
+
     function svgArrow() {
-        return '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        return '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true" ' +
+            'style="width:14px;height:14px;max-width:14px;max-height:14px;flex-shrink:0;display:block">' +
+            '<path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>' +
+            '</svg>';
     }
 
     function mount() {
@@ -280,6 +309,7 @@
         if (isHomePage(rel)) return;
 
         var root = rootPrefix();
+        injectCriticalCss();
         loadCss(root);
 
         var crumbs = buildCrumbs(rel, root);

@@ -1,12 +1,13 @@
 /**
- * Aa 教具工坊：生成 A4 作业包 / 练习册 / 纸质游戏 / 四线格 / 教具卡。
- * 导出使用浏览器「打印 → 另存为 PDF」，保留彩印与手写体。
+ * Aa 教具工坊：生成教材 / 纸质游戏 / 教具卡。
+ * 连线、选图、选词、迷宫、四线格、圈图、涂色已并入教材 PDF。
+ * 导出使用浏览器「打印 → 另存为 PDF」。
  */
 (function (global) {
   "use strict";
 
   var L = window.AA_LESSON;
-  var PACKS = ["book", "workbook", "games", "copy", "cards", "guide"];
+  var PACKS = ["book", "games", "cards", "guide"];
 
   function $(id) {
     return document.getElementById(id);
@@ -29,7 +30,19 @@
     if (item.id === "angry-apple") {
       return '<span class="onset">a</span>ngry <span class="onset">a</span>pple';
     }
+    if (!item.a) {
+      return '<span class="rest">' + item.en + "</span>";
+    }
     return '<span class="onset">' + item.onset + '</span><span class="rest">' + item.rest + "</span>";
+  }
+  function wordFaces(item) {
+    var html = onsetHTML(item);
+    return (
+      '<div class="lab lab-faces">' +
+        '<span class="lab-print">' + html + "</span>" +
+        '<span class="lab-hand">' + html + "</span>" +
+      "</div>"
+    );
   }
   function staveHTML(item) {
     if (!item) return "";
@@ -51,9 +64,9 @@
       "</span>"
     );
   }
-  function stave(html, mode, fs, tag) {
+  function stave(html, mode, fs, tag, extra) {
     return (
-      '<div class="stave-line">' +
+      '<div class="stave-line' + (extra ? " " + extra : "") + '">' +
       (tag ? '<span class="stave-tag">' + tag + "</span>" : "") +
       '<div class="grid-lines"><i class="gl gl-sky"></i><i class="gl gl-cloud"></i><i class="gl gl-grass"></i><i class="gl gl-dirt"></i></div>' +
       (mode === "trace"
@@ -93,8 +106,8 @@
   function bookFoot(page, total) {
     return (
       '<div class="bk-foot">' +
-      "<span>S-Class  ·  The Alphabet  ·  Aa</span>" +
-      "<span>" + page + "  /  " + total + "</span>" +
+      '<span class="bk-foot-meta">S-Class · The Alphabet · <b>Aa</b></span>' +
+      '<span class="bk-foot-page">' + page + " / " + total + "</span>" +
       "</div>"
     );
   }
@@ -129,33 +142,44 @@
   function task(n, text, color) {
     return '<div class="task ' + (color || "") + '"><span class="n">' + n + "</span><p>" + text + "</p></div>";
   }
-  function tile(item, i, withWord) {
+  function tile(item, i, withWord, dual) {
     return (
       '<div class="pic-tile t' + (i % 6) + '">' +
       '<img src="' + item.img + '" alt="' + item.en + '">' +
-      (withWord !== false ? '<div class="lab">' + onsetHTML(item) + "</div>" : "") +
+      (withWord !== false ? (dual ? wordFaces(item) : '<div class="lab">' + onsetHTML(item) + "</div>") : "") +
       "</div>"
     );
   }
 
-  function copyCatalog() {
-    return [
-      { id: "Aa", en: "Aa", zh: "字母 Aa", img: L.hero, kind: "letter", a: true },
-      w("apple"),
-      w("axe"),
-      w("ant"),
-      w("alligator"),
-      w("angry-apple")
-    ];
+  function bookSection(title) {
+    return '<p class="bk-section">' + title + "</p>";
+  }
+
+  function wordCopyBlock(item) {
+    var html = staveHTML(item);
+    var fs = fsClass(item.en);
+    return (
+      '<div class="bk-copy-item">' +
+        '<div class="bk-copy-meta">' +
+          '<img src="' + item.img + '" alt="' + item.en + '">' +
+          wordFaces(item) +
+        "</div>" +
+        stave(html, "trace", fs, "Trace") +
+        stave("", "write", fs, "Write") +
+        stave("", "write", fs, "Write") +
+      "</div>"
+    );
   }
 
   function buildBook() {
     var pages = [];
-    var total = 6;
+    var total = 13;
+    var maze = L.wordMaze;
     pages.push(bookSheet("book-cover",
       '<p class="bk-brand">The Alphabet</p>' +
       '<p class="bk-unit">Unit 1</p>' +
       '<p class="bk-display">Aa</p>' +
+      '<p class="bk-display-hand">Aa</p>' +
       '<p class="bk-phrase">angry apple</p>' +
       '<p class="bk-ipa">/æ/</p>' +
       '<figure class="bk-hero"><img src="' + L.mascot.img + '" alt="angry apple"></figure>' +
@@ -171,7 +195,16 @@
           '<figcaption class="bk-caption">angry apple</figcaption>' +
         "</figure>" +
         '<div class="bk-letter">' +
-          '<span class="pair">Aa</span>' +
+          '<div class="bk-faces">' +
+            '<div class="bk-face is-print">' +
+              '<span class="face-lab">Print</span>' +
+              '<span class="pair">Aa</span>' +
+            "</div>" +
+            '<div class="bk-face is-hand">' +
+              '<span class="face-lab">Hand</span>' +
+              '<span class="pair">Aa</span>' +
+            "</div>" +
+          "</div>" +
           '<span class="ipa">/æ/</span>' +
         "</div>" +
       "</div>" +
@@ -182,7 +215,7 @@
     pages.push(bookSheet("",
       bookHead("B", "Listen, point and say") +
       '<div class="vocab-4 bk-vocab">' +
-        L.vocab.map(function (item, i) { return tile(item, i, true); }).join("") +
+        L.vocab.map(function (item, i) { return tile(item, i, true, true); }).join("") +
       "</div>" +
       bookFoot(3, total)
     ));
@@ -223,7 +256,7 @@
           return (
             '<div class="pic-tile t' + i + '">' +
             '<img src="' + item.img + '" alt="">' +
-            '<div class="lab">' + onsetHTML(item) + "</div>" +
+            wordFaces(item) +
             '<div class="num-box"></div>' +
             "</div>"
           );
@@ -231,68 +264,120 @@
       "</div>" +
       bookFoot(6, total)
     ));
-    return pages.join("");
-  }
-
-  function buildWorkbook() {
-    var pages = [];
-    var total = 4;
-    var letters = L.workbookLetters;
-    pages.push(sheet("theme-candy",
-      header("Workbook · Unit 1", "Aa 练习册（新彩页）", "不是原版复印件") +
-      nameRow() +
-      '<div class="hero-row">' +
-        '<img src="' + L.hero + '" alt="Aa">' +
-        '<div class="bubble">圈出 /æ/ 开头的图<br>给 A a 涂色<br>四线格里写 Aa</div>' +
+    pages.push(bookSheet("",
+      bookHead("F", "Match") +
+      '<div class="bk-match">' +
+        '<div class="bk-match-col">' +
+          L.vocab.map(function (item, i) {
+            return '<div class="bk-match-row"><b>' + (i + 1) + '</b><img src="' + item.img + '" alt=""></div>';
+          }).join("") +
+        "</div>" +
+        '<div class="bk-match-mid" aria-hidden="true"></div>' +
+        '<div class="bk-match-col">' +
+          (L.matchWords || []).map(function (id, i) {
+            var item = w(id);
+            return '<div class="bk-match-row is-word"><b>' + String.fromCharCode(65 + i) + "</b>" + wordFaces(item) + "</div>";
+          }).join("") +
+        "</div>" +
       "</div>" +
-      '<p style="text-align:center;font-size:16pt;">本练习册重新排版：野餐圈图 · 气球涂色 · 手写四线格。<br>请用蜡笔、彩铅完成，写字请用铅笔。</p>' +
-      foot(1, total, "练习册")
+      bookFoot(7, total)
     ));
-    pages.push(sheet("theme-sky",
-      header("A · Trace, write, and say", "描红大 A 和小 a", "四线格") +
-      task("A", "沿四线格里的浅色手写体描，再自己写。") +
-      '<div class="letter-models">' +
-        modelCard("A", "cap") +
-        modelCard("a", "small") +
-      "</div>" +
-      stave('<span class="letter-pair"><span class="letter-cap onset">A</span></span>', "trace", "fs-lg", "描") +
-      stave('<span class="letter-pair"><span class="letter-cap onset">A</span></span>', "trace", "fs-lg", "描") +
-      stave("", "write", "fs-lg", "写") +
-      stave('<span class="letter-pair"><span class="letter-small onset">a</span></span>', "trace", "fs-lg", "描") +
-      stave('<span class="letter-pair"><span class="letter-small onset">a</span></span>', "trace", "fs-lg", "描") +
-      stave("", "write", "fs-lg", "写") +
-      foot(2, total, "练习册")
-    ));
-    pages.push(sheet("theme-leaf",
-      header("B · Circle the a sound", "野餐布上圈一圈", "/æ/") +
-      task("B", "圈出开头音是 /æ/ 的图。第一张 apple 已示范圈好。banana、computer 不要圈。", "leaf") +
-      '<div class="circle-grid">' +
-        L.workbookCircle.map(function (id, i) {
-          var item = w(id);
-          var sample = id === L.workbookCircleExample;
+    pages.push(bookSheet("",
+      bookHead("G", "Circle the picture") +
+      '<div class="bk-choose">' +
+        (L.choosePicture || []).map(function (row) {
+          var prompt = w(row.word);
           return (
-            '<div class="pic-tile t' + (i % 6) + ' circ-wrap">' +
-            (sample ? '<span class="ring sample"></span>' : "") +
-            '<img src="' + item.img + '" alt="' + item.en + '">' +
-            '<div class="lab">' + item.en + "</div>" +
+            '<div class="bk-choose-row">' +
+            '<div class="bk-choose-prompt">' + wordFaces(prompt) + "</div>" +
+            row.pics.map(function (id) {
+              var item = w(id);
+              return (
+                '<div class="bk-opt">' +
+                '<span class="bk-ring"></span>' +
+                '<img src="' + item.img + '" alt="">' +
+                "</div>"
+              );
+            }).join("") +
             "</div>"
           );
         }).join("") +
       "</div>" +
-      foot(3, total, "练习册")
+      bookFoot(8, total)
     ));
-    pages.push(sheet("",
-      header("C · Color A and a", "给字母气球涂色", "再写 Aa") +
-      task("C", "只给大写 A 和小写 a 的气球涂上喜欢的颜色。B b C c 不要涂。然后在四线格写 Aa。", "sun") +
-      '<div class="balloon-board">' +
-        letters.map(function (ch) {
-          return '<div class="balloon">' + ch + "</div>";
+    pages.push(bookSheet("",
+      bookHead("H", "Circle the word") +
+      '<div class="bk-choose is-words">' +
+        (L.chooseWord || []).map(function (row) {
+          var prompt = w(row.pic);
+          return (
+            '<div class="bk-choose-row">' +
+            '<div class="bk-choose-prompt is-pic"><img src="' + prompt.img + '" alt=""></div>' +
+            row.words.map(function (id) {
+              var item = w(id);
+              return '<div class="bk-opt is-word"><span class="bk-ring"></span>' + wordFaces(item) + "</div>";
+            }).join("") +
+            "</div>"
+          );
         }).join("") +
       "</div>" +
-      stave(staveHTML({ kind: "letter", id: "Aa" }), "trace", "fs-lg", "描") +
-      stave(staveHTML({ kind: "letter", id: "Aa" }), "trace", "fs-lg", "描") +
-      stave("", "write", "fs-lg", "写") +
-      foot(4, total, "练习册")
+      bookFoot(9, total)
+    ));
+    pages.push(bookSheet("",
+      bookHead("I", "Word maze") +
+      '<div class="bk-maze-clues">' +
+        maze.words.map(function (id) {
+          var item = w(id);
+          return '<div class="bk-maze-clue"><img src="' + item.img + '" alt="">' + wordFaces(item) + "</div>";
+        }).join("") +
+      "</div>" +
+      '<div class="bk-maze" style="grid-template-columns:repeat(' + maze.size + ',minmax(0,1fr))">' +
+        maze.grid.map(function (row) {
+          return row.split("").map(function (ch) {
+            return '<span class="bk-maze-cell">' + ch + "</span>";
+          }).join("");
+        }).join("") +
+      "</div>" +
+      bookFoot(10, total)
+    ));
+    pages.push(bookSheet("",
+      bookHead("J", "Trace and write") +
+      '<div class="bk-copy-page">' +
+        wordCopyBlock(w("apple")) +
+        wordCopyBlock(w("axe")) +
+      "</div>" +
+      bookFoot(11, total)
+    ));
+    pages.push(bookSheet("",
+      bookHead("K", "Trace and write") +
+      '<div class="bk-copy-page">' +
+        wordCopyBlock(w("ant")) +
+        wordCopyBlock(w("alligator")) +
+      "</div>" +
+      bookFoot(12, total)
+    ));
+    pages.push(bookSheet("",
+      bookHead("L", "Circle and colour") +
+      bookSection("Circle the /æ/ pictures") +
+      '<div class="bk-picnic">' +
+        L.workbookCircle.map(function (id) {
+          var item = w(id);
+          var sample = id === L.workbookCircleExample;
+          return (
+            '<div class="bk-opt is-pic' + (sample ? " is-sample" : "") + '">' +
+            '<span class="bk-ring' + (sample ? " is-sample" : "") + '"></span>' +
+            '<img src="' + item.img + '" alt="' + item.en + '">' +
+            "</div>"
+          );
+        }).join("") +
+      "</div>" +
+      bookSection("Colour A and a") +
+      '<div class="bk-balloons">' +
+        L.workbookLetters.map(function (ch) {
+          return '<div class="bk-balloon">' + ch + "</div>";
+        }).join("") +
+      "</div>" +
+      bookFoot(13, total)
     ));
     return pages.join("");
   }
@@ -557,8 +642,9 @@
       '<ul class="howto">' +
         "<li><b>冰箱配对</b> 磁贴或胶带：一边图一边词，每天吃饭前配对一次。</li>" +
         "<li><b>睡前闪卡</b> 只看图说词；隔天只看词找家里的实物（apple 可用真苹果）。</li>" +
-        "<li><b>描红作业</b> 在工坊勾选单词，导出四线格：每个词描红 3 次、独立写 3 次。</li>" +
-        "<li><b>练习册 B 答案</b> 圈 apple · alligator · axe · ant。banana、computer 不圈。</li>" +
+        "<li><b>教材描红</b> 字母在 C 页；单词在 J–K 页，每个词描一次、写两次。</li>" +
+        "<li><b>教材 L 答案</b> 圈 apple · alligator · axe · ant。banana、computer 不圈。气球只涂 A 和 a。</li>" +
+        "<li><b>教材 F 答案</b> 1–B apple · 2–D axe · 3–A ant · 4–C alligator。</li>" +
         "<li><b>Track 05 答案</b> ant Aa · bear X · apple Aa · alligator Aa · cup X · axe Aa。</li>" +
         "<li><b>分层</b> 尚未认词的孩子只玩图片与开头音；已会读的孩子拿掉图，只读单词卡。</li>" +
         "<li><b>不要依赖颜色作弊</b> 大卡没有一对一的独特底色，必须看图或读词才能配对。</li>" +
@@ -568,78 +654,6 @@
       '<div class="bubble" style="margin-top:8mm;">Hi, I\'m an angry apple!<br>Let\'s play with Aa.</div>' +
       foot(2, total, "手册")
     );
-  }
-
-  function buildCopy(ids) {
-    var catalog = copyCatalog();
-    var map = {};
-    catalog.forEach(function (item) { map[item.id] = item; });
-    var items = (ids || []).map(function (id) { return map[id]; }).filter(Boolean);
-    if (!items.length) {
-      return sheet("", header("Copy pack", "请先勾选单词", "") + "<p>没有选择单词。</p>");
-    }
-    var total = items.length + 1;
-    var cover = sheet("theme-sky",
-      header("Handwriting · Aa", "四线格抄写", "描红 ×3 · 书写 ×3") +
-      nameRow() +
-      '<p class="trace-legend"><span><i class="t"></i>浅蓝字 = 描红</span><span><i class="w"></i>空格 = 自己写</span></p>' +
-      '<div class="vocab-4">' +
-        items.map(function (item, i) { return tile(item, i, true); }).join("") +
-      "</div>" +
-      '<p style="font-size:14pt;margin-top:5mm;">每个单词一页。先描 3 次，再独立写 3 次。写字坐姿：一拳一尺一寸。边写边说单词。</p>' +
-      foot(1, total, "抄写")
-    );
-    var pages = items.map(function (item, idx) {
-      var html = staveHTML(item);
-      var fs = fsClass(item.en);
-      var traces = [1, 2, 3].map(function (n) {
-        return stave(html, "trace", fs, "描 " + n);
-      }).join("");
-      var writes = [1, 2, 3].map(function (n) {
-        return stave("", "write", fs, "写 " + n);
-      }).join("");
-      return sheet("",
-        header("Copy · " + item.en, item.zh, (idx + 2) + "/" + total) +
-        '<div class="copy-hero">' +
-          '<img src="' + item.img + '" alt="' + item.en + '">' +
-          "<div><p class=\"en\">" + onsetHTML(item) + "</p><p class=\"zh\">" + item.zh + "</p>" +
-          (item.a ? '<p class="ipa">beginning sound /æ/</p>' : "") +
-          "</div>" +
-        "</div>" +
-        '<p class="trace-legend"><span><i class="t"></i>描红 3 次</span><span><i class="w"></i>独立书写 3 次</span></p>' +
-        traces + writes +
-        foot(idx + 2, total, "抄写")
-      );
-    });
-    return cover + pages.join("");
-  }
-
-  function selectedCopyIds() {
-    return Array.prototype.slice.call(document.querySelectorAll(".copy-chip input:checked")).map(function (el) {
-      return el.value;
-    });
-  }
-
-  function renderCopyPicker() {
-    var box = $("copy-picker");
-    if (!box) return;
-    var defaults = L.copyDefaults || [];
-    box.innerHTML = copyCatalog().map(function (item) {
-      var on = defaults.indexOf(item.id) !== -1;
-      return (
-        '<label class="copy-chip' + (on ? " is-on" : "") + '">' +
-        '<input type="checkbox" value="' + item.id + '"' + (on ? " checked" : "") + ">" +
-        '<img src="' + item.img + '" alt="">' +
-        "<span>" + item.en + "</span></label>"
-      );
-    }).join("");
-    box.querySelectorAll("input").forEach(function (input) {
-      input.addEventListener("change", function () {
-        input.parentElement.classList.toggle("is-on", input.checked);
-        mountPack("copy", buildCopy(selectedCopyIds()));
-        fitSheets();
-      });
-    });
   }
 
   function mountPack(id, html) {
@@ -690,7 +704,6 @@
 
   function exportPack(id) {
     showPack(id);
-    if (id === "copy") mountPack("copy", buildCopy(selectedCopyIds()));
     waitAssets(id).then(function () {
       fitSheets();
       var el = $("pack-" + id);
@@ -702,12 +715,9 @@
   function init() {
     if (!$("print-root")) return;
     mountPack("book", buildBook());
-    mountPack("workbook", buildWorkbook());
     mountPack("games", buildGames());
     mountPack("cards", buildCards());
     mountPack("guide", buildGuide());
-    renderCopyPicker();
-    mountPack("copy", buildCopy(selectedCopyIds()));
 
     document.querySelectorAll(".tab").forEach(function (tab) {
       tab.addEventListener("click", function () {
@@ -722,28 +732,6 @@
         exportPack(btn.getAttribute("data-export"));
       });
     });
-    var all = $("btn-copy-all");
-    var vocab = $("btn-copy-vocab");
-    var none = $("btn-copy-none");
-    if (all) all.addEventListener("click", function () {
-      document.querySelectorAll(".copy-chip input").forEach(function (i) { i.checked = true; i.parentElement.classList.add("is-on"); });
-      mountPack("copy", buildCopy(selectedCopyIds()));
-      fitSheets();
-    });
-    if (vocab) vocab.addEventListener("click", function () {
-      document.querySelectorAll(".copy-chip input").forEach(function (i) {
-        var on = (L.copyDefaults || []).indexOf(i.value) !== -1;
-        i.checked = on;
-        i.parentElement.classList.toggle("is-on", on);
-      });
-      mountPack("copy", buildCopy(selectedCopyIds()));
-      fitSheets();
-    });
-    if (none) none.addEventListener("click", function () {
-      document.querySelectorAll(".copy-chip input").forEach(function (i) { i.checked = false; i.parentElement.classList.remove("is-on"); });
-      mountPack("copy", buildCopy(selectedCopyIds()));
-      fitSheets();
-    });
 
     var hash = (location.hash || "").replace("#", "");
     showPack(PACKS.indexOf(hash) !== -1 ? hash : "book");
@@ -756,9 +744,7 @@
   }
 
   global.AAPrint = {
-    exportPack: exportPack,
-    buildCopy: buildCopy,
-    copyCatalog: copyCatalog
+    exportPack: exportPack
   };
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
