@@ -55,6 +55,7 @@
         </select>
       </div>
       <button class="btn btn-indigo" id="exportBtn">导出 PDF</button>
+      <a class="btn btn-amber" id="goRead" href="read.html" style="display:none">打开文章学习</a>
     </div>
     <p class="note" id="status">正在读取本单元数据…</p>
     <p class="note" id="hint">讲义题库已预生成（语法每档 18 题）。导出时按年级随机抽取例句和语法题，避免把整本题库打进 PDF。</p>
@@ -110,10 +111,16 @@
         return out;
       }
       function syncTypeHint() {
-        var handout = document.getElementById("typeSel").value === "handout";
+        var type = document.getElementById("typeSel").value;
+        var handout = type === "handout";
         Array.prototype.forEach.call(document.querySelectorAll(".handout-only"), function (el) {
           el.style.display = handout ? "" : "none";
         });
+        var learn = document.getElementById("goRead");
+        if (learn) {
+          learn.style.display = type === "passage" ? "" : "none";
+          learn.href = "read.html?unit=" + sel.value;
+        }
       }
       document.getElementById("typeSel").onchange = syncTypeHint;
       syncTypeHint();
@@ -132,7 +139,10 @@
           statusEl.textContent = "读取失败：" + e.message;
         });
       }
-      sel.onchange = load;
+      sel.onchange = function () {
+        syncTypeHint();
+        load();
+      };
       load();
       function exportHandout() {
         if (!bag) return;
@@ -178,9 +188,18 @@
         if (t === "handout") {
           exportHandout();
         } else if (t === "passage") {
-          preview.style.display = "block";
-          preview.srcdoc = PETStudio.passageDocument(bag);
-          PETStudio.printPassage(bag);
+          setBusy(true, "正在生成封面二维码…");
+          PETStudio.passageDocument(bag).then(function (doc) {
+            preview.style.display = "block";
+            preview.srcdoc = doc;
+            return PETStudio.printPassage(bag);
+          }).then(function () {
+            statusEl.textContent = "已打开文章排版页。封面二维码指向学习页（点读 / 查词 / 结构 / 翻译）。";
+            setBusy(false);
+          }).catch(function (e) {
+            statusEl.textContent = "导出失败：" + (e.message || e);
+            setBusy(false);
+          });
         } else {
           preview.style.display = "none";
           PETStudio.printGames(bag, document.getElementById("levelSel").value);

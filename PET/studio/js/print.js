@@ -76,13 +76,23 @@
       : "";
   }
 
-  function shell(title, bodyHtml, bodyClass) {
+  function shell(title, bodyHtml, bodyClass, extra) {
+    extra = extra || {};
+    var isPassage = /\bpassage-doc\b/.test(bodyClass || "");
+    var pageCss = isPassage
+      ? "<style>body.passage-doc .sheet.pass-cover{height:265mm;max-height:265mm;min-height:0}</style>"
+      : "";
+    var learnBtn = extra.learnHref
+      ? '<a class=btn href="' + esc(extra.learnHref) + '" target=_blank rel=noopener style="background:#0d9488;color:#fff;text-decoration:none">打开学习页</a> '
+      : "";
     return "<!DOCTYPE html><html lang=zh-CN><head><meta charset=utf-8><title>" +
       esc(title) + "</title><link rel=stylesheet href=\"" + esc(absUrl("css/print.css")) + "\">" +
       '<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&family=Noto+Sans+SC:wght@500;700;900&display=swap" rel=stylesheet>' +
+      pageCss +
       "</head><body class=\"" + esc(bodyClass || "print-page") + "\">" +
       '<div class=screen-bar><div><strong>' + esc(title) + '</strong><div style="opacity:.7;font-size:12px">浏览器打印 → 另存为 PDF（建议关闭页眉页脚；配图为完整显示）</div></div>' +
-      '<div><button class=btn onclick=window.print() style="background:#4f46e5;color:#fff">导出 PDF</button> ' +
+      "<div>" + learnBtn +
+      '<button class=btn onclick=window.print() style="background:#4f46e5;color:#fff">导出 PDF</button> ' +
       '<button class=btn onclick=window.close() style="background:#e2e8f0">关闭</button></div></div>' +
       bodyHtml + "</body></html>";
   }
@@ -308,7 +318,52 @@
     return html;
   }
 
-  function passageCover(unit) {
+  var _qrLibPromise = null;
+  var _qrCache = {};
+
+  function loadQrLib() {
+    if (global.QRCode && typeof global.QRCode.toDataURL === "function") {
+      return Promise.resolve();
+    }
+    if (_qrLibPromise) return _qrLibPromise;
+    _qrLibPromise = new Promise(function (resolve, reject) {
+      var s = document.createElement("script");
+      s.src = absUrl("js/vendor/qrcode.min.js");
+      s.onload = function () {
+        if (global.QRCode && typeof global.QRCode.toDataURL === "function") resolve();
+        else reject(new Error("QR 库不可用"));
+      };
+      s.onerror = function () { reject(new Error("QR 库加载失败")); };
+      (document.head || document.documentElement).appendChild(s);
+    }).catch(function (err) {
+      _qrLibPromise = null;
+      throw err;
+    });
+    return _qrLibPromise;
+  }
+
+  function qrSrc(url) {
+    if (!url) return Promise.resolve("");
+    if (_qrCache[url]) return Promise.resolve(_qrCache[url]);
+    return loadQrLib()
+      .then(function () {
+        return global.QRCode.toDataURL(url, {
+          width: 220,
+          margin: 1,
+          errorCorrectionLevel: "M",
+          color: { dark: "#1e1b4b", light: "#ffffff" }
+        });
+      })
+      .catch(function () {
+        return PETStudio.qrImageUrl(url);
+      })
+      .then(function (data) {
+        _qrCache[url] = data;
+        return data;
+      });
+  }
+
+  function passageCover(unit, qr, learn) {
     var art = absUrl(PETStudio.articleImg(unit.id));
     return '<section class="sheet pass-cover">' +
       '<div class="pass-cover-photo">' +
@@ -316,16 +371,22 @@
         '<img src="' + esc(art) + '" alt="">' +
       "</div>" +
       '<div class="pass-cover-panel">' +
-        '<div class="kicker">S-CLASS · CLOSE READING</div>' +
-        "<h1>Unit " + unit.id + " · " + esc(unit.title) + "</h1>" +
-        "<p>" + esc(unit.subtitle) + "</p>" +
-        '<p class="pass-cover-date">Printed ' + today() + "</p>" +
+        '<div class="pass-cover-copy">' +
+          '<div class="kicker">S-CLASS · CLOSE READING</div>' +
+          "<h1>Unit " + unit.id + " · " + esc(unit.title) + "</h1>" +
+          "<p>" + esc(unit.subtitle) + "</p>" +
+          '<p class="pass-cover-date">Printed ' + today() + "</p>" +
+        "</div>" +
+        '<aside class="pass-cover-qr">' +
+          '<img src="' + esc(qr) + '" alt="扫码打开文章学习页" title="' + esc(learn) + '">' +
+          "<p>扫码点读 · 查词 · 结构 · 翻译</p>" +
+        "</aside>" +
       "</div></section>";
   }
 
-  function renderPassage(bag) {
+  function renderPassage(bag, qr, learn) {
     var u = bag.unit;
-    var html = passageCover(u);
+    var html = passageCover(u, qr, learn);
     (bag.passages || []).forEach(function (p, idx) {
       var topic = (u.topics && u.topics[idx]) || p.title || ("Passage " + (idx + 1));
       var img = absUrl(PETStudio.passageImg(u.id, idx));
@@ -339,6 +400,7 @@
             '<div class="pass-kicker">Passage ' + padNum(idx + 1) + "</div>" +
             "<h2>" + esc(topic) + "</h2>" +
             "<span>" + sents.length + " sentences</span>" +
+            '<img class="pass-mast-qr" src="' + esc(qr) + '" alt="扫码打开文章学习页" title="' + esc(learn) + '">' +
           "</header></div>" +
         '<div class="pass-body">';
       sents.forEach(function (s, i) {
@@ -538,11 +600,22 @@
     return html;
   }
 
-  function openPrint(title, html, bodyClass) {
+  function openPrint(title, html, bodyClass, extra) {
     var w = window.open("", "_blank");
     if (!w) { alert("请允许弹出窗口以导出 PDF"); return; }
-    w.document.write(shell(title, html, bodyClass));
+    w.document.write(shell(title, html, bodyClass, extra));
     w.document.close();
+  }
+
+  function passageHtml(bag, qr) {
+    var learn = PETStudio.articleLearnUrl(bag.unit.id);
+    var learnLocal = PETStudio.articleLearnUrl(bag.unit.id, { local: true });
+    return shell(
+      "PET Unit " + bag.unit.id + " 文章",
+      renderPassage(bag, qr, learn),
+      "print-page passage-doc",
+      { learnHref: learnLocal }
+    );
   }
 
   global.PETStudio.GRADE_LEVELS = GRADE_LEVELS;
@@ -552,11 +625,19 @@
   global.PETStudio.handoutDocument = function (bag) {
     return shell("PET Unit " + bag.unit.id + " 讲义", renderHandout(bag));
   };
-  global.PETStudio.printPassage = function (bag) {
-    openPrint("PET Unit " + bag.unit.id + " 文章", renderPassage(bag), "print-page passage-doc");
-  };
   global.PETStudio.passageDocument = function (bag) {
-    return shell("PET Unit " + bag.unit.id + " 文章", renderPassage(bag), "print-page passage-doc");
+    var learn = PETStudio.articleLearnUrl(bag.unit.id);
+    return qrSrc(learn).then(function (qr) {
+      return passageHtml(bag, qr);
+    });
+  };
+  global.PETStudio.printPassage = function (bag) {
+    return PETStudio.passageDocument(bag).then(function (doc) {
+      var w = window.open("", "_blank");
+      if (!w) { alert("请允许弹出窗口以导出 PDF"); return; }
+      w.document.write(doc);
+      w.document.close();
+    });
   };
   global.PETStudio.normalizePassageSentences = normalizePassageSentences;
   global.PETStudio.printGames = function (bag, level) {
