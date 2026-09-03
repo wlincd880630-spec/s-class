@@ -1,11 +1,21 @@
 (function () {
   "use strict";
   var L = window.AA_LESSON;
+  var SCORE_KEY = "aa-games-stars";
+  var GAME_ID = Number((document.body && document.body.getAttribute("data-game")) || 0) || 0;
   var score = 0;
-  var currentGame = 0;
+  try { score = Number(sessionStorage.getItem(SCORE_KEY) || 0) || 0; } catch (err) { score = 0; }
+  var currentGame = GAME_ID;
   var replayFn = null;
   var gameTimer = null;
   var gameGen = 0;
+
+  function gameFile(id) {
+    return "game-" + id + ".html";
+  }
+  function hubFile() {
+    return "games.html";
+  }
 
   function clearGameTimer() {
     if (gameTimer) {
@@ -34,10 +44,17 @@
   function word(id) { return L.words[id]; }
   function addScore(n) {
     score += n;
-    $("score-pill").textContent = "★ " + score;
+    try { sessionStorage.setItem(SCORE_KEY, String(score)); } catch (err) {}
+    var pill = $("score-pill");
+    if (pill) pill.textContent = "★ " + score;
+  }
+  function paintScore() {
+    var pill = $("score-pill");
+    if (pill) pill.textContent = "★ " + score;
   }
   function fb(text, ok) {
     var el = $("play-fb");
+    if (!el) return;
     el.textContent = text || "";
     el.className = "feedback" + (ok === true ? " ok" : ok === false ? " no" : "");
   }
@@ -105,39 +122,63 @@
     return list.length ? list : (fallback || L.vocab.slice());
   }
 
-  function showHub() {
-    gameGen += 1;
-    clearGameTimer();
-    currentGame = 0;
-    AAAudio.stop();
-    $("hub").classList.remove("hidden");
-    $("play").classList.add("hidden");
-    $("result").classList.add("hidden");
-    $("game-title").textContent = "练一练";
-    $("btn-back").href = window.ALPHABET ? ALPHABET.hubUrl(ALPHABET.letterFromPath()) : "../index.html#A";
-    $("btn-back").onclick = null;
+  function paintHub() {
+    var grid = $("hub-grid");
+    if (!grid) return;
+    grid.innerHTML = L.games.map(function (g) {
+      var n = g.id < 10 ? "0" + g.id : String(g.id);
+      return (
+        '<a class="hub-item" href="' + gameFile(g.id) + '">' +
+          '<span class="n">' + n + "</span>" +
+          "<div><strong>" + g.title + "</strong><small>" + g.desc + "</small></div>" +
+          '<span class="go">→</span>' +
+        "</a>"
+      );
+    }).join("");
   }
+
+  function paintRail() {
+    var el = $("game-rail");
+    if (!el) return;
+    var chips = [
+      '<a class="game-chip is-hub" href="' + hubFile() + '" title="游戏目录">' +
+        '<span class="n">目录</span><span class="t">练一练</span></a>'
+    ];
+    L.games.forEach(function (g) {
+      var on = g.id === GAME_ID ? " is-on" : "";
+      var n = g.id < 10 ? "0" + g.id : String(g.id);
+      chips.push(
+        '<a class="game-chip' + on + '" href="' + gameFile(g.id) + '" title="' + g.title + '"' +
+          (g.id === GAME_ID ? ' aria-current="page"' : "") + ">" +
+          '<span class="n">' + n + "</span>" +
+          '<span class="t">' + (g.short || g.title) + "</span>" +
+        "</a>"
+      );
+    });
+    el.innerHTML = chips.join("");
+  }
+
   function showResult(title, msg, again) {
     $("result-title").textContent = title;
     $("result-msg").textContent = msg;
     $("result").classList.remove("hidden");
     replayFn = again;
+    var next = $("btn-next-game");
+    if (next) {
+      var nid = currentGame >= L.games.length ? 1 : currentGame + 1;
+      var meta = L.games[nid - 1];
+      next.href = gameFile(nid);
+      next.textContent = "下一游戏 · " + (meta.short || meta.title);
+    }
   }
   function openGame(id) {
     gameGen += 1;
     clearGameTimer();
     currentGame = id;
     var meta = L.games[id - 1];
-    $("hub").classList.add("hidden");
-    $("play").classList.remove("hidden");
-    $("result").classList.add("hidden");
-    $("game-title").textContent = meta.title;
-    $("play-lead").textContent = meta.desc;
-    $("btn-back").removeAttribute("href");
-    $("btn-back").onclick = function (e) {
-      e.preventDefault();
-      showHub();
-    };
+    if ($("result")) $("result").classList.add("hidden");
+    if ($("game-title") && meta) $("game-title").textContent = meta.title;
+    if ($("play-lead") && meta) $("play-lead").textContent = meta.desc;
     fb("");
     if (id === 1) startG1();
     if (id === 2) startG2();
@@ -148,28 +189,26 @@
     if (id === 7) startG7();
   }
 
-  $("hub-grid").innerHTML = L.games.map(function (g) {
-    var n = g.id < 10 ? "0" + g.id : String(g.id);
-    return (
-      '<button type="button" class="hub-item" data-id="' + g.id + '">' +
-        '<span class="n">' + n + "</span>" +
-        "<div><strong>" + g.title + "</strong></div>" +
-        '<span class="go">→</span>' +
-      "</button>"
-    );
-  }).join("");
-  $("hub-grid").addEventListener("click", function (e) {
-    var btn = e.target.closest(".hub-item");
-    if (btn) {
-      if (window.AAAudio && AAAudio.unlock) AAAudio.unlock();
-      openGame(Number(btn.getAttribute("data-id")));
+  paintScore();
+  paintHub();
+  paintRail();
+  if ($("btn-replay")) {
+    $("btn-replay").addEventListener("click", function () {
+      $("result").classList.add("hidden");
+      if (replayFn) replayFn();
+    });
+  }
+  if (GAME_ID) {
+    if (window.AAAudio && AAAudio.unlock) {
+      document.addEventListener("pointerdown", function unlockOnce() {
+        AAAudio.unlock();
+      }, { once: true });
     }
-  });
-  $("btn-hub").addEventListener("click", showHub);
-  $("btn-replay").addEventListener("click", function () {
-    $("result").classList.add("hidden");
-    if (replayFn) replayFn();
-  });
+    window.addEventListener("pagehide", function () {
+      if (window.AAAudio) AAAudio.stop();
+    });
+    openGame(GAME_ID);
+  }
 
   function startG1() {
     var round = 0, total = 3, picked = {};

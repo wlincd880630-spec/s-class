@@ -157,6 +157,12 @@
         if (/^index$/i.test(raw)) return '目录';
         if (/^review$/i.test(raw)) return '复习';
         if (/^learn$/i.test(raw)) return '学习';
+        if (/^games$/i.test(raw)) return '练一练';
+        var gamePage = /^game-(\d+)$/.exec(raw);
+        if (gamePage) {
+            var gameNames = ['', '开头音', '听音点图', '局外人', '翻牌', 'Aa 或 X', 'Chant', '填字母'];
+            return gameNames[Number(gamePage[1])] || ('游戏 ' + gamePage[1]);
+        }
         var m = /^0?(\d{1,2})$/.exec(raw);
         if (m) return '第 ' + Number(m[1]) + ' 课';
         return raw.replace(/[_-]+/g, ' ');

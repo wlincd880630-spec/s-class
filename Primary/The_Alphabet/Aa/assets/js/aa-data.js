@@ -117,13 +117,13 @@
       ]
     },
     games: [
-      { id: 1, title: "开头音小侦探", desc: "点听单词，再选出 a 开头" },
-      { id: 2, title: "听音点图", desc: "听单词，点出图" },
-      { id: 3, title: "局外人", desc: "点听单词，找出不是 a 开头的图" },
-      { id: 4, title: "翻牌配对", desc: "先记位置，再配对" },
-      { id: 5, title: "写 Aa 还是 ✗", desc: "听完选 Aa 或打叉" },
-      { id: 6, title: "Chant 排队", desc: "按歌曲顺序排队" },
-      { id: 7, title: "填首字母", desc: "看图听音，填开头字母" }
+      { id: 1, title: "开头音小侦探", short: "开头音", desc: "点听单词，再选出 a 开头" },
+      { id: 2, title: "听音点图", short: "听音", desc: "听单词，点出图" },
+      { id: 3, title: "局外人", short: "局外人", desc: "点听单词，找出不是 a 开头的图" },
+      { id: 4, title: "翻牌配对", short: "翻牌", desc: "先记位置，再配对" },
+      { id: 5, title: "写 Aa 还是 ✗", short: "Aa / ✗", desc: "听完选 Aa 或打叉" },
+      { id: 6, title: "Chant 排队", short: "Chant", desc: "按歌曲顺序排队" },
+      { id: 7, title: "填首字母", short: "填字母", desc: "看图听音，填开头字母" }
     ]
   };
 })(window);
