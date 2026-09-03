@@ -744,15 +744,15 @@
     var html = '<div class="play-shell" id="spellGroupDone">' + hud() +
       '<div class=q-box>' + title + "</div>" +
       '<p class="note">已测 ' + spellSeenCount() + " / " + state.spellTotal +
-      (allDone ? "" : " · 还剩 " + left + " 个词") + "</p>" +
-      spellMissHtml();
+      (allDone ? "" : " · 还剩 " + left + " 个词") + "</p>";
     if (!allDone) {
       html += '<div class="field"><label>下一组数量</label></div>' + spellSizePicksHtml() +
         '<button class="btn btn-indigo" id="spellNextGroup">开始（' + take + " 词）</button> ";
     } else {
       html += '<button class="btn btn-indigo" id="spellRestart">全部重测</button> ';
     }
-    html += '<button class="btn btn-ghost" id="backGames">返回游戏列表</button></div>';
+    html += '<button class="btn btn-ghost" id="backGames">返回游戏列表</button>' +
+      spellMissHtml() + "</div>";
     $("playRoot").innerHTML = html;
     bindSpellSizePicks(showSpellGroupDone);
     if ($("spellNextGroup")) $("spellNextGroup").onclick = beginSpellBatch;
