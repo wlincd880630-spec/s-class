@@ -233,7 +233,7 @@
       family: HAND,
       weight: "400",
       align: center ? "center" : "left",
-      startDot: model
+      startDot: false
     });
     if (ok) line.classList.add("is-fitted");
   }
