@@ -102,8 +102,42 @@
     return t ? t.split(" ").length : 0;
   }
 
+  function ensureJumpFold(host) {
+    if (!host) return null;
+    var fold = host.closest(".word-jump-fold");
+    if (fold) return fold;
+    fold = document.createElement("details");
+    fold.className = "word-jump-fold";
+    fold.id = "wJumpFold";
+    var summary = document.createElement("summary");
+    summary.className = "word-jump-summary";
+    summary.textContent = "单词列表";
+    var parent = host.parentNode;
+    if (!parent) return null;
+    parent.insertBefore(fold, host);
+    fold.appendChild(summary);
+    fold.appendChild(host);
+    var prev = fold.previousElementSibling;
+    if (prev && prev.tagName === "H2") prev.remove();
+    return fold;
+  }
+
+  function updateJumpSummary(fold, words, currentIndex) {
+    if (!fold) return;
+    var summary = fold.querySelector("summary");
+    if (!summary) return;
+    var list = words || [];
+    var w = list[currentIndex];
+    var parts = ["单词列表"];
+    if (w && w.key) parts.push(w.key);
+    if (list.length) parts.push((currentIndex + 1) + "/" + list.length);
+    summary.textContent = parts.join(" · ");
+  }
+
   function renderJumpList(host, words, currentIndex, onPick) {
     if (!host) return;
+    var fold = ensureJumpFold(host);
+    updateJumpSummary(fold, words, currentIndex);
     host.innerHTML = "";
     host.setAttribute("role", "navigation");
     host.setAttribute("aria-label", "单词列表");
@@ -115,6 +149,7 @@
       b.innerHTML = "<span>" + w.key + "</span><span class=\"zh\">" + (w.zh || "") + "</span>";
       b.title = "跳到 " + w.key + (w.zh ? " / " + w.zh : "");
       b.addEventListener("click", function () {
+        if (fold) fold.open = false;
         if (typeof onPick === "function") onPick(i);
       });
       host.appendChild(b);

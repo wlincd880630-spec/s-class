@@ -270,7 +270,7 @@
         var link = document.createElement('link');
         link.id = 'sclass-page-nav-css';
         link.rel = 'stylesheet';
-        link.href = root + 'styles/s-class-page-nav.css?v=5';
+        link.href = root + 'styles/s-class-page-nav.css?v=6';
         document.head.appendChild(link);
     }
 
@@ -293,6 +293,12 @@
             'html.sclass-has-page-nav body:has(> .app){justify-content:flex-start;align-items:center;' +
             'padding-top:0!important;--ng-back-hub-h:0px;overflow-x:hidden!important;overflow-y:auto!important;' +
             'height:auto!important;max-height:none!important}' +
+            '@media (pointer:fine) and (min-width:821px),(min-width:1025px){' +
+            'html.sclass-has-page-nav body:has(> .app):has(.word-study-wrap){align-items:stretch!important;' +
+            'height:100dvh!important;max-height:100dvh!important;overflow:hidden!important}' +
+            'html.sclass-has-page-nav body:has(> .app):has(.word-study-wrap)>.app{width:100%!important;' +
+            'max-width:none!important;flex:1 1 auto!important;height:auto!important;min-height:0!important;' +
+            'max-height:none!important;aspect-ratio:auto!important;margin:0!important}}' +
             'html.sclass-has-page-nav body.deck{justify-content:flex-start;align-items:stretch}' +
             '.sclass-page-nav-back{display:inline-flex;align-items:center;gap:6px;flex-shrink:0;' +
             'min-height:32px;padding:4px 12px 4px 10px;border-radius:999px;border:1px solid rgba(15,23,42,.1);' +
