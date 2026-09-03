@@ -27,7 +27,7 @@
 | **首页** | `index.html` | 登录门 + 各板块入口，右上角显示「Hi, 用户名 · 欢迎回来」 |
 | **AEIS** | `AEIS/P01/` ~ `P34/` | 新加坡政府学校备考词汇（P6 词汇练习 + 测验 + 苏格拉底问答），每套含 `index.html` + `review.html` |
 | **PET 词汇实验室** | `PET/01/` ~ `36/` | 每课 Vocabulary → Phrases → Grammar 多步骤任务；另有 `Unit*_passage`、`Unit*_summary`（Unit1–18） |
-| **PET 讲义与游戏** | `PET/studio/` | 各单元单词/词组/语法/文章彩色 PDF；九种分层复习游戏；DeepSeek 加题与纸质卷 |
+| **PET 讲义与游戏** | `PET/studio/` | 各单元独立导出讲义/文章 PDF 与复习游戏；跨单元混合游戏可多选目标词 |
 | **PET 模考** | `PET-exam/` | 剑桥 Preliminary 模考入口，Listening/Reading 独立 player |
 | **雅思模考** | `IELTS-exam/` | 剑桥雅思听力等资源（含 11–19 系列） |
 | **FU2** | `FU2/` | 二年级单元：词汇学习、Fitz Cahall 访谈专题（视频任务、词汇复习等） |
@@ -133,8 +133,7 @@ npm install
 | `emailjs-template-guide.html` | 邮件模板变量说明（如 `{{student_name}}`、`{{content_name}}`）。 |
 | `pet-speech-helper.js` | PET 词汇课用：Azure TTS/STT + 浏览器回退（`PetSpeech.playTTS` / `createRecognizer`）。 |
 | `pet-vocab-enhance.js` | PET 词汇课 01–36：Step 2 完整出图、Step 3/7 点词查读（DeepSeek + Azure）、键盘输入查词/拼写。 |
-| `PET/studio/` | 各单元单词/词组/语法/文章彩色 PDF、九种分层复习游戏、DeepSeek 加题与纸质卷。 |
-| `PET/studio/` | 讲义/文章/复习卷 PDF 与九种分层游戏；入口 `PET/studio/index.html`。 |
+| `PET/studio/` | 各单元讲义/文章 PDF 与九种游戏；`index.html` 为跨单元混合选词游戏。 |
 | `pet-passage-speech.js` | PET Unit*_passage 用：`azureSpeak` / `azureRecognizeOnce`，Azure 不可用时回退浏览器。 |
 | `TTS-STT-评价检查清单.md` | TTS/STT/翻译·发音评价 各模块接入状态与核对说明。 |
 

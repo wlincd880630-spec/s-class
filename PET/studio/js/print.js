@@ -641,7 +641,10 @@
   };
   global.PETStudio.normalizePassageSentences = normalizePassageSentences;
   global.PETStudio.printGames = function (bag, level) {
-    openPrint("PET Unit " + bag.unit.id + " 复习卷", renderGamesPaper(bag, level || "standard"));
+    var title = bag.unit && bag.unit.mix
+      ? "PET 跨单元混合复习卷"
+      : "PET Unit " + bag.unit.id + " 复习卷";
+    openPrint(title, renderGamesPaper(bag, level || "standard"));
   };
   global.PETStudio.buildPaperQs = buildPaperQs;
 })(window);

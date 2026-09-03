@@ -4,67 +4,69 @@
   <script src="../../scripts/auth-check.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PET 讲义与复习工作室 | S-Class</title>
+  <title>PET 跨单元复习游戏 | S-Class</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&family=Noto+Sans+SC:wght@500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/studio.css">
-<script src="../../scripts/site-nav.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js"></script>
+  <script src="../../scripts/pet-speech-helper.js"></script>
+  <script src="../../scripts/site-nav.js" defer></script>
 </head>
-<body class="studio">
+<body class="studio mix">
   <div class="wrap">
     <div class="topbar">
-      <a class="back" href="../index.html">← 返回 PET 课程</a>
+      <a class="back" href="../index.html">← PET 课程</a>
     </div>
     <section class="hero">
       <div class="hero-copy">
-        <div class="kicker">PET Practice Studio</div>
-        <h1>精美讲义 PDF · 文章点读学习 · 九种分层复习游戏</h1>
-        <p>单词 / 词组 / 语法讲义已预先生好：可多选初一到高三例句与语法练习级别；词卡含中文用法和词性家族。文章可网页点读、查词、看结构与翻译，PDF 封面带学习页二维码。</p>
+        <div class="kicker">Mixed Review</div>
+        <h1 id="unitTitle">跨单元混合复习</h1>
+        <p>勾选多个单元，再点选要练的单词 / 词组，用同一套九种游戏混合复习。各单元讲义 PDF、文章 PDF 请在 PET 课程页对应单元里导出。</p>
       </div>
-      <img src="img/hub-hero.jpg" alt="PET 工作室">
+      <img src="img/hub-hero.jpg" alt="">
     </section>
-    <div class="toolbar">
-      <div class="field">
-        <label>选择单元</label>
-        <select id="unitSel"></select>
+
+    <div id="pickerPanel">
+      <div class="toolbar mix-bar">
+        <button class="btn btn-ghost" type="button" id="allUnits">全选单元</button>
+        <button class="btn btn-ghost" type="button" id="noUnits">取消单元</button>
+        <button class="btn btn-ghost" type="button" id="selVisible">全选当前列表</button>
+        <button class="btn btn-ghost" type="button" id="clearSel">清空已选词</button>
+        <span class="hint" id="mixCount">已选 0 个单词 · 0 个词组</span>
+        <button class="btn btn-teal" type="button" id="startMix" disabled>至少再选 4 个词</button>
       </div>
-      <a class="btn btn-indigo" id="goPrint">单词 / 词组 / 语法 PDF</a>
-      <a class="btn btn-amber" id="goRead">文章学习</a>
-      <a class="btn btn-rose" id="goPass">文章 PDF</a>
-      <a class="btn btn-teal" id="goGames">九种复习游戏</a>
-      <a class="btn btn-ghost" id="goPaper">游戏纸质卷 PDF</a>
+      <p class="note" id="mixStatus">勾选单元，再点选要练的单词 / 词组。</p>
+      <div class="mix-chips" id="unitChips"></div>
+      <div class="mix-filter">
+        <input id="mixSearch" type="search" placeholder="搜索单词 / 中文 / 单元">
+        <button type="button" class="kind-btn on" data-kind="all">全部</button>
+        <button type="button" class="kind-btn" data-kind="vocab">单词</button>
+        <button type="button" class="kind-btn" data-kind="phrase">词组</button>
+      </div>
+      <div class="mix-list" id="wordList"></div>
     </div>
-    <h2 style="margin:8px 0 12px">18 个单元</h2>
-    <div class="unit-grid" id="units"></div>
+
+    <div id="playPanel" hidden>
+      <div class="toolbar">
+        <button class="btn btn-ghost" type="button" id="editMix">改选单词</button>
+        <div class="field"><label>难度分层</label>
+          <select id="levelSel">
+            <option value="easy">基础 Easy</option>
+            <option value="standard" selected>标准 Standard</option>
+            <option value="challenge">挑战 Challenge</option>
+          </select>
+        </div>
+        <button class="btn btn-indigo" id="printGamesBtn">导出纸质复习卷</button>
+        <button class="btn btn-rose" id="aiPaperBtn">DeepSeek 加题卷</button>
+      </div>
+      <div id="playRoot"></div>
+    </div>
   </div>
   <script src="js/catalog.js"></script>
-  <script>
-    (function () {
-      var sel = document.getElementById("unitSel");
-      var box = document.getElementById("units");
-      PETStudio.UNITS.forEach(function (u) {
-        var o = document.createElement("option");
-        o.value = u.id;
-        o.textContent = "Unit " + u.id + " · " + u.title;
-        sel.appendChild(o);
-        var a = document.createElement("a");
-        a.className = "unit-chip";
-        a.href = "games.html?unit=" + u.id;
-        a.innerHTML = "<strong>Unit " + u.id + "</strong><span>" + u.subtitle + "</span>";
-        box.appendChild(a);
-      });
-      var q = PETStudio.parseQuery();
-      if (q.unit) sel.value = q.unit;
-      function hrefs() {
-        var u = sel.value;
-        document.getElementById("goPrint").href = "print.html?type=handout&unit=" + u;
-        document.getElementById("goRead").href = "read.html?unit=" + u;
-        document.getElementById("goPass").href = "print.html?type=passage&unit=" + u;
-        document.getElementById("goGames").href = "games.html?unit=" + u;
-        document.getElementById("goPaper").href = "print.html?type=games&unit=" + u + "&level=standard";
-      }
-      sel.onchange = hrefs;
-      hrefs();
-    })();
-  </script>
+  <script src="js/loader.js"></script>
+  <script src="js/usage-format.js"></script>
+  <script src="js/print.js"></script>
+  <script src="js/ai.js"></script>
+  <script src="js/games.js"></script>
+  <script src="js/mix.js"></script>
 </body>
 </html>

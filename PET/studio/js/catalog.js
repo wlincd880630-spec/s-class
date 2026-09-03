@@ -57,7 +57,9 @@
   }
 
   function articleImg(unitId) {
-    return "img/article-u" + pad2(unitId) + ".jpg";
+    var n = Number(unitId);
+    if (!n) return "img/hub-hero.jpg";
+    return "img/article-u" + pad2(n) + ".jpg";
   }
 
   function passageImg(unitId, passIdx) {
