@@ -106,7 +106,8 @@ def download(url: str, dest: str):
             "-i",
             tmp,
             "-vf",
-            "scale=1280:960:force_original_aspect_ratio=increase,crop=1280:960",
+            # Top-center crop keeps penguin heads visible in 4:3 frames.
+            "scale=1280:960:force_original_aspect_ratio=increase,crop=1280:960:(iw-1280)/2:0",
             "-q:v",
             "3",
             dest,
