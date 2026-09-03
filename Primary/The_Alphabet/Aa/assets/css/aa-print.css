@@ -770,10 +770,19 @@
   margin-top: 7mm;
   padding-top: 3.5mm;
   font-size: 8.5pt;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-transform: none;
   color: #6f6a63;
   flex-shrink: 0;
+}
+.pack-book .bk-foot-meta b {
+  font-weight: 700;
+  color: #1b1916;
+  letter-spacing: 0.02em;
+}
+.pack-book .bk-foot-page {
+  letter-spacing: 0.12em;
+  font-variant-numeric: tabular-nums;
 }
 .pack-book .bk-head {
   display: flex;
@@ -831,6 +840,15 @@
   font-weight: 500;
   line-height: 0.88;
   letter-spacing: -0.045em;
+  color: #1b1916;
+}
+.pack-book .bk-display-hand {
+  margin: 2mm 0 0;
+  font-family: "Patrick Hand", "ZCOOL KuaiLe", cursive;
+  font-size: 42pt;
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: 0.02em;
   color: #1b1916;
 }
 .pack-book .bk-phrase {
@@ -921,17 +939,48 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2mm;
+  gap: 3mm;
   min-height: 0;
   background: #fff;
   border: 0.4pt solid #d7d0c4;
+  padding: 4mm 3mm;
 }
-.pack-book .bk-letter .pair {
+.pack-book .bk-faces {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3mm;
+  width: 100%;
+  align-items: end;
+}
+.pack-book .bk-face {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5mm;
+  min-width: 0;
+}
+.pack-book .bk-face .face-lab {
+  margin: 0;
+  font-family: "Source Sans 3", sans-serif;
+  font-size: 7pt;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #8a847c;
+  font-weight: 600;
+}
+.pack-book .bk-face.is-print .pair {
   font-family: "Fraunces", Georgia, "Times New Roman", serif;
-  font-size: 64pt;
+  font-size: 42pt;
   font-weight: 500;
-  line-height: 0.88;
-  letter-spacing: -0.045em;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+}
+.pack-book .bk-face.is-hand .pair {
+  font-family: "Patrick Hand", "ZCOOL KuaiLe", cursive;
+  font-size: 46pt;
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: 0.02em;
 }
 .pack-book .bk-letter .ipa {
   font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
@@ -960,10 +1009,30 @@
 }
 .pack-book .pic-tile .lab,
 .pack-book .tile .lab {
-  font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
-  font-size: 14pt;
-  margin-top: 2mm;
+  margin-top: 2.5mm;
   color: #1b1916;
+}
+.pack-book .lab-faces {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4mm;
+}
+.pack-book .lab-print {
+  font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
+  font-size: 22pt;
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+}
+.pack-book .lab-hand {
+  font-family: "Patrick Hand", "ZCOOL KuaiLe", cursive;
+  font-size: 28pt;
+  line-height: 1.05;
+  letter-spacing: 0.03em;
+}
+.pack-book .lab-print .rest,
+.pack-book .lab-hand .rest {
+  color: #4a4540;
 }
 .pack-book .onset { color: #9b2335; }
 .pack-book .model-title,
@@ -1042,6 +1111,259 @@
   object-fit: contain;
 }
 
+.pack-book .bk-section {
+  margin: 0 0 3mm;
+  font-family: "Source Sans 3", sans-serif;
+  font-size: 9pt;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #8a847c;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.pack-book .bk-match {
+  flex: 1 1 0;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr 14mm 1fr;
+  gap: 4mm;
+  align-items: stretch;
+}
+.pack-book .bk-match-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4mm;
+  min-height: 0;
+}
+.pack-book .bk-match-row {
+  flex: 1 1 0;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 9mm 1fr;
+  gap: 3mm;
+  align-items: center;
+  background: #fff;
+  border: 0.4pt solid #d7d0c4;
+  padding: 3mm 4mm;
+}
+.pack-book .bk-match-row b {
+  font-family: "Source Serif 4", Georgia, serif;
+  font-size: 13pt;
+  font-weight: 600;
+  color: #9b2335;
+  text-align: center;
+}
+.pack-book .bk-match-row img {
+  width: 100%;
+  height: 100%;
+  max-height: 38mm;
+  object-fit: contain;
+  display: block;
+}
+.pack-book .bk-match-row .lab-print { font-size: 16pt; }
+.pack-book .bk-match-row .lab-hand { font-size: 20pt; }
+.pack-book .bk-match-mid {
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 6.5mm,
+    #d7d0c4 6.5mm 6.8mm
+  );
+  opacity: 0.85;
+}
+
+.pack-book .bk-choose {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4mm;
+}
+.pack-book .bk-choose-row {
+  flex: 1 1 0;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 46mm 1fr 1fr 1fr;
+  gap: 3.5mm;
+  align-items: stretch;
+}
+.pack-book .bk-choose-prompt,
+.pack-book .bk-opt {
+  position: relative;
+  background: #fff;
+  border: 0.4pt solid #d7d0c4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3mm;
+  min-height: 0;
+}
+.pack-book .bk-choose-prompt .lab-print { font-size: 16pt; }
+.pack-book .bk-choose-prompt .lab-hand { font-size: 20pt; }
+.pack-book .bk-choose-prompt.is-pic img,
+.pack-book .bk-opt img {
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.pack-book .bk-opt.is-word .lab-print { font-size: 14pt; }
+.pack-book .bk-opt.is-word .lab-hand { font-size: 18pt; }
+.pack-book .bk-ring {
+  position: absolute;
+  inset: 1.5mm;
+  border: 0.5pt dashed #cfc6b6;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+}
+.pack-book .bk-ring.is-sample {
+  border: 1.1pt solid #9b2335;
+  border-style: dashed;
+}
+
+.pack-book .bk-maze-clues {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3mm;
+  margin: 0 0 5mm;
+  flex-shrink: 0;
+}
+.pack-book .bk-maze-clue {
+  background: #fff;
+  border: 0.4pt solid #d7d0c4;
+  padding: 2.5mm 2mm;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5mm;
+}
+.pack-book .bk-maze-clue img {
+  height: 22mm;
+  object-fit: contain;
+}
+.pack-book .bk-maze-clue .lab-print { font-size: 11pt; }
+.pack-book .bk-maze-clue .lab-hand { font-size: 14pt; }
+.pack-book .bk-maze {
+  flex: 1 1 0;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: repeat(10, 1fr);
+  gap: 0;
+  border: 0.4pt solid #d7d0c4;
+  background: #fff;
+  align-content: stretch;
+}
+.pack-book .bk-maze-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
+  font-size: 13pt;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #1b1916;
+  border-right: 0.3pt solid #e6e1d6;
+  border-bottom: 0.3pt solid #e6e1d6;
+}
+
+.pack-book .bk-copy-page {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5mm;
+}
+.pack-book .bk-copy-item {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2mm;
+}
+.pack-book .bk-copy-meta {
+  display: grid;
+  grid-template-columns: 28mm 1fr;
+  gap: 4mm;
+  align-items: center;
+  background: #fff;
+  border: 0.4pt solid #d7d0c4;
+  padding: 2.5mm 4mm;
+  flex-shrink: 0;
+}
+.pack-book .bk-copy-meta img {
+  height: 22mm;
+  width: 100%;
+  object-fit: contain;
+}
+.pack-book .bk-copy-meta .lab-faces {
+  align-items: flex-start;
+}
+.pack-book .bk-copy-meta .lab-print { font-size: 18pt; }
+.pack-book .bk-copy-meta .lab-hand { font-size: 22pt; }
+.pack-book .bk-copy-item .stave-line {
+  flex: 1 1 0;
+  --row-h: 22mm;
+  height: auto;
+  min-height: 20mm;
+  max-height: none;
+  margin: 0;
+}
+
+.pack-book .bk-picnic {
+  flex: 1 1 0;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 4mm;
+  padding: 5mm;
+  margin: 0 0 5mm;
+  background:
+    repeating-conic-gradient(#efe9dc 0% 25%, #f7f3ea 0% 50%)
+    50% / 12mm 12mm;
+  border: 0.4pt solid #d7d0c4;
+}
+.pack-book .bk-picnic .bk-opt {
+  background: #fff;
+}
+.pack-book .bk-picnic .bk-opt img {
+  max-height: 36mm;
+}
+.pack-book .bk-balloons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 9mm 5mm;
+  flex: 0 0 auto;
+  padding: 2mm 2mm 7mm;
+}
+.pack-book .bk-balloon {
+  aspect-ratio: 0.78;
+  max-height: 34mm;
+  border-radius: 50% 50% 50% 50% / 42% 42% 58% 58%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 22pt;
+  font-weight: 500;
+  color: #1b1916;
+  background: #fff;
+  border: 0.7pt solid #8a847c;
+  position: relative;
+}
+.pack-book .bk-balloon::after {
+  content: "";
+  position: absolute;
+  bottom: -5mm;
+  width: 0;
+  height: 5mm;
+  border-left: 0.5pt solid #b7b1a6;
+}
+
 .letter-stage {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1104,9 +1426,7 @@
   .print-root { padding: 0; }
   .pack { display: none !important; }
   body[data-pack="book"] .pack-book,
-  body[data-pack="workbook"] .pack-workbook,
   body[data-pack="games"] .pack-games,
-  body[data-pack="copy"] .pack-copy,
   body[data-pack="cards"] .pack-cards,
   body[data-pack="guide"] .pack-guide {
     display: block !important;
