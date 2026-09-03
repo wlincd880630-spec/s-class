@@ -208,6 +208,22 @@
     );
   }
 
+  function coverHeroHtml(cfg) {
+    var candidates = storyImgCandidates(cfg.mediaCos, 0, cfg);
+    var src = (candidates && candidates[0]) || "";
+    var rest = candidates && candidates.length > 1 ? candidates.slice(1).join("|") : "";
+    var emoji = esc(cfg.emoji || "📖");
+    return (
+      '<div class="cover-hero" aria-hidden="true">' +
+      '<img class="cover-hero-img" src="' + esc(src) + '" alt=""' +
+      (rest ? ' data-fallbacks="' + esc(rest) + '"' : "") +
+      ' onerror="window.NgStoryPrint&&NgStoryPrint.imgError(this)">' +
+      '<div class="cover-hero-fallback">' + emoji + "</div>" +
+      '<div class="cover-scrim"></div>' +
+      "</div>"
+    );
+  }
+
   /**
    * 与课件金字塔朗读相同：There → There are → There are many …
    * PDF 用静态层，不带播放按钮和「点每一层朗读」说明。
@@ -326,13 +342,20 @@
   }
 
   function coverHtml(cfg) {
+    var kicker = esc(cfg.coverKicker || "Leveled Reader");
     return (
       '<section class="story-print-sheet story-print-cover">' +
-      '<div class="cover-frame" aria-hidden="true"></div>' +
+      coverHeroHtml(cfg) +
       '<div class="story-print-inner">' +
-      '<span class="ng-mark" aria-hidden="true"></span>' +
+      '<div class="cover-copy">' +
+      '<p class="cover-kicker">' + kicker + "</p>" +
       "<h2>" + esc(cfg.title) + "</h2>" +
+      '<p class="cover-tag">Story Book</p>' +
+      "</div>" +
+      '<div class="cover-footer">' +
+      '<p class="cover-hint">Scan to open this lesson</p>' +
       qrHtml(storyLearnUrl(cfg, 1), "story-qr--cover", "微信扫码 · 学课文") +
+      "</div>" +
       "</div></section>"
     );
   }
@@ -380,7 +403,9 @@
   }
 
   function preloadImages(root) {
-    var imgs = root ? [].slice.call(root.querySelectorAll(".story-polaroid img")) : [];
+    var imgs = root
+      ? [].slice.call(root.querySelectorAll(".story-polaroid img, .cover-hero-img"))
+      : [];
     if (!imgs.length) return Promise.resolve();
     return Promise.all(imgs.map(waitForImg));
   }
