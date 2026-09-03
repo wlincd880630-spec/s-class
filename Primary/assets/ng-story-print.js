@@ -78,12 +78,117 @@
     );
   }
 
+  /**
+   * 与课件金字塔朗读相同：There → There are → There are many …
+   * PDF 用静态层，不带播放按钮和「点每一层朗读」说明。
+   */
+  function pyramidLayers(sentence) {
+    var raw = String(sentence || "").trim();
+    var endPunct = "";
+    var m = raw.match(/([.!?]+)$/);
+    if (m) {
+      endPunct = m[1];
+      raw = raw.slice(0, -endPunct.length).trim();
+    }
+    var words = raw.split(/\s+/).filter(Boolean);
+    if (!words.length) {
+      return [{ text: String(sentence || ""), newWord: String(sentence || "") }];
+    }
+    return words.map(function (w, i) {
+      var text = words.slice(0, i + 1).join(" ");
+      if (i === words.length - 1) text += endPunct;
+      return { text: text, newWord: String(w).replace(/[.,;:!?]+$/g, "") };
+    });
+  }
+
+  function pyramidLayerInner(ly) {
+    var text = String(ly.text || "");
+    var punct = "";
+    var m = text.match(/([.,!?]+)$/);
+    if (m) {
+      punct = m[1];
+      text = text.slice(0, -punct.length);
+    }
+    var parts = text.split(/\s+/).filter(Boolean);
+    var last = parts.pop() || "";
+    var old = parts.join(" ");
+    return (old ? '<span class="py-old">' + esc(old) + " </span>" : "") +
+      '<span class="py-new">' + esc(last) + "</span>" +
+      (punct ? '<span class="py-old">' + esc(punct) + "</span>" : "");
+  }
+
+  function pyramidSizeClass(n) {
+    if (n <= 3) return "short";
+    if (n <= 6) return "mid";
+    if (n <= 9) return "long";
+    if (n <= 14) return "xl";
+    if (n <= 22) return "xxl";
+    return "mega";
+  }
+
+  function splitSentences(en) {
+    var raw = String(en || "").trim();
+    if (!raw) return [];
+    var parts = raw.match(/[^.!?]+[.!?]+(?:["'”’])?|[^.!?]+$/g);
+    if (!parts) return [raw];
+    return parts.map(function (s) { return s.trim(); }).filter(Boolean);
+  }
+
+  function countWords(s) {
+    return String(s || "").trim().split(/\s+/).filter(Boolean).length;
+  }
+
+  function wordPyramidRows(list) {
+    var n = Math.max(list.length, 1);
+    return list.map(function (ly, i) {
+      var pct = n === 1 ? 72 : 38 + Math.round((i / (n - 1)) * 62);
+      return (
+        '<div class="py-print-layer" style="--py-w:' + pct + '%">' +
+        '<span class="py-idx">' + (i + 1) + "</span>" +
+        '<span class="py-text">' + pyramidLayerInner(ly) + "</span>" +
+        "</div>"
+      );
+    }).join("");
+  }
+
+  function sentencePyramidRows(sentences) {
+    var n = Math.max(sentences.length, 1);
+    return sentences.map(function (sent, i) {
+      var old = sentences.slice(0, i).join(" ");
+      var inner = (old ? '<span class="py-old">' + esc(old) + " </span>" : "") +
+        '<span class="py-new">' + esc(sent) + "</span>";
+      return (
+        '<div class="py-print-layer" style="--py-w:100%">' +
+        '<span class="py-idx">' + (i + 1) + "</span>" +
+        '<span class="py-text">' + inner + "</span>" +
+        "</div>"
+      );
+    }).join("");
+  }
+
+  function pyramidHtml(en) {
+    var sentences = splitSentences(en);
+    var nWords = countWords(en);
+    var useSent = nWords > 14 && sentences.length >= 2;
+    var list = useSent ? sentences : pyramidLayers(en);
+    var n = Math.max(list.length, 1);
+    var size = useSent ? "sent" : pyramidSizeClass(n);
+    var rows = useSent ? sentencePyramidRows(sentences) : wordPyramidRows(list);
+    return (
+      '<div class="story-pyramid-print pyramid-print--' + size +
+      (useSent ? " pyramid-print--sent" : "") +
+      '" data-layers="' + n + '" role="group" aria-label="金字塔朗读">' +
+      rows +
+      "</div>"
+    );
+  }
+
   function textBlockHtml(row, index, showZh) {
     var zhCls = showZh ? "story-zh" : "story-zh is-hidden";
     return (
       '<div class="story-text-block">' +
       '<span class="story-num-badge">#' + (index + 1) + "</span>" +
-      '<p class="story-en">' + esc(row.en) + "</p>" +
+      pyramidHtml(row.en) +
       '<div class="story-divider"></div>' +
       '<p class="' + zhCls + '">' + esc(row.zh) + "</p>" +
       "</div>"
@@ -91,22 +196,13 @@
   }
 
   function coverHtml(cfg) {
-    var count = cfg.story.length;
     return (
       '<section class="story-print-sheet story-print-cover">' +
       '<div class="cover-frame" aria-hidden="true"></div>' +
       '<div class="story-print-inner">' +
       '<span class="ng-mark" aria-hidden="true"></span>' +
-      '<p class="cover-tag">National Geographic · Level 1</p>' +
       "<h2>" + esc(cfg.title) + "</h2>" +
-      '<p class="cover-sub">课文阅读 · 双语对照</p>' +
-      '<p class="cover-desc">' +
-      esc(cfg.subtitle || "国家地理分级阅读") +
-      " · 共 " + count + " 句 · 配图 + 英文 + 中文翻译</p>" +
-      '<div class="cover-meta">' +
-      "<span>📖 " + count + " 页课文</span>" +
-      "<span>🌏 EN + 中文</span>" +
-      "</div></div></section>"
+      "</div></section>"
     );
   }
 
@@ -123,60 +219,16 @@
       polaroidHtml(imgs, cfg.emoji) +
       "</div>" +
       textBlockHtml(row, index, cfg.showZh !== false) +
-      '<footer class="story-page-footer">National Geographic Style · ' +
-      esc(cfg.title) +
-      "</footer></div></section>"
-    );
-  }
-
-  function doublePageHtml(cfg, rows, indices, pageLabel) {
-    var blocks = "";
-    for (var i = 0; i < rows.length; i++) {
-      var idx = indices[i];
-      var imgs = storyImgCandidates(cfg.mediaCos, idx, cfg);
-      blocks +=
-        '<div class="story-block">' +
-        '<div class="story-art-wrap">' +
-        polaroidHtml(imgs, cfg.emoji) +
-        "</div>" +
-        textBlockHtml(rows[i], idx, cfg.showZh !== false) +
-        "</div>";
-    }
-    return (
-      '<section class="story-print-sheet story-print-sheet--double">' +
-      '<div class="story-print-inner">' +
-      '<header class="story-page-hdr">' +
-      '<span class="book-name">' + esc(cfg.title) + "</span>" +
-      '<span class="page-num">' + esc(pageLabel) + "</span>" +
-      "</header>" +
-      '<div class="story-double-grid">' +
-      blocks +
-      "</div>" +
-      '<footer class="story-page-footer">National Geographic Style · ' +
-      esc(cfg.title) +
-      "</footer></div></section>"
+      "</div></section>"
     );
   }
 
   function buildAll(cfg) {
     var html = coverHtml(cfg);
     var story = cfg.story || [];
-    var perPage = cfg.perPage === 2 ? 2 : 1;
-    var contentPage = 0;
-
-    if (perPage === 1) {
-      story.forEach(function (row, i) {
-        contentPage++;
-        html += singlePageHtml(cfg, row, i, "第 " + contentPage + " 页");
-      });
-    } else {
-      for (var i = 0; i < story.length; i += 2) {
-        contentPage++;
-        var chunk = story.slice(i, i + 2);
-        var idxs = chunk.map(function (_, j) { return i + j; });
-        html += doublePageHtml(cfg, chunk, idxs, "第 " + contentPage + " 页");
-      }
-    }
+    story.forEach(function (row, i) {
+      html += singlePageHtml(cfg, row, i, "第 " + (i + 1) + " 页");
+    });
     return html;
   }
 
@@ -205,6 +257,30 @@
     [].forEach.call(area.querySelectorAll(".story-print-sheet"), function (el) {
       el.style.transform = "";
       el.style.marginBottom = "";
+    });
+  }
+
+  function fitSheetText(root) {
+    if (!root || !global.getComputedStyle) return;
+    [].forEach.call(root.querySelectorAll(".story-print-sheet"), function (sheet) {
+      var py = sheet.querySelector(".story-pyramid-print");
+      if (!py) return;
+      var zh = sheet.querySelector(".story-zh");
+      var guard = 0;
+      while (sheet.scrollHeight - sheet.clientHeight > 0 && guard < 16) {
+        var fs = parseFloat(global.getComputedStyle(py).fontSize) || 16;
+        if (fs > 10.5) {
+          py.style.fontSize = (fs * 0.88).toFixed(2) + "px";
+        } else if (zh) {
+          var zfs = parseFloat(global.getComputedStyle(zh).fontSize) || 16;
+          if (zfs <= 10.5) break;
+          zh.style.fontSize = (zfs * 0.9).toFixed(2) + "px";
+        } else {
+          break;
+        }
+        void sheet.offsetHeight;
+        guard += 1;
+      }
     });
   }
 
@@ -268,12 +344,19 @@
     if (!area) return;
 
     function render() {
-      var perPageEl = document.getElementById("optPerPage");
       var showZhEl = document.getElementById("optShowZh");
-      cfg.perPage = perPageEl && perPageEl.value === "2" ? 2 : 1;
       cfg.showZh = !showZhEl || showZhEl.checked;
       area.innerHTML = buildAll(cfg);
-      requestAnimationFrame(function () { fitPreview(area); });
+      fitSheetText(area);
+      function afterFonts() {
+        fitSheetText(area);
+        fitPreview(area);
+      }
+      if (global.document && document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(afterFonts).catch(afterFonts);
+      } else {
+        requestAnimationFrame(afterFonts);
+      }
     }
 
     var btnGen = document.getElementById("btnStoryGen");
@@ -363,9 +446,7 @@
       };
     }
 
-    var perPageEl = document.getElementById("optPerPage");
     var showZhEl = document.getElementById("optShowZh");
-    if (perPageEl) perPageEl.onchange = render;
     if (showZhEl) showZhEl.onchange = render;
 
     render();
@@ -376,5 +457,7 @@
     buildAll: buildAll,
     preloadImages: preloadImages,
     imgError: imgError,
+    pyramidLayers: pyramidLayers,
+    fitSheetText: fitSheetText,
   };
 })(typeof window !== "undefined" ? window : this);
