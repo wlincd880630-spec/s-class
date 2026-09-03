@@ -25,12 +25,15 @@ WORD_FILES = [
 ]
 
 
-def ff(src, dest, w=1280, h=960):
+def ff(src, dest, w=1280, h=960, crop_y=0):
+    """Scale to cover WxH, crop from top-center by default (keeps penguin heads)."""
     os.makedirs(os.path.dirname(dest), exist_ok=True)
+    y = max(0, int(crop_y))
+    vf = f"scale={w}:{h}:force_original_aspect_ratio=increase,crop={w}:{h}:(iw-{w})/2:{y}"
     subprocess.check_call(
         [
             "ffmpeg", "-y", "-i", src,
-            "-vf", f"scale={w}:{h}:force_original_aspect_ratio=increase,crop={w}:{h}",
+            "-vf", vf,
             dest,
         ],
         stdout=subprocess.DEVNULL,
