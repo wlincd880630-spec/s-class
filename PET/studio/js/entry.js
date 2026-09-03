@@ -1,5 +1,6 @@
 /**
- * PET 各页悬浮入口：讲义 PDF / 文章 PDF / 复习游戏
+ * PET 各页入口：讲义 PDF / 文章 PDF / 复习游戏
+ * 词汇课放在顶栏右上角，新标签打开，避免中断当前进度。
  */
 (function () {
   "use strict";
@@ -22,26 +23,40 @@
     return "PET/studio/";
   }
 
+  function link(href, label) {
+    return '<a href="' + href + '" target="_blank" rel="noopener noreferrer">' + label + "</a>";
+  }
+
   var unit = unitFromPath();
   var root = base();
+  var isVocab = /\/PET\/\d{2}\//.test(location.pathname || "");
   var bar = document.createElement("div");
   bar.id = "pet-studio-entry";
-  bar.innerHTML =
-    (unit
-      ? '<a href="' + root + "print.html?type=handout&unit=" + unit + '">讲义 PDF</a>' +
-        '<a href="' + root + "print.html?type=passage&unit=" + unit + '">文章 PDF</a>' +
-        '<a href="' + root + "games.html?unit=" + unit + '">复习游戏</a>'
-      : '<a href="' + root + 'index.html">PET 讲义 / 游戏</a>');
+  bar.innerHTML = unit
+    ? link(root + "print.html?type=handout&unit=" + unit, "讲义 PDF") +
+      link(root + "print.html?type=passage&unit=" + unit, "文章 PDF") +
+      link(root + "games.html?unit=" + unit, "复习游戏")
+    : link(root + "index.html", "PET 讲义 / 游戏");
+
   var st = document.createElement("style");
   st.textContent =
-    "#pet-studio-entry{position:fixed;top:14px;left:14px;z-index:1400;display:flex;gap:6px;flex-wrap:wrap}" +
+    "#pet-studio-entry{position:fixed;top:12px;right:14px;left:auto;z-index:1400;" +
+      "display:flex;gap:6px;flex-wrap:nowrap;align-items:center;max-width:calc(100vw - 24px)}" +
     "#pet-studio-entry a{background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;text-decoration:none;" +
-    "font:800 12px/1 Nunito,Noto Sans SC,sans-serif;padding:8px 10px;border-radius:999px;" +
-    "box-shadow:0 8px 20px rgba(79,70,229,.35)}";
+      "font:800 12px/1 Nunito,Noto Sans SC,sans-serif;padding:8px 11px;border-radius:999px;white-space:nowrap;" +
+      "box-shadow:0 8px 20px rgba(79,70,229,.35)}" +
+    (isVocab
+      ? "#app nav.h-16 .flex.items-center.gap-3{margin-right:248px}" +
+        "@media (max-width:900px){" +
+          "#pet-studio-entry{top:70px;right:12px;flex-wrap:wrap;justify-content:flex-end}" +
+          "#app nav.h-16 .flex.items-center.gap-3{margin-right:0}" +
+        "}"
+      : "");
   document.head.appendChild(st);
+
   function mount() {
     if (!document.body) return;
-    document.body.appendChild(bar);
+    if (!bar.parentNode) document.body.appendChild(bar);
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount);
   else mount();
