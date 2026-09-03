@@ -68,6 +68,12 @@
     if (!u || !u.live) return hubUrl(ch);
     return inLetterFolder() ? "games.html" : u.folder + "/games.html";
   }
+  function gamePlayUrl(ch, id) {
+    var u = UNITS[ch];
+    if (!u || !u.live) return hubUrl(ch);
+    var file = "game-" + id + ".html";
+    return inLetterFolder() ? file : u.folder + "/" + file;
+  }
 
   function workbookUrl(ch) {
     var u = UNITS[ch];
@@ -107,6 +113,7 @@
     hubUrl: hubUrl,
     learnUrl: learnUrl,
     gamesUrl: gamesUrl,
+    gamePlayUrl: gamePlayUrl,
     workbookUrl: workbookUrl,
     printUrl: printUrl,
     mountRail: mountRail
