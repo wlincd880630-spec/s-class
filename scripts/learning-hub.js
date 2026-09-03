@@ -84,7 +84,6 @@
     function renderRoot(root) {
         var html = '' +
             '<div class="learning-toolbar">' +
-            '  <button type="button" class="btn-back-hub" onclick="exitLearningMode()"><i class="fas fa-arrow-left"></i> 返回首页</button>' +
             '  <nav class="hub-crumb" aria-label="当前位置"><span>学习</span></nav>' +
             '</div>' +
             '<div class="catalog-head">' +

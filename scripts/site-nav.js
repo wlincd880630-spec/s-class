@@ -170,14 +170,21 @@
         return null;
     }
 
-    function samePath(a, b) {
+    function sameHref(a, b) {
         function norm(p) {
-            p = String(p || '').replace(/^\.\//, '').replace(/\/+$/, '');
-            if (!p) return 'index.html';
-            if (!/\.html?$/i.test(p) && p.indexOf('#') < 0) p += '/index.html';
-            return p.replace(/\/index\.html$/i, '/index.html');
+            p = String(p || '');
+            var hash = '';
+            var hi = p.indexOf('#');
+            if (hi >= 0) {
+                hash = p.slice(hi);
+                p = p.slice(0, hi);
+            }
+            p = p.replace(/^\.\//, '').replace(/\/+$/, '');
+            if (!p) p = 'index.html';
+            if (!/\.html?$/i.test(p) && p.indexOf('?') < 0) p += '/index.html';
+            return p + hash;
         }
-        return norm(a.split('#')[0]) === norm(b.split('#')[0]);
+        return norm(a) === norm(b);
     }
 
     function buildCrumbs(rel, root) {
@@ -218,12 +225,12 @@
 
         var last = crumbs[crumbs.length - 1];
         var currentRel = rel;
-        if (last && last.href && samePath(last.href.replace(root, ''), currentRel)) {
+            if (last && last.href && sameHref(last.href.replace(root, ''), currentRel)) {
             last.href = null;
         } else if (isIndex && extra.length) {
             last = crumbs[crumbs.length - 1];
             if (last) last.href = null;
-        } else if (isIndex && route && route.hub && samePath(route.hub.href, rel)) {
+        } else if (isIndex && route && route.hub && sameHref(route.hub.href, rel)) {
             last = crumbs[crumbs.length - 1];
             if (last) last.href = null;
         }
@@ -232,7 +239,7 @@
         crumbs.forEach(function (c) {
             var prev = deduped[deduped.length - 1];
             if (prev && prev.label === c.label && !!prev.href === !!c.href) return;
-            if (prev && c.href && prev.href && samePath(prev.href, c.href)) return;
+            if (prev && c.href && prev.href && sameHref(prev.href, c.href)) return;
             deduped.push(c);
         });
         return deduped;
