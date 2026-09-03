@@ -93,8 +93,8 @@
   function bookFoot(page, total) {
     return (
       '<div class="bk-foot">' +
-      "<span>S-Class  ·  The Alphabet  ·  Aa</span>" +
-      "<span>" + page + "  /  " + total + "</span>" +
+      '<span class="bk-foot-meta">S-Class · The Alphabet · <b>Aa</b></span>' +
+      '<span class="bk-foot-page">' + page + " / " + total + "</span>" +
       "</div>"
     );
   }
@@ -156,6 +156,7 @@
       '<p class="bk-brand">The Alphabet</p>' +
       '<p class="bk-unit">Unit 1</p>' +
       '<p class="bk-display">Aa</p>' +
+      '<p class="bk-display-hand">Aa</p>' +
       '<p class="bk-phrase">angry apple</p>' +
       '<p class="bk-ipa">/æ/</p>' +
       '<figure class="bk-hero"><img src="' + L.mascot.img + '" alt="angry apple"></figure>' +
@@ -171,7 +172,16 @@
           '<figcaption class="bk-caption">angry apple</figcaption>' +
         "</figure>" +
         '<div class="bk-letter">' +
-          '<span class="pair">Aa</span>' +
+          '<div class="bk-faces">' +
+            '<div class="bk-face is-print">' +
+              '<span class="face-lab">Print</span>' +
+              '<span class="pair">Aa</span>' +
+            "</div>" +
+            '<div class="bk-face is-hand">' +
+              '<span class="face-lab">Hand</span>' +
+              '<span class="pair">Aa</span>' +
+            "</div>" +
+          "</div>" +
           '<span class="ipa">/æ/</span>' +
         "</div>" +
       "</div>" +
