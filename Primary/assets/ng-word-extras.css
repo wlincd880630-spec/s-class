@@ -1,8 +1,9 @@
-/* 学单词：核心图文铺满 16:9 舞台，不再缩在 54rem 居中盒 */
+/* 学单词：左图铺满剩余舞台，但必须落在图片位内，不能按 66vh 撑破 */
 #view-words .word-study-wrap,
 .word-study-wrap {
   display: grid;
   grid-template-columns: minmax(0, 1.28fr) minmax(24rem, 0.92fr);
+  grid-template-rows: minmax(0, 1fr);
   column-gap: clamp(0.9rem, 2vw, 2.2rem);
   row-gap: 0.5rem;
   align-items: stretch;
@@ -13,8 +14,9 @@
   margin: 0.08rem 0 0;
   padding: 0.12rem 0.25rem 0.18rem;
   box-sizing: border-box;
-  flex: 1 1 auto;
+  flex: 1 1 0;
   min-height: 0;
+  overflow: hidden;
 }
 #view-words .word-col-art,
 .word-col-art {
@@ -23,6 +25,8 @@
   min-width: 0;
   min-height: 0;
   height: 100%;
+  max-height: 100%;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -32,8 +36,10 @@
   width: 100%;
   max-width: 100%;
   height: 100%;
+  max-height: 100%;
   min-height: 0;
   margin: 0;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -41,9 +47,13 @@
 #view-words .word-col-art .polaroid,
 .word-col-art .polaroid {
   width: 100%;
+  height: 100%;
   max-width: 100%;
   max-height: 100%;
+  min-height: 0;
+  overflow: hidden;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
@@ -53,17 +63,29 @@
   width: auto;
   height: auto;
   max-width: 100%;
-  max-height: min(66vh, calc(100dvh - 10.5rem));
+  max-height: 100%;
   object-fit: contain;
+  object-position: center;
 }
 #view-words .word-art-duo,
 .word-art-duo {
   width: 100%;
+  height: 100%;
   max-width: 100%;
+  max-height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+#view-words .word-art-duo .polaroid,
+.word-art-duo .polaroid {
+  height: 100%;
+  max-height: 100%;
+  min-height: 0;
+  overflow: hidden;
 }
 #view-words .word-art-duo .art-img,
 .word-art-duo .art-img {
-  max-height: min(46vh, calc(100dvh - 13rem));
+  max-height: 100%;
 }
 #view-words .word-col-panel,
 .word-col-panel {
@@ -127,6 +149,15 @@
   .word-col-art {
     max-width: 100%;
     height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+  #view-words .word-col-art .hero-art,
+  .word-col-art .hero-art,
+  #view-words .word-col-art .polaroid,
+  .word-col-art .polaroid {
+    height: auto;
+    max-height: none;
   }
   #view-words .word-col-art .art-img,
   .word-col-art .art-img {
