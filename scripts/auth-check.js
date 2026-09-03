@@ -9,6 +9,26 @@
     var path = pathname.replace(/^\//, '').replace(/\/$/, '');
     var parts = path.split('/').filter(Boolean);
     var fileName = (parts[parts.length - 1] || '').toLowerCase();
+    var isRootHome = !path || (parts.length === 1 && fileName === 'index.html');
+
+    function loadSiteNav() {
+        if (isRootHome) return;
+        if (window !== window.top) return;
+        if (document.querySelector('script[src*="site-nav.js"]')) return;
+        var src = 'scripts/site-nav.js';
+        var thisScript = document.currentScript;
+        var attr = thisScript && thisScript.getAttribute && thisScript.getAttribute('src');
+        if (attr) {
+            src = attr.replace(/auth-check\.js(\?.*)?$/, 'site-nav.js');
+        } else if (thisScript && thisScript.src) {
+            src = thisScript.src.replace(/auth-check\.js(\?.*)?$/, 'site-nav.js');
+        }
+        var el = document.createElement('script');
+        el.src = src;
+        el.defer = true;
+        (document.head || document.documentElement).appendChild(el);
+    }
+    loadSiteNav();
 
     // 首页：根路径 / 或任意层级的 index.html
     if (!path || fileName === 'index.html') {
