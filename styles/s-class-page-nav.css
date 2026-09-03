@@ -11,11 +11,13 @@
     flex-wrap: wrap;
     width: 100%;
     max-width: 100%;
-    align-self: flex-start;
-    flex: 0 0 auto;
     min-height: 44px;
     margin: 0;
+    flex: 0 0 auto;
+    flex-shrink: 0;
+    align-self: stretch;
     padding: 8px 16px;
+    padding-top: max(8px, env(safe-area-inset-top, 0px));
     padding-left: max(16px, env(safe-area-inset-left, 0px));
     padding-right: max(16px, env(safe-area-inset-right, 0px));
     font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
@@ -106,7 +108,8 @@
 html.sclass-has-page-nav .g-index-back-wrap,
 html.sclass-has-page-nav a.topbar-back,
 html.sclass-has-page-nav .studio .topbar .back,
-html.sclass-has-page-nav .page > a.back:first-of-type {
+html.sclass-has-page-nav .page > a.back:first-of-type,
+html.sclass-has-page-nav body.deck .topbar > a.btn-icon:first-of-type {
     display: none !important;
 }
 html.sclass-has-page-nav .app-container {
@@ -114,17 +117,72 @@ html.sclass-has-page-nav .app-container {
     height: calc(100dvh - 44px) !important;
     max-height: calc(100dvh - 44px) !important;
 }
-html.sclass-has-page-nav body:has(> .app),
-html.sclass-has-page-nav body.deck {
+
+/* body 若是横向 flex（课堂板 / 字母馆 / .app），顶栏必须独占一行 */
+html.sclass-has-page-nav body {
     flex-direction: column;
+}
+html.sclass-has-page-nav body:has(> .app) {
     justify-content: flex-start;
     align-items: center;
 }
-html.sclass-has-page-nav body:has(> .app) > .sclass-page-nav,
+html.sclass-has-page-nav body:has(> .app) > .sclass-page-nav {
+    width: 100%;
+    max-width: 100%;
+    flex: 0 0 auto;
+}
+
+html.sclass-has-page-nav body.deck {
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 0;
+    box-sizing: border-box;
+}
 html.sclass-has-page-nav body.deck > .sclass-page-nav {
     width: 100%;
     max-width: 100%;
     flex: 0 0 auto;
+}
+html.sclass-has-page-nav body.deck > .board {
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+}
+
+html.sclass-has-page-nav body.deck:not(.az-hub) {
+    align-items: center;
+}
+html.sclass-has-page-nav body.deck:not(.az-hub) > .board {
+    width: min(calc(100vw - 24px), calc((100dvh - 76px) * 16 / 9));
+    height: min(calc(100dvh - 76px), calc((100vw - 24px) * 9 / 16));
+    margin: 12px auto;
+}
+
+html.sclass-has-page-nav body.deck.az-hub {
+    padding: 0;
+    overflow: hidden;
+}
+html.sclass-has-page-nav body.deck.az-hub > .board {
+    width: 100%;
+    height: auto;
+    max-width: none;
+    max-height: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+html.sclass-has-page-nav body.deck.az-hub > .board::before {
+    display: none;
+}
+
+@media (orientation: portrait) and (max-width: 900px) {
+    html.sclass-has-page-nav body.deck:not(.az-hub) > .board {
+        width: 100%;
+        height: auto;
+        max-height: none;
+        margin: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
 }
 @media print {
     .sclass-page-nav {
@@ -134,7 +192,7 @@ html.sclass-has-page-nav body.deck > .sclass-page-nav {
 @media (max-width: 640px) {
     .sclass-page-nav {
         gap: 8px;
-        padding-top: 6px;
+        padding-top: max(6px, env(safe-area-inset-top, 0px));
         padding-bottom: 6px;
     }
     .sclass-page-nav-crumbs {

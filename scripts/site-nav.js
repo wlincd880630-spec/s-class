@@ -264,7 +264,7 @@
         var link = document.createElement('link');
         link.id = 'sclass-page-nav-css';
         link.rel = 'stylesheet';
-        link.href = root + 'styles/s-class-page-nav.css?v=2';
+        link.href = root + 'styles/s-class-page-nav.css?v=3';
         document.head.appendChild(link);
     }
 
@@ -274,12 +274,13 @@
         style.id = 'sclass-page-nav-critical';
         style.textContent =
             '.sclass-page-nav{box-sizing:border-box;display:flex;align-items:center;flex-wrap:wrap;gap:10px;' +
-            'width:100%;max-width:100%;align-self:flex-start;flex:0 0 auto;min-height:44px;margin:0;' +
+            'width:100%;max-width:100%;align-self:stretch;flex:0 0 auto;min-height:44px;margin:0;' +
             'padding:8px 16px;background:#fff;border-bottom:1px solid rgba(15,23,42,.1);' +
             'font-family:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;' +
             'font-size:13px;line-height:1.4;color:#0f172a;position:relative;z-index:200}' +
-            'html.sclass-has-page-nav body:has(> .app),html.sclass-has-page-nav body.deck{' +
-            'flex-direction:column;justify-content:flex-start;align-items:center}' +
+            'html.sclass-has-page-nav body{flex-direction:column}' +
+            'html.sclass-has-page-nav body:has(> .app){justify-content:flex-start;align-items:center}' +
+            'html.sclass-has-page-nav body.deck{justify-content:flex-start;align-items:stretch}' +
             '.sclass-page-nav-back{display:inline-flex;align-items:center;gap:6px;flex-shrink:0;' +
             'min-height:32px;padding:4px 12px 4px 10px;border-radius:999px;border:1px solid rgba(15,23,42,.1);' +
             'background:#f8fafc;color:#0f172a!important;font-weight:700!important;text-decoration:none!important;white-space:nowrap}' +
