@@ -363,7 +363,7 @@
       });
   }
 
-  function passageCover(unit, qr) {
+  function passageCover(unit, qr, learn) {
     var art = absUrl(PETStudio.articleImg(unit.id));
     return '<section class="sheet pass-cover">' +
       '<div class="pass-cover-photo">' +
@@ -378,15 +378,15 @@
           '<p class="pass-cover-date">Printed ' + today() + "</p>" +
         "</div>" +
         '<aside class="pass-cover-qr">' +
-          '<img src="' + esc(qr) + '" alt="扫码学习文章">' +
+          '<img src="' + esc(qr) + '" alt="扫码打开文章学习页" title="' + esc(learn) + '">' +
           "<p>扫码点读 · 查词 · 结构 · 翻译</p>" +
         "</aside>" +
       "</div></section>";
   }
 
-  function renderPassage(bag, qr) {
+  function renderPassage(bag, qr, learn) {
     var u = bag.unit;
-    var html = passageCover(u, qr);
+    var html = passageCover(u, qr, learn);
     (bag.passages || []).forEach(function (p, idx) {
       var topic = (u.topics && u.topics[idx]) || p.title || ("Passage " + (idx + 1));
       var img = absUrl(PETStudio.passageImg(u.id, idx));
@@ -400,7 +400,7 @@
             '<div class="pass-kicker">Passage ' + padNum(idx + 1) + "</div>" +
             "<h2>" + esc(topic) + "</h2>" +
             "<span>" + sents.length + " sentences</span>" +
-            '<img class="pass-mast-qr" src="' + esc(qr) + '" alt="扫码学习">' +
+            '<img class="pass-mast-qr" src="' + esc(qr) + '" alt="扫码打开文章学习页" title="' + esc(learn) + '">' +
           "</header></div>" +
         '<div class="pass-body">';
       sents.forEach(function (s, i) {
@@ -608,10 +608,11 @@
   }
 
   function passageHtml(bag, qr) {
+    var learn = PETStudio.articleLearnUrl(bag.unit.id);
     var learnLocal = PETStudio.articleLearnUrl(bag.unit.id, { local: true });
     return shell(
       "PET Unit " + bag.unit.id + " 文章",
-      renderPassage(bag, qr),
+      renderPassage(bag, qr, learn),
       "print-page passage-doc",
       { learnHref: learnLocal }
     );
