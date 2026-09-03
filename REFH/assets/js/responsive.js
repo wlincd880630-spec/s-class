@@ -62,6 +62,17 @@
     });
   }
 
+  var filterApplied = false;
+  function applyVocabFilterFromUrl() {
+    if (filterApplied) return;
+    var want = new URLSearchParams(location.search).get('filter');
+    if (!want) return;
+    var t = document.querySelector('#tabs .tab[data-filter="' + want.replace(/"/g, '') + '"]');
+    if (!t) return;
+    filterApplied = true;
+    t.click();
+  }
+
   function observe() {
     if (!document.body) return;
     var scheduled = false;
@@ -69,6 +80,7 @@
       scheduled = false;
       scanNav();
       markVocabCards();
+      applyVocabFilterFromUrl();
     }
     var mo = new MutationObserver(function () {
       if (scheduled) return;
