@@ -17,7 +17,8 @@
     timerId: null,
     examSource: "zhongkao",
     gapNote: "",
-    clinicPoint: null
+    clinicPoint: null,
+    spellKey: null
   };
 
   function clearTimer() {
@@ -352,9 +353,48 @@
       String(row.isCorrect).toLowerCase() === "true";
   }
 
+  function unbindSpellKeys() {
+    if (state.spellKey) {
+      document.removeEventListener("keydown", state.spellKey);
+      state.spellKey = null;
+    }
+  }
+
+  function spellLetters(q) {
+    return String((q && q.item && q.item.word) || "").replace(/[^a-zA-Z]/g, "");
+  }
+
+  function refreshHudScore() {
+    var hudEl = document.querySelector(".play-shell .hud");
+    if (!hudEl) return;
+    var spans = hudEl.querySelectorAll("span");
+    if (!spans.length) return;
+    var total = state.queue.length || 1;
+    var n = Math.min(state.idx + 1, total);
+    spans[spans.length - 1].textContent = "题 " + n + "/" + total + " · 分 " + state.score;
+  }
+
+  function spellMissHtml() {
+    if (!state.game || state.game.key !== "spell") return "";
+    var misses = (state.queue || []).filter(function (q) {
+      return q && q.item && !q.skip && q.ok !== true;
+    });
+    if (!misses.length) {
+      return '<p class="spell-all-ok">本组单词全部拼对。</p>';
+    }
+    return '<div class="miss-box"><div class="miss-h">需要再练的单词（' + misses.length + "）</div><ul class="miss-list">' +
+      misses.map(function (q) {
+        var typed = q.typed ? q.typed : "未作答";
+        return "<li><b>" + esc(q.item.word) + "</b> " + esc(q.item.meaning || "") +
+          ' <span class="miss-you">你的拼写：' + esc(typed) + "</span></li>";
+      }).join("") + "</ul></div>";
+  }
+
   function done() {
+    unbindSpellKeys();
     $("playRoot").innerHTML = '<div class=play-shell>' + hud() +
       '<div class=q-box>本局完成！得分 ' + state.score + " / " + state.queue.length + "</div>" +
+      spellMissHtml() +
       '<button class="btn btn-indigo" id="againBtn">再来一局</button> ' +
       '<button class="btn btn-ghost" id="backGames">返回游戏列表</button></div>';
     $("againBtn").onclick = function () {
@@ -375,6 +415,7 @@
   }
 
   function next() {
+    unbindSpellKeys();
     clearTimer();
     state.idx++;
     state.lock = false;
@@ -562,19 +603,74 @@
   }
 
   function startSpell() {
+    unbindSpellKeys();
     state.queue = PETStudio.pickN(state.bag.vocab, levelCfg().count).map(function (it) {
-      return { item: it, typed: "" };
+      return { item: it, typed: "", ok: null, settled: false };
+    }).filter(function (q) {
+      return spellLetters(q).length > 0;
     });
+    if (!state.queue.length) {
+      done();
+      return;
+    }
     renderSpell();
+  }
+
+  function settleSpell() {
+    var q = state.queue[state.idx];
+    if (!q || q.settled) return;
+    var w = spellLetters(q);
+    q.settled = true;
+    state.lock = true;
+    clearTimer();
+    q.ok = q.typed === w.toLowerCase();
+    if (q.ok) state.score++;
+    drawSpell(w, q.typed, q.ok);
+    refreshHudScore();
+    var box = $("spellResult");
+    if (box) {
+      var last = state.idx >= state.queue.length - 1;
+      var nextLabel = last ? "查看结果" : "下一个";
+      var msg = q.ok
+        ? '<p class="explain">拼写正确</p>'
+        : '<p class="explain spell-wrong">正确拼写：<b>' + esc(q.item.word) + "</b>" +
+          (q.typed ? " · 你写了 " + esc(q.typed) : " · 未作答") + "</p>";
+      box.innerHTML = msg +
+        '<button type="button" class="btn btn-indigo" id="spellNextBtn">' + nextLabel + "</button>" +
+        '<p class="note">点「' + nextLabel + "」或按回车继续</p>";
+      $("spellNextBtn").onclick = function () { advanceSpell(); };
+    }
+    var inp = $("spellIn");
+    if (inp) {
+      inp.readOnly = true;
+    }
+    Array.prototype.forEach.call(document.querySelectorAll("#keys .key"), function (b) {
+      b.disabled = true;
+    });
+  }
+
+  function advanceSpell() {
+    var q = state.queue[state.idx];
+    if (!q || !q.settled || q.leaving) return;
+    q.leaving = true;
+    next();
   }
 
   function renderSpell() {
     var q = state.queue[state.idx];
-    var w = (q.item.word || "").replace(/[^a-zA-Z]/g, "");
+    if (!q) {
+      done();
+      return;
+    }
+    var w = spellLetters(q);
     if (!w) {
+      q.skip = true;
+      q.ok = true;
+      q.settled = true;
       setTimeout(next, 0);
       return;
     }
+    unbindSpellKeys();
     $("playRoot").innerHTML = '<div class="play-shell spell-play">' + hud() +
       '<div class=note>' + esc(q.item.meaning) + "</div>" +
       '<div class=q-box>' + esc(q.item.phonetic || "听音 / 看义拼写") + "</div>" +
@@ -582,7 +678,8 @@
       '<div class=spell-row id=slots></div>' +
       '<input id=spellIn class=spell-input autocomplete=off autocapitalize=off spellcheck=false placeholder="在此居中输入拼写">' +
       '<div class=keys id=keys></div>' +
-      '<p class=note>字母居中显示，也可用下方按键</p></div>';
+      '<div id=spellResult></div>' +
+      '<p class=note>字母居中显示，也可用下方按键。拼完后点「下一个」或按回车进入下一词。</p></div>';
     $("speakBtn").onclick = function () { say(q.item.word); };
     drawSpell(w, q.typed);
     var letters = PETStudio.shuffle((w + "abcdefghijklmnopqrstuvwxyz").slice(0, Math.max(w.length + 4, 12)).split(""));
@@ -597,22 +694,27 @@
     var inp = $("spellIn");
     inp.focus();
     inp.oninput = function () {
+      if (q.settled) return;
       q.typed = (inp.value || "").replace(/[^a-zA-Z]/g, "").slice(0, w.length).toLowerCase();
       inp.value = q.typed;
       drawSpell(w, q.typed);
-      if (q.typed.length === w.length) finishSpell();
+      if (q.typed.length === w.length) settleSpell();
     };
     function pushSpell(ch) {
-      if (q.typed.length >= w.length) return;
+      if (q.settled || q.typed.length >= w.length) return;
       q.typed += ch.toLowerCase();
+      if (inp) inp.value = q.typed;
       drawSpell(w, q.typed);
-      if (q.typed.length === w.length) finishSpell();
+      if (q.typed.length === w.length) settleSpell();
     }
-    function finishSpell() {
-      if (q.typed === w.toLowerCase()) state.score++;
-      clearTimer();
-      setTimeout(next, 500);
-    }
+    state.spellKey = function (e) {
+      if (e.key !== "Enter") return;
+      if (e.repeat) return;
+      e.preventDefault();
+      if (!q.settled) settleSpell();
+      else advanceSpell();
+    };
+    document.addEventListener("keydown", state.spellKey);
     clearTimer();
     var sec = spellSeconds();
     var el = $("timer");
@@ -624,20 +726,22 @@
         if (el) el.textContent = Math.max(0, left) + "s";
         if (left <= 0) {
           clearTimer();
-          if (!state.lock) {
-            state.lock = true;
-            setTimeout(next, 350);
-          }
+          settleSpell();
         }
       }, 1000);
     }
   }
 
-  function drawSpell(w, typed) {
+  function drawSpell(w, typed, ok) {
     var el = $("slots");
     if (!el) return;
+    var judged = ok === true || ok === false;
     el.innerHTML = w.split("").map(function (ch, i) {
-      return '<div class=slot>' + esc(typed[i] || "") + "</div>";
+      var cls = "slot";
+      if (judged) {
+        cls += (String(typed[i] || "").toLowerCase() === ch.toLowerCase()) ? " ok" : " bad";
+      }
+      return '<div class="' + cls + '">' + esc(typed[i] || "") + "</div>";
     }).join("");
     var inp = $("spellIn");
     if (inp && document.activeElement !== inp) inp.value = typed;
@@ -1143,6 +1247,7 @@
   }
 
   function startGame(key, level) {
+    unbindSpellKeys();
     clearTimer();
     state.game = PETStudio.GAMES.filter(function (g) { return g.key === key; })[0];
     state.level = level || state.level;
@@ -1163,6 +1268,7 @@
   }
 
   function showList() {
+    unbindSpellKeys();
     var g = PETStudio.GAMES.map(function (game) {
       return '<a class=card href="#" data-game="' + game.key + '">' +
         '<img src="' + esc(PETStudio.gameImg(game.id)) + '" alt="">' +
