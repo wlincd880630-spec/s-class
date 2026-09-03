@@ -89,6 +89,14 @@
       var cls = "az-chip" + (ch === now ? " is-on" : "") + (u.live ? " is-live" : " is-soon");
       return '<a class="' + cls + '" href="' + hubUrl(ch) + '">' + ch + "</a>";
     }).join("");
+    var on = el.querySelector(".az-chip.is-on");
+    if (on && on.scrollIntoView) {
+      try {
+        on.scrollIntoView({ inline: "center", block: "nearest", behavior: "auto" });
+      } catch (err) {
+        on.scrollIntoView(false);
+      }
+    }
   }
 
   global.ALPHABET = {
