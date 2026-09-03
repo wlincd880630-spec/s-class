@@ -264,7 +264,7 @@
         var link = document.createElement('link');
         link.id = 'sclass-page-nav-css';
         link.rel = 'stylesheet';
-        link.href = root + 'styles/s-class-page-nav.css?v=3';
+        link.href = root + 'styles/s-class-page-nav.css?v=4';
         document.head.appendChild(link);
     }
 
@@ -279,7 +279,14 @@
             'font-family:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;' +
             'font-size:13px;line-height:1.4;color:#0f172a;position:relative;z-index:200}' +
             'html.sclass-has-page-nav body{flex-direction:column}' +
-            'html.sclass-has-page-nav body:has(> .app){justify-content:flex-start;align-items:center}' +
+            'html.sclass-has-page-nav .back-hub,html.sclass-has-page-nav a.back-hub,' +
+            'html.sclass-has-page-nav .topbar > a.back,html.sclass-has-page-nav .hero-copy > a.back,' +
+            'html.sclass-has-page-nav .toolbar > a.btn[href$="index.html"],' +
+            'html.sclass-has-page-nav .top-bar > a.back-link[href*="../index.html"],' +
+            'html.sclass-has-page-nav .page > a.back:first-of-type{display:none!important}' +
+            'html.sclass-has-page-nav body:has(> .app){justify-content:flex-start;align-items:center;' +
+            'padding-top:0!important;--ng-back-hub-h:0px;overflow-x:hidden!important;overflow-y:auto!important;' +
+            'height:auto!important;max-height:none!important}' +
             'html.sclass-has-page-nav body.deck{justify-content:flex-start;align-items:stretch}' +
             '.sclass-page-nav-back{display:inline-flex;align-items:center;gap:6px;flex-shrink:0;' +
             'min-height:32px;padding:4px 12px 4px 10px;border-radius:999px;border:1px solid rgba(15,23,42,.1);' +

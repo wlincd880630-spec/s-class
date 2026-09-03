@@ -109,7 +109,13 @@ html.sclass-has-page-nav .g-index-back-wrap,
 html.sclass-has-page-nav a.topbar-back,
 html.sclass-has-page-nav .studio .topbar .back,
 html.sclass-has-page-nav .page > a.back:first-of-type,
-html.sclass-has-page-nav body.deck .topbar > a.btn-icon:first-of-type {
+html.sclass-has-page-nav body.deck .topbar > a.btn-icon:first-of-type,
+html.sclass-has-page-nav .back-hub,
+html.sclass-has-page-nav a.back-hub,
+html.sclass-has-page-nav .topbar > a.back,
+html.sclass-has-page-nav .hero-copy > a.back,
+html.sclass-has-page-nav .toolbar > a.btn[href$="index.html"],
+html.sclass-has-page-nav .top-bar > a.back-link[href*="../index.html"] {
     display: none !important;
 }
 html.sclass-has-page-nav .app-container {
@@ -125,11 +131,66 @@ html.sclass-has-page-nav body {
 html.sclass-has-page-nav body:has(> .app) {
     justify-content: flex-start;
     align-items: center;
+    --ng-back-hub-h: 0px;
+    padding-top: 0 !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    height: auto !important;
+    max-height: none !important;
+    min-height: 100dvh;
 }
 html.sclass-has-page-nav body:has(> .app) > .sclass-page-nav {
     width: 100%;
     max-width: 100%;
     flex: 0 0 auto;
+}
+html.sclass-has-page-nav {
+    --sclass-nav-h: 3.15rem;
+}
+html.sclass-has-page-nav body:has(> .app) > .app {
+    --ng-stage-h: calc(100dvh - var(--sclass-nav-h, 3.15rem) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    width: min(100vw, calc(var(--ng-stage-h) * 16 / 9)) !important;
+    height: min(var(--ng-stage-h), calc(100vw * 9 / 16)) !important;
+    max-width: min(100vw, calc(var(--ng-stage-h) * 16 / 9)) !important;
+    max-height: min(var(--ng-stage-h), calc(100vw * 9 / 16)) !important;
+}
+html.sclass-has-page-nav body:has(> .app) .book-cover,
+html.sclass-has-page-nav body:has(> .app) .book-inner {
+    min-height: 0;
+}
+html.sclass-has-page-nav body:has(> .app) .book-main,
+html.sclass-has-page-nav body:has(> .app) .view.on,
+html.sclass-has-page-nav body:has(> .app) .view-body {
+    overflow-x: hidden;
+    overflow-y: auto;
+    min-height: 0;
+}
+@media (pointer: coarse) and (max-width: 1024px), (max-width: 820px) {
+    html.sclass-has-page-nav body:has(> .app) {
+        padding:
+            0.35rem
+            max(4px, env(safe-area-inset-right))
+            max(1.5rem, env(safe-area-inset-bottom))
+            max(4px, env(safe-area-inset-left)) !important;
+    }
+    html.sclass-has-page-nav body:has(> .app) > .app {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        min-height: calc(100dvh - var(--sclass-nav-h, 3.15rem) - 1rem) !important;
+        max-height: none !important;
+        aspect-ratio: auto !important;
+        overflow: visible !important;
+    }
+    html.sclass-has-page-nav body:has(> .app) .book-cover,
+    html.sclass-has-page-nav body:has(> .app) .book-inner,
+    html.sclass-has-page-nav body:has(> .app) .book-main,
+    html.sclass-has-page-nav body:has(> .app) .view.on,
+    html.sclass-has-page-nav body:has(> .app) .view-body {
+        overflow: visible !important;
+        height: auto !important;
+        max-height: none !important;
+    }
 }
 
 html.sclass-has-page-nav body.deck {

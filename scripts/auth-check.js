@@ -19,9 +19,11 @@
         var thisScript = document.currentScript;
         var attr = thisScript && thisScript.getAttribute && thisScript.getAttribute('src');
         if (attr) {
-            src = attr.replace(/auth-check\.js(\?.*)?$/, 'site-nav.js');
+            src = attr.replace(/auth-check\.js(\?.*)?$/, 'site-nav.js?v=4');
         } else if (thisScript && thisScript.src) {
-            src = thisScript.src.replace(/auth-check\.js(\?.*)?$/, 'site-nav.js');
+            src = thisScript.src.replace(/auth-check\.js(\?.*)?$/, 'site-nav.js?v=4');
+        } else {
+            src = 'scripts/site-nav.js?v=4';
         }
         var el = document.createElement('script');
         el.src = src;
