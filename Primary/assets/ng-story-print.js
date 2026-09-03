@@ -234,54 +234,105 @@
   }
 
   var GOLDEN = 0.382;
+  var _activeCfg = null;
 
   function clampNum(n, a, b) {
     return Math.max(a, Math.min(b, n));
   }
 
-  /** 把封面主体放到黄金分割点：16:9 图铺满 A4 时只平移，不放大到裁掉主体。 */
-  function applyCoverFocal(root, cfg) {
-    var img = root && root.querySelector(".cover-hero-img");
-    if (!img || !cfg || !cfg.coverFocal) return;
-    var focal = cfg.coverFocal;
-    if (focal.x == null || focal.y == null) return;
+  function mmToPx(mm, el) {
+    var probe = el || document.documentElement;
+    var fs = global.getComputedStyle(probe).fontSize || "16px";
+    var rootPx = parseFloat(fs) || 16;
+    return (mm / 25.4) * 96 * (rootPx / 16);
+  }
 
-    function place() {
-      if (img.classList.contains("is-hide")) return;
-      var iw = img.naturalWidth || 0;
-      var ih = img.naturalHeight || 0;
-      if (iw < 8 || ih < 8) return;
-      var fx = clampNum(Number(focal.x) || 0.5, 0.08, 0.92);
-      var fy = clampNum(Number(focal.y) || 0.38, 0.08, 0.92);
-      var ax = focal.anchorX != null ? clampNum(Number(focal.anchorX), 0.22, 0.78) : GOLDEN;
-      var ay = focal.anchorY != null ? clampNum(Number(focal.anchorY), 0.18, 0.55) : GOLDEN;
-      var Cw = 210;
-      var Ch = 297;
-      var Sw = Math.max(Cw, Ch * iw / ih);
-      var Sh = Math.max(Ch, Cw * ih / iw);
-      var posX = ax * 100;
-      var posY = ay * 100;
-      if (Sw > Cw + 0.05) {
-        posX = ((fx * Sw / Cw) - ax) / (Sw / Cw - 1) * 100;
-      }
-      if (Sh > Ch + 0.05) {
-        posY = ((fy * Sh / Ch) - ay) / (Sh / Ch - 1) * 100;
-      }
-      posX = clampNum(posX, 0, 100);
-      posY = clampNum(posY, 0, 100);
-      img.style.width = "100%";
-      img.style.height = "100%";
-      img.style.maxWidth = "none";
-      img.style.maxHeight = "none";
-      img.style.left = "0";
-      img.style.top = "0";
-      img.style.transform = "none";
-      img.style.objectFit = "cover";
-      img.style.objectPosition = posX.toFixed(1) + "% " + posY.toFixed(1) + "%";
+  /** 封面：等比 cover 铺满，按 focal 对齐，不拉伸变形。 */
+  function placeCoverHero(img, cfg) {
+    if (!img || img.classList.contains("is-hide")) return;
+    var iw = img.naturalWidth || 0;
+    var ih = img.naturalHeight || 0;
+    if (iw < 8 || ih < 8) return;
+    var hero = img.parentElement;
+    if (!hero) return;
+    var boxW = hero.clientWidth;
+    var boxH = hero.clientHeight;
+    if (boxW < 8 || boxH < 8) return;
+
+    var focal = (cfg && cfg.coverFocal) || { x: 0.5, y: 0.32 };
+    var fx = clampNum(Number(focal.x) || 0.5, 0, 1);
+    var fy = clampNum(Number(focal.y) || 0.32, 0, 1);
+    var scale = Math.max(boxW / iw, boxH / ih);
+    var w = iw * scale;
+    var h = ih * scale;
+
+    img.style.position = "absolute";
+    img.style.width = w.toFixed(2) + "px";
+    img.style.height = h.toFixed(2) + "px";
+    img.style.maxWidth = "none";
+    img.style.maxHeight = "none";
+    img.style.left = (fx * (boxW - w)).toFixed(2) + "px";
+    img.style.top = (fy * (boxH - h)).toFixed(2) + "px";
+    img.style.transform = "none";
+    img.style.objectFit = "fill";
+    img.style.objectPosition = "center";
+  }
+
+  /** 课文插图：等比 contain 居中，相框随图片高度自适应。 */
+  function placePolaroidImage(img) {
+    if (!img || img.classList.contains("is-hide")) return;
+    var iw = img.naturalWidth || 0;
+    var ih = img.naturalHeight || 0;
+    if (iw < 8 || ih < 8) return;
+    var box = img.closest(".story-polaroid");
+    if (!box) return;
+
+    var boxStyle = global.getComputedStyle(box);
+    var padX = (parseFloat(boxStyle.paddingLeft) || 0) + (parseFloat(boxStyle.paddingRight) || 0);
+    var padY = (parseFloat(boxStyle.paddingTop) || 0) + (parseFloat(boxStyle.paddingBottom) || 0);
+    var maxW = Math.max(box.clientWidth - padX, 40);
+    var maxH = mmToPx(76, box);
+    var scale = Math.min(maxW / iw, maxH / ih);
+    var w = iw * scale;
+    var h = ih * scale;
+
+    var wrap = img.closest(".story-art-wrap");
+    if (wrap) {
+      wrap.style.flex = "0 0 auto";
+      wrap.style.height = "auto";
+      wrap.style.minHeight = "0";
+      wrap.style.maxHeight = mmToPx(82, wrap) + "px";
     }
+    box.style.height = "auto";
+    box.style.minHeight = "0";
+    img.style.display = "block";
+    img.style.width = w.toFixed(2) + "px";
+    img.style.height = h.toFixed(2) + "px";
+    img.style.maxWidth = "none";
+    img.style.maxHeight = "none";
+    img.style.margin = "0 auto";
+    img.style.objectFit = "fill";
+    img.style.objectPosition = "center";
+  }
 
+  function normalizePrintImages(root, cfg) {
+    if (!root) return;
+    var cover = root.querySelector(".cover-hero-img");
+    if (cover) placeCoverHero(cover, cfg);
+    [].forEach.call(root.querySelectorAll(".story-polaroid img"), placePolaroidImage);
+  }
+
+  function bindCoverHero(img, cfg) {
+    if (!img) return;
+    function place() { placeCoverHero(img, cfg); }
     img.addEventListener("load", place);
     if (img.complete) place();
+  }
+
+  /** @deprecated 使用 normalizePrintImages / placeCoverHero */
+  function applyCoverFocal(root, cfg) {
+    var img = root && root.querySelector(".cover-hero-img");
+    bindCoverHero(img, cfg);
   }
 
   /**
@@ -570,6 +621,7 @@
         img.crossOrigin = "anonymous";
       }
     });
+    normalizePrintImages(a, _activeCfg);
   }
 
   function captureSheetCanvas(sheet) {
@@ -636,7 +688,29 @@
       }
       return captureSheetCanvas(sheets[i]).then(function (canvas) {
         if (i > 0) pdf.addPage();
-        pdf.addImage(canvas.toDataURL("image/jpeg", 0.92), "JPEG", 0, 0, pageW, pageH);
+        var canvasRatio = canvas.width / canvas.height;
+        var pageRatio = pageW / pageH;
+        var drawW = pageW;
+        var drawH = pageH;
+        var offX = 0;
+        var offY = 0;
+        if (Math.abs(canvasRatio - pageRatio) > 0.004) {
+          if (canvasRatio > pageRatio) {
+            drawH = pageW / canvasRatio;
+            offY = (pageH - drawH) / 2;
+          } else {
+            drawW = pageH * canvasRatio;
+            offX = (pageW - drawW) / 2;
+          }
+        }
+        pdf.addImage(
+          canvas.toDataURL("image/jpeg", 0.92),
+          "JPEG",
+          offX,
+          offY,
+          drawW,
+          drawH
+        );
         return step(i + 1);
       });
     }
@@ -654,6 +728,7 @@
 
   function init(cfg) {
     if (!cfg || !cfg.story || !cfg.story.length) return;
+    _activeCfg = cfg;
     applyAccent(cfg);
 
     var area = document.getElementById("storyPrintArea");
@@ -663,10 +738,15 @@
       var showZhEl = document.getElementById("optShowZh");
       cfg.showZh = !showZhEl || showZhEl.checked;
       area.innerHTML = buildAll(cfg);
-      applyCoverFocal(area, cfg);
+      var coverImg = area.querySelector(".cover-hero-img");
+      bindCoverHero(coverImg, cfg);
       return fillQrCodes(area).then(function () {
+        return preloadImages(area);
+      }).then(function () {
+        normalizePrintImages(area, cfg);
         fitSheetText(area);
         function afterFonts() {
+          normalizePrintImages(area, cfg);
           fitSheetText(area);
           fitPreview(area);
         }
@@ -693,6 +773,7 @@
           area.classList.add("is-exporting");
           return preloadImages(area);
         }).then(function () {
+          normalizePrintImages(area, cfg);
           setTimeout(function () { global.print(); }, 200);
         });
       };
@@ -730,6 +811,7 @@
           .then(function () { return preloadImages(area); })
           .then(function () { return ensureRemoteImagesCors(area); })
           .then(function () {
+            normalizePrintImages(area, cfg);
             return global.document.fonts
               ? global.document.fonts.ready.catch(function () {})
               : Promise.resolve();
@@ -766,5 +848,6 @@
     storyLearnUrl: storyLearnUrl,
     pyramidLayers: pyramidLayers,
     fitSheetText: fitSheetText,
+    normalizePrintImages: normalizePrintImages,
   };
 })(typeof window !== "undefined" ? window : this);
