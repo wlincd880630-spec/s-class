@@ -104,16 +104,31 @@ body:has(> .app) > .app {
 
 /* ── 国家地理互动课件 · 手机强制纵向长页 ── */
 @media (pointer: coarse) and (max-width: 1024px), (max-width: 820px) {
+  html.ng-courseware-portrait,
+  html:has(> body > .app) {
+    height: auto !important;
+    max-height: none !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+
   html.ng-courseware-portrait body,
   body:has(> .app) {
     display: block !important;
     padding:
       max(3.75rem, calc(env(safe-area-inset-top) + 3.25rem))
       max(4px, env(safe-area-inset-right))
-      max(6px, env(safe-area-inset-bottom))
+      max(1.5rem, env(safe-area-inset-bottom))
       max(4px, env(safe-area-inset-left)) !important;
     align-items: stretch !important;
     justify-content: flex-start !important;
+    height: auto !important;
+    max-height: none !important;
+    min-height: 100dvh !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: auto;
   }
 
   html.ng-courseware-portrait body .app,
@@ -133,6 +148,7 @@ body:has(> .app) > .app {
   body:has(> .app) .book-cover {
     min-height: calc(100dvh - 4.25rem) !important;
     max-height: none !important;
+    height: auto !important;
     overflow: visible !important;
   }
 
@@ -140,14 +156,17 @@ body:has(> .app) > .app {
   body:has(> .app) .book-inner {
     overflow: visible !important;
     flex: 1 1 auto !important;
+    height: auto !important;
+    max-height: none !important;
   }
 
   html.ng-courseware-portrait body .book-main,
   body:has(> .app) .book-main {
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch;
+    overflow: visible !important;
     flex: 1 1 auto !important;
-    min-height: 55dvh !important;
+    min-height: 0 !important;
+    height: auto !important;
+    max-height: none !important;
   }
 
   html.ng-courseware-portrait body .book-top,
@@ -272,6 +291,52 @@ body:has(> .app) > .app {
     font-size: clamp(1rem, 4vw, 1.35rem);
     min-width: 2.75rem;
     min-height: 3rem;
+  }
+
+  html.ng-courseware-portrait .view,
+  html.ng-courseware-portrait .view.on,
+  html.ng-courseware-portrait #view-story,
+  html.ng-courseware-portrait .view-body--story,
+  html.ng-courseware-portrait .story-slide,
+  html.ng-courseware-portrait .story-sentence--xl,
+  html.ng-courseware-portrait .story-sentence--xl.story-sentence--pyramid,
+  body:has(> .app) .view,
+  body:has(> .app) .view.on,
+  body:has(> .app) #view-story,
+  body:has(> .app) .view-body--story,
+  body:has(> .app) .story-slide,
+  body:has(> .app) .story-sentence--xl,
+  body:has(> .app) .story-sentence--xl.story-sentence--pyramid {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    flex: 0 0 auto !important;
+  }
+
+  html.ng-courseware-portrait .view-body--story,
+  body:has(> .app) .view-body--story {
+    padding-bottom: 2.25rem !important;
+  }
+
+  html.ng-courseware-portrait .story-pyramid,
+  body:has(> .app) .story-pyramid {
+    flex: 0 0 auto !important;
+    min-height: auto !important;
+    justify-content: flex-start !important;
+    overflow: visible !important;
+  }
+
+  html.ng-courseware-portrait .story-zh-hold,
+  body:has(> .app) .story-zh-hold {
+    flex-shrink: 0 !important;
+    margin-bottom: 0.35rem !important;
+  }
+
+  html.ng-courseware-portrait .view-body--story .story-sentence--pyramid .story-col--text,
+  body:has(> .app) .view-body--story .story-sentence--pyramid .story-col--text {
+    max-height: none !important;
+    overflow: visible !important;
+    flex: 0 0 auto !important;
   }
 }
 
