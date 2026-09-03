@@ -164,9 +164,12 @@
       bookFoot(1, total)
     ));
     pages.push(bookSheet("",
-      bookHead("A  ·  Listen and say", "Angry apple") +
+      bookHead("A", "Listen and say") +
       '<div class="bk-split">' +
-        '<figure class="bk-plate"><img src="' + L.mascot.img + '" alt="angry apple"></figure>' +
+        '<figure class="bk-plate">' +
+          '<img src="' + L.mascot.img + '" alt="angry apple">' +
+          '<figcaption class="bk-caption">angry apple</figcaption>' +
+        "</figure>" +
         '<div class="bk-letter">' +
           '<span class="pair">Aa</span>' +
           '<span class="ipa">/æ/</span>' +
@@ -177,14 +180,14 @@
       bookFoot(2, total)
     ));
     pages.push(bookSheet("",
-      bookHead("B  ·  Listen, point and say", "Four friends") +
+      bookHead("B", "Listen, point and say") +
       '<div class="vocab-4 bk-vocab">' +
         L.vocab.map(function (item, i) { return tile(item, i, true); }).join("") +
       "</div>" +
       bookFoot(3, total)
     ));
     pages.push(bookSheet("",
-      bookHead("C  ·  Trace and write", "Aa") +
+      bookHead("C", "Trace and write") +
       '<div class="letter-models">' +
         modelCard("A", "cap") +
         modelCard("a", "small") +
@@ -198,7 +201,7 @@
       bookFoot(4, total)
     ));
     pages.push(bookSheet("",
-      bookHead("D  ·  Listen and write", "Aa or X") +
+      bookHead("D", "Listen and write") +
       '<div class="six-grid bk-vocab">' +
         L.track05Items.map(function (row, i) {
           var item = w(row.id);
@@ -213,7 +216,7 @@
       bookFoot(5, total)
     ));
     pages.push(bookSheet("",
-      bookHead("E  ·  Listen and chant", "Chant") +
+      bookHead("E", "Listen and chant") +
       '<div class="vocab-4 bk-vocab">' +
         L.chantOrder.map(function (id, i) {
           var item = w(id);
