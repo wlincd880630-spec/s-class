@@ -728,7 +728,7 @@ def patch_print_story(courseware_path: str, print_path: str):
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,600;0,8..60,700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../../assets/ng-story-print.css" />
+  <link rel="stylesheet" href="../../assets/ng-story-print.css?v=ps6" />
   <style>:root {{ --accent: {ACCENT}; --wild: {WILD}; }}</style>
 </head>
 <body class="ng-story-print-body">
@@ -736,12 +736,6 @@ def patch_print_story(courseware_path: str, print_path: str):
     <h1>🦋 Flutter, butterfly! · 课文 PDF</h1>
     <p>导出带<strong>配图</strong>、<strong>英文</strong>与<strong>中文翻译</strong>的精美课文册。</p>
     <div class="row">
-      <label>每页句数
-        <select id="optPerPage">
-          <option value="1" selected>1 句 / 页（推荐）</option>
-          <option value="2">2 句 / 页</option>
-        </select>
-      </label>
       <label><input type="checkbox" id="optShowZh" checked /> 显示中文翻译</label>
     </div>
     <div class="row" style="margin-top:0.75rem;">
@@ -752,7 +746,7 @@ def patch_print_story(courseware_path: str, print_path: str):
     </div>
   </div>
   <div id="storyPrintArea"></div>
-  <script src="../../assets/ng-story-print.js"></script>
+  <script src="../../assets/ng-story-print.js?v=ps6"></script>
   <script>
   NgStoryPrint.init({{
     title: "Flutter, butterfly!",

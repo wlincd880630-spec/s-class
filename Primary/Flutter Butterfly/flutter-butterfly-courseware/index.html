@@ -10,6 +10,7 @@
   <script src="audio/audio-manifest.js"></script>
   <script src="audio/local-audio.js"></script>
   <script src="../../assets/ng-azure-tts-enhance.js?v=9"></script>
+  <script src="../../assets/ng-story-deeplink.js?v=1"></script>
   <script>NgAzureTTS.enhance("LocalAudio");</script>
   <style>
     :root {
@@ -2319,6 +2320,16 @@
     updateTopNavActive("words");
     loadStoryNarration();
     renderWordStep();
+    if (window.NgStoryDeepLink) {
+      NgStoryDeepLink.openStory({
+        length: STORY.length,
+        go: function (i) {
+          window.__storyPyramidOn = true;
+          storyIndex = i;
+          showView("story");
+        }
+      });
+    }
   })();
   </script>
   <script src="lifecycle-games.js"></script>

@@ -65,6 +65,136 @@
     img.classList.add("is-hide");
   }
 
+  function publicOrigin() {
+    var loc = global.location;
+    var h = ((loc && loc.hostname) || "").toLowerCase();
+    if (loc && loc.protocol === "https:" && h && h !== "localhost" && h !== "127.0.0.1") {
+      return loc.origin;
+    }
+    return "https://www.s-class.top";
+  }
+
+  function coursewareIndexPath() {
+    var path = "";
+    try {
+      path = String((global.location && location.pathname) || "");
+    } catch (e1) {}
+    if (!path) return "/index.html";
+    return path.replace(/[^/]+$/, "index.html");
+  }
+
+  /** 微信可打开的学课文地址。i 从 1 起，对应 PDF 第 i 句。 */
+  function storyLearnUrl(cfg, index1) {
+    var explicit = cfg && cfg.learnUrl;
+    if (explicit) {
+      var base = String(explicit);
+      var join = base.indexOf("?") >= 0 ? "&" : "?";
+      return base + join + "view=story&i=" + index1;
+    }
+    return publicOrigin() + coursewareIndexPath() + "?view=story&i=" + index1;
+  }
+
+  function qrHtml(url, extraClass, caption) {
+    return (
+      '<div class="story-qr' + (extraClass ? " " + extraClass : "") +
+      '" data-qr-url="' + esc(url) + '">' +
+      '<img alt="扫码学课文" width="120" height="120" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">' +
+      '<span class="story-qr-cap">' + esc(caption || "扫码学课文") + "</span>" +
+      "</div>"
+    );
+  }
+
+  var _qrLibPromise = null;
+  function loadScriptTag(src) {
+    return new Promise(function (resolve, reject) {
+      var s = document.createElement("script");
+      s.src = src;
+      s.onload = function () { resolve(); };
+      s.onerror = function () { reject(new Error("script load failed: " + src)); };
+      document.head.appendChild(s);
+    });
+  }
+
+  function qrScriptCandidates() {
+    var dir = "";
+    try {
+      var scripts = document.getElementsByTagName("script");
+      for (var i = 0; i < scripts.length; i++) {
+        var src = scripts[i].src || "";
+        var m = src.match(/^(.*)ng-story-print\.js(?:\?.*)?$/);
+        if (m) {
+          dir = m[1];
+          break;
+        }
+      }
+    } catch (e1) {}
+    return [
+      dir ? dir + "vendor/qrcode.min.js" : "",
+      "../../assets/vendor/qrcode.min.js",
+      "https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js",
+    ].filter(Boolean);
+  }
+
+  function loadQrLib() {
+    if (global.QRCode && typeof global.QRCode.toDataURL === "function") {
+      return Promise.resolve();
+    }
+    if (_qrLibPromise) return _qrLibPromise;
+    var sources = qrScriptCandidates();
+    _qrLibPromise = (function next(i) {
+      if (i >= sources.length) {
+        _qrLibPromise = null;
+        return Promise.reject(new Error("QR 库加载失败"));
+      }
+      if (global.QRCode && typeof global.QRCode.toDataURL === "function") {
+        return Promise.resolve();
+      }
+      return loadScriptTag(sources[i])
+        .then(function () {
+          if (global.QRCode && typeof global.QRCode.toDataURL === "function") return;
+          return next(i + 1);
+        })
+        .catch(function () { return next(i + 1); });
+    })(0);
+    return _qrLibPromise;
+  }
+
+  var _qrCache = {};
+  function qrDataUrl(url) {
+    if (!url) return Promise.resolve("");
+    if (_qrCache[url]) return Promise.resolve(_qrCache[url]);
+    return loadQrLib().then(function () {
+      return global.QRCode.toDataURL(url, {
+        width: 240,
+        margin: 1,
+        color: { dark: "#1a1a1a", light: "#ffffff" },
+        errorCorrectionLevel: "M",
+      });
+    }).then(function (data) {
+      _qrCache[url] = data;
+      return data;
+    });
+  }
+
+  function fillQrCodes(root) {
+    var nodes = root ? [].slice.call(root.querySelectorAll(".story-qr[data-qr-url]")) : [];
+    if (!nodes.length) return Promise.resolve();
+    return loadQrLib().then(function () {
+      return Promise.all(nodes.map(function (el) {
+        var url = el.getAttribute("data-qr-url") || "";
+        var img = el.querySelector("img");
+        if (!url || !img) return Promise.resolve();
+        return qrDataUrl(url).then(function (data) {
+          if (data) img.src = data;
+        }).catch(function () {
+          el.classList.add("is-hide");
+        });
+      }));
+    }).catch(function () {
+      nodes.forEach(function (el) { el.classList.add("is-hide"); });
+    });
+  }
+
   function polaroidHtml(candidates, emoji) {
     var src = (candidates && candidates[0]) || "";
     var rest = candidates && candidates.length > 1 ? candidates.slice(1).join("|") : "";
@@ -78,12 +208,117 @@
     );
   }
 
+  /**
+   * 与课件金字塔朗读相同：There → There are → There are many …
+   * PDF 用静态层，不带播放按钮和「点每一层朗读」说明。
+   */
+  function pyramidLayers(sentence) {
+    var raw = String(sentence || "").trim();
+    var endPunct = "";
+    var m = raw.match(/([.!?]+)$/);
+    if (m) {
+      endPunct = m[1];
+      raw = raw.slice(0, -endPunct.length).trim();
+    }
+    var words = raw.split(/\s+/).filter(Boolean);
+    if (!words.length) {
+      return [{ text: String(sentence || ""), newWord: String(sentence || "") }];
+    }
+    return words.map(function (w, i) {
+      var text = words.slice(0, i + 1).join(" ");
+      if (i === words.length - 1) text += endPunct;
+      return { text: text, newWord: String(w).replace(/[.,;:!?]+$/g, "") };
+    });
+  }
+
+  function pyramidLayerInner(ly) {
+    var text = String(ly.text || "");
+    var punct = "";
+    var m = text.match(/([.,!?]+)$/);
+    if (m) {
+      punct = m[1];
+      text = text.slice(0, -punct.length);
+    }
+    var parts = text.split(/\s+/).filter(Boolean);
+    var last = parts.pop() || "";
+    var old = parts.join(" ");
+    return (old ? '<span class="py-old">' + esc(old) + " </span>" : "") +
+      '<span class="py-new">' + esc(last) + "</span>" +
+      (punct ? '<span class="py-old">' + esc(punct) + "</span>" : "");
+  }
+
+  function pyramidSizeClass(n) {
+    if (n <= 3) return "short";
+    if (n <= 6) return "mid";
+    if (n <= 9) return "long";
+    if (n <= 14) return "xl";
+    if (n <= 22) return "xxl";
+    return "mega";
+  }
+
+  function splitSentences(en) {
+    var raw = String(en || "").trim();
+    if (!raw) return [];
+    var parts = raw.match(/[^.!?]+[.!?]+(?:["'”’])?|[^.!?]+$/g);
+    if (!parts) return [raw];
+    return parts.map(function (s) { return s.trim(); }).filter(Boolean);
+  }
+
+  function countWords(s) {
+    return String(s || "").trim().split(/\s+/).filter(Boolean).length;
+  }
+
+  function wordPyramidRows(list) {
+    var n = Math.max(list.length, 1);
+    return list.map(function (ly, i) {
+      var pct = n === 1 ? 72 : 38 + Math.round((i / (n - 1)) * 62);
+      return (
+        '<div class="py-print-layer" style="--py-w:' + pct + '%">' +
+        '<span class="py-idx">' + (i + 1) + "</span>" +
+        '<span class="py-text">' + pyramidLayerInner(ly) + "</span>" +
+        "</div>"
+      );
+    }).join("");
+  }
+
+  function sentencePyramidRows(sentences) {
+    var n = Math.max(sentences.length, 1);
+    return sentences.map(function (sent, i) {
+      var old = sentences.slice(0, i).join(" ");
+      var inner = (old ? '<span class="py-old">' + esc(old) + " </span>" : "") +
+        '<span class="py-new">' + esc(sent) + "</span>";
+      return (
+        '<div class="py-print-layer" style="--py-w:100%">' +
+        '<span class="py-idx">' + (i + 1) + "</span>" +
+        '<span class="py-text">' + inner + "</span>" +
+        "</div>"
+      );
+    }).join("");
+  }
+
+  function pyramidHtml(en) {
+    var sentences = splitSentences(en);
+    var nWords = countWords(en);
+    var useSent = nWords > 14 && sentences.length >= 2;
+    var list = useSent ? sentences : pyramidLayers(en);
+    var n = Math.max(list.length, 1);
+    var size = useSent ? "sent" : pyramidSizeClass(n);
+    var rows = useSent ? sentencePyramidRows(sentences) : wordPyramidRows(list);
+    return (
+      '<div class="story-pyramid-print pyramid-print--' + size +
+      (useSent ? " pyramid-print--sent" : "") +
+      '" data-layers="' + n + '" role="group" aria-label="金字塔朗读">' +
+      rows +
+      "</div>"
+    );
+  }
+
   function textBlockHtml(row, index, showZh) {
     var zhCls = showZh ? "story-zh" : "story-zh is-hidden";
     return (
       '<div class="story-text-block">' +
       '<span class="story-num-badge">#' + (index + 1) + "</span>" +
-      '<p class="story-en">' + esc(row.en) + "</p>" +
+      pyramidHtml(row.en) +
       '<div class="story-divider"></div>' +
       '<p class="' + zhCls + '">' + esc(row.zh) + "</p>" +
       "</div>"
@@ -91,22 +326,14 @@
   }
 
   function coverHtml(cfg) {
-    var count = cfg.story.length;
     return (
       '<section class="story-print-sheet story-print-cover">' +
       '<div class="cover-frame" aria-hidden="true"></div>' +
       '<div class="story-print-inner">' +
       '<span class="ng-mark" aria-hidden="true"></span>' +
-      '<p class="cover-tag">National Geographic · Level 1</p>' +
       "<h2>" + esc(cfg.title) + "</h2>" +
-      '<p class="cover-sub">课文阅读 · 双语对照</p>' +
-      '<p class="cover-desc">' +
-      esc(cfg.subtitle || "国家地理分级阅读") +
-      " · 共 " + count + " 句 · 配图 + 英文 + 中文翻译</p>" +
-      '<div class="cover-meta">' +
-      "<span>📖 " + count + " 页课文</span>" +
-      "<span>🌏 EN + 中文</span>" +
-      "</div></div></section>"
+      qrHtml(storyLearnUrl(cfg, 1), "story-qr--cover", "微信扫码 · 学课文") +
+      "</div></section>"
     );
   }
 
@@ -117,66 +344,24 @@
       '<div class="story-print-inner">' +
       '<header class="story-page-hdr">' +
       '<span class="book-name">' + esc(cfg.title) + "</span>" +
+      '<div class="story-hdr-meta">' +
+      qrHtml(storyLearnUrl(cfg, index + 1), "", "扫码学本句") +
       '<span class="page-num">' + esc(pageLabel) + "</span>" +
-      "</header>" +
+      "</div></header>" +
       '<div class="story-art-wrap">' +
       polaroidHtml(imgs, cfg.emoji) +
       "</div>" +
       textBlockHtml(row, index, cfg.showZh !== false) +
-      '<footer class="story-page-footer">National Geographic Style · ' +
-      esc(cfg.title) +
-      "</footer></div></section>"
-    );
-  }
-
-  function doublePageHtml(cfg, rows, indices, pageLabel) {
-    var blocks = "";
-    for (var i = 0; i < rows.length; i++) {
-      var idx = indices[i];
-      var imgs = storyImgCandidates(cfg.mediaCos, idx, cfg);
-      blocks +=
-        '<div class="story-block">' +
-        '<div class="story-art-wrap">' +
-        polaroidHtml(imgs, cfg.emoji) +
-        "</div>" +
-        textBlockHtml(rows[i], idx, cfg.showZh !== false) +
-        "</div>";
-    }
-    return (
-      '<section class="story-print-sheet story-print-sheet--double">' +
-      '<div class="story-print-inner">' +
-      '<header class="story-page-hdr">' +
-      '<span class="book-name">' + esc(cfg.title) + "</span>" +
-      '<span class="page-num">' + esc(pageLabel) + "</span>" +
-      "</header>" +
-      '<div class="story-double-grid">' +
-      blocks +
-      "</div>" +
-      '<footer class="story-page-footer">National Geographic Style · ' +
-      esc(cfg.title) +
-      "</footer></div></section>"
+      "</div></section>"
     );
   }
 
   function buildAll(cfg) {
     var html = coverHtml(cfg);
     var story = cfg.story || [];
-    var perPage = cfg.perPage === 2 ? 2 : 1;
-    var contentPage = 0;
-
-    if (perPage === 1) {
-      story.forEach(function (row, i) {
-        contentPage++;
-        html += singlePageHtml(cfg, row, i, "第 " + contentPage + " 页");
-      });
-    } else {
-      for (var i = 0; i < story.length; i += 2) {
-        contentPage++;
-        var chunk = story.slice(i, i + 2);
-        var idxs = chunk.map(function (_, j) { return i + j; });
-        html += doublePageHtml(cfg, chunk, idxs, "第 " + contentPage + " 页");
-      }
-    }
+    story.forEach(function (row, i) {
+      html += singlePageHtml(cfg, row, i, "第 " + (i + 1) + " 页");
+    });
     return html;
   }
 
@@ -205,6 +390,30 @@
     [].forEach.call(area.querySelectorAll(".story-print-sheet"), function (el) {
       el.style.transform = "";
       el.style.marginBottom = "";
+    });
+  }
+
+  function fitSheetText(root) {
+    if (!root || !global.getComputedStyle) return;
+    [].forEach.call(root.querySelectorAll(".story-print-sheet"), function (sheet) {
+      var py = sheet.querySelector(".story-pyramid-print");
+      if (!py) return;
+      var zh = sheet.querySelector(".story-zh");
+      var guard = 0;
+      while (sheet.scrollHeight - sheet.clientHeight > 0 && guard < 16) {
+        var fs = parseFloat(global.getComputedStyle(py).fontSize) || 16;
+        if (fs > 10.5) {
+          py.style.fontSize = (fs * 0.88).toFixed(2) + "px";
+        } else if (zh) {
+          var zfs = parseFloat(global.getComputedStyle(zh).fontSize) || 16;
+          if (zfs <= 10.5) break;
+          zh.style.fontSize = (zfs * 0.9).toFixed(2) + "px";
+        } else {
+          break;
+        }
+        void sheet.offsetHeight;
+        guard += 1;
+      }
     });
   }
 
@@ -268,12 +477,22 @@
     if (!area) return;
 
     function render() {
-      var perPageEl = document.getElementById("optPerPage");
       var showZhEl = document.getElementById("optShowZh");
-      cfg.perPage = perPageEl && perPageEl.value === "2" ? 2 : 1;
       cfg.showZh = !showZhEl || showZhEl.checked;
       area.innerHTML = buildAll(cfg);
-      requestAnimationFrame(function () { fitPreview(area); });
+      return fillQrCodes(area).then(function () {
+        fitSheetText(area);
+        function afterFonts() {
+          fitSheetText(area);
+          fitPreview(area);
+        }
+        if (global.document && document.fonts && document.fonts.ready) {
+          return document.fonts.ready.then(afterFonts).catch(afterFonts);
+        }
+        return new Promise(function (resolve) {
+          requestAnimationFrame(function () { afterFonts(); resolve(); });
+        });
+      });
     }
 
     var btnGen = document.getElementById("btnStoryGen");
@@ -284,11 +503,12 @@
 
     if (btnPrint) {
       btnPrint.onclick = function () {
-        render();
-        clearPreviewScale(area);
-        document.body.classList.add("is-exporting");
-        area.classList.add("is-exporting");
-        preloadImages(area).then(function () {
+        render().then(function () {
+          clearPreviewScale(area);
+          document.body.classList.add("is-exporting");
+          area.classList.add("is-exporting");
+          return preloadImages(area);
+        }).then(function () {
           setTimeout(function () { global.print(); }, 200);
         });
       };
@@ -308,11 +528,13 @@
         var old = btnPdf.textContent;
         btnPdf.disabled = true;
         btnPdf.textContent = "生成中…";
-        render();
-        clearPreviewScale(area);
-        document.body.classList.add("is-exporting");
-        area.classList.add("is-exporting");
-        loadPdfLibs()
+        render()
+          .then(function () {
+            clearPreviewScale(area);
+            document.body.classList.add("is-exporting");
+            area.classList.add("is-exporting");
+            return loadPdfLibs();
+          })
           .then(function () { return preloadImages(area); })
           .then(function () {
             return global.document.fonts
@@ -363,9 +585,7 @@
       };
     }
 
-    var perPageEl = document.getElementById("optPerPage");
     var showZhEl = document.getElementById("optShowZh");
-    if (perPageEl) perPageEl.onchange = render;
     if (showZhEl) showZhEl.onchange = render;
 
     render();
@@ -376,5 +596,9 @@
     buildAll: buildAll,
     preloadImages: preloadImages,
     imgError: imgError,
+    fillQrCodes: fillQrCodes,
+    storyLearnUrl: storyLearnUrl,
+    pyramidLayers: pyramidLayers,
+    fitSheetText: fitSheetText,
   };
 })(typeof window !== "undefined" ? window : this);
