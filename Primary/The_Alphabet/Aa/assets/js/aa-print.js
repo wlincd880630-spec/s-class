@@ -31,6 +31,15 @@
     }
     return '<span class="onset">' + item.onset + '</span><span class="rest">' + item.rest + "</span>";
   }
+  function wordFaces(item) {
+    var html = onsetHTML(item);
+    return (
+      '<div class="lab lab-faces">' +
+        '<span class="lab-print">' + html + "</span>" +
+        '<span class="lab-hand">' + html + "</span>" +
+      "</div>"
+    );
+  }
   function staveHTML(item) {
     if (!item) return "";
     if (item.id === "Aa" || item.kind === "letter") {
@@ -129,11 +138,11 @@
   function task(n, text, color) {
     return '<div class="task ' + (color || "") + '"><span class="n">' + n + "</span><p>" + text + "</p></div>";
   }
-  function tile(item, i, withWord) {
+  function tile(item, i, withWord, dual) {
     return (
       '<div class="pic-tile t' + (i % 6) + '">' +
       '<img src="' + item.img + '" alt="' + item.en + '">' +
-      (withWord !== false ? '<div class="lab">' + onsetHTML(item) + "</div>" : "") +
+      (withWord !== false ? (dual ? wordFaces(item) : '<div class="lab">' + onsetHTML(item) + "</div>") : "") +
       "</div>"
     );
   }
@@ -192,7 +201,7 @@
     pages.push(bookSheet("",
       bookHead("B", "Listen, point and say") +
       '<div class="vocab-4 bk-vocab">' +
-        L.vocab.map(function (item, i) { return tile(item, i, true); }).join("") +
+        L.vocab.map(function (item, i) { return tile(item, i, true, true); }).join("") +
       "</div>" +
       bookFoot(3, total)
     ));
@@ -233,7 +242,7 @@
           return (
             '<div class="pic-tile t' + i + '">' +
             '<img src="' + item.img + '" alt="">' +
-            '<div class="lab">' + onsetHTML(item) + "</div>" +
+            wordFaces(item) +
             '<div class="num-box"></div>' +
             "</div>"
           );
