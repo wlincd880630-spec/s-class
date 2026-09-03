@@ -30,6 +30,9 @@
     if (item.id === "angry-apple") {
       return '<span class="onset">a</span>ngry <span class="onset">a</span>pple';
     }
+    if (!item.a) {
+      return '<span class="rest">' + item.en + "</span>";
+    }
     return '<span class="onset">' + item.onset + '</span><span class="rest">' + item.rest + "</span>";
   }
   function wordFaces(item) {
