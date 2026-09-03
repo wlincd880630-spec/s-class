@@ -34,6 +34,7 @@
   bar.id = "pet-studio-entry";
   bar.innerHTML = unit
     ? link(root + "print.html?type=handout&unit=" + unit, "讲义 PDF") +
+      link(root + "read.html?unit=" + unit, "文章学习") +
       link(root + "print.html?type=passage&unit=" + unit, "文章 PDF") +
       link(root + "games.html?unit=" + unit, "复习游戏")
     : link(root + "index.html", "PET 讲义 / 游戏");
@@ -46,7 +47,7 @@
       "font:800 12px/1 Nunito,Noto Sans SC,sans-serif;padding:8px 11px;border-radius:999px;white-space:nowrap;" +
       "box-shadow:0 8px 20px rgba(79,70,229,.35)}" +
     (isVocab
-      ? "#app nav.h-16 .flex.items-center.gap-3{margin-right:248px}" +
+      ? "#app nav.h-16 .flex.items-center.gap-3{margin-right:328px}" +
         "@media (max-width:900px){" +
           "#pet-studio-entry{top:70px;right:12px;flex-wrap:wrap;justify-content:flex-end}" +
           "#app nav.h-16 .flex.items-center.gap-3{margin-right:0}" +

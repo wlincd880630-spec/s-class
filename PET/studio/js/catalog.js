@@ -98,4 +98,25 @@
   global.PETStudio.gameImg = gameImg;
   global.PETStudio.lessonImageUrl = lessonImageUrl;
   global.PETStudio.parseQuery = parseQuery;
+  global.PETStudio.SITE_ORIGIN = "https://www.s-class.top";
+  global.PETStudio.articleLearnUrl = function (unitId, opts) {
+    opts = opts || {};
+    if (opts.local) {
+      try {
+        return new URL("read.html?unit=" + Number(unitId), location.href).href;
+      } catch (e) {
+        return "read.html?unit=" + Number(unitId);
+      }
+    }
+    var origin = global.PETStudio.SITE_ORIGIN;
+    try {
+      var h = location.hostname || "";
+      if (h && h !== "localhost" && h !== "127.0.0.1") origin = location.origin;
+    } catch (e) {}
+    return String(origin).replace(/\/$/, "") + "/PET/studio/read.html?unit=" + Number(unitId);
+  };
+  global.PETStudio.qrImageUrl = function (data) {
+    return "https://api.qrserver.com/v1/create-qr-code/?size=180x180&ecc=M&margin=1&data=" +
+      encodeURIComponent(data || "");
+  };
 })(window);

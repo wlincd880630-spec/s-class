@@ -661,6 +661,76 @@
       });
   }
 
+  function lookupWord(word, context) {
+    var prompt =
+      '你是 PET / 初中英语教师。请根据下面这句话的语境，解释句中这个单词（或短语）的含义。\n' +
+      '【整句】' + (context || "（无例句，按常用义解释）") + "\n" +
+      '【待解释的词】"' + word + '"\n\n' +
+      "请用简洁中文回答，包含：音标（若能确定）、词性、本句中的中文释义、一条简单英文例句及中文翻译。控制在 120 字内。";
+    return chatRetry(prompt, 500);
+  }
+
+  function translateSentence(text) {
+    var prompt =
+      "你是英语翻译老师。将下面英文翻译成自然、准确的中文，适合中国初高中学生。" +
+      "只返回译文，不要解释。\n\n" + text;
+    return chatRetry(prompt, 400);
+  }
+
+  function analyzeSentence(sentence, context) {
+    var prompt =
+      "你是面向中国初高中学生的英语阅读老师。请深入分析以下英文句子：\n\"" +
+      sentence + "\"\n" +
+      (context ? "\n所在段落上下文：" + context + "\n" : "") +
+      "\n请用中文回答，使用如下 Markdown 小节标题（保持标题格式）：\n\n" +
+      "## 翻译\n给出准确、自然的中文译文。\n\n" +
+      "## 句子结构\n分析句子整体结构（主谓宾、从句、修饰成分、句型类型等）。\n\n" +
+      "## 语法与考点\n说明值得注意的语法现象、时态语态、连接手段等考试相关要点。\n\n" +
+      "## 学习提示\n给出 1–2 条帮助记忆或理解的语言学习建议。\n";
+    return chatRetry(prompt, 1200);
+  }
+
+  function formatAiMarkdown(text) {
+    var lines = String(text || "").split("\n");
+    var html = "";
+    var i;
+    for (i = 0; i < lines.length; i++) {
+      var line = lines[i].replace(/\s+$/, "");
+      if (!line.trim()) continue;
+      if (/^##\s+/.test(line)) {
+        html += '<h4 class="ai-h">' + escHtml(line.replace(/^##\s+/, "")) + "</h4>";
+      } else if (/^###\s+/.test(line)) {
+        html += '<h5 class="ai-sub">' + escHtml(line.replace(/^###\s+/, "")) + "</h5>";
+      } else if (/^[-*]\s+/.test(line)) {
+        html += "<p>• " + escHtml(line.replace(/^[-*]\s+/, "")).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>") + "</p>";
+      } else {
+        html += "<p>" + escHtml(line).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>") + "</p>";
+      }
+    }
+    return html || "<p>（无内容）</p>";
+  }
+
+  function escHtml(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  function wrapWords(sentence) {
+    var src = String(sentence == null ? "" : sentence);
+    var re = /[A-Za-z][A-Za-z']*/g;
+    var out = "";
+    var last = 0;
+    var m;
+    while ((m = re.exec(src))) {
+      out += escHtml(src.slice(last, m.index));
+      out += '<span class="word-token" data-word="' + escHtml(m[0]).replace(/"/g, "&quot;") + '">' +
+        escHtml(m[0]) + "</span>";
+      last = m.index + m[0].length;
+    }
+    out += escHtml(src.slice(last));
+    return out;
+  }
+
   global.PETStudio.aiExtra = extraQuestions;
   global.PETStudio.aiExamSentences = examSentences;
   global.PETStudio.enrichHandout = enrichHandout;
@@ -668,4 +738,9 @@
     return applyEnrichment(bag, { vocab: {}, colloc: {}, grammar: [] });
   };
   global.PETStudio.HANDOUT_CACHE_VER = HANDOUT_CACHE_VER;
+  global.PETStudio.lookupWord = lookupWord;
+  global.PETStudio.translateSentence = translateSentence;
+  global.PETStudio.analyzeSentence = analyzeSentence;
+  global.PETStudio.formatAiMarkdown = formatAiMarkdown;
+  global.PETStudio.wrapWords = wrapWords;
 })(window);
