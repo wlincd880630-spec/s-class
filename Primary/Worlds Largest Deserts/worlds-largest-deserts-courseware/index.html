@@ -188,6 +188,7 @@
   <script src="audio/audio-manifest.js"></script>
   <script src="audio/local-audio.js"></script>
   <script src="../../assets/ng-azure-tts-enhance.js"></script>
+  <script src="../../assets/ng-story-deeplink.js?v=1"></script>
   <script>
   (function () {
     "use strict";
@@ -321,6 +322,17 @@
 
     renderWord();
     renderStory();
+    if (window.NgStoryDeepLink) {
+      NgStoryDeepLink.openStory({
+        length: story.length,
+        go: function (i) {
+          storyIndex = i;
+          renderStory();
+          var btn = document.querySelector('.tab-btn[data-view="story"]');
+          if (btn) btn.click();
+        }
+      });
+    }
   })();
   </script>
 </body>

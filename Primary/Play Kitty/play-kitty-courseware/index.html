@@ -10,6 +10,7 @@
   <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Play%20Kitty/play-kitty-courseware/audio/audio-manifest.js"></script>
   <script src="https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Play%20Kitty/play-kitty-courseware/audio/local-audio.js"></script>
   <script src="../../assets/ng-azure-tts-enhance.js?v=9"></script>
+  <script src="../../assets/ng-story-deeplink.js?v=1"></script>
   <script>if (window.NgAzureTTS) NgAzureTTS.enhance("LocalAudio");</script>
   <style>
     :root {
@@ -1882,6 +1883,16 @@
     updateTopNavActive("words");
     loadStoryNarration();
     renderWordStep();
+    if (window.NgStoryDeepLink) {
+      NgStoryDeepLink.openStory({
+        length: STORY.length,
+        go: function (i) {
+          window.__storyPyramidOn = true;
+          storyIndex = i;
+          showView("story");
+        }
+      });
+    }
   })();
   </script>
   <script src="../../assets/primary-responsive.js?v=2" defer></script>
