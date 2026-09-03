@@ -114,22 +114,51 @@
   width: 100%;
   max-width: 100%;
 }
-#view-words .w-sb-grid {
-  gap: 0.7rem 0.85rem;
+#view-words .w-sb-grid,
+.view-body--words .w-sb-grid {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  justify-content: stretch;
+  gap: 0.16rem 0.22rem;
+  width: 100%;
+  max-width: 100%;
+  margin: 0.12rem 0 0.2rem;
+  overflow-x: auto;
+  overflow-y: visible;
 }
-#view-words .w-sb-box {
-  min-width: 4.15rem;
-  min-height: 4.55rem;
-  font-size: clamp(1.55rem, 3vw, 2.55rem);
-  padding: 0.42rem 0.7rem;
+#view-words .w-sb-col,
+.view-body--words .w-sb-col {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: none;
+  padding-top: 1.55rem;
 }
-#view-words .w-sb-col {
-  min-width: 4.2rem;
+#view-words .w-sb-box,
+.view-body--words .w-sb-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  min-height: 3.05rem;
+  padding: 0.16rem 0.08rem 0.2rem;
+  font-size: clamp(0.92rem, 1.7vw, 1.55rem);
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
 }
 #view-words .w-sb-hint-under {
-  font-size: 0.86rem;
-  max-width: 9.5rem;
+  font-size: 0.68rem;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-family: "Noto Sans SC", "Segoe UI", sans-serif;
+}
+#view-words .w-sb-combo-tag {
+  font-size: 0.62rem;
+  padding: 0.1rem 0.32rem;
+  max-width: min(14rem, 100%);
 }
 #view-words #wActions .btn,
 #view-words .word-step-nav .btn {
@@ -310,4 +339,115 @@
 @media (max-width: 820px) {
   .word-jump { max-width: none; width: 100%; }
   .word-jump-chip { min-height: 2rem; font-size: 0.74rem; }
+}
+
+/* 顶栏收成一行书名，腾出学单词舞台 */
+body:has(.word-study-wrap) .book-sub,
+body:has(.word-study-wrap) .ng-bar,
+body:has(.word-study-wrap) .book-title em {
+  display: none !important;
+}
+body:has(.word-study-wrap) .book-top {
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0.25rem 0.55rem;
+  padding: 0.02rem 0 0.1rem;
+  margin: 0 0 0.08rem;
+}
+body:has(.word-study-wrap) .book-top-left {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+body:has(.word-study-wrap) .book-title {
+  font-size: clamp(0.95rem, 1.35vw, 1.18rem) !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+  line-height: 1.2;
+}
+body:has(.word-study-wrap) .book-inner {
+  padding: 0.08rem 0.22rem 0.08rem 0.36rem;
+}
+body:has(.word-study-wrap) .book-cover {
+  border-radius: 0;
+  box-shadow: none;
+}
+body:has(.word-study-wrap) #view-words .view-body--words > h2 {
+  display: none !important;
+}
+
+/* 单词列表折叠：默认收起，少占高度 */
+.word-jump-fold {
+  width: 100%;
+  margin: 0 0 0.18rem;
+  border: 1.5px solid #1a1a1a;
+  border-radius: 8px;
+  background: #fff;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+.word-jump-fold > summary.word-jump-summary,
+.word-jump-fold > summary {
+  cursor: pointer;
+  list-style: none;
+  font-family: "Noto Sans SC", sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  line-height: 1.2;
+  padding: 0.26rem 0.65rem;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+}
+.word-jump-fold > summary::-webkit-details-marker {
+  display: none;
+}
+.word-jump-fold > summary::before {
+  content: "▸";
+  font-size: 0.72rem;
+  color: #4a4a4a;
+}
+.word-jump-fold[open] > summary::before {
+  content: "▾";
+}
+.word-jump-fold .word-jump {
+  max-height: min(8.2rem, 26vh);
+  margin: 0;
+  padding: 0.12rem 0.4rem 0.35rem;
+}
+
+/* 桌面铺满视口，去掉 16:9 左右留白 */
+@media (pointer: fine) and (min-width: 821px), (min-width: 1025px) {
+  body:has(> .app):has(.word-study-wrap) {
+    align-items: stretch;
+    justify-content: flex-start;
+  }
+  body:has(> .app):has(.word-study-wrap) > .app {
+    width: 100%;
+    max-width: none;
+    aspect-ratio: auto;
+    margin: 0;
+  }
+}
+@media (pointer: coarse) and (max-width: 1024px), (max-width: 820px) {
+  body:has(.word-study-wrap) .book-top {
+    flex-wrap: wrap;
+  }
+  body:has(.word-study-wrap) .book-top-right {
+    width: 100%;
+  }
+  body:has(> .app):has(.word-study-wrap) {
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+    background: #F7F5F0;
+  }
+  body:has(> .app):has(.word-study-wrap) > .app {
+    width: 100%;
+    margin: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
