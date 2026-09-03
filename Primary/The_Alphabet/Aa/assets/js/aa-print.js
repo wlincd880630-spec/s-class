@@ -65,10 +65,12 @@
   }
   function modelCard(letter, kind, title, hint) {
     var cls = kind === "small" ? "letter-small" : "letter-cap";
+    var head = "";
+    if (title) head += '<div class="model-title">' + title + "</div>";
+    if (hint) head += '<p class="model-hint">' + hint + "</p>";
     return (
       '<div class="model-card">' +
-      '<div class="model-title">' + title + "</div>" +
-      '<p class="model-hint">' + hint + "</p>" +
+      head +
       '<div class="stave-line model-stave">' +
       '<div class="grid-lines"><i class="gl gl-sky"></i><i class="gl gl-cloud"></i><i class="gl gl-grass"></i><i class="gl gl-dirt"></i></div>' +
       '<div class="trace-word center">' +
@@ -79,6 +81,25 @@
       '<canvas class="stave-ghost-cv" aria-hidden="true"></canvas>' +
       "</div></div>"
     );
+  }
+  function bookHead(kicker, title) {
+    return (
+      '<header class="bk-head">' +
+      '<p class="bk-kicker">' + kicker + "</p>" +
+      (title ? '<h1 class="bk-title">' + title + "</h1>" : "") +
+      "</header>"
+    );
+  }
+  function bookFoot(page, total) {
+    return (
+      '<div class="bk-foot">' +
+      "<span>S-Class  ·  The Alphabet  ·  Aa</span>" +
+      "<span>" + page + "  /  " + total + "</span>" +
+      "</div>"
+    );
+  }
+  function bookSheet(extra, inner) {
+    return frame('<article class="sheet book-sheet ' + (extra || "") + '">' + inner + "</article>");
   }
   function header(kicker, title, badge) {
     return (
@@ -131,57 +152,54 @@
   function buildBook() {
     var pages = [];
     var total = 6;
-    pages.push(sheet("theme-cover",
-      header("Student Book · Unit 1", "Come and meet Aa!", "彩页作业") +
+    pages.push(bookSheet("book-cover",
+      '<p class="bk-brand">The Alphabet</p>' +
+      '<p class="bk-unit">Unit 1</p>' +
+      '<p class="bk-display">Aa</p>' +
+      '<p class="bk-phrase">angry apple</p>' +
+      '<p class="bk-ipa">/æ/</p>' +
+      '<figure class="bk-hero"><img src="' + L.mascot.img + '" alt="angry apple"></figure>' +
+      '<p class="bk-words">apple  ·  axe  ·  ant  ·  alligator</p>' +
       nameRow() +
-      '<div class="hero-row">' +
-        '<img src="' + L.mascot.img + '" alt="angry apple">' +
-        '<div class="aa-mini"><div class="big">Aa</div><div class="ipa">/æ/</div><div>the letter A</div></div>' +
-      "</div>" +
-      '<div class="bubble">Hi, I\'m an <b>angry apple</b>!<br>My beginning sound is <b>/æ/</b>.</div>' +
-      '<p style="text-align:center;font-size:16pt;margin:5mm 0 0;">apple · axe · ant · alligator</p>' +
-      foot(1, total, "教材")
+      bookFoot(1, total)
     ));
-    pages.push(sheet("",
-      header("A · Listen and say", "Angry apple 与字母 Aa", "Track 03") +
-      task("A", "看图跟读：Hi, I'm an angry apple. 摸一摸大 Aa，大声说 /æ/。") +
-      '<div class="hero-row">' +
-        '<div class="tile t0"><img src="' + L.mascot.img + '" alt=""><div class="lab">' + onsetHTML(w("angry-apple")) + "</div></div>" +
-        '<div class="aa-mini"><div class="big">Aa</div><div class="ipa">/æ/</div></div>' +
+    pages.push(bookSheet("",
+      bookHead("A  ·  Listen and say", "Angry apple") +
+      '<div class="bk-split">' +
+        '<figure class="bk-plate"><img src="' + L.mascot.img + '" alt="angry apple"></figure>' +
+        '<div class="bk-letter">' +
+          '<span class="pair">Aa</span>' +
+          '<span class="ipa">/æ/</span>' +
+        "</div>" +
       "</div>" +
-      task("★", "老师说字母名 A 或短音 /æ/，小朋友举起手中的字母卡。", "sun") +
-      stave(staveHTML({ kind: "letter", id: "Aa" }), "trace", "fs-lg", "描 Aa") +
-      stave("", "write", "fs-lg", "写 Aa") +
-      foot(2, total, "教材")
+      stave(staveHTML({ kind: "letter", id: "Aa" }), "trace", "fs-lg", "Trace") +
+      stave("", "write", "fs-lg", "Write") +
+      bookFoot(2, total)
     ));
-    pages.push(sheet("theme-leaf",
-      header("B · Listen, point, repeat", "四个 /æ/ 好朋友", "Track 04") +
-      task("B", "听单词，用手指点图，再跟读。开头字母 a 是红色的。", "leaf") +
-      '<div class="vocab-4">' +
+    pages.push(bookSheet("",
+      bookHead("B  ·  Listen, point and say", "Four friends") +
+      '<div class="vocab-4 bk-vocab">' +
         L.vocab.map(function (item, i) { return tile(item, i, true); }).join("") +
       "</div>" +
-      '<p style="font-size:14pt;color:#546e7a;margin:4mm 0 0;">课堂玩法：老师打乱顺序说词，学生举手点对应图；或把本页图卡剪下做「听音举卡」。</p>' +
-      foot(3, total, "教材")
+      bookFoot(3, total)
     ));
-    pages.push(sheet("theme-sky",
-      header("C · Trace, write, and say", "四线格里写 Aa", "描红") +
-      task("C", "先沿浅色手写体描大写 A、小写 a，再在四线格里自己写。绿点是起笔处。边写边说 /æ/。", "sky") +
+    pages.push(bookSheet("",
+      bookHead("C  ·  Trace and write", "Aa") +
       '<div class="letter-models">' +
-        modelCard("A", "cap", "A · 三笔", "从左下绿点起笔，两斜一横") +
-        modelCard("a", "small", "a · 两笔", "从圆顶绿点起笔，先肚再竖") +
+        modelCard("A", "cap") +
+        modelCard("a", "small") +
       "</div>" +
-      stave('<span class="letter-pair"><span class="letter-cap onset">A</span></span>', "trace", "fs-lg", "描 A") +
-      stave('<span class="letter-pair"><span class="letter-cap onset">A</span></span>', "trace", "fs-lg", "描 A") +
-      stave("", "write", "fs-lg", "写 A") +
-      stave('<span class="letter-pair"><span class="letter-small onset">a</span></span>', "trace", "fs-lg", "描 a") +
-      stave('<span class="letter-pair"><span class="letter-small onset">a</span></span>', "trace", "fs-lg", "描 a") +
-      stave("", "write", "fs-lg", "写 a") +
-      foot(4, total, "教材")
+      stave('<span class="letter-pair"><span class="letter-cap onset">A</span></span>', "trace", "fs-lg", "Trace") +
+      stave('<span class="letter-pair"><span class="letter-cap onset">A</span></span>', "trace", "fs-lg", "Trace") +
+      stave("", "write", "fs-lg", "Write") +
+      stave('<span class="letter-pair"><span class="letter-small onset">a</span></span>', "trace", "fs-lg", "Trace") +
+      stave('<span class="letter-pair"><span class="letter-small onset">a</span></span>', "trace", "fs-lg", "Trace") +
+      stave("", "write", "fs-lg", "Write") +
+      bookFoot(4, total)
     ));
-    pages.push(sheet("",
-      header("D · Aa or X", "听一听，写 Aa 还是打叉", "Track 05") +
-      task("D", "听教材。如果开头是 /æ/，在格子里写 Aa；不是就打 X。", "sun") +
-      '<div class="six-grid">' +
+    pages.push(bookSheet("",
+      bookHead("D  ·  Listen and write", "Aa or X") +
+      '<div class="six-grid bk-vocab">' +
         L.track05Items.map(function (row, i) {
           var item = w(row.id);
           return (
@@ -192,12 +210,11 @@
           );
         }).join("") +
       "</div>" +
-      foot(5, total, "教材")
+      bookFoot(5, total)
     ));
-    pages.push(sheet("theme-candy",
-      header("E · Listen and chant", "Chant 小火车", "Track 06") +
-      task("E", "跟着 chant 唱：ant → apple → alligator → axe。在格子里写 1 2 3 4。", "leaf") +
-      '<div class="vocab-4">' +
+    pages.push(bookSheet("",
+      bookHead("E  ·  Listen and chant", "Chant") +
+      '<div class="vocab-4 bk-vocab">' +
         L.chantOrder.map(function (id, i) {
           var item = w(id);
           return (
@@ -209,8 +226,7 @@
           );
         }).join("") +
       "</div>" +
-      '<p style="font-size:15pt;margin-top:6mm;">唱完把序号写进格子。正确顺序是 ant → apple → alligator → axe。</p>' +
-      foot(6, total, "教材")
+      bookFoot(6, total)
     ));
     return pages.join("");
   }
@@ -231,10 +247,10 @@
     ));
     pages.push(sheet("theme-sky",
       header("A · Trace, write, and say", "描红大 A 和小 a", "四线格") +
-      task("A", "绿点起笔。沿四线格里的浅色手写体描，再自己写。写完大声说 A, a, /æ/。") +
+      task("A", "沿四线格里的浅色手写体描，再自己写。") +
       '<div class="letter-models">' +
-        modelCard("A", "cap", "A · 三笔", "从左下绿点起笔，两斜一横") +
-        modelCard("a", "small", "a · 两笔", "从圆顶绿点起笔，先肚再竖") +
+        modelCard("A", "cap") +
+        modelCard("a", "small") +
       "</div>" +
       stave('<span class="letter-pair"><span class="letter-cap onset">A</span></span>', "trace", "fs-lg", "描") +
       stave('<span class="letter-pair"><span class="letter-cap onset">A</span></span>', "trace", "fs-lg", "描") +
