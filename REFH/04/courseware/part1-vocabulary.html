@@ -2,9 +2,10 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Part 1 · 词汇学习 | Ancient China Geography</title>
   <link rel="stylesheet" href="assets/css/shared.css">
+  <link rel="stylesheet" href="../../assets/css/responsive.css?v=20260903a">
   <style>
     .page { max-width: 1100px; margin: 0 auto; padding: 24px 20px 80px; }
     .page-header { margin-bottom: 28px; }
@@ -93,7 +94,7 @@
     function renderCards() {
       const items = filter === 'all' ? allItems : allItems.filter(i => i.type === filter);
       document.getElementById('card-grid').innerHTML = items.map((item) =>
-        `<div class="flip-card" onclick="openVocab(${allItems.indexOf(item)})">
+        `<div class="flip-card flip-card--${item.type || 'word'}" onclick="openVocab(${allItems.indexOf(item)})">
           <div class="flip-inner">
             <div class="flip-front">
               <div class="card-word">${Courseware.escapeHtml(item.word)}</div>
@@ -195,5 +196,6 @@
       renderCards();
     });
   </script>
+  <script src="../../assets/js/responsive.js?v=20260903a"></script>
 </body>
 </html>
