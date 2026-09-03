@@ -104,16 +104,16 @@
       size: 10,
       words: ["apple", "axe", "ant", "alligator"],
       grid: [
-        "ALLIGATORB",
-        "PCDFHKJMQU",
-        "PAXEVWYZBC",
-        "LNDFHKJMQU",
-        "ETBCDFHKJM",
-        "BCDFHKJMQU",
-        "DFHJKMQUVW",
-        "FHJKMUVWYZ",
-        "HJKMUVWYZB",
-        "JKMUVWYZBC"
+        "BCDFHKJMQA",
+        "DFHJKMQUVL",
+        "FHJKMQUVWL",
+        "AXEBCDFHJI",
+        "JKMQUVWYBG",
+        "KMQUVWYZCA",
+        "MQUVAWYZDT",
+        "QUVWNYZBFO",
+        "UVWYTBCDHR",
+        "BAPPLEQUVY"
       ]
     },
     games: [

@@ -358,7 +358,7 @@
     ));
     pages.push(bookSheet("",
       bookHead("L", "Circle and colour") +
-      bookSection("Circle the /æ/ pictures") +
+      bookSection('Circle the <span class="bk-ipa-inline">/æ/</span> pictures') +
       '<div class="bk-picnic">' +
         L.workbookCircle.map(function (id) {
           var item = w(id);
@@ -371,7 +371,7 @@
           );
         }).join("") +
       "</div>" +
-      bookSection("Colour A and a") +
+      bookSection('Colour A and <span class="bk-keep-case">a</span>') +
       '<div class="bk-balloons">' +
         L.workbookLetters.map(function (ch) {
           return '<div class="bk-balloon">' + ch + "</div>";
