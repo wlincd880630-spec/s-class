@@ -62,7 +62,10 @@
   function syncCoursewareLayout() {
     var app = document.querySelector(".app");
     if (!app) return;
-    if (isCoursewarePortrait()) {
+    if (
+      isCoursewarePortrait() ||
+      document.documentElement.classList.contains("sclass-has-page-nav")
+    ) {
       app.style.removeProperty("overflow");
       document.body.style.removeProperty("overflow");
       document.documentElement.style.overflowY = "auto";
