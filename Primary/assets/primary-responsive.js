@@ -49,13 +49,27 @@
 
   applyCoursewarePortrait();
   window.addEventListener("resize", function () {
-    setTimeout(applyCoursewarePortrait, 80);
+    setTimeout(function () {
+      applyCoursewarePortrait();
+      syncCoursewareLayout();
+    }, 80);
   });
-  window.addEventListener("orientationchange", applyCoursewarePortrait);
+  window.addEventListener("orientationchange", function () {
+    applyCoursewarePortrait();
+    syncCoursewareLayout();
+  });
 
   function syncCoursewareLayout() {
     var app = document.querySelector(".app");
     if (!app) return;
+    if (isCoursewarePortrait()) {
+      app.style.removeProperty("overflow");
+      document.body.style.removeProperty("overflow");
+      document.documentElement.style.overflowY = "auto";
+      document.body.style.overflowY = "auto";
+      document.body.style.height = "auto";
+      return;
+    }
     var main = app.querySelector(".book-main");
     if (main && main.scrollHeight > main.clientHeight + 2) {
       app.style.overflow = "hidden";
@@ -63,7 +77,4 @@
   }
 
   window.addEventListener("load", syncCoursewareLayout);
-  window.addEventListener("resize", function () {
-    setTimeout(syncCoursewareLayout, 100);
-  });
 })();

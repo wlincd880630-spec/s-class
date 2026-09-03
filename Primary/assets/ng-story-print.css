@@ -150,38 +150,208 @@ body.ng-story-print-body {
   flex-direction: column;
 }
 
-/* 封面 */
-.story-print-cover .story-print-inner {
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+/* 封面 · 全幅大图 + 底部渐变 */
+.story-print-cover {
+  background:
+    radial-gradient(120% 70% at 82% 8%, rgba(245, 196, 0, 0.28), transparent 52%),
+    linear-gradient(165deg, #12263a 0%, #0b1724 42%, #070d14 100%);
+  color: #fff;
 }
 
-.story-print-cover .ng-mark {
-  display: inline-block;
-  width: 48px;
-  height: 8px;
-  background: var(--ng-gold);
-  margin-bottom: 1.2rem;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+.story-print-cover::before {
+  width: 100%;
+  height: 7px;
+  bottom: auto;
+  background: linear-gradient(90deg, var(--ng-gold) 0%, #ffe082 46%, var(--ng-gold) 100%);
+}
+
+.story-print-cover .story-print-inner {
+  position: relative;
+  z-index: 2;
+  justify-content: flex-end;
+  align-items: stretch;
+  text-align: left;
+  padding: 0;
+  color: #fff;
+}
+
+.cover-hero {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: inherit;
+}
+
+.cover-hero-img {
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  object-fit: cover;
+  object-position: 50% 32%;
+}
+
+.cover-hero-img.is-hide {
+  display: none !important;
+}
+
+.cover-hero-fallback {
+  display: none;
+  position: absolute;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  font-size: 96px;
+  opacity: 0.55;
+}
+
+.cover-hero-img.is-hide ~ .cover-hero-fallback {
+  display: flex;
+}
+
+.cover-scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(7, 12, 20, 0.18) 0%,
+      rgba(7, 12, 20, 0.04) 28%,
+      rgba(7, 12, 20, 0.38) 56%,
+      rgba(7, 12, 20, 0.92) 100%
+    ),
+    linear-gradient(90deg, rgba(7, 12, 20, 0.28) 0%, transparent 42%);
+  pointer-events: none;
+}
+
+.cover-copy {
+  position: relative;
+  z-index: 2;
+  padding: 0 18mm 8mm 18mm;
+  max-width: 176mm;
+}
+
+.cover-kicker {
+  margin: 0 0 10px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--ng-gold);
 }
 
 .story-print-cover h2 {
   font-family: "Source Serif 4", "Noto Serif SC", Georgia, serif;
-  font-size: 2.55rem;
+  font-size: 2.85rem;
   font-weight: 700;
-  color: var(--ink);
-  line-height: 1.25;
-  max-width: 28rem;
-  margin-bottom: 1.4rem;
+  color: #fff;
+  line-height: 1.16;
+  max-width: 168mm;
+  margin: 0 0 12px;
+  text-align: left;
+  text-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
 }
 
-.story-print-cover .cover-frame {
-  position: absolute;
-  inset: 10mm 12mm;
+.cover-tag {
+  display: inline-block;
+  margin: 0;
+  padding-top: 10px;
+  border-top: 2px solid var(--ng-gold);
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.cover-footer {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  padding: 0 18mm 16mm;
+}
+
+.cover-hint {
+  margin: 0;
+  max-width: 110mm;
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.story-qr {
+  width: 18mm;
+  text-align: center;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.story-qr img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  max-width: 100%;
+  margin: 0;
+  padding: 2mm;
+  background: #fff;
   border: 1px solid var(--frame);
-  pointer-events: none;
   border-radius: 2px;
+  box-sizing: border-box;
+  object-fit: contain;
+}
+
+.story-qr-cap {
+  display: block;
+  width: 100%;
+  margin-top: 2px;
+  font-size: 0.58rem;
+  line-height: 1.2;
+  font-weight: 700;
+  color: var(--ink-soft);
+  letter-spacing: 0.02em;
+}
+
+.story-qr.is-hide {
+  display: none;
+}
+
+.story-print-cover .story-qr.story-qr--cover {
+  width: 34mm;
+  margin-top: 0;
+  padding: 3.2mm 3.2mm 2.6mm;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.28);
+  overflow: hidden;
+}
+
+.story-print-cover .story-qr.story-qr--cover img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 2mm;
+}
+
+.story-print-cover .story-qr.story-qr--cover .story-qr-cap {
+  font-size: 0.58rem;
+  margin-top: 1.6mm;
+  color: #3d4a55;
 }
 
 /* 内容页顶栏 */
@@ -216,52 +386,6 @@ body.ng-story-print-body {
   font-family: "Source Serif 4", Georgia, serif;
   font-size: 0.82rem;
   color: var(--ink-soft);
-}
-
-.story-qr {
-  width: 18mm;
-  text-align: center;
-  flex-shrink: 0;
-}
-
-.story-qr img {
-  display: block;
-  width: 18mm;
-  height: 18mm;
-  background: #fff;
-  border: 1px solid var(--frame);
-  border-radius: 2px;
-}
-
-.story-qr-cap {
-  display: block;
-  margin-top: 2px;
-  font-size: 0.58rem;
-  line-height: 1.2;
-  font-weight: 700;
-  color: var(--ink-soft);
-  letter-spacing: 0.02em;
-}
-
-.story-qr.is-hide {
-  display: none;
-}
-
-.story-qr--cover {
-  width: 32mm;
-  margin-top: 0.4rem;
-}
-
-.story-qr--cover img {
-  width: 32mm;
-  height: 32mm;
-  margin: 0 auto;
-}
-
-.story-qr--cover .story-qr-cap {
-  font-size: 0.78rem;
-  margin-top: 6px;
-  color: var(--ink);
 }
 
 /* 插图区：所有课文页同一外框，图片 contain 居中 */

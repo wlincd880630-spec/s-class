@@ -357,8 +357,8 @@ GAMES_VIEW = """
 def inject_games(text: str) -> str:
     if "lifecycle-games.css" not in text:
         text = text.replace(
-            '<link rel="stylesheet" href="../../assets/primary-responsive.css?v=3" />',
-            '<link rel="stylesheet" href="../../assets/primary-responsive.css?v=3" />\n'
+            '<link rel="stylesheet" href="../../assets/primary-responsive.css?v=4" />',
+            '<link rel="stylesheet" href="../../assets/primary-responsive.css?v=4" />\n'
             '  <link rel="stylesheet" href="lifecycle-games.css" />',
         )
     text = text.replace(
@@ -390,9 +390,9 @@ def inject_games(text: str) -> str:
     )
     if "lifecycle-games.js" not in text:
         text = text.replace(
-            '<script src="../../assets/primary-responsive.js?v=2" defer></script>',
+            '<script src="../../assets/primary-responsive.js?v=3" defer></script>',
             '<script src="lifecycle-games.js"></script>\n'
-            '  <script src="../../assets/primary-responsive.js?v=2" defer></script>',
+            '  <script src="../../assets/primary-responsive.js?v=3" defer></script>',
         )
     return text
 
@@ -675,7 +675,7 @@ def patch_coloring(path: str):
       window.addEventListener("load", fitPageViewports);
     }})();
   </script>
-  <script src="../../assets/primary-responsive.js?v=2" defer></script>
+  <script src="../../assets/primary-responsive.js?v=3" defer></script>
 </body>
 </html>
 """
@@ -728,7 +728,7 @@ def patch_print_story(courseware_path: str, print_path: str):
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,600;0,8..60,700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../../assets/ng-story-print.css?v=ps6" />
+  <link rel="stylesheet" href="../../assets/ng-story-print.css?v=ps8" />
   <style>:root {{ --accent: {ACCENT}; --wild: {WILD}; }}</style>
 </head>
 <body class="ng-story-print-body">
@@ -746,7 +746,7 @@ def patch_print_story(courseware_path: str, print_path: str):
     </div>
   </div>
   <div id="storyPrintArea"></div>
-  <script src="../../assets/ng-story-print.js?v=ps6"></script>
+  <script src="../../assets/ng-story-print.js?v=ps8"></script>
   <script>
   NgStoryPrint.init({{
     title: "Flutter, butterfly!",
@@ -756,7 +756,8 @@ def patch_print_story(courseware_path: str, print_path: str):
     emoji: "🦋",
     accent: {json.dumps(ACCENT)},
     wild: {json.dumps(WILD)},
-    filename: "Flutter-Butterfly-Story.pdf"
+    filename: "Flutter-Butterfly-Story.pdf",
+    coverFocal: {{ "x": 0.20, "y": 0.18 }}
   }});
   </script>
 </body>
