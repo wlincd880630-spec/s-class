@@ -55,10 +55,19 @@
 
   function imgError(img) {
     if (!img) return;
+    if (img.hasAttribute("crossorigin") && img.getAttribute("data-cors-fallback") !== "1") {
+      img.setAttribute("data-cors-fallback", "1");
+      var retrySrc = img.src;
+      img.removeAttribute("crossorigin");
+      img.src = "";
+      img.src = retrySrc;
+      return;
+    }
     var rest = (img.getAttribute("data-fallbacks") || "").split("|").filter(Boolean);
     if (rest.length) {
+      img.removeAttribute("data-cors-fallback");
       img.setAttribute("data-fallbacks", rest.slice(1).join("|"));
-      img.removeAttribute("crossorigin");
+      img.setAttribute("crossorigin", "anonymous");
       img.src = rest[0];
       return;
     }
@@ -200,7 +209,7 @@
     var rest = candidates && candidates.length > 1 ? candidates.slice(1).join("|") : "";
     return (
       '<div class="story-polaroid">' +
-      '<img src="' + esc(src) + '" alt=""' +
+      '<img src="' + esc(src) + '" alt="" crossorigin="anonymous"' +
       (rest ? ' data-fallbacks="' + esc(rest) + '"' : "") +
       ' onerror="window.NgStoryPrint&&NgStoryPrint.imgError(this)">' +
       '<div class="art-fallback" aria-hidden="true">' + emoji + "</div>" +
@@ -215,7 +224,7 @@
     var emoji = esc(cfg.emoji || "📖");
     return (
       '<div class="cover-hero" aria-hidden="true">' +
-      '<img class="cover-hero-img" src="' + esc(src) + '" alt=""' +
+      '<img class="cover-hero-img" src="' + esc(src) + '" alt="" crossorigin="anonymous"' +
       (rest ? ' data-fallbacks="' + esc(rest) + '"' : "") +
       ' onerror="window.NgStoryPrint&&NgStoryPrint.imgError(this)">' +
       '<div class="cover-hero-fallback">' + emoji + "</div>" +
@@ -515,25 +524,123 @@
     });
   }
 
+  var PDF_LIB_SCRIPTS = [
+    "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js",
+    "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js",
+  ];
+
+  function pdfLibsReady() {
+    return !!(global.html2canvas && global.jspdf && global.jspdf.jsPDF);
+  }
+
   var _pdfLibsPromise = null;
   function loadPdfLibs() {
-    if (global.html2pdf) return Promise.resolve();
+    if (pdfLibsReady()) return Promise.resolve();
     if (_pdfLibsPromise) return _pdfLibsPromise;
-    _pdfLibsPromise = new Promise(function (resolve, reject) {
-      var s = document.createElement("script");
-      s.src =
-        "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
-      s.crossOrigin = "anonymous";
-      s.onload = function () {
-        if (global.html2pdf) resolve();
-        else reject(new Error("PDF 库加载不完整"));
-      };
-      s.onerror = function () {
-        reject(new Error("PDF 库加载失败"));
-      };
-      document.head.appendChild(s);
+    _pdfLibsPromise = PDF_LIB_SCRIPTS.reduce(function (chain, src) {
+      return chain.then(function () {
+        if (pdfLibsReady()) return;
+        return loadScriptTag(src);
+      });
+    }, Promise.resolve()).then(function () {
+      if (!pdfLibsReady()) {
+        _pdfLibsPromise = null;
+        throw new Error("PDF 库加载不完整");
+      }
+    }).catch(function (err) {
+      _pdfLibsPromise = null;
+      throw err || new Error("PDF 库加载失败");
     });
     return _pdfLibsPromise;
+  }
+
+  function prepareExportClone(doc) {
+    var b = doc.body;
+    if (b) b.classList.add("is-exporting");
+    var a = doc.getElementById("storyPrintArea");
+    if (!a) return;
+    a.classList.add("is-exporting");
+    [].forEach.call(a.querySelectorAll(".story-print-sheet"), function (el) {
+      el.style.transform = "none";
+      el.style.marginBottom = "0";
+    });
+    [].forEach.call(a.querySelectorAll("img"), function (img) {
+      var src = img.getAttribute("src") || "";
+      if (src && src.indexOf("data:") !== 0) {
+        img.crossOrigin = "anonymous";
+      }
+    });
+  }
+
+  function captureSheetCanvas(sheet) {
+    var w = sheet.offsetWidth || A4_WIDTH_CSS_PX;
+    var h = sheet.offsetHeight || Math.ceil((297 / 25.4) * 96);
+    return global.html2canvas(sheet, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: false,
+      backgroundColor: null,
+      logging: false,
+      letterRendering: true,
+      scrollX: 0,
+      scrollY: 0,
+      width: w,
+      height: h,
+      windowWidth: w,
+      windowHeight: h,
+      onclone: function (doc) {
+        prepareExportClone(doc);
+      },
+    });
+  }
+
+  function ensureRemoteImagesCors(root) {
+    var imgs = root
+      ? [].slice.call(root.querySelectorAll("img[src]")).filter(function (img) {
+          var src = img.getAttribute("src") || "";
+          return src.indexOf("http") === 0;
+        })
+      : [];
+    if (!imgs.length) return Promise.resolve();
+    return Promise.all(imgs.map(function (img) {
+      if (img.complete && img.naturalWidth > 0 && img.crossOrigin === "anonymous") {
+        return Promise.resolve();
+      }
+      return new Promise(function (resolve) {
+        var src = img.src;
+        img.crossOrigin = "anonymous";
+        img.onload = img.onerror = resolve;
+        img.src = "";
+        img.src = src;
+      });
+    }));
+  }
+
+  function exportPdfSheets(area, filename) {
+    var sheets = [].slice.call(area.querySelectorAll(".story-print-sheet"));
+    if (!sheets.length) return Promise.reject(new Error("无可导出的页面"));
+    var JsPDF = global.jspdf.jsPDF;
+    var pdf = new JsPDF({
+      unit: "mm",
+      format: "a4",
+      orientation: "portrait",
+      compress: true,
+    });
+    var pageW = pdf.internal.pageSize.getWidth();
+    var pageH = pdf.internal.pageSize.getHeight();
+
+    function step(i) {
+      if (i >= sheets.length) {
+        pdf.save(filename || "story.pdf");
+        return Promise.resolve();
+      }
+      return captureSheetCanvas(sheets[i]).then(function (canvas) {
+        if (i > 0) pdf.addPage();
+        pdf.addImage(canvas.toDataURL("image/jpeg", 0.92), "JPEG", 0, 0, pageW, pageH);
+        return step(i + 1);
+      });
+    }
+    return step(0);
   }
 
   function applyAccent(cfg) {
@@ -603,6 +710,13 @@
     if (btnPdf) {
       btnPdf.onclick = function () {
         var old = btnPdf.textContent;
+        var mask = document.createElement("div");
+        mask.setAttribute("aria-busy", "true");
+        mask.style.cssText =
+          "position:fixed;inset:0;background:rgba(15,23,42,0.45);z-index:2147483000;" +
+          "display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;" +
+          "font-family:system-ui,sans-serif;";
+        mask.textContent = "正在生成课文 PDF…";
         btnPdf.disabled = true;
         btnPdf.textContent = "生成中…";
         render()
@@ -610,49 +724,24 @@
             clearPreviewScale(area);
             document.body.classList.add("is-exporting");
             area.classList.add("is-exporting");
+            document.body.appendChild(mask);
             return loadPdfLibs();
           })
           .then(function () { return preloadImages(area); })
+          .then(function () { return ensureRemoteImagesCors(area); })
           .then(function () {
             return global.document.fonts
               ? global.document.fonts.ready.catch(function () {})
               : Promise.resolve();
           })
           .then(function () {
-            var opt = {
-              margin: [0, 0, 0, 0],
-              filename: cfg.filename || "story.pdf",
-              image: { type: "jpeg", quality: 0.92 },
-              html2canvas: {
-                scale: 1.5,
-                useCORS: true,
-                allowTaint: true,
-                letterRendering: true,
-                scrollX: 0,
-                scrollY: 0,
-                width: A4_WIDTH_CSS_PX,
-                windowWidth: 1024,
-                onclone: function (doc) {
-                  var b = doc.body;
-                  if (b) b.classList.add("is-exporting");
-                  var a = doc.getElementById("storyPrintArea");
-                  if (!a) return;
-                  a.classList.add("is-exporting");
-                  [].forEach.call(a.querySelectorAll(".story-print-sheet"), function (el) {
-                    el.style.transform = "none";
-                    el.style.marginBottom = "0";
-                  });
-                },
-              },
-              jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-              pagebreak: { mode: ["legacy"] },
-            };
-            return global.html2pdf().set(opt).from(area).save();
+            return exportPdfSheets(area, cfg.filename || "story.pdf");
           })
           .catch(function (err) {
             alert("PDF 导出失败，请改用「打印 / 另存 PDF」。\n" + (err && err.message ? err.message : ""));
           })
           .finally(function () {
+            if (mask.parentNode) mask.parentNode.removeChild(mask);
             document.body.classList.remove("is-exporting");
             area.classList.remove("is-exporting");
             fitPreview(area);
