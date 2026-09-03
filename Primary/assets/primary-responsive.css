@@ -191,19 +191,47 @@ body:has(> .app) > .app {
 
   html.ng-courseware-portrait body .book-top-right .btns,
   body:has(> .app) .book-top-right .btns {
-    width: 100%;
+    width: 100% !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     justify-content: stretch;
+    align-items: stretch;
+    gap: 0.4rem !important;
+  }
+
+  html.ng-courseware-portrait body .book-top-right .btns:not(:has(> .btn:nth-child(4))),
+  body:has(> .app) .book-top-right .btns:not(:has(> .btn:nth-child(4))) {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   }
 
   html.ng-courseware-portrait body .book-top-right .btn,
   body:has(> .app) .book-top-right .btn {
-    flex: 1 1 calc(33.33% - 0.35rem);
+    flex: none !important;
+    width: 100% !important;
+    min-width: 0 !important;
     min-height: 44px;
     font-size: clamp(0.72rem, 2.8vw, 0.82rem);
     padding-left: 0.35rem;
     padding-right: 0.35rem;
-    white-space: normal;
+    white-space: nowrap;
     line-height: 1.2;
+    text-align: center;
+    justify-content: center;
+  }
+
+  html.ng-courseware-portrait .word-jump,
+  body:has(> .app) .word-jump {
+    flex: 0 0 auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    height: auto !important;
+  }
+
+  @media (min-width: 560px) {
+    html.ng-courseware-portrait body .book-top-right .btns:has(> .btn:nth-child(4)),
+    body:has(> .app) .book-top-right .btns:has(> .btn:nth-child(4)) {
+      grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    }
   }
 
   @supports (zoom: 1) {

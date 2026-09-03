@@ -357,8 +357,8 @@ GAMES_VIEW = """
 def inject_games(text: str) -> str:
     if "lifecycle-games.css" not in text:
         text = text.replace(
-            '<link rel="stylesheet" href="../../assets/primary-responsive.css?v=4" />',
-            '<link rel="stylesheet" href="../../assets/primary-responsive.css?v=4" />\n'
+            '<link rel="stylesheet" href="../../assets/primary-responsive.css?v=6" />',
+            '<link rel="stylesheet" href="../../assets/primary-responsive.css?v=6" />\n'
             '  <link rel="stylesheet" href="lifecycle-games.css" />',
         )
     text = text.replace(

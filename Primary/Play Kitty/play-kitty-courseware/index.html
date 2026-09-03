@@ -158,14 +158,27 @@
       }
       .book-top { align-items: flex-start; }
       .book-top-right { width: 100%; }
-      .book-top-right .btns { justify-content: stretch; }
+      .book-top-right .btns {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.4rem;
+      }
+      .book-top-right .btns:not(:has(> .btn:nth-child(4))) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
       .book-top-right .btn {
-        flex: 1 1 calc(33.33% - 0.35rem);
+        width: 100%;
         min-height: 44px;
         text-align: center;
-        white-space: normal;
+        white-space: nowrap;
         font-size: clamp(0.72rem, 2.8vw, 0.82rem);
         line-height: 1.2;
+      }
+      @media (min-width: 560px) {
+        .book-top-right .btns:has(> .btn:nth-child(4)) {
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
       }
       .book-main {
         overflow: visible;
@@ -758,8 +771,8 @@
       .btn { transition: none !important; }
     }
   </style>
-  <link rel="stylesheet" href="../../assets/primary-responsive.css?v=4" />
-  <link rel="stylesheet" href="../../assets/ng-word-extras.css?v=10" />
+  <link rel="stylesheet" href="../../assets/primary-responsive.css?v=6" />
+  <link rel="stylesheet" href="../../assets/ng-word-extras.css?v=11" />
   <script src="../../assets/ng-word-say-data.js?v=3"></script>
   <script src="../../assets/ng-word-ipa.js?v=1"></script>
   <script src="../../assets/ng-word-extras.js?v=3"></script>
