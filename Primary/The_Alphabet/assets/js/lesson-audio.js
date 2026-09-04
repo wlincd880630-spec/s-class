@@ -21,6 +21,25 @@
   var audioCtx = null;
   var voiceSource = null;
   var voiceAudio = null;
+  var COS_AUDIO_ROOT =
+    "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/";
+
+  function courseFolderFromPath() {
+    var path = global.location && global.location.pathname ? global.location.pathname : "";
+    var m = path.match(/\/The_Alphabet\/([^/]+)\//);
+    return m ? m[1] : null;
+  }
+
+  /** 教材 MP3 在 COS；相对路径 assets/audio/ 需解析为 COS 绝对地址。 */
+  function resolveAudioSrc(src) {
+    if (!src) return src;
+    if (/^https?:\/\//i.test(src)) return src;
+    var rel = String(src).replace(/^\.\//, "");
+    if (rel.indexOf("assets/audio/") !== 0) return src;
+    var folder = courseFolderFromPath();
+    if (!folder) return src;
+    return COS_AUDIO_ROOT + folder + "/" + rel;
+  }
 
   function lesson() {
     return global.AA_LESSON || global.BB_LESSON || global.CC_LESSON || global.DD_LESSON || global.EE_LESSON || global.FF_LESSON || global.GG_LESSON || global.HH_LESSON || global.II_LESSON || global.JJ_LESSON || global.KK_LESSON || global.LL_LESSON || global.MM_LESSON || global.NN_LESSON || global.PP_LESSON || global.QQ_LESSON || global.RR_LESSON || global.SS_LESSON || global.TT_LESSON || global.UU_LESSON || global.VV_LESSON || global.WW_LESSON || global.XX_LESSON || global.YY_LESSON || global.ZZ_LESSON || global.ABC_REVIEW || global.DEF_REVIEW || global.GHI_REVIEW || global.JKL_REVIEW || global.MNO_REVIEW || global.STUV_REVIEW || global.WXYZ_REVIEW || global.STUVWXYZ_REVIEW || global.ABCDEF_REVIEW || global.GHIJKL_REVIEW || global.MNOPQR_REVIEW || null;
@@ -105,6 +124,7 @@
   }
 
   function playMp3(src) {
+    src = resolveAudioSrc(src);
     if (!src) return Promise.resolve();
     stopVoice();
     stopTrack();
