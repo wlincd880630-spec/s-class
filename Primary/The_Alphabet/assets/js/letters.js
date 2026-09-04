@@ -47,6 +47,14 @@
       folder: "Ee",
       hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Ee/assets/img/hero-ee.jpg"
     },
+    F: {
+      id: "F",
+      pair: "Ff",
+      phrase: "funny fish",
+      live: true,
+      folder: "Ff",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Ff/assets/img/hero-ff.jpg"
+    },
     M: {
       id: "M",
       pair: "Mm",
