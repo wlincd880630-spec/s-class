@@ -23,6 +23,12 @@
         "<div><strong>Unit 2 复习</strong><small>Dd · Ee · Ff · Story</small></div><span class=\"go\">→</span></a></li>"
       );
     }
+    if (ch === "G" || ch === "H" || ch === "I") {
+      items.push(
+        '<li><a href="' + A.ghiReviewUrl() + '"><span class="n">★</span>' +
+        "<div><strong>Unit 3 复习</strong><small>Gg · Hh · Ii · Story</small></div><span class=\"go\">→</span></a></li>"
+      );
+    }
     if (A.UNITS[ch] && A.UNITS[ch].live) {
       items.push(
         '<li><a href="' + A.abcdefReviewUrl() + '"><span class="n">★</span>' +

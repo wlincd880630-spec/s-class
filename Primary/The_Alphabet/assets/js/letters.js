@@ -34,7 +34,7 @@
   }
 
   function inReviewFolder() {
-    return /\/The_Alphabet\/(ABC|DEF|ABCDEF)\//.test(pathNorm());
+    return /\/The_Alphabet\/(ABC|DEF|GHI|ABCDEF)\//.test(pathNorm());
   }
 
   function onHub() {
@@ -120,6 +120,14 @@
     return inReviewFolder() ? "../ABCDEF/print.html" : "ABCDEF/print.html";
   }
 
+  function ghiReviewUrl() {
+    return inReviewFolder() ? "../GHI/learn.html" : "GHI/learn.html";
+  }
+
+  function ghiReviewPrintUrl() {
+    return inReviewFolder() ? "../GHI/print.html" : "GHI/print.html";
+  }
+
   function mountRail(el, current) {
     if (!el) return;
     var now = String(current || "A").toUpperCase();
@@ -152,6 +160,8 @@
     reviewPrintUrl: reviewPrintUrl,
     defReviewPrintUrl: defReviewPrintUrl,
     abcdefReviewPrintUrl: abcdefReviewPrintUrl,
+    ghiReviewUrl: ghiReviewUrl,
+    ghiReviewPrintUrl: ghiReviewPrintUrl,
     mountRail: mountRail
   };
 })(window);
