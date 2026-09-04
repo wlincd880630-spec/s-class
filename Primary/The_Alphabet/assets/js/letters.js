@@ -94,6 +94,14 @@
       folder: "Kk",
       hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Kk/assets/img/hero-kk.jpg"
     },
+    L: {
+      id: "L",
+      pair: "Ll",
+      phrase: "lazy lion",
+      live: true,
+      folder: "Ll",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Ll/assets/img/hero-ll.jpg"
+    },
     M: {
       id: "M",
       pair: "Mm",
