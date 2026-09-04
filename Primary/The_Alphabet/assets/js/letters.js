@@ -13,7 +13,8 @@
     E: { id: "E", pair: "Ee", phrase: "energetic egg", live: true, folder: "Ee", hero: "Ee/assets/img/hero-ee.jpg" },
     F: { id: "F", pair: "Ff", phrase: "funny fish", live: true, folder: "Ff", hero: "Ff/assets/img/hero-ff.jpg" },
     G: { id: "G", pair: "Gg", phrase: "good gorilla", live: true, folder: "Gg", hero: "Gg/assets/img/hero-gg.jpg" },
-    H: { id: "H", pair: "Hh", phrase: "happy horse", live: true, folder: "Hh", hero: "Hh/assets/img/hero-hh.jpg" }
+    H: { id: "H", pair: "Hh", phrase: "happy horse", live: true, folder: "Hh", hero: "Hh/assets/img/hero-hh.jpg" },
+    I: { id: "I", pair: "Ii", phrase: "interesting insect", live: true, folder: "Ii", hero: "Ii/assets/img/hero-ii.jpg" }
   };
 
   LETTERS.forEach(function (ch) {
