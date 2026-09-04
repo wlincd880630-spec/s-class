@@ -1871,7 +1871,8 @@ ${azureLine}
 
   function buildQuizPdfCover(data, meta) {
     const date = new Date().toLocaleDateString('zh-CN');
-    const img = imageurl('https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/REFH/07/courseware/assets/js/section1-intro.jpg');
+    const coverName = (data.paragraphs && data.paragraphs[0] && data.paragraphs[0].image) || 'section1-intro.jpg';
+    const img = imageUrl(coverName);
     const qr = meta.qrDataUrl
       ? `<img class="qpdf-cover-qr" src="${meta.qrDataUrl}" alt="扫码测验">
          <p class="qpdf-cover-qr-label">扫码在线测验</p>`
