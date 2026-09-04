@@ -185,7 +185,7 @@
   }
 
   function inReviewFolder() {
-    return /\/The_Alphabet\/(ABC|DEF|GHI|MNO|ABCDEF|MNOPQR)\//.test(pathNorm());
+    return /\/The_Alphabet\/(ABC|DEF|GHI|JKL|MNO|ABCDEF|GHIJKL|MNOPQR)\//.test(pathNorm());
   }
 
   function onHub() {
@@ -287,6 +287,22 @@
     return inReviewFolder() ? "../MNO/print.html" : "MNO/print.html";
   }
 
+  function jklReviewUrl() {
+    return inReviewFolder() ? "../JKL/learn.html" : "JKL/learn.html";
+  }
+
+  function jklReviewPrintUrl() {
+    return inReviewFolder() ? "../JKL/print.html" : "JKL/print.html";
+  }
+
+  function ghijklReviewUrl() {
+    return inReviewFolder() ? "../GHIJKL/learn.html" : "GHIJKL/learn.html";
+  }
+
+  function ghijklReviewPrintUrl() {
+    return inReviewFolder() ? "../GHIJKL/print.html" : "GHIJKL/print.html";
+  }
+
   function mnopqrReviewUrl() {
     return inReviewFolder() ? "../MNOPQR/learn.html" : "MNOPQR/learn.html";
   }
@@ -331,6 +347,10 @@
     ghiReviewPrintUrl: ghiReviewPrintUrl,
     mnoReviewUrl: mnoReviewUrl,
     mnoReviewPrintUrl: mnoReviewPrintUrl,
+    jklReviewUrl: jklReviewUrl,
+    jklReviewPrintUrl: jklReviewPrintUrl,
+    ghijklReviewUrl: ghijklReviewUrl,
+    ghijklReviewPrintUrl: ghijklReviewPrintUrl,
     mnopqrReviewUrl: mnopqrReviewUrl,
     mnopqrReviewPrintUrl: mnopqrReviewPrintUrl,
     mountRail: mountRail
