@@ -166,6 +166,14 @@
       folder: "Uu",
       hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Uu/assets/img/hero-uu.jpg"
     },
+    V: {
+      id: "V",
+      pair: "Vv",
+      phrase: "violet van",
+      live: true,
+      folder: "Vv",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Vv/assets/img/hero-vv.jpg"
+    },
     W: {
       id: "W",
       pair: "Ww",
@@ -217,7 +225,7 @@
   }
 
   function inReviewFolder() {
-    return /\/The_Alphabet\/(ABC|DEF|GHI|JKL|MNO|WXYZ|ABCDEF|GHIJKL|MNOPQR)\//.test(pathNorm());
+    return /\/The_Alphabet\/(ABC|DEF|GHI|JKL|MNO|STUV|WXYZ|ABCDEF|GHIJKL|MNOPQR)\//.test(pathNorm());
   }
 
   function onHub() {
@@ -343,6 +351,14 @@
     return inReviewFolder() ? "../MNOPQR/print.html" : "MNOPQR/print.html";
   }
 
+  function stuvReviewUrl() {
+    return inReviewFolder() ? "../STUV/learn.html" : "STUV/learn.html";
+  }
+
+  function stuvReviewPrintUrl() {
+    return inReviewFolder() ? "../STUV/print.html" : "STUV/print.html";
+  }
+
   function wxyzReviewUrl() {
     return inReviewFolder() ? "../WXYZ/learn.html" : "WXYZ/learn.html";
   }
@@ -393,6 +409,8 @@
     ghijklReviewPrintUrl: ghijklReviewPrintUrl,
     mnopqrReviewUrl: mnopqrReviewUrl,
     mnopqrReviewPrintUrl: mnopqrReviewPrintUrl,
+    stuvReviewUrl: stuvReviewUrl,
+    stuvReviewPrintUrl: stuvReviewPrintUrl,
     wxyzReviewUrl: wxyzReviewUrl,
     wxyzReviewPrintUrl: wxyzReviewPrintUrl,
     mountRail: mountRail

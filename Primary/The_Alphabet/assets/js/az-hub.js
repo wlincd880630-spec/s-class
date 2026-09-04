@@ -59,6 +59,12 @@
         "<div><strong>Review 3</strong><small>Mm · Nn · Oo · Pp · Qq · Rr · Song</small></div><span class=\"go\">→</span></a></li>"
       );
     }
+    if (ch === "S" || ch === "T" || ch === "U" || ch === "V") {
+      items.push(
+        '<li><a href="' + A.stuvReviewUrl() + '"><span class="n">★</span>' +
+        "<div><strong>Unit 7 复习</strong><small>Ss · Tt · Uu · Vv · Story</small></div><span class=\"go\">→</span></a></li>"
+      );
+    }
     if (ch === "W" || ch === "X" || ch === "Y" || ch === "Z") {
       items.push(
         '<li><a href="' + A.wxyzReviewUrl() + '"><span class="n">★</span>' +
