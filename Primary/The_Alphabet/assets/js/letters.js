@@ -144,7 +144,7 @@
   }
 
   function inReviewFolder() {
-    return /\/The_Alphabet\/(ABC|DEF|GHI|JKL|GHIJKL|ABCDEF|MNO)\//.test(pathNorm());
+    return /\/The_Alphabet\/(ABC|DEF|GHI|JKL|GHIJKL|ABCDEF|MNO|MNOPQR|STUV)\//.test(pathNorm());
   }
 
   function onHub() {
@@ -213,12 +213,20 @@
     return inReviewFolder() ? "../MNO/learn.html" : "MNO/learn.html";
   }
 
+  function stuvReviewUrl() {
+    return inReviewFolder() ? "../STUV/learn.html" : "STUV/learn.html";
+  }
+
   function reviewPrintUrl() {
     return inReviewFolder() ? "../ABC/print.html" : "ABC/print.html";
   }
 
   function mnoReviewPrintUrl() {
     return inReviewFolder() ? "../MNO/print.html" : "MNO/print.html";
+  }
+
+  function stuvReviewPrintUrl() {
+    return inReviewFolder() ? "../STUV/print.html" : "STUV/print.html";
   }
 
   function mountRail(el, current) {
@@ -244,8 +252,10 @@
     UNITS: UNITS,
     reviewUrl: reviewUrl,
     mnoReviewUrl: mnoReviewUrl,
+    stuvReviewUrl: stuvReviewUrl,
     reviewPrintUrl: reviewPrintUrl,
     mnoReviewPrintUrl: mnoReviewPrintUrl,
+    stuvReviewPrintUrl: stuvReviewPrintUrl,
     onHub: onHub,
     letterFromPath: letterFromPath,
     hubUrl: hubUrl,
