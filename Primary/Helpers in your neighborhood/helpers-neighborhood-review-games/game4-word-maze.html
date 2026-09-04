@@ -262,7 +262,7 @@ body.ng-game {
 .ng-maze-grid {
   display: grid;
   gap: 3px;
-  max-width: 22rem;
+  max-width: min(36rem, 100%);
   margin: 0 auto;
   background: #263238;
   padding: 4px;
@@ -271,6 +271,8 @@ body.ng-game {
 
 .ng-maze-cell {
   aspect-ratio: 1;
+  min-width: 0;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -565,7 +567,7 @@ body.ng-game {
   <div class="ng-stage">
     <section class="setup-panel" id="setupPanel">
       <div class="ng-badge">准备开始</div>
-      <p class="ng-hint">7×7 宫格藏 4 个单词（横/竖四方向）。点击图片下方灰条显示中文。仅支持无空格单词。</p>
+      <p class="ng-hint">宫格会按最长单词自动调整（7×7 至 14×14），藏入 4 个横/竖四方向单词。点击图片下方灰条显示中文。仅支持无空格单词。</p>
       <p class="ng-hint">已选 <strong id="wordCount">0</strong> 个单词：</p>
       <div class="chips" id="wordChips"></div>
       <div style="text-align:center;margin-top:0.75rem;">
@@ -1070,6 +1072,52 @@ body.ng-game {
     return tryLayout(list, 8) || { grid: [[]], placements: [], size: 8 };
   }
 
+  /* 长词兜底：neighborhood / firefighter 等超过 8 字母时，按最长词扩容并分轨放置 */
+  function generateMazeGridAuto(words) {
+    var list = words.slice(0, 4);
+    if (list.length < 4) return { grid: [[]], placements: [], size: 7 };
+
+    function lettersOf(word) {
+      return String(word.word || "").replace(/[\s-]/g, "").toLowerCase().split("");
+    }
+
+    var longest = list.reduce(function (max, word) {
+      return Math.max(max, lettersOf(word).length);
+    }, 0);
+    var size = Math.max(7, longest + 2);
+    var grid = Array.from({ length: size }, function () {
+      return Array.from({ length: size }, function () { return ""; });
+    });
+    var slots = shuffle([
+      { id: "lr", dr: 0, dc: 1, r: 1, c: 1 },
+      { id: "rl", dr: 0, dc: -1, r: size - 2, c: size - 2 },
+      { id: "tb", dr: 1, dc: 0, r: 1, c: 0 },
+      { id: "bt", dr: -1, dc: 0, r: size - 2, c: size - 1 },
+    ]);
+    var placements = list.map(function (word, index) {
+      var slot = slots[index];
+      var cells = lettersOf(word).map(function (letter, i) {
+        var cell = {
+          r: slot.r + slot.dr * i,
+          c: slot.c + slot.dc * i,
+          letter: letter,
+        };
+        grid[cell.r][cell.c] = letter;
+        return cell;
+      });
+      return { word: word, cells: cells, dir: slot.id };
+    });
+    var r, c;
+    for (r = 0; r < size; r++) {
+      for (c = 0; c < size; c++) {
+        if (!grid[r][c]) {
+          grid[r][c] = String.fromCharCode(97 + Math.floor(Math.random() * 26));
+        }
+      }
+    }
+    return { grid: grid, placements: shuffle(placements), size: size };
+  }
+
   global.NgReview = {
     AZURE_CONFIG: AZURE_CONFIG,
     cfg: cfg,
@@ -1087,7 +1135,7 @@ body.ng-game {
     GameTimer: GameTimer,
     showDonePanel: showDonePanel,
     speakBtn: speakBtn,
-    generateMazeGrid7: generateMazeGrid7,
+    generateMazeGrid7: generateMazeGridAuto,
     formatTime: formatTime,
     boot: function (run) {
       function start() {
@@ -1141,6 +1189,7 @@ body.ng-game {
 })(typeof window !== "undefined" ? window : this);
 
   </script>
+  <script src="maze-generator.js?v=1"></script>
   <script>
   (function() {
     "use strict";
@@ -1160,7 +1209,7 @@ body.ng-game {
     document.getElementById("btnStart").onclick = function() {
       document.getElementById("setupPanel").classList.add("hidden");
       document.getElementById("playPanel").classList.add("on");
-      groups = NgReview.shuffle(NgReview.chunkGroups(NgReview.shuffle(pool.slice()), 4));
+      groups = padMazeGroups(NgReview.shuffle(pool.slice()), 4);
       gi = 0; correct = 0; wrong = 0; timer = new NgReview.GameTimer(document.getElementById("timerEl")); timer.start();
       loadGroup();
     };
@@ -1172,12 +1221,29 @@ body.ng-game {
       var host = document.getElementById("wordChips"); host.innerHTML = "";
       list.forEach(function(w) { var s = document.createElement("span"); s.className = "chip"; s.textContent = w.word; host.appendChild(s); });
     }
+    function padMazeGroups(source, size) {
+      size = size || 4;
+      var shuffled = source.slice();
+      var out = [];
+      var i;
+      for (i = 0; i < shuffled.length; i += size) {
+        var group = shuffled.slice(i, i + size);
+        var extras = shuffled.filter(function (w) {
+          return !group.some(function (x) { return x.word === w.word; });
+        });
+        while (group.length < size && extras.length) {
+          group.push(extras.shift());
+        }
+        if (group.length >= size) out.push(group);
+      }
+      return out;
+    }
     function cellKey(r,c){return r+","+c;}
     function loadGroup() {
       if (gi >= groups.length) { finish(); return; }
       pageWords = NgReview.shuffle(groups[gi].slice(0,4)); found={}; foundPaths={}; hintCells={}; selected=[]; pathDir=null;
-      document.getElementById("groupBadge").textContent = "第 "+(gi+1)+" / "+groups.length+" 组";
       mazeData = NgReview.generateMazeGrid7(pageWords);
+      document.getElementById("groupBadge").textContent = "第 "+(gi+1)+" / "+groups.length+" 组 · "+(mazeData && mazeData.size ? mazeData.size : "?")+"×"+(mazeData && mazeData.size ? mazeData.size : "?");
       renderTargets(); renderGrid();
       document.getElementById("foundEl").textContent = "0";
     }
@@ -1197,10 +1263,15 @@ body.ng-game {
     }
     function renderGrid() {
       var g=document.getElementById("mazeGrid");
-      if(!mazeData||!mazeData.grid||!mazeData.grid.length){g.innerHTML='<p class="ng-hint">迷宫生成失败</p>';return;}
-      var sz=mazeData.size||mazeData.grid.length; g.style.gridTemplateColumns="repeat("+sz+",1fr)"; g.innerHTML="";
+      if(!mazeData||!mazeData.grid||!mazeData.grid.length||!mazeData.grid[0]||!mazeData.grid[0].length){g.innerHTML='<p class="ng-hint">迷宫生成失败</p>';return;}
+      var sz=mazeData.size||mazeData.grid.length;
+      g.style.gridTemplateColumns="repeat("+sz+",minmax(0,1fr))";
+      g.style.gap=sz>=10?"2px":"3px";
+      g.style.maxWidth=sz>=12?"min(36rem,100%)":(sz>=10?"min(28rem,100%)":"22rem");
+      g.innerHTML="";
       mazeData.grid.forEach(function(row,r){row.forEach(function(ch,c){
         var key=cellKey(r,c),cell=document.createElement("div"),cls="ng-maze-cell";
+        cell.style.fontSize=sz>=12?"0.78rem":(sz>=10?"0.95rem":"");
         if(selected.some(function(s){return s.key===key;})) cls+=" selected";
         if(hintCells[key]) cls+=" hint";
         Object.keys(foundPaths).forEach(function(w){if(foundPaths[w][key]) cls+=" found";});

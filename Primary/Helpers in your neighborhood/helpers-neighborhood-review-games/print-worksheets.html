@@ -107,6 +107,8 @@
     }
     .maze-cell {
       aspect-ratio: 1;
+      min-width: 0;
+      overflow: hidden;
       background: #fff;
       display: flex;
       align-items: center;
@@ -805,6 +807,7 @@
 })(typeof window !== "undefined" ? window : this);
 
   </script>
+  <script src="maze-generator.js?v=1"></script>
   <script>
   (function() {
     "use strict";
@@ -876,7 +879,8 @@
       var words = prepared.words;
       var maze = prepared.maze;
       var html = '<div class="sheet' + (showAns ? ' answer-key' : '') + '">';
-      html += sheetHeader("Helpers in Your Neighborhood · 单词迷宫", "第 " + idx + " / " + total + " 组 · 7×7");
+      var mazeSize = maze && maze.size ? maze.size : 7;
+      html += sheetHeader("Helpers in Your Neighborhood · 单词迷宫", "第 " + idx + " / " + total + " 组 · " + mazeSize + "×" + mazeSize);
       html += '<div class="maze-targets">';
       words.forEach(function(w, i) {
         html += '<div class="maze-target"><div class="num">' + (i+1) + '</div>';
@@ -888,10 +892,12 @@
       html += '</div>';
       if (maze && maze.grid && maze.grid.length && maze.grid[0] && maze.grid[0].length) {
         var sz = maze.size || maze.grid.length;
-        html += '<div class="maze-grid" style="grid-template-columns:repeat(' + sz + ',1fr)">';
+        var cellFont = sz >= 12 ? "0.82rem" : (sz >= 10 ? "1rem" : "1.3rem");
+        var cellGap = sz >= 10 ? "2px" : "3px";
+        html += '<div class="maze-grid" style="grid-template-columns:repeat(' + sz + ',minmax(0,1fr));gap:' + cellGap + ';max-width:' + (sz >= 12 ? "420px" : "360px") + '">';
         maze.grid.forEach(function(row) {
           row.forEach(function(ch) {
-            html += '<div class="maze-cell">' + esc((ch||"?").toUpperCase()) + '</div>';
+            html += '<div class="maze-cell" style="font-size:' + cellFont + '">' + esc((ch||"?").toUpperCase()) + '</div>';
           });
         });
         html += '</div>';
