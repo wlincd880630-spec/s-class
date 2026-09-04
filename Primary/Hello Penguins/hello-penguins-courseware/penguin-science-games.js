@@ -5,7 +5,7 @@
 (function (global) {
   "use strict";
 
-  var IMG = "images/science/";
+  var IMG = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Hello%20Penguins/hello-penguins-courseware/images/science/";
 
   var SPECIES = [
     { id: "emperor", en: "Emperor penguin", zh: "皇帝企鹅", photos: ["emperor-ice.jpg", "emperor-huddle.jpg", "emperor-big.jpg"] },
@@ -290,7 +290,7 @@
   function src(file, kind) {
     if (kind === "story") return "images/story/" + file;
     if (kind === "word") return "images/words/" + file;
-    if (file === "story-cant" || file === "cant-fly") return "images/story/13.png";
+    if (file === "story-cant" || file === "cant-fly") return "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Hello%20Penguins/hello-penguins-courseware/images/story/13.png";
     return IMG + file;
   }
 

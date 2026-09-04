@@ -12,7 +12,7 @@ const chengduSpots = [
         nameCn: "成都大熊猫繁育研究基地",
         nameEn: "Chengdu Research Base of Giant Panda Breeding",
         lat: 30.73362, lng: 104.13735,
-        images: ["images/panda1.jpg", "images/panda2.jpg", "images/panda3.jpg"],
+        images: ["https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/panda1.jpg", "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/panda2.jpg", "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/panda3.jpg"],
         
         // --- VISUAL TEXT (Simplified for Table Filling) ---
         location: "Northern Suburb (Chenghua)",
@@ -36,7 +36,7 @@ const chengduSpots = [
         nameCn: "文殊院",
         nameEn: "Wenshu Monastery",
         lat: 30.67262, lng: 104.07365,
-        images: ["images/wenshu1.jpg", "images/wenshu2.jpg", "images/wenshu3.jpg"],
+        images: ["https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/wenshu1.jpg", "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/wenshu2.jpg", "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/wenshu3.jpg"],
         
         location: "City Center (Qingyang)",
         cost: "Free",
@@ -58,7 +58,7 @@ const chengduSpots = [
         nameCn: "东郊记忆",
         nameEn: "Dongjiao Memory",
         lat: 30.67083, lng: 104.12634,
-        images: ["images/dongjiao1.jpg", "images/dongjiao2.jpg", "images/dongjiao3.jpg"],
+        images: ["https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/dongjiao1.jpg", "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/dongjiao2.jpg", "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/dongjiao3.jpg"],
         
         location: "Eastern Suburb (Chenghua)",
         cost: "Free",
@@ -80,7 +80,7 @@ const chengduSpots = [
         nameCn: "望平街",
         nameEn: "Wangping Street",
         lat: 30.65585, lng: 104.09355,
-        images: ["images/wangping1.jpg", "images/wangping2.jpg", "images/wangping3.jpg"],
+        images: ["https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/wangping1.jpg", "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/wangping2.jpg", "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/wangping3.jpg"],
         
         location: "Jinjiang River Bank",
         cost: "Free",
@@ -102,7 +102,7 @@ const chengduSpots = [
         nameCn: "太古里",
         nameEn: "Taikoo Li",
         lat: 30.65331, lng: 104.08272,
-        images: ["images/taikoo1.jpg", "images/taikoo2.jpg", "images/taikoo3.jpg"],
+        images: ["https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/taikoo1.jpg", "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/taikoo2.jpg", "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/taikoo3.jpg"],
         
         location: "City Center (Chunxi Road)",
         cost: "Free",
@@ -124,7 +124,7 @@ const chengduSpots = [
         nameCn: "玉林路",
         nameEn: "Yulin Road",
         lat: 30.63225, lng: 104.06201,
-        images: ["images/yulin1.jpg", "images/yulin2.jpg", "images/yulin3.jpg"],
+        images: ["https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/yulin1.jpg", "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/yulin2.jpg", "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/yulin3.jpg"],
         
         location: "South (Wuhou District)",
         cost: "Free",
@@ -146,7 +146,7 @@ const chengduSpots = [
         nameCn: "武侯祠",
         nameEn: "Wuhou Shrine",
         lat: 30.64570, lng: 104.04945,
-        images: ["images/wuhou1.jpg", "images/wuhou2.jpg", "images/wuhou3.jpg"],
+        images: ["https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/wuhou1.jpg", "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/wuhou2.jpg", "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/wuhou3.jpg"],
         
         location: "Southwest (Next to Jinli)",
         cost: "50 RMB",
@@ -168,7 +168,7 @@ const chengduSpots = [
         nameCn: "锦里古街",
         nameEn: "Jinli Ancient Street",
         lat: 30.64522, lng: 104.05075,
-        images: ["images/jinli1.jpg", "images/jinli2.jpg", "images/jinli3.jpg"],
+        images: ["https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/jinli1.jpg", "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/jinli2.jpg", "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/jinli3.jpg"],
         
         location: "Next to Wuhou Shrine",
         cost: "Free",
@@ -190,7 +190,7 @@ const chengduSpots = [
         nameCn: "杜甫草堂",
         nameEn: "Du Fu Thatched Cottage",
         lat: 30.66277, lng: 104.02611,
-        images: ["images/dufu1.jpg", "images/dufu2.jpg", "images/dufu3.jpg"],
+        images: ["https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/dufu1.jpg", "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/dufu2.jpg", "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/dufu3.jpg"],
         
         location: "West Chengdu (Huanhuaxi)",
         cost: "50 RMB",
@@ -212,7 +212,7 @@ const chengduSpots = [
         nameCn: "金沙遗址博物馆",
         nameEn: "Jinsha Site Museum",
         lat: 30.68118, lng: 104.01260,
-        images: ["images/jinsha1.jpg", "images/jinsha2.jpg", "images/jinsha3.jpg"],
+        images: ["https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/jinsha1.jpg", "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/jinsha2.jpg", "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/jinsha3.jpg"],
         
         location: "Northwest Chengdu",
         cost: "70 RMB",
@@ -234,7 +234,7 @@ const chengduSpots = [
         nameCn: "府青路片区",
         nameEn: "Fuqing Flyover",
         lat: 30.68750, lng: 104.10300,
-        images: ["images/fuqing1.jpg", "images/fuqing2.jpg", "images/fuqing3.jpg"],
+        images: ["https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/fuqing1.jpg", "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/fuqing2.jpg", "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/fuqing3.jpg"],
         
         location: "Northeast (Chenghua)",
         cost: "Free",
@@ -256,7 +256,7 @@ const chengduSpots = [
         nameCn: "宽窄巷子",
         nameEn: "Kuanzhai Alleys",
         lat: 30.66335, lng: 104.05335,
-        images: ["images/kuanzhai1.jpg", "images/kuanzhai2.jpg", "images/kuanzhai3.jpg"],
+        images: ["https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/kuanzhai1.jpg", "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/kuanzhai2.jpg", "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/kuanzhai3.jpg"],
         
         location: "City Center (Qingyang)",
         cost: "Free",
@@ -278,7 +278,7 @@ const chengduSpots = [
         nameCn: "人民公园",
         nameEn: "People's Park",
         lat: 30.65950, lng: 104.05490,
-        images: ["images/people1.jpg", "images/people2.jpg", "images/people3.jpg"],
+        images: ["https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/people1.jpg", "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/people2.jpg", "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/FU3/FU312/images/people3.jpg"],
         
         location: "City Center (Near Kuanzhai)",
         cost: "Free",

@@ -31,7 +31,7 @@
   function img(name) {
     if (!name) return "";
     if (/^https?:\/\//i.test(name)) return name;
-    if (isSharedImg(name)) return "../kp-shared/img/" + String(name).replace(/^.*\//, "");
+    if (isSharedImg(name)) return "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/kp-shared/img/" + String(name).replace(/^.*\//, "");
     if (global.KpImg) {
       var host = typeof location !== "undefined" && location.hostname ? location.hostname : "";
       if (host === "localhost" || host === "127.0.0.1") return global.KpImg.local(name);

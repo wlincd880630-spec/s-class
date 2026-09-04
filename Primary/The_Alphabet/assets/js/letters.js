@@ -7,46 +7,7 @@
 
   var LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
   var UNITS = {
-    A: {
-      id: "A",
-      pair: "Aa",
-      phrase: "angry apple",
-      live: true,
-      folder: "Aa",
-      hero: "Aa/assets/img/hero-aa.jpg"
-    },
-    B: {
-      id: "B",
-      pair: "Bb",
-      phrase: "big bear",
-      live: true,
-      folder: "Bb",
-      hero: "Bb/assets/img/hero-bb.jpg"
-    },
-    D: {
-      id: "D",
-      pair: "Dd",
-      phrase: "dizzy dog",
-      live: true,
-      folder: "Dd",
-      hero: "Dd/assets/img/hero-dd.jpg"
-    },
-    E: {
-      id: "E",
-      pair: "Ee",
-      phrase: "energetic egg",
-      live: true,
-      folder: "Ee",
-      hero: "Ee/assets/img/hero-ee.jpg"
-    },
-    F: {
-      id: "F",
-      pair: "Ff",
-      phrase: "funny fish",
-      live: true,
-      folder: "Ff",
-      hero: "Ff/assets/img/hero-ff.jpg"
-    }
+
   };
 
   LETTERS.forEach(function (ch) {
@@ -140,6 +101,12 @@
   global.ALPHABET = {
     LETTERS: LETTERS,
     UNITS: UNITS,
+    reviewUrl: function () {
+      return onHub() ? "ABC/learn.html" : "ABC/learn.html";
+    },
+    reviewPrintUrl: function () {
+      return "ABC/print.html";
+    },
     onHub: onHub,
     letterFromPath: letterFromPath,
     hubUrl: hubUrl,
