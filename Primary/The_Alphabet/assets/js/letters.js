@@ -46,6 +46,70 @@
       live: true,
       folder: "Ee",
       hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Ee/assets/img/hero-ee.jpg"
+    },
+    M: {
+      id: "M",
+      pair: "Mm",
+      phrase: "merry monkey",
+      live: true,
+      folder: "Mm",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Mm/assets/img/hero-mm.jpg"
+    },
+    N: {
+      id: "N",
+      pair: "Nn",
+      phrase: "noisy nut",
+      live: true,
+      folder: "Nn",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Nn/assets/img/hero-nn.jpg"
+    },
+    P: {
+      id: "P",
+      pair: "Pp",
+      phrase: "pink peach",
+      live: true,
+      folder: "Pp",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Pp/assets/img/hero-pp.jpg"
+    },
+    Q: {
+      id: "Q",
+      pair: "Qq",
+      phrase: "quiet queen",
+      live: true,
+      folder: "Qq",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Qq/assets/img/hero-qq.jpg"
+    },
+    R: {
+      id: "R",
+      pair: "Rr",
+      phrase: "racing rabbit",
+      live: true,
+      folder: "Rr",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Rr/assets/img/hero-rr.jpg"
+    },
+    S: {
+      id: "S",
+      pair: "Ss",
+      phrase: "super seal",
+      live: true,
+      folder: "Ss",
+      hero: "Ss/assets/img/hero-ss.jpg"
+    },
+    T: {
+      id: "T",
+      pair: "Tt",
+      phrase: "tall turtle",
+      live: true,
+      folder: "Tt",
+      hero: "Tt/assets/img/hero-tt.jpg"
+    },
+    U: {
+      id: "U",
+      pair: "Uu",
+      phrase: "unhappy umbrella",
+      live: true,
+      folder: "Uu",
+      hero: "Uu/assets/img/hero-uu.jpg"
     }
   };
 
@@ -71,6 +135,10 @@
     return /\/The_Alphabet\/[A-Z][a-z]\//.test(pathNorm());
   }
 
+  function inReviewFolder() {
+    return /\/The_Alphabet\/(ABC|DEF|GHI|JKL|GHIJKL|ABCDEF|MNO)\//.test(pathNorm());
+  }
+
   function onHub() {
     var p = pathNorm();
     return /\/The_Alphabet$/.test(p.replace(/\/index\.html$/, "")) ||
@@ -85,38 +153,64 @@
   function hubUrl(ch) {
     var c = String(ch || "A").toUpperCase();
     if (onHub()) return "#" + c;
-    if (inLetterFolder()) return "../index.html#" + c;
+    if (inLetterFolder() || inReviewFolder()) return "../index.html#" + c;
     return "index.html#" + c;
   }
 
   function learnUrl(ch) {
     var u = UNITS[ch];
     if (!u || !u.live) return hubUrl(ch);
-    return inLetterFolder() ? "learn.html" : u.folder + "/learn.html";
+    if (inLetterFolder()) return "learn.html";
+    if (inReviewFolder()) return "../" + u.folder + "/learn.html";
+    return u.folder + "/learn.html";
   }
 
   function gamesUrl(ch) {
     var u = UNITS[ch];
     if (!u || !u.live) return hubUrl(ch);
-    return inLetterFolder() ? "games.html" : u.folder + "/games.html";
+    if (inLetterFolder()) return "games.html";
+    if (inReviewFolder()) return "../" + u.folder + "/games.html";
+    return u.folder + "/games.html";
   }
   function gamePlayUrl(ch, id) {
     var u = UNITS[ch];
     if (!u || !u.live) return hubUrl(ch);
     var file = "game-" + id + ".html";
-    return inLetterFolder() ? file : u.folder + "/" + file;
+    if (inLetterFolder()) return file;
+    if (inReviewFolder()) return "../" + u.folder + "/" + file;
+    return u.folder + "/" + file;
   }
 
   function workbookUrl(ch) {
     var u = UNITS[ch];
     if (!u || !u.live) return hubUrl(ch);
-    return inLetterFolder() ? "workbook.html" : u.folder + "/workbook.html";
+    if (inLetterFolder()) return "workbook.html";
+    if (inReviewFolder()) return "../" + u.folder + "/workbook.html";
+    return u.folder + "/workbook.html";
   }
 
   function printUrl(ch) {
     var u = UNITS[ch];
     if (!u || !u.live) return hubUrl(ch);
-    return inLetterFolder() ? "print.html" : u.folder + "/print.html";
+    if (inLetterFolder()) return "print.html";
+    if (inReviewFolder()) return "../" + u.folder + "/print.html";
+    return u.folder + "/print.html";
+  }
+
+  function reviewUrl() {
+    return inReviewFolder() ? "../ABC/learn.html" : "ABC/learn.html";
+  }
+
+  function mnoReviewUrl() {
+    return inReviewFolder() ? "../MNO/learn.html" : "MNO/learn.html";
+  }
+
+  function reviewPrintUrl() {
+    return inReviewFolder() ? "../ABC/print.html" : "ABC/print.html";
+  }
+
+  function mnoReviewPrintUrl() {
+    return inReviewFolder() ? "../MNO/print.html" : "MNO/print.html";
   }
 
   function mountRail(el, current) {
@@ -140,12 +234,10 @@
   global.ALPHABET = {
     LETTERS: LETTERS,
     UNITS: UNITS,
-    reviewUrl: function () {
-      return onHub() ? "ABC/learn.html" : "ABC/learn.html";
-    },
-    reviewPrintUrl: function () {
-      return "ABC/print.html";
-    },
+    reviewUrl: reviewUrl,
+    mnoReviewUrl: mnoReviewUrl,
+    reviewPrintUrl: reviewPrintUrl,
+    mnoReviewPrintUrl: mnoReviewPrintUrl,
     onHub: onHub,
     letterFromPath: letterFromPath,
     hubUrl: hubUrl,
