@@ -185,7 +185,7 @@
   }
 
   function inReviewFolder() {
-    return /\/The_Alphabet\/(ABC|DEF|GHI|JKL|MNO|ABCDEF|GHIJKL)\//.test(pathNorm());
+    return /\/The_Alphabet\/(ABC|DEF|GHI|JKL|MNO|ABCDEF|GHIJKL|MNOPQR)\//.test(pathNorm());
   }
 
   function onHub() {
@@ -303,6 +303,14 @@
     return inReviewFolder() ? "../GHIJKL/print.html" : "GHIJKL/print.html";
   }
 
+  function mnopqrReviewUrl() {
+    return inReviewFolder() ? "../MNOPQR/learn.html" : "MNOPQR/learn.html";
+  }
+
+  function mnopqrReviewPrintUrl() {
+    return inReviewFolder() ? "../MNOPQR/print.html" : "MNOPQR/print.html";
+  }
+
   function mountRail(el, current) {
     if (!el) return;
     var now = String(current || "A").toUpperCase();
@@ -343,6 +351,8 @@
     jklReviewPrintUrl: jklReviewPrintUrl,
     ghijklReviewUrl: ghijklReviewUrl,
     ghijklReviewPrintUrl: ghijklReviewPrintUrl,
+    mnopqrReviewUrl: mnopqrReviewUrl,
+    mnopqrReviewPrintUrl: mnopqrReviewPrintUrl,
     mountRail: mountRail
   };
 })(window);
