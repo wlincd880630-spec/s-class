@@ -782,14 +782,15 @@ ${azureLine}
   function imageUrl(filename) {
     const name = String(filename || '').trim();
     if (!name) return '';
-    if (/^https?:\/\//i.test(name)) return name;
-    const rel = IMAGE_BASE + name.replace(/^\/+/, '');
-    try {
-      if (global.location && /^https?:\/\//i.test(global.location.href || '')) {
-        return new URL(rel, global.location.href).href;
-      }
-    } catch (e) {}
-    return rel;
+    if (/^https?:\/\//i.test(name)) {
+      try {
+        const u = new URL(name);
+        const misplaced = u.pathname.match(/\/REFH\/\d+\/courseware\/(?:assets\/js\/)?([^/]+\.(?:png|jpe?g|gif|webp))$/i);
+        if (misplaced) return IMAGE_BASE + misplaced[1];
+      } catch (e) {}
+      return name;
+    }
+    return IMAGE_BASE + name.replace(/^\/+/, '');
   }
 
   function renderNav(active) {
@@ -2156,7 +2157,7 @@ ${azureLine}
     evaluateReading, evaluateTranslation, evaluateReadingCombined,
     runSpeakingEvaluation, renderReadingEvalHtml, renderTranslationEvalHtml,
     buildAzureSummary, getLastPronunciation, stopSpeakingRecordSafe,
-    showToast, escapeHtml, imageUrl, renderNav,
+    showToast, escapeHtml, imageUrl, imageurl: imageUrl, renderNav,
     injectConfigPanel, toggleConfig, openConfig, saveConfigFromUI,
     loadCourseData, wrapWordsForLookup, splitWords,
     ensureSpeechSdk, startSpeakingRecord, stopSpeakingRecord,
