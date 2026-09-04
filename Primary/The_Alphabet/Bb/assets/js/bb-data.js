@@ -1,6 +1,6 @@
 /**
  * Level 1 The Alphabet · Unit 1 · Letter Bb
- * 词表与音频来自 Student's Book p.6–7（Disc 1 Track 07–10）。
+ * Chant 保留教材 MP3（track10）；其余练习走 Azure 英音慢速 TTS。
  * 练习册干扰图 apple / ant 来自 Workbook Unit 1 Bb。
  */
 (function (global) {
@@ -53,26 +53,21 @@
     video: "assets/video/letter-b.mp4",
     connectMap: IMG + "connect-map.jpg",
     connectPath: ["banana", "bird", "bear", "bed"],
+    connectMatch: {
+      pics: ["banana", "bird", "bear", "bed", "ant", "apple", "axe", "alligator"],
+      words: ["bed", "ant", "banana", "alligator", "bird", "apple", "bear", "axe"]
+    },
     tracks: {
-      t03: AUD + "track07.mp3",
-      t04: AUD + "track08.mp3",
-      t05: AUD + "track09.mp3",
-      t06: AUD + "track10.mp3"
+      chant: AUD + "track10.mp3"
     },
     vocab: [WORDS.bear, WORDS.bird, WORDS.bed, WORDS.banana],
-    track04Clips: {
-      bear: [2.0, 10.0],
-      bird: [10.0, 18.0],
-      bed: [18.0, 26.0],
-      banana: [26.0, 34.0]
-    },
     track05Items: [
-      { id: "bird", start: 4.0, end: 10.0, writeBb: true },
-      { id: "apple", start: 10.5, end: 16.5, writeBb: false },
-      { id: "bed", start: 17.0, end: 23.0, writeBb: true },
-      { id: "bear", start: 23.5, end: 29.5, writeBb: true },
-      { id: "ant", start: 30.0, end: 36.0, writeBb: false },
-      { id: "banana", start: 36.5, end: 39.5, writeBb: true }
+      { id: "bird", writeBb: true },
+      { id: "apple", writeBb: false },
+      { id: "bed", writeBb: true },
+      { id: "bear", writeBb: true },
+      { id: "ant", writeBb: false },
+      { id: "banana", writeBb: true }
     ],
     chantOrder: ["bed", "bear", "banana", "bird"],
     distractors: [WORDS.apple, WORDS.ant, WORDS.axe, WORDS.alligator, WORDS.cup, WORDS.cat],
