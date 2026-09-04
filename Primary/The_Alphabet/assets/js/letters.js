@@ -53,6 +53,14 @@
       live: true,
       folder: "Ff",
       hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Ff/assets/img/hero-ff.jpg"
+    },
+    G: {
+      id: "G",
+      pair: "Gg",
+      phrase: "good gorilla",
+      live: true,
+      folder: "Gg",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Gg/assets/img/hero-gg.jpg"
     }
   };
 
