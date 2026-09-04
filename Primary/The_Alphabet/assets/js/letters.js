@@ -134,6 +134,14 @@
       live: true,
       folder: "Xx",
       hero: "Xx/assets/img/hero-xx.jpg"
+    },
+    Y: {
+      id: "Y",
+      pair: "Yy",
+      phrase: "yellow yo-yo",
+      live: true,
+      folder: "Yy",
+      hero: "Yy/assets/img/hero-yy.jpg"
     }
   };
 
