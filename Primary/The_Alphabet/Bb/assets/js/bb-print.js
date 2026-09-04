@@ -234,13 +234,23 @@
       bookFoot(4, total)
     ));
     pages.push(bookSheet("",
-      bookHead("D", "Connect. Then write Bb.") +
-      '<div class="bk-connect">' +
-        '<div class="bk-connect-write">' +
-          '<p class="bk-connect-label">Write Bb.</p>' +
-          stave(staveHTML({ kind: "letter", id: "Bb" }), "write", "fs-lg", "") +
+      bookHead("D", "Connect") +
+      '<div class="bk-connect-page">' +
+        '<figure class="bk-connect-map"><img src="' + L.connectMap + '" alt="Connect the B words on the path"></figure>' +
+        '<div class="bk-connect-match">' +
+          '<div class="bk-connect-pics">' +
+            (L.connectMatch.pics || []).map(function (id, i) {
+              var item = w(id);
+              return '<div class="bk-connect-pic"><b>' + (i + 1) + '</b><img src="' + item.img + '" alt=""></div>';
+            }).join("") +
+          "</div>" +
+          '<div class="bk-connect-words">' +
+            (L.connectMatch.words || []).map(function (id, i) {
+              var item = w(id);
+              return '<div class="bk-connect-word"><b>' + String.fromCharCode(65 + i) + "</b>" + wordFaces(item) + "</div>";
+            }).join("") +
+          "</div>" +
         "</div>" +
-        '<figure class="bk-connect-map"><img src="' + L.connectMap + '" alt="Connect the B words"></figure>' +
       "</div>" +
       bookFoot(5, total)
     ));

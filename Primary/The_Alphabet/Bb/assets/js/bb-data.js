@@ -53,6 +53,10 @@
     video: "assets/video/letter-b.mp4",
     connectMap: IMG + "connect-map.jpg",
     connectPath: ["banana", "bird", "bear", "bed"],
+    connectMatch: {
+      pics: ["banana", "bird", "bear", "bed", "ant", "apple", "axe", "alligator"],
+      words: ["bed", "ant", "banana", "alligator", "bird", "apple", "bear", "axe"]
+    },
     tracks: {
       chant: AUD + "track10.mp3"
     },
