@@ -35,6 +35,12 @@
         "<div><strong>Review 1</strong><small>Aa–Ff · Song · 大富翁</small></div><span class=\"go\">→</span></a></li>"
       );
     }
+    if (ch === "M" || ch === "N" || ch === "O") {
+      items.push(
+        '<li><a href="' + A.mnoReviewUrl() + '"><span class="n">★</span>' +
+        "<div><strong>Unit 5 复习</strong><small>Mm · Nn · Oo · Story</small></div><span class=\"go\">→</span></a></li>"
+      );
+    }
     if (ch === "S" || ch === "T" || ch === "U" || ch === "V") {
       items.push(
         '<li><a href="' + A.stuvReviewUrl() + '"><span class="n">★</span>' +
