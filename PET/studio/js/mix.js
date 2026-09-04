@@ -181,6 +181,7 @@
   function setHeroHidden(hide) {
     var hero = document.querySelector("body.mix .hero");
     if (hero) hero.hidden = !!hide;
+    document.body.classList.toggle("mix-playing", !!hide);
   }
 
   function updateResumeBar() {
