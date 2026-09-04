@@ -53,7 +53,7 @@
   function liveHTML(u) {
     return (
       '<figure class="cover-art">' +
-        '<img src="' + u.hero + '" alt="' + u.pair + " " + u.phrase + '">' +
+        '<img src="' + u.hero + '" alt="' + u.pair + " " + u.phrase + '" onerror="this.classList.add(\'is-broken\')">' +
       "</figure>" +
       '<div class="cover-copy">' +
         '<p class="kicker">Letter ' + u.pair + " · 字母课</p>" +
