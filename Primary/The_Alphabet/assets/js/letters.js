@@ -13,7 +13,7 @@
       phrase: "angry apple",
       live: true,
       folder: "Aa",
-      hero: "Aa/assets/img/hero-aa.jpg"
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Aa/assets/img/hero-aa.jpg"
     },
     B: {
       id: "B",
@@ -21,7 +21,15 @@
       phrase: "big bear",
       live: true,
       folder: "Bb",
-      hero: "Bb/assets/img/hero-bb.jpg"
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Bb/assets/img/hero-bb.jpg"
+    },
+    C: {
+      id: "C",
+      pair: "Cc",
+      phrase: "cool cat",
+      live: true,
+      folder: "Cc",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Cc/assets/img/hero-cc.jpg"
     },
     D: {
       id: "D",
@@ -29,7 +37,7 @@
       phrase: "dizzy dog",
       live: true,
       folder: "Dd",
-      hero: "Dd/assets/img/hero-dd.jpg"
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Dd/assets/img/hero-dd.jpg"
     },
     E: {
       id: "E",
@@ -37,7 +45,7 @@
       phrase: "energetic egg",
       live: true,
       folder: "Ee",
-      hero: "Ee/assets/img/hero-ee.jpg"
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Ee/assets/img/hero-ee.jpg"
     }
   };
 
@@ -132,6 +140,12 @@
   global.ALPHABET = {
     LETTERS: LETTERS,
     UNITS: UNITS,
+    reviewUrl: function () {
+      return onHub() ? "ABC/learn.html" : "ABC/learn.html";
+    },
+    reviewPrintUrl: function () {
+      return "ABC/print.html";
+    },
     onHub: onHub,
     letterFromPath: letterFromPath,
     hubUrl: hubUrl,
