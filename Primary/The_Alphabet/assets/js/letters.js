@@ -13,7 +13,7 @@
       phrase: "angry apple",
       live: true,
       folder: "Aa",
-      hero: "Aa/assets/img/hero-aa.jpg"
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Aa/assets/img/hero-aa.jpg"
     },
     B: {
       id: "B",
@@ -21,7 +21,7 @@
       phrase: "big bear",
       live: true,
       folder: "Bb",
-      hero: "Bb/assets/img/hero-bb.jpg"
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Bb/assets/img/hero-bb.jpg"
     }
   };
 
