@@ -30,6 +30,14 @@
       live: true,
       folder: "Dd",
       hero: "Dd/assets/img/hero-dd.jpg"
+    },
+    E: {
+      id: "E",
+      pair: "Ee",
+      phrase: "energetic egg",
+      live: true,
+      folder: "Ee",
+      hero: "Ee/assets/img/hero-ee.jpg"
     }
   };
 
