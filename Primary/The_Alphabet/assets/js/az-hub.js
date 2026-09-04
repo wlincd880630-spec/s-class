@@ -29,6 +29,12 @@
         "<div><strong>Unit 3 复习</strong><small>Gg · Hh · Ii · Story</small></div><span class=\"go\">→</span></a></li>"
       );
     }
+    if (A.UNITS[ch] && A.UNITS[ch].live) {
+      items.push(
+        '<li><a href="' + A.abcdefReviewUrl() + '"><span class="n">★</span>' +
+        "<div><strong>Review 1</strong><small>Aa–Ff · Song · 大富翁</small></div><span class=\"go\">→</span></a></li>"
+      );
+    }
     if (ch === "J" || ch === "K" || ch === "L") {
       items.push(
         '<li><a href="' + A.jklReviewUrl() + '"><span class="n">★</span>' +
@@ -39,12 +45,6 @@
       items.push(
         '<li><a href="' + A.ghijklReviewUrl() + '"><span class="n">★</span>' +
         "<div><strong>Review 2</strong><small>Gg–Ll · Song · 听写</small></div><span class=\"go\">→</span></a></li>"
-      );
-    }
-    if (A.UNITS[ch] && A.UNITS[ch].live && (ch === "A" || ch === "B" || ch === "C" || ch === "D" || ch === "E" || ch === "F")) {
-      items.push(
-        '<li><a href="' + A.abcdefReviewUrl() + '"><span class="n">★</span>' +
-        "<div><strong>Review 1</strong><small>Aa–Ff · Song · 大富翁</small></div><span class=\"go\">→</span></a></li>"
       );
     }
     return items.join("");

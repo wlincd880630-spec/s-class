@@ -78,6 +78,14 @@
       folder: "Ii",
       hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Ii/assets/img/hero-ii.jpg"
     },
+    J: {
+      id: "J",
+      pair: "Jj",
+      phrase: "jumbo jet",
+      live: true,
+      folder: "Jj",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Jj/assets/img/hero-jj.jpg"
+    },
     L: {
       id: "L",
       pair: "Ll",
@@ -105,7 +113,7 @@
   }
 
   function inReviewFolder() {
-    return /\/The_Alphabet\/(ABC|DEF|GHI|JKL|GHIJKL|ABCDEF)\//.test(pathNorm());
+    return /\/The_Alphabet\/(ABC|DEF|GHI|JKL|ABCDEF|GHIJKL)\//.test(pathNorm());
   }
 
   function onHub() {
@@ -179,18 +187,6 @@
     return inReviewFolder() ? "../ABCDEF/learn.html" : "ABCDEF/learn.html";
   }
 
-  function ghiReviewUrl() {
-    return inReviewFolder() ? "../GHI/learn.html" : "GHI/learn.html";
-  }
-
-  function jklReviewUrl() {
-    return inReviewFolder() ? "../JKL/learn.html" : "JKL/learn.html";
-  }
-
-  function ghijklReviewUrl() {
-    return inReviewFolder() ? "../GHIJKL/learn.html" : "GHIJKL/learn.html";
-  }
-
   function reviewPrintUrl() {
     return inReviewFolder() ? "../ABC/print.html" : "ABC/print.html";
   }
@@ -203,12 +199,24 @@
     return inReviewFolder() ? "../ABCDEF/print.html" : "ABCDEF/print.html";
   }
 
+  function ghiReviewUrl() {
+    return inReviewFolder() ? "../GHI/learn.html" : "GHI/learn.html";
+  }
+
   function ghiReviewPrintUrl() {
     return inReviewFolder() ? "../GHI/print.html" : "GHI/print.html";
   }
 
+  function jklReviewUrl() {
+    return inReviewFolder() ? "../JKL/learn.html" : "JKL/learn.html";
+  }
+
   function jklReviewPrintUrl() {
     return inReviewFolder() ? "../JKL/print.html" : "JKL/print.html";
+  }
+
+  function ghijklReviewUrl() {
+    return inReviewFolder() ? "../GHIJKL/learn.html" : "GHIJKL/learn.html";
   }
 
   function ghijklReviewPrintUrl() {
@@ -244,14 +252,14 @@
     reviewUrl: reviewUrl,
     defReviewUrl: defReviewUrl,
     abcdefReviewUrl: abcdefReviewUrl,
-    ghiReviewUrl: ghiReviewUrl,
-    jklReviewUrl: jklReviewUrl,
-    ghijklReviewUrl: ghijklReviewUrl,
     reviewPrintUrl: reviewPrintUrl,
     defReviewPrintUrl: defReviewPrintUrl,
     abcdefReviewPrintUrl: abcdefReviewPrintUrl,
+    ghiReviewUrl: ghiReviewUrl,
     ghiReviewPrintUrl: ghiReviewPrintUrl,
+    jklReviewUrl: jklReviewUrl,
     jklReviewPrintUrl: jklReviewPrintUrl,
+    ghijklReviewUrl: ghijklReviewUrl,
     ghijklReviewPrintUrl: ghijklReviewPrintUrl,
     mountRail: mountRail
   };
