@@ -71,6 +71,14 @@
       folder: "Hh",
       hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Hh/assets/img/hero-hh.jpg"
     },
+    I: {
+      id: "I",
+      pair: "Ii",
+      phrase: "interesting insect",
+      live: true,
+      folder: "Ii",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Ii/assets/img/hero-ii.jpg"
+    },
     S: {
       id: "S",
       pair: "Ss",
