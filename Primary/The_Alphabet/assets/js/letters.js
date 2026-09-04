@@ -22,6 +22,14 @@
       live: true,
       folder: "Bb",
       hero: "Bb/assets/img/hero-bb.jpg"
+    },
+    C: {
+      id: "C",
+      pair: "Cc",
+      phrase: "cool cat",
+      live: true,
+      folder: "Cc",
+      hero: "Cc/assets/img/hero-cc.jpg"
     }
   };
 
