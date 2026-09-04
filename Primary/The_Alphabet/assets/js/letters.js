@@ -142,6 +142,30 @@
       folder: "Rr",
       hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Rr/assets/img/hero-rr.jpg"
     },
+    S: {
+      id: "S",
+      pair: "Ss",
+      phrase: "super seal",
+      live: true,
+      folder: "Ss",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Ss/assets/img/hero-ss.jpg"
+    },
+    T: {
+      id: "T",
+      pair: "Tt",
+      phrase: "tall turtle",
+      live: true,
+      folder: "Tt",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Tt/assets/img/hero-tt.jpg"
+    },
+    U: {
+      id: "U",
+      pair: "Uu",
+      phrase: "unhappy umbrella",
+      live: true,
+      folder: "Uu",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Uu/assets/img/hero-uu.jpg"
+    },
     W: {
       id: "W",
       pair: "Ww",
