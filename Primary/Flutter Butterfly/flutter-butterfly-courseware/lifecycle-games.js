@@ -7,7 +7,7 @@
 (function (global) {
   "use strict";
 
-  var IMG = "images/lifecycle/";
+  var IMG = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/Flutter%20Butterfly/flutter-butterfly-courseware/images/lifecycle/";
 
   var CYCLE = [
     {
