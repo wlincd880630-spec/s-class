@@ -1,6 +1,6 @@
 /**
  * 字母课语音：Chant 保留教材 MP3；其余练习用 Azure 英音慢速 TTS。
- * 自动读取 window.AA_LESSON、BB_LESSON 或 CC_LESSON。
+ * 自动读取 window.AA_LESSON、BB_LESSON、CC_LESSON、DD_LESSON、EE_LESSON、LL_LESSON、ABC_REVIEW。
  */
 (function (global) {
   "use strict";
@@ -23,7 +23,7 @@
   var voiceAudio = null;
 
   function lesson() {
-    return global.AA_LESSON || global.BB_LESSON || global.CC_LESSON || global.LL_LESSON || null;
+    return global.AA_LESSON || global.BB_LESSON || global.CC_LESSON || global.DD_LESSON || global.EE_LESSON || global.LL_LESSON || global.ABC_REVIEW || null;
   }
 
   function loadSdk() {
@@ -119,6 +119,13 @@
 
   function playFile(src) {
     return playMp3(src);
+  }
+
+  function playStory() {
+    var L = lesson();
+    var url = L && L.tracks && L.tracks.story;
+    if (!url) return Promise.resolve();
+    return playFile(url);
   }
 
   function playChant() {
@@ -274,6 +281,7 @@
     isTrackPlaying: isTrackPlaying,
     playFile: playFile,
     playChant: playChant,
+    playStory: playStory,
     speakWord: speakWord,
     speakLetter: speakLetter,
     speakPhoneme: speakPhoneme,
