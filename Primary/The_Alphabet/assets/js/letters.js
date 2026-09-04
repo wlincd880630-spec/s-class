@@ -77,6 +77,14 @@
       live: true,
       folder: "Ii",
       hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Ii/assets/img/hero-ii.jpg"
+    },
+    J: {
+      id: "J",
+      pair: "Jj",
+      phrase: "jumbo jet",
+      live: true,
+      folder: "Jj",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Jj/assets/img/hero-jj.jpg"
     }
   };
 
