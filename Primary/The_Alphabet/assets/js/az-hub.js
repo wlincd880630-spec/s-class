@@ -44,6 +44,13 @@
         '<ol class="flow">' +
           reviewLinks(u.id) +
           "<li>" +
+            '<a href="' + A.reviewUrl() + '">' +
+              '<span class="n">★</span>' +
+              "<div><strong>Unit 1 复习</strong><small>Aa · Bb · Cc · Story</small></div>" +
+              '<span class="go">→</span>' +
+            "</a>" +
+          "</li>" +
+          "<li>" +
             '<a href="' + A.learnUrl(u.id) + '">' +
               '<span class="n">01</span>' +
               "<div><strong>学一学</strong><small>字母 · 单词 · 描红</small></div>" +
