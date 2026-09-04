@@ -95,6 +95,7 @@
     words: WORDS,
     workbookCircle: ["tent", "teacher", "ox", "tiger", "socks", "turtle"],
     workbookCircleExample: "tiger",
+    workbookLetters: ["T", "t", "A", "b", "T", "a", "d", "t"],
     turtleColorLetters: "TtSsNnIiUuVvMm",
     oddOneOutPrint: [
       ["turtle", "tent", "socks"],

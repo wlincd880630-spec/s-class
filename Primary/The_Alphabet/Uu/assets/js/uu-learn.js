@@ -43,9 +43,9 @@
       ctx.stroke();
     }
     function end() { drawing = false; }
-    canvas.addEventListener("umbrelladown", start);
-    canvas.addEventListener("umbrellamove", move);
-    window.addEventListener("umbrellaup", end);
+    canvas.addEventListener("mousedown", start);
+    canvas.addEventListener("mousemove", move);
+    window.addEventListener("mouseup", end);
     canvas.addEventListener("touchstart", start, { passive: false });
     canvas.addEventListener("touchmove", move, { passive: false });
     canvas.addEventListener("touchend", end);
