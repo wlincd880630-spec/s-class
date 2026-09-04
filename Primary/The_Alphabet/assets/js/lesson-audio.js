@@ -23,7 +23,7 @@
   var voiceAudio = null;
 
   function lesson() {
-    return global.AA_LESSON || global.BB_LESSON || global.CC_LESSON || global.DD_LESSON || global.MM_LESSON || global.NN_LESSON || global.ABC_REVIEW || global.MNO_REVIEW || null;
+    return global.AA_LESSON || global.BB_LESSON || global.CC_LESSON || global.DD_LESSON || global.MM_LESSON || global.NN_LESSON || global.PP_LESSON || global.QQ_LESSON || global.RR_LESSON || global.ABC_REVIEW || global.MNO_REVIEW || null;
   }
 
   function loadSdk() {

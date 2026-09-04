@@ -54,6 +54,30 @@
       live: true,
       folder: "Nn",
       hero: "Nn/assets/img/hero-nn.jpg"
+    },
+    P: {
+      id: "P",
+      pair: "Pp",
+      phrase: "pink peach",
+      live: true,
+      folder: "Pp",
+      hero: "Pp/assets/img/hero-pp.jpg"
+    },
+    Q: {
+      id: "Q",
+      pair: "Qq",
+      phrase: "quiet queen",
+      live: true,
+      folder: "Qq",
+      hero: "Qq/assets/img/hero-qq.jpg"
+    },
+    R: {
+      id: "R",
+      pair: "Rr",
+      phrase: "racing rabbit",
+      live: true,
+      folder: "Rr",
+      hero: "Rr/assets/img/hero-rr.jpg"
     }
   };
 
