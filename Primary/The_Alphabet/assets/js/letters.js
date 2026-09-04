@@ -22,6 +22,14 @@
       live: true,
       folder: "Bb",
       hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Bb/assets/img/hero-bb.jpg"
+    },
+    C: {
+      id: "C",
+      pair: "Cc",
+      phrase: "cool cat",
+      live: true,
+      folder: "Cc",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Cc/assets/img/hero-cc.jpg"
     }
   };
 
@@ -116,6 +124,12 @@
   global.ALPHABET = {
     LETTERS: LETTERS,
     UNITS: UNITS,
+    reviewUrl: function () {
+      return onHub() ? "ABC/learn.html" : "ABC/learn.html";
+    },
+    reviewPrintUrl: function () {
+      return "ABC/print.html";
+    },
     onHub: onHub,
     letterFromPath: letterFromPath,
     hubUrl: hubUrl,

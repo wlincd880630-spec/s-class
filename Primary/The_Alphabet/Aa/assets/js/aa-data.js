@@ -1,6 +1,6 @@
 /**
  * Level 1 The Alphabet · Unit 1 · Letter Aa
- * 词表与音频来自 Student's Book p.4–5（Disc 1 Track 03–06）。
+ * Chant 保留教材 MP3（track06）；其余练习走 Azure 英音慢速 TTS。
  * 练习册干扰图 banana / computer 来自 Workbook Unit 1，配图为本课重绘。
  */
 (function (global) {
@@ -38,6 +38,8 @@
     pages: "Student's Book p.4–5",
     workbookPages: "Workbook Unit 1 Aa",
     letter: "Aa",
+    letterCap: "A",
+    letterSmall: "a",
     soundIpa: "/æ/",
     soundHint: "短元音，像 angry apple 里的 a",
     mascot: {
@@ -49,25 +51,16 @@
     hero: IMG + "hero-aa.jpg",
     video: "assets/video/letter-a.mp4",
     tracks: {
-      t03: AUD + "track03.mp3",
-      t04: AUD + "track04.mp3",
-      t05: AUD + "track05.mp3",
-      t06: AUD + "track06.mp3"
+      chant: AUD + "track06.mp3"
     },
     vocab: [WORDS.apple, WORDS.axe, WORDS.ant, WORDS.alligator],
-    track04Clips: {
-      apple: [6.0, 14.0],
-      axe: [14.0, 27.0],
-      ant: [27.0, 36.0],
-      alligator: [36.0, 49.2]
-    },
     track05Items: [
-      { id: "ant", start: 8.0, end: 13.8, writeAa: true },
-      { id: "bear", start: 14.0, end: 19.5, writeAa: false },
-      { id: "apple", start: 19.8, end: 26.5, writeAa: true },
-      { id: "alligator", start: 26.8, end: 34.3, writeAa: true },
-      { id: "cup", start: 34.5, end: 41.5, writeAa: false },
-      { id: "axe", start: 41.8, end: 50.0, writeAa: true }
+      { id: "ant", writeAa: true },
+      { id: "bear", writeAa: false },
+      { id: "apple", writeAa: true },
+      { id: "alligator", writeAa: true },
+      { id: "cup", writeAa: false },
+      { id: "axe", writeAa: true }
     ],
     chantOrder: ["ant", "apple", "alligator", "axe"],
     distractors: [WORDS.bear, WORDS.cup, WORDS.ball, WORDS.cat, WORDS.dog],
