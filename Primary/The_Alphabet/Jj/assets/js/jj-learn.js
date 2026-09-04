@@ -124,10 +124,10 @@
     }
 
     if (s.type === "trace") {
-      var isA = s.letter === "I";
+      var isA = s.letter === "J";
       box.innerHTML =
         '<p class="slide-kicker">Trace</p>' +
-        "<h2>" + (isA ? "I" : "i") + "</h2>" +
+        "<h2>" + (isA ? "J" : "j") + "</h2>" +
         paperHTML() +
         '<button type="button" class="btn btn-ghost" id="btn-clear">清除</button>';
       var cv = $("trace-cv");
