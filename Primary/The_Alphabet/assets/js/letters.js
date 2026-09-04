@@ -185,7 +185,7 @@
   }
 
   function inReviewFolder() {
-    return /\/The_Alphabet\/(ABC|DEF|GHI|MNO|ABCDEF)\//.test(pathNorm());
+    return /\/The_Alphabet\/(ABC|DEF|GHI|JKL|MNO|ABCDEF|GHIJKL)\//.test(pathNorm());
   }
 
   function onHub() {
@@ -287,6 +287,22 @@
     return inReviewFolder() ? "../MNO/print.html" : "MNO/print.html";
   }
 
+  function jklReviewUrl() {
+    return inReviewFolder() ? "../JKL/learn.html" : "JKL/learn.html";
+  }
+
+  function jklReviewPrintUrl() {
+    return inReviewFolder() ? "../JKL/print.html" : "JKL/print.html";
+  }
+
+  function ghijklReviewUrl() {
+    return inReviewFolder() ? "../GHIJKL/learn.html" : "GHIJKL/learn.html";
+  }
+
+  function ghijklReviewPrintUrl() {
+    return inReviewFolder() ? "../GHIJKL/print.html" : "GHIJKL/print.html";
+  }
+
   function mountRail(el, current) {
     if (!el) return;
     var now = String(current || "A").toUpperCase();
@@ -323,6 +339,10 @@
     ghiReviewPrintUrl: ghiReviewPrintUrl,
     mnoReviewUrl: mnoReviewUrl,
     mnoReviewPrintUrl: mnoReviewPrintUrl,
+    jklReviewUrl: jklReviewUrl,
+    jklReviewPrintUrl: jklReviewPrintUrl,
+    ghijklReviewUrl: ghijklReviewUrl,
+    ghijklReviewPrintUrl: ghijklReviewPrintUrl,
     mountRail: mountRail
   };
 })(window);
