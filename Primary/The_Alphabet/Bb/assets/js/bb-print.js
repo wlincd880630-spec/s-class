@@ -486,7 +486,7 @@
       foot(7, total, "游戏")
     ));
     pages.push(sheet("theme-leaf",
-      header("Game 6 · Chant line-up", "Chant 排队", "英音慢读") +
+      header("Game 6 · Chant line-up", "Chant 排队", "教材 Chant") +
       task("6", "剪下四张图。边唱 chant 边排队：bed, bear, banana, bird。", "leaf") +
       '<div class="cut-grid">' +
         L.chantOrder.map(function (id, i) {

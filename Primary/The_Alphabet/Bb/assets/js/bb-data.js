@@ -1,12 +1,13 @@
 /**
  * Level 1 The Alphabet · Unit 1 · Letter Bb
- * 练习音频全部走 Azure 英音慢速 TTS（无教材 MP3）。
+ * Chant 保留教材 MP3（track10）；其余练习走 Azure 英音慢速 TTS。
  * 练习册干扰图 apple / ant 来自 Workbook Unit 1 Bb。
  */
 (function (global) {
   "use strict";
 
   var IMG = "assets/img/";
+  var AUD = "assets/audio/";
 
   var WORDS = {
     bear: { id: "bear", en: "bear", zh: "熊", onset: "b", rest: "ear", img: IMG + "bear.jpg", b: true },
@@ -52,6 +53,9 @@
     video: "assets/video/letter-b.mp4",
     connectMap: IMG + "connect-map.jpg",
     connectPath: ["banana", "bird", "bear", "bed"],
+    tracks: {
+      chant: AUD + "track10.mp3"
+    },
     vocab: [WORDS.bear, WORDS.bird, WORDS.bed, WORDS.banana],
     track05Items: [
       { id: "bird", writeBb: true },

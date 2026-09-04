@@ -500,7 +500,7 @@
       '<div class="chant-row" id="g6-pool"></div>';
     $("play-actions").innerHTML = '<button type="button" class="btn btn-leaf" id="g6-check">检查</button>';
 
-    $("g6-chant").onclick = function () { AAAudio.speakChant(); };
+    $("g6-chant").onclick = function () { AAAudio.playChant(); };
     $("g6-reset").onclick = startG6;
     $("g6-check").onclick = check;
 
@@ -556,7 +556,7 @@
 
     paint();
     fb("听歌时可继续排队");
-    AAAudio.speakChant();
+    AAAudio.playChant();
   }
 
   function startG7() {
