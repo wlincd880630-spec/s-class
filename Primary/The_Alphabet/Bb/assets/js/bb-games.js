@@ -73,21 +73,14 @@
     if (!spoken) return;
     AAAudio.unlock();
     sayBtn.classList.add("is-on");
-    AAAudio.speakWord(spoken.en).then(function () {
+    AAAudio.speakWord(spoken.en, true).then(function () {
       sayBtn.classList.remove("is-on");
     }, function () {
       sayBtn.classList.remove("is-on");
     });
   }
   function playWordClip(w) {
-    var clip = L.track04Clips[w.id];
-    if (clip) {
-      AAAudio.playClip(L.tracks.t04, clip[0], clip[1]).catch(function () {
-        AAAudio.speakWord(w.en);
-      });
-    } else {
-      AAAudio.speakWord(w.en);
-    }
+    AAAudio.speakWord(w.en, true);
   }
 
   function wordPickerHTML(selected, pool) {
@@ -461,9 +454,7 @@
         "</div>";
       $("play-actions").innerHTML = "";
       function play() {
-        AAAudio.playClip(L.tracks.t05, it.start, it.end).catch(function () {
-          AAAudio.speakWord(w.en);
-        });
+        AAAudio.speakWord(w.en, true);
       }
       $("g5-hear").onclick = play;
       $("g5-choice").onclick = function (e) {
@@ -509,7 +500,7 @@
       '<div class="chant-row" id="g6-pool"></div>';
     $("play-actions").innerHTML = '<button type="button" class="btn btn-leaf" id="g6-check">检查</button>';
 
-    $("g6-chant").onclick = function () { AAAudio.playFile(L.tracks.t06); };
+    $("g6-chant").onclick = function () { AAAudio.speakChant(); };
     $("g6-reset").onclick = startG6;
     $("g6-check").onclick = check;
 
@@ -565,7 +556,7 @@
 
     paint();
     fb("听歌时可继续排队");
-    AAAudio.playFile(L.tracks.t06);
+    AAAudio.speakChant();
   }
 
   function startG7() {

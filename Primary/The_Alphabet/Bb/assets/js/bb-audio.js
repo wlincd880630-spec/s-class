@@ -1,8 +1,10 @@
 /**
- * 教材 MP3 与单词语音分轨：点图、排卡不会打断正在播放的 Track。
+ * Bb 课程语音：全部使用 Azure 英音慢速 TTS（不再播放教材 MP3）。
  */
 (function (global) {
   "use strict";
+
+  var SLOW = "0.62";
 
   var AZURE = {
     subscriptionKey: "4SJbskufsk2tiu5jq1kzlJwTDw2eVPYd8e7HvDhb3lX6ZmItWOnxJQQJ99CHACqBBLyXJ3w3AAAYACOGxnpO",
@@ -13,13 +15,11 @@
   };
 
   var sdkPromise = null;
-  var trackAudio = null;
-  var clipAudio = null;
-  var clipTimer = null;
   var currentSynth = null;
   var audioCtx = null;
   var voiceSource = null;
   var voiceAudio = null;
+  var speakChain = Promise.resolve();
 
   function loadSdk() {
     if (global.SpeechSDK) return Promise.resolve(global.SpeechSDK);
@@ -48,29 +48,6 @@
       .replace(/'/g, "&apos;");
   }
 
-  function killAudio(a) {
-    if (!a) return;
-    try {
-      a.pause();
-      a.removeAttribute("src");
-      a.load();
-    } catch (e) {}
-  }
-
-  function stopTrack() {
-    killAudio(trackAudio);
-    trackAudio = null;
-  }
-
-  function stopClip() {
-    if (clipTimer) {
-      clearInterval(clipTimer);
-      clipTimer = null;
-    }
-    killAudio(clipAudio);
-    clipAudio = null;
-  }
-
   function unlockAudio() {
     var AC = global.AudioContext || global.webkitAudioContext;
     if (!AC) return null;
@@ -80,6 +57,7 @@
   }
 
   function stopVoice() {
+    speakChain = Promise.resolve();
     if (currentSynth) {
       try { currentSynth.close(); } catch (e) {}
       currentSynth = null;
@@ -102,52 +80,11 @@
   }
 
   function stop() {
-    stopTrack();
-    stopClip();
     stopVoice();
   }
 
   function isTrackPlaying() {
-    return !!(trackAudio && !trackAudio.paused);
-  }
-
-  function playFile(src) {
-    stopTrack();
-    return new Promise(function (resolve, reject) {
-      var a = new Audio(src);
-      trackAudio = a;
-      a.onended = function () { resolve(); };
-      a.onerror = function () { reject(new Error("audio error")); };
-      a.play().catch(reject);
-    });
-  }
-
-  function playClip(src, start, end) {
-    stopClip();
-    return new Promise(function (resolve, reject) {
-      var a = new Audio(src);
-      clipAudio = a;
-      var done = false;
-      function finish() {
-        if (done) return;
-        done = true;
-        try { a.pause(); } catch (e) {}
-        if (clipTimer) {
-          clearInterval(clipTimer);
-          clipTimer = null;
-        }
-        resolve();
-      }
-      a.onerror = function () { reject(new Error("clip error")); };
-      a.onended = finish;
-      a.onloadedmetadata = function () {
-        try { a.currentTime = Math.max(0, start || 0); } catch (e) {}
-        a.play().catch(reject);
-        clipTimer = setInterval(function () {
-          if (end && a.currentTime >= end) finish();
-        }, 80);
-      };
-    });
+    return false;
   }
 
   function wrapSpeak(inner, rate) {
@@ -209,7 +146,6 @@
       .then(function (sdk) {
         var cfg = sdk.SpeechConfig.fromSubscription(AZURE.subscriptionKey, AZURE.region);
         cfg.speechSynthesisVoiceName = AZURE.voice;
-        /* null = 不走扬声器，音频在 result.audioData，避免 SDK 默默合成却不播放 */
         var synth = new sdk.SpeechSynthesizer(cfg, null);
         currentSynth = synth;
         return new Promise(function (resolve, reject) {
@@ -234,11 +170,11 @@
         });
       })
       .catch(function () {
-        return browserSpeak(plain);
+        return browserSpeak(plain, rate === SLOW ? 0.75 : 0.88);
       });
   }
 
-  function browserSpeak(text) {
+  function browserSpeak(text, rate) {
     return new Promise(function (resolve) {
       if (!global.speechSynthesis) {
         resolve();
@@ -246,16 +182,63 @@
       }
       var u = new SpeechSynthesisUtterance(String(text).replace(/\s+/g, " ").trim());
       u.lang = "en-GB";
-      u.rate = 0.88;
+      u.rate = rate || 0.88;
       u.onend = resolve;
       u.onerror = resolve;
       global.speechSynthesis.speak(u);
     });
   }
 
+  function lesson() {
+    return global.BB_LESSON || null;
+  }
+
   function speakWord(word, slow) {
     unlockAudio();
-    return speakSsml(escapeSsml(word), slow ? "0.65" : AZURE.rate);
+    return speakSsml(escapeSsml(word), slow ? SLOW : AZURE.rate);
+  }
+
+  function speakLetter() {
+    var L = lesson();
+    var cap = L && L.letterCap ? L.letterCap : "B";
+    var small = L && L.letterSmall ? L.letterSmall : "b";
+    return speakSsml(escapeSsml(cap + ". " + small + "."), SLOW);
+  }
+
+  function speakPhoneme() {
+    return speakSsml('<phoneme alphabet="ipa" ph="b">b</phoneme>', SLOW);
+  }
+
+  function speakListenIntro() {
+    var L = lesson();
+    var phrase = L && L.mascot ? L.mascot.phrase : "big bear";
+    var cap = L && L.letterCap ? L.letterCap : "B";
+    var small = L && L.letterSmall ? L.letterSmall : "b";
+    return speakSsml(escapeSsml(cap + ", " + small + ". " + phrase + "."), SLOW);
+  }
+
+  function speakChant(ids) {
+    var L = lesson();
+    var list = ids || (L && L.chantOrder) || [];
+    stopVoice();
+    speakChain = Promise.resolve();
+    list.forEach(function (id) {
+      var w = L && L.words && L.words[id];
+      if (!w) return;
+      speakChain = speakChain.then(function () {
+        return speakWord(w.en, true);
+      });
+    });
+    return speakChain;
+  }
+
+  function playFile() {
+    return speakListenIntro();
+  }
+
+  function playClip(_src, _start, _end, wordText) {
+    if (wordText) return speakWord(wordText, true);
+    return Promise.resolve();
   }
 
   function warm() {
@@ -267,14 +250,19 @@
 
   global.AAAudio = {
     AZURE: AZURE,
+    SLOW: SLOW,
     stop: stop,
-    stopTrack: stopTrack,
-    stopClip: stopClip,
+    stopTrack: stop,
+    stopClip: stop,
     stopVoice: stopVoice,
     isTrackPlaying: isTrackPlaying,
     playFile: playFile,
     playClip: playClip,
     speakWord: speakWord,
+    speakLetter: speakLetter,
+    speakPhoneme: speakPhoneme,
+    speakListenIntro: speakListenIntro,
+    speakChant: speakChant,
     warm: warm,
     unlock: unlockAudio
   };
