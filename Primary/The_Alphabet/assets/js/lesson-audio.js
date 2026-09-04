@@ -23,7 +23,7 @@
   var voiceAudio = null;
 
   function lesson() {
-    return global.AA_LESSON || global.BB_LESSON || global.CC_LESSON || global.DD_LESSON || global.EE_LESSON || global.MM_LESSON || global.NN_LESSON || global.PP_LESSON || global.QQ_LESSON || global.RR_LESSON || global.SS_LESSON || global.TT_LESSON || global.UU_LESSON || global.VV_LESSON || global.WW_LESSON || global.XX_LESSON || global.YY_LESSON || global.ZZ_LESSON || global.ABC_REVIEW || global.MNO_REVIEW || global.WXYZ_REVIEW || null;
+    return global.AA_LESSON || global.BB_LESSON || global.CC_LESSON || global.DD_LESSON || global.EE_LESSON || global.MM_LESSON || global.NN_LESSON || global.PP_LESSON || global.QQ_LESSON || global.RR_LESSON || global.SS_LESSON || global.TT_LESSON || global.UU_LESSON || global.VV_LESSON || global.WW_LESSON || global.XX_LESSON || global.YY_LESSON || global.ZZ_LESSON || global.ABC_REVIEW || global.MNO_REVIEW || global.WXYZ_REVIEW || global.STUVWXYZ_REVIEW || null;
   }
 
   function loadSdk() {
@@ -131,6 +131,12 @@
   function playChant() {
     var L = lesson();
     var src = L && L.tracks && (L.tracks.chant || L.tracks.t06);
+    return playMp3(src);
+  }
+
+  function playSong() {
+    var L = lesson();
+    var src = L && L.tracks && (L.tracks.song || L.tracks.chant);
     return playMp3(src);
   }
 
@@ -281,6 +287,7 @@
     isTrackPlaying: isTrackPlaying,
     playFile: playFile,
     playChant: playChant,
+    playSong: playSong,
     playStory: playStory,
     speakWord: speakWord,
     speakLetter: speakLetter,

@@ -176,7 +176,7 @@
   }
 
   function inReviewFolder() {
-    return /\/The_Alphabet\/(ABC|DEF|GHI|JKL|GHIJKL|ABCDEF|MNO|WXYZ)\//.test(pathNorm());
+    return /\/The_Alphabet\/(ABC|DEF|GHI|JKL|GHIJKL|ABCDEF|MNO|WXYZ|STUVWXYZ)\//.test(pathNorm());
   }
 
   function onHub() {
@@ -253,6 +253,14 @@
     return inReviewFolder() ? "../WXYZ/print.html" : "WXYZ/print.html";
   }
 
+  function stuvwxyzReviewUrl() {
+    return inReviewFolder() ? "../STUVWXYZ/learn.html" : "STUVWXYZ/learn.html";
+  }
+
+  function stuvwxyzReviewPrintUrl() {
+    return inReviewFolder() ? "../STUVWXYZ/print.html" : "STUVWXYZ/print.html";
+  }
+
   function reviewPrintUrl() {
     return inReviewFolder() ? "../ABC/print.html" : "ABC/print.html";
   }
@@ -288,6 +296,8 @@
     reviewPrintUrl: reviewPrintUrl,
     mnoReviewPrintUrl: mnoReviewPrintUrl,
     wxyzReviewPrintUrl: wxyzReviewPrintUrl,
+    stuvwxyzReviewUrl: stuvwxyzReviewUrl,
+    stuvwxyzReviewPrintUrl: stuvwxyzReviewPrintUrl,
     onHub: onHub,
     letterFromPath: letterFromPath,
     hubUrl: hubUrl,
