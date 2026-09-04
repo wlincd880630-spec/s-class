@@ -225,7 +225,7 @@
   }
 
   function inReviewFolder() {
-    return /\/The_Alphabet\/(ABC|DEF|GHI|JKL|MNO|STUV|WXYZ|ABCDEF|GHIJKL|MNOPQR)\//.test(pathNorm());
+    return /\/The_Alphabet\/(ABC|DEF|GHI|JKL|MNO|STUV|WXYZ|STUVWXYZ|ABCDEF|GHIJKL|MNOPQR)\//.test(pathNorm());
   }
 
   function onHub() {
@@ -367,6 +367,14 @@
     return inReviewFolder() ? "../WXYZ/print.html" : "WXYZ/print.html";
   }
 
+  function stuvwxyzReviewUrl() {
+    return inReviewFolder() ? "../STUVWXYZ/learn.html" : "STUVWXYZ/learn.html";
+  }
+
+  function stuvwxyzReviewPrintUrl() {
+    return inReviewFolder() ? "../STUVWXYZ/print.html" : "STUVWXYZ/print.html";
+  }
+
   function mountRail(el, current) {
     if (!el) return;
     var now = String(current || "A").toUpperCase();
@@ -413,6 +421,8 @@
     stuvReviewPrintUrl: stuvReviewPrintUrl,
     wxyzReviewUrl: wxyzReviewUrl,
     wxyzReviewPrintUrl: wxyzReviewPrintUrl,
+    stuvwxyzReviewUrl: stuvwxyzReviewUrl,
+    stuvwxyzReviewPrintUrl: stuvwxyzReviewPrintUrl,
     mountRail: mountRail
   };
 })(window);

@@ -71,6 +71,12 @@
         "<div><strong>Unit 8 复习</strong><small>Ww · Xx · Yy · Zz · Story</small></div><span class=\"go\">→</span></a></li>"
       );
     }
+    if (ch === "S" || ch === "T" || ch === "U" || ch === "V" || ch === "W" || ch === "X" || ch === "Y" || ch === "Z") {
+      items.push(
+        '<li><a href="' + A.stuvwxyzReviewUrl() + '"><span class="n">★</span>' +
+        "<div><strong>Review 4</strong><small>Ss–Zz · Zoo Song · 动物园</small></div><span class=\"go\">→</span></a></li>"
+      );
+    }
     return items.join("");
   }
 
