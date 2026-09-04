@@ -53,6 +53,12 @@
         "<div><strong>Review 2</strong><small>Gg–Ll · Song · 听写</small></div><span class=\"go\">→</span></a></li>"
       );
     }
+    if (ch === "M" || ch === "N" || ch === "O" || ch === "P" || ch === "Q" || ch === "R") {
+      items.push(
+        '<li><a href="' + A.mnopqrReviewUrl() + '"><span class="n">★</span>' +
+        "<div><strong>Review 3</strong><small>Mm · Nn · Oo · Pp · Qq · Rr · Song</small></div><span class=\"go\">→</span></a></li>"
+      );
+    }
     if (ch === "S" || ch === "T" || ch === "U" || ch === "V") {
       items.push(
         '<li><a href="' + A.stuvReviewUrl() + '"><span class="n">★</span>' +
