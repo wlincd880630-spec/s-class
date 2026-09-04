@@ -1,55 +1,20 @@
 /**
  * Level 1 The Alphabet · A–Z 课程注册表
- * 主页只进这一课；字母在页内切换，不在首页拆成 26 条链接。
  */
 (function (global) {
   "use strict";
 
   var LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
   var UNITS = {
-    A: {
-      id: "A",
-      pair: "Aa",
-      phrase: "angry apple",
-      live: true,
-      folder: "Aa",
-      hero: "Aa/assets/img/hero-aa.jpg"
-    },
-    B: {
-      id: "B",
-      pair: "Bb",
-      phrase: "big bear",
-      live: true,
-      folder: "Bb",
-      hero: "Bb/assets/img/hero-bb.jpg"
-    },
-    C: {
-      id: "C",
-      pair: "Cc",
-      phrase: "cool cat",
-      live: true,
-      folder: "Cc",
-      hero: "Cc/assets/img/hero-cc.jpg"
-    },
-    L: {
-      id: "L",
-      pair: "Ll",
-      phrase: "lazy lion",
-      live: true,
-      folder: "Ll",
-      hero: "Ll/assets/img/hero-ll.jpg"
-    }
+    A: { id: "A", pair: "Aa", phrase: "angry apple", live: true, folder: "Aa", hero: "Aa/assets/img/hero-aa.jpg" },
+    B: { id: "B", pair: "Bb", phrase: "big bear", live: true, folder: "Bb", hero: "Bb/assets/img/hero-bb.jpg" },
+    C: { id: "C", pair: "Cc", phrase: "cool cat", live: true, folder: "Cc", hero: "Cc/assets/img/hero-cc.jpg" },
+    L: { id: "L", pair: "Ll", phrase: "lazy lion", live: true, folder: "Ll", hero: "Ll/assets/img/hero-ll.jpg" }
   };
 
   LETTERS.forEach(function (ch) {
     if (!UNITS[ch]) {
-      UNITS[ch] = {
-        id: ch,
-        pair: ch + ch.toLowerCase(),
-        phrase: "",
-        live: false,
-        folder: ch + ch.toLowerCase()
-      };
+      UNITS[ch] = { id: ch, pair: ch + ch.toLowerCase(), phrase: "", live: false, folder: ch + ch.toLowerCase() };
     }
   });
 
@@ -61,6 +26,10 @@
 
   function inLetterFolder() {
     return /\/The_Alphabet\/[A-Z][a-z]\//.test(pathNorm());
+  }
+
+  function inReviewFolder() {
+    return /\/The_Alphabet\/(ABC|DEF|GHI|JKL|GHIJKL|ABCDEF)\//.test(pathNorm());
   }
 
   function onHub() {
@@ -77,38 +46,97 @@
   function hubUrl(ch) {
     var c = String(ch || "A").toUpperCase();
     if (onHub()) return "#" + c;
-    if (inLetterFolder()) return "../index.html#" + c;
+    if (inLetterFolder() || inReviewFolder()) return "../index.html#" + c;
     return "index.html#" + c;
   }
 
   function learnUrl(ch) {
     var u = UNITS[ch];
     if (!u || !u.live) return hubUrl(ch);
-    return inLetterFolder() ? "learn.html" : u.folder + "/learn.html";
+    if (inLetterFolder()) return "learn.html";
+    if (inReviewFolder()) return "../" + u.folder + "/learn.html";
+    return u.folder + "/learn.html";
   }
 
   function gamesUrl(ch) {
     var u = UNITS[ch];
     if (!u || !u.live) return hubUrl(ch);
-    return inLetterFolder() ? "games.html" : u.folder + "/games.html";
+    if (inLetterFolder()) return "games.html";
+    if (inReviewFolder()) return "../" + u.folder + "/games.html";
+    return u.folder + "/games.html";
   }
+
   function gamePlayUrl(ch, id) {
     var u = UNITS[ch];
     if (!u || !u.live) return hubUrl(ch);
     var file = "game-" + id + ".html";
-    return inLetterFolder() ? file : u.folder + "/" + file;
+    if (inLetterFolder()) return file;
+    if (inReviewFolder()) return "../" + u.folder + "/" + file;
+    return u.folder + "/" + file;
   }
 
   function workbookUrl(ch) {
     var u = UNITS[ch];
     if (!u || !u.live) return hubUrl(ch);
-    return inLetterFolder() ? "workbook.html" : u.folder + "/workbook.html";
+    if (inLetterFolder()) return "workbook.html";
+    if (inReviewFolder()) return "../" + u.folder + "/workbook.html";
+    return u.folder + "/workbook.html";
   }
 
   function printUrl(ch) {
     var u = UNITS[ch];
     if (!u || !u.live) return hubUrl(ch);
-    return inLetterFolder() ? "print.html" : u.folder + "/print.html";
+    if (inLetterFolder()) return "print.html";
+    if (inReviewFolder()) return "../" + u.folder + "/print.html";
+    return u.folder + "/print.html";
+  }
+
+  function reviewUrl() {
+    return inReviewFolder() ? "../ABC/learn.html" : "ABC/learn.html";
+  }
+
+  function defReviewUrl() {
+    return inReviewFolder() ? "../DEF/learn.html" : "DEF/learn.html";
+  }
+
+  function abcdefReviewUrl() {
+    return inReviewFolder() ? "../ABCDEF/learn.html" : "ABCDEF/learn.html";
+  }
+
+  function ghiReviewUrl() {
+    return inReviewFolder() ? "../GHI/learn.html" : "GHI/learn.html";
+  }
+
+  function jklReviewUrl() {
+    return inReviewFolder() ? "../JKL/learn.html" : "JKL/learn.html";
+  }
+
+  function ghijklReviewUrl() {
+    return inReviewFolder() ? "../GHIJKL/learn.html" : "GHIJKL/learn.html";
+  }
+
+  function reviewPrintUrl() {
+    return inReviewFolder() ? "../ABC/print.html" : "ABC/print.html";
+  }
+
+  function defReviewPrintUrl() {
+    return inReviewFolder() ? "../DEF/print.html" : "DEF/print.html";
+  }
+
+  function abcdefReviewPrintUrl() {
+    return inReviewFolder() ? "../ABCDEF/print.html" : "ABCDEF/print.html";
+  }
+
+  function ghiReviewPrintUrl() {
+    return inReviewFolder() ? "../GHI/print.html" : "GHI/print.html";
+  }
+
+  function jklReviewPrintUrl() {
+    return inReviewFolder() ? "../JKL/print.html" : "JKL/print.html";
+  }
+
+  function ghijklReviewPrintUrl() {
+    return inReviewFolder() ? "../GHIJKL/print.html" : "GHIJKL/print.html";
   }
 
   function mountRail(el, current) {
@@ -121,11 +149,8 @@
     }).join("");
     var on = el.querySelector(".az-chip.is-on");
     if (on && on.scrollIntoView) {
-      try {
-        on.scrollIntoView({ inline: "center", block: "nearest", behavior: "auto" });
-      } catch (err) {
-        on.scrollIntoView(false);
-      }
+      try { on.scrollIntoView({ inline: "center", block: "nearest", behavior: "auto" }); }
+      catch (err) { on.scrollIntoView(false); }
     }
   }
 
@@ -140,6 +165,18 @@
     gamePlayUrl: gamePlayUrl,
     workbookUrl: workbookUrl,
     printUrl: printUrl,
+    reviewUrl: reviewUrl,
+    defReviewUrl: defReviewUrl,
+    abcdefReviewUrl: abcdefReviewUrl,
+    ghiReviewUrl: ghiReviewUrl,
+    jklReviewUrl: jklReviewUrl,
+    ghijklReviewUrl: ghijklReviewUrl,
+    reviewPrintUrl: reviewPrintUrl,
+    defReviewPrintUrl: defReviewPrintUrl,
+    abcdefReviewPrintUrl: abcdefReviewPrintUrl,
+    ghiReviewPrintUrl: ghiReviewPrintUrl,
+    jklReviewPrintUrl: jklReviewPrintUrl,
+    ghijklReviewPrintUrl: ghijklReviewPrintUrl,
     mountRail: mountRail
   };
 })(window);

@@ -9,6 +9,47 @@
     return A.UNITS[h] ? h : "A";
   }
 
+  function reviewLinks(ch) {
+    var items = [];
+    if (ch === "A" || ch === "B" || ch === "C") {
+      items.push(
+        '<li><a href="' + A.reviewUrl() + '"><span class="n">★</span>' +
+        "<div><strong>Unit 1 复习</strong><small>Aa · Bb · Cc · Story</small></div><span class=\"go\">→</span></a></li>"
+      );
+    }
+    if (ch === "D" || ch === "E" || ch === "F") {
+      items.push(
+        '<li><a href="' + A.defReviewUrl() + '"><span class="n">★</span>' +
+        "<div><strong>Unit 2 复习</strong><small>Dd · Ee · Ff · Story</small></div><span class=\"go\">→</span></a></li>"
+      );
+    }
+    if (ch === "G" || ch === "H" || ch === "I") {
+      items.push(
+        '<li><a href="' + A.ghiReviewUrl() + '"><span class="n">★</span>' +
+        "<div><strong>Unit 3 复习</strong><small>Gg · Hh · Ii · Story</small></div><span class=\"go\">→</span></a></li>"
+      );
+    }
+    if (ch === "J" || ch === "K" || ch === "L") {
+      items.push(
+        '<li><a href="' + A.jklReviewUrl() + '"><span class="n">★</span>' +
+        "<div><strong>Unit 4 复习</strong><small>Jj · Kk · Ll · Story</small></div><span class=\"go\">→</span></a></li>"
+      );
+    }
+    if (ch === "G" || ch === "H" || ch === "I" || ch === "J" || ch === "K" || ch === "L") {
+      items.push(
+        '<li><a href="' + A.ghijklReviewUrl() + '"><span class="n">★</span>' +
+        "<div><strong>Review 2</strong><small>Gg–Ll · Song · 听写</small></div><span class=\"go\">→</span></a></li>"
+      );
+    }
+    if (A.UNITS[ch] && A.UNITS[ch].live && (ch === "A" || ch === "B" || ch === "C" || ch === "D" || ch === "E" || ch === "F")) {
+      items.push(
+        '<li><a href="' + A.abcdefReviewUrl() + '"><span class="n">★</span>' +
+        "<div><strong>Review 1</strong><small>Aa–Ff · Song · 大富翁</small></div><span class=\"go\">→</span></a></li>"
+      );
+    }
+    return items.join("");
+  }
+
   function liveHTML(u) {
     return (
       '<figure class="cover-art">' +
@@ -19,6 +60,7 @@
         '<p class="cover-aa"><span class="aa-cap">' + u.pair.charAt(0) + '</span><span class="aa-low">' + u.pair.charAt(1) + "</span></p>" +
         '<p class="cover-sub">' + u.phrase + "</p>" +
         '<ol class="flow">' +
+          reviewLinks(u.id) +
           "<li>" +
             '<a href="' + A.learnUrl(u.id) + '">' +
               '<span class="n">01</span>' +
