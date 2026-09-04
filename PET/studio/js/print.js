@@ -103,7 +103,7 @@
     if (kindLabel) sub = sub ? sub + " · " + esc(kindLabel) : esc(kindLabel);
     return '<section class="sheet cover">' +
       '<img class=hero src="' + esc(absUrl(art)) + '" alt="">' +
-      '<img class=badge src="' + esc(absUrl("img/print-badge.jpg")) + '" alt="">' +
+      '<img class=badge src="' + esc(absurl("https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/PET/studio/js/img/print-badge.jpg")) + '" alt="">' +
       '<div class=meta><div class=kicker>S-CLASS · PET PRACTICE</div>' +
       "<h1>Unit " + unit.id + " · " + esc(unit.title) + "</h1>" +
       (sub ? "<p>" + sub + "</p>" : "") +

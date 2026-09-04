@@ -18,16 +18,16 @@ window.EXAM_DATA = {
 
   /* ========== Part 1 看图听写（与 Part2 例句不重复） ========== */
   dictation: [
-    { id: 1, word: "classmate", cn: "同班同学", img: "images/dict-classmate.jpg", unit: 1 },
-    { id: 2, word: "guitar", cn: "吉他", img: "images/dict-guitar.jpg", unit: 1 },
-    { id: 3, word: "parrot", cn: "鹦鹉", img: "images/dict-parrot.jpg", unit: 1 },
-    { id: 4, word: "hobby", cn: "爱好", img: "images/dict-hobby.jpg", unit: 1 },
-    { id: 5, word: "twin", cn: "双胞胎（之一）", img: "images/dict-twin.jpg", unit: 1 },
-    { id: 6, word: "violin", cn: "小提琴", img: "images/dict-violin.jpg", unit: 2 },
-    { id: 7, word: "chess", cn: "国际象棋", img: "images/dict-chess.jpg", unit: 2 },
-    { id: 8, word: "hat", cn: "帽子", img: "images/dict-hat.jpg", unit: 2 },
-    { id: 9, word: "hike", cn: "远足；徒步", img: "images/dict-hike.jpg", unit: 2 },
-    { id: 10, word: "tennis", cn: "网球", img: "images/dict-tennis.jpg", unit: 1 }
+    { id: 1, word: "classmate", cn: "同班同学", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/xiaoshengchu_exam_01/images/dict-classmate.jpg", unit: 1 },
+    { id: 2, word: "guitar", cn: "吉他", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/xiaoshengchu_exam_01/images/dict-guitar.jpg", unit: 1 },
+    { id: 3, word: "parrot", cn: "鹦鹉", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/xiaoshengchu_exam_01/images/dict-parrot.jpg", unit: 1 },
+    { id: 4, word: "hobby", cn: "爱好", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/xiaoshengchu_exam_01/images/dict-hobby.jpg", unit: 1 },
+    { id: 5, word: "twin", cn: "双胞胎（之一）", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/xiaoshengchu_exam_01/images/dict-twin.jpg", unit: 1 },
+    { id: 6, word: "violin", cn: "小提琴", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/xiaoshengchu_exam_01/images/dict-violin.jpg", unit: 2 },
+    { id: 7, word: "chess", cn: "国际象棋", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/xiaoshengchu_exam_01/images/dict-chess.jpg", unit: 2 },
+    { id: 8, word: "hat", cn: "帽子", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/xiaoshengchu_exam_01/images/dict-hat.jpg", unit: 2 },
+    { id: 9, word: "hike", cn: "远足；徒步", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/xiaoshengchu_exam_01/images/dict-hike.jpg", unit: 2 },
+    { id: 10, word: "tennis", cn: "网球", img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/xiaoshengchu_exam_01/images/dict-tennis.jpg", unit: 1 }
   ],
 
   /* ========== Part 2 句子排序（例句不含听写重点词） ========== */
@@ -409,7 +409,7 @@ window.EXAM_DATA = {
       }
     ],
     map: {
-      image: "images/world-deserts-map.jpg",
+      image: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/xiaoshengchu_exam_01/images/world-deserts-map.jpg",
       instruction: "地图上已标出 A–E。选用下方沙漠英文名称，写出每个位置的 Desert（沙漠名）与 Continent（大洲名）。",
       desertBank: ["Sahara", "Arabian", "Gobi", "Kalahari", "Antarctic Ice Sheet"],
       slots: [
@@ -424,10 +424,10 @@ window.EXAM_DATA = {
 
   /* ========== Part 7 看图造句 ========== */
   pictureWriting: [
-    { id: 1, img: "images/pic-write-01.jpg", prompt: "看图写 1–2 句：男孩正在______，妈妈______。可用现在进行时。", hints: ["do homework", "bring water"], sample: "The boy is doing his homework. His mother is bringing him a cup of water." },
-    { id: 2, img: "images/pic-write-02.jpg", prompt: "看图写 1–2 句：孩子们放学后在______。可用 often / after school。", hints: ["play ping-pong", "after school"], sample: "The children often play ping-pong after school." },
-    { id: 3, img: "images/pic-write-03.jpg", prompt: "看图写 1–2 句：女孩在商场______书包，妈妈在旁边。可用 choose / look at。", hints: ["choose", "schoolbag", "shopping centre"], sample: "The girl is choosing a schoolbag in the shopping centre. Her mother is waiting for her." },
-    { id: 4, img: "images/pic-write-04.jpg", prompt: "看图写 1–2 句：一家人在吃______。可用 have / hot pot / together。", hints: ["hot pot", "together", "have dinner"], sample: "The family is having hot pot together at home." }
+    { id: 1, img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/xiaoshengchu_exam_01/images/pic-write-01.jpg", prompt: "看图写 1–2 句：男孩正在______，妈妈______。可用现在进行时。", hints: ["do homework", "bring water"], sample: "The boy is doing his homework. His mother is bringing him a cup of water." },
+    { id: 2, img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/xiaoshengchu_exam_01/images/pic-write-02.jpg", prompt: "看图写 1–2 句：孩子们放学后在______。可用 often / after school。", hints: ["play ping-pong", "after school"], sample: "The children often play ping-pong after school." },
+    { id: 3, img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/xiaoshengchu_exam_01/images/pic-write-03.jpg", prompt: "看图写 1–2 句：女孩在商场______书包，妈妈在旁边。可用 choose / look at。", hints: ["choose", "schoolbag", "shopping centre"], sample: "The girl is choosing a schoolbag in the shopping centre. Her mother is waiting for her." },
+    { id: 4, img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/xiaoshengchu_exam_01/images/pic-write-04.jpg", prompt: "看图写 1–2 句：一家人在吃______。可用 have / hot pot / together。", hints: ["hot pot", "together", "have dinner"], sample: "The family is having hot pot together at home." }
   ],
 
   /* ========== Part 8 综合加练 ========== */
