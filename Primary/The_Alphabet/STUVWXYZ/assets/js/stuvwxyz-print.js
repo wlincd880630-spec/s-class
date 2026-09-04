@@ -9,7 +9,12 @@
   var OPTS = L.letterOpts || ["s", "t", "u", "v", "w", "x", "y", "z"];
 
   function $(id) { return document.getElementById(id); }
-  function w(id) { return L.words[id]; }
+  function w(id) {
+    var item = L.words && L.words[id];
+    if (item) return item;
+    console.warn("[print] missing word:", id);
+    return { id: id, en: id, zh: "", onset: "", rest: id, img: "", c: false };
+  }
 
   function onsetHTML(item) {
     if (!item) return "";
@@ -201,8 +206,8 @@
 
   function init() {
     if (!$("print-root")) return;
-    mountPack("book", buildBook());
-    mountPack("games", buildGames());
+    try { mountPack("book", buildBook()); } catch (err) { console.error("[print] book failed", err); }
+    try { mountPack("games", buildGames()); } catch (err) { console.error("[print] games failed", err); }
     document.querySelectorAll(".tab").forEach(function (tab) {
       tab.addEventListener("click", function () { showPack(tab.getAttribute("data-pack")); });
     });
@@ -213,7 +218,7 @@
     window.addEventListener("resize", fitSheets);
   }
 
-  global.AAPrint = { exportPack: exportPack };
+  global.AAPrint = { showPack: showPack, exportPack: exportPack };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
   else init();
 })(window);
