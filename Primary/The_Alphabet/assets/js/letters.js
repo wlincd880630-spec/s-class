@@ -62,6 +62,14 @@
       folder: "Gg",
       hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Gg/assets/img/hero-gg.jpg"
     },
+    H: {
+      id: "H",
+      pair: "Hh",
+      phrase: "happy horse",
+      live: true,
+      folder: "Hh",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Hh/assets/img/hero-hh.jpg"
+    },
     L: {
       id: "L",
       pair: "Ll",
