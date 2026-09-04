@@ -124,6 +124,12 @@
   global.ALPHABET = {
     LETTERS: LETTERS,
     UNITS: UNITS,
+    reviewUrl: function () {
+      return onHub() ? "ABC/learn.html" : "ABC/learn.html";
+    },
+    reviewPrintUrl: function () {
+      return "ABC/print.html";
+    },
     onHub: onHub,
     letterFromPath: letterFromPath,
     hubUrl: hubUrl,
