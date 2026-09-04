@@ -15,8 +15,8 @@
         '<img src="' + u.hero + '" alt="' + u.pair + " " + u.phrase + '">' +
       "</figure>" +
       '<div class="cover-copy">' +
-        '<p class="kicker">Letter ' + u.pair + "</p>" +
-        '<p class="cover-aa">' + u.pair + "</p>" +
+        '<p class="kicker">Letter ' + u.pair + " · 字母课</p>" +
+        '<p class="cover-aa"><span class="aa-cap">' + u.pair.charAt(0) + '</span><span class="aa-low">' + u.pair.charAt(1) + "</span></p>" +
         '<p class="cover-sub">' + u.phrase + "</p>" +
         '<ol class="flow">' +
           "<li>" +
