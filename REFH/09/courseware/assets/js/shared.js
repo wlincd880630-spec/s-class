@@ -3,7 +3,7 @@
   'use strict';
 
   const CONFIG_KEY = 'pearl_harbor_courseware_config';
-  const IMAGE_BASE = 'assets/images/';
+  const IMAGE_BASE = 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/REFH/09/courseware/assets/images/';
   const COURSEWARE_WEB_BASE = 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/REFH/09/courseware/';
   const ARTICLE_PAGE_URL = COURSEWARE_WEB_BASE + 'part2-reading.html';
   const QUIZ_PAGE_URL = 'https://www.s-class.top/REFH/09/courseware/part4-quiz.html';

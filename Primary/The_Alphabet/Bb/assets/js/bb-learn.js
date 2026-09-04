@@ -93,7 +93,7 @@
         "</div>" +
         "<h2>big bear</h2>" +
         '<button type="button" class="btn btn-apple" id="btn-t03">听</button>';
-      $("btn-t03").onclick = function () { AAAudio.playFile(L.tracks.t03); };
+      $("btn-t03").onclick = function () { AAAudio.speakListenIntro(); };
       return;
     }
 
@@ -115,10 +115,7 @@
         "</button>" +
         '<button type="button" class="btn btn-apple" id="btn-hear">听</button>';
       function play() {
-        var clip = L.track04Clips[w.id];
-        AAAudio.playClip(L.tracks.t04, clip[0], clip[1]).catch(function () {
-          AAAudio.speakWord(w.en);
-        });
+        AAAudio.speakWord(w.en, true);
       }
       $("word-card").onclick = play;
       $("btn-hear").onclick = play;

@@ -627,7 +627,7 @@
     pages.push(sheet("",
       header("More pictures", "分类用干扰图", "剪开") +
       '<div class="cut-grid">' +
-        ["apple", "ant", "axe", "cat"].map(function (id) {
+        ["apple", "ant", "banana", "cat"].map(function (id) {
           var item = w(id);
           return '<div class="cut-card"><img src="' + item.img + '" alt=""><div class="lab">' + item.en + "</div></div>";
         }).join("") +
