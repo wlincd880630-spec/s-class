@@ -23,7 +23,13 @@
         "<div><strong>Unit 2 复习</strong><small>Dd · Ee · Ff · Story</small></div><span class=\"go\">→</span></a></li>"
       );
     }
-    if (A.UNITS[ch] && A.UNITS[ch].live) {
+    if (ch === "W" || ch === "X" || ch === "Y" || ch === "Z") {
+      items.push(
+        '<li><a href="' + A.wxyzReviewUrl() + '"><span class="n">★</span>' +
+        "<div><strong>Unit 8 复习</strong><small>Ww · Xx · Yy · Zz · Story</small></div><span class=\"go\">→</span></a></li>"
+      );
+    }
+    if (A.UNITS[ch] && A.UNITS[ch].live && A.abcdefReviewUrl) {
       items.push(
         '<li><a href="' + A.abcdefReviewUrl() + '"><span class="n">★</span>' +
         "<div><strong>Review 1</strong><small>Aa–Ff · Song · 大富翁</small></div><span class=\"go\">→</span></a></li>"

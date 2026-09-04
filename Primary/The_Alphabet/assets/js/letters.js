@@ -142,6 +142,14 @@
       live: true,
       folder: "Yy",
       hero: "Yy/assets/img/hero-yy.jpg"
+    },
+    Z: {
+      id: "Z",
+      pair: "Zz",
+      phrase: "zany zebra",
+      live: true,
+      folder: "Zz",
+      hero: "Zz/assets/img/hero-zz.jpg"
     }
   };
 
@@ -168,7 +176,7 @@
   }
 
   function inReviewFolder() {
-    return /\/The_Alphabet\/(ABC|DEF|GHI|JKL|GHIJKL|ABCDEF|MNO)\//.test(pathNorm());
+    return /\/The_Alphabet\/(ABC|DEF|GHI|JKL|GHIJKL|ABCDEF|MNO|WXYZ)\//.test(pathNorm());
   }
 
   function onHub() {
@@ -237,6 +245,14 @@
     return inReviewFolder() ? "../MNO/learn.html" : "MNO/learn.html";
   }
 
+  function wxyzReviewUrl() {
+    return inReviewFolder() ? "../WXYZ/learn.html" : "WXYZ/learn.html";
+  }
+
+  function wxyzReviewPrintUrl() {
+    return inReviewFolder() ? "../WXYZ/print.html" : "WXYZ/print.html";
+  }
+
   function reviewPrintUrl() {
     return inReviewFolder() ? "../ABC/print.html" : "ABC/print.html";
   }
@@ -268,8 +284,10 @@
     UNITS: UNITS,
     reviewUrl: reviewUrl,
     mnoReviewUrl: mnoReviewUrl,
+    wxyzReviewUrl: wxyzReviewUrl,
     reviewPrintUrl: reviewPrintUrl,
     mnoReviewPrintUrl: mnoReviewPrintUrl,
+    wxyzReviewPrintUrl: wxyzReviewPrintUrl,
     onHub: onHub,
     letterFromPath: letterFromPath,
     hubUrl: hubUrl,
