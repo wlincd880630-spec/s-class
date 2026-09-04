@@ -38,6 +38,14 @@
       live: true,
       folder: "Dd",
       hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Dd/assets/img/hero-dd.jpg"
+    },
+    E: {
+      id: "E",
+      pair: "Ee",
+      phrase: "energetic egg",
+      live: true,
+      folder: "Ee",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Ee/assets/img/hero-ee.jpg"
     }
   };
 
