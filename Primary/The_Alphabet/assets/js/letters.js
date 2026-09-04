@@ -15,7 +15,8 @@
     G: { id: "G", pair: "Gg", phrase: "good gorilla", live: true, folder: "Gg", hero: "Gg/assets/img/hero-gg.jpg" },
     H: { id: "H", pair: "Hh", phrase: "happy horse", live: true, folder: "Hh", hero: "Hh/assets/img/hero-hh.jpg" },
     I: { id: "I", pair: "Ii", phrase: "interesting insect", live: true, folder: "Ii", hero: "Ii/assets/img/hero-ii.jpg" },
-    J: { id: "J", pair: "Jj", phrase: "jumbo jet", live: true, folder: "Jj", hero: "Jj/assets/img/hero-jj.jpg" }
+    J: { id: "J", pair: "Jj", phrase: "jumbo jet", live: true, folder: "Jj", hero: "Jj/assets/img/hero-jj.jpg" },
+    K: { id: "K", pair: "Kk", phrase: "kicking kangaroo", live: true, folder: "Kk", hero: "Kk/assets/img/hero-kk.jpg" }
   };
 
   LETTERS.forEach(function (ch) {
