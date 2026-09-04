@@ -38,6 +38,14 @@
       live: true,
       folder: "Ee",
       hero: "Ee/assets/img/hero-ee.jpg"
+    },
+    F: {
+      id: "F",
+      pair: "Ff",
+      phrase: "funny fish",
+      live: true,
+      folder: "Ff",
+      hero: "Ff/assets/img/hero-ff.jpg"
     }
   };
 
