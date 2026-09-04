@@ -1,6 +1,6 @@
 /**
  * 字母课语音：Chant 保留教材 MP3；其余练习用 Azure 英音慢速 TTS。
- * 自动读取 window.AA_LESSON、BB_LESSON、CC_LESSON、DD_LESSON、EE_LESSON、FF_LESSON、GG_LESSON、HH_LESSON、II_LESSON、JJ_LESSON、KK_LESSON、WW_LESSON、XX_LESSON、ABC_REVIEW、DEF_REVIEW、GHI_REVIEW、ABCDEF_REVIEW。
+ * 自动读取 window.AA_LESSON、BB_LESSON、CC_LESSON、DD_LESSON、EE_LESSON、FF_LESSON、GG_LESSON、HH_LESSON、II_LESSON、JJ_LESSON、KK_LESSON、WW_LESSON、XX_LESSON、YY_LESSON、ABC_REVIEW、DEF_REVIEW、GHI_REVIEW、ABCDEF_REVIEW。
  */
 (function (global) {
   "use strict";
@@ -23,7 +23,7 @@
   var voiceAudio = null;
 
   function lesson() {
-    return global.AA_LESSON || global.BB_LESSON || global.CC_LESSON || global.DD_LESSON || global.EE_LESSON || global.FF_LESSON || global.GG_LESSON || global.HH_LESSON || global.II_LESSON || global.JJ_LESSON || global.KK_LESSON || global.WW_LESSON || global.XX_LESSON || global.ABC_REVIEW || global.DEF_REVIEW || global.GHI_REVIEW || global.ABCDEF_REVIEW || null;
+    return global.AA_LESSON || global.BB_LESSON || global.CC_LESSON || global.DD_LESSON || global.EE_LESSON || global.FF_LESSON || global.GG_LESSON || global.HH_LESSON || global.II_LESSON || global.JJ_LESSON || global.KK_LESSON || global.WW_LESSON || global.XX_LESSON || global.YY_LESSON || global.ABC_REVIEW || global.DEF_REVIEW || global.GHI_REVIEW || global.ABCDEF_REVIEW || null;
   }
 
   function loadSdk() {
