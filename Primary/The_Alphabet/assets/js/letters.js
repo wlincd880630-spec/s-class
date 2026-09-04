@@ -86,6 +86,14 @@
       folder: "Jj",
       hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Jj/assets/img/hero-jj.jpg"
     },
+    K: {
+      id: "K",
+      pair: "Kk",
+      phrase: "kicking kangaroo",
+      live: true,
+      folder: "Kk",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Kk/assets/img/hero-kk.jpg"
+    },
     L: {
       id: "L",
       pair: "Ll",
