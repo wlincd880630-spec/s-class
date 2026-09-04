@@ -1425,6 +1425,8 @@
     state.score = 0;
     state.lock = false;
     state.gapNote = "";
+    paintSwitcher();
+    notifyMix({ playing: true, game: key, level: state.level });
     if (!state.game) return;
     if (key === "memory") startMemory();
     else if (key === "picture") { state.queue = makeChoiceQs(true).filter(function (q) { return q.img; }); if (!state.queue.length) state.queue = makeChoiceQs(true); renderChoice(); }
@@ -1437,8 +1439,30 @@
     else if (key === "spin") startSpin();
   }
 
+  function paintSwitcher() {
+    var nav = $("gameSwitch");
+    if (!nav) return;
+    if (!nav.querySelector("[data-game]")) {
+      nav.insertAdjacentHTML("beforeend", PETStudio.GAMES.map(function (game) {
+        return '<button type="button" class="game-tab" data-game="' + game.key +
+          '" title="' + esc(game.desc) + '"><span class="n">' +
+          esc(String(game.tag).replace("游戏 ", "")) + "</span>" + esc(game.name) + "</button>";
+      }).join(""));
+    }
+    var cur = state.game && state.game.key;
+    Array.prototype.forEach.call(nav.querySelectorAll("[data-game]"), function (btn) {
+      btn.classList.toggle("on", btn.getAttribute("data-game") === cur);
+    });
+  }
+
+  function notifyMix(patch) {
+    if (typeof PETStudio.onMixState === "function") PETStudio.onMixState(patch || {});
+  }
+
   function showList() {
     unbindSpellKeys();
+    clearTimer();
+    paintSwitcher();
     var g = PETStudio.GAMES.map(function (game) {
       return '<a class=card href="#" data-game="' + game.key + '">' +
         '<img src="' + esc(PETStudio.gameImg(game.id)) + '" alt="">' +
@@ -1446,7 +1470,7 @@
         "<h3>" + esc(game.name) + "</h3><p>" + esc(game.desc) + "</p></div></a>";
     }).join("");
     $("playRoot").innerHTML = '<div class=grid>' + g + "</div>";
-    Array.prototype.forEach.call(document.querySelectorAll("[data-game]"), function (a) {
+    Array.prototype.forEach.call(document.querySelectorAll("#playRoot [data-game]"), function (a) {
       a.onclick = function (e) {
         e.preventDefault();
         startGame(a.getAttribute("data-game"), ($("levelSel") && $("levelSel").value) || state.level);
@@ -1460,8 +1484,20 @@
     if (bound) return;
     bound = true;
     if ($("levelSel")) {
-      $("levelSel").onchange = function () { state.level = this.value; };
+      $("levelSel").onchange = function () {
+        state.level = this.value;
+        notifyMix({ level: this.value });
+      };
     }
+    var nav = $("gameSwitch");
+    if (nav) {
+      nav.addEventListener("click", function (e) {
+        var btn = e.target.closest("[data-game]");
+        if (!btn || !state.bag) return;
+        startGame(btn.getAttribute("data-game"), ($("levelSel") && $("levelSel").value) || state.level);
+      });
+    }
+    if ($("toGameList")) $("toGameList").onclick = showList;
     if ($("printGamesBtn")) {
       $("printGamesBtn").onclick = function () {
         if (!state.bag) return;
@@ -1513,7 +1549,9 @@
   global.PETStudio.mountGames = function (bag) {
     state.bag = bag;
     bind();
+    paintSwitcher();
     showList();
   };
   global.PETStudio.startGame = startGame;
+  global.PETStudio.showList = showList;
 })(window);

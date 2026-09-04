@@ -1,21 +1,38 @@
 /**
- * 跨单元混合复习：多选单元与目标单词，再进入九种游戏
+ * 跨单元混合复习：多选单元与目标单词，再进入九种游戏。
+ * 选词与进行中的词包会写入本机 localStorage，离开页面后再进来仍可直接换游戏。
  */
 (function () {
   "use strict";
 
   var MIN_WORDS = 4;
+  var STORE_VER = 1;
   var cache = {};
   var selected = {};
   var filterKind = "all";
   var query = "";
   var loaded = {};
+  var pendingKeys = [];
+  var restoring = false;
+  var playing = false;
 
   function $(id) { return document.getElementById(id); }
 
   function esc(s) {
     return String(s == null ? "" : s)
       .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+
+  function currentUser() {
+    try {
+      return localStorage.getItem("current-user") || localStorage.getItem("authing-user") || "guest";
+    } catch (e) {
+      return "guest";
+    }
+  }
+
+  function storeKey() {
+    return "pet-studio-mix:" + currentUser();
   }
 
   function itemKey(it) {
@@ -64,6 +81,62 @@
     return { vocab: vocab, phrase: phrase, total: vocab + phrase };
   }
 
+  function checkedUnitIds() {
+    var ids = [];
+    PETStudio.UNITS.forEach(function (u) {
+      if (cache[u.id] || loaded[u.id]) ids.push(u.id);
+    });
+    selectedList().forEach(function (it) {
+      if (ids.indexOf(it.unitId) < 0) ids.push(it.unitId);
+    });
+    return ids;
+  }
+
+  function loadSnapshot() {
+    try {
+      var data = JSON.parse(localStorage.getItem(storeKey()) || "null");
+      if (!data || data.v !== STORE_VER) return null;
+      if (!Array.isArray(data.keys)) data.keys = [];
+      if (!Array.isArray(data.units)) data.units = [];
+      return data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function persist(patch) {
+    if (restoring) return;
+    var prev = loadSnapshot() || {};
+    var data = {
+      v: STORE_VER,
+      units: checkedUnitIds(),
+      keys: Object.keys(selected),
+      level: ($("levelSel") && $("levelSel").value) || prev.level || "standard",
+      playing: playing,
+      game: prev.game || "",
+      updatedAt: Date.now()
+    };
+    if (patch) {
+      Object.keys(patch).forEach(function (k) { data[k] = patch[k]; });
+    }
+    try {
+      localStorage.setItem(storeKey(), JSON.stringify(data));
+    } catch (e) {}
+  }
+
+  function unitsFromSnapshot(snap) {
+    var ids = [];
+    function add(id) {
+      id = Number(id);
+      if (id && ids.indexOf(id) < 0) ids.push(id);
+    }
+    (snap.units || []).forEach(add);
+    (snap.keys || []).forEach(function (k) {
+      add(String(k).split(":")[0]);
+    });
+    return ids;
+  }
+
   function poolItems() {
     var out = [];
     PETStudio.UNITS.forEach(function (u) {
@@ -73,6 +146,19 @@
       (bag.colloc || []).forEach(function (it) { out.push(it); });
     });
     return out;
+  }
+
+  function applyPendingKeys() {
+    if (!pendingKeys.length) return;
+    var leftover = [];
+    var pool = poolItems();
+    var map = {};
+    pool.forEach(function (it) { map[itemKey(it)] = it; });
+    pendingKeys.forEach(function (key) {
+      if (map[key]) selected[key] = map[key];
+      else leftover.push(key);
+    });
+    pendingKeys = leftover;
   }
 
   function visibleItems() {
@@ -87,6 +173,63 @@
     });
   }
 
+  function gameName(key) {
+    var hit = (PETStudio.GAMES || []).filter(function (g) { return g.key === key; })[0];
+    return hit ? hit.name : "";
+  }
+
+  function setHeroHidden(hide) {
+    var hero = document.querySelector("body.mix .hero");
+    if (hero) hero.hidden = !!hide;
+    document.body.classList.toggle("mix-playing", !!hide);
+  }
+
+  function updateResumeBar() {
+    var bar = $("resumeBar");
+    if (!bar) return;
+    if (playing || restoring) {
+      bar.hidden = true;
+      return;
+    }
+    var c = counts();
+    if (c.total < 1) {
+      bar.hidden = true;
+      return;
+    }
+    var snap = loadSnapshot() || {};
+    var ready = c.total >= MIN_WORDS;
+    var last = gameName(snap.game || "");
+    bar.hidden = false;
+    $("resumeTitle").textContent = "已记住 " + c.total + " 个词 · " + checkedUnitIds().length + " 个单元";
+    $("resumeHint").textContent = ready
+      ? (last ? "可直接继续或换游戏，上次玩的是「" + last + "」。不必回到课程页重新选词。" : "选词已保存在本机。玩完一个游戏后可直接点游戏条切换。")
+      : "至少再选 " + (MIN_WORDS - c.total) + " 个词即可开始。";
+    if ($("resumePlay")) $("resumePlay").disabled = !ready;
+  }
+
+  function updatePackBar() {
+    var bar = $("packBar");
+    if (!bar) return;
+    var c = counts();
+    if (!playing || c.total < 1) {
+      bar.hidden = true;
+      if ($("packWords")) $("packWords").hidden = true;
+      return;
+    }
+    bar.hidden = false;
+    $("packText").textContent = "当前词包 · " + c.total + " 个目标词（单词 " + c.vocab +
+      " · 词组 " + c.phrase + "）· 来自 " + checkedUnitIds().length + " 个单元";
+  }
+
+  function renderPackWords() {
+    var box = $("packWords");
+    if (!box) return;
+    box.innerHTML = selectedList().map(function (it) {
+      return '<span class="pack-chip">' + esc(it.word) +
+        "<small>U" + it.unitId + "</small></span>";
+    }).join("");
+  }
+
   function syncBar() {
     var c = counts();
     $("mixCount").textContent = "已选 " + c.vocab + " 个单词 · " + c.phrase + " 个词组";
@@ -94,6 +237,9 @@
     $("startMix").textContent = c.total < MIN_WORDS
       ? "至少再选 " + (MIN_WORDS - c.total) + " 个词"
       : "开始混合游戏（" + c.total + "）";
+    updateResumeBar();
+    updatePackBar();
+    persist();
   }
 
   function renderWords() {
@@ -151,18 +297,20 @@
       delete cache[id];
       loaded[id] = false;
       renderWords();
-      return;
+      return Promise.resolve();
     }
     if (cache[id]) {
+      applyPendingKeys();
       renderWords();
-      return;
+      return Promise.resolve();
     }
     loaded[id] = true;
     chip && chip.classList.add("loading");
-    PETStudio.loadUnit(id).then(function (bag) {
+    return PETStudio.loadUnit(id).then(function (bag) {
       if (!loaded[id]) return;
       cache[id] = tagBag(bag);
       chip && chip.classList.remove("loading");
+      applyPendingKeys();
       renderWords();
     }).catch(function (e) {
       loaded[id] = false;
@@ -203,18 +351,82 @@
     };
   }
 
+  function showPicker() {
+    playing = false;
+    setHeroHidden(false);
+    $("playPanel").hidden = true;
+    $("pickerPanel").hidden = false;
+    $("unitTitle").textContent = "跨单元混合复习";
+    $("mixStatus").textContent = "勾选单元，再点选要练的单词 / 词组。选词会记住，下次进来不用重选。";
+    renderWords();
+    persist({ playing: false });
+  }
+
   function startGames() {
     var c = counts();
     if (c.total < MIN_WORDS) return;
     var bag = buildBag();
+    playing = true;
+    setHeroHidden(true);
     $("pickerPanel").hidden = true;
+    if ($("resumeBar")) $("resumeBar").hidden = true;
     $("playPanel").hidden = false;
     $("unitTitle").textContent = "混合复习 · " + c.total + " 个目标词";
     $("mixStatus").textContent =
       "来自 " + bag.mixUnits.length + " 个单元 · 单词 " + c.vocab + " · 词组 " + c.phrase +
-      " · 语法点 " + bag.grammar.length + "。点卡片开始游戏。";
+      " · 语法点 " + bag.grammar.length + "。点卡片或上方游戏条开始，玩完可直接换下一个。";
+    updatePackBar();
+    persist({ playing: true });
     PETStudio.mountGames(bag);
     $("playPanel").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function restoreFromSnapshot() {
+    var snap = loadSnapshot();
+    if (!snap || (!(snap.keys && snap.keys.length) && !(snap.units && snap.units.length))) {
+      restoring = false;
+      renderWords();
+      return Promise.resolve();
+    }
+    pendingKeys = (snap.keys || []).slice();
+    if (snap.level && $("levelSel")) $("levelSel").value = snap.level;
+    var ids = unitsFromSnapshot(snap);
+    if (!ids.length) {
+      restoring = false;
+      renderWords();
+      return Promise.resolve();
+    }
+    if (snap.playing && pendingKeys.length >= MIN_WORDS) {
+      $("pickerPanel").hidden = true;
+    }
+    restoring = true;
+    $("mixStatus").textContent = "正在恢复上次选的 " + pendingKeys.length + " 个词…";
+    return Promise.all(ids.map(function (id) {
+      return setUnit(id, true);
+    })).then(function () {
+      restoring = false;
+      applyPendingKeys();
+      renderWords();
+      var c = counts();
+      var ready = c.total >= MIN_WORDS;
+      $("mixStatus").textContent = ready
+        ? "已恢复上次选择的 " + c.total + " 个词。可直接开始或换游戏。"
+        : "勾选单元，再点选要练的单词 / 词组。";
+      persist({
+        playing: !!(snap.playing && ready),
+        game: snap.game || "",
+        level: snap.level || "standard"
+      });
+      if (snap.playing && ready) startGames();
+      else {
+        $("pickerPanel").hidden = false;
+        updateResumeBar();
+      }
+    }).catch(function () {
+      restoring = false;
+      $("pickerPanel").hidden = false;
+      renderWords();
+    });
   }
 
   function boot() {
@@ -272,6 +484,7 @@
     };
     $("clearSel").onclick = function () {
       selected = {};
+      pendingKeys = [];
       renderWords();
     };
     $("allUnits").onclick = function () {
@@ -296,13 +509,27 @@
       });
     };
     $("startMix").onclick = startGames;
-    $("editMix").onclick = function () {
-      $("playPanel").hidden = true;
-      $("pickerPanel").hidden = false;
-      $("unitTitle").textContent = "跨单元混合复习";
-      $("mixStatus").textContent = "勾选单元，再点选要练的单词 / 词组。";
+    $("editMix").onclick = showPicker;
+    if ($("resumePlay")) $("resumePlay").onclick = startGames;
+    if ($("resumeEdit")) {
+      $("resumeEdit").onclick = function () {
+        $("pickerPanel").scrollIntoView({ behavior: "smooth", block: "start" });
+      };
+    }
+    if ($("packToggle")) {
+      $("packToggle").onclick = function () {
+        var box = $("packWords");
+        if (!box) return;
+        var open = box.hidden;
+        box.hidden = !open;
+        if (open) renderPackWords();
+        $("packToggle").textContent = open ? "收起已选词" : "查看已选词";
+      };
+    }
+    PETStudio.onMixState = function (patch) {
+      persist(patch || {});
     };
-    renderWords();
+    restoreFromSnapshot();
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
