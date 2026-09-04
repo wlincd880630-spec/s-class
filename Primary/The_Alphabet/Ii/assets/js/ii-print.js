@@ -13,7 +13,10 @@
     return document.getElementById(id);
   }
   function w(id) {
-    return L.words[id];
+    var item = L.words && L.words[id];
+    if (item) return item;
+    console.warn("[print] missing word:", id);
+    return { id: id, en: id, zh: "", onset: "", rest: id, img: "", c: false };
   }
   function fsClass(text) {
     var n = String(text).replace(/\s/g, "").length;
@@ -669,24 +672,39 @@
         img.onload = img.onerror = res;
       });
     }));
-    return Promise.all([fonts, imgWait]);
+    var ready = Promise.all([fonts, imgWait]);
+    return Promise.race([
+      ready,
+      new Promise(function (res) { setTimeout(res, 1600); })
+    ]);
   }
 
   function exportPack(id) {
     showPack(id);
-    waitAssets(id).then(function () {
+    var printed = false;
+    function go() {
+      if (printed) return;
+      printed = true;
       fitSheets();
       var el = $("pack-" + id);
       if (window.AAStave && el) window.AAStave.bindPrint(el);
-      setTimeout(function () { window.print(); }, 280);
+      window.print();
+    }
+    var fallback = setTimeout(go, 1800);
+    waitAssets(id).then(function () {
+      clearTimeout(fallback);
+      setTimeout(go, 120);
+    }, function () {
+      clearTimeout(fallback);
+      go();
     });
   }
 
   function init() {
     if (!$("print-root")) return;
-    mountPack("book", buildBook());
-    mountPack("games", buildGames());
-    mountPack("cards", buildCards());
+    try { mountPack("book", buildBook()); } catch (err) { console.error("[print] book failed", err); }
+    try { mountPack("games", buildGames()); } catch (err) { console.error("[print] games failed", err); }
+    try { mountPack("cards", buildCards()); } catch (err) { console.error("[print] cards failed", err); }
 
     document.querySelectorAll(".tab").forEach(function (tab) {
       tab.addEventListener("click", function () {
@@ -713,6 +731,7 @@
   }
 
   global.AAPrint = {
+    showPack: showPack,
     exportPack: exportPack
   };
 
