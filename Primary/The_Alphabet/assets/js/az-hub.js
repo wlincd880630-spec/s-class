@@ -9,16 +9,40 @@
     return A.UNITS[h] ? h : "A";
   }
 
+  function reviewLinks(ch) {
+    var items = [];
+    if (ch === "A" || ch === "B" || ch === "C") {
+      items.push(
+        '<li><a href="' + A.reviewUrl() + '"><span class="n">★</span>' +
+        "<div><strong>Unit 1 复习</strong><small>Aa · Bb · Cc · Story</small></div><span class=\"go\">→</span></a></li>"
+      );
+    }
+    if (ch === "D" || ch === "E" || ch === "F") {
+      items.push(
+        '<li><a href="' + A.defReviewUrl() + '"><span class="n">★</span>' +
+        "<div><strong>Unit 2 复习</strong><small>Dd · Ee · Ff · Story</small></div><span class=\"go\">→</span></a></li>"
+      );
+    }
+    if (A.UNITS[ch] && A.UNITS[ch].live) {
+      items.push(
+        '<li><a href="' + A.abcdefReviewUrl() + '"><span class="n">★</span>' +
+        "<div><strong>Review 1</strong><small>Aa–Ff · Song · 大富翁</small></div><span class=\"go\">→</span></a></li>"
+      );
+    }
+    return items.join("");
+  }
+
   function liveHTML(u) {
     return (
       '<figure class="cover-art">' +
-        '<img src="' + u.hero + '" alt="' + u.pair + " " + u.phrase + '">' +
+        '<img src="' + u.hero + '" alt="' + u.pair + " " + u.phrase + '" onerror="this.classList.add(\'is-broken\')">' +
       "</figure>" +
       '<div class="cover-copy">' +
         '<p class="kicker">Letter ' + u.pair + " · 字母课</p>" +
         '<p class="cover-aa"><span class="aa-cap">' + u.pair.charAt(0) + '</span><span class="aa-low">' + u.pair.charAt(1) + "</span></p>" +
         '<p class="cover-sub">' + u.phrase + "</p>" +
         '<ol class="flow">' +
+          reviewLinks(u.id) +
           "<li>" +
             '<a href="' + A.reviewUrl() + '">' +
               '<span class="n">★</span>' +
