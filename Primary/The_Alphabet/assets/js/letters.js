@@ -1,5 +1,6 @@
 /**
  * Level 1 The Alphabet · A–Z 课程注册表
+ * 主页只进这一课；字母在页内切换，不在首页拆成 26 条链接。
  */
 (function (global) {
   "use strict";
@@ -46,35 +47,97 @@
       folder: "Ee",
       hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Ee/assets/img/hero-ee.jpg"
     },
-    F: {
-      id: "F",
-      pair: "Ff",
-      phrase: "funny fish",
+    M: {
+      id: "M",
+      pair: "Mm",
+      phrase: "merry monkey",
       live: true,
-      folder: "Ff",
-      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Ff/assets/img/hero-ff.jpg"
+      folder: "Mm",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Mm/assets/img/hero-mm.jpg"
     },
-    G: {
-      id: "G",
-      pair: "Gg",
-      phrase: "good gorilla",
+    N: {
+      id: "N",
+      pair: "Nn",
+      phrase: "noisy nut",
       live: true,
-      folder: "Gg",
-      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Gg/assets/img/hero-gg.jpg"
+      folder: "Nn",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Nn/assets/img/hero-nn.jpg"
     },
-    H: {
-      id: "H",
-      pair: "Hh",
-      phrase: "happy horse",
+    P: {
+      id: "P",
+      pair: "Pp",
+      phrase: "pink peach",
       live: true,
-      folder: "Hh",
-      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Hh/assets/img/hero-hh.jpg"
+      folder: "Pp",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Pp/assets/img/hero-pp.jpg"
+    },
+    Q: {
+      id: "Q",
+      pair: "Qq",
+      phrase: "quiet queen",
+      live: true,
+      folder: "Qq",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Qq/assets/img/hero-qq.jpg"
+    },
+    R: {
+      id: "R",
+      pair: "Rr",
+      phrase: "racing rabbit",
+      live: true,
+      folder: "Rr",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Rr/assets/img/hero-rr.jpg"
+    },
+    S: {
+      id: "S",
+      pair: "Ss",
+      phrase: "super seal",
+      live: true,
+      folder: "Ss",
+      hero: "Ss/assets/img/hero-ss.jpg"
+    },
+    T: {
+      id: "T",
+      pair: "Tt",
+      phrase: "tall turtle",
+      live: true,
+      folder: "Tt",
+      hero: "Tt/assets/img/hero-tt.jpg"
+    },
+    U: {
+      id: "U",
+      pair: "Uu",
+      phrase: "unhappy umbrella",
+      live: true,
+      folder: "Uu",
+      hero: "Uu/assets/img/hero-uu.jpg"
+    },
+    V: {
+      id: "V",
+      pair: "Vv",
+      phrase: "violet van",
+      live: true,
+      folder: "Vv",
+      hero: "Vv/assets/img/hero-vv.jpg"
+    },
+    W: {
+      id: "W",
+      pair: "Ww",
+      phrase: "wise wolf",
+      live: true,
+      folder: "Ww",
+      hero: "Ww/assets/img/hero-ww.jpg"
     }
   };
 
   LETTERS.forEach(function (ch) {
     if (!UNITS[ch]) {
-      UNITS[ch] = { id: ch, pair: ch + ch.toLowerCase(), phrase: "", live: false, folder: ch + ch.toLowerCase() };
+      UNITS[ch] = {
+        id: ch,
+        pair: ch + ch.toLowerCase(),
+        phrase: "",
+        live: false,
+        folder: ch + ch.toLowerCase()
+      };
     }
   });
 
@@ -89,7 +152,7 @@
   }
 
   function inReviewFolder() {
-    return /\/The_Alphabet\/(ABC|DEF|ABCDEF)\//.test(pathNorm());
+    return /\/The_Alphabet\/(ABC|DEF|GHI|JKL|GHIJKL|ABCDEF|MNO)\//.test(pathNorm());
   }
 
   function onHub() {
@@ -125,7 +188,6 @@
     if (inReviewFolder()) return "../" + u.folder + "/games.html";
     return u.folder + "/games.html";
   }
-
   function gamePlayUrl(ch, id) {
     var u = UNITS[ch];
     if (!u || !u.live) return hubUrl(ch);
@@ -155,24 +217,16 @@
     return inReviewFolder() ? "../ABC/learn.html" : "ABC/learn.html";
   }
 
-  function defReviewUrl() {
-    return inReviewFolder() ? "../DEF/learn.html" : "DEF/learn.html";
-  }
-
-  function abcdefReviewUrl() {
-    return inReviewFolder() ? "../ABCDEF/learn.html" : "ABCDEF/learn.html";
+  function mnoReviewUrl() {
+    return inReviewFolder() ? "../MNO/learn.html" : "MNO/learn.html";
   }
 
   function reviewPrintUrl() {
     return inReviewFolder() ? "../ABC/print.html" : "ABC/print.html";
   }
 
-  function defReviewPrintUrl() {
-    return inReviewFolder() ? "../DEF/print.html" : "DEF/print.html";
-  }
-
-  function abcdefReviewPrintUrl() {
-    return inReviewFolder() ? "../ABCDEF/print.html" : "ABCDEF/print.html";
+  function mnoReviewPrintUrl() {
+    return inReviewFolder() ? "../MNO/print.html" : "MNO/print.html";
   }
 
   function mountRail(el, current) {
@@ -185,14 +239,21 @@
     }).join("");
     var on = el.querySelector(".az-chip.is-on");
     if (on && on.scrollIntoView) {
-      try { on.scrollIntoView({ inline: "center", block: "nearest", behavior: "auto" }); }
-      catch (err) { on.scrollIntoView(false); }
+      try {
+        on.scrollIntoView({ inline: "center", block: "nearest", behavior: "auto" });
+      } catch (err) {
+        on.scrollIntoView(false);
+      }
     }
   }
 
   global.ALPHABET = {
     LETTERS: LETTERS,
     UNITS: UNITS,
+    reviewUrl: reviewUrl,
+    mnoReviewUrl: mnoReviewUrl,
+    reviewPrintUrl: reviewPrintUrl,
+    mnoReviewPrintUrl: mnoReviewPrintUrl,
     onHub: onHub,
     letterFromPath: letterFromPath,
     hubUrl: hubUrl,
@@ -201,12 +262,6 @@
     gamePlayUrl: gamePlayUrl,
     workbookUrl: workbookUrl,
     printUrl: printUrl,
-    reviewUrl: reviewUrl,
-    defReviewUrl: defReviewUrl,
-    abcdefReviewUrl: abcdefReviewUrl,
-    reviewPrintUrl: reviewPrintUrl,
-    defReviewPrintUrl: defReviewPrintUrl,
-    abcdefReviewPrintUrl: abcdefReviewPrintUrl,
     mountRail: mountRail
   };
 })(window);
