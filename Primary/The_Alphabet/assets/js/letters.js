@@ -94,6 +94,46 @@
       folder: "Kk",
       hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Kk/assets/img/hero-kk.jpg"
     },
+    M: {
+      id: "M",
+      pair: "Mm",
+      phrase: "merry monkey",
+      live: true,
+      folder: "Mm",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Mm/assets/img/hero-mm.jpg"
+    },
+    N: {
+      id: "N",
+      pair: "Nn",
+      phrase: "noisy nut",
+      live: true,
+      folder: "Nn",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Nn/assets/img/hero-nn.jpg"
+    },
+    P: {
+      id: "P",
+      pair: "Pp",
+      phrase: "pink peach",
+      live: true,
+      folder: "Pp",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Pp/assets/img/hero-pp.jpg"
+    },
+    Q: {
+      id: "Q",
+      pair: "Qq",
+      phrase: "quiet queen",
+      live: true,
+      folder: "Qq",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Qq/assets/img/hero-qq.jpg"
+    },
+    R: {
+      id: "R",
+      pair: "Rr",
+      phrase: "racing rabbit",
+      live: true,
+      folder: "Rr",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Rr/assets/img/hero-rr.jpg"
+    },
     W: {
       id: "W",
       pair: "Ww",
@@ -145,7 +185,7 @@
   }
 
   function inReviewFolder() {
-    return /\/The_Alphabet\/(ABC|DEF|GHI|WXYZ|ABCDEF)\//.test(pathNorm());
+    return /\/The_Alphabet\/(ABC|DEF|GHI|MNO|WXYZ|ABCDEF)\//.test(pathNorm());
   }
 
   function onHub() {
@@ -239,6 +279,14 @@
     return inReviewFolder() ? "../GHI/print.html" : "GHI/print.html";
   }
 
+  function mnoReviewUrl() {
+    return inReviewFolder() ? "../MNO/learn.html" : "MNO/learn.html";
+  }
+
+  function mnoReviewPrintUrl() {
+    return inReviewFolder() ? "../MNO/print.html" : "MNO/print.html";
+  }
+
   function wxyzReviewUrl() {
     return inReviewFolder() ? "../WXYZ/learn.html" : "WXYZ/learn.html";
   }
@@ -281,6 +329,8 @@
     abcdefReviewPrintUrl: abcdefReviewPrintUrl,
     ghiReviewUrl: ghiReviewUrl,
     ghiReviewPrintUrl: ghiReviewPrintUrl,
+    mnoReviewUrl: mnoReviewUrl,
+    mnoReviewPrintUrl: mnoReviewPrintUrl,
     wxyzReviewUrl: wxyzReviewUrl,
     wxyzReviewPrintUrl: wxyzReviewPrintUrl,
     mountRail: mountRail
