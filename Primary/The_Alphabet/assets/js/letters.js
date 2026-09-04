@@ -14,6 +14,14 @@
       live: true,
       folder: "Aa",
       hero: "Aa/assets/img/hero-aa.jpg"
+    },
+    B: {
+      id: "B",
+      pair: "Bb",
+      phrase: "big bear",
+      live: true,
+      folder: "Bb",
+      hero: "Bb/assets/img/hero-bb.jpg"
     }
   };
 
