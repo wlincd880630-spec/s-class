@@ -287,94 +287,54 @@
     return u.folder + "/print.html";
   }
 
-  function reviewUrl() {
-    return inReviewFolder() ? "../ABC/learn.html" : "ABC/learn.html";
+  function reviewCourseUrl(folder) {
+    if (inReviewFolder()) return "../" + folder + "/learn.html";
+    return folder + "/learn.html";
   }
 
-  function defReviewUrl() {
-    return inReviewFolder() ? "../DEF/learn.html" : "DEF/learn.html";
+  function reviewPrintCourseUrl(folder) {
+    if (inReviewFolder()) return "../" + folder + "/print.html";
+    return folder + "/print.html";
   }
 
-  function abcdefReviewUrl() {
-    return inReviewFolder() ? "../ABCDEF/learn.html" : "ABCDEF/learn.html";
-  }
+  function reviewUrl() { return reviewCourseUrl("ABC"); }
+  function defReviewUrl() { return reviewCourseUrl("DEF"); }
+  function abcdefReviewUrl() { return reviewCourseUrl("ABCDEF"); }
+  function ghiReviewUrl() { return reviewCourseUrl("GHI"); }
+  function ghijklReviewUrl() { return reviewCourseUrl("GHIJKL"); }
+  function jklReviewUrl() { return reviewCourseUrl("JKL"); }
+  function mnoReviewUrl() { return reviewCourseUrl("MNO"); }
+  function mnopqrReviewUrl() { return reviewCourseUrl("MNOPQR"); }
+  function stuvReviewUrl() { return reviewCourseUrl("STUV"); }
+  function wxyzReviewUrl() { return reviewCourseUrl("WXYZ"); }
+  function stuvwxyzReviewUrl() { return reviewCourseUrl("STUVWXYZ"); }
 
-  function reviewPrintUrl() {
-    return inReviewFolder() ? "../ABC/print.html" : "ABC/print.html";
-  }
+  function reviewPrintUrl() { return reviewPrintCourseUrl("ABC"); }
+  function defReviewPrintUrl() { return reviewPrintCourseUrl("DEF"); }
+  function abcdefReviewPrintUrl() { return reviewPrintCourseUrl("ABCDEF"); }
+  function ghiReviewPrintUrl() { return reviewPrintCourseUrl("GHI"); }
+  function ghijklReviewPrintUrl() { return reviewPrintCourseUrl("GHIJKL"); }
+  function jklReviewPrintUrl() { return reviewPrintCourseUrl("JKL"); }
+  function mnoReviewPrintUrl() { return reviewPrintCourseUrl("MNO"); }
+  function mnopqrReviewPrintUrl() { return reviewPrintCourseUrl("MNOPQR"); }
+  function stuvReviewPrintUrl() { return reviewPrintCourseUrl("STUV"); }
+  function wxyzReviewPrintUrl() { return reviewPrintCourseUrl("WXYZ"); }
+  function stuvwxyzReviewPrintUrl() { return reviewPrintCourseUrl("STUVWXYZ"); }
 
-  function defReviewPrintUrl() {
-    return inReviewFolder() ? "../DEF/print.html" : "DEF/print.html";
-  }
-
-  function abcdefReviewPrintUrl() {
-    return inReviewFolder() ? "../ABCDEF/print.html" : "ABCDEF/print.html";
-  }
-
-  function ghiReviewUrl() {
-    return inReviewFolder() ? "../GHI/learn.html" : "GHI/learn.html";
-  }
-
-  function ghiReviewPrintUrl() {
-    return inReviewFolder() ? "../GHI/print.html" : "GHI/print.html";
-  }
-
-  function mnoReviewUrl() {
-    return inReviewFolder() ? "../MNO/learn.html" : "MNO/learn.html";
-  }
-
-  function mnoReviewPrintUrl() {
-    return inReviewFolder() ? "../MNO/print.html" : "MNO/print.html";
-  }
-
-  function jklReviewUrl() {
-    return inReviewFolder() ? "../JKL/learn.html" : "JKL/learn.html";
-  }
-
-  function jklReviewPrintUrl() {
-    return inReviewFolder() ? "../JKL/print.html" : "JKL/print.html";
-  }
-
-  function ghijklReviewUrl() {
-    return inReviewFolder() ? "../GHIJKL/learn.html" : "GHIJKL/learn.html";
-  }
-
-  function ghijklReviewPrintUrl() {
-    return inReviewFolder() ? "../GHIJKL/print.html" : "GHIJKL/print.html";
-  }
-
-  function mnopqrReviewUrl() {
-    return inReviewFolder() ? "../MNOPQR/learn.html" : "MNOPQR/learn.html";
-  }
-
-  function mnopqrReviewPrintUrl() {
-    return inReviewFolder() ? "../MNOPQR/print.html" : "MNOPQR/print.html";
-  }
-
-  function stuvReviewUrl() {
-    return inReviewFolder() ? "../STUV/learn.html" : "STUV/learn.html";
-  }
-
-  function stuvReviewPrintUrl() {
-    return inReviewFolder() ? "../STUV/print.html" : "STUV/print.html";
-  }
-
-  function wxyzReviewUrl() {
-    return inReviewFolder() ? "../WXYZ/learn.html" : "WXYZ/learn.html";
-  }
-
-  function wxyzReviewPrintUrl() {
-    return inReviewFolder() ? "../WXYZ/print.html" : "WXYZ/print.html";
-  }
-
-  function stuvwxyzReviewUrl() {
-    return inReviewFolder() ? "../STUVWXYZ/learn.html" : "STUVWXYZ/learn.html";
-  }
-
-  function stuvwxyzReviewPrintUrl() {
-    return inReviewFolder() ? "../STUVWXYZ/print.html" : "STUVWXYZ/print.html";
-  }
-
+  /** 主页字母条：复习课插在对应字母后面 */
+  var REVIEWS = [
+    { after: "C", folder: "ABC", tag: "U1", title: "Unit 1 复习", sub: "Aa · Bb · Cc", live: true },
+    { after: "F", folder: "DEF", tag: "U2", title: "Unit 2 复习", sub: "Dd · Ee · Ff", live: true },
+    { after: "F", folder: "ABCDEF", tag: "R1", title: "Review 1", sub: "Aa–Ff · Song", live: true },
+    { after: "I", folder: "GHI", tag: "U3", title: "Unit 3 复习", sub: "Gg · Hh · Ii", live: true },
+    { after: "L", folder: "JKL", tag: "U4", title: "Unit 4 复习", sub: "Jj · Kk · Ll", live: true },
+    { after: "L", folder: "GHIJKL", tag: "R2", title: "Review 2", sub: "Gg–Ll · Song", live: true },
+    { after: "O", folder: "MNO", tag: "U5", title: "Unit 5 复习", sub: "Mm · Nn · Oo", live: true },
+    { after: "R", folder: "MNOPQR", tag: "R3", title: "Review 3", sub: "Mm–Rr · Song", live: true },
+    { after: "V", folder: "STUV", tag: "U7", title: "Unit 7 复习", sub: "Ss–Vv · Story", live: true },
+    { after: "Z", folder: "WXYZ", tag: "U8", title: "Unit 8 复习", sub: "Ww–Zz · Story", live: true },
+    { after: "Z", folder: "STUVWXYZ", tag: "R4", title: "Review 4", sub: "Ss–Zz · Zoo Song", live: true }
+  ];
   function mountRail(el, current) {
     if (!el) return;
     var now = String(current || "A").toUpperCase();
@@ -383,6 +343,33 @@
       var cls = "az-chip" + (ch === now ? " is-on" : "") + (u.live ? " is-live" : " is-soon");
       return '<a class="' + cls + '" href="' + hubUrl(ch) + '">' + ch + "</a>";
     }).join("");
+    scrollRailToActive(el);
+  }
+
+  function reviewChipHTML(r) {
+    return (
+      '<a class="az-chip is-review" href="' + reviewCourseUrl(r.folder) + '" title="' + r.title + " · " + r.sub + '">' +
+      r.tag + "</a>"
+    );
+  }
+
+  function mountHubRail(el, current) {
+    if (!el) return;
+    var now = String(current || "A").toUpperCase();
+    var parts = [];
+    LETTERS.forEach(function (ch) {
+      var u = UNITS[ch];
+      var cls = "az-chip" + (ch === now ? " is-on" : "") + (u.live ? " is-live" : " is-soon");
+      parts.push('<a class="' + cls + '" href="' + hubUrl(ch) + '">' + ch + "</a>");
+      REVIEWS.forEach(function (r) {
+        if (r.after === ch && r.live) parts.push(reviewChipHTML(r));
+      });
+    });
+    el.innerHTML = parts.join("");
+    scrollRailToActive(el);
+  }
+
+  function scrollRailToActive(el) {
     var on = el.querySelector(".az-chip.is-on");
     if (on && on.scrollIntoView) {
       try { on.scrollIntoView({ inline: "center", block: "nearest", behavior: "auto" }); }
@@ -393,6 +380,7 @@
   global.ALPHABET = {
     LETTERS: LETTERS,
     UNITS: UNITS,
+    REVIEWS: REVIEWS,
     onHub: onHub,
     letterFromPath: letterFromPath,
     hubUrl: hubUrl,
@@ -423,6 +411,8 @@
     wxyzReviewPrintUrl: wxyzReviewPrintUrl,
     stuvwxyzReviewUrl: stuvwxyzReviewUrl,
     stuvwxyzReviewPrintUrl: stuvwxyzReviewPrintUrl,
-    mountRail: mountRail
+    reviewCourseUrl: reviewCourseUrl,
+    mountRail: mountRail,
+    mountHubRail: mountHubRail
   };
 })(window);
