@@ -7,7 +7,54 @@
 
   var LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
   var UNITS = {
-
+    A: {
+      id: "A",
+      pair: "Aa",
+      phrase: "angry apple",
+      live: true,
+      folder: "Aa",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Aa/assets/img/hero-aa.jpg"
+    },
+    B: {
+      id: "B",
+      pair: "Bb",
+      phrase: "big bear",
+      live: true,
+      folder: "Bb",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Bb/assets/img/hero-bb.jpg"
+    },
+    C: {
+      id: "C",
+      pair: "Cc",
+      phrase: "cool cat",
+      live: true,
+      folder: "Cc",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Cc/assets/img/hero-cc.jpg"
+    },
+    D: {
+      id: "D",
+      pair: "Dd",
+      phrase: "dizzy dog",
+      live: true,
+      folder: "Dd",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Dd/assets/img/hero-dd.jpg"
+    },
+    E: {
+      id: "E",
+      pair: "Ee",
+      phrase: "energetic egg",
+      live: true,
+      folder: "Ee",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Ee/assets/img/hero-ee.jpg"
+    },
+    F: {
+      id: "F",
+      pair: "Ff",
+      phrase: "funny fish",
+      live: true,
+      folder: "Ff",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Ff/assets/img/hero-ff.jpg"
+    }
   };
 
   LETTERS.forEach(function (ch) {
