@@ -217,7 +217,7 @@
   }
 
   function inReviewFolder() {
-    return /\/The_Alphabet\/(ABC|DEF|GHI|JKL|MNO|ABCDEF|GHIJKL|MNOPQR)\//.test(pathNorm());
+    return /\/The_Alphabet\/(ABC|DEF|GHI|JKL|MNO|STUV|ABCDEF|GHIJKL|MNOPQR)\//.test(pathNorm());
   }
 
   function onHub() {
@@ -343,6 +343,14 @@
     return inReviewFolder() ? "../MNOPQR/print.html" : "MNOPQR/print.html";
   }
 
+  function stuvReviewUrl() {
+    return inReviewFolder() ? "../STUV/learn.html" : "STUV/learn.html";
+  }
+
+  function stuvReviewPrintUrl() {
+    return inReviewFolder() ? "../STUV/print.html" : "STUV/print.html";
+  }
+
   function mountRail(el, current) {
     if (!el) return;
     var now = String(current || "A").toUpperCase();
@@ -385,6 +393,8 @@
     ghijklReviewPrintUrl: ghijklReviewPrintUrl,
     mnopqrReviewUrl: mnopqrReviewUrl,
     mnopqrReviewPrintUrl: mnopqrReviewPrintUrl,
+    stuvReviewUrl: stuvReviewUrl,
+    stuvReviewPrintUrl: stuvReviewPrintUrl,
     mountRail: mountRail
   };
 })(window);
