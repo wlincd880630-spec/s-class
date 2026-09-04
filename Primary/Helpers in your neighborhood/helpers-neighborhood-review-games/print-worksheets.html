@@ -204,6 +204,70 @@
       color: #b0bec5;
       padding: 1rem 0;
     }
+    .quiz-item {
+      display: grid;
+      grid-template-columns: 88px 1fr;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px dashed #cfd8dc;
+      align-items: start;
+    }
+    .quiz-item:last-child { border-bottom: none; }
+    .quiz-item img {
+      width: 88px;
+      height: 70px;
+      object-fit: contain;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 3px;
+      background: #fff;
+    }
+    .quiz-q {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+    .quiz-q .en {
+      font-family: "Fredoka", sans-serif;
+      color: var(--accent);
+      font-size: 1.2rem;
+    }
+    .quiz-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .quiz-opt {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px 6px 6px;
+      border: 2px solid #b0bec5;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      background: #fff;
+      min-width: 6.5rem;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .quiz-opt .letter {
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Fredoka", sans-serif;
+      font-weight: 700;
+      font-size: 0.82rem;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .quiz-opt:nth-child(1) .letter { background: #00b4d8; }
+    .quiz-opt:nth-child(2) .letter { background: #e91e8c; }
+    .quiz-opt:nth-child(3) .letter { background: #3d5afe; }
+    .quiz-opt.correct-opt { border-color: #66bb6a; background: #e8f5e9; }
     .answer-key { background: #f1f8e9; }
     .answer-key .ans { font-family: "Fredoka", sans-serif; color: var(--accent); font-weight: 700; }
     .empty-msg { text-align: center; padding: 2rem; color: #78909c; }
@@ -241,6 +305,8 @@
       <label><input type="checkbox" id="optMaze" checked /> 单词迷宫（每组 4 词 / 页）</label>
       <label><input type="checkbox" id="optSpell" checked /> 字母排序（看图拼词）</label>
       <label><input type="checkbox" id="optConnect" checked /> 图片单词连线</label>
+      <label><input type="checkbox" id="optZhPickEn" checked /> 看中文和图片选单词</label>
+      <label><input type="checkbox" id="optEnPickZh" checked /> 看单词选中文</label>
       <label><input type="checkbox" id="optAnswers" /> 含答案页（教师用）</label>
     </div>
     <div class="row" style="margin-top:0.75rem;">
@@ -972,11 +1038,104 @@
       return html;
     }
 
+    var OPT_LETTERS = ["A", "B", "C"];
+
+    function paginate(list, size) {
+      var pages = [];
+      var i;
+      for (i = 0; i < list.length; i += size) pages.push(list.slice(i, i + size));
+      return pages;
+    }
+
+    function pickQuizOptions(correct, sourcePool, count, getLabel) {
+      count = count || 3;
+      var seen = {};
+      var opts = [{ word: correct, label: getLabel(correct), correct: true }];
+      seen[getLabel(correct)] = true;
+      var distractors = shuffle(sourcePool.filter(function(w) {
+        return w.word !== correct.word;
+      }));
+      var i;
+      for (i = 0; i < distractors.length && opts.length < count; i++) {
+        var lab = getLabel(distractors[i]);
+        if (seen[lab]) continue;
+        seen[lab] = true;
+        opts.push({ word: distractors[i], label: lab, correct: false });
+      }
+      return shuffle(opts);
+    }
+
+    function renderQuizSheet(items, mode, showAns, pageIdx, pageTotal, startNum) {
+      var isZhEn = mode === "zh-en";
+      var title = isZhEn ? "看中文和图片选单词" : "看单词选中文";
+      var sub = "第 " + pageIdx + " / " + pageTotal + " 页 · 本页 " + items.length + " 题 · 三选一";
+      var html = '<div class="sheet' + (showAns ? " answer-key" : "") + '">';
+      html += sheetHeader("Helpers in Your Neighborhood · " + title, sub);
+      items.forEach(function(item, i) {
+        var w = item.word;
+        var prompt = isZhEn ? w.zh : w.word;
+        html += '<div class="quiz-item">';
+        html += '<img src="' + esc(wordImg(w)) + '" alt="" />';
+        html += "<div>";
+        html += '<div class="quiz-q"><strong>' + (startNum + i) + ".</strong> ";
+        html += isZhEn ? esc(prompt) : '<span class="en">' + esc(prompt) + "</span>";
+        html += "</div>";
+        html += '<div class="quiz-options">';
+        item.opts.forEach(function(o, j) {
+          html += '<span class="quiz-opt' + (showAns && o.correct ? " correct-opt" : "") + '">';
+          html += '<span class="letter">' + OPT_LETTERS[j] + "</span>" + esc(o.label) + "</span>";
+        });
+        html += "</div>";
+        if (showAns) {
+          var letter = OPT_LETTERS[item.opts.findIndex(function(o) { return o.correct; })] || "?";
+          html += '<div class="ans" style="margin-top:6px">答案：' + letter + " · " + esc(isZhEn ? w.word : w.zh) + "</div>";
+        }
+        html += "</div></div>";
+      });
+      html += '<p class="maze-hint">' + (showAns ? "答案页" : (isZhEn ? "看图片和中文，圈出正确的英文单词" : "看图片和英文单词，圈出正确的中文意思")) + "</p>";
+      html += "</div>";
+      return html;
+    }
+
+    function appendQuizSheets(html, mode, sourcePool, showAns) {
+      if (sourcePool.length < 3) {
+        return html + '<div class="sheet"><p class="maze-hint">' +
+          (mode === "zh-en" ? "看中文和图片选单词" : "看单词选中文") +
+          "至少需要 3 个单词，请先在 <a href=\"settings.html\">选词设置</a> 中多勾几个。</p></div>";
+      }
+      var isZhEn = mode === "zh-en";
+      var pages = paginate(shuffle(sourcePool.slice()), 5).map(function(page) {
+        return page.map(function(w) {
+          return {
+            word: w,
+            opts: pickQuizOptions(w, sourcePool, 3, function(item) {
+              return isZhEn ? item.word : item.zh;
+            }),
+          };
+        });
+      });
+      var offset = 0;
+      pages.forEach(function(page, i) {
+        html += renderQuizSheet(page, mode, false, i + 1, pages.length, offset + 1);
+        offset += page.length;
+      });
+      if (showAns) {
+        offset = 0;
+        pages.forEach(function(page, i) {
+          html += renderQuizSheet(page, mode, true, i + 1, pages.length, offset + 1);
+          offset += page.length;
+        });
+      }
+      return html;
+    }
+
     function generate() {
       var area = document.getElementById("printArea");
       var optMaze = document.getElementById("optMaze").checked;
       var optSpell = document.getElementById("optSpell").checked;
       var optConnect = document.getElementById("optConnect").checked;
+      var optZhPickEn = document.getElementById("optZhPickEn").checked;
+      var optEnPickZh = document.getElementById("optEnPickZh").checked;
       var optAnswers = document.getElementById("optAnswers").checked;
       pool = NgReview.shuffle(W.getSelected().slice());
 
@@ -1028,6 +1187,9 @@
           });
         }
       }
+
+      if (optZhPickEn) html = appendQuizSheets(html, "zh-en", pool, optAnswers);
+      if (optEnPickZh) html = appendQuizSheets(html, "en-zh", pool, optAnswers);
 
       if (!html) {
         html = '<p class="empty-msg">请至少勾选一种练习类型</p>';
