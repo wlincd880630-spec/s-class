@@ -11,7 +11,7 @@ const ROOT = path.resolve(__dirname, '..');
 const CONFIG_PATH = path.join(ROOT, '.cos-config.json');
 const DRY = process.argv.includes('--dry');
 const cIdx = process.argv.indexOf('--concurrency');
-const CONCURRENCY = cIdx >= 0 ? Math.max(1, Number(process.argv[cIdx + 1]) || 8) : 8;
+const CONCURRENCY = cIdx >= 0 ? Math.max(1, Number(process.argv[cIdx + 1]) || 32) : 32;
 
 const IMAGE_EXT = new Set(['.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp', '.svg', '.ico']);
 const IGNORE_DIRS = new Set(['.git', 'node_modules', 'scripts']);
@@ -25,6 +25,8 @@ const cos = new COS({
   SecretId: config.SecretId,
   SecretKey: config.SecretKey,
   Timeout: 180000,
+  FileParallelLimit: CONCURRENCY,
+  ChunkParallelLimit: 6,
 });
 const Bucket = config.Bucket;
 const Region = config.Region;
@@ -71,7 +73,7 @@ function put(key, filePath) {
     '.gif': 'image/gif', '.webp': 'image/webp', '.bmp': 'image/bmp',
     '.svg': 'image/svg+xml', '.ico': 'image/x-icon',
   };
-  return new Promise((resolve, reject) => {
+  const run = () => new Promise((resolve, reject) => {
     cos.putObject({
       Bucket, Region, Key: key,
       Body: fs.createReadStream(filePath),
@@ -79,6 +81,18 @@ function put(key, filePath) {
       ContentType: types[ext] || 'application/octet-stream',
     }, (err, data) => (err ? reject(err) : resolve(data)));
   });
+  return (async () => {
+    let last;
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      try {
+        return await run();
+      } catch (e) {
+        last = e;
+        if (attempt === 3) throw last;
+        await new Promise((r) => setTimeout(r, 400 * attempt));
+      }
+    }
+  })();
 }
 
 async function pool(items, limit, worker) {
@@ -123,8 +137,8 @@ process.stdout.write('');
     try {
       await put(f.key, f.localPath);
       ok++;
-      if (ok % 50 === 0 || ok + fail === toUpload.length) {
-        process.stdout.write('progress ' + ok + ' ok ' + fail + ' fail / ' + toUpload.length + '\n');
+      if (ok % 10 === 0 || ok + fail === toUpload.length) {
+        fs.writeSync(1, 'progress ' + ok + ' ok ' + fail + ' fail / ' + toUpload.length + '\n');
       }
     } catch (e) {
       fail++;
