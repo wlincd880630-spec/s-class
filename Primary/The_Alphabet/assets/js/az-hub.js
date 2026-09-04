@@ -23,6 +23,12 @@
         "<div><strong>Unit 5 复习</strong><small>Mm · Nn · Oo · Story</small></div><span class=\"go\">→</span></a></li>"
       );
     }
+    if (ch === "M" || ch === "N" || ch === "O" || ch === "P" || ch === "Q" || ch === "R") {
+      items.push(
+        '<li><a href="' + A.mnopqrReviewUrl() + '"><span class="n">★</span>' +
+        "<div><strong>Review 3</strong><small>Mm · Nn · Oo · Pp · Qq · Rr · Song</small></div><span class=\"go\">→</span></a></li>"
+      );
+    }
     return items.join("");
   }
 
