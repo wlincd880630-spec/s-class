@@ -125,6 +125,22 @@
       live: true,
       folder: "Rr",
       hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Rr/assets/img/hero-rr.jpg"
+    },
+    W: {
+      id: "W",
+      pair: "Ww",
+      phrase: "wise wolf",
+      live: true,
+      folder: "Ww",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Ww/assets/img/hero-ww.jpg"
+    },
+    X: {
+      id: "X",
+      pair: "Xx",
+      phrase: "fox in a box",
+      live: true,
+      folder: "Xx",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Xx/assets/img/hero-xx.jpg"
     }
   };
 
