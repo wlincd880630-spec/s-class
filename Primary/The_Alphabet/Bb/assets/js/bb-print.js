@@ -234,13 +234,23 @@
       bookFoot(4, total)
     ));
     pages.push(bookSheet("",
-      bookHead("D", "Connect. Then write Bb.") +
-      '<div class="bk-connect">' +
-        '<div class="bk-connect-write">' +
-          '<p class="bk-connect-label">Write Bb.</p>' +
-          stave(staveHTML({ kind: "letter", id: "Bb" }), "write", "fs-lg", "") +
+      bookHead("D", "Connect") +
+      '<div class="bk-connect-page">' +
+        '<figure class="bk-connect-map"><img src="' + L.connectMap + '" alt="Connect the B words on the path"></figure>' +
+        '<div class="bk-connect-match">' +
+          '<div class="bk-connect-pics">' +
+            (L.connectMatch.pics || []).map(function (id, i) {
+              var item = w(id);
+              return '<div class="bk-connect-pic"><b>' + (i + 1) + '</b><img src="' + item.img + '" alt=""></div>';
+            }).join("") +
+          "</div>" +
+          '<div class="bk-connect-words">' +
+            (L.connectMatch.words || []).map(function (id, i) {
+              var item = w(id);
+              return '<div class="bk-connect-word"><b>' + String.fromCharCode(65 + i) + "</b>" + wordFaces(item) + "</div>";
+            }).join("") +
+          "</div>" +
         "</div>" +
-        '<figure class="bk-connect-map"><img src="' + L.connectMap + '" alt="Connect the B words"></figure>' +
       "</div>" +
       bookFoot(5, total)
     ));
@@ -388,7 +398,7 @@
         "<li><b>② 听一听点一点</b> 老师读词，学生在图旁写 1–4。</li>" +
         "<li><b>③ 谁是局外人</b> 每一行打叉不是 /b/ 的那张。</li>" +
         "<li><b>④ 图词连线 + 剪卡配对</b> 先连线，再剪开做实物配对。</li>" +
-        "<li><b>⑤ 写 Bb 还是打叉</b> 老师读（或放 Track 09），学生写。</li>" +
+        "<li><b>⑤ 写 Bb 还是打叉</b> 老师读词或让学生点屏幕听英音慢读，学生写。</li>" +
         "<li><b>⑥ Chant 排队</b> 剪下四张图，按歌曲顺序排好。</li>" +
       "</ul>" +
       foot(1, total, "游戏")
@@ -411,7 +421,7 @@
     ));
     pages.push(sheet("theme-sky",
       header("Game 2 · Listen and number", "听一听，写序号", "老师读") +
-      task("2", "老师按任意顺序读四个单词（或放 Track 04）。学生在格子里写 1、2、3、4。", "sky") +
+      task("2", "老师按任意顺序慢读四个单词，或让学生点屏幕听英音。学生在格子里写 1、2、3、4。", "sky") +
       '<div class="vocab-4">' +
         L.vocab.map(function (item, i) {
           return (
@@ -470,8 +480,8 @@
       foot(6, total, "游戏")
     ));
     pages.push(sheet("theme-sky",
-      header("Game 5 · Bb or X", "听音写 Bb 或打叉", "Track 09") +
-      task("5", "老师放 Track 09 或读图名。是 /b/ 就写 Bb，不是就打 X。", "sky") +
+      header("Game 5 · Bb or X", "听音写 Bb 或打叉", "英音慢读") +
+      task("5", "老师读图名，或让学生点屏幕听英音慢读。是 /b/ 就写 Bb，不是就打 X。", "sky") +
       '<div class="six-grid">' +
         L.track05Items.map(function (row, i) {
           var item = w(row.id);
@@ -486,7 +496,7 @@
       foot(7, total, "游戏")
     ));
     pages.push(sheet("theme-leaf",
-      header("Game 6 · Chant line-up", "Chant 排队", "Track 10") +
+      header("Game 6 · Chant line-up", "Chant 排队", "教材 Chant") +
       task("6", "剪下四张图。边唱 chant 边排队：bed, bear, banana, bird。", "leaf") +
       '<div class="cut-grid">' +
         L.chantOrder.map(function (id, i) {
