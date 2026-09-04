@@ -1869,17 +1869,53 @@ ${azureLine}
     return escapeHtml(sentence).replace(/___/g, '<span class="qpdf-blank lg"></span>');
   }
 
+  async function imageToDataUrl(url) {
+    if (!url) return '';
+    if (/^data:/i.test(url)) return url;
+    try {
+      const res = await fetch(url, { mode: 'cors' });
+      if (!res.ok) return '';
+      const blob = await res.blob();
+      if (!/^image\//i.test(blob.type || '')) return '';
+      return await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(String(reader.result || ''));
+        reader.onerror = () => reject(new Error('read image failed'));
+        reader.readAsDataURL(blob);
+      });
+    } catch (e) {
+      return '';
+    }
+  }
+
+  async function prepareQuizPdfMeta(data, meta) {
+    meta = { ...(meta || {}) };
+    const pageUrl = meta.pageUrl || QUIZ_PAGE_URL;
+    meta.pageUrl = pageUrl;
+    if (pageUrl && !meta.qrDataUrl) {
+      try {
+        meta.qrDataUrl = await buildArticleQrDataUrl(pageUrl, meta.accent || '#0e7490');
+      } catch (e) {
+        console.warn('QR code generation failed', e);
+      }
+    }
+    if (!meta.coverDataUrl) {
+      const coverName = (data && data.paragraphs && data.paragraphs[0] && data.paragraphs[0].image) || 'section1-intro.jpg';
+      meta.coverDataUrl = await imageToDataUrl(imageUrl(coverName));
+    }
+    return meta;
+  }
+
   function buildQuizPdfCover(data, meta) {
     const date = new Date().toLocaleDateString('zh-CN');
-    const coverName = (data.paragraphs && data.paragraphs[0] && data.paragraphs[0].image) || 'section1-intro.jpg';
-    const img = imageUrl(coverName);
+    const img = meta.coverDataUrl || '';
     const qr = meta.qrDataUrl
       ? `<img class="qpdf-cover-qr" src="${meta.qrDataUrl}" alt="扫码测验">
          <p class="qpdf-cover-qr-label">扫码在线测验</p>`
       : '';
     const imgBlock = img
       ? `<div class="qpdf-cover-img-wrap">
-           <img class="qpdf-cover-img" src="${escapeHtml(img)}" alt="" crossorigin="anonymous">
+           <img class="qpdf-cover-img" src="${img}" alt="">
            ${qr}
          </div>`
       : (qr ? `<div class="qpdf-cover-img-wrap">${qr}</div>` : '');
@@ -2090,21 +2126,13 @@ ${azureLine}
   async function exportQuizPdf(options) {
     const data = options?.data;
     if (!data?.quiz) throw new Error('无测验内容可导出');
-    const pageUrl = options?.pageUrl || QUIZ_PAGE_URL;
-    const meta = {
-      title: options.title || data.title,
-      accent: options.accent || '#0e7490',
-      pageUrl
-    };
     const filename = options.filename || 'Quiz_Packet.pdf';
     await loadPdfLibs();
-    if (pageUrl) {
-      try {
-        meta.qrDataUrl = await buildArticleQrDataUrl(pageUrl, meta.accent);
-      } catch (e) {
-        console.warn('QR code generation failed', e);
-      }
-    }
+    const meta = await prepareQuizPdfMeta(data, {
+      title: options.title || data.title,
+      accent: options.accent || '#0e7490',
+      pageUrl: options.pageUrl || QUIZ_PAGE_URL
+    });
     await exportPdfDocument(
       buildQuizPdfDocument(data, meta),
       filename,
@@ -2117,16 +2145,7 @@ ${azureLine}
       showToast('没有可导出的测验');
       return;
     }
-    meta = { ...(meta || {}) };
-    const pageUrl = meta.pageUrl || QUIZ_PAGE_URL;
-    meta.pageUrl = pageUrl;
-    if (pageUrl) {
-      try {
-        meta.qrDataUrl = await buildArticleQrDataUrl(pageUrl, meta.accent || '#0e7490');
-      } catch (e) {
-        console.warn('QR code generation failed', e);
-      }
-    }
+    meta = await prepareQuizPdfMeta(data, meta);
     const w = window.open('', '_blank');
     if (!w) {
       showToast('请允许弹出窗口以打印 PDF');
