@@ -126,6 +126,14 @@
       live: true,
       folder: "Ww",
       hero: "Ww/assets/img/hero-ww.jpg"
+    },
+    X: {
+      id: "X",
+      pair: "Xx",
+      phrase: "fox in a box",
+      live: true,
+      folder: "Xx",
+      hero: "Xx/assets/img/hero-xx.jpg"
     }
   };
 
