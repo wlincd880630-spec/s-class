@@ -55,7 +55,8 @@
     },
     hero: IMG + "hero-dd.jpg",
     video: "assets/video/letter-d.mp4",
-    connectMap: IMG + "connect-map.jpg",
+    // 小狗连到狗屋的迷宫图；不要复用 Bb 的 connect-map.jpg（那是海狸/Bb 路径）
+    connectMap: IMG + "dog-connect-map.jpg",
     tracks: {
       chant: AUD + "track18.mp3"
     },
