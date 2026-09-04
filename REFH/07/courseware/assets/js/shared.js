@@ -3,7 +3,7 @@
   'use strict';
 
   const CONFIG_KEY = 'meet_the_dogs_courseware_config';
-  const IMAGE_BASE = 'assets/images/';
+  const IMAGE_BASE = 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/REFH/07/courseware/assets/images/';
   const COURSEWARE_WEB_BASE = 'https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/REFH/07/courseware/';
   const ARTICLE_PAGE_URL = COURSEWARE_WEB_BASE + 'part2-reading.html';
   const QUIZ_PAGE_URL = 'https://www.s-class.top/REFH/07/courseware/part4-quiz.html';
@@ -1871,7 +1871,7 @@ ${azureLine}
 
   function buildQuizPdfCover(data, meta) {
     const date = new Date().toLocaleDateString('zh-CN');
-    const img = imageUrl('section1-intro.jpg');
+    const img = imageurl('https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/REFH/07/courseware/assets/js/section1-intro.jpg');
     const qr = meta.qrDataUrl
       ? `<img class="qpdf-cover-qr" src="${meta.qrDataUrl}" alt="扫码测验">
          <p class="qpdf-cover-qr-label">扫码在线测验</p>`
