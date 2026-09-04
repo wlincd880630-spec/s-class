@@ -780,14 +780,15 @@ ${azureLine}
   function imageUrl(filename) {
     const name = String(filename || '').trim();
     if (!name) return '';
-    if (/^https?:\/\//i.test(name)) return name;
-    const rel = IMAGE_BASE + name.replace(/^\/+/, '');
-    try {
-      if (global.location && /^https?:\/\//i.test(global.location.href || '')) {
-        return new URL(rel, global.location.href).href;
-      }
-    } catch (e) {}
-    return rel;
+    if (/^https?:\/\//i.test(name)) {
+      try {
+        const u = new URL(name);
+        const misplaced = u.pathname.match(/\/REFH\/\d+\/courseware\/(?:assets\/js\/)?([^/]+\.(?:png|jpe?g|gif|webp))$/i);
+        if (misplaced) return IMAGE_BASE + misplaced[1];
+      } catch (e) {}
+      return name;
+    }
+    return IMAGE_BASE + name.replace(/^\/+/, '');
   }
 
   function renderNav(active) {
@@ -1871,7 +1872,7 @@ ${azureLine}
 
   function buildQuizPdfCover(data, meta) {
     const date = new Date().toLocaleDateString('zh-CN');
-    const img = imageurl('https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/REFH/07/courseware/assets/js/section1-intro.jpg');
+    const img = imageUrl('section1-intro.jpg');
     const qr = meta.qrDataUrl
       ? `<img class="qpdf-cover-qr" src="${meta.qrDataUrl}" alt="扫码测验">
          <p class="qpdf-cover-qr-label">扫码在线测验</p>`
@@ -2152,7 +2153,7 @@ ${azureLine}
     evaluateReading, evaluateTranslation, evaluateReadingCombined,
     runSpeakingEvaluation, renderReadingEvalHtml, renderTranslationEvalHtml,
     buildAzureSummary, getLastPronunciation, stopSpeakingRecordSafe,
-    showToast, escapeHtml, imageUrl, renderNav,
+    showToast, escapeHtml, imageUrl, imageurl: imageUrl, renderNav,
     injectConfigPanel, toggleConfig, openConfig, saveConfigFromUI,
     loadCourseData, wrapWordsForLookup, splitWords,
     ensureSpeechSdk, startSpeakingRecord, stopSpeakingRecord,
