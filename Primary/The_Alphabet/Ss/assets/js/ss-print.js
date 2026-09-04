@@ -28,7 +28,7 @@
       return '<span class="letter-pair"><span class="letter-cap onset">S</span><span class="letter-small rest">s</span></span>';
     }
     if (item.id === "super-seal") {
-      return '<span class="onset">m</span>uper <span class="onset">s</span>eal';
+      return '<span class="onset">s</span>uper <span class="onset">s</span>eal';
     }
     if (!item.s) {
       return '<span class="rest">' + item.en + "</span>";
@@ -524,7 +524,7 @@
     ));
     pages.push(sheet("theme-leaf",
       header("Game 6 · Chant line-up", "Chant 排队", "Track 10") +
-      task("6", "剪下四张图。边唱 chant 边排队：seal, soap, sun, seal。", "leaf") +
+      task("6", "剪下四张图。边唱 chant 边排队：soap, sun, socks, seal。", "leaf") +
       '<div class="cut-grid">' +
         L.chantOrder.map(function (id, i) {
           var item = w(id);
@@ -558,12 +558,12 @@
     var pages = [];
     var total = 11;
     pages.push(sheet("theme-poster-a",
-      '<div class="letter-poster"><div class="giant">M</div><div class="sub">the letter M · /s/</div>' +
+      '<div class="letter-poster"><div class="giant">S</div><div class="sub">the letter S · /s/</div>' +
       '<img src="' + L.mascot.img + '" alt="super seal"></div>' +
       foot(1, total, "字母卡")
     ));
     pages.push(sheet("theme-poster-s",
-      '<div class="letter-poster"><div class="giant">m</div><div class="sub">little m · /s/</div>' +
+      '<div class="letter-poster"><div class="giant">s</div><div class="sub">little s · /s/</div>' +
       '<img src="' + w("seal").img + '" alt="seal"></div>' +
       foot(2, total, "字母卡")
     ));

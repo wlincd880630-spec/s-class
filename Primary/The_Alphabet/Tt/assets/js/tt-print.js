@@ -28,7 +28,7 @@
       return '<span class="letter-pair"><span class="letter-cap onset">T</span><span class="letter-small rest">t</span></span>';
     }
     if (item.id === "tall-turtle") {
-      return '<span class="onset">m</span>all <span class="onset">t</span>urtle';
+      return '<span class="onset">t</span>all <span class="onset">t</span>urtle';
     }
     if (!item.t) {
       return '<span class="rest">' + item.en + "</span>";
@@ -531,7 +531,7 @@
     ));
     pages.push(sheet("theme-leaf",
       header("Game 6 · Chant line-up", "Chant 排队", "Track 10") +
-      task("6", "剪下四张图。边唱 chant 边排队：turtle, tiger, tent, turtle。", "leaf") +
+      task("6", "剪下四张图。边唱 chant 边排队：turtle, tent, teacher, tiger。", "leaf") +
       '<div class="cut-grid">' +
         L.chantOrder.map(function (id, i) {
           var item = w(id);
@@ -565,12 +565,12 @@
     var pages = [];
     var total = 11;
     pages.push(sheet("theme-poster-a",
-      '<div class="letter-poster"><div class="giant">M</div><div class="sub">the letter M · /t/</div>' +
+      '<div class="letter-poster"><div class="giant">T</div><div class="sub">the letter T · /t/</div>' +
       '<img src="' + L.mascot.img + '" alt="tall turtle"></div>' +
       foot(1, total, "字母卡")
     ));
     pages.push(sheet("theme-poster-s",
-      '<div class="letter-poster"><div class="giant">m</div><div class="sub">little m · /t/</div>' +
+      '<div class="letter-poster"><div class="giant">t</div><div class="sub">little t · /t/</div>' +
       '<img src="' + w("turtle").img + '" alt="turtle"></div>' +
       foot(2, total, "字母卡")
     ));

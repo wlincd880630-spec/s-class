@@ -5,7 +5,7 @@
 (function (global) {
   "use strict";
 
-  var IMG = "assets/img/";
+  var IMG = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Ss/assets/img/";
   var AUD = "assets/audio/";
 
   var WORDS = {
@@ -15,7 +15,7 @@
     socks: { id: "socks", en: "socks", zh: "袜子", onset: "s", rest: "ocks", img: IMG + "socks.jpg", s: true },
     kangaroo: { id: "kangaroo", en: "kangaroo", zh: "袋鼠", onset: "k", rest: "angaroo", img: IMG + "kangaroo.jpg", s: false },
     olive: { id: "olive", en: "olive", zh: "橄榄", onset: "o", rest: "live", img: IMG + "olive.jpg", s: false },
-    soap: { id: "soap", en: "soap", zh: "菠萝", onset: "p", rest: "ineapple", img: IMG + "soap.jpg", s: false },
+    pineapple: { id: "pineapple", en: "pineapple", zh: "菠萝", onset: "p", rest: "ineapple", img: IMG + "pineapple.jpg", s: false },
     iguana: { id: "iguana", en: "iguana", zh: "鬣蜥", onset: "i", rest: "guana", img: IMG + "iguana.jpg", s: false },
     rose: { id: "rose", en: "rose", zh: "玫瑰", onset: "r", rest: "ose", img: IMG + "rose.jpg", s: false },
     rice: { id: "rice", en: "rice", zh: "米饭", onset: "r", rest: "ice", img: IMG + "rice.jpg", s: false },
@@ -64,7 +64,7 @@
       { pics: ["sun", "rose", "soap", "rice"], answer: "sun" },
       { pics: ["socks", "horse", "seal", "fish"], answer: "socks" }
     ],
-    matchEight: ["soap", "seal", "kangaroo", "sun", "olive", "socks", "soap", "iguana"],
+    matchEight: ["soap", "seal", "kangaroo", "sun", "olive", "socks", "pineapple", "iguana"],
     matchEightAnswer: ["soap", "seal", "sun", "socks"],
     track05Items: [
       { id: "seal", writeSs: true },
@@ -74,7 +74,7 @@
     ],
     chantOrder: ["soap", "sun", "socks", "seal"],
     distractors: [
-      WORDS.kangaroo, WORDS.olive, WORDS.soap, WORDS.iguana,
+      WORDS.kangaroo, WORDS.olive, WORDS.pineapple, WORDS.iguana,
       WORDS.rose, WORDS.rice, WORDS.paper, WORDS.horse,
       WORDS.fish, WORDS.cat, WORDS.bear, WORDS.dog
     ],
@@ -87,6 +87,7 @@
     ],
     workbookCircle: ["rose", "sun", "soap", "socks", "seal", "paper"],
     workbookCircleExample: "sun",
+    workbookLetters: ["S", "s", "A", "b", "S", "a", "d", "s"],
     workbookWriteX: ["rice", "sun", "socks", "soap"],
     oddOneOutPrint: [
       ["seal", "sun", "horse"],

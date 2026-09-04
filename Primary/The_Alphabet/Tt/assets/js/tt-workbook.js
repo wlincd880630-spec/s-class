@@ -1,5 +1,5 @@
 /**
- * Tt 互动练习册：描红、圈 /t/ 图、钞票涂 Tt。
+ * Tt 互动练习册：描红、圈 /t/ 图、给 T/t 涂色。
  */
 (function () {
   "use strict";
@@ -60,17 +60,17 @@
       ctx.stroke();
     }
     function end() { drawing = false; }
-    canvas.addEventListener("turtledown", start);
-    canvas.addEventListener("turtlemove", move);
-    window.addEventListener("turtleup", end);
+    canvas.addEventListener("mousedown", start);
+    canvas.addEventListener("mousemove", move);
+    window.addEventListener("mouseup", end);
     canvas.addEventListener("touchstart", start, { passive: false });
     canvas.addEventListener("touchmove", move, { passive: false });
     canvas.addEventListener("touchend", end);
     return ctx;
   }
 
-  var ctxA = bindTrace("M", "cap");
-  var ctxa = bindTrace("m", "small");
+  var ctxA = bindTrace("T", "cap");
+  var ctxa = bindTrace("t", "small");
 
   function renderCircle() {
     var grid = $("circle-grid");
@@ -111,41 +111,41 @@
           btn.classList.add("wrong");
         }
       });
-      $("fb-b").textContent = ok ? "全对！turtle、turtle、tent、tiger 都是 /t/。" : "再看看：只圈 /t/ 开头的图。";
+      $("fb-b").textContent = ok ? "全对！tent、teacher、tiger、turtle 都是 /t/。" : "再看看：只圈 /t/ 开头的图。";
       $("fb-b").className = "feedback " + (ok ? "ok" : "no");
     });
   }
 
-  function renderKiteColor() {
+  function renderBalloons() {
     var board = $("balloon-grid");
     var picked = {};
-    board.innerHTML = (L.workbookCrossLetters || []).map(function (ch, i) {
+    board.innerHTML = L.workbookLetters.map(function (ch, i) {
       return '<button type="button" class="letter-btn" data-i="' + i + '" data-ch="' + ch + '">' + ch + "</button>";
     }).join("");
     board.querySelectorAll(".letter-btn").forEach(function (btn) {
       btn.addEventListener("click", function () {
         var i = btn.getAttribute("data-i");
         var ch = btn.getAttribute("data-ch");
-        var isM = ch === "M" || ch === "m";
+        var isT = ch === "T" || ch === "t";
         picked[i] = !picked[i];
-        btn.classList.toggle("good", picked[i] && isM);
-        btn.classList.toggle("bad", picked[i] && !isM);
+        btn.classList.toggle("good", picked[i] && isT);
+        btn.classList.toggle("bad", picked[i] && !isT);
         if (!picked[i]) {
           btn.classList.remove("good", "bad");
         }
-        if (window.AAAudio && isM) AAAudio.speakLetter();
+        if (window.AAAudio && isT) AAAudio.speakLetter();
       });
     });
     $("btn-check-c").addEventListener("click", function () {
       var ok = true;
       board.querySelectorAll(".letter-btn").forEach(function (btn) {
         var ch = btn.getAttribute("data-ch");
-        var isM = ch === "M" || ch === "m";
+        var isT = ch === "T" || ch === "t";
         var on = btn.classList.contains("good") || btn.classList.contains("bad");
-        if (isM && !btn.classList.contains("good")) ok = false;
-        if (!isM && on) ok = false;
+        if (isT && !btn.classList.contains("good")) ok = false;
+        if (!isT && on) ok = false;
       });
-      $("fb-c").textContent = ok ? "涂对了！只给 M 和 m 涂色。" : "只涂 M 和 m，其它字母不要涂。";
+      $("fb-c").textContent = ok ? "涂对了！只给 T 和 t 涂色。" : "只涂 T 和 t，其它字母不要涂。";
       $("fb-c").className = "feedback " + (ok ? "ok" : "no");
     });
   }
@@ -181,6 +181,6 @@
   });
 
   renderCircle();
-  renderKiteColor();
+  renderBalloons();
   showStep(1);
 })();

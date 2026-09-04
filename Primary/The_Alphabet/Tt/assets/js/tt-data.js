@@ -5,7 +5,7 @@
 (function (global) {
   "use strict";
 
-  var IMG = "assets/img/";
+  var IMG = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Tt/assets/img/";
   var AUD = "assets/audio/";
 
   var WORDS = {
@@ -95,6 +95,7 @@
     words: WORDS,
     workbookCircle: ["tent", "teacher", "ox", "tiger", "socks", "turtle"],
     workbookCircleExample: "tiger",
+    workbookLetters: ["T", "t", "A", "b", "T", "a", "d", "t"],
     turtleColorLetters: "TtSsNnIiUuVvMm",
     oddOneOutPrint: [
       ["turtle", "tent", "socks"],

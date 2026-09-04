@@ -1,5 +1,5 @@
 /**
- * Uu 互动练习册：描红、圈 /ʌ/ 图、钞票涂 Uu。
+ * Uu 互动练习册：描红、圈 /ʌ/ 图、给 U/u 涂色。
  */
 (function () {
   "use strict";
@@ -60,17 +60,17 @@
       ctx.stroke();
     }
     function end() { drawing = false; }
-    canvas.addEventListener("umbrelladown", start);
-    canvas.addEventListener("umbrellamove", move);
-    window.addEventListener("umbrellaup", end);
+    canvas.addEventListener("mousedown", start);
+    canvas.addEventListener("mousemove", move);
+    window.addEventListener("mouseup", end);
     canvas.addEventListener("touchstart", start, { passive: false });
     canvas.addEventListener("touchmove", move, { passive: false });
     canvas.addEventListener("touchend", end);
     return ctx;
   }
 
-  var ctxA = bindTrace("M", "cap");
-  var ctxa = bindTrace("m", "small");
+  var ctxA = bindTrace("U", "cap");
+  var ctxa = bindTrace("u", "small");
 
   function renderCircle() {
     var grid = $("circle-grid");
@@ -111,41 +111,41 @@
           btn.classList.add("wrong");
         }
       });
-      $("fb-b").textContent = ok ? "全对！umbrella、umbrella、up、uncle 都是 /ʌ/。" : "再看看：只圈 /ʌ/ 开头的图。";
+      $("fb-b").textContent = ok ? "全对！up、umbrella、umpire、uncle 都是 /ʌ/。" : "再看看：只圈 /ʌ/ 开头的图。";
       $("fb-b").className = "feedback " + (ok ? "ok" : "no");
     });
   }
 
-  function renderKiteColor() {
+  function renderBalloons() {
     var board = $("balloon-grid");
     var picked = {};
-    board.innerHTML = (L.workbookCrossLetters || []).map(function (ch, i) {
+    board.innerHTML = L.workbookLetters.map(function (ch, i) {
       return '<button type="button" class="letter-btn" data-i="' + i + '" data-ch="' + ch + '">' + ch + "</button>";
     }).join("");
     board.querySelectorAll(".letter-btn").forEach(function (btn) {
       btn.addEventListener("click", function () {
         var i = btn.getAttribute("data-i");
         var ch = btn.getAttribute("data-ch");
-        var isM = ch === "M" || ch === "m";
+        var isU = ch === "U" || ch === "u";
         picked[i] = !picked[i];
-        btn.classList.toggle("good", picked[i] && isM);
-        btn.classList.toggle("bad", picked[i] && !isM);
+        btn.classList.toggle("good", picked[i] && isU);
+        btn.classList.toggle("bad", picked[i] && !isU);
         if (!picked[i]) {
           btn.classList.remove("good", "bad");
         }
-        if (window.AAAudio && isM) AAAudio.speakLetter();
+        if (window.AAAudio && isU) AAAudio.speakLetter();
       });
     });
     $("btn-check-c").addEventListener("click", function () {
       var ok = true;
       board.querySelectorAll(".letter-btn").forEach(function (btn) {
         var ch = btn.getAttribute("data-ch");
-        var isM = ch === "M" || ch === "m";
+        var isU = ch === "U" || ch === "u";
         var on = btn.classList.contains("good") || btn.classList.contains("bad");
-        if (isM && !btn.classList.contains("good")) ok = false;
-        if (!isM && on) ok = false;
+        if (isU && !btn.classList.contains("good")) ok = false;
+        if (!isU && on) ok = false;
       });
-      $("fb-c").textContent = ok ? "涂对了！只给 M 和 m 涂色。" : "只涂 M 和 m，其它字母不要涂。";
+      $("fb-c").textContent = ok ? "涂对了！只给 U 和 u 涂色。" : "只涂 U 和 u，其它字母不要涂。";
       $("fb-c").className = "feedback " + (ok ? "ok" : "no");
     });
   }
@@ -181,6 +181,6 @@
   });
 
   renderCircle();
-  renderKiteColor();
+  renderBalloons();
   showStep(1);
 })();

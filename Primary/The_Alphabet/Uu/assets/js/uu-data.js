@@ -5,7 +5,7 @@
 (function (global) {
   "use strict";
 
-  var IMG = "assets/img/";
+  var IMG = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Uu/assets/img/";
   var AUD = "assets/audio/";
 
   var WORDS = {
@@ -64,7 +64,7 @@
       { id: "umpire", num: 5 },
       { id: "up", num: 6 }
     ],
-    connectPath: ["robot", "uncle", "umbrella", "up", "umpire"],
+    connectPath: ["under", "uncle", "umbrella", "up", "umpire"],
     soundRows: [
       { pics: ["umbrella", "tent", "up", "soap"], answer: "umbrella" },
       { pics: ["uncle", "horse", "umpire", "fish"], answer: "uncle" },
@@ -86,6 +86,7 @@
     words: WORDS,
     workbookCircle: ["up", "tent", "umbrella", "soap", "umpire", "uncle"],
     workbookCircleExample: "umbrella",
+    workbookLetters: ["U", "u", "A", "b", "U", "a", "d", "u"],
     oddOneOutPrint: [
       ["umbrella", "up", "tent"],
       ["uncle", "egg", "umpire"],
