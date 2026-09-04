@@ -65,6 +65,12 @@
         "<div><strong>Unit 7 复习</strong><small>Ss · Tt · Uu · Vv · Story</small></div><span class=\"go\">→</span></a></li>"
       );
     }
+    if (ch === "W" || ch === "X" || ch === "Y" || ch === "Z") {
+      items.push(
+        '<li><a href="' + A.wxyzReviewUrl() + '"><span class="n">★</span>' +
+        "<div><strong>Unit 8 复习</strong><small>Ww · Xx · Yy · Zz · Story</small></div><span class=\"go\">→</span></a></li>"
+      );
+    }
     return items.join("");
   }
 

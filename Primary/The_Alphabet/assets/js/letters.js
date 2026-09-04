@@ -197,6 +197,14 @@
       live: true,
       folder: "Yy",
       hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Yy/assets/img/hero-yy.jpg"
+    },
+    Z: {
+      id: "Z",
+      pair: "Zz",
+      phrase: "zany zebra",
+      live: true,
+      folder: "Zz",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Zz/assets/img/hero-zz.jpg"
     }
   };
 
@@ -217,7 +225,7 @@
   }
 
   function inReviewFolder() {
-    return /\/The_Alphabet\/(ABC|DEF|GHI|JKL|MNO|STUV|ABCDEF|GHIJKL|MNOPQR)\//.test(pathNorm());
+    return /\/The_Alphabet\/(ABC|DEF|GHI|JKL|MNO|STUV|WXYZ|ABCDEF|GHIJKL|MNOPQR)\//.test(pathNorm());
   }
 
   function onHub() {
@@ -351,6 +359,14 @@
     return inReviewFolder() ? "../STUV/print.html" : "STUV/print.html";
   }
 
+  function wxyzReviewUrl() {
+    return inReviewFolder() ? "../WXYZ/learn.html" : "WXYZ/learn.html";
+  }
+
+  function wxyzReviewPrintUrl() {
+    return inReviewFolder() ? "../WXYZ/print.html" : "WXYZ/print.html";
+  }
+
   function mountRail(el, current) {
     if (!el) return;
     var now = String(current || "A").toUpperCase();
@@ -395,6 +411,8 @@
     mnopqrReviewPrintUrl: mnopqrReviewPrintUrl,
     stuvReviewUrl: stuvReviewUrl,
     stuvReviewPrintUrl: stuvReviewPrintUrl,
+    wxyzReviewUrl: wxyzReviewUrl,
+    wxyzReviewPrintUrl: wxyzReviewPrintUrl,
     mountRail: mountRail
   };
 })(window);
