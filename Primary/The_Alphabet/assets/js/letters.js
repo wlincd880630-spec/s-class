@@ -30,6 +30,14 @@
       live: true,
       folder: "Cc",
       hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Cc/assets/img/hero-cc.jpg"
+    },
+    D: {
+      id: "D",
+      pair: "Dd",
+      phrase: "dizzy dog",
+      live: true,
+      folder: "Dd",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Dd/assets/img/hero-dd.jpg"
     }
   };
 
