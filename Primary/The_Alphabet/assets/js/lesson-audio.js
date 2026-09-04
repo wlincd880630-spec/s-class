@@ -1,6 +1,6 @@
 /**
  * 字母课语音：Chant 保留教材 MP3；其余练习用 Azure 英音慢速 TTS。
- * 自动读取各字母课与复习课全局变量。
+ * 自动读取 window.AA_LESSON、BB_LESSON、CC_LESSON、DD_LESSON、EE_LESSON、FF_LESSON、GG_LESSON、ABC_REVIEW、DEF_REVIEW、ABCDEF_REVIEW。
  */
 (function (global) {
   "use strict";
@@ -23,8 +23,7 @@
   var voiceAudio = null;
 
   function lesson() {
-    return global.AA_LESSON || global.BB_LESSON || global.CC_LESSON || global.DD_LESSON ||
-      global.EE_LESSON || global.FF_LESSON || global.GG_LESSON || global.ABC_REVIEW || global.DEF_REVIEW || global.ABCDEF_REVIEW || null;
+    return global.AA_LESSON || global.BB_LESSON || global.CC_LESSON || global.DD_LESSON || global.EE_LESSON || global.FF_LESSON || global.GG_LESSON || global.ABC_REVIEW || global.DEF_REVIEW || global.ABCDEF_REVIEW || null;
   }
 
   function loadSdk() {
@@ -122,12 +121,6 @@
     return playMp3(src);
   }
 
-  function playChant() {
-    var L = lesson();
-    var src = L && L.tracks && (L.tracks.chant || L.tracks.t06);
-    return playMp3(src);
-  }
-
   function playStory() {
     var L = lesson();
     var url = L && L.tracks && L.tracks.story;
@@ -135,11 +128,10 @@
     return playFile(url);
   }
 
-  function playSong() {
+  function playChant() {
     var L = lesson();
-    var url = L && L.tracks && L.tracks.song;
-    if (!url) return Promise.resolve();
-    return playFile(url);
+    var src = L && L.tracks && (L.tracks.chant || L.tracks.t06);
+    return playMp3(src);
   }
 
   function wrapSpeak(inner, rate) {
@@ -290,7 +282,6 @@
     playFile: playFile,
     playChant: playChant,
     playStory: playStory,
-    playSong: playSong,
     speakWord: speakWord,
     speakLetter: speakLetter,
     speakPhoneme: speakPhoneme,

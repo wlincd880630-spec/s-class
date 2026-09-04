@@ -6,7 +6,7 @@
 (function (global) {
   "use strict";
 
-  var IMG = "assets/img/";
+  var IMG = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/ABCDEF/assets/img/";
   var AUD = "assets/audio/";
 
   function w(id, en, zh, onset, rest, letter) {

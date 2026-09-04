@@ -95,7 +95,7 @@
         picked[id] = !picked[id];
         btn.classList.toggle("selected", !!picked[id]);
         var item = L.words[id];
-        if (window.AAAudio && item) AAAudio.speakWord(item.en);
+        if (window.AAAudio && item) AAAudio.speakWord(item.en, true);
       });
     });
     $("btn-check-b").addEventListener("click", function () {

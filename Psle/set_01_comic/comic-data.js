@@ -61,7 +61,7 @@ const COMIC = [
     panels: [
       {
         id: "a01",
-        img: "set_01_comic/img/a-loves.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/a-loves.jpg",
         alt: "乔里斯抱着猎豹幼崽，房间里贴满猎豹画",
         kicker: "He loves cheetahs",
         sentences: [
@@ -70,7 +70,7 @@ const COMIC = [
       },
       {
         id: "a02",
-        img: "set_01_comic/img/a-danger-wild.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/a-danger-wild.jpg",
         alt: "干旱草原上只剩两只瘦弱的猎豹，显得处境危险",
         kicker: "In great danger",
         sentences: [
@@ -79,7 +79,7 @@ const COMIC = [
       },
       {
         id: "a03",
-        img: "set_01_comic/img/a-upset.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/a-upset.jpg",
         alt: "乔里斯抱着猎豹玩偶，眼里含泪，非常难过",
         kicker: "He got upset",
         sentences: [
@@ -88,7 +88,7 @@ const COMIC = [
       },
       {
         id: "a04",
-        img: "set_01_comic/img/a-age-six.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/a-age-six.jpg",
         alt: "六岁的乔里斯坐在地毯上读关于猎豹的图画书",
         kicker: "When he was six",
         sentences: [
@@ -97,7 +97,7 @@ const COMIC = [
       },
       {
         id: "a05",
-        img: "set_01_comic/img/a-book-danger.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/a-book-danger.jpg",
         alt: "图画书内页画着草原上数量稀少的猎豹",
         kicker: "The book says",
         sentences: [
@@ -106,7 +106,7 @@ const COMIC = [
       },
       {
         id: "a06",
-        img: "set_01_comic/img/a-mum-tells.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/a-mum-tells.jpg",
         alt: "妈妈坐在沙发上讲述当年乔里斯读完书很难过的事",
         kicker: "Said Joris' mother",
         sentences: [
@@ -115,7 +115,7 @@ const COMIC = [
       },
       {
         id: "a07",
-        img: "set_01_comic/img/a-ask-mum.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/a-ask-mum.jpg",
         alt: "乔里斯坐在沙发上问妈妈自己能做些什么",
         kicker: "What can I do?",
         sentences: [
@@ -124,7 +124,7 @@ const COMIC = [
       },
       {
         id: "a08",
-        img: "set_01_comic/img/a2-sanctuary.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/a2-sanctuary.jpg",
         alt: "乔里斯和妈妈在厨房用电脑联系非洲野生动物保护中心",
         kicker: "A sanctuary in Africa",
         sentences: [
@@ -133,7 +133,7 @@ const COMIC = [
       },
       {
         id: "a09",
-        img: "set_01_comic/img/a-raise-start.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/a-raise-start.jpg",
         alt: "乔里斯在书桌前把硬币放进捐款罐开始筹款",
         kicker: "Raising money",
         sentences: [
@@ -142,7 +142,7 @@ const COMIC = [
       },
       {
         id: "a10",
-        img: "set_01_comic/img/a-sell-tshirts.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/a-sell-tshirts.jpg",
         alt: "乔里斯在摊位上举起印有猎豹图案的T恤",
         kicker: "He sold T-shirts",
         sentences: [
@@ -151,7 +151,7 @@ const COMIC = [
       },
       {
         id: "a11",
-        img: "set_01_comic/img/a-sell-flowers.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/a-sell-flowers.jpg",
         alt: "乔里斯把一束束鲜花递给邻居",
         kicker: "Flowers",
         sentences: [
@@ -160,7 +160,7 @@ const COMIC = [
       },
       {
         id: "a12",
-        img: "set_01_comic/img/a-sell-juice.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/a-sell-juice.jpg",
         alt: "乔里斯在果汁摊把橙汁倒进纸杯",
         kicker: "And juice",
         sentences: [
@@ -169,7 +169,7 @@ const COMIC = [
       },
       {
         id: "a13",
-        img: "set_01_comic/img/a-yard-sale.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/a-yard-sale.jpg",
         alt: "乔里斯在车道上摆庭院旧货摊，邻居们前来选购",
         kicker: "Yard sales",
         sentences: [
@@ -178,7 +178,7 @@ const COMIC = [
       },
       {
         id: "a14",
-        img: "set_01_comic/img/a-skating.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/a-skating.jpg",
         alt: "黄昏后院滑冰派对，孩子们轮滑，旁边放着捐款桶",
         kicker: "Skating parties",
         sentences: [
@@ -187,7 +187,7 @@ const COMIC = [
       },
       {
         id: "a15",
-        img: "set_01_comic/img/a-normal-kid.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/a-normal-kid.jpg",
         alt: "乔里斯站在普通郊区家门口，神情坚定而谦逊",
         kicker: "Just a normal kid",
         sentences: [
@@ -196,7 +196,7 @@ const COMIC = [
       },
       {
         id: "a16",
-        img: "set_01_comic/img/a-want-to-save.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/a-want-to-save.jpg",
         alt: "乔里斯看着猎豹照片，心想要做点事救它们",
         kicker: "Save them",
         sentences: [
@@ -205,7 +205,7 @@ const COMIC = [
       },
       {
         id: "a17",
-        img: "set_01_comic/img/a-14000.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/a-14000.jpg",
         alt: "捐款罐装满钱币，乔里斯准备把捐款寄给保护中心",
         kicker: "More than $14,000",
         sentences: [
@@ -214,7 +214,7 @@ const COMIC = [
       },
       {
         id: "a18",
-        img: "set_01_comic/img/a4-collar.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/a4-collar.jpg",
         alt: "保护人员给猎豹戴上追踪项圈，乔里斯在一旁观看",
         kicker: "Special collars",
         sentences: [
@@ -223,7 +223,7 @@ const COMIC = [
       },
       {
         id: "a19",
-        img: "set_01_comic/img/a-track.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/a-track.jpg",
         alt: "戴着项圈的猎豹走过草原，项圈发出定位光点",
         kicker: "The collars track",
         sentences: [
@@ -232,7 +232,7 @@ const COMIC = [
       },
       {
         id: "a20",
-        img: "set_01_comic/img/a-protect.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/a-protect.jpg",
         alt: "黎明的保护区里猎豹自由行走，守望塔上有巡护员守护",
         kicker: "Protect them",
         sentences: [
@@ -241,7 +241,7 @@ const COMIC = [
       },
       {
         id: "a21",
-        img: "set_01_comic/img/a-visit.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/a-visit.jpg",
         alt: "乔里斯走下小飞机，第一次看见非洲草原和远处的猎豹",
         kicker: "Visit Africa",
         sentences: [
@@ -250,7 +250,7 @@ const COMIC = [
       },
       {
         id: "a22",
-        img: "set_01_comic/img/a5-volunteer.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/a5-volunteer.jpg",
         alt: "乔里斯在非洲保护中心当志愿者，蹲在猎豹身边",
         kicker: "Three summers",
         sentences: [
@@ -259,7 +259,7 @@ const COMIC = [
       },
       {
         id: "a23",
-        img: "set_01_comic/img/a-volunteer-help.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/a-volunteer-help.jpg",
         alt: "乔里斯帮巡护员给水槽加水，猎豹在一旁饮水",
         kicker: "Volunteering there",
         sentences: [
@@ -268,7 +268,7 @@ const COMIC = [
       },
       {
         id: "a24",
-        img: "set_01_comic/img/a6-awareness.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/a6-awareness.jpg",
         alt: "乔里斯在学校集会上呼吁大家提高保护意识",
         kicker: "Raise awareness",
         sentences: [
@@ -277,7 +277,7 @@ const COMIC = [
       },
       {
         id: "a25",
-        img: "set_01_comic/img/a-tell-people.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/a-tell-people.jpg",
         alt: "乔里斯把猎豹照片拿给同学和邻居看，告诉大家正在发生的事",
         kicker: "Tell people",
         sentences: [
@@ -286,7 +286,7 @@ const COMIC = [
       },
       {
         id: "a26",
-        img: "set_01_comic/img/a-make-difference.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/a-make-difference.jpg",
         alt: "乔里斯和一群孩子一起做小事：种花、捐款、画画",
         kicker: "Make a difference",
         sentences: [
@@ -295,7 +295,7 @@ const COMIC = [
       },
       {
         id: "a27",
-        img: "set_01_comic/img/a-start.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/a-start.jpg",
         alt: "乔里斯在日出的山坡上望向远方，准备迈出第一步",
         kicker: "Start somewhere",
         sentences: [
@@ -312,7 +312,7 @@ const COMIC = [
     panels: [
       {
         id: "b01",
-        img: "set_01_comic/img/b-want-young.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/b-want-young.jpg",
         alt: "女士对着镜子轻触脸颊，想着如何保持年轻",
         kicker: "Stay young?",
         sentences: [
@@ -321,7 +321,7 @@ const COMIC = [
       },
       {
         id: "b02",
-        img: "set_01_comic/img/b-how-stay.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/b-how-stay.jpg",
         alt: "女士坐在厨房桌边托腮思考怎样保持年轻",
         kicker: "How to stay young",
         sentences: [
@@ -330,7 +330,7 @@ const COMIC = [
       },
       {
         id: "b03",
-        img: "set_01_comic/img/b1-garden.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/b1-garden.jpg",
         alt: "一位神采奕奕的女士站在春日花园里微笑",
         kicker: "Here's some advice",
         sentences: [
@@ -339,7 +339,7 @@ const COMIC = [
       },
       {
         id: "b04",
-        img: "set_01_comic/img/b-forget.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/b-forget.jpg",
         alt: "女士在花园里松开手，体重秤、卷尺和日历像气球一样飘走",
         kicker: "Forget some numbers",
         sentences: [
@@ -348,7 +348,7 @@ const COMIC = [
       },
       {
         id: "b05",
-        img: "set_01_comic/img/b2-forget-numbers.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/b2-forget-numbers.jpg",
         alt: "体重秤、卷尺和日历飘在医生身边，代表年龄、体重和身高",
         kicker: "Age, weight, height",
         sentences: [
@@ -357,7 +357,7 @@ const COMIC = [
       },
       {
         id: "b06",
-        img: "set_01_comic/img/b-doctor-worry.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/b-doctor-worry.jpg",
         alt: "医生低头看病历，女士放松地坐着，把数字交给医生操心",
         kicker: "Let the doctor worry",
         sentences: [
@@ -366,7 +366,7 @@ const COMIC = [
       },
       {
         id: "b07",
-        img: "set_01_comic/img/b-pay-doctor.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/b-pay-doctor.jpg",
         alt: "女士在诊台把钱包递给医生，微笑着付诊费",
         kicker: "That's why you pay",
         sentences: [
@@ -375,7 +375,7 @@ const COMIC = [
       },
       {
         id: "b08",
-        img: "set_01_comic/img/b-make-friends.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/b-make-friends.jpg",
         alt: "女士提着野餐篮走向公园里的朋友们，挥手问好",
         kicker: "Make happy friends",
         sentences: [
@@ -384,7 +384,7 @@ const COMIC = [
       },
       {
         id: "b09",
-        img: "set_01_comic/img/b3-happy-friends.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/b3-happy-friends.jpg",
         alt: "公园野餐，开朗快乐的朋友们围坐在一起",
         kicker: "Bright and happy",
         sentences: [
@@ -393,7 +393,7 @@ const COMIC = [
       },
       {
         id: "b10",
-        img: "set_01_comic/img/b-change-mood.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/b-change-mood.jpg",
         alt: "小女孩递花，朋友们的快乐让女士的坏心情慢慢好转",
         kicker: "Change your mood",
         sentences: [
@@ -402,7 +402,7 @@ const COMIC = [
       },
       {
         id: "b11",
-        img: "set_01_comic/img/b-life-better.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/b-life-better.jpg",
         alt: "黄昏公园里，女士和快乐的朋友们在一起，生活变得更好",
         kicker: "Life will be better",
         sentences: [
@@ -411,7 +411,7 @@ const COMIC = [
       },
       {
         id: "b12",
-        img: "set_01_comic/img/b4-keep-learning.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/b4-keep-learning.jpg",
         alt: "在温室里用电脑学习园艺，手里捧着幼苗",
         kicker: "Keep learning",
         sentences: [
@@ -420,7 +420,7 @@ const COMIC = [
       },
       {
         id: "b13",
-        img: "set_01_comic/img/b-computer.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/b-computer.jpg",
         alt: "女士在阳光房里专注地学用电脑",
         kicker: "The computer",
         sentences: [
@@ -429,7 +429,7 @@ const COMIC = [
       },
       {
         id: "b14",
-        img: "set_01_comic/img/b-gardening.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/b-gardening.jpg",
         alt: "女士跪在花园里把花苗栽进土里",
         kicker: "Gardening",
         sentences: [
@@ -438,7 +438,7 @@ const COMIC = [
       },
       {
         id: "b15",
-        img: "set_01_comic/img/b-learn-others.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/b-learn-others.jpg",
         alt: "女士在画架前学画画，尝试其他新事物",
         kicker: "Or others",
         sentences: [
@@ -447,7 +447,7 @@ const COMIC = [
       },
       {
         id: "b16",
-        img: "set_01_comic/img/b-use-mind.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/b-use-mind.jpg",
         alt: "女士坐在桌边拼图，认真动脑",
         kicker: "Use your mind",
         sentences: [
@@ -456,7 +456,7 @@ const COMIC = [
       },
       {
         id: "b17",
-        img: "set_01_comic/img/b-interest-world.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/b-interest-world.jpg",
         alt: "女士仰头看花园里的飞鸟和花朵，对周围的世界感兴趣",
         kicker: "The world around you",
         sentences: [
@@ -465,7 +465,7 @@ const COMIC = [
       },
       {
         id: "b18",
-        img: "set_01_comic/img/b-new-thing.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/b-new-thing.jpg",
         alt: "夜晚台灯下，女士在笔记本上记下今天新学的一样东西",
         kicker: "One new thing every day",
         sentences: [
@@ -474,7 +474,7 @@ const COMIC = [
       },
       {
         id: "b19",
-        img: "set_01_comic/img/b-clever.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/b-clever.jpg",
         alt: "女士把刚学会的知识讲给朋友听，显得很聪明",
         kicker: "Become clever",
         sentences: [
@@ -483,7 +483,7 @@ const COMIC = [
       },
       {
         id: "b20",
-        img: "set_01_comic/img/b5-keep-healthy.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/b5-keep-healthy.jpg",
         alt: "晨跑、健康早餐，医生竖起大拇指",
         kicker: "Keep healthy",
         sentences: [
@@ -492,7 +492,7 @@ const COMIC = [
       },
       {
         id: "b21",
-        img: "set_01_comic/img/b-exercise.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/b-exercise.jpg",
         alt: "女士在湖边公园小径上跑步锻炼",
         kicker: "Do more exercise",
         sentences: [
@@ -501,7 +501,7 @@ const COMIC = [
       },
       {
         id: "b22",
-        img: "set_01_comic/img/b-healthy-food.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/b-healthy-food.jpg",
         alt: "女士坐在户外桌前吃水果、酸奶和全麦吐司",
         kicker: "Eat healthy food",
         sentences: [
@@ -510,7 +510,7 @@ const COMIC = [
       },
       {
         id: "b23",
-        img: "set_01_comic/img/b-see-doctor.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/b-see-doctor.jpg",
         alt: "女士身体不适来到诊所，女医生微笑接待",
         kicker: "See the doctor",
         sentences: [
@@ -519,7 +519,7 @@ const COMIC = [
       },
       {
         id: "b24",
-        img: "set_01_comic/img/b6-simple-joys.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/b6-simple-joys.jpg",
         alt: "散步、欢笑、拥抱和享受阳光茶点的简单快乐",
         kicker: "Other ways",
         sentences: [
@@ -528,7 +528,7 @@ const COMIC = [
       },
       {
         id: "b25",
-        img: "set_01_comic/img/b-simple-things.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/b-simple-things.jpg",
         alt: "女士在花园里闻玫瑰、端着茶杯，享受简单事物",
         kicker: "Simple things",
         sentences: [
@@ -537,7 +537,7 @@ const COMIC = [
       },
       {
         id: "b26",
-        img: "set_01_comic/img/b-laughing.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/b-laughing.jpg",
         alt: "女士和朋友喝茶时开怀大笑",
         kicker: "Laughing often",
         sentences: [
@@ -546,7 +546,7 @@ const COMIC = [
       },
       {
         id: "b27",
-        img: "set_01_comic/img/b-walk.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/b-walk.jpg",
         alt: "女士牵着小狗在公园小径上散步",
         kicker: "Having a walk",
         sentences: [
@@ -555,7 +555,7 @@ const COMIC = [
       },
       {
         id: "b28",
-        img: "set_01_comic/img/b-tell-love.jpg",
+        img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/b-tell-love.jpg",
         alt: "女士拥抱亲人，告诉别人自己爱他们",
         kicker: "Tell people you love them",
         sentences: [
@@ -580,7 +580,7 @@ const COMIC = [
       panels: [
         {
           id: "c01",
-          img: "set_01_comic/img/c01-school-eve.jpg",
+          img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/c01-school-eve.jpg",
           alt: "开学前一晚，妈妈和三个男孩在厨房整理书包",
           kicker: "The day before school",
           sentences: [
@@ -589,7 +589,7 @@ const COMIC = [
         },
         {
           id: "c02",
-          img: "set_01_comic/img/c02-shopping-trip.jpg",
+          img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/c02-shopping-trip.jpg",
           alt: "妈妈带着吉姆、鲍勃和汤姆去商场买衣服和学习用品",
           kicker: "Shopping for clothes",
           sentences: [
@@ -598,7 +598,7 @@ const COMIC = [
         },
         {
           id: "c03",
-          img: "set_01_comic/img/c03-crowded-mall.jpg",
+          img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/c03-crowded-mall.jpg",
           alt: "购物中心里人很多",
           kicker: "So many people",
           sentences: [
@@ -607,7 +607,7 @@ const COMIC = [
         },
         {
           id: "c04",
-          img: "set_01_comic/img/c04-stay-with-me.jpg",
+          img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/c04-stay-with-me.jpg",
           alt: "妈妈拉着三个孩子的手，让他们待在身边",
           kicker: "Stay with me",
           sentences: [
@@ -616,7 +616,7 @@ const COMIC = [
         },
         {
           id: "c05",
-          img: "set_01_comic/img/c05-kids-scatter.jpg",
+          img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/c05-kids-scatter.jpg",
           alt: "三个孩子很快就到处乱跑",
           kicker: "Here and there",
           sentences: [
@@ -625,7 +625,7 @@ const COMIC = [
         },
         {
           id: "c06",
-          img: "set_01_comic/img/c06-shirt-size.jpg",
+          img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/c06-shirt-size.jpg",
           alt: "吉姆想买新衬衫，却不知道自己的尺码，向妈妈求助",
           kicker: "He doesn't know his size",
           sentences: [
@@ -634,7 +634,7 @@ const COMIC = [
         },
         {
           id: "c07",
-          img: "set_01_comic/img/c07-bob-goes-away.jpg",
+          img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/c07-bob-goes-away.jpg",
           alt: "妈妈正帮吉姆问小尺码衬衫时，鲍勃溜走了",
           kicker: "Bob goes away",
           sentences: [
@@ -643,7 +643,7 @@ const COMIC = [
         },
         {
           id: "c08",
-          img: "set_01_comic/img/c08-cola-sale.jpg",
+          img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/c08-cola-sale.jpg",
           alt: "鲍勃口渴，跑去买三瓶正在促销的可乐",
           kicker: "Thirsty · on sale",
           sentences: [
@@ -652,7 +652,7 @@ const COMIC = [
         },
         {
           id: "c09",
-          img: "set_01_comic/img/c09-shoes-lost-tom.jpg",
+          img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/c09-shoes-lost-tom.jpg",
           alt: "鲍勃在看鞋子，妈妈找不到汤姆",
           kicker: "Looking at shoes",
           sentences: [
@@ -661,7 +661,7 @@ const COMIC = [
         },
         {
           id: "c10",
-          img: "set_01_comic/img/c10-jack-happily.jpg",
+          img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/c10-jack-happily.jpg",
           alt: "汤姆高兴地看见同学杰克，走过去和他说话",
           kicker: "Jack happily",
           sentences: [
@@ -670,7 +670,7 @@ const COMIC = [
         },
         {
           id: "c11",
-          img: "set_01_comic/img/c11-schoolbag-colours.jpg",
+          img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/c11-schoolbag-colours.jpg",
           alt: "汤姆在不同颜色的书包里挑选，妈妈又找不到吉姆和鲍勃",
           kicker: "Choosing a schoolbag",
           sentences: [
@@ -679,7 +679,7 @@ const COMIC = [
         },
         {
           id: "c12",
-          img: "set_01_comic/img/c12-bathroom.jpg",
+          img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/c12-bathroom.jpg",
           alt: "吉姆和鲍勃喝了太多可乐，赶去洗手间",
           kicker: "Too much cola",
           sentences: [
@@ -688,7 +688,7 @@ const COMIC = [
         },
         {
           id: "c13",
-          img: "set_01_comic/img/c13-home-seven.jpg",
+          img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/c13-home-seven.jpg",
           alt: "晚上七点，一家人才回到家门口",
           kicker: "It's seven",
           sentences: [
@@ -697,7 +697,7 @@ const COMIC = [
         },
         {
           id: "c14",
-          img: "set_01_comic/img/c14-mum-tired.jpg",
+          img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/c14-mum-tired.jpg",
           alt: "妈妈坐在沙发上，看起来非常疲倦",
           kicker: "Mum is really tired",
           sentences: [
@@ -706,7 +706,7 @@ const COMIC = [
         },
         {
           id: "c15",
-          img: "set_01_comic/img/c15-family-rules.jpg",
+          img: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Psle/set_01_comic/img/c15-family-rules.jpg",
           alt: "妈妈拿起笔，在家规清单上写下：每次只带一个男孩购物",
           kicker: "Family Rules",
           sentences: [
