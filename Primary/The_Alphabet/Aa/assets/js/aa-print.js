@@ -7,7 +7,7 @@
   "use strict";
 
   var L = window.AA_LESSON;
-  var PACKS = ["book", "games", "cards", "guide"];
+  var PACKS = ["book", "games", "cards"];
 
   function $(id) {
     return document.getElementById(id);
@@ -272,7 +272,6 @@
             return '<div class="bk-match-row"><b>' + (i + 1) + '</b><img src="' + item.img + '" alt=""></div>';
           }).join("") +
         "</div>" +
-        '<div class="bk-match-mid" aria-hidden="true"></div>' +
         '<div class="bk-match-col">' +
           (L.matchWords || []).map(function (id, i) {
             var item = w(id);
@@ -524,7 +523,7 @@
 
   function buildCards() {
     var pages = [];
-    var total = 12;
+    var total = 11;
     pages.push(sheet("theme-poster-a",
       '<div class="letter-poster"><div class="giant">A</div><div class="sub">the letter A · /æ/</div>' +
       '<img src="' + L.mascot.img + '" alt="angry apple"></div>' +
@@ -552,10 +551,9 @@
     ));
     pages.push(sheet("",
       header("Picture cards", "纯图片卡 · 背面可手写单词", "剪开") +
-      '<p class="task" style="margin-bottom:2mm;">正面只有图。剪开后背面自己写 apple… 或与单词卡配对。</p>' +
       '<div class="cut-grid">' +
         L.vocab.map(function (item) {
-          return '<div class="cut-card"><img src="' + item.img + '" alt=""><div style="font-size:12pt;color:#90a4ae;">picture only</div></div>';
+          return '<div class="cut-card"><img src="' + item.img + '" alt=""></div>';
         }).join("") +
       "</div>" +
       foot(6, total, "图片卡")
@@ -590,12 +588,6 @@
       foot(9, total, "小词卡")
     ));
     pages.push(sheet("",
-      header("Sorting mats", "开头音分类垫", "把图卡放进来") +
-      '<div class="sort-mat yes"><h3>/æ/ 火车厢</h3><p>apple · axe · ant · alligator · angry apple</p><div class="sort-slots"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>' +
-      '<div class="sort-mat no"><h3>不是 /æ/ 的篮子</h3><p>banana · computer · bear · cup · ball · cat · dog</p><div class="sort-slots"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>' +
-      foot(10, total, "分类垫")
-    ));
-    pages.push(sheet("",
       header("More pictures", "分类用干扰图", "剪开") +
       '<div class="cut-grid">' +
         ["banana", "computer", "ball", "cat"].map(function (id) {
@@ -603,7 +595,7 @@
           return '<div class="cut-card"><img src="' + item.img + '" alt=""><div class="lab">' + item.en + "</div></div>";
         }).join("") +
       "</div>" +
-      foot(11, total, "干扰图")
+      foot(10, total, "干扰图")
     ));
     pages.push(sheet("theme-candy",
       header("Mascot + letter", "angry apple 与 Aa 小卡", "剪开") +
@@ -613,47 +605,9 @@
         '<div class="cut-card word-only"><div class="lab" style="font-size:80pt;color:#c62828;">A</div></div>' +
         '<div class="cut-card word-only"><div class="lab" style="font-size:80pt;color:#2e7d32;">a</div></div>' +
       "</div>" +
-      foot(12, total, "字母小卡")
+      foot(11, total, "字母小卡")
     ));
     return pages.join("");
-  }
-
-  function buildGuide() {
-    var total = 2;
-    return sheet("theme-leaf",
-      header("Teacher kit", "教具可以怎么玩", "课堂手册") +
-      '<ul class="howto">' +
-        "<li><b>对折闪卡</b> 沿红线对折、胶水粘好。正面只见图，提问 What's this? 翻过来读单词。</li>" +
-        "<li><b>图词配对</b> 图片卡与单词卡分开发。两人一组找朋友；或一边贴墙，拿着另一边去贴。</li>" +
-        "<li><b>绕教室</b> 墙上贴四张图，每人一张单词卡，听到chant就去站到对应图下面。</li>" +
-        "<li><b>听音举卡</b> 全班每人一张图或词。老师说 /æ/ 或 apple，持卡的孩子站起来。</li>" +
-        "<li><b>苍蝇拍</b> 两名学生听词，拍桌子上的图片卡，先拍到的得苹果贴纸。</li>" +
-        "<li><b>开头音分类</b> 用分类垫：/æ/ 火车厢 vs 不是 /æ/ 的篮子。边分边说 a-apple。</li>" +
-        "<li><b>缺了谁</b> 摆出四张图，收起一张，问 What's missing?</li>" +
-        "<li><b>记忆翻牌</b> 图卡词卡背面朝上，翻两张，配对就收走。</li>" +
-        "<li><b>口袋表</b> 小卡插入口袋。老师说词，学生把卡从口袋里抽出来读。</li>" +
-        "<li><b>字母海报</b> 贴在门口。进教室摸一摸 A，说 /æ/；用手指在空中书空。</li>" +
-        "<li><b>书空 + 四线格</b> 先空中写，再描红 3 次，最后独立写 3 次。</li>" +
-        "<li><b>Chant 排队</b> 四名学生各持一张图，全班唱 Track 06，按顺序站成小火车。</li>" +
-      "</ul>" +
-      foot(1, total, "手册")
-    ) + sheet("",
-      header("More ideas", "回家与分层", "给家长") +
-      '<ul class="howto">' +
-        "<li><b>冰箱配对</b> 磁贴或胶带：一边图一边词，每天吃饭前配对一次。</li>" +
-        "<li><b>睡前闪卡</b> 只看图说词；隔天只看词找家里的实物（apple 可用真苹果）。</li>" +
-        "<li><b>教材描红</b> 字母在 C 页；单词在 J–K 页，每个词描一次、写两次。</li>" +
-        "<li><b>教材 L 答案</b> 圈 apple · alligator · axe · ant。banana、computer 不圈。气球只涂 A 和 a。</li>" +
-        "<li><b>教材 F 答案</b> 1–B apple · 2–D axe · 3–A ant · 4–C alligator。</li>" +
-        "<li><b>Track 05 答案</b> ant Aa · bear X · apple Aa · alligator Aa · cup X · axe Aa。</li>" +
-        "<li><b>分层</b> 尚未认词的孩子只玩图片与开头音；已会读的孩子拿掉图，只读单词卡。</li>" +
-        "<li><b>不要依赖颜色作弊</b> 大卡没有一对一的独特底色，必须看图或读词才能配对。</li>" +
-        "<li><b>打印建议</b> 彩色、A4、边距无、打开「背景图形」。卡纸更耐用。对折卡可覆膜。</li>" +
-        "<li><b>安全</b> 低龄班请老师代剪圆角；小卡不放入口袋以外的嘴里。</li>" +
-      "</ul>" +
-      '<div class="bubble" style="margin-top:8mm;">Hi, I\'m an angry apple!<br>Let\'s play with Aa.</div>' +
-      foot(2, total, "手册")
-    );
   }
 
   function mountPack(id, html) {
@@ -717,7 +671,6 @@
     mountPack("book", buildBook());
     mountPack("games", buildGames());
     mountPack("cards", buildCards());
-    mountPack("guide", buildGuide());
 
     document.querySelectorAll(".tab").forEach(function (tab) {
       tab.addEventListener("click", function () {
