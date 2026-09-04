@@ -9,6 +9,23 @@
     return A.UNITS[h] ? h : "A";
   }
 
+  function reviewLinks(ch) {
+    var items = [];
+    if (ch === "A" || ch === "B" || ch === "C") {
+      items.push(
+        '<li><a href="' + A.reviewUrl() + '"><span class="n">★</span>' +
+        "<div><strong>Unit 1 复习</strong><small>Aa · Bb · Cc · Story</small></div><span class=\"go\">→</span></a></li>"
+      );
+    }
+    if (ch === "M" || ch === "N" || ch === "O") {
+      items.push(
+        '<li><a href="' + A.mnoReviewUrl() + '"><span class="n">★</span>' +
+        "<div><strong>Unit 5 复习</strong><small>Mm · Nn · Oo · Story</small></div><span class=\"go\">→</span></a></li>"
+      );
+    }
+    return items.join("");
+  }
+
   function liveHTML(u) {
     return (
       '<figure class="cover-art">' +
@@ -19,13 +36,7 @@
         '<p class="cover-aa"><span class="aa-cap">' + u.pair.charAt(0) + '</span><span class="aa-low">' + u.pair.charAt(1) + "</span></p>" +
         '<p class="cover-sub">' + u.phrase + "</p>" +
         '<ol class="flow">' +
-          "<li>" +
-            '<a href="' + A.reviewUrl() + '">' +
-              '<span class="n">★</span>' +
-              "<div><strong>Unit 1 复习</strong><small>Aa · Bb · Cc · Story</small></div>" +
-              '<span class="go">→</span>' +
-            "</a>" +
-          "</li>" +
+          reviewLinks(u.id) +
           "<li>" +
             '<a href="' + A.learnUrl(u.id) + '">' +
               '<span class="n">01</span>' +
