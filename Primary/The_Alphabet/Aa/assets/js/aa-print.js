@@ -112,7 +112,7 @@
     );
   }
   function bookSheet(extra, inner) {
-    return frame('<article class="sheet book-sheet ' + (extra || "") + '">' + inner + "</article>");
+    return frame('<article class="sheet book-sheet book-playful ' + (extra || "") + '">' + inner + "</article>");
   }
   function header(kicker, title, badge) {
     return (
