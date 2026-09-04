@@ -30,6 +30,14 @@
       live: true,
       folder: "Cc",
       hero: "Cc/assets/img/hero-cc.jpg"
+    },
+    L: {
+      id: "L",
+      pair: "Ll",
+      phrase: "lazy lion",
+      live: true,
+      folder: "Ll",
+      hero: "Ll/assets/img/hero-ll.jpg"
     }
   };
 
