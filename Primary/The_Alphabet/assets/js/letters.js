@@ -117,6 +117,14 @@
       live: true,
       folder: "Xx",
       hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Xx/assets/img/hero-xx.jpg"
+    },
+    Y: {
+      id: "Y",
+      pair: "Yy",
+      phrase: "yellow yo-yo",
+      live: true,
+      folder: "Yy",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Yy/assets/img/hero-yy.jpg"
     }
   };
 
