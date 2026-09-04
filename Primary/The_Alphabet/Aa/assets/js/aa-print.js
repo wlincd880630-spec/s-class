@@ -446,19 +446,19 @@
       }).join("") +
       foot(4, total, "游戏")
     ));
-    pages.push(sheet("theme-candy",
+    pages.push(sheet("theme-candy match-game",
       header("Game 4 · Match", "图片和单词手拉手", "连线") +
       task("4", "从左边的图拉线到右边的单词。做完后可以沿虚线剪开，变成配对卡。") +
       '<div class="match-cols">' +
         '<div class="match-col">' +
           L.vocab.map(function (item, i) {
-            return '<div class="row"><b>' + (i + 1) + '</b><img src="' + item.img + '" alt=""></div>';
+            return '<div class="row is-pic"><b>' + (i + 1) + '</b><img src="' + item.img + '" alt=""></div>';
           }).join("") +
         "</div>" +
-        '<div class="match-mid"></div>' +
+        '<div class="match-mid" aria-hidden="true"></div>' +
         '<div class="match-col">' +
           [L.vocab[2], L.vocab[0], L.vocab[3], L.vocab[1]].map(function (item) {
-            return '<div class="row word-chip">' + onsetHTML(item) + "</div>";
+            return '<div class="row is-word"><span class="word-chip">' + onsetHTML(item) + "</span></div>";
           }).join("") +
         "</div>" +
       "</div>" +
