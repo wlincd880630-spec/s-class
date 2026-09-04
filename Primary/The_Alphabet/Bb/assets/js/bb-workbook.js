@@ -95,7 +95,7 @@
         picked[id] = !picked[id];
         btn.classList.toggle("selected", !!picked[id]);
         var item = L.words[id];
-        if (window.AAAudio && item) AAAudio.speakWord(item.en);
+        if (window.AAAudio && item) AAAudio.speakWord(item.en, true);
       });
     });
     $("btn-check-b").addEventListener("click", function () {
@@ -145,7 +145,7 @@
         if (isA && !btn.classList.contains("good")) ok = false;
         if (!isA && on) ok = false;
       });
-      $("fb-c").textContent = ok ? "涂对了！只给 A 和 a 涂色。" : "只涂 A 和 a，其它字母不要涂。";
+      $("fb-c").textContent = ok ? "涂对了！只给 B 和 b 涂色。" : "只涂 B 和 b，其它字母不要涂。";
       $("fb-c").className = "feedback " + (ok ? "ok" : "no");
     });
   }

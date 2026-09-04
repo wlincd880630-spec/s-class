@@ -58,18 +58,18 @@
 
   function articleImg(unitId) {
     var n = Number(unitId);
-    if (!n) return "img/hub-hero.jpg";
-    return "img/article-u" + pad2(n) + ".jpg";
+    if (!n) return "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/PET/studio/img/hub-hero.jpg";
+    return "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/PET/studio/img/article-u" + pad2(n) + ".jpg";
   }
 
   function passageImg(unitId, passIdx) {
     var n = Number(passIdx) || 0;
-    if (n >= 1) return "img/article-u" + pad2(unitId) + "-p2.jpg";
+    if (n >= 1) return "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/PET/studio/img/article-u" + pad2(unitId) + "-p2.jpg";
     return articleImg(unitId);
   }
 
   function gameImg(gameId) {
-    return "img/game-" + pad2(gameId) + ".jpg";
+    return "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/PET/studio/img/game-" + pad2(gameId) + ".jpg";
   }
 
   function lessonImageUrl(lesson, file) {
