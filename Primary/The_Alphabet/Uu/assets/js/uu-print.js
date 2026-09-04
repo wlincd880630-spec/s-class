@@ -28,7 +28,7 @@
       return '<span class="letter-pair"><span class="letter-cap onset">U</span><span class="letter-small rest">u</span></span>';
     }
     if (item.id === "unhappy-umbrella") {
-      return '<span class="onset">m</span>nhappy <span class="onset">u</span>mbrella';
+      return '<span class="onset">u</span>nhappy <span class="onset">u</span>mbrella';
     }
     if (!item.u) {
       return '<span class="rest">' + item.en + "</span>";
@@ -530,7 +530,7 @@
     ));
     pages.push(sheet("theme-leaf",
       header("Game 6 · Chant line-up", "Chant 排队", "Track 10") +
-      task("6", "剪下四张图。边唱 chant 边排队：umbrella, uncle, up, umbrella。", "leaf") +
+      task("6", "剪下四张图。边唱 chant 边排队：umpire, uncle, umbrella, up。", "leaf") +
       '<div class="cut-grid">' +
         L.chantOrder.map(function (id, i) {
           var item = w(id);
@@ -564,12 +564,12 @@
     var pages = [];
     var total = 11;
     pages.push(sheet("theme-poster-a",
-      '<div class="letter-poster"><div class="giant">M</div><div class="sub">the letter M · /ʌ/</div>' +
+      '<div class="letter-poster"><div class="giant">U</div><div class="sub">the letter U · /ʌ/</div>' +
       '<img src="' + L.mascot.img + '" alt="unhappy umbrella"></div>' +
       foot(1, total, "字母卡")
     ));
     pages.push(sheet("theme-poster-s",
-      '<div class="letter-poster"><div class="giant">m</div><div class="sub">little m · /ʌ/</div>' +
+      '<div class="letter-poster"><div class="giant">u</div><div class="sub">little u · /ʌ/</div>' +
       '<img src="' + w("umbrella").img + '" alt="umbrella"></div>' +
       foot(2, total, "字母卡")
     ));
