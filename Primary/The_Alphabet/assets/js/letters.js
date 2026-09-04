@@ -46,6 +46,14 @@
       live: true,
       folder: "Mm",
       hero: "Mm/assets/img/hero-mm.jpg"
+    },
+    N: {
+      id: "N",
+      pair: "Nn",
+      phrase: "noisy nut",
+      live: true,
+      folder: "Nn",
+      hero: "Nn/assets/img/hero-nn.jpg"
     }
   };
 
