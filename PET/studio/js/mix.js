@@ -383,14 +383,16 @@
   function restoreFromSnapshot() {
     var snap = loadSnapshot();
     if (!snap || (!(snap.keys && snap.keys.length) && !(snap.units && snap.units.length))) {
-      updateResumeBar();
+      restoring = false;
+      renderWords();
       return Promise.resolve();
     }
     pendingKeys = (snap.keys || []).slice();
     if (snap.level && $("levelSel")) $("levelSel").value = snap.level;
     var ids = unitsFromSnapshot(snap);
     if (!ids.length) {
-      updateResumeBar();
+      restoring = false;
+      renderWords();
       return Promise.resolve();
     }
     if (snap.playing && pendingKeys.length >= MIN_WORDS) {
@@ -526,7 +528,6 @@
     PETStudio.onMixState = function (patch) {
       persist(patch || {});
     };
-    renderWords();
     restoreFromSnapshot();
   }
 
