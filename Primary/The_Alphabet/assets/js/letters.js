@@ -193,7 +193,7 @@
   }
 
   function inReviewFolder() {
-    return /\/The_Alphabet\/(ABC|DEF|GHI|JKL|MNO|WXYZ|ABCDEF|GHIJKL)\//.test(pathNorm());
+    return /\/The_Alphabet\/(ABC|DEF|GHI|JKL|MNO|WXYZ|ABCDEF|GHIJKL|MNOPQR)\//.test(pathNorm());
   }
 
   function onHub() {
@@ -311,6 +311,14 @@
     return inReviewFolder() ? "../GHIJKL/print.html" : "GHIJKL/print.html";
   }
 
+  function mnopqrReviewUrl() {
+    return inReviewFolder() ? "../MNOPQR/learn.html" : "MNOPQR/learn.html";
+  }
+
+  function mnopqrReviewPrintUrl() {
+    return inReviewFolder() ? "../MNOPQR/print.html" : "MNOPQR/print.html";
+  }
+
   function wxyzReviewUrl() {
     return inReviewFolder() ? "../WXYZ/learn.html" : "WXYZ/learn.html";
   }
@@ -359,6 +367,8 @@
     jklReviewPrintUrl: jklReviewPrintUrl,
     ghijklReviewUrl: ghijklReviewUrl,
     ghijklReviewPrintUrl: ghijklReviewPrintUrl,
+    mnopqrReviewUrl: mnopqrReviewUrl,
+    mnopqrReviewPrintUrl: mnopqrReviewPrintUrl,
     wxyzReviewUrl: wxyzReviewUrl,
     wxyzReviewPrintUrl: wxyzReviewPrintUrl,
     mountRail: mountRail
