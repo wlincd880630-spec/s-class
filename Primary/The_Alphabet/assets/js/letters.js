@@ -39,13 +39,21 @@
       folder: "Dd",
       hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Dd/assets/img/hero-dd.jpg"
     },
+    E: {
+      id: "E",
+      pair: "Ee",
+      phrase: "energetic egg",
+      live: true,
+      folder: "Ee",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Ee/assets/img/hero-ee.jpg"
+    },
     M: {
       id: "M",
       pair: "Mm",
       phrase: "merry monkey",
       live: true,
       folder: "Mm",
-      hero: "Mm/assets/img/hero-mm.jpg"
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Mm/assets/img/hero-mm.jpg"
     },
     N: {
       id: "N",
@@ -53,7 +61,7 @@
       phrase: "noisy nut",
       live: true,
       folder: "Nn",
-      hero: "Nn/assets/img/hero-nn.jpg"
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Nn/assets/img/hero-nn.jpg"
     },
     P: {
       id: "P",
@@ -61,7 +69,7 @@
       phrase: "pink peach",
       live: true,
       folder: "Pp",
-      hero: "Pp/assets/img/hero-pp.jpg"
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Pp/assets/img/hero-pp.jpg"
     },
     Q: {
       id: "Q",
@@ -69,7 +77,7 @@
       phrase: "quiet queen",
       live: true,
       folder: "Qq",
-      hero: "Qq/assets/img/hero-qq.jpg"
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Qq/assets/img/hero-qq.jpg"
     },
     R: {
       id: "R",
@@ -77,7 +85,7 @@
       phrase: "racing rabbit",
       live: true,
       folder: "Rr",
-      hero: "Rr/assets/img/hero-rr.jpg"
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Rr/assets/img/hero-rr.jpg"
     }
   };
 
