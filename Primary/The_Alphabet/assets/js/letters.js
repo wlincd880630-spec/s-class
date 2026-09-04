@@ -22,6 +22,14 @@
       live: true,
       folder: "Bb",
       hero: "Bb/assets/img/hero-bb.jpg"
+    },
+    D: {
+      id: "D",
+      pair: "Dd",
+      phrase: "dizzy dog",
+      live: true,
+      folder: "Dd",
+      hero: "Dd/assets/img/hero-dd.jpg"
     }
   };
 
