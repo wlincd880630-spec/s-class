@@ -38,6 +38,14 @@
       live: true,
       folder: "Dd",
       hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Dd/assets/img/hero-dd.jpg"
+    },
+    M: {
+      id: "M",
+      pair: "Mm",
+      phrase: "merry monkey",
+      live: true,
+      folder: "Mm",
+      hero: "Mm/assets/img/hero-mm.jpg"
     }
   };
 
