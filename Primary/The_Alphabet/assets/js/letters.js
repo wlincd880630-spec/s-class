@@ -110,6 +110,30 @@
       folder: "Nn",
       hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Nn/assets/img/hero-nn.jpg"
     },
+    P: {
+      id: "P",
+      pair: "Pp",
+      phrase: "pink peach",
+      live: true,
+      folder: "Pp",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Pp/assets/img/hero-pp.jpg"
+    },
+    Q: {
+      id: "Q",
+      pair: "Qq",
+      phrase: "quiet queen",
+      live: true,
+      folder: "Qq",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Qq/assets/img/hero-qq.jpg"
+    },
+    R: {
+      id: "R",
+      pair: "Rr",
+      phrase: "racing rabbit",
+      live: true,
+      folder: "Rr",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Rr/assets/img/hero-rr.jpg"
+    },
     W: {
       id: "W",
       pair: "Ww",
