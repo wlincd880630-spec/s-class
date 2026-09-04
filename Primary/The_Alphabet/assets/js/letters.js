@@ -47,6 +47,30 @@
       folder: "Ee",
       hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Ee/assets/img/hero-ee.jpg"
     },
+    F: {
+      id: "F",
+      pair: "Ff",
+      phrase: "funny fish",
+      live: true,
+      folder: "Ff",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Ff/assets/img/hero-ff.jpg"
+    },
+    G: {
+      id: "G",
+      pair: "Gg",
+      phrase: "good gorilla",
+      live: true,
+      folder: "Gg",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Gg/assets/img/hero-gg.jpg"
+    },
+    H: {
+      id: "H",
+      pair: "Hh",
+      phrase: "happy horse",
+      live: true,
+      folder: "Hh",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Hh/assets/img/hero-hh.jpg"
+    },
     M: {
       id: "M",
       pair: "Mm",
@@ -93,7 +117,7 @@
       phrase: "super seal",
       live: true,
       folder: "Ss",
-      hero: "Ss/assets/img/hero-ss.jpg"
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Ss/assets/img/hero-ss.jpg"
     },
     T: {
       id: "T",
@@ -101,7 +125,7 @@
       phrase: "tall turtle",
       live: true,
       folder: "Tt",
-      hero: "Tt/assets/img/hero-tt.jpg"
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Tt/assets/img/hero-tt.jpg"
     },
     U: {
       id: "U",
@@ -109,7 +133,7 @@
       phrase: "unhappy umbrella",
       live: true,
       folder: "Uu",
-      hero: "Uu/assets/img/hero-uu.jpg"
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Uu/assets/img/hero-uu.jpg"
     },
     V: {
       id: "V",
@@ -117,7 +141,7 @@
       phrase: "violet van",
       live: true,
       folder: "Vv",
-      hero: "Vv/assets/img/hero-vv.jpg"
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Vv/assets/img/hero-vv.jpg"
     }
   };
 
