@@ -110,6 +110,14 @@
       live: true,
       folder: "Uu",
       hero: "Uu/assets/img/hero-uu.jpg"
+    },
+    V: {
+      id: "V",
+      pair: "Vv",
+      phrase: "violet van",
+      live: true,
+      folder: "Vv",
+      hero: "Vv/assets/img/hero-vv.jpg"
     }
   };
 
