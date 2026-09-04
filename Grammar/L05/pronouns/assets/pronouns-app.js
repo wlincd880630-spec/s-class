@@ -3,7 +3,7 @@
   "use strict";
 
   var DATA = global.L05PronounsData;
-  var IMG = "assets/img/";
+  var IMG = "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/pronouns/assets/img/";
   var STORAGE_LEVEL = "l05-pronouns-level";
   var state = {
     level: localStorage.getItem(STORAGE_LEVEL) || "g7",

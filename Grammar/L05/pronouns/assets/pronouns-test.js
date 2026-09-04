@@ -100,7 +100,7 @@
 
   function imgUrl(it, seed) {
     if (it && it.image) {
-      return "assets/img/" + String(it.image).replace(/^\/+/, "");
+      return "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Grammar/L05/pronouns/assets/img/" + String(it.image).replace(/^\/+/, "");
     }
     var base =
       String((it && it.imgPrompt) || "cute vivid 3D cartoon kids school scene soft lighting") +

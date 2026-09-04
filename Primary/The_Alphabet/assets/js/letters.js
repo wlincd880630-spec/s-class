@@ -6,10 +6,54 @@
 
   var LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
   var UNITS = {
-    A: { id: "A", pair: "Aa", phrase: "angry apple", live: true, folder: "Aa", hero: "Aa/assets/img/hero-aa.jpg" },
-    B: { id: "B", pair: "Bb", phrase: "big bear", live: true, folder: "Bb", hero: "Bb/assets/img/hero-bb.jpg" },
-    C: { id: "C", pair: "Cc", phrase: "cool cat", live: true, folder: "Cc", hero: "Cc/assets/img/hero-cc.jpg" },
-    L: { id: "L", pair: "Ll", phrase: "lazy lion", live: true, folder: "Ll", hero: "Ll/assets/img/hero-ll.jpg" }
+    A: {
+      id: "A",
+      pair: "Aa",
+      phrase: "angry apple",
+      live: true,
+      folder: "Aa",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Aa/assets/img/hero-aa.jpg"
+    },
+    B: {
+      id: "B",
+      pair: "Bb",
+      phrase: "big bear",
+      live: true,
+      folder: "Bb",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Bb/assets/img/hero-bb.jpg"
+    },
+    C: {
+      id: "C",
+      pair: "Cc",
+      phrase: "cool cat",
+      live: true,
+      folder: "Cc",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Cc/assets/img/hero-cc.jpg"
+    },
+    D: {
+      id: "D",
+      pair: "Dd",
+      phrase: "dizzy dog",
+      live: true,
+      folder: "Dd",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Dd/assets/img/hero-dd.jpg"
+    },
+    E: {
+      id: "E",
+      pair: "Ee",
+      phrase: "energetic egg",
+      live: true,
+      folder: "Ee",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Ee/assets/img/hero-ee.jpg"
+    },
+    L: {
+      id: "L",
+      pair: "Ll",
+      phrase: "lazy lion",
+      live: true,
+      folder: "Ll",
+      hero: "https://s-class-1403296481.cos.ap-chengdu.myqcloud.com/s-class/Primary/The_Alphabet/Ll/assets/img/hero-ll.jpg"
+    }
   };
 
   LETTERS.forEach(function (ch) {
