@@ -11,6 +11,19 @@
   var TRACE_FILL = "rgba(144, 202, 249, 0.55)";
   var ONSET_FILL = "#e53935";
   var REST_FILL = "rgba(144, 202, 249, 0.85)";
+  var printMode = false;
+
+  function currentDpr() {
+    var raw = window.devicePixelRatio || 1;
+    if (printMode || (document.documentElement && document.documentElement.classList.contains("is-print-export"))) {
+      return Math.min(raw, 1.5);
+    }
+    return Math.min(raw, 2);
+  }
+
+  function setPrintMode(on) {
+    printMode = !!on;
+  }
 
   function yOf(h, name) {
     return (BAND.top + LINES[name] * BAND.height) * h;
@@ -55,7 +68,7 @@
     opts = opts || {};
     var family = opts.family || HAND;
     var weight = opts.weight || "700";
-    var dpr = window.devicePixelRatio || 1;
+    var dpr = currentDpr();
     canvas.width = Math.round(w * dpr);
     canvas.height = Math.round(h * dpr);
     var ctx = canvas.getContext("2d");
@@ -238,6 +251,11 @@
     if (ok) line.classList.add("is-fitted");
   }
 
+  function paintAllNow(root) {
+    if (!root) return;
+    [].slice.call(root.querySelectorAll(".stave-line")).forEach(paintStaveLine);
+  }
+
   function bindPrint(root) {
     if (!root) return function () {};
     if (root._aaStaveUnbind) root._aaStaveUnbind();
@@ -271,6 +289,8 @@
     paintRun: paintRun,
     bind: bind,
     bindPrint: bindPrint,
-    paintStaveLine: paintStaveLine
+    paintStaveLine: paintStaveLine,
+    paintAllNow: paintAllNow,
+    setPrintMode: setPrintMode
   };
 })(window);
