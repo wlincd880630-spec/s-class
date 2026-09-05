@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="../../scripts/auth-check.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>字母教材 · 批量导出 PDF</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=DM+Sans:wght@500;700&family=Fredoka:wght@500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="Aa/assets/css/aa.css" />
+  <link rel="stylesheet" href="Aa/assets/css/aa-print.css" />
+  <link rel="stylesheet" href="Aa/assets/css/aa-book-playful.css" />
+  <link rel="stylesheet" href="assets/css/print-workshop.css" />
+  <link rel="stylesheet" href="assets/css/print-fast.css?v=20260905" />
+  <link rel="stylesheet" href="assets/css/batch-print.css?v=20260905" />
+  <script src="../../scripts/site-nav.js" defer></script>
+</head>
+<body class="az-batch">
+  <header class="topbar no-print">
+    <a class="btn-icon" href="index.html" title="返回">←</a>
+    <h1>批量导出教材 PDF</h1>
+  </header>
+
+  <main class="batch-app no-print">
+    <section class="batch-card">
+      <h2>按顺序选择字母</h2>
+      <p>勾选后按 A→Z 顺序生成对应教材。例如选 A B C D，会依次装订这四册并导出保存。</p>
+      <div class="batch-toolbar">
+        <button type="button" class="btn btn-ghost" data-preset="all">全选已上线</button>
+        <button type="button" class="btn btn-ghost" data-preset="ABCD">A–D</button>
+        <button type="button" class="btn btn-ghost" data-preset="ABCDEF">A–F</button>
+        <button type="button" class="btn btn-ghost" data-preset="none">清空</button>
+      </div>
+      <div class="batch-letters" id="batch-letters" aria-label="选择字母"></div>
+    </section>
+
+    <section class="batch-card">
+      <h2>导出内容</h2>
+      <div class="batch-options" role="radiogroup" aria-label="导出内容">
+        <label><input type="radio" name="pack" value="book" checked /> 教材</label>
+        <label><input type="radio" name="pack" value="games" /> 纸质游戏</label>
+        <label><input type="radio" name="pack" value="cards" /> 教具卡</label>
+      </div>
+    </section>
+
+    <section class="batch-card">
+      <h2>输出方式</h2>
+      <div class="batch-options" role="radiogroup" aria-label="输出方式">
+        <label><input type="radio" name="mode" value="merge" checked /> 合并为一册（按字母顺序，一次保存）</label>
+        <label><input type="radio" name="mode" value="each" /> 按字母逐个保存（每个字母一份 PDF）</label>
+      </div>
+      <p class="batch-note">打印框里请选「另存为 PDF」。中文使用系统黑体/雅黑，避免网页手写体 CID 编码把打印机拖慢。</p>
+      <p class="batch-status" id="batch-status">尚未选择字母</p>
+      <div class="batch-progress" aria-hidden="true"><i id="batch-bar"></i></div>
+      <div class="btn-row">
+        <button type="button" class="btn btn-apple" id="btn-export">按顺序导出 PDF</button>
+        <button type="button" class="btn btn-ghost hidden" id="btn-continue">已保存，下一个</button>
+      </div>
+    </section>
+  </main>
+
+  <p class="preview-label no-print">合并预览</p>
+  <div id="batch-root" class="print-root batch-root"></div>
+  <div id="frame-dock" class="frame-dock" aria-hidden="true"></div>
+
+  <script src="assets/js/stave-fit.js?v=20260905"></script>
+  <script src="assets/js/letters.js?v=20260905"></script>
+  <script src="assets/js/print-workshop.js?v=20260905"></script>
+  <script src="assets/js/batch-print.js?v=20260905"></script>
+</body>
+</html>

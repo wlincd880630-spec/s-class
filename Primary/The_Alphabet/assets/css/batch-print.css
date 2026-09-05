@@ -1,0 +1,228 @@
+body.az-batch {
+  margin: 0;
+  min-height: 100dvh;
+  background:
+    radial-gradient(900px 420px at 8% -10%, rgba(255, 186, 120, 0.28), transparent 55%),
+    radial-gradient(700px 380px at 110% 0%, rgba(167, 214, 180, 0.28), transparent 50%),
+    #f6f1e8;
+  font-family: "DM Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #1c1917;
+}
+
+.az-batch .topbar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  background: rgba(255, 253, 245, 0.94);
+  border-bottom: 2px solid #ffe082;
+}
+
+.az-batch .topbar h1 {
+  margin: 0;
+  flex: 1;
+  font-family: "Baloo 2", "Fredoka", sans-serif;
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: #e53935;
+}
+
+.batch-app {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 18px 16px 48px;
+}
+
+.batch-card {
+  background: rgba(255, 255, 255, 0.92);
+  border: 3px solid #fff;
+  border-radius: 24px;
+  padding: 16px 18px 14px;
+  box-shadow: 0 12px 32px rgba(55, 71, 79, 0.12);
+  margin-bottom: 14px;
+}
+
+.batch-card h2 {
+  margin: 0 0 8px;
+  font-family: "Fredoka", "Microsoft YaHei", sans-serif;
+  font-size: 1.2rem;
+}
+
+.batch-card p {
+  margin: 0 0 12px;
+  color: #546e7a;
+  line-height: 1.5;
+}
+
+.batch-note {
+  background: #fff8e1;
+  border: 2px dashed #ffcc80;
+  border-radius: 16px;
+  padding: 10px 12px;
+  color: #ef6c00;
+  font-size: 0.95rem;
+}
+
+.batch-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.batch-letters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.batch-chip {
+  appearance: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 2px solid #e7e5e4;
+  background: #fff;
+  font: inherit;
+  font-family: "Fredoka", sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  cursor: pointer;
+  color: #1c1917;
+}
+
+.batch-chip.is-on {
+  background: #e53935;
+  color: #fff;
+  border-color: #ffccbc;
+}
+
+.batch-chip:disabled,
+.batch-chip.is-soon {
+  opacity: 0.38;
+  cursor: not-allowed;
+}
+
+.batch-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+}
+
+.batch-options label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.batch-status {
+  min-height: 1.4em;
+  margin: 0 0 10px;
+  color: #37474f;
+  font-weight: 600;
+}
+
+.batch-progress {
+  height: 10px;
+  border-radius: 999px;
+  background: #eceff1;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.batch-progress > i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #e53935, #ff7043);
+  transition: width 0.2s ease;
+}
+
+.preview-label {
+  text-align: center;
+  color: #607d8b;
+  font-size: 0.92rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 18px 0 0;
+}
+
+.batch-root {
+  padding-bottom: 40px;
+}
+
+.batch-letter-tag {
+  display: none;
+}
+
+.frame-dock {
+  position: absolute;
+  left: -100vw;
+  top: 0;
+  width: 210mm;
+  height: 80px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.frame-dock iframe {
+  width: 210mm;
+  min-height: 297mm;
+  border: 0;
+  background: #fff;
+}
+
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+
+@media print {
+  .no-print, .topbar, .batch-app, .preview-label, .frame-dock {
+    display: none !important;
+  }
+  html, body.az-batch {
+    background: #fff !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .batch-root {
+    padding: 0;
+  }
+  .batch-letter.pack {
+    display: block !important;
+  }
+  .sheet-frame {
+    width: auto !important;
+    height: auto !important;
+    margin: 0;
+    overflow: visible;
+  }
+  .sheet {
+    transform: none !important;
+    box-shadow: none !important;
+    border-radius: 0;
+    width: 210mm;
+    height: 297mm;
+    page-break-after: always;
+    page-break-inside: avoid;
+    overflow: hidden;
+  }
+  .sheet:last-child,
+  .batch-letter:last-child .sheet:last-child {
+    page-break-after: auto;
+  }
+}
+
+@media (max-width: 720px) {
+  body.az-hub .az-batch-link,
+  .az-batch-link {
+    font-size: 0.72rem;
+    padding: 5px 8px;
+  }
+}
