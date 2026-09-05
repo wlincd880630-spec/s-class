@@ -287,6 +287,17 @@
     return u.folder + "/print.html";
   }
 
+  function batchPrintUrl() {
+    if (inLetterFolder() || inReviewFolder()) return "../batch-print.html";
+    return "batch-print.html";
+  }
+
+  function liveLetters() {
+    return LETTERS.filter(function (ch) {
+      return UNITS[ch] && UNITS[ch].live;
+    });
+  }
+
   function reviewCourseUrl(folder) {
     if (inReviewFolder()) return "../" + folder + "/learn.html";
     return folder + "/learn.html";
@@ -389,6 +400,8 @@
     gamePlayUrl: gamePlayUrl,
     workbookUrl: workbookUrl,
     printUrl: printUrl,
+    batchPrintUrl: batchPrintUrl,
+    liveLetters: liveLetters,
     reviewUrl: reviewUrl,
     defReviewUrl: defReviewUrl,
     abcdefReviewUrl: abcdefReviewUrl,

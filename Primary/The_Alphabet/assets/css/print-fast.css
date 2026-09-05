@@ -1,0 +1,71 @@
+/**
+ * 教材 PDF 打印加速。
+ *
+ * 慢的主因不是 UTF-8 页面编码，而是 Chrome「另存为 PDF」把站酷快乐体 /
+ * 马善政等 CJK 手写网字体按 Identity-H CID 整包（或大子集）嵌进 PDF。
+ * 学校打印机 RIP 解析这类轮廓极慢。打印时改用系统黑体/雅黑，英文手写
+ * 仍用较小的 Patrick Hand。
+ */
+:root {
+  --print-hand-en: "Patrick Hand", "Comic Sans MS", cursive;
+  --print-hand-zh: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", "Source Han Sans SC", "Heiti SC", "SimHei", sans-serif;
+  --print-hand: "Patrick Hand", "Microsoft YaHei", "PingFang SC", "Noto Sans SC", "Source Han Sans SC", "Heiti SC", "SimHei", sans-serif;
+}
+
+@media print {
+  :root {
+    --hand-en: var(--print-hand-en);
+    --hand-zh: var(--print-hand-zh);
+    --hand: var(--print-hand);
+  }
+
+  html, body,
+  .hand, .print-root, .wb-app, .sheet, .book-sheet, .book-playful,
+  .lab, .lab-hand, .lab-print, .zh, .bk-title, .bk-kicker, .bk-section,
+  .bk-phrase, .bk-words, .bk-caption, .sh-title, .sh-kicker, .task,
+  .model-title, .model-hint, .name-row, .foot, .bk-foot, .pack, .batch-letter {
+    font-family: var(--print-hand) !important;
+  }
+
+  .sheet {
+    background: #fffef8 !important;
+    box-shadow: none !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  .sheet.theme-sky { background: #f4f9ff !important; }
+  .sheet.theme-leaf { background: #f3faf4 !important; }
+  .sheet.theme-candy { background: #fff6f8 !important; }
+
+  .sheet,
+  .sheet * {
+    filter: none !important;
+    mix-blend-mode: normal !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    text-shadow: none !important;
+  }
+
+  img.stave-ghost-cv {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    object-fit: fill;
+  }
+
+  body.is-batch-print .batch-root,
+  body.is-batch-print .batch-letter.pack {
+    display: block !important;
+  }
+}
+
+html.is-print-export body,
+body.is-print-export {
+  --hand-en: var(--print-hand-en);
+  --hand-zh: var(--print-hand-zh);
+  --hand: var(--print-hand);
+}
